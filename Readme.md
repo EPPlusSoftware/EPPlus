@@ -7,7 +7,7 @@ With the new license EPPlus is still free to use in some cases, but will require
 
 This is explained in more detail [here](https://www.epplussoftware.com/Home/LgplToPolyform).
 
-Commercial licenses, which includes support, can be purchased at (https://www.epplussoftware.com/).
+Commercial licenses, which includes support, can be purchased at https://www.epplussoftware.com/.
 
 The source code of EPPlus has moved to a [new github repository](https://github.com/EPPlusSoftware/EPPlus)
 
@@ -55,7 +55,7 @@ This might be the easiest way of configuring this. Just as above, set the variab
 **Important!** The environment variable should be set at the user level.
 
 ## New features in EPPlus 5
-EPPlus 5 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
+EPPlus 5 comes with a set of new features, see https://www.epplussoftware.com/Developers/Features
 
 ## Beta version
 Note that this is a beta of a new major version, with many new features and a rewritten/refactored codebase. Please report issues and feedback in our new [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues)
