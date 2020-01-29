@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus", "EPPlus\EPPlus.csproj", "{219F673E-6115-4858-9E07-E33D24E795FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPPlus.Test", "EPPlusTest\EPPlus.Test.csproj", "{78F198E4-B502-425D-BCC7-BF7F93B1EED9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release 4.0|Any CPU = Release 4.0|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{219F673E-6115-4858-9E07-E33D24E795FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{219F673E-6115-4858-9E07-E33D24E795FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{219F673E-6115-4858-9E07-E33D24E795FE}.Release 4.0|Any CPU.ActiveCfg = Release|Any CPU
+		{219F673E-6115-4858-9E07-E33D24E795FE}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
+		{219F673E-6115-4858-9E07-E33D24E795FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{219F673E-6115-4858-9E07-E33D24E795FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78F198E4-B502-425D-BCC7-BF7F93B1EED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78F198E4-B502-425D-BCC7-BF7F93B1EED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78F198E4-B502-425D-BCC7-BF7F93B1EED9}.Release 4.0|Any CPU.ActiveCfg = Release|Any CPU
+		{78F198E4-B502-425D-BCC7-BF7F93B1EED9}.Release 4.0|Any CPU.Build.0 = Release|Any CPU
+		{78F198E4-B502-425D-BCC7-BF7F93B1EED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78F198E4-B502-425D-BCC7-BF7F93B1EED9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C73D0F5D-0C5D-4F85-8140-3598595AD2E1}
+	EndGlobalSection
+EndGlobal

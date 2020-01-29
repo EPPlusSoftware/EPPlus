@@ -1,0 +1,147 @@
+/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+ *************************************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Xml;
+
+namespace OfficeOpenXml.Style.Dxf
+{
+    /// <summary>
+    /// Base class for differential formatting styles. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class DxfStyleBase<T>
+    {
+        internal ExcelStyles _styles;
+        internal DxfStyleBase(ExcelStyles styles)
+        {
+            _styles = styles;
+            AllowChange = false; //Don't touch this value in the styles.xml (by default). When Dxfs is fully implemented this can be removed.
+        }
+        /// <summary>
+        /// The id
+        /// </summary>
+        protected internal abstract string Id { get; }
+        /// <summary>
+        /// If the dfx has a value
+        /// </summary>
+        protected internal abstract bool HasValue{get;}
+        /// <summary>
+        /// Create the nodes
+        /// </summary>
+        /// <param name="helper">The xml helper</param>
+        /// <param name="path">The Xpath</param>
+        protected internal abstract void CreateNodes(XmlHelper helper, string path);
+        /// <summary>
+        /// Clone the object
+        /// </summary>
+        /// <returns></returns>
+        protected internal abstract T Clone();
+        /// <summary>
+        /// Set the color value
+        /// </summary>
+        /// <param name="helper">The xml helper</param>
+        /// <param name="path">The x path</param>
+        /// <param name="color">The color</param>
+        protected void SetValueColor(XmlHelper helper,string path, ExcelDxfColor color)
+        {
+            if (color != null && color.HasValue)
+            {
+                if (color.Color != null)
+                {
+                    SetValue(helper, path + "/@rgb", color.Color.Value.ToArgb().ToString("x"));
+                }
+                else if (color.Auto != null)
+                {
+                    SetValueBool(helper, path + "/@auto", color.Auto);
+                }
+                else if (color.Theme != null)
+                {
+                    SetValue(helper, path + "/@theme", (int)color.Theme);
+                }
+                else if (color.Index != null)
+                {
+                    SetValue(helper, path + "/@indexed", (int)color.Index);
+                }
+                if (color.Tint != null)
+                {
+                    SetValue(helper, path + "/@tint", color.Tint);
+                }
+            }
+        }
+        /// <summary>
+        /// Same as SetValue but will set first char to lower case.
+        /// </summary>
+        /// <param name="helper">The xml helper</param>
+        /// <param name="path">The Xpath</param>
+        /// <param name="v">The value</param>
+        internal protected void SetValueEnum(XmlHelper helper, string path, Enum v)
+        {
+            if (v == null)
+            {
+                helper.DeleteNode(path);
+            }
+            else
+            {
+                var s = v.ToString();
+                s = s.Substring(0, 1).ToLower(CultureInfo.InvariantCulture) + s.Substring(1);
+                helper.SetXmlNodeString(path, s);
+            }
+        }
+        /// <summary>
+        /// Sets the value
+        /// </summary>
+        /// <param name="helper">The xml helper</param>
+        /// <param name="path">The x path</param>
+        /// <param name="v">The object</param>
+        internal protected void SetValue(XmlHelper helper, string path, object v)
+        {
+            if (v == null)
+            {
+                helper.DeleteNode(path);
+            }
+            else
+            {
+                helper.SetXmlNodeString(path, v.ToString());
+            }
+        }
+        /// <summary>
+        /// Sets the value
+        /// </summary>
+        /// <param name="helper">The xml helper</param>
+        /// <param name="path">The x path</param>
+        /// <param name="v">The boolean value</param>
+        internal protected void SetValueBool(XmlHelper helper, string path, bool? v)
+        {
+            if (v == null)
+            {
+                helper.DeleteNode(path);
+            }
+            else
+            {
+                helper.SetXmlNodeBool(path, (bool)v);
+            }
+        }
+        protected internal string GetAsString(object v)
+        {
+            return (v ?? "").ToString();
+        }
+        /// <summary>
+        /// Is this value allowed to be changed?
+        /// </summary>
+        protected internal bool AllowChange { get; set; }
+    }
+}
