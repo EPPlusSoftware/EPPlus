@@ -38,7 +38,7 @@ using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
     {
     "EPPlus": {
         "ExcelPackage": {
-            "LicenseContext": "Commercial" //The license context used
+            "LicenseContext": "Commercial"
             }
         }
     }
