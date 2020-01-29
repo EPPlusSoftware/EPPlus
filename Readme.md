@@ -34,15 +34,13 @@ using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
 ```
 ### 2. Via appSettings.json
 ```json
-{
-    {
+  {
     "EPPlus": {
-        "ExcelPackage": {
-            "LicenseContext": "Commercial"
-            }
-        }
-    }
-}
+      "ExcelPackage": {
+          "LicenseContext": "Commercial"
+          }
+      }
+  }
 ```
 ### 3. Via app/web.config
 ```xml
