@@ -4,17 +4,17 @@
     <TargetFrameworks>netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
-    <Version>5.0.0.0</Version>
+    <Version>5.0.0-beta</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/EPPlusSoftware/EPPlus</PackageProjectUrl>
-    <Authors>Jan Källman, Mats Alm and Contributars</Authors>
+    <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
+    <Authors>EPPlus Software AB</Authors>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <Company>EPPlus Software AB</Company>
     <Product>EPPlus</Product>
     <Description>A spreadsheet library for .NET framework and .NET core</Description>
     <AssemblyName>EPPlus</AssemblyName>
     <RootNamespace>OfficeOpenXml</RootNamespace>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/EPPlusSoftware/EPPlus.git</RepositoryUrl>
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
@@ -33,12 +33,21 @@
       * Async / Await support for I/O operations
       * Ignore Error on cells
       * Refactored/improved codebase
-      
+
+      Breaking Changes
+
+      Worksheets collection behavior in .NET Framework      
+      The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
+      For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
+      For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-5.0
     </PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
     <NeutralLanguage />
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>EPPlusLogo.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
  
 
@@ -153,10 +162,15 @@
     <EmbeddedResource Include="resources\DefaultChartStyles.ecs" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="readme.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="EPPlusLogo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
-    <None Include="..\EPPlusTest\license.md">
+    <None Include="readme.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="license.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
