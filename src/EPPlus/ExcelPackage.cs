@@ -561,7 +561,9 @@ namespace OfficeOpenXml
         internal static bool _licenseSet = false;
         /// <summary>
         /// To use the EPPlus library in debug mode a Licensetype must be specified.
-        /// See 
+        /// Use LicenseContext.NonCommercial if you use EPPlus in an non commercial context.
+        /// Use LicenseContext.Commercial if you have purchased an license to use EPPlus
+        /// See https://epplussoftware.com/developers/licenseexception
         /// </summary>
         public static LicenseContext? LicenseContext
         {

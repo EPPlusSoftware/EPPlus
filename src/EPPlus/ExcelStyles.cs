@@ -655,7 +655,7 @@ namespace OfficeOpenXml
         /// Creates a named style that can be applied to cells in the worksheet.
         /// </summary>
         /// <param name="name">The name of the style</param>
-        /// <param name="Template">A template style</param>
+        /// <param name=    >A template style</param>
         /// <returns>A named style object that can be custumized</returns>
         public ExcelNamedStyleXml CreateNamedStyle(string name, ExcelStyle Template)
         {
