@@ -1031,6 +1031,69 @@ namespace EPPlusTest
             pic.ChangeCellAnchor(eEditAs.OneCell, 500, 500, pic._width, pic._height);
             pic.ChangeCellAnchor(eEditAs.TwoCell, 500, 500, pic._width, pic._height);
         }
+        [TestMethod]
+        public void SendToBack()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("SendToBack_Shape3");
+            var shape1 = ws.Drawings.AddShape("First",eShapeStyle.Rect);
+            shape1.Text = "First";
+            shape1.SetPosition(1, 0, 1, 0);
+            var shape2 = ws.Drawings.AddShape("Second", eShapeStyle.Rect);
+            shape2.Text = "Second";
+            shape2.SetPosition(2, 0, 2, 0);
+            var shape3 = ws.Drawings.AddShape("Third", eShapeStyle.Rect);
+            shape3.SetPosition(3, 0, 3, 0);
+            shape3.Text = "Third";
+            var shape4 = ws.Drawings.AddShape("Fourth", eShapeStyle.Rect);
+            shape4.SetPosition(4, 0, 4, 0);
+            shape4.Text = "Fourth";
+
+            //Act
+            shape3.SendToBack();
+
+            //Assert
+            Assert.AreEqual("Third", ws.Drawings[0].Name);
+            Assert.AreEqual("First", ws.Drawings[1].Name);
+            Assert.AreEqual("Second", ws.Drawings[2].Name);
+            Assert.AreEqual("Fourth", ws.Drawings[3].Name);
+
+            Assert.AreEqual("First", ws.Drawings["First"].Name);
+            Assert.AreEqual("Third", ws.Drawings["Third"].Name);
+            Assert.AreEqual("Second", ws.Drawings["Second"].Name);
+            Assert.AreEqual("Fourth", ws.Drawings["Fourth"].Name);
+        }
+        [TestMethod]
+        public void BringToFront()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("BringToFront_Shape2");
+            var shape1 = ws.Drawings.AddShape("First", eShapeStyle.Rect);
+            shape1.Text = "First";
+            shape1.SetPosition(1, 0, 1, 0);
+            var shape2 = ws.Drawings.AddShape("Second", eShapeStyle.Rect);
+            shape2.Text = "Second";
+            shape2.SetPosition(2, 0, 2, 0);
+            var shape3 = ws.Drawings.AddShape("Third", eShapeStyle.Rect);
+            shape3.SetPosition(3, 0, 3, 0);
+            var shape4 = ws.Drawings.AddShape("Fourth", eShapeStyle.Rect);
+            shape4.SetPosition(4, 0, 4, 0);
+            shape4.Text = "Fourth";
+
+            //Act
+            shape2.BringToFront();
+
+            //Assert
+            Assert.AreEqual("First", ws.Drawings[0].Name);
+            Assert.AreEqual("Third", ws.Drawings[1].Name);
+            Assert.AreEqual("Fourth", ws.Drawings[2].Name);
+            Assert.AreEqual("Second", ws.Drawings[3].Name);
+
+            Assert.AreEqual("First", ws.Drawings["First"].Name);
+            Assert.AreEqual("Second", ws.Drawings["Second"].Name);
+            Assert.AreEqual("Third", ws.Drawings["Third"].Name);
+            Assert.AreEqual("Fourth", ws.Drawings["Fourth"].Name);
+        }
 
     }
 }

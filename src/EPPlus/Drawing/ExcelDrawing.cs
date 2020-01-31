@@ -851,6 +851,20 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = false;
         }
         #endregion
+        /// <summary>
+        /// Sends the drawing to the back of any overlapping drawings.
+        /// </summary>
+        public void SendToBack()
+        {
+            _drawings.SendToBack(this);
+        }
+        /// <summary>
+        /// Brings the drawing to the front of any overlapping drawings.
+        /// </summary>
+        public void BringToFront()
+        {
+            _drawings.BringToFront(this);
+        }
         internal virtual void DeleteMe()
         {
             TopNode.ParentNode.RemoveChild(TopNode);            
