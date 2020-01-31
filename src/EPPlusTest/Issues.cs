@@ -1041,6 +1041,17 @@ namespace EPPlusTest
             ExcelWorksheet ws = p.Workbook.Worksheets.Add("AutoFit"); //<-- This line takes forever. The process hangs.
             ws.Cells[1, 1].Value = new string ('a', 50000);
             ws.Cells[1, 1].AutoFitColumns();
-}
+        }
+        [TestMethod]
+        public void InlineString()
+        {
+            //From https://github.com/JanKallman/EPPlus/issues/583
+            using (var pck = OpenTemplatePackage("SSRS_Exported_ToBeMerged.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
+                Assert.AreEqual("Data Exceptions - Warnings Summary", ws.Cells["A2"].Value);
+                SaveWorkbook("InlineString.xlsx", pck);
+            }
+        }
     }
 }

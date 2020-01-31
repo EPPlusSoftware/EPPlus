@@ -1106,7 +1106,7 @@ namespace OfficeOpenXml
         public void Load(Stream input, string Password)
         {
             Load(input, new MemoryStream(), Password);
-        }
+        }   
         /// <summary>
         /// 
         /// </summary>

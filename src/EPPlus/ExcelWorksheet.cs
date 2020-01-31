@@ -918,11 +918,11 @@ namespace OfficeOpenXml
             Stream stream = packPart.GetStream();
 
 #if Core
-            var xr = XmlReader.Create(stream,new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true });
+            var xr = XmlReader.Create(stream,new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = false });
 #else
             var xr = new XmlTextReader(stream);
             xr.ProhibitDtd = true;
-            xr.WhitespaceHandling = WhitespaceHandling.None;
+            xr.WhitespaceHandling = WhitespaceHandling.All;
 #endif
             LoadColumns(xr);    //columnXml
             long start = stream.Position;
@@ -1305,7 +1305,7 @@ namespace OfficeOpenXml
                     if (r == null)
                     {
                         row++;
-                    }
+                    }   
                     else
                     {
                         row = Convert.ToInt32(r);

@@ -43,7 +43,7 @@ namespace EPPlusTest
         protected static string _clipartPath ="";
         protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
         protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
-        protected static string _testInputPathOptional = @"c:\epplusTest\Testoutput\";
+        protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
         public TestContext TestContext { get; set; }
         
         public static void InitBase()
@@ -147,7 +147,7 @@ namespace EPPlusTest
                 if (t.Exists)
                 {
                     var _file = new FileInfo(_worksheetPath + name);
-                    return new ExcelPackage(_file, t);
+                    return new ExcelPackage(_file, t);  
                 }
 
                 Assert.Inconclusive($"Template {name} does not exist in path {_testInputPath}");
