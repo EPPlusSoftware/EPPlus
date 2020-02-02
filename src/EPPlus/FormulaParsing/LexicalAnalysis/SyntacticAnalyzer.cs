@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             var context = new AnalyzingContext();
             foreach (var token in tokens)
             {
-                if (token.TokenType == TokenType.Unrecognized)
+                if (token.TokenTypeIsSet(TokenType.Unrecognized))
                 {
                     throw new UnrecognizedTokenException(token);
                 }
@@ -69,11 +69,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
         private void EnsureParenthesesAreWellFormed(Token token, AnalyzingContext context)
         {
-            if (token.TokenType == TokenType.OpeningParenthesis)
+            if (token.TokenTypeIsSet(TokenType.OpeningParenthesis))
             {
                 context.NumberOfOpenedParentheses++;
             }
-            else if (token.TokenType == TokenType.ClosingParenthesis)
+            else if (token.TokenTypeIsSet(TokenType.ClosingParenthesis))
             {
                 context.NumberOfClosedParentheses++;
             }
@@ -81,12 +81,12 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
         private void EnsureStringsAreWellFormed(Token token, AnalyzingContext context)
         {
-            if (!context.IsInString && token.TokenType == TokenType.String)
+            if (!context.IsInString && token.TokenTypeIsSet(TokenType.String))
             {
                 context.IsInString = true;
                 context.OpenedStrings++;
             }
-            else if (context.IsInString && token.TokenType == TokenType.String)
+            else if (context.IsInString && token.TokenTypeIsSet(TokenType.String))
             {
                 context.IsInString = false;
                 context.ClosedStrings++;

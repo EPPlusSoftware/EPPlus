@@ -57,13 +57,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             var tokenList = tokens.ToList();
             //Address with worksheet-string before  /JK
-            if (token.StartsWith("!") && tokenList[tokenList.Count-1].TokenType == TokenType.String)
+            if (token.StartsWith("!") && tokenList[tokenList.Count-1].TokenTypeIsSet(TokenType.String))
             {
                 string addr = "";
                 var i = tokenList.Count - 2;
                 if (i > 0)
                 {
-                    if (tokenList[i].TokenType == TokenType.StringContent)
+                    if (tokenList[i].TokenTypeIsSet(TokenType.StringContent))
                     {
                         addr = "'" + tokenList[i].Value.Replace("'", "''") + "'";
                     }
@@ -85,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 
             }
 
-            if (tokens.Any() && tokens.Last().TokenType == TokenType.String)
+            if (tokens.Any() && tokens.Last().TokenTypeIsSet(TokenType.String))
             {
                 return new Token(token, TokenType.StringContent);
             }
@@ -129,7 +129,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 return new Token(token, TokenType.Function);
             }
-            if (tokenList.Count > 0 && tokenList[tokenList.Count - 1].TokenType == TokenType.OpeningEnumerable)
+            if (tokenList.Count > 0 && tokenList[tokenList.Count - 1].TokenTypeIsSet(TokenType.OpeningEnumerable))
             {
                 return new Token(token, TokenType.Enumerable);
             }

@@ -46,19 +46,20 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
             while (_navigator.HasNext())
             {
                 var token = _navigator.CurrentToken;
-                switch (token.TokenType)
+                if(token.TokenTypeIsSet(TokenType.Unrecognized))
                 {
-                    case TokenType.Unrecognized:
-                        HandleUnrecognizedToken();
-                        break;
-                    case TokenType.WorksheetName:
-                        HandleWorksheetNameToken();
-                        break;
-                    case TokenType.Operator:
-                    case TokenType.Negator:
-                        if (token.Value == "+" || token.Value == "-")
-                            HandleNegators();
-                        break;
+                    HandleUnrecognizedToken();
+                    break;
+                }
+                else if(token.TokenTypeIsSet(TokenType.WorksheetName))
+                {
+                    HandleWorksheetNameToken();
+                    break;
+                }
+                else if(token.TokenTypeIsSet(TokenType.Operator) || token.TokenTypeIsSet(TokenType.Negator))
+                {
+                    if (token.Value == "+" || token.Value == "-")
+                        HandleNegators();
                 }
                 _navigator.MoveNext();
             }
@@ -78,14 +79,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         {
             var token = _navigator.CurrentToken;
             //Remove '+' from start of formula and formula arguments
-            if (token.Value == "+" && (!_navigator.HasPrev() || _navigator.PreviousToken.Value.TokenType == TokenType.OpeningParenthesis || _navigator.PreviousToken.Value.TokenType == TokenType.Comma))
+            if (token.Value == "+" && (!_navigator.HasPrev() || _navigator.PreviousToken.Value.TokenTypeIsSet(TokenType.OpeningParenthesis) || _navigator.PreviousToken.Value.TokenTypeIsSet(TokenType.Comma)))
             {
                 RemoveTokenAndSetNegatorOperator();
                 return;
             }
 
             var nextToken = _navigator.NextToken;
-            if (nextToken.TokenType == TokenType.Operator || nextToken.TokenType == TokenType.Negator)
+            if (nextToken.TokenTypeIsSet(TokenType.Operator) || nextToken.TokenTypeIsSet(TokenType.Negator))
             {
                 // Remove leading '+' from operator combinations
                 if (token.Value == "+" && (nextToken.Value == "+" || nextToken.Value == "-"))
@@ -112,7 +113,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         {
             if (_navigator.HasNext())
             {
-                if (_navigator.NextToken.TokenType == TokenType.OpeningParenthesis)
+                if (_navigator.NextToken.TokenTypeIsSet(TokenType.OpeningParenthesis))
                 {
                     ChangeTokenTypeOnCurrentToken(TokenType.Function);
                 }
@@ -131,7 +132,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         private void HandleWorksheetNameToken()
         {
             // use this and the following three tokens
-            var tokenType = _navigator.GetTokenAtRelativePosition(3).TokenType;
+            var tokenType = _navigator.GetTokenAtRelativePosition(3).GetTokenTypeFlags();
             ChangeTokenTypeOnCurrentToken(tokenType);
             var sb = new StringBuilder();
             var nToRemove = 3;
@@ -140,8 +141,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
                 ChangeTokenTypeOnCurrentToken(TokenType.InvalidReference);
                 nToRemove = _navigator.NbrOfRemainingTokens;
             }
-            else if (_navigator.GetTokenAtRelativePosition(3).TokenType != TokenType.ExcelAddress &&
-                    _navigator.GetTokenAtRelativePosition(3).TokenType != TokenType.ExcelAddressR1C1)
+            else if (!_navigator.GetTokenAtRelativePosition(3).TokenTypeIsSet(TokenType.ExcelAddress) &&
+                    !_navigator.GetTokenAtRelativePosition(3).TokenTypeIsSet(TokenType.ExcelAddressR1C1))
             {
                 ChangeTokenTypeOnCurrentToken(TokenType.InvalidReference);
                 nToRemove--;
@@ -163,7 +164,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         private void SetNegatorOperator(int i)
         {
             var token = _context.Result[i];
-            if (token.Value == "-" && i > 0 && (token.TokenType == TokenType.Operator || token.TokenType == TokenType.Negator))
+            if (token.Value == "-" && i > 0 && (token.TokenTypeIsSet(TokenType.Operator) || token.TokenTypeIsSet(TokenType.Negator)))
             {
                 if (TokenIsNegator(_context.Result[i - 1]))
                 {
@@ -182,15 +183,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         }
         private bool TokenIsNegator(Token t)
         {
-            return t.TokenType == TokenType.Operator
+            return t.TokenTypeIsSet(TokenType.Operator)
                         ||
-                        t.TokenType == TokenType.OpeningParenthesis
+                        t.TokenTypeIsSet(TokenType.OpeningParenthesis)
                         ||
-                        t.TokenType == TokenType.Comma
+                        t.TokenTypeIsSet(TokenType.Comma)
                         ||
-                        t.TokenType == TokenType.SemiColon
+                        t.TokenTypeIsSet(TokenType.SemiColon)
                         ||
-                        t.TokenType == TokenType.OpeningEnumerable;
+                        t.TokenTypeIsSet(TokenType.OpeningEnumerable);
         }
 
         private void RemoveTokenAndSetNegatorOperator(int offset = 0)

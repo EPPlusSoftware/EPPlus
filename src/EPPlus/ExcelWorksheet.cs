@@ -129,7 +129,7 @@ namespace OfficeOpenXml
                 string f = "";
                 foreach (var token in Tokens)
                 {
-                    if (token.TokenType == TokenType.ExcelAddress)
+                    if (token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var a = new ExcelFormulaAddress(token.Value);
                         f += !string.IsNullOrEmpty(a._wb) || !string.IsNullOrEmpty(a._ws)

@@ -164,7 +164,7 @@ namespace OfficeOpenXml.FormulaParsing
             while (f.tokenIx < f.Tokens.Count)
             {
                 var t = f.Tokens[f.tokenIx];
-                if (t.TokenType == TokenType.ExcelAddress)
+                if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                 {
                     var adr = new ExcelFormulaAddress(t.Value);
                     if (adr.Table != null)
@@ -174,7 +174,10 @@ namespace OfficeOpenXml.FormulaParsing
 
                     if (adr.WorkSheet == null && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No && !options.AllowCircularReferences)
                     {
-                        throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}", ExcelAddressBase.GetAddress(f.Row, f.Column))));
+                        var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
+                        f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
+                        continue;
+                        //throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}", ExcelAddressBase.GetAddress(f.Row, f.Column))));
                     }
 
                     if (adr._fromRow > 0 && adr._fromCol > 0)
@@ -202,7 +205,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                     }
                 }
-                else if (t.TokenType == TokenType.NameValue)
+                else if (t.TokenTypeIsSet(TokenType.NameValue))
                 {
                     string adrWb, adrWs, adrName;
                     ExcelNamedRange name;
@@ -276,7 +279,10 @@ namespace OfficeOpenXml.FormulaParsing
                                     {
                                         if (ExcelAddressBase.GetCellID(par.SheetID, par.Row, par.Column) == id && !options.AllowCircularReferences)
                                         {
-                                            throw (new CircularReferenceException(string.Format("Circular Reference in name {0}", name.Name)));
+                                            var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
+                                            f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
+                                            continue;
+                                            //throw (new CircularReferenceException(string.Format("Circular Reference in name {0}", name.Name)));
                                         }
                                     }
                                 }
