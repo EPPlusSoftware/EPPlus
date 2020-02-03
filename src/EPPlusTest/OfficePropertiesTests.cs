@@ -29,5 +29,34 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void ValidateCaseInsensitiveCustomProperties()
+        {
+            using (var p = new OfficeOpenXml.ExcelPackage())
+            {
+                p.Workbook.Worksheets.Add("CustomProperties");
+                p.Workbook.Properties.SetCustomPropertyValue("Foo", "Bar");
+                p.Workbook.Properties.SetCustomPropertyValue("fOO", "bAR");
+
+                Assert.AreEqual("bAR", p.Workbook.Properties.GetCustomPropertyValue("fOo"));
+            }
+        }
+        [TestMethod]
+        public void ValidateCaseInsensitiveCustomProperties_Loading()
+        {
+            var p = new OfficeOpenXml.ExcelPackage();
+            p.Workbook.Worksheets.Add("CustomProperties");
+            p.Workbook.Properties.SetCustomPropertyValue("fOO", "bAR");
+            p.Workbook.Properties.SetCustomPropertyValue("Foo", "Bar");
+
+            p.Save();
+
+            var p2 = new OfficeOpenXml.ExcelPackage(p.Stream);
+
+            Assert.AreEqual("Bar", p2.Workbook.Properties.GetCustomPropertyValue("fOo"));
+
+            p.Dispose();
+            p2.Dispose();
+        }
     }
 }

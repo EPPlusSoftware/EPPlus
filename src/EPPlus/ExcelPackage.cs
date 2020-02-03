@@ -769,7 +769,7 @@ namespace OfficeOpenXml
                 {
                     CloseStream();
                 }
-                _package.Close();
+                _package.Close();    
                 if(_workbook != null)
                 {
                     _workbook.Dispose();
