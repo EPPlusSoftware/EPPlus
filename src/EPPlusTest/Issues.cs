@@ -768,7 +768,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue172()
         {
-            var pck=OpenTemplatePackage("quest.xlsx");
+            var pck = OpenTemplatePackage("quest.xlsx");
             foreach (var ws in pck.Workbook.Worksheets)
             {
                 Console.WriteLine(ws.Name);
@@ -803,7 +803,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue220()
         {
-            var pck=OpenPackage("sheetname_pbl.xlsx", true);
+            var pck = OpenPackage("sheetname_pbl.xlsx", true);
             var ws = pck.Workbook.Worksheets.Add("Deal's History");
             var a = ws.Cells["A:B"];
             ws.AutoFilterAddress = ws.Cells["A1:C3"];
@@ -895,7 +895,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue241()
         {
-            var pck=OpenPackage("issue241", true);
+            var pck = OpenPackage("issue241", true);
             var wks = pck.Workbook.Worksheets.Add("test");
             wks.DefaultRowHeight = 35;
             pck.Save();
@@ -1039,19 +1039,9 @@ namespace EPPlusTest
         {
             ExcelPackage p = new ExcelPackage();
             ExcelWorksheet ws = p.Workbook.Worksheets.Add("AutoFit"); //<-- This line takes forever. The process hangs.
-            ws.Cells[1, 1].Value = new string ('a', 50000);
+            ws.Cells[1, 1].Value = new string('a', 50000);
             ws.Cells[1, 1].AutoFitColumns();
         }
-        [TestMethod]
-        public void InlineString()
-        {
-            //From https://github.com/JanKallman/EPPlus/issues/583
-            using (var pck = OpenTemplatePackage("SSRS_Exported_ToBeMerged.xlsx"))
-            {
-                var ws = pck.Workbook.Worksheets[0];
-                Assert.AreEqual("Data Exceptions - Warnings Summary", ws.Cells["A2"].Value);
-                SaveWorkbook("InlineString.xlsx", pck);
-            }
-        }
+
     }
 }

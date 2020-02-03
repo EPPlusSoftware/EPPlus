@@ -810,6 +810,11 @@ namespace OfficeOpenXml.Drawing
             From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
             From.Column = Column;
             From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            if (CellAnchor == eEditAs.TwoCell)
+            {
+                _left = GetPixelLeft();
+                _top = GetPixelTop();
+            }
 
             SetPixelWidth(_width);
             SetPixelHeight(_height);

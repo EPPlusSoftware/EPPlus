@@ -13,26 +13,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.Xml;
-using System.Text;
 using System.Xml;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Drawing.Vml;
-using OfficeOpenXml.Packaging.Ionic.Zlib;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.VBA;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Worksheet;
+using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-
 namespace OfficeOpenXml
 {
 	/// <summary>
