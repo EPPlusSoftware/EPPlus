@@ -49,12 +49,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
                 if(token.TokenTypeIsSet(TokenType.Unrecognized))
                 {
                     HandleUnrecognizedToken();
-                    break;
                 }
                 else if(token.TokenTypeIsSet(TokenType.WorksheetName))
                 {
                     HandleWorksheetNameToken();
-                    break;
                 }
                 else if(token.TokenTypeIsSet(TokenType.Operator) || token.TokenTypeIsSet(TokenType.Negator))
                 {

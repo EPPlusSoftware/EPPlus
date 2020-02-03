@@ -138,6 +138,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <summary>
         /// The parsed token represents a circular reference
         /// </summary>
-        CircularReference = 268432456
+        CircularReference = 268435456
     }
 }

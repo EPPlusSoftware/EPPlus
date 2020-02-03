@@ -176,6 +176,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
                         f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
+                        f.tokenIx++;
                         continue;
                         //throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}", ExcelAddressBase.GetAddress(f.Row, f.Column))));
                     }
@@ -281,6 +282,7 @@ namespace OfficeOpenXml.FormulaParsing
                                         {
                                             var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
                                             f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
+                                            f.tokenIx++;
                                             continue;
                                             //throw (new CircularReferenceException(string.Format("Circular Reference in name {0}", name.Name)));
                                         }

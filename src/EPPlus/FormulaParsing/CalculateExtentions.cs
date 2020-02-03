@@ -164,6 +164,10 @@ namespace OfficeOpenXml
                 {
                     throw (fe);
                 }
+                catch(CircularReferenceException cre)
+                {
+                    throw cre;
+                }
                 catch
                 {
                     var error = ExcelErrorValue.Parse(ExcelErrorValue.Values.Value);
