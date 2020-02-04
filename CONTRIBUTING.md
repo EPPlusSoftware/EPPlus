@@ -19,4 +19,5 @@ Anyone that want to contribute and submit a pull request are welcome to do so. P
 This is not a complicated process. Just download the CAA form, sign it and mail it to github@epplussoftware.com. You only need to do this once either for you or your company. 
 
 Our unit tests are still LGPL (as stated in the header of those code files). So the 20 lines are excluding unit tests.
+
 Please see our [CAA](https://epplussoftware.com/legal/caa) for more information.
