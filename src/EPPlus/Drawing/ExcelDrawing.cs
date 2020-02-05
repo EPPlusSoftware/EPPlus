@@ -45,6 +45,9 @@ namespace OfficeOpenXml.Drawing
         /// Ratio between EMU and Points
         /// </summary>
         public const int EMU_PER_POINT = 12700;
+        public const int EMU_PER_CM = 360000;
+        public const int EMU_PER_US_INCH = 914400;
+
         internal int _width = int.MinValue, _height = int.MinValue, _top=int.MinValue, _left=int.MinValue;
         internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill","grpFill","ln","effectLst","effectDag","scene3d","sp3d" };
 

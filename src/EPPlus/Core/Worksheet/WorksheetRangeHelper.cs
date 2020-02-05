@@ -116,7 +116,8 @@ namespace OfficeOpenXml.Core.Worksheet
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
             {                
-                if(rows < 0 && drawing.From.Row>=rowFrom-1 && drawing.To.Row<=rowFrom-rows-1) //If delete and the entire drawing is withing the deleted range, remove it.
+                if(rows < 0 && drawing.From.Row>=rowFrom-1 && 
+                    ((drawing.To.Row<=(rowFrom-rows-1) && drawing.To.RowOff==0) || drawing.To.Row <= (rowFrom - rows - 2))) //If delete and the entire drawing is withing the deleted range, remove it.
                 {
                     deletedDrawings.Add(drawing);
                     continue;
@@ -125,6 +126,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (drawing.From.Row >= rowFrom-1)
                     {
+                        drawing.From.RowOff = 0;
                         if (drawing.From.Row + rows < rowFrom - 1)
                         {
                             drawing.From.Row = rowFrom - 1;
@@ -143,8 +145,9 @@ namespace OfficeOpenXml.Core.Worksheet
                         }
                     }
                     else if (drawing.To.Row >= rowFrom-1)
-                    {                        
-                        if(drawing.To.Row+rows < rowFrom-1)
+                    {
+                        drawing.To.RowOff = 0;
+                        if (drawing.To.Row+rows < rowFrom-1)
                         {
                             drawing.To.Row = rowFrom-1;
                         }
@@ -165,7 +168,8 @@ namespace OfficeOpenXml.Core.Worksheet
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
             {
-                if (columns < 0 && drawing.From.Column >= columnFrom - 1 && drawing.To.Column <= columnFrom - columns - 1) //If delete and the entire drawing is withing the deleted range, remove it.
+                if (columns < 0 && drawing.From.Column >= columnFrom - 1 &&
+                    ((drawing.To.Column <= (columnFrom - columns - 1) && drawing.To.ColumnOff == 0) || drawing.To.Column <= (columnFrom - columns - 2))) //If delete and the entire drawing is withing the deleted range, remove it.
                 {
                     deletedDrawings.Add(drawing);
                     continue;
@@ -174,6 +178,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (drawing.From.Column >= columnFrom - 1)
                     {
+                        drawing.From.ColumnOff = 0;
                         if (drawing.From.Column + columns < columnFrom - 1)
                         {
                             drawing.From.Column = columnFrom - 1;
@@ -193,6 +198,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else if (drawing.To.Column >= columnFrom - 1)
                     {
+                        drawing.To.ColumnOff = 0;
                         if (drawing.To.Column + columns < columnFrom - 1)
                         {
                             drawing.To.Column = columnFrom - 1;
