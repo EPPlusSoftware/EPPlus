@@ -896,8 +896,9 @@ namespace OfficeOpenXml
             var iterator = new CellStoreEnumerator<ExcelValue>(_worksheet._values, 0, fromCol, 0, toCol);
             var prevCol = fromCol;
             foreach (ExcelValue val in iterator)
-            {
+            {                
                 var col = (ExcelColumn)val._value;
+                if (col.Hidden) continue;
                 col.Width = minimumWidth;
                 if (_worksheet.DefaultColWidth > minimumWidth && col.ColumnMin > prevCol)
                 {

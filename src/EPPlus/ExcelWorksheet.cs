@@ -1726,21 +1726,6 @@ namespace OfficeOpenXml
 		/// <returns></returns>
 		public ExcelRow Row(int row)
         {
-            //ExcelRow r;
-            //ulong id = ExcelRow.GetRowID(_sheetID, row);
-            //TODO: Fixa.
-            //var v = GetValueInner(row, 0);
-            //if (v!=null)
-            //{
-            //    var ri=(RowInternal)v;
-            //    r = new ExcelRow(this, row)
-            //}
-            //else
-            //{
-            //r = new ExcelRow(this, row);
-            //_values.SetValue(row, 0, r);
-            //_rows.Add(r);
-            //}
             CheckSheetType();
             if (row < 1 || row > ExcelPackage.MaxRows)
             {
