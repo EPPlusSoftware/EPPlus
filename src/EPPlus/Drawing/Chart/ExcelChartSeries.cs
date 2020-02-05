@@ -170,6 +170,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns></returns>
         internal protected T AddSeries(string SerieAddress, string XSerieAddress, string bubbleSizeAddress)
         {
+            if(_list.Count==256)
+            {
+                throw (new InvalidOperationException("Charts have a maximum of 256 series."));
+            }
             XmlElement ser = _node.OwnerDocument.CreateElement("c", "ser", ExcelPackage.schemaChart);
             XmlNodeList node = _node.SelectNodes("c:ser", _ns);
             if (node.Count > 0)
