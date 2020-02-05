@@ -1,5 +1,5 @@
 ﻿# EPPlus 5 beta
-[![Build status](https://ci.appveyor.com/api/projects/status/wobbmnlbukxejjgb?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/EPPlus/branch/develop/artifacts)
+[![Build status](https://ci.appveyor.com/api/projects/status/wobbmnlbukxejjgb?svg=true&passingText=develop%20-%20OK)](https://ci.appveyor.com/project/EPPlusSoftware/EPPlus/branch/develop/artifacts)
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
 
