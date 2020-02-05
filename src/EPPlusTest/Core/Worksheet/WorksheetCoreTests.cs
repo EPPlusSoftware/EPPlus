@@ -29,7 +29,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 
-namespace EPPlusTest.Core
+namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
     public class WorksheetCoreTests : TestBase
@@ -37,7 +37,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void ValidateAutoFitDontShowHiddenColumns()
         {
-            using (var p = OpenPackage("AutofitSholdNotHide.xlsx"))
+            using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("AutoFitHidden");
                 LoadTestdata(ws);
