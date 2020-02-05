@@ -321,36 +321,38 @@ namespace EPPlusTest
         public void ReadStreamWithTemplateWorkSheet()
         {
             AssertIfNotExists("WorksheetRead.xlsx");
-            FileStream instream = new FileStream(_worksheetPath + @"WorksheetRead.xlsx", FileMode.Open, FileAccess.Read);
-            MemoryStream stream = new MemoryStream();
-            using (ExcelPackage pck = new ExcelPackage(stream, instream))
+            using (FileStream instream = new FileStream(_worksheetPath + @"WorksheetRead.xlsx", FileMode.Open, FileAccess.Read))
             {
-                var ws = TryGetWorksheet(pck, "Perf");
-                Assert.AreEqual(ws.Cells["H6"].Formula, "B5+B6");
+                MemoryStream stream = new MemoryStream();
+                using (ExcelPackage pck = new ExcelPackage(stream, instream))
+                {
+                    var ws = TryGetWorksheet(pck, "Perf");
+                    Assert.AreEqual(ws.Cells["H6"].Formula, "B5+B6");
 
-                ws = TryGetWorksheet(pck, "newsheet");
-                Assert.AreEqual(ws.GetValue<DateTime>(20, 21), new DateTime(2010, 1, 1));
+                    ws = TryGetWorksheet(pck, "newsheet");
+                    Assert.AreEqual(ws.GetValue<DateTime>(20, 21), new DateTime(2010, 1, 1));
 
-                ws = TryGetWorksheet(pck, "Loaded DataTable");
-                Assert.AreEqual(ws.GetValue<string>(2, 1), "Row1");
-                Assert.AreEqual(ws.GetValue<int>(2, 2), 1);
-                Assert.AreEqual(ws.GetValue<bool>(2, 3), true);
-                Assert.AreEqual(ws.GetValue<double>(2, 4), 1.5);
+                    ws = TryGetWorksheet(pck, "Loaded DataTable");
+                    Assert.AreEqual(ws.GetValue<string>(2, 1), "Row1");
+                    Assert.AreEqual(ws.GetValue<int>(2, 2), 1);
+                    Assert.AreEqual(ws.GetValue<bool>(2, 3), true);
+                    Assert.AreEqual(ws.GetValue<double>(2, 4), 1.5);
 
-                ws = TryGetWorksheet(pck, "RichText");
+                    ws = TryGetWorksheet(pck, "RichText");
 
-                var r1 = ws.Cells["A1"].RichText[0];
-                Assert.AreEqual(r1.Text, "Test");
-                Assert.AreEqual(r1.Bold, true);
+                    var r1 = ws.Cells["A1"].RichText[0];
+                    Assert.AreEqual(r1.Text, "Test");
+                    Assert.AreEqual(r1.Bold, true);
 
-                ws = TryGetWorksheet(pck, "Pic URL");
-                Assert.AreEqual(((ExcelPicture)ws.Drawings["Pic URI"]).Hyperlink, "http://epplus.codeplex.com");
+                    ws = TryGetWorksheet(pck, "Pic URL");
+                    Assert.AreEqual(((ExcelPicture)ws.Drawings["Pic URI"]).Hyperlink, "http://epplus.codeplex.com");
 
-                Assert.AreEqual(pck.Workbook.Worksheets["Address"].GetValue<string>(40, 1), "\b\t");
+                    Assert.AreEqual(pck.Workbook.Worksheets["Address"].GetValue<string>(40, 1), "\b\t");
 
-                pck.SaveAs(new FileInfo(@"Test\Worksheet2.xlsx"));
+                    pck.SaveAs(new FileInfo(@"Test\Worksheet2.xlsx"));
+                }
+                instream.Close();
             }
-            instream.Close();
         }
         [TestMethod]
         public void ReadStreamSaveAsStream()
@@ -359,23 +361,19 @@ namespace EPPlusTest
             {
                 Assert.Inconclusive("WorksheetRead.xlsx does not exists");
             }
-            FileStream instream = new FileStream(_worksheetPath + @"/WorksheetRead.xlsx", FileMode.Open, FileAccess.ReadWrite);
-            MemoryStream stream = new MemoryStream();
-            using (ExcelPackage pck = new ExcelPackage(instream))
+            using (FileStream instream = new FileStream(_worksheetPath + @"/WorksheetRead.xlsx", FileMode.Open, FileAccess.ReadWrite))
             {
-                var ws = TryGetWorksheet(pck, "Names");
-                Assert.AreEqual(ws.Names["FullCol"].Start.Row, 1);
-                Assert.AreEqual(ws.Names["FullCol"].End.Row, ExcelPackage.MaxRows);
-                pck.SaveAs(stream);
+                MemoryStream stream = new MemoryStream();
+                using (ExcelPackage pck = new ExcelPackage(instream))
+                {
+                    var ws = TryGetWorksheet(pck, "Names");
+                    Assert.AreEqual(ws.Names["FullCol"].Start.Row, 1);
+                    Assert.AreEqual(ws.Names["FullCol"].End.Row, ExcelPackage.MaxRows);
+                    pck.SaveAs(stream);
+                }
+                instream.Close();
             }
-            instream.Close();
         }
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // Use ClassCleanup to run code after all tests in a class have run
-        //[Ignore]
         [TestMethod]
         public void LoadData()
         {
