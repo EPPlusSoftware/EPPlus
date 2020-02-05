@@ -46,6 +46,7 @@ using System.Dynamic;
 using System.Globalization;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -1023,6 +1024,8 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue333()
         {
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("sv-SE");
             using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("TextBug");
@@ -1031,6 +1034,16 @@ namespace EPPlusTest
 
                 Assert.AreEqual("2019-03-07", ws.Cells["A1"].Text);
             }
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("TextBug");
+                ws.Cells["A1"].Value = new DateTime(2019, 3, 7);
+                ws.Cells["A1"].Style.Numberformat.Format = "mm-dd-yy";
+
+                Assert.AreEqual("3/7/2019", ws.Cells["A1"].Text);
+            }
+            Thread.CurrentThread.CurrentCulture = ci;
         }
         [TestMethod]
         public void Issue445()
