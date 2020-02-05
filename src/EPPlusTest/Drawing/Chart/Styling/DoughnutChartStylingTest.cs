@@ -51,8 +51,7 @@ namespace EPPlusTest.Drawing.Chart
         [ClassCleanup]
         public static void Cleanup()
         {
-            _pck.Save();
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
         }
         [TestMethod]
         public void DoughnutChart_Styles()

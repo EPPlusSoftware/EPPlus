@@ -50,8 +50,7 @@ namespace EPPlusTest.Drawing
             var dirName = _pck.File.DirectoryName;
             var fileName = _pck.File.FullName;
 
-            _pck.Save();
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
             File.Copy(fileName, dirName + "\\DrawingBorderRead.xlsx", true);
         }
 

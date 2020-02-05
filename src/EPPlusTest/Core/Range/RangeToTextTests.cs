@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Core.Range
@@ -208,6 +209,8 @@ namespace OfficeOpenXml.Core.Range
         [TestMethod]
         public void ToTextFormatTextAndCellFormat()
         {
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             //Setup
             var fmt = new ExcelOutputTextFormat()
             {
@@ -225,7 +228,9 @@ namespace OfficeOpenXml.Core.Range
             Assert.AreEqual(_ws.Cells["A2"].Text, cols[0]);
             Assert.AreEqual(fmt.TextQualifier.ToString() + _ws.Cells["B2"].Value.ToString() + fmt.TextQualifier.ToString(), cols[1]);
             Assert.AreEqual(fmt.TextQualifier.ToString() + _ws.Cells["C2"].Value.ToString() + fmt.TextQualifier.ToString(), cols[2]);
-            Assert.AreEqual(_ws.Cells["D2"].Text, cols[3]);
+            Assert.AreEqual("66,00", cols[3]);
+
+            Thread.CurrentThread.CurrentCulture = ci;
         }
         [TestMethod]
         public void ToTextSkipLines()
@@ -425,6 +430,8 @@ namespace OfficeOpenXml.Core.Range
         [TestMethod]
         public async Task ToTextFormatTextAndCellFormatAsync()
         {
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             //Setup
             var fmt = new ExcelOutputTextFormat()
             {
@@ -442,7 +449,8 @@ namespace OfficeOpenXml.Core.Range
             Assert.AreEqual(_ws.Cells["A2"].Text, cols[0]);
             Assert.AreEqual(fmt.TextQualifier.ToString() + _ws.Cells["B2"].Value.ToString() + fmt.TextQualifier.ToString(), cols[1]);
             Assert.AreEqual(fmt.TextQualifier.ToString() + _ws.Cells["C2"].Value.ToString() + fmt.TextQualifier.ToString(), cols[2]);
-            Assert.AreEqual(_ws.Cells["D2"].Text, cols[3]);
+            Assert.AreEqual("66,00", cols[3]);
+            Thread.CurrentThread.CurrentCulture = ci;
         }
         [TestMethod]
         public async Task ToTextSkipLinesAsync()
