@@ -45,9 +45,7 @@ namespace EPPlusTest.Drawing
     /// </summary>
     [TestClass]
     public class ExcelTutorialTest : TestBase
-    {
-        private ExcelChartAxis axis;
-        
+    {       
         [TestInitialize]
         public void Initialize()
         {

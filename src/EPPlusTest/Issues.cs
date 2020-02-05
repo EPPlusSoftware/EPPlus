@@ -65,10 +65,8 @@ namespace EPPlusTest
         [ClassCleanup]
         public static void Cleanup()
         {
-            _pck.Save();
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
         }
-
         [TestInitialize]
         public void Initialize()
         {

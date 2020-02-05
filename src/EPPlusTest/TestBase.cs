@@ -83,6 +83,19 @@ namespace EPPlusTest
             var di=new DirectoryInfo(_worksheetPath);            
             _worksheetPath = di.FullName + "\\";
         }
+        /// <summary>
+        /// Saves and disposes a package
+        /// </summary>
+        /// <param name="pck"></param>
+        protected static void SaveAndCleanup(ExcelPackage pck)
+        {
+            if (pck.Workbook.Worksheets.Count > 0)
+            {
+                pck.Save();
+            }
+            pck.Dispose();
+        }
+
         protected static bool ExistsPackage(string name)
         {
             var fi = new FileInfo(_worksheetPath + name);

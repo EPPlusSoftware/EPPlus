@@ -44,11 +44,7 @@ namespace OfficeOpenXml.Core.Range
         [ClassCleanup]
         public static void CleanUp()
         {
-            if (_pck.Workbook.Worksheets.Count > 0)
-            {
-                _pck.Save();
-            }
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
         }
         [TestMethod]
         public void AddProtectedRange()
