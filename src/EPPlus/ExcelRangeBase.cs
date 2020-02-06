@@ -1768,9 +1768,9 @@ namespace OfficeOpenXml
             _worksheet._commentsStore.Delete(fromRow, fromCol, rows, cols, shift);
 
             //Clear multi addresses as well
-            if (Addresses != null)
+            if (Range.Addresses != null)
             {
-                foreach (var sub in Addresses)
+                foreach (var sub in Range.Addresses)
                 {
                     DeleteMe(sub, shift);
                 }
