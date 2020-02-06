@@ -1,4 +1,7 @@
-﻿# EPPlus 5 beta
+﻿[![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
+[![Build status](https://ci.appveyor.com/api/projects/status/6jdk5tjxxvx99d5i?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus)
+﻿
+ # EPPlus 5 beta
 
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
@@ -61,3 +64,5 @@ Note that this is a beta of a new major version, with many new features and a re
 ## Improved documentation
 EPPlus 5 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.
 There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). The work with improving the documentation will continue, feedback is highly appreciated!
+## Nuget feed for latest builds
+During the beta period and moving forward the latest builds from the EPPlus develop branch can be fetched from this [Nuget feed](https://ci.appveyor.com/nuget/epplus)
