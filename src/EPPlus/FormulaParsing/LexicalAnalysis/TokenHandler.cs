@@ -67,7 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
 
                     //If the a next token is an opening parantheses and the previous token is interpeted as an address or name, then the currenct token is a function
-                    if (tokenSeparator.TokenType == TokenType.OpeningParenthesis && (_context.LastToken.Value.TokenType == TokenType.ExcelAddress || _context.LastToken.Value.TokenType == TokenType.NameValue))
+                    if (tokenSeparator.TokenTypeIsSet(TokenType.OpeningParenthesis) && (_context.LastToken.Value.TokenTypeIsSet(TokenType.ExcelAddress) || _context.LastToken.Value.TokenTypeIsSet(TokenType.NameValue)))
                     {
                         var newToken = _context.LastToken.Value.CloneWithNewTokenType(TokenType.Function);
                         _context.ReplaceLastToken(newToken);
@@ -98,22 +98,22 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             if (!context.LastToken.HasValue) return true;
             var t = context.LastToken.Value;
             
-            return t.TokenType == TokenType.Operator
+            return t.TokenTypeIsSet(TokenType.Operator)
                         ||
-                        t.TokenType == TokenType.OpeningParenthesis
+                        t.TokenTypeIsSet(TokenType.OpeningParenthesis)
                         ||
-                        t.TokenType == TokenType.Comma
+                        t.TokenTypeIsSet(TokenType.Comma)
                         ||
-                        t.TokenType == TokenType.SemiColon
+                        t.TokenTypeIsSet(TokenType.SemiColon)
                         ||
-                        t.TokenType == TokenType.OpeningEnumerable;
+                        t.TokenTypeIsSet(TokenType.OpeningEnumerable);
         }
 
         private Token CreateToken(TokenizerContext context, string worksheet)
         {
             if (context.CurrentToken == "-")
             {
-                if (context.LastToken == default(Token) && context.LastToken.Value.TokenType == TokenType.Operator)
+                if (context.LastToken == default(Token) && context.LastToken.Value.TokenTypeIsSet(TokenType.Operator))
                 {
                     return new Token("-", TokenType.Negator);
                 }

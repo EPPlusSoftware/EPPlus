@@ -57,20 +57,20 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 var token = tokens[_tokenIndex];
                 IOperator op = null;
-                if (token.TokenType == TokenType.Operator && OperatorsDict.Instance.TryGetValue(token.Value, out op))
+                if (token.TokenTypeIsSet(TokenType.Operator) && OperatorsDict.Instance.TryGetValue(token.Value, out op))
                 {
                     SetOperatorOnExpression(parent, op);
                 }
-                else if (token.TokenType == TokenType.Function)
+                else if (token.TokenTypeIsSet(TokenType.Function))
                 {
                     BuildFunctionExpression(tokens, parent, token.Value);
                 }
-                else if (token.TokenType == TokenType.OpeningEnumerable)
+                else if (token.TokenTypeIsSet(TokenType.OpeningEnumerable))
                 {
                     _tokenIndex++;
                     BuildEnumerableExpression(tokens, parent);
                 }
-                else if (token.TokenType == TokenType.OpeningParenthesis)
+                else if (token.TokenTypeIsSet(TokenType.OpeningParenthesis))
                 {
                     _tokenIndex++;
                     BuildGroupExpression(tokens, parent);
@@ -79,11 +79,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     //    return;
                     //}
                 }
-                else if (token.TokenType == TokenType.ClosingParenthesis || token.TokenType == TokenType.ClosingEnumerable)
+                else if (token.TokenTypeIsSet(TokenType.ClosingParenthesis) || token.TokenTypeIsSet(TokenType.ClosingEnumerable))
                 {
                     break;
                 }
-                else if(token.TokenType == TokenType.WorksheetName)
+                else if(token.TokenTypeIsSet(TokenType.WorksheetName))
                 {
                     var sb = new StringBuilder();
                     sb.Append(tokens[_tokenIndex++].Value);
@@ -93,11 +93,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     var t = new Token(sb.ToString(), TokenType.ExcelAddress);
                     CreateAndAppendExpression(ref parent, ref t);
                 }
-                else if (token.TokenType == TokenType.Negator)
+                else if (token.TokenTypeIsSet(TokenType.Negator))
                 {
                     _negateNextExpression = true;
                 }
-                else if(token.TokenType == TokenType.Percent)
+                else if(token.TokenTypeIsSet(TokenType.Percent))
                 {
                     SetOperatorOnExpression(parent, Operator.Percent);
                     if (parent == null)
@@ -136,7 +136,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             if (IsWaste(token)) return;
             if (parent != null && 
-                (token.TokenType == TokenType.Comma || token.TokenType == TokenType.SemiColon))
+                (token.TokenTypeIsSet(TokenType.Comma) || token.TokenTypeIsSet(TokenType.SemiColon)))
             {
                 parent = parent.PrepareForNextChild();
                 return;
@@ -159,7 +159,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         private bool IsWaste(Token token)
         {
-            if (token.TokenType == TokenType.String)
+            if (token.TokenTypeIsSet(TokenType.String))
             {
                 return true;
             }
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             _tokenIndex++;
             var token = tokens.ElementAt(_tokenIndex);
-            if (token.TokenType != TokenType.OpeningParenthesis)
+            if (!token.TokenTypeIsSet(TokenType.OpeningParenthesis))
             {
                 throw new ExcelErrorValueException(eErrorType.Value);
             }

@@ -687,7 +687,7 @@ namespace OfficeOpenXml
                 var f = "";
                 foreach (var t in tokens)
                 {
-                    if (t.TokenType == TokenType.ExcelAddress)
+                    if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var address = new ExcelAddressBase(t.Value);
 
@@ -773,7 +773,7 @@ namespace OfficeOpenXml
                 var retFormula = "";
                 foreach (var token in sct.Tokenize(formula))
                 {
-                    if (token.TokenType == TokenType.ExcelAddress) //Address
+                    if (token.TokenTypeIsSet(TokenType.ExcelAddress)) //Address
                     {
                         var address = new ExcelAddressBase(token.Value);
                         if (address == null || !address.IsValidRowCol())

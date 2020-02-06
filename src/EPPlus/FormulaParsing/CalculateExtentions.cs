@@ -53,7 +53,7 @@ namespace OfficeOpenXml
                 workbook.FormulaParser.Logger.Log(msg);
             }
 
-            CalcChain(workbook, workbook.FormulaParser, dc);
+            CalcChain(workbook, workbook.FormulaParser, dc, options);
         }
         /// <summary>
         /// Calculate all formulas in the current worksheet
@@ -80,7 +80,7 @@ namespace OfficeOpenXml
                 var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
                 parser.Logger.Log(msg);
             }
-            CalcChain(worksheet.Workbook, parser, dc);
+            CalcChain(worksheet.Workbook, parser, dc, options);
         }
         /// <summary>
         /// Calculate all formulas in the current range
@@ -101,7 +101,7 @@ namespace OfficeOpenXml
             var parser = range._workbook.FormulaParser;
             parser.InitNewCalc();
             var dc = DependencyChainFactory.Create(range, options);
-            CalcChain(range._workbook, parser, dc);
+            CalcChain(range._workbook, parser, dc, options);
         }
         /// <summary>
         /// Calculate all formulas in the current range
@@ -134,7 +134,7 @@ namespace OfficeOpenXml
                 var f = dc.list[0];
                 dc.CalcOrder.RemoveAt(dc.CalcOrder.Count - 1);
 
-                CalcChain(worksheet.Workbook, parser, dc);
+                CalcChain(worksheet.Workbook, parser, dc, options);
 
                 return parser.ParseCell(f.Tokens, worksheet.Name, -1, -1);
             }
@@ -143,8 +143,9 @@ namespace OfficeOpenXml
                 return new ExcelErrorValueException(ex.Message, ExcelErrorValue.Create(eErrorType.Value));
             }
         }
-        private static void CalcChain(ExcelWorkbook wb, FormulaParser parser, DependencyChain dc)
+        private static void CalcChain(ExcelWorkbook wb, FormulaParser parser, DependencyChain dc, ExcelCalculationOption options)
         {
+            wb.FormulaParser.Configure(config => config.AllowCircularReferences = options.AllowCircularReferences);
             var debug = parser.Logger != null;
             foreach (var ix in dc.CalcOrder)
             {
@@ -163,6 +164,10 @@ namespace OfficeOpenXml
                 catch (FormatException fe)
                 {
                     throw (fe);
+                }
+                catch(CircularReferenceException cre)
+                {
+                    throw cre;
                 }
                 catch
                 {

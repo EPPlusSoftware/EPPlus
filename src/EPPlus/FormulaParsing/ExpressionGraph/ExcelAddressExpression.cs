@@ -62,16 +62,25 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get { return false; }
         }
 
+        /// <summary>
+        /// Returns true if this address has a circular reference from the cell it is in.
+        /// </summary>
+        public bool HasCircularReference
+        {
+            get;
+            internal set;
+        }
+
         public override CompileResult Compile()
         {
-            //if (ParentIsLookupFunction)
-            //{
-            //    return new CompileResult(ExpressionString, DataType.ExcelAddress);
-            //}
-            //else
-            //{
-            //    return CompileRangeValues();
-            //}
+            if(_parsingContext.Configuration.AllowCircularReferences)
+            {
+                return CompileResult.Empty;
+            }
+            else if(HasCircularReference && !IgnoreCircularReference)
+            {
+                throw new CircularReferenceException("Circular reference occurred at " + _parsingContext.Scopes.Current.Address.Address);
+            }
             var cache = _parsingContext.AddressCache;
             var cacheId = cache.GetNewId();
             if(!cache.Add(cacheId, ExpressionString))

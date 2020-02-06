@@ -29,22 +29,22 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                     context.AppendToCurrentToken(c);
                     return true;
                 }
-                if (tokenSeparator.TokenType != TokenType.String)
+                if (!tokenSeparator.TokenTypeIsSet(TokenType.String))
                 {
                     context.AppendToCurrentToken(c);
                     return true;
                 }
             }
 
-            if (tokenSeparator.TokenType == TokenType.String)
+            if (tokenSeparator.TokenTypeIsSet(TokenType.String))
             {
-                if (context.LastToken != null && context.LastToken.Value.TokenType == TokenType.OpeningEnumerable)
+                if (context.LastToken != null && context.LastToken.Value.TokenTypeIsSet(TokenType.OpeningEnumerable))
                 {
                     context.AppendToCurrentToken(c);
                     context.ToggleIsInString();
                     return true;
                 }
-                if (context.LastToken != null && context.LastToken.Value.TokenType == TokenType.String)
+                if (context.LastToken != null && context.LastToken.Value.TokenTypeIsSet(TokenType.String))
                 {
                     context.AddToken(!context.CurrentTokenHasValue
                         ? new Token(string.Empty, TokenType.StringContent)

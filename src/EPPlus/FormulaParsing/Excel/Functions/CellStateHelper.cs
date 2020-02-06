@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var tokens = c.Tokens;
             if (tokens == null) return false;
             return c.Tokens.Any(token => 
-                token.TokenType == LexicalAnalysis.TokenType.Function 
+                token.TokenTypeIsSet(LexicalAnalysis.TokenType.Function) 
                 && token.Value.Equals("SUBTOTAL", StringComparison.OrdinalIgnoreCase)
                 );
         }

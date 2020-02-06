@@ -28,6 +28,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public Expression Prev { get; set; }
         public IOperator Operator { get; set; }
         public abstract bool IsGroupedExpression { get; }
+        /// <summary>
+        /// If set to true, <see cref="ExcelAddressExpression"></see>s that has a circular reference to their cell will be ignored when compiled
+        /// </summary>
+        public virtual bool IgnoreCircularReference
+        {
+            get; set;
+        }
 
         public Expression()
         {
