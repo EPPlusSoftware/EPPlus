@@ -1053,6 +1053,21 @@ namespace EPPlusTest
             ws.Cells[1, 1].Value = new string('a', 50000);
             ws.Cells[1, 1].AutoFitColumns();
         }
-
+        [TestMethod]
+        public void DeleteIssue()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws1.Cells["A10"].Value = 1;
+                ws1.Cells["A11"].Formula = "A10*2";
+                ws1.Cells["A12"].Value = 3;
+                ws2.Cells["A1"].Formula = "SUM(Sheet1!A10:A12)";
+                ws1.DeleteRow(1);
+                Assert.AreEqual("A9*2",ws1.Cells["A10"].Formula);
+                Assert.AreEqual("SUM(Sheet1!A9:A11)",ws2.Cells["A1"].Formula);
+            }
+        }
     }
 }

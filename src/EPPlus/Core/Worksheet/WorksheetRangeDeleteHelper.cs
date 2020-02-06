@@ -213,7 +213,6 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 ws._sharedFormulas.Remove(ix);
             }
-            delSF = null;
             var cse = new CellStoreEnumerator<object>(ws._formulas, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             while (cse.Next())
             {
