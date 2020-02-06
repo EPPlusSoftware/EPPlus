@@ -354,7 +354,89 @@ namespace OfficeOpenXml.Core.Range
                 Assert.AreEqual("D2", ws.Cells[2, 4].Value);
             }
         }
+        [TestMethod]
+        public void ValidateCopyFormulasRow()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws = pck.Workbook.Worksheets.Add("CopyRowWise");
+                ws.Cells["A1:C3"].Value = 1;
+                ws.Cells["D3"].Formula="A1";
+                ws.Cells["E3"].Formula = "B2";
+                ws.Cells["F3"].Formula = "C3";
+                ws.Cells["G3"].Formula = "A$1";
+                ws.Cells["H3"].Formula = "B$2";
+                ws.Cells["J3"].Formula = "C$3";
 
+                //Validate that formulas are copied correctly row-wise
+                ws.Cells["D3"].Copy(ws.Cells["D2"]);
+                Assert.AreEqual("#REF!", ws.Cells["D2"].Formula);
+                ws.Cells["E3"].Copy(ws.Cells["E2"]);
+                Assert.AreEqual("B1", ws.Cells["E2"].Formula);
+                ws.Cells["F3"].Copy(ws.Cells["F2"]);
+                Assert.AreEqual("C2", ws.Cells["F2"].Formula);
+                ws.Cells["G3"].Copy(ws.Cells["G2"]);
+                Assert.AreEqual("A$1", ws.Cells["G2"].Formula);
+                ws.Cells["H3"].Copy(ws.Cells["H2"]);
+                Assert.AreEqual("B$2", ws.Cells["H2"].Formula);
+                ws.Cells["J3"].Copy(ws.Cells["J2"]);
+                Assert.AreEqual("C$3", ws.Cells["J2"].Formula);
 
+                ws.Cells["D3"].Copy(ws.Cells["D1"]);
+                Assert.AreEqual("#REF!", ws.Cells["D1"].Formula);
+                ws.Cells["E3"].Copy(ws.Cells["E1"]);
+                Assert.AreEqual("#REF!", ws.Cells["E1"].Formula);
+                ws.Cells["F3"].Copy(ws.Cells["F1"]);
+                Assert.AreEqual("C1", ws.Cells["F1"].Formula);
+                ws.Cells["G3"].Copy(ws.Cells["G1"]);
+                Assert.AreEqual("A$1", ws.Cells["G1"].Formula);
+                ws.Cells["H3"].Copy(ws.Cells["H1"]);
+                Assert.AreEqual("B$2", ws.Cells["H1"].Formula);
+                ws.Cells["J3"].Copy(ws.Cells["J1"]);
+                Assert.AreEqual("C$3", ws.Cells["J1"].Formula);
+            }
+        }
+        [TestMethod]
+        public void ValidateCopyFormulasColumn()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws = pck.Workbook.Worksheets.Add("CopyColumnWise");
+                ws.Cells["A1:C3"].Value = 1;
+                ws.Cells["C4"].Formula = "A1";
+                ws.Cells["C5"].Formula = "B2";
+                ws.Cells["C6"].Formula = "C3";
+                ws.Cells["C7"].Formula = "$A1";
+                ws.Cells["C8"].Formula = "$B2";
+                ws.Cells["C9"].Formula = "$C3";
+
+                //Validate that formulas are copied correctly column-wise
+                ws.Cells["C4"].Copy(ws.Cells["B4"]);
+                Assert.AreEqual("#REF!", ws.Cells["B4"].Formula);
+                ws.Cells["C5"].Copy(ws.Cells["B5"]);
+                Assert.AreEqual("A2", ws.Cells["B5"].Formula);
+                ws.Cells["C6"].Copy(ws.Cells["B6"]);
+                Assert.AreEqual("B3", ws.Cells["B6"].Formula);
+                ws.Cells["C7"].Copy(ws.Cells["B7"]);
+                Assert.AreEqual("$A1", ws.Cells["B7"].Formula);
+                ws.Cells["C8"].Copy(ws.Cells["B8"]);
+                Assert.AreEqual("$B2", ws.Cells["B8"].Formula);
+                ws.Cells["C9"].Copy(ws.Cells["B9"]);
+                Assert.AreEqual("$C3", ws.Cells["B9"].Formula);
+
+                ws.Cells["C4"].Copy(ws.Cells["A4"]);
+                Assert.AreEqual("#REF!", ws.Cells["A4"].Formula);
+                ws.Cells["C5"].Copy(ws.Cells["A5"]);
+                Assert.AreEqual("#REF!", ws.Cells["A5"].Formula);
+                ws.Cells["C6"].Copy(ws.Cells["A6"]);
+                Assert.AreEqual("A3", ws.Cells["A6"].Formula);
+                ws.Cells["C7"].Copy(ws.Cells["A7"]);
+                Assert.AreEqual("$A1", ws.Cells["A7"].Formula);
+                ws.Cells["C8"].Copy(ws.Cells["A8"]);
+                Assert.AreEqual("$B2", ws.Cells["A8"].Formula);
+                ws.Cells["C9"].Copy(ws.Cells["A9"]);
+                Assert.AreEqual("$C3", ws.Cells["A9"].Formula);
+            }
+        }
     }
 }
