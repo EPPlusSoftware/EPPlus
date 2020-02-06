@@ -3324,6 +3324,14 @@ namespace OfficeOpenXml
         }
 
         #region Drawing
+        internal bool HasDrawingRelationship
+        {
+            get
+            {
+                return WorksheetXml.DocumentElement.SelectSingleNode("d:drawing", NameSpaceManager) != null;
+            }
+        }
+
         ExcelDrawings _drawings = null;
         /// <summary>
         /// Collection of drawing-objects like shapes, images and charts
