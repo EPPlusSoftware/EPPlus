@@ -17,4 +17,5 @@ If we can't reproduce the issue, we can't fix it!
 ## Pull requsts
 Anyone that want to contribute and submit a pull request are welcome to do so. Please note that for pull requests with more than 20 significant lines of code it's mandatory to sign the EPPlus CAA, for the pull request to be accepted. 	
 This is not a complicated process. Just download the CAA form, sign it and mail it to github@epplussoftware.com. You only need to do this once either for you or your company. 
-Please see our [CAA](https://epplussoftware.com/legal/caa) for more information.
+Please see our [CAA](https://epplussoftware.com/legal/caa) for more information.  
+For branch naming see [Branching-strategy-and-CI](https://github.com/EPPlusSoftware/EPPlus/wiki/Branching-strategy-and-CI)
