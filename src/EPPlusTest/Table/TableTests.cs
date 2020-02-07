@@ -120,10 +120,10 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void ValidateEncodingForTableColumnNames()
         {
-            var ws = _pck.Workbook.Worksheets.Add("TotalsFormulaTest");
+            var ws = _pck.Workbook.Worksheets.Add("ValidateTblColumnNames");
             ws.Cells["A1"].Value = "Col1>";
             ws.Cells["B1"].Value = "Col1&gt;";
-            var tbl = ws.Tables.Add(ws.Cells["A1:C2"], "Table1");
+            var tbl = ws.Tables.Add(ws.Cells["A1:C2"], "TableValColNames");
             Assert.AreEqual("Col1>",tbl.Columns[0].Name);
             Assert.AreEqual("Col1&gt;", tbl.Columns[1].Name);
             Assert.AreEqual("Column3", tbl.Columns[2].Name);
