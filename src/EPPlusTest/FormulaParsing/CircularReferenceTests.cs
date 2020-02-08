@@ -38,6 +38,22 @@ namespace EPPlusTest.FormulaParsing
             }
         }
 
+        [TestMethod]
+        public void CircularRef_In_Sum_BetweenTwoCells_ShouldThow_WhenAllow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Formula = "B2";
+                sheet.Cells["B2"].Formula = "A2";
+                sheet.Cells["A3"].Formula = "SUM(A1:A2)";
+                var calcOptions = new ExcelCalculationOption { AllowCircularReferences = true };
+                sheet.Calculate(calcOptions);
+                Assert.AreEqual(1d, sheet.Cells["A3"].Value);
+            }
+        }
+
         [TestMethod, ExpectedException(typeof(CircularReferenceException))]
         public void CircularRef_In_Address_ShouldThow()
         {
