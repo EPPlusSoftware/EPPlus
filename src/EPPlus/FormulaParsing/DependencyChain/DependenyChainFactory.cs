@@ -332,18 +332,23 @@ namespace OfficeOpenXml.FormulaParsing
                     if (stack.Count > 0)
                     {
                         //Check for circular references
-                        foreach (var par in stack)
+                        if (stack.Count > 0)
                         {
-                            if (ExcelAddressBase.GetCellID(par.ws.SheetID, par.iterator.Row, par.iterator.Column) == id)
+                            //Check for circular references
+                            foreach (var par in stack)
                             {
-                                if (options.AllowCircularReferences == false)
+                                if (ExcelAddressBase.GetCellID(par.ws.SheetID, par.iterator.Row, par.iterator.Column) == id ||
+                                    ExcelAddressBase.GetCellID(par.ws.SheetID, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
-                                    throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}!{1}", par.ws.Name, ExcelAddress.GetAddress(f.Row, f.Column))));
-                                }
-                                else
-                                {
-                                    f = stack.Pop();
-                                    goto iterateCells;
+                                    if (options.AllowCircularReferences == false)
+                                    {
+                                        throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}!{1}", par.ws.Name, ExcelAddress.GetAddress(f.Row, f.Column))));
+                                    }
+                                    else
+                                    {
+                                        f = stack.Pop();
+                                        goto iterateCells;
+                                    }
                                 }
                             }
                         }
