@@ -73,12 +73,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         public override CompileResult Compile()
         {
-            if(_parsingContext.Configuration.AllowCircularReferences)
+            if(HasCircularReference && !IgnoreCircularReference)
             {
-                return CompileResult.Empty;
-            }
-            else if(HasCircularReference && !IgnoreCircularReference)
-            {
+                if(_parsingContext.Configuration.AllowCircularReferences)
+                {
+                    return CompileResult.Empty;
+                }
                 throw new CircularReferenceException("Circular reference occurred at " + _parsingContext.Scopes.Current.Address.Address);
             }
             var cache = _parsingContext.AddressCache;
