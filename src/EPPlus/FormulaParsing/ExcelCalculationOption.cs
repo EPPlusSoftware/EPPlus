@@ -10,6 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+#if (Core)
+using Microsoft.Extensions.Configuration;
+using System.IO;
+#else
+using System.Configuration;
+#endif
+
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -21,6 +28,24 @@ namespace OfficeOpenXml.FormulaParsing
         public ExcelCalculationOption()
         {
             AllowCircularReferences = false;
+#if (Core)
+            var build = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, false);
+            var c = build.Build();
+
+            var configValue = c["EPPlus:ExcelPackage:AllowCircularReferences"];
+            if(bool.TryParse(configValue, out bool allow))
+            {
+                AllowCircularReferences = allow;
+            }
+
+#else
+            if(bool.TryParse(ConfigurationManager.AppSettings["EPPlus:ExcelPackage.AllowCircularReferences"], out bool allow))
+            {
+                AllowCircularReferences = allow;
+            }
+#endif
         }
         /// <summary>
         /// Do not throw an exception if the formula parser encounters a circular reference
