@@ -113,5 +113,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.Negator));
             Assert.IsTrue(tokens.ElementAt(1).TokenTypeIsSet(TokenType.ExcelAddress));
         }
+
+        [TestMethod]
+        public void ShouldNotRemoveDoubleNegators()
+        {
+            var input = "--1";
+            var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual(3, tokens.Count(), "tokens.Count() was not 2, but " + tokens.Count());
+            Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.Negator), "First token was not a negator");
+            Assert.IsTrue(tokens.ElementAt(1).TokenTypeIsSet(TokenType.Negator), "Second token was not a negator");
+            Assert.IsTrue(tokens.ElementAt(2).TokenTypeIsSet(TokenType.Integer), "Third token was not an integer");
+        }
     }
 }

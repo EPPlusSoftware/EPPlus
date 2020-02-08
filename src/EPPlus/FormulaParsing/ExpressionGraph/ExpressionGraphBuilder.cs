@@ -95,7 +95,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 }
                 else if (token.TokenTypeIsSet(TokenType.Negator))
                 {
-                    _negateNextExpression = true;
+                    _negateNextExpression = !_negateNextExpression;
                 }
                 else if(token.TokenTypeIsSet(TokenType.Percent))
                 {

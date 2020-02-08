@@ -99,10 +99,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
                 // Convert double negator operation to positive declaration
                 else if (token.Value == "-" && nextToken.Value == "-")
                 {
+                    _context.ChangeTokenType(TokenType.Negator, _navigator.Index);
+                    _navigator.MoveIndex(1);
+                    _context.ChangeTokenType(TokenType.Negator, _navigator.Index);
+                    /*
                     _context.RemoveAt(_navigator.Index);
                     _context.Replace(_navigator.Index, PlusToken);
                     if (_navigator.Index > 0) _navigator.MoveIndex(-1);
                     HandleNegators();
+                    */
                 }
             }
         }
