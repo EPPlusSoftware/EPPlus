@@ -401,5 +401,24 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             }
         }
 
+        [TestMethod]
+        public void LookupShouldCompareEqualDateWithDouble()
+        {
+            var date = new DateTime(2020, 2, 7).Date;
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                //lookup_vector
+                s.Cells[1, 1].Value = date;
+                //result vector
+                s.Cells[1, 2].Value = 10;
+
+                //lookup value
+                s.Cells[1, 3].Value = date;
+                s.Cells[1, 4].Formula = "LOOKUP(C1, A1:A2, B1:B2)";
+                s.Calculate();
+                Assert.AreEqual(10, s.Cells[1, 4].Value);
+            }
+        }
     }
 }

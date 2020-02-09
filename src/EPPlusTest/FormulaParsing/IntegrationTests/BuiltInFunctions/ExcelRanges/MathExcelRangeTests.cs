@@ -276,5 +276,57 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
             var result = _worksheet.Cells["B3"].Value;
             Assert.AreEqual(0d, result);
         }
+
+        [TestMethod]
+        public void ProductShouldCalculateCorrectly1()
+        {
+            var values = new int[] { 7, 11, 13 };
+
+            _worksheet.Cells["A1"].Value = values[0];
+            _worksheet.Cells["A2"].Value = values[1];
+            _worksheet.Cells["A3"].Value = values[2];
+            _worksheet.Cells["A4"].Formula = "PRODUCT(A1:A3)";
+
+            _worksheet.Cells["B1"].Value = values[0];
+            _worksheet.Cells["B2"].Value = values[1];
+            _worksheet.Cells["B3"].Value = values[2];
+            _worksheet.Cells["B4"].Formula = "PRODUCT(B1,B2,B3)";
+
+            _worksheet.Cells["C1"].Value = values[0];
+            _worksheet.Cells["C2"].Value = values[1];
+            _worksheet.Cells["C3"].Value = values[2];
+            _worksheet.Cells["C4"].Formula = "C1*C2*C3";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["A4"].Value, "Error in A");
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["B4"].Value, "Error in B");
+        }
+
+        [TestMethod]
+        public void ProductShouldCalculateCorrectly2()
+        {
+            var values = new int[] { 7, 11, 0 };
+
+            _worksheet.Cells["A1"].Value = values[0];
+            _worksheet.Cells["A2"].Value = values[1];
+            _worksheet.Cells["A3"].Value = values[2];
+            _worksheet.Cells["A4"].Formula = "PRODUCT(A1:A3)";
+
+            _worksheet.Cells["B1"].Value = values[0];
+            _worksheet.Cells["B2"].Value = values[1];
+            _worksheet.Cells["B3"].Value = values[2];
+            _worksheet.Cells["B4"].Formula = "PRODUCT(B1,B2,B3)";
+
+            _worksheet.Cells["C1"].Value = values[0];
+            _worksheet.Cells["C2"].Value = values[1];
+            _worksheet.Cells["C3"].Value = values[2];
+            _worksheet.Cells["C4"].Formula = "C1*C2*C3";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["A4"].Value, "Error in A");
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["B4"].Value, "Error in B");
+        }
     }
 }
