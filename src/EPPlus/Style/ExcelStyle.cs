@@ -120,6 +120,14 @@ namespace OfficeOpenXml.Style
             }
         }
         /// <summary>
+        /// Makes the text vertically. This is the same as setting <see cref="TextRotation"/> to 255.
+        /// </summary>
+        public void SetTextVertical()
+        {
+            TextRotation = 255;
+        }
+
+        /// <summary>
         /// Shrink the text to fit
         /// </summary>
         public bool ShrinkToFit
