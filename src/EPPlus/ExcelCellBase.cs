@@ -701,22 +701,29 @@ namespace OfficeOpenXml
                         {
                             f += $"'{address._ws}'!";
                         }
-                        if (rowIncrement > 0)
+                        if (!address.IsFullRow)
                         {
-                            address = address.AddRow(afterRow, rowIncrement, setFixed);
+                            if (rowIncrement > 0)
+                            {
+                                address = address.AddRow(afterRow, rowIncrement, setFixed);
+                            }
+                            else if (rowIncrement < 0)
+                            {
+                                address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                            }
                         }
-                        else if (rowIncrement < 0)
+                        if (address!=null && !address.IsFullColumn)
                         {
-                            address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                            if (colIncrement > 0)
+                            {
+                                address = address.AddColumn(afterColumn, colIncrement, setFixed);
+                            }
+                            else if (colIncrement < 0)
+                            {
+                                address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
+                            }
                         }
-                        if (colIncrement > 0)
-                        {
-                            address = address.AddColumn(afterColumn, colIncrement, setFixed);
-                        }
-                        else if (colIncrement < 0)
-                        {
-                            address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
-                        }
+
                         if (address == null || !address.IsValidRowCol())
                         {
                             f += "#REF!";

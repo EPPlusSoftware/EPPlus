@@ -438,5 +438,47 @@ namespace OfficeOpenXml.Core.Range
                 Assert.AreEqual("$C3", ws.Cells["A9"].Formula);
             }
         }
+        [TestMethod]
+        public void Copy_Formula_From_Other_Workbook_Issue_Test()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var workbook = package.Workbook;
+                var sourceWs = workbook.Worksheets.Add("Sheet2");
+                sourceWs.Cells["A1"].Value = 24;
+                sourceWs.Cells["A2"].Value = 75;
+                sourceWs.Cells["A3"].Value = 94;
+                sourceWs.Cells["A4"].Value = 34;
+
+                var ws = workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Formula = "VLOOKUP($B$1,Sheet2!A:B,2,FALSE)";
+
+                //Literal formula copy to cell A2 - PASSES
+                ws.Cells["A1"].Copy(ws.Cells[2, 1], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+                ws.Cells["A2"].Formula = ws.Cells[1, 1].Formula;
+
+                Assert.IsFalse(
+                    string.IsNullOrWhiteSpace(ws.Cells["A2"].Formula)
+                    , "A2 formula should be set"
+                );
+
+                Assert.AreEqual(
+                    ws.Cells["A1"].Formula
+                    , ws.Cells["A2"].Formula
+                    , $"{ws.Cells["A2"].Formula} != {ws.Cells["A1"].Formula}"
+                );
+
+                //Cell copy to cell A3 - FAILS
+                ws.Cells["A1"].Copy(ws.Cells["A3"]);
+
+                Assert.IsFalse(
+                    string.IsNullOrWhiteSpace(ws.Cells["A3"].Formula)
+                    , "A3 formula should be set"
+                );
+
+                Assert.AreEqual("VLOOKUP($B$1,'SHEET2'!A:B,2,FALSE)", ws.Cells["A3"].Formula);
+
+            }        
+    }
     }
 }
