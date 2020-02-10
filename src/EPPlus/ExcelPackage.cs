@@ -869,7 +869,7 @@ namespace OfficeOpenXml
                     }
                 }
             }
-                catch (Exception ex)
+            catch (Exception ex)
             {
                 if (File == null)
                 {
