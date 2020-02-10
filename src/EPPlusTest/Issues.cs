@@ -47,6 +47,7 @@ using System.Globalization;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace EPPlusTest
 {
@@ -1034,5 +1035,17 @@ namespace EPPlusTest
                 p.SaveAs(new FileInfo(@"c:\epplusissues\GoogleSpreadsheet-Saved.xlsx"));
             }           
         }  
+        [TestMethod]
+        public void Issue520()
+        {
+            using (var p = OpenTemplatePackage("template_slim.xlsx"))
+            {
+
+                var workSheet = p.Workbook.Worksheets[0];
+                workSheet.Cells["B5"].LoadFromArrays(new List<object[]> { new object[] { "xx", "Name", 1, 2, 3, 5, 6, 7 } });
+
+                SaveWorkbook("ErrorStyle0.xlsx", p);
+            }
+        }
     }
 }
