@@ -33,6 +33,11 @@ namespace OfficeOpenXml.Style
             }
             else
             {
+                if (_styles.CellStyleXfs.Count == 0)   //CellStyleXfs.Count should never be 0, but for some custom build sheets this can happend.
+                {
+                    var item=_styles.CellXfs[0].Copy();                    
+                    _styles.CellStyleXfs.Add(item.Id, item);
+                }
                 xfs = _styles.CellStyleXfs[xfsId];
             }
             Styles = styles;

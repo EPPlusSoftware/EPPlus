@@ -1053,6 +1053,14 @@ namespace EPPlusTest
             ws.Cells[1, 1].Value = new string('a', 50000);
             ws.Cells[1, 1].AutoFitColumns();
         }
-
+        [TestMethod]
+        public void Issue551()
+        {
+            using (var p = OpenTemplatePackage("Submittal.Extract.5.ton.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveWorkbook("Submittal.Extract.5.ton_Saved.xlsx", p);
+            }
+        }
     }
 }
