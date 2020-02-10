@@ -427,7 +427,7 @@ namespace EPPlusTest
                 var r = ws.Cells["A1"];
                 r.RichText.Text = "Cell 1";
                 r["A2"].RichText.Add("Cell 2");
-                p.SaveAs(new FileInfo(@"c:\temp\rt.xlsx"));
+                SaveWorkbook(@"rt.xlsx", p);
             }
         }
         [TestMethod]
@@ -467,7 +467,7 @@ namespace EPPlusTest
                 workSheet.InsertColumn(2, 2, 9);
                 workSheet.Column(45).Width = 0;
 
-                p.SaveAs(new FileInfo(@"c:\temp\styleerror.xlsx"));
+                SaveWorkbook(@"styleerror.xlsx", p);
             }
         }
         [TestMethod]
@@ -483,7 +483,7 @@ namespace EPPlusTest
                 cell.RichText.Add("tata");
                 cell.RichText[1].Bold = false;
                 cell.RichText[1].Color = Color.Green;
-                p.SaveAs(new FileInfo(@"c:\temp\rtpreserve.xlsx"));
+                SaveWorkbook(@"rtpreserve.xlsx", p);
             }
         }
         [TestMethod]
@@ -495,7 +495,7 @@ namespace EPPlusTest
                 var ws2 = p.Workbook.Worksheets.Add("ws2");
                 ws2.View.SelectedRange = "A1:B3 D12:D15";
                 ws2.View.ActiveCell = "D15";
-                p.SaveAs(new FileInfo(@"c:\temp\activeCell.xlsx"));
+                SaveWorkbook(@"activeCell.xlsx", p);
             }
         }
         [TestMethod]
@@ -603,31 +603,21 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue63() // See https://github.com/JanKallman/EPPlus/issues/63
         {
-            // Prepare
-            var newFile = new FileInfo(Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.xlsx"));
-            try
+            using (var p1 = new ExcelPackage())
             {
-                using (var package = new ExcelPackage(newFile))
-                {
-                    ExcelWorksheet ws = package.Workbook.Worksheets.Add("ArrayTest");
-                    ws.Cells["A1"].Value = 1;
-                    ws.Cells["A2"].Value = 2;
-                    ws.Cells["A3"].Value = 3;
-                    ws.Cells["B1:B3"].CreateArrayFormula("A1:A3");
-                    package.Save();
-                }
-                Assert.IsTrue(File.Exists(newFile.FullName));
+                ExcelWorksheet ws = p1.Workbook.Worksheets.Add("ArrayTest");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["A2"].Value = 2;
+                ws.Cells["A3"].Value = 3;
+                ws.Cells["B1:B3"].CreateArrayFormula("A1:A3");
+                p1.Save();
 
                 // Test: basic support to recognize array formulas after reading Excel workbook file
-                using (var package = new ExcelPackage(newFile))
+                using (var p2 = new ExcelPackage(p1.Stream))
                 {
-                    Assert.AreEqual("A1:A3", package.Workbook.Worksheets["ArrayTest"].Cells["B1"].Formula);
-                    Assert.IsTrue(package.Workbook.Worksheets["ArrayTest"].Cells["B1"].IsArrayFormula);
+                    Assert.AreEqual("A1:A3", p1.Workbook.Worksheets["ArrayTest"].Cells["B1"].Formula);
+                    Assert.IsTrue(p1.Workbook.Worksheets["ArrayTest"].Cells["B1"].IsArrayFormula);
                 }
-            }
-            finally
-            {
-                File.Delete(newFile.FullName);
             }
         }
         [TestMethod]
@@ -640,7 +630,6 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets.Add("i61");
                 ws.Cells["A1"].LoadFromDataTable(table1, true);
-                //p.SaveAs(new FileInfo(@"c:\temp\issue61.xlsx"));
             }
 
         }
@@ -874,23 +863,25 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue195()
         {
-            var pkg = new OfficeOpenXml.ExcelPackage();
-            var sheet = pkg.Workbook.Worksheets.Add("Sheet1");
-            var defaultStyle = pkg.Workbook.Styles.CreateNamedStyle("Default");
-            defaultStyle.Style.Font.Name = "Arial";
-            defaultStyle.Style.Font.Size = 18;
-            defaultStyle.Style.Font.UnderLine = true;
-            var boldStyle = pkg.Workbook.Styles.CreateNamedStyle("Bold", defaultStyle.Style);
-            boldStyle.Style.Font.Color.SetColor(Color.Red);
+            using (var pkg = new OfficeOpenXml.ExcelPackage())
+            {
+                var sheet = pkg.Workbook.Worksheets.Add("Sheet1");
+                var defaultStyle = pkg.Workbook.Styles.CreateNamedStyle("Default");
+                defaultStyle.Style.Font.Name = "Arial";
+                defaultStyle.Style.Font.Size = 18;
+                defaultStyle.Style.Font.UnderLine = true;
+                var boldStyle = pkg.Workbook.Styles.CreateNamedStyle("Bold", defaultStyle.Style);
+                boldStyle.Style.Font.Color.SetColor(Color.Red);
 
-            Assert.AreEqual("Arial", defaultStyle.Style.Font.Name);
-            Assert.AreEqual(18, defaultStyle.Style.Font.Size);
+                Assert.AreEqual("Arial", defaultStyle.Style.Font.Name);
+                Assert.AreEqual(18, defaultStyle.Style.Font.Size);
 
-            Assert.AreEqual("Arial", boldStyle.Style.Font.Name);
-            Assert.AreEqual(18, boldStyle.Style.Font.Size);
-            Assert.AreEqual(boldStyle.Style.Font.Color.Rgb, "FFFF0000");
+                Assert.AreEqual("Arial", boldStyle.Style.Font.Name);
+                Assert.AreEqual(18, boldStyle.Style.Font.Size);
+                Assert.AreEqual(boldStyle.Style.Font.Color.Rgb, "FFFF0000");
 
-            pkg.SaveAs(new FileInfo(@"c:\temp\n.xlsx"));
+                SaveWorkbook("DefaultStyle.xlsx", pkg);
+            }
         }
         [TestMethod]
         public void Issue332()
