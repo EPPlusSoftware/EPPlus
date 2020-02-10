@@ -92,6 +92,19 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CleanShouldRemoveNonPrintableChar()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "CLEAN(B1)";
+                sheet.Cells["B1"].Value = "epplus" + (char)3;
+                sheet.Calculate();
+                Assert.AreEqual("epplus", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void CharShouldReturnCharValOfNumber()
         {
             using (var pck = new ExcelPackage(new MemoryStream()))

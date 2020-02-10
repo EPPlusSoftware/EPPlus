@@ -235,5 +235,27 @@ namespace EPPlusTest.Excel.Functions.Text
             var result = func.Execute(FunctionsHelper.CreateArgs(" epplus    5 "), _parsingContext);
             Assert.AreEqual("epplus 5", result.Result);
         }
+
+        [TestMethod]
+        public void CleanShouldReturnDataTypeString()
+        {
+            var func = new Clean();
+            var result = func.Execute(FunctionsHelper.CreateArgs("epplus"), _parsingContext);
+            Assert.AreEqual(DataType.String, result.DataType);
+        }
+
+        [TestMethod]
+        public void CleanShouldRemoveNonPrintableChars()
+        {
+            var input = new StringBuilder();
+            for(var x = 1; x < 32; x++)
+            {
+                input.Append((char)x);
+            }
+            input.Append("epplus");
+            var func = new Clean();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
+            Assert.AreEqual("epplus", result.Result);
+        }
     }
 }
