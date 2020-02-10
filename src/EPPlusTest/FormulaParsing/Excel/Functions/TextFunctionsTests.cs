@@ -211,5 +211,29 @@ namespace EPPlusTest.Excel.Functions.Text
             var result = func.Execute(FunctionsHelper.CreateArgs("http://epplus.codeplex.com", "EPPlus"), _parsingContext);
             Assert.AreEqual("EPPlus", result.Result);
         }
+
+        [TestMethod]
+        public void TrimShouldReturnDataTypeString()
+        {
+            var func = new Trim();
+            var result = func.Execute(FunctionsHelper.CreateArgs(" epplus "), _parsingContext);
+            Assert.AreEqual(DataType.String, result.DataType);
+        }
+
+        [TestMethod]
+        public void TrimShouldTrimFromBothEnds()
+        {
+            var func = new Trim();
+            var result = func.Execute(FunctionsHelper.CreateArgs(" epplus "), _parsingContext);
+            Assert.AreEqual("epplus", result.Result);
+        }
+
+        [TestMethod]
+        public void TrimShouldTrimMultipleSpaces()
+        {
+            var func = new Trim();
+            var result = func.Execute(FunctionsHelper.CreateArgs(" epplus    5 "), _parsingContext);
+            Assert.AreEqual("epplus 5", result.Result);
+        }
     }
 }

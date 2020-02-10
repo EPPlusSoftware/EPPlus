@@ -79,6 +79,19 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void TrimShouldHandleStringWithSpaces()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TRIM(B1)";
+                sheet.Cells["B1"].Value = " epplus   5 ";
+                sheet.Calculate();
+                Assert.AreEqual("epplus 5", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void CharShouldReturnCharValOfNumber()
         {
             using (var pck = new ExcelPackage(new MemoryStream()))
