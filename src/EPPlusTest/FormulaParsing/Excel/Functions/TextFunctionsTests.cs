@@ -35,6 +35,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace EPPlusTest.Excel.Functions.Text
 {
@@ -138,6 +139,19 @@ namespace EPPlusTest.Excel.Functions.Text
             var func = new Concatenate();
             var result = func.Execute(FunctionsHelper.CreateArgs(1, "Two"), _parsingContext);
             Assert.AreEqual("1Two", result.Result);
+        }
+
+        [TestMethod]
+        public void ConcatShouldReturnValErrorIfMoreThan254Args()
+        {
+            var func = new Concat();
+            List<object> args = new List<object>();
+            for(var i = 0; i < 255;  i++)
+            {
+                args.Add("arg " + i);
+            }
+            var result = func.Execute(FunctionsHelper.CreateArgs(args.ToArray()), _parsingContext);
+            Assert.AreEqual("#VALUE!", result.Result.ToString());
         }
 
         [TestMethod]

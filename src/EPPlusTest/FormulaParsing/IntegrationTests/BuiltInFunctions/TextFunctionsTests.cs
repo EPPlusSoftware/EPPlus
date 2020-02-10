@@ -182,6 +182,36 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             }
         }
 
+        [TestMethod]
+        public void ConcatShouldHandleSingleCellAddressAndNumber()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "CONCAT(1,A2)";
+                sheet.Cells["A2"].Value = "hello";
+                sheet.Calculate();
+                Assert.AreEqual("1hello", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ConcatShouldHandleRange()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "CONCAT(A2,A3:A5)";
+                sheet.Cells["A2"].Value = "hello ";
+                sheet.Cells["A3"].Value = "ep";
+                sheet.Cells["A4"].Value = "pl";
+                sheet.Cells["A5"].Value = "us";
+
+                sheet.Calculate();
+                Assert.AreEqual("hello epplus", sheet.Cells["A1"].Value);
+            }
+        }
+
         [TestMethod, Ignore]
         public void Logtest1()
         {
