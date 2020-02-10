@@ -52,7 +52,6 @@ namespace EPPlusTest.Style
         [TestMethod]
         public void VerifyColumnStyle()
         {
-            _pck = OpenPackage("Style.xlsx");
             var ws=_pck.Workbook.Worksheets.Add("RangeStyle");
             LoadTestdata(ws, 100,2,2);
 
@@ -87,6 +86,18 @@ namespace EPPlusTest.Style
             Assert.AreEqual(7, ws.Cells["C102"].Style.Fill.BackgroundColor.Indexed);
 
             _pck.Save();
+        }
+        [TestMethod]
+        public void TextRotaion255()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TextRotaion");
+
+            ws.Cells["A1:A181"].Value="RotatedText";
+            for(int i=1;i<=180;i++)
+            {
+                ws.Cells[i,1].Style.TextRotation = i;
+            }
+            ws.Cells[181, 1].Style.TextRotation = 255;
         }
     }
 }

@@ -152,7 +152,8 @@ namespace OfficeOpenXml.Style
             }
         }
         /// <summary>
-        /// Text orientation in degrees. Values range from 0 to 180.
+        /// Text orientation in degrees. Values range from 0 to 180 or 255. 
+        /// Setting the rotation to 255 will align text vertically.
         /// </summary>
         public int TextRotation
         {
@@ -162,7 +163,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                if (value < 0 || value > 180)
+                if ((value < 0 || value > 180) && value!=255)
                 {
                     throw new ArgumentOutOfRangeException("TextRotation out of range.");
                 }
