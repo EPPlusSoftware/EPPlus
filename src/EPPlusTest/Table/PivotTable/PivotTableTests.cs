@@ -38,7 +38,6 @@ namespace EPPlusTest.Table.PivotTable
     [TestClass]
     public class PivotTableTests : TestBase
     {
-        static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
