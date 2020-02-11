@@ -79,6 +79,32 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void TrimShouldHandleStringWithSpaces()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TRIM(B1)";
+                sheet.Cells["B1"].Value = " epplus   5 ";
+                sheet.Calculate();
+                Assert.AreEqual("epplus 5", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void CleanShouldRemoveNonPrintableChar()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "CLEAN(B1)";
+                sheet.Cells["B1"].Value = "epplus" + (char)3;
+                sheet.Calculate();
+                Assert.AreEqual("epplus", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void CharShouldReturnCharValOfNumber()
         {
             using (var pck = new ExcelPackage(new MemoryStream()))
@@ -153,6 +179,36 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 sheet.Cells["A2"].Value = "hello";
                 sheet.Calculate();
                 Assert.AreEqual("1hello", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ConcatShouldHandleSingleCellAddressAndNumber()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "CONCAT(1,A2)";
+                sheet.Cells["A2"].Value = "hello";
+                sheet.Calculate();
+                Assert.AreEqual("1hello", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ConcatShouldHandleRange()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "CONCAT(A2,A3:A5)";
+                sheet.Cells["A2"].Value = "hello ";
+                sheet.Cells["A3"].Value = "ep";
+                sheet.Cells["A4"].Value = "pl";
+                sheet.Cells["A5"].Value = "us";
+
+                sheet.Calculate();
+                Assert.AreEqual("hello epplus", sheet.Cells["A1"].Value);
             }
         }
 

@@ -41,6 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["rept"] = new Rept();
             Functions["substitute"] = new Substitute();
             Functions["concatenate"] = new Concatenate();
+            Functions["concat"] = new Concat();
             Functions["char"] = new CharFunction();
             Functions["exact"] = new Exact();
             Functions["find"] = new Find();
@@ -51,6 +52,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["t"] = new T();
             Functions["hyperlink"] = new Hyperlink();
             Functions["value"] = new Value();
+            Functions["trim"] = new Trim();
+            Functions["clean"] = new Clean();
             // Numbers
             Functions["int"] = new CInt();
             // Math
