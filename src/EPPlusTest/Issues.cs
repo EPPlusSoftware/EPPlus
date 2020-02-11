@@ -1047,5 +1047,16 @@ namespace EPPlusTest
                 SaveWorkbook("ErrorStyle0.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue510()
+        {
+            using (var p = OpenTemplatePackage("Error.Opening.with.EPPLus.xlsx"))
+            {
+
+                var workSheet = p.Workbook.Worksheets[0];
+
+                SaveWorkbook("Issue510.xlsx", p);
+            }
+        }
     }
 }
