@@ -61,6 +61,7 @@ EPPlus 5 comes with a set of new features, see (https://www.epplussoftware.com/D
 
 ## Beta version
 Note that this is a beta of a new major version, with many new features and a rewritten/refactored codebase. Please report issues and feedback in our new [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues)
+A list of fixed issues can be found [here](https://epplussoftware.com/docs/5.0/articles/fixedissues.html)
 
 ## Improved documentation
 EPPlus 5 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.

@@ -36,10 +36,11 @@
 
       Breaking Changes
 
-      Worksheets collection behavior in .NET Framework      
+      Worksheets collection behavior in .NET Framework
       The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
       For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
       For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-5.0
+      A list of fixed issues can be found here https://epplussoftware.com/docs/5.0/articles/fixedissues.html)
     </PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
