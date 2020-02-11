@@ -397,45 +397,154 @@ namespace OfficeOpenXml.Core.Range
             }
         }
         [TestMethod]
-        public void ValidateCopyFormulasColumn()
+        public void ValidateCopyFormulasMultiCellRow()
         {
             using (var pck = new ExcelPackage())
             {
-                var ws = pck.Workbook.Worksheets.Add("CopyColumnWise");
-                ws.Cells["A1:C3"].Value = 1;
-                ws.Cells["C4"].Formula = "A1";
-                ws.Cells["C5"].Formula = "B2";
-                ws.Cells["C6"].Formula = "C3";
-                ws.Cells["C7"].Formula = "$A1";
-                ws.Cells["C8"].Formula = "$B2";
-                ws.Cells["C9"].Formula = "$C3";
+                var ws1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = pck.Workbook.Worksheets.Add("Sheet2");
 
-                //Validate that formulas are copied correctly column-wise
-                ws.Cells["C4"].Copy(ws.Cells["B4"]);
-                Assert.AreEqual("#REF!", ws.Cells["B4"].Formula);
-                ws.Cells["C5"].Copy(ws.Cells["B5"]);
-                Assert.AreEqual("A2", ws.Cells["B5"].Formula);
-                ws.Cells["C6"].Copy(ws.Cells["B6"]);
-                Assert.AreEqual("B3", ws.Cells["B6"].Formula);
-                ws.Cells["C7"].Copy(ws.Cells["B7"]);
-                Assert.AreEqual("$A1", ws.Cells["B7"].Formula);
-                ws.Cells["C8"].Copy(ws.Cells["B8"]);
-                Assert.AreEqual("$B2", ws.Cells["B8"].Formula);
-                ws.Cells["C9"].Copy(ws.Cells["B9"]);
-                Assert.AreEqual("$C3", ws.Cells["B9"].Formula);
+                //Validate that formulas are copied correctly row-wise
+                ws1.Cells["D3"].Formula = "SUM(A1:B1)";
 
-                ws.Cells["C4"].Copy(ws.Cells["A4"]);
-                Assert.AreEqual("#REF!", ws.Cells["A4"].Formula);
-                ws.Cells["C5"].Copy(ws.Cells["A5"]);
-                Assert.AreEqual("#REF!", ws.Cells["A5"].Formula);
-                ws.Cells["C6"].Copy(ws.Cells["A6"]);
-                Assert.AreEqual("A3", ws.Cells["A6"].Formula);
-                ws.Cells["C7"].Copy(ws.Cells["A7"]);
-                Assert.AreEqual("$A1", ws.Cells["A7"].Formula);
-                ws.Cells["C8"].Copy(ws.Cells["A8"]);
-                Assert.AreEqual("$B2", ws.Cells["A8"].Formula);
-                ws.Cells["C9"].Copy(ws.Cells["A9"]);
-                Assert.AreEqual("$C3", ws.Cells["A9"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["D2"]);
+                Assert.AreEqual("SUM(#REF!)", ws1.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["C3"]);
+                Assert.AreEqual("SUM(#REF!)", ws1.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["E3"]);
+                Assert.AreEqual("SUM(B1:C1)", ws1.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["D4"]);
+                Assert.AreEqual("SUM(A2:B2)", ws1.Cells["D4"].Formula);
+
+                ws1.Cells["D3"].Copy(ws2.Cells["D2"]);
+                Assert.AreEqual("SUM(#REF!)", ws2.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["C3"]);
+                Assert.AreEqual("SUM(#REF!)", ws2.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["E3"]);
+                Assert.AreEqual("SUM(B1:C1)", ws2.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["D4"]);
+                Assert.AreEqual("SUM(A2:B2)", ws2.Cells["D4"].Formula);
+
+            }
+        }
+        [TestMethod]
+        public void ValidateCopyFormulasMultiCellFullColumn()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = pck.Workbook.Worksheets.Add("Sheet2");
+
+                //Validate that formulas are copied correctly row-wise
+                ws1.Cells["D3"].Formula = "SUM(A:A)";
+
+                ws1.Cells["D3"].Copy(ws1.Cells["D2"]);
+                Assert.AreEqual("SUM(A:A)", ws1.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["C3"]);
+                Assert.AreEqual("SUM(#REF!)", ws1.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["E3"]);
+                Assert.AreEqual("SUM(B:B)", ws1.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["D4"]);
+                Assert.AreEqual("SUM(A:A)", ws1.Cells["D4"].Formula);
+
+                ws1.Cells["D3"].Copy(ws2.Cells["D2"]);
+                Assert.AreEqual("SUM(A:A)", ws2.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["C3"]);
+                Assert.AreEqual("SUM(#REF!)", ws2.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["E3"]);
+                Assert.AreEqual("SUM(B:B)", ws2.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["D4"]);
+                Assert.AreEqual("SUM(A:A)", ws2.Cells["D4"].Formula);
+            }
+        }
+        [TestMethod]
+        public void ValidateCopyFormulasMultiCellFullColumnFixed()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = pck.Workbook.Worksheets.Add("Sheet2");
+
+                //Validate that formulas are copied correctly row-wise
+                ws1.Cells["D3"].Formula = "SUM($A:$A)";
+
+                ws1.Cells["D3"].Copy(ws1.Cells["D2"]);
+                Assert.AreEqual("SUM($A:$A)", ws1.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["C3"]);
+                Assert.AreEqual("SUM($A:$A)", ws1.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["E3"]);
+                Assert.AreEqual("SUM($A:$A)", ws1.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["D4"]);
+                Assert.AreEqual("SUM($A:$A)", ws1.Cells["D4"].Formula);
+
+                ws1.Cells["D3"].Copy(ws2.Cells["D2"]);
+                Assert.AreEqual("SUM($A:$A)", ws2.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["C3"]);
+                Assert.AreEqual("SUM($A:$A)", ws2.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["E3"]);
+                Assert.AreEqual("SUM($A:$A)", ws2.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["D4"]);
+                Assert.AreEqual("SUM($A:$A)", ws2.Cells["D4"].Formula);
+            }
+        }
+        [TestMethod]
+        public void ValidateCopyFormulasMultiCellFullRow()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = pck.Workbook.Worksheets.Add("Sheet2");
+
+                //Validate that formulas are copied correctly row-wise
+                ws1.Cells["D3"].Formula = "SUM(1:1)";
+
+                ws1.Cells["D3"].Copy(ws1.Cells["D2"]);
+                Assert.AreEqual("SUM(#REF!)", ws1.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["C3"]);
+                Assert.AreEqual("SUM(1:1)", ws1.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["E3"]);
+                Assert.AreEqual("SUM(1:1)", ws1.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["D4"]);
+                Assert.AreEqual("SUM(2:2)", ws1.Cells["D4"].Formula);
+
+                ws1.Cells["D3"].Copy(ws2.Cells["D2"]);
+                Assert.AreEqual("SUM(#REF!)", ws2.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["C3"]);
+                Assert.AreEqual("SUM(1:1)", ws2.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["E3"]);
+                Assert.AreEqual("SUM(1:1)", ws2.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["D4"]);
+                Assert.AreEqual("SUM(2:2)", ws2.Cells["D4"].Formula);
+            }
+        }
+        [TestMethod]
+        public void ValidateCopyFormulasMultiCellFullRowFixed()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = pck.Workbook.Worksheets.Add("Sheet2");
+
+                //Validate that formulas are copied correctly row-wise
+                ws1.Cells["D3"].Formula = "SUM($1:$1)";
+
+                ws1.Cells["D3"].Copy(ws1.Cells["D2"]);
+                Assert.AreEqual("SUM($1:$1)", ws1.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["C3"]);
+                Assert.AreEqual("SUM($1:$1)", ws1.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["E3"]);
+                Assert.AreEqual("SUM($1:$1)", ws1.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws1.Cells["D4"]);
+                Assert.AreEqual("SUM($1:$1)", ws1.Cells["D4"].Formula);
+
+                ws1.Cells["D3"].Copy(ws2.Cells["D2"]);
+                Assert.AreEqual("SUM($1:$1)", ws2.Cells["D2"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["C3"]);
+                Assert.AreEqual("SUM($1:$1)", ws2.Cells["C3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["E3"]);
+                Assert.AreEqual("SUM($1:$1)", ws2.Cells["E3"].Formula);
+                ws1.Cells["D3"].Copy(ws2.Cells["D4"]);
+                Assert.AreEqual("SUM($1:$1)", ws2.Cells["D4"].Formula);
             }
         }
         [TestMethod]
