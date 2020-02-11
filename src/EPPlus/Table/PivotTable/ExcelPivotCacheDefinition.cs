@@ -40,14 +40,6 @@ namespace OfficeOpenXml.Table.PivotTable
 
             TopNode = CacheDefinitionXml.DocumentElement;
             PivotTable = pivotTable;
-            if (CacheSource == eSourceType.Worksheet)
-            {
-                var worksheetName = GetXmlNodeString(_sourceWorksheetPath);
-                if (pivotTable.WorkSheet.Workbook.Worksheets.Any(t => t.Name == worksheetName))
-                {
-                    _sourceRange = pivotTable.WorkSheet.Workbook.Worksheets[worksheetName].Cells[GetXmlNodeString(_sourceAddressPath)];
-                }
-            }
         }
         internal ExcelPivotCacheDefinition(XmlNamespaceManager ns, ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, int tblId) :
             base(ns, null)
@@ -161,25 +153,23 @@ namespace OfficeOpenXml.Table.PivotTable
                             }
                             foreach (var w in PivotTable.WorkSheet.Workbook.Worksheets)
                             {
-                                if (w is ExcelChartsheet) continue;
-                                if (w.Tables._tableNames.ContainsKey(name))
-                                {
-                                    _sourceRange = w.Cells[w.Tables[name].Address.Address];
-                                    break;
-                                }
-                                foreach (var n in w.Names)
-                                {
-                                    if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        _sourceRange = n;
-                                        break;
-                                    }
-                                }
+                                _sourceRange = GetRangeByName(w, name);
+                                if (_sourceRange != null) break;
                             }
                         }
                         else
                         {
-                            _sourceRange = ws.Cells[GetXmlNodeString(_sourceAddressPath)];
+                            var address = GetXmlNodeString(_sourceAddressPath);
+                            if(string.IsNullOrEmpty(address))
+                            {
+                                var name = GetXmlNodeString(_sourceNamePath);
+                                _sourceRange = GetRangeByName(ws, name);
+                            }
+                            else
+                            {
+                                _sourceRange = ws.Cells[address];
+
+                            }
                         }
                     }
                     else
@@ -207,6 +197,24 @@ namespace OfficeOpenXml.Table.PivotTable
                 _sourceRange = value;
             }
         }
+
+        private ExcelRangeBase GetRangeByName(ExcelWorksheet w, string name)
+        {
+            if (w is ExcelChartsheet) return null;
+            if (w.Tables._tableNames.ContainsKey(name))
+            {
+                return w.Cells[w.Tables[name].Address.Address];
+            }
+            foreach (var n in w.Names)
+            {
+                if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return n;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Type of source data
         /// </summary>
