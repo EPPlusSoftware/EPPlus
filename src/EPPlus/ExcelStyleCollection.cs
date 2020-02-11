@@ -16,6 +16,8 @@ using System.Globalization;
 using System.Text;
 using System.Xml;
 using System.Linq;
+using OfficeOpenXml.Style.XmlAccess;
+
 namespace OfficeOpenXml
 {
     /// <summary>
@@ -124,6 +126,21 @@ namespace OfficeOpenXml
                 return int.MinValue;
             }
         }
+        internal int FindIndexByBuildInId(int id)
+        {
+            for(int i=0;i<_list.Count;i++)
+            {
+                if (_list[i] is ExcelNamedStyleXml ns)
+                {
+                    if (ns.BuildInId == 0)
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
         internal bool ExistsKey(string key)
         {
             return _dic.ContainsKey(key);

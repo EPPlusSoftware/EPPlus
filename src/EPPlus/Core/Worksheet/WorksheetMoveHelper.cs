@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.Worksheet
+namespace OfficeOpenXml.Core.Worksheet
 {
     internal static class MoveSheetXmlNode
     {       

@@ -896,8 +896,9 @@ namespace OfficeOpenXml
             var iterator = new CellStoreEnumerator<ExcelValue>(_worksheet._values, 0, fromCol, 0, toCol);
             var prevCol = fromCol;
             foreach (ExcelValue val in iterator)
-            {
+            {                
                 var col = (ExcelColumn)val._value;
+                if (col.Hidden) continue;
                 col.Width = minimumWidth;
                 if (_worksheet.DefaultColWidth > minimumWidth && col.ColumnMin > prevCol)
                 {
@@ -1767,9 +1768,9 @@ namespace OfficeOpenXml
             _worksheet._commentsStore.Delete(fromRow, fromCol, rows, cols, shift);
 
             //Clear multi addresses as well
-            if (Addresses != null)
+            if (Range.Addresses != null)
             {
-                foreach (var sub in Addresses)
+                foreach (var sub in Range.Addresses)
                 {
                     DeleteMe(sub, shift);
                 }

@@ -762,6 +762,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawings.Count - 1);
             return shape;
         }
+
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell)
         {
             if (DrawingXml.DocumentElement == null)
@@ -892,6 +893,57 @@ namespace OfficeOpenXml.Drawing
             }
         }
         #endregion
+        #region BringToFront & SendToBack
+        internal void BringToFront(ExcelDrawing drawing)
+        {
+            var index = _drawings.IndexOf(drawing);
+            var endIndex = _drawings.Count - 1;
+            if (index == endIndex)
+            {
+                return;
+            }
+
+            //Move in Xml
+            var parentNode = drawing.TopNode.ParentNode;
+            parentNode.RemoveChild(drawing.TopNode);
+            parentNode.InsertAfter(drawing.TopNode, parentNode.LastChild);
+
+            //Move in list 
+            _drawings.RemoveAt(index);
+            _drawings.Insert(endIndex, drawing);
+
+            //Reindex dictionary
+            _drawingNames[drawing.Name] = endIndex;
+            for (int i = index+0; i < endIndex; i++)
+            {
+                _drawingNames[_drawings[i].Name]--;
+            }
+            }
+        internal void SendToBack(ExcelDrawing drawing)
+        {
+            var index = _drawings.IndexOf(drawing);
+            if(index==0)
+            {
+                return;
+            }
+
+            //Move in Xml
+            var parentNode = drawing.TopNode.ParentNode;
+            parentNode.RemoveChild(drawing.TopNode);
+            parentNode.InsertBefore(drawing.TopNode, parentNode.FirstChild);
+
+            //Move in list 
+            _drawings.RemoveAt(index);
+            _drawings.Insert(0, drawing);
+
+            //Reindex dictionary
+            _drawingNames[drawing.Name] = 0;
+            for(int i=1;i<=index;i++)
+            {
+                _drawingNames[_drawings[i].Name]++;
+            }
+        }
+        #endregion 
         internal void AdjustWidth(int[,] pos)
         {
             var ix = 0;

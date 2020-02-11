@@ -71,5 +71,86 @@ namespace EPPlusTest
                 pkg.Save();
             }
         }
+        [TestMethod]
+        public void CommentInsertColumn()
+        {
+            using (var pkg = new ExcelPackage())
+            {
+                var ws = pkg.Workbook.Worksheets.Add("CommentInsert");
+                ws.Cells["A1"].AddComment("na", "test");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                ws.InsertColumn(1, 1);
+
+                Assert.AreEqual("B1", ws.Cells["B1"].Comment.Address);
+                //Throws a null reference exception
+                ws.Comments.Remove(ws.Cells["B1"].Comment);
+
+                //Throws an exception "Comment does not exist"
+                ws.DeleteColumn(2);
+                Assert.AreEqual(0, ws.Comments.Count);
+            }
+        }
+        [TestMethod]
+        public void CommentDeleteColumn()
+        {
+            using (var pkg = new ExcelPackage())
+            {
+                var ws = pkg.Workbook.Worksheets.Add("CommentInsert");
+                ws.Cells["B1"].AddComment("na", "test");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                ws.DeleteColumn(1, 1);
+
+                Assert.AreEqual("A1", ws.Cells["A1"].Comment.Address);
+                //Throws a null reference exception
+                ws.Comments.Remove(ws.Cells["A1"].Comment);
+
+                //Throws an exception "Comment does not exist"
+                ws.DeleteColumn(1);
+                Assert.AreEqual(0, ws.Comments.Count);
+            }
+        }
+        [TestMethod]
+        public void CommentInsertRow()
+        {
+            using (var pkg = new ExcelPackage())
+            {
+                var ws = pkg.Workbook.Worksheets.Add("CommentInsert");
+                ws.Cells["A1"].AddComment("na", "test");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                ws.InsertRow(1, 1);
+
+                Assert.AreEqual("A2", ws.Cells["A2"].Comment.Address);
+                //Throws a null reference exception
+                ws.Comments.Remove(ws.Cells["A2"].Comment);
+
+                //Throws an exception "Comment does not exist"
+                ws.DeleteRow(2);
+                Assert.AreEqual(0, ws.Comments.Count);
+            }
+        }
+        [TestMethod]
+        public void CommentDeleteRow()
+        {
+            using (var pkg = new ExcelPackage())
+            {
+                var ws = pkg.Workbook.Worksheets.Add("CommentInsert");
+                ws.Cells["A2"].AddComment("na", "test");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                ws.DeleteRow(1, 1);
+
+                Assert.AreEqual("A1", ws.Cells["A1"].Comment.Address);
+                //Throws a null reference exception
+                ws.Comments.Remove(ws.Cells["A1"].Comment);
+
+                //Throws an exception "Comment does not exist"
+                ws.DeleteRow(1);
+                Assert.AreEqual(0, ws.Comments.Count);
+            }
+        }
+
     }
 }

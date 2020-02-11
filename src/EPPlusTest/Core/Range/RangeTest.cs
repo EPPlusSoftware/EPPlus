@@ -42,7 +42,7 @@ namespace EPPlusTest.Core.Range
         [TestMethod]
         public void ArrayToCellString()
         {
-            var ms=new MemoryStream();
+            var ms = new MemoryStream();
             using (var p = new ExcelPackage(ms))
             {
                 var sheet = p.Workbook.Worksheets.Add("Sheet1");
@@ -86,6 +86,25 @@ namespace EPPlusTest.Core.Range
             {
                 var sheet = p.Workbook.Worksheets["Sheet1"];
                 Assert.AreEqual(1D, sheet.Cells[1, 1].Value);
+            }
+        }
+        [TestMethod]
+        public void ClearRangeWithCommaseparatedAddress()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:B2, C3:D4"].Value = 5;
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    ws = p2.Workbook.Worksheets["Sheet1"];
+                    ws.Cells["A1:B2, C3:D4"].Clear();
+                    Assert.IsNull(ws.Dimension);
+                    p2.Save();
+                }
+
             }
         }
     }

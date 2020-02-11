@@ -164,7 +164,7 @@ namespace OfficeOpenXml.FormulaParsing
             while (f.tokenIx < f.Tokens.Count)
             {
                 var t = f.Tokens[f.tokenIx];
-                if (t.TokenType == TokenType.ExcelAddress)
+                if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                 {
                     var adr = new ExcelFormulaAddress(t.Value);
                     if (adr.Table != null)
@@ -172,9 +172,13 @@ namespace OfficeOpenXml.FormulaParsing
                         adr.SetRCFromTable(ws._package, new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column));
                     }
 
-                    if (adr.WorkSheet == null && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No && !options.AllowCircularReferences)
+                    if (adr.WorkSheet == null && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
                     {
-                        throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}", ExcelAddressBase.GetAddress(f.Row, f.Column))));
+                        var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
+                        f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
+                        f.tokenIx++;
+                        continue;
+                        //throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}", ExcelAddressBase.GetAddress(f.Row, f.Column))));
                     }
 
                     if (adr._fromRow > 0 && adr._fromCol > 0)
@@ -202,7 +206,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                     }
                 }
-                else if (t.TokenType == TokenType.NameValue)
+                else if (t.TokenTypeIsSet(TokenType.NameValue))
                 {
                     string adrWb, adrWs, adrName;
                     ExcelNamedRange name;
@@ -276,7 +280,11 @@ namespace OfficeOpenXml.FormulaParsing
                                     {
                                         if (ExcelAddressBase.GetCellID(par.SheetID, par.Row, par.Column) == id && !options.AllowCircularReferences)
                                         {
-                                            throw (new CircularReferenceException(string.Format("Circular Reference in name {0}", name.Name)));
+                                            var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
+                                            f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
+                                            f.tokenIx++;
+                                            continue;
+                                            //throw (new CircularReferenceException(string.Format("Circular Reference in name {0}", name.Name)));
                                         }
                                     }
                                 }
@@ -324,18 +332,23 @@ namespace OfficeOpenXml.FormulaParsing
                     if (stack.Count > 0)
                     {
                         //Check for circular references
-                        foreach (var par in stack)
+                        if (stack.Count > 0)
                         {
-                            if (ExcelAddressBase.GetCellID(par.ws.SheetID, par.iterator.Row, par.iterator.Column) == id)
+                            //Check for circular references
+                            foreach (var par in stack)
                             {
-                                if (options.AllowCircularReferences == false)
+                                if (ExcelAddressBase.GetCellID(par.ws.SheetID, par.iterator.Row, par.iterator.Column) == id ||
+                                    ExcelAddressBase.GetCellID(par.ws.SheetID, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
-                                    throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}!{1}", par.ws.Name, ExcelAddress.GetAddress(f.Row, f.Column))));
-                                }
-                                else
-                                {
-                                    f = stack.Pop();
-                                    goto iterateCells;
+                                    if (options.AllowCircularReferences == false)
+                                    {
+                                        throw (new CircularReferenceException(string.Format("Circular Reference in cell {0}!{1}", par.ws.Name, ExcelAddress.GetAddress(f.Row, f.Column))));
+                                    }
+                                    else
+                                    {
+                                        f = stack.Pop();
+                                        goto iterateCells;
+                                    }
                                 }
                             }
                         }

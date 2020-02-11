@@ -42,6 +42,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 return CompareObjectToString(o1, o2.ToString());
             }
+            else if(o1 is DateTime)
+            {
+                return ((DateTime)o1).ToOADate().CompareTo(Convert.ToDouble(o2));
+            }
             return Convert.ToDouble(o1).CompareTo(Convert.ToDouble(o2));
         }
 

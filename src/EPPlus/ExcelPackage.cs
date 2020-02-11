@@ -147,7 +147,9 @@ namespace OfficeOpenXml
         /// <summary>
 		/// Main Xml schema name
 		/// </summary>
-		internal const string schemaMain = @"http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+        internal const string schemaWorkbook = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
+
+        internal const string schemaMain = @"http://schemas.openxmlformats.org/spreadsheetml/2006/main";
                                             
 		/// <summary>
 		/// Relationship schema name
@@ -561,7 +563,9 @@ namespace OfficeOpenXml
         internal static bool _licenseSet = false;
         /// <summary>
         /// To use the EPPlus library in debug mode a Licensetype must be specified.
-        /// See 
+        /// Use LicenseContext.NonCommercial if you use EPPlus in an non commercial context.
+        /// Use LicenseContext.Commercial if you have purchased an license to use EPPlus
+        /// See https://epplussoftware.com/developers/licenseexception
         /// </summary>
         public static LicenseContext? LicenseContext
         {
@@ -767,7 +771,7 @@ namespace OfficeOpenXml
                 {
                     CloseStream();
                 }
-                _package.Close();
+                _package.Close();    
                 if(_workbook != null)
                 {
                     _workbook.Dispose();
@@ -867,7 +871,7 @@ namespace OfficeOpenXml
                     }
                 }
             }
-                catch (Exception ex)
+            catch (Exception ex)
             {
                 if (File == null)
                 {
@@ -1104,7 +1108,7 @@ namespace OfficeOpenXml
         public void Load(Stream input, string Password)
         {
             Load(input, new MemoryStream(), Password);
-        }
+        }   
         /// <summary>
         /// 
         /// </summary>

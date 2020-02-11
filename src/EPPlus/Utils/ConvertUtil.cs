@@ -71,6 +71,20 @@ namespace OfficeOpenXml.Utils
 			return false;
 		}
         /// <summary>
+        /// Tries to parse an int value from the specificed <paramref name="candidateString"/>.
+        /// </summary>
+        /// <param name="candidateString">The value to check for boolean-ness.</param>
+        /// <param name="result">The boolean value parsed from the specified <paramref name="candidateString"/>.</param>
+        /// <returns>True if <paramref name="candidateString"/> could be parsed </returns>
+        internal static bool TryParseIntString(string candidateString, out int result)
+        {
+            if (!string.IsNullOrEmpty(candidateString))
+                return int.TryParse(candidateString, out result);
+            result = 0;
+            return false;
+        }
+
+        /// <summary>
         /// Tries to parse a <see cref="DateTime"/> from the specified <paramref name="candidateString"/> which is expected to be a string value.
         /// </summary>
         /// <param name="candidateString">The string value.</param>

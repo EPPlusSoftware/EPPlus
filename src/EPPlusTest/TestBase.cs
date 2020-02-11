@@ -42,7 +42,8 @@ namespace EPPlusTest
         protected static FileInfo _file;
         protected static string _clipartPath ="";
         protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
-        protected static string _testInputPath = @"c:\epplusTest\workbooks\";
+        protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
+        protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
         public TestContext TestContext { get; set; }
         
         public static void InitBase()
@@ -54,7 +55,7 @@ namespace EPPlusTest
             }
             if(Environment.GetEnvironmentVariable("EPPlusTestInputPath")!=null)
             {
-                _testInputPath = Environment.GetEnvironmentVariable("EPPlusTestInputPath");
+                _testInputPathOptional = Environment.GetEnvironmentVariable("EPPlusTestInputPath");
             }
             var asm = Assembly.GetExecutingAssembly();
             var validExtensions = new[]
@@ -82,6 +83,19 @@ namespace EPPlusTest
             var di=new DirectoryInfo(_worksheetPath);            
             _worksheetPath = di.FullName + "\\";
         }
+        /// <summary>
+        /// Saves and disposes a package
+        /// </summary>
+        /// <param name="pck"></param>
+        protected static void SaveAndCleanup(ExcelPackage pck)
+        {
+            if (pck.Workbook.Worksheets.Count > 0)
+            {
+                pck.Save();
+            }
+            pck.Dispose();
+        }
+
         protected static bool ExistsPackage(string name)
         {
             var fi = new FileInfo(_worksheetPath + name);
@@ -134,7 +148,7 @@ namespace EPPlusTest
 
         protected static ExcelPackage OpenTemplatePackage(string name)
         {
-            var t = new FileInfo(_testInputPath + name);
+            var t = new FileInfo(_testInputPath  + name);
             if (t.Exists)
             {
                 var _file = new FileInfo(_worksheetPath + name);
@@ -142,6 +156,13 @@ namespace EPPlusTest
             }
             else
             {
+                t = new FileInfo(_testInputPathOptional + name);
+                if (t.Exists)
+                {
+                    var _file = new FileInfo(_worksheetPath + name);
+                    return new ExcelPackage(_file, t);  
+                }
+
                 Assert.Inconclusive($"Template {name} does not exist in path {_testInputPath}");
             }
             return null;

@@ -41,7 +41,7 @@ using OfficeOpenXml.VBA;
 namespace EPPlusTest
 {
     [TestClass]
-    public class VBATests
+    public class VBATests : TestBase
     {
         [TestMethod]
         public void Compression()
@@ -209,7 +209,7 @@ namespace EPPlusTest
                 stringBuilder.AppendLine("End Sub");
                 worksheet.CodeModule.Code = stringBuilder.ToString();
 
-                package.SaveAs(new FileInfo(@"c:\temp\invvba.xlsm"));
+                SaveWorkbook("invvba.xlsm", package);
             }
         }
         //Issue with chunk overwriting 4096 bytes

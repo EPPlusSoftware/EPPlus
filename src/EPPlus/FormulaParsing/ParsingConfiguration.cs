@@ -29,6 +29,10 @@ namespace OfficeOpenXml.FormulaParsing
     public class ParsingConfiguration
     {
         /// <summary>
+        /// Configures the formula calc engine to allow circular references.
+        /// </summary>
+        public bool AllowCircularReferences { get; internal set; }
+        /// <summary>
         /// The <see cref="ILexer"/> of the parser
         /// </summary>
         public virtual ILexer Lexer { get; private set; }

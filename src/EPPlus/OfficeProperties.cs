@@ -17,6 +17,7 @@ using System.Globalization;
 using OfficeOpenXml.Utils;
 using System.Linq;
 using OfficeOpenXml.Utils.Extentions;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml
 {
@@ -37,7 +38,10 @@ namespace OfficeOpenXml
         XmlHelper _coreHelper;
         XmlHelper _extendedHelper;
         XmlHelper _customHelper;
+        private readonly Dictionary<string, XmlElement> _customProperties;
         private ExcelPackage _package;
+
+        int _maxPid = 1;
         #endregion
 
         #region ExcelProperties Constructor
@@ -54,7 +58,23 @@ namespace OfficeOpenXml
             _coreHelper = XmlHelperFactory.Create(ns, CorePropertiesXml.SelectSingleNode("cp:coreProperties", NameSpaceManager));
             _extendedHelper = XmlHelperFactory.Create(ns, ExtendedPropertiesXml);
             _customHelper = XmlHelperFactory.Create(ns, CustomPropertiesXml);
+            _customProperties = new Dictionary<string, XmlElement>(StringComparer.CurrentCultureIgnoreCase);
+            LoadCustomProperties();
+        }
 
+        private void LoadCustomProperties()
+        {
+            foreach (XmlElement node in CustomPropertiesXml.SelectNodes("ctp:Properties/ctp:property", NameSpaceManager))
+            {
+                _customProperties.Add(node.GetAttribute("name"), node);
+                if (Utils.ConvertUtil.TryParseIntString(node.GetAttribute("pid"), out int pid))
+                {
+                    if (pid > _maxPid)
+                    {
+                        _maxPid = pid;
+                    }
+                }
+            }
         }
         #endregion
         #region CorePropertiesXml
@@ -221,7 +241,6 @@ namespace OfficeOpenXml
             set { _coreHelper.SetXmlNodeString(ContentStatusPath, value); }
         }
         #endregion
-
         #region Extended Properties
         #region ExtendedPropertiesXml
         /// <summary>
@@ -421,10 +440,9 @@ namespace OfficeOpenXml
         /// <returns>The current value of the property</returns>
         public object GetCustomPropertyValue(string propertyName)
         {
-            string searchString = string.Format("ctp:Properties/ctp:property[@name='{0}']", propertyName);
-            XmlElement node = CustomPropertiesXml.SelectSingleNode(searchString, NameSpaceManager) as XmlElement;
-            if (node != null)
+            if (_customProperties.ContainsKey(propertyName))
             {
+                var node = _customProperties[propertyName];
                 string value = node.LastChild.InnerText;
                 switch (node.LastChild.LocalName)
                 {
@@ -489,35 +507,22 @@ namespace OfficeOpenXml
         public void SetCustomPropertyValue(string propertyName, object value)
         {
             XmlNode allProps = CustomPropertiesXml.SelectSingleNode(@"ctp:Properties", NameSpaceManager);
-
-            var prop = string.Format("ctp:Properties/ctp:property[@name='{0}']", propertyName);
-            XmlElement node = CustomPropertiesXml.SelectSingleNode(prop, NameSpaceManager) as XmlElement;
-            if (node == null)
+            XmlElement node;
+            if (_customProperties.ContainsKey(propertyName))
             {
-                int pid;
-                var MaxNode = CustomPropertiesXml.SelectSingleNode("ctp:Properties/ctp:property[not(@pid <= preceding-sibling::ctp:property/@pid) and not(@pid <= following-sibling::ctp:property/@pid)]", NameSpaceManager);
-                if (MaxNode == null)
-                {
-                    pid = 2;
-                }
-                else
-                {
-                    if (!int.TryParse(MaxNode.Attributes["pid"].Value, out pid))
-                    {
-                        pid = 2;
-                    }
-                    pid++;
-                }
-                node = CustomPropertiesXml.CreateElement("property", ExcelPackage.schemaCustom);
-                node.SetAttribute("fmtid", "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}");
-                node.SetAttribute("pid", pid.ToString());  // custom property pid
-                node.SetAttribute("name", propertyName);
-
-                allProps.AppendChild(node);
+                node = _customProperties[propertyName];
+                node.IsEmpty=true;
             }
             else
-            {
-                while (node.ChildNodes.Count > 0) node.RemoveChild(node.ChildNodes[0]);
+            {                
+                node = CustomPropertiesXml.CreateElement("property", ExcelPackage.schemaCustom);
+                node.SetAttribute("fmtid", "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}");
+                _maxPid++;
+                node.SetAttribute("pid", _maxPid.ToString());  // custom property pid
+                node.SetAttribute("name", propertyName);
+
+                _customProperties.Add(propertyName, node);
+                allProps.AppendChild(node);
             }
             XmlElement valueElem;
             if (value is bool)

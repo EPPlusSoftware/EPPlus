@@ -46,6 +46,8 @@ using System.Dynamic;
 using System.Globalization;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace EPPlusTest
 {
@@ -56,30 +58,17 @@ namespace EPPlusTest
     [TestClass]
     public class Issues : TestBase
     {
-        static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("ValueFilter.xlsx", true);
         }
         [ClassCleanup]
         public static void Cleanup()
         {
-            _pck.Save();
-            _pck.Dispose();
         }
-
         [TestInitialize]
         public void Initialize()
         {
-            if (!Directory.Exists(@"c:\Temp"))
-            {
-                Directory.CreateDirectory(@"c:\Temp");
-            }
-            if (!Directory.Exists(@"c:\Temp\bug"))
-            {
-                Directory.CreateDirectory(@"c:\Temp\bug");
-            }
         }
         [TestMethod]
         public void Issue15041()
@@ -119,10 +108,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue15056()
         {
-            var path = @"C:\temp\output.xlsx";
-            var file = new FileInfo(path);
-            file.Delete();
-            using (var ep = new ExcelPackage(file))
+            using (var ep = OpenPackage(@"output.xlsx", true))
             {
                 var s = ep.Workbook.Worksheets.Add("test");
                 s.Cells["A1:A2"].Formula = ""; // or null, or non-empty whitespace, with same result
@@ -141,7 +127,8 @@ namespace EPPlusTest
             ws.Cells["A1:H1"].Style.Font.Size = 14;
             ws.Cells["A1:H1"].Style.Font.Color.SetColor(Color.Red);
             ws.Cells["A1:H1"].Style.Font.Bold = true;
-            p.SaveAs(new FileInfo(@"c:\temp\merge.xlsx"));
+            SaveWorkbook(@"merge.xlsx", p);
+            p.Dispose();
         }
         [TestMethod]
         public void Issue15141()
@@ -205,7 +192,8 @@ namespace EPPlusTest
             ws.Cells["C1"].Value = "Test";
             ws.Cells["A1:B2"].Copy(ws.Cells["C1"]);
             ws.Cells["B2"].Copy(ws.Cells["D1"]);
-            p.SaveAs(new FileInfo(@"c:\temp\bug\copy.xlsx"));
+            SaveWorkbook("Copy.xlsx", p);
+            p.Dispose();
         }
 
         [TestMethod]
@@ -287,160 +275,138 @@ namespace EPPlusTest
         /**** Pivottable issue ****/
         public void Issue()
         {
-            DirectoryInfo outputDir = new DirectoryInfo(@"c:\ExcelPivotTest");
-            FileInfo MyFile = new FileInfo(@"c:\temp\bug\pivottable.xlsx");
-            LoadData(MyFile);
-            BuildPivotTable1(MyFile);
-            BuildPivotTable2(MyFile);
-        }
 
-        private void LoadData(FileInfo MyFile)
-        {
-            if (MyFile.Exists)
+            using (var p = OpenPackage("pivottable.xlsx", true))
             {
-                MyFile.Delete();  // ensures we create a new workbook
-            }
-
-            using (ExcelPackage EP = new ExcelPackage(MyFile))
-            {
-                // add a new worksheet to the empty workbook
-                ExcelWorksheet wsData = EP.Workbook.Worksheets.Add("Data");
-                //Add the headers
-                wsData.Cells[1, 1].Value = "INVOICE_DATE";
-                wsData.Cells[1, 2].Value = "TOTAL_INVOICE_PRICE";
-                wsData.Cells[1, 3].Value = "EXTENDED_PRICE_VARIANCE";
-                wsData.Cells[1, 4].Value = "AUDIT_LINE_STATUS";
-                wsData.Cells[1, 5].Value = "RESOLUTION_STATUS";
-                wsData.Cells[1, 6].Value = "COUNT";
-
-                //Add some items...
-                wsData.Cells["A2"].Value = Convert.ToDateTime("04/2/2012");
-                wsData.Cells["B2"].Value = 33.63;
-                wsData.Cells["C2"].Value = (-.87);
-                wsData.Cells["D2"].Value = "Unfavorable Price Variance";
-                wsData.Cells["E2"].Value = "Pending";
-                wsData.Cells["F2"].Value = 1;
-
-                wsData.Cells["A3"].Value = Convert.ToDateTime("04/2/2012");
-                wsData.Cells["B3"].Value = 43.14;
-                wsData.Cells["C3"].Value = (-1.29);
-                wsData.Cells["D3"].Value = "Unfavorable Price Variance";
-                wsData.Cells["E3"].Value = "Pending";
-                wsData.Cells["F3"].Value = 1;
-
-                wsData.Cells["A4"].Value = Convert.ToDateTime("11/8/2011");
-                wsData.Cells["B4"].Value = 55;
-                wsData.Cells["C4"].Value = (-2.87);
-                wsData.Cells["D4"].Value = "Unfavorable Price Variance";
-                wsData.Cells["E4"].Value = "Pending";
-                wsData.Cells["F4"].Value = 1;
-
-                wsData.Cells["A5"].Value = Convert.ToDateTime("11/8/2011");
-                wsData.Cells["B5"].Value = 38.72;
-                wsData.Cells["C5"].Value = (-5.00);
-                wsData.Cells["D5"].Value = "Unfavorable Price Variance";
-                wsData.Cells["E5"].Value = "Pending";
-                wsData.Cells["F5"].Value = 1;
-
-                wsData.Cells["A6"].Value = Convert.ToDateTime("3/4/2011");
-                wsData.Cells["B6"].Value = 77.44;
-                wsData.Cells["C6"].Value = (-1.55);
-                wsData.Cells["D6"].Value = "Unfavorable Price Variance";
-                wsData.Cells["E6"].Value = "Pending";
-                wsData.Cells["F6"].Value = 1;
-
-                wsData.Cells["A7"].Value = Convert.ToDateTime("3/4/2011");
-                wsData.Cells["B7"].Value = 127.55;
-                wsData.Cells["C7"].Value = (-10.50);
-                wsData.Cells["D7"].Value = "Unfavorable Price Variance";
-                wsData.Cells["E7"].Value = "Pending";
-                wsData.Cells["F7"].Value = 1;
-
-                using (var range = wsData.Cells[2, 1, 7, 1])
-                {
-                    range.Style.Numberformat.Format = "mm-dd-yy";
-                }
-
-                wsData.Cells.AutoFitColumns(0);
-                EP.Save();
+                LoadData(p);
+                BuildPivotTable1(p);
+                BuildPivotTable2(p);
+                p.Save();
             }
         }
-        private void BuildPivotTable1(FileInfo MyFile)
+
+        private void LoadData(ExcelPackage p)
         {
-            using (ExcelPackage ep = new ExcelPackage(MyFile))
+            // add a new worksheet to the empty workbook
+            ExcelWorksheet wsData = p.Workbook.Worksheets.Add("Data");
+            //Add the headers
+            wsData.Cells[1, 1].Value = "INVOICE_DATE";
+            wsData.Cells[1, 2].Value = "TOTAL_INVOICE_PRICE";
+            wsData.Cells[1, 3].Value = "EXTENDED_PRICE_VARIANCE";
+            wsData.Cells[1, 4].Value = "AUDIT_LINE_STATUS";
+            wsData.Cells[1, 5].Value = "RESOLUTION_STATUS";
+            wsData.Cells[1, 6].Value = "COUNT";
+
+            //Add some items...
+            wsData.Cells["A2"].Value = Convert.ToDateTime("04/2/2012");
+            wsData.Cells["B2"].Value = 33.63;
+            wsData.Cells["C2"].Value = (-.87);
+            wsData.Cells["D2"].Value = "Unfavorable Price Variance";
+            wsData.Cells["E2"].Value = "Pending";
+            wsData.Cells["F2"].Value = 1;
+
+            wsData.Cells["A3"].Value = Convert.ToDateTime("04/2/2012");
+            wsData.Cells["B3"].Value = 43.14;
+            wsData.Cells["C3"].Value = (-1.29);
+            wsData.Cells["D3"].Value = "Unfavorable Price Variance";
+            wsData.Cells["E3"].Value = "Pending";
+            wsData.Cells["F3"].Value = 1;
+
+            wsData.Cells["A4"].Value = Convert.ToDateTime("11/8/2011");
+            wsData.Cells["B4"].Value = 55;
+            wsData.Cells["C4"].Value = (-2.87);
+            wsData.Cells["D4"].Value = "Unfavorable Price Variance";
+            wsData.Cells["E4"].Value = "Pending";
+            wsData.Cells["F4"].Value = 1;
+
+            wsData.Cells["A5"].Value = Convert.ToDateTime("11/8/2011");
+            wsData.Cells["B5"].Value = 38.72;
+            wsData.Cells["C5"].Value = (-5.00);
+            wsData.Cells["D5"].Value = "Unfavorable Price Variance";
+            wsData.Cells["E5"].Value = "Pending";
+            wsData.Cells["F5"].Value = 1;
+
+            wsData.Cells["A6"].Value = Convert.ToDateTime("3/4/2011");
+            wsData.Cells["B6"].Value = 77.44;
+            wsData.Cells["C6"].Value = (-1.55);
+            wsData.Cells["D6"].Value = "Unfavorable Price Variance";
+            wsData.Cells["E6"].Value = "Pending";
+            wsData.Cells["F6"].Value = 1;
+
+            wsData.Cells["A7"].Value = Convert.ToDateTime("3/4/2011");
+            wsData.Cells["B7"].Value = 127.55;
+            wsData.Cells["C7"].Value = (-10.50);
+            wsData.Cells["D7"].Value = "Unfavorable Price Variance";
+            wsData.Cells["E7"].Value = "Pending";
+            wsData.Cells["F7"].Value = 1;
+
+            using (var range = wsData.Cells[2, 1, 7, 1])
             {
-
-                var wsData = ep.Workbook.Worksheets["Data"];
-                var totalRows = wsData.Dimension.Address;
-                ExcelRange data = wsData.Cells[totalRows];
-
-                var wsAuditPivot = ep.Workbook.Worksheets.Add("Pivot1");
-
-                var pivotTable1 = wsAuditPivot.PivotTables.Add(wsAuditPivot.Cells["A7:C30"], data, "PivotAudit1");
-                pivotTable1.ColumnGrandTotals = true;
-                var rowField = pivotTable1.RowFields.Add(pivotTable1.Fields["INVOICE_DATE"]);
-
-
-                rowField.AddDateGrouping(eDateGroupBy.Years);
-                var yearField = pivotTable1.Fields.GetDateGroupField(eDateGroupBy.Years);
-                yearField.Name = "Year";
-
-                var rowField2 = pivotTable1.RowFields.Add(pivotTable1.Fields["AUDIT_LINE_STATUS"]);
-
-                var TotalSpend = pivotTable1.DataFields.Add(pivotTable1.Fields["TOTAL_INVOICE_PRICE"]);
-                TotalSpend.Name = "Total Spend";
-                TotalSpend.Format = "$##,##0";
-
-
-                var CountInvoicePrice = pivotTable1.DataFields.Add(pivotTable1.Fields["COUNT"]);
-                CountInvoicePrice.Name = "Total Lines";
-                CountInvoicePrice.Format = "##,##0";
-
-                pivotTable1.DataOnRows = false;
-                ep.Save();
-                ep.Dispose();
-
+                range.Style.Numberformat.Format = "mm-dd-yy";
             }
 
+            wsData.Cells.AutoFitColumns(0);
+        }
+        private void BuildPivotTable1(ExcelPackage p)
+        {
+            var wsData = p.Workbook.Worksheets["Data"];
+            var totalRows = wsData.Dimension.Address;
+            ExcelRange data = wsData.Cells[totalRows];
+
+            var wsAuditPivot = p.Workbook.Worksheets.Add("Pivot1");
+
+            var pivotTable1 = wsAuditPivot.PivotTables.Add(wsAuditPivot.Cells["A7:C30"], data, "PivotAudit1");
+            pivotTable1.ColumnGrandTotals = true;
+            var rowField = pivotTable1.RowFields.Add(pivotTable1.Fields["INVOICE_DATE"]);
+
+
+            rowField.AddDateGrouping(eDateGroupBy.Years);
+            var yearField = pivotTable1.Fields.GetDateGroupField(eDateGroupBy.Years);
+            yearField.Name = "Year";
+
+            var rowField2 = pivotTable1.RowFields.Add(pivotTable1.Fields["AUDIT_LINE_STATUS"]);
+
+            var TotalSpend = pivotTable1.DataFields.Add(pivotTable1.Fields["TOTAL_INVOICE_PRICE"]);
+            TotalSpend.Name = "Total Spend";
+            TotalSpend.Format = "$##,##0";
+
+
+            var CountInvoicePrice = pivotTable1.DataFields.Add(pivotTable1.Fields["COUNT"]);
+            CountInvoicePrice.Name = "Total Lines";
+            CountInvoicePrice.Format = "##,##0";
+
+            pivotTable1.DataOnRows = false;
         }
 
-        private void BuildPivotTable2(FileInfo MyFile)
+        private void BuildPivotTable2(ExcelPackage p)
         {
-            using (ExcelPackage ep = new ExcelPackage(MyFile))
-            {
+            var wsData = p.Workbook.Worksheets["Data"];
+            var totalRows = wsData.Dimension.Address;
+            ExcelRange data = wsData.Cells[totalRows];
 
-                var wsData = ep.Workbook.Worksheets["Data"];
-                var totalRows = wsData.Dimension.Address;
-                ExcelRange data = wsData.Cells[totalRows];
+            var wsAuditPivot = p.Workbook.Worksheets.Add("Pivot2");
 
-                var wsAuditPivot = ep.Workbook.Worksheets.Add("Pivot2");
-
-                var pivotTable1 = wsAuditPivot.PivotTables.Add(wsAuditPivot.Cells["A7:C30"], data, "PivotAudit2");
-                pivotTable1.ColumnGrandTotals = true;
-                var rowField = pivotTable1.RowFields.Add(pivotTable1.Fields["INVOICE_DATE"]);
+            var pivotTable1 = wsAuditPivot.PivotTables.Add(wsAuditPivot.Cells["A7:C30"], data, "PivotAudit2");
+            pivotTable1.ColumnGrandTotals = true;
+            var rowField = pivotTable1.RowFields.Add(pivotTable1.Fields["INVOICE_DATE"]);
 
 
-                rowField.AddDateGrouping(eDateGroupBy.Years);
-                var yearField = pivotTable1.Fields.GetDateGroupField(eDateGroupBy.Years);
-                yearField.Name = "Year";
+            rowField.AddDateGrouping(eDateGroupBy.Years);
+            var yearField = pivotTable1.Fields.GetDateGroupField(eDateGroupBy.Years);
+            yearField.Name = "Year";
 
-                var rowField2 = pivotTable1.RowFields.Add(pivotTable1.Fields["AUDIT_LINE_STATUS"]);
+            var rowField2 = pivotTable1.RowFields.Add(pivotTable1.Fields["AUDIT_LINE_STATUS"]);
 
-                var TotalSpend = pivotTable1.DataFields.Add(pivotTable1.Fields["TOTAL_INVOICE_PRICE"]);
-                TotalSpend.Name = "Total Spend";
-                TotalSpend.Format = "$##,##0";
+            var TotalSpend = pivotTable1.DataFields.Add(pivotTable1.Fields["TOTAL_INVOICE_PRICE"]);
+            TotalSpend.Name = "Total Spend";
+            TotalSpend.Format = "$##,##0";
 
 
-                var CountInvoicePrice = pivotTable1.DataFields.Add(pivotTable1.Fields["COUNT"]);
-                CountInvoicePrice.Name = "Total Lines";
-                CountInvoicePrice.Format = "##,##0";
+            var CountInvoicePrice = pivotTable1.DataFields.Add(pivotTable1.Fields["COUNT"]);
+            CountInvoicePrice.Name = "Total Lines";
+            CountInvoicePrice.Format = "##,##0";
 
-                pivotTable1.DataOnRows = false;
-                ep.Save();
-                ep.Dispose();
-
-            }
-
+            pivotTable1.DataOnRows = false;
         }
 
         [TestMethod]
@@ -462,7 +428,7 @@ namespace EPPlusTest
                 var r = ws.Cells["A1"];
                 r.RichText.Text = "Cell 1";
                 r["A2"].RichText.Add("Cell 2");
-                p.SaveAs(new FileInfo(@"c:\temp\rt.xlsx"));
+                SaveWorkbook(@"rt.xlsx", p);
             }
         }
         [TestMethod]
@@ -502,7 +468,7 @@ namespace EPPlusTest
                 workSheet.InsertColumn(2, 2, 9);
                 workSheet.Column(45).Width = 0;
 
-                p.SaveAs(new FileInfo(@"c:\temp\styleerror.xlsx"));
+                SaveWorkbook(@"styleerror.xlsx", p);
             }
         }
         [TestMethod]
@@ -518,7 +484,7 @@ namespace EPPlusTest
                 cell.RichText.Add("tata");
                 cell.RichText[1].Bold = false;
                 cell.RichText[1].Color = Color.Green;
-                p.SaveAs(new FileInfo(@"c:\temp\rtpreserve.xlsx"));
+                SaveWorkbook(@"rtpreserve.xlsx", p);
             }
         }
         [TestMethod]
@@ -530,7 +496,7 @@ namespace EPPlusTest
                 var ws2 = p.Workbook.Worksheets.Add("ws2");
                 ws2.View.SelectedRange = "A1:B3 D12:D15";
                 ws2.View.ActiveCell = "D15";
-                p.SaveAs(new FileInfo(@"c:\temp\activeCell.xlsx"));
+                SaveWorkbook(@"activeCell.xlsx", p);
             }
         }
         [TestMethod]
@@ -638,31 +604,21 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue63() // See https://github.com/JanKallman/EPPlus/issues/63
         {
-            // Prepare
-            var newFile = new FileInfo(Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.xlsx"));
-            try
+            using (var p1 = new ExcelPackage())
             {
-                using (var package = new ExcelPackage(newFile))
-                {
-                    ExcelWorksheet ws = package.Workbook.Worksheets.Add("ArrayTest");
-                    ws.Cells["A1"].Value = 1;
-                    ws.Cells["A2"].Value = 2;
-                    ws.Cells["A3"].Value = 3;
-                    ws.Cells["B1:B3"].CreateArrayFormula("A1:A3");
-                    package.Save();
-                }
-                Assert.IsTrue(File.Exists(newFile.FullName));
+                ExcelWorksheet ws = p1.Workbook.Worksheets.Add("ArrayTest");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["A2"].Value = 2;
+                ws.Cells["A3"].Value = 3;
+                ws.Cells["B1:B3"].CreateArrayFormula("A1:A3");
+                p1.Save();
 
                 // Test: basic support to recognize array formulas after reading Excel workbook file
-                using (var package = new ExcelPackage(newFile))
+                using (var p2 = new ExcelPackage(p1.Stream))
                 {
-                    Assert.AreEqual("A1:A3", package.Workbook.Worksheets["ArrayTest"].Cells["B1"].Formula);
-                    Assert.IsTrue(package.Workbook.Worksheets["ArrayTest"].Cells["B1"].IsArrayFormula);
+                    Assert.AreEqual("A1:A3", p1.Workbook.Worksheets["ArrayTest"].Cells["B1"].Formula);
+                    Assert.IsTrue(p1.Workbook.Worksheets["ArrayTest"].Cells["B1"].IsArrayFormula);
                 }
-            }
-            finally
-            {
-                File.Delete(newFile.FullName);
             }
         }
         [TestMethod]
@@ -675,7 +631,6 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets.Add("i61");
                 ws.Cells["A1"].LoadFromDataTable(table1, true);
-                //p.SaveAs(new FileInfo(@"c:\temp\issue61.xlsx"));
             }
 
         }
@@ -755,20 +710,21 @@ namespace EPPlusTest
         [TestMethod, Ignore]
         public void Issue170()
         {
-            OpenTemplatePackage("print_titles_170.xlsx");
-            _pck.Compatibility.IsWorksheets1Based = false;
-            ExcelWorksheet sheet = _pck.Workbook.Worksheets[0];
+            using (var p = OpenTemplatePackage("print_titles_170.xlsx"))
+            {
+                p.Compatibility.IsWorksheets1Based = false;
+                ExcelWorksheet sheet = p.Workbook.Worksheets[0];
 
-            sheet.PrinterSettings.RepeatColumns = new ExcelAddress("$A:$C");
-            sheet.PrinterSettings.RepeatRows = new ExcelAddress("$1:$3");
+                sheet.PrinterSettings.RepeatColumns = new ExcelAddress("$A:$C");
+                sheet.PrinterSettings.RepeatRows = new ExcelAddress("$1:$3");
 
-            SaveWorkbook("print_titles_170-Saved.xlsx", _pck);
-            _pck.Dispose();
+                SaveWorkbook("print_titles_170-Saved.xlsx",p);
+            }
         }
         [TestMethod]
         public void Issue172()
         {
-            var pck=OpenTemplatePackage("quest.xlsx");
+            var pck = OpenTemplatePackage("quest.xlsx");
             foreach (var ws in pck.Workbook.Worksheets)
             {
                 Console.WriteLine(ws.Name);
@@ -780,13 +736,13 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue219()
         {
-            OpenTemplatePackage("issueFile.xlsx");
-            foreach (var ws in _pck.Workbook.Worksheets)
+            using (var p = OpenTemplatePackage("issueFile.xlsx"))
             {
-                Console.WriteLine(ws.Name);
+                foreach (var ws in p.Workbook.Worksheets)
+                {
+                    Console.WriteLine(ws.Name);
+                }
             }
-
-            _pck.Dispose();
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidDataException))]
@@ -803,7 +759,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue220()
         {
-            var pck=OpenPackage("sheetname_pbl.xlsx", true);
+            var pck = OpenPackage("sheetname_pbl.xlsx", true);
             var ws = pck.Workbook.Worksheets.Add("Deal's History");
             var a = ws.Cells["A:B"];
             ws.AutoFilterAddress = ws.Cells["A1:C3"];
@@ -878,24 +834,28 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue236()
         {
-            OpenTemplatePackage("Issue236.xlsx");
-            _pck.Workbook.Worksheets["Sheet1"].Cells[7, 10].AddComment("test", "Author");
-            SaveWorkbook("Issue236-Saved.xlsx", _pck);
+            using (var p = OpenTemplatePackage("Issue236.xlsx"))
+            {
+                p.Workbook.Worksheets["Sheet1"].Cells[7, 10].AddComment("test", "Author");
+                SaveWorkbook("Issue236-Saved.xlsx", p);
+            }
         }
         [TestMethod]
         public void Issue228()
         {
-            OpenTemplatePackage("Font55.xlsx");
-            var ws = _pck.Workbook.Worksheets["Sheet1"];
-            var d = ws.Drawings.AddShape("Shape1", eShapeStyle.Diamond);
-            ws.Cells["A1"].Value = "tasetraser";
-            ws.Cells.AutoFitColumns();
-            SaveWorkbook("Font55-Saved.xlsx", _pck);
+            using (var p=OpenTemplatePackage("Font55.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Sheet1"];
+                var d = ws.Drawings.AddShape("Shape1", eShapeStyle.Diamond);
+                ws.Cells["A1"].Value = "tasetraser";
+                ws.Cells.AutoFitColumns();
+                SaveWorkbook("Font55-Saved.xlsx", p);
+            }
         }
         [TestMethod]
         public void Issue241()
         {
-            var pck=OpenPackage("issue241", true);
+            var pck = OpenPackage("issue241", true);
             var wks = pck.Workbook.Worksheets.Add("test");
             wks.DefaultRowHeight = 35;
             pck.Save();
@@ -904,23 +864,25 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue195()
         {
-            var pkg = new OfficeOpenXml.ExcelPackage();
-            var sheet = pkg.Workbook.Worksheets.Add("Sheet1");
-            var defaultStyle = pkg.Workbook.Styles.CreateNamedStyle("Default");
-            defaultStyle.Style.Font.Name = "Arial";
-            defaultStyle.Style.Font.Size = 18;
-            defaultStyle.Style.Font.UnderLine = true;
-            var boldStyle = pkg.Workbook.Styles.CreateNamedStyle("Bold", defaultStyle.Style);
-            boldStyle.Style.Font.Color.SetColor(Color.Red);
+            using (var pkg = new OfficeOpenXml.ExcelPackage())
+            {
+                var sheet = pkg.Workbook.Worksheets.Add("Sheet1");
+                var defaultStyle = pkg.Workbook.Styles.CreateNamedStyle("Default");
+                defaultStyle.Style.Font.Name = "Arial";
+                defaultStyle.Style.Font.Size = 18;
+                defaultStyle.Style.Font.UnderLine = true;
+                var boldStyle = pkg.Workbook.Styles.CreateNamedStyle("Bold", defaultStyle.Style);
+                boldStyle.Style.Font.Color.SetColor(Color.Red);
 
-            Assert.AreEqual("Arial", defaultStyle.Style.Font.Name);
-            Assert.AreEqual(18, defaultStyle.Style.Font.Size);
+                Assert.AreEqual("Arial", defaultStyle.Style.Font.Name);
+                Assert.AreEqual(18, defaultStyle.Style.Font.Size);
 
-            Assert.AreEqual("Arial", boldStyle.Style.Font.Name);
-            Assert.AreEqual(18, boldStyle.Style.Font.Size);
-            Assert.AreEqual(boldStyle.Style.Font.Color.Rgb, "FFFF0000");
+                Assert.AreEqual("Arial", boldStyle.Style.Font.Name);
+                Assert.AreEqual(18, boldStyle.Style.Font.Size);
+                Assert.AreEqual(boldStyle.Style.Font.Color.Rgb, "FFFF0000");
 
-            pkg.SaveAs(new FileInfo(@"c:\temp\n.xlsx"));
+                SaveWorkbook("DefaultStyle.xlsx", pkg);
+            }
         }
         [TestMethod]
         public void Issue332()
@@ -1025,6 +987,8 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue333()
         {
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("sv-SE");
             using (var package = new ExcelPackage())
             {
                 var ws = package.Workbook.Worksheets.Add("TextBug");
@@ -1033,14 +997,66 @@ namespace EPPlusTest
 
                 Assert.AreEqual("2019-03-07", ws.Cells["A1"].Text);
             }
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("TextBug");
+                ws.Cells["A1"].Value = new DateTime(2019, 3, 7);
+                ws.Cells["A1"].Style.Numberformat.Format = "mm-dd-yy";
+
+                Assert.AreEqual("3/7/2019", ws.Cells["A1"].Text);
+            }
+            Thread.CurrentThread.CurrentCulture = ci;
         }
         [TestMethod]
         public void Issue445()
         {
             ExcelPackage p = new ExcelPackage();
             ExcelWorksheet ws = p.Workbook.Worksheets.Add("AutoFit"); //<-- This line takes forever. The process hangs.
-            ws.Cells[1, 1].Value = new string ('a', 50000);
+            ws.Cells[1, 1].Value = new string('a', 50000);
             ws.Cells[1, 1].AutoFitColumns();
-}
+        }
+        [TestMethod]
+        public void Issue551()
+        {
+            using (var p = OpenTemplatePackage("Submittal.Extract.5.ton.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveWorkbook("Submittal.Extract.5.ton_Saved.xlsx", p);
+            }
+        }
+       [TestMethod]
+        public void Issue558()
+        {
+            using (var p = OpenTemplatePackage("GoogleSpreadsheet.xlsx"))
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets[0];
+                p.Workbook.Worksheets.Copy(ws.Name, "NewName");
+                p.SaveAs(new FileInfo(@"c:\epplusissues\GoogleSpreadsheet-Saved.xlsx"));
+            }           
+        }  
+        [TestMethod]
+        public void Issue520()
+        {
+            using (var p = OpenTemplatePackage("template_slim.xlsx"))
+            {
+
+                var workSheet = p.Workbook.Worksheets[0];
+                workSheet.Cells["B5"].LoadFromArrays(new List<object[]> { new object[] { "xx", "Name", 1, 2, 3, 5, 6, 7 } });
+
+                SaveWorkbook("ErrorStyle0.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue510()
+        {
+            using (var p = OpenTemplatePackage("Error.Opening.with.EPPLus.xlsx"))
+            {
+
+                var workSheet = p.Workbook.Worksheets[0];
+
+                SaveWorkbook("Issue510.xlsx", p);
+            }
+        }
     }
 }

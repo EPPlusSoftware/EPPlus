@@ -47,8 +47,7 @@ namespace EPPlusTest.Core
         [ClassCleanup]
         public static void Cleanup()
         {
-            _pck.Save();
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
         }
         [TestMethod]
         public void Insert1()

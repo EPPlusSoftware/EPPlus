@@ -45,6 +45,9 @@ namespace OfficeOpenXml.Drawing
         /// Ratio between EMU and Points
         /// </summary>
         public const int EMU_PER_POINT = 12700;
+        public const int EMU_PER_CM = 360000;
+        public const int EMU_PER_US_INCH = 914400;
+
         internal int _width = int.MinValue, _height = int.MinValue, _top=int.MinValue, _left=int.MinValue;
         internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill","grpFill","ln","effectLst","effectDag","scene3d","sp3d" };
 
@@ -810,6 +813,11 @@ namespace OfficeOpenXml.Drawing
             From.RowOff = RowOffsetPixels * EMU_PER_PIXEL;
             From.Column = Column;
             From.ColumnOff = ColumnOffsetPixels * EMU_PER_PIXEL;
+            if (CellAnchor == eEditAs.TwoCell)
+            {
+                _left = GetPixelLeft();
+                _top = GetPixelTop();
+            }
 
             SetPixelWidth(_width);
             SetPixelHeight(_height);
@@ -851,6 +859,20 @@ namespace OfficeOpenXml.Drawing
             _doNotAdjust = false;
         }
         #endregion
+        /// <summary>
+        /// Sends the drawing to the back of any overlapping drawings.
+        /// </summary>
+        public void SendToBack()
+        {
+            _drawings.SendToBack(this);
+        }
+        /// <summary>
+        /// Brings the drawing to the front of any overlapping drawings.
+        /// </summary>
+        public void BringToFront()
+        {
+            _drawings.BringToFront(this);
+        }
         internal virtual void DeleteMe()
         {
             TopNode.ParentNode.RemoveChild(TopNode);            

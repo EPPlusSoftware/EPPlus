@@ -32,6 +32,19 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get { return false; }
         }
 
+        public override bool IgnoreCircularReference 
+        { 
+            get => base.IgnoreCircularReference; 
+            set
+            {
+                base.IgnoreCircularReference = value;
+                foreach(var childExpression in Children)
+                {
+                    childExpression.IgnoreCircularReference = value;
+                }
+            }
+        }
+
         public override Expression PrepareForNextChild()
         {
             return _function.PrepareForNextChild();

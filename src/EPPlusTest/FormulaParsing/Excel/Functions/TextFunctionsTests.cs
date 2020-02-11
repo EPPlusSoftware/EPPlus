@@ -35,6 +35,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace EPPlusTest.Excel.Functions.Text
 {
@@ -141,6 +142,19 @@ namespace EPPlusTest.Excel.Functions.Text
         }
 
         [TestMethod]
+        public void ConcatShouldReturnValErrorIfMoreThan254Args()
+        {
+            var func = new Concat();
+            List<object> args = new List<object>();
+            for(var i = 0; i < 255;  i++)
+            {
+                args.Add("arg " + i);
+            }
+            var result = func.Execute(FunctionsHelper.CreateArgs(args.ToArray()), _parsingContext);
+            Assert.AreEqual("#VALUE!", result.Result.ToString());
+        }
+
+        [TestMethod]
         public void ExactShouldReturnTrueWhenTwoEqualStrings()
         {
             var func = new Exact();
@@ -210,6 +224,52 @@ namespace EPPlusTest.Excel.Functions.Text
             var func = new Hyperlink();
             var result = func.Execute(FunctionsHelper.CreateArgs("http://epplus.codeplex.com", "EPPlus"), _parsingContext);
             Assert.AreEqual("EPPlus", result.Result);
+        }
+
+        [TestMethod]
+        public void TrimShouldReturnDataTypeString()
+        {
+            var func = new Trim();
+            var result = func.Execute(FunctionsHelper.CreateArgs(" epplus "), _parsingContext);
+            Assert.AreEqual(DataType.String, result.DataType);
+        }
+
+        [TestMethod]
+        public void TrimShouldTrimFromBothEnds()
+        {
+            var func = new Trim();
+            var result = func.Execute(FunctionsHelper.CreateArgs(" epplus "), _parsingContext);
+            Assert.AreEqual("epplus", result.Result);
+        }
+
+        [TestMethod]
+        public void TrimShouldTrimMultipleSpaces()
+        {
+            var func = new Trim();
+            var result = func.Execute(FunctionsHelper.CreateArgs(" epplus    5 "), _parsingContext);
+            Assert.AreEqual("epplus 5", result.Result);
+        }
+
+        [TestMethod]
+        public void CleanShouldReturnDataTypeString()
+        {
+            var func = new Clean();
+            var result = func.Execute(FunctionsHelper.CreateArgs("epplus"), _parsingContext);
+            Assert.AreEqual(DataType.String, result.DataType);
+        }
+
+        [TestMethod]
+        public void CleanShouldRemoveNonPrintableChars()
+        {
+            var input = new StringBuilder();
+            for(var x = 1; x < 32; x++)
+            {
+                input.Append((char)x);
+            }
+            input.Append("epplus");
+            var func = new Clean();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
+            Assert.AreEqual("epplus", result.Result);
         }
     }
 }

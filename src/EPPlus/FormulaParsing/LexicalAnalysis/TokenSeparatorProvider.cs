@@ -65,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             Token token;
             if (_tokens.TryGetValue(item, out token))
             {
-                if (token.TokenType == TokenType.Operator)
+                if (token.TokenTypeIsSet(TokenType.Operator))
                 {
                     return true;
                 }

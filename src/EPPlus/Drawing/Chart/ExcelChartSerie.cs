@@ -162,9 +162,12 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (value.StartsWith("{") && value.EndsWith("}"))
                 {
                     GetLitValues(value, out double[] numLit, out string[] strLit);
+                    if(strLit!=null)
+                    {
+                        throw (new ArgumentException("Value series can't contain strings"));
+                    }
                     NumberLiteralsY = numLit;
-                    StringLiteralsY = strLit;
-                    SetLits(NumberLiteralsY, StringLiteralsY, _seriesNumLitPath, _seriesStrLitPath);
+                    SetLits(NumberLiteralsY, null, _seriesNumLitPath, _seriesStrLitPath);
                 }
                 else
                 {
@@ -205,7 +208,14 @@ namespace OfficeOpenXml.Drawing.Chart
                     NumberLiteralsX = null;
                     StringLiteralsX = null;
                     CreateNode(_xSeriesPath, true);
-                    SetXmlNodeString(_xSeriesPath, ExcelCellBase.GetFullAddress(_chart.WorkSheet.Name, _xSeries));
+                    if(ExcelCellBase.IsValidAddress(_xSeries))
+                    {
+                        SetXmlNodeString(_xSeriesPath, ExcelCellBase.GetFullAddress(_chart.WorkSheet.Name, _xSeries));
+                    }
+                    else
+                    {
+                        SetXmlNodeString(_xSeriesPath, _xSeries);
+                    }
                     SetXSerieFunction();
                 }
             }
@@ -219,10 +229,6 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Literals for the X serie, if the literal values are numeric
         /// </summary>
         public double[] NumberLiteralsX { get; private set; } = null;
-        /// <summary>
-        /// Literals for the Y serie, if the literal values are strings
-        /// </summary>
-        public string[] StringLiteralsY { get; private set; } = null;
         /// <summary>
         /// Literals for the X serie, if the literal values are strings
         /// </summary>
@@ -302,7 +308,15 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             CreateNode(_seriesPath, true);
             CreateNode(_numCachePath, true);
-            SetXmlNodeString(_seriesPath, ExcelCellBase.GetFullAddress(_chart.WorkSheet.Name, value));
+            
+            if(ExcelCellBase.IsValidAddress(value))
+            {
+                SetXmlNodeString(_seriesPath, ExcelCellBase.GetFullAddress(_chart.WorkSheet.Name, value));
+            }
+            else
+            {
+                SetXmlNodeString(_seriesPath, value);
+            }
 
             if (_chart.PivotTableSource != null)
             {

@@ -57,7 +57,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             var result = new List<int>();
             var internalIndex = 0;
-            for (var row = rangeInfo.Address._fromRow; row <= rangeInfo.Address._toRow; row++)
+            var toRow = rangeInfo.Address._toRow;
+            if(rangeInfo.Worksheet.Dimension.End.Row < toRow)
+            {
+                toRow = rangeInfo.Worksheet.Dimension.End.Row;
+            }
+            for (var row = rangeInfo.Address._fromRow; row <= toRow; row++)
             {
                 for (var col = rangeInfo.Address._fromCol; col <= rangeInfo.Address._toCol; col++)
                 {

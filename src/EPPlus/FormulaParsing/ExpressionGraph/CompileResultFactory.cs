@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 return new CompileResult(obj, DataType.String);
             }
-            if (obj.GetType().Equals(typeof(double)) || obj is decimal)
+            if (obj.GetType().Equals(typeof(double)) || obj is decimal || obj is float)
             {
                 return new CompileResult(obj, DataType.Decimal);
             }

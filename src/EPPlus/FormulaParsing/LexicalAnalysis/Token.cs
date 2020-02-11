@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         public Token(string token, TokenType tokenType, bool isNegated)
         {
             Value = token;
-            TokenType = tokenType;
+            _tokenType = tokenType;
             IsNegated = isNegated;
         }
 
@@ -50,10 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         public string Value { get; internal set; }
 
-        /// <summary>
-        /// The <see cref="TokenType"/>
-        /// </summary>
-        public TokenType TokenType { get; internal set; }
+        private TokenType _tokenType;
 
         /// <summary>
         /// Indicates whether a numeric value should be negated when compiled
@@ -68,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <returns></returns>
         public static bool operator == (Token t1, Token t2)
         {
-            return t1.TokenType == t2.TokenType && t1.Value == t2.Value;
+            return t1.AreEqualTo(t2);
         }
 
         /// <summary>
@@ -79,7 +76,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <returns></returns>
         public static bool operator != (Token t1, Token t2)
         {
-            return !(t1.TokenType == t2.TokenType && t1.Value == t2.Value);
+            return !(t1.AreEqualTo(t2));
         }
 
         /// <summary>
@@ -102,6 +99,26 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
 
         /// <summary>
+        /// Return if the supplied <paramref name="tokenType"/> is set on this token.
+        /// </summary>
+        /// <param name="tokenType">The <see cref="TokenType"></see> to check</param>
+        /// <returns>True if the token is set, otherwirse false</returns>
+        public bool TokenTypeIsSet(TokenType tokenType)
+        {
+            return (_tokenType & tokenType) == tokenType;
+        }
+
+        public bool AreEqualTo(Token otherToken)
+        {
+            return (GetTokenTypeFlags() == otherToken.GetTokenTypeFlags() && Value == otherToken.Value);
+        }
+
+        internal TokenType GetTokenTypeFlags()
+        {
+            return _tokenType;
+        }
+
+        /// <summary>
         /// Clones the token with a new <see cref="TokenType"/> set.
         /// </summary>
         /// <param name="tokenType">The new TokenType</param>
@@ -118,7 +135,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <returns>A cloned Token</returns>
         internal Token CloneWithNewValue(string val)
         {
-            return new Token(val, TokenType, IsNegated);
+            return new Token(val, _tokenType, IsNegated);
         }
 
         /// <summary>
@@ -129,13 +146,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal Token CloneWithNegatedValue(bool isNegated)
         {
             if (
-                TokenType == TokenType.Decimal
+                (_tokenType & TokenType.Decimal) == 0
                 ||
-                TokenType == TokenType.Integer
+                (_tokenType & TokenType.Integer) == 0
                 ||
-                TokenType == TokenType.ExcelAddress)
+                (_tokenType & TokenType.ExcelAddress) == 0)
             {
-                return new Token(Value, TokenType, isNegated);
+                return new Token(Value, _tokenType, isNegated);
             }
             return this;
         }
@@ -146,7 +163,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <returns>TokenType, followed by value</returns>
         public override string ToString()
         {
-            return TokenType.ToString() + ", " + Value;
+            return _tokenType.ToString() + ", " + Value;
         }
     }
 }

@@ -80,9 +80,7 @@ namespace OfficeOpenXml
 			base(namespaceManager)
 		{
 			_package = package;
-			WorkbookUri = new Uri("/xl/workbook.xml", UriKind.Relative);
-			SharedStringsUri = new Uri("/xl/sharedStrings.xml", UriKind.Relative);
-			StylesUri = new Uri("/xl/styles.xml", UriKind.Relative);
+			SetUris();
 
 			_names = new ExcelNamedRangeCollection(this);
 			_namespaceManager = namespaceManager;
@@ -90,6 +88,43 @@ namespace OfficeOpenXml
 			SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
 		    FullCalcOnLoad = true;  //Full calculation on load by default, for both new workbooks and templates.
 			GetSharedStrings();
+		}
+
+		private void SetUris()
+		{
+			foreach(var rel in _package.Package.GetRelationships())
+			{
+				if (rel.RelationshipType == ExcelPackage.schemaRelationships+ "/officeDocument")
+				{
+					WorkbookUri = rel.TargetUri;
+					break;
+				}
+			}
+
+			if(WorkbookUri==null)
+			{
+				WorkbookUri = new Uri("/xl/workbook.xml", UriKind.Relative);
+			}
+			else
+			{
+				foreach (var rel in Part.GetRelationships())
+				{
+					if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/sharedStrings")
+					{
+						SharedStringsUri = UriHelper.ResolvePartUri(WorkbookUri, rel.TargetUri);
+					}
+					else if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/styles")
+					{
+						StylesUri = UriHelper.ResolvePartUri(WorkbookUri, rel.TargetUri);
+					}
+				}
+			}
+
+			if(SharedStringsUri==null)
+				SharedStringsUri = new Uri("/xl/sharedStrings.xml", UriKind.Relative);
+			if (StylesUri == null)
+				StylesUri = new Uri("/xl/styles.xml", UriKind.Relative);
+
 		}
 		#endregion
 
@@ -977,18 +1012,6 @@ namespace OfficeOpenXml
 
         private void SaveSharedStringHandler(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
 		{
-            //Packaging.ZipPackagePart stringPart;
-            //if (_package.Package.PartExists(SharedStringsUri))
-            //{
-            //    stringPart=_package.Package.GetPart(SharedStringsUri);
-            //}
-            //else
-            //{
-            //    stringPart = _package.Package.CreatePart(SharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", _package.Compression);
-                  //Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
-            //}
-
-			//StreamWriter sw = new StreamWriter(stringPart.GetStream(FileMode.Create, FileAccess.Write));
             //Init Zip
             stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             stream.PutNextEntry(fileName);

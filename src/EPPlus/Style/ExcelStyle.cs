@@ -33,6 +33,11 @@ namespace OfficeOpenXml.Style
             }
             else
             {
+                if (_styles.CellStyleXfs.Count == 0)   //CellStyleXfs.Count should never be 0, but for some custom build sheets this can happend.
+                {
+                    var item=_styles.CellXfs[0].Copy();                    
+                    _styles.CellStyleXfs.Add(item.Id, item);
+                }
                 xfs = _styles.CellStyleXfs[xfsId];
             }
             Styles = styles;
@@ -115,6 +120,14 @@ namespace OfficeOpenXml.Style
             }
         }
         /// <summary>
+        /// Makes the text vertically. This is the same as setting <see cref="TextRotation"/> to 255.
+        /// </summary>
+        public void SetTextVertical()
+        {
+            TextRotation = 255;
+        }
+
+        /// <summary>
         /// Shrink the text to fit
         /// </summary>
         public bool ShrinkToFit
@@ -147,7 +160,8 @@ namespace OfficeOpenXml.Style
             }
         }
         /// <summary>
-        /// Text orientation in degrees. Values range from 0 to 180.
+        /// Text orientation in degrees. Values range from 0 to 180 or 255. 
+        /// Setting the rotation to 255 will align text vertically.
         /// </summary>
         public int TextRotation
         {
@@ -157,7 +171,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                if (value < 0 || value > 180)
+                if ((value < 0 || value > 180) && value!=255)
                 {
                     throw new ArgumentOutOfRangeException("TextRotation out of range.");
                 }

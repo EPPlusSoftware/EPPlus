@@ -47,13 +47,11 @@ namespace EPPlusTest.Style
         [ClassCleanup]
         public static void Cleanup()
         {
-            _pck.Save();
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
         }
         [TestMethod]
         public void VerifyColumnStyle()
         {
-            _pck = OpenPackage("Style.xlsx");
             var ws=_pck.Workbook.Worksheets.Add("RangeStyle");
             LoadTestdata(ws, 100,2,2);
 
@@ -76,9 +74,6 @@ namespace EPPlusTest.Style
             Assert.AreEqual(eThemeSchemeColor.Accent1, ws.Cells["G3"].Style.Fill.BackgroundColor.Theme);
             Assert.AreEqual(5, ws.Cells["H3"].Style.Fill.BackgroundColor.Indexed);
 
-            Assert.AreEqual(1, ws.Cells["A4"].StyleID);
-            Assert.AreEqual(0, ws.Cells["F4"].StyleID);
-
             Assert.AreEqual(4, ws.Cells["A6"].Style.Fill.BackgroundColor.Indexed);
             Assert.AreEqual(4, ws.Cells["F6"].Style.Fill.BackgroundColor.Indexed);
             Assert.AreEqual(4, ws.Cells["G6"].Style.Fill.BackgroundColor.Indexed);
@@ -88,6 +83,22 @@ namespace EPPlusTest.Style
             Assert.AreEqual(7, ws.Cells["C102"].Style.Fill.BackgroundColor.Indexed);
 
             _pck.Save();
+        }
+        [TestMethod]
+        public void TextRotation255()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TextRotation");
+
+            ws.Cells["A1:A182"].Value="RotatedText";
+            for(int i=1;i<=180;i++)
+            {
+                ws.Cells[i,1].Style.TextRotation = i;
+            }
+            ws.Cells[181, 1].Style.TextRotation = 255;
+            ws.Cells[182, 1].Style.SetTextVertical();
+
+            Assert.AreEqual(255, ws.Cells[181, 1].Style.TextRotation);
+            Assert.AreEqual(255, ws.Cells[182, 1].Style.TextRotation);
         }
     }
 }

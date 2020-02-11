@@ -20,4 +20,5 @@ This is not a complicated process. Just download the CAA form, sign it and mail 
 
 Our unit tests are still LGPL (as stated in the header of those code files). So the 20 lines are excluding unit tests.
 
-Please see our [CAA](https://epplussoftware.com/legal/caa) for more information.
+Please see our [CAA](https://epplussoftware.com/legal/caa) for more information.  
+For branch naming see [Branching-strategy-and-CI](https://github.com/EPPlusSoftware/EPPlus/wiki/Branching-strategy-and-CI)

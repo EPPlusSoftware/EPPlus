@@ -173,7 +173,7 @@ namespace OfficeOpenXml
         #endregion
         #region Public Methods & Properties
         /// <summary>
-        /// The active cell. Single Cell address.                
+        /// The active cell. Single cell address.                
         /// This cell must be inside the selected range. If not, the selected range is set to the active cell address
         /// </summary>
         public string ActiveCell
@@ -197,6 +197,37 @@ namespace OfficeOpenXml
                 if (IsActiveCellInSelection(ac, sd)==false)
                 {
                     SelectedRange = value;
+                }
+            }
+        }
+        /// <summary>
+        /// The Top-Left Cell visible. Single cell address.
+        /// Empty string or null is the same as A1.
+        /// </summary>
+        public string TopLeftCell
+        {
+            get
+            {
+                return GetXmlNodeString("@topLeftCell");
+            }
+            set
+            {
+                if(string.IsNullOrEmpty(value))
+                {
+                    DeleteNode("@topLeftCell");
+                }
+                else
+                {
+                    if(!ExcelAddressBase.IsValidCellAddress(value))
+                    {
+                        throw (new InvalidOperationException("Must be a valid cell address."));
+                    }
+                    var ac = new ExcelAddressBase(value);
+                    if (ac.IsSingleCell == false)
+                    {
+                        throw (new InvalidOperationException("ActiveCell must be a single cell."));
+                    }
+                    SetXmlNodeString("@topLeftCell", value);
                 }
             }
         }

@@ -46,13 +46,11 @@ namespace EPPlusTest.Drawing.Chart
         public static void Init(TestContext context)
         {
             _pck = OpenPackage("DoughnutChartStyling.xlsx", true);
-            ExcelChartStyleManager.LoadStyles(new DirectoryInfo(@"c:\temp\"));
         }
         [ClassCleanup]
         public static void Cleanup()
         {
-            _pck.Save();
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
         }
         [TestMethod]
         public void DoughnutChart_Styles()

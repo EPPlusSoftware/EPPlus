@@ -40,16 +40,16 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                     context.AppendToCurrentToken(c);
                     return true;
                 }
-                if (tokenSeparator.TokenType != TokenType.WorksheetName)
+                if (!tokenSeparator.TokenTypeIsSet(TokenType.WorksheetName))
                 {
                     context.AppendToCurrentToken(c);
                     return true;
                 }
             }
 
-            if (tokenSeparator.TokenType == TokenType.WorksheetName)
+            if (tokenSeparator.TokenTypeIsSet(TokenType.WorksheetName))
             {
-                if (context.LastToken != null && context.LastToken.Value.TokenType == TokenType.WorksheetName)
+                if (context.LastToken != null && context.LastToken.Value.TokenTypeIsSet(TokenType.WorksheetName))
                 {
                     context.AddToken(!context.CurrentTokenHasValue
                         ? new Token(string.Empty, TokenType.WorksheetNameContent)
