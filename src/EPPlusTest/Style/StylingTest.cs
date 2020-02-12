@@ -100,5 +100,48 @@ namespace EPPlusTest.Style
             Assert.AreEqual(255, ws.Cells[181, 1].Style.TextRotation);
             Assert.AreEqual(255, ws.Cells[182, 1].Style.TextRotation);
         }
+        [TestMethod]
+        public void ValidateGradient()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("List1");
+                var gradient = ws.Cells[1, 1].Style.Fill.Gradient;
+
+                //Validate uninititialized values.
+                Assert.AreEqual(ExcelFillGradientType.None, gradient.Type);
+                Assert.AreEqual(0, gradient.Degree);
+                Assert.AreEqual(0, gradient.Top);
+                Assert.AreEqual(0, gradient.Bottom);
+                Assert.AreEqual(0, gradient.Right);
+                Assert.AreEqual(0, gradient.Left);
+
+                Assert.IsNull(gradient.Color1.Rgb);
+                Assert.IsNull(gradient.Color1.Theme);
+                Assert.AreEqual(-1,gradient.Color1.Indexed);
+                Assert.IsFalse(gradient.Color1.Auto);
+                
+                //Validate Inititialized values.
+                gradient.Type = ExcelFillGradientType.Linear;
+                Assert.AreEqual(ExcelFillGradientType.Linear, gradient.Type);
+                gradient.Top = 0.1;
+                Assert.AreEqual(0.1, gradient.Top);
+                gradient.Bottom = 0.2;
+                Assert.AreEqual(0.2, gradient.Bottom);
+                gradient.Right = 0.3;
+                Assert.AreEqual(0.3, gradient.Right);
+                gradient.Left = 0.4;
+                Assert.AreEqual(0.4, gradient.Left);
+
+                gradient.Color2.SetColor(Color.Red);
+                Assert.AreEqual("FFFF0000", gradient.Color2.Rgb);
+                gradient.Color2.Theme = eThemeSchemeColor.Accent1;
+                Assert.AreEqual(eThemeSchemeColor.Accent1, gradient.Color2.Theme);
+                gradient.Color2.SetColor(ExcelIndexedColor.Indexed62);
+                Assert.AreEqual(62, gradient.Color2.Indexed);
+                gradient.Color2.SetAuto();
+                Assert.IsTrue(gradient.Color2.Auto);
+            }
+        }
     }
 }
