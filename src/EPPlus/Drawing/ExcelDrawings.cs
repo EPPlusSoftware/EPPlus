@@ -498,7 +498,7 @@ namespace OfficeOpenXml.Drawing
             return (ExcelSurfaceChart)AddChart(Name, (eChartType)ChartType, null);
         }
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="image">An image. Allways saved in then JPeg format</param>
@@ -508,7 +508,7 @@ namespace OfficeOpenXml.Drawing
             return AddPicture(Name, image, null);
         }
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="image">An image. Allways saved in then JPeg format</param>
@@ -533,7 +533,7 @@ namespace OfficeOpenXml.Drawing
             throw (new Exception("AddPicture: Image can't be null"));
         }
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
@@ -543,7 +543,7 @@ namespace OfficeOpenXml.Drawing
             return AddPicture(Name, ImageFile, null);
         }
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
@@ -567,7 +567,7 @@ namespace OfficeOpenXml.Drawing
                     throw new Exception("Name already exists in the drawings collection");
                 }
                 XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-                ExcelPicture pic = new ExcelPicture(this, drawNode, ImageFile, Hyperlink);
+                var pic = new ExcelPicture(this, drawNode, ImageFile, Hyperlink);
                 pic.Name = Name;
                 _drawings.Add(pic);
                 _drawingNames.Add(Name, _drawings.Count - 1);

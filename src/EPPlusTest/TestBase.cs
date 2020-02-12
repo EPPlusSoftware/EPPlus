@@ -242,6 +242,21 @@ namespace EPPlusTest
             var shape = (ExcelShape)ws.Drawings[0];
             return shape;
         }
-
+        protected static FileInfo GetResourceFile(string fileName)
+        {
+            string path = AppContext.BaseDirectory;
+            while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+            {
+                path = new DirectoryInfo(path + "\\..").FullName;
+            }
+            if(path.Length > 4)
+            {
+                return new FileInfo(path + "\\Resources\\" + fileName);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

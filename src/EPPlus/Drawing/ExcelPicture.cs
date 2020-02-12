@@ -71,8 +71,6 @@ namespace OfficeOpenXml.Drawing
 
             //Create relationship
             node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
-            _height = image.Height;
-            _width = image.Width;
             SetPosDefaults(image);
             package.Flush();
         }
@@ -81,22 +79,14 @@ namespace OfficeOpenXml.Drawing
         {
             CreatePicNode(node);
 
-            //Changed to stream 2/4-13 (issue 14834). Thnx SClause
             var package = drawings.Worksheet._package.Package;
             ContentType = PictureStore.GetContentType(imageFile.Extension);
-            var imagestream = new FileStream(imageFile.FullName, FileMode.Open, FileAccess.Read);
-            _image = Image.FromStream(imagestream);
+            var img = File.ReadAllBytes(imageFile.FullName);
+            _image = Image.FromStream(new MemoryStream(img));
             Hyperlink = hyperlink;
-
-#if (Core)
-            var img = ImageCompat.GetImageAsByteArray(_image);
-#else
-            ImageConverter ic = new ImageConverter();
-            var img = (byte[])ic.ConvertTo(_image, typeof(byte[]));
-#endif
+          
             IPictureContainer container = this;
-            imagestream.Close();
-            container.UriPic = GetNewUri(package, "/xl/media/{0}" + imageFile.Name);
+            container.UriPic = GetNewUri(package, "/xl/media/image{0}"+imageFile.Extension);
             var store = _drawings._package.PictureStore;
             var ii = store.AddImage(img, container.UriPic, ContentType);
             string relId;
@@ -115,8 +105,6 @@ namespace OfficeOpenXml.Drawing
                 container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             }
             container.ImageHash = ii.Hash;
-            _height = Image.Height;
-            _width = Image.Width;
             SetPosDefaults(Image);
             //Create relationship
             node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
@@ -144,6 +132,8 @@ namespace OfficeOpenXml.Drawing
             EditAs = eEditAs.OneCell;
             SetPixelWidth(image.Width, image.HorizontalResolution);
             SetPixelHeight(image.Height, image.VerticalResolution);
+            _width = GetPixelWidth();
+            _height = GetPixelHeight();
         }
 
         private string PicStartXml()
@@ -281,6 +271,36 @@ namespace OfficeOpenXml.Drawing
                     _effect = new ExcelDrawingEffectStyle(_drawings, NameSpaceManager, TopNode, "xdr:pic/xdr:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
+            }
+        }
+        const string _preferRelativeResizePath = "xdr:pic/xdr:nvPicPr/xdr:cNvPicPr/@preferRelativeResize";
+        /// <summary>
+        /// Relative to original picture size
+        /// </summary>
+        public bool PreferRelativeResize
+        { 
+            get
+            {
+                return GetXmlNodeBool(_preferRelativeResizePath);
+            }
+            set
+            {
+                SetXmlNodeBool(_preferRelativeResizePath, value);
+            }
+        }
+        const string _lockAspectRatioPath = "xdr:pic/xdr:nvPicPr/xdr:cNvPicPr/a:picLocks/@noChangeAspect";
+        /// <summary>
+        /// Lock aspect ratio
+        /// </summary>
+        public bool LockAspectRatio
+        {
+            get
+            {
+                return GetXmlNodeBool(_lockAspectRatioPath);
+            }
+            set
+            {
+                SetXmlNodeBool(_lockAspectRatioPath, value);
             }
         }
         internal override void CellAnchorChanged()

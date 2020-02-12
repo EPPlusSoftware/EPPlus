@@ -38,24 +38,6 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Resources\BitmapImage.gif" />
-    <None Remove="Resources\Pattern1.jpeg" />
-    <None Remove="Resources\Test1.jpg" />
-    <None Remove="Resources\Vector Drawing.wmf" />
-    <None Remove="Resources\Vector Drawing2.wmf" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\BitmapImage.gif" />
-    <EmbeddedResource Include="Resources\Pattern1.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Test1.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Vector Drawing.wmf" />
-    <EmbeddedResource Include="Resources\Vector Drawing2.wmf" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
@@ -77,7 +59,19 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\BitmapImage.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Code.emf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\EPPlus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\LineChart3.crtx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Pattern1.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Savon.thmx">
@@ -86,7 +80,13 @@
     <None Update="Resources\Surface4.crtx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Test1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\TestTheme.thmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Vector Drawing.wmf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\WoodType.thmx">

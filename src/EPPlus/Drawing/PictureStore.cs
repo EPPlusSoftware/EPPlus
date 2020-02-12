@@ -65,11 +65,11 @@ namespace OfficeOpenXml.Drawing
                     if (uri == null)
                     {
                         uri = GetNewUri(_pck.Package, "/xl/media/image{0}.jpg");
-                        imagePart = _pck.Package.CreatePart(uri, "image/jpeg", CompressionLevel.None);
+                        imagePart = _pck.Package.CreatePart(uri, "image/jpeg", CompressionLevel.None, "jpg");
                     }
                     else
                     {
-                        imagePart = _pck.Package.CreatePart(uri, contentType, CompressionLevel.None);
+                        imagePart = _pck.Package.CreatePart(uri, contentType, CompressionLevel.None, GetExtension(uri));
                     }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
@@ -79,6 +79,18 @@ namespace OfficeOpenXml.Drawing
             }
             return _images[hash];
         }
+
+        private string GetExtension(Uri uri)
+        {
+            var s = uri.OriginalString;
+            var i = s.LastIndexOf('.');
+            if(i>0)
+            {
+                return s.Substring(i + 1);
+            }
+            return null;
+        }
+
         internal ImageInfo LoadImage(byte[] image, Uri uri, Packaging.ZipPackagePart imagePart)
         {
 #if (Core)

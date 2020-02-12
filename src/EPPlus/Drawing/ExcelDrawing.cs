@@ -642,7 +642,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Height = pixels * EMU_PER_PIXEL;
+                Size.Height = (int)Math.Round(pixels / (dpi / STANDARD_DPI)) * EMU_PER_PIXEL;
             }
         }
         internal void SetPixelWidth(int pixels)
@@ -674,7 +674,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Width = pixels * EMU_PER_PIXEL;
+                Size.Width = (int)Math.Round(pixels / (dpi / STANDARD_DPI)) * EMU_PER_PIXEL;
             }
         }
         #endregion
