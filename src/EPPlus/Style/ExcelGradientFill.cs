@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (Index < 0) return 0;
                 return ((ExcelGradientFillXml)_styles.Fills[Index]).Degree;
             }
             set
@@ -51,6 +52,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (Index < 0) return ExcelFillGradientType.None;
                 return ((ExcelGradientFillXml)_styles.Fills[Index]).Type;
             }
             set
@@ -66,6 +68,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (Index < 0) return 0;
                 return ((ExcelGradientFillXml)_styles.Fills[Index]).Top;
             }
             set
@@ -85,6 +88,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (Index < 0) return 0;
                 return ((ExcelGradientFillXml)_styles.Fills[Index]).Bottom;
             }
             set
@@ -104,6 +108,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (Index < 0) return 0;
                 return ((ExcelGradientFillXml)_styles.Fills[Index]).Left;
             }
             set
@@ -123,6 +128,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (Index < 0) return 0;
                 return ((ExcelGradientFillXml)_styles.Fills[Index]).Right;
             }
             set

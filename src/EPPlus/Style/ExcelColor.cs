@@ -31,6 +31,7 @@ namespace OfficeOpenXml.Style
         {
             _parent = parent;
             _cls = cls;
+            Index = int.MinValue;
         }
         /// <summary>
         /// The theme color
@@ -39,6 +40,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (_parent.Index < 0) return null;
                 return GetSource().Theme;
             }
             internal set
@@ -53,6 +55,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (_parent.Index < 0) return 0;
                 return GetSource().Tint;
             }
             set
@@ -71,6 +74,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (_parent.Index < 0) return null;
                 return GetSource().Rgb;
             }
             internal set
@@ -80,11 +84,13 @@ namespace OfficeOpenXml.Style
         }
         /// <summary>
         /// The indexed color number.
+        /// A negative value means not set.
         /// </summary>
         public int Indexed
         {
             get
             {
+                if (_parent.Index < 0) return -1;
                 return GetSource().Indexed;
             }
             set
@@ -103,6 +109,8 @@ namespace OfficeOpenXml.Style
         {
             get
             {
+                if (_parent.Index < 0) return false;
+
                 return GetSource().Auto;
             }
             private set
@@ -169,7 +177,7 @@ namespace OfficeOpenXml.Style
         private ExcelColorXml GetSource()
         {
             Index = _parent.Index < 0 ? 0 : _parent.Index;
-            switch(_cls)
+            switch (_cls)
             {
                 case eStyleClass.FillBackgroundColor:
                     return _styles.Fills[Index].BackgroundColor;
@@ -187,6 +195,10 @@ namespace OfficeOpenXml.Style
                     return _styles.Borders[Index].Bottom.Color;
                 case eStyleClass.BorderDiagonal:
                     return _styles.Borders[Index].Diagonal.Color;
+                case eStyleClass.FillGradientColor1:
+                    return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor1;
+                case eStyleClass.FillGradientColor2:
+                    return ((ExcelGradientFillXml)(_styles.Fills[Index])).GradientColor2;
                 default:
                     throw(new Exception("Invalid style-class for Color"));
             }
