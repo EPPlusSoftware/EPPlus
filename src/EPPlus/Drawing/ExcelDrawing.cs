@@ -753,7 +753,13 @@ namespace OfficeOpenXml.Drawing
                 RenameNode(TopNode, $"{type.ToEnumString()}Anchor");
                 CleanupPositionXml();
                 SetPositionProperties(_drawings, TopNode);
+                CellAnchorChanged();
             }
+        }
+
+        internal virtual void CellAnchorChanged()
+        {
+            
         }
 
         private void CleanupPositionXml()

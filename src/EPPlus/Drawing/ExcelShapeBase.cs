@@ -43,6 +43,7 @@ namespace OfficeOpenXml.Drawing
         private string _indentAlignPath = "{0}xdr:txBody/a:p/a:pPr/@lvl";
         private string _textVerticalPath = "{0}xdr:txBody/a:bodyPr/@vert";
         private string _fontPath = "{0}xdr:txBody/a:p/a:pPr/a:defRPr";
+        private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
         internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
             base(drawings, node, topPath, nvPrPath, parent)
         {
@@ -65,8 +66,8 @@ namespace OfficeOpenXml.Drawing
             _indentAlignPath = string.Format(_indentAlignPath, topPath);
             _textVerticalPath = string.Format(_textVerticalPath, topPath);
             _fontPath = string.Format(_fontPath, topPath);
-
-            SchemaNodeOrder = new string[] { "xfrm", "custGeom","prstGeom", "noFill","solidFill", "blipFill","gradFill", "pattFill","grpFill", "ln", "effectLst", "effectDag","scene3d", "sp3d", "pPr","r","br","fld","endParaRPr" };
+            _textBodyPath = string.Format(_textBodyPath, topPath);
+            SchemaNodeOrder = new string[] { "nvSpPr","spPr", "txSp","style", "txBody", "hlinkClick","hlinkHover", "xfrm", "custGeom","prstGeom", "noFill","solidFill", "blipFill","gradFill", "pattFill","grpFill", "ln", "effectLst", "effectDag","scene3d", "sp3d", "pPr","r","br","fld","endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" };
         }
 
         /// <summary>
@@ -383,6 +384,35 @@ namespace OfficeOpenXml.Drawing
             {
                 SetXmlNodeString(_textVerticalPath, value.TranslateTextVerticalText());
             }
+        }
+        ExcelTextBody _textBody = null;
+        /// <summary>
+        /// Access to text body properties.
+        /// </summary>
+        public ExcelTextBody TextBody
+        {
+            get
+            {
+                if (_textBody == null)
+                {
+                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, _textBodyPath, this.SchemaNodeOrder);
+                }
+                return _textBody;
+            }
+        }
+
+        internal override void CellAnchorChanged()
+        {
+            base.CellAnchorChanged();
+            if (_fill != null) _fill.SetTopNode(TopNode);
+            if (_border != null) _border.TopNode = TopNode;
+            if (_effect != null) _effect.TopNode = TopNode;
+            if (_font != null) _font.TopNode = TopNode;
+            if (_threeD != null) _threeD.TopNode = TopNode;
+            if (_tailEnd != null) _tailEnd.TopNode = TopNode;
+            if (_headEnd != null) _headEnd.TopNode = TopNode;
+            if (_richText != null) _richText.TopNode = TopNode;
+            if (_textBody != null) _textBody.TopNode = TopNode;
         }
     }
 }

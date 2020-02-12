@@ -283,7 +283,13 @@ namespace OfficeOpenXml.Drawing
                 return _effect;
             }
         }
-
+        internal override void CellAnchorChanged()
+        {
+            base.CellAnchorChanged();
+            if (_fill != null) _fill.SetTopNode(TopNode);
+            if (_border != null) _border.TopNode = TopNode;
+            if (_effect != null) _effect.TopNode = TopNode;
+        }
 
         internal override void DeleteMe()
         {

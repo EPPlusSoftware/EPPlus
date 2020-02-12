@@ -44,12 +44,31 @@ namespace OfficeOpenXml.Drawing
             base(nameSpaceManager, topNode)
         {
             AddSchemaNodeOrder(schemaNodeOrderBefore, new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "noFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "highlight", "latin", "cs", "sym", "ea", "hlinkClick", "hlinkMouseOver", "rtl" });
-            //AddSchemaNodeOrder(SchemaNodeOrder, schemaNodeOrderAfter);
             _fillPath = fillPath;
-            if(string.IsNullOrEmpty(_fillPath))
+            SetFillNodes(topNode);
+            //Setfill node
+            if (doLoad && _fillNode != null)
+            {
+                LoadFill();
+            }
+            if (pck != null)
+            {
+                pck.BeforeSave.Add(BeforeSave);
+            }
+        }
+        internal void SetTopNode(XmlNode topNode)
+        {
+            TopNode = topNode;
+            SetFillNodes(topNode);
+            _fillTypeNode = null;
+            LoadFill();
+        }
+        private void SetFillNodes(XmlNode topNode)
+        {
+            if (string.IsNullOrEmpty(_fillPath))
             {
                 _fillNode = topNode;
-                if(topNode.LocalName.EndsWith("Fill"))  //Theme nodes will have the fillnode as topnode
+                if (topNode.LocalName.EndsWith("Fill"))  //Theme nodes will have the fillnode as topnode
                 {
                     _fillTypeNode = _fillNode;
                 }
@@ -58,16 +77,8 @@ namespace OfficeOpenXml.Drawing
             {
                 _fillNode = topNode.SelectSingleNode(_fillPath, NameSpaceManager);
             }
-            //Setfill node
-            if (doLoad && _fillNode != null)
-            {
-                LoadFill(nameSpaceManager);
-            }
-            if (pck != null)
-            {
-                pck.BeforeSave.Add(BeforeSave);
-            }
         }
+
         internal virtual void BeforeSave()
         {
             if(_gradientFill!=null)
@@ -79,11 +90,11 @@ namespace OfficeOpenXml.Drawing
         /// Loads the fill from xml
         /// </summary>
         /// <param name="nameSpaceManager">The xml namespace manager</param>
-        internal protected virtual void LoadFill(XmlNamespaceManager nameSpaceManager)
+        internal protected virtual void LoadFill()
         {
-            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:solidFill", nameSpaceManager);
-            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:gradFill", nameSpaceManager);
-            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:noFill", nameSpaceManager);
+            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:solidFill", NameSpaceManager);
+            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:gradFill", NameSpaceManager);
+            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:noFill", NameSpaceManager);
             if (_fillTypeNode == null)
                 return;
 
@@ -91,11 +102,11 @@ namespace OfficeOpenXml.Drawing
             {
                 case "solidFill":
                     _style = eFillStyle.SolidFill;
-                    _solidFill = new ExcelDrawingSolidFill(nameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
+                    _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
                     break;
                 case "gradFill":
                     _style = eFillStyle.GradientFill;
-                    _gradientFill = new ExcelDrawingGradientFill(nameSpaceManager, _fillTypeNode, SchemaNodeOrder);
+                    _gradientFill = new ExcelDrawingGradientFill(NameSpaceManager, _fillTypeNode, SchemaNodeOrder);
                     break;
                 default:
                     _style = eFillStyle.NoFill;
@@ -119,7 +130,7 @@ namespace OfficeOpenXml.Drawing
                     relAttr.OwnerElement.Attributes.Remove(relAttr);
                 }
             }
-            LoadFill(NameSpaceManager);
+            LoadFill();
             if(Style==eFillStyle.BlipFill)
             {
                 
@@ -188,7 +199,7 @@ namespace OfficeOpenXml.Drawing
                     {
                         _fillNode.InnerXml = $"<a:{GetStyleText(style)}/>";
                     }
-                    LoadFill(NameSpaceManager);
+                    LoadFill();
                 }
             }
             isSpInit = true;

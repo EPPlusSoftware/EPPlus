@@ -1147,7 +1147,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     _secondaryAxis = value;
                 }
-            }
+            }   
         }
         /// <summary>
         /// The build-in chart styles. 

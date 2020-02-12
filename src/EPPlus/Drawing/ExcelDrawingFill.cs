@@ -35,21 +35,21 @@ namespace OfficeOpenXml.Drawing
             _pictureRelationDocument = pictureRelationDocument;
             if (_fillNode != null)
             {
-                LoadFill(nameSpaceManager);
+                LoadFill();
             }
         }
         /// <summary>
         /// Load the fill from the xml
         /// </summary>
         /// <param name="nameSpaceManager">The xml namespace manager</param>
-        internal protected override void LoadFill(XmlNamespaceManager nameSpaceManager)
+        internal protected override void LoadFill()
         {
-            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:pattFill", nameSpaceManager);
-            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:blipFill", nameSpaceManager);
+            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:pattFill", NameSpaceManager);
+            if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:blipFill", NameSpaceManager);
 
             if (_fillTypeNode == null)
             {
-                base.LoadFill(nameSpaceManager);
+                base.LoadFill();
                 return;
             }
 
@@ -57,15 +57,15 @@ namespace OfficeOpenXml.Drawing
             {
                 case "pattFill":
                     _style = eFillStyle.PatternFill;
-                    _patternFill = new ExcelDrawingPatternFill(nameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
+                    _patternFill = new ExcelDrawingPatternFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
                     break;
                 case "blipFill":
                     _style = eFillStyle.BlipFill;
 
-                    _blipFill = new ExcelDrawingBlipFill(_pictureRelationDocument, nameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
+                    _blipFill = new ExcelDrawingBlipFill(_pictureRelationDocument, NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
                     break;
                 default:
-                    base.LoadFill(nameSpaceManager);
+                    base.LoadFill();
                     break;
             }
         }
