@@ -35,6 +35,22 @@ namespace EPPlusTest.Core.Worksheet
     public class WorksheetCoreTests : TestBase
     {
         [TestMethod]
+        public void SaveCharToCellShouldBeWrittenAsString()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("CharTest");
+                ws.Cells["A1"].Value = 'A';
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    Assert.AreEqual("A", ws.Cells["A1"].Value);
+                }
+            }
+        }
+        [TestMethod]
         public void ValidateAutoFitDontShowHiddenColumns()
         {
             using (var p = new ExcelPackage())
@@ -49,6 +65,21 @@ namespace EPPlusTest.Core.Worksheet
                 p.Save();
             }
         }
+        [TestMethod]
+        public void ValidateAutoFitMinWidthRange()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AutoFitMinWidth");
+                LoadTestdata(ws);
+
+                ws.Cells["A:B"].AutoFitColumns(500);
+                Assert.AreEqual(500, ws.Column(1).Width);
+                Assert.AreEqual(500, ws.Column(2).Width);
+                p.Save();
+            }
+        }
+
         [TestMethod]
         public void RichTextFlagShouldBeCleanedWhenOverwritingValue()
         {

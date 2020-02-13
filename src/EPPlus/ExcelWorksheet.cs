@@ -2950,7 +2950,7 @@ namespace OfficeOpenXml
                                 else
                                     v = string.Empty;
                             }
-                            if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan))
+                            if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
                             {
                                 //string sv = GetValueForXml(v);
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v)}>");
