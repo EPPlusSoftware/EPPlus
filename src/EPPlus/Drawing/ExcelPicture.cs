@@ -24,7 +24,9 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
-
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -74,26 +76,46 @@ namespace OfficeOpenXml.Drawing
             SetPosDefaults(image);
             package.Flush();
         }
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, FileInfo imageFile, Uri hyperlink) :
+
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
         {
             CreatePicNode(node);
+        }
+        #if !NET35 && !NET40
+        internal async Task LoadImageAsync(Stream stream, ePictureType type, Uri hyperlink)
+        {
+            var img = new byte[stream.Length];
+            stream.Seek(0, SeekOrigin.Begin);
+            await stream.ReadAsync(img, 0, (int)stream.Length).ConfigureAwait(false);
 
-            var package = drawings.Worksheet._package.Package;
-            ContentType = PictureStore.GetContentType(imageFile.Extension);
-            var img = File.ReadAllBytes(imageFile.FullName);
-            _image = Image.FromStream(new MemoryStream(img));
+            SaveImageToPackage(type, hyperlink, img);
+        }        
+        #endif
+        internal void LoadImage(Stream stream, ePictureType type, Uri hyperlink)
+        {
+            var img = new byte[stream.Length];
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.Read(img, 0, (int)stream.Length);
+
+            SaveImageToPackage(type, hyperlink, img);
+        }
+        private void SaveImageToPackage(ePictureType type, Uri hyperlink, byte[] img)
+        {
+            var package = _drawings.Worksheet._package.Package;
+            ContentType = PictureStore.GetContentType(type.ToString());
+
             Hyperlink = hyperlink;
-          
+
             IPictureContainer container = this;
-            container.UriPic = GetNewUri(package, "/xl/media/image{0}"+imageFile.Extension);
+            container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
             var store = _drawings._package.PictureStore;
             var ii = store.AddImage(img, container.UriPic, ContentType);
             string relId;
             if (!_drawings._hashes.ContainsKey(ii.Hash))
             {
                 Part = ii.Part;
-                container.RelPic = drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(drawings.UriDrawing, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                container.RelPic = _drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(_drawings.UriDrawing, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                 relId = container.RelPic.Id;
                 _drawings._hashes.Add(ii.Hash, new HashInfo(relId));
                 AddNewPicture(img, relId);
@@ -105,9 +127,11 @@ namespace OfficeOpenXml.Drawing
                 container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             }
             container.ImageHash = ii.Hash;
-            SetPosDefaults(Image);
+            _image = Image.FromStream(new MemoryStream(img));
+            SetPosDefaults(_image);
+
             //Create relationship
-            node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
             package.Flush();
         }
 
@@ -126,7 +150,7 @@ namespace OfficeOpenXml.Drawing
             newPic.relID = relID;
             //_drawings._pics.Add(newPic);
         }
-        #endregion
+#endregion
         private void SetPosDefaults(Image image)
         {
             EditAs = eEditAs.OneCell;

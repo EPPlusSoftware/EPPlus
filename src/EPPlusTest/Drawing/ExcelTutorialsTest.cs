@@ -44,7 +44,7 @@ namespace EPPlusTest.Drawing
     /// Ignored if the folder or templates are missing.
     /// </summary>
     [TestClass]
-    public class ExcelTutorialTest : TestBase
+    public class ExcelTutorialsTest : TestBase
     {       
         [TestInitialize]
         public void Initialize()

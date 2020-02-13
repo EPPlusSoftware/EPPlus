@@ -853,7 +853,7 @@ namespace OfficeOpenXml
                 return null;
             }
         }
-        internal long? GetXmlNodeLong(string path)
+        internal long GetXmlNodeLong(string path)
         {
             long l;
             string s = GetXmlNodeString(path);
