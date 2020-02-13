@@ -24,6 +24,7 @@ namespace OfficeOpenXml.Core.CellStore
         {
             var rowBound = array.GetUpperBound(0);
             var colBound = array.GetUpperBound(1);
+            
             for (int r = 0; r <= rowBound; r++)            
             {
                 for (int c = 0; c <= colBound; c++)

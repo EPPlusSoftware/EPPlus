@@ -229,6 +229,7 @@ namespace OfficeOpenXml
             }
             if (sfi != null) range._worksheet._formulas.SetValue(row, col, string.Empty);
             range._worksheet.SetValueInner(row, col, value);
+            range._worksheet._flags.Clear(row, col, 1, 1);
         }
         private static void Set_Formula(ExcelRangeBase range, object value, int row, int col)
         {
@@ -1327,7 +1328,6 @@ namespace OfficeOpenXml
         private void SetValue(object value, int row, int col)
         {
             _worksheet.SetValue(row, col, value);
-            // if (value is string) _worksheet._types.SetValue(row, col, "S"); else _worksheet._types.SetValue(row, col, "");
             _worksheet._formulas.SetValue(row, col, "");
         }
         internal void SetSharedFormulaID(int id)

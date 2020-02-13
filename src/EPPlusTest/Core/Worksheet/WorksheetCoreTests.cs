@@ -49,5 +49,73 @@ namespace EPPlusTest.Core.Worksheet
                 p.Save();
             }
         }
+        [TestMethod]
+        public void RichTextFlagShouldBeCleanedWhenOverwritingValue()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwriteValue");
+
+                ws.Cells["A1:B2"].RichText.Add("RichText");
+
+                ws.Cells["A1"].Value = "Text";
+                ws.Cells["B2"].Value = "Text";
+                Assert.IsFalse(ws.Cells["A1"].IsRichText);
+                Assert.IsTrue(ws.Cells["A2"].IsRichText);
+                Assert.IsTrue(ws.Cells["B1"].IsRichText);
+                Assert.IsFalse(ws.Cells["B2"].IsRichText);
+            }
+        }
+
+        [TestMethod]
+        public void RichTextFlagShouldBeCleanedWhenOverwritingValueAddress()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwriteAddress");
+
+                ws.Cells["A1:B2"].RichText.Add("RichText");
+                Assert.IsTrue(ws.Cells["A1"].IsRichText);
+                Assert.IsTrue(ws.Cells["B2"].IsRichText);
+
+                ws.Cells["A1:B2"].Value = "Text";
+                Assert.IsFalse(ws.Cells["A1"].IsRichText);
+                Assert.IsFalse(ws.Cells["B2"].IsRichText);
+            }
+        }
+
+        [TestMethod]
+        public void RichTextFlagShouldBeCleanedWhenOverwritingWithArray()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwrite");
+
+                ws.Cells["A1:C3"].RichText.Add("RichText");
+                Assert.IsTrue(ws.Cells["A1"].IsRichText);
+                Assert.IsTrue(ws.Cells["B2"].IsRichText);
+
+                ws.Cells["A1:B2"].Value = new string[,] { { "Text", "Text" }, { "Text", "Text" } };
+                Assert.IsFalse(ws.Cells["A1"].IsRichText);
+                Assert.IsFalse(ws.Cells["B2"].IsRichText);
+                Assert.IsTrue(ws.Cells["C1"].IsRichText);
+                Assert.IsTrue(ws.Cells["C3"].IsRichText);
+                Assert.IsTrue(ws.Cells["A3"].IsRichText);
+            }
+        }
+        [TestMethod]
+        public void FormulaShouldBeCleanedWhenOverwritingWithArray()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwrite");
+
+                ws.Cells["A1:C3"].FormulaR1C1 = "RC";
+                Assert.IsFalse(ws.Cells["A1"].Formula==null);
+
+                ws.Cells["A1:B2"].Value = new string[,] { { "Text", "Text" }, { "Text", "Text" } };
+                Assert.IsTrue(ws.Cells["A1"].Formula == "");
+            }
+        }
     }
 }
