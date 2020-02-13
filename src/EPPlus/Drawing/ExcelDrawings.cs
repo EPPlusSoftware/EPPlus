@@ -514,12 +514,12 @@ namespace OfficeOpenXml.Drawing
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="image">An image. Allways saved in then JPeg format</param>
+        /// <param name="Image">An image. Allways saved in then JPeg format</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, Image image, Uri Hyperlink)
+        public ExcelPicture AddPicture(string Name, Image Image, Uri Hyperlink)
         {
-            if (image != null)
+            if (Image != null)
             {
                 if (_drawingNames.ContainsKey(Name))
                 {
@@ -527,7 +527,7 @@ namespace OfficeOpenXml.Drawing
                 }
                 XmlElement drawNode = CreateDrawingXml();
                 drawNode.SetAttribute("editAs", "oneCell");
-                var pic = new ExcelPicture(this, drawNode, image, Hyperlink);
+                var pic = new ExcelPicture(this, drawNode, Image, Hyperlink);
                 AddPicture(Name, pic);
                 return pic;
             }
@@ -556,8 +556,8 @@ namespace OfficeOpenXml.Drawing
             ValidatePictureFile(Name, ImageFile);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode);
-            pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
             AddPicture(Name, pic);
             return pic;
         }
@@ -565,12 +565,12 @@ namespace OfficeOpenXml.Drawing
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="pictureStream">An stream image.</param>
-        /// <param name="pictureType">The type of image</param>
+        /// <param name="PictureStream">An stream image.</param>
+        /// <param name="PictureType">The type of image</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType pictureType)
+        public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType PictureType)
         {
-            return AddPicture(Name, pictureStream, pictureType, null);
+            return AddPicture(Name, PictureStream, PictureType, null);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -592,8 +592,8 @@ namespace OfficeOpenXml.Drawing
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode);
-            pic.LoadImage(pictureStream, pictureType, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            pic.LoadImage(pictureStream, pictureType);
             AddPicture(Name, pic);
             return pic;
         }
@@ -621,8 +621,8 @@ namespace OfficeOpenXml.Drawing
             ValidatePictureFile(Name, ImageFile);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode);
-            await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
             AddPicture(Name, pic);
             return pic;
         }
@@ -630,12 +630,12 @@ namespace OfficeOpenXml.Drawing
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="pictureStream">An stream image.</param>
-        /// <param name="pictureType">The type of image</param>
+        /// <param name="PictureStream">An stream image.</param>
+        /// <param name="PictureType">The type of image</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType pictureType)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType PictureType)
         {
-            return await AddPictureAsync(Name, pictureStream, pictureType, null);
+            return await AddPictureAsync(Name, PictureStream, PictureType, null);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -657,8 +657,8 @@ namespace OfficeOpenXml.Drawing
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode);
-            await pic.LoadImageAsync(pictureStream, pictureType, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            await pic.LoadImageAsync(pictureStream, pictureType);
             AddPicture(Name, pic);
             return pic;
         }

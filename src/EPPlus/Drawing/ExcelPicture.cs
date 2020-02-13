@@ -35,6 +35,13 @@ namespace OfficeOpenXml.Drawing
     public sealed class ExcelPicture : ExcelDrawing
     {
         #region "Constructors"
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink) :
+            base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
+        {
+            CreatePicNode(node);
+            Hyperlink = hyperlink;
+        }
+
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr", shape)
         {
@@ -77,36 +84,28 @@ namespace OfficeOpenXml.Drawing
             package.Flush();
         }
 
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node) :
-            base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
-        {
-            CreatePicNode(node);
-        }
         #if !NET35 && !NET40
-        internal async Task LoadImageAsync(Stream stream, ePictureType type, Uri hyperlink)
+        internal async Task LoadImageAsync(Stream stream, ePictureType type)
         {
             var img = new byte[stream.Length];
             stream.Seek(0, SeekOrigin.Begin);
             await stream.ReadAsync(img, 0, (int)stream.Length).ConfigureAwait(false);
 
-            SaveImageToPackage(type, hyperlink, img);
+            SaveImageToPackage(type, img);
         }        
         #endif
-        internal void LoadImage(Stream stream, ePictureType type, Uri hyperlink)
+        internal void LoadImage(Stream stream, ePictureType type)
         {
             var img = new byte[stream.Length];
             stream.Seek(0, SeekOrigin.Begin);
             stream.Read(img, 0, (int)stream.Length);
 
-            SaveImageToPackage(type, hyperlink, img);
+            SaveImageToPackage(type, img);
         }
-        private void SaveImageToPackage(ePictureType type, Uri hyperlink, byte[] img)
+        private void SaveImageToPackage(ePictureType type, byte[] img)
         {
             var package = _drawings.Worksheet._package.Package;
             ContentType = PictureStore.GetContentType(type.ToString());
-
-            Hyperlink = hyperlink;
-
             IPictureContainer container = this;
             container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
             var store = _drawings._package.PictureStore;

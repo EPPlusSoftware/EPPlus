@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Drawing
             _textVerticalPath = string.Format(_textVerticalPath, topPath);
             _fontPath = string.Format(_fontPath, topPath);
             _textBodyPath = string.Format(_textBodyPath, topPath);
-            SchemaNodeOrder = new string[] { "nvSpPr","spPr", "txSp","style", "txBody", "hlinkClick","hlinkHover", "xfrm", "custGeom","prstGeom", "noFill","solidFill", "blipFill","gradFill", "pattFill","grpFill", "ln", "effectLst", "effectDag","scene3d", "sp3d", "pPr","r","br","fld","endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" };
+            AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "nvSpPr", "spPr", "txSp", "style", "txBody", "hlinkClick", "hlinkHover", "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d", "pPr", "r", "br", "fld", "endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" });
         }
 
         /// <summary>

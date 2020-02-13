@@ -35,7 +35,6 @@ namespace OfficeOpenXml.Drawing
             shapeNode.InnerXml = ShapeStartXml();
             node.AppendChild(shapeNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
             Style = style;
-            AddSchemaNodeOrder(new string[] { "from","to","sp", "clientData" },SchemaNodeOrder);
         }
         #region "Private Methods"
         private string ShapeStartXml()
