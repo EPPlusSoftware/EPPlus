@@ -201,14 +201,15 @@ namespace OfficeOpenXml.Core.Worksheet
                 else
                 {
                     sf.Address = a.Address;
-                    if (sf.StartRow > rowFrom)
+                    sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                    if(sf.StartRow>=rowFrom)
                     {
-                        var r = Math.Min(sf.StartRow - rowFrom, rows);
-                        sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -r, 0, rowFrom, 0, ws.Name, ws.Name);
-                        sf.StartRow -= r;
+                        var r = Math.Max(rowFrom, sf.StartRow + rows);
+                        sf.StartRow = r;
                     }
                 }
             }
+
             foreach (var ix in delSF)
             {
                 ws._sharedFormulas.Remove(ix);
@@ -222,6 +223,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
+        static void AdjustFormulasOtherSheetsRow(ExcelWorksheet ws, int rowFrom, int rows)
+        {
+        }
+
         internal static void AdjustFormulasColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             var delSF = new List<int>();

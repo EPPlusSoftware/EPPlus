@@ -511,7 +511,10 @@ namespace OfficeOpenXml.Core.CellStore
                 }
                 else if (shift)
                 {
-                    UpdatePageOffset(column, pagePos, -rows);
+                    if (pagePos < column.PageCount && column._pages[pagePos].MinIndex >= fromRow)
+                    {
+                        UpdatePageOffset(column, pagePos, -rows);
+                    }
                 }
             }
         }
