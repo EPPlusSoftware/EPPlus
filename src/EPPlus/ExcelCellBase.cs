@@ -701,7 +701,7 @@ namespace OfficeOpenXml
                         {
                             f += $"'{address._ws}'!";
                         }
-                        if (!address.IsFullRow)
+                        if (!address.IsFullColumn)
                         {
                             if (rowIncrement > 0)
                             {
@@ -712,7 +712,7 @@ namespace OfficeOpenXml
                                 address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
                             }
                         }
-                        if (address!=null && !address.IsFullColumn)
+                        if (address!=null && !address.IsFullRow)
                         {
                             if (colIncrement > 0)
                             {
