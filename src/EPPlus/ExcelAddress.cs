@@ -1187,7 +1187,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _fromRow == 1 && _toRow == ExcelPackage.MaxRows;
+                return _fromCol == 1 && _toCol == ExcelPackage.MaxColumns;
             }
         }
         /// <summary>
@@ -1198,7 +1198,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _fromCol == 1 && _toCol == ExcelPackage.MaxColumns;
+                return _fromRow == 1 && _toRow == ExcelPackage.MaxRows;
             }
         }
 

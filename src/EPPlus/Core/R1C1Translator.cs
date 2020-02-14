@@ -203,7 +203,7 @@ namespace OfficeOpenXml.Core
         public static string ToR1C1(ExcelAddressBase address, int row, int col)
         {
             string returnAddress;
-            if(address.IsFullColumn) //Full Row
+            if(address.IsFullRow) //Full Row
             {
                 if(address._fromRow==address._toRow && address._fromRowFixed == address._toRowFixed)
                 {
@@ -214,7 +214,7 @@ namespace OfficeOpenXml.Core
                     returnAddress = GetCellAddress("R", address._fromRow, row, address._fromRowFixed) + ":" + GetCellAddress("R", address._toRow, row, address._toRowFixed);
                 }
             }
-            else if(address.IsFullRow) //Full Column
+            else if(address.IsFullColumn) //Full Column
             {
                 if (address._fromCol == address._toCol && address._fromColFixed == address._toColFixed)
                 {
