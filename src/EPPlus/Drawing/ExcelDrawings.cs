@@ -22,6 +22,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -498,7 +501,7 @@ namespace OfficeOpenXml.Drawing
             return (ExcelSurfaceChart)AddChart(Name, (eChartType)ChartType, null);
         }
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="image">An image. Allways saved in then JPeg format</param>
@@ -508,15 +511,15 @@ namespace OfficeOpenXml.Drawing
             return AddPicture(Name, image, null);
         }
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="image">An image. Allways saved in then JPeg format</param>
+        /// <param name="Image">An image. Allways saved in then JPeg format</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <returns></returns>
-        public ExcelPicture AddPicture(string Name, Image image, Uri Hyperlink)
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, Image Image, Uri Hyperlink)
         {
-            if (image != null)
+            if (Image != null)
             {
                 if (_drawingNames.ContainsKey(Name))
                 {
@@ -524,57 +527,171 @@ namespace OfficeOpenXml.Drawing
                 }
                 XmlElement drawNode = CreateDrawingXml();
                 drawNode.SetAttribute("editAs", "oneCell");
-                ExcelPicture pic = new ExcelPicture(this, drawNode, image, Hyperlink);
-                pic.Name = Name;
-                _drawings.Add(pic);
-                _drawingNames.Add(Name, _drawings.Count - 1);
+                var pic = new ExcelPicture(this, drawNode, Image, Hyperlink);
+                AddPicture(Name, pic);
                 return pic;
             }
             throw (new Exception("AddPicture: Image can't be null"));
         }
+
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
-        /// <returns></returns>
+        /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, FileInfo ImageFile)
         {
             return AddPicture(Name, ImageFile, null);
         }
         /// <summary>
-        /// Adds a picure to the worksheet
+        /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <returns></returns>
+        /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink)
+        {
+            ValidatePictureFile(Name, ImageFile);
+            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            var type = PictureStore.GetPictureType(ImageFile.Extension);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            AddPicture(Name, pic);
+            return pic;
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="PictureStream">An stream image.</param>
+        /// <param name="PictureType">The type of image</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType PictureType)
+        {
+            return AddPicture(Name, PictureStream, PictureType, null);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="pictureStream">An stream image.</param>
+        /// <param name="pictureType">The type of image</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType pictureType, Uri Hyperlink)
+        {
+            if (pictureStream == null)
+            {
+                throw (new ArgumentNullException("Stream can not be null"));
+            }
+            if (!pictureStream.CanRead || !pictureStream.CanSeek)
+            {
+                throw (new IOException("Stream must be readable and seekable"));
+            }
+
+            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            pic.LoadImage(pictureStream, pictureType);
+            AddPicture(Name, pic);
+            return pic;
+        }
+#region AddPictureAsync
+#if !NET35 && !NET40
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ImageFile">The image file</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile)
+        {
+            return await AddPictureAsync(Name, ImageFile, null);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ImageFile">The image file</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink)
+        {
+            ValidatePictureFile(Name, ImageFile);
+            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            var type = PictureStore.GetPictureType(ImageFile.Extension);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            AddPicture(Name, pic);
+            return pic;
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="PictureStream">An stream image.</param>
+        /// <param name="PictureType">The type of image</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType PictureType)
+        {
+            return await AddPictureAsync(Name, PictureStream, PictureType, null);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="pictureStream">An stream image.</param>
+        /// <param name="pictureType">The type of image</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType pictureType, Uri Hyperlink)
+        {
+            if (pictureStream == null)
+            {
+                throw (new ArgumentNullException("Stream can not be null"));
+            }
+            if (!pictureStream.CanRead || !pictureStream.CanSeek)
+            {
+                throw (new IOException("Stream must be readable and seekable"));
+            }
+
+            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            await pic.LoadImageAsync(pictureStream, pictureType);
+            AddPicture(Name, pic);
+            return pic;
+        }
+#endif
+#endregion
+        private void AddPicture(string Name, ExcelPicture pic)
+        {
+            pic.Name = Name;
+            _drawings.Add(pic);
+            _drawingNames.Add(Name, _drawings.Count - 1);
+        }
+
+        private void ValidatePictureFile(string Name, FileInfo ImageFile)
         {
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-            if (ImageFile != null)
+            if (ImageFile == null)
             {
-                if (!ImageFile.Exists)
-                {
-                    throw new FileNotFoundException("Cant find file.", ImageFile.FullName);
-                }
-
-                if (_drawingNames.ContainsKey(Name))
-                {
-                    throw new Exception("Name already exists in the drawings collection");
-                }
-                XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-                ExcelPicture pic = new ExcelPicture(this, drawNode, ImageFile, Hyperlink);
-                pic.Name = Name;
-                _drawings.Add(pic);
-                _drawingNames.Add(Name, _drawings.Count - 1);
-                return pic;
+                throw (new Exception("AddPicture: ImageFile can't be null"));
             }
-            throw (new Exception("AddPicture: ImageFile can't be null"));
+            if (!ImageFile.Exists)
+            {
+                throw new FileNotFoundException("Cant find file.", ImageFile.FullName);
+            }
+
+            if (_drawingNames.ContainsKey(Name))
+            {
+                throw new Exception("Name already exists in the drawings collection");
+            }
         }
+    
         /// <summary>
         /// Adds a new chart using an crtx template
         /// </summary>

@@ -106,9 +106,6 @@ namespace EPPlusTest.Core.Range
                 }
 
             }
-
-
-            Console.WriteLine("done");
         }
     }
 }

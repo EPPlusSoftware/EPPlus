@@ -84,7 +84,9 @@ namespace OfficeOpenXml.DataValidation
         public override void Validate()
         {
             base.Validate();
-            if (ValidationType != ExcelDataValidationType.List && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
+            if (ValidationType != ExcelDataValidationType.List 
+                && ValidationType != ExcelDataValidationType.Custom  
+                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
             {
                 if (string.IsNullOrEmpty(Formula2Internal))
                 {

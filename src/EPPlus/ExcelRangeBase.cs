@@ -229,6 +229,7 @@ namespace OfficeOpenXml
             }
             if (sfi != null) range._worksheet._formulas.SetValue(row, col, string.Empty);
             range._worksheet.SetValueInner(row, col, value);
+            range._worksheet._flags.Clear(row, col, 1, 1);
         }
         private static void Set_Formula(ExcelRangeBase range, object value, int row, int col)
         {
@@ -720,21 +721,25 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Set the column width from the content of the range. The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
-        /// Note: Cells containing formulas must be calculated before autofit is called.
-        /// Wrapped and merged cells are also ignored.
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
         /// </summary>
+        /// <remarks>
+        /// Cells containing formulas must be calculated before autofit is called.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
         public void AutoFitColumns()
         {
             AutoFitColumns(_worksheet.DefaultColWidth);
         }
-
         /// <summary>
-        /// Set the column width from the content of the range.
-        /// Note: Cells containing formulas are ignored if no calculation is made.
-        ///       Wrapped and merged cells are also ignored.
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
-        /// <remarks>This method will not work if you run in an environment that does not support GDI</remarks>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
         /// <param name="MinimumWidth">Minimum column width</param>
         public void AutoFitColumns(double MinimumWidth)
         {
@@ -742,11 +747,13 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Set the column width from the content of the range.
-        /// Note: Cells containing formulas are ignored if no calculation is made.
-        ///       Wrapped and merged cells are also ignored.
-        ///      Hidden columns are left hidden.
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>        
         /// <param name="MinimumWidth">Minimum column width</param>
         /// <param name="MaximumWidth">Maximum column width</param>
         public void AutoFitColumns(double MinimumWidth, double MaximumWidth)
@@ -1327,7 +1334,6 @@ namespace OfficeOpenXml
         private void SetValue(object value, int row, int col)
         {
             _worksheet.SetValue(row, col, value);
-            // if (value is string) _worksheet._types.SetValue(row, col, "S"); else _worksheet._types.SetValue(row, col, "");
             _worksheet._formulas.SetValue(row, col, "");
         }
         internal void SetSharedFormulaID(int id)

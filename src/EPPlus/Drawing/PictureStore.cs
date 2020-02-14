@@ -65,11 +65,11 @@ namespace OfficeOpenXml.Drawing
                     if (uri == null)
                     {
                         uri = GetNewUri(_pck.Package, "/xl/media/image{0}.jpg");
-                        imagePart = _pck.Package.CreatePart(uri, "image/jpeg", CompressionLevel.None);
+                        imagePart = _pck.Package.CreatePart(uri, "image/jpeg", CompressionLevel.None, "jpg");
                     }
                     else
                     {
-                        imagePart = _pck.Package.CreatePart(uri, contentType, CompressionLevel.None);
+                        imagePart = _pck.Package.CreatePart(uri, contentType, CompressionLevel.None, GetExtension(uri));
                     }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
@@ -79,6 +79,18 @@ namespace OfficeOpenXml.Drawing
             }
             return _images[hash];
         }
+
+        private string GetExtension(Uri uri)
+        {
+            var s = uri.OriginalString;
+            var i = s.LastIndexOf('.');
+            if(i>0)
+            {
+                return s.Substring(i + 1);
+            }
+            return null;
+        }
+
         internal ImageInfo LoadImage(byte[] image, Uri uri, Packaging.ZipPackagePart imagePart)
         {
 #if (Core)
@@ -171,38 +183,66 @@ namespace OfficeOpenXml.Drawing
             contentType = PictureStore.GetContentType(f.Extension);
             return Image.FromStream(part.GetStream());
         }
-
-        internal static string GetContentType(string extension)
+        internal static ePictureType GetPictureType(string extension)
         {
+            if (extension.StartsWith("."))
+                extension = extension.Substring(1);
+
             switch (extension.ToLower(CultureInfo.InvariantCulture))
             {
-                case ".bmp":
+                case "bmp":
+                    return ePictureType.Bmp;
+                case "jpg":
+                case "jpeg":
+                    return ePictureType.Jpg;
+                case "gif":
+                    return ePictureType.Gif;
+                case "png":
+                    return ePictureType.Png;
+                case "emf":
+                    return ePictureType.Emf;
+                case "tif":
+                case "tiff":
+                    return ePictureType.Tif;
+                case "wmf":
+                    return ePictureType.Wmf;
+                default:
+                    throw (new InvalidOperationException($"Image with extension {extension} is not supported."));
+            }
+        }
+        internal static string GetContentType(string extension)
+        {
+            if (extension.StartsWith("."))
+                extension = extension.Substring(1);
+
+            switch (extension.ToLower(CultureInfo.InvariantCulture))
+            {
+                case "bmp":
                     return "image/bmp";
-                case ".jpg":
-                case ".jpeg":
+                case "jpg":
+                case "jpeg":
                     return "image/jpeg";
-                case ".gif":
+                case "gif":
                     return "image/gif";
-                case ".png":
+                case "png":
                     return "image/png";
-                case ".cgm":
+                case "cgm":
                     return "image/cgm";
-                case ".emf":
+                case "emf":
                     return "image/x-emf";
-                case ".eps":
+                case "eps":
                     return "image/x-eps";
-                case ".pcx":
+                case "pcx":
                     return "image/x-pcx";
-                case ".tga":
+                case "tga":
                     return "image/x-tga";
-                case ".tif":
-                case ".tiff":
+                case "tif":
+                case "tiff":
                     return "image/x-tiff";
-                case ".wmf":
+                case "wmf":
                     return "image/x-wmf";
                 default:
                     return "image/jpeg";
-
             }
         }
         internal static ImageFormat GetImageFormat(string contentType)

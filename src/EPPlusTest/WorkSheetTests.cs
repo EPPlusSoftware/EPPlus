@@ -66,7 +66,10 @@ namespace EPPlusTest
             var fileName = _pck.File.FullName;
 
             SaveAndCleanup(_pck);
-            File.Copy(fileName, dirName + "\\WorksheetRead.xlsx", true);
+            if (File.Exists(fileName))
+            {
+                File.Copy(fileName, dirName + "\\WorksheetRead.xlsx", true);
+            }
         }
         [TestMethod]
         public void AutoFilter()
@@ -162,7 +165,7 @@ namespace EPPlusTest
                 Assert.AreEqual(ws.Cells["F5"].Style.Font.UnderLineType, ExcelUnderLineType.None);
                 Assert.AreEqual(ws.Cells["F5"].Style.Font.UnderLine, false);
 
-                Assert.AreEqual(ws.Cells["T20"].GetValue<string>(), 0.396180555555556d.ToString(CultureInfo.CurrentCulture));
+                Assert.AreEqual(ws.Cells["T20"].GetValue<string>().Substring(0, 15), 0.3961805555555.ToString(CultureInfo.CurrentCulture));
                 Assert.AreEqual(ws.Cells["T20"].GetValue<int>(), 0);
                 Assert.AreEqual(ws.Cells["T20"].GetValue<int?>(), 0);
                 Assert.AreEqual(Math.Round(ws.Cells["T20"].GetValue<double>(),15), 0.396180555555556d);
@@ -177,7 +180,7 @@ namespace EPPlusTest
                 Assert.AreEqual(ws.Cells["T20"].GetValue<TimeSpan?>(), new TimeSpan(693593, 9, 30, 30));
                 Assert.AreEqual(ws.Cells["T20"].Text, "09:30:30");
 
-                Assert.AreEqual(ws.Cells["T24"].GetValue<string>(), 1.39618055555556d.ToString(CultureInfo.CurrentCulture));
+                Assert.AreEqual(ws.Cells["T24"].GetValue<string>().Substring(0, 15), 1.3961805555555d.ToString(CultureInfo.CurrentCulture));
                 Assert.AreEqual(ws.Cells["T24"].GetValue<int>(), 1);
                 Assert.AreEqual(ws.Cells["T24"].GetValue<int?>(), 1);
                 Assert.AreEqual(Math.Round(ws.Cells["T24"].GetValue<double>(), 14), 1.39618055555556d);

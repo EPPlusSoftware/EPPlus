@@ -102,6 +102,25 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         }
 
         [TestMethod]
+        public void CountIfsShouldIncludeMultipleRanges()
+        {
+            var ages = new int[] { 61, 32, 92, 40, 42, 26, 53, 30, 79, 55, 38, 51, 38, 51 };
+            var points = new int[] { 1, 1, 1, 1, 10, 10, 15, 15, 20, 20, 20, 30, 30, 30 };
+            _worksheet.Cells["A1"].Value = "CustomerAge";
+            _worksheet.Cells["B1"].Value = "SiteName";
+            _worksheet.Cells["C1"].Value = "Points";
+            for(var i = 0; i < ages.Length; i++)
+            {
+                _worksheet.Cells["A" + (i + 2)].Value = ages[i];
+                _worksheet.Cells["B" + (i + 2)].Value = "MyCompany";
+                _worksheet.Cells["C" + (i + 2)].Value = points[i];
+            }
+            _worksheet.Cells["D1"].Formula = "COUNTIFS(B:B;\"MyCompany\",C:C, \">=10\",C:C,\"<=20\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(7d, _worksheet.Cells["D1"].Value);
+        }
+
+        [TestMethod]
         public void MaxShouldReturn6()
         {
             _worksheet.Cells["A4"].Formula = "Max(A1:A3)";
@@ -275,6 +294,58 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
             _worksheet.Calculate();
             var result = _worksheet.Cells["B3"].Value;
             Assert.AreEqual(0d, result);
+        }
+
+        [TestMethod]
+        public void ProductShouldCalculateCorrectly1()
+        {
+            var values = new int[] { 7, 11, 13 };
+
+            _worksheet.Cells["A1"].Value = values[0];
+            _worksheet.Cells["A2"].Value = values[1];
+            _worksheet.Cells["A3"].Value = values[2];
+            _worksheet.Cells["A4"].Formula = "PRODUCT(A1:A3)";
+
+            _worksheet.Cells["B1"].Value = values[0];
+            _worksheet.Cells["B2"].Value = values[1];
+            _worksheet.Cells["B3"].Value = values[2];
+            _worksheet.Cells["B4"].Formula = "PRODUCT(B1,B2,B3)";
+
+            _worksheet.Cells["C1"].Value = values[0];
+            _worksheet.Cells["C2"].Value = values[1];
+            _worksheet.Cells["C3"].Value = values[2];
+            _worksheet.Cells["C4"].Formula = "C1*C2*C3";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["A4"].Value, "Error in A");
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["B4"].Value, "Error in B");
+        }
+
+        [TestMethod]
+        public void ProductShouldCalculateCorrectly2()
+        {
+            var values = new int[] { 7, 11, 0 };
+
+            _worksheet.Cells["A1"].Value = values[0];
+            _worksheet.Cells["A2"].Value = values[1];
+            _worksheet.Cells["A3"].Value = values[2];
+            _worksheet.Cells["A4"].Formula = "PRODUCT(A1:A3)";
+
+            _worksheet.Cells["B1"].Value = values[0];
+            _worksheet.Cells["B2"].Value = values[1];
+            _worksheet.Cells["B3"].Value = values[2];
+            _worksheet.Cells["B4"].Formula = "PRODUCT(B1,B2,B3)";
+
+            _worksheet.Cells["C1"].Value = values[0];
+            _worksheet.Cells["C2"].Value = values[1];
+            _worksheet.Cells["C3"].Value = values[2];
+            _worksheet.Cells["C4"].Formula = "C1*C2*C3";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["A4"].Value, "Error in A");
+            Assert.AreEqual(_worksheet.Cells["C4"].Value, _worksheet.Cells["B4"].Value, "Error in B");
         }
     }
 }

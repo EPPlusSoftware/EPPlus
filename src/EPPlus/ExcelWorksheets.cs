@@ -219,8 +219,7 @@ namespace OfficeOpenXml
                 CopyHeaderFooterPictures(Copy, added);
 
                 //Copy all relationships 
-                //CopyRelationShips(Copy, added);
-                if (Copy.Drawings.Count > 0)
+                if (Copy.HasDrawingRelationship)
                 {
                     CopyDrawing(Copy, added);
                 }

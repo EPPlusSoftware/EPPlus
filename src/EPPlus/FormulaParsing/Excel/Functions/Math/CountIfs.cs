@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
                 var indexes = GetMatchIndexes(argRanges[ix], criterias[ix]);
-                matchIndexes = enumerable.Intersect(indexes);
+                matchIndexes = matchIndexes.Intersect(indexes);
             }
             
             return CreateResult((double)matchIndexes.Count(), DataType.Integer);

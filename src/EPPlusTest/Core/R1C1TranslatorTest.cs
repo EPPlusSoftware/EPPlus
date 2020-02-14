@@ -134,7 +134,20 @@ namespace EPPlusTest.Core
             var expectedAddress = "A3:E5";
             AssertAddresses(r1c1, expectedAddress);
         }
-
+        [TestMethod]
+        public void TranslateC1FullColumnWithSheet()
+        {
+            const string formula = "SUM(Sheet1!A:A)";
+            var formulaR1C1 = ExcelCellBase.TranslateToR1C1(formula, 1, 2);
+            Assert.AreEqual("SUM('Sheet1'!C[-1])", formulaR1C1); // fails: formulaR1C1 == "Sum(C[-1])"
+        }
+        [TestMethod]
+        public void TranslateRCFullColumnWithSheet()
+        {
+            const string formulaR1C1 = "SUM(Sheet1!C[-1])";
+            var formula = ExcelCellBase.TranslateFromR1C1(formulaR1C1, 1, 2);
+            Assert.AreEqual("SUM('Sheet1'!A:A)", formula); // also fails: formula == "Sum(A:A)"
+        }
         private static void AssertAddresses(string r1c1, string expectedAddress)
         {
             var address = R1C1Translator.FromR1C1(r1c1, 3, 2);  //From Cell B2

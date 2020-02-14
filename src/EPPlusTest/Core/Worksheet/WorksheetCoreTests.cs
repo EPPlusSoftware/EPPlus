@@ -35,6 +35,22 @@ namespace EPPlusTest.Core.Worksheet
     public class WorksheetCoreTests : TestBase
     {
         [TestMethod]
+        public void SaveCharToCellShouldBeWrittenAsString()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("CharTest");
+                ws.Cells["A1"].Value = 'A';
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    Assert.AreEqual("A", ws.Cells["A1"].Value);
+                }
+            }
+        }
+        [TestMethod]
         public void ValidateAutoFitDontShowHiddenColumns()
         {
             using (var p = new ExcelPackage())
@@ -47,6 +63,89 @@ namespace EPPlusTest.Core.Worksheet
                 ws.Cells.AutoFitColumns(); 
                 Assert.AreEqual(true, ws.Column(2).Hidden);
                 p.Save();
+            }
+        }
+        [TestMethod]
+        public void ValidateAutoFitMinWidthRange()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AutoFitMinWidth");
+                LoadTestdata(ws);
+
+                ws.Cells["A:B"].AutoFitColumns(500);
+                Assert.AreEqual(500, ws.Column(1).Width);
+                Assert.AreEqual(500, ws.Column(2).Width);
+                p.Save();
+            }
+        }
+
+        [TestMethod]
+        public void RichTextFlagShouldBeCleanedWhenOverwritingValue()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwriteValue");
+
+                ws.Cells["A1:B2"].RichText.Add("RichText");
+
+                ws.Cells["A1"].Value = "Text";
+                ws.Cells["B2"].Value = "Text";
+                Assert.IsFalse(ws.Cells["A1"].IsRichText);
+                Assert.IsTrue(ws.Cells["A2"].IsRichText);
+                Assert.IsTrue(ws.Cells["B1"].IsRichText);
+                Assert.IsFalse(ws.Cells["B2"].IsRichText);
+            }
+        }
+
+        [TestMethod]
+        public void RichTextFlagShouldBeCleanedWhenOverwritingValueAddress()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwriteAddress");
+
+                ws.Cells["A1:B2"].RichText.Add("RichText");
+                Assert.IsTrue(ws.Cells["A1"].IsRichText);
+                Assert.IsTrue(ws.Cells["B2"].IsRichText);
+
+                ws.Cells["A1:B2"].Value = "Text";
+                Assert.IsFalse(ws.Cells["A1"].IsRichText);
+                Assert.IsFalse(ws.Cells["B2"].IsRichText);
+            }
+        }
+
+        [TestMethod]
+        public void RichTextFlagShouldBeCleanedWhenOverwritingWithArray()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwrite");
+
+                ws.Cells["A1:C3"].RichText.Add("RichText");
+                Assert.IsTrue(ws.Cells["A1"].IsRichText);
+                Assert.IsTrue(ws.Cells["B2"].IsRichText);
+
+                ws.Cells["A1:B2"].Value = new string[,] { { "Text", "Text" }, { "Text", "Text" } };
+                Assert.IsFalse(ws.Cells["A1"].IsRichText);
+                Assert.IsFalse(ws.Cells["B2"].IsRichText);
+                Assert.IsTrue(ws.Cells["C1"].IsRichText);
+                Assert.IsTrue(ws.Cells["C3"].IsRichText);
+                Assert.IsTrue(ws.Cells["A3"].IsRichText);
+            }
+        }
+        [TestMethod]
+        public void FormulaShouldBeCleanedWhenOverwritingWithArray()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichTextOverwrite");
+
+                ws.Cells["A1:C3"].FormulaR1C1 = "RC";
+                Assert.IsFalse(ws.Cells["A1"].Formula==null);
+
+                ws.Cells["A1:B2"].Value = new string[,] { { "Text", "Text" }, { "Text", "Text" } };
+                Assert.IsTrue(ws.Cells["A1"].Formula == "");
             }
         }
     }

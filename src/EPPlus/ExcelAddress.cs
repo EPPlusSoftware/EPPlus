@@ -770,7 +770,7 @@ namespace OfficeOpenXml
             {
                 return this;
             }            
-            else if (row+rows <= _fromRow) //Before
+            else if (row+rows <= _fromRow || (_fromRowFixed && row <= _fromRow)) //Before
             {
                 return new ExcelAddressBase((setFixed && _fromRowFixed ? _fromRow : _fromRow - rows), _fromCol, (setFixed && _toRowFixed ? _toRow : _toRow - rows), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
             }
@@ -811,7 +811,7 @@ namespace OfficeOpenXml
             {
                 return this;
             }
-            else if (col + cols <= _fromCol) //Before
+            else if (col + cols <= _fromCol || (_fromColFixed && col <= _fromCol)) //Before
             {
                 return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol - cols), _toRow, (setFixed && _toColFixed ? _toCol :_toCol - cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
             }
@@ -1187,7 +1187,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _fromRow == 1 && _toRow == ExcelPackage.MaxRows;
+                return _fromCol == 1 && _toCol == ExcelPackage.MaxColumns;
             }
         }
         /// <summary>
@@ -1198,7 +1198,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _fromCol == 1 && _toCol == ExcelPackage.MaxColumns;
+                return _fromRow == 1 && _toRow == ExcelPackage.MaxRows;
             }
         }
 

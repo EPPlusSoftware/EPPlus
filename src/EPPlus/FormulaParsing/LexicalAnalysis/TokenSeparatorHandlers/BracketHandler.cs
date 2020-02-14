@@ -21,13 +21,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
     {
         public override bool Handle(char c, Token tokenSeparator, TokenizerContext context, ITokenIndexProvider tokenIndexProvider)
         {
-            if (tokenSeparator.TokenType == TokenType.OpeningBracket)
+            if (tokenSeparator.TokenTypeIsSet(TokenType.OpeningBracket))
             {
                 context.AppendToCurrentToken(c);
                 context.BracketCount++;
                 return true;
             }
-            if (tokenSeparator.TokenType == TokenType.ClosingBracket)
+            if (tokenSeparator.TokenTypeIsSet(TokenType.ClosingBracket))
             {
                 context.AppendToCurrentToken(c);
                 context.BracketCount--;

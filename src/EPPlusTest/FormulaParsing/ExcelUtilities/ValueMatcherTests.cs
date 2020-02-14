@@ -124,12 +124,39 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
-        public void ShouldReturnMînus2WhenTypesDifferAndStringConversionToDoubleFails()
+        public void ShouldReturnIncompatibleOperandsWhenTypesDifferAndStringConversionToDoubleFails()
         {
             object o1 = 2d;
             object o2 = "T";
             var result = _matcher.IsMatch(o1, o2);
-            Assert.AreEqual(-2, result);
+            Assert.AreEqual(ValueMatcher.IncompatibleOperands, result);
+        }
+
+        [TestMethod]
+        public void ShouldReturn0WhenEqualDateTimeAndDouble()
+        {
+            var dt = new DateTime(2020, 2, 7).Date;
+            var o2 = dt.ToOADate();
+            var result = _matcher.IsMatch(dt, o2);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldReturn1WhenDateTimeLargerThanDouble()
+        {
+            var dt = new DateTime(2020, 2, 7).Date;
+            var o2 = dt.AddDays(-1).ToOADate();
+            var result = _matcher.IsMatch(dt, o2);
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void ShouldReturn1WhenDateTimeSmallerThanDouble()
+        {
+            var dt = new DateTime(2020, 2, 7).Date;
+            var o2 = dt.AddDays(1).ToOADate();
+            var result = _matcher.IsMatch(dt, o2);
+            Assert.AreEqual(-1, result);
         }
     }
 }

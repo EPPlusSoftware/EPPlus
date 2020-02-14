@@ -725,7 +725,11 @@ namespace OfficeOpenXml
             }
 
             int count = 0;
-            int normalIx = NamedStyles.FindIndexByID("Normal");
+            int normalIx = NamedStyles.FindIndexByBuildInId(0);
+            if(normalIx<0)
+            {
+                normalIx = NamedStyles.FindIndexByID("normal");
+            }
             if (NamedStyles.Count > 0 && normalIx>=0 && NamedStyles[normalIx].Style.Numberformat.NumFmtID >= 164)
             {
                 ExcelNumberFormatXml nf = NumberFormats[NumberFormats.FindIndexByID(NamedStyles[normalIx].Style.Numberformat.Id)];

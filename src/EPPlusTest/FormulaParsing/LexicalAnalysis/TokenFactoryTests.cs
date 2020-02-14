@@ -66,7 +66,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("\"", token.Value);
-            Assert.AreEqual(TokenType.String, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.String));
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("+", token.Value);
-            Assert.AreEqual(TokenType.Operator, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Operator));
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("-", token.Value);
-            Assert.AreEqual(TokenType.Operator, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Operator));
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("*", token.Value);
-            Assert.AreEqual(TokenType.Operator, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Operator));
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("/", token.Value);
-            Assert.AreEqual(TokenType.Operator, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Operator));
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("=", token.Value);
-            Assert.AreEqual(TokenType.Operator, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Operator));
         }
 
         [TestMethod]
@@ -126,7 +126,8 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("23", token.Value);
-            Assert.AreEqual(TokenType.Integer, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Integer));
+
         }
 
         [TestMethod]
@@ -136,7 +137,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("true", token.Value);
-            Assert.AreEqual(TokenType.Boolean, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Boolean));
         }
 
         [TestMethod]
@@ -146,7 +147,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
 
             Assert.AreEqual("23.3", token.Value);
-            Assert.AreEqual(TokenType.Decimal, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Decimal));
         }
 
         [TestMethod]
@@ -154,7 +155,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "Text";
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
-            Assert.AreEqual(TokenType.Function, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.Function));
             Assert.AreEqual("Text", token.Value);
         }
 
@@ -163,7 +164,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "A1";
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
-            Assert.AreEqual(TokenType.ExcelAddress, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.ExcelAddress));
             Assert.AreEqual("A1", token.Value);
         }
 
@@ -172,7 +173,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "A1:B15";
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
-            Assert.AreEqual(TokenType.ExcelAddress, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.ExcelAddress));
             Assert.AreEqual("A1:B15", token.Value);
         }
 
@@ -181,8 +182,8 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "ws!A1:B15";
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
-            Assert.AreEqual(TokenType.ExcelAddress, token.TokenType);
-            Assert.AreEqual("WS!A1:B15", token.Value);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.ExcelAddress));
+            Assert.AreEqual("ws!A1:B15", token.Value);
         }
 
         [TestMethod]
@@ -192,7 +193,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             A.CallTo(() => _nameValueProvider.IsNamedValue("NamedValue","")).Returns(true);
             A.CallTo(() => _nameValueProvider.IsNamedValue("NamedValue", null)).Returns(true);
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
-            Assert.AreEqual(TokenType.NameValue, token.TokenType);
+            Assert.IsTrue(token.TokenTypeIsSet(TokenType.NameValue));
             Assert.AreEqual("NamedValue", token.Value);
         }
     }

@@ -24,7 +24,9 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
-
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -33,6 +35,13 @@ namespace OfficeOpenXml.Drawing
     public sealed class ExcelPicture : ExcelDrawing
     {
         #region "Constructors"
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink) :
+            base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
+        {
+            CreatePicNode(node);
+            Hyperlink = hyperlink;
+        }
+
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr", shape)
         {
@@ -71,39 +80,41 @@ namespace OfficeOpenXml.Drawing
 
             //Create relationship
             node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
-            _height = image.Height;
-            _width = image.Width;
             SetPosDefaults(image);
             package.Flush();
         }
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, FileInfo imageFile, Uri hyperlink) :
-            base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
+
+        #if !NET35 && !NET40
+        internal async Task LoadImageAsync(Stream stream, ePictureType type)
         {
-            CreatePicNode(node);
+            var img = new byte[stream.Length];
+            stream.Seek(0, SeekOrigin.Begin);
+            await stream.ReadAsync(img, 0, (int)stream.Length).ConfigureAwait(false);
 
-            //Changed to stream 2/4-13 (issue 14834). Thnx SClause
-            var package = drawings.Worksheet._package.Package;
-            ContentType = PictureStore.GetContentType(imageFile.Extension);
-            var imagestream = new FileStream(imageFile.FullName, FileMode.Open, FileAccess.Read);
-            _image = Image.FromStream(imagestream);
-            Hyperlink = hyperlink;
+            SaveImageToPackage(type, img);
+        }        
+        #endif
+        internal void LoadImage(Stream stream, ePictureType type)
+        {
+            var img = new byte[stream.Length];
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.Read(img, 0, (int)stream.Length);
 
-#if (Core)
-            var img = ImageCompat.GetImageAsByteArray(_image);
-#else
-            ImageConverter ic = new ImageConverter();
-            var img = (byte[])ic.ConvertTo(_image, typeof(byte[]));
-#endif
+            SaveImageToPackage(type, img);
+        }
+        private void SaveImageToPackage(ePictureType type, byte[] img)
+        {
+            var package = _drawings.Worksheet._package.Package;
+            ContentType = PictureStore.GetContentType(type.ToString());
             IPictureContainer container = this;
-            imagestream.Close();
-            container.UriPic = GetNewUri(package, "/xl/media/{0}" + imageFile.Name);
+            container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
             var store = _drawings._package.PictureStore;
             var ii = store.AddImage(img, container.UriPic, ContentType);
             string relId;
             if (!_drawings._hashes.ContainsKey(ii.Hash))
             {
                 Part = ii.Part;
-                container.RelPic = drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(drawings.UriDrawing, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                container.RelPic = _drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(_drawings.UriDrawing, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                 relId = container.RelPic.Id;
                 _drawings._hashes.Add(ii.Hash, new HashInfo(relId));
                 AddNewPicture(img, relId);
@@ -115,11 +126,11 @@ namespace OfficeOpenXml.Drawing
                 container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             }
             container.ImageHash = ii.Hash;
-            _height = Image.Height;
-            _width = Image.Width;
-            SetPosDefaults(Image);
+            _image = Image.FromStream(new MemoryStream(img));
+            SetPosDefaults(_image);
+
             //Create relationship
-            node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
             package.Flush();
         }
 
@@ -138,12 +149,14 @@ namespace OfficeOpenXml.Drawing
             newPic.relID = relID;
             //_drawings._pics.Add(newPic);
         }
-        #endregion
+#endregion
         private void SetPosDefaults(Image image)
         {
             EditAs = eEditAs.OneCell;
             SetPixelWidth(image.Width, image.HorizontalResolution);
             SetPixelHeight(image.Height, image.VerticalResolution);
+            _width = GetPixelWidth();
+            _height = GetPixelHeight();
         }
 
         private string PicStartXml()
@@ -283,7 +296,43 @@ namespace OfficeOpenXml.Drawing
                 return _effect;
             }
         }
-
+        const string _preferRelativeResizePath = "xdr:pic/xdr:nvPicPr/xdr:cNvPicPr/@preferRelativeResize";
+        /// <summary>
+        /// Relative to original picture size
+        /// </summary>
+        public bool PreferRelativeResize
+        { 
+            get
+            {
+                return GetXmlNodeBool(_preferRelativeResizePath);
+            }
+            set
+            {
+                SetXmlNodeBool(_preferRelativeResizePath, value);
+            }
+        }
+        const string _lockAspectRatioPath = "xdr:pic/xdr:nvPicPr/xdr:cNvPicPr/a:picLocks/@noChangeAspect";
+        /// <summary>
+        /// Lock aspect ratio
+        /// </summary>
+        public bool LockAspectRatio
+        {
+            get
+            {
+                return GetXmlNodeBool(_lockAspectRatioPath);
+            }
+            set
+            {
+                SetXmlNodeBool(_lockAspectRatioPath, value);
+            }
+        }
+        internal override void CellAnchorChanged()
+        {
+            base.CellAnchorChanged();
+            if (_fill != null) _fill.SetTopNode(TopNode);
+            if (_border != null) _border.TopNode = TopNode;
+            if (_effect != null) _effect.TopNode = TopNode;
+        }
 
         internal override void DeleteMe()
         {

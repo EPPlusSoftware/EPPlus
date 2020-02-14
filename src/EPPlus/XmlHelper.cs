@@ -122,7 +122,7 @@ namespace OfficeOpenXml
 			{
                 string subPath = subPaths[i];
                 XmlNode subNode = node.SelectSingleNode(subPath, NameSpaceManager);
-				if (subNode == null || (i==subPath.Length-1 && addNew))
+				if (subNode == null || (i==subPaths.Length-1 && addNew))
 				{
 					string nodeName;
 					string nodePrefix;
@@ -853,7 +853,7 @@ namespace OfficeOpenXml
                 return null;
             }
         }
-        internal long? GetXmlNodeLong(string path)
+        internal long GetXmlNodeLong(string path)
         {
             long l;
             string s = GetXmlNodeString(path);

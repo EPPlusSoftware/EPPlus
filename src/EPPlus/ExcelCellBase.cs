@@ -687,7 +687,7 @@ namespace OfficeOpenXml
                 var f = "";
                 foreach (var t in tokens)
                 {
-                    if (t.TokenType == TokenType.ExcelAddress)
+                    if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var address = new ExcelAddressBase(t.Value);
 
@@ -701,22 +701,29 @@ namespace OfficeOpenXml
                         {
                             f += $"'{address._ws}'!";
                         }
-                        if (rowIncrement > 0)
+                        if (!address.IsFullColumn)
                         {
-                            address = address.AddRow(afterRow, rowIncrement, setFixed);
+                            if (rowIncrement > 0)
+                            {
+                                address = address.AddRow(afterRow, rowIncrement, setFixed);
+                            }
+                            else if (rowIncrement < 0)
+                            {
+                                address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                            }
                         }
-                        else if (rowIncrement < 0)
+                        if (address!=null && !address.IsFullRow)
                         {
-                            address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                            if (colIncrement > 0)
+                            {
+                                address = address.AddColumn(afterColumn, colIncrement, setFixed);
+                            }
+                            else if (colIncrement < 0)
+                            {
+                                address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
+                            }
                         }
-                        if (colIncrement > 0)
-                        {
-                            address = address.AddColumn(afterColumn, colIncrement, setFixed);
-                        }
-                        else if (colIncrement < 0)
-                        {
-                            address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
-                        }
+
                         if (address == null || !address.IsValidRowCol())
                         {
                             f += "#REF!";
@@ -773,7 +780,7 @@ namespace OfficeOpenXml
                 var retFormula = "";
                 foreach (var token in sct.Tokenize(formula))
                 {
-                    if (token.TokenType == TokenType.ExcelAddress) //Address
+                    if (token.TokenTypeIsSet(TokenType.ExcelAddress)) //Address
                     {
                         var address = new ExcelAddressBase(token.Value);
                         if (address == null || !address.IsValidRowCol())

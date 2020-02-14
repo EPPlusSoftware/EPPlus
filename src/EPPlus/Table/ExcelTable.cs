@@ -82,12 +82,12 @@ namespace OfficeOpenXml.Table
 
             int cols=Address._toCol-Address._fromCol+1;
             xml += string.Format("<tableColumns count=\"{0}\">",cols);
-            var names = new Dictionary<string, string>();            
+            var names = new HashSet<string>();            
             for(int i=1;i<=cols;i++)
             {
                 var cell = WorkSheet.Cells[Address._fromRow, Address._fromCol+i-1];
-                string colName;
-                if (cell.Value == null || names.ContainsKey(cell.Value.ToString()))
+                string colName= SecurityElement.Escape(cell.Value?.ToString());
+                if (cell.Value == null || names.Contains(colName))
                 {
                     //Get an unique name
                     int a=i;
@@ -95,13 +95,9 @@ namespace OfficeOpenXml.Table
                     {
                         colName = string.Format("Column{0}", a++);
                     }
-                    while (names.ContainsKey(colName));
+                    while (names.Contains(colName));
                 }
-                else
-                {
-                    colName = SecurityElement.Escape(cell.Value.ToString());
-                }
-                names.Add(colName, colName);
+                names.Add(colName);
                 xml += string.Format("<tableColumn id=\"{0}\" name=\"{1}\" />", i,colName);
             }
             xml += "</tableColumns>";
@@ -206,6 +202,17 @@ namespace OfficeOpenXml.Table
                 WriteAutoFilter(ShowTotal);
             }
         }
+        /// <summary>
+        /// The table range
+        /// </summary>
+        public ExcelRangeBase Range
+        {
+            get
+            {
+                return WorkSheet.Cells[_address._fromRow, _address._fromCol, _address._toRow, _address._toCol];
+            }
+        }
+
         internal ExcelTableColumnCollection _cols = null;
         /// <summary>
         /// Collection of the columns in the table

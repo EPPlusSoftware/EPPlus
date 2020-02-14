@@ -59,12 +59,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             if (left.Result is ExcelErrorValue)
             {
                 return new CompileResult(left.Result, DataType.ExcelError);
-                //throw(new ExcelErrorValueException((ExcelErrorValue)left.Result));
             }
             else if (right.Result is ExcelErrorValue)
             {
                 return new CompileResult(right.Result, DataType.ExcelError);
-                //throw(new ExcelErrorValueException((ExcelErrorValue)right.Result));
             }
             return _implementation(left, right);
         }

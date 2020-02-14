@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             var resultCells = new List<string>();
             var r = context.Configuration.Lexer.Tokenize(cellFormula, context.Scopes.Current.Address.Worksheet);
-            var toAddresses = r.Where(x => x.TokenType == TokenType.ExcelAddress);
+            var toAddresses = r.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
             foreach (var toAddress in toAddresses)
             {
                 var rangeAddress = context.RangeAddressFactory.Create(toAddress.Value);

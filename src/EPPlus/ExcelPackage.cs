@@ -147,7 +147,9 @@ namespace OfficeOpenXml
         /// <summary>
 		/// Main Xml schema name
 		/// </summary>
-		internal const string schemaMain = @"http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+        internal const string schemaWorkbook = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
+
+        internal const string schemaMain = @"http://schemas.openxmlformats.org/spreadsheetml/2006/main";
                                             
 		/// <summary>
 		/// Relationship schema name
@@ -869,7 +871,7 @@ namespace OfficeOpenXml
                     }
                 }
             }
-                catch (Exception ex)
+            catch (Exception ex)
             {
                 if (File == null)
                 {
