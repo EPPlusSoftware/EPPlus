@@ -31,42 +31,45 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="worksheet"></param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationDecimal(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType)
-            : base(worksheet, address, validationType)
+        internal ExcelDataValidationDecimal(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
+            : base(worksheet, uid, address, validationType)
         {
-            Formula = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, _formula1Path);
-            Formula2 = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, _formula2Path);
+            Formula = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, GetFormula1Path(), uid);
+            Formula2 = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, GetFormula2Path(), uid);
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="worksheet"></param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
         /// <param name="itemElementNode"></param>
-        internal ExcelDataValidationDecimal(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, address, validationType, itemElementNode)
+        internal ExcelDataValidationDecimal(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
+            : base(worksheet, uid, address, validationType, itemElementNode)
         {
-            Formula = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, _formula1Path);
-            Formula2 = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, _formula2Path);
+            Formula = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, GetFormula1Path(), uid);
+            Formula2 = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, GetFormula2Path(), uid);
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="worksheet"></param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
         /// <param name="itemElementNode"></param>
         /// <param name="namespaceManager">For test purposes</param>
-        internal ExcelDataValidationDecimal(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, address, validationType, itemElementNode, namespaceManager)
+        internal ExcelDataValidationDecimal(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
+            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
         {
-            Formula = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, _formula1Path);
-            Formula2 = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, _formula2Path);
+            Formula = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, GetFormula1Path(), uid);
+            Formula2 = new ExcelDataValidationFormulaDecimal(NameSpaceManager, TopNode, GetFormula2Path(), uid);
         }
     }
 }

@@ -28,9 +28,11 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public abstract class ExcelDataValidation : XmlHelper, IExcelDataValidation
     {
-        private const string _itemElementNodeName = "d:dataValidation";
+        private const string ItemElementNodeName = "d:dataValidation";
+        private const string ExtLstElementNodeName = "x14:dataValidation";
+        private readonly InternalValidationType _internalValidationType = InternalValidationType.DataValidation;
 
-
+        private readonly string _uidPath = "@xr:uid";
         private readonly string _errorStylePath = "@errorStyle";
         private readonly string _errorTitlePath = "@errorTitle";
         private readonly string _errorPath = "@error";
@@ -41,29 +43,33 @@ namespace OfficeOpenXml.DataValidation
         private readonly string _showInputMessagePath = "@showInputMessage";
         private readonly string _typeMessagePath = "@type";
         private readonly string _sqrefPath = "@sqref";
+        private readonly string _sqrefPathExt = "xm:sqref";
         private readonly string _allowBlankPath = "@allowBlank";
         /// <summary>
         /// Xml path for Formula1
         /// </summary>
-        protected readonly string _formula1Path = "d:formula1";
+        private readonly string _formula1Path = "d:formula1";
+        private readonly string _formula1ExtLstPath = "x14:formula1/xm:f";
         /// <summary>
         /// Xml path for Formula2
         /// </summary>
-        protected readonly string _formula2Path = "d:formula2";
+        private readonly string _formula2Path = "d:formula2";
+        private readonly string _formula2ExtLstPath = "x14:formula2/xm:f";
 
-        internal ExcelDataValidation(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType)
-            : this(worksheet, address, validationType, null)
+        internal ExcelDataValidation(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
+            : this(worksheet, uid, address, validationType, null, internalValidationType)
         { }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="worksheet">worksheet that owns the validation</param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="itemElementNode">Xml top node (dataValidations)</param>
         /// <param name="validationType">Data validation type</param>
         /// <param name="address">address for data validation</param>
-        internal ExcelDataValidation(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : this(worksheet, address, validationType, itemElementNode, null)
+        internal ExcelDataValidation(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
+            : this(worksheet, uid, address, validationType, itemElementNode, null, internalValidationType)
         {
 
         }
@@ -72,29 +78,45 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="worksheet">worksheet that owns the validation</param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="itemElementNode">Xml top node (dataValidations) when importing xml</param>
         /// <param name="validationType">Data validation type</param>
         /// <param name="address">address for data validation</param>
         /// <param name="namespaceManager">Xml Namespace manager</param>
-        internal ExcelDataValidation(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
+        /// <param name="internalValidationType"><see cref="InternalValidationType"/></param>
+        internal ExcelDataValidation(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
             : base(namespaceManager != null ? namespaceManager : worksheet.NameSpaceManager)
         {
+            Require.Argument(uid).IsNotNullOrEmpty("uid");
             Require.Argument(address).IsNotNullOrEmpty("address");
             address = CheckAndFixRangeAddress(address);
+            _internalValidationType = internalValidationType;
             if (itemElementNode == null)
             {
-                //var xmlDoc = worksheet.WorksheetXml;
-                TopNode = worksheet.WorksheetXml.SelectSingleNode("//d:dataValidations", worksheet.NameSpaceManager);
-                // did not succeed using the XmlHelper methods here... so I'm creating the new node using XmlDocument...
-                var nsUri = NameSpaceManager.LookupNamespace("d");
-                //itemElementNode = TopNode.OwnerDocument.CreateElement(_itemElementNodeName, nsUri);
-                itemElementNode = TopNode.OwnerDocument.CreateElement(_itemElementNodeName.Split(':')[1], nsUri);
+                TopNode = worksheet.WorksheetXml.SelectSingleNode(GetTopNodeName(), worksheet.NameSpaceManager);
+                itemElementNode = CreateNode(GetItemElementNodeName(), false, true);
                 TopNode.AppendChild(itemElementNode);
             }
             TopNode = itemElementNode;
             ValidationType = validationType;
+            Uid = uid;
             Address = new ExcelAddress(address);
             Init();
+        }
+
+        private string GetSqRefPath()
+        {
+            return _internalValidationType == InternalValidationType.DataValidation ? _sqrefPath : _sqrefPathExt;
+        }
+
+        private string GetItemElementNodeName()
+        {
+            return _internalValidationType == InternalValidationType.DataValidation ? ItemElementNodeName : ExtLstElementNodeName;
+        }
+
+        private string GetTopNodeName()
+        {
+            return _internalValidationType == InternalValidationType.DataValidation ? "//d:dataValidations" : "//d:extLst/d:ext/x14:dataValidations";
         }
 
         private void Init()
@@ -103,6 +125,7 @@ namespace OfficeOpenXml.DataValidation
             if(ValidationType == ExcelDataValidationType.List)
             {
                 SchemaNodeOrder = new string[]{
+                    "xr:uid",
                     "type",
                     "errorStyle",
                     "allowBlank",
@@ -119,6 +142,7 @@ namespace OfficeOpenXml.DataValidation
             else
             {
                 SchemaNodeOrder = new string[]{
+                    "xr:uid",
                     "type",
                     "errorStyle",
                     "operator",
@@ -190,6 +214,20 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        public string Uid
+        {
+            get
+            {
+                return GetXmlNodeString(_uidPath);
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value)) throw new ArgumentNullException("Uid");
+                var uid = value.TrimStart('{').TrimEnd('}');
+                SetXmlNodeString(_uidPath, "{" + uid + "}");
+            }
+        }
+
         /// <summary>
         /// Address of data validation
         /// </summary>
@@ -197,7 +235,7 @@ namespace OfficeOpenXml.DataValidation
         {
             get
             {
-                return new ExcelAddress(GetXmlNodeString(_sqrefPath));
+                return new ExcelAddress(GetXmlNodeString(GetSqRefPath()));
             }
             private set
             {
@@ -397,6 +435,15 @@ namespace OfficeOpenXml.DataValidation
 
         #endregion
 
+        #region Internal properties
+
+        internal static string NewId()
+        {
+            return "{" + Guid.NewGuid() + "}";
+        }
+        internal bool IsExtLst { get; set; }
+        #endregion
+
         /// <summary>
         /// Sets the value to the supplied path
         /// </summary>
@@ -414,10 +461,20 @@ namespace OfficeOpenXml.DataValidation
             SetXmlNodeString(path, stringValue);
         }
 
+        protected string GetFormula1Path()
+        {
+            return _internalValidationType == InternalValidationType.DataValidation ? _formula1Path : _formula1ExtLstPath;
+        }
+
+        protected string GetFormula2Path()
+        {
+            return _internalValidationType == InternalValidationType.DataValidation ? _formula2Path : _formula2ExtLstPath;
+        }
+
         internal void SetAddress(string address)
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
-            SetXmlNodeString(_sqrefPath, dvAddress);
+            SetXmlNodeString(GetSqRefPath(), dvAddress);
             
         }
     }

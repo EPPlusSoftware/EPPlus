@@ -58,7 +58,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "time", "0.675");
 
             // Act
-            var formula = new ExcelDataValidationTime(_sheet, "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
+            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
             
             // Assert
             Assert.AreEqual(time.Hour, formula.Formula.Value.Hour);
@@ -72,7 +72,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "time", "0.395");
 
             // Act
-            var formula = new ExcelDataValidationTime(_sheet, "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
+            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
 
             // Assert
             Assert.AreEqual(time.Minute, formula.Formula.Value.Minute);
@@ -86,7 +86,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "time", "0.812");
 
             // Act
-            var formula = new ExcelDataValidationTime(_sheet, "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
+            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
 
             // Assert
             Assert.AreEqual(time.Second.Value, formula.Formula.Value.Second.Value);

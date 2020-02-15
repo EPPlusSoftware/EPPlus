@@ -98,7 +98,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             _package.SaveAs(new FileInfo(GetTestOutputPath("AddOneValidationOfTypeList.xlsx")));
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void DataValidations_AddOneValidationOfTypeListOfTypeTime()
         {
             var validation = _sheet.DataValidations.AddTimeValidation("A1");

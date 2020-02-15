@@ -54,7 +54,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "decimal", "A1");
 
             // Act
-            var validation = new ExcelDataValidationCustom(_sheet, "A1", ExcelDataValidationType.Custom, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationCustom(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Custom, _dataValidationNode, _namespaceManager);
 
             // Assert
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);

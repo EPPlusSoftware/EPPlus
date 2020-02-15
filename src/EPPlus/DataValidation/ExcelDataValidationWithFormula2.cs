@@ -30,23 +30,25 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="worksheet"></param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType)
-            : this(worksheet, address, validationType, null)
+        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
+            : this(worksheet, uid, address, validationType, null)
         {
 
         }
 
-         /// <summary>
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="worksheet">Worksheet that owns the validation</param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="itemElementNode">Xml top node (dataValidations)</param>
         /// <param name="validationType">Data validation type</param>
         /// <param name="address">address for data validation</param>
-        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, address, validationType, itemElementNode)
+        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
+            : base(worksheet, uid, address, validationType, itemElementNode)
         {
             
         }
@@ -55,12 +57,13 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="worksheet">Worksheet that owns the validation</param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="itemElementNode">Xml top node (dataValidations)</param>
         /// <param name="validationType">Data validation type</param>
         /// <param name="address">address for data validation</param>
         /// <param name="namespaceManager">for test purposes</param>
-        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, address, validationType, itemElementNode, namespaceManager)
+        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
+            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
         {
 
         }

@@ -28,7 +28,9 @@
  *******************************************************************************/
 
 using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation.Contracts;
 
 namespace EPPlusTest.DataValidation

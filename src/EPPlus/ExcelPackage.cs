@@ -700,6 +700,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("xsi", schemaXsi);
             ns.AddNamespace("x14", schemaMainX14);
             ns.AddNamespace("xm", schemaMainXm);
+            ns.AddNamespace("xr", schemaXr);
             ns.AddNamespace("xr2", schemaXr2);
             ns.AddNamespace("mc", schemaMarkupCompatibility);
             
