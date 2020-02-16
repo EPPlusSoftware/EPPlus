@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.DataValidation.Events;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -58,6 +59,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
 
         private string _validationUid;
         private string _formula;
+        private List<IFormulaListener> _formulaListeners = new List<IFormulaListener>();
 
 
         protected string FormulaPath
@@ -66,7 +68,18 @@ namespace OfficeOpenXml.DataValidation.Formulas
             private set;
         }
 
-        protected virtual void OnFormulaChanged(string uid, string oldValue, string newValue) { }
+        internal void RegisterFormulaListener(IFormulaListener listener)
+        {
+            _formulaListeners.Add(listener);
+        }
+
+        private void OnFormulaChanged(string uid, string oldValue, string newValue) 
+        { 
+            foreach(var listener in _formulaListeners)
+            {
+                listener.Notify(new ValidationFormulaChangedArgs { ValidationUid = uid, OldValue = oldValue, NewValue = newValue });
+            }
+        }
 
         /// <summary>
         /// State of the validationformula, i.e. tells if value or formula is set

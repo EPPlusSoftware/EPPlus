@@ -23,6 +23,10 @@ namespace OfficeOpenXml.DataValidation.Contracts
     public interface IExcelDataValidation
     {
         /// <summary>
+        /// Unique id of the data validation
+        /// </summary>
+        string Uid { get; }
+        /// <summary>
         /// Address of data validation
         /// </summary>
         ExcelAddress Address { get; }

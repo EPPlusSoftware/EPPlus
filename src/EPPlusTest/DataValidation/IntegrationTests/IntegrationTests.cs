@@ -84,7 +84,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             _package.SaveAs(new FileInfo(GetTestOutputPath("AddOneValidationOfTypeDecimal.xlsx")));
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void DataValidations_AddOneValidationOfTypeListOfTypeList()
         {
             var validation = _sheet.DataValidations.AddListValidation("A:A");
@@ -120,6 +120,24 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             using (var package = new ExcelPackage(new FileInfo(GetTestOutputPath("DVTest.xlsx"))))
             {
                 Assert.AreEqual(3, package.Workbook.Worksheets[1].DataValidations.Count);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldMoveListValidationToExtListWhenReferringOtherWorksheet()
+        {
+            using (var package = new ExcelPackage(new FileInfo(GetTestOutputPath("ExtListTest.xlsx"))))
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test1");
+                var sheet2 = package.Workbook.Worksheets.Add("test2");
+
+                var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
+                v.Formula.ExcelFormula = "test2!A1:A2";
+
+                sheet2.Cells["A1"].Value = "option1";
+                sheet2.Cells["A2"].Value = "option2";
+
+                package.Save();
             }
         }
 

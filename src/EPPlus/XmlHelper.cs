@@ -117,7 +117,7 @@ namespace OfficeOpenXml
 			XmlNode prependNode = null;
             int lastUsedOrderIndex = 0;
             if (path.StartsWith("/")) path = path.Substring(1);
-            var subPaths = path.Split('/');
+            var subPaths = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             for(int i= 0; i < subPaths.Length;i++)
 			{
                 string subPath = subPaths[i];

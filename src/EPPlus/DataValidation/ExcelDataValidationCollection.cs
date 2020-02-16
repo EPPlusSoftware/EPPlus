@@ -19,6 +19,7 @@ using System.Globalization;
 using OfficeOpenXml.Utils;
 using System.Xml;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Formulas;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -52,6 +53,7 @@ namespace OfficeOpenXml.DataValidation
         private ExcelExLstDataValidationCollection _extLstValidations = null;
         private ExcelWorksheet _worksheet = null;
         private readonly bool _extListUsed = false;
+        private readonly DataValidationFormulaListener _formulaListener = null;
 
         private const string DataValidationPath = "//d:dataValidations";
         private readonly string DataValidationItemsPath = string.Format("{0}/d:dataValidation", DataValidationPath);
@@ -65,6 +67,7 @@ namespace OfficeOpenXml.DataValidation
         {
             Require.Argument(worksheet).IsNotNull("worksheet");
             _worksheet = worksheet;
+            _formulaListener = new DataValidationFormulaListener(this, _worksheet);
             SchemaNodeOrder = worksheet.SchemaNodeOrder;
 
             // check existing nodes and load them
@@ -172,10 +175,9 @@ namespace OfficeOpenXml.DataValidation
             ValidateAddress(address, null);
         }
 
-        private bool IsReferringOtherWorksheet(string address)
+        internal ExcelExLstDataValidationCollection DataValidationsExt
         {
-            var a = new ExcelAddress(address);
-            return (a.WorkSheet != _worksheet.Name);
+            get { return _extLstValidations; }
         }
 
         /// <summary>
@@ -259,6 +261,7 @@ namespace OfficeOpenXml.DataValidation
             ValidateAddress(address);
             EnsureRootElementExists();
             var item = new ExcelDataValidationList(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.List);
+            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -332,14 +335,13 @@ namespace OfficeOpenXml.DataValidation
         /// <exception cref="ArgumentNullException">if <paramref name="item"/> is null</exception>
         public bool Remove(IExcelDataValidation item)
         {
+            Require.Argument(item).IsNotNull("item");
             if (!(item is ExcelDataValidation))
             {
                 throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
             }
-            Require.Argument(item).IsNotNull("item");
-            //TopNode.RemoveChild(((ExcelDataValidation)item).TopNode);
-            var dvNode = _worksheet.WorksheetXml.DocumentElement.SelectSingleNode(DataValidationPath.TrimStart('/'), NameSpaceManager);
-            dvNode?.RemoveChild(((ExcelDataValidation)item).TopNode);
+
+            ((ExcelDataValidation)item).Delete();
             var retVal = _validations.Remove(item);
             if (retVal) OnValidationCountChanged();
             return retVal;

@@ -60,6 +60,13 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        public void ListDataValidation_CanAssignFormula()
+        {
+            _validation.Formula.ExcelFormula = "abc!A2";
+            Assert.AreEqual("abc!A2", _validation.Formula.ExcelFormula);
+        }
+
+        [TestMethod]
         public void ListDataValidation_WhenOneItemIsAddedCountIs1()
         {
             // Act

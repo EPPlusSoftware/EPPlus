@@ -104,6 +104,11 @@ namespace OfficeOpenXml.DataValidation
             Init();
         }
 
+        internal InternalValidationType InternalValidationType 
+        {
+            get { return _internalValidationType; } 
+        }
+
         private string GetSqRefPath()
         {
             return _internalValidationType == InternalValidationType.DataValidation ? _sqrefPath : _sqrefPathExt;
@@ -199,6 +204,11 @@ namespace OfficeOpenXml.DataValidation
             {
                 throw new InvalidOperationException("Validation of " + address + " failed: Formula1 cannot be empty");
             }
+        }
+
+        internal void Delete()
+        {
+            DeleteTopNode();
         }
 
         #region Public properties
@@ -439,7 +449,7 @@ namespace OfficeOpenXml.DataValidation
 
         internal static string NewId()
         {
-            return "{" + Guid.NewGuid() + "}";
+            return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
         }
         internal bool IsExtLst { get; set; }
         #endregion

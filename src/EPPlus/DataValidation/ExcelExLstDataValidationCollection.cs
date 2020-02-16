@@ -48,9 +48,11 @@ namespace OfficeOpenXml.DataValidation
 
         private void EnsureRootElementExists()
         {
-            var node = _worksheet.WorksheetXml.SelectSingleNode(ExternalDataValidationPath, _worksheet.NameSpaceManager);
+            var node = TopNode.SelectSingleNode(ExternalDataValidationPath, _worksheet.NameSpaceManager);
             if (node == null)
             {
+                CreateNode(ExternalDataValidationItemsPath.TrimStart('/'), false, true);
+                /*
                 var pathStrings = ExternalDataValidationPath.TrimStart('/').Split('/');
                 var nodeToCreate = pathStrings[0];
                 for(var x = 1; x < pathStrings.Length; x++)
@@ -58,7 +60,9 @@ namespace OfficeOpenXml.DataValidation
                     CreateNode(nodeToCreate);
                     nodeToCreate += "/" + pathStrings[x];
                 }  
+                */
             }
+            TopNode = _worksheet.WorksheetXml.SelectSingleNode(ExternalDataValidationPath, _worksheet.NameSpaceManager);
         }
 
         private void OnValidationCountChanged()
@@ -88,10 +92,9 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        private XmlNode GetRootNode()
+        internal XmlNode GetRootNode()
         {
             EnsureRootElementExists();
-            TopNode = _worksheet.WorksheetXml.SelectSingleNode(ExternalDataValidationPath, _worksheet.NameSpaceManager);
             return TopNode;
         }
 
@@ -113,7 +116,7 @@ namespace OfficeOpenXml.DataValidation
         public IExcelDataValidationWithFormula2<T> AddValidation<T>(IExcelDataValidationWithFormula2<T> item)
             where T : IExcelDataValidationFormula
         {
-            EnsureRootElementExists(); ;
+            EnsureRootElementExists();
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
