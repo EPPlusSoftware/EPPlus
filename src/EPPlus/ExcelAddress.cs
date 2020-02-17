@@ -338,6 +338,10 @@ namespace OfficeOpenXml
                 }
                 if (pos>0)
                 {
+                    if (_ws[pos+1]!='!')
+                    {
+                        throw new InvalidOperationException($"Address is not valid {address}. Missing ! after sheet name.");
+                    }
                     _address = _ws.Substring(pos+2);
                     _ws = _ws.Substring(1, pos-1);
                     return;

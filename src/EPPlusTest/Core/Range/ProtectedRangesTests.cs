@@ -28,9 +28,10 @@
  *******************************************************************************/
 using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using System;
 
-namespace OfficeOpenXml.Core.Range
+namespace EPPlusTest.Core.Range
 {
     [TestClass]
     public class ProtectedRangesTests : TestBase

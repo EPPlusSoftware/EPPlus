@@ -29,7 +29,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-namespace OfficeOpenXml.Core.Range
+using System;
+
+namespace EPPlusTest.Core.Range
 {
     [TestClass]
     public class RangeAddressTests
@@ -316,6 +318,50 @@ namespace OfficeOpenXml.Core.Range
             Assert.AreEqual(2, excelAddress._toRow);
         }
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddressWithFullColumnInEndAndCellIsNotValid()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var workbook = package.Workbook;
+                var sheet1 = package.Workbook.Worksheets.Add("NEW");
+                var v = sheet1.Cells["A1:B"]; //Invalid address
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddressWithFullColumnAtStartAndCellIsNotValid()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var workbook = package.Workbook;
+                var sheet1 = package.Workbook.Worksheets.Add("NEW");
+                var v = sheet1.Cells["A:B1"]; //Invalid address
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddressWithFullRowInEndAndCellIsNotValid()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var workbook = package.Workbook;
+                var sheet1 = package.Workbook.Worksheets.Add("NEW");
+                var v = sheet1.Cells["A1:2"]; //Invalid address
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddressWithFullRowAtStartAndCellIsNotValid()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var workbook = package.Workbook;
+                var sheet1 = package.Workbook.Worksheets.Add("NEW");
+                var v = sheet1.Cells["1:B1"]; //Invalid address
+            }
+        }
+        [TestMethod]
         public void IsValidAddress()
         {
             Assert.IsFalse(ExcelCellBase.IsValidAddress("$A12:XY1:3"));
@@ -336,6 +382,9 @@ namespace OfficeOpenXml.Core.Range
             Assert.IsTrue(ExcelCellBase.IsValidAddress("$A$12:$XY$13,$A12:XY$14"));
 
             Assert.IsFalse(ExcelCellBase.IsValidAddress("$A$12:$XY$13,$A12:XY$14$"));
+
+            Assert.IsFalse(ExcelCellBase.IsValidAddress("A12:B"));
+            Assert.IsFalse(ExcelCellBase.IsValidAddress("A:B12"));
         }
         [TestMethod]
         public void ClearShouldNotClearSurroundingCells()
