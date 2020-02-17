@@ -169,6 +169,17 @@ namespace OfficeOpenXml
             else
             {
                 string[] cells = CellAddress.Split(':');
+                if(cells.Length>2)
+                {
+                    throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                }
+                else
+                {
+                    if (IsCellAddress(cells[0]) != IsCellAddress(cells[1]))
+                    {
+                        throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                    }
+                }
                 ret = GetRowColFromAddress(cells[0], out FromRow, out FromColumn, out fixedFromRow, out fixedFromColumn);
                 if (ret)
                     ret = GetRowColFromAddress(cells[1], out ToRow, out ToColumn, out fixedToRow, out fixedToColumn);
@@ -188,6 +199,22 @@ namespace OfficeOpenXml
             }
             return ret;
         }
+
+        private static bool IsCellAddress(string cellAddress)
+        {
+            char start;
+            if (cellAddress[0]=='$')
+            {
+                start = cellAddress.ToUpper()[1];
+            }
+            else
+            {
+                start = cellAddress.ToUpper()[0];
+            }
+            var end = cellAddress[cellAddress.Length-1];
+            return (start >= 'A' && start <= 'Z' && end >= '0' && end <= '9');
+        }
+
         /// <summary>
         /// Get the row/column for n Cell-address
         /// </summary>

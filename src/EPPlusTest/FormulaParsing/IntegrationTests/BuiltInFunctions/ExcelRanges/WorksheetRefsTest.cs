@@ -70,7 +70,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
             var sheet = _package.Workbook.Worksheets.Add("ab#k..2");
             sheet.Cells["A1"].Value = 1;
             sheet.Cells["A2"].Value = 2;
-            _secondSheet.Cells["A1"].Formula = "SUM('ab#k..2'A1:A2)";
+            _secondSheet.Cells["A1"].Formula = "SUM('ab#k..2'!A1:A2)";
             _secondSheet.Calculate();
             Assert.AreEqual(3d, _secondSheet.Cells["A1"].Value);
         }

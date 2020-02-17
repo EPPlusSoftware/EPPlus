@@ -30,7 +30,7 @@ using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-namespace OfficeOpenXml.Core.Range
+namespace EPPlusTest.Core.Range
 {
     [TestClass]
     public class RangeAddressCopyTests : TestBase
