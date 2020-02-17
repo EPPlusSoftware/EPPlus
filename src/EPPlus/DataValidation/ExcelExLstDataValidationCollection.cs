@@ -48,21 +48,14 @@ namespace OfficeOpenXml.DataValidation
 
         private void EnsureRootElementExists()
         {
-            var node = TopNode.SelectSingleNode(ExternalDataValidationPath, _worksheet.NameSpaceManager);
+            var node = TopNode.SelectSingleNode(ExternalDataValidationPath, _worksheet.NameSpaceManager) as XmlElement;
             if (node == null)
             {
-                CreateNode(ExternalDataValidationItemsPath.TrimStart('/'), false, true);
-                /*
-                var pathStrings = ExternalDataValidationPath.TrimStart('/').Split('/');
-                var nodeToCreate = pathStrings[0];
-                for(var x = 1; x < pathStrings.Length; x++)
-                {
-                    CreateNode(nodeToCreate);
-                    nodeToCreate += "/" + pathStrings[x];
-                }  
-                */
+                node = (XmlElement)CreateNode(ExternalDataValidationPath.TrimStart('/'), false, true);
+                node.SetAttribute("xmlns:xm", ExcelPackage.schemaMainXm);
+                ((XmlElement)node.ParentNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);
             }
-            TopNode = _worksheet.WorksheetXml.SelectSingleNode(ExternalDataValidationPath, _worksheet.NameSpaceManager);
+            TopNode = node;
         }
 
         private void OnValidationCountChanged()
