@@ -971,7 +971,6 @@ namespace OfficeOpenXml
                 {
                     if (value == null || value.Trim() == "")
                     {
-                        //Set the cells to null
                         Value = null;
                     }
                     else if (_fromRow == _toRow && _fromCol == _toCol)

@@ -726,7 +726,14 @@ namespace OfficeOpenXml
 
                         if (!string.IsNullOrEmpty(address._ws)) //Address has worksheet.
                         {
-                            f += $"'{address._ws}'!";
+                            if(t.Value.IndexOf("'!")>=0)
+                            {
+                                f += $"'{address._ws}'!";
+                            }
+                            else
+                            {
+                                f += $"{address._ws}!";
+                            }
                         }
                         if (!address.IsFullColumn)
                         {

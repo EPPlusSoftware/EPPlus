@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,11 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 DeleteCellStores(ws, rowFrom, 0, rows, ExcelPackage.MaxColumns + 1, true);
 
-                AdjustFormulasRow(ws, rowFrom, rows);
+                foreach(var wsToUpdate in ws.Workbook.Worksheets)
+                {
+                    FixFormulasDeleteRow(wsToUpdate, rowFrom, rows, ws.Name);
+                }
+
                 WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, true);
 
                 foreach (var tbl in ws.Tables)
@@ -188,25 +193,35 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        static void AdjustFormulasRow(ExcelWorksheet ws, int rowFrom, int rows)
+        static void FixFormulasDeleteRow(ExcelWorksheet ws, int rowFrom, int rows, string workSheetName)
         {
             var delSF = new List<int>();
+            var delRange = new ExcelAddressBase(rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns);
             foreach (var sf in ws._sharedFormulas.Values)
             {
-                var a = new ExcelAddress(sf.Address).DeleteRow(rowFrom, rows);
-                if (a == null)
+                if (workSheetName == ws.Name)
                 {
-                    delSF.Add(sf.Index);
-                }
-                else
-                {
-                    sf.Address = a.Address;
-                    sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, ws.Name);
-                    if(sf.StartRow>=rowFrom)
+                    var a = new ExcelAddress(sf.Address).DeleteRow(rowFrom, rows);
+                    if (a == null)
                     {
-                        var r = Math.Max(rowFrom, sf.StartRow + rows);
-                        sf.StartRow = r;
+                        delSF.Add(sf.Index);
                     }
+                    else
+                    {
+                        SetRefForDeletedCellsRows(ws, delRange, sf, rowFrom, -rows);
+                        sf.Address = a.Address;
+                        sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                        if (sf.StartRow >= rowFrom)
+                        {
+                            var r = Math.Max(rowFrom, sf.StartRow + rows);
+                            sf.StartRow = r;
+                        }
+                    }
+                }
+                else if (sf.Formula.Contains(workSheetName))
+                {
+                    SetRefForDeletedCellsRows(ws, delRange, sf, rowFrom, rows);
+                    sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
                 }
             }
 
@@ -217,16 +232,108 @@ namespace OfficeOpenXml.Core.Worksheet
             var cse = new CellStoreEnumerator<object>(ws._formulas, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             while (cse.Next())
             {
-                if (cse.Value is string)
+                if (cse.Value is string v)
                 {
-                    cse.Value = ExcelCellBase.UpdateFormulaReferences(cse.Value.ToString(), -rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                    if (workSheetName == ws.Name)
+                    {
+                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                    }
+                    else if (v.Contains(workSheetName))
+                    {
+                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                    }
                 }
             }
         }
-        static void AdjustFormulasOtherSheetsRow(ExcelWorksheet ws, int rowFrom, int rows)
+
+        private static void SetRefForDeletedCellsRows(ExcelWorksheet ws, ExcelAddressBase delRange, ExcelWorksheet.Formulas sf, int rowFrom, int rows)
         {
+            bool updatedNeeded = false;
+            var sfAddress= new ExcelAddressBase(sf.Address);
+            sf.SetTokens(ws.Name);
+            foreach (var token in sf.Tokens)
+            {
+                if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    //Check if the address for the entire shared formula collides with the deleted address.
+                    var tokenAddress = new ExcelAddressBase(token.Value).AddRow(rowFrom,rows);
+                    if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);
+                    if(tokenAddress._toColFixed==false) tokenAddress._toCol += (sfAddress.Columns - 1);
+
+                    if(tokenAddress.Collide(delRange) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
+                    {
+                        updatedNeeded = true;
+                        continue;
+                    }
+                }
+            }
+            if(updatedNeeded)
+            {
+                SetRefSharedFormulaRows(ws, delRange, sf, sfAddress, rowFrom, rows);
+            }
         }
 
+        private static void SetRefSharedFormulaRows(ExcelWorksheet ws, ExcelAddressBase delRange, ExcelWorksheet.Formulas sf, ExcelAddressBase sfAddress, int rowFrom, int rows)
+        {
+            var refs=new Dictionary<ulong, HashSet<int>>();
+            int tokenNo = 0;
+            foreach (var token in sf.Tokens)
+            {
+                if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    for (int row = 0; row < sfAddress.Rows - 1; row++)
+                    {
+                        for (int col = 0; col < sfAddress.Columns; col++)
+                        {
+                            ExcelCellBase.GetRowColFromAddress(token.Value, out int fromRow, out int fromCol, out int toRow, out int toCol);
+                            var address = new ExcelAddressBase(fromRow + row, fromCol + col, toRow + row, toCol + col);
+                            if (delRange.Collide(address) == ExcelAddressBase.eAddressCollition.Inside ||
+                               delRange.Collide(address) == ExcelAddressBase.eAddressCollition.Equal)
+                            {
+                                var id = ExcelCellBase.GetCellID(0, row, col);
+                                if(refs.ContainsKey(id))
+                                {
+                                    refs[id].Add(tokenNo);
+                                }
+                                else
+                                {
+                                    refs.Add(id, new HashSet<int>() { tokenNo });
+                                }
+                            }
+                        }
+                    }
+                }
+                tokenNo++;
+            }
+
+            foreach(var cellId in refs)
+            {
+                ExcelCellBase.SplitCellID(cellId.Key, out _, out int row, out int col);
+                var f = "";
+                tokenNo = 0;
+                foreach (var token in sf.Tokens)
+                {
+                    if(token.TokenTypeIsSet(TokenType.ExcelAddress))
+                    {
+                        if (cellId.Value.Contains(tokenNo))
+                        {
+                            f += "#REF!";
+                        }
+                        else
+                        {
+                            ExcelCellBase.GetRowColFromAddress(token.Value, out int fromRow, out int fromCol, out int toRow, out int toCol);
+                            f += ExcelCellBase.GetAddress(fromRow + row, fromCol + col, toRow + row, toCol + col);
+                        }
+                    }
+                    else
+                    {
+                        f += token.Value;
+                    }
+                    tokenNo++;
+                }
+                ws.SetFormula(sf.StartRow + row, sf.StartCol + col, f);
+            }
+        }
         internal static void AdjustFormulasColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             var delSF = new List<int>();
@@ -252,7 +359,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 ws._sharedFormulas.Remove(ix);
             }
-            delSF = null;
+
             var cse = new CellStoreEnumerator<object>(ws._formulas, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             while (cse.Next())
             {

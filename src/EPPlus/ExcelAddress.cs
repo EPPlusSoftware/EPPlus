@@ -390,20 +390,35 @@ namespace OfficeOpenXml
 
         private string GetAddress()
         {
+            string address = GetAddressWorkBookWorkSheet();
+            if (IsName)
+                return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol);
+            else
+                return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+        }
+
+        internal string GetAddressWorkBookWorkSheet()
+        {
             var address = "";
-            if (string.IsNullOrEmpty(_wb)==false)
+
+            if (string.IsNullOrEmpty(_ws) == false)
             {
-                address = "[" + _wb + "]";
+                if (string.IsNullOrEmpty(_wb) == false)
+                {
+                    address = "[" + _wb + "]";
+                }
+
+                if (_address.IndexOf("'!")>=0)
+                {
+                    address += string.Format("'{0}'!", _ws);
+                }
+                else
+                {
+                    address += string.Format("{0}!", _ws);
+                }
             }
 
-            if (string.IsNullOrEmpty(_ws)==false)
-            {
-                address += string.Format("'{0}'!", _ws);
-            }
-            if (IsName)
-              return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol);
-            else
-              return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+            return address;
         }
         #endregion
         internal ExcelCellAddress _start = null;
@@ -1611,7 +1626,7 @@ namespace OfficeOpenXml
 
             }
         }
-        internal string GetOffset(int row, int column)
+        internal string GetOffset(int row, int column, bool withWbWs=false)
         {
             int fromRow = _fromRow, fromCol = _fromCol, toRow = _toRow, tocol = _toCol;
             var isMulti = (fromRow != toRow || fromCol != tocol);
@@ -1644,10 +1659,17 @@ namespace OfficeOpenXml
             {
                 foreach (var sa in Addresses)
                 {
-                    a+="," + sa.GetOffset(row, column);
+                    a+="," + sa.GetOffset(row, column, withWbWs);
                 }
             }
-            return a;
+            if(withWbWs)
+            {
+                return GetAddressWorkBookWorkSheet() + a;
+            }
+            else
+            {
+                return a;
+            }
         }
     }
 }

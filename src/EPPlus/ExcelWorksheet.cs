@@ -109,12 +109,34 @@ namespace OfficeOpenXml
             internal int Index { get; set; }
             internal string Address { get; set; }
             internal bool IsArray { get; set; }
-            public string Formula { get; set; }
+            string _formula = "";
+            public string Formula 
+            { 
+                get
+                {
+                    return _formula;
+                }
+                set
+                {
+                    if (_formula != value)
+                    {
+                        _formula = value;
+                        Tokens = null;
+                    }
+                }
+            }
             public int StartRow { get; set; }
             public int StartCol { get; set; }
 
-            private IEnumerable<Token> Tokens { get; set; }
+            internal IEnumerable<Token> Tokens { get; set; }
 
+            internal void SetTokens(string worksheet)
+            {
+                if (Tokens == null)
+                {
+                    Tokens = _tokenizer.Tokenize(Formula, worksheet);
+                }
+            }
             internal string GetFormula(int row, int column, string worksheet)
             {
                 if ((StartRow == row && StartCol == column))
@@ -122,20 +144,15 @@ namespace OfficeOpenXml
                     return Formula;
                 }
 
-                if (Tokens == null)
-                {
-                    Tokens = _tokenizer.Tokenize(Formula, worksheet);
-                }
-
+                SetTokens(worksheet);
                 string f = "";
                 foreach (var token in Tokens)
                 {
                     if (token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var a = new ExcelFormulaAddress(token.Value);
-                        f += !string.IsNullOrEmpty(a._wb) || !string.IsNullOrEmpty(a._ws)
-                            ? token.Value
-                            : a.GetOffset(row - StartRow, column - StartCol);
+                        f += a.GetOffset(row - StartRow, column - StartCol, true);
+                            
                     }
                     else
                     {
