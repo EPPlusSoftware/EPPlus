@@ -59,7 +59,7 @@ namespace OfficeOpenXml.DataValidation
                 node = (XmlElement)CreateNode(ExternalDataValidationPath.TrimStart('/'), false, true);
                 node.SetAttribute("xmlns:xm", ExcelPackage.schemaMainXm);
                 ((XmlElement)node.ParentNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);
-                ((XmlElement)node.ParentNode).SetAttribute("uri", ExcelDataValidation.NewId());
+                ((XmlElement)node.ParentNode).SetAttribute("uri", "{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}");
             }
             TopNode = node;
         }

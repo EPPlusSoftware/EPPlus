@@ -38,25 +38,27 @@ namespace EPPlusTest.DataValidation.IntegrationTests
     /// Remove the Ignore attributes from the testmethods if you want to run any of these tests
     /// </summary>
     [TestClass]
-    public class IntegrationTests : ValidationTestBase
+    public class IntegrationTests : TestBase
     {
-        [TestInitialize]
-        public void Setup()
+        static ExcelPackage _package;
+        [ClassInitialize]
+        public static void Init(TestContext context)
         {
-            SetupTestData();
+            _package = OpenPackage("DatavalidationIntegrationTests.xlsx", true);
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        [ClassCleanup]
+        public static void Cleanup()
         {
-            CleanupTestData();
+            SaveAndCleanup(_package);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void DataValidations_AddOneValidationOfTypeWhole()
         {
-            _sheet.Cells["B1"].Value = 2;
-            var validation = _sheet.DataValidations.AddIntegerValidation("A1");
+            var ws = _package.Workbook.Worksheets.Add("AddOneValidationOfTypeWhole");
+            ws.Cells["B1"].Value = 2;
+            var validation = ws.DataValidations.AddIntegerValidation("A1");
             validation.ShowErrorMessage = true;
             validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
             validation.ErrorTitle = "Invalid value was entered";
@@ -64,13 +66,12 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             validation.Operator = ExcelDataValidationOperator.greaterThan;
             //validation.Value.Value = 3;
             validation.Formula.ExcelFormula = "B1";
-
-            _package.SaveAs(new FileInfo(GetTestOutputPath("AddOneValidationOfTypeWhole.xlsx")));
         }
-        [TestMethod, Ignore]
+        [TestMethod]
         public void DataValidations_AddOneValidationOfTypeDecimal()
         {
-            var validation = _sheet.DataValidations.AddDecimalValidation("A1");
+            var ws = _package.Workbook.Worksheets.Add("AddOneValidationOfTypeDecimal");
+            var validation = ws.DataValidations.AddDecimalValidation("A1");
             validation.ShowErrorMessage = true;
             validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
             validation.ErrorTitle = "Invalid value was entered";
@@ -80,28 +81,26 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             validation.ShowInputMessage = true;
             validation.Operator = ExcelDataValidationOperator.greaterThan;
             validation.Formula.Value = 1.4;
-
-            _package.SaveAs(new FileInfo(GetTestOutputPath("AddOneValidationOfTypeDecimal.xlsx")));
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void DataValidations_AddOneValidationOfTypeListOfTypeList()
         {
-            var validation = _sheet.DataValidations.AddListValidation("A:A");
+            var ws = _package.Workbook.Worksheets.Add("AddOneValidationOfTypeList");
+            var validation = ws.DataValidations.AddListValidation("A:A");
             validation.ShowErrorMessage = true;
             validation.ShowInputMessage = true;
             validation.Formula.Values.Add("1");
             validation.Formula.Values.Add("2");
             validation.Formula.Values.Add("3");
             validation.Validate();
-
-            _package.SaveAs(new FileInfo(GetTestOutputPath("AddOneValidationOfTypeList.xlsx")));
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void DataValidations_AddOneValidationOfTypeListOfTypeTime()
         {
-            var validation = _sheet.DataValidations.AddTimeValidation("A1");
+            var ws = _package.Workbook.Worksheets.Add("AddOneValidationOfTypeTime");
+            var validation = ws.DataValidations.AddTimeValidation("A1");
             validation.ShowErrorMessage = true;
             validation.ShowInputMessage = true;
             validation.Formula.Value.Hour = 14;
@@ -110,49 +109,39 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             validation.Prompt = "Enter a time greater than 14:30";
             validation.Error = "Invalid time was entered";
             validation.Validate();
-
-            _package.SaveAs(new FileInfo(GetTestOutputPath("AddOneValidationOfTypeTime.xlsx")));
         }
 
-        [TestMethod, Ignore]
-        public void DataValidations_ReadExistingWorkbookWithDataValidations()
-        {
-            using (var package = new ExcelPackage(new FileInfo(GetTestOutputPath("DVTest.xlsx"))))
-            {
-                Assert.AreEqual(3, package.Workbook.Worksheets[1].DataValidations.Count);
-            }
-        }
+        //[TestMethod, Ignore]
+        //public void DataValidations_ReadExistingWorkbookWithDataValidations()
+        //{
+        //    using (var package = new ExcelPackage(new FileInfo(GetTestOutputPath("DVTest.xlsx"))))
+        //    {
+        //        Assert.AreEqual(3, package.Workbook.Worksheets[1].DataValidations.Count);
+        //    }
+        //}
 
         [TestMethod]
         public void ShouldMoveListValidationToExtListWhenReferringOtherWorksheet()
         {
-            using (var package = new ExcelPackage(new FileInfo(GetTestOutputPath("ExtListTest.xlsx"))))
-            {
-                var sheet1 = package.Workbook.Worksheets.Add("test1");
-                var sheet2 = package.Workbook.Worksheets.Add("test2");
+            var sheet1 = _package.Workbook.Worksheets.Add("extlist_sheet1");
+            var sheet2 = _package.Workbook.Worksheets.Add("extlist_sheet2");
 
-                var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
-                v.Formula.ExcelFormula = "test2!A1:A2";
-                v.ShowErrorMessage = true;
-                v.ShowInputMessage = true;
-                v.AllowBlank = true;
+            var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
+            v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
+            v.ShowErrorMessage = true;
+            v.ShowInputMessage = true;
+            v.AllowBlank = true;
 
-                sheet2.Cells["A1"].Value = "option1";
-                sheet2.Cells["A2"].Value = "option2";
-
-                package.Save();
-            }
+            sheet2.Cells["A1"].Value = "option1";
+            sheet2.Cells["A2"].Value = "option2";
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void RemoveDataValidation()
         {
-            var fileInfo = new FileInfo(@"c:\Temp\DvTest.xlsx");
-            if(File.Exists(fileInfo.FullName))
-                File.Delete(fileInfo.FullName);
-            using (var package = new ExcelPackage())
+            using (var p1 = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = p1.Workbook.Worksheets.Add("test");
                 var validation = sheet.DataValidations.AddIntegerValidation("A1");
                 validation.Formula.Value = 1;
                 validation.Formula2.Value = 2;
@@ -165,16 +154,15 @@ namespace EPPlusTest.DataValidation.IntegrationTests
                 //validation2.ShowErrorMessage = true;
                 //validation2.Error = "Error!";
 
-                package.SaveAs(fileInfo);
-            }
-            using (var pck = new ExcelPackage(fileInfo))
-            {
-                var sheet = pck.Workbook.Worksheets.First();
-                var dv = sheet.DataValidations.First();
-                sheet.DataValidations.Remove(dv);
-                if (File.Exists(fileInfo.FullName))
-                    File.Delete(fileInfo.FullName);
-                pck.SaveAs(fileInfo);
+                p1.Save();
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    sheet = p2.Workbook.Worksheets.First();
+                    var dv = sheet.DataValidations.First();
+                    sheet.DataValidations.Remove(dv);
+                    SaveWorkbook("RemoveDataValidation.xlsx", p2);
+                }
+
             }
         }
 

@@ -150,6 +150,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
         public ExcelDataValidationFormulaList(XmlNamespaceManager namespaceManager, XmlNode itemNode, string formulaPath, string uid)
             : base(namespaceManager, itemNode, formulaPath, uid)
         {
+            SchemaNodeOrder = new string[] {  "formula1", "sqref" };
             Require.Argument(formulaPath).IsNotNullOrEmpty("formulaPath");
             _formulaPath = formulaPath;
             var values = new DataValidationList();

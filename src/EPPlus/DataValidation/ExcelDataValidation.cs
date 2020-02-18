@@ -128,7 +128,7 @@ namespace OfficeOpenXml.DataValidation
                 if(InternalValidationType == InternalValidationType.DataValidation)
                 {
                     SchemaNodeOrder = new string[]{
-                        "xr:uid",
+                        "uid",
                         "type",
                         "errorStyle",
                         "allowBlank",
@@ -145,7 +145,7 @@ namespace OfficeOpenXml.DataValidation
                 else
                 {
                     SchemaNodeOrder = new string[]{
-                        "xr:uid",
+                        "uid",
                         "type",
                         "errorStyle",
                         "allowBlank",
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.DataValidation
             else
             {
                 SchemaNodeOrder = new string[]{
-                    "xr:uid",
+                    "uid",
                     "type",
                     "errorStyle",
                     "operator",
