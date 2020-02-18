@@ -133,6 +133,9 @@ namespace EPPlusTest.DataValidation.IntegrationTests
 
                 var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
                 v.Formula.ExcelFormula = "test2!A1:A2";
+                v.ShowErrorMessage = true;
+                v.ShowInputMessage = true;
+                v.AllowBlank = true;
 
                 sheet2.Cells["A1"].Value = "option1";
                 sheet2.Cells["A2"].Value = "option2";

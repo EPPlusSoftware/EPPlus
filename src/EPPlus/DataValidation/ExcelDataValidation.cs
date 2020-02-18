@@ -30,8 +30,6 @@ namespace OfficeOpenXml.DataValidation
     {
         private const string ItemElementNodeName = "d:dataValidation";
         private const string ExtLstElementNodeName = "x14:dataValidation";
-        private readonly InternalValidationType _internalValidationType = InternalValidationType.DataValidation;
-
         private readonly string _uidPath = "@xr:uid";
         private readonly string _errorStylePath = "@errorStyle";
         private readonly string _errorTitlePath = "@errorTitle";
@@ -89,8 +87,9 @@ namespace OfficeOpenXml.DataValidation
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");
             Require.Argument(address).IsNotNullOrEmpty("address");
+            InternalValidationType = internalValidationType;
+            InitNodeOrder(validationType);
             address = CheckAndFixRangeAddress(address);
-            _internalValidationType = internalValidationType;
             if (itemElementNode == null)
             {
                 TopNode = worksheet.WorksheetXml.SelectSingleNode(GetTopNodeName(), worksheet.NameSpaceManager);
@@ -101,48 +100,65 @@ namespace OfficeOpenXml.DataValidation
             ValidationType = validationType;
             Uid = uid;
             Address = new ExcelAddress(address);
-            Init();
+            
         }
 
-        internal InternalValidationType InternalValidationType 
-        {
-            get { return _internalValidationType; } 
-        }
+        internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
 
         private string GetSqRefPath()
         {
-            return _internalValidationType == InternalValidationType.DataValidation ? _sqrefPath : _sqrefPathExt;
+            return InternalValidationType == InternalValidationType.DataValidation ? _sqrefPath : _sqrefPathExt;
         }
 
         private string GetItemElementNodeName()
         {
-            return _internalValidationType == InternalValidationType.DataValidation ? ItemElementNodeName : ExtLstElementNodeName;
+            return InternalValidationType == InternalValidationType.DataValidation ? ItemElementNodeName : ExtLstElementNodeName;
         }
 
         private string GetTopNodeName()
         {
-            return _internalValidationType == InternalValidationType.DataValidation ? "//d:dataValidations" : "//d:extLst/d:ext/x14:dataValidations";
+            return InternalValidationType == InternalValidationType.DataValidation ? "//d:dataValidations" : "//d:extLst/d:ext/x14:dataValidations";
         }
 
-        private void Init()
+        private void InitNodeOrder(ExcelDataValidationType validationType)
         {
             // set schema node order
-            if(ValidationType == ExcelDataValidationType.List)
+            if(validationType == ExcelDataValidationType.List)
             {
-                SchemaNodeOrder = new string[]{
-                    "xr:uid",
-                    "type",
-                    "errorStyle",
-                    "allowBlank",
-                    "showInputMessage",
-                    "showErrorMessage",
-                    "errorTitle",
-                    "error",
-                    "promptTitle",
-                    "prompt",
-                    "sqref",
-                    "formula1"
-                };
+                if(InternalValidationType == InternalValidationType.DataValidation)
+                {
+                    SchemaNodeOrder = new string[]{
+                        "xr:uid",
+                        "type",
+                        "errorStyle",
+                        "allowBlank",
+                        "showInputMessage",
+                        "showErrorMessage",
+                        "errorTitle",
+                        "error",
+                        "promptTitle",
+                        "prompt",
+                        "sqref",
+                        "formula1"
+                    };
+                }
+                else
+                {
+                    SchemaNodeOrder = new string[]{
+                        "xr:uid",
+                        "type",
+                        "errorStyle",
+                        "allowBlank",
+                        "showInputMessage",
+                        "showErrorMessage",
+                        "errorTitle",
+                        "error",
+                        "promptTitle",
+                        "prompt",
+                        "formula1",
+                        "sqref"
+                    };
+                }
             }
             else
             {
@@ -428,7 +444,7 @@ namespace OfficeOpenXml.DataValidation
         {
             get
             {
-                return GetXmlNodeString(_formula1Path);
+                return GetXmlNodeString(GetFormula1Path());
             }
         }
 
@@ -439,7 +455,7 @@ namespace OfficeOpenXml.DataValidation
         {
             get
             {
-                return GetXmlNodeString(_formula2Path);
+                return GetXmlNodeString(GetFormula2Path());
             }
         }
 
@@ -473,12 +489,12 @@ namespace OfficeOpenXml.DataValidation
 
         protected string GetFormula1Path()
         {
-            return _internalValidationType == InternalValidationType.DataValidation ? _formula1Path : _formula1ExtLstPath;
+            return InternalValidationType == InternalValidationType.DataValidation ? _formula1Path : _formula1ExtLstPath;
         }
 
         protected string GetFormula2Path()
         {
-            return _internalValidationType == InternalValidationType.DataValidation ? _formula2Path : _formula2ExtLstPath;
+            return InternalValidationType == InternalValidationType.DataValidation ? _formula2Path : _formula2ExtLstPath;
         }
 
         internal void SetAddress(string address)

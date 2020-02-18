@@ -22,7 +22,12 @@ namespace OfficeOpenXml.DataValidation
         {
             Require.Argument(worksheet).IsNotNull("worksheet");
             _worksheet = worksheet;
-            SchemaNodeOrder = worksheet.SchemaNodeOrder;
+            //SchemaNodeOrder = worksheet.SchemaNodeOrder;
+            SchemaNodeOrder = new string[]
+            {
+                "xmlns:x14",
+                "uri"
+            };
 
             // check validations in the extLst
             var extLstValidationNodes = worksheet.WorksheetXml.SelectNodes(ExternalDataValidationItemsPath, worksheet.NameSpaceManager);
@@ -54,6 +59,7 @@ namespace OfficeOpenXml.DataValidation
                 node = (XmlElement)CreateNode(ExternalDataValidationPath.TrimStart('/'), false, true);
                 node.SetAttribute("xmlns:xm", ExcelPackage.schemaMainXm);
                 ((XmlElement)node.ParentNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);
+                ((XmlElement)node.ParentNode).SetAttribute("uri", ExcelDataValidation.NewId());
             }
             TopNode = node;
         }
