@@ -266,7 +266,7 @@ namespace EPPlusTest.Core.Range
                     , "A3 formula should be set"
                 );
 
-                Assert.AreEqual("VLOOKUP($B$1,'Sheet2'!A:B,2,FALSE)", ws.Cells["A3"].Formula);
+                Assert.AreEqual("VLOOKUP($B$1,Sheet2!A:B,2,FALSE)", ws.Cells["A3"].Formula);
 
             }        
         }

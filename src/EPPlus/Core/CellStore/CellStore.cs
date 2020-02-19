@@ -806,7 +806,7 @@ namespace OfficeOpenXml.Core.CellStore
 
             if (fromPos < page.RowCount)
             {
-                    var maxRow = page.MaxIndex;
+                var maxRow = page.MaxIndex;
                 if (toRow >= maxRow)
                 {
                     if (fromRow == page.MinIndex) //Delete entire page, TODO: Remove when tests a good,

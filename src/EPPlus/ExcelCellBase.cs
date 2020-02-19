@@ -119,8 +119,7 @@ namespace OfficeOpenXml
 
         internal static bool GetRowColFromAddress(string CellAddress, out int FromRow, out int FromColumn, out int ToRow, out int ToColumn)
         {
-            bool fixedFromRow, fixedFromColumn, fixedToRow, fixedToColumn;
-            return GetRowColFromAddress(CellAddress, out FromRow, out FromColumn, out ToRow, out ToColumn, out fixedFromRow, out fixedFromColumn, out fixedToRow, out fixedToColumn);
+            return GetRowColFromAddress(CellAddress, out FromRow, out FromColumn, out ToRow, out ToColumn, out _, out _, out _, out _);
         }
         /// <summary>
         /// Get the row/columns for a Cell-address
@@ -724,7 +723,7 @@ namespace OfficeOpenXml
                             continue;
                         }
 
-                        if (!string.IsNullOrEmpty(address._ws)) //Address has worksheet.
+                        if (!string.IsNullOrEmpty(address._ws)) //The address has worksheet.
                         {
                             if(t.Value.IndexOf("'!")>=0)
                             {
@@ -743,7 +742,14 @@ namespace OfficeOpenXml
                             }
                             else if (rowIncrement < 0)
                             {
-                                address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                                if(address._fromRowFixed==false && (address._fromRow>=afterRow && address._toRow<afterRow-rowIncrement))
+                                {
+                                    address=null;
+                                }
+                                else
+                                {
+                                    address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                                }
                             }
                         }
                         if (address!=null && !address.IsFullRow)
@@ -754,7 +760,14 @@ namespace OfficeOpenXml
                             }
                             else if (colIncrement < 0)
                             {
-                                address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
+                                if (address._fromColFixed == false && (address._fromCol >= afterColumn && address._toCol < afterColumn - colIncrement))
+                                {
+                                    address = null;
+                                }
+                                else
+                                {
+                                    address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
+                                }
                             }
                         }
 

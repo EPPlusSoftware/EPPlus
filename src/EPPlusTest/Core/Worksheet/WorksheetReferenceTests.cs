@@ -66,7 +66,7 @@ namespace EPPlusTest.Core.Worksheet
                 sheet2.InsertRow(3, 10);
                 package.Workbook.Calculate();
                 Assert.AreEqual("Hello, world!", sheet2.Cells[13, 3].Value);
-                Assert.AreEqual("'Sheet2'!C13", sheet1.Cells[2, 2].Formula, true);
+                Assert.AreEqual("Sheet2!C13", sheet1.Cells[2, 2].Formula, true);
                 Assert.AreEqual("Hello, world!", sheet1.Cells[2, 2].Value);
             }
         }
@@ -148,7 +148,7 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 sheet1.Cells[3, 3].Copy(sheet1.Cells[4, 4]);
                 package.Workbook.Calculate();
-                Assert.AreEqual("'Sheet2'!D4", sheet1.Cells[4, 4].Formula, true);
+                Assert.AreEqual("Sheet2!D4", sheet1.Cells[4, 4].Formula, true);
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 Assert.AreEqual("Goodbye, WORLD!", sheet1.Cells[4, 4].Value);
             }
@@ -170,7 +170,7 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 sheet1.Cells[3, 3].Copy(sheet1.Cells[4, 4]);
                 package.Workbook.Calculate();
-                Assert.AreEqual("'Sheet2'!$C$3", sheet1.Cells[4, 4].Formula, true);
+                Assert.AreEqual("Sheet2!$C$3", sheet1.Cells[4, 4].Formula, true);
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 Assert.AreEqual("Hello, world!", sheet1.Cells[4, 4].Value);
             }
@@ -192,7 +192,7 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 sheet1.Cells[3, 3].Copy(sheet1.Cells[4, 4]);
                 package.Workbook.Calculate();
-                Assert.AreEqual("'Sheet2'!D$3", sheet1.Cells[4, 4].Formula, true);
+                Assert.AreEqual("Sheet2!D$3", sheet1.Cells[4, 4].Formula, true);
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 Assert.AreEqual("Hello, WORLD!", sheet1.Cells[4, 4].Value);
             }
@@ -214,7 +214,7 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 sheet1.Cells[3, 3].Copy(sheet1.Cells[4, 4]);
                 package.Workbook.Calculate();
-                Assert.AreEqual("'Sheet2'!$C4", sheet1.Cells[4, 4].Formula, true);
+                Assert.AreEqual("Sheet2!$C4", sheet1.Cells[4, 4].Formula, true);
                 Assert.AreEqual("Hello, world!", sheet1.Cells[3, 3].Value);
                 Assert.AreEqual("Goodbye, world!", sheet1.Cells[4, 4].Value);
             }

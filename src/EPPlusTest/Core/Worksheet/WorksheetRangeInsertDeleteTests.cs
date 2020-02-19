@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
-    public class WorksheetRangeInsertTests : TestBase
+    public class WorksheetRangeInsertDeleteTests : TestBase
     {
         public static ExcelPackage _pck;
         [ClassInitialize]
@@ -144,18 +144,72 @@ namespace EPPlusTest.Core.Worksheet
         public void ValidateFormulasAfterDelete2Rows()
         {
             //Setup
-            var ws = _pck.Workbook.Worksheets.Add("DeleteRow2_Sheet1");
-            ws.Cells["B3:B6"].Formula = "A1";
-            
+            var ws1 = _pck.Workbook.Worksheets.Add("DeleteRow2_Sheet1");
+            var ws2 = _pck.Workbook.Worksheets.Add("DeleteRow2_Sheet2");
+            ws1.Cells["B3:B6"].Formula = "A1";
+            ws2.Cells["B3:B6"].Formula = "DeleteRow2_Sheet1!A1";
+
             //Act
-            ws.DeleteRow(2, 2);
+            ws1.DeleteRow(2, 2);
 
             //Assert
-            Assert.AreEqual("", ws.Cells["B1"].Formula);
-            Assert.AreEqual("#REF!", ws.Cells["B2"].Formula);
-            Assert.AreEqual("#REF!", ws.Cells["B3"].Formula);
-            Assert.AreEqual("A2", ws.Cells["B4"].Formula);
-            Assert.AreEqual("", ws.Cells["B6"].Formula);
+            Assert.AreEqual("", ws1.Cells["B1"].Formula);
+            Assert.AreEqual("#REF!", ws1.Cells["B2"].Formula);
+            Assert.AreEqual("#REF!", ws1.Cells["B3"].Formula);
+            Assert.AreEqual("A2", ws1.Cells["B4"].Formula);
+            Assert.AreEqual("", ws1.Cells["B6"].Formula);
+
+            Assert.AreEqual("DeleteRow2_Sheet1!A1", ws2.Cells["B3"].Formula);
+            Assert.AreEqual("DeleteRow2_Sheet1!#REF!", ws2.Cells["B4"].Formula);
+            Assert.AreEqual("DeleteRow2_Sheet1!#REF!", ws2.Cells["B5"].Formula);
+            Assert.AreEqual("DeleteRow2_Sheet1!A2", ws2.Cells["B6"].Formula);
+        }
+        [TestMethod]
+        public void ValidateFormulasAfterDeleteColumn()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteCol_Sheet1");
+            var ws2 = _pck.Workbook.Worksheets.Add("DeleteCol_Sheet2");
+            ws.Cells["A1"].Formula = "Sum(E3:I3)";
+            ws.Cells["A2:B2"].Formula = "Sum(E3:I3)";
+            ws2.Cells["A1"].Formula = "Sum(DeleteCol_Sheet1!E3:I3)";
+            ws2.Cells["A2:B2"].Formula = "Sum(DeleteCol_Sheet1!E3:I3)";
+
+            //Act
+            ws.DeleteColumn(3, 1);
+
+            //Assert
+            Assert.AreEqual("Sum(D3:H3)", ws.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(D3:H3)", ws.Cells["A2"].Formula);
+            Assert.AreEqual("Sum(E3:I3)", ws.Cells["B2"].Formula);
+
+            Assert.AreEqual("Sum(DeleteCol_Sheet1!D3:H3)", ws2.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(DeleteCol_Sheet1!D3:H3)", ws2.Cells["A2"].Formula);
+            Assert.AreEqual("Sum(DeleteCol_Sheet1!E3:I3)", ws2.Cells["B2"].Formula);
+        }
+        [TestMethod]
+        public void ValidateFormulasAfterDelete2Columns()
+        {
+            //Setup
+            var ws1 = _pck.Workbook.Worksheets.Add("DeleteCol2_Sheet1");
+            var ws2 = _pck.Workbook.Worksheets.Add("DeleteCol2_Sheet2");
+            ws1.Cells["C2:F2"].Formula = "A1";
+            ws2.Cells["C2:F2"].Formula = "DeleteCol2_Sheet1!A1";
+
+            //Act
+            ws1.DeleteColumn(2, 2);
+
+            //Assert
+            Assert.AreEqual("", ws1.Cells["A2"].Formula);
+            Assert.AreEqual("#REF!", ws1.Cells["B2"].Formula);
+            Assert.AreEqual("#REF!", ws1.Cells["C2"].Formula);
+            Assert.AreEqual("B1", ws1.Cells["D2"].Formula);
+            Assert.AreEqual("", ws1.Cells["B6"].Formula);
+
+            Assert.AreEqual("DeleteCol2_Sheet1!A1", ws2.Cells["C2"].Formula);
+            Assert.AreEqual("DeleteCol2_Sheet1!#REF!", ws2.Cells["D2"].Formula);
+            Assert.AreEqual("DeleteCol2_Sheet1!#REF!", ws2.Cells["E2"].Formula);
+            Assert.AreEqual("DeleteCol2_Sheet1!B1", ws2.Cells["F2"].Formula);
         }
 
     }
