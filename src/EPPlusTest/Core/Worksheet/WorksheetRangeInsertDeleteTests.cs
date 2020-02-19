@@ -146,23 +146,23 @@ namespace EPPlusTest.Core.Worksheet
             //Setup
             var ws1 = _pck.Workbook.Worksheets.Add("DeleteRow2_Sheet1");
             var ws2 = _pck.Workbook.Worksheets.Add("DeleteRow2_Sheet2");
-            ws1.Cells["B3:B6"].Formula = "A1";
-            ws2.Cells["B3:B6"].Formula = "DeleteRow2_Sheet1!A1";
+            ws1.Cells["B3:B6"].Formula = "A1+C3";
+            ws2.Cells["B3:B6"].Formula = "DeleteRow2_Sheet1!A1+DeleteRow2_Sheet1!C2";
 
             //Act
             ws1.DeleteRow(2, 2);
 
             //Assert
             Assert.AreEqual("", ws1.Cells["B1"].Formula);
-            Assert.AreEqual("#REF!", ws1.Cells["B2"].Formula);
-            Assert.AreEqual("#REF!", ws1.Cells["B3"].Formula);
-            Assert.AreEqual("A2", ws1.Cells["B4"].Formula);
+            Assert.AreEqual("#REF!+C2", ws1.Cells["B2"].Formula);
+            Assert.AreEqual("#REF!+C3", ws1.Cells["B3"].Formula);
+            Assert.AreEqual("A2+C4", ws1.Cells["B4"].Formula);
             Assert.AreEqual("", ws1.Cells["B6"].Formula);
 
-            Assert.AreEqual("DeleteRow2_Sheet1!A1", ws2.Cells["B3"].Formula);
-            Assert.AreEqual("DeleteRow2_Sheet1!#REF!", ws2.Cells["B4"].Formula);
-            Assert.AreEqual("DeleteRow2_Sheet1!#REF!", ws2.Cells["B5"].Formula);
-            Assert.AreEqual("DeleteRow2_Sheet1!A2", ws2.Cells["B6"].Formula);
+            Assert.AreEqual("DeleteRow2_Sheet1!A1+DeleteRow2_Sheet1!#REF!", ws2.Cells["B3"].Formula);
+            Assert.AreEqual("DeleteRow2_Sheet1!#REF!+DeleteRow2_Sheet1!#REF!", ws2.Cells["B4"].Formula);
+            Assert.AreEqual("DeleteRow2_Sheet1!#REF!+DeleteRow2_Sheet1!C2", ws2.Cells["B5"].Formula);
+            Assert.AreEqual("DeleteRow2_Sheet1!A2+DeleteRow2_Sheet1!C3", ws2.Cells["B6"].Formula);
         }
         [TestMethod]
         public void ValidateFormulasAfterDeleteColumn()
@@ -193,24 +193,192 @@ namespace EPPlusTest.Core.Worksheet
             //Setup
             var ws1 = _pck.Workbook.Worksheets.Add("DeleteCol2_Sheet1");
             var ws2 = _pck.Workbook.Worksheets.Add("DeleteCol2_Sheet2");
-            ws1.Cells["C2:F2"].Formula = "A1";
-            ws2.Cells["C2:F2"].Formula = "DeleteCol2_Sheet1!A1";
+            ws1.Cells["C2:F2"].Formula = "A1+C3";
+            ws2.Cells["C2:F2"].Formula = "DeleteCol2_Sheet1!A1+DeleteCol2_Sheet1!C3";
 
             //Act
             ws1.DeleteColumn(2, 2);
 
             //Assert
             Assert.AreEqual("", ws1.Cells["A2"].Formula);
-            Assert.AreEqual("#REF!", ws1.Cells["B2"].Formula);
-            Assert.AreEqual("#REF!", ws1.Cells["C2"].Formula);
-            Assert.AreEqual("B1", ws1.Cells["D2"].Formula);
+            Assert.AreEqual("#REF!+B3", ws1.Cells["B2"].Formula);
+            Assert.AreEqual("#REF!+C3", ws1.Cells["C2"].Formula);
+            Assert.AreEqual("B1+D3", ws1.Cells["D2"].Formula);
             Assert.AreEqual("", ws1.Cells["B6"].Formula);
 
-            Assert.AreEqual("DeleteCol2_Sheet1!A1", ws2.Cells["C2"].Formula);
-            Assert.AreEqual("DeleteCol2_Sheet1!#REF!", ws2.Cells["D2"].Formula);
-            Assert.AreEqual("DeleteCol2_Sheet1!#REF!", ws2.Cells["E2"].Formula);
-            Assert.AreEqual("DeleteCol2_Sheet1!B1", ws2.Cells["F2"].Formula);
+            Assert.AreEqual("DeleteCol2_Sheet1!A1+DeleteCol2_Sheet1!#REF!", ws2.Cells["C2"].Formula);
+            Assert.AreEqual("DeleteCol2_Sheet1!#REF!+DeleteCol2_Sheet1!B3", ws2.Cells["D2"].Formula);
+            Assert.AreEqual("DeleteCol2_Sheet1!#REF!+DeleteCol2_Sheet1!C3", ws2.Cells["E2"].Formula);
+            Assert.AreEqual("DeleteCol2_Sheet1!B1+DeleteCol2_Sheet1!D3", ws2.Cells["F2"].Formula);
         }
+        [TestMethod]
+        public void SharedFormulaShouldBeDeletedIfEntireRowIsDeleted()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A2:B2"].Formula = "C2";
+                //Act
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                ws.DeleteRow(2);
 
+                //Assert
+                Assert.AreEqual(0, ws._sharedFormulas.Count);
+                Assert.AreEqual("", ws.Cells["A2"].Formula);
+                Assert.AreEqual("", ws.Cells["B2"].Formula);
+            }
+        }
+        [TestMethod]
+        public void SharedFormulaShouldBeDeletedIfEntireColumnIsDeleted()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["B1:B2"].Formula = "C2";
+                //Act
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                ws.DeleteColumn(2);
+
+                //Assert
+                Assert.AreEqual(0, ws._sharedFormulas.Count);
+                Assert.AreEqual("", ws.Cells["B1"].Formula);
+                Assert.AreEqual("", ws.Cells["B2"].Formula);
+            }
+        }
+        [TestMethod]
+        public void SharedFormulaShouldBePartialDeletedRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A2:B3"].Formula = "C2";
+                //Act
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                ws.DeleteRow(2);
+
+                //Assert
+                Assert.AreEqual(0, ws._sharedFormulas.Count);
+                Assert.AreEqual("C2", ws.Cells["A2"].Formula);
+                Assert.AreEqual("D2", ws.Cells["B2"].Formula);
+                Assert.AreEqual("", ws.Cells["A3"].Formula);
+                Assert.AreEqual("", ws.Cells["B3"].Formula);
+            }
+        }
+        [TestMethod]
+        public void SharedFormulaShouldBePartialDeletedColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["B1:C2"].Formula = "B3";
+                //Act
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                ws.DeleteColumn(2);
+
+                //Assert
+                Assert.AreEqual(0, ws._sharedFormulas.Count);
+                Assert.AreEqual("B3", ws.Cells["B1"].Formula);
+                Assert.AreEqual("B4", ws.Cells["B2"].Formula);
+                Assert.AreEqual("", ws.Cells["C1"].Formula);
+                Assert.AreEqual("", ws.Cells["C2"].Formula);
+            }
+        }
+        [TestMethod]
+        public void SharedFormulaShouldBePartialDeletedRowShareFormulaRetained()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A2:B3"].Formula = "E12";
+                //Act
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                ws.DeleteRow(2);
+
+                //Assert
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                Assert.AreEqual("E11", ws.Cells["A2"].Formula);
+                Assert.AreEqual("F11", ws.Cells["B2"].Formula);
+                Assert.AreEqual("", ws.Cells["A3"].Formula);
+                Assert.AreEqual("", ws.Cells["B3"].Formula);
+            }
+        }
+        [TestMethod]
+        public void SharedFormulaShouldBePartialDeletedColumnShareFormulaRetained()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["B1:C2"].Formula = "E12";
+                //Act
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                ws.DeleteColumn(2);
+
+                //Assert
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+                Assert.AreEqual("D12", ws.Cells["B1"].Formula);
+                Assert.AreEqual("D13", ws.Cells["B2"].Formula);
+                Assert.AreEqual("", ws.Cells["C1"].Formula);
+                Assert.AreEqual("", ws.Cells["C2"].Formula);
+            }
+        }
+        [TestMethod]
+        public void FixedAddressesShouldBeDeletedRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws1.Cells["A1"].Formula = "SUM($A$5:$A$8)";
+                ws2.Cells["A1"].Formula = "SUM(sheet1!$A$5:$A$8)";
+                //Act
+                ws1.DeleteRow(4);
+                Assert.AreEqual("SUM($A$4:$A$7)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$A$4:$A$7)", ws2.Cells["A1"].Formula);
+                ws1.DeleteRow(4);
+                Assert.AreEqual("SUM($A$4:$A$6)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$A$4:$A$6)", ws2.Cells["A1"].Formula);
+                ws1.DeleteRow(6);
+                Assert.AreEqual("SUM($A$4:$A$5)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$A$4:$A$5)", ws2.Cells["A1"].Formula);
+                ws1.DeleteRow(6);
+                Assert.AreEqual("SUM($A$4:$A$5)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$A$4:$A$5)", ws2.Cells["A1"].Formula);
+            }
+        }
+        [TestMethod]
+        public void FixedAddressesShouldBeDeletedColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws1.Cells["A1"].Formula = "SUM($E$1:$H$1)";
+                ws2.Cells["A1"].Formula = "SUM(sheet1!$E$1:$H$1)";
+                //Act
+                ws1.DeleteColumn(4);
+                Assert.AreEqual("SUM($D$1:$G$1)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$D$1:$G$1)", ws2.Cells["A1"].Formula);
+
+                ws1.DeleteColumn(4);
+                Assert.AreEqual("SUM($D$1:$F$1)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$D$1:$F$1)", ws2.Cells["A1"].Formula);
+
+                ws1.DeleteColumn(6);
+                Assert.AreEqual("SUM($D$1:$E$1)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$D$1:$E$1)", ws2.Cells["A1"].Formula);
+
+                ws1.DeleteColumn(6);
+                Assert.AreEqual("SUM($D$1:$E$1)", ws1.Cells["A1"].Formula);
+                Assert.AreEqual("SUM(sheet1!$D$1:$E$1)", ws2.Cells["A1"].Formula);
+            }
+        }
     }
 }

@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 var deletedSf = new List<int>(); 
                 foreach (var sf in ws._sharedFormulas.Values)
                 {
-                    if(isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name)>=0)
+                    if(isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase)>=0)
                     {
                         if(ConvertEffectedSharedFormulaIfReferenceWithinDeletedRange(ws, delRange, sf, wsUpdate.Name))
                         {
@@ -246,7 +246,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                 }
             }
-            if (doConvertSF)
+            if(doConvertSF)
             {
                 ConvertSharedFormulaToCellFormula(ws, sf, sfAddress);
             }
@@ -302,7 +302,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 if (cse.Value is string v)
                 {
-                    if (workSheetName == ws.Name || v.Contains(workSheetName))
+                    if (workSheetName == ws.Name || v.IndexOf(workSheetName, StringComparison.CurrentCultureIgnoreCase)>=0)
                     {
                         cse.Value = ExcelCellBase.UpdateFormulaReferences(v, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
                     }
@@ -341,7 +341,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 if (cse.Value is string v)
                 {
-                    if (workSheetName == ws.Name || v.Contains(workSheetName))
+                    if (workSheetName == ws.Name || v.IndexOf(workSheetName, StringComparison.CurrentCultureIgnoreCase)>=0)
                     {
                         cse.Value = ExcelCellBase.UpdateFormulaReferences(v, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
                     }
