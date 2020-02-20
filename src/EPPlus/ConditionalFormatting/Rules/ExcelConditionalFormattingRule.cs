@@ -100,8 +100,8 @@ namespace OfficeOpenXml.ConditionalFormatting
 
       Address = address;
       Priority = priority;
-      Type = type;
-      if (DxfId >= 0)
+      Type = type;  
+      if (DxfId >= 0 && DxfId < worksheet.Workbook.Styles.Dxfs.Count)
       {
           worksheet.Workbook.Styles.Dxfs[DxfId].AllowChange = true;  //This Id is referenced by CF, so we can use it when we save.
           _style = worksheet.Workbook.Styles.Dxfs[DxfId].Clone();    //Clone, so it can be altered without effecting other dxf styles
@@ -347,7 +347,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             return _style;
         }
-    }
+    }        
     /// <summary>
     /// StdDev (zero is not allowed and will be converted to 1)
     /// </summary>
@@ -608,5 +608,10 @@ namespace OfficeOpenXml.ConditionalFormatting
     }
     #endregion Internal Properties
     /****************************************************************************************/
+    internal protected void SetStyle(ExcelDxfStyleConditionalFormatting style)
+    {
+       _style = Style;
+       TopNode = null;
+    }
   }
 }
