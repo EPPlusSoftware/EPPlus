@@ -2905,10 +2905,13 @@ namespace OfficeOpenXml
                     }
                     object v = val._value;
                     object formula = _formulas.GetValue(cse.Row, cse.Column);
-                    if (formula is int)
+                    if (formula is int sfId)
                     {
-                        var sfId = (int)formula;
-                        var f = _sharedFormulas[(int)sfId];
+                        if(!_sharedFormulas.ContainsKey(sfId))
+                        {
+                            throw (new InvalidDataException($"SharedFormulaId {sfId} not found on Worksheet {Name} cell {cse.CellAddress}"));
+                        }
+                        var f = _sharedFormulas[sfId];
                         if (f.Address.IndexOf(':') > 0)
                         {
                             if (f.StartCol == cse.Column && f.StartRow == cse.Row)
