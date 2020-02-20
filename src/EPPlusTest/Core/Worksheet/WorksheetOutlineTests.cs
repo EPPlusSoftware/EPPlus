@@ -36,7 +36,7 @@ using System.Text;
 namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
-    class WorksheetOutlineTests
+    public class WorksheetOutlineTests
     {
         [TestMethod]
         public void InsertRowsSetsOutlineLevel()

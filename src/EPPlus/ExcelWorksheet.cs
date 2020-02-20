@@ -2976,6 +2976,14 @@ namespace OfficeOpenXml
                             else
                             {
                                 var s = Convert.ToString(v);
+                                if(s==null) //If for example a struct 
+                                {
+                                    s = v.ToString();
+                                    if(s==null)
+                                    {
+                                        s = "";
+                                    }
+                                }
                                 int ix;
                                 if (!ss.ContainsKey(s))
                                 {
