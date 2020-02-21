@@ -50,8 +50,6 @@ namespace OfficeOpenXml.Style
             set
             {
                 _collection.ConvertRichtext();
-                // Don't remove if blank -- setting a blank rich text value on a node is common,
-                // for example when applying both bold and italic to text.
                 SetXmlNodeString(TEXT_PATH, value, false);
                 if (PreserveSpace)
                 {

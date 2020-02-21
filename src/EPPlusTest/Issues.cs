@@ -1076,6 +1076,15 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue436()
+        {
+            using (var p1 = OpenTemplatePackage("issue436.xlsx"))
+            {
+                var ws = p1.Workbook.Worksheets[0];
+                Assert.IsNotNull(((ExcelShape)ws.Drawings[0]).Text);
+            }
+        }
+        [TestMethod]
         public void Issue625()
         {
             using (var p = OpenTemplatePackage("multiple_print_areas.xlsx"))

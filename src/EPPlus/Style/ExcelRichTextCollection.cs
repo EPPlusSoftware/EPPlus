@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Style
         /// </summary>
         /// <param name="Text">The text to add</param>
         /// <returns></returns>
-        public ExcelRichText Add(string Text)
+        public ExcelRichText Add(string Text, bool NewParagraph = false)
         {
             return Insert(_list.Count, Text);
         }

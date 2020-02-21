@@ -44,7 +44,36 @@ namespace OfficeOpenXml.Style
                 CreateTopNode();
                 SetXmlNodeString(TextPath, value);
             }
-
+        }
+        public bool IsFirstInParagraph
+        {
+            get
+            {
+                var parent = _rootNode.ParentNode;
+                for (int i=0;i<parent.ChildNodes.Count;i++)
+                {
+                    if (parent.ChildNodes[i].LocalName == "r")
+                    {
+                        return parent.ChildNodes[i] == _rootNode;
+                    }
+                }
+                return false;
+            }
+        }
+        public bool IsLastInParagraph
+        {
+            get
+            {
+                var parent = _rootNode.ParentNode;
+                for (int i = parent.ChildNodes.Count-1; i >=0 ; i--)
+                {
+                    if (parent.ChildNodes[i].LocalName == "r")
+                    {
+                        return parent.ChildNodes[i] == _rootNode;
+                    }
+                }
+                return false;
+            }
         }
     }
 }

@@ -226,11 +226,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeString(_textPath);
+                return RichText.Text;
             }
             set
             {
-                SetXmlNodeString(_textPath, value);
+                RichText.Clear();
+                RichText.Text = value;
             }
 
         }

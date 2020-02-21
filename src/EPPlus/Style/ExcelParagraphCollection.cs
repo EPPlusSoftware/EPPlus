@@ -16,6 +16,7 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.Drawing;
 using System.Drawing;
+using System.Linq;
 
 namespace OfficeOpenXml.Style
 {
@@ -27,21 +28,28 @@ namespace OfficeOpenXml.Style
         List<ExcelParagraph> _list = new List<ExcelParagraph>();
         private readonly ExcelDrawing _drawing;
         private readonly string _path;
+        private readonly List<XmlElement> _paragraphs=new List<XmlElement>();
         internal ExcelParagraphCollection(ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder) :
             base(ns, topNode)
         {
             _drawing = drawing;
-            var nl = topNode.SelectNodes(path + "/a:r", NameSpaceManager);
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
-            
+
+            _path = path;
+            var par = (XmlElement)TopNode.SelectSingleNode(path, NameSpaceManager);
+            _paragraphs.Add(par);
+            var nl = par.SelectNodes("a:r", NameSpaceManager);
             if (nl != null)
             {
                 foreach (XmlNode n in nl)
                 {
+                    if (_list.Count==0 || n.ParentNode!=_list[_list.Count-1].TopNode.ParentNode)
+                    {
+                        _paragraphs.Add((XmlElement)n.ParentNode);
+                    }
                     _list.Add(new ExcelParagraph(drawing._drawings, ns, n, "",schemaNodeOrder));
                 }
             }
-            _path = path;
         }
         /// <summary>
         /// The indexer for this collection
@@ -69,8 +77,9 @@ namespace OfficeOpenXml.Style
         /// Add a rich text string
         /// </summary>
         /// <param name="Text">The text to add</param>
+        /// <param name="NewParagraph">This will be a new line. Is ignored for first item added to the collection</param>
         /// <returns></returns>
-        public ExcelParagraph Add(string Text)
+        public ExcelParagraph Add(string Text, bool NewParagraph=false)
         {
             XmlDocument doc;
             if (TopNode is XmlDocument)
@@ -81,13 +90,22 @@ namespace OfficeOpenXml.Style
             {
                 doc = TopNode.OwnerDocument;
             }
-            XmlNode parentNode=TopNode.SelectSingleNode(_path, NameSpaceManager);
-            if (parentNode == null)
+            XmlNode parentNode;
+            if(NewParagraph && _list.Count!=0)
             {
-                CreateNode(_path);
-                parentNode = TopNode.SelectSingleNode(_path, NameSpaceManager);
+                parentNode = CreateNode(_path, false, true);
+                _paragraphs.Add((XmlElement)parentNode);
             }
-            
+            else if(_paragraphs.Count > 1)
+            {
+                parentNode = _paragraphs[_paragraphs.Count - 1];
+            }
+            else 
+            {
+                parentNode = CreateNode(_path);
+                _paragraphs.Add((XmlElement)parentNode);
+            }
+
             var node = doc.CreateElement("a", "r", ExcelPackage.schemaDrawings);
             parentNode.AppendChild(node);
             var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
@@ -115,8 +133,12 @@ namespace OfficeOpenXml.Style
         /// </summary>
         public void Clear()
         {
+            for (int ix = 0 ; ix < _paragraphs.Count; ix++)
+            {
+                _paragraphs[ix].ParentNode.RemoveChild(_paragraphs[ix]);
+            }
             _list.Clear();
-            TopNode.RemoveAll();
+            _paragraphs.Clear();
         }
         /// <summary>
         /// Remove the item at the specified index
@@ -150,8 +172,16 @@ namespace OfficeOpenXml.Style
                 StringBuilder sb = new StringBuilder();
                 foreach (var item in _list)
                 {
-                    sb.Append(item.Text);
+                    if (item.IsLastInParagraph)
+                    {
+                        sb.AppendLine(item.Text);
+                    }
+                    else
+                    {
+                        sb.Append(item.Text);
+                    }
                 }
+                if (sb.Length > 2) sb.Remove(sb.Length - 2, 2); //Remove last crlf
                 return sb.ToString();
             }
             set
@@ -163,8 +193,7 @@ namespace OfficeOpenXml.Style
                 else
                 {
                     this[0].Text = value;
-                    int count = Count;
-                    for (int ix = Count-1; ix > 0; ix--)
+                    for (int ix = _list.Count-1; ix > 0; ix--)
                     {
                         RemoveAt(ix);
                     }
