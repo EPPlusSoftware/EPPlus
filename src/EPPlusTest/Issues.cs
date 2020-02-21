@@ -1075,5 +1075,16 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void Issue625()
+        {
+            using (var p = OpenTemplatePackage("multiple_print_areas.xlsx"))
+            {
+
+                var workSheet = p.Workbook.Worksheets[0];
+
+                SaveWorkbook("Issue625.xlsx", p);
+            }
+        }
     }
 }
