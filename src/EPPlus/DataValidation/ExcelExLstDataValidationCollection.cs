@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Utils;
 using System;
@@ -14,14 +15,16 @@ namespace OfficeOpenXml.DataValidation
     {
         private List<IExcelDataValidation> _validations = new List<IExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
+        private readonly DataValidationFormulaListener _formulaListener = null;
         private const string ExternalDataValidationPath = "//d:extLst/d:ext/x14:dataValidations";
         private readonly string ExternalDataValidationItemsPath = string.Format("{0}//x14:dataValidation", ExternalDataValidationPath);
 
-        internal ExcelExLstDataValidationCollection(ExcelWorksheet worksheet)
+        internal ExcelExLstDataValidationCollection(ExcelWorksheet worksheet, DataValidationFormulaListener formulaListener)
             : base(worksheet.NameSpaceManager, worksheet.WorksheetXml.DocumentElement)
         {
             Require.Argument(worksheet).IsNotNull("worksheet");
             _worksheet = worksheet;
+            _formulaListener = formulaListener;
             //SchemaNodeOrder = worksheet.SchemaNodeOrder;
             SchemaNodeOrder = new string[]
             {
@@ -76,7 +79,11 @@ namespace OfficeOpenXml.DataValidation
             {
                 if (dvNode != null)
                 {
-                    _worksheet.WorksheetXml.DocumentElement.RemoveChild(dvNode);
+                    var extNode = dvNode.ParentNode;
+                    extNode.RemoveChild(dvNode);
+                    var x14dvNode = extNode.ParentNode;
+                    x14dvNode.RemoveChild(extNode);
+                    _worksheet.WorksheetXml.DocumentElement.RemoveChild(x14dvNode);
                 }
                 _worksheet.ClearValidations();
             }
@@ -108,6 +115,11 @@ namespace OfficeOpenXml.DataValidation
         {
             EnsureRootElementExists();
             _validations.Add(item);
+            var formula = item.Formula as ExcelDataValidationFormula;
+            if(formula != null)
+            {
+                formula.RegisterFormulaListener(_formulaListener);
+            }
             OnValidationCountChanged();
             return item;
         }
@@ -127,6 +139,26 @@ namespace OfficeOpenXml.DataValidation
             {
                 return _validations == null || _validations.Count == 0;
             } 
+        }
+
+        /// <summary>
+        /// Removes an <see cref="ExcelDataValidation"/> from the collection.
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        /// <returns>True if remove succeeds, otherwise false</returns>
+        /// <exception cref="ArgumentNullException">if <paramref name="item"/> is null</exception>
+        public bool Remove(IExcelDataValidation item)
+        {
+            Require.Argument(item).IsNotNull("item");
+            if (!(item is ExcelDataValidation))
+            {
+                throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
+            }
+
+            ((ExcelDataValidation)item).Delete();
+            var retVal = _validations.Remove(item);
+            if (retVal) OnValidationCountChanged();
+            return retVal;
         }
 
         public IEnumerator<IExcelDataValidation> GetEnumerator()

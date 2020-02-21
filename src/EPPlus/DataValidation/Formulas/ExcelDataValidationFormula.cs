@@ -73,6 +73,11 @@ namespace OfficeOpenXml.DataValidation.Formulas
             _formulaListeners.Add(listener);
         }
 
+        internal void DetachFormulaListener(IFormulaListener listener)
+        {
+            _formulaListeners.Remove(listener);
+        }
+
         private void OnFormulaChanged(string uid, string oldValue, string newValue) 
         { 
             foreach(var listener in _formulaListeners)

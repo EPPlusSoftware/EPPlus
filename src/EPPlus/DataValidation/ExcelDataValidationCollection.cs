@@ -92,7 +92,7 @@ namespace OfficeOpenXml.DataValidation
             {
                 OnValidationCountChanged();
             }
-            _extLstValidations = new ExcelExLstDataValidationCollection(worksheet);
+            _extLstValidations = new ExcelExLstDataValidationCollection(worksheet, _formulaListener);
             _extListUsed = !_extLstValidations.IsEmpty;
             InternalValidationEnabled = true;
         }
@@ -119,8 +119,9 @@ namespace OfficeOpenXml.DataValidation
                 if (dvNode != null)
                 {
                     _worksheet.WorksheetXml.DocumentElement.RemoveChild(dvNode);
+                    TopNode = _worksheet.WorksheetXml.DocumentElement;
                 }
-                _worksheet.ClearValidations();
+                //_worksheet.ClearValidations();
             }
             else
             {
@@ -261,6 +262,17 @@ namespace OfficeOpenXml.DataValidation
             ValidateAddress(address);
             EnsureRootElementExists();
             var item = new ExcelDataValidationList(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.List);
+            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
+            _validations.Add(item);
+            OnValidationCountChanged();
+            return item;
+        }
+
+        internal IExcelDataValidationList AddListValidation(string address, string uid)
+        {
+            ValidateAddress(address);
+            EnsureRootElementExists();
+            var item = new ExcelDataValidationList(_worksheet, uid, address, ExcelDataValidationType.List);
             ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
             _validations.Add(item);
             OnValidationCountChanged();
@@ -410,7 +422,7 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public IEnumerable<IExcelDataValidation> FindAll(Predicate<IExcelDataValidation> match)
         {
-            return _validations.FindAll(match);
+            return GetValidations().FindAll(match);
         }
 
         /// <summary>
@@ -420,7 +432,7 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public IExcelDataValidation Find(Predicate<IExcelDataValidation> match)
         {
-            return _validations.Find(match);
+            return GetValidations().Find(match);
         }
 
         /// <summary>
