@@ -1058,5 +1058,33 @@ namespace EPPlusTest
                 SaveWorkbook("Issue510.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue464()
+        {
+            using (var p1 = OpenTemplatePackage("Sample_Cond_Format.xlsx"))
+            {
+                var ws = p1.Workbook.Worksheets[0];
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws2=p2.Workbook.Worksheets.Add("Test", ws);
+                    foreach(var cf in ws2.ConditionalFormatting)
+                    {
+
+                    }
+                    SaveWorkbook("CondCopy.xlsx",p2);
+                }
+            }
+        }
+        [TestMethod]
+        public void Issue625()
+        {
+            using (var p = OpenTemplatePackage("multiple_print_areas.xlsx"))
+            {
+
+                var workSheet = p.Workbook.Worksheets[0];
+
+                SaveWorkbook("Issue625.xlsx", p);
+            }
+        }
     }
 }

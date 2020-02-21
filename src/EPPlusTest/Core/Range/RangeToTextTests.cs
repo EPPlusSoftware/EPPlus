@@ -36,7 +36,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OfficeOpenXml.Core.Range
+namespace EPPlusTest.Core.Range
 {
     [TestClass]
     public class RangeToTextTests : TestBase

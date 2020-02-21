@@ -236,8 +236,8 @@ namespace OfficeOpenXml
                     CopySheetNames(Copy, added);
                 }
 
-                //Copy all cells
-                CloneCells(Copy, added);
+                //Copy all cells and styles if the worksheet is from another workbook.
+                CloneCellsAndStyles(Copy, added);
 
                 //Copy the VBA code
                 if (_pck.Workbook.VbaProject != null)
@@ -493,7 +493,7 @@ namespace OfficeOpenXml
             to.CenteredText = from.CenteredText;
             to.RightAlignedText = from.RightAlignedText;
         }
-        private void CloneCells(ExcelWorksheet Copy, ExcelWorksheet added)
+        private void CloneCellsAndStyles(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             bool sameWorkbook=(Copy.Workbook == _pck.Workbook);
 
@@ -559,7 +559,42 @@ namespace OfficeOpenXml
                     }
                 }
             }
+
+            //Copy dfx styles used in conditional formatting.
+            if(!sameWorkbook)
+            {
+                CopyDxfStylesConditionalFormatting(Copy, added);
+            }
+
             added._package.DoAdjustDrawings = doAdjust;
+        }
+
+        private void CopyDxfStylesConditionalFormatting(ExcelWorksheet Copy, ExcelWorksheet added)
+        {
+            var dxfStyleCashe = new Dictionary<string, int>();
+            for (var i = 0; i < Copy.ConditionalFormatting.Count; i++)
+            {
+                var cfSource = Copy.ConditionalFormatting[i];
+                var dxfElement = ((XmlElement)cfSource.Node);
+                var dxfId = dxfElement.GetAttribute("dxfId");
+                if (!ConvertUtil.TryParseIntString(dxfId, out int dxfIdInt))
+                {
+                    if (!dxfStyleCashe.ContainsKey(dxfId))
+                    {
+                        var s = added.Workbook.Styles.CloneDxfStyle(Copy.Workbook.Styles, dxfIdInt);
+                        dxfStyleCashe.Add(dxfId, s);
+                    }
+                }
+            }
+            var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", NameSpaceManager);
+            foreach (XmlElement cfRule in nodes)
+            {
+                var dxfId = cfRule.GetAttribute("dxfId");
+                if (dxfStyleCashe.ContainsKey(dxfId))
+                {
+                    cfRule.SetAttribute("dxfId", dxfStyleCashe[dxfId].ToString());
+                }
+            }
         }
 
         private int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col)

@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfStyleConditionalFormatting : DxfStyleBase<ExcelDxfStyleConditionalFormatting>
     {
-        XmlHelperInstance _helper;
+        internal XmlHelperInstance _helper;
         internal ExcelDxfStyleConditionalFormatting(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(styles)
         {
             NumberFormat = new ExcelDxfNumberFormat(_styles);
@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override ExcelDxfStyleConditionalFormatting Clone()
         {
- 	       var s=new ExcelDxfStyleConditionalFormatting(_helper.NameSpaceManager, null, _styles);
+           var s=new ExcelDxfStyleConditionalFormatting(_helper.NameSpaceManager, null, _styles);
            s.Font = Font.Clone();
            s.NumberFormat = NumberFormat.Clone();
            s.Fill = Fill.Clone();

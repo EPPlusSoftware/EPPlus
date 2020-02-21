@@ -338,6 +338,10 @@ namespace OfficeOpenXml
                 }
                 if (pos>0)
                 {
+                    if (_ws[pos+1]!='!')
+                    {
+                        throw new InvalidOperationException($"Address is not valid {address}. Missing ! after sheet name.");
+                    }
                     _address = _ws.Substring(pos+2);
                     _ws = _ws.Substring(1, pos-1);
                     return;
@@ -386,20 +390,35 @@ namespace OfficeOpenXml
 
         private string GetAddress()
         {
+            string address = GetAddressWorkBookWorkSheet();
+            if (IsName)
+                return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol);
+            else
+                return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+        }
+
+        internal string GetAddressWorkBookWorkSheet()
+        {
             var address = "";
-            if (string.IsNullOrEmpty(_wb)==false)
+
+            if (string.IsNullOrEmpty(_ws) == false)
             {
-                address = "[" + _wb + "]";
+                if (string.IsNullOrEmpty(_wb) == false)
+                {
+                    address = "[" + _wb + "]";
+                }
+
+                if (_address.IndexOf("'!")>=0)
+                {
+                    address += string.Format("'{0}'!", _ws);
+                }
+                else
+                {
+                    address += string.Format("{0}!", _ws);
+                }
             }
 
-            if (string.IsNullOrEmpty(_ws)==false)
-            {
-                address += string.Format("'{0}'!", _ws);
-            }
-            if (IsName)
-              return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol);
-            else
-              return address + GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+            return address;
         }
         #endregion
         internal ExcelCellAddress _start = null;
@@ -770,7 +789,7 @@ namespace OfficeOpenXml
             {
                 return this;
             }            
-            else if (row+rows <= _fromRow || (_fromRowFixed && row <= _fromRow)) //Before
+            else if (row+rows < _fromRow || (_fromRowFixed && row < _fromRow)) //Before
             {
                 return new ExcelAddressBase((setFixed && _fromRowFixed ? _fromRow : _fromRow - rows), _fromCol, (setFixed && _toRowFixed ? _toRow : _toRow - rows), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
             }
@@ -811,7 +830,7 @@ namespace OfficeOpenXml
             {
                 return this;
             }
-            else if (col + cols <= _fromCol || (_fromColFixed && col <= _fromCol)) //Before
+            else if (col + cols < _fromCol || (_fromColFixed && col < _fromCol)) //Before
             {
                 return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol - cols), _toRow, (setFixed && _toColFixed ? _toCol :_toCol - cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
             }
@@ -1187,7 +1206,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _fromRow == 1 && _toRow == ExcelPackage.MaxRows;
+                return _fromCol == 1 && _toCol == ExcelPackage.MaxColumns;
             }
         }
         /// <summary>
@@ -1198,7 +1217,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _fromCol == 1 && _toCol == ExcelPackage.MaxColumns;
+                return _fromRow == 1 && _toRow == ExcelPackage.MaxRows;
             }
         }
 
@@ -1607,7 +1626,7 @@ namespace OfficeOpenXml
 
             }
         }
-        internal string GetOffset(int row, int column)
+        internal string GetOffset(int row, int column, bool withWbWs=false)
         {
             int fromRow = _fromRow, fromCol = _fromCol, toRow = _toRow, tocol = _toCol;
             var isMulti = (fromRow != toRow || fromCol != tocol);
@@ -1640,10 +1659,17 @@ namespace OfficeOpenXml
             {
                 foreach (var sa in Addresses)
                 {
-                    a+="," + sa.GetOffset(row, column);
+                    a+="," + sa.GetOffset(row, column, withWbWs);
                 }
             }
-            return a;
+            if(withWbWs)
+            {
+                return GetAddressWorkBookWorkSheet() + a;
+            }
+            else
+            {
+                return a;
+            }
         }
     }
 }

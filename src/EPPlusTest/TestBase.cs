@@ -189,12 +189,19 @@ namespace EPPlusTest
             pck.SaveAs(fi);
         }
         protected static readonly DateTime _loadDataStartDate = new DateTime(DateTime.Today.Year-1, 11, 1);
+        /// <summary>
+        /// Loads 4 columns of {date, numeric, string, numeric}
+        /// </summary>
+        /// <param name="ws">The worksheet </param>
+        /// <param name="noItems">Number of items</param>
+        /// <param name="startColumn">The start column</param>
+        /// <param name="startRow">The start row</param>
         protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1)
         {
             ws.SetValue(1, startColumn, "Date");
             ws.SetValue(1, startColumn + 1, "NumValue");
             ws.SetValue(1, startColumn + 2, "StrValue");
-            ws.SetValue(1, startColumn + 3, "NumFormatedValue");
+            ws.SetValue(1, startColumn + 3, "NumFormattedValue");
 
             DateTime dt = _loadDataStartDate;
             int row = 1;
@@ -242,6 +249,21 @@ namespace EPPlusTest
             var shape = (ExcelShape)ws.Drawings[0];
             return shape;
         }
-
+        protected static FileInfo GetResourceFile(string fileName)
+        {
+            string path = AppContext.BaseDirectory;
+            while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+            {
+                path = new DirectoryInfo(path + "\\..").FullName;
+            }
+            if(path.Length > 4)
+            {
+                return new FileInfo(path + "\\Resources\\" + fileName);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

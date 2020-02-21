@@ -98,15 +98,14 @@ namespace EPPlusTest
             pic.SetPosition(400, 200);
             pic.SetSize(150);
 
-            //pic = ws.Drawings.AddPicture("Pic4", new FileInfo(Path.Combine(_clipartPath, "Vector Drawing.wmf")));
-            pic = ws.Drawings.AddPicture("Pic5", new FileInfo(Path.Combine(_clipartPath, "BitmapImage.gif")));
+            pic = ws.Drawings.AddPicture("Pic5", GetResourceFile("BitmapImage.gif"));
             pic.SetPosition(400, 200);
             pic.SetSize(150);
 
             ws.Column(1).Width = 53;
             ws.Column(4).Width = 58;
 
-            pic = ws.Drawings.AddPicture("Pic6öäå", new FileInfo(Path.Combine(_clipartPath, "BitmapImage.gif")));
+            pic = ws.Drawings.AddPicture("Pic6öäå", GetResourceFile("BitmapImage.gif"));
             pic.SetPosition(400, 400);
             pic.SetSize(100);
 
@@ -114,7 +113,7 @@ namespace EPPlusTest
             pic.SetPosition(800, 800);
             pic.SetSize(568*2, 66*2);
             var ws2 = _pck.Workbook.Worksheets.Add("Picture2");
-            var fi = new FileInfo(Path.Combine(_clipartPath, "BitmapImage.gif"));
+            var fi = GetResourceFile("BitmapImage.gif");
             if (fi.Exists)
             {
                 pic = ws2.Drawings.AddPicture("Pic7", fi);
@@ -127,7 +126,6 @@ namespace EPPlusTest
             }
 
             var wsCopy = _pck.Workbook.Worksheets.Add("Picture3", ws2);
-            //_pck.Workbook.Worksheets.Delete(ws2);
          }
         [TestMethod]
         public void ShapeURL()
@@ -1030,6 +1028,19 @@ namespace EPPlusTest
             pic.ChangeCellAnchor(eEditAs.OneCell, 500, 500, pic._width, pic._height);
             pic.ChangeCellAnchor(eEditAs.TwoCell, 500, 500, pic._width, pic._height);
         }
+        [TestMethod]
+        public void ValidateTextBody()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TextBody_RightInsert");
+            var shape = ws.Drawings.AddShape("Shape1", eShapeStyle.Rect);
+            shape.TextBody.RightInsert = 1;
+            
+            Assert.AreEqual(1, shape.TextBody.RightInsert);
+            shape.ChangeCellAnchor(eEditAs.OneCell);
+
+            Assert.AreEqual(1, shape.TextBody.RightInsert);
+        }
+
         [TestMethod]
         public void SendToBack()
         {

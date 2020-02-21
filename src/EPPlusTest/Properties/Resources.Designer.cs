@@ -113,6 +113,22 @@ namespace EPPlusTest.Properties {
                 return (Bitmap)Image.FromFile(path + "\\Resources\\Test1.jpg");
             }
         }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static MemoryStream VectorDrawing
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\Vector Drawing.wmf"));
+            }
+        }
+
         internal static System.Drawing.Bitmap Pattern1
         {
             get

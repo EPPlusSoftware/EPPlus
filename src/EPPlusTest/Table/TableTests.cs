@@ -45,9 +45,6 @@ namespace EPPlusTest.Table
         [ClassCleanup]
         public static void Cleanup()
         {
-            var dirName = _pck.File.DirectoryName;
-            var fileName = _pck.File.FullName;
-
             SaveAndCleanup(_pck);
         }
 

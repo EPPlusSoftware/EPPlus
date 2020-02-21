@@ -119,8 +119,7 @@ namespace OfficeOpenXml
 
         internal static bool GetRowColFromAddress(string CellAddress, out int FromRow, out int FromColumn, out int ToRow, out int ToColumn)
         {
-            bool fixedFromRow, fixedFromColumn, fixedToRow, fixedToColumn;
-            return GetRowColFromAddress(CellAddress, out FromRow, out FromColumn, out ToRow, out ToColumn, out fixedFromRow, out fixedFromColumn, out fixedToRow, out fixedToColumn);
+            return GetRowColFromAddress(CellAddress, out FromRow, out FromColumn, out ToRow, out ToColumn, out _, out _, out _, out _);
         }
         /// <summary>
         /// Get the row/columns for a Cell-address
@@ -169,6 +168,17 @@ namespace OfficeOpenXml
             else
             {
                 string[] cells = CellAddress.Split(':');
+                if(cells.Length>2)
+                {
+                    throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                }
+                else
+                {
+                    if (IsCellAddress(cells[0]) != IsCellAddress(cells[1]))
+                    {
+                        throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                    }
+                }
                 ret = GetRowColFromAddress(cells[0], out FromRow, out FromColumn, out fixedFromRow, out fixedFromColumn);
                 if (ret)
                     ret = GetRowColFromAddress(cells[1], out ToRow, out ToColumn, out fixedToRow, out fixedToColumn);
@@ -188,6 +198,22 @@ namespace OfficeOpenXml
             }
             return ret;
         }
+
+        private static bool IsCellAddress(string cellAddress)
+        {
+            char start;
+            if (cellAddress[0]=='$')
+            {
+                start = cellAddress.ToUpper()[1];
+            }
+            else
+            {
+                start = cellAddress.ToUpper()[0];
+            }
+            var end = cellAddress[cellAddress.Length-1];
+            return (start >= 'A' && start <= 'Z' && end >= '0' && end <= '9');
+        }
+
         /// <summary>
         /// Get the row/column for n Cell-address
         /// </summary>
@@ -697,11 +723,18 @@ namespace OfficeOpenXml
                             continue;
                         }
 
-                        if (!string.IsNullOrEmpty(address._ws)) //Address has worksheet.
+                        if (!string.IsNullOrEmpty(address._ws)) //The address has worksheet.
                         {
-                            f += $"'{address._ws}'!";
+                            if(t.Value.IndexOf("'!")>=0)
+                            {
+                                f += $"'{address._ws}'!";
+                            }
+                            else
+                            {
+                                f += $"{address._ws}!";
+                            }
                         }
-                        if (!address.IsFullRow)
+                        if (!address.IsFullColumn)
                         {
                             if (rowIncrement > 0)
                             {
@@ -709,10 +742,17 @@ namespace OfficeOpenXml
                             }
                             else if (rowIncrement < 0)
                             {
-                                address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                                if(address._fromRowFixed==false && (address._fromRow>=afterRow && address._toRow<afterRow-rowIncrement))
+                                {
+                                    address=null;
+                                }
+                                else
+                                {
+                                    address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                                }
                             }
                         }
-                        if (address!=null && !address.IsFullColumn)
+                        if (address!=null && !address.IsFullRow)
                         {
                             if (colIncrement > 0)
                             {
@@ -720,7 +760,14 @@ namespace OfficeOpenXml
                             }
                             else if (colIncrement < 0)
                             {
-                                address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
+                                if (address._fromColFixed == false && (address._fromCol >= afterColumn && address._toCol < afterColumn - colIncrement))
+                                {
+                                    address = null;
+                                }
+                                else
+                                {
+                                    address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
+                                }
                             }
                         }
 

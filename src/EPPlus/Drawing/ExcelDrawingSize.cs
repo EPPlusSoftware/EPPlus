@@ -34,11 +34,11 @@ namespace OfficeOpenXml.Drawing
             ///             1US inch    =   1/914400
             ///             1pixel      =   1/9525
             /// </summary>
-            public int Height
+            public long Height
             {
                 get
                 {
-                    return GetXmlNodeInt(colOffPath);
+                    return GetXmlNodeLong(colOffPath);
                 }
                 set
                 {
@@ -54,11 +54,11 @@ namespace OfficeOpenXml.Drawing
             ///             1US inch    =   1/914400
             ///             1pixel      =   1/9525
             /// </summary>
-            public int Width
+            public long Width
             {
                 get
                 {
-                    return GetXmlNodeInt(rowOffPath);
+                    return GetXmlNodeLong(rowOffPath);
                 }
                 set
                 {

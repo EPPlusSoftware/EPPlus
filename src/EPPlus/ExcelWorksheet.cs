@@ -109,12 +109,34 @@ namespace OfficeOpenXml
             internal int Index { get; set; }
             internal string Address { get; set; }
             internal bool IsArray { get; set; }
-            public string Formula { get; set; }
+            string _formula = "";
+            public string Formula 
+            { 
+                get
+                {
+                    return _formula;
+                }
+                set
+                {
+                    if (_formula != value)
+                    {
+                        _formula = value;
+                        Tokens = null;
+                    }
+                }
+            }
             public int StartRow { get; set; }
             public int StartCol { get; set; }
 
-            private IEnumerable<Token> Tokens { get; set; }
+            internal IEnumerable<Token> Tokens { get; set; }
 
+            internal void SetTokens(string worksheet)
+            {
+                if (Tokens == null)
+                {
+                    Tokens = _tokenizer.Tokenize(Formula, worksheet);
+                }
+            }
             internal string GetFormula(int row, int column, string worksheet)
             {
                 if ((StartRow == row && StartCol == column))
@@ -122,20 +144,15 @@ namespace OfficeOpenXml
                     return Formula;
                 }
 
-                if (Tokens == null)
-                {
-                    Tokens = _tokenizer.Tokenize(Formula, worksheet);
-                }
-
+                SetTokens(worksheet);
                 string f = "";
                 foreach (var token in Tokens)
                 {
                     if (token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var a = new ExcelFormulaAddress(token.Value);
-                        f += !string.IsNullOrEmpty(a._wb) || !string.IsNullOrEmpty(a._ws)
-                            ? token.Value
-                            : a.GetOffset(row - StartRow, column - StartCol);
+                        f += a.GetOffset(row - StartRow, column - StartCol, true);
+                            
                     }
                     else
                     {
@@ -2888,10 +2905,13 @@ namespace OfficeOpenXml
                     }
                     object v = val._value;
                     object formula = _formulas.GetValue(cse.Row, cse.Column);
-                    if (formula is int)
+                    if (formula is int sfId)
                     {
-                        var sfId = (int)formula;
-                        var f = _sharedFormulas[(int)sfId];
+                        if(!_sharedFormulas.ContainsKey(sfId))
+                        {
+                            throw (new InvalidDataException($"SharedFormulaId {sfId} not found on Worksheet {Name} cell {cse.CellAddress}"));
+                        }
+                        var f = _sharedFormulas[sfId];
                         if (f.Address.IndexOf(':') > 0)
                         {
                             if (f.StartCol == cse.Column && f.StartRow == cse.Row)
@@ -2950,7 +2970,7 @@ namespace OfficeOpenXml
                                 else
                                     v = string.Empty;
                             }
-                            if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan))
+                            if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
                             {
                                 //string sv = GetValueForXml(v);
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v)}>");
@@ -2959,6 +2979,14 @@ namespace OfficeOpenXml
                             else
                             {
                                 var s = Convert.ToString(v);
+                                if(s==null) //If for example a struct 
+                                {
+                                    s = v.ToString();
+                                    if(s==null)
+                                    {
+                                        s = "";
+                                    }
+                                }
                                 int ix;
                                 if (!ss.ContainsKey(s))
                                 {
@@ -3763,6 +3791,9 @@ namespace OfficeOpenXml
         {
             
             _values.SetValueRange_Value(fromRow, fromColumn, values);
+            //Clearout formulas and flags, for example the rich text flag.
+            _formulas.Clear(fromRow, fromColumn, fromRow + values.GetUpperBound(0), fromColumn + values.GetUpperBound(1)); 
+            _flags.Clear(fromRow, fromColumn, fromRow + values.GetUpperBound(0), fromColumn + values.GetUpperBound(1));    
         }
 
         /// <summary>

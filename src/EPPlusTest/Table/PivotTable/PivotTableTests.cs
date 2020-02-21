@@ -38,16 +38,20 @@ namespace EPPlusTest.Table.PivotTable
     [TestClass]
     public class PivotTableTests : TestBase
     {
+        static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
+            InitBase();
+            _pck = OpenPackage("PivotTable.xlsx", true);
         }
         [ClassCleanup]
         public static void Cleanup()
         {
+            SaveAndCleanup(_pck);
         }
         [TestMethod]
-        public void ValidateLoadSave()
+        public void ValidateLoadSaveTableSource()
         {
             using (ExcelPackage p1 = new ExcelPackage())
             {
@@ -55,7 +59,7 @@ namespace EPPlusTest.Table.PivotTable
                 var tblAddress = "A1:D4";
                 var wsData = p1.Workbook.Worksheets.Add("TableData");
                 var wsPivot = p1.Workbook.Worksheets.Add("PivotSimple");
-                var Table1 = wsData.Tables.Add(wsData.Cells[tblAddress],tblName);
+                var Table1 = wsData.Tables.Add(wsData.Cells[tblAddress], tblName);
                 var pivotTable1 = wsPivot.PivotTables.Add(wsPivot.Cells["A1"], wsData.Cells[Table1.Address.Address], "PivotTable1");
 
                 pivotTable1.RowFields.Add(pivotTable1.Fields[0]);
@@ -63,7 +67,7 @@ namespace EPPlusTest.Table.PivotTable
                 pivotTable1.ColumnFields.Add(pivotTable1.Fields[2]);
 
                 Assert.AreEqual(tblAddress, wsPivot.PivotTables[0].CacheDefinition.SourceRange.Address);
-                Assert.AreEqual(Table1.Columns.Count ,pivotTable1.Fields.Count);
+                Assert.AreEqual(Table1.Columns.Count, pivotTable1.Fields.Count);
                 Assert.AreEqual(1, pivotTable1.RowFields.Count);
                 Assert.AreEqual(1, pivotTable1.DataFields.Count);
                 Assert.AreEqual(1, pivotTable1.ColumnFields.Count);
@@ -84,5 +88,69 @@ namespace EPPlusTest.Table.PivotTable
                 }
             }
         }
+        [TestMethod]
+        public void ValidateLoadSaveAddressSource()
+        {
+            using (ExcelPackage p1 = new ExcelPackage())
+            {
+                var address = "A1:D4";
+                var wsData = p1.Workbook.Worksheets.Add("TableData");
+                var wsPivot = p1.Workbook.Worksheets.Add("PivotSimple");
+                var pivotTable1 = wsPivot.PivotTables.Add(wsPivot.Cells["A1"], wsData.Cells[address], "PivotTable1");
+
+                pivotTable1.RowFields.Add(pivotTable1.Fields[0]);
+                pivotTable1.DataFields.Add(pivotTable1.Fields[1]);
+                pivotTable1.ColumnFields.Add(pivotTable1.Fields[2]);
+
+                Assert.AreEqual(address, wsPivot.PivotTables[0].CacheDefinition.SourceRange.Address);
+                Assert.AreEqual(4, pivotTable1.Fields.Count);
+                Assert.AreEqual(1, pivotTable1.RowFields.Count);
+                Assert.AreEqual(1, pivotTable1.DataFields.Count);
+                Assert.AreEqual(1, pivotTable1.ColumnFields.Count);
+
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    wsData = p2.Workbook.Worksheets[0];
+                    wsPivot = p2.Workbook.Worksheets[1];
+
+                    pivotTable1 = wsPivot.PivotTables[0];
+                    Assert.AreEqual(address, pivotTable1.CacheDefinition.SourceRange.Address);
+                    Assert.AreEqual(4, pivotTable1.Fields.Count);
+                    Assert.AreEqual(1, pivotTable1.RowFields.Count);
+                    Assert.AreEqual(1, pivotTable1.DataFields.Count);
+                    Assert.AreEqual(1, pivotTable1.ColumnFields.Count);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CreatePivotTableAddressSource()
+        {
+            var ws=_pck.Workbook.Worksheets.Add("PivotSourceAddress");
+            LoadTestdata(ws);
+
+            var pivotTable1 = ws.PivotTables.Add(ws.Cells["G1"], ws.Cells["A1:D100"], "PivotTable1");
+
+            pivotTable1.RowFields.Add(pivotTable1.Fields[0]);
+            pivotTable1.RowFields.Add(pivotTable1.Fields[2]);
+            pivotTable1.DataFields.Add(pivotTable1.Fields[1]);
+            pivotTable1.DataFields.Add(pivotTable1.Fields[3]);
+        }
+        [TestMethod]
+        public void CreatePivotTableTableSource()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotSourceTable");
+            LoadTestdata(ws);
+            var table = ws.Tables.Add(ws.Cells["A1:D100"], "table1");
+            var pivotTable1 = ws.PivotTables.Add(ws.Cells["G1"], table , "PivotTable1");
+
+            pivotTable1.RowFields.Add(pivotTable1.Fields[0]);
+            pivotTable1.RowFields.Add(pivotTable1.Fields[2]);
+            pivotTable1.DataFields.Add(pivotTable1.Fields[1]);
+            pivotTable1.DataFields.Add(pivotTable1.Fields[3]);
+        }
+
     }
 }

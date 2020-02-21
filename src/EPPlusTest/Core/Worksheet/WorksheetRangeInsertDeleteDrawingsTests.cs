@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
-    public class WorksheetRangeInsertTests : TestBase
+    public class WorksheetRangeInsertDeleteDrawingsTests : TestBase
     {
         public static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
             InitBase();
-            _pck = OpenPackage("WorksheetRangeInsert.xlsx", true);
+            _pck = OpenPackage("WorksheetRangeInsertDeleteDrawings.xlsx", true);
         }
         [ClassCleanup] 
         public static void Cleanup()

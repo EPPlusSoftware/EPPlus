@@ -1010,7 +1010,8 @@ namespace OfficeOpenXml
             }
         }
 
-#endregion
+        #endregion
+
         internal int CloneStyle(ExcelStyles style, int styleID)
         {
             return CloneStyle(style, styleID, false, false);
@@ -1154,6 +1155,25 @@ namespace OfficeOpenXml
                     }
                 }
                 return index;
+            }
+        }
+        internal int CloneDxfStyle(ExcelStyles style, int styleID)
+        {
+            var copy = style.Dxfs[styleID];
+            var ix = Dxfs.FindIndexByID(copy.Id);
+            if(ix<0)
+            {
+                var parent = GetNode(dxfsPath);
+                var node = _styleXml.CreateElement("d:dxf", ExcelPackage.schemaMain);
+                parent.AppendChild(node);
+                node.InnerXml = copy._helper.TopNode.InnerXml;
+                var dxf = new ExcelDxfStyleConditionalFormatting(_nameSpaceManager, node, this);
+                Dxfs.Add(copy.Id, dxf);
+                return Dxfs.Count - 1;
+            }
+            else
+            {
+                return ix;
             }
         }
     }

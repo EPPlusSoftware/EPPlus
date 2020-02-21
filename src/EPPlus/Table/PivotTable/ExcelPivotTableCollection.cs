@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         /// <param name="Range">The range address including header and total row</param>
         /// <param name="Source">The Source data range address</param>
-        /// <param name="Name">The name of the table. Must be unique </param>
+        /// <param name="Name">The name of the pivottable. Must be unique </param>
         /// <returns>The pivottable object</returns>
         public ExcelPivotTable Add(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
         {
@@ -80,6 +80,21 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             
             return Add(new ExcelPivotTable(_ws, Range, Source, Name, _ws.Workbook._nextPivotTableID++));
+        }
+        /// <summary>
+        /// Create a pivottable on the supplied range
+        /// </summary>
+        /// <param name="Range">The range address including header and total row</param>
+        /// <param name="Source">The source table</param>
+        /// <param name="Name">The name of the pivottable. Must be unique </param>
+        /// <returns>The pivottable object</returns>
+        public ExcelPivotTable Add(ExcelAddressBase Range, ExcelTable Source, string Name)
+        {
+            if(Source.WorkSheet.Workbook!=_ws.Workbook)
+            {
+                throw new ArgumentException("The table must be in the same package as the pivottable", "Source");
+            }
+            return Add(Range, Source.Range, Name);
         }
 
         internal string GetNewTableName()

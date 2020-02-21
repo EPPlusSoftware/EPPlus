@@ -30,7 +30,7 @@ using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-namespace OfficeOpenXml.Core.Range
+namespace EPPlusTest.Core.Range
 {
     [TestClass]
     public class RangeAddressCopyTests : TestBase
@@ -266,7 +266,7 @@ namespace OfficeOpenXml.Core.Range
                     , "A3 formula should be set"
                 );
 
-                Assert.AreEqual("VLOOKUP($B$1,'SHEET2'!A:B,2,FALSE)", ws.Cells["A3"].Formula);
+                Assert.AreEqual("VLOOKUP($B$1,Sheet2!A:B,2,FALSE)", ws.Cells["A3"].Formula);
 
             }        
         }

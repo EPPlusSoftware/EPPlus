@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing
         internal XmlNode _topNode;
         internal string _topPath, _nvPrPath, _hyperLinkPath;
         internal int _id;
-        const float STANDARD_DPI = 96;
+        internal const float STANDARD_DPI = 96;
         /// <summary>
         /// Ratio between EMU and Pixels
         /// </summary>
@@ -450,7 +450,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                pix = Size.Width / EMU_PER_PIXEL;
+                pix = (int)(Size.Width / EMU_PER_PIXEL);
             }
             return pix;
         }
@@ -470,7 +470,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                pix = Size.Height / EMU_PER_PIXEL;
+                pix = (int)(Size.Height / EMU_PER_PIXEL);
             }
             return pix;
         }
@@ -642,7 +642,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Height = pixels * EMU_PER_PIXEL;
+                Size.Height = (long)Math.Round(pixels / (dpi / STANDARD_DPI)) * EMU_PER_PIXEL;
             }
         }
         internal void SetPixelWidth(int pixels)
@@ -674,7 +674,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Width = pixels * EMU_PER_PIXEL;
+                Size.Width = (int)Math.Round(pixels / (dpi / STANDARD_DPI)) * EMU_PER_PIXEL;
             }
         }
         #endregion
@@ -753,7 +753,13 @@ namespace OfficeOpenXml.Drawing
                 RenameNode(TopNode, $"{type.ToEnumString()}Anchor");
                 CleanupPositionXml();
                 SetPositionProperties(_drawings, TopNode);
+                CellAnchorChanged();
             }
+        }
+
+        internal virtual void CellAnchorChanged()
+        {
+            
         }
 
         private void CleanupPositionXml()

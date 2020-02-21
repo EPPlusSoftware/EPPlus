@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Packaging
         {
             return CreatePart(partUri, contentType, CompressionLevel.Default);
         }
-        internal ZipPackagePart CreatePart(Uri partUri, string contentType, CompressionLevel compressionLevel)
+        internal ZipPackagePart CreatePart(Uri partUri, string contentType, CompressionLevel compressionLevel, string extension=null)
         {
             if (PartExists(partUri))
             {
@@ -180,7 +180,17 @@ namespace OfficeOpenXml.Packaging
             }
 
             var part = new ZipPackagePart(this, partUri, contentType, compressionLevel);
-            _contentTypes.Add(GetUriKey(part.Uri.OriginalString), new ContentType(contentType, false, part.Uri.OriginalString));
+            if(string.IsNullOrEmpty(extension))
+            {
+                _contentTypes.Add(GetUriKey(part.Uri.OriginalString), new ContentType(contentType, false, part.Uri.OriginalString));
+            }
+            else
+            {
+                if (!_contentTypes.ContainsKey(extension))
+                {
+                    _contentTypes.Add(extension, new ContentType(contentType, true, extension));
+                }
+            }
             Parts.Add(GetUriKey(part.Uri.OriginalString), part);
             return part;
         }

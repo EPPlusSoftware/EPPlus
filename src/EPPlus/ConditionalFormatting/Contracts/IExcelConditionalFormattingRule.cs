@@ -55,5 +55,5 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     /// Gives access to the differencial styling (DXF) for the rule.
     /// </summary>
     ExcelDxfStyleConditionalFormatting Style{ get; }
-  }
+    }
 }

@@ -202,6 +202,17 @@ namespace OfficeOpenXml.Table
                 WriteAutoFilter(ShowTotal);
             }
         }
+        /// <summary>
+        /// The table range
+        /// </summary>
+        public ExcelRangeBase Range
+        {
+            get
+            {
+                return WorkSheet.Cells[_address._fromRow, _address._fromCol, _address._toRow, _address._toCol];
+            }
+        }
+
         internal ExcelTableColumnCollection _cols = null;
         /// <summary>
         /// Collection of the columns in the table

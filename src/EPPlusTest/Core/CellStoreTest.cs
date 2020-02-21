@@ -232,48 +232,62 @@ namespace EPPlusTest.Core
             Assert.AreEqual(row1, cellStore.GetValue(3, 1));
             Assert.AreEqual(row2, cellStore.GetValue(4, 1));
         }
-        #endregion
-        #region Clear
         [TestMethod]
-        public void ClearInsideAndOverPage()
+        public void DeleteRow2_3()
         {
             //Setup
             var cellStore = new CellStore<int>();
-            LoadCellStore(cellStore, 1, 300);
+            cellStore.SetValue(3, 1, 1);
+            cellStore.SetValue(4, 1, 2);
+            cellStore.SetValue(5, 1, 3);
+            cellStore.SetValue(6, 1, 4);
 
-            cellStore.Clear(2,1,3,ExcelPackage.MaxColumns);
+            cellStore.Delete(2, 1, 2, 1);
 
-            //Clear from 2-4
-            Assert.AreEqual(1, cellStore.GetValue(1, 1));
-            Assert.AreEqual(0, cellStore.GetValue(2, 1));
-            Assert.AreEqual(0, cellStore.GetValue(3, 1));
-            Assert.AreEqual(0, cellStore.GetValue(4, 1));
-            Assert.AreEqual(5, cellStore.GetValue(5, 1));
-
-            //Clear from 3-7
-            cellStore.Clear(3, 1, 5, ExcelPackage.MaxColumns);
-            Assert.AreEqual(0, cellStore.GetValue(5, 1));
-            Assert.AreEqual(0, cellStore.GetValue(7, 1));
-            Assert.AreEqual(8, cellStore.GetValue(8, 1));
-
-            //Clear from 10-44
-            cellStore.Clear(10, 1, 35, ExcelPackage.MaxColumns);
-            Assert.AreEqual(9, cellStore.GetValue(9, 1));
-            Assert.AreEqual(0, cellStore.GetValue(10, 1));
-            Assert.AreEqual(0, cellStore.GetValue(44, 1));
-            Assert.AreEqual(45, cellStore.GetValue(45, 1));
-
-
-            //Clear from 50-211
-            cellStore.Clear(50, 1, 162, ExcelPackage.MaxColumns);
-            Assert.AreEqual(49, cellStore.GetValue(49, 1));
-            Assert.AreEqual(0, cellStore.GetValue(50, 1));
-            Assert.AreEqual(0, cellStore.GetValue(211, 1));
-            Assert.AreEqual(212, cellStore.GetValue(212, 1));
-            Assert.AreEqual(250, cellStore.GetValue(250, 1));
+            Assert.AreEqual(2, cellStore.GetValue(2, 1));
         }
-
         #endregion
+        #region Clear
+        [TestMethod]
+    public void ClearInsideAndOverPage()
+    {
+        //Setup
+        var cellStore = new CellStore<int>();
+        LoadCellStore(cellStore, 1, 300);
+
+        cellStore.Clear(2,1,3,ExcelPackage.MaxColumns);
+
+        //Clear from 2-4
+        Assert.AreEqual(1, cellStore.GetValue(1, 1));
+        Assert.AreEqual(0, cellStore.GetValue(2, 1));
+        Assert.AreEqual(0, cellStore.GetValue(3, 1));
+        Assert.AreEqual(0, cellStore.GetValue(4, 1));
+        Assert.AreEqual(5, cellStore.GetValue(5, 1));
+
+        //Clear from 3-7
+        cellStore.Clear(3, 1, 5, ExcelPackage.MaxColumns);
+        Assert.AreEqual(0, cellStore.GetValue(5, 1));
+        Assert.AreEqual(0, cellStore.GetValue(7, 1));
+        Assert.AreEqual(8, cellStore.GetValue(8, 1));
+
+        //Clear from 10-44
+        cellStore.Clear(10, 1, 35, ExcelPackage.MaxColumns);
+        Assert.AreEqual(9, cellStore.GetValue(9, 1));
+        Assert.AreEqual(0, cellStore.GetValue(10, 1));
+        Assert.AreEqual(0, cellStore.GetValue(44, 1));
+        Assert.AreEqual(45, cellStore.GetValue(45, 1));
+
+
+        //Clear from 50-211
+        cellStore.Clear(50, 1, 162, ExcelPackage.MaxColumns);
+        Assert.AreEqual(49, cellStore.GetValue(49, 1));
+        Assert.AreEqual(0, cellStore.GetValue(50, 1));
+        Assert.AreEqual(0, cellStore.GetValue(211, 1));
+        Assert.AreEqual(212, cellStore.GetValue(212, 1));
+        Assert.AreEqual(250, cellStore.GetValue(250, 1));
+    }
+
+    #endregion
         #region Insert
         [TestMethod]
         public void InsertAndDeleteRowsOnPage5Bits()
