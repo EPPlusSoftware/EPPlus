@@ -41,16 +41,30 @@ namespace EPPlusTest.DataValidation.IntegrationTests
     public class IntegrationTests : TestBase
     {
         static ExcelPackage _package;
+        private ExcelPackage _unitTestPackage;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
             _package = OpenPackage("DatavalidationIntegrationTests.xlsx", true);
         }
 
+
         [ClassCleanup]
         public static void Cleanup()
         {
             SaveAndCleanup(_package);
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _unitTestPackage = new ExcelPackage();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            _unitTestPackage.Dispose();
         }
 
         [TestMethod]
@@ -123,8 +137,8 @@ namespace EPPlusTest.DataValidation.IntegrationTests
         [TestMethod]
         public void ShouldMoveListValidationToExtListWhenReferringOtherWorksheet()
         {
-            var sheet1 = _package.Workbook.Worksheets.Add("extlist_sheet1");
-            var sheet2 = _package.Workbook.Worksheets.Add("extlist_sheet2");
+            var sheet1 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet1");
+            var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet2");
 
             var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
             v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
@@ -135,7 +149,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             sheet2.Cells["A1"].Value = "option1";
             sheet2.Cells["A2"].Value = "option2";
 
-            SaveWorkbook("MoveToExtLst.xlsx", _package);
+            SaveWorkbook("MoveToExtLst.xlsx", _unitTestPackage);
         }
 
         [TestMethod]
@@ -152,14 +166,14 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             sheet1.Cells["B1"].Value = "option1";
             sheet1.Cells["B2"].Value = "option2";
 
-            SaveWorkbook("DvSameWorksheet.xlsx", _package);
+            SaveWorkbook("DvSameWorksheet.xlsx", _unitTestPackage);
         }
 
         [TestMethod]
         public void ShouldMoveListValidationToExtListAndBack()
         {
-            var sheet1 = _package.Workbook.Worksheets.Add("extlist_sheet1");
-            var sheet2 = _package.Workbook.Worksheets.Add("extlist_sheet2");
+            var sheet1 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet1");
+            var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet2");
 
             var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
             v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
@@ -171,7 +185,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             sheet1.Cells["B1"].Value = "option1";
             sheet1.Cells["B2"].Value = "option2";
 
-            SaveWorkbook("MoveToExtLst.xlsx", _package);
+            SaveWorkbook("MoveToExtLst.xlsx", _unitTestPackage);
         }
 
         [TestMethod]
