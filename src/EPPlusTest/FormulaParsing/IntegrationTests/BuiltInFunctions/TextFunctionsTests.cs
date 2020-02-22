@@ -237,6 +237,19 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             }
         }
 
+        [TestMethod]
+        public void NumberValueShouldHandleRange()
+        {
+            using(var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "1,000.15";
+                sheet.Cells["A2"].Formula = "NUMBERVALUE(A1,\".\",\",\")";
+                sheet.Calculate();
+                Assert.AreEqual(1000.15d, sheet.Cells["A2"].Value);
+            }
+        }
+
         [TestMethod, Ignore]
         public void Logtest1()
         {

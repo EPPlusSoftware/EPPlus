@@ -37,6 +37,7 @@ using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml;
+using System.Globalization;
 
 namespace EPPlusTest.Excel.Functions.Text
 {
@@ -295,6 +296,51 @@ namespace EPPlusTest.Excel.Functions.Text
 
             result = func.Execute(FunctionsHelper.CreateArgs(97), _parsingContext);
             Assert.AreEqual("a", result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldCastIntegerValue()
+        {
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs("1000"), _parsingContext);
+            Assert.AreEqual(1000d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldCastDecinalValueWithCurrentCulture()
+        {
+            var input = $"1{CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator}000{CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}15";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
+            Assert.AreEqual(1000.15d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldCastDecinalValueWithSeparators()
+        {
+            var input = $"1,000.15";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input, ".", ","), _parsingContext);
+            Assert.AreEqual(1000.15d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldHandlePercentage()
+        {
+            var input = $"1,000.15%";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input, ".", ","), _parsingContext);
+            Assert.AreEqual(10.0015d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldHandleMultiplePercentage()
+        {
+            var input = $"1,000.15%%";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input, ".", ","), _parsingContext);
+            var r = System.Math.Round((double)result.Result, 15);
+            Assert.AreEqual(0.100015d, r);
         }
     }
 }
