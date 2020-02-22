@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
-    public class Unicode : ExcelFunction
+    internal class Unicode : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {

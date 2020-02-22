@@ -170,6 +170,18 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void UnicharShouldReturnCorrectCharFromNumber()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "UNICHAR(66)";
+                sheet.Calculate();
+                Assert.AreEqual("B", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void FixedShouldHandleNegativeDecimals()
         {
             using (var pck = new ExcelPackage(new MemoryStream()))

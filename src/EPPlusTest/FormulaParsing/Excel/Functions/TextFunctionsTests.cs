@@ -284,5 +284,17 @@ namespace EPPlusTest.Excel.Functions.Text
             result = func.Execute(FunctionsHelper.CreateArgs("a"), _parsingContext);
             Assert.AreEqual(97, result.Result);
         }
+
+        [TestMethod]
+        public void UnicharShouldReturnCorrectChar()
+        {
+            var func = new Unichar();
+
+            var result = func.Execute(FunctionsHelper.CreateArgs(66), _parsingContext);
+            Assert.AreEqual("B", result.Result);
+
+            result = func.Execute(FunctionsHelper.CreateArgs(97), _parsingContext);
+            Assert.AreEqual("a", result.Result);
+        }
     }
 }
