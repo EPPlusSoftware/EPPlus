@@ -54,6 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["value"] = new Value();
             Functions["trim"] = new Trim();
             Functions["clean"] = new Clean();
+            Functions["unicode"] = new Unicode();
             // Numbers
             Functions["int"] = new CInt();
             // Math

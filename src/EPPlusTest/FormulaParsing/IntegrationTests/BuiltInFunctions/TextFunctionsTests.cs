@@ -157,6 +157,19 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void UnicodeShouldReturnCorrectCodeOfFirstChar()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "UNICODE(A2)";
+                sheet.Cells["A2"].Value = "Bxxx";
+                sheet.Calculate();
+                Assert.AreEqual(66, sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void FixedShouldHandleNegativeDecimals()
         {
             using (var pck = new ExcelPackage(new MemoryStream()))

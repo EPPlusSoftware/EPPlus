@@ -36,6 +36,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml;
 
 namespace EPPlusTest.Excel.Functions.Text
 {
@@ -270,6 +271,18 @@ namespace EPPlusTest.Excel.Functions.Text
             var func = new Clean();
             var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
             Assert.AreEqual("epplus", result.Result);
+        }
+
+        [TestMethod]
+        public void UnicodeShouldReturnCorrectCode()
+        {
+            var func = new Unicode();
+            
+            var result = func.Execute(FunctionsHelper.CreateArgs("B"), _parsingContext);
+            Assert.AreEqual(66, result.Result);
+
+            result = func.Execute(FunctionsHelper.CreateArgs("a"), _parsingContext);
+            Assert.AreEqual(97, result.Result);
         }
     }
 }
