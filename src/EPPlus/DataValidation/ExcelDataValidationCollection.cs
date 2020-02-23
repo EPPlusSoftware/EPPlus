@@ -19,6 +19,7 @@ using System.Globalization;
 using OfficeOpenXml.Utils;
 using System.Xml;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Formulas;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -49,7 +50,10 @@ namespace OfficeOpenXml.DataValidation
     public class ExcelDataValidationCollection : XmlHelper, IEnumerable<IExcelDataValidation>
     {
         private List<IExcelDataValidation> _validations = new List<IExcelDataValidation>();
+        private ExcelExLstDataValidationCollection _extLstValidations = null;
         private ExcelWorksheet _worksheet = null;
+        private readonly bool _extListUsed = false;
+        private readonly DataValidationFormulaListener _formulaListener = null;
 
         private const string DataValidationPath = "//d:dataValidations";
         private readonly string DataValidationItemsPath = string.Format("{0}/d:dataValidation", DataValidationPath);
@@ -63,6 +67,7 @@ namespace OfficeOpenXml.DataValidation
         {
             Require.Argument(worksheet).IsNotNull("worksheet");
             _worksheet = worksheet;
+            _formulaListener = new DataValidationFormulaListener(this, _worksheet);
             SchemaNodeOrder = worksheet.SchemaNodeOrder;
 
             // check existing nodes and load them
@@ -74,18 +79,21 @@ namespace OfficeOpenXml.DataValidation
                     if (node.Attributes["sqref"] == null) continue;
 
                     var addr = node.Attributes["sqref"].Value;
-
+                    var uid = node.Attributes["xr:uid"].Value;
                     var typeSchema = node.Attributes["type"] != null ? node.Attributes["type"].Value : "";
 
                     var type = ExcelDataValidationType.GetBySchemaName(typeSchema);
-                    _validations.Add(ExcelDataValidationFactory.Create(type, worksheet, addr, node));
+                    var validation = ExcelDataValidationFactory.Create(type, worksheet, addr, node, InternalValidationType.DataValidation, uid);
+                    validation.Uid = uid;
+                    _validations.Add(validation);
                 }
             }
             if (_validations.Count > 0)
             {
                 OnValidationCountChanged();
             }
-
+            _extLstValidations = new ExcelExLstDataValidationCollection(worksheet, _formulaListener);
+            _extListUsed = !_extLstValidations.IsEmpty;
             InternalValidationEnabled = true;
         }
 
@@ -111,8 +119,9 @@ namespace OfficeOpenXml.DataValidation
                 if (dvNode != null)
                 {
                     _worksheet.WorksheetXml.DocumentElement.RemoveChild(dvNode);
+                    TopNode = _worksheet.WorksheetXml.DocumentElement;
                 }
-                _worksheet.ClearValidations();
+                //_worksheet.ClearValidations();
             }
             else
             {
@@ -167,6 +176,11 @@ namespace OfficeOpenXml.DataValidation
             ValidateAddress(address, null);
         }
 
+        internal ExcelExLstDataValidationCollection DataValidationsExt
+        {
+            get { return _extLstValidations; }
+        }
+
         /// <summary>
         /// Validates all data validations.
         /// </summary>
@@ -180,6 +194,15 @@ namespace OfficeOpenXml.DataValidation
 
                 ValidateAddress(validation.Address.Address, validation);
             }
+            if(_extLstValidations != null)
+            {
+                foreach(var extValidation in _extLstValidations)
+                {
+                    extValidation.Validate();
+
+                    ValidateAddress(extValidation.Address.Address, extValidation);
+                }
+            }
         }
 
         /// <summary>
@@ -191,7 +214,7 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationAny(_worksheet, address, ExcelDataValidationType.Any);
+            var item = new ExcelDataValidationAny(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Any);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -206,7 +229,7 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationInt(_worksheet, address, ExcelDataValidationType.Whole);
+            var item = new ExcelDataValidationInt(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Whole);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -222,7 +245,7 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationDecimal(_worksheet, address, ExcelDataValidationType.Decimal);
+            var item = new ExcelDataValidationDecimal(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Decimal);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -238,7 +261,19 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationList(_worksheet, address, ExcelDataValidationType.List);
+            var item = new ExcelDataValidationList(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.List);
+            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
+            _validations.Add(item);
+            OnValidationCountChanged();
+            return item;
+        }
+
+        internal IExcelDataValidationList AddListValidation(string address, string uid)
+        {
+            ValidateAddress(address);
+            EnsureRootElementExists();
+            var item = new ExcelDataValidationList(_worksheet, uid, address, ExcelDataValidationType.List);
+            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -253,7 +288,7 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationInt(_worksheet, address, ExcelDataValidationType.TextLength);
+            var item = new ExcelDataValidationInt(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.TextLength);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -268,7 +303,7 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationDateTime(_worksheet, address, ExcelDataValidationType.DateTime);
+            var item = new ExcelDataValidationDateTime(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.DateTime);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -284,7 +319,7 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationTime(_worksheet, address, ExcelDataValidationType.Time);
+            var item = new ExcelDataValidationTime(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Time);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -298,7 +333,7 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             EnsureRootElementExists();
-            var item = new ExcelDataValidationCustom(_worksheet, address, ExcelDataValidationType.Custom);
+            var item = new ExcelDataValidationCustom(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Custom);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
@@ -312,17 +347,27 @@ namespace OfficeOpenXml.DataValidation
         /// <exception cref="ArgumentNullException">if <paramref name="item"/> is null</exception>
         public bool Remove(IExcelDataValidation item)
         {
+            Require.Argument(item).IsNotNull("item");
             if (!(item is ExcelDataValidation))
             {
                 throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
             }
-            Require.Argument(item).IsNotNull("item");
-            //TopNode.RemoveChild(((ExcelDataValidation)item).TopNode);
-            var dvNode = _worksheet.WorksheetXml.DocumentElement.SelectSingleNode(DataValidationPath.TrimStart('/'), NameSpaceManager);
-            dvNode?.RemoveChild(((ExcelDataValidation)item).TopNode);
+
+            ((ExcelDataValidation)item).Delete();
             var retVal = _validations.Remove(item);
             if (retVal) OnValidationCountChanged();
             return retVal;
+        }
+
+        private List<IExcelDataValidation> GetValidations()
+        {
+            if(_extLstValidations != null)
+            {
+                var totalValidations = new List<IExcelDataValidation>(_validations);
+                totalValidations.AddRange(_extLstValidations);
+                return totalValidations;
+            }
+            return _validations;
         }
 
         /// <summary>
@@ -330,7 +375,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public int Count
         {
-            get { return _validations.Count; }
+            get { return GetValidations().Count; }
         }
 
 
@@ -352,8 +397,8 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public IExcelDataValidation this[int index]
         {
-            get { return _validations[index]; }
-            set { _validations[index] = value; }
+            get { return GetValidations()[index]; }
+            set { GetValidations()[index] = value; }
         }
 
         /// <summary>
@@ -366,7 +411,7 @@ namespace OfficeOpenXml.DataValidation
             get
             {
                 var searchedAddress = new ExcelAddress(address);
-                return _validations.Find(x => x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No);
+                return GetValidations().Find(x => x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No);
             }
         }
 
@@ -377,7 +422,7 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public IEnumerable<IExcelDataValidation> FindAll(Predicate<IExcelDataValidation> match)
         {
-            return _validations.FindAll(match);
+            return GetValidations().FindAll(match);
         }
 
         /// <summary>
@@ -387,7 +432,7 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public IExcelDataValidation Find(Predicate<IExcelDataValidation> match)
         {
-            return _validations.Find(match);
+            return GetValidations().Find(match);
         }
 
         /// <summary>
@@ -397,6 +442,7 @@ namespace OfficeOpenXml.DataValidation
         {
             DeleteAllNode(DataValidationItemsPath.TrimStart('/'));
             _validations.Clear();
+            _extLstValidations.Clear();
         }
 
         /// <summary>
@@ -425,12 +471,12 @@ namespace OfficeOpenXml.DataValidation
 
         IEnumerator<IExcelDataValidation> IEnumerable<IExcelDataValidation>.GetEnumerator()
         {
-            return _validations.GetEnumerator();
+            return GetValidations().GetEnumerator();
         }
 
         IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return _validations.GetEnumerator();
+            return GetValidations().GetEnumerator();
         }
     }
 }

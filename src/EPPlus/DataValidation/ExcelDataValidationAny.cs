@@ -30,10 +30,11 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="worksheet"></param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType)
-            : base(worksheet, address, validationType)
+        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
+            : base(worksheet, uid, address, validationType)
         {
         }
 
@@ -41,11 +42,12 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="worksheet"></param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
         /// <param name="itemElementNode"></param>
-        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, address, validationType, itemElementNode)
+        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
+            : base(worksheet, uid, address, validationType, itemElementNode)
         {
         }
 
@@ -53,12 +55,13 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="worksheet"></param>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
         /// <param name="itemElementNode"></param>
         /// <param name="namespaceManager"></param>
-        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, address, validationType, itemElementNode, namespaceManager)
+        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
+            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
         {
         }
 

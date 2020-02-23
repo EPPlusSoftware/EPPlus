@@ -28,7 +28,9 @@
  *******************************************************************************/
 
 using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation.Contracts;
 
 namespace EPPlusTest.DataValidation
@@ -55,6 +57,13 @@ namespace EPPlusTest.DataValidation
         public void ListDataValidation_FormulaIsSet()
         {
             Assert.IsNotNull(_validation.Formula);
+        }
+
+        [TestMethod]
+        public void ListDataValidation_CanAssignFormula()
+        {
+            _validation.Formula.ExcelFormula = "abc!A2";
+            Assert.AreEqual("abc!A2", _validation.Formula.ExcelFormula);
         }
 
         [TestMethod]

@@ -58,7 +58,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "list", "\"1,2\"");
             // Act
-            var validation = new ExcelDataValidationList(_sheet, "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
             // Assert
             Assert.AreEqual(2, validation.Formula.Values.Count);
         }
@@ -69,7 +69,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "list", "\"1,2\"");
             // Act
-            var validation = new ExcelDataValidationList(_sheet, "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
             // Assert
             CollectionAssert.AreEquivalent(new List<string>{ "1", "2"}, (ICollection)validation.Formula.Values);
         }
@@ -80,7 +80,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "list", "A1");
             // Act
-            var validation = new ExcelDataValidationList(_sheet, "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
             // Assert
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);
         }

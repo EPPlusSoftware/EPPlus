@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.DataValidation
@@ -32,29 +33,40 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address"></param>
         /// <param name="itemElementNode"></param>
         /// <returns></returns>
-        public static ExcelDataValidation Create(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode)
+        internal static ExcelDataValidation Create(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
         {
             Require.Argument(type).IsNotNull("validationType");
             switch (type.Type)
             {
                 case eDataValidationType.Any:
-                    return new ExcelDataValidationAny(worksheet, address, type, itemElementNode);
+                    return new ExcelDataValidationAny(worksheet, uid, address, type, itemElementNode);
                 case eDataValidationType.TextLength:
                 case eDataValidationType.Whole:
-                    return new ExcelDataValidationInt(worksheet, address, type, itemElementNode);
+                    return new ExcelDataValidationInt(worksheet, uid, address, type, itemElementNode);
                 case eDataValidationType.Decimal:
-                    return new ExcelDataValidationDecimal(worksheet, address, type, itemElementNode);
+                    return new ExcelDataValidationDecimal(worksheet, uid, address, type, itemElementNode);
                 case eDataValidationType.List:
-                    return new ExcelDataValidationList(worksheet, address, type, itemElementNode);
+                    return CreateListValidation(type, worksheet, address, itemElementNode, internalType, uid);
                 case eDataValidationType.DateTime:
-                    return new ExcelDataValidationDateTime(worksheet, address, type, itemElementNode);
+                    return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
                 case eDataValidationType.Time:
-                    return new ExcelDataValidationTime(worksheet, address, type, itemElementNode);
+                    return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
                 case eDataValidationType.Custom:
-                    return new ExcelDataValidationCustom(worksheet, address, type, itemElementNode);
+                    return new ExcelDataValidationCustom(worksheet, uid, address, type, itemElementNode);
                 default:
                     throw new InvalidOperationException("Non supported validationtype: " + type.Type.ToString());
             }
         }
+
+        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormulaList> CreateListValidation(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+        {
+            if(internalType == InternalValidationType.DataValidation)
+            {
+                return new ExcelDataValidationList(worksheet, uid, address, type, itemElementNode);
+            }
+            // extLst
+            return new ExcelDataValidationExtList(worksheet, uid, address, type, itemElementNode);
+        }
+
     }
 }

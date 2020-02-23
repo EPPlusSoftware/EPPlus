@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.DataValidation.Events;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -46,19 +47,43 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// <param name="namespaceManager">Namespacemanger of the worksheet</param>
         /// <param name="topNode">validation top node</param>
         /// <param name="formulaPath">xml path of the current formula</param>
-        public ExcelDataValidationFormula(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath)
+        /// <param name="validationUid">id of the data validation containing this formula</param>
+        public ExcelDataValidationFormula(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
             : base(namespaceManager, topNode)
         {
             Require.Argument(formulaPath).IsNotNullOrEmpty("formulaPath");
+            Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
             FormulaPath = formulaPath;
+            _validationUid = validationUid;
         }
 
+        private string _validationUid;
         private string _formula;
+        private List<IFormulaListener> _formulaListeners = new List<IFormulaListener>();
+
 
         protected string FormulaPath
         {
             get;
             private set;
+        }
+
+        internal void RegisterFormulaListener(IFormulaListener listener)
+        {
+            _formulaListeners.Add(listener);
+        }
+
+        internal void DetachFormulaListener(IFormulaListener listener)
+        {
+            _formulaListeners.Remove(listener);
+        }
+
+        private void OnFormulaChanged(string uid, string oldValue, string newValue) 
+        { 
+            foreach(var listener in _formulaListeners)
+            {
+                listener.Notify(new ValidationFormulaChangedArgs { ValidationUid = uid, OldValue = oldValue, NewValue = newValue });
+            }
         }
 
         /// <summary>
@@ -90,9 +115,10 @@ namespace OfficeOpenXml.DataValidation.Formulas
                 {
                     throw new InvalidOperationException("The length of a DataValidation formula cannot exceed 255 characters");
                 }
-                //var val = SqRefUtility.ToSqRefAddress(value);
+                var oldValue = _formula;
                 _formula = value;
                 SetXmlNodeString(FormulaPath, value);
+                OnFormulaChanged(_validationUid, oldValue, value);
             }
         }
 

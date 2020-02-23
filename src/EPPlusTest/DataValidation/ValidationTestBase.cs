@@ -84,8 +84,23 @@ namespace EPPlusTest.DataValidation
             var xmlDoc = new XmlDocument();
             _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
             _namespaceManager.AddNamespace("d", "urn:a");
+            _namespaceManager.AddNamespace("xr", "urn:b");
             var sb = new StringBuilder();
             sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" sqref=\"{1}\">", validationType, address);
+            sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
+            sb.Append("</dataValidation>");
+            xmlDoc.LoadXml(sb.ToString());
+            _dataValidationNode = xmlDoc.DocumentElement;
+        }
+
+        protected void LoadXmlTestDataWithUid(string uid, string address, string validationType, string formula1Value)
+        {
+            var xmlDoc = new XmlDocument();
+            _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
+            _namespaceManager.AddNamespace("d", "urn:a");
+            _namespaceManager.AddNamespace("xr", "urn:b");
+            var sb = new StringBuilder();
+            sb.AppendFormat("<dataValidation xr:uid=\"{0}\" type=\"{1}\" sqref=\"{2}\">", uid, validationType, address);
             sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
             sb.Append("</dataValidation>");
             xmlDoc.LoadXml(sb.ToString());
@@ -97,6 +112,7 @@ namespace EPPlusTest.DataValidation
             var xmlDoc = new XmlDocument();
             _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
             _namespaceManager.AddNamespace("d", "urn:a");
+            _namespaceManager.AddNamespace("xr", "urn:b");
             var sb = new StringBuilder();
             sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" sqref=\"{1}\" operator=\"{2}\">", validationType, address, operatorName);
             sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
@@ -110,6 +126,7 @@ namespace EPPlusTest.DataValidation
             var xmlDoc = new XmlDocument();
             _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
             _namespaceManager.AddNamespace("d", "urn:a");
+            _namespaceManager.AddNamespace("xr", "urn:b");
             var sb = new StringBuilder();
             sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" sqref=\"{1}\" ", validationType, address);
             sb.AppendFormat(" showErrorMessage=\"{0}\" showInputMessage=\"{1}\">", showErrorMsg ? 1 : 0, showInputMsg ? 1 : 0);
@@ -124,6 +141,7 @@ namespace EPPlusTest.DataValidation
             var xmlDoc = new XmlDocument();
             _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
             _namespaceManager.AddNamespace("d", "urn:a");
+            _namespaceManager.AddNamespace("xr", "urn:b");
             var sb = new StringBuilder();
             sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" sqref=\"{1}\"", validationType, address);
             sb.AppendFormat(" prompt=\"{0}\" promptTitle=\"{1}\"", prompt, promptTitle);

@@ -22,8 +22,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
 {
     internal class ExcelDataValidationFormulaInt : ExcelDataValidationFormulaValue<int?>, IExcelDataValidationFormulaInt
     {
-        public ExcelDataValidationFormulaInt(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath)
-            : base(namespaceManager, topNode, formulaPath)
+        public ExcelDataValidationFormulaInt(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
+            : base(namespaceManager, topNode, formulaPath, validationUid)
         {
             var value = GetXmlNodeString(formulaPath);
             if (!string.IsNullOrEmpty(value))

@@ -21,8 +21,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
 {
     internal class ExcelDataValidationFormulaDateTime : ExcelDataValidationFormulaValue<DateTime?>, IExcelDataValidationFormulaDateTime
     {
-        public ExcelDataValidationFormulaDateTime(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath)
-            : base(namespaceManager, topNode, formulaPath)
+        public ExcelDataValidationFormulaDateTime(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
+            : base(namespaceManager, topNode, formulaPath, validationUid)
         {
             var value = GetXmlNodeString(formulaPath);
             if (!string.IsNullOrEmpty(value))
