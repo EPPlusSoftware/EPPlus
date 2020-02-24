@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ValidateInsertRow(ws, rowFrom, rows);
 
             lock (ws)
-            {
+            {               
                 InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 //Adjust formulas
@@ -41,8 +41,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 
                 WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, false);
+                
                 if (copyStylesFromRow > 0)
                 {
+                    if (copyStylesFromRow >= rowFrom) copyStylesFromRow += rows;
                     CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
                 }
                 foreach (var tbl in ws.Tables)
@@ -68,6 +70,17 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
+        }
+
+        private static Dictionary<int, int> GetStylesRow(ExcelWorksheet ws, int copyStylesFromRow)
+        {
+            var d = new Dictionary<int, int>();
+            var cse = new CellStoreEnumerator<ExcelValue>(ws._values, copyStylesFromRow, 0, copyStylesFromRow, ExcelPackage.MaxColumns);
+            while(cse.Next())
+            {
+                d.Add(cse.Row, cse.Value._styleId);
+            }
+            return d;
         }
 
         internal static void InsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)

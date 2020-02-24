@@ -1095,5 +1095,17 @@ namespace EPPlusTest
                 SaveWorkbook("Issue625.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue39()
+        {
+            using (var p = OpenTemplatePackage("MyExcel.xlsx"))
+            {
+
+                var workSheet = p.Workbook.Worksheets[0];
+
+                workSheet.InsertRow(8, 2, 8);
+                SaveWorkbook("Issue39.xlsx", p);
+            }
+        }
     }
 }
