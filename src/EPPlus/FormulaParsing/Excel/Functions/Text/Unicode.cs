@@ -17,24 +17,17 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
-    internal class Clean : ExcelFunction
+    internal class Unicode : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var str = ArgToString(arguments, 0);
-            if(!string.IsNullOrEmpty(str))
-            {
-                var sb = new StringBuilder();
-                var arr = Encoding.ASCII.GetBytes(str);
-                foreach(var c in arr)
-                {
-                    if (c > 31)
-                        sb.Append((char)c);
-                }
-                str = sb.ToString();
-            }
-            return CreateResult(str, DataType.String);
+            var arg = ArgToString(arguments, 0);
+            if (!IsString(arg, allowNullOrEmpty: false)) return CreateResult(ExcelErrorValue.Values.Value, DataType.ExcelError);
+            var firstChar = arg.Substring(0, 1);
+            var bytes = Encoding.UTF32.GetBytes(firstChar);
+            var code = BitConverter.ToInt32(bytes, 0);
+            return CreateResult(code, DataType.Integer);
         }
     }
 }

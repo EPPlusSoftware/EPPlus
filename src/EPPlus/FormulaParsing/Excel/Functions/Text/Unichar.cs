@@ -13,28 +13,24 @@
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
-    internal class Clean : ExcelFunction
+    internal class Unichar : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var str = ArgToString(arguments, 0);
-            if(!string.IsNullOrEmpty(str))
+            if (
+                IsNumeric(arguments.ElementAt(0).Value)
+                &&
+                short.TryParse(ArgToString(arguments, 0), out short arg))
             {
-                var sb = new StringBuilder();
-                var arr = Encoding.ASCII.GetBytes(str);
-                foreach(var c in arr)
-                {
-                    if (c > 31)
-                        sb.Append((char)c);
-                }
-                str = sb.ToString();
+                return CreateResult(char.ConvertFromUtf32(arg), DataType.Integer);
             }
-            return CreateResult(str, DataType.String);
+            return CreateResult(ExcelErrorValue.Values.Value, DataType.ExcelError);
         }
     }
 }

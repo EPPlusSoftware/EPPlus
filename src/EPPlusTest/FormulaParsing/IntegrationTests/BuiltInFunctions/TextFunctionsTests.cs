@@ -157,6 +157,31 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void UnicodeShouldReturnCorrectCodeOfFirstChar()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "UNICODE(A2)";
+                sheet.Cells["A2"].Value = "Bxxx";
+                sheet.Calculate();
+                Assert.AreEqual(66, sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void UnicharShouldReturnCorrectCharFromNumber()
+        {
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "UNICHAR(66)";
+                sheet.Calculate();
+                Assert.AreEqual("B", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void FixedShouldHandleNegativeDecimals()
         {
             using (var pck = new ExcelPackage(new MemoryStream()))
@@ -209,6 +234,19 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
 
                 sheet.Calculate();
                 Assert.AreEqual("hello epplus", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void NumberValueShouldHandleRange()
+        {
+            using(var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "1,000.15";
+                sheet.Cells["A2"].Formula = "NUMBERVALUE(A1,\".\",\",\")";
+                sheet.Calculate();
+                Assert.AreEqual(1000.15d, sheet.Cells["A2"].Value);
             }
         }
 

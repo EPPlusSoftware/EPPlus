@@ -36,6 +36,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml;
+using System.Globalization;
 
 namespace EPPlusTest.Excel.Functions.Text
 {
@@ -270,6 +272,75 @@ namespace EPPlusTest.Excel.Functions.Text
             var func = new Clean();
             var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
             Assert.AreEqual("epplus", result.Result);
+        }
+
+        [TestMethod]
+        public void UnicodeShouldReturnCorrectCode()
+        {
+            var func = new Unicode();
+            
+            var result = func.Execute(FunctionsHelper.CreateArgs("B"), _parsingContext);
+            Assert.AreEqual(66, result.Result);
+
+            result = func.Execute(FunctionsHelper.CreateArgs("a"), _parsingContext);
+            Assert.AreEqual(97, result.Result);
+        }
+
+        [TestMethod]
+        public void UnicharShouldReturnCorrectChar()
+        {
+            var func = new Unichar();
+
+            var result = func.Execute(FunctionsHelper.CreateArgs(66), _parsingContext);
+            Assert.AreEqual("B", result.Result);
+
+            result = func.Execute(FunctionsHelper.CreateArgs(97), _parsingContext);
+            Assert.AreEqual("a", result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldCastIntegerValue()
+        {
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs("1000"), _parsingContext);
+            Assert.AreEqual(1000d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldCastDecinalValueWithCurrentCulture()
+        {
+            var input = $"1{CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator}000{CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}15";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input), _parsingContext);
+            Assert.AreEqual(1000.15d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldCastDecinalValueWithSeparators()
+        {
+            var input = $"1,000.15";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input, ".", ","), _parsingContext);
+            Assert.AreEqual(1000.15d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldHandlePercentage()
+        {
+            var input = $"1,000.15%";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input, ".", ","), _parsingContext);
+            Assert.AreEqual(10.0015d, result.Result);
+        }
+
+        [TestMethod]
+        public void NumberValueShouldHandleMultiplePercentage()
+        {
+            var input = $"1,000.15%%";
+            var func = new NumberValue();
+            var result = func.Execute(FunctionsHelper.CreateArgs(input, ".", ","), _parsingContext);
+            var r = System.Math.Round((double)result.Result, 15);
+            Assert.AreEqual(0.100015d, r);
         }
     }
 }
