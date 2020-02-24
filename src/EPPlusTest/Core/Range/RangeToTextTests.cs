@@ -479,7 +479,7 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(_ws.Cells["C3"].Text, cols[2]);
             Assert.AreEqual("99.00", cols[3]);
         }
-        [TestMethod, Ignore]
+        [TestMethod]
         public async Task ToTextHeaderAndFooterAsync()
         {
             //Setup

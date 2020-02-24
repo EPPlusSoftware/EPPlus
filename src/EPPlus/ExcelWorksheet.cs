@@ -2909,7 +2909,7 @@ namespace OfficeOpenXml
                     {
                         if(!_sharedFormulas.ContainsKey(sfId))
                         {
-                            throw (new InvalidDataException($"SharedFormulaId {sfId} not found on Worksheet {Name} cell {cse.CellAddress}"));
+                            throw (new InvalidDataException($"SharedFormulaId {sfId} not found on Worksheet {Name} cell {cse.CellAddress}, SharedFormulas Count {_sharedFormulas.Count}"));
                         }
                         var f = _sharedFormulas[sfId];
                         if (f.Address.IndexOf(':') > 0)
