@@ -71,18 +71,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
         }
-
-        private static Dictionary<int, int> GetStylesRow(ExcelWorksheet ws, int copyStylesFromRow)
-        {
-            var d = new Dictionary<int, int>();
-            var cse = new CellStoreEnumerator<ExcelValue>(ws._values, copyStylesFromRow, 0, copyStylesFromRow, ExcelPackage.MaxColumns);
-            while(cse.Next())
-            {
-                d.Add(cse.Row, cse.Value._styleId);
-            }
-            return d;
-        }
-
         internal static void InsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             ValidateInsertColumn(ws, columnFrom, columns);
