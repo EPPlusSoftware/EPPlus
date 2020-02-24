@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             foreach (var ws in wsUpdate.Workbook.Worksheets)
             {
-                bool isCurrentWs = wsUpdate.Name == ws.Name;
+                bool isCurrentWs = wsUpdate.Name.Equals(ws.Name, StringComparison.CurrentCultureIgnoreCase);
                 var deletedSf = new List<int>(); 
                 foreach (var sf in ws._sharedFormulas.Values)
                 {
@@ -233,7 +233,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     //Check if the address for the entire shared formula collides with the deleted address.
                     var tokenAddress = new ExcelAddressBase(token.Value);
-                    if (ws.Name == wsName || (!string.IsNullOrEmpty(tokenAddress.WorkSheet) && tokenAddress.WorkSheet.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
+                    if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheet)) || 
+                        (!string.IsNullOrEmpty(tokenAddress.WorkSheet) && tokenAddress.WorkSheet.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
                     {
                         if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);
                         if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);
