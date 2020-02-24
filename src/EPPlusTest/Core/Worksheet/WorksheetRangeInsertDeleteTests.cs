@@ -218,6 +218,11 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws1.DeleteColumn(2, 2);
+            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            if (wsError != null)
+            {
+                Assert.AreEqual(1, wsError._sharedFormulas.Count);
+            }
 
             //Assert
             Assert.AreEqual("", ws1.Cells["A2"].Formula);
@@ -242,11 +247,6 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteRow(2);
-                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
-                if (wsError != null)
-                {
-                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
-                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -265,11 +265,6 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteColumn(2);
-                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
-                if (wsError != null)
-                {
-                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
-                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -288,11 +283,6 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteRow(2);
-                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
-                if (wsError != null)
-                {
-                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
-                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -313,11 +303,6 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteColumn(2);
-                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
-                if (wsError != null)
-                {
-                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
-                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -338,11 +323,6 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteRow(2);
-                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
-                if (wsError != null)
-                {
-                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
-                }
 
                 //Assert
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
@@ -363,11 +343,6 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteColumn(2);
-                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
-                if (wsError != null)
-                {
-                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
-                }
 
                 //Assert
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
