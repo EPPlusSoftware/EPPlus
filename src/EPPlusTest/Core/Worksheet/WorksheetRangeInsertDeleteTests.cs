@@ -134,6 +134,12 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws.DeleteRow(3, 1);
+            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            if(wsError!=null)
+            {
+                Assert.AreEqual(1, wsError._sharedFormulas.Count);
+            }
+
 
             //Assert
             Assert.AreEqual("Sum(C4:C9)", ws.Cells["A1"].Formula);
@@ -155,6 +161,11 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws1.DeleteRow(2, 2);
+            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            if (wsError != null)
+            {
+                Assert.AreEqual(1, wsError._sharedFormulas.Count);
+            }
 
             //Assert
             Assert.AreEqual("", ws1.Cells["B1"].Formula);
@@ -181,6 +192,11 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws.DeleteColumn(3, 1);
+            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            if (wsError != null)
+            {
+                Assert.AreEqual(1, wsError._sharedFormulas.Count);
+            }
 
             //Assert
             Assert.AreEqual("Sum(D3:H3)", ws.Cells["A1"].Formula);
@@ -226,6 +242,11 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteRow(2);
+                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+                if (wsError != null)
+                {
+                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
+                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -244,6 +265,11 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteColumn(2);
+                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+                if (wsError != null)
+                {
+                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
+                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -262,6 +288,11 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteRow(2);
+                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+                if (wsError != null)
+                {
+                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
+                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -282,6 +313,11 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteColumn(2);
+                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+                if (wsError != null)
+                {
+                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
+                }
 
                 //Assert
                 Assert.AreEqual(0, ws._sharedFormulas.Count);
@@ -302,6 +338,11 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteRow(2);
+                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+                if (wsError != null)
+                {
+                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
+                }
 
                 //Assert
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
@@ -322,6 +363,11 @@ namespace EPPlusTest.Core.Worksheet
                 //Act
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
                 ws.DeleteColumn(2);
+                var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+                if (wsError != null)
+                {
+                    Assert.AreEqual(1, wsError._sharedFormulas.Count);
+                }
 
                 //Assert
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
