@@ -315,21 +315,29 @@ namespace OfficeOpenXml.Core.Worksheet
             var delSF = new List<int>();
             foreach (var sf in ws._sharedFormulas.Values)
             {
-                var a = new ExcelAddress(sf.Address).DeleteColumn(columnFrom, columns);
-                if (a == null)
-                {
-                    delSF.Add(sf.Index);
-                }
-                else
-                {
-                    sf.Address = a.Address;
-                    sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
 
-                    if (sf.StartCol > columnFrom)
+                if (workSheetName == ws.Name)
+                {
+                    var a = new ExcelAddress(sf.Address).DeleteColumn(columnFrom, columns);
+                    if (a == null)
                     {
-                        var c = Math.Max(columnFrom, sf.StartCol - columns);
-                        sf.StartCol -= c;
+                        delSF.Add(sf.Index);
                     }
+                    else
+                    {
+                        sf.Address = a.Address;
+                        sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
+
+                        if (sf.StartCol > columnFrom)
+                        {
+                            var c = Math.Max(columnFrom, sf.StartCol - columns);
+                            sf.StartCol -= c;
+                        }
+                    }
+                }
+                else if (sf.Formula.Contains(workSheetName))
+                {
+                    sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
                 }
             }
             foreach (var ix in delSF)

@@ -18,7 +18,6 @@ namespace EPPlusTest.Core.Worksheet
         public static void Init(TestContext context)
         {
             InitBase();
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("us-EN");
             _pck = OpenPackage("WorksheetRangeInsert.xlsx", true);
         }
         [ClassCleanup] 
