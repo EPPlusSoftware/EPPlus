@@ -44,7 +44,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 
                 if (copyStylesFromRow > 0)
                 {
-                    if (copyStylesFromRow >= rowFrom) copyStylesFromRow += rows;
                     CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
                 }
                 foreach (var tbl in ws.Tables)
@@ -354,6 +353,8 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         private static void CopyFromStyleRow(ExcelWorksheet ws, int rowFrom, int rows, int copyStylesFromRow)
         {
+            if (copyStylesFromRow >= rowFrom) copyStylesFromRow += rows;
+
             //Copy style from style row
             using (var cseS = new CellStoreEnumerator<ExcelValue>(ws._values, copyStylesFromRow, 0, copyStylesFromRow, ExcelPackage.MaxColumns))
             {
@@ -368,7 +369,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             //Copy outline
-            var styleRowOutlineLevel = ws.Row(copyStylesFromRow + rows).OutlineLevel;
+            var styleRowOutlineLevel = ws.Row(copyStylesFromRow).OutlineLevel;
             for (var r = rowFrom; r < rowFrom + rows; r++)
             {
                 ws.Row(r).OutlineLevel = styleRowOutlineLevel;
