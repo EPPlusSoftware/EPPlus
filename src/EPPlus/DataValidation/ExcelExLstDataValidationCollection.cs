@@ -39,7 +39,7 @@ namespace OfficeOpenXml.DataValidation
                 foreach (XmlNode node in extLstValidationNodes)
                 {
                     var address = base.GetXmlNodeString(node, "xm:sqref");
-                    var uid = node.Attributes["xr:uid"].Value;
+                    var uid = node.Attributes["xr:uid"] != null && !string.IsNullOrEmpty(node.Attributes["xr:uid"].Value) ? node.Attributes["xr:uid"].Value : ExcelDataValidation.NewId();
                     var typeSchema = node.Attributes["type"] != null ? node.Attributes["type"].Value : "";
                     var type = ExcelDataValidationType.GetBySchemaName(typeSchema);
                     var val = ExcelDataValidationFactory.Create(type, worksheet, address, node, InternalValidationType.ExtLst, uid);

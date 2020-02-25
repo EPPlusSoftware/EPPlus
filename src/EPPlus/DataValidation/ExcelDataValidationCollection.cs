@@ -79,7 +79,7 @@ namespace OfficeOpenXml.DataValidation
                     if (node.Attributes["sqref"] == null) continue;
 
                     var addr = node.Attributes["sqref"].Value;
-                    var uid = node.Attributes["xr:uid"].Value;
+                    var uid = node.Attributes["xr:uid"] != null && !string.IsNullOrEmpty(node.Attributes["xr:uid"].Value) ? node.Attributes["xr:uid"].Value : ExcelDataValidation.NewId();
                     var typeSchema = node.Attributes["type"] != null ? node.Attributes["type"].Value : "";
 
                     var type = ExcelDataValidationType.GetBySchemaName(typeSchema);
