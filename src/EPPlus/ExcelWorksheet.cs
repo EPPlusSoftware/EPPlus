@@ -1242,50 +1242,54 @@ namespace OfficeOpenXml
                 if (xr.LocalName == "hyperlink")
                 {
                     int fromRow, fromCol, toRow, toCol;
-                    ExcelCellBase.GetRowColFromAddress(xr.GetAttribute("ref"), out fromRow, out fromCol, out toRow, out toCol);
-                    ExcelHyperLink hl = null;
-                    if (xr.GetAttribute("id", ExcelPackage.schemaRelationships) != null)
+                    var reference = xr.GetAttribute("ref");
+                    if(reference != null && ExcelCellBase.IsValidAddress(reference))
                     {
-                        var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
-                        var uri = Part.GetRelationship(rId).TargetUri;
-                        if (uri.IsAbsoluteUri)
+                        ExcelCellBase.GetRowColFromAddress(xr.GetAttribute("ref"), out fromRow, out fromCol, out toRow, out toCol);
+                        ExcelHyperLink hl = null;
+                        if (xr.GetAttribute("id", ExcelPackage.schemaRelationships) != null)
                         {
-                            try
+                            var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
+                            var uri = Part.GetRelationship(rId).TargetUri;
+                            if (uri.IsAbsoluteUri)
                             {
-                                hl = new ExcelHyperLink(uri.AbsoluteUri);
+                                try
+                                {
+                                    hl = new ExcelHyperLink(uri.AbsoluteUri);
+                                }
+                                catch
+                                {
+                                    hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
+                                }
                             }
-                            catch
+                            else
                             {
-                                hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
+                                hl = new ExcelHyperLink(uri.OriginalString, UriKind.Relative);
                             }
+                            hl.RId = rId;
+                            Part.DeleteRelationship(rId); //Delete the relationship, it is recreated when we save the package.
+                        }
+                        else if (xr.GetAttribute("location") != null)
+                        {
+                            hl = GetHyperlinkFromRef(xr, "location", fromRow, toRow, fromCol, toCol);
+                        }
+                        else if (xr.GetAttribute("ref") != null)
+                        {
+                            hl = GetHyperlinkFromRef(xr, "ref", fromRow, toRow, fromCol, toCol);
                         }
                         else
                         {
-                            hl = new ExcelHyperLink(uri.OriginalString, UriKind.Relative);
+                            // not enough info to create a hyperlink
+                            break;
                         }
-                        hl.RId = rId;
-                        Part.DeleteRelationship(rId); //Delete the relationship, it is recreated when we save the package.
-                    }
-                    else if (xr.GetAttribute("location") != null)
-                    {
-                        hl = GetHyperlinkFromRef(xr, "location", fromRow, toRow, fromCol, toCol);
-                    }
-                    else if (xr.GetAttribute("ref") != null)
-                    {
-                        hl = GetHyperlinkFromRef(xr, "ref", fromRow, toRow, fromCol, toCol);
-                    }
-                    else
-                    {
-                        // not enough info to create a hyperlink
-                        break;
-                    }
 
-                    string tt = xr.GetAttribute("tooltip");
-                    if (!string.IsNullOrEmpty(tt))
-                    {
-                        hl.ToolTip = tt;
+                        string tt = xr.GetAttribute("tooltip");
+                        if (!string.IsNullOrEmpty(tt))
+                        {
+                            hl.ToolTip = tt;
+                        }
+                        _hyperLinks.SetValue(fromRow, fromCol, hl);
                     }
-                    _hyperLinks.SetValue(fromRow, fromCol, hl);
                 }
                 else
                 {
@@ -3234,6 +3238,7 @@ namespace OfficeOpenXml
         /// Update xml with hyperlinks 
         /// </summary>
         /// <param name="sw">The stream</param>
+        /// <param name="prefix">The namespace prefix for the main schema</param>
         private void UpdateHyperLinks(StreamWriter sw, string prefix)
         {
                 Dictionary<string, string> hyps = new Dictionary<string, string>();

@@ -1085,6 +1085,28 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue425()
+        {
+            using (var p1 = OpenTemplatePackage("issue425.xlsm"))
+            {
+                var ws = p1.Workbook.Worksheets[1];
+
+                p1.Workbook.Worksheets.Add("NewNotCopied");
+                p1.Workbook.Worksheets.Add("NewCopied", ws);
+
+                SaveWorkbook("issue425.xlsm", p1);
+            }
+        }
+        [TestMethod]
+        public void Issue422()
+        {
+            using (var p1 = OpenTemplatePackage("CustomFormula.xlsx"))
+            {
+                SaveWorkbook("issue422.xlsx", p1);
+            }
+        }
+
+        [TestMethod]
         public void Issue625()
         {
             using (var p = OpenTemplatePackage("multiple_print_areas.xlsx"))

@@ -404,5 +404,45 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("SUM(sheet1!$D$1:$E$1)", ws2.Cells["A1"].Formula);
             }
         }
+        [TestMethod]
+        public void InsertingColumnIntoTable()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws=p.Workbook.Worksheets.Add("InsertColumnTable");
+                LoadTestdata(ws);
+                var tbl = ws.Tables.Add(ws.Cells[1, 1, 100, 5], "Table1");
+                //Act
+                ws.InsertColumn(2, 1);
+
+                //Assert
+                Assert.AreEqual(6, tbl.Columns.Count);
+                Assert.AreEqual("Date", tbl.Columns[0].Name);
+                Assert.AreEqual("Column2", tbl.Columns[1].Name);
+                Assert.AreEqual("NumValue", tbl.Columns[2].Name);
+                Assert.AreEqual("StrValue", tbl.Columns[3].Name);
+                Assert.AreEqual("NumFormattedValue", tbl.Columns[4].Name);
+                Assert.AreEqual("Column5", tbl.Columns[5].Name);
+            }
+        }
+        [TestMethod]
+        public void InsertingRowIntoTable()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("InsertRowTable");
+                LoadTestdata(ws);
+                var tbl = ws.Tables.Add(ws.Cells[1, 1, 100, 5], "Table1");
+                //Act
+                ws.InsertRow(1, 1);
+                ws.InsertRow(3, 1);
+                ws.InsertRow(103, 1);
+
+                //Assert
+                Assert.AreEqual("A2:E102", tbl.Address.Address);
+            }
+        }
     }
 }

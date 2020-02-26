@@ -128,8 +128,6 @@ namespace OfficeOpenXml
 		}
         private ExcelWorksheet AddSheet(string Name, bool isChart, eChartType? chartType, ExcelPivotTable pivotTableSource = null)
         {
-            int sheetID;
-            Uri uriWorksheet;
             lock (_worksheets)
             {
                 Name = ValidateFixSheetName(Name);
@@ -137,7 +135,7 @@ namespace OfficeOpenXml
                 {
                         throw (new InvalidOperationException(ERR_DUP_WORKSHEET + " : " + Name));
                 }
-                GetSheetURI(ref Name, out sheetID, out uriWorksheet, isChart);
+                GetSheetURI(ref Name, out int sheetID, out Uri uriWorksheet, isChart);
                 Packaging.ZipPackagePart worksheetPart = _pck.Package.CreatePart(uriWorksheet, isChart ? CHARTSHEET_CONTENTTYPE : WORKSHEET_CONTENTTYPE, _pck.Compression);
 
                 //Create the new, empty worksheet and save it to the package

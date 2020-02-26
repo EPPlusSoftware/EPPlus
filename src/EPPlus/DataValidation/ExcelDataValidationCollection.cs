@@ -95,6 +95,22 @@ namespace OfficeOpenXml.DataValidation
             _extLstValidations = new ExcelExLstDataValidationCollection(worksheet, _formulaListener);
             _extListUsed = !_extLstValidations.IsEmpty;
             InternalValidationEnabled = true;
+
+            if(worksheet.WorksheetXml.DocumentElement!=null)
+            {
+                var xr=worksheet.WorksheetXml.DocumentElement.GetAttribute("xmlns:xr");
+                if(string.IsNullOrEmpty(xr))
+                {
+                    worksheet.WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
+                    var ignore = worksheet.WorksheetXml.DocumentElement.GetAttribute("mc:Ignorable");
+                    var nsIgnore = ignore.Split(' ');
+                    if (!nsIgnore.Contains("xr"))
+                    {
+                        worksheet.WorksheetXml.DocumentElement.SetAttribute("mc:Ignorable", ignore+ " xr");
+                    }
+
+                }
+            }
         }
 
         private void EnsureRootElementExists()
