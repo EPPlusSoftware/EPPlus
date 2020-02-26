@@ -1118,11 +1118,22 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue627()
+        {
+            using (var p = OpenTemplatePackage("input.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Data"];
+                ws.Cells[3, 1, 4001, 17].Value = null;
+
+                SaveWorkbook("Issue627.xlsx", p);
+            }
+
+        }
+        [TestMethod]
         public void Issue39()
         {
             using (var p = OpenTemplatePackage("MyExcel.xlsx"))
             {
-
                 var workSheet = p.Workbook.Worksheets[0];
 
                 workSheet.InsertRow(8, 2, 8);

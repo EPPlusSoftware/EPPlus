@@ -493,7 +493,8 @@ namespace OfficeOpenXml
             {
                 if (_autoFilter == null)
                 {
-                    var node=_worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
+                    CheckSheetType();
+                    var node =_worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
                     if (node == null) return null;
                     _autoFilter = new ExcelAutoFilter(NameSpaceManager, node, this);
                 }
@@ -3494,6 +3495,7 @@ namespace OfficeOpenXml
         {
             get
             {
+                CheckSheetType();
                 if (_ignoredErrors == null)
                 {
                     _ignoredErrors = new ExcelIgnoredErrorCollection(_package, this, NameSpaceManager);

@@ -193,11 +193,15 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    for (int col = address.Start.Column; col <= address.End.Column; col++)
+                    DeleteMe(address, false);   //Clear the range before overwriting.
+                    if (value != null)
                     {
-                        for (int row = address.Start.Row; row <= address.End.Row; row++)
+                        for (int col = address.Start.Column; col <= address.End.Column; col++)
                         {
-                            valueMethod(this, value, row, col);
+                            for (int row = address.Start.Row; row <= address.End.Row; row++)
+                            {
+                                valueMethod(this, value, row, col);
+                            }
                         }
                     }
                 }
@@ -1416,7 +1420,7 @@ namespace OfficeOpenXml
                 //Top Range
                 if (fRange._fromRow < _fromRow)
                 {
-                    f.Address = ExcelCellBase.GetAddress(fRange._fromRow, fRange._fromCol, _fromRow - 1, fRange._toCol);
+                    f.Address = GetAddress(fRange._fromRow, fRange._fromCol, _fromRow - 1, fRange._toCol);
                     fIsSet = true;
                 }
                 //Left Range
@@ -1500,7 +1504,7 @@ namespace OfficeOpenXml
                     }
 
                     f.StartCol = fRange._fromCol;
-                    f.StartRow = _toRow + 1;
+                    f.StartRow = address._toRow + 1;
 
                     f.Formula = TranslateFromR1C1(formulaR1C1, f.StartRow, f.StartCol);
 
