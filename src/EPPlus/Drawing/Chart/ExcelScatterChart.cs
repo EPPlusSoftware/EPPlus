@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (ScatterStyle==eScatterStyle.LineMarker)
                 {
-                    if (((ExcelScatterChartSerie)Series[0]).Marker.Style == eMarkerStyle.None)
+                    if (Series.Count > 0 && Series[0].Marker.Style == eMarkerStyle.None)
                     {
                         return eChartType.XYScatterLinesNoMarkers;
                     }
@@ -166,7 +166,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else if (ScatterStyle == eScatterStyle.SmoothMarker)
                 {
-                    if (((ExcelScatterChartSerie)Series[0]).Marker.Style == eMarkerStyle.None)
+                    if (Series.Count > 0 && Series[0].Marker.Style == eMarkerStyle.None)
                     {
                         return eChartType.XYScatterSmoothNoMarkers;
                     }
