@@ -1118,16 +1118,13 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue627()
+        public void Issue403()
         {
-            using (var p = OpenTemplatePackage("input.xlsx"))
+            using (var p = OpenTemplatePackage("issue403.xlsx"))
             {
-                var ws = p.Workbook.Worksheets["Data"];
-                ws.Cells[3, 1, 4001, 17].Value = null;
-
-                SaveWorkbook("Issue627.xlsx", p);
+                var ws = p.Workbook.Worksheets[0];
+                SaveWorkbook("Issue403.xlsx", p);
             }
-
         }
         [TestMethod]
         public void Issue39()

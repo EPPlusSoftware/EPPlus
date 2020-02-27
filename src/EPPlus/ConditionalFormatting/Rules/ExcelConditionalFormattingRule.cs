@@ -169,7 +169,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         if (Address.Address != value.Address)
         {
           // Save the old parente node
-          XmlNode oldNode = Node;
           XmlNode oldParentNode = Node.ParentNode;
 
           // Create/Get the new <conditionalFormatting> parent node
@@ -196,7 +195,20 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
       }
     }
-
+        /// <summary>
+        /// Indicates that the conditional formatting is associated with a PivotTable
+        /// </summary>
+        public bool PivotTable
+        {
+            get
+            {
+                return GetXmlNodeBool("../@pivot");
+            }
+            set
+            {
+                SetXmlNodeBool("../@pivot", value, false);
+            }
+        }
     /// <summary>
     /// Type of conditional formatting rule.
     /// </summary>
