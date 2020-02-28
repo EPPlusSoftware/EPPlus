@@ -141,6 +141,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["isna"] = new IsNa();
             Functions["na"] = new Na();
             Functions["n"] = new N();
+            Functions["type"] = new TypeFunction();
             // Logical
             Functions["if"] = new If();
             Functions["ifs"] = new Ifs();

@@ -198,5 +198,80 @@ namespace EPPlusTest.Excel.Functions
             result = func.Execute(args, _context);
             Assert.AreEqual(errorCode, result.Result);
         }
+
+        [TestMethod]
+        public void TypeShouldReturn1WhenNumber()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TYPE(2)";
+                sheet.Calculate();
+                Assert.AreEqual(1, sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void TypeShouldReturn1WhenEmpty()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TYPE(A2)";
+                sheet.Calculate();
+                Assert.AreEqual(1, sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void TypeShouldReturn2WhenText()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TYPE(A2)";
+                sheet.Cells["A2"].Value = "asdf";
+                sheet.Calculate();
+                Assert.AreEqual(2, sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void TypeShouldReturn4WhenBool()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TYPE(A2)";
+                sheet.Cells["A2"].Value = true;
+                sheet.Calculate();
+                Assert.AreEqual(4, sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void TypeShouldReturn16WhenError()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TYPE(A2)";
+                sheet.Cells["A2"].Formula = "1/0";
+                sheet.Calculate();
+                Assert.AreEqual(16, sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void TypeShouldReturn64WhenArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "TYPE({1,2,3})";
+                sheet.Calculate();
+                Assert.AreEqual(64, sheet.Cells["A1"].Value);
+            }
+        }
     }
 }
