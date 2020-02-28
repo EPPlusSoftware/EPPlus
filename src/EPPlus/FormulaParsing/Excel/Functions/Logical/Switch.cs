@@ -1,0 +1,69 @@
+﻿using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+{
+    internal class Switch : ExcelFunction
+    {
+        public Switch()
+            : this(new CompileResultFactory())
+        {
+
+        }
+        public Switch(CompileResultFactory compileResultFactory)
+        {
+            _compileResultFactory = compileResultFactory;
+        }
+
+        private readonly CompileResultFactory _compileResultFactory;
+
+        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        {
+            ValidateArguments(arguments, 3);
+            var expression = arguments.ElementAt(0).ValueFirst;
+            var maxLength = 1 + 126 * 2;
+            for(var x = 1; x < (arguments.Count() - 1) || x >= maxLength; x += 2)
+            {
+                var candidate = arguments.ElementAt(x).Value;
+                if(IsMatch(expression, candidate))
+                {
+                    return _compileResultFactory.Create(arguments.ElementAt(x + 1).Value);
+                }
+            }
+            if (arguments.Count() % 2 == 0) return _compileResultFactory.Create(arguments.Last().Value);
+            return new CompileResult(eErrorType.NA);
+        }
+
+        private bool IsMatch(object right, object left)
+        {
+            if(IsNumeric(right) || IsNumeric(left))
+            {
+                var r = GetNumericValue(right);
+                var l = GetNumericValue(left);
+                return r.Equals(l);
+            }
+            if(right == null && left == null)
+            {
+                return true;
+            }
+            if (right == null) return false;
+            return right.Equals(left);
+        }
+
+        private double GetNumericValue(object obj)
+        {
+            if(obj is System.DateTime)
+            {
+                return ((System.DateTime)obj).ToOADate();
+            }
+            if(obj is TimeSpan)
+            {
+                return ((TimeSpan)obj).TotalMilliseconds;
+            }
+            return Convert.ToDouble(obj);
+        }
+    }
+}

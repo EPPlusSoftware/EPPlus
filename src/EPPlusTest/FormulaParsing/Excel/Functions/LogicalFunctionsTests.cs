@@ -259,5 +259,46 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual("hi there", s1.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void SwitchShouldReturnFirstMatchingArg()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s1 = package.Workbook.Worksheets.Add("test");
+                s1.Cells["A1"].Formula = "SWITCH(A2, 1, 2)";
+                s1.Cells["A2"].Value = 1;
+                s1.Calculate();
+                Assert.AreEqual(2d, s1.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void SwitchShouldIgnoreNonMatchingArg()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s1 = package.Workbook.Worksheets.Add("test");
+                s1.Cells["A1"].Formula = "SWITCH(A2, 1, 2, B2, 3)";
+                s1.Cells["A2"].Value = 2;
+                s1.Cells["B2"].Value = 2d;
+                s1.Calculate();
+                Assert.AreEqual(3d, s1.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void SwitchShouldReturnLastArgIfNoMatch()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s1 = package.Workbook.Worksheets.Add("test");
+                s1.Cells["A1"].Formula = "SWITCH(A2, 1, 2, B2, 3, 5)";
+                s1.Cells["A2"].Value = -1;
+                s1.Cells["B2"].Value = 2d;
+                s1.Calculate();
+                Assert.AreEqual(5d, s1.Cells["A1"].Value);
+            }
+        }
     }
 }
