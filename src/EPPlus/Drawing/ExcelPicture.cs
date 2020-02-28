@@ -53,8 +53,8 @@ namespace OfficeOpenXml.Drawing
                 container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
                 Part = drawings.Part.Package.GetPart(container.UriPic);
-                FileInfo f = new FileInfo(container.UriPic.OriginalString);
-                ContentType = PictureStore.GetContentType(f.Extension);
+                var extension = Path.GetExtension(container.UriPic.OriginalString);
+                ContentType = PictureStore.GetContentType(extension);
                 _image = Image.FromStream(Part.GetStream());
 
 #if (Core)

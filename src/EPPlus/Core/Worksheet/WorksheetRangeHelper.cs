@@ -57,13 +57,13 @@ namespace OfficeOpenXml.Core.Worksheet
 
                     if (newAddr.Address != addr.Address)
                     {
-                        ws._mergedCells.List[i] = newAddr._address;
+                        ws._mergedCells._list[i] = newAddr._address;
                     }
                 }
             }
             for (int i = removeIndex.Count - 1; i >= 0; i--)
             {
-                ws._mergedCells.List.RemoveAt(removeIndex[i]);
+                ws._mergedCells._list.RemoveAt(removeIndex[i]);
             }
         }
         internal static void FixMergedCellsColumn(ExcelWorksheet ws, int column, int columns, bool delete)
@@ -102,13 +102,13 @@ namespace OfficeOpenXml.Core.Worksheet
 
                     if (newAddr.Address != addr.Address)
                     {
-                        ws._mergedCells.List[i] = newAddr._address;
+                        ws._mergedCells._list[i] = newAddr._address;
                     }
                 }
             }
             for (int i = removeIndex.Count - 1; i >= 0; i--)
             {
-                ws._mergedCells.List.RemoveAt(removeIndex[i]);
+                ws._mergedCells._list.RemoveAt(removeIndex[i]);
             }
         }
         internal static void AdjustDrawingsRow(ExcelWorksheet ws, int rowFrom, int rows)

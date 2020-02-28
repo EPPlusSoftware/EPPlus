@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Core
             {
                 if (!copiedMergedCells.ContainsKey(csem.Value))
                 {
-                    var adr = new ExcelAddress(worksheet.Name, worksheet.MergedCells.List[csem.Value]);
+                    var adr = new ExcelAddress(worksheet.Name, worksheet.MergedCells._list[csem.Value]);
                     var collideResult = sourceRange.Collide(adr);
                     if (collideResult == eAddressCollition.Inside || collideResult == eAddressCollition.Equal)
                     {

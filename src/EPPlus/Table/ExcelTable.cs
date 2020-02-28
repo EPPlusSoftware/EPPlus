@@ -40,6 +40,7 @@ namespace OfficeOpenXml.Table
             LoadXmlSafe(TableXml, Part.GetStream());
             init();
             Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
+            _tableStyle = GetTableStyle(StyleName);
         }
         internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId) : 
             base(sheet.NameSpaceManager)
@@ -235,7 +236,7 @@ namespace OfficeOpenXml.Table
         public TableStyles TableStyle
         {
             get
-            {
+            {                
                 return _tableStyle;
             }
             set
@@ -430,29 +431,41 @@ namespace OfficeOpenXml.Table
             }
             set
             {
-                if (value.StartsWith("TableStyle"))
+                _tableStyle = GetTableStyle(value);
+                if(_tableStyle==TableStyles.None)
                 {
-                    try
-                    {
-                        _tableStyle = (TableStyles)Enum.Parse(typeof(TableStyles), value.Substring(10,value.Length-10), true);
-                    }
-                    catch
-                    {
-                        _tableStyle = TableStyles.Custom;
-                    }
-                }
-                else if (value == "None")
-                {
-                    _tableStyle = TableStyles.None;
-                    value = "";
+                    DeleteAllNode(STYLENAME_PATH);
                 }
                 else
                 {
-                    _tableStyle = TableStyles.Custom;
+                    SetXmlNodeString(STYLENAME_PATH, value);
                 }
-                SetXmlNodeString(STYLENAME_PATH,value,true);
             }
         }
+
+        private TableStyles GetTableStyle(string value)
+        {
+            if (value.StartsWith("TableStyle"))
+            {
+                try
+                {
+                    return (TableStyles)Enum.Parse(typeof(TableStyles), value.Substring(10, value.Length - 10), true);
+                }
+                catch
+                {
+                    return TableStyles.Custom;
+                }
+            }
+            else if (value == "None")
+            {
+                return TableStyles.None;
+            }
+            else
+            {
+                return TableStyles.Custom;
+            }
+        }
+
         const string SHOWFIRSTCOLUMN_PATH = "d:tableStyleInfo/@showFirstColumn";
         /// <summary>
         /// Display special formatting for the first row

@@ -185,8 +185,7 @@ namespace OfficeOpenXml
 
             }
             internal CellStore<int> _cells = new CellStore<int>();
-            List<string> _list = new List<string>();
-            internal List<string> List { get { return _list; } }
+            internal List<string> _list = new List<string>();
             /// <summary>
             /// Indexer for the collection
             /// </summary>
@@ -198,9 +197,9 @@ namespace OfficeOpenXml
                 get
                 {
                     int ix = -1;
-                    if (_cells.Exists(row, column, ref ix) && ix >= 0 && ix < List.Count)  //Fixes issue 15075
+                    if (_cells.Exists(row, column, ref ix) && ix >= 0 && ix < _list.Count)  //Fixes issue 15075
                     {
-                        return List[ix];
+                        return _list[ix];
                     }
                     else
                     {
@@ -358,6 +357,11 @@ namespace OfficeOpenXml
                 {
                     _list[i] = null;
                 }
+            }
+
+            internal void CleanupMergedCells()
+            {
+                _list = _list.Where(x => x != null).ToList();
             }
         }
         internal CellStoreValue _values;
@@ -2704,7 +2708,7 @@ namespace OfficeOpenXml
                 GetBlockPos(xml, "mergeCells", ref mergeStart, ref mergeEnd);
                 sw.Write(xml.Substring(cellEnd, mergeStart - cellEnd));
 
-                CleanupMergedCells(_mergedCells);
+                _mergedCells.CleanupMergedCells();
                 if (_mergedCells.Count > 0)
                 {
                     UpdateMergedCells(sw, prefix);
@@ -2750,21 +2754,6 @@ namespace OfficeOpenXml
             return "";
         }
 
-        private void CleanupMergedCells(MergeCellsCollection _mergedCells)
-        {
-            int i=0;
-            while (i < _mergedCells.List.Count)
-            {
-                if (_mergedCells[i] == null)
-                {
-                    _mergedCells.List.RemoveAt(i);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-        }
         private void UpdateColBreaks(StreamWriter sw, string prefix)
         {
             StringBuilder breaks = new StringBuilder();

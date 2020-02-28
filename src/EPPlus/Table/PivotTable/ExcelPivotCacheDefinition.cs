@@ -244,13 +244,14 @@ namespace OfficeOpenXml.Table.PivotTable
             var sourceWorksheet = PivotTable.WorkSheet.Workbook.Worksheets[sourceAddress.WorkSheet];
             for (int col = sourceAddress._fromCol; col <= sourceAddress._toCol; col++)
             {
-                if (sourceWorksheet == null || sourceWorksheet.GetValueInner(sourceAddress._fromRow, col) == null || sourceWorksheet.GetValueInner(sourceAddress._fromRow, col).ToString().Trim() == "")
+                var name = sourceWorksheet?.GetValueInner(sourceAddress._fromRow, col);
+                if (name==null || name.ToString()=="")
                 {
                     xml += string.Format("<cacheField name=\"Column{0}\" numFmtId=\"0\">", col - sourceAddress._fromCol + 1);
                 }
                 else
                 {
-                    xml += string.Format("<cacheField name=\"{0}\" numFmtId=\"0\">", SecurityElement.Escape(sourceWorksheet.GetValueInner(sourceAddress._fromRow, col).ToString()));
+                    xml += string.Format("<cacheField name=\"{0}\" numFmtId=\"0\">", SecurityElement.Escape(name.ToString()));
                 }
                 xml += "<sharedItems containsBlank=\"1\" count=\"1\"><s v=\"\"/></sharedItems> ";
                 xml += "</cacheField>";

@@ -178,9 +178,9 @@ namespace OfficeOpenXml.Drawing
                 container.UriPic = UriHelper.ResolvePartUri(container.RelationDocument.RelatedUri, container.RelPic.TargetUri);
                 part = container.RelationDocument.RelatedPart.Package.GetPart(container.UriPic);
             //}
-            
-            FileInfo f = new FileInfo(container.UriPic.OriginalString);
-            contentType = PictureStore.GetContentType(f.Extension);
+
+            var extension = Path.GetExtension(container.UriPic.OriginalString);
+            contentType = PictureStore.GetContentType(extension);
             return Image.FromStream(part.GetStream());
         }
         internal static ePictureType GetPictureType(string extension)

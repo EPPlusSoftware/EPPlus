@@ -343,9 +343,9 @@ namespace OfficeOpenXml.Utils
             string s;
             try
             {
-                if (v is DateTime)
+                if (v is DateTime dt)
                 {
-                    double sdv = ((DateTime)v).ToOADate();
+                    double sdv = dt.ToOADate();
 
                     if(date1904)
                     {
@@ -354,9 +354,9 @@ namespace OfficeOpenXml.Utils
 
                     s = sdv.ToString(CultureInfo.InvariantCulture);
                 }
-                else if (v is TimeSpan)
+                else if (v is TimeSpan ts)
                 {
-                    s = DateTime.FromOADate(0).Add(((TimeSpan)v)).ToOADate().ToString(CultureInfo.InvariantCulture);
+                    s = ((double)ts.Ticks / TimeSpan.TicksPerDay).ToString(CultureInfo.InvariantCulture);
                 }
                 else if (TypeCompat.IsPrimitive(v) || v is double || v is decimal)
                 {
