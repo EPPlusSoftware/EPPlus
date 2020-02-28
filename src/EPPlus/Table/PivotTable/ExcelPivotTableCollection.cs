@@ -63,6 +63,10 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 Name = GetNewTableName();
             }
+            if(Source.Rows<2)
+            {
+                throw (new ArgumentException("The Range must contain at least 2 rows", "Source"));
+            }
             if (Range.WorkSheet != _ws.Name)
             {
                 throw(new Exception("The Range must be in the current worksheet"));
@@ -78,7 +82,13 @@ namespace OfficeOpenXml.Table.PivotTable
                     throw (new ArgumentException(string.Format("Table range collides with table {0}", t.Name)));
                 }
             }
-            
+            for(int i= 0;i < Source.Columns;i++)
+            {
+                if(Source.Offset(0,i)==null)
+                {
+                    throw (new ArgumentException("First row of source range should contain the field headers and can't have blank cells.", "Source"));
+                }
+            }
             return Add(new ExcelPivotTable(_ws, Range, Source, Name, _ws.Workbook._nextPivotTableID++));
         }
         /// <summary>

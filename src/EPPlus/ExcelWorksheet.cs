@@ -990,7 +990,7 @@ namespace OfficeOpenXml
         }
         private void LoadRowPageBreakes(XmlReader xr)
         {
-            if (!ReadUntil(xr, "rowBreaks", "colBreaks")) return;
+            if (!ReadUntil(xr, 1, "rowBreaks", "colBreaks")) return;
             while (xr.Read())
             {
                 if (xr.LocalName == "brk")
@@ -1012,7 +1012,7 @@ namespace OfficeOpenXml
         }
         private void LoadColPageBreakes(XmlReader xr)
         {
-            if (!ReadUntil(xr, "colBreaks")) return;
+            if (!ReadUntil(xr,1, "colBreaks")) return;
             while (xr.Read())
             {
                 if (xr.LocalName == "brk")
@@ -1170,19 +1170,22 @@ namespace OfficeOpenXml
             }
             start = startPos;
         }
-        private bool ReadUntil(XmlReader xr, params string[] tagName)
+        private bool ReadUntil(XmlReader xr, int depth, params string[] tagName)
         {
             if (xr.EOF) return false;
-            while (!Array.Exists(tagName, tag => Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag)))
+            while ((xr.Depth == depth && Array.Exists(tagName, tag => Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false)
             {
-                xr.Read();
-                if (xr.EOF) return false;
+                do
+                {
+                    xr.Read();
+                    if (xr.EOF) return false;
+                } while (xr.Depth != depth);
             }
             return (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
         }
         private void LoadColumns(XmlReader xr)//(string xml)
         {
-            if (ReadUntil(xr, "cols", "sheetData"))
+            if (ReadUntil(xr, 1, "cols", "sheetData"))
             {
                 while (xr.Read())
                 {
@@ -1237,7 +1240,7 @@ namespace OfficeOpenXml
         /// <param name="xr">The reader</param>
         private void LoadHyperLinks(XmlReader xr)
         {
-            if (!ReadUntil(xr, "hyperlinks", "rowBreaks", "colBreaks")) return;
+            if (!ReadUntil(xr, 1, "hyperlinks", "rowBreaks", "colBreaks")) return;
             while (xr.Read())
             {
                 if (xr.LocalName == "hyperlink")
@@ -1313,7 +1316,7 @@ namespace OfficeOpenXml
         /// <param name="xr">The reader</param>
         private void LoadCells(XmlReader xr)
         {
-            ReadUntil(xr, "sheetData", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks");
+            ReadUntil(xr, 1, "sheetData", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks");
             ExcelAddressBase address = null;
             string type = "";
             int style = 0;
@@ -1491,7 +1494,7 @@ namespace OfficeOpenXml
         /// <param name="xr"></param>
         private void LoadMergeCells(XmlReader xr)
         {
-            if (ReadUntil(xr, "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+            if (ReadUntil(xr,1, "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
             {
                 while (xr.Read())
                 {
@@ -1499,16 +1502,6 @@ namespace OfficeOpenXml
                     if (xr.NodeType == XmlNodeType.Element)
                     {
                         string address = xr.GetAttribute("ref");
-                        //int fromRow, fromCol, toRow, toCol;
-                        //ExcelCellBase.GetRowColFromAddress(address, out fromRow, out fromCol, out toRow, out toCol);
-                        //for (int row = fromRow; row <= toRow; row++)
-                        //{
-                        //    for (int col = fromCol; col <= toCol; col++)
-                        //    {
-                        //        _flags.SetFlagValue(row, col, true,CellFlags.Merged);
-                        //    }
-                        //}
-                        //_mergedCells.List.Add(address);
                         _mergedCells.Add(new ExcelAddress(address), false);
                     }
                 }

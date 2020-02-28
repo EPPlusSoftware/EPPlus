@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing
             if (picNode != null)
             {
                 IPictureContainer container = this;
-                container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["r:embed"].Value);
+                container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
                 container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
                 Part = drawings.Part.Package.GetPart(container.UriPic);

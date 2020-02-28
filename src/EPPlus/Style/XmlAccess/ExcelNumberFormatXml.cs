@@ -296,19 +296,29 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     if (li.Length > 1)
                                     {
                                         if (li[1].Equals("f800", StringComparison.OrdinalIgnoreCase))
-                                        {   
-                                            SpecialDateFormat=eSystemDateFormat.SystemLongDate;
+                                        {
+                                            SpecialDateFormat = eSystemDateFormat.SystemLongDate;
                                         }
                                         else if (li[1].Equals("f400", StringComparison.OrdinalIgnoreCase))
                                         {
                                             SpecialDateFormat = eSystemDateFormat.SystemLongTime;
                                         }
-                                        else
+                                        else if (int.TryParse(li[1], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int num))
                                         {
-                                            var num = int.Parse(li[1], NumberStyles.HexNumber);
                                             try
                                             {
                                                 Culture = CultureInfo.GetCultureInfo(num & 0xFFFF);
+                                            }
+                                            catch
+                                            {
+                                                Culture = null;
+                                            }
+                                        }
+                                        else //Excel saves in hex, but seems to support having culture codes as well.
+                                        {
+                                            try
+                                            {
+                                                Culture = CultureInfo.GetCultureInfo(li[1]);
                                             }
                                             catch
                                             {

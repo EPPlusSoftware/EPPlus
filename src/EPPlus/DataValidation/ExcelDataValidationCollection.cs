@@ -102,13 +102,17 @@ namespace OfficeOpenXml.DataValidation
                 if(string.IsNullOrEmpty(xr))
                 {
                     worksheet.WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
+                    var mc = worksheet.WorksheetXml.DocumentElement.GetAttribute("xmlns:mc");
+                    if(mc != ExcelPackage.schemaMarkupCompatibility)
+                    {
+                        worksheet.WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+                    }
                     var ignore = worksheet.WorksheetXml.DocumentElement.GetAttribute("mc:Ignorable");
                     var nsIgnore = ignore.Split(' ');
                     if (!nsIgnore.Contains("xr"))
                     {
-                        worksheet.WorksheetXml.DocumentElement.SetAttribute("mc:Ignorable", ignore+ " xr");
+                        worksheet.WorksheetXml.DocumentElement.SetAttribute("Ignorable",ExcelPackage.schemaMarkupCompatibility, string.IsNullOrEmpty(ignore) ? "xr" : ignore + " xr");
                     }
-
                 }
             }
         }
