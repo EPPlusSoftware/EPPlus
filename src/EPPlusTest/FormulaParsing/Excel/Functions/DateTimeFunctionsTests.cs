@@ -530,6 +530,60 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void WorkdayIntlShouldCalculateWeekendOnly()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["B1"].Value = new DateTime(2015, 12, 1).ToOADate();
+                ws.Cells["B3"].Formula = "WORKDAY.INTL(B1,25)";
+                ws.Calculate();
+
+                var expectedDate = new DateTime(2016, 1, 5).ToOADate();
+                var actualDate = ws.Cells["B3"].Value;
+                Assert.AreEqual(expectedDate, actualDate);
+            }
+        }
+
+        [TestMethod]
+        public void WorkdayIntlShouldCalculateHolidaysStringArg()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["B1"].Value = new DateTime(2015, 12, 1).ToOADate();
+                ws.Cells["B2"].Value = new DateTime(2015, 12, 25).ToOADate();
+                ws.Cells["B3"].Value = new DateTime(2015, 12, 28).ToOADate();
+                ws.Cells["B4"].Value = new DateTime(2016, 1, 1).ToOADate();
+                ws.Cells["B7"].Formula = "WORKDAY.INTL(B1,25,\"0000111\")";
+                ws.Calculate();
+
+                var expectedDate = new DateTime(2016, 1, 13).ToOADate();
+                var actualDate = ws.Cells["B7"].Value;
+                Assert.AreEqual(expectedDate, actualDate);
+            }
+        }
+
+        [TestMethod]
+        public void WorkdayIntlShouldCalculateHolidays()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["B1"].Value = new DateTime(2015, 12, 1).ToOADate();
+                ws.Cells["B2"].Value = new DateTime(2015, 12, 25).ToOADate();
+                ws.Cells["B3"].Value = new DateTime(2015, 12, 28).ToOADate();
+                ws.Cells["B4"].Value = new DateTime(2016, 1, 1).ToOADate();
+                ws.Cells["B7"].Formula = "WORKDAY.INTL(B1,25,1,B2:B4)";
+                ws.Calculate();
+
+                var expectedDate = new DateTime(2016, 1, 8).ToOADate();
+                var actualDate = ws.Cells["B7"].Value;
+                Assert.AreEqual(expectedDate, actualDate);
+            }
+        }
+
+        [TestMethod]
         public void NetworkdaysShouldReturnNumberOfDays()
         {
             using (var package = new ExcelPackage())
