@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
-    public class WorkdayIntl : ExcelFunction
+    internal class WorkdayIntl : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {

@@ -1084,6 +1084,111 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(1d, sheet1.Cells["A3"].Value);
             }
         }
+
+        [TestMethod]
+        public void OddShouldRound0To1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = 0;
+                sheet1.Cells["A3"].Formula = "ODD(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(1, sheet1.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void OddShouldRound1To1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = 1;
+                sheet1.Cells["A3"].Formula = "ODD(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(1, sheet1.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void OddShouldRound2To3()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = 2;
+                sheet1.Cells["A3"].Formula = "ODD(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(3, sheet1.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void OddShouldRoundMinus1point3ToMinus3()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = -1.3;
+                sheet1.Cells["A3"].Formula = "ODD(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(-3, sheet1.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void EvenShouldRound0To0()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = 0;
+                sheet1.Cells["A3"].Formula = "EVEN(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(0, sheet1.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void EvenShouldRound1To2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = 1;
+                sheet1.Cells["A3"].Formula = "EVEN(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(2, sheet1.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void EvenShouldRound2To2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = 2;
+                sheet1.Cells["A3"].Formula = "EVEN(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(2, sheet1.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void EvenShouldRoundMinus1point3ToMinus2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("test");
+                sheet1.Cells["A1"].Value = -1.3;
+                sheet1.Cells["A3"].Formula = "EVEN(A1)";
+                sheet1.Calculate();
+                Assert.AreEqual(-2, sheet1.Cells["A3"].Value);
+            }
+        }
+
         [TestMethod]
         public void Rank()
         {
