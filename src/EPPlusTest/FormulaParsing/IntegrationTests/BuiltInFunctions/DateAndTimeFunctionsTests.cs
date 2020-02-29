@@ -159,6 +159,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void DaysShouldReturnCorrectResult()
+        {
+            var result = _parser.Parse("Days(Date(2015, 2, 2), Date(2015, 1, 1))");
+            Assert.AreEqual(32d, result);
+        }
+
+        [TestMethod]
         public void Day360ShouldReturnCorrectResult()
         {
             var result = _parser.Parse("Days360(Date(2012, 4, 2), Date(2012, 5, 2))");

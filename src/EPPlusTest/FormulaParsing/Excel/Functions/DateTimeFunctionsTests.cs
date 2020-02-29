@@ -126,6 +126,26 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void DaysShouldReturnCorrectResultWithDateTimeTypes()
+        {
+            var d1 = new DateTime(2015, 1, 1);
+            var d2 = new DateTime(2015, 2, 2);
+            var func = new Days();
+            var result = func.Execute(FunctionsHelper.CreateArgs(d2, d1), _parsingContext);
+            Assert.AreEqual(32d, result.Result);
+        }
+
+        [TestMethod]
+        public void DaysShouldReturnCorrectResultWithDatesAsStrings()
+        {
+            var d1 = new DateTime(2015, 1, 1).ToString("yyyy-MM-dd");
+            var d2 = new DateTime(2015, 2, 2).ToString("yyyy-MM-dd");
+            var func = new Days();
+            var result = func.Execute(FunctionsHelper.CreateArgs(d2, d1), _parsingContext);
+            Assert.AreEqual(32d, result.Result);
+        }
+
+        [TestMethod]
         public void MonthShouldReturnMonthOfYear()
         {
             var date = new DateTime(2012, 3, 12);

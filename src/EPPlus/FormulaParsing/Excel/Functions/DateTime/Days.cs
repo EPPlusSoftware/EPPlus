@@ -11,39 +11,23 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
-    internal class Odd : ExcelFunction
+    public class Days : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var arg = arguments.ElementAt(0).Value;
-            if (!IsNumeric(arg)) return new CompileResult(eErrorType.Value);
-            var number = ConvertUtil.GetValueDouble(arg);
-            if(number % 1 != 0)
-            {
-                if (number >= 0)
-                {
-                    number = number - (number % 1) + 1;
-                }
-                else
-                {
-                    number = number - (number % 1) - 1;
-                }
-            }
-            var intNumber = Convert.ToInt32(number);
-            if(intNumber % 2 == 0)
-            {
-                intNumber = intNumber >= 0 ? intNumber + 1 : intNumber - 1;
-            }
-            return CreateResult(intNumber, DataType.Integer);
+            ValidateArguments(arguments, 2);
+            ValidateArguments(arguments, 2);
+            var numDate1 = ArgToDecimal(arguments, 0);
+            var numDate2 = ArgToDecimal(arguments, 1);
+            var endDate = System.DateTime.FromOADate(numDate1);
+            var startDate = System.DateTime.FromOADate(numDate2);
+            return CreateResult(endDate.Subtract(startDate).TotalDays, DataType.Date);
         }
     }
 }
