@@ -316,9 +316,19 @@ namespace OfficeOpenXml.Drawing
         {
             if (_fillNode == TopNode)
             {
-                _fillTypeNode=CreateNode("a:" + GetStyleText(value));
-                //_fillNode = ReplaceElement(TopNode, );
-                //_fillTypeNode = _fillNode;
+                if(_fillNode== _fillTypeNode)
+                {
+                    var node=_fillTypeNode.OwnerDocument.CreateElement("a", GetStyleText(value), ExcelPackage.schemaDrawings);
+                    _fillTypeNode.ParentNode.InsertBefore(node, _fillTypeNode);
+                    _fillTypeNode.ParentNode.RemoveChild(_fillTypeNode);
+                    _fillTypeNode = node;
+                    _fillNode = node;
+                    TopNode = node;
+                }
+                else
+                {
+                    _fillTypeNode = CreateNode("a:" + GetStyleText(value));
+                }
             }
             else
             {
@@ -383,3 +393,4 @@ namespace OfficeOpenXml.Drawing
         }
     }
 }
+

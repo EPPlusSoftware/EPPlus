@@ -575,7 +575,7 @@ namespace OfficeOpenXml
                 var cfSource = Copy.ConditionalFormatting[i];
                 var dxfElement = ((XmlElement)cfSource.Node);
                 var dxfId = dxfElement.GetAttribute("dxfId");
-                if (!ConvertUtil.TryParseIntString(dxfId, out int dxfIdInt))
+                if (ConvertUtil.TryParseIntString(dxfId, out int dxfIdInt))
                 {
                     if (!dxfStyleCashe.ContainsKey(dxfId))
                     {

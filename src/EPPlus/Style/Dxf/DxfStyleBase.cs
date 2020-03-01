@@ -115,7 +115,18 @@ namespace OfficeOpenXml.Style.Dxf
             }
             else
             {
-                helper.SetXmlNodeString(path, v.ToString());
+                if(v is double d)
+                {
+                    helper.SetXmlNodeString(path, d.ToString(CultureInfo.InvariantCulture));
+                }
+                else if (v is int i)
+                {
+                    helper.SetXmlNodeString(path, i.ToString(CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    helper.SetXmlNodeString(path, v.ToString());
+                }
             }
         }
         /// <summary>

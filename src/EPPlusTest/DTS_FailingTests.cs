@@ -10,7 +10,7 @@
  * version 2.1 of the License, or (at your option) any later version.
 
  * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warranty ofD:\kod\EPPlusSoftware\EPPlus\src\EPPlusTest\Workbooks\Template.xltx
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
  * See the GNU Lesser General Public License for more details.
  *
