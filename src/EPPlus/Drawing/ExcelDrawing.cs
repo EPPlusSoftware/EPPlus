@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing
         public const int EMU_PER_US_INCH = 914400;
 
         internal int _width = int.MinValue, _height = int.MinValue, _top=int.MinValue, _left=int.MinValue;
-        internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill","grpFill","ln","effectLst","effectDag","scene3d","sp3d" };
+        internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill","grpFill","blipFill","ln","effectLst","effectDag","scene3d","sp3d" };
 
         internal protected bool _doNotAdjust = false;
         internal ExcelDrawing(ExcelDrawings drawings, XmlNode node,string topPath, string nvPrPath, ExcelGroupShape parent=null) :
