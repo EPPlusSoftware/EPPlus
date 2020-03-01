@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/6jdk5tjxxvx99d5i?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus)
 
 
-# EPPlus 5 beta
+# EPPlus 5 rc
 [![Build status](https://ci.appveyor.com/api/projects/status/wobbmnlbukxejjgb?svg=true&passingText=develop%20-%20OK)](https://ci.appveyor.com/project/EPPlusSoftware/EPPlus/branch/develop/artifacts)
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
@@ -60,7 +60,7 @@ This might be the easiest way of configuring this. Just as above, set the variab
 EPPlus 5 comes with a set of new features, see https://www.epplussoftware.com/Developers/Features
 
 ## Beta version
-Note that this is a beta of a new major version, with many new features and a rewritten/refactored codebase. Please report issues and feedback in our new [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues)
+Note that this is a release candidate of a new major version, with many new features and a rewritten/refactored codebase. Please report issues and feedback in our new [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues)
 
 ## Improved documentation
 EPPlus 5 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.
