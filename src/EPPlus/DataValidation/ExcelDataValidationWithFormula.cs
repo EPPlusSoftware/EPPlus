@@ -47,6 +47,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="itemElementNode">Xml top node (dataValidations)</param>
         /// <param name="validationType">Data validation type</param>
         /// <param name="address">address for data validation</param>
+        /// <param name="internalValidationType">If the datavalidation is internal or in the extLst element</param>
         internal ExcelDataValidationWithFormula(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
             : base(worksheet, uid, address, validationType, itemElementNode, internalValidationType)
         {

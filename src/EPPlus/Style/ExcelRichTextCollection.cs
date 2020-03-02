@@ -72,6 +72,7 @@ namespace OfficeOpenXml.Style
         /// Add a rich text string
         /// </summary>
         /// <param name="Text">The text to add</param>
+        /// <param name="NewParagraph">Adds a new paragraph before text. This will add a new line break.</param>
         /// <returns></returns>
         public ExcelRichText Add(string Text, bool NewParagraph = false)
         {

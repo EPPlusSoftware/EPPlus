@@ -32,6 +32,8 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="worksheet"></param>
         /// <param name="address"></param>
         /// <param name="itemElementNode"></param>
+        /// <param name="internalType"></param>
+        /// <param name="uid"></param>
         /// <returns></returns>
         internal static ExcelDataValidation Create(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
         {

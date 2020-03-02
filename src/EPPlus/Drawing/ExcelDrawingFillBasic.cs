@@ -89,7 +89,6 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Loads the fill from xml
         /// </summary>
-        /// <param name="nameSpaceManager">The xml namespace manager</param>
         internal protected virtual void LoadFill()
         {
             if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:solidFill", NameSpaceManager);

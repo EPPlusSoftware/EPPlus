@@ -41,24 +41,7 @@ namespace EPPlusTest
     [TestClass]
     public class ConditionalFormatting : TestBase
     {
-        private TestContext testContextInstance;
         private static ExcelPackage _pck;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
         [ClassInitialize()]
         public static void Init(TestContext testContext)
         {

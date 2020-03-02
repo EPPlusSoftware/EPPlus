@@ -41,7 +41,6 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Load the fill from the xml
         /// </summary>
-        /// <param name="nameSpaceManager">The xml namespace manager</param>
         internal protected override void LoadFill()
         {
             if (_fillTypeNode == null) _fillTypeNode = _fillNode.SelectSingleNode("a:pattFill", NameSpaceManager);

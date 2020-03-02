@@ -219,7 +219,7 @@ namespace EPPlusTest
         }
         protected static void SetDateValues(ExcelWorksheet _ws, int noItems=100)
         {
-            /** Set dates in numeric column **/
+            /* Set dates in numeric column */
             _ws.SetValue(50, 2, new DateTime(2018, 12, 15));
             _ws.SetValue(51, 2, new DateTime(2018, 12, 16));
             _ws.SetValue(52, 2, new DateTime(2018, 12, 17));
