@@ -293,11 +293,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Column 3d Chart Style 2
         /// </summary>
-        Column3dChartStyle2 = 299,
+        Column3dChartStyle2 = 287,
         /// <summary>
         /// Column 3d Chart Style 3
         /// </summary>
-        Column3dChartStyle3 = 310,
+        Column3dChartStyle3 = 288,
         /// <summary>
         /// Column 3d Chart Style 4
         /// </summary>
@@ -309,15 +309,31 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Column 3d Chart Style 6
         /// </summary>
-        Column3dChartStyle6 = 294,
+        Column3dChartStyle6 = 291,
         /// <summary>
         /// Column 3d Chart Style 7
         /// </summary>
-        Column3dChartStyle7 = 296,
+        Column3dChartStyle7 = 292,
         /// <summary>
         /// Column 3d Chart Style 8
         /// </summary>
-        Column3dChartStyle8 = 347,
+        Column3dChartStyle8 = 293,
+        /// <summary>
+        /// Column 3d Chart Style 9
+        /// </summary>
+        Column3dChartStyle9 = 294,
+        /// <summary>
+        /// Column 3d Chart Style 10
+        /// </summary>
+        Column3dChartStyle10 = 295,
+        /// <summary>
+        /// Column 3d Chart Style 11
+        /// </summary>
+        Column3dChartStyle11 = 296,
+        /// <summary>
+        /// Column 3d Chart Style 12
+        /// </summary>
+        Column3dChartStyle12 = 347,
         /// <summary>
         /// Column Chart style 1
         /// </summary>

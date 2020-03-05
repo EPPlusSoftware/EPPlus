@@ -66,7 +66,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("ColumnClustered3D_MultiSeries");
             LoadTestdata(ws);
 
-            StyleColumn3DChart(ws, eBarChartType.ColumnClustered3D);
+            StyleColumn3DChart_MultiSeries(ws, eBarChartType.ColumnClustered3D);
         }
         [TestMethod]
         public void ColumnStackedChart3D_Styles()
@@ -255,6 +255,35 @@ namespace EPPlusTest.Drawing.Chart
                 {
                     c.Legend.Position = eLegendPosition.Top;
                 });
+
+            
+            //Style 9
+            AddColumn(ws, chartType, "Column3DChartStyle9", 44, 31, ePresetChartStyle.Column3dChartStyle9,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
+            
+            //Style 10
+            AddColumn(ws, chartType, "Column3DChartStyle10", 66, 5, ePresetChartStyle.Column3dChartStyle10,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
+            
+            //Style 11
+            AddColumn(ws, chartType, "Column3DChartStyle11", 66, 18, ePresetChartStyle.Column3dChartStyle11,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
+            
+            //Style 12
+            AddColumn(ws, chartType, "Column3DChartStyle12", 66, 31, ePresetChartStyle.Column3dChartStyle12,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
         }
         private static void StyleColumnStacked3DChart(ExcelWorksheet ws, eBarChartType chartType)
         {
@@ -326,7 +355,6 @@ namespace EPPlusTest.Drawing.Chart
             chart.To.Row = row + 18;
             chart.To.RowOff = 0;
             var serie = chart.Series.Add("D2:D8", "A2:A8");
-            var serie2 = chart.Series.Add("B2:B8", "A2:A8");
             SetProperties(chart);
 
             chart.StyleManager.SetChartStyle(style);

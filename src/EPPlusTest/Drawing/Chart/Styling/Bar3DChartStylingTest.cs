@@ -239,6 +239,7 @@ namespace EPPlusTest.Drawing.Chart
                 {
                     c.Legend.Position = eLegendPosition.Top;
                 });
+
         }
         private static void StyleBar3DChart(ExcelWorksheet ws, eBarChartType chartType)
         {
@@ -315,6 +316,13 @@ namespace EPPlusTest.Drawing.Chart
 
             //Style 11
             AddBar(ws, chartType, "Column3DChartStyle11", 66, 18, ePresetChartStyle.Bar3dChartStyle11,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
+
+            //Style 11
+            AddBar(ws, chartType, "Column3DChartStyle12", 66, 31, ePresetChartStyle.Bar3dChartStyle12,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Top;

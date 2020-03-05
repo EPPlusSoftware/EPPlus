@@ -46,7 +46,7 @@ namespace EPPlusTest.Drawing.Chart
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("ChartTempate.xlsx", true);
+            _pck = OpenPackage("ChartTemplate.xlsx", true);
         }
         [ClassCleanup]
         public static void Cleanup()
