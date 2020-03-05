@@ -253,7 +253,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     xml += string.Format("<cacheField name=\"{0}\" numFmtId=\"0\">", SecurityElement.Escape(name.ToString()));
                 }
-                xml += "<sharedItems containsBlank=\"1\" count=\"1\"><s v=\"\"/></sharedItems> ";
+                xml += "<sharedItems containsBlank=\"1\" /> ";
                 xml += "</cacheField>";
             }
             xml += "</cacheFields>";

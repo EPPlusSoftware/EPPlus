@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             for(int i= 0;i < Source.Columns;i++)
             {
-                if(Source.Offset(0,i)==null)
+                if(Source.Offset(0,i,1,1).Value==null)
                 {
                     throw (new ArgumentException("First row of source range should contain the field headers and can't have blank cells.", "Source"));
                 }

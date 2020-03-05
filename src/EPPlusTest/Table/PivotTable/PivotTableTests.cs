@@ -132,6 +132,10 @@ namespace EPPlusTest.Table.PivotTable
                 var tblName = "Table1";
                 var tblAddress = "A1:D4";
                 var wsData = p1.Workbook.Worksheets.Add("TableData");
+                wsData.Cells["A1"].Value = "Column1";
+                wsData.Cells["B1"].Value = "Column2";
+                wsData.Cells["C1"].Value = "Column3";
+                wsData.Cells["D1"].Value = "Column4";
                 var wsPivot = p1.Workbook.Worksheets.Add("PivotSimple");
                 var Table1 = wsData.Tables.Add(wsData.Cells[tblAddress], tblName);
                 var pivotTable1 = wsPivot.PivotTables.Add(wsPivot.Cells["A1"], wsData.Cells[Table1.Address.Address], "PivotTable1");
@@ -169,9 +173,12 @@ namespace EPPlusTest.Table.PivotTable
             {
                 var address = "A1:D4";
                 var wsData = p1.Workbook.Worksheets.Add("TableData");
+                wsData.Cells["A1"].Value = "Column1";
+                wsData.Cells["B1"].Value = "Column2";
+                wsData.Cells["C1"].Value = "Column3";
+                wsData.Cells["D1"].Value = "Column4";
                 var wsPivot = p1.Workbook.Worksheets.Add("PivotSimple");
                 var pivotTable1 = wsPivot.PivotTables.Add(wsPivot.Cells["A1"], wsData.Cells[address], "PivotTable1");
-
                 pivotTable1.RowFields.Add(pivotTable1.Fields[0]);
                 pivotTable1.DataFields.Add(pivotTable1.Fields[1]);
                 pivotTable1.ColumnFields.Add(pivotTable1.Fields[2]);
@@ -403,6 +410,7 @@ namespace EPPlusTest.Table.PivotTable
             var ws = _pck.Workbook.Worksheets.Add("Pivot-Blank");
 
             wsData.Cells["A1"].Value = "Column1";
+            wsData.Cells["B1"].Value = "Column2";
             var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["A1:B2"], "Pivottable11");
             pt.ColumnFields.Add(pt.Fields[1]);
             var rf=pt.RowFields.Add(pt.Fields[0]);
