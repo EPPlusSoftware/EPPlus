@@ -159,22 +159,82 @@ namespace EPPlusTest.Drawing.Chart
                 {
                     c.Legend.Position = eLegendPosition.Top;
                 });
+        }
+        private static void StyleColumn3DChart_MultiSeries(ExcelWorksheet ws, eBarChartType chartType)
+        {
+            //Style 1
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle1", 0, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle1,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Bottom;
+                    c.Axis[0].MajorTickMark = eAxisTickMark.None;
+                    c.Axis[0].MinorTickMark = eAxisTickMark.None;
+                    c.Axis[1].MajorTickMark = eAxisTickMark.None;
+                    c.Axis[1].MinorTickMark = eAxisTickMark.None;
+                });
+
+            //Style 2
+            var chart2 = AddBarMultiSeries(ws, chartType, "Column3DChartStyle2", 0, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle2,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
+
+            //Style 3
+            var chart3 = AddBarMultiSeries(ws, chartType, "Column3DChartStyle3", 0, 31, ePresetMultiSeriesChartStyle.Column3dChartStyle3,
+            c =>
+            {
+                c.DataLabel.ShowPercent = true;
+            });
+
+            //Style 4
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle4", 22, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle4,
+                c =>
+                {
+                });
+
+            //Style 5
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle5", 22, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle5,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
+
+            //Style 6
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle6", 22, 31, ePresetMultiSeriesChartStyle.Column3dChartStyle6,
+            c =>
+            {
+                c.DataLabel.ShowPercent = true;
+            });
+
+            //Style 7
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle7", 44, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle7,
+                c =>
+                {
+                });
+
+            //Style 8
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle8", 44, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle8,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Top;
+                });
 
             //Style 9
-            AddBar(ws, chartType, "Column3DChartStyle9", 44, 31, ePresetChartStyle.Column3dChartStyle9,
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle9", 44, 31, ePresetMultiSeriesChartStyle.Column3dChartStyle9,
             c =>
             {
                 c.DataLabel.ShowPercent = true;
             });
 
             //Style 10
-            AddBar(ws, chartType, "Column3DChartStyle10", 66, 5, ePresetChartStyle.Column3dChartStyle10,
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle10", 66, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle10,
                 c =>
                 {
                 });
 
             //Style 11
-            AddBar(ws, chartType, "Column3DChartStyle11", 66, 18, ePresetChartStyle.Column3dChartStyle11,
+            AddBarMultiSeries(ws, chartType, "Column3DChartStyle11", 66, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle11,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Top;
@@ -320,11 +380,25 @@ namespace EPPlusTest.Drawing.Chart
                     c.Legend.Position = eLegendPosition.Top;
                 });
         }
-        private static ExcelBarChart AddBar(ExcelWorksheet ws, eBarChartType type, string name, int row, int col, ePresetChartStyle style, Action<ExcelBarChart> SetProperties)    
+        private static ExcelBarChart AddBar(ExcelWorksheet ws, eBarChartType type, string name, int row, int col, ePresetChartStyle style, Action<ExcelBarChart> SetProperties)
         {
             var chart = ws.Drawings.AddBarChart(name, type);
             chart.SetPosition(row, 0, col, 0);
             chart.To.Column = col+12;
+            chart.To.ColumnOff = 0;
+            chart.To.Row = row + 18;
+            chart.To.RowOff = 0;
+            var serie = chart.Series.Add("D2:D8", "A2:A8");
+            SetProperties(chart);
+
+            chart.StyleManager.SetChartStyle(style);
+            return chart;
+        }
+        private static ExcelBarChart AddBarMultiSeries(ExcelWorksheet ws, eBarChartType type, string name, int row, int col, ePresetMultiSeriesChartStyle style, Action<ExcelBarChart> SetProperties)
+        {
+            var chart = ws.Drawings.AddBarChart(name, type);
+            chart.SetPosition(row, 0, col, 0);
+            chart.To.Column = col + 12;
             chart.To.ColumnOff = 0;
             chart.To.Row = row + 18;
             chart.To.RowOff = 0;

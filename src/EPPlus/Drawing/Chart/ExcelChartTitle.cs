@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        private string GetInitXml()
+        internal static string GetInitXml()
         {
             return $"<c:tx><c:rich><a:bodyPr rot=\"0\" spcFirstLastPara=\"1\" vertOverflow=\"ellipsis\" vert=\"horz\" wrap=\"square\" anchor=\"ctr\" anchorCtr=\"1\" />" +
                     $"<a:lstStyle />" +

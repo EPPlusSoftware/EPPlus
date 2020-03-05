@@ -293,5 +293,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _label;
             }
         }
+
+        public bool HasLbl
+        {
+            get
+            {
+                return ExistNode("c:trendlineLbl") ||
+                       (Type != eTrendLine.MovingAvgerage && (DisplayRSquaredValue == true || DisplayEquation == true));
+            }
+        }
     }
 }

@@ -23,10 +23,11 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTrendlineLabel : XmlHelper, IDrawingStyle
     {
-        ExcelChartSerie _serie;
+        ExcelChartSerie _serie;        
         internal ExcelChartTrendlineLabel(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelChartSerie serie) : base(namespaceManager, topNode)
         {
             _serie = serie;
+
             AddSchemaNodeOrder(new string[] { "layout", "tx", "numFmt", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
         }
 
@@ -40,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_fill == null)
                 {
-                    _fill = new ExcelDrawingFill(_serie._chart, NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
@@ -55,7 +56,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_serie._chart, NameSpaceManager, TopNode, "c:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:spPr/a:ln", SchemaNodeOrder);
                 }
                 return _border;
             }
@@ -70,7 +71,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-                    _font = new ExcelTextFont(_serie._chart, NameSpaceManager, TopNode, "c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFont(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }
@@ -85,7 +86,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, "c:txPr/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, "c:trendlineLbl/c:txPr/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }
@@ -100,7 +101,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_serie._chart, NameSpaceManager, TopNode, "c:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -115,14 +116,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:trendlineLbl/c:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }
         }
         void IDrawingStyleBase.CreatespPr()
         {
-            CreatespPrNode();
+            CreatespPrNode("c:trendlineLbl/c:spPr");
         }
 
         ExcelParagraphCollection _richText = null;
@@ -135,7 +136,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_richText == null)
                 {
-                    _richText = new ExcelParagraphCollection(_serie._chart, NameSpaceManager, TopNode, "c:tx/c:rich/a:p", SchemaNodeOrder);
+                    _richText = new ExcelParagraphCollection(_serie._chart, NameSpaceManager, TopNode, "c:trendlineLbl/c:tx/c:rich/a:p", SchemaNodeOrder);
                 }
                 return _richText;
             }
@@ -147,11 +148,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeString("c:numFmt/@formatCode");
+                return GetXmlNodeString("c:trendlineLbl/c:numFmt/@formatCode");
             }
             set
             {
-                SetXmlNodeString("c:numFmt/@formatCode", value);
+                SetXmlNodeString("c:trendlineLbl/c:numFmt/@formatCode", value);
             }
         }
         /// <summary>
@@ -161,11 +162,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool("c:numFmt/@sourceLinked");
+                return GetXmlNodeBool("c:trendlineLbl/c:numFmt/@sourceLinked");
             }
             set
             {
-                SetXmlNodeBool("c:numFmt/@sourceLinked", value, true);
+                SetXmlNodeBool("c:trendlineLbl/c:numFmt/@sourceLinked", value, true);
             }
         }        
     }

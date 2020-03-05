@@ -68,6 +68,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
             tl = new ExcelChartTrendline(_serie.NameSpaceManager, node, _serie);
             tl.Type = Type;
+            _list.Add(tl);
             return tl;
         }
         IEnumerator<ExcelChartTrendline> IEnumerable<ExcelChartTrendline>.GetEnumerator()

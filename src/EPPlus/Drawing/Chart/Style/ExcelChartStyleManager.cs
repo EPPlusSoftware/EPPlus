@@ -355,7 +355,6 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             var rel = CreateThemeOverridePart(_chart.WorkSheet.Workbook._package.Package, themePart);
             ThemeOverride = new ExcelThemeOverride(_chart, rel);
         }
-
         /// <summary>
         /// Applies a preset chart style loaded into the StyleLibrary to the chart.
         /// </summary>
@@ -363,7 +362,16 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <seealso cref="SetChartStyle(int, int?)"/>
         public void SetChartStyle(ePresetChartStyle style)
         {
-            SetChartStyle((int)style);
+            SetChartStyle(style, ePresetChartColors.ColorfulPalette1);
+        }
+        /// <summary>
+        /// Applies a preset chart style loaded into the StyleLibrary to the chart.
+        /// </summary>
+        /// <param name="style">The style to use</param>
+        /// <seealso cref="SetChartStyle(int, int?)"/>
+        public void SetChartStyle(ePresetMultiSeriesChartStyle style)
+        {
+            SetChartStyle(style, ePresetChartColors.ColorfulPalette1);
         }
         /// <summary>
         /// Applies a preset chart style loaded into the StyleLibrary to the chart.
@@ -372,6 +380,17 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <param name="colors">The preset color scheme to use</param>
         /// <seealso cref="SetChartStyle(int, int?)"/>
         public void SetChartStyle(ePresetChartStyle style, ePresetChartColors colors)
+        {
+            SetChartStyle((int)style, (int)colors);
+        }
+        /// <summary>
+        /// Applies a preset chart style loaded into the StyleLibrary to the chart.
+        /// The style is matching Excel's style for charts with multiple series.
+        /// </summary>
+        /// <param name="style">The preset style to use</param>
+        /// <param name="colors">The preset color scheme to use</param>
+        /// <seealso cref="SetChartStyle(int, int?)"/>
+        public void SetChartStyle(ePresetMultiSeriesChartStyle style, ePresetChartColors colors)
         {
             SetChartStyle((int)style, (int)colors);
         }
@@ -604,11 +623,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
 
         internal void ApplySeries()
         {   
-            var dataPoint = GetDataPointStyle();
-            var applyFill = (!_chart.IsTypeLine() || _chart.ChartType==eChartType.Line3D);   //Lines have no fill, except Line3D
-            int serieNo=0;
             foreach (var chart in _chart.PlotArea.ChartTypes)
             {
+                var dataPoint = GetDataPointStyle(chart);
+                var applyFill = (!chart.IsTypeLine() || chart.ChartType == eChartType.Line3D || chart.ChartType == eChartType.XYScatter);   //Lines have no fill, except Line3D
+                int serieNo = 0;
                 foreach (ExcelChartSerie serie in chart.Series)
                 {
                     //Note: Datalabels are applied in the ApplyDataLabels method
@@ -630,7 +649,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                     foreach (var tl in serie.TrendLines)
                     {
                         ApplyStyle(tl, Style.Trendline);
-                        ApplyStyle(tl.Label, Style.TrendlineLabel);
+                        if(tl.HasLbl) ApplyStyle(tl.Label, Style.TrendlineLabel);
                     }
 
                     //Datapoints
@@ -661,26 +680,22 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
         }
 
-        internal ExcelChartStyleEntry GetDataPointStyle()
+        internal ExcelChartStyleEntry GetDataPointStyle(ExcelChart chart)
         {
             ExcelChartStyleEntry dataPoint;
-            if (_chart.IsType3D())
+            if (chart.IsType3D())
             {
                 dataPoint = Style.DataPoint3D;
             }
-            else if (_chart.IsTypeLine() ||
-                   (_chart.IsTypeScatter() && _chart.ChartType != eChartType.XYScatter) ||
-                   (_chart.IsTypeRadar() && _chart.ChartType != eChartType.RadarFilled))
+            else if (chart.IsTypeLine() ||
+                   (chart.IsTypeScatter() && chart.ChartType != eChartType.XYScatter) ||
+                   (chart.IsTypeRadar() && chart.ChartType != eChartType.RadarFilled))
             {
                 dataPoint = Style.DataPointLine;
             }
             else
             {
                 dataPoint = Style.DataPoint;
-                if (_chart.ChartType == eChartType.XYScatter)
-                {
-                    dataPoint.Border.Fill.Style = eFillStyle.NoFill;
-                }
             }
 
             return dataPoint;
