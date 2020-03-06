@@ -33,7 +33,11 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                topNode = node.OwnerDocument.CreateElement("c", "dTable", ExcelPackage.schemaChart);
                InserAfter(node, "c:valAx,c:catAx", topNode);
-               topNode.InnerXml = "<c:showHorzBorder val=\"1\"/><c:showVertBorder val=\"1\"/><c:showOutline val=\"1\"/><c:showKeys val=\"1\"/>";
+                topNode.InnerXml = "<c:showHorzBorder val=\"1\"/><c:showVertBorder val=\"1\"/><c:showOutline val=\"1\"/><c:showKeys val=\"1\"/>" +
+                    "<c:txPr><a:bodyPr rot=\"0\" spcFirstLastPara=\"1\" vertOverflow=\"ellipsis\" vert=\"horz\" wrap=\"square\" anchor=\"ctr\" anchorCtr=\"1\"/>" +
+                    "<a:lstStyle/><a:p><a:pPr rtl=\"0\"><a:defRPr sz=\"900\" b=\"0\" i=\"0\" u=\"none\" strike=\"noStrike\" kern=\"1200\" baseline=\"0\"><a:solidFill><a:schemeClr val=\"dk1\"></a:schemeClr></a:solidFill>" +
+                    "<a:latin typeface=\" + mn - lt\"/><a:ea typeface=\" + mn - ea\"/><a:cs typeface=\" + mn - cs\"/></a:defRPr></a:pPr><a:endParaRPr lang=\"en - US\"/></a:p></c:txPr>";
+
            }
            TopNode = topNode;
             _chart = chart;
