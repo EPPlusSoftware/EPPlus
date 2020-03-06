@@ -906,6 +906,7 @@ namespace OfficeOpenXml.Drawing
         public void AdjustPositionAndSize()
         {
             if (_drawings.Worksheet.Workbook._package.DoAdjustDrawings == false) return;
+            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
             if (EditAs==eEditAs.Absolute)
             {
                 SetPixelLeft(_left);
@@ -916,6 +917,7 @@ namespace OfficeOpenXml.Drawing
                 SetPixelHeight(_height);
                 SetPixelWidth(_width);
             }
+            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = false;
         }
         string IPictureContainer.ImageHash { get; set; }
         Uri IPictureContainer.UriPic { get; set; }
