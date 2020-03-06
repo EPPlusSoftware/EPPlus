@@ -369,7 +369,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// </summary>
         /// <param name="style">The style to use</param>
         /// <seealso cref="SetChartStyle(int, int?)"/>
-        public void SetChartStyle(ePresetMultiSeriesChartStyle style)
+        public void SetChartStyle(ePresetChartStyleMultiSeries style)
         {
             SetChartStyle(style, ePresetChartColors.ColorfulPalette1);
         }
@@ -390,7 +390,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <param name="style">The preset style to use</param>
         /// <param name="colors">The preset color scheme to use</param>
         /// <seealso cref="SetChartStyle(int, int?)"/>
-        public void SetChartStyle(ePresetMultiSeriesChartStyle style, ePresetChartColors colors)
+        public void SetChartStyle(ePresetChartStyleMultiSeries style, ePresetChartColors colors)
         {
             SetChartStyle((int)style, (int)colors);
         }

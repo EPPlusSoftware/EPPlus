@@ -119,7 +119,7 @@ namespace EPPlusTest.Drawing.Chart
         private static void StyleColumn3DChart_MultiSeries(ExcelWorksheet ws, eBarChartType chartType)
         {
             //Style 1
-            AddColumnMulti(ws, chartType, "Column3DChartStyle1", 0, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle1,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle1", 0, 5, ePresetChartStyleMultiSeries.Column3dChartStyle1,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
@@ -130,67 +130,67 @@ namespace EPPlusTest.Drawing.Chart
                 }); ;
 
             //Style 2
-            var chart2 = AddColumnMulti(ws, chartType, "Column3DChartStyle2", 0, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle2,
+            var chart2 = AddColumnMulti(ws, chartType, "Column3DChartStyle2", 0, 18, ePresetChartStyleMultiSeries.Column3dChartStyle2,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Top;
                 });
 
             //Style 3
-            var chart3 = AddColumnMulti(ws, chartType, "Column3DChartStyle3", 0, 31, ePresetMultiSeriesChartStyle.Column3dChartStyle3,
+            var chart3 = AddColumnMulti(ws, chartType, "Column3DChartStyle3", 0, 31, ePresetChartStyleMultiSeries.Column3dChartStyle3,
             c =>
             {
                 c.DataLabel.ShowPercent = true;
             });
 
             //Style 4
-            AddColumnMulti(ws, chartType, "Column3DChartStyle4", 22, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle4,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle4", 22, 5, ePresetChartStyleMultiSeries.Column3dChartStyle4,
                 c =>
                 {
                 });
 
             //Style 5
-            AddColumnMulti(ws, chartType, "Column3DChartStyle5", 22, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle5,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle5", 22, 18, ePresetChartStyleMultiSeries.Column3dChartStyle5,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Top;
                 });
 
             //Style 6
-            AddColumnMulti(ws, chartType, "Column3DChartStyle6", 22, 31, ePresetMultiSeriesChartStyle.Column3dChartStyle6,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle6", 22, 31, ePresetChartStyleMultiSeries.Column3dChartStyle6,
             c =>
             {
                 c.DataLabel.ShowPercent = true;
             });
 
             //Style 7
-            AddColumnMulti(ws, chartType, "Column3DChartStyle7", 44, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle7,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle7", 44, 5, ePresetChartStyleMultiSeries.Column3dChartStyle7,
                 c =>
                 {
                 });
 
             //Style 8
-            AddColumnMulti(ws, chartType, "Column3DChartStyle8", 44, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle8,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle8", 44, 18, ePresetChartStyleMultiSeries.Column3dChartStyle8,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Top;
                 });
 
             //Style 9
-            AddColumnMulti(ws, chartType, "Column3DChartStyle9", 44, 31, ePresetMultiSeriesChartStyle.Column3dChartStyle9,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle9", 44, 31, ePresetChartStyleMultiSeries.Column3dChartStyle9,
             c =>
             {
                 c.DataLabel.ShowPercent = true;
             });
 
             //Style 10
-            AddColumnMulti(ws, chartType, "Column3DChartStyle10", 66, 5, ePresetMultiSeriesChartStyle.Column3dChartStyle10,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle10", 66, 5, ePresetChartStyleMultiSeries.Column3dChartStyle10,
                 c =>
                 {
                 });
 
             //Style 11
-            AddColumnMulti(ws, chartType, "Column3DChartStyle11", 66, 18, ePresetMultiSeriesChartStyle.Column3dChartStyle11,
+            AddColumnMulti(ws, chartType, "Column3DChartStyle11", 66, 18, ePresetChartStyleMultiSeries.Column3dChartStyle11,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Top;
@@ -360,7 +360,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.StyleManager.SetChartStyle(style);
             return chart;
         }
-        private static ExcelBarChart AddColumnMulti(ExcelWorksheet ws, eBarChartType type, string name, int row, int col, ePresetMultiSeriesChartStyle style, Action<ExcelBarChart> SetProperties)
+        private static ExcelBarChart AddColumnMulti(ExcelWorksheet ws, eBarChartType type, string name, int row, int col, ePresetChartStyleMultiSeries style, Action<ExcelBarChart> SetProperties)
         {
             var chart = ws.Drawings.AddBarChart(name, type);
             chart.SetPosition(row, 0, col, 0);

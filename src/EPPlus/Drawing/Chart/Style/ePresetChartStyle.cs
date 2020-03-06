@@ -13,11 +13,11 @@
 namespace OfficeOpenXml.Drawing.Chart.Style
 {
     /// <summary>
-    /// Maps to Excel's built-in chart styles, primary for single data series charts. 
-    /// Note that these styles differs for chart with one serie and charts with more than one serie. 
-    /// Charts with more than one series
-    /// By default the styles are loaded into the StyleLibrary. You can also load your own with your own id's.
-    /// <seealso cref="ePresetMultiSeriesChartStyle" />
+    /// Maps to Excel's built-in chart styles, primary for charts with one data serie. 
+    /// Note that available chart styles differ for charts with one serie and charts with more than one serie. 
+    /// For charts with more than one series use <see cref="ePresetChartStyleMultiSeries"/>
+    /// By default the styles are loaded into the StyleLibrary.You can also load your own with your own id's.
+    /// Styles are fetched from the StyleLibrary by the id provided in this enum. 
     /// <seealso cref="ExcelChartStyleManager.StyleLibrary" />
     /// </summary>
     public enum ePresetChartStyle
@@ -1001,13 +1001,12 @@ namespace OfficeOpenXml.Drawing.Chart.Style
     }
     /// <summary>
     /// Maps to Excel's built-in chart styles, for charts with more that one data serie. 
-    /// Note that these styles differs for chart with one serie and charts with more than one serie. 
-    /// Charts with more than one series
-    /// By default the styles are loaded into the StyleLibrary. You can also load your own with your own id's.
-    /// <seealso cref="ePresetChartStyle" />
+    /// Note that available chart styles differ for charts with one serie and charts with more than one serie. 
+    /// For charts with only one data serie use <see cref="ePresetChartStyle"/>
+    /// Styles are fetched from the StyleLibrary by the id provided in this enum. 
     /// <seealso cref="ExcelChartStyleManager.StyleLibrary" />
     /// </summary>
-    public enum ePresetMultiSeriesChartStyle
+    public enum ePresetChartStyleMultiSeries
     {
         /// <summary>
         /// 3D Area Chart style 1
