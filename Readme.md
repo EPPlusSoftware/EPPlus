@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/6jdk5tjxxvx99d5i?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus)
 
 
-# EPPlus 5 rc
+# EPPlus 5
 [![Build status](https://ci.appveyor.com/api/projects/status/wobbmnlbukxejjgb?svg=true&passingText=develop%20-%20OK)](https://ci.appveyor.com/project/EPPlusSoftware/EPPlus/branch/develop/artifacts)
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
@@ -52,19 +52,21 @@ using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
 </appSettings>
 ```
 ### 4. Set the environment variable 'EPPlusLicenseContext'
-This might be the easiest way of configuring this. Just as above, set the variable to Commerical or NonCommercial depending on your usage.
+This might be the easiest way of configuring this. Just as above, set the variable to Commercial or NonCommercial depending on your usage.
 
 **Important!** The environment variable should be set at the user level.
 
 ## New features in EPPlus 5
 EPPlus 5 comes with a set of new features, see https://www.epplussoftware.com/Developers/Features
 
-## Beta version
-Note that this is a release candidate of a new major version, with many new features and a rewritten/refactored codebase. Please report issues and feedback in our new [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues)
+## Breaking Changes
+* The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
+* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
+* ...and more, see https://epplussoftware.com/docs/5.0/articles/breakingchanges.html
 
 ## Improved documentation
 EPPlus 5 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.
 There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). The work with improving the documentation will continue, feedback is highly appreciated!
 
 ## Nuget feed for latest builds
-During the beta period and moving forward the latest builds from the EPPlus develop branch can be fetched from this [Nuget feed](https://ci.appveyor.com/nuget/epplus)
+The latest builds from the EPPlus develop branch can be fetched from this [Nuget feed](https://ci.appveyor.com/nuget/epplus)

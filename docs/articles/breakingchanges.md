@@ -19,10 +19,6 @@ This property can also be set in the app.config:
 * eEndStyle --> OfficeOpenXml.Drawing
 * eEndSize --> OfficeOpenXml.Drawing
 
-### Head footer properties with lowercase first char (not changed yet)
-differentFirst --> DifferentFirst
-differentOddEven --> DifferentOddEven
-
 ### Package
 Package property of ExcelPackage has been removed.
 

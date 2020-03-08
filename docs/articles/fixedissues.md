@@ -39,6 +39,7 @@
 * If CustomSheetView element contained row/column breaks, the package could not be loaded.
 * Pivot tables crashed if SubTotalFunction were set to eSubTotalFunctions.None and there were no values in the source data.
 * Data validations of type list don't support formula references to other worksheets.
+* Tables don't  load TableStyle property for when a package is opened.
 * _Formula calc_: Does not remove double-negation from formulatokens.
 * _Formula calc_: Value matcher now supports comparisons between DateTime and double. CompileResultFactory includes float type in DataType.Decimal.
 * _Formula calc_: MultipleRangeCriterasFunction.GetMatchIndexes() looped through max number of rows when a range argument was an entire column now stops as Dimension.End.Row. Fixed a bug in CountIfs function which wasn't working properly with multiple criteria's

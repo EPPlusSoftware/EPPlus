@@ -36,6 +36,9 @@
       * Refactored/improved codebase
 
       Breaking Changes
+      * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
+      * Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
+      * ...and more, see https://epplussoftware.com/docs/5.0/articles/breakingchanges.html
 
       Worksheets collection behavior in .NET Framework
       The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
