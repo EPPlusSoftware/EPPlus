@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.VBA
 {
@@ -24,6 +25,7 @@ namespace OfficeOpenXml.VBA
     {
         string _name = "";
         ModuleNameChange _nameChangeCallback = null;
+        private const string _validModulePattern = "^[a-zA-Z][a-zA-Z0-9_ ]*$";
         internal ExcelVBAModule()
         {
             Attributes = new ExcelVbaModuleAttributesCollection();
@@ -48,6 +50,10 @@ namespace OfficeOpenXml.VBA
                 {
                     throw (new InvalidOperationException("Vba module names can't contain unicode characters"));
                 }
+                if(!IsValidModuleName(value))
+                {
+                    throw (new InvalidOperationException("Name contains invalid characters"));
+                }
                 if (value != _name)
                 {
                     _name = value;
@@ -59,6 +65,11 @@ namespace OfficeOpenXml.VBA
                 }
             }
         }
+        internal static bool IsValidModuleName(string name)
+        {
+            return Regex.IsMatch(name, _validModulePattern);
+        }
+
         /// <summary>
         /// A description of the module
         /// </summary>

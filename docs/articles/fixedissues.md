@@ -1,12 +1,21 @@
-## Fixed issues and minor features - EPPlus 5.0.2-rc
-### General fixes
-* Cellstore has been rewritten. This should fix some issues with inserting and deleting rows and columns. Also fixes a sorting issue.
-* Worksheet.Hidden does not always hide the worksheet.
-* Fixed SchemaNodeOrder in many drawing classes. 
-* Handling of circular references has been redesigned.
+﻿#Fixed issues/minor features - EPPlus 5.0
 
-### Fixed Issues
-* Drawings will now move and size when inserting/deleting rows/columns depending on the `ExcelDrawing.EditAs` property.
+## Minor new features
+* Chart series will from version 5 handles both addresses and arrays. Arrays are handled in the StringLiteralsX, NumberLiteralsX and NumberLiteralsY arrays when a series is set to an Array ( for example {1,2,3} ).
+* Add support for BringToFront and SendToBack methods on the Drawings Collection to handle drawing overlap.
+* Add TopLeftCell to ExcelWorksheetView
+* Enabled Style.TextRotation=255 for Vertical Text in cells. Added new method ExcelStyle.SetTextVertical.
+* Add Pivot property to conditional formatting, to indicate a pivot source.
+* RichText on drawings can now handle paragraphs to get line breaks. Add method has new parameter NewParagraph.
+* Table source overload to PivotTable.Add method
+* 13 new functions supported in the Formula calculation engine: IFS, SWITCH, WORKDAY.INTL, TYPE, ODD, EVEN, DAYS, NUMBERVALUE, UNICHAR, UNICODE, CLEAN, TRIM and CONCAT
+## General fixes
+* Cellstore has been rewritten. This should fix some issues with inserting and deleting rows and columns. Also fixes a sorting issue.
+* Fixed SchemaNodeOrder in many drawing classes.
+* Handling of [circular references](https://github.com/EPPlusSoftware/EPPlus/wiki/Circular-references) has been redesigned.
+## Fixed issues
+* Worksheet.Hidden does not always hide the worksheet.
+* Drawings will now move and size when inserting/deleting rows/columns depending on the ExcelDrawing.EditAs property.
 * Adding a Table caused an exception if a chart sheet existed in the workbook.
 * Adding a PivotTable caused an exception if a chart sheet existed in the workbook.
 * Custom document properties are case insensitive.
@@ -22,26 +31,15 @@
 * Setting a cell value to a char datatype will result i "0" when saved
 * Structs in a cell value can result in a null value when converted to string on save
 * Conditional formatting styles crashed when copying a worksheet from another package.
-* EPPlus crashes on load if a workbook or worksheet has more than one defined name with the same name. 
+* EPPlus crashes on load if a workbook or worksheet has more than one defined name with the same name.
 * Row styles were not copied correctly copied when inserting rows
 * Overwriting a shared formulas first cell causes a crash.
 * Workbooks with Empty series for Scatter- and Doughnut- charts crashes on load
 * FileStream for compound documents are not closed.
 * If CustomSheetView element contained row/column breaks, the package could not be loaded.
 * Pivot tables crashed if SubTotalFunction were set to eSubTotalFunctions.None and there were no values in the source data.
-
-### Minor new features
-* Chart series will from version 5 handles both addresses and arrays. Arrays are handled in the StringLiteralsX, NumberLiteralsX and NumberLiteralsY arrays when a series is set to an Array ( for example {1,2,3} ).
-* Add support for BringToFront and SendToBack methods on the Drawings Collection to handle drawing overlap.
-* Add TopLeftCell to ExcelWorksheetView
-* Enabled Style.TextRotation=255 for Vertical Text in cells. Added new method ExcelStyle.SetTextVertical.
-* Add Pivot property to conditional formatting, to indicate a pivot source.
-* RichText on drawings can now handle paragraphs to get line breaks. Add method has new parameter NewParagraph.
-* Table source overload to PivotTable.Add method
-
-### Formula parsing
-* Does not remove double-negation from formulatokens.
-* Value matcher now supports comparisons between DateTime and double. CompileResultFactory includes float type in DataType.Decimal.
-* MultipleRangeCriterasFunction.GetMatchIndexes() looped through max number of rows when a range argument was an entire column now stops as Dimension.End.Row. Fixed a bug in CountIfs function which wasn't working properly with multiple criteria's
-* Support Instance_num parameter of SUBSTITUTE function.
-* Functions Trim, Clean and Concat.
+* Data validations of type list don't support formula references to other worksheets.
+* _Formula calc_: Does not remove double-negation from formulatokens.
+* _Formula calc_: Value matcher now supports comparisons between DateTime and double. CompileResultFactory includes float type in DataType.Decimal.
+* _Formula calc_: MultipleRangeCriterasFunction.GetMatchIndexes() looped through max number of rows when a range argument was an entire column now stops as Dimension.End.Row. Fixed a bug in CountIfs function which wasn't working properly with multiple criteria's
+* _Formula calc_: Support Instance_num parameter of SUBSTITUTE function.

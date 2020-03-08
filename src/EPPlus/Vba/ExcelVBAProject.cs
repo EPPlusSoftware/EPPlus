@@ -1027,7 +1027,7 @@ namespace OfficeOpenXml.VBA
         {
             var name = sheet.Name;
             name = name.Substring(0, name.Length < 31 ? name.Length : 31);  //Maximum 31 charachters
-            if (this.Modules[name] != null || !Regex.IsMatch(name, "^[a-zA-Z][a-zA-Z0-9_ ]*$")) //Check for valid chars, if not valid, set to sheetX.
+            if (this.Modules[name] != null || !ExcelVBAModule.IsValidModuleName(name)) //Check for valid chars, if not valid, set to sheetX.
             {
                 int i = sheet.PositionId;
                 name = "Sheet" + i.ToString();
@@ -1035,9 +1035,10 @@ namespace OfficeOpenXml.VBA
                 {
                     name = "Sheet" + (++i).ToString();
                 }
-            }            
+            }
             return name;
         }
+
         internal ExcelVbaModuleAttributesCollection GetDocumentAttributes(string name, string clsid)
         {
             var attr = new ExcelVbaModuleAttributesCollection();
