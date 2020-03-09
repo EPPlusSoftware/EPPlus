@@ -1137,12 +1137,5 @@ namespace EPPlusTest
                 SaveWorkbook("Issue39.xlsx", p);
             }
         }
-        private void AddRt(ExcelRange r, string s)
-        {
-            var richText = r.RichText.Add(s);
-            richText.Bold = true;
-            richText.Color = Color.Red;
-            r.RichText.Add(" ");
-        }
     }
 }

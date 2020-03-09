@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {               
-                InsertCellStores(ws, rowFrom, 0, rows, 0);
+                InsertCellStoresShiftDown(ws, rowFrom, 0, rows, 0);
 
                 //Adjust formulas
                 foreach(var wsToUpdate in ws.Workbook.Worksheets)
@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {
-                InsertCellStores(ws, 0, columnFrom, 0, columns);
+                InsertCellStoresShiftDown(ws, 0, columnFrom, 0, columns);
 
                 foreach (var wsToUpdate in ws.Workbook.Worksheets)
                 {
@@ -129,7 +129,17 @@ namespace OfficeOpenXml.Core.Worksheet
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
             }
         }
-
+        internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift)
+        {
+            if(shift==eShiftTypeInsert.Down)
+            {
+                InsertCellStoresShiftDown(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns);
+            }
+            else
+            {
+                InsertCellStoreShiftRight(range._worksheet, range);
+            }
+        }
         private static void CopyStylesFromColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             //Copy style from another column?
@@ -305,7 +315,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-
         private static void ValidateInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             ws.CheckSheetType();
@@ -321,7 +330,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 throw (new ArgumentOutOfRangeException("Can't insert. Columns will be shifted outside the boundries of the worksheet."));
             }
         }
-
+        
         #region private methods
         private static void ValidateInsertRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
@@ -339,7 +348,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 throw (new ArgumentOutOfRangeException("Can't insert. Rows will be shifted outside the boundries of the worksheet."));
             }
         }
-        internal static void InsertCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns)
+        internal static void InsertCellStoresShiftDown(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns)
         {
             ws._values.Insert(rowFrom, columnFrom, rows, columns);
             ws._formulas.Insert(rowFrom, columnFrom, rows, columns);
@@ -351,6 +360,20 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._names.Insert(rowFrom, columnFrom, rows, columns);
             ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
         }
+        internal static void InsertCellStoreShiftRight(ExcelWorksheet ws, ExcelAddressBase fromAddress)
+        {
+            var dest = new ExcelCellAddress(fromAddress._fromRow, fromAddress._toCol + 1);
+            ws._values.MoveRight(fromAddress, dest);
+            ws._formulas.MoveRight(fromAddress, dest);
+            ws._commentsStore.MoveRight(fromAddress, dest);
+            ws._hyperLinks.MoveRight(fromAddress, dest);
+            ws._flags.MoveRight(fromAddress, dest);
+
+            //ws.Comments.MoveRight(fromAddress, dest);
+            //ws._names.MoveRight(fromAddress, dest);
+            //ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
+        }
+
         private static void CopyFromStyleRow(ExcelWorksheet ws, int rowFrom, int rows, int copyStylesFromRow)
         {
             if (copyStylesFromRow >= rowFrom) copyStylesFromRow += rows;

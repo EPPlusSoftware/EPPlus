@@ -444,5 +444,43 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("A2:E102", tbl.Address.Address);
             }
         }
+        [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRange");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+
+            //Act
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.AreEqual("B1", ws.Cells["B2"].Value);
+            Assert.AreEqual("C1", ws.Cells["C1"].Value);
+        }
+        [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftRight()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRange");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+
+            //Act
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.AreEqual("B1", ws.Cells["C1"].Value);
+            Assert.AreEqual("C1", ws.Cells["D1"].Value);
+        }
+
+
     }
 }

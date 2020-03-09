@@ -584,14 +584,19 @@ namespace OfficeOpenXml.Core.CellStore
             ColumnIndex destColIx;
             if (destColPos < 0 && sourceRowIx >= 0 && sourcePage.GetRow(sourceRowIx)<=sourceEndRow)
             {
+                destColPos = ~destColPos;
                 AddColumn(destColPos, destCol);
                 destColIx = _columnIndex[destColPos]; 
             }
-            else
+            else if(destColPos>=0)
             {
                 destColIx = _columnIndex[destColPos];
                 //No rows to move, just clear the destination
                 DeleteColumn(destColIx, destStartRow, rows, false);
+            }
+            else
+            {
+                return;
             }
 
             if (sourceRowIx < 0 || sourcePage.GetRow(sourceRowIx) > sourceEndRow)
@@ -610,7 +615,8 @@ namespace OfficeOpenXml.Core.CellStore
                 if(destPagePos<0)
                 {
                     destPagePos = ~destPagePos;
-                    AddPage(destColIx, destPagePos);
+                    var page = (short)(destRow >> CellStoreSettings._pageBits);
+                    AddPage(destColIx, destPagePos, page);
                 }
                 var destPage = destColIx._pages[destPagePos];
                 if(prevDestPagePos==destPagePos)
@@ -636,6 +642,7 @@ namespace OfficeOpenXml.Core.CellStore
                 if(sourceRowIx==sourcePage.RowCount)
                 {
                     sourcePagePos++;
+                    if (sourcePagePos >= sourceColIx.PageCount) break;
                     sourcePage = sourceColIx._pages[sourcePagePos];
                     sourceRowIx = 0;
                 }

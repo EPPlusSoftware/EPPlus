@@ -39,6 +39,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet;
 
 namespace OfficeOpenXml
 {
@@ -1155,6 +1156,21 @@ namespace OfficeOpenXml
             set
             {
                 _changePropMethod(this, _setIsRichTextDelegate, value);
+            }
+        }
+        public void Insert(eShiftTypeInsert shift)
+        {
+            if(shift==eShiftTypeInsert.EntireColumn)
+            {
+                WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, -1);
+            }
+            else if(shift==eShiftTypeInsert.EntireRow)
+            {
+                WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, -1);
+            }
+            else
+            {
+                WorksheetRangeInsertHelper.Insert(this, shift);
             }
         }
         /// <summary>
