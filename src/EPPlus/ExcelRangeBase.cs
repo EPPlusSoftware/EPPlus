@@ -39,6 +39,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet;
 
 namespace OfficeOpenXml
 {
@@ -193,7 +194,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    DeleteMe(address, false);   //Clear the range before overwriting.
+                    DeleteMe(address, false, false);   //Clear the range before overwriting, but not merged cells.
                     if (value != null)
                     {
                         for (int col = address.Start.Column; col <= address.End.Column; col++)
@@ -1157,6 +1158,13 @@ namespace OfficeOpenXml
                 _changePropMethod(this, _setIsRichTextDelegate, value);
             }
         }
+        public void Insert(eShiftTypeInsert shift)
+        {
+            if(shift==eShiftTypeInsert.EntireColumn)
+            {
+                WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, -1);
+            }
+        }
         /// <summary>
         /// Is the range a part of an Arrayformula
         /// </summary>
@@ -1743,10 +1751,11 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool doClearMergedCells=true)
         {
-            //DeleteCheckMergedCells(Range);
-            _worksheet.MergedCells.Clear(Range);
+            if(doClearMergedCells)
+                _worksheet.MergedCells.Clear(Range);
+
             //First find the start cell
             int fromRow, fromCol;
             var d = Worksheet.Dimension;

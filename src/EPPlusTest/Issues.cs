@@ -1137,12 +1137,19 @@ namespace EPPlusTest
                 SaveWorkbook("Issue39.xlsx", p);
             }
         }
-        private void AddRt(ExcelRange r, string s)
+        [TestMethod]
+        public void Issue54()
         {
-            var richText = r.RichText.Add(s);
-            richText.Bold = true;
-            richText.Color = Color.Red;
-            r.RichText.Add(" ");
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergeBug");
+
+                var r = ws.Cells[1, 1, 1, 5];
+                r.Merge = true;
+                r.Value = "Header";
+                SaveWorkbook("Issue54.xlsx", p);
+            }
         }
+
     }
 }
