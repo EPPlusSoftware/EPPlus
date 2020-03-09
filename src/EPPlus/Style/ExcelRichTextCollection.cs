@@ -76,6 +76,7 @@ namespace OfficeOpenXml.Style
         /// <returns></returns>
         public ExcelRichText Add(string Text, bool NewParagraph = false)
         {
+            if (NewParagraph) Text += "\n";
             return Insert(_list.Count, Text);
         }
 
@@ -87,6 +88,7 @@ namespace OfficeOpenXml.Style
         /// <returns></returns>
         public ExcelRichText Insert(int index, string text)
         {
+            if (string.IsNullOrEmpty(text)) throw new ArgumentException("Text can't be empty","text");
             ConvertRichtext();
             XmlDocument doc;
             if (TopNode is XmlDocument)
@@ -185,8 +187,11 @@ namespace OfficeOpenXml.Style
         {
             _list.Clear();
             TopNode.RemoveAll();
-            UpdateCells();
-            if (_cells != null) _cells.IsRichText = false;
+            if (_cells != null)
+            {
+                _cells.Clear();
+                _cells.IsRichText = false;
+            }
         }
         /// <summary>
         /// Removes an item at the specific index
@@ -229,7 +234,11 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                if (Count == 0)
+                if (string.IsNullOrEmpty(value))
+                {
+                    Clear();
+                }
+                else if (Count == 0)
                 {
                     Add(value);
                 }

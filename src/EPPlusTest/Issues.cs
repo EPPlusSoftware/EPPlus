@@ -718,7 +718,7 @@ namespace EPPlusTest
                 sheet.PrinterSettings.RepeatColumns = new ExcelAddress("$A:$C");
                 sheet.PrinterSettings.RepeatRows = new ExcelAddress("$1:$3");
 
-                SaveWorkbook("print_titles_170-Saved.xlsx",p);
+                SaveWorkbook("print_titles_170-Saved.xlsx", p);
             }
         }
         [TestMethod]
@@ -843,7 +843,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue228()
         {
-            using (var p=OpenTemplatePackage("Font55.xlsx"))
+            using (var p = OpenTemplatePackage("Font55.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["Sheet1"];
                 var d = ws.Drawings.AddShape("Shape1", eShapeStyle.Diamond);
@@ -1025,7 +1025,7 @@ namespace EPPlusTest
                 SaveWorkbook("Submittal.Extract.5.ton_Saved.xlsx", p);
             }
         }
-       [TestMethod]
+        [TestMethod]
         public void Issue558()
         {
             using (var p = OpenTemplatePackage("GoogleSpreadsheet.xlsx"))
@@ -1033,8 +1033,8 @@ namespace EPPlusTest
                 ExcelWorksheet ws = p.Workbook.Worksheets[0];
                 p.Workbook.Worksheets.Copy(ws.Name, "NewName");
                 p.SaveAs(new FileInfo(@"c:\epplusissues\GoogleSpreadsheet-Saved.xlsx"));
-            }           
-        }  
+            }
+        }
         [TestMethod]
         public void Issue520()
         {
@@ -1066,12 +1066,12 @@ namespace EPPlusTest
                 var ws = p1.Workbook.Worksheets[0];
                 using (var p2 = new ExcelPackage())
                 {
-                    var ws2=p2.Workbook.Worksheets.Add("Test", ws);
-                    foreach(var cf in ws2.ConditionalFormatting)
+                    var ws2 = p2.Workbook.Worksheets.Add("Test", ws);
+                    foreach (var cf in ws2.ConditionalFormatting)
                     {
 
                     }
-                    SaveWorkbook("CondCopy.xlsx",p2);
+                    SaveWorkbook("CondCopy.xlsx", p2);
                 }
             }
         }
@@ -1136,6 +1136,13 @@ namespace EPPlusTest
                 workSheet.InsertRow(8, 2, 8);
                 SaveWorkbook("Issue39.xlsx", p);
             }
+        }
+        private void AddRt(ExcelRange r, string s)
+        {
+            var richText = r.RichText.Add(s);
+            richText.Bold = true;
+            richText.Color = Color.Red;
+            r.RichText.Add(" ");
         }
     }
 }
