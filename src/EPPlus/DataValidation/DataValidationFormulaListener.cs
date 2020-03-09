@@ -63,8 +63,15 @@ namespace OfficeOpenXml.DataValidation
 
         private bool RefersToOtherWorksheet(string address)
         {
-            var adr = new ExcelAddress(address);
-            return !string.IsNullOrEmpty(adr.WorkSheet) && adr.WorkSheet != _worksheet.Name;
+            if(ExcelAddressBase.IsValidAddress(address))
+            {
+                var adr = new ExcelAddress(address);
+                return !string.IsNullOrEmpty(adr.WorkSheet) && adr.WorkSheet != _worksheet.Name;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
