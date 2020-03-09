@@ -1158,13 +1158,6 @@ namespace OfficeOpenXml
                 _changePropMethod(this, _setIsRichTextDelegate, value);
             }
         }
-        public void Insert(eShiftTypeInsert shift)
-        {
-            if(shift==eShiftTypeInsert.EntireColumn)
-            {
-                WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, -1);
-            }
-        }
         /// <summary>
         /// Is the range a part of an Arrayformula
         /// </summary>
