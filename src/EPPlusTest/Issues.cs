@@ -1150,6 +1150,21 @@ namespace EPPlusTest
                 SaveWorkbook("Issue54.xlsx", p);
             }
         }
-
+        [TestMethod]
+        public void Issue55()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var worksheet = p.Workbook.Worksheets.Add("DV test");
+                var rangeToSet = ExcelCellBase.GetAddress(1, 3, ExcelPackage.MaxRows, 3);
+                worksheet.Names.Add("ListName", worksheet.Cells["D1:D3"]);
+                worksheet.Cells["D1"].Value = "A";
+                worksheet.Cells["D2"].Value = "B";
+                worksheet.Cells["D3"].Value = "C";
+                var validation = worksheet.DataValidations.AddListValidation(rangeToSet);
+                validation.Formula.ExcelFormula = $"=ListName";
+                SaveWorkbook("dv.xlsx", p);
+            }
+        }
     }
 }
