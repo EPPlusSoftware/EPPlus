@@ -18,7 +18,7 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-      EPPlus 5.0.3
+      EPPlus 5.0.4
       IMPORTAT NOTICE!
       From version 5 EPPlus changes the licence model using a dual license, Polyform Non Commercial / Commercial license.
       EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
@@ -45,6 +45,10 @@
       For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
       For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-5.0
       A list of fixed issues can be found here https://epplussoftware.com/docs/5.0/articles/fixedissues.html
+
+      Version history
+      5.0.3 20200308 Initial release EPPlus 5
+      5.0.4 20200310 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
     </PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
