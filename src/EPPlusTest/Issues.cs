@@ -1137,5 +1137,19 @@ namespace EPPlusTest
                 SaveWorkbook("Issue39.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue54()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergeBug");
+
+                var r = ws.Cells[1, 1, 1, 5];
+                r.Merge = true;
+                r.Value = "Header";
+                SaveWorkbook("Issue54.xlsx", p);
+            }
+        }
+
     }
 }

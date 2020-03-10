@@ -29,6 +29,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -105,6 +106,29 @@ namespace EPPlusTest.Core.Range
                     p2.Save();
                 }
 
+            }
+        }
+        [TestMethod]
+        public void MergeCellsShouldBeSaved()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+
+                var r = ws.Cells[1, 1, 1, 5];
+                r.Merge = true;
+                Assert.AreEqual(1, ws.MergedCells.Count);
+                r.Value = "Header";
+
+                Assert.AreEqual(1, ws.MergedCells.Count);
+                Assert.AreEqual("A1:E1", ws.MergedCells[0]);
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p.Workbook.Worksheets[0];
+                    Assert.AreEqual(1, ws.MergedCells.Count);
+                    Assert.AreEqual("A1:E1", ws.MergedCells[0]);
+                }
             }
         }
     }

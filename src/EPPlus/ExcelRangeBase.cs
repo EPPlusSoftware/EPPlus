@@ -194,7 +194,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    DeleteMe(address, false);   //Clear the range before overwriting.
+                    DeleteMe(address, false, false);   //Clear the range before overwriting, but not merged cells.
                     if (value != null)
                     {
                         for (int col = address.Start.Column; col <= address.End.Column; col++)
@@ -1759,10 +1759,11 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool doClearMergedCells=true)
         {
-            //DeleteCheckMergedCells(Range);
-            _worksheet.MergedCells.Clear(Range);
+            if(doClearMergedCells)
+                _worksheet.MergedCells.Clear(Range);
+
             //First find the start cell
             int fromRow, fromCol;
             var d = Worksheet.Dimension;

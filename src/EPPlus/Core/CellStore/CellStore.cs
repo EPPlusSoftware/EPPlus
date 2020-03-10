@@ -536,20 +536,18 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
-        internal void MoveRight(ExcelAddressBase fromAddress, ExcelCellAddress toAddress)
+        internal void MoveRight(ExcelAddressBase fromAddress)
         {
             if (ColumnCount == 0) return;
-
-            var col = fromAddress._fromCol;
-
             lock (_columnIndex)
             {
                 var maxCol = _columnIndex[ColumnCount - 1].Index;
                 for (int sourceCol = maxCol; sourceCol >= fromAddress._fromCol; sourceCol--)
                 {
-                    var destCol = toAddress.Column + (sourceCol - fromAddress._fromCol);
-                    MoveRangeColumnWise(sourceCol, fromAddress._fromRow, fromAddress._toRow, destCol, toAddress.Row);
+                    var destCol = fromAddress._toCol + 1 + (sourceCol - fromAddress._fromCol);
+                    MoveRangeColumnWise(sourceCol, fromAddress._fromRow, fromAddress._toRow, destCol, fromAddress._fromRow);
                 }
+                Delete(fromAddress._fromRow, fromAddress._fromRow, fromAddress.Rows, fromAddress.Columns, false);
             }
         }
 
@@ -636,7 +634,6 @@ namespace OfficeOpenXml.Core.CellStore
 
                     AddCellPointer(destColIx, ref destPagePos, ref destRowIx, (short)(destRow - destPage.IndexOffset), sourcePage.Rows[sourceRowIx].IndexPointer);
                 }
-
                 sourceRowIx++;
                 destRowIx++;
                 if(sourceRowIx==sourcePage.RowCount)

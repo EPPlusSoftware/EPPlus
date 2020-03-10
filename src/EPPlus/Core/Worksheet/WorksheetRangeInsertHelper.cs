@@ -362,12 +362,11 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void InsertCellStoreShiftRight(ExcelWorksheet ws, ExcelAddressBase fromAddress)
         {
-            var dest = new ExcelCellAddress(fromAddress._fromRow, fromAddress._toCol + 1);
-            ws._values.MoveRight(fromAddress, dest);
-            ws._formulas.MoveRight(fromAddress, dest);
-            ws._commentsStore.MoveRight(fromAddress, dest);
-            ws._hyperLinks.MoveRight(fromAddress, dest);
-            ws._flags.MoveRight(fromAddress, dest);
+            ws._values.MoveRight(fromAddress);
+            ws._formulas.MoveRight(fromAddress);
+            ws._commentsStore.MoveRight(fromAddress);
+            ws._hyperLinks.MoveRight(fromAddress);
+            ws._flags.MoveRight(fromAddress);
 
             //ws.Comments.MoveRight(fromAddress, dest);
             //ws._names.MoveRight(fromAddress, dest);

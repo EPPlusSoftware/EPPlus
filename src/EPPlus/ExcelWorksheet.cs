@@ -1833,18 +1833,6 @@ namespace OfficeOpenXml
         {
             View.TabSelected = true;
         }
-
-        internal void Move(ExcelAddressBase fromAddress, ExcelCellAddress toAddress)
-        {
-            if (fromAddress._fromCol > toAddress.Column)
-            {
-                _values.MoveLeft(fromAddress, toAddress);
-            }
-            else if(fromAddress._fromCol < toAddress.Column)
-            {
-                _values.MoveRight(fromAddress, toAddress);
-            }
-        }
         /// <summary>
         /// Selects a range in the worksheet. The active cell is the topmost cell.
         /// Make the current worksheet active.
