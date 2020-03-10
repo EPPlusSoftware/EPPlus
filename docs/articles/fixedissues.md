@@ -1,6 +1,6 @@
-﻿#Minor features/Fixed issues - EPPlus 5.0
+﻿# Minor features/Fixed issues - EPPlus 5.0
 
-##Version 5.0.3
+## Version 5.0.3
 ### Minor new features
 * Chart series will from version 5 handles both addresses and arrays. Arrays are handled in the StringLiteralsX, NumberLiteralsX and NumberLiteralsY arrays when a series is set to an Array ( for example {1,2,3} ).
 * Add support for BringToFront and SendToBack methods on the Drawings Collection to handle drawing overlap.
@@ -45,7 +45,7 @@
 * _Formula calc_: MultipleRangeCriterasFunction.GetMatchIndexes() looped through max number of rows when a range argument was an entire column now stops as Dimension.End.Row. Fixed a bug in CountIfs function which wasn't working properly with multiple criteria's
 * _Formula calc_: Support Instance_num parameter of SUBSTITUTE function.
 
-##Version 5.0.4
+## Version 5.0.4
 ### Fixed issues
 * Datavalidation on lists failed if the formula was an defined name.
 * Merged cells got cleared if a value was set over multiple cells
