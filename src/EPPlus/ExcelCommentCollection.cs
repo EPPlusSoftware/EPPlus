@@ -263,16 +263,20 @@ namespace OfficeOpenXml
         /// <param name="fromCol">The start column</param>
         /// <param name="rows">The number of rows to insert</param>
         /// <param name="columns">The number of columns to insert</param>
-        public void Insert(int fromRow, int fromCol, int rows, int columns)
+        /// <param name="toRow">If the insert is in a range, this is the end row</param>
+        /// <param name="toCol">If the insert is in a range, this the end column</param>
+        internal void Insert(int fromRow, int fromCol, int rows, int columns, int toRow = ExcelPackage.MaxRows, int toCol=ExcelPackage.MaxColumns)
         {
             foreach (ExcelComment comment in _list)
             {
                 var address = new ExcelAddressBase(comment.Address);
-                if (rows > 0 && address._fromRow >= fromRow)
+                if (rows > 0 && address._fromRow >= fromRow && 
+                    address._fromCol >= fromCol && address._toCol <=toCol)
                 {
                     comment.Reference = comment.Range.AddRow(fromRow, rows).Address;
                 }
-                if(columns>0 && address._fromCol >= fromCol)
+                if(columns>0 && address._fromCol >= fromCol &&
+                    address._fromRow >= fromRow && address._toRow <= toRow)
                 {
                     comment.Reference = comment.Range.AddColumn(fromCol, columns).Address;
                 }

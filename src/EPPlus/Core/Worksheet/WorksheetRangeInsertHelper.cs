@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {               
-                InsertCellStoresShiftDown(ws, rowFrom, 0, rows, 0);
+                InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 //Adjust formulas
                 foreach(var wsToUpdate in ws.Workbook.Worksheets)
@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             lock (ws)
             {
-                InsertCellStoresShiftDown(ws, 0, columnFrom, 0, columns);
+                InsertCellStores(ws, 0, columnFrom, 0, columns);
 
                 foreach (var wsToUpdate in ws.Workbook.Worksheets)
                 {
@@ -133,12 +133,48 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             if(shift==eShiftTypeInsert.Down)
             {
-                InsertCellStoresShiftDown(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns);
+                InsertCellStores(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
             }
             else
             {
                 InsertCellStoreShiftRight(range._worksheet, range);
             }
+            var ws = range.Worksheet;
+            
+            ////Adjust formulas
+            //foreach (var wsToUpdate in range._workbook.Worksheets)
+            //{
+            //    FixFormulasInsertRow(wsToUpdate, range._fromRow, range.Rows, ws.Name);
+            //}
+
+            //WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, false);
+
+            //if (copyStylesFromRow > 0)
+            //{
+            //    CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
+            //}
+            //foreach (var tbl in ws.Tables)
+            //{
+            //    tbl.Address = tbl.Address.AddRow(rowFrom, rows);
+            //}
+            //foreach (var ptbl in ws.PivotTables)
+            //{
+            //    ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
+            //    ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddRow(rowFrom, rows).Address;
+            //}
+
+            ////Update data validation references
+            //foreach (ExcelDataValidation dv in ws.DataValidations)
+            //{
+            //    var addr = dv.Address;
+            //    var newAddr = addr.AddRow(rowFrom, rows).Address;
+            //    if (addr.Address != newAddr)
+            //    {
+            //        dv.SetAddress(newAddr);
+            //    }
+            //}
+
+            //WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
         }
         private static void CopyStylesFromColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
@@ -231,29 +267,32 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, string workSheetName)
+        private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, string workSheetName, int columnFrom=0, int columnTo=ExcelPackage.MaxColumns)
         {
             foreach (var f in ws._sharedFormulas.Values)
             {
                 if (workSheetName == ws.Name)
                 {
-                    if (f.StartRow >= rowFrom) f.StartRow += rows;
-                    var a = new ExcelAddressBase(f.Address);
-                    if (a._fromRow >= rowFrom)
+                    if (f.StartCol >= columnFrom)
                     {
-                        a._fromRow += rows;
-                        a._toRow += rows;
+                        if (f.StartRow >= rowFrom) f.StartRow += rows;
+                        var a = new ExcelAddressBase(f.Address);
+                        if (a._fromRow >= rowFrom)
+                        {
+                            a._fromRow += rows;
+                            a._toRow += rows;
+                        }
+                        else if (a._toRow >= rowFrom)
+                        {
+                            a._toRow += rows;
+                        }
+                        f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, ws.Name, workSheetName);
                     }
-                    else if (a._toRow >= rowFrom)
-                    {
-                        a._toRow += rows;
-                    }
-                    f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, ws.Name, workSheetName);
                 }
                 else if (f.Formula.Contains(workSheetName))
                 {
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, columnFrom, ws.Name, workSheetName);
                 }
             }
 
@@ -348,7 +387,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 throw (new ArgumentOutOfRangeException("Can't insert. Rows will be shifted outside the boundries of the worksheet."));
             }
         }
-        internal static void InsertCellStoresShiftDown(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns)
+        internal static void InsertCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, int columnTo=ExcelPackage.MaxColumns)
         {
             ws._values.Insert(rowFrom, columnFrom, rows, columns);
             ws._formulas.Insert(rowFrom, columnFrom, rows, columns);
@@ -356,9 +395,18 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
             ws._flags.Insert(rowFrom, columnFrom, rows, columns);
 
-            ws.Comments.Insert(rowFrom, columnFrom, rows, columns);
-            ws._names.Insert(rowFrom, columnFrom, rows, columns);
-            ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
+            if(rows==0||columns==0)
+            {
+                ws.Comments.Insert(rowFrom, columnFrom, rows, columns);
+                ws._names.Insert(rowFrom, columnFrom, rows, columns, 0, columnTo);
+                ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws, 0, columnTo);
+            }
+            else
+            {
+                ws.Comments.Insert(rowFrom, columnFrom, rows, 0, 0, columnTo);
+                ws._names.Insert(rowFrom, columnFrom, rows, 0, columnFrom, columnTo);
+                ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, 0, n => n.Worksheet == ws, columnFrom, columnTo);
+            }
         }
         internal static void InsertCellStoreShiftRight(ExcelWorksheet ws, ExcelAddressBase fromAddress)
         {
@@ -368,9 +416,9 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._hyperLinks.MoveRight(fromAddress);
             ws._flags.MoveRight(fromAddress);
 
-            //ws.Comments.MoveRight(fromAddress, dest);
-            //ws._names.MoveRight(fromAddress, dest);
-            //ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
+            ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns);
+            ws._names.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
+            ws.Workbook.Names.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, n => n.Worksheet == ws, fromAddress._fromRow, fromAddress._toRow);
         }
 
         private static void CopyFromStyleRow(ExcelWorksheet ws, int rowFrom, int rows, int copyStylesFromRow)

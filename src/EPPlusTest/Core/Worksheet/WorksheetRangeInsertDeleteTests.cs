@@ -22,7 +22,7 @@ namespace EPPlusTest.Core.Worksheet
         }
         [ClassCleanup] 
         public static void Cleanup()
-        {
+            {
             SaveAndCleanup(_pck);
         }
         [TestMethod]
@@ -448,7 +448,7 @@ namespace EPPlusTest.Core.Worksheet
         public void ValidateValuesAfterInsertRowInRangeShiftDown()
         {
             //Setup
-            var ws = _pck.Workbook.Worksheets.Add("InsertRange");
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeDown");
             ws.Cells["A1"].Value = "A1";
             ws.Cells["B1"].Value = "B1";
             ws.Cells["C1"].Value = "C1";
@@ -463,10 +463,38 @@ namespace EPPlusTest.Core.Worksheet
             Assert.AreEqual("C1", ws.Cells["C1"].Value);
         }
         [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftDownTwoRows()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeDownTwoRows");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+            ws.Cells["D1"].Value = "D1";
+            ws.Cells["A2"].Value = "A2";
+            ws.Cells["B2"].Value = "B2";
+            ws.Cells["C2"].Value = "C2";
+            ws.Cells["D2"].Value = "D2";
+
+            //Act
+            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.IsNull(ws.Cells["C1"].Value);
+            Assert.IsNull(ws.Cells["B2"].Value);
+            Assert.IsNull(ws.Cells["C2"].Value);
+            Assert.AreEqual("B1", ws.Cells["B3"].Value);
+            Assert.AreEqual("C1", ws.Cells["C3"].Value);
+            Assert.AreEqual("A2", ws.Cells["A2"].Value);
+            Assert.AreEqual("D2", ws.Cells["D2"].Value);
+        }
+        [TestMethod]
         public void ValidateValuesAfterInsertRowInRangeShiftRight()
         {
             //Setup
-            var ws = _pck.Workbook.Worksheets.Add("InsertRange");
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeRight");
             ws.Cells["A1"].Value = "A1";
             ws.Cells["B1"].Value = "B1";
             ws.Cells["C1"].Value = "C1";
@@ -480,7 +508,138 @@ namespace EPPlusTest.Core.Worksheet
             Assert.AreEqual("B1", ws.Cells["C1"].Value);
             Assert.AreEqual("C1", ws.Cells["D1"].Value);
         }
+        [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftRightTwoRows()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeRightTwoRows");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+            ws.Cells["D1"].Value = "D1";
+            ws.Cells["A2"].Value = "A2";
+            ws.Cells["B2"].Value = "B2";
+            ws.Cells["C2"].Value = "C2";
+            ws.Cells["D2"].Value = "D2";
 
+            //Act
+            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Right);
 
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.IsNull(ws.Cells["C1"].Value);
+            Assert.IsNull(ws.Cells["B2"].Value);
+            Assert.IsNull(ws.Cells["C2"].Value);
+            Assert.AreEqual("B1", ws.Cells["D1"].Value);
+            Assert.AreEqual("C1", ws.Cells["E1"].Value);
+            Assert.AreEqual("B2", ws.Cells["D2"].Value);
+            Assert.AreEqual("C2", ws.Cells["E2"].Value);
+            Assert.AreEqual("D2", ws.Cells["F2"].Value);
+        }
+        [TestMethod]
+        public void ValidateCommentsAfterInsertShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeCommentsDown");
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
+            ws.Cells["B1"].AddComment("Comment B1", "EPPlus");
+            ws.Cells["C1"].AddComment("Comment C1", "EPPlus");
+
+            //Act
+            ws.Cells["A1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.IsNull(ws.Cells["A1"].Comment);
+            Assert.AreEqual("Comment A1", ws.Cells["A2"].Comment.Text);
+            Assert.AreEqual("Comment B1", ws.Cells["B1"].Comment.Text);
+            Assert.AreEqual("Comment C1", ws.Cells["C1"].Comment.Text);
+        }
+        [TestMethod]
+        public void ValidateCommentsAfterInsertShiftRight()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeCommentsLeft");
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
+            ws.Cells["B1"].AddComment("Comment B1", "EPPlus");
+            ws.Cells["C1"].AddComment("Comment C1", "EPPlus");
+
+            //Act
+            ws.Cells["A1"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.IsNull(ws.Cells["A1"].Comment);
+            Assert.AreEqual("Comment A1", ws.Cells["B1"].Comment.Text);
+            Assert.AreEqual("Comment B1", ws.Cells["C1"].Comment.Text);
+            Assert.AreEqual("Comment C1", ws.Cells["D1"].Comment.Text);
+            Assert.IsNull(ws.Cells["A2"].Comment);
+        }
+        [TestMethod]
+        public void ValidateNameAfterInsertShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeNamesDown");
+            ws.Names.Add("NameA1", ws.Cells["A1"]);
+            ws.Names.Add("NameB1", ws.Cells["B1"]);
+            ws.Names.Add("NameC1", ws.Cells["C1"]);
+
+            //Act
+            ws.Cells["A1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A2", ws.Names["NameA1"].Address);
+            Assert.AreEqual("B1", ws.Names["NameB1"].Address);
+            Assert.AreEqual("C1", ws.Names["NameC1"].Address);
+        }
+        [TestMethod]
+        public void ValidateNameAfterInsertShiftDown_MustBeInsideRange()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeInsideNamesDown");
+            ws.Names.Add("NameA2B4", ws.Cells["A2:B4"]);
+            ws.Names.Add("NameB2D3", ws.Cells["B2:D3"]);
+            ws.Names.Add("NameC1F3", ws.Cells["C1:F3"]);
+
+            //Act
+            ws.Cells["A2:B3"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);        
+            Assert.AreEqual("B2:D3", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+
+            ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("B6:D7", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+
+            ws.Cells["B2:F2"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("B7:D8", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F4", ws.Names["NameC1F3"].Address);
+        }
+
+        [TestMethod]
+        public void ValidateNamesAfterInsertShiftRight_MustBeInsideRange()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeInsideNamesRight");
+            ws.Names.Add("NameB1D2", ws.Cells["B1:D2"]);
+            ws.Names.Add("NameB2C4", ws.Cells["B2:D4"]);
+            ws.Names.Add("NameA3C6", ws.Cells["A3:C6"]);
+
+            //Act
+            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("B2:D4", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+
+            ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("B6:D8", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+        }
     }
 }

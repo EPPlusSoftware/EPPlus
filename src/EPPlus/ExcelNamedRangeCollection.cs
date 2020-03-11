@@ -121,22 +121,22 @@ namespace OfficeOpenXml
             return item;
         }
 
-        internal void Insert(int rowFrom, int colFrom, int rows, int cols)
+        internal void Insert(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
         {
-            Insert(rowFrom, colFrom, rows, cols, n => true);
+            Insert(rowFrom, colFrom, rows, cols, n => true, lowerLimint, upperLimit);
         }
 
-        internal void Insert(int rowFrom, int colFrom, int rows, int cols, Func<ExcelNamedRange, bool> filter)
+        internal void Insert(int rowFrom, int colFrom, int rows, int cols, Func<ExcelNamedRange, bool> filter, int lowerLimint = 0, int upperLimit=int.MaxValue)
         {
             var namedRanges = this._list.Where(filter);
             foreach(var namedRange in namedRanges)
             {
                 var address = new ExcelAddressBase(namedRange.Address);
-                if (rows > 0)
+                if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint)
                 {
                     address = address.AddRow(rowFrom, rows);
                 }
-                if(colFrom > 0)
+                if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint)
                 {
                     address = address.AddColumn(colFrom, cols);
                 }

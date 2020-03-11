@@ -547,7 +547,7 @@ namespace OfficeOpenXml.Core.CellStore
                     var destCol = fromAddress._toCol + 1 + (sourceCol - fromAddress._fromCol);
                     MoveRangeColumnWise(sourceCol, fromAddress._fromRow, fromAddress._toRow, destCol, fromAddress._fromRow);
                 }
-                Delete(fromAddress._fromRow, fromAddress._fromRow, fromAddress.Rows, fromAddress.Columns, false);
+                Delete(fromAddress._fromRow, fromAddress._fromCol, fromAddress.Rows, fromAddress.Columns, false);
             }
         }
 

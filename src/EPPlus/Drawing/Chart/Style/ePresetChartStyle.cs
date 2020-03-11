@@ -14,7 +14,8 @@ namespace OfficeOpenXml.Drawing.Chart.Style
 {
     /// <summary>
     /// Maps to Excel's built-in chart styles, primary for charts with one data serie. 
-    /// Note that available chart styles differ for charts with one serie and charts with more than one serie. 
+    /// Note that Excel changes chart type depending on many parameters, like number of series, axis type and more, so it will not always match the number in Excel.
+    /// To be certain of getting the correct style use the chart style number of the style you want to apply
     /// For charts with more than one series use <see cref="ePresetChartStyleMultiSeries"/>
     /// By default the styles are loaded into the StyleLibrary.You can also load your own with your own id's.
     /// Styles are fetched from the StyleLibrary by the id provided in this enum. 
@@ -1001,7 +1002,8 @@ namespace OfficeOpenXml.Drawing.Chart.Style
     }
     /// <summary>
     /// Maps to Excel's built-in chart styles, for charts with more that one data serie. 
-    /// Note that available chart styles differ for charts with one serie and charts with more than one serie. 
+    /// Note that Excel changes chart type depending on many parameters, like number of series, axis type and more, so it will not always match the number in Excel.
+    /// To be certain of getting the correct style use the chart style number of the style you want to apply
     /// For charts with only one data serie use <see cref="ePresetChartStyle"/>
     /// Styles are fetched from the StyleLibrary by the id provided in this enum. 
     /// <seealso cref="ExcelChartStyleManager.StyleLibrary" />
