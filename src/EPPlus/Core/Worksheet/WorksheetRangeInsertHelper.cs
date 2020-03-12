@@ -46,10 +46,12 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
                 }
+
                 foreach (var tbl in ws.Tables)
                 {
                     tbl.Address = tbl.Address.AddRow(rowFrom, rows);
                 }
+
                 foreach (var ptbl in ws.PivotTables)
                 {
                     ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
@@ -131,7 +133,12 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift)
         {
-            if(shift==eShiftTypeInsert.Down)
+            var effectedAddress = GetEffectedRange(range, shift);
+            ValidateIfInsertIsPossible(range, effectedAddress, shift);
+            var ws = range.Worksheet;
+            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, range);
+
+            if (shift==eShiftTypeInsert.Down)
             {
                 InsertCellStores(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
             }
@@ -139,13 +146,12 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 InsertCellStoreShiftRight(range._worksheet, range);
             }
-            var ws = range.Worksheet;
-            
-            ////Adjust formulas
-            //foreach (var wsToUpdate in range._workbook.Worksheets)
-            //{
-            //    FixFormulasInsertRow(wsToUpdate, range._fromRow, range.Rows, ws.Name);
-            //}
+
+            //Adjust formulas
+            foreach (var wsToUpdate in range._workbook.Worksheets)
+            {
+                FixFormulasInsertRow(wsToUpdate, range._fromRow, range.Rows, ws.Name, range._fromCol, range._toCol);
+            }
 
             //WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, false);
 
@@ -153,10 +159,11 @@ namespace OfficeOpenXml.Core.Worksheet
             //{
             //    CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
             //}
-            //foreach (var tbl in ws.Tables)
-            //{
-            //    tbl.Address = tbl.Address.AddRow(rowFrom, rows);
-            //}
+            foreach (var tbl in ws.Tables)
+            {
+                tbl.Address = tbl.Address.AddRow(range._fromRow, range.Rows);
+            }
+            
             //foreach (var ptbl in ws.PivotTables)
             //{
             //    ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
@@ -176,6 +183,58 @@ namespace OfficeOpenXml.Core.Worksheet
 
             //WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
         }
+
+        private static ExcelAddressBase GetEffectedRange(ExcelRangeBase range, eShiftTypeInsert shift)
+        {
+            if (shift == eShiftTypeInsert.Down)
+            {
+                return new ExcelAddressBase(range._fromRow, range._fromCol, ExcelPackage.MaxRows, range._toCol);
+            }
+            else if (shift == eShiftTypeInsert.Right)
+            {
+                return new ExcelAddressBase(range._fromRow, range._fromCol, range._toRow, ExcelPackage.MaxColumns);
+            }
+            else if (shift == eShiftTypeInsert.EntireColumn)
+            {
+                return new ExcelAddressBase(1, range._fromCol, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+            }
+            else
+            {
+                return new ExcelAddressBase(range._fromRow, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+            }
+        }
+
+        private static void ValidateIfInsertIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        {
+            //Validate merged Cells
+            foreach(var a in range.Worksheet.MergedCells)
+            {
+                var mc = new ExcelAddressBase(a);
+                if(mc.Collide(effectedAddress)==ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with merged range {a}");
+                }
+            }
+
+            //Validate tables Cells
+            foreach (var t in range.Worksheet.Tables)
+            {
+                if (t.Address.Collide(effectedAddress) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
+                }
+            }
+
+            //Validate pivot tables Cells
+            foreach (var pt in range.Worksheet.PivotTables)
+            {
+                if (pt.Address.Collide(effectedAddress) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with pivot table {pt.Name}");
+                }
+            }
+        }
+
         private static void CopyStylesFromColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             //Copy style from another column?

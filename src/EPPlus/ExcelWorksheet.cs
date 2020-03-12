@@ -3580,7 +3580,7 @@ namespace OfficeOpenXml
             var v = _formulas.GetValue(row, col);
             if (v is int)
             {
-                return _sharedFormulas[(int)v].GetFormula(row,col, Name);
+                return _sharedFormulas[(int)v].GetFormula(row, col, Name);
             }
             else if (v != null)
             {

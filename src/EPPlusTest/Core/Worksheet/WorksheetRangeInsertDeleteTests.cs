@@ -641,5 +641,26 @@ namespace EPPlusTest.Core.Worksheet
             Assert.AreEqual("B6:D8", ws.Names["NameB2C4"].Address);
             Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
         }
+
+        [TestMethod]
+        public void ValidateSharedFormulasInsertShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeFormulaDown");
+            ws.Cells["B1:D2"].Formula = "A1";
+            ws.Cells["C3:F4"].Formula = "A1";
+
+            //Act
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            //Assert.AreEqual("A3", ws.Cells["B3"].Formula);
+            //Assert.AreEqual("B3", ws.Cells["C3"].Formula);
+            //Assert.AreEqual("C1", ws.Cells["D1"].Formula);
+
+            //Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            //Assert.AreEqual("B2", ws.Cells["F4"].Formula);
+
+        }
     }
 }

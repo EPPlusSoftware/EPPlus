@@ -11,6 +11,7 @@
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
  using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -215,5 +216,68 @@ namespace OfficeOpenXml.Core.Worksheet
 
             deletedDrawings.ForEach(d => ws.Drawings.Remove(d));
         }
+        internal static void ConvertEffectedSharedFormulasToCellFormulas(ExcelWorksheet wsUpdate, ExcelAddressBase range)
+        {
+            foreach (var ws in wsUpdate.Workbook.Worksheets)
+            {
+                bool isCurrentWs = wsUpdate.Name.Equals(ws.Name, StringComparison.CurrentCultureIgnoreCase);
+                var deletedSf = new List<int>();
+                foreach (var sf in ws._sharedFormulas.Values)
+                {
+                    if (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    {
+                        if (ConvertEffectedSharedFormulaIfReferenceWithinRange(ws, range, sf, wsUpdate.Name))
+                        {
+                            deletedSf.Add(sf.Index);
+                        }
+                    }
+                }
+                deletedSf.ForEach(x => ws._sharedFormulas.Remove(x));
+            }
+        }
+        private static bool ConvertEffectedSharedFormulaIfReferenceWithinRange(ExcelWorksheet ws, ExcelAddressBase delRange, ExcelWorksheet.Formulas sf, string wsName)
+        {
+            bool doConvertSF = false;
+            var sfAddress = new ExcelAddressBase(sf.Address);
+            sf.SetTokens(ws.Name);
+            foreach (var token in sf.Tokens)
+            {
+                if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    //Check if the address for the entire shared formula collides with the deleted address.
+                    var tokenAddress = new ExcelAddressBase(token.Value);
+                    if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheet)) ||
+                        (!string.IsNullOrEmpty(tokenAddress.WorkSheet) && tokenAddress.WorkSheet.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);
+                        if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);
+
+                        if (tokenAddress.Collide(delRange, true) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
+                        {
+                            doConvertSF = true;
+                            continue;
+                        }
+                    }
+                }
+            }
+            if (doConvertSF)
+            {
+                ConvertSharedFormulaToCellFormula(ws, sf, sfAddress);
+            }
+            return doConvertSF;
+        }
+        private static void ConvertSharedFormulaToCellFormula(ExcelWorksheet ws, ExcelWorksheet.Formulas sf, ExcelAddressBase sfAddress)
+        {
+            for (var r = 0; r < sfAddress.Rows; r++)
+            {
+                for (var c = 0; c < sfAddress.Columns; c++)
+                {
+                    var row = sf.StartRow + r;
+                    var col = sf.StartCol + c;
+                    ws._formulas.SetValue(row, col, ws.GetFormula(row, col));
+                }
+            }
+        }
+
     }
 }
