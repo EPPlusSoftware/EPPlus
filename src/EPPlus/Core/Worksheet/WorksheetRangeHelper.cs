@@ -21,7 +21,18 @@ namespace OfficeOpenXml.Core.Worksheet
 {
     internal static class WorksheetRangeHelper
     {
-        internal static void FixMergedCellsRow(ExcelWorksheet ws, int row, int rows, bool delete)
+        internal static void FixMergedCells(ExcelWorksheet ws, ExcelRangeBase range, bool delete, eShiftTypeInsert shift)
+        {
+            if(shift==eShiftTypeInsert.Down)
+            {
+                FixMergedCellsRow(ws, range._fromRow, range.Rows, delete, range._fromCol, range._toCol);
+            }
+            else
+            {
+                FixMergedCellsColumn(ws, range._fromCol, range.Columns, delete, range._fromRow, range._toRow);
+            }
+        }
+        internal static void FixMergedCellsRow(ExcelWorksheet ws, int row, int rows, bool delete, int fromCol=1, int toCol=ExcelPackage.MaxColumns)
         {
             if (delete)
             {
@@ -38,27 +49,30 @@ namespace OfficeOpenXml.Core.Worksheet
                 if (!string.IsNullOrEmpty(ws._mergedCells[i]))
                 {
                     ExcelAddressBase addr = new ExcelAddressBase(ws._mergedCells[i]), newAddr;
-                    if (delete)
+                    if (addr._fromCol >= fromCol && addr._toCol <= toCol)
                     {
-                        newAddr = addr.DeleteRow(row, rows);
-                        if (newAddr == null)
+                        if (delete)
                         {
-                            removeIndex.Add(i);
-                            continue;
+                            newAddr = addr.DeleteRow(row, rows);
+                            if (newAddr == null)
+                            {
+                                removeIndex.Add(i);
+                                continue;
+                            }
                         }
-                    }
-                    else
-                    {
-                        newAddr = addr.AddRow(row, rows);
+                        else
+                        {
+                            newAddr = addr.AddRow(row, rows);
+                            if (newAddr.Address != addr.Address)
+                            {
+                                ws._mergedCells.SetIndex(newAddr, i);
+                            }
+                        }
+
                         if (newAddr.Address != addr.Address)
                         {
-                            ws._mergedCells.SetIndex(newAddr, i);
+                            ws._mergedCells._list[i] = newAddr._address;
                         }
-                    }
-
-                    if (newAddr.Address != addr.Address)
-                    {
-                        ws._mergedCells._list[i] = newAddr._address;
                     }
                 }
             }
@@ -67,7 +81,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 ws._mergedCells._list.RemoveAt(removeIndex[i]);
             }
         }
-        internal static void FixMergedCellsColumn(ExcelWorksheet ws, int column, int columns, bool delete)
+        internal static void FixMergedCellsColumn(ExcelWorksheet ws, int column, int columns, bool delete, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
         {
             if (delete)
             {

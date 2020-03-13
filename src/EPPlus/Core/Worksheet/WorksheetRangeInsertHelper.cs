@@ -150,10 +150,10 @@ namespace OfficeOpenXml.Core.Worksheet
             //Adjust formulas
             foreach (var wsToUpdate in range._workbook.Worksheets)
             {
-                FixFormulasInsertRow(wsToUpdate, range._fromRow, range.Rows, ws.Name, range._fromCol, range._toCol);
+                FixFormulasInsert(wsToUpdate, range, effectedAddress, shift);
             }
 
-            //WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, false);
+            WorksheetRangeHelper.FixMergedCells(ws, range, false, shift);
 
             //if (copyStylesFromRow > 0)
             //{
@@ -210,7 +210,7 @@ namespace OfficeOpenXml.Core.Worksheet
             foreach(var a in range.Worksheet.MergedCells)
             {
                 var mc = new ExcelAddressBase(a);
-                if(mc.Collide(effectedAddress)==ExcelAddressBase.eAddressCollition.Partly)
+                if(effectedAddress.Collide(mc) ==ExcelAddressBase.eAddressCollition.Partly)
                 {
                     throw new InvalidOperationException($"Can't insert into the range. Cells collide with merged range {a}");
                 }
@@ -322,6 +322,56 @@ namespace OfficeOpenXml.Core.Worksheet
                     var cc = c._columnMax - columnFrom;
                     c._columnMax = columnFrom - 1;
                     ws.CopyColumn(c, columnFrom + columns, columnFrom + columns + cc);
+                }
+            }
+        }
+        private static void FixFormulasInsert(ExcelWorksheet ws, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        {
+            var workSheetName = range.WorkSheet;
+            var rowFrom = range._fromRow;
+            var columnFrom = range._fromCol;
+            var rows = range.Rows;
+
+            foreach (var f in ws._sharedFormulas.Values)
+            {
+                if (workSheetName == ws.Name)
+                {
+                    if (f.StartCol >= columnFrom)
+                    {
+                        if (f.StartRow >= rowFrom) f.StartRow += rows;
+                        var a = new ExcelAddressBase(f.Address);
+                        if (a._fromRow >= rowFrom)
+                        {
+                            a._fromRow += rows;
+                            a._toRow += rows;
+                        }
+                        else if (a._toRow >= rowFrom)
+                        {
+                            a._toRow += rows;
+                        }
+                        f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
+                    }
+                }
+                else if (f.Formula.Contains(workSheetName))
+                {
+                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
+                }
+            }
+
+            var cse = new CellStoreEnumerator<object>(ws._formulas);
+            while (cse.Next())
+            {
+                if (cse.Value is string v)
+                {
+                    if (workSheetName == ws.Name)
+                    {
+                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
+                    }
+                    else if (v.Contains(workSheetName))
+                    {
+                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
+                    }
                 }
             }
         }
