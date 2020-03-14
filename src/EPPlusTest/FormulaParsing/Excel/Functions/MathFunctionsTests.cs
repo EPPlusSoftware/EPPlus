@@ -968,6 +968,24 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void FactDoubleShouldReturnCorrectResult5()
+        {
+            var func = new FactDouble();
+            var arg = FunctionsHelper.CreateArgs(5);
+            var result = func.Execute(arg, _parsingContext);
+            Assert.AreEqual(15d, result.Result);
+        }
+
+        [TestMethod]
+        public void FactDoubleShouldReturnCorrectResult8()
+        {
+            var func = new FactDouble();
+            var arg = FunctionsHelper.CreateArgs(8);
+            var result = func.Execute(arg, _parsingContext);
+            Assert.AreEqual(384d, result.Result);
+        }
+
+        [TestMethod]
         public void QuotientShouldReturnCorrectResult()
         {
             var func = new Quotient();

@@ -401,6 +401,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void FactDoubleShouldReturnAResult()
+        {
+            var result = _parser.Parse("FactDouble(13)");
+            Assert.AreEqual(135135d, result);
+        }
+
+        [TestMethod]
         public void QuotientShouldReturnAResult()
         {
             var result = _parser.Parse("Quotient(5;2)");

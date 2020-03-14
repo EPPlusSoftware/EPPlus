@@ -78,6 +78,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["countif"] = new CountIf();
             Functions["countifs"] = new CountIfs();
             Functions["fact"] = new Fact();
+            Functions["factdouble"] = new FactDouble();
             Functions["floor"] = new Floor();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();

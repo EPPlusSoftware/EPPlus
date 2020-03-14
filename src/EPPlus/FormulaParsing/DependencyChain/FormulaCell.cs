@@ -23,6 +23,8 @@ namespace OfficeOpenXml.FormulaParsing
         internal int Row { get; set; }
         internal int Column { get; set; }
         internal string Formula { get; set; }
+
+        internal string CircularRefAddress { get; set; }
         internal List<Token> Tokens { get; set; }
         internal int tokenIx = 0;
         internal int addressIx = 0;
