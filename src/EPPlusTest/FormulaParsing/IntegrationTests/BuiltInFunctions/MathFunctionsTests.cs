@@ -95,6 +95,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CombinaShouldReturnCorrectResult()
+        {
+            var expectedValue = 462d;
+            var result = _parser.Parse("combina(6, 6)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void SecShouldReturnCorrectResult()
         {
             var expectedValue = 1d;

@@ -207,6 +207,26 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void CombinaShouldReturnCorrectResult_6_2()
+        {
+            var func = new Combina();
+
+            var args = FunctionsHelper.CreateArgs(6, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(21d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinaShouldReturnCorrectResult_6_5()
+        {
+            var func = new Combina();
+
+            var args = FunctionsHelper.CreateArgs(6, 5);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(252d, result.Result);
+        }
+
+        [TestMethod]
         public void SecShouldReturnCorrectResult_MinusPi()
         {
             var func = new Sec();

@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
-    internal class Combin : ExcelFunction
+    internal class Combina : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -26,7 +26,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             number = System.Math.Floor(number);
             var numberChosen = ArgToDecimal(arguments, 1);
             if (number <= 0d || numberChosen <= 0) return CreateResult(eErrorType.Num);
-            var result = MathHelper.Factorial(number, number - numberChosen) / MathHelper.Factorial(numberChosen);
+
+            var result = MathHelper.Factorial(number + numberChosen - 1) / (MathHelper.Factorial(number - 1) * MathHelper.Factorial(numberChosen));
             return CreateResult(result, DataType.Decimal);
         }
     }
