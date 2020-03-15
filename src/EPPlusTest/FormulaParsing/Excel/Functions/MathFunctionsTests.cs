@@ -297,6 +297,15 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void AcotShouldReturnCorrectResult_1()
+        {
+            var func = new Acot();
+            var args = FunctionsHelper.CreateArgs(1);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.7854, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();
