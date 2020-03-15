@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -10,27 +10,21 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
-    internal class Fact : ExcelFunction
+    internal class Csch : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
-            ThrowExcelErrorValueExceptionIf(() => number < 0, eErrorType.NA);
-            var result = 1d;
-            for (var x = 1; x < number; x++)
-            {
-                result *= x;
-            }
-            return CreateResult(result, DataType.Integer);
+            if (number == 0) return CreateResult(eErrorType.Div0);
+            return CreateResult(MathHelper.HCosec(number), DataType.Decimal);
         }
     }
 }

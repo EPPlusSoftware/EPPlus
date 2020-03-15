@@ -119,6 +119,15 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CschShouldReturnCorrectResult()
+        {
+            var expectedValue = 0.8004;
+            var result = _parser.Parse("csch(pi()/3)");
+            result = Math.Round((double)result, 4);
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void CotShouldReturnCorrectResult()
         {
             var expectedValue = -1d;

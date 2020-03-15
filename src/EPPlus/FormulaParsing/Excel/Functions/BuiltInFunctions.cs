@@ -68,6 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["cot"] = new Cot();
             Functions["cosh"] = new Cosh();
             Functions["csc"] = new Csc();
+            Functions["csch"] = new Csch();
             Functions["power"] = new Power();
             Functions["sec"] = new Sec();
             Functions["sech"] = new SecH();
