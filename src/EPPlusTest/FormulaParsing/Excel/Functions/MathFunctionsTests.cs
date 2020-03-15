@@ -225,10 +225,37 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void SechShouldReturnCorrectResult_PiDividedBy4()
+        {
+            var func = new SecH();
+            var args = FunctionsHelper.CreateArgs(Math.PI/4);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.7549, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void SechShouldReturnCorrectResult_MinusPi()
+        {
+            var func = new SecH();
+            var args = FunctionsHelper.CreateArgs(-3.14159265358979);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.08627, Math.Round((double)result, 5));
+        }
+
+        [TestMethod]
+        public void SechShouldReturnCorrectResult_Zero()
+        {
+            var func = new SecH();
+            var args = FunctionsHelper.CreateArgs(0d);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1d, result.Result);
+        }
+
+        [TestMethod]
         public void SecShouldReturnCorrectResult_PiDividedBy4()
         {
             var func = new Sec();
-            var args = FunctionsHelper.CreateArgs(Math.PI/4);
+            var args = FunctionsHelper.CreateArgs(Math.PI / 4);
             var result = func.Execute(args, _parsingContext).Result;
             Assert.AreEqual(1.4142, Math.Round((double)result, 4));
         }

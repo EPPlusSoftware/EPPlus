@@ -103,6 +103,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void SecHShouldReturnCorrectResult()
+        {
+            var expectedValue = 1d;
+            var result = _parser.Parse("sech(0)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void FloorShouldReturnCorrectResult()
         {
             var expectedValue = 22.3d;
