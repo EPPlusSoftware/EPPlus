@@ -279,6 +279,24 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void RadiansShouldReturnCorrectResult_50()
+        {
+            var func = new Radians();
+            var args = FunctionsHelper.CreateArgs(50);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.8727, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void RadiansShouldReturnCorrectResult_360()
+        {
+            var func = new Radians();
+            var args = FunctionsHelper.CreateArgs(360);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(6.2832, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();

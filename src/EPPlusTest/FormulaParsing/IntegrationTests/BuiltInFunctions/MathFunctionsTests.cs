@@ -127,6 +127,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void RadiansShouldReturnCorrectResult()
+        {
+            var expectedValue = Math.PI;
+            var result = _parser.Parse("Radians(180)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void FloorShouldReturnCorrectResult()
         {
             var expectedValue = 22.3d;

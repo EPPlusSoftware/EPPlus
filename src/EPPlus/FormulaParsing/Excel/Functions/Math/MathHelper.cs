@@ -164,5 +164,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             return result;
         }
+
+        public static double Radians(double angle)
+        {
+            return (angle / 180) * MathObj.PI;
+        }
     }
 }

@@ -85,6 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["fact"] = new Fact();
             Functions["factdouble"] = new FactDouble();
             Functions["floor"] = new Floor();
+            Functions["radians"] = new Radians();
             Functions["sin"] = new Sin();
             Functions["sinh"] = new Sinh();
             Functions["sum"] = new Sum();
