@@ -111,6 +111,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CscShouldReturnCorrectResult()
+        {
+            var expectedValue = 1d;
+            var result = _parser.Parse("csc(1.5707963267949)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void FloorShouldReturnCorrectResult()
         {
             var expectedValue = 22.3d;
