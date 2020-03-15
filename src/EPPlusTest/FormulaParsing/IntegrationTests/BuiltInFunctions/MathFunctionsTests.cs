@@ -136,6 +136,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CothShouldReturnCorrectResult()
+        {
+            var expectedValue = 1.0903d;
+            var result = _parser.Parse("Coth(PI()/2)");
+            Assert.AreEqual(expectedValue, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
         public void RadiansShouldReturnCorrectResult()
         {
             var expectedValue = Math.PI;
