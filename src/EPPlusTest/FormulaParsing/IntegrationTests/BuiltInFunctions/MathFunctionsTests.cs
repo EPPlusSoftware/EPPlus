@@ -176,6 +176,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void RomanShouldReturnCorrectResult()
+        {
+            var expectedValue = "CDXCIX";
+            var result = _parser.Parse("ROMAN(499)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void SumShouldReturnCorrectResultWithInts()
         {
             var result = _parser.Parse("sum(1, 2)");

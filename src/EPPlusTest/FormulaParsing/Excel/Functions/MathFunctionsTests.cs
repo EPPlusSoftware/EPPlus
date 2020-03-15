@@ -344,6 +344,48 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void RomanShouldReturnCorrectResult()
+        {
+            var func = new Roman();
+
+            var args = FunctionsHelper.CreateArgs(2);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("II", result, "2 was not II");
+
+            args = FunctionsHelper.CreateArgs(4);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("IV", result, "4 was not IV");
+
+            args = FunctionsHelper.CreateArgs(14);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XIV", result, "14 was not XIV");
+
+            args = FunctionsHelper.CreateArgs(23);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XXIII", result, "23 was not XXIII");
+
+            args = FunctionsHelper.CreateArgs(59);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("LIX", result, "59 was not LIX");
+
+            args = FunctionsHelper.CreateArgs(99);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XCIX", result, "99 was not XCIX");
+
+            args = FunctionsHelper.CreateArgs(412);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("CDXII", result, "412 was not CDXII");
+
+            args = FunctionsHelper.CreateArgs(1214);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("MCCXIV", result, "1214 was not MCCXIV");
+
+            args = FunctionsHelper.CreateArgs(3295);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("MMMCCXCV", result, "3295 was not MMMCCXCV");
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();
