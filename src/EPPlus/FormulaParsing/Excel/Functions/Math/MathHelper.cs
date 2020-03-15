@@ -149,5 +149,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             return MathObj.Log(x) / MathObj.Log(n);
         }
+
+        public static double Factorial(double number)
+        {
+            return Factorial(number, 1d);
+        }
+
+        public static double Factorial(double number, double devisor)
+        {
+            var result = 1d;
+            for (var x = number; x > devisor; x--)
+            {
+                result *= x;
+            }
+            return result;
+        }
     }
 }

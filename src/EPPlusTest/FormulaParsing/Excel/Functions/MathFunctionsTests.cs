@@ -177,6 +177,36 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void CombinShouldReturnCorrectResult_6_1()
+        {
+            var func = new Combin();
+
+            var args = FunctionsHelper.CreateArgs(6, 1);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(6d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinShouldReturnCorrectResult_6_2()
+        {
+            var func = new Combin();
+
+            var args = FunctionsHelper.CreateArgs(6, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(15d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinShouldReturnCorrectResult_decimal()
+        {
+            var func = new Combin();
+
+            var args = FunctionsHelper.CreateArgs(10.456, 3);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(120d, result.Result);
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();

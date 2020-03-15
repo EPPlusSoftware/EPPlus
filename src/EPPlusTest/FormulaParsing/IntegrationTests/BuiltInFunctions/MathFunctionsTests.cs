@@ -87,6 +87,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CombinShouldReturnCorrectResult()
+        {
+            var expectedValue = 15d;
+            var result = _parser.Parse("combin(6, 4)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void FloorShouldReturnCorrectResult()
         {
             var expectedValue = 22.3d;
