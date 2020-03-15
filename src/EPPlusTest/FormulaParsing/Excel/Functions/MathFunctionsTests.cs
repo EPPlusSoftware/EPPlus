@@ -270,6 +270,15 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void CotShouldReturnCorrectResult_2()
+        {
+            var func = new Cot();
+            var args = FunctionsHelper.CreateArgs(2);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-0.4577, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();

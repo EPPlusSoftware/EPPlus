@@ -119,6 +119,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CotShouldReturnCorrectResult()
+        {
+            var expectedValue = -1d;
+            var result = _parser.Parse("Cot(-PI()/4)");
+            Assert.AreEqual(expectedValue, Math.Round((double)result, 1));
+        }
+
+        [TestMethod]
         public void FloorShouldReturnCorrectResult()
         {
             var expectedValue = 22.3d;
