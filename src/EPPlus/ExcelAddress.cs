@@ -253,7 +253,14 @@ namespace OfficeOpenXml
                 }
             }
         }
-        
+
+        internal bool IsInside(ExcelAddressBase effectedAddress)
+        {
+            var c = Collide(effectedAddress);
+            return c == ExcelAddressBase.eAddressCollition.Equal ||
+                   c == ExcelAddressBase.eAddressCollition.Inside;
+        }
+
         /// <summary>
         /// Address is an defined name
         /// </summary>
@@ -721,13 +728,13 @@ namespace OfficeOpenXml
         #region Address manipulation methods
         internal eAddressCollition Collide(ExcelAddressBase address, bool ignoreWs=false)
         {
-            if (ignoreWs == false && address.WorkSheet != WorkSheet && address.WorkSheet != null)
+            if (ignoreWs == false && address.WorkSheet != WorkSheet && address.WorkSheet != null && WorkSheet!=null)
             {
                 return eAddressCollition.No;
             }
 
             return Collide(address._fromRow, address._fromCol, address._toRow, address._toCol);
-        }
+            }
 
         internal eAddressCollition Collide(int fromRow, int fromCol, int toRow, int toCol)
         {

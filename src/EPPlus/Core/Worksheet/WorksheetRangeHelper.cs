@@ -126,11 +126,17 @@ namespace OfficeOpenXml.Core.Worksheet
                 ws._mergedCells._list.RemoveAt(removeIndex[i]);
             }
         }
-        internal static void AdjustDrawingsRow(ExcelWorksheet ws, int rowFrom, int rows)
+        internal static void AdjustDrawingsRow(ExcelWorksheet ws, int rowFrom, int rows, int colFrom=0, int colTo=ExcelPackage.MaxColumns)
         {
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
             {                
+                if((drawing.From.Column > colFrom || (drawing.From.Column == colFrom && drawing.From.ColumnOff==0)) &&
+                   (drawing.To.Column >= colTo))
+                {
+                    continue;
+                }
+
                 if(rows < 0 && drawing.From.Row>=rowFrom-1 && 
                     ((drawing.To.Row<=(rowFrom-rows-1) && drawing.To.RowOff==0) || drawing.To.Row <= (rowFrom - rows - 2))) //If delete and the entire drawing is withing the deleted range, remove it.
                 {
@@ -178,11 +184,17 @@ namespace OfficeOpenXml.Core.Worksheet
 
             deletedDrawings.ForEach(d => ws.Drawings.Remove(d));
         }
-        internal static void AdjustDrawingsColumn(ExcelWorksheet ws, int columnFrom, int columns)
+        internal static void AdjustDrawingsColumn(ExcelWorksheet ws, int columnFrom, int columns, int rowFrom = 0, int rowTo = ExcelPackage.MaxRows)
         {
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
             {
+                if ((drawing.From.Row > rowFrom || (drawing.From.Row == rowFrom && drawing.From.RowOff == 0)) &&
+                   (drawing.To.Row >= rowTo))
+                {
+                    continue;
+                }
+
                 if (columns < 0 && drawing.From.Column >= columnFrom - 1 &&
                     ((drawing.To.Column <= (columnFrom - columns - 1) && drawing.To.ColumnOff == 0) || drawing.To.Column <= (columnFrom - columns - 2))) //If delete and the entire drawing is withing the deleted range, remove it.
                 {

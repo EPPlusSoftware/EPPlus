@@ -567,5 +567,128 @@ namespace EPPlusTest.Core.Worksheet
                 ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
             }
         }
+        [TestMethod]
+        public void ValidateInsertTableShouldShiftDown()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsertShiftDown");
+                var tbl=ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B3:D4", tbl.Address.Address);
+
+                ws.Cells["A3:D3"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D5", tbl.Address.Address);
+
+                ws.Cells["B3:E3"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B5:D6", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertTableShouldShiftRight()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsertShiftRight");
+                var tbl = ws.Tables.Add(ws.Cells["B2:C4"], "table1");
+                ws.Cells["B2:B4"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("C2:D4", tbl.Address.Address);
+
+                ws.Cells["B1:B4"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:E4", tbl.Address.Address);
+
+                ws.Cells["B2:B6"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("E2:F4", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertPivotTableShouldShiftDown()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsertShiftDown");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";                
+                var pt=ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B3:D4", pt.Address.Address);
+
+                ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D5", pt.Address.Address);
+
+                ws.Cells["B5:D5"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D6", pt.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertPivotTableShouldShiftRight()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsertShiftRight");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:B3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("C2:E3", pt.Address.Address);
+                ws.Cells["B1:B4"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:F3", pt.Address.Address);
+                ws.Cells["E2:E3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:G3", pt.Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void ValidateStyleShiftDown()
+        {
+                var ws = _pck.Workbook.Worksheets.Add("StyleShiftDown");
+                ws.Cells["A1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed2);
+                ws.Cells["B1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed3);
+                ws.Cells["C1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed4);
+
+                ws.Cells["A2"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed5);
+                ws.Cells["A3"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed6);
+
+                ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual(0, ws.Cells["A1"].StyleID);
+                Assert.AreEqual(0, ws.Cells["B1"].StyleID);
+                Assert.AreEqual(0, ws.Cells["C1"].StyleID);
+                Assert.AreEqual(2, ws.Cells["A2"].StyleID);
+                Assert.AreEqual(3, ws.Cells["B2"].StyleID);
+                Assert.AreEqual(4, ws.Cells["C2"].StyleID);
+                ws.Cells["A3:C4"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual(2, ws.Cells["A3"].StyleID);
+                Assert.AreEqual(3, ws.Cells["B3"].StyleID);
+                Assert.AreEqual(4, ws.Cells["C3"].StyleID);
+                Assert.AreEqual(2, ws.Cells["A4"].StyleID);
+                Assert.AreEqual(3, ws.Cells["B4"].StyleID);
+                Assert.AreEqual(4, ws.Cells["C4"].StyleID);
+        }
+        [TestMethod]
+        public void ValidateStyleShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StyleShiftRight");
+            ws.Cells["A1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed2);
+            ws.Cells["B1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed3);
+            ws.Cells["C1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed4);
+
+            ws.Cells["A2"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed5);
+            ws.Cells["A3"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed6);
+
+            ws.Cells["A1:A3"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual(0, ws.Cells["A1"].StyleID);
+            Assert.AreEqual(0, ws.Cells["A2"].StyleID);
+            Assert.AreEqual(0, ws.Cells["A3"].StyleID);
+            Assert.AreEqual(2, ws.Cells["B1"].StyleID);
+            Assert.AreEqual(5, ws.Cells["B2"].StyleID);
+            Assert.AreEqual(6, ws.Cells["B3"].StyleID);
+            ws.Cells["C1:D3"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual(2, ws.Cells["C1"].StyleID);
+            Assert.AreEqual(5, ws.Cells["C2"].StyleID);
+            Assert.AreEqual(6, ws.Cells["C3"].StyleID);
+            Assert.AreEqual(2, ws.Cells["D1"].StyleID);
+            Assert.AreEqual(5, ws.Cells["D2"].StyleID);
+            Assert.AreEqual(6, ws.Cells["D3"].StyleID);
+        }
     }
 }
