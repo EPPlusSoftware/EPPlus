@@ -176,6 +176,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void FloorPreciseShouldReturnCorrectResult()
+        {
+            var expectedValue = -30d;
+            var result = _parser.Parse("Floor.Precise(-26.75, 5)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void GcdShouldReturnCorrectResult()
         {
             var expectedValue = 1;
