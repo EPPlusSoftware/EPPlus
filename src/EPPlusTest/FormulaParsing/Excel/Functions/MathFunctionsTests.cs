@@ -400,6 +400,20 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void LcmShouldReturnCorrectResult()
+        {
+            var func = new Lcm();
+
+            var args = FunctionsHelper.CreateArgs(15, 10, 25);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(150, result);
+
+            args = FunctionsHelper.CreateArgs(1, 8, 12);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(24, result);
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();

@@ -187,5 +187,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
             return a == 0 ? b : a;
         }
+
+        public static int LeastCommonMultiple(int[] numbers)
+        {
+            return numbers.Aggregate(LeastCommonMultiple);
+        }
+
+        static int LeastCommonMultiple(int a, int b)
+        {
+            return a * b / GreatestCommonDevisor(a, b);
+        }
     }
 }

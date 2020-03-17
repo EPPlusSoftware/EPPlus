@@ -184,6 +184,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void LcmShouldReturnCorrectResult()
+        {
+            var expectedValue = 14;
+            var result = _parser.Parse("Lcm(7, 2)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void RomanShouldReturnCorrectResult()
         {
             var expectedValue = "CDXCIX";
