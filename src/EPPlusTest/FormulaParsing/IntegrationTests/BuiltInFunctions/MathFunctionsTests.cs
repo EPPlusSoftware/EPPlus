@@ -87,10 +87,115 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CombinShouldReturnCorrectResult()
+        {
+            var expectedValue = 15d;
+            var result = _parser.Parse("combin(6, 4)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void CombinaShouldReturnCorrectResult()
+        {
+            var expectedValue = 462d;
+            var result = _parser.Parse("combina(6, 6)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void SecShouldReturnCorrectResult()
+        {
+            var expectedValue = 1d;
+            var result = _parser.Parse("sec(0)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void SecHShouldReturnCorrectResult()
+        {
+            var expectedValue = 1d;
+            var result = _parser.Parse("sech(0)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void CscShouldReturnCorrectResult()
+        {
+            var expectedValue = 1d;
+            var result = _parser.Parse("csc(1.5707963267949)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void CschShouldReturnCorrectResult()
+        {
+            var expectedValue = 0.8004;
+            var result = _parser.Parse("csch(pi()/3)");
+            result = Math.Round((double)result, 4);
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void CotShouldReturnCorrectResult()
+        {
+            var expectedValue = -1d;
+            var result = _parser.Parse("Cot(-PI()/4)");
+            Assert.AreEqual(expectedValue, Math.Round((double)result, 1));
+        }
+
+        [TestMethod]
+        public void CothShouldReturnCorrectResult()
+        {
+            var expectedValue = 1.0903d;
+            var result = _parser.Parse("Coth(PI()/2)");
+            Assert.AreEqual(expectedValue, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void RadiansShouldReturnCorrectResult()
+        {
+            var expectedValue = Math.PI;
+            var result = _parser.Parse("Radians(180)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void AcotShouldReturnCorrectResult()
+        {
+            var expectedValue = 90d;
+            var result = _parser.Parse("degrees(Acot(0))");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void FloorShouldReturnCorrectResult()
         {
             var expectedValue = 22.3d;
             var result = _parser.Parse("Floor(22.35, 0.1)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void GcdShouldReturnCorrectResult()
+        {
+            var expectedValue = 1;
+            var result = _parser.Parse("Gcd(7, 2)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void LcmShouldReturnCorrectResult()
+        {
+            var expectedValue = 14;
+            var result = _parser.Parse("Lcm(7, 2)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void RomanShouldReturnCorrectResult()
+        {
+            var expectedValue = "CDXCIX";
+            var result = _parser.Parse("ROMAN(499)");
             Assert.AreEqual(expectedValue, result);
         }
 
@@ -398,6 +503,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         {
             var result = _parser.Parse("Fact(0)");
             Assert.AreEqual(1d, result);
+        }
+
+        [TestMethod]
+        public void FactDoubleShouldReturnAResult()
+        {
+            var result = _parser.Parse("FactDouble(13)");
+            Assert.AreEqual(135135d, result);
         }
 
         [TestMethod]

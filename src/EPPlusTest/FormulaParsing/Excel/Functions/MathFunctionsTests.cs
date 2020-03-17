@@ -177,6 +177,243 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void CombinShouldReturnCorrectResult_6_1()
+        {
+            var func = new Combin();
+
+            var args = FunctionsHelper.CreateArgs(6, 1);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(6d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinShouldReturnCorrectResult_6_2()
+        {
+            var func = new Combin();
+
+            var args = FunctionsHelper.CreateArgs(6, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(15d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinShouldReturnCorrectResult_decimal()
+        {
+            var func = new Combin();
+
+            var args = FunctionsHelper.CreateArgs(10.456, 3);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(120d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinaShouldReturnCorrectResult_6_2()
+        {
+            var func = new Combina();
+
+            var args = FunctionsHelper.CreateArgs(6, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(21d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinaShouldReturnCorrectResult_6_5()
+        {
+            var func = new Combina();
+
+            var args = FunctionsHelper.CreateArgs(6, 5);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(252d, result.Result);
+        }
+
+        [TestMethod]
+        public void SecShouldReturnCorrectResult_MinusPi()
+        {
+            var func = new Sec();
+            var args = FunctionsHelper.CreateArgs(-3.14159265358979);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(-1d, result.Result);
+        }
+
+        [TestMethod]
+        public void SecShouldReturnCorrectResult_Zero()
+        {
+            var func = new Sec();
+            var args = FunctionsHelper.CreateArgs(0d);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1d, result.Result);
+        }
+
+        [TestMethod]
+        public void SechShouldReturnCorrectResult_PiDividedBy4()
+        {
+            var func = new SecH();
+            var args = FunctionsHelper.CreateArgs(Math.PI/4);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.7549, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void SechShouldReturnCorrectResult_MinusPi()
+        {
+            var func = new SecH();
+            var args = FunctionsHelper.CreateArgs(-3.14159265358979);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.08627, Math.Round((double)result, 5));
+        }
+
+        [TestMethod]
+        public void SechShouldReturnCorrectResult_Zero()
+        {
+            var func = new SecH();
+            var args = FunctionsHelper.CreateArgs(0d);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1d, result.Result);
+        }
+
+        [TestMethod]
+        public void SecShouldReturnCorrectResult_PiDividedBy4()
+        {
+            var func = new Sec();
+            var args = FunctionsHelper.CreateArgs(Math.PI / 4);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(1.4142, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void CscShouldReturnCorrectResult_Minus6()
+        {
+            var func = new Csc();
+            var args = FunctionsHelper.CreateArgs(-6);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(3.5789, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void CotShouldReturnCorrectResult_2()
+        {
+            var func = new Cot();
+            var args = FunctionsHelper.CreateArgs(2);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-0.4577, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void CothShouldReturnCorrectResult_MinusPi()
+        {
+            var func = new Coth();
+            var args = FunctionsHelper.CreateArgs(Math.PI * -1);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-1.0037, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void RadiansShouldReturnCorrectResult_50()
+        {
+            var func = new Radians();
+            var args = FunctionsHelper.CreateArgs(50);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.8727, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void RadiansShouldReturnCorrectResult_360()
+        {
+            var func = new Radians();
+            var args = FunctionsHelper.CreateArgs(360);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(6.2832, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void AcotShouldReturnCorrectResult_1()
+        {
+            var func = new Acot();
+            var args = FunctionsHelper.CreateArgs(1);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(0.7854, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void CschShouldReturnCorrectResult_Pi()
+        {
+            var func = new Csch();
+            var args = FunctionsHelper.CreateArgs(Math.PI * -1);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-0.0866, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
+        public void RomanShouldReturnCorrectResult()
+        {
+            var func = new Roman();
+
+            var args = FunctionsHelper.CreateArgs(2);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("II", result, "2 was not II");
+
+            args = FunctionsHelper.CreateArgs(4);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("IV", result, "4 was not IV");
+
+            args = FunctionsHelper.CreateArgs(14);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XIV", result, "14 was not XIV");
+
+            args = FunctionsHelper.CreateArgs(23);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XXIII", result, "23 was not XXIII");
+
+            args = FunctionsHelper.CreateArgs(59);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("LIX", result, "59 was not LIX");
+
+            args = FunctionsHelper.CreateArgs(99);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XCIX", result, "99 was not XCIX");
+
+            args = FunctionsHelper.CreateArgs(412);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("CDXII", result, "412 was not CDXII");
+
+            args = FunctionsHelper.CreateArgs(1214);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("MCCXIV", result, "1214 was not MCCXIV");
+
+            args = FunctionsHelper.CreateArgs(3295);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("MMMCCXCV", result, "3295 was not MMMCCXCV");
+        }
+
+        [TestMethod]
+        public void GcdShouldReturnCorrectResult()
+        {
+            var func = new Gcd();
+
+            var args = FunctionsHelper.CreateArgs(15, 10, 25);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(5, result);
+
+            args = FunctionsHelper.CreateArgs(0, 8, 12);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(4, result);
+        }
+
+        [TestMethod]
+        public void LcmShouldReturnCorrectResult()
+        {
+            var func = new Lcm();
+
+            var args = FunctionsHelper.CreateArgs(15, 10, 25);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(150, result);
+
+            args = FunctionsHelper.CreateArgs(1, 8, 12);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(24, result);
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();
@@ -965,6 +1202,24 @@ namespace EPPlusTest.Excel.Functions
             var func = new Fact();
             var args = FunctionsHelper.CreateArgs(-1);
             func.Execute(args, _parsingContext);
+        }
+
+        [TestMethod]
+        public void FactDoubleShouldReturnCorrectResult5()
+        {
+            var func = new FactDouble();
+            var arg = FunctionsHelper.CreateArgs(5);
+            var result = func.Execute(arg, _parsingContext);
+            Assert.AreEqual(15d, result.Result);
+        }
+
+        [TestMethod]
+        public void FactDoubleShouldReturnCorrectResult8()
+        {
+            var func = new FactDouble();
+            var arg = FunctionsHelper.CreateArgs(8);
+            var result = func.Execute(arg, _parsingContext);
+            Assert.AreEqual(384d, result.Result);
         }
 
         [TestMethod]

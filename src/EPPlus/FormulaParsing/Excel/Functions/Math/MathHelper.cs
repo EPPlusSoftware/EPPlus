@@ -149,5 +149,53 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             return MathObj.Log(x) / MathObj.Log(n);
         }
+
+        public static double Factorial(double number)
+        {
+            return Factorial(number, 1d);
+        }
+
+        public static double Factorial(double number, double devisor)
+        {
+            var result = 1d;
+            for (var x = number; x > devisor; x--)
+            {
+                result *= x;
+            }
+            return result;
+        }
+
+        public static double Radians(double angle)
+        {
+            return (angle / 180) * MathObj.PI;
+        }
+
+        public static int GreatestCommonDevisor(int[] numbers)
+        {
+            return numbers.Aggregate(GreatestCommonDevisor);
+        }
+
+        static int GreatestCommonDevisor(int a, int b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a == 0 ? b : a;
+        }
+
+        public static int LeastCommonMultiple(int[] numbers)
+        {
+            return numbers.Aggregate(LeastCommonMultiple);
+        }
+
+        static int LeastCommonMultiple(int a, int b)
+        {
+            return a * b / GreatestCommonDevisor(a, b);
+        }
     }
 }

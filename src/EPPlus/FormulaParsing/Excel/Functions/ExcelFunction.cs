@@ -447,6 +447,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return new CompileResult(result, dataType);
         }
 
+        protected CompileResult CreateResult(eErrorType errorType)
+        {
+            return CreateResult(ExcelErrorValue.Create(errorType), DataType.ExcelError);
+        }
+
         /// <summary>
         /// Use this method to apply a function on a collection of arguments. The <paramref name="result"/>
         /// should be modifyed in the supplied <paramref name="action"/> and will contain the result

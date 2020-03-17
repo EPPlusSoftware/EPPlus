@@ -346,6 +346,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     }
                                     else
                                     {
+                                        // TODO: Find out circular reference from and to cell
                                         f = stack.Pop();
                                         goto iterateCells;
                                     }
