@@ -169,5 +169,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             return (angle / 180) * MathObj.PI;
         }
+
+        public static int GreatestCommonDevisor(int[] numbers)
+        {
+            return numbers.Aggregate(GreatestCommonDevisor);
+        }
+
+        static int GreatestCommonDevisor(int a, int b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a == 0 ? b : a;
+        }
     }
 }

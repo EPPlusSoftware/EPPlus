@@ -386,6 +386,20 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void GcdShouldReturnCorrectResult()
+        {
+            var func = new Gcd();
+
+            var args = FunctionsHelper.CreateArgs(15, 10, 25);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(5, result);
+
+            args = FunctionsHelper.CreateArgs(0, 8, 12);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(4, result);
+        }
+
+        [TestMethod]
         public void SumShouldCalculate2Plus3AndReturn5()
         {
             var func = new Sum();
