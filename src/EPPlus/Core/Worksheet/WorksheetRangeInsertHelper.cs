@@ -10,6 +10,7 @@
  *************************************************************************************************
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
@@ -165,13 +166,13 @@ namespace OfficeOpenXml.Core.Worksheet
             //Update data validation references
             foreach (var dv in ws.DataValidations)
             {
-                InsertSplitAddress(dv.Address, effectedAddress, shift);
+                ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
             }
 
             //Update Conditional formatting references
             foreach (var cf in ws.ConditionalFormatting)
             {
-                InsertSplitAddress(cf.Address, effectedAddress, shift);
+                ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
             }
 
             if(shift==eShiftTypeInsert.Down)
@@ -184,9 +185,53 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void InsertSplitAddress(ExcelAddress address, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        private static ExcelAddressBase InsertSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
         {
-            
+            var collide = effectedAddress.Collide(address);
+            if (collide == ExcelAddressBase.eAddressCollition.Partly)
+            {
+                var addressToShift = effectedAddress.Intersect(address);
+                var shiftedAddress = ShiftAddress(addressToShift, range, shift);
+                var newAddress = "";
+                if(address._fromRow < addressToShift._fromRow)
+                {
+                    newAddress = ExcelCellBase.GetAddress(address._fromRow, address._fromCol, addressToShift._fromRow-1, address._toCol)+",";
+                }
+                if (address._fromCol < addressToShift._fromCol)
+                {
+                    var fromRow = Math.Max(address._fromRow, addressToShift._fromRow);
+                    newAddress += ExcelCellBase.GetAddress(fromRow, address._fromCol, address._toRow, addressToShift._fromCol-1)+ ",";
+                }
+
+                newAddress += $"{shiftedAddress},";
+
+                if (address._toRow > addressToShift._toRow)
+                {
+                    newAddress += ExcelCellBase.GetAddress(addressToShift._toRow + 1, address._fromCol, address._toRow, address._toCol)+",";
+                }
+                if (address._toCol > addressToShift._toCol)
+                {
+                    newAddress += ExcelCellBase.GetAddress(address._fromRow, addressToShift._toCol + 1, address._toRow, address._toCol)+",";
+                }
+                return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length-1));
+            }
+            else if(collide!=ExcelAddressBase.eAddressCollition.No)
+            {
+                return ShiftAddress(address, range, shift);
+            }
+            return address;
+        }
+
+        private static ExcelAddressBase ShiftAddress(ExcelAddressBase address, ExcelAddressBase range, eShiftTypeInsert shift)
+        {
+            if (shift == eShiftTypeInsert.Down)
+            {
+                return address.AddRow(range._fromRow, range.Rows);
+            }
+            else
+            {
+                return address.AddColumn(range._fromCol, range.Columns);
+            }
         }
 
         private static void InsertPivottableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)

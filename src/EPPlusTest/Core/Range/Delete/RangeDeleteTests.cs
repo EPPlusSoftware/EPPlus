@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EPPlusTest.Core.Worksheet
+namespace EPPlusTest.Core.Range.Delete
 {
     [TestClass]
-    public class WorksheetRangeDeleteTests : TestBase
+    public class RangeDeleteTests : TestBase
     {
         public static ExcelPackage _pck;
         [ClassInitialize]

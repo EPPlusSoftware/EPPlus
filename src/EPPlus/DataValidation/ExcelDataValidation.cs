@@ -262,7 +262,7 @@ namespace OfficeOpenXml.DataValidation
         {
             get
             {
-                return new ExcelAddress(GetXmlNodeString(GetSqRefPath()));
+                return new ExcelAddress(GetXmlNodeString(GetSqRefPath()).Replace(" ", ","));
             }
             private set
             {
@@ -501,7 +501,7 @@ namespace OfficeOpenXml.DataValidation
         internal void SetAddress(string address)
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
-            SetXmlNodeString(GetSqRefPath(), dvAddress);
+            SetXmlNodeString(GetSqRefPath(), dvAddress.Replace(",", " "));
             
         }
     }

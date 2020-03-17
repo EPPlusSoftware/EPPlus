@@ -131,8 +131,8 @@ namespace OfficeOpenXml.Core.Worksheet
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
             {                
-                if((drawing.From.Column > colFrom || (drawing.From.Column == colFrom && drawing.From.ColumnOff==0)) &&
-                   (drawing.To.Column >= colTo))
+                if(!((drawing.From.Column > colFrom-1 || (drawing.From.Column == colFrom-1 && drawing.From.ColumnOff==0)) &&
+                   (drawing.To.Column <= colTo)))
                 {
                     continue;
                 }
@@ -189,8 +189,8 @@ namespace OfficeOpenXml.Core.Worksheet
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
             {
-                if ((drawing.From.Row > rowFrom || (drawing.From.Row == rowFrom && drawing.From.RowOff == 0)) &&
-                   (drawing.To.Row >= rowTo))
+                if (!((drawing.From.Row > rowFrom - 1 || (drawing.From.Row == rowFrom - 1 && drawing.From.RowOff == 0)) &&
+                   (drawing.To.Row <= rowTo)))
                 {
                     continue;
                 }

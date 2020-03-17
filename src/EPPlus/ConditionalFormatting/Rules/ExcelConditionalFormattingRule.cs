@@ -161,7 +161,8 @@ namespace OfficeOpenXml.ConditionalFormatting
       get
       {
         return new ExcelAddress(
-          Node.ParentNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Sqref].Value);
+          Node.ParentNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Sqref].Value.Replace(" ",",")
+          );
       }
       set
       {

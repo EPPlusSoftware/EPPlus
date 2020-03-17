@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EPPlusTest.Core.Worksheet
+namespace EPPlusTest.Core.Range.Insert
 {
     [TestClass]
-    public class WorksheetRangeInsertTests : TestBase
+    public class RangeInsertTests : TestBase
     {
         public static ExcelPackage _pck;
         [ClassInitialize]
@@ -690,5 +690,184 @@ namespace EPPlusTest.Core.Worksheet
             Assert.AreEqual(5, ws.Cells["D2"].StyleID);
             Assert.AreEqual(6, ws.Cells["D3"].StyleID);
         }
+        #region Data validation
+        [TestMethod]
+        public void ValidateDatavalidationFullShiftDown()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValShiftDownFull");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:E6", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftDown_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialDownFullL");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:C2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:C6,D2:E5", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftDown_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialDownFullI");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["C2:D2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C3:D6,E2:E5", any.Address.Address);
+        }
+
+
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftDown_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialRightFullR");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["C2:E3"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C4:E7", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftRight_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialRightFullTop");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F4,B5:E5", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftRight_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialRightFullIns");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A3:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F4,B5:E5", any.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateDatavalPartialShiftRight_Bottom()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialDownFullBottom");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A3:A6"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F5", any.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateDatavalidationFullShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValidationShiftRightFull");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:A5"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F5", any.Address.Address);
+        }
+        #endregion
+        #region Conditional formatting
+        [TestMethod]
+        public void ValidateConditionalFormattingFullShiftDown()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormShiftDownFull");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+            ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:E6", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftDown_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullL");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:C2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:C6,D2:E5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftDown_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullI");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C2:D2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C3:D6,E2:E5", cf.Address.Address);
+        }
+
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftDown_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullR");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C2:E3"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C4:E7", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftRight_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullTop");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F4,B5:E5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftRight_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullIns");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A3:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F4,B5:E5", cf.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftRight_Bottom()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullBottom");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A3:A6"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F5", cf.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingFullShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormShiftRightFull");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:A5"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F5", cf.Address.Address);
+        }
+        #endregion
     }
 }

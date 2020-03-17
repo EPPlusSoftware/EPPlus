@@ -254,6 +254,22 @@ namespace OfficeOpenXml
             }
         }
 
+        internal ExcelAddressBase Intersect(ExcelAddressBase address)
+        {
+            if(address._fromRow > _toRow || _toRow < address._fromRow ||
+               address._fromCol > _toCol || _toCol < address._fromCol)
+            {
+                return null;
+            }
+            
+            var fromRow = Math.Max(address._fromRow, _fromRow);
+            var toRow = Math.Min(address._toRow, _toRow);
+            var fromCol = Math.Max(address._fromCol, _fromCol);
+            var toCol = Math.Min(address._toCol, _toCol);
+
+            return new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
+        }
+
         internal bool IsInside(ExcelAddressBase effectedAddress)
         {
             var c = Collide(effectedAddress);
