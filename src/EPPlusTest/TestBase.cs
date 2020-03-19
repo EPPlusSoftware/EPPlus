@@ -265,5 +265,33 @@ namespace EPPlusTest
                 return null;
             }
         }
+        protected void AssertIsNull(ExcelRangeBase range)
+        {
+            foreach (var r in range)
+            {
+                Assert.IsNotNull(r.Value);
+            }
+        }
+
+
+        protected void AssertNoChange(ExcelRangeBase range)
+        {
+            foreach (var r in range)
+            {
+                Assert.AreEqual(r.Address, r.Value);
+            }
+        }
+
+        protected static void SetValues(ExcelWorksheet ws, int rowcols)
+        {
+            for (int r = 1; r <= rowcols; r++)
+            {
+                for (int c = 1; c <= rowcols; c++)
+                {
+                    ws.Cells[r, c].Value = ExcelCellBase.GetAddress(r, c);
+                }
+            }
+        }
+
     }
 }

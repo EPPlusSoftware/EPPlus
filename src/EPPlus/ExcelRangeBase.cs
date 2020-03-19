@@ -1158,21 +1158,45 @@ namespace OfficeOpenXml
                 _changePropMethod(this, _setIsRichTextDelegate, value);
             }
         }
+        /// <summary>
+        /// Insert cells into the worksheet and shift the cells to the selected direction.
+        /// </summary>
+        /// <param name="shift">The direction that the cells will shift.</param>
         public void Insert(eShiftTypeInsert shift)
         {
             if(shift==eShiftTypeInsert.EntireColumn)
             {
-                WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, -1);
+                WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, _fromCol - 1);
             }
             else if(shift==eShiftTypeInsert.EntireRow)
             {
-                WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, -1);
+                WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, _fromRow - 1);
             }
             else
             {
                 WorksheetRangeInsertHelper.Insert(this, shift);
             }
         }
+        /// <summary>
+        /// Delete the range from the worksheet and shift effected cells in the selected direction.
+        /// </summary>
+        /// <param name="shift">The direction that the cells will shift.</param>
+        public void Delete(eShiftTypeDelete shift)
+        {
+            if (shift == eShiftTypeDelete.EntireColumn)
+            {
+                WorksheetRangeDeleteHelper.DeleteColumn(_worksheet, _fromCol, Columns);
+            }
+            else if (shift == eShiftTypeDelete.EntireRow)
+            {
+                WorksheetRangeDeleteHelper.DeleteRow(_worksheet, _fromRow, Rows);
+            }
+            else
+            {
+                WorksheetRangeDeleteHelper.Delete(this, shift);
+            }
+        }
+
         /// <summary>
         /// Is the range a part of an Arrayformula
         /// </summary>

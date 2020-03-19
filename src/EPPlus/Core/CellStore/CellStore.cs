@@ -519,24 +519,28 @@ namespace OfficeOpenXml.Core.CellStore
             }
         }
 
-        internal void MoveLeft(ExcelAddressBase fromAddress, ExcelCellAddress toAddress)
+        internal void DeleteShiftLeft(ExcelAddressBase fromAddress)
         {
             if (ColumnCount == 0) return;
-
-            var col = fromAddress._fromCol;
 
             lock (_columnIndex)
             {
                 var maxCol = _columnIndex[ColumnCount - 1].Index;
-                for (int sourceCol = fromAddress._fromCol; sourceCol <= fromAddress._toCol; sourceCol++)
+                var cols = fromAddress.Columns;
+                for (int col = fromAddress._fromCol; col <= fromAddress._toCol; col++)
                 {
-                    var destCol = toAddress.Column + (sourceCol - fromAddress._fromCol);
-                    if (destCol > maxCol) return;
-                    MoveRangeColumnWise(sourceCol, fromAddress._fromRow, fromAddress._toRow, destCol, toAddress.Row);
+                    var sourceCol = col+cols;
+                    if (col > maxCol)
+                    {
+                        Delete(fromAddress._fromRow, col, fromAddress.Rows, fromAddress._toCol, false);
+                        return;
+                    }
+                    MoveRangeColumnWise(sourceCol, fromAddress._fromRow, fromAddress._toRow, col, fromAddress._fromRow);
                 }
+                Delete(fromAddress._fromRow, maxCol, fromAddress.Rows, 1, false);
             }
         }
-        internal void MoveRight(ExcelAddressBase fromAddress)
+        internal void InsertShiftRight(ExcelAddressBase fromAddress)
         {
             if (ColumnCount == 0) return;
             lock (_columnIndex)

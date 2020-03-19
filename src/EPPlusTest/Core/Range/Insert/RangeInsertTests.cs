@@ -274,8 +274,8 @@ namespace EPPlusTest.Core.Range.Insert
         public void ValidateCommentsAfterInsertShiftRight()
         {
             //Setup
-            var ws = _pck.Workbook.Worksheets.Add("InsertRangeCommentsLeft");
-            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeCommentsRight");
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");  
             ws.Cells["B1"].AddComment("Comment B1", "EPPlus");
             ws.Cells["C1"].AddComment("Comment C1", "EPPlus");
 

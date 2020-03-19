@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 var delRange = new ExcelAddressBase(rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns);
                 WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange);
 
-                DeleteCellStores(ws, rowFrom, 0, rows, ExcelPackage.MaxColumns + 1, true);
+                DeleteCellStores(ws, rowFrom, 0, rows, ExcelPackage.MaxColumns + 1);
 
                 foreach (var wsToUpdate in ws.Workbook.Worksheets)
                 {
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 var delRange = new ExcelAddressBase(1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1);
                 WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange);
 
-                DeleteCellStores(ws, 0, columnFrom, 0, columns, true);
+                DeleteCellStores(ws, 0, columnFrom, 0, columns);
 
                 foreach (var wsToUpdate in ws.Workbook.Worksheets)
                 {
@@ -168,23 +168,47 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void DeleteCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, bool shift)
+        private static void DeleteCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, int columnTo = ExcelPackage.MaxColumns)
         {
             //Store
-            ws._values.Delete(rowFrom, columnFrom, rows, columns, shift);
-            ws._formulas.Delete(rowFrom, columnFrom, rows, columns, shift);
-            ws._flags.Delete(rowFrom, columnFrom, rows, columns, shift);
-            ws._commentsStore.Delete(rowFrom, columnFrom, rows, columns, shift);
-            ws._hyperLinks.Delete(rowFrom, columnFrom, rows, columns, shift);
+            ws._values.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._formulas.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._flags.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._commentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._vmlDrawings?._drawings.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._hyperLinks.Delete(rowFrom, columnFrom, rows, columns, true);
 
-            ws._names.Delete(rowFrom, columnFrom, rows, columns);
-            ws.Comments.Delete(rowFrom, columnFrom, rows, columns);
-            ws.Workbook.Names.Delete(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
-
-            if (rowFrom == 0 && rows >= ExcelPackage.MaxRows) //Delete full column
+            if (rows == 0 || columns == 0)
             {
-                AdjustColumnMinMax(ws, columnFrom, columns);
+                ws._names.Delete(rowFrom, columnFrom, rows, columns);
+                ws.Workbook.Names.Delete(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
+                ws.Comments.Delete(rowFrom, columnFrom, rows, columns);
+
+                if (rowFrom == 0 && rows >= ExcelPackage.MaxRows) //Delete full column
+                {
+                    AdjustColumnMinMax(ws, columnFrom, columns);
+                }
             }
+            else
+            {
+                ws.Comments.Delete(rowFrom, columnFrom, rows, 0, 0, columnTo);
+                ws._names.Delete(rowFrom, columnFrom, rows, 0, columnFrom, columnTo);
+                ws.Workbook.Names.Delete(rowFrom, columnFrom, rows, 0, n => n.Worksheet == ws, columnFrom, columnTo);
+            }
+        }
+        private static void DeleteCellStoresShiftLeft(ExcelWorksheet ws, ExcelRangeBase fromAddress)
+        {
+            //Store
+            ws._values.DeleteShiftLeft(fromAddress);
+            ws._formulas.DeleteShiftLeft(fromAddress);
+            ws._flags.DeleteShiftLeft(fromAddress);
+            ws._commentsStore.DeleteShiftLeft(fromAddress);
+            ws._vmlDrawings?._drawings.DeleteShiftLeft(fromAddress);
+            ws._hyperLinks.DeleteShiftLeft(fromAddress);
+
+            ws.Comments.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns);
+            ws._names.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
+            ws.Workbook.Names.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, n => n.Worksheet == ws, fromAddress._fromRow, fromAddress._toRow);
         }
         private static void AdjustColumnMinMax(ExcelWorksheet ws, int columnFrom, int columns)
         {
@@ -293,6 +317,27 @@ namespace OfficeOpenXml.Core.Worksheet
                         cse.Value = ExcelCellBase.UpdateFormulaReferences(v, 0, -columns, 0, columnFrom, ws.Name, workSheetName);
                     }
                 }
+            }
+        }
+
+        internal static void Delete(ExcelRangeBase range, eShiftTypeDelete shift)
+        {
+            if (shift == eShiftTypeDelete.Left)
+            {
+                ValidateColumn(range._fromCol, range.Columns);
+            }
+            else
+            {
+                ValidateRow(range._fromRow, range.Rows);
+            }
+
+            if (shift == eShiftTypeDelete.Up)
+            {
+                DeleteCellStores(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
+            }
+            else
+            {
+                DeleteCellStoresShiftLeft(range._worksheet, range);
             }
         }
     }

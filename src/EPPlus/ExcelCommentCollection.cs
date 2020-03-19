@@ -16,6 +16,8 @@ using System.Xml;
 using System.Collections;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Core.CellStore;
+using System.Linq;
+using OfficeOpenXml.Core;
 
 namespace OfficeOpenXml
 {
@@ -26,6 +28,8 @@ namespace OfficeOpenXml
     {
         //internal RangeCollection _comments;
         List<ExcelComment> _list=new List<ExcelComment>();
+        List<int> _listIndex = new List<int>();
+
         internal ExcelCommentCollection(ExcelPackage pck, ExcelWorksheet ws, XmlNamespaceManager ns)
         {
             CommentXml = new XmlDocument();
@@ -61,9 +65,9 @@ namespace OfficeOpenXml
             foreach (XmlElement node in CommentXml.SelectNodes("//d:commentList/d:comment", NameSpaceManager))
             {
                 var comment = new ExcelComment(NameSpaceManager, node, new ExcelRangeBase(Worksheet, node.GetAttribute("ref")));
-                //lst.Add(comment);
+                _listIndex.Add(_list.Count);
+                Worksheet._commentsStore.SetValue(comment.Range._fromRow, comment.Range._fromCol, _list.Count);
                 _list.Add(comment);
-                Worksheet._commentsStore.SetValue(comment.Range._fromRow, comment.Range._fromCol, _list.Count-1);
             }
             //_comments = new RangeCollection(lst);
         }
@@ -94,7 +98,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _list.Count;
+                return _listIndex.Count;
             }
         }
         /// <summary>
@@ -106,11 +110,11 @@ namespace OfficeOpenXml
         {
             get
             {
-                if (Index < 0 || Index >= _list.Count)
+                if (Index < 0 || Index >= _listIndex.Count)
                 {
                     throw(new ArgumentOutOfRangeException("Comment index out of range"));
                 }
-                return _list[Index] as ExcelComment;
+                return _list[_listIndex[Index]] as ExcelComment;
             }
         }
         /// <summary>
@@ -122,15 +126,6 @@ namespace OfficeOpenXml
         {
             get
             {
-                //ulong cellID=ExcelCellBase.GetCellID(Worksheet.SheetID, cell.Row, cell.Column);
-                //if (_comments.IndexOf(cellID) >= 0)
-                //{
-                //    return _comments[cellID] as ExcelComment;
-                //}
-                //else
-                //{
-                //    return null;
-                //}
                 int i=-1;
                 if (Worksheet._commentsStore.Exists(cell.Row, cell.Column, ref i))
                 {
@@ -176,8 +171,9 @@ namespace OfficeOpenXml
             {
                 comment.Author=author;
             }
+            _listIndex.Add(_list.Count);
+            Worksheet._commentsStore.SetValue(cell.Start.Row, cell.Start.Column, _list.Count);
             _list.Add(comment);
-            Worksheet._commentsStore.SetValue(cell.Start.Row, cell.Start.Column, _list.Count-1);
             //Check if a value exists otherwise add one so it is saved when the cells collection is iterated
             if (!Worksheet.ExistsValueInner(cell._fromRow, cell._fromCol))
             {
@@ -191,6 +187,10 @@ namespace OfficeOpenXml
         /// <param name="comment">The comment to remove</param>
         public void Remove(ExcelComment comment)
         {
+            Remove(comment, false);
+        }
+        internal void Remove(ExcelComment comment, bool shift)
+        {
             int i = -1;
             ExcelComment c=null;
             if (Worksheet._commentsStore.Exists(comment.Range._fromRow, comment.Range._fromCol, ref i))
@@ -202,17 +202,10 @@ namespace OfficeOpenXml
                 comment.TopNode.ParentNode.RemoveChild(comment.TopNode); //Remove VML
                 comment._commentHelper.TopNode.ParentNode.RemoveChild(comment._commentHelper.TopNode); //Remove Comment
 
-                Worksheet.VmlDrawingsComments._drawings.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, false);
-                _list.RemoveAt(i);                
-                Worksheet._commentsStore.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, false);   //Issue 15549, Comments should not be shifted 
-                var ci = new CellStoreEnumerator<int>(Worksheet._commentsStore);
-                while(ci.Next())
-                {
-                    if(ci.Value>i)
-                    {
-                        ci.Value -= 1;
-                    }
-                }
+                Worksheet.VmlDrawingsComments._drawings.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, shift);
+                Worksheet._commentsStore.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, shift);
+                _list[i]=null;
+                _listIndex.Remove(i);
             }
             else
             {
@@ -227,18 +220,22 @@ namespace OfficeOpenXml
         /// <param name="fromCol">The start column.</param>
         /// <param name="rows">The number of rows to insert.</param>
         /// <param name="columns">The number of columns to insert.</param>
-        internal void Delete(int fromRow, int fromCol, int rows, int columns)
+        /// <param name="toRow">If the delete is in a range, this is the end row</param>
+        /// <param name="toCol">If the delete is in a range, this the end column</param>
+        internal void Delete(int fromRow, int fromCol, int rows, int columns, int toRow = ExcelPackage.MaxRows, int toCol = ExcelPackage.MaxColumns)
         {
             List<ExcelComment> deletedComments = new List<ExcelComment>();
             ExcelAddressBase address = null;
-            foreach (ExcelComment comment in _list)
+            foreach (ExcelComment comment in _list.Where(x=>x!=null))
             {
                 address = new ExcelAddressBase(comment.Address);
-                if (fromCol>0 && address._fromCol >= fromCol)
+                if (columns > 0 && address._fromCol >= fromCol &&
+                    address._fromRow >= fromRow && address._toRow <= toRow)
                 {
                     address = address.DeleteColumn(fromCol, columns);
                 }
-                if(fromRow > 0 && address._fromRow >= fromRow)
+                if (rows > 0 && address._fromRow >= fromRow &&
+                    address._fromCol >= fromCol && address._toCol <= toCol)
                 {
                     address = address.DeleteRow(fromRow, rows);
                 }
@@ -251,9 +248,12 @@ namespace OfficeOpenXml
                     comment.Reference = address.Address;
                 }
             }
+
             foreach(var comment in deletedComments)
             {
-                Remove(comment);
+                comment.TopNode.ParentNode.RemoveChild(comment.TopNode); //Remove VML
+                comment._commentHelper.TopNode.ParentNode.RemoveChild(comment._commentHelper.TopNode); //Remove Comment
+
             }
         }
         /// <summary>
@@ -267,7 +267,7 @@ namespace OfficeOpenXml
         /// <param name="toCol">If the insert is in a range, this the end column</param>
         internal void Insert(int fromRow, int fromCol, int rows, int columns, int toRow = ExcelPackage.MaxRows, int toCol=ExcelPackage.MaxColumns)
         {
-            foreach (ExcelComment comment in _list)
+            foreach (ExcelComment comment in _list.Where(x => x != null))
             {
                 var address = new ExcelAddressBase(comment.Address);
                 if (rows > 0 && address._fromRow >= fromRow && 
@@ -298,7 +298,7 @@ namespace OfficeOpenXml
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _list.GetEnumerator();
+            return _list.Where(x=>x!=null).GetEnumerator();
         }
         #endregion
 

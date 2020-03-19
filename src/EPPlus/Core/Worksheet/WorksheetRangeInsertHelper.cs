@@ -668,6 +668,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._commentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
             ws._flags.Insert(rowFrom, columnFrom, rows, columns);
+            ws._vmlDrawings?._drawings.Insert(rowFrom, columnFrom, rows, columns);
 
             if(rows==0||columns==0)
             {
@@ -684,11 +685,12 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void InsertCellStoreShiftRight(ExcelWorksheet ws, ExcelAddressBase fromAddress)
         {
-            ws._values.MoveRight(fromAddress);
-            ws._formulas.MoveRight(fromAddress);
-            ws._commentsStore.MoveRight(fromAddress);
-            ws._hyperLinks.MoveRight(fromAddress);
-            ws._flags.MoveRight(fromAddress);
+            ws._values.InsertShiftRight(fromAddress);
+            ws._formulas.InsertShiftRight(fromAddress);
+            ws._commentsStore.InsertShiftRight(fromAddress);
+            ws._hyperLinks.InsertShiftRight(fromAddress);
+            ws._flags.InsertShiftRight(fromAddress);
+            ws._vmlDrawings?._drawings.InsertShiftRight(fromAddress);
 
             ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns);
             ws._names.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);

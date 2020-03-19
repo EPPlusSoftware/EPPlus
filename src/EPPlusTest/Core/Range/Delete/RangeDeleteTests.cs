@@ -20,7 +20,7 @@ namespace EPPlusTest.Core.Range.Delete
             InitBase();
             _pck = OpenPackage("WorksheetRangeDelete.xlsx", true);
         }
-        [ClassCleanup] 
+        [ClassCleanup]
         public static void Cleanup()
         {
             SaveAndCleanup(_pck);
@@ -39,7 +39,7 @@ namespace EPPlusTest.Core.Range.Delete
             //Act
             ws.DeleteRow(3, 1);
             var wsError = _pck.Workbook.Worksheets["DeleteRow_Sheet1"];
-            if(wsError!=null)
+            if (wsError != null)
             {
                 Assert.AreEqual(1, wsError._sharedFormulas.Count);
             }
@@ -308,6 +308,199 @@ namespace EPPlusTest.Core.Range.Delete
                 Assert.AreEqual("SUM($D$1:$E$1)", ws1.Cells["A1"].Formula);
                 Assert.AreEqual("SUM(sheet1!$D$1:$E$1)", ws2.Cells["A1"].Formula);
             }
+        }
+        [TestMethod]
+        public void ValidateValuesAfterDeleteRowInRangeShiftUp()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeDown");
+            SetValues(ws,3);
+
+            //Act
+            ws.Cells["B2"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.AreEqual("A2", ws.Cells["A2"].Value);
+            Assert.AreEqual("A3", ws.Cells["A3"].Value);
+            Assert.AreEqual("B1", ws.Cells["B1"].Value);
+            Assert.AreEqual("B3", ws.Cells["B2"].Value);
+            Assert.IsNull(ws.Cells["B3"].Value);
+            Assert.AreEqual("C1", ws.Cells["C1"].Value);
+            Assert.AreEqual("C2", ws.Cells["C2"].Value);
+            Assert.AreEqual("C3", ws.Cells["C3"].Value);
+        }
+        [TestMethod]
+        public void ValidateValuesAfterDeleteRowInRangeShiftLeft()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeLeft");
+            SetValues(ws, 3);
+
+            //Act
+            ws.Cells["B2"].Delete(eShiftTypeDelete.Left);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.AreEqual("A2", ws.Cells["A2"].Value);
+            Assert.AreEqual("A3", ws.Cells["A3"].Value);
+            Assert.AreEqual("B1", ws.Cells["B1"].Value);
+            Assert.AreEqual("C2", ws.Cells["B2"].Value);
+            Assert.AreEqual("C1", ws.Cells["C1"].Value);
+            Assert.IsNull(ws.Cells["C2"].Value);
+            Assert.AreEqual("C3", ws.Cells["C3"].Value);
+
+            //Act 2
+            ws.Cells["A1:B1"].Delete(eShiftTypeDelete.Left);
+            
+            //Assert 2
+            Assert.AreEqual("C1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.IsNull(ws.Cells["C1"].Value);
+        }
+
+        [TestMethod]
+        public void ValidateValuesAfterDeleteInRangeShiftUpTwoRows()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeUpTwoRows");
+            SetValues(ws, 4);
+
+            //Act
+            ws.Cells["B1:C2"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            AssertNoChange(ws.Cells["A1:A4,D1:D4"]);
+            AssertIsNull(ws.Cells["B3:C4"]);
+
+            Assert.AreEqual("B3", ws.Cells["B1"].Value);
+            Assert.AreEqual("B4", ws.Cells["B2"].Value);            
+            Assert.AreEqual("C3", ws.Cells["C1"].Value);
+            Assert.AreEqual("C4", ws.Cells["C2"].Value);
+        }
+        [TestMethod]
+        public void ValidateValuesAfterDeleteInRangeShiftLeftTwoRows()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeLeftTwoRows");
+            SetValues(ws, 4);
+
+            //Act
+            ws.Cells["B1:C2"].Delete(eShiftTypeDelete.Left);
+
+            //Assert
+            AssertNoChange(ws.Cells["A1:A4,D1:D4"]);
+            AssertIsNull(ws.Cells["C1:D2"]);
+
+            Assert.AreEqual("D1", ws.Cells["B1"].Value);
+            Assert.AreEqual("D2", ws.Cells["B2"].Value);
+        }
+
+
+        [TestMethod]
+        public void ValidateCommentsAfterDeleteShiftUp()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeCommentsUp");
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
+            ws.Cells["A2"].AddComment("Comment A2", "EPPlus");
+            ws.Cells["A3"].AddComment("Comment A3", "EPPlus");
+
+            //Act
+            ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            Assert.AreEqual("Comment A1", ws.Cells["A1"].Comment.Text);
+            Assert.AreEqual("Comment A3", ws.Cells["A2"].Comment.Text);
+            Assert.IsNull(ws.Cells["A3"].Comment);
+        }
+        [TestMethod]
+        public void ValidateCommentsAfterDeleteShiftLeft()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeCommentsLeft");
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
+            ws.Cells["B1"].AddComment("Comment B1", "EPPlus");
+            ws.Cells["C1"].AddComment("Comment C1", "EPPlus");
+
+            //Act
+            ws.Cells["B1"].Delete(eShiftTypeDelete.Left);
+
+            //Assert
+            Assert.AreEqual("Comment A1", ws.Cells["A1"].Comment.Text);
+            Assert.AreEqual("Comment C1", ws.Cells["B1"].Comment.Text);
+            Assert.IsNull(ws.Cells["C1"].Comment);
+        }
+        [TestMethod]
+        public void ValidateNameAfterDeleteShiftUp()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeNamesDown");
+            ws.Names.Add("NameA1", ws.Cells["A1"]);
+            ws.Names.Add("NameA2", ws.Cells["A2"]);
+            ws.Names.Add("NameB1", ws.Cells["B1"]);
+            ws.Names.Add("NameB2", ws.Cells["B2"]);
+            ws.Names.Add("NameC1", ws.Cells["C1"]);
+            ws.Names.Add("NameC2", ws.Cells["C2"]);
+
+            //Act
+            ws.Cells["A1"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            Assert.AreEqual("#REF!", ws.Names["NameA1"].Address);
+            Assert.AreEqual("A1", ws.Names["NameA2"].Address);
+            Assert.AreEqual("B1", ws.Names["NameB1"].Address);
+            Assert.AreEqual("C1", ws.Names["NameC1"].Address);
+        }
+        [TestMethod]
+        public void ValidateNameAfterDeleteShiftUp_MustBeInsideRange()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeInsideNamesDown");
+            ws.Names.Add("NameA2B4", ws.Cells["A2:B4"]);
+            ws.Names.Add("NameB2D3", ws.Cells["B2:D3"]);
+            ws.Names.Add("NameC1F3", ws.Cells["C1:F3"]);
+
+            //Act
+            ws.Cells["A2:B3"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            Assert.AreEqual("A2:B2", ws.Names["NameA2B4"].Address);
+            //Assert.AreEqual("B2:D3", ws.Names["NameB2D3"].Address);
+            //Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+
+            //ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
+            //Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
+            //Assert.AreEqual("B6:D7", ws.Names["NameB2D3"].Address);
+            //Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+
+            //ws.Cells["B2:F2"].Insert(eShiftTypeInsert.Down);
+            //Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
+            //Assert.AreEqual("B7:D8", ws.Names["NameB2D3"].Address);
+            //Assert.AreEqual("C1:F4", ws.Names["NameC1F3"].Address);
+        }
+
+        [TestMethod]
+        public void ValidateNamesAfterDeleteShiftLeft_MustBeInsideRange()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeInsideNamesRight");
+            ws.Names.Add("NameB1D2", ws.Cells["B1:D2"]);
+            ws.Names.Add("NameB2C4", ws.Cells["B2:D4"]);
+            ws.Names.Add("NameA3C6", ws.Cells["A3:C6"]);
+
+            //Act
+            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Right);
+
+            ////Assert
+            //Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
+            //Assert.AreEqual("B2:D4", ws.Names["NameB2C4"].Address);
+            //Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+
+            //ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
+            //Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
+            //Assert.AreEqual("B6:D8", ws.Names["NameB2C4"].Address);
+            //Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
         }
     }
 }

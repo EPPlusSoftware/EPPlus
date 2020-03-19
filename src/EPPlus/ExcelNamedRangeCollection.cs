@@ -143,31 +143,32 @@ namespace OfficeOpenXml
                 namedRange.Address = address.Address;
             }
         }
-        internal void Delete(int rowFrom, int colFrom, int rows, int cols)
+        internal void Delete(int rowFrom, int colFrom, int rows, int cols, int lowerLimint = 0, int upperLimit = int.MaxValue)
         {
-            Delete(rowFrom, colFrom, rows, cols, n => true);
+            Delete(rowFrom, colFrom, rows, cols, n => true, lowerLimint, upperLimit);
         }
-        internal void Delete(int rowFrom, int colFrom, int rows, int cols, Func<ExcelNamedRange, bool> filter)
+        internal void Delete(int rowFrom, int colFrom, int rows, int cols, Func<ExcelNamedRange, bool> filter, int lowerLimint = 0, int upperLimit = int.MaxValue)
         {
             var namedRanges = this._list.Where(filter);
             foreach (var namedRange in namedRanges)
             {
-                ExcelAddressBase adr;
-                if (cols > 0 && rowFrom == 0 && rows >= ExcelPackage.MaxRows)   //Issue 15554. Check
+                var address = new ExcelAddressBase(namedRange.Address);
+                if (rows > 0 && address._toCol <= upperLimit && address._fromCol >= lowerLimint)
                 {
-                    adr = namedRange.DeleteColumn(colFrom, cols);
+                    address = namedRange.DeleteRow(rowFrom, rows);
                 }
-                else
+                if (cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint)
                 {
-                    adr = namedRange.DeleteRow(rowFrom, rows);
+                    address = namedRange.DeleteColumn(colFrom, cols);
                 }
-                if (adr == null)
+
+                if (address == null)
                 {
                     namedRange.Address = "#REF!";
                 }
                 else
                 {
-                    namedRange.Address = adr.Address;
+                    namedRange.Address = address.Address;
                 }
             }
         }
