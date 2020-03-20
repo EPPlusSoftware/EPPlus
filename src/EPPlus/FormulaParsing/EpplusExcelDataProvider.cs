@@ -310,7 +310,7 @@ namespace OfficeOpenXml.FormulaParsing
                 addr = ConvertToA1C1(addr);
             }
             //SetCurrentWorksheet(addr.WorkSheet); 
-            var wsName = string.IsNullOrEmpty(addr.WorkSheet) ? _currentWorksheet.Name : addr.WorkSheet;
+            var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
             var ws = _package.Workbook.Worksheets[wsName];
             //return new CellsStoreEnumerator<object>(ws._values, addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
             return new RangeInfo(ws, addr);
@@ -323,7 +323,7 @@ namespace OfficeOpenXml.FormulaParsing
                 addr = ConvertToA1C1(addr);
             }
             //SetCurrentWorksheet(addr.WorkSheet); 
-            var wsName = string.IsNullOrEmpty(addr.WorkSheet) ? _currentWorksheet.Name : addr.WorkSheet;
+            var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
             var ws = _package.Workbook.Worksheets[wsName];
             //return new CellsStoreEnumerator<object>(ws._values, addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
             return new RangeInfo(ws, addr);
@@ -402,7 +402,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             SetCurrentWorksheet(ExcelAddressInfo.Parse(address));
             var addr = new ExcelAddress(address);
-            var wsName = string.IsNullOrEmpty(addr.WorkSheet) ? _currentWorksheet.Name : addr.WorkSheet;
+            var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
             var ws = _package.Workbook.Worksheets[wsName];
             return (IEnumerable<object>)(new CellStoreEnumerator<ExcelValue>(ws._values, addr._fromRow, addr._fromCol, addr._toRow, addr._toCol));
         }

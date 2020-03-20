@@ -184,7 +184,7 @@ namespace OfficeOpenXml.Core
 
                 if (cell.Formula != null)
                 {
-                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(cell.Formula.ToString(), Destination._fromRow - fromRow, Destination._fromCol - fromCol, 0, 0, Destination.WorkSheet, Destination.WorkSheet, true);
+                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(cell.Formula.ToString(), Destination._fromRow - fromRow, Destination._fromCol - fromCol, 0, 0, Destination.WorkSheetName, Destination.WorkSheetName, true);
                     Destination._worksheet._formulas.SetValue(cell.Row, cell.Column, cell.Formula);
                 }
                 if (cell.HyperLink != null)

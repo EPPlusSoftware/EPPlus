@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             ValidateArguments(arguments, 1);
             var address = ArgToAddress(arguments, 0);
             var adr = new ExcelAddress(address);
-            var ws = adr.WorkSheet;
+            var ws = adr.WorkSheetName;
             if (string.IsNullOrEmpty(ws))
             {
                 ws = context.Scopes.Current.Address.Worksheet;

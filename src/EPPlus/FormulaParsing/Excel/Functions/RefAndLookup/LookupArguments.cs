@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var rangeInfo = arg1 as ExcelDataProvider.IRangeInfo;
                 if (rangeInfo != null)
                 {
-                    RangeAddress = string.IsNullOrEmpty(rangeInfo.Address.WorkSheet) ? rangeInfo.Address.Address : "'" + rangeInfo.Address.WorkSheet + "'!" + rangeInfo.Address.Address;
+                    RangeAddress = string.IsNullOrEmpty(rangeInfo.Address.WorkSheetName) ? rangeInfo.Address.Address : "'" + rangeInfo.Address.WorkSheetName + "'!" + rangeInfo.Address.Address;
                     RangeInfo = rangeInfo;
                     ArgumentDataType = LookupArgumentDataType.ExcelRange;
                 }
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (indexVal.DataType == DataType.ExcelAddress)
             {
                 var address = new ExcelAddress(indexVal.Value.ToString());
-                var indexObj = context.ExcelDataProvider.GetRangeValue(address.WorkSheet, address._fromRow, address._fromCol);
+                var indexObj = context.ExcelDataProvider.GetRangeValue(address.WorkSheetName, address._fromRow, address._fromCol);
                 LookupIndex = (int) _argumentParsers.GetParser(DataType.Integer).Parse(indexObj);
             }
             else

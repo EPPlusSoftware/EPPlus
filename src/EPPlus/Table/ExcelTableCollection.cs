@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Table
         /// <returns>The table object</returns>
         public ExcelTable Add(ExcelAddressBase Range, string Name)
         {
-            if (Range.WorkSheet != null && Range.WorkSheet != _ws.Name)
+            if (Range.WorkSheetName != null && Range.WorkSheetName != _ws.Name)
             {
                 throw new ArgumentException("Range does not belong to a worksheet", "Range");
             }

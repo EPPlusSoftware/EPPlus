@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                _rangeAddress = factory.Create(Arguments.RangeInfo.Address.WorkSheet, Arguments.RangeInfo.Address.Address);
+                _rangeAddress = factory.Create(Arguments.RangeInfo.Address.WorkSheetName, Arguments.RangeInfo.Address.Address);
             }
             _currentCol = _rangeAddress.FromCol;
             _currentRow = _rangeAddress.FromRow;

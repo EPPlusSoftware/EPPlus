@@ -527,17 +527,17 @@ namespace OfficeOpenXml.Core.CellStore
             {
                 var maxCol = _columnIndex[ColumnCount - 1].Index;
                 var cols = fromAddress.Columns;
-                for (int col = fromAddress._fromCol; col <= fromAddress._toCol; col++)
+                for (int col = fromAddress._toCol+1; col <= maxCol; col++)
                 {
-                    var sourceCol = col+cols;
-                    if (col > maxCol)
-                    {
-                        Delete(fromAddress._fromRow, col, fromAddress.Rows, fromAddress._toCol, false);
-                        return;
-                    }
-                    MoveRangeColumnWise(sourceCol, fromAddress._fromRow, fromAddress._toRow, col, fromAddress._fromRow);
+                    var destCol = col-cols;
+                    //if (col > maxCol)
+                    //{
+                    //    Delete(fromAddress._fromRow, col, fromAddress.Rows, fromAddress._toCol, false);
+                    //    return;
+                    //}
+                    MoveRangeColumnWise(col, fromAddress._fromRow, fromAddress._toRow, destCol, fromAddress._fromRow);
                 }
-                Delete(fromAddress._fromRow, maxCol, fromAddress.Rows, 1, false);
+                Delete(fromAddress._fromRow, maxCol-cols+1, fromAddress.Rows, cols, false);
             }
         }
         internal void InsertShiftRight(ExcelAddressBase fromAddress)

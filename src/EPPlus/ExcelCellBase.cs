@@ -817,23 +817,44 @@ namespace OfficeOpenXml
         /// <returns>The updated version of the <paramref name="formula"/>.</returns>
         internal static string UpdateFormulaReferences(string formula, ExcelAddressBase range, ExcelAddressBase effectedRange, eShiftTypeInsert shift, string currentSheet, string modifiedSheet, bool setFixed = false)
         {
+            int rowIncrement;
+            int colIncrement;
+            if (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow)
+            {
+                rowIncrement = range.Rows;
+                colIncrement = 0;
+            }
+            else
+            {
+                colIncrement = range.Columns;
+                rowIncrement = 0;
+            }
+
+            return UpdateFormulaReferncesPrivate(formula, range, effectedRange, currentSheet, modifiedSheet, setFixed, rowIncrement, colIncrement);
+        }
+        internal static string UpdateFormulaReferences(string formula, ExcelAddressBase range, ExcelAddressBase effectedRange, eShiftTypeDelete shift, string currentSheet, string modifiedSheet, bool setFixed = false)
+        {
+            int rowIncrement;
+            int colIncrement;
+            if (shift == eShiftTypeDelete.Up || shift == eShiftTypeDelete.EntireRow)
+            {
+                rowIncrement = -range.Rows;
+                colIncrement = 0;
+            }
+            else
+            {
+                colIncrement = -range.Columns;
+                rowIncrement = 0;
+            }
+
+            return UpdateFormulaReferncesPrivate(formula, range, effectedRange, currentSheet, modifiedSheet, setFixed, rowIncrement, colIncrement);
+        }
+        private static string UpdateFormulaReferncesPrivate(string formula, ExcelAddressBase range, ExcelAddressBase effectedRange, string currentSheet, string modifiedSheet, bool setFixed, int rowIncrement, int colIncrement)
+        {
             try
             {
                 var afterRow = range._fromRow;
                 var afterColumn = range._fromCol;
-                int rowIncrement;
-                int colIncrement;
-                if (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow)
-                {
-                    rowIncrement = range.Rows;
-                    colIncrement = 0;
-                }
-                else
-                {
-                    colIncrement = range.Columns;
-                    rowIncrement = 0;
-                }
-                
                 var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var tokens = sct.Tokenize(formula);
                 var f = "";

@@ -35,12 +35,8 @@ namespace OfficeOpenXml.Core.Worksheet
             {               
                 InsertCellStores(ws, rowFrom, 0, rows, 0);
 
-                //Adjust formulas
-                foreach(var wsToUpdate in ws.Workbook.Worksheets)
-                {
-                    FixFormulasInsertRow(wsToUpdate, rowFrom, rows, ws.Name);
-                }
-                
+                FixFormulasInsertRow(ws, rowFrom, rows);
+
                 WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, false);
                 
                 if (copyStylesFromRow > 0)
@@ -81,10 +77,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 InsertCellStores(ws, 0, columnFrom, 0, columns);
 
-                foreach (var wsToUpdate in ws.Workbook.Worksheets)
-                {
-                    FixFormulasInsertColumn(wsToUpdate, columnFrom, columns, ws.Name);
-                }
+                FixFormulasInsertColumn(ws, columnFrom, columns);
 
                 WorksheetRangeHelper.FixMergedCellsColumn(ws, columnFrom, columns, false);
 
@@ -134,7 +127,7 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift)
         {
-            ValidateIfInsertIsPossible(range, shift);
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, GetEffectedRange(range, shift, 1));
 
             var ws = range.Worksheet;
             var styleList = GetStylesForRange(range, shift);
@@ -148,15 +141,10 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 InsertCellStoreShiftRight(range._worksheet, range);
             }
-
             var effectedAddress = GetEffectedRange(range, shift);
-            //Adjust formulas
-            foreach (var wsToUpdate in range._workbook.Worksheets)
-            {
-                FixFormulasInsert(wsToUpdate, range, effectedAddress, shift);
-            }
-                
-            WorksheetRangeHelper.FixMergedCells(ws, range, false, shift);
+            FixFormulasInsert(range, effectedAddress, shift);
+
+            WorksheetRangeHelper.FixMergedCells(ws, range, shift);
 
             SetStylesForRange(range, shift, styleList);
 
@@ -368,38 +356,6 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void ValidateIfInsertIsPossible(ExcelRangeBase range, eShiftTypeInsert shift)
-        {
-            var effectedAddress = GetEffectedRange(range, shift, 1);
-            //Validate merged Cells
-            foreach (var a in range.Worksheet.MergedCells)
-            {
-                var mc = new ExcelAddressBase(a);
-                if(effectedAddress.Collide(mc) ==ExcelAddressBase.eAddressCollition.Partly)
-                {
-                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with merged range {a}");
-                }
-            }
-
-            //Validate tables Cells
-            foreach (var t in range.Worksheet.Tables)
-            {
-                if (effectedAddress.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly)
-                {
-                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
-                }
-            }
-
-            //Validate pivot tables Cells
-            foreach (var pt in range.Worksheet.PivotTables)
-            {
-                if (effectedAddress.Collide(pt.Address) == ExcelAddressBase.eAddressCollition.Partly)
-                {
-                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with pivot table {pt.Name}");
-                }
-            }
-        }
-
         private static void CopyStylesFromColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             //Copy style from another column?
@@ -490,140 +446,150 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        private static void FixFormulasInsert(ExcelWorksheet ws, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        private static void FixFormulasInsert(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
         {
-            var workSheetName = range.WorkSheet;
-            var rowFrom = range._fromRow;
-            var columnFrom = range._fromCol;
-            var rows = range.Rows;
-
-            foreach (var f in ws._sharedFormulas.Values)
+            //Adjust formulas
+            foreach (var ws in range._workbook.Worksheets)
             {
-                if (workSheetName == ws.Name)
+                var workSheetName = range.Worksheet.Name;
+                var rowFrom = range._fromRow;
+                var columnFrom = range._fromCol;
+                var rows = range.Rows;
+
+                foreach (var f in ws._sharedFormulas.Values)
                 {
-                    if (f.StartCol >= columnFrom)
+                    if (workSheetName == ws.Name)
                     {
-                        if (f.StartRow >= rowFrom) f.StartRow += rows;
-                        var a = new ExcelAddressBase(f.Address);
-                        if (a._fromRow >= rowFrom)
+                        if (f.StartCol >= columnFrom)
                         {
-                            a._fromRow += rows;
-                            a._toRow += rows;
+                            if (f.StartRow >= rowFrom) f.StartRow += rows;
+                            var a = new ExcelAddressBase(f.Address);
+                            if (a._fromRow >= rowFrom)
+                            {
+                                a._fromRow += rows;
+                                a._toRow += rows;
+                            }
+                            else if (a._toRow >= rowFrom)
+                            {
+                                a._toRow += rows;
+                            }
+                            f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+                            f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
                         }
-                        else if (a._toRow >= rowFrom)
-                        {
-                            a._toRow += rows;
-                        }
-                        f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+                    }
+                    else if (f.Formula.Contains(workSheetName))
+                    {
                         f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
                     }
                 }
-                else if (f.Formula.Contains(workSheetName))
-                {
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
-                }
-            }
 
-            var cse = new CellStoreEnumerator<object>(ws._formulas);
-            while (cse.Next())
-            {
-                if (cse.Value is string v)
+                var cse = new CellStoreEnumerator<object>(ws._formulas);
+                while (cse.Next())
                 {
-                    if (workSheetName == ws.Name)
+                    if (cse.Value is string v)
                     {
-                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
-                    }
-                    else if (v.Contains(workSheetName))
-                    {
-                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
+                        if (workSheetName == ws.Name)
+                        {
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
+                        }
+                        else if (v.Contains(workSheetName))
+                        {
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
+                        }
                     }
                 }
             }
         }
 
-        private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, string workSheetName, int columnFrom=0, int columnTo=ExcelPackage.MaxColumns)
+        private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom=0, int columnTo=ExcelPackage.MaxColumns)
         {
-            foreach (var f in ws._sharedFormulas.Values)
+            //Adjust formulas
+            foreach (var wsToUpdate in ws.Workbook.Worksheets)
             {
-                if (workSheetName == ws.Name)
+                foreach (var f in wsToUpdate._sharedFormulas.Values)
                 {
-                    if (f.StartCol >= columnFrom)
+                    if (ws.Name == wsToUpdate.Name)
                     {
-                        if (f.StartRow >= rowFrom) f.StartRow += rows;
-                        var a = new ExcelAddressBase(f.Address);
-                        if (a._fromRow >= rowFrom)
+                        if (f.StartCol >= columnFrom)
                         {
-                            a._fromRow += rows;
-                            a._toRow += rows;
+                            if (f.StartRow >= rowFrom) f.StartRow += rows;
+                            var a = new ExcelAddressBase(f.Address);
+                            if (a._fromRow >= rowFrom)
+                            {
+                                a._fromRow += rows;
+                                a._toRow += rows;
+                            }
+                            else if (a._toRow >= rowFrom)
+                            {
+                                a._toRow += rows;
+                            }
+                            f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+                            f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
                         }
-                        else if (a._toRow >= rowFrom)
+                    }
+                    else if (f.Formula.Contains(ws.Name))
+                    {
+                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, columnFrom, wsToUpdate.Name, ws.Name);
+                    }
+                }
+
+                var cse = new CellStoreEnumerator<object>(wsToUpdate._formulas);
+                while (cse.Next())
+                {
+                    if (cse.Value is string v)
+                    {
+                        if (ws.Name == wsToUpdate.Name)
                         {
-                            a._toRow += rows;
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
+                        }
+                        else if (v.Contains(ws.Name))
+                        {
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
+                        }
+                    }
+                }
+}        }
+        private static void FixFormulasInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
+        {
+            foreach (var wsToUpdate in ws.Workbook.Worksheets)
+            {
+                foreach (var f in wsToUpdate._sharedFormulas.Values)
+                {
+                    if (ws.Name == wsToUpdate.Name)
+                    {
+                        if (f.StartCol >= columnFrom) f.StartCol += columns;
+                        var a = new ExcelAddressBase(f.Address);
+                        if (a._fromCol >= columnFrom)
+                        {
+                            a._fromCol += columns;
+                            a._toCol += columns;
+                        }
+                        else if (a._toCol >= columnFrom)
+                        {
+                            a._toCol += columns;
                         }
                         f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
-                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, 0, columns, 0, columnFrom, wsToUpdate.Name, ws.Name);
+                    }
+                    else if (f.Formula.Contains(ws.Name))
+                    {
+                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, 0, columns, 0, columnFrom, wsToUpdate.Name, ws.Name);
                     }
                 }
-                else if (f.Formula.Contains(workSheetName))
-                {
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, columnFrom, ws.Name, workSheetName);
-                }
-            }
 
-            var cse = new CellStoreEnumerator<object>(ws._formulas);
-            while (cse.Next())
-            {
-                if (cse.Value is string v)
+                var cse = new CellStoreEnumerator<object>(wsToUpdate._formulas);
+                while (cse.Next())
                 {
-                    if (workSheetName == ws.Name)
+                    if (cse.Value is string v)
                     {
-                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, ws.Name, workSheetName);
-                    }
-                    else if (v.Contains(workSheetName))
-                    {
-                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, ws.Name, workSheetName);
-                    }
-                }
-            }
-        }
-        private static void FixFormulasInsertColumn(ExcelWorksheet ws, int columnFrom, int columns, string workSheetName)
-        {
-            foreach (var f in ws._sharedFormulas.Values)
-            {
-                if (workSheetName == ws.Name)
-                {
-                    if (f.StartCol >= columnFrom) f.StartCol += columns;
-                    var a = new ExcelAddressBase(f.Address);
-                    if (a._fromCol >= columnFrom)
-                    {
-                        a._fromCol += columns;
-                        a._toCol += columns;
-                    }
-                    else if (a._toCol >= columnFrom)
-                    {
-                        a._toCol += columns;
-                    }
-                    f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, 0, columns, 0, columnFrom, ws.Name, workSheetName);
-                }
-                else if (f.Formula.Contains(workSheetName))
-                {
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, 0, columns, 0, columnFrom, ws.Name, workSheetName);
-                }
-            }
-
-            var cse = new CellStoreEnumerator<object>(ws._formulas);
-            while (cse.Next())
-            {
-                if (cse.Value is string v)
-                {
-                    if (workSheetName == ws.Name)
-                    {
-                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, 0, columns, 0, columnFrom, ws.Name, workSheetName);
-                    }
-                    else if (v.Contains(workSheetName))
-                    {
-                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, 0, columns, 0, columnFrom, ws.Name, workSheetName);
+                        if (ws.Name == wsToUpdate.Name)
+                        {
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, 0, columns, 0, columnFrom, wsToUpdate.Name, ws.Name);
+                        }
+                        else if (v.Contains(ws.Name))
+                        {
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, 0, columns, 0, columnFrom, wsToUpdate.Name, ws.Name);
+                        }
                     }
                 }
             }

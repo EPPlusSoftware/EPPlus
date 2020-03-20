@@ -10,8 +10,11 @@
  *************************************************************************************************
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
 using System;
@@ -331,14 +334,263 @@ namespace OfficeOpenXml.Core.Worksheet
                 ValidateRow(range._fromRow, range.Rows);
             }
 
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, GetEffectedRange(range, shift, 1));
+
+            var ws = range.Worksheet;
+            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, range);
             if (shift == eShiftTypeDelete.Up)
             {
-                DeleteCellStores(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
+                DeleteCellStores(ws, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
             }
             else
             {
-                DeleteCellStoresShiftLeft(range._worksheet, range);
+                DeleteCellStoresShiftLeft(ws, range);
+            }
+
+            var effectedAddress = GetEffectedRange(range, shift);
+            FixFormulasDelete(range, effectedAddress, shift);
+            WorksheetRangeHelper.FixMergedCells(ws, range, shift);
+
+            DeleteTableAddresses(ws, range, shift, effectedAddress);
+            DeletePivottableAddresses(ws, range, shift, effectedAddress);
+
+            //Update data validation references
+            var deletedDV = new List<IExcelDataValidation>();
+            foreach (var dv in ws.DataValidations)
+            {
+                var address = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
+                if(address==null)
+                {
+                    deletedDV.Add(dv);
+                }
+                else
+                {
+                    ((ExcelDataValidation)dv).SetAddress(address.Address);
+                }
+            }
+            deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
+
+            //Update Conditional formatting references
+            var deletedCF = new List<IExcelConditionalFormattingRule>();
+            foreach (var cf in ws.ConditionalFormatting)
+            {
+                var address = DeleteSplitAddress(cf.Address, range, effectedAddress, shift);
+                if (address == null)
+                {
+                    deletedCF.Add(cf);
+                }
+                else
+                {
+                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(address.Address);
+                }
+            }
+            deletedCF.ForEach(cf => ws.ConditionalFormatting.Remove(cf));
+
+            //if (shift == eShiftTypeDelete.Up)
+            //{
+            //    WorksheetRangeHelper.AdjustDrawingsRow(ws, range._fromRow, range.Rows, range._fromCol, range._toCol);
+            //}
+            //else
+            //{
+            //    WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
+            //}
+        }
+        private static ExcelAddressBase DeleteSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
+        {
+            var collide = effectedAddress.Collide(address);
+            if (collide == ExcelAddressBase.eAddressCollition.Partly)
+            {
+                var addressToShift = effectedAddress.Intersect(address);
+                var shiftedAddress = ShiftAddress(addressToShift, range, shift);
+                var newAddress = "";
+                if (address._fromRow < addressToShift._fromRow)
+                {
+                    newAddress = ExcelCellBase.GetAddress(address._fromRow, address._fromCol, addressToShift._fromRow - 1, address._toCol) + ",";
+                }
+                if (address._fromCol < addressToShift._fromCol)
+                {
+                    var fromRow = Math.Max(address._fromRow, addressToShift._fromRow);
+                    newAddress += ExcelCellBase.GetAddress(fromRow, address._fromCol, address._toRow, addressToShift._fromCol - 1) + ",";
+                }
+                
+                if(shiftedAddress != null)
+                {
+                    newAddress += $"{shiftedAddress.Address},";
+                }
+
+                if (address._toRow > addressToShift._toRow)
+                {
+                    newAddress += ExcelCellBase.GetAddress(addressToShift._toRow + 1, address._fromCol, address._toRow, address._toCol) + ",";
+                }
+                if (address._toCol > addressToShift._toCol)
+                {
+                    newAddress += ExcelCellBase.GetAddress(address._fromRow, addressToShift._toCol + 1, address._toRow, address._toCol) + ",";
+                }
+                return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length - 1));
+            }
+            else if (collide != ExcelAddressBase.eAddressCollition.No)
+            {
+                return ShiftAddress(address, range, shift);
+            }
+            return address;
+        }
+
+        private static ExcelAddressBase ShiftAddress(ExcelAddressBase address, ExcelAddressBase range, eShiftTypeDelete shift)
+        {
+            if (shift == eShiftTypeDelete.Up)
+            {
+                return address.DeleteRow(range._fromRow, range.Rows);
+            }
+            else
+            {
+                return address.DeleteColumn(range._fromCol, range.Columns);
             }
         }
+        private static void DeletePivottableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeDelete shift, ExcelAddressBase effectedAddress)
+        {
+            foreach (var ptbl in ws.PivotTables)
+            {
+                if (shift == eShiftTypeDelete.Up)
+                {
+                    if (ptbl.Address._fromCol >= range._fromCol && ptbl.Address._toCol <= range._toCol)
+                    {
+                        ptbl.Address = ptbl.Address.DeleteRow(range._fromRow, range.Rows);
+                    }
+                }
+                else
+                {
+                    if (ptbl.Address._fromRow >= range._fromRow && ptbl.Address._toRow <= range._toRow)
+                    {
+                        ptbl.Address = ptbl.Address.DeleteColumn(range._fromCol, range.Columns);
+                    }
+                }
+
+                if (ptbl.CacheDefinition.SourceRange.Worksheet == ws)
+                {
+                    var address = ptbl.CacheDefinition.SourceRange;
+                    if (shift == eShiftTypeDelete.Up)
+                    {
+                        if (address._fromCol >= range._fromCol && address._toCol <= range._toCol)
+                        {
+                            ptbl.CacheDefinition.SourceRange = ws.Cells[address.DeleteRow(range._fromRow, range.Rows).Address];
+                        }
+                    }
+                    else
+                    {
+                        if (address._fromRow >= range._fromRow && address._toRow <= range._toRow)
+                        {
+                            ptbl.CacheDefinition.SourceRange = ws.Cells[address.DeleteColumn(range._fromCol, range.Columns).Address];
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void DeleteTableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeDelete shift, ExcelAddressBase effectedAddress)
+        {
+            foreach (var tbl in ws.Tables)
+            {
+                if (shift == eShiftTypeDelete.Up)
+                {
+                    if (tbl.Address._fromCol >= range._fromCol && tbl.Address._toCol <= range._toCol)
+                    {
+                        tbl.Address = tbl.Address.DeleteRow(range._fromRow, range.Rows);
+                    }
+                }
+                else
+                {
+                    if (tbl.Address._fromRow >= range._fromRow && tbl.Address._toRow <= range._toRow)
+                    {
+                        tbl.Address = tbl.Address.DeleteColumn(range._fromCol, range.Columns);
+                    }
+                }
+            }
+        }
+        private static void FixFormulasDelete(ExcelRangeBase range, ExcelAddressBase effectedRange, eShiftTypeDelete shift)
+        {
+            foreach (var ws in range.Worksheet.Workbook.Worksheets)
+            {
+                var workSheetName = range.WorkSheetName;
+                var rowFrom = range._fromRow;
+                var columnFrom = range._fromCol;
+                var rows = range.Rows;
+
+                var delSF = new List<int>();
+                foreach (var sf in ws._sharedFormulas.Values)
+                {
+                    if (workSheetName == ws.Name)
+                    {
+                        if (effectedRange.Collide(new ExcelAddressBase(sf.Address)) != ExcelAddressBase.eAddressCollition.No)
+                        {
+                            ExcelAddressBase a;
+                            if (shift == eShiftTypeDelete.Up)
+                            {
+                                a = new ExcelAddress(sf.Address).DeleteRow(range._fromRow, rows);
+                            }
+                            else
+                            {
+                                a = new ExcelAddress(sf.Address).DeleteColumn(range._fromRow, rows);
+                            }
+
+                            if (a == null)
+                            {
+                                delSF.Add(sf.Index);
+                            }
+                            else
+                            {
+                                sf.Address = a.Address;
+                                sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, range, effectedRange, shift, ws.Name, workSheetName);
+                                if (sf.StartRow >= rowFrom)
+                                {
+                                    var r = Math.Max(rowFrom, sf.StartRow - rows);
+                                    sf.StartRow = r;
+                                }
+                            }
+                        }
+                    }
+                    else if (sf.Formula.Contains(workSheetName))
+                    {
+                        sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                    }
+                }
+
+                foreach (var ix in delSF)
+                {
+                    ws._sharedFormulas.Remove(ix);
+                }
+                var cse = new CellStoreEnumerator<object>(ws._formulas, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+                while (cse.Next())
+                {
+                    if (cse.Value is string v)
+                    {
+                        if (workSheetName == ws.Name || v.IndexOf(workSheetName, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                        {
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedRange, shift, ws.Name, workSheetName);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static ExcelAddressBase GetEffectedRange(ExcelRangeBase range, eShiftTypeDelete shift, int? start = null)
+        {
+            if (shift == eShiftTypeDelete.Up)
+            {
+                return new ExcelAddressBase(start ?? range._fromRow, range._fromCol, ExcelPackage.MaxRows, range._toCol);
+            }
+            else if (shift == eShiftTypeDelete.Left)
+            {
+                return new ExcelAddressBase(range._fromRow, start ?? range._fromCol, range._toRow, ExcelPackage.MaxColumns);
+            }
+            else if (shift == eShiftTypeDelete.EntireColumn)
+            {
+                return new ExcelAddressBase(1, range._fromCol, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+            }
+            else
+            {
+                return new ExcelAddressBase(range._fromRow, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+            }
+        }
+
     }
 }

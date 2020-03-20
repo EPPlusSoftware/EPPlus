@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var toRow = (height != 0 ? adr._fromRow + height - 1 : adr._toRow) + rowOffset;
             var toCol = (width != 0 ? adr._fromCol + width - 1 : adr._toCol) + colOffset;
 
-            var newRange = context.ExcelDataProvider.GetRange(adr.WorkSheet, fromRow, fromCol, toRow, toCol);
+            var newRange = context.ExcelDataProvider.GetRange(adr.WorkSheetName, fromRow, fromCol, toRow, toCol);
             
             return CreateResult(newRange, DataType.Enumerable);
         }

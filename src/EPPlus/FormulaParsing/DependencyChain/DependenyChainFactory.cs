@@ -172,7 +172,7 @@ namespace OfficeOpenXml.FormulaParsing
                         adr.SetRCFromTable(ws._package, new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column));
                     }
 
-                    if (adr.WorkSheet == null && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
+                    if (adr.WorkSheetName == null && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
                     {
                         var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
                         f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
@@ -183,7 +183,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                     if (adr._fromRow > 0 && adr._fromCol > 0)
                     {                        
-                        if (string.IsNullOrEmpty(adr.WorkSheet))
+                        if (string.IsNullOrEmpty(adr.WorkSheetName))
                         {
                             if (f.ws == null)
                             {
@@ -196,7 +196,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         else
                         {
-                            f.ws = wb.Worksheets[adr.WorkSheet];
+                            f.ws = wb.Worksheets[adr.WorkSheetName];
                         }
 
                         if (f.ws != null)

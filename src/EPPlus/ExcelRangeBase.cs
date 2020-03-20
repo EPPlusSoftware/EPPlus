@@ -804,7 +804,7 @@ namespace OfficeOpenXml
                                                     _worksheet.AutoFilterAddress._fromCol,
                                                     _worksheet.AutoFilterAddress._fromRow,
                                                     _worksheet.AutoFilterAddress._toCol));
-                afAddr[afAddr.Count - 1]._ws = WorkSheet;
+                afAddr[afAddr.Count - 1]._ws = WorkSheetName;
             }
             foreach (var tbl in _worksheet.Tables)
             {
@@ -814,7 +814,7 @@ namespace OfficeOpenXml
                                                                             tbl.AutoFilterAddress._fromCol,
                                                                             tbl.AutoFilterAddress._fromRow,
                                                                             tbl.AutoFilterAddress._toCol));
-                    afAddr[afAddr.Count - 1]._ws = WorkSheet;
+                    afAddr[afAddr.Count - 1]._ws = WorkSheetName;
                 }
             }
 
@@ -1022,7 +1022,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol), new ExcelAddress(WorkSheet, FirstAddress), false);
+                    Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol), new ExcelAddress(WorkSheetName, FirstAddress), false);
                     foreach (var address in Addresses)
                     {
                         Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, address.Start.Row, address.Start.Column), address, false);
@@ -1843,7 +1843,7 @@ namespace OfficeOpenXml
             var removeItems = new List<string>();
             foreach (var addr in Worksheet.MergedCells)
             {
-                var addrCol = Range.Collide(new ExcelAddress(Range.WorkSheet, addr));
+                var addrCol = Range.Collide(new ExcelAddress(Range.WorkSheetName, addr));
                 if (addrCol != eAddressCollition.No)
                 {
                     if (addrCol == eAddressCollition.Inside)

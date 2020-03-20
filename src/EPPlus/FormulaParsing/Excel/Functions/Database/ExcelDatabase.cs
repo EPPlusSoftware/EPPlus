@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
             _toCol = address._toCol;
             _fieldRow = address._fromRow;
             _endRow = address._toRow;
-            _worksheet = address.WorkSheet;
+            _worksheet = address.WorkSheetName;
             _rowIndex = _fieldRow;
             Initialize();
         }

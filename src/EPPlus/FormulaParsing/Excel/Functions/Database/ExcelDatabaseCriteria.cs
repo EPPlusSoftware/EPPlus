@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
             var address = new ExcelAddressBase(range);
             _fromCol = address._fromCol;
             _toCol = address._toCol;
-            _worksheet = address.WorkSheet;
+            _worksheet = address.WorkSheetName;
             _fieldRow = address._fromRow;
             Initialize();
         }

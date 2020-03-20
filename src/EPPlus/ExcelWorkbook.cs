@@ -286,13 +286,13 @@ namespace OfficeOpenXml
             {
                 case ExcelAddressBase.AddressType.InternalAddress:
                     var addr = new ExcelAddress(function);
-                    if (string.IsNullOrEmpty(addr.WorkSheet))
+                    if (string.IsNullOrEmpty(addr.WorkSheetName))
                     {
                         return ws.Cells[function];
                     }
                     else
                     {
-                        var otherWs = Worksheets[addr.WorkSheet];
+                        var otherWs = Worksheets[addr.WorkSheetName];
                         if (otherWs == null)
                         {
                             return null;
@@ -318,13 +318,13 @@ namespace OfficeOpenXml
                     else
                     {
                         var nameAddr = new ExcelAddress(function);
-                        if (string.IsNullOrEmpty(nameAddr.WorkSheet))
+                        if (string.IsNullOrEmpty(nameAddr.WorkSheetName))
                         {
                             return null;
                         }
                         else
                         {
-                            var otherWs = Worksheets[nameAddr.WorkSheet];
+                            var otherWs = Worksheets[nameAddr.WorkSheetName];
                             if (otherWs != null && otherWs.Names.ContainsKey(nameAddr.Address))
                             {
                                 return otherWs.Names[nameAddr.Address];

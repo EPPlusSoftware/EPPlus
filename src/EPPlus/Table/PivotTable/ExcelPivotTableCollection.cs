@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 throw (new ArgumentException("The Range must contain at least 2 rows", "Source"));
             }
-            if (Range.WorkSheet != _ws.Name)
+            if (Range.WorkSheetName != _ws.Name)
             {
                 throw(new Exception("The Range must be in the current worksheet"));
             }

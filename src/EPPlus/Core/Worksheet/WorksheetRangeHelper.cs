@@ -21,17 +21,29 @@ namespace OfficeOpenXml.Core.Worksheet
 {
     internal static class WorksheetRangeHelper
     {
-        internal static void FixMergedCells(ExcelWorksheet ws, ExcelRangeBase range, bool delete, eShiftTypeInsert shift)
+        internal static void FixMergedCells(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift)
         {
             if(shift==eShiftTypeInsert.Down)
             {
-                FixMergedCellsRow(ws, range._fromRow, range.Rows, delete, range._fromCol, range._toCol);
+                FixMergedCellsRow(ws, range._fromRow, range.Rows, false, range._fromCol, range._toCol);
             }
             else
             {
-                FixMergedCellsColumn(ws, range._fromCol, range.Columns, delete, range._fromRow, range._toRow);
+                FixMergedCellsColumn(ws, range._fromCol, range.Columns, false, range._fromRow, range._toRow);
             }
         }
+        internal static void FixMergedCells(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeDelete shift)
+        {
+            if (shift == eShiftTypeDelete.Up)
+            {
+                FixMergedCellsRow(ws, range._fromRow, range.Rows, true, range._fromCol, range._toCol);
+            }
+            else
+            {
+                FixMergedCellsColumn(ws, range._fromCol, range.Columns, true, range._fromRow, range._toRow);
+            }
+        }
+
         internal static void FixMergedCellsRow(ExcelWorksheet ws, int row, int rows, bool delete, int fromCol=1, int toCol=ExcelPackage.MaxColumns)
         {
             if (delete)
@@ -272,8 +284,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     //Check if the address for the entire shared formula collides with the deleted address.
                     var tokenAddress = new ExcelAddressBase(token.Value);
-                    if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheet)) ||
-                        (!string.IsNullOrEmpty(tokenAddress.WorkSheet) && tokenAddress.WorkSheet.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
+                    if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheetName)) ||
+                        (!string.IsNullOrEmpty(tokenAddress.WorkSheetName) && tokenAddress.WorkSheetName.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
                     {
                         if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);
                         if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);
@@ -301,6 +313,36 @@ namespace OfficeOpenXml.Core.Worksheet
                     var row = sf.StartRow + r;
                     var col = sf.StartCol + c;
                     ws._formulas.SetValue(row, col, ws.GetFormula(row, col));
+                }
+            }
+        }
+        internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress)
+        {
+            //Validate merged Cells
+            foreach (var a in range.Worksheet.MergedCells)
+            {
+                var mc = new ExcelAddressBase(a);
+                if (effectedAddress.Collide(mc) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with merged range {a}");
+                }
+            }
+
+            //Validate tables Cells
+            foreach (var t in range.Worksheet.Tables)
+            {
+                if (effectedAddress.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
+                }
+            }
+
+            //Validate pivot tables Cells
+            foreach (var pt in range.Worksheet.PivotTables)
+            {
+                if (effectedAddress.Collide(pt.Address) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with pivot table {pt.Name}");
                 }
             }
         }

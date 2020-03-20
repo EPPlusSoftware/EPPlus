@@ -110,8 +110,8 @@ namespace OfficeOpenXml.Sparkline
             while (cell<cells)
             {
                 var f = new ExcelCellAddress(row, col);
-                var sqref = new ExcelAddressBase(dataRange.WorkSheet, drFromRow, drFromCol, drToRow, drToCol);
-                group.Sparklines.Add(f, dataRange.WorkSheet, sqref);
+                var sqref = new ExcelAddressBase(dataRange.WorkSheetName, drFromRow, drFromCol, drToRow, drToCol);
+                group.Sparklines.Add(f, dataRange.WorkSheetName, sqref);
                 cell++;
                 if(locationRange._fromRow == locationRange._toRow)
                 {

@@ -764,10 +764,10 @@ namespace EPPlusTest
             var a = ws.Cells["A:B"];
             ws.AutoFilterAddress = ws.Cells["A1:C3"];
             pck.Workbook.Names.Add("Test", ws.Cells["B1:D2"]);
-            var name = a.WorkSheet;
+            var name = a.WorkSheetName;
 
             var a2 = new ExcelAddress("'Deal''s History'!a1:a3");
-            Assert.AreEqual(a2.WorkSheet, "Deal's History");
+            Assert.AreEqual(a2.WorkSheetName, "Deal's History");
             pck.Save();
             pck.Dispose();
 

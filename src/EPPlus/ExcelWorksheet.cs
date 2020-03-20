@@ -2565,7 +2565,7 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        var ws = Workbook.Worksheets[pt.CacheDefinition.SourceRange.WorkSheet];
+                        var ws = Workbook.Worksheets[pt.CacheDefinition.SourceRange.WorkSheetName];
                         t = ws.Tables.GetFromRange(pt.CacheDefinition.SourceRange);
                         if (t == null)
                         {

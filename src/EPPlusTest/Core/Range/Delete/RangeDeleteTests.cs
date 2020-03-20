@@ -507,5 +507,121 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual("#REF!", ws.Names["NameB2C4"].Address);
             Assert.AreEqual("#REF!", ws.Names["NameA3C6"].Address);
         }
+        [TestMethod]
+        public void ValidateSharedFormulasDeleteShiftUp()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeFormulaUp");
+            ws.Cells["B1:D2"].Formula = "A1";
+            ws.Cells["C3:F4"].Formula = "A1";
+
+            //Act
+            ws.Cells["B1"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            Assert.AreEqual("A2", ws.Cells["B1"].Formula);
+            Assert.AreEqual("",ws.Cells["B2"].Formula);
+            Assert.AreEqual("#REF!", ws.Cells["C1"].Formula);
+            Assert.AreEqual("C1", ws.Cells["D1"].Formula);
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("#REF!", ws.Cells["D3"].Formula);
+            Assert.AreEqual("C1", ws.Cells["E3"].Formula);
+            Assert.AreEqual("D1", ws.Cells["F3"].Formula);
+
+
+            Assert.AreEqual("D2", ws.Cells["F4"].Formula);
+        }
+        [TestMethod]
+        public void ValidateSharedFormulasDeleteShiftLeft()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeFormulaLeft");
+            ws.Cells["B1:D2"].Formula = "A1";
+            ws.Cells["C3:F4"].Formula = "A1";
+
+            //Act
+            ws.Cells["B1"].Delete(eShiftTypeDelete.Left);
+
+            //Assert
+            Assert.AreEqual("#REF!", ws.Cells["B1"].Formula);
+            Assert.AreEqual("B1", ws.Cells["C1"].Formula);
+            Assert.AreEqual("", ws.Cells["D1"].Formula);
+            Assert.AreEqual("A2", ws.Cells["B2"].Formula);
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("#REF!", ws.Cells["D3"].Formula);
+            Assert.AreEqual("B1", ws.Cells["E3"].Formula);
+            Assert.AreEqual("C1", ws.Cells["F3"].Formula);
+
+
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("D2", ws.Cells["F4"].Formula);
+        }
+
+        [TestMethod]
+        public void ValidateDeleteMergedCellsUp()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["C3:E4"].Merge = true;
+                ws.Cells["C2:E2"].Delete(eShiftTypeDelete.Up);
+
+                Assert.AreEqual("C2:E3", ws.MergedCells[0]);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteMergedCellsLeft()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["C2:E3"].Merge = true;
+                ws.Cells["B2:B3"].Delete(eShiftTypeDelete.Left);
+
+                Assert.AreEqual("B2:D3", ws.MergedCells[0]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateDeleteIntoMergedCellsPartialLeftThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateDeleteIntoMergedCellsPartialUpThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteIntoMergedCellsPartialLeftShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["C1"].Delete(eShiftTypeDelete.Left);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteIntoMergedCellsPartialUpShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
+            }
+        }
     }
 }

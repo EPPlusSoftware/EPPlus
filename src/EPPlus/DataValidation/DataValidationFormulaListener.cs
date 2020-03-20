@@ -66,7 +66,7 @@ namespace OfficeOpenXml.DataValidation
             if(ExcelAddressBase.IsValidAddress(address))
             {
                 var adr = new ExcelAddress(address);
-                return !string.IsNullOrEmpty(adr.WorkSheet) && adr.WorkSheet != _worksheet.Name;
+                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _worksheet.Name;
             }
             else
             {

@@ -44,13 +44,13 @@ namespace OfficeOpenXml.Sparkline
                 var f = GetXmlNodeString("xm:f");
                 if (string.IsNullOrEmpty(f)) return null;
                 var a = new ExcelAddressBase(f);
-                if (a.WorkSheet.Equals(_ws.Name, StringComparison.CurrentCultureIgnoreCase))
+                if (a.WorkSheetName.Equals(_ws.Name, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return _ws.Cells[a.Address];
                 }
                 else
                 {
-                    var ws = _ws.Workbook.Worksheets[a.WorkSheet];
+                    var ws = _ws.Workbook.Worksheets[a.WorkSheetName];
                     return ws.Cells[a.Address];
                 }
             }
@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Sparkline
                 }
                 else
                 {
-                    var ws = _ws.Workbook.Worksheets[Sparklines[0].RangeAddress.WorkSheet];
+                    var ws = _ws.Workbook.Worksheets[Sparklines[0].RangeAddress.WorkSheetName];
                     return _ws.Cells[Sparklines[0].RangeAddress._fromRow, Sparklines[0].RangeAddress._fromCol, Sparklines[Sparklines.Count - 1].RangeAddress._toRow, Sparklines[Sparklines.Count - 1].RangeAddress._toCol];
                 }
             }

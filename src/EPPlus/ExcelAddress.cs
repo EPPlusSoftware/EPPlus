@@ -574,7 +574,7 @@ namespace OfficeOpenXml
                 throw new ArgumentOutOfRangeException("Start cell Address must be less or equal to End cell address");
             }
         }
-        internal string WorkSheet
+        internal string WorkSheetName
         {
             get
             {
@@ -744,7 +744,7 @@ namespace OfficeOpenXml
         #region Address manipulation methods
         internal eAddressCollition Collide(ExcelAddressBase address, bool ignoreWs=false)
         {
-            if (ignoreWs == false && address.WorkSheet != WorkSheet && address.WorkSheet != null && WorkSheet!=null)
+            if (ignoreWs == false && address.WorkSheetName != WorkSheetName && address.WorkSheetName != null && WorkSheetName!=null)
             {
                 return eAddressCollition.No;
             }

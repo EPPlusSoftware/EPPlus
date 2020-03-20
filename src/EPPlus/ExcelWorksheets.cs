@@ -290,13 +290,13 @@ namespace OfficeOpenXml
                 ExcelNamedRange newName;
                 if (!name.IsName)
                 {
-                    if (name.WorkSheet == Copy.Name)
+                    if (name.WorkSheetName == Copy.Name)
                     {
                         newName = added.Names.Add(name.Name, added.Cells[name.FirstAddress]);
                     }
                     else
                     {
-                        newName = added.Names.Add(name.Name, added.Workbook.Worksheets[name.WorkSheet].Cells[name.FirstAddress]);
+                        newName = added.Names.Add(name.Name, added.Workbook.Worksheets[name.WorkSheetName].Cells[name.FirstAddress]);
                     }
                 }
                 else if (!string.IsNullOrEmpty(name.NameFormula))
