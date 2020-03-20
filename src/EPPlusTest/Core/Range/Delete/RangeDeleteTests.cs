@@ -466,18 +466,18 @@ namespace EPPlusTest.Core.Range.Delete
 
             //Assert
             Assert.AreEqual("A2:B2", ws.Names["NameA2B4"].Address);
-            //Assert.AreEqual("B2:D3", ws.Names["NameB2D3"].Address);
-            //Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+            Assert.AreEqual("B2:D3", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
 
-            //ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
-            //Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
-            //Assert.AreEqual("B6:D7", ws.Names["NameB2D3"].Address);
-            //Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+            ws.Cells["B2:D5"].Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual("A2:B2", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("#REF!", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
 
-            //ws.Cells["B2:F2"].Insert(eShiftTypeInsert.Down);
-            //Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
-            //Assert.AreEqual("B7:D8", ws.Names["NameB2D3"].Address);
-            //Assert.AreEqual("C1:F4", ws.Names["NameC1F3"].Address);
+            ws.Cells["B2:F2"].Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual("A2:B2", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("#REF!", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F2", ws.Names["NameC1F3"].Address);
         }
 
         [TestMethod]
@@ -485,22 +485,27 @@ namespace EPPlusTest.Core.Range.Delete
         {
             //Setup
             var ws = _pck.Workbook.Worksheets.Add("InsertRangeInsideNamesRight");
-            ws.Names.Add("NameB1D2", ws.Cells["B1:D2"]);
-            ws.Names.Add("NameB2C4", ws.Cells["B2:D4"]);
+            ws.Names.Add("NameB1D2", ws.Cells["D1:F2"]);
+            ws.Names.Add("NameB2C4", ws.Cells["D2:F4"]);
             ws.Names.Add("NameA3C6", ws.Cells["A3:C6"]);
 
             //Act
-            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Right);
+            ws.Cells["B1:C2"].Delete(eShiftTypeDelete.Left);
 
-            ////Assert
-            //Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
-            //Assert.AreEqual("B2:D4", ws.Names["NameB2C4"].Address);
-            //Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+            //Assert
+            Assert.AreEqual("B1:D2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("D2:F4", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
 
-            //ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
-            //Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
-            //Assert.AreEqual("B6:D8", ws.Names["NameB2C4"].Address);
-            //Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+            ws.Cells["B2:D5"].Delete(eShiftTypeDelete.Left);
+            Assert.AreEqual("B1:D2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("B2:C4", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+
+            ws.Cells["A2:C7"].Delete(eShiftTypeDelete.Left);
+            Assert.AreEqual("B1:D2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("#REF!", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("#REF!", ws.Names["NameA3C6"].Address);
         }
     }
 }
