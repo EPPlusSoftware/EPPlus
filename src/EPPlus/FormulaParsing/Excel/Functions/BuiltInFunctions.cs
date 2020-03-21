@@ -117,6 +117,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["min"] = new Min();
             Functions["mina"] = new Mina();
             Functions["mod"] = new Mod();
+            Functions["mround"] = new Mround();
             Functions["average"] = new Average();
             Functions["averagea"] = new AverageA();
             Functions["averageif"] = new AverageIf();

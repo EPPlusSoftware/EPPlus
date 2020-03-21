@@ -131,5 +131,48 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = RoundingHelper.Round(-22.25, 5, RoundingHelper.Direction.AlwaysUp);
             Assert.AreEqual(-20, result);
         }
+
+        [TestMethod]
+        public void NearestRoundingTest()
+        {
+            var result = RoundingHelper.Round(22.24, 0.1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(22.2, result);
+
+            result = RoundingHelper.Round(22.25, 0.1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(22.3, result);
+
+            result = RoundingHelper.Round(22.26, 0.1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(22.3, result);
+
+            result = RoundingHelper.Round(-22.25, -0.1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(-22.3, result);
+
+            result = RoundingHelper.Round(-22.24, -0.1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(-22.2, result);
+
+            result = RoundingHelper.Round(333.8, 1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(334, result);
+
+            result = RoundingHelper.Round(333.3, 1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(333, result);
+
+            result = RoundingHelper.Round(333.3, 2, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(334, result);
+
+            result = RoundingHelper.Round(555.3, 400, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(400, result);
+
+            result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(1000, result);
+
+            result = RoundingHelper.Round(-555.7, -1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(-556, result);
+
+            result = RoundingHelper.Round(-555.4, -1, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(-555, result);
+
+            result = RoundingHelper.Round(-1555, -1000, RoundingHelper.Direction.Nearest);
+            Assert.AreEqual(-2000, result);
+        }
     }
 }

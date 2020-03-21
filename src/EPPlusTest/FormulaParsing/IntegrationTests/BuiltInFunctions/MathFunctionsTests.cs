@@ -95,6 +95,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void MroundShouldReturnCorrectResult()
+        {
+            var expectedValue = 334d;
+            var result = _parser.Parse("Mround(333.3, 2)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void CombinShouldReturnCorrectResult()
         {
             var expectedValue = 15d;

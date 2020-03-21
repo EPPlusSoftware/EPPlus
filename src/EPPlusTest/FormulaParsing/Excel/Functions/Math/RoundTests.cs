@@ -28,6 +28,7 @@
  *******************************************************************************/
 using System;
 using System.Linq;
+using EPPlusTest.FormulaParsing.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
@@ -197,6 +198,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
                 new FunctionArgument(digits)
             }, ParsingContext.Create());
             Assert.AreEqual(124D, result.Result);
+        }
+
+        /* MROUND tests */
+
+        [TestMethod]
+        public void MroundShouldReturnCorrectResult()
+        {
+            var func = new Mround();
+            var ctx = ParsingContext.Create();
+
+            var args = FunctionsHelper.CreateArgs(333.7, 0.5);
+            var result = func.Execute(args, ctx).Result;
+            Assert.AreEqual(333.5, result);
         }
     }
 }
