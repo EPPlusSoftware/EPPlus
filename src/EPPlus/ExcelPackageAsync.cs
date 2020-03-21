@@ -319,7 +319,7 @@ namespace OfficeOpenXml
                 await outputStream.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
                 bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength).ConfigureAwait(false);
             }
-            outputStream.Flush();
+            await outputStream.FlushAsync();
         }
         internal async Task<byte[]> GetAsByteArrayAsync(bool save)
         {
