@@ -85,6 +85,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = RoundingHelper.Round(26.75, 0, RoundingHelper.Direction.AlwaysDown);
             Assert.AreEqual(0, result);
 
+            result = RoundingHelper.Round(-26.25, -0.5, RoundingHelper.Direction.AlwaysDown);
+            Assert.AreEqual(-26.5, result);
+
             result = RoundingHelper.Round(-26.75, 1, RoundingHelper.Direction.AlwaysDown);
             Assert.AreEqual(-27, result);
 
@@ -93,6 +96,40 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             result = RoundingHelper.Round(-26.75, 5, RoundingHelper.Direction.AlwaysDown);
             Assert.AreEqual(-30, result);
+        }
+
+        [TestMethod]
+        public void CeilingShouldReturnCorrectResult_AlwaysUp()
+        {
+            var result = RoundingHelper.Round(22.25, 0.1, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(22.3, result);
+
+            result = RoundingHelper.Round(22.25, 0.5, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(22.5, result);
+
+            result = RoundingHelper.Round(22.25, -0.5, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(22.5, result);
+
+            result = RoundingHelper.Round(22.25, 1, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(23, result);
+
+            result = RoundingHelper.Round(22.25, 10, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(30, result);
+
+            result = RoundingHelper.Round(22.25, 0, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(0, result);
+
+            result = RoundingHelper.Round(-22.25, -0.5, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(-22, result);
+
+            result = RoundingHelper.Round(-22.25, 1, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(-22, result);
+
+            result = RoundingHelper.Round(-22.25, -1, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(-22, result);
+
+            result = RoundingHelper.Round(-22.25, 5, RoundingHelper.Direction.AlwaysUp);
+            Assert.AreEqual(-20, result);
         }
     }
 }

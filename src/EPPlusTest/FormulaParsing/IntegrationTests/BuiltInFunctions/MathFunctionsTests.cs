@@ -87,6 +87,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CeilingPreciseShouldReturnCorrectResult()
+        {
+            var expectedValue = -20d;
+            var result = _parser.Parse("Ceiling.Precise(-22.25, 5)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void CombinShouldReturnCorrectResult()
         {
             var expectedValue = 15d;

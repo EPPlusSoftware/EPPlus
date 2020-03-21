@@ -22,19 +22,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             Up,
             Down,
-            AlwaysDown
+            AlwaysDown,
+            AlwaysUp
         }
         public static double Round(double number, double multiple, Direction direction)
         {
             if (multiple == 0) return 0d;
-            if(direction == Direction.Up)
+            var isNegativeNumber = number < 0;
+            var isNegativeMultiple = multiple < 0;
+            if(direction == Direction.Up || direction == Direction.AlwaysUp)
             {
-                if (multiple < 1 && multiple > 0)
+                if ((multiple < 1 && multiple > 0) || (multiple > -1 && multiple < 0))
                 {
+                    if (isNegativeMultiple) multiple *= -1;
+                    if (isNegativeNumber) number *= -1;
                     var floor = System.Math.Floor(number);
                     var rest = number - floor;
                     var nSign = (int)(rest / multiple) + 1;
-                    return floor + (nSign * multiple);
+                    var result = floor + (nSign * multiple);
+                    if(isNegativeNumber)
+                    {
+                        if (direction == Direction.AlwaysUp) result -= multiple;
+                        return result * -1;
+                    }
+                    return result;
                 }
                 else if (multiple == 1)
                 {
@@ -46,6 +57,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 }
                 else
                 {
+                    if (direction == Direction.AlwaysUp && number < 0)
+                    {
+                        if (multiple < 0) multiple *= -1;
+                        return System.Math.Round(number - (number % multiple), 14);
+                    }
                     return System.Math.Round(number - (number % multiple) + multiple, 14);
                 }
             }
