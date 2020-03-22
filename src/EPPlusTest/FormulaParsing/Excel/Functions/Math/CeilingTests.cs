@@ -113,5 +113,35 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(7d, result.Result);
         }
+
+        [TestMethod]
+        public void CeilingMathShouldReturnCorrectResult()
+        {
+            var func = new CeilingMath();
+
+            var args = FunctionsHelper.CreateArgs(15.25);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(16d, result);
+
+            args = FunctionsHelper.CreateArgs(15.25, 0.1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(15.3d, result);
+
+            args = FunctionsHelper.CreateArgs(15.25, 5);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(20d, result);
+
+            args = FunctionsHelper.CreateArgs(-15.25, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-15d, result);
+
+            args = FunctionsHelper.CreateArgs(-15.25, 1, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-16d, result);
+
+            args = FunctionsHelper.CreateArgs(-15.25, 10);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-10d, result);
+        }
     }
 }

@@ -95,6 +95,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CeilingMathShouldReturnCorrectResult()
+        {
+            var expectedValue = -20d;
+            var result = _parser.Parse("Ceiling.Math(-22.25, 5)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void IsoCeilingShouldReturnCorrectResult()
         {
             var expectedValue = 30d;

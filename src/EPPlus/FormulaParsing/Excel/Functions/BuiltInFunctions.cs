@@ -82,6 +82,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["product"] = new Product();
             Functions["ceiling"] = new Ceiling();
             Functions["ceiling.precise"] = new CeilingPrecise();
+            Functions["ceiling.math"] = new CeilingMath();
             Functions["iso.ceiling"] = new IsoCeiling();
             Functions["combin"] = new Combin();
             Functions["combina"] = new Combina();
