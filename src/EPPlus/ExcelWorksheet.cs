@@ -1833,18 +1833,6 @@ namespace OfficeOpenXml
         {
             View.TabSelected = true;
         }
-
-        internal void Move(ExcelAddressBase fromAddress, ExcelCellAddress toAddress)
-        {
-            if (fromAddress._fromCol > toAddress.Column)
-            {
-                _values.MoveLeft(fromAddress, toAddress);
-            }
-            else if(fromAddress._fromCol < toAddress.Column)
-            {
-                _values.MoveRight(fromAddress, toAddress);
-            }
-        }
         /// <summary>
         /// Selects a range in the worksheet. The active cell is the topmost cell.
         /// Make the current worksheet active.
@@ -3592,7 +3580,7 @@ namespace OfficeOpenXml
             var v = _formulas.GetValue(row, col);
             if (v is int)
             {
-                return _sharedFormulas[(int)v].GetFormula(row,col, Name);
+                return _sharedFormulas[(int)v].GetFormula(row, col, Name);
             }
             else if (v != null)
             {

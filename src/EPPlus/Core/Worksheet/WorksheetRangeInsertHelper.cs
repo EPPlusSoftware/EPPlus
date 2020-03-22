@@ -10,6 +10,7 @@
  *************************************************************************************************
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
@@ -46,10 +47,12 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
                 }
+
                 foreach (var tbl in ws.Tables)
                 {
                     tbl.Address = tbl.Address.AddRow(rowFrom, rows);
                 }
+
                 foreach (var ptbl in ws.PivotTables)
                 {
                     ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
@@ -127,6 +130,273 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
+            }
+        }
+        internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift)
+        {
+            ValidateIfInsertIsPossible(range, shift);
+
+            var ws = range.Worksheet;
+            var styleList = GetStylesForRange(range, shift);
+            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, range);
+
+            if (shift == eShiftTypeInsert.Down)
+            {
+                InsertCellStores(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
+            }
+            else
+            {
+                InsertCellStoreShiftRight(range._worksheet, range);
+            }
+
+            var effectedAddress = GetEffectedRange(range, shift);
+            //Adjust formulas
+            foreach (var wsToUpdate in range._workbook.Worksheets)
+            {
+                FixFormulasInsert(wsToUpdate, range, effectedAddress, shift);
+            }
+                
+            WorksheetRangeHelper.FixMergedCells(ws, range, false, shift);
+
+            SetStylesForRange(range, shift, styleList);
+
+            InsertTableAddresses(ws, range, shift, effectedAddress);
+            InsertPivottableAddresses(ws, range, shift, effectedAddress);
+
+            //Update data validation references
+            foreach (var dv in ws.DataValidations)
+            {
+                ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
+            }
+
+            //Update Conditional formatting references
+            foreach (var cf in ws.ConditionalFormatting)
+            {
+                ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
+            }
+
+            if(shift==eShiftTypeInsert.Down)
+            {
+                WorksheetRangeHelper.AdjustDrawingsRow(ws, range._fromRow, range.Rows, range._fromCol, range._toCol);
+            }
+            else
+            {
+                WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
+            }
+        }
+
+        private static ExcelAddressBase InsertSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        {
+            var collide = effectedAddress.Collide(address);
+            if (collide == ExcelAddressBase.eAddressCollition.Partly)
+            {
+                var addressToShift = effectedAddress.Intersect(address);
+                var shiftedAddress = ShiftAddress(addressToShift, range, shift);
+                var newAddress = "";
+                if(address._fromRow < addressToShift._fromRow)
+                {
+                    newAddress = ExcelCellBase.GetAddress(address._fromRow, address._fromCol, addressToShift._fromRow-1, address._toCol)+",";
+                }
+                if (address._fromCol < addressToShift._fromCol)
+                {
+                    var fromRow = Math.Max(address._fromRow, addressToShift._fromRow);
+                    newAddress += ExcelCellBase.GetAddress(fromRow, address._fromCol, address._toRow, addressToShift._fromCol-1)+ ",";
+                }
+
+                newAddress += $"{shiftedAddress},";
+
+                if (address._toRow > addressToShift._toRow)
+                {
+                    newAddress += ExcelCellBase.GetAddress(addressToShift._toRow + 1, address._fromCol, address._toRow, address._toCol)+",";
+                }
+                if (address._toCol > addressToShift._toCol)
+                {
+                    newAddress += ExcelCellBase.GetAddress(address._fromRow, addressToShift._toCol + 1, address._toRow, address._toCol)+",";
+                }
+                return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length-1));
+            }
+            else if(collide!=ExcelAddressBase.eAddressCollition.No)
+            {
+                return ShiftAddress(address, range, shift);
+            }
+            return address;
+        }
+
+        private static ExcelAddressBase ShiftAddress(ExcelAddressBase address, ExcelAddressBase range, eShiftTypeInsert shift)
+        {
+            if (shift == eShiftTypeInsert.Down)
+            {
+                return address.AddRow(range._fromRow, range.Rows);
+            }
+            else
+            {
+                return address.AddColumn(range._fromCol, range.Columns);
+            }
+        }
+
+        private static void InsertPivottableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
+        {
+            foreach (var ptbl in ws.PivotTables)
+            {
+                if (shift == eShiftTypeInsert.Down)
+                {
+                    if (ptbl.Address._fromCol >= range._fromCol && ptbl.Address._toCol <= range._toCol)
+                    {
+                        ptbl.Address = ptbl.Address.AddRow(range._fromRow, range.Rows);
+                    }
+                }
+                else
+                {
+                    if (ptbl.Address._fromRow >= range._fromRow && ptbl.Address._toRow <= range._toRow)
+                    {
+                        ptbl.Address = ptbl.Address.AddColumn(range._fromCol, range.Columns);
+                    }
+                }
+
+                if (ptbl.CacheDefinition.SourceRange.Worksheet==ws)
+                {
+                    var address = ptbl.CacheDefinition.SourceRange;
+                    if (shift == eShiftTypeInsert.Down)
+                    {
+                        if (address._fromCol >= range._fromCol && address._toCol <= range._toCol)
+                        {
+                            ptbl.CacheDefinition.SourceRange = ws.Cells[address.AddRow(range._fromRow, range.Rows).Address];
+                        }
+                    }
+                    else
+                    {
+                        if (address._fromRow >= range._fromRow && address._toRow <= range._toRow)
+                        {
+                            ptbl.CacheDefinition.SourceRange = ws.Cells[address.AddColumn(range._fromCol, range.Columns).Address];
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void InsertTableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
+        {
+            foreach (var tbl in ws.Tables)
+            {               
+                if (shift == eShiftTypeInsert.Down)
+                {
+                    if (tbl.Address._fromCol >= range._fromCol && tbl.Address._toCol <= range._toCol)
+                    {
+                        tbl.Address = tbl.Address.AddRow(range._fromRow, range.Rows);
+                    }
+                }
+                else
+                {
+                    if (tbl.Address._fromRow >= range._fromRow && tbl.Address._toRow <= range._toRow)
+                    {
+                        tbl.Address = tbl.Address.AddColumn(range._fromCol, range.Columns);
+                    }
+                }
+            }
+        }
+
+        private static List<int> GetStylesForRange(ExcelRangeBase range, eShiftTypeInsert shift)
+        {
+            var list=new List<int>();
+            if(shift==eShiftTypeInsert.Down)
+            {
+                for(int i=0;i<range.Columns;i++)
+                {
+                    if(range._fromRow == 1)
+                    {
+                        list.Add(0);
+                    }
+                    else
+                    {
+                        list.Add(range.Offset(-1, i).StyleID);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < range.Rows; i++)
+                {
+                    if (range._fromCol == 1)
+                    {
+                        list.Add(0);
+                    }
+                    else
+                    {
+                        list.Add(range.Offset(i, -1).StyleID);
+                    }
+                }
+            }
+            return list;
+        }
+
+        private static void SetStylesForRange(ExcelRangeBase range, eShiftTypeInsert shift, List<int> list)
+        {
+            if (shift == eShiftTypeInsert.Down)
+            {
+                for (int i = 0; i < range.Columns; i++)
+                {
+                    range.Offset(0, i,range.Rows,1).StyleID=list[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < range.Rows; i++)
+                {
+                    
+                    range.Offset(i, 0, 1, range.Columns).StyleID = list[i];
+                }
+            }
+        }
+
+        private static ExcelAddressBase GetEffectedRange(ExcelRangeBase range, eShiftTypeInsert shift, int? start=null)
+        {
+            if (shift == eShiftTypeInsert.Down)
+            {                
+                return new ExcelAddressBase(start ?? range._fromRow, range._fromCol, ExcelPackage.MaxRows, range._toCol);
+            }
+            else if (shift == eShiftTypeInsert.Right)
+            {
+                return new ExcelAddressBase(range._fromRow, start ?? range._fromCol, range._toRow, ExcelPackage.MaxColumns);
+            }
+            else if (shift == eShiftTypeInsert.EntireColumn)
+            {
+                return new ExcelAddressBase(1, range._fromCol, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+            }
+            else
+            {
+                return new ExcelAddressBase(range._fromRow, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+            }
+        }
+
+        private static void ValidateIfInsertIsPossible(ExcelRangeBase range, eShiftTypeInsert shift)
+        {
+            var effectedAddress = GetEffectedRange(range, shift, 1);
+            //Validate merged Cells
+            foreach (var a in range.Worksheet.MergedCells)
+            {
+                var mc = new ExcelAddressBase(a);
+                if(effectedAddress.Collide(mc) ==ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with merged range {a}");
+                }
+            }
+
+            //Validate tables Cells
+            foreach (var t in range.Worksheet.Tables)
+            {
+                if (effectedAddress.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
+                }
+            }
+
+            //Validate pivot tables Cells
+            foreach (var pt in range.Worksheet.PivotTables)
+            {
+                if (effectedAddress.Collide(pt.Address) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with pivot table {pt.Name}");
+                }
             }
         }
 
@@ -220,30 +490,83 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
+        private static void FixFormulasInsert(ExcelWorksheet ws, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        {
+            var workSheetName = range.WorkSheet;
+            var rowFrom = range._fromRow;
+            var columnFrom = range._fromCol;
+            var rows = range.Rows;
 
-        private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, string workSheetName)
+            foreach (var f in ws._sharedFormulas.Values)
+            {
+                if (workSheetName == ws.Name)
+                {
+                    if (f.StartCol >= columnFrom)
+                    {
+                        if (f.StartRow >= rowFrom) f.StartRow += rows;
+                        var a = new ExcelAddressBase(f.Address);
+                        if (a._fromRow >= rowFrom)
+                        {
+                            a._fromRow += rows;
+                            a._toRow += rows;
+                        }
+                        else if (a._toRow >= rowFrom)
+                        {
+                            a._toRow += rows;
+                        }
+                        f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
+                    }
+                }
+                else if (f.Formula.Contains(workSheetName))
+                {
+                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
+                }
+            }
+
+            var cse = new CellStoreEnumerator<object>(ws._formulas);
+            while (cse.Next())
+            {
+                if (cse.Value is string v)
+                {
+                    if (workSheetName == ws.Name)
+                    {
+                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
+                    }
+                    else if (v.Contains(workSheetName))
+                    {
+                        cse.Value = ExcelCellBase.UpdateFormulaReferences(v, range, effectedAddress, shift, ws.Name, workSheetName);
+                    }
+                }
+            }
+        }
+
+        private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, string workSheetName, int columnFrom=0, int columnTo=ExcelPackage.MaxColumns)
         {
             foreach (var f in ws._sharedFormulas.Values)
             {
                 if (workSheetName == ws.Name)
                 {
-                    if (f.StartRow >= rowFrom) f.StartRow += rows;
-                    var a = new ExcelAddressBase(f.Address);
-                    if (a._fromRow >= rowFrom)
+                    if (f.StartCol >= columnFrom)
                     {
-                        a._fromRow += rows;
-                        a._toRow += rows;
+                        if (f.StartRow >= rowFrom) f.StartRow += rows;
+                        var a = new ExcelAddressBase(f.Address);
+                        if (a._fromRow >= rowFrom)
+                        {
+                            a._fromRow += rows;
+                            a._toRow += rows;
+                        }
+                        else if (a._toRow >= rowFrom)
+                        {
+                            a._toRow += rows;
+                        }
+                        f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+                        f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, ws.Name, workSheetName);
                     }
-                    else if (a._toRow >= rowFrom)
-                    {
-                        a._toRow += rows;
-                    }
-                    f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, ws.Name, workSheetName);
                 }
                 else if (f.Formula.Contains(workSheetName))
                 {
-                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                    f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, columnFrom, ws.Name, workSheetName);
                 }
             }
 
@@ -305,7 +628,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-
         private static void ValidateInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             ws.CheckSheetType();
@@ -321,7 +643,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 throw (new ArgumentOutOfRangeException("Can't insert. Columns will be shifted outside the boundries of the worksheet."));
             }
         }
-
+        
         #region private methods
         private static void ValidateInsertRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
@@ -339,7 +661,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 throw (new ArgumentOutOfRangeException("Can't insert. Rows will be shifted outside the boundries of the worksheet."));
             }
         }
-        internal static void InsertCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns)
+        internal static void InsertCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, int columnTo=ExcelPackage.MaxColumns)
         {
             ws._values.Insert(rowFrom, columnFrom, rows, columns);
             ws._formulas.Insert(rowFrom, columnFrom, rows, columns);
@@ -347,10 +669,32 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
             ws._flags.Insert(rowFrom, columnFrom, rows, columns);
 
-            ws.Comments.Insert(rowFrom, columnFrom, rows, columns);
-            ws._names.Insert(rowFrom, columnFrom, rows, columns);
-            ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
+            if(rows==0||columns==0)
+            {
+                ws.Comments.Insert(rowFrom, columnFrom, rows, columns);
+                ws._names.Insert(rowFrom, columnFrom, rows, columns, 0, columnTo);
+                ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws, 0, columnTo);
+            }
+            else
+            {
+                ws.Comments.Insert(rowFrom, columnFrom, rows, 0, 0, columnTo);
+                ws._names.Insert(rowFrom, columnFrom, rows, 0, columnFrom, columnTo);
+                ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, 0, n => n.Worksheet == ws, columnFrom, columnTo);
+            }
         }
+        internal static void InsertCellStoreShiftRight(ExcelWorksheet ws, ExcelAddressBase fromAddress)
+        {
+            ws._values.MoveRight(fromAddress);
+            ws._formulas.MoveRight(fromAddress);
+            ws._commentsStore.MoveRight(fromAddress);
+            ws._hyperLinks.MoveRight(fromAddress);
+            ws._flags.MoveRight(fromAddress);
+
+            ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns);
+            ws._names.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
+            ws.Workbook.Names.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, n => n.Worksheet == ws, fromAddress._fromRow, fromAddress._toRow);
+        }
+
         private static void CopyFromStyleRow(ExcelWorksheet ws, int rowFrom, int rows, int copyStylesFromRow)
         {
             if (copyStylesFromRow >= rowFrom) copyStylesFromRow += rows;

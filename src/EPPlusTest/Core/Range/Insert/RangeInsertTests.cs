@@ -1,0 +1,873 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace EPPlusTest.Core.Range.Insert
+{
+    [TestClass]
+    public class RangeInsertTests : TestBase
+    {
+        public static ExcelPackage _pck;
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            InitBase();
+            _pck = OpenPackage("WorksheetRangeInsert.xlsx", true);
+        }
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            SaveAndCleanup(_pck);
+        }
+        [TestMethod]
+        public void ValidateFormulasAfterInsertRow()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRow_Sheet1");
+            var ws2 = _pck.Workbook.Worksheets.Add("InsertRow_Sheet2");
+            ws.Cells["A1"].Formula = "Sum(C5:C10)";
+            ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
+            ws2.Cells["A1"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
+            ws2.Cells["B1:B2"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
+
+            //Act
+            ws.InsertRow(3, 1);
+
+            //Assert
+            Assert.AreEqual(1, ws._sharedFormulas.Count);
+            Assert.AreEqual(1, ws._sharedFormulas.First().Key);
+            Assert.AreEqual("Sum(C6:C11)", ws.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(C6:C11)", ws.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(C7:C12)", ws.Cells["B2"].Formula);
+
+            Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(InsertRow_Sheet1!C7:C12)", ws2.Cells["B2"].Formula);
+        }
+        [TestMethod]
+        public void ValidateFormulasAfterInsert2Rows()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("Insert2Rows_Sheet1");
+            var ws2 = _pck.Workbook.Worksheets.Add("Insert2Rows_Sheet2");
+            ws.Cells["A1"].Formula = "Sum(C5:C10)";
+            ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
+            ws2.Cells["A1"].Formula = "Sum(Insert2Rows_Sheet1!C5:C10)";
+            ws2.Cells["B1:B2"].Formula = "Sum(Insert2Rows_Sheet1!C5:C10)";
+
+            //Act
+            ws.InsertRow(3, 2);
+
+            //Assert
+            Assert.AreEqual("Sum(C7:C12)", ws.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(C7:C12)", ws.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(C8:C13)", ws.Cells["B2"].Formula);
+
+            Assert.AreEqual("Sum(Insert2Rows_Sheet1!C7:C12)", ws2.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(Insert2Rows_Sheet1!C7:C12)", ws2.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(Insert2Rows_Sheet1!C8:C13)", ws2.Cells["B2"].Formula);
+        }
+        [TestMethod]
+        public void ValidateFormulasAfterInsertColumn()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertColumn_Sheet1");
+            var ws2 = _pck.Workbook.Worksheets.Add("InsertColumn_Sheet2");
+            ws.Cells["A1"].Formula = "Sum(E1:J1)";
+            ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
+            ws2.Cells["A1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
+            ws2.Cells["B1:C1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
+
+            //Act
+            ws.InsertColumn(4, 1);
+
+            //Assert
+            Assert.AreEqual("Sum(F1:K1)", ws.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(F1:K1)", ws.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(G1:L1)", ws.Cells["C1"].Formula);
+
+            Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(InsertColumn_Sheet1!G1:L1)", ws2.Cells["C1"].Formula);
+        }
+        [TestMethod]
+        public void ValidateFormulasAfterInsert2Columns()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("Insert2Columns_Sheet1");
+            var ws2 = _pck.Workbook.Worksheets.Add("Insert2Columns_Sheet2");
+            ws.Cells["A1"].Formula = "Sum(E1:J1)";
+            ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
+            ws2.Cells["A1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
+            ws2.Cells["B1:C1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
+
+            //Act
+            ws.InsertColumn(4, 2);
+
+            //Assert
+            Assert.AreEqual("Sum(G1:L1)", ws.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(G1:L1)", ws.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(H1:M1)", ws.Cells["C1"].Formula);
+
+            Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["A1"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["B1"].Formula);
+            Assert.AreEqual("Sum(Insert2Columns_Sheet1!H1:M1)", ws2.Cells["C1"].Formula);
+        }
+        [TestMethod]
+        public void InsertingColumnIntoTable()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("InsertColumnTable");
+                LoadTestdata(ws);
+                var tbl = ws.Tables.Add(ws.Cells[1, 1, 100, 5], "Table1");
+                //Act
+                ws.InsertColumn(2, 1);
+
+                //Assert
+                Assert.AreEqual(6, tbl.Columns.Count);
+                Assert.AreEqual("Date", tbl.Columns[0].Name);
+                Assert.AreEqual("Column2", tbl.Columns[1].Name);
+                Assert.AreEqual("NumValue", tbl.Columns[2].Name);
+                Assert.AreEqual("StrValue", tbl.Columns[3].Name);
+                Assert.AreEqual("NumFormattedValue", tbl.Columns[4].Name);
+                Assert.AreEqual("Column5", tbl.Columns[5].Name);
+            }
+        }
+        [TestMethod]
+        public void InsertingRowIntoTable()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("InsertRowTable");
+                LoadTestdata(ws);
+                var tbl = ws.Tables.Add(ws.Cells[1, 1, 100, 5], "Table1");
+                //Act
+                ws.InsertRow(1, 1);
+                ws.InsertRow(3, 1);
+                ws.InsertRow(103, 1);
+
+                //Assert
+                Assert.AreEqual("A2:E102", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeDown");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+
+            //Act
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.AreEqual("B1", ws.Cells["B2"].Value);
+            Assert.AreEqual("C1", ws.Cells["C1"].Value);
+        }
+        [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftDownTwoRows()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeDownTwoRows");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+            ws.Cells["D1"].Value = "D1";
+            ws.Cells["A2"].Value = "A2";
+            ws.Cells["B2"].Value = "B2";
+            ws.Cells["C2"].Value = "C2";
+            ws.Cells["D2"].Value = "D2";
+
+            //Act
+            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.IsNull(ws.Cells["C1"].Value);
+            Assert.IsNull(ws.Cells["B2"].Value);
+            Assert.IsNull(ws.Cells["C2"].Value);
+            Assert.AreEqual("B1", ws.Cells["B3"].Value);
+            Assert.AreEqual("C1", ws.Cells["C3"].Value);
+            Assert.AreEqual("A2", ws.Cells["A2"].Value);
+            Assert.AreEqual("D2", ws.Cells["D2"].Value);
+        }
+        [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftRight()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeRight");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+
+            //Act
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.AreEqual("B1", ws.Cells["C1"].Value);
+            Assert.AreEqual("C1", ws.Cells["D1"].Value);
+        }
+        [TestMethod]
+        public void ValidateValuesAfterInsertRowInRangeShiftRightTwoRows()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeRightTwoRows");
+            ws.Cells["A1"].Value = "A1";
+            ws.Cells["B1"].Value = "B1";
+            ws.Cells["C1"].Value = "C1";
+            ws.Cells["D1"].Value = "D1";
+            ws.Cells["A2"].Value = "A2";
+            ws.Cells["B2"].Value = "B2";
+            ws.Cells["C2"].Value = "C2";
+            ws.Cells["D2"].Value = "D2";
+
+            //Act
+            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["A1"].Value);
+            Assert.IsNull(ws.Cells["B1"].Value);
+            Assert.IsNull(ws.Cells["C1"].Value);
+            Assert.IsNull(ws.Cells["B2"].Value);
+            Assert.IsNull(ws.Cells["C2"].Value);
+            Assert.AreEqual("B1", ws.Cells["D1"].Value);
+            Assert.AreEqual("C1", ws.Cells["E1"].Value);
+            Assert.AreEqual("B2", ws.Cells["D2"].Value);
+            Assert.AreEqual("C2", ws.Cells["E2"].Value);
+            Assert.AreEqual("D2", ws.Cells["F2"].Value);
+        }
+        [TestMethod]
+        public void ValidateCommentsAfterInsertShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeCommentsDown");
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
+            ws.Cells["B1"].AddComment("Comment B1", "EPPlus");
+            ws.Cells["C1"].AddComment("Comment C1", "EPPlus");
+
+            //Act
+            ws.Cells["A1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.IsNull(ws.Cells["A1"].Comment);
+            Assert.AreEqual("Comment A1", ws.Cells["A2"].Comment.Text);
+            Assert.AreEqual("Comment B1", ws.Cells["B1"].Comment.Text);
+            Assert.AreEqual("Comment C1", ws.Cells["C1"].Comment.Text);
+        }
+        [TestMethod]
+        public void ValidateCommentsAfterInsertShiftRight()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeCommentsLeft");
+            ws.Cells["A1"].AddComment("Comment A1", "EPPlus");
+            ws.Cells["B1"].AddComment("Comment B1", "EPPlus");
+            ws.Cells["C1"].AddComment("Comment C1", "EPPlus");
+
+            //Act
+            ws.Cells["A1"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.IsNull(ws.Cells["A1"].Comment);
+            Assert.AreEqual("Comment A1", ws.Cells["B1"].Comment.Text);
+            Assert.AreEqual("Comment B1", ws.Cells["C1"].Comment.Text);
+            Assert.AreEqual("Comment C1", ws.Cells["D1"].Comment.Text);
+            Assert.IsNull(ws.Cells["A2"].Comment);
+        }
+        [TestMethod]
+        public void ValidateNameAfterInsertShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeNamesDown");
+            ws.Names.Add("NameA1", ws.Cells["A1"]);
+            ws.Names.Add("NameB1", ws.Cells["B1"]);
+            ws.Names.Add("NameC1", ws.Cells["C1"]);
+
+            //Act
+            ws.Cells["A1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A2", ws.Names["NameA1"].Address);
+            Assert.AreEqual("B1", ws.Names["NameB1"].Address);
+            Assert.AreEqual("C1", ws.Names["NameC1"].Address);
+        }
+        [TestMethod]
+        public void ValidateNameAfterInsertShiftDown_MustBeInsideRange()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeInsideNamesDown");
+            ws.Names.Add("NameA2B4", ws.Cells["A2:B4"]);
+            ws.Names.Add("NameB2D3", ws.Cells["B2:D3"]);
+            ws.Names.Add("NameC1F3", ws.Cells["C1:F3"]);
+
+            //Act
+            ws.Cells["A2:B3"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("B2:D3", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+
+            ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("B6:D7", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F3", ws.Names["NameC1F3"].Address);
+
+            ws.Cells["B2:F2"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("A4:B6", ws.Names["NameA2B4"].Address);
+            Assert.AreEqual("B7:D8", ws.Names["NameB2D3"].Address);
+            Assert.AreEqual("C1:F4", ws.Names["NameC1F3"].Address);
+        }
+
+        [TestMethod]
+        public void ValidateNamesAfterInsertShiftRight_MustBeInsideRange()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeInsideNamesRight");
+            ws.Names.Add("NameB1D2", ws.Cells["B1:D2"]);
+            ws.Names.Add("NameB2C4", ws.Cells["B2:D4"]);
+            ws.Names.Add("NameA3C6", ws.Cells["A3:C6"]);
+
+            //Act
+            ws.Cells["B1:C2"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("B2:D4", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+
+            ws.Cells["B2:D5"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("D1:F2", ws.Names["NameB1D2"].Address);
+            Assert.AreEqual("B6:D8", ws.Names["NameB2C4"].Address);
+            Assert.AreEqual("A3:C6", ws.Names["NameA3C6"].Address);
+        }
+
+        [TestMethod]
+        public void ValidateSharedFormulasInsertShiftDown()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeFormulaDown");
+            ws.Cells["B1:D2"].Formula = "A1";
+            ws.Cells["C3:F4"].Formula = "A1";
+
+            //Act
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Down);
+
+            //Assert
+            Assert.AreEqual("A1", ws.Cells["B2"].Formula);
+            Assert.AreEqual("A2", ws.Cells["B3"].Formula);
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("B2", ws.Cells["D3"].Formula);
+            Assert.AreEqual("C1", ws.Cells["E3"].Formula);
+            Assert.AreEqual("D1", ws.Cells["F3"].Formula);
+
+
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("D2", ws.Cells["F4"].Formula);
+
+        }
+        [TestMethod]
+        public void ValidateSharedFormulasInsertShiftRight()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeFormulaRight");
+            ws.Cells["B1:D2"].Formula = "A1";
+            ws.Cells["C3:F4"].Formula = "A1";
+
+            //Act
+            ws.Cells["B1"].Insert(eShiftTypeInsert.Right);
+
+            //Assert
+            Assert.AreEqual("", ws.Cells["B1"].Formula);
+            Assert.AreEqual("A1", ws.Cells["C1"].Formula);
+            Assert.AreEqual("C1", ws.Cells["D1"].Formula);
+            Assert.AreEqual("D1", ws.Cells["E1"].Formula);
+            Assert.AreEqual("A2", ws.Cells["B2"].Formula);
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("C1", ws.Cells["D3"].Formula);
+            Assert.AreEqual("D1", ws.Cells["E3"].Formula);
+
+
+            Assert.AreEqual("A1", ws.Cells["C3"].Formula);
+            Assert.AreEqual("D2", ws.Cells["F4"].Formula);
+
+        }
+        [TestMethod]
+        public void ValidateInsertMergedCellsDown()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["C3:E4"].Merge = true;
+                ws.Cells["C2:E2"].Insert(eShiftTypeInsert.Down);
+
+                Assert.AreEqual("C4:E5", ws.MergedCells[0]);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertMergedCellsRight()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["C2:E3"].Merge = true;
+                ws.Cells["B2:B3"].Insert(eShiftTypeInsert.Right);
+
+                Assert.AreEqual("D2:F3", ws.MergedCells[0]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateInsertIntoMergedCellsPartialRightThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateInsertIntoMergedCellsPartialDownThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertIntoMergedCellsPartialRightShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["C1"].Insert(eShiftTypeInsert.Right);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertIntoMergedCellsPartialDownShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateInsertIntoTablePartialRightThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateInsertIntoTablePartialDownThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertIntoTablePartialRightShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["C1"].Insert(eShiftTypeInsert.Right);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertIntoTablePartialDownShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateInsertIntoPivotTablePartialRightThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsert");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateInsertIntoPivotTablePartialDownThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsert");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertIntoPivotTablePartialRightShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsert");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["C1"].Insert(eShiftTypeInsert.Right);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertIntoPivotTablePartialDownShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsert");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertTableShouldShiftDown()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsertShiftDown");
+                var tbl=ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B3:D4", tbl.Address.Address);
+
+                ws.Cells["A3:D3"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D5", tbl.Address.Address);
+
+                ws.Cells["B3:E3"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B5:D6", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertTableShouldShiftRight()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableInsertShiftRight");
+                var tbl = ws.Tables.Add(ws.Cells["B2:C4"], "table1");
+                ws.Cells["B2:B4"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("C2:D4", tbl.Address.Address);
+
+                ws.Cells["B1:B4"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:E4", tbl.Address.Address);
+
+                ws.Cells["B2:B6"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("E2:F4", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertPivotTableShouldShiftDown()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsertShiftDown");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";                
+                var pt=ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B3:D4", pt.Address.Address);
+
+                ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D5", pt.Address.Address);
+
+                ws.Cells["B5:D5"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D6", pt.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertPivotTableShouldShiftRight()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableInsertShiftRight");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:B3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("C2:E3", pt.Address.Address);
+                ws.Cells["B1:B4"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:F3", pt.Address.Address);
+                ws.Cells["E2:E3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:G3", pt.Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void ValidateStyleShiftDown()
+        {
+                var ws = _pck.Workbook.Worksheets.Add("StyleShiftDown");
+                ws.Cells["A1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed2);
+                ws.Cells["B1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed3);
+                ws.Cells["C1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed4);
+
+                ws.Cells["A2"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed5);
+                ws.Cells["A3"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed6);
+
+                ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual(0, ws.Cells["A1"].StyleID);
+                Assert.AreEqual(0, ws.Cells["B1"].StyleID);
+                Assert.AreEqual(0, ws.Cells["C1"].StyleID);
+                Assert.AreEqual(2, ws.Cells["A2"].StyleID);
+                Assert.AreEqual(3, ws.Cells["B2"].StyleID);
+                Assert.AreEqual(4, ws.Cells["C2"].StyleID);
+                ws.Cells["A3:C4"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual(2, ws.Cells["A3"].StyleID);
+                Assert.AreEqual(3, ws.Cells["B3"].StyleID);
+                Assert.AreEqual(4, ws.Cells["C3"].StyleID);
+                Assert.AreEqual(2, ws.Cells["A4"].StyleID);
+                Assert.AreEqual(3, ws.Cells["B4"].StyleID);
+                Assert.AreEqual(4, ws.Cells["C4"].StyleID);
+        }
+        [TestMethod]
+        public void ValidateStyleShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StyleShiftRight");
+            ws.Cells["A1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed2);
+            ws.Cells["B1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed3);
+            ws.Cells["C1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed4);
+
+            ws.Cells["A2"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed5);
+            ws.Cells["A3"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed6);
+
+            ws.Cells["A1:A3"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual(0, ws.Cells["A1"].StyleID);
+            Assert.AreEqual(0, ws.Cells["A2"].StyleID);
+            Assert.AreEqual(0, ws.Cells["A3"].StyleID);
+            Assert.AreEqual(2, ws.Cells["B1"].StyleID);
+            Assert.AreEqual(5, ws.Cells["B2"].StyleID);
+            Assert.AreEqual(6, ws.Cells["B3"].StyleID);
+            ws.Cells["C1:D3"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual(2, ws.Cells["C1"].StyleID);
+            Assert.AreEqual(5, ws.Cells["C2"].StyleID);
+            Assert.AreEqual(6, ws.Cells["C3"].StyleID);
+            Assert.AreEqual(2, ws.Cells["D1"].StyleID);
+            Assert.AreEqual(5, ws.Cells["D2"].StyleID);
+            Assert.AreEqual(6, ws.Cells["D3"].StyleID);
+        }
+        #region Data validation
+        [TestMethod]
+        public void ValidateDatavalidationFullShiftDown()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValShiftDownFull");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:E6", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftDown_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialDownFullL");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:C2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:C6,D2:E5", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftDown_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialDownFullI");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["C2:D2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C3:D6,E2:E5", any.Address.Address);
+        }
+
+
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftDown_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialRightFullR");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["C2:E3"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C4:E7", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftRight_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialRightFullTop");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F4,B5:E5", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftRight_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialRightFullIns");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A3:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F4,B5:E5", any.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateDatavalPartialShiftRight_Bottom()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialDownFullBottom");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A3:A6"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F5", any.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateDatavalidationFullShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValidationShiftRightFull");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:A5"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F5", any.Address.Address);
+        }
+        #endregion
+        #region Conditional formatting
+        [TestMethod]
+        public void ValidateConditionalFormattingFullShiftDown()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormShiftDownFull");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+            ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:E6", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftDown_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullL");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:C2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B3:C6,D2:E5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftDown_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullI");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C2:D2"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C3:D6,E2:E5", cf.Address.Address);
+        }
+
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftDown_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullR");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C2:E3"].Insert(eShiftTypeInsert.Down);
+
+            Assert.AreEqual("B2:B5,C4:E7", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftRight_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullTop");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F4,B5:E5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftRight_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullIns");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A3:A4"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F4,B5:E5", cf.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftRight_Bottom()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullBottom");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A3:A6"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("B2:E2,C3:F5", cf.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingFullShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormShiftRightFull");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:A5"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("C2:F5", cf.Address.Address);
+        }
+        #endregion
+    }
+}

@@ -8,118 +8,23 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EPPlusTest.Core.Worksheet
+namespace EPPlusTest.Core.Range.Delete
 {
     [TestClass]
-    public class WorksheetRangeInsertDeleteTests : TestBase
+    public class RangeDeleteTests : TestBase
     {
         public static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
             InitBase();
-            _pck = OpenPackage("WorksheetRangeInsert.xlsx", true);
+            _pck = OpenPackage("WorksheetRangeDelete.xlsx", true);
         }
         [ClassCleanup] 
         public static void Cleanup()
         {
             SaveAndCleanup(_pck);
         }
-        [TestMethod]
-        public void ValidateFormulasAfterInsertRow()
-        {
-            //Setup
-            var ws = _pck.Workbook.Worksheets.Add("InsertRow_Sheet1");
-            var ws2 = _pck.Workbook.Worksheets.Add("InsertRow_Sheet2");
-            ws.Cells["A1"].Formula="Sum(C5:C10)";
-            ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
-            ws2.Cells["A1"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
-            ws2.Cells["B1:B2"].Formula = "Sum(InsertRow_Sheet1!C5:C10)";
-
-            //Act
-            ws.InsertRow(3, 1);
-
-            //Assert
-            Assert.AreEqual(1, ws._sharedFormulas.Count);
-            Assert.AreEqual(1, ws._sharedFormulas.First().Key);
-            Assert.AreEqual("Sum(C6:C11)", ws.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(C6:C11)", ws.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(C7:C12)", ws.Cells["B2"].Formula);
-
-            Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(InsertRow_Sheet1!C6:C11)", ws2.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(InsertRow_Sheet1!C7:C12)", ws2.Cells["B2"].Formula);
-        }
-        [TestMethod]
-        public void ValidateFormulasAfterInsert2Rows()
-        {
-            //Setup
-            var ws = _pck.Workbook.Worksheets.Add("Insert2Rows_Sheet1");
-            var ws2 = _pck.Workbook.Worksheets.Add("Insert2Rows_Sheet2");
-            ws.Cells["A1"].Formula = "Sum(C5:C10)";
-            ws.Cells["B1:B2"].Formula = "Sum(C5:C10)";
-            ws2.Cells["A1"].Formula = "Sum(Insert2Rows_Sheet1!C5:C10)";
-            ws2.Cells["B1:B2"].Formula = "Sum(Insert2Rows_Sheet1!C5:C10)";
-
-            //Act
-            ws.InsertRow(3, 2);
-
-            //Assert
-            Assert.AreEqual("Sum(C7:C12)", ws.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(C7:C12)", ws.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(C8:C13)", ws.Cells["B2"].Formula);
-
-            Assert.AreEqual("Sum(Insert2Rows_Sheet1!C7:C12)", ws2.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(Insert2Rows_Sheet1!C7:C12)", ws2.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(Insert2Rows_Sheet1!C8:C13)", ws2.Cells["B2"].Formula);
-        }
-        [TestMethod]
-        public void ValidateFormulasAfterInsertColumn()
-        {
-            //Setup
-            var ws = _pck.Workbook.Worksheets.Add("InsertColumn_Sheet1");
-            var ws2 = _pck.Workbook.Worksheets.Add("InsertColumn_Sheet2");
-            ws.Cells["A1"].Formula = "Sum(E1:J1)";
-            ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
-            ws2.Cells["A1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
-            ws2.Cells["B1:C1"].Formula = "Sum(InsertColumn_Sheet1!E1:J1)";
-
-            //Act
-            ws.InsertColumn(4, 1);
-
-            //Assert
-            Assert.AreEqual("Sum(F1:K1)", ws.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(F1:K1)", ws.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(G1:L1)", ws.Cells["C1"].Formula);
-
-            Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(InsertColumn_Sheet1!F1:K1)", ws2.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(InsertColumn_Sheet1!G1:L1)", ws2.Cells["C1"].Formula);
-        }
-        [TestMethod]
-        public void ValidateFormulasAfterInsert2Columns()
-        {
-            //Setup
-            var ws = _pck.Workbook.Worksheets.Add("Insert2Columns_Sheet1");
-            var ws2 = _pck.Workbook.Worksheets.Add("Insert2Columns_Sheet2");
-            ws.Cells["A1"].Formula = "Sum(E1:J1)";
-            ws.Cells["B1:C1"].Formula = "Sum(E1:J1)";
-            ws2.Cells["A1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
-            ws2.Cells["B1:C1"].Formula = "Sum(Insert2Columns_Sheet1!E1:J1)";
-
-            //Act
-            ws.InsertColumn(4, 2);
-
-            //Assert
-            Assert.AreEqual("Sum(G1:L1)", ws.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(G1:L1)", ws.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(H1:M1)", ws.Cells["C1"].Formula);
-
-            Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["A1"].Formula);
-            Assert.AreEqual("Sum(Insert2Columns_Sheet1!G1:L1)", ws2.Cells["B1"].Formula);
-            Assert.AreEqual("Sum(Insert2Columns_Sheet1!H1:M1)", ws2.Cells["C1"].Formula);
-        }
-
         [TestMethod]
         public void ValidateFormulasAfterDeleteRow()
         {
@@ -133,7 +38,7 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws.DeleteRow(3, 1);
-            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            var wsError = _pck.Workbook.Worksheets["DeleteRow_Sheet1"];
             if(wsError!=null)
             {
                 Assert.AreEqual(1, wsError._sharedFormulas.Count);
@@ -160,7 +65,7 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws1.DeleteRow(2, 2);
-            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            var wsError = _pck.Workbook.Worksheets["DeleteRow_Sheet1"];
             if (wsError != null)
             {
                 Assert.AreEqual(1, wsError._sharedFormulas.Count);
@@ -191,7 +96,7 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws.DeleteColumn(3, 1);
-            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            var wsError = _pck.Workbook.Worksheets["DeleteRow_Sheet1"];
             if (wsError != null)
             {
                 Assert.AreEqual(1, wsError._sharedFormulas.Count);
@@ -217,7 +122,7 @@ namespace EPPlusTest.Core.Worksheet
 
             //Act
             ws1.DeleteColumn(2, 2);
-            var wsError = _pck.Workbook.Worksheets["InsertRow_Sheet1"];
+            var wsError = _pck.Workbook.Worksheets["DeleteRow_Sheet1"];
             if (wsError != null)
             {
                 Assert.AreEqual(1, wsError._sharedFormulas.Count);
@@ -402,46 +307,6 @@ namespace EPPlusTest.Core.Worksheet
                 ws1.DeleteColumn(6);
                 Assert.AreEqual("SUM($D$1:$E$1)", ws1.Cells["A1"].Formula);
                 Assert.AreEqual("SUM(sheet1!$D$1:$E$1)", ws2.Cells["A1"].Formula);
-            }
-        }
-        [TestMethod]
-        public void InsertingColumnIntoTable()
-        {
-            using (var p = new ExcelPackage())
-            {
-                //Setup
-                var ws=p.Workbook.Worksheets.Add("InsertColumnTable");
-                LoadTestdata(ws);
-                var tbl = ws.Tables.Add(ws.Cells[1, 1, 100, 5], "Table1");
-                //Act
-                ws.InsertColumn(2, 1);
-
-                //Assert
-                Assert.AreEqual(6, tbl.Columns.Count);
-                Assert.AreEqual("Date", tbl.Columns[0].Name);
-                Assert.AreEqual("Column2", tbl.Columns[1].Name);
-                Assert.AreEqual("NumValue", tbl.Columns[2].Name);
-                Assert.AreEqual("StrValue", tbl.Columns[3].Name);
-                Assert.AreEqual("NumFormattedValue", tbl.Columns[4].Name);
-                Assert.AreEqual("Column5", tbl.Columns[5].Name);
-            }
-        }
-        [TestMethod]
-        public void InsertingRowIntoTable()
-        {
-            using (var p = new ExcelPackage())
-            {
-                //Setup
-                var ws = p.Workbook.Worksheets.Add("InsertRowTable");
-                LoadTestdata(ws);
-                var tbl = ws.Tables.Add(ws.Cells[1, 1, 100, 5], "Table1");
-                //Act
-                ws.InsertRow(1, 1);
-                ws.InsertRow(3, 1);
-                ws.InsertRow(103, 1);
-
-                //Assert
-                Assert.AreEqual("A2:E102", tbl.Address.Address);
             }
         }
     }

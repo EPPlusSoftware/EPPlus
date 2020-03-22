@@ -374,7 +374,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             SetChartStyle(style, ePresetChartColors.ColorfulPalette1);
         }
         /// <summary>
-        /// Applies a preset chart style loaded into the StyleLibrary to the chart.
+        /// Applies a preset chart style loaded into the StyleLibrary to the chart. 
+        /// This enums matches Excel's styles for single series for common scenarios. 
+        /// Excel changes chart styles depending on many parameters, like number of series, axis type and more, so it will not always match the number in Excel.       
+        /// To be certain of getting the correct style use the chart style number of the style you want to apply
         /// </summary>
         /// <param name="style">The preset style to use</param>
         /// <param name="colors">The preset color scheme to use</param>
@@ -385,7 +388,9 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         }
         /// <summary>
         /// Applies a preset chart style loaded into the StyleLibrary to the chart.
-        /// The style is matching Excel's style for charts with multiple series.
+        /// This enums matches Excel's styles for multiple series for common scenarios. 
+        /// Excel changes chart styles depending on many parameters, like number of series, axis type and more, so it will not always match the number in Excel.       
+        /// To be certain of getting the correct style use the chart style number of the style you want to apply.
         /// </summary>
         /// <param name="style">The preset style to use</param>
         /// <param name="colors">The preset color scheme to use</param>

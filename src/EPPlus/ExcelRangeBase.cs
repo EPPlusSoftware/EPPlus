@@ -187,14 +187,14 @@ namespace OfficeOpenXml
             }
             else
             {
-                if (value is object[,] && valueMethod == Set_Value)
+                if (value is object[,] && (valueMethod == Set_Value || valueMethod == Set_StyleID))
                 {
                     // only simple set value is supported for bulk copy
                     _worksheet.SetRangeValueInner(address.Start.Row, address.Start.Column, address.End.Row, address.End.Column, (object[,])value);
                 }
                 else
                 {
-                    DeleteMe(address, false, false);   //Clear the range before overwriting, but not merged cells.
+                    DeleteMe(address, false, false, true, false, false);   //Clear the range before overwriting, but not merged cells.
                     if (value != null)
                     {
                         for (int col = address.Start.Column; col <= address.End.Column; col++)
@@ -1158,6 +1158,21 @@ namespace OfficeOpenXml
                 _changePropMethod(this, _setIsRichTextDelegate, value);
             }
         }
+        public void Insert(eShiftTypeInsert shift)
+        {
+            if(shift==eShiftTypeInsert.EntireColumn)
+            {
+                WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, -1);
+            }
+            else if(shift==eShiftTypeInsert.EntireRow)
+            {
+                WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, -1);
+            }
+            else
+            {
+                WorksheetRangeInsertHelper.Insert(this, shift);
+            }
+        }
         /// <summary>
         /// Is the range a part of an Arrayformula
         /// </summary>
@@ -1744,10 +1759,8 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool doClearMergedCells=true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues=true, bool clearFlagsAndformulas=true, bool clearMergedCells=true, bool clearHyperLinksComments=true)
         {
-            if(doClearMergedCells)
-                _worksheet.MergedCells.Clear(Range);
 
             //First find the start cell
             int fromRow, fromCol;
@@ -1772,18 +1785,31 @@ namespace OfficeOpenXml
             var rows = Range._toRow - fromRow + 1;
             var cols = Range._toCol - fromCol + 1;
 
-            _worksheet._values.Delete(fromRow, fromCol, rows, cols, shift);
-            _worksheet._formulas.Delete(fromRow, fromCol, rows, cols, shift);
-            _worksheet._hyperLinks.Delete(fromRow, fromCol, rows, cols, shift);
-            _worksheet._flags.Delete(fromRow, fromCol, rows, cols, shift);
-            _worksheet._commentsStore.Delete(fromRow, fromCol, rows, cols, shift);
+
+            if (clearMergedCells)
+                _worksheet.MergedCells.Clear(Range);
+
+            if (clearValues)
+            {
+                _worksheet._values.Delete(fromRow, fromCol, rows, cols, shift);
+            }
+            if(clearFlagsAndformulas)
+            {
+                _worksheet._formulas.Delete(fromRow, fromCol, rows, cols, shift);
+                _worksheet._flags.Delete(fromRow, fromCol, rows, cols, shift);
+            }
+            if (clearHyperLinksComments)
+            {
+                _worksheet._hyperLinks.Delete(fromRow, fromCol, rows, cols, shift);
+                _worksheet._commentsStore.Delete(fromRow, fromCol, rows, cols, shift);
+            }
 
             //Clear multi addresses as well
             if (Range.Addresses != null)
             {
                 foreach (var sub in Range.Addresses)
                 {
-                    DeleteMe(sub, shift);
+                    DeleteMe(sub, shift, clearValues, clearFlagsAndformulas, clearMergedCells, clearHyperLinksComments);
                 }
             }
         }

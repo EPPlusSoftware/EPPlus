@@ -253,7 +253,30 @@ namespace OfficeOpenXml
                 }
             }
         }
-        
+
+        internal ExcelAddressBase Intersect(ExcelAddressBase address)
+        {
+            if(address._fromRow > _toRow || _toRow < address._fromRow ||
+               address._fromCol > _toCol || _toCol < address._fromCol)
+            {
+                return null;
+            }
+            
+            var fromRow = Math.Max(address._fromRow, _fromRow);
+            var toRow = Math.Min(address._toRow, _toRow);
+            var fromCol = Math.Max(address._fromCol, _fromCol);
+            var toCol = Math.Min(address._toCol, _toCol);
+
+            return new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
+        }
+
+        internal bool IsInside(ExcelAddressBase effectedAddress)
+        {
+            var c = Collide(effectedAddress);
+            return c == ExcelAddressBase.eAddressCollition.Equal ||
+                   c == ExcelAddressBase.eAddressCollition.Inside;
+        }
+
         /// <summary>
         /// Address is an defined name
         /// </summary>
@@ -721,13 +744,13 @@ namespace OfficeOpenXml
         #region Address manipulation methods
         internal eAddressCollition Collide(ExcelAddressBase address, bool ignoreWs=false)
         {
-            if (ignoreWs == false && address.WorkSheet != WorkSheet && address.WorkSheet != null)
+            if (ignoreWs == false && address.WorkSheet != WorkSheet && address.WorkSheet != null && WorkSheet!=null)
             {
                 return eAddressCollition.No;
             }
 
             return Collide(address._fromRow, address._fromCol, address._toRow, address._toCol);
-        }
+            }
 
         internal eAddressCollition Collide(int fromRow, int fromCol, int toRow, int toCol)
         {

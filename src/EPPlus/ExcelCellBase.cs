@@ -802,6 +802,132 @@ namespace OfficeOpenXml
                 return formula;
             }
         }
+        /// <summary>
+        /// Updates the Excel formula so that all the cellAddresses are incremented by the row and column increments
+        /// if they fall after the afterRow and afterColumn.
+        /// Supports inserting rows and columns into existing templates.
+        /// </summary>
+        /// <param name="formula">The Excel formula</param>
+        /// <param name="range">The range that is inserted</param>
+        /// <param name="effectedRange">The range effected by the insert</param>
+        /// <param name="shift">Shift operation</param>
+        /// <param name="currentSheet">The sheet that contains the formula currently being processed.</param>
+        /// <param name="modifiedSheet">The sheet where cells are being inserted or deleted.</param>
+        /// <param name="setFixed">Fixed address</param>
+        /// <returns>The updated version of the <paramref name="formula"/>.</returns>
+        internal static string UpdateFormulaReferences(string formula, ExcelAddressBase range, ExcelAddressBase effectedRange, eShiftTypeInsert shift, string currentSheet, string modifiedSheet, bool setFixed = false)
+        {
+            try
+            {
+                var afterRow = range._fromRow;
+                var afterColumn = range._fromCol;
+                int rowIncrement;
+                int colIncrement;
+                if (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow)
+                {
+                    rowIncrement = range.Rows;
+                    colIncrement = 0;
+                }
+                else
+                {
+                    colIncrement = range.Columns;
+                    rowIncrement = 0;
+                }
+                
+                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+                var tokens = sct.Tokenize(formula);
+                var f = "";
+                foreach (var t in tokens)
+                {
+                    if (t.TokenTypeIsSet(TokenType.ExcelAddress))
+                    {
+                        var address = new ExcelAddressBase(t.Value);
+                        if (((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed) ||
+                                address.Collide(effectedRange) == ExcelAddressBase.eAddressCollition.No)
+                        {
+                            f += address.Address;
+                            continue;
+                        }
+
+                        if (!string.IsNullOrEmpty(address._ws)) //The address has worksheet.
+                        {
+                            if (t.Value.IndexOf("'!") >= 0)
+                            {
+                                f += $"'{address._ws}'!";
+                            }
+                            else
+                            {
+                                f += $"{address._ws}!";
+                            }
+                        }
+                        if (!address.IsFullColumn)
+                        {
+                            if (rowIncrement > 0)
+                            {
+                                address = address.AddRow(afterRow, rowIncrement, setFixed);
+                            }
+                            else if (rowIncrement < 0)
+                            {
+                                if (address._fromRowFixed == false && (address._fromRow >= afterRow && address._toRow < afterRow - rowIncrement))
+                                {
+                                    address = null;
+                                }
+                                else
+                                {
+                                    address = address.DeleteRow(afterRow, -rowIncrement, setFixed);
+                                }
+                            }
+                        }
+                        if (address != null && !address.IsFullRow)
+                        {
+                            if (colIncrement > 0)
+                            {
+                                address = address.AddColumn(afterColumn, colIncrement, setFixed);
+                            }
+                            else if (colIncrement < 0)
+                            {
+                                if (address._fromColFixed == false && (address._fromCol >= afterColumn && address._toCol < afterColumn - colIncrement))
+                                {
+                                    address = null;
+                                }
+                                else
+                                {
+                                    address = address.DeleteColumn(afterColumn, -colIncrement, setFixed);
+                                }
+                            }
+                        }
+
+                        if (address == null || !address.IsValidRowCol())
+                        {
+                            f += "#REF!";
+                        }
+                        else
+                        {
+                            var ix = address.Address.LastIndexOf('!');
+                            if (ix > 0)
+                            {
+                                f += address.Address.Substring(ix + 1);
+                            }
+                            else
+                            {
+                                f += address.Address;
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        f += t.Value;
+                    }
+                }
+                return f;
+            }
+            catch //Invalid formula, return formula
+            {
+                return formula;
+            }
+        }
 
         private static bool IsReferencesModifiedWorksheet(string currentSheet, string modifiedSheet, ExcelAddressBase a)
         {
