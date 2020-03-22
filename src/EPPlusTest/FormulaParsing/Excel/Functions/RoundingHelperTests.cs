@@ -37,6 +37,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             result = RoundingHelper.Round(-22.25, -5, RoundingHelper.Direction.Up);
             Assert.AreEqual(-25, result);
+
+            result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.Up);
+            Assert.AreEqual(1000, result);
+
+            result = RoundingHelper.Round(-555, -1000, RoundingHelper.Direction.Up);
+            Assert.AreEqual(-1000, result);
         }
 
         [TestMethod]
@@ -65,6 +71,12 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             result = RoundingHelper.Round(-26.75, -5, RoundingHelper.Direction.Down);
             Assert.AreEqual(-25, result);
+
+            result = RoundingHelper.Round(555, 1000, RoundingHelper.Direction.Down);
+            Assert.AreEqual(0, result);
+
+            result = RoundingHelper.Round(-555, -1000, RoundingHelper.Direction.Down);
+            Assert.AreEqual(0, result);
         }
 
         [TestMethod]
