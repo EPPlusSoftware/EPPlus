@@ -95,6 +95,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void IsoCeilingShouldReturnCorrectResult()
+        {
+            var expectedValue = 30d;
+            var result = _parser.Parse("Iso.Ceiling(22.25, 10)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void MroundShouldReturnCorrectResult()
         {
             var expectedValue = 334d;
