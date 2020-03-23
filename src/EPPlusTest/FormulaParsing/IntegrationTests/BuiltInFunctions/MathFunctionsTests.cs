@@ -87,6 +87,38 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void CeilingPreciseShouldReturnCorrectResult()
+        {
+            var expectedValue = -20d;
+            var result = _parser.Parse("Ceiling.Precise(-22.25, 5)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void CeilingMathShouldReturnCorrectResult()
+        {
+            var expectedValue = -20d;
+            var result = _parser.Parse("Ceiling.Math(-22.25, 5)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void IsoCeilingShouldReturnCorrectResult()
+        {
+            var expectedValue = 30d;
+            var result = _parser.Parse("Iso.Ceiling(22.25, 10)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void MroundShouldReturnCorrectResult()
+        {
+            var expectedValue = 334d;
+            var result = _parser.Parse("Mround(333.3, 2)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
         public void CombinShouldReturnCorrectResult()
         {
             var expectedValue = 15d;
@@ -172,6 +204,22 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         {
             var expectedValue = 22.3d;
             var result = _parser.Parse("Floor(22.35, 0.1)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void FloorPreciseShouldReturnCorrectResult()
+        {
+            var expectedValue = -30d;
+            var result = _parser.Parse("Floor.Precise(-26.75, 5)");
+            Assert.AreEqual(expectedValue, result);
+        }
+
+        [TestMethod]
+        public void FloorMathShouldReturnCorrectResult()
+        {
+            var expectedValue = -25d;
+            var result = _parser.Parse("Floor.Math(-26.75, 5, 1)");
             Assert.AreEqual(expectedValue, result);
         }
 

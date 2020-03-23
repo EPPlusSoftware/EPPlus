@@ -98,95 +98,6 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
-        public void CeilingShouldRoundUpAccordingToParamsSignificanceLowerThan0()
-        {
-            var expectedValue = 22.36d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(22.35d, 0.01);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-
-        [TestMethod]
-        public void CeilingBugTest1()
-        {
-            var expectedValue = 100d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(100d, 100d);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-        [TestMethod]
-        public void CeilingBugTest2()
-        {
-            var expectedValue = 12000d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(12000d, 1000d);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-
-        [TestMethod]
-        public void CeilingShouldRoundTowardsZeroIfSignificanceAndNumberIsMinus0point1()
-        {
-            var expectedValue = -22.4d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(-22.35d, -0.1);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, System.Math.Round((double)result.Result, 2));
-        }
-
-        [TestMethod]
-        public void CeilingShouldRoundUpAccordingToParamsSignificanceIs1()
-        {
-            var expectedValue = 23d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(22.35d, 1);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-
-        [TestMethod]
-        public void CeilingShouldRoundUpAccordingToParamsSignificanceIs10()
-        {
-            var expectedValue = 30d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(22.35d, 10);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-
-        [TestMethod]
-        public void CeilingShouldRoundTowardsZeroIfSignificanceAndNumberIsNegative()
-        {
-            var expectedValue = -30d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(-22.35d, -10);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
-        public void CeilingShouldThrowExceptionIfNumberIsPositiveAndSignificanceIsNegative()
-        {
-            var expectedValue = 30d;
-            var func = new Ceiling();
-            var args = FunctionsHelper.CreateArgs(22.35d, -1);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-
-        [TestMethod]
-        public void CombinShouldReturnCorrectResult_6_1()
-        {
-            var func = new Combin();
-
-            var args = FunctionsHelper.CreateArgs(6, 1);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(6d, result.Result);
-        }
-
-        [TestMethod]
         public void CombinShouldReturnCorrectResult_6_2()
         {
             var func = new Combin();
@@ -204,6 +115,16 @@ namespace EPPlusTest.Excel.Functions
             var args = FunctionsHelper.CreateArgs(10.456, 3);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(120d, result.Result);
+        }
+
+        [TestMethod]
+        public void CombinShouldReturnCorrectResult_6_1()
+        {
+            var func = new Combin();
+
+            var args = FunctionsHelper.CreateArgs(6, 1);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(6d, result.Result);
         }
 
         [TestMethod]
@@ -697,51 +618,6 @@ namespace EPPlusTest.Excel.Functions
             var args = FunctionsHelper.CreateArgs(9333, -3);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(9000d, result.Result);
-        }
-
-        [TestMethod]
-        public void FloorShouldReturnCorrectResultWhenSignificanceIsBetween0And1()
-        {
-            var func = new Floor();
-            var args = FunctionsHelper.CreateArgs(26.75d, 0.1);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(26.7d, result.Result);
-        }
-
-        [TestMethod]
-        public void FloorShouldReturnCorrectResultWhenSignificanceIs1()
-        {
-            var func = new Floor();
-            var args = FunctionsHelper.CreateArgs(26.75d, 1);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(26d, result.Result);
-        }
-
-        [TestMethod]
-        public void FloorShouldReturnCorrectResultWhenSignificanceIsMinus1()
-        {
-            var func = new Floor();
-            var args = FunctionsHelper.CreateArgs(-26.75d, -1);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(-26d, result.Result);
-        }
-        [TestMethod]
-        public void FloorBugTest1()
-        {
-            var expectedValue = 100d;
-            var func = new Floor();
-            var args = FunctionsHelper.CreateArgs(100d, 100d);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
-        }
-        [TestMethod]
-        public void FloorBugTest2()
-        {
-            var expectedValue = 12000d;
-            var func = new Floor();
-            var args = FunctionsHelper.CreateArgs(12000d, 1000d);
-            var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(expectedValue, result.Result);
         }
 
         [TestMethod]

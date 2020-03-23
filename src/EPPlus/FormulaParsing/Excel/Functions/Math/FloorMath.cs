@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -18,15 +18,16 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
-    internal class Ceiling : ExcelFunction
+    internal class FloorMath : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
+            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
-            var significance = ArgToDecimal(arguments, 1);
+            var significance = (arguments.Count() > 1) ? ArgToDecimal(arguments, 1) : 1;
+            var mode = (arguments.Count() > 2) ? ArgToDecimal(arguments, 2) : 0d;
             if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CreateResult(eErrorType.Num);
-            return CreateResult(RoundingHelper.Round(number, significance, RoundingHelper.Direction.Up), DataType.Decimal);
+            return CreateResult(RoundingHelper.Round(number, significance, mode != 0d ? RoundingHelper.Direction.Down : RoundingHelper.Direction.AlwaysDown), DataType.Decimal);
         }
     }
 }

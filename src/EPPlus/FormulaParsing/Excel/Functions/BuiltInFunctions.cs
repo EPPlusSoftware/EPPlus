@@ -81,6 +81,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["pi"] = new Pi();
             Functions["product"] = new Product();
             Functions["ceiling"] = new Ceiling();
+            Functions["ceiling.precise"] = new CeilingPrecise();
+            Functions["ceiling.math"] = new CeilingMath();
+            Functions["iso.ceiling"] = new IsoCeiling();
             Functions["combin"] = new Combin();
             Functions["combina"] = new Combina();
             Functions["count"] = new Count();
@@ -91,6 +94,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["fact"] = new Fact();
             Functions["factdouble"] = new FactDouble();
             Functions["floor"] = new Floor();
+            Functions["floor.precise"] = new FloorPrecise();
+            Functions["floor.math"] = new FloorMath();
             Functions["radians"] = new Radians();
             Functions["roman"] = new Roman();
             Functions["sin"] = new Sin();
@@ -115,6 +120,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["min"] = new Min();
             Functions["mina"] = new Mina();
             Functions["mod"] = new Mod();
+            Functions["mround"] = new Mround();
             Functions["average"] = new Average();
             Functions["averagea"] = new AverageA();
             Functions["averageif"] = new AverageIf();
