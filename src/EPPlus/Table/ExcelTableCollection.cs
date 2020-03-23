@@ -133,7 +133,7 @@ namespace OfficeOpenXml.Table
         /// Delete the table
         /// </summary>
         /// <param name="Table">The table object</param>
-        /// <param name="ClearRange"></param>
+        /// <param name="ClearRange">Clear the table range</param>
         public void Delete(ExcelTable Table, bool ClearRange = false)
         {
             if (!this._tables.Contains(Table))
@@ -142,7 +142,6 @@ namespace OfficeOpenXml.Table
             }
             lock (this)
             {
-                var range = _ws.Cells[Table.Address.Address];
                 _tableNames.Remove(Table.Name);
                 _tables.Remove(Table);
                 foreach (var sheet in Table.WorkSheet.Workbook.Worksheets)
@@ -156,6 +155,7 @@ namespace OfficeOpenXml.Table
                 }
                 if (ClearRange)
                 {
+                    var range = _ws.Cells[Table.Address.Address];
                     range.Clear();
                 }
             }

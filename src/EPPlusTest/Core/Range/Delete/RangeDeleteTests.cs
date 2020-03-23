@@ -623,5 +623,386 @@ namespace EPPlusTest.Core.Range.Delete
                 ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
             }
         }
+
+
+
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateDeleteFromTablePartialLeftThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateDeleteFromTablePartialUpThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeletFromTablePartialLeftShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["C1"].Delete(eShiftTypeDelete.Left);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteFromTablePartialUpShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
+                ws.Tables.Add(ws.Cells["B2:D3"], "table1");
+                ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateDeleteFromPivotTablePartialLeftThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableDelete");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["A2"].Delete(eShiftTypeDelete.Left);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateDeleteFromPivotTablePartialUpThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableDelete");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["C1"].Delete(eShiftTypeDelete.Up);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteFromPivotTablePartialLeftShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableDelte");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["C1"].Delete(eShiftTypeDelete.Left);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteFromPivotTablePartialUpShouldNotThrowsException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableDelete");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "table1");
+                ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteFromTableShouldShiftUp()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableDeleteShiftUp");
+                var tbl = ws.Tables.Add(ws.Cells["B9:D10"], "table1");
+                ws.Cells["B2:D2"].Delete(eShiftTypeDelete.Up);
+                Assert.AreEqual("B8:D9", tbl.Address.Address);
+
+                ws.Cells["A3:D3"].Delete(eShiftTypeDelete.Up);
+                Assert.AreEqual("B7:D8", tbl.Address.Address);
+
+                ws.Cells["B3:E3"].Delete(eShiftTypeDelete.Up);
+                Assert.AreEqual("B6:D7", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteTableShouldShiftLeft()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("TableDeleteShiftLeft");
+                var tbl = ws.Tables.Add(ws.Cells["E2:F4"], "table1");
+                ws.Cells["B2:B4"].Delete(eShiftTypeDelete.Left);
+                Assert.AreEqual("D2:E4", tbl.Address.Address);
+
+                ws.Cells["B1:B4"].Delete(eShiftTypeDelete.Left);
+                Assert.AreEqual("C2:D4", tbl.Address.Address);
+
+                ws.Cells["B2:B6"].Delete(eShiftTypeDelete.Left);
+                Assert.AreEqual("B2:C4", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void DeleteEntireTableRangeShouldDeleteTable()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("TableDeleteFull");
+                var tbl = ws.Tables.Add(ws.Cells["E2:F4"], "table1");
+                //Act
+                ws.Cells["E2:F4"].Delete(eShiftTypeDelete.Left);
+                //Assert
+                Assert.AreEqual(0, ws.Tables.Count);
+                Assert.IsNull(tbl.Address);
+            }
+        }
+        [TestMethod]
+        public void DeleteEntirePivotTableRangeShouldDeletePivotTable()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("PivotTableDeleteFull");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                //Act
+                ws.Cells["B2:D3"].Delete(eShiftTypeDelete.Left);
+                //Assert
+                Assert.AreEqual(0, ws.PivotTables.Count);
+                Assert.IsNull(pt.Address);
+            }
+        }
+
+        [TestMethod]
+        public void ValidateDeletePivotTableShouldShiftUp()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableDeleteShiftUp");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B3:D4", pt.Address.Address);
+
+                ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D5", pt.Address.Address);
+
+                ws.Cells["B5:D5"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D6", pt.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateInsertPivotTableShouldShiftRight()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("PivotTableDeleteShiftLeft");
+                ws.Cells["E5"].Value = "E5";
+                ws.Cells["F5"].Value = "F5";
+                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:B3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("C2:E3", pt.Address.Address);
+                ws.Cells["B1:B4"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:F3", pt.Address.Address);
+                ws.Cells["E2:E3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:G3", pt.Address.Address);
+            }
+        }
+
+        #region Data validation
+        [TestMethod]
+        public void ValidateDatavalidationFullShiftUp()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValShiftUpFull");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A1:E1"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B1:E4", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftUp_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialUpFullL");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A1:C1"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B1:C4,D2:E5", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftUp_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialUpFullI");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["C1:D1"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B2:B5,C1:D4,E2:E5", any.Address.Address);
+        }
+
+
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftUp_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialUpFullR");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["C1:E1"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B2:B5,C1:E4", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftLeft_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialLeftFullTop");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:A4"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("A2:D4,B5:E5", any.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateDatavalidationPartialShiftLeft_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialLeftFullIns");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A3:A4"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("B2:E2,A3:D4,B5:E5", any.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateDatavalPartialShiftLeft_Bottom()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValPartialLeftFullBottom");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A3:A6"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("B2:E2,A3:D5", any.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateDatavalidationFullShiftLeft()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DataValidationShiftLeftFull");
+            var any = ws.DataValidations.AddAnyValidation("B2:E5");
+
+            ws.Cells["A2:A5"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("A2:D5", any.Address.Address);
+        }
+        #endregion
+        #region Conditional formatting
+        [TestMethod]
+        public void ValidateConditionalFormattingFullShiftUp()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormShiftUpFull");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+            ws.Cells["A1:E1"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B1:E4", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftUp_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialUpFullL");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:C2"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B2:C4,D2:E5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftUp_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialUpFullI");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C2:D2"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B2:B5,C2:D4,E2:E5", cf.Address.Address);
+        }
+
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftUp_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialUpFullR");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["C2:E3"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual("B2:B5,C2:E3", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftLeft_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullTop");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:A4"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("A2:D4,B5:E5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void ValidateConditionalFormattingPartialShiftLeft_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialRightFullIns");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A3:A4"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("B2:E2,A3:D4,B5:E5", cf.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingShiftLeft_Bottom()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialDownFullBottom");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A3:A6"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("B2:E2,A3:D5", cf.Address.Address);
+        }
+
+        [TestMethod]
+        public void ValidateConditionalFormattingFullShiftLeft()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormShiftRightFull");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.Cells["A2:A5"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual("A2:D5", cf.Address.Address);
+        }
+        #endregion
+
     }
 }

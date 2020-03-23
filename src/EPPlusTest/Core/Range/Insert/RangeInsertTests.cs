@@ -481,7 +481,7 @@ namespace EPPlusTest.Core.Range.Insert
         {
             using (var p = new ExcelPackage())
             {
-                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["A2"].Insert(eShiftTypeInsert.Right);
             }
@@ -492,7 +492,7 @@ namespace EPPlusTest.Core.Range.Insert
         {
             using (var p = new ExcelPackage())
             {
-                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["C1"].Insert(eShiftTypeInsert.Down);
             }
@@ -502,7 +502,7 @@ namespace EPPlusTest.Core.Range.Insert
         {
             using (var p = new ExcelPackage())
             {
-                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["C1"].Insert(eShiftTypeInsert.Right);
             }
@@ -512,7 +512,7 @@ namespace EPPlusTest.Core.Range.Insert
         {
             using (var p = new ExcelPackage())
             {
-                var ws = p.Workbook.Worksheets.Add("TableInsert");
+                var ws = p.Workbook.Worksheets.Add("TableDelete");
                 ws.Tables.Add(ws.Cells["B2:D3"], "table1");
                 ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
             }

@@ -17,6 +17,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -354,22 +355,27 @@ namespace OfficeOpenXml.Core.Worksheet
             DeleteTableAddresses(ws, range, shift, effectedAddress);
             DeletePivottableAddresses(ws, range, shift, effectedAddress);
 
-            //Update data validation references
-            var deletedDV = new List<IExcelDataValidation>();
-            foreach (var dv in ws.DataValidations)
-            {
-                var address = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
-                if(address==null)
-                {
-                    deletedDV.Add(dv);
-                }
-                else
-                {
-                    ((ExcelDataValidation)dv).SetAddress(address.Address);
-                }
-            }
-            deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
+            //Adjust/delete data validations and conditional formatting
+            DeleteDataValidations(range, shift, ws, effectedAddress);
+            DeleteConditionalForatting(range, shift, ws, effectedAddress);
 
+            AdjustDrawings(range, shift);
+        }
+
+        private static void AdjustDrawings(ExcelRangeBase range, eShiftTypeDelete shift)
+        {
+            if (shift == eShiftTypeDelete.Up)
+            {
+                WorksheetRangeHelper.AdjustDrawingsRow(range.Worksheet, range._fromRow, range.Rows, range._fromCol, range._toCol);
+            }
+            else
+            {
+                WorksheetRangeHelper.AdjustDrawingsColumn(range.Worksheet, range._fromCol, range.Columns, range._fromRow, range._toRow);
+            }
+        }
+
+        private static void DeleteConditionalForatting(ExcelRangeBase range, eShiftTypeDelete shift, ExcelWorksheet ws, ExcelAddressBase effectedAddress)
+        {
             //Update Conditional formatting references
             var deletedCF = new List<IExcelConditionalFormattingRule>();
             foreach (var cf in ws.ConditionalFormatting)
@@ -385,16 +391,27 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
             deletedCF.ForEach(cf => ws.ConditionalFormatting.Remove(cf));
-
-            //if (shift == eShiftTypeDelete.Up)
-            //{
-            //    WorksheetRangeHelper.AdjustDrawingsRow(ws, range._fromRow, range.Rows, range._fromCol, range._toCol);
-            //}
-            //else
-            //{
-            //    WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
-            //}
         }
+
+        private static void DeleteDataValidations(ExcelRangeBase range, eShiftTypeDelete shift, ExcelWorksheet ws, ExcelAddressBase effectedAddress)
+        {
+            //Update data validation references
+            var deletedDV = new List<IExcelDataValidation>();
+            foreach (var dv in ws.DataValidations)
+            {
+                var address = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
+                if (address == null)
+                {
+                    deletedDV.Add(dv);
+                }
+                else
+                {
+                    ((ExcelDataValidation)dv).SetAddress(address.Address);
+                }
+            }
+            deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
+        }
+
         private static ExcelAddressBase DeleteSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
         {
             var collide = effectedAddress.Collide(address);
@@ -448,6 +465,7 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         private static void DeletePivottableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeDelete shift, ExcelAddressBase effectedAddress)
         {
+            var deletedPt = new List<ExcelPivotTable>();
             foreach (var ptbl in ws.PivotTables)
             {
                 if (shift == eShiftTypeDelete.Up)
@@ -464,30 +482,50 @@ namespace OfficeOpenXml.Core.Worksheet
                         ptbl.Address = ptbl.Address.DeleteColumn(range._fromCol, range.Columns);
                     }
                 }
-
-                if (ptbl.CacheDefinition.SourceRange.Worksheet == ws)
+                if (ptbl.Address == null)
                 {
-                    var address = ptbl.CacheDefinition.SourceRange;
-                    if (shift == eShiftTypeDelete.Up)
+                    deletedPt.Add(ptbl);
+                }
+                else
+                {
+                    foreach (var wsSource in ws.Workbook.Worksheets)
                     {
-                        if (address._fromCol >= range._fromCol && address._toCol <= range._toCol)
+                        if (ptbl.CacheDefinition.SourceRange.Worksheet == wsSource)
                         {
-                            ptbl.CacheDefinition.SourceRange = ws.Cells[address.DeleteRow(range._fromRow, range.Rows).Address];
-                        }
-                    }
-                    else
-                    {
-                        if (address._fromRow >= range._fromRow && address._toRow <= range._toRow)
-                        {
-                            ptbl.CacheDefinition.SourceRange = ws.Cells[address.DeleteColumn(range._fromCol, range.Columns).Address];
+                            var address = ptbl.CacheDefinition.SourceRange;
+                            if (shift == eShiftTypeDelete.Up)
+                            {
+                                if (address._fromCol >= range._fromCol && address._toCol <= range._toCol)
+                                {
+                                    var deletedRange = ws.Cells[address.DeleteRow(range._fromRow, range.Rows).Address];
+                                    if (deletedRange != null)
+                                    {
+                                        ptbl.CacheDefinition.SourceRange = deletedRange;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (address._fromRow >= range._fromRow && address._toRow <= range._toRow)
+                                {
+                                    var deletedRange = ws.Cells[address.DeleteColumn(range._fromCol, range.Columns).Address];
+                                    if (deletedRange != null)
+                                    {
+                                        ptbl.CacheDefinition.SourceRange = deletedRange;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
+            deletedPt.ForEach(x => ws.PivotTables.Delete(x));
+
         }
 
         private static void DeleteTableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeDelete shift, ExcelAddressBase effectedAddress)
         {
+            var deletedTbl = new List<ExcelTable>();
             foreach (var tbl in ws.Tables)
             {
                 if (shift == eShiftTypeDelete.Up)
@@ -504,7 +542,10 @@ namespace OfficeOpenXml.Core.Worksheet
                         tbl.Address = tbl.Address.DeleteColumn(range._fromCol, range.Columns);
                     }
                 }
+                if(tbl.Address==null) deletedTbl.Add(tbl);
             }
+
+            deletedTbl.ForEach(x => ws.Tables.Delete(x));
         }
         private static void FixFormulasDelete(ExcelRangeBase range, ExcelAddressBase effectedRange, eShiftTypeDelete shift)
         {

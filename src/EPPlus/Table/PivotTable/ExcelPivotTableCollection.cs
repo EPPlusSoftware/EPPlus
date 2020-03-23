@@ -175,5 +175,43 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             return _pivotTables.GetEnumerator();
         }
+        /// <summary>
+        /// Delete the pivottable with the supplied name
+        /// </summary>
+        /// <param name="Name">The name of the pivottable</param>
+        /// <param name="ClearRange">Clear the table range</param>
+        public void Delete(string Name, bool ClearRange=false)
+            {
+            if (!_pivotTableNames.ContainsKey(Name))
+            {
+                throw new InvalidOperationException($"No pivottable with the name: {Name}");
+            }
+            Delete(_pivotTables[_pivotTableNames[Name]], ClearRange);
+        }
+        /// <summary>
+        /// Delete the pivottable at the specified index
+        /// </summary>
+        /// <param name="Index">The index in the PivotTable collection</param>
+        /// <param name="ClearRange">Clear the table range</param>
+        public void Delete(int Index, bool ClearRange = false)
+        {
+            if(Index >=0 && Index <_pivotTables.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            Delete(_pivotTables[Index], ClearRange);
+        }
+        public void Delete(ExcelPivotTable PivotTable, bool ClearRange = false)
+        {
+            var pck = _ws._package.Package;
+
+            pck.DeletePart(PivotTable.CacheDefinition.Part.Uri);
+            pck.DeleteRelationship(PivotTable.CacheDefinition.Relationship.Id);
+            pck.DeletePart(PivotTable.Part.Uri);
+            pck.DeleteRelationship(PivotTable.Relationship.Id);
+
+            _pivotTables.Remove(PivotTable);
+            _pivotTableNames.Remove(PivotTable.Name);
+        }
     }
 }

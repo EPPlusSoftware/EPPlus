@@ -199,8 +199,11 @@ namespace OfficeOpenXml.Table
             internal set
             {
                 _address = value;
-                SetXmlNodeString("@ref",value.Address);
-                WriteAutoFilter(ShowTotal);
+                if(value!=null)
+                {
+                    SetXmlNodeString("@ref", value.Address);
+                    WriteAutoFilter(ShowTotal);
+                }
             }
         }
         /// <summary>
