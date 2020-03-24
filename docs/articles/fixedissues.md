@@ -50,3 +50,7 @@
 * Datavalidation on lists failed if the formula was an defined name.
 * Merged cells got cleared if a value was set over multiple cells
 * RichText causes xml "corruption" if a blank string or null was added to the collection.
+
+## Version 5.0.5
+* Images added with AddImage(Image) did not use a oneCellAnchore element.
+* ExcelPackage.CopyStreamAsync did not fully use async (Flush-->FlushAsync), causing an exception.
