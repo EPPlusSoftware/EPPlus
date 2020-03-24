@@ -39,8 +39,6 @@ namespace EPPlusTest.Core.Range.Insert
             chart.SetPosition(0, 0, 22, 0);
             chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
 
-            int picToRow = pic.To.Row;
-
             //Act
             ws.InsertRow(1, 1);
             ws.InsertRow(3, 1);
@@ -51,7 +49,6 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(0, chart.From.Row);
 
             Assert.AreEqual(12, shape.To.Row);
-            Assert.AreEqual(picToRow+1, pic.To.Row);
             Assert.AreEqual(10, chart.To.Row);
         }
         [TestMethod]
@@ -68,8 +65,6 @@ namespace EPPlusTest.Core.Range.Insert
             chart.SetPosition(0, 0, 22, 0);
             chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
 
-            int picToRow = pic.To.Row;
-
             //Act
             ws.Cells["A1:J1"].Insert(eShiftTypeInsert.Down);
             ws.Cells["A3:J3"].Insert(eShiftTypeInsert.Down);
@@ -80,7 +75,6 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(0, chart.From.Row);
 
             Assert.AreEqual(12, shape.To.Row);
-            Assert.AreEqual(picToRow, pic.To.Row);
             Assert.AreEqual(10, chart.To.Row);
         }
         [TestMethod]
@@ -97,8 +91,6 @@ namespace EPPlusTest.Core.Range.Insert
             chart.SetPosition(0, 0, 22, 0);
             chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
 
-            int picToCol = pic.To.Column;
-
             //Act
             ws.Cells["A1:A10"].Insert(eShiftTypeInsert.Right);
             ws.Cells["C1:C10"].Insert(eShiftTypeInsert.Right);
@@ -109,7 +101,6 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(22, chart.From.Column);
 
             Assert.AreEqual(12, shape.To.Column);
-            Assert.AreEqual(picToCol, pic.To.Column);
             Assert.AreEqual(32, chart.To.Column);
         }
         [TestMethod]
@@ -126,8 +117,6 @@ namespace EPPlusTest.Core.Range.Insert
             chart.SetPosition(0, 0, 22, 0);
             chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
 
-            int picToRow = pic.To.Row;
-
             //Act
             ws.Cells["A1:I1"].Insert(eShiftTypeInsert.Down);
             ws.Cells["B1:J1"].Insert(eShiftTypeInsert.Down);
@@ -140,7 +129,6 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(0, chart.From.Row);
 
             Assert.AreEqual(10, shape.To.Row);
-            Assert.AreEqual(picToRow, pic.To.Row);
             Assert.AreEqual(10, chart.To.Row);
         }
         [TestMethod]
@@ -157,8 +145,6 @@ namespace EPPlusTest.Core.Range.Insert
             chart.SetPosition(0, 0, 22, 0);
             chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
 
-            int picToColumn = pic.To.Column;
-
             //Act
             ws.Cells["A1:A2"].Insert(eShiftTypeInsert.Right);
             ws.Cells["A2:A10"].Insert(eShiftTypeInsert.Right);
@@ -171,7 +157,6 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(22, chart.From.Column);
 
             Assert.AreEqual(10, shape.To.Column);
-            Assert.AreEqual(picToColumn, pic.To.Column);
             Assert.AreEqual(32, chart.To.Column);
         }
         #endregion
@@ -190,8 +175,6 @@ namespace EPPlusTest.Core.Range.Insert
             chart.SetPosition(40, 0, 0, 0);
             chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
 
-            int picToCol = pic.To.Column;
-
             //Act
             ws.InsertColumn(1, 1);
             ws.InsertColumn(3, 1);
@@ -202,7 +185,6 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(0, chart.From.Column);
 
             Assert.AreEqual(12, shape.To.Column);
-            Assert.AreEqual(picToCol + 1, pic.To.Column);
             Assert.AreEqual(10, chart.To.Column);
         }
         #endregion

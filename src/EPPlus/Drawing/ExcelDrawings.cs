@@ -525,7 +525,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     throw new Exception("Name already exists in the drawings collection");
                 }
-                XmlElement drawNode = CreateDrawingXml();
+                XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
                 drawNode.SetAttribute("editAs", "oneCell");
                 var pic = new ExcelPicture(this, drawNode, Image, Hyperlink);
                 AddPicture(Name, pic);

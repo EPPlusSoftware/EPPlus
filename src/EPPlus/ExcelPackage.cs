@@ -858,7 +858,7 @@ namespace OfficeOpenXml
                             var ms = eph.EncryptPackage(file, Encryption);
                              
                             fi.Write(ms.ToArray(), 0, (int)ms.Length);
-                        }
+                        }   
                         else
                         {                            
                             fi.Write(((MemoryStream)Stream).ToArray(), 0, (int)Stream.Length);

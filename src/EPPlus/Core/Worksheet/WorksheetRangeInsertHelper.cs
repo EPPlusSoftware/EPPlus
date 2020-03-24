@@ -127,11 +127,12 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift)
         {
-            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, GetEffectedRange(range, shift, 1));
+            var effectedAddress = GetEffectedRange(range, shift);
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1));
 
             var ws = range.Worksheet;
             var styleList = GetStylesForRange(range, shift);
-            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, range);
+            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
 
             if (shift == eShiftTypeInsert.Down)
             {
@@ -141,7 +142,6 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 InsertCellStoreShiftRight(range._worksheet, range);
             }
-            var effectedAddress = GetEffectedRange(range, shift);
             FixFormulasInsert(range, effectedAddress, shift);
 
             WorksheetRangeHelper.FixMergedCells(ws, range, shift);
@@ -460,10 +460,15 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (workSheetName == ws.Name)
                     {
-                        if (f.StartCol >= columnFrom)
+                        var a = new ExcelAddressBase(f.Address);
+                        var c = effectedAddress.Collide(a);
+                        if(c==ExcelAddressBase.eAddressCollition.Partly)
+                        {
+                            throw new Exception("Invalid shared formula"); //This should never happend!
+                        }
+                        if (f.StartCol >= columnFrom && c!=ExcelAddressBase.eAddressCollition.No)
                         {
                             if (f.StartRow >= rowFrom) f.StartRow += rows;
-                            var a = new ExcelAddressBase(f.Address);
                             if (a._fromRow >= rowFrom)
                             {
                                 a._fromRow += rows;

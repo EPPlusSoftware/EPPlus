@@ -102,8 +102,6 @@ namespace EPPlusTest.Core.Range.Delete
             chart.SetPosition(22, 0, 1, 0);
             chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
 
-            int picToColumn = pic.To.Column;
-
             //Act
             ws.DeleteColumn(1, 1);
             ws.DeleteColumn(3, 1);
@@ -114,7 +112,6 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(1, chart.From.Column);
 
             Assert.AreEqual(9, shape.To.Column);
-            Assert.AreEqual(picToColumn - 1, pic.To.Column);
             Assert.AreEqual(11, chart.To.Column);
         }
         [TestMethod]
@@ -178,6 +175,119 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(5, shape3.To.ColumnOff / ExcelDrawing.EMU_PER_PIXEL);
         }
 
+        #endregion
+        #region Range
+        [TestMethod]
+        public void DeleteRangeWithDrawingFullShiftUp()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DrawingsInsertRangeDownFull");
+            var shape = ws.Drawings.AddShape("Shape1_TwoCell", OfficeOpenXml.Drawing.eShapeStyle.Rect);
+            shape.SetPosition(2, 0, 0, 0);
+
+            var pic = ws.Drawings.AddPicture("Picture1_OneCell", Properties.Resources.Test1);
+            pic.SetPosition(2, 0, 11, 0);
+
+            var chart = ws.Drawings.AddLineChart("Chart1_TwoCellAbsolute", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
+            chart.SetPosition(2, 0, 22, 0);
+            chart.EditAs = eEditAs.Absolute;
+
+            //Act
+            ws.Cells["A1:J1"].Delete(eShiftTypeDelete.Up);
+            ws.Cells["A3:J3"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            Assert.AreEqual(1, shape.From.Row);
+            Assert.AreEqual(2, pic.From.Row);
+            Assert.AreEqual(2, chart.From.Row);
+
+            Assert.AreEqual(10, shape.To.Row);
+            Assert.AreEqual(12, chart.To.Row);
+        }
+        [TestMethod]
+        public void DeleteRangeWithDrawingFullShiftRight()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DrawingsDeleteRangeLeftFull");
+            var shape = ws.Drawings.AddShape("Shape1_TwoCell", OfficeOpenXml.Drawing.eShapeStyle.Rect);
+            shape.SetPosition(2, 0, 1, 0);
+
+            var pic = ws.Drawings.AddPicture("Picture1_OneCell", Properties.Resources.Test1);
+            pic.SetPosition(2, 0, 11, 0);
+
+            var chart = ws.Drawings.AddLineChart("Chart1_TwoCellAbsolute", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
+            chart.SetPosition(2, 0, 22, 0);
+            chart.EditAs = eEditAs.Absolute;
+
+            //Act
+            ws.Cells["A1:A12"].Delete(eShiftTypeDelete.Left);
+            ws.Cells["C1:C12"].Delete(eShiftTypeDelete.Left);
+
+            //Assert
+            Assert.AreEqual(0, shape.From.Column);
+            Assert.AreEqual(9, pic.From.Column);
+            Assert.AreEqual(22, chart.From.Column);
+
+            Assert.AreEqual(9, shape.To.Column);
+            //Assert.AreEqual(picToCol, pic.To.Column);
+            Assert.AreEqual(32, chart.To.Column);
+        }
+        [TestMethod]
+        public void DeleteRangeWithDrawingPartialShiftUp()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DrawingsDeleteRangeUpPart");
+            var shape = ws.Drawings.AddShape("Shape1_TwoCell", OfficeOpenXml.Drawing.eShapeStyle.Rect);
+
+            var pic = ws.Drawings.AddPicture("Picture1_OneCell", Properties.Resources.Test1);
+            pic.SetPosition(0, 0, 11, 0);
+
+            var chart = ws.Drawings.AddLineChart("Chart1_TwoCellAbsolute", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
+            chart.SetPosition(0, 0, 22, 0);
+            chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
+
+            //Act
+            ws.Cells["A1:I1"].Delete(eShiftTypeDelete.Up);
+            ws.Cells["B1:J1"].Delete(eShiftTypeDelete.Up);
+            ws.Cells["A3:I3"].Delete(eShiftTypeDelete.Up);
+            ws.Cells["B3:J3"].Delete(eShiftTypeDelete.Up);
+
+            //Assert
+            Assert.AreEqual(0, shape.From.Row);
+            Assert.AreEqual(0, pic.From.Row);
+            Assert.AreEqual(0, chart.From.Row);
+
+            Assert.AreEqual(10, shape.To.Row);
+            Assert.AreEqual(10, chart.To.Row);
+        }
+        [TestMethod]
+        public void DeleteRangeWithDrawingPartialShiftLeft()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DrawingsDeleteRangeLeftPart");
+            var shape = ws.Drawings.AddShape("Shape1_TwoCell", OfficeOpenXml.Drawing.eShapeStyle.Rect);
+
+            var pic = ws.Drawings.AddPicture("Picture1_OneCell", Properties.Resources.Test1);
+            pic.SetPosition(0, 0, 11, 0);
+
+            var chart = ws.Drawings.AddLineChart("Chart1_TwoCellAbsolute", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
+            chart.SetPosition(0, 0, 22, 0);
+            chart.EditAs = OfficeOpenXml.Drawing.eEditAs.Absolute;
+
+            //Act
+            ws.Cells["A1:A2"].Delete(eShiftTypeDelete.Left);
+            ws.Cells["A2:A10"].Delete(eShiftTypeDelete.Left);
+            ws.Cells["A3:A9"].Delete(eShiftTypeDelete.Left);
+            ws.Cells["B3:J3"].Delete(eShiftTypeDelete.Left);
+
+            //Assert
+            Assert.AreEqual(0, shape.From.Column);
+            Assert.AreEqual(11, pic.From.Column);
+            Assert.AreEqual(22, chart.From.Column);
+
+            Assert.AreEqual(10, shape.To.Column);
+            Assert.AreEqual(32, chart.To.Column);
+        }
         #endregion
     }
 }

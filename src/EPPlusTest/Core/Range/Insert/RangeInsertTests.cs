@@ -582,6 +582,16 @@ namespace EPPlusTest.Core.Range.Insert
 
                 ws.Cells["B3:E3"].Insert(eShiftTypeInsert.Down);
                 Assert.AreEqual("B5:D6", tbl.Address.Address);
+
+                //Insert Into
+                ws.Cells["B6:E6"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B5:D7", tbl.Address.Address);
+
+                ws.Cells["A6:E6"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B5:D8", tbl.Address.Address);
+
+                ws.Cells["B8:F8"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B5:D9", tbl.Address.Address);
             }
         }
         [TestMethod]
@@ -616,8 +626,8 @@ namespace EPPlusTest.Core.Range.Insert
                 ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
                 Assert.AreEqual("B4:D5", pt.Address.Address);
 
-                ws.Cells["B5:D5"].Insert(eShiftTypeInsert.Down);
-                Assert.AreEqual("B4:D6", pt.Address.Address);
+                ws.Cells["B6:D7"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual("B4:D5", pt.Address.Address);
             }
         }
         [TestMethod]
@@ -633,8 +643,8 @@ namespace EPPlusTest.Core.Range.Insert
                 Assert.AreEqual("C2:E3", pt.Address.Address);
                 ws.Cells["B1:B4"].Insert(eShiftTypeInsert.Right);
                 Assert.AreEqual("D2:F3", pt.Address.Address);
-                ws.Cells["E2:E3"].Insert(eShiftTypeInsert.Right);
-                Assert.AreEqual("D2:G3", pt.Address.Address);
+                ws.Cells["G2:G3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual("D2:F3", pt.Address.Address);
             }
         }
 
@@ -869,5 +879,32 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("C2:F5", cf.Address.Address);
         }
         #endregion
+        [TestMethod]
+
+        public void InsertIntoTemplate1()
+        {
+            using (var p = OpenTemplatePackage("InsertDeleteTemplate.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["C3R"];
+                var ws2 = ws.Workbook.Worksheets.Add("C3R-2", ws);
+                ws.Cells["G49:G52"].Insert(eShiftTypeInsert.Down);
+                ws2.Cells["G49:G52"].Insert(eShiftTypeInsert.Right);
+
+                SaveWorkbook("InsertTest1.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void InsertIntoTemplate2()
+        {
+            using (var p = OpenTemplatePackage("InsertDeleteTemplate.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["C3R"];
+                var ws2 = ws.Workbook.Worksheets.Add("C3R-2", ws);
+                ws.Cells["L49:L52"].Insert(eShiftTypeInsert.Down);
+                ws2.Cells["L49:L52"].Insert(eShiftTypeInsert.Right);
+
+                SaveWorkbook("InsertTest2.xlsx", p);
+            }
+        }
     }
 }

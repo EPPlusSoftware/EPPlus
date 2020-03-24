@@ -795,32 +795,32 @@ namespace EPPlusTest.Core.Range.Delete
                 var ws = p.Workbook.Worksheets.Add("PivotTableDeleteShiftUp");
                 ws.Cells["E5"].Value = "E5";
                 ws.Cells["F5"].Value = "F5";
-                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
-                ws.Cells["B2:D2"].Insert(eShiftTypeInsert.Down);
-                Assert.AreEqual("B3:D4", pt.Address.Address);
-
-                ws.Cells["A2:E2"].Insert(eShiftTypeInsert.Down);
+                var pt = ws.PivotTables.Add(ws.Cells["B5:D6"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:D2"].Delete(eShiftTypeDelete.Up);
                 Assert.AreEqual("B4:D5", pt.Address.Address);
 
-                ws.Cells["B5:D5"].Insert(eShiftTypeInsert.Down);
-                Assert.AreEqual("B4:D6", pt.Address.Address);
+                ws.Cells["A2:E2"].Delete(eShiftTypeDelete.Up);
+                Assert.AreEqual("B3:D4", pt.Address.Address);
+
+                ws.Cells["B5:D5"].Delete(eShiftTypeDelete.Up);
+                Assert.AreEqual("B3:D4", pt.Address.Address);
             }
         }
         [TestMethod]
-        public void ValidateInsertPivotTableShouldShiftRight()
+        public void ValidateDeletePivotTableShouldShiftLeft()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("PivotTableDeleteShiftLeft");
                 ws.Cells["E5"].Value = "E5";
                 ws.Cells["F5"].Value = "F5";
-                var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
-                ws.Cells["B2:B3"].Insert(eShiftTypeInsert.Right);
-                Assert.AreEqual("C2:E3", pt.Address.Address);
-                ws.Cells["B1:B4"].Insert(eShiftTypeInsert.Right);
-                Assert.AreEqual("D2:F3", pt.Address.Address);
-                ws.Cells["E2:E3"].Insert(eShiftTypeInsert.Right);
-                Assert.AreEqual("D2:G3", pt.Address.Address);
+                var pt = ws.PivotTables.Add(ws.Cells["F2:G3"], ws.Cells["E5:F6"], "pivottable1");
+                ws.Cells["B2:B3"].Delete(eShiftTypeDelete.Left);
+                Assert.AreEqual("E2:F3", pt.Address.Address);
+                ws.Cells["B1:B4"].Delete(eShiftTypeDelete.Left);
+                Assert.AreEqual("D2:E3", pt.Address.Address);
+                ws.Cells["F2:F3"].Delete(eShiftTypeDelete.Left);
+                Assert.AreEqual("D2:E3", pt.Address.Address);
             }
         }
 
@@ -1004,5 +1004,31 @@ namespace EPPlusTest.Core.Range.Delete
         }
         #endregion
 
+        [TestMethod]
+        public void DeleteFromTemplate1()
+        {
+            using (var p = OpenTemplatePackage("InsertDeleteTemplate.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["C3R"];
+                var ws2 = ws.Workbook.Worksheets.Add("C3R-2", ws);
+                ws.Cells["G49:G52"].Delete(eShiftTypeDelete.Up);
+                ws2.Cells["G49:G52"].Delete(eShiftTypeDelete.Left);
+
+                SaveWorkbook("DeleteTest1.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void DeleteFromTemplate2()
+        {
+            using (var p = OpenTemplatePackage("InsertDeleteTemplate.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["C3R"];
+                var ws2 = ws.Workbook.Worksheets.Add("C3R-2", ws);
+                ws.Cells["L49:L52"].Delete(eShiftTypeDelete.Up);
+                ws2.Cells["L49:L52"].Delete(eShiftTypeDelete.Left);
+
+                SaveWorkbook("DeleteTest2.xlsx", p);
+            }
+        }
     }
 }

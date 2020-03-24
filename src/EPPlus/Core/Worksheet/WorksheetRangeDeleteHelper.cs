@@ -335,10 +335,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 ValidateRow(range._fromRow, range.Rows);
             }
 
-            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, GetEffectedRange(range, shift, 1));
+            var effectedAddress = GetEffectedRange(range, shift);
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1));
 
             var ws = range.Worksheet;
-            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, range);
+            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
             if (shift == eShiftTypeDelete.Up)
             {
                 DeleteCellStores(ws, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
@@ -348,7 +349,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 DeleteCellStoresShiftLeft(ws, range);
             }
 
-            var effectedAddress = GetEffectedRange(range, shift);
             FixFormulasDelete(range, effectedAddress, shift);
             WorksheetRangeHelper.FixMergedCells(ws, range, shift);
 
@@ -366,11 +366,11 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             if (shift == eShiftTypeDelete.Up)
             {
-                WorksheetRangeHelper.AdjustDrawingsRow(range.Worksheet, range._fromRow, range.Rows, range._fromCol, range._toCol);
+                WorksheetRangeHelper.AdjustDrawingsRow(range.Worksheet, range._fromRow, -range.Rows, range._fromCol, range._toCol);
             }
             else
             {
-                WorksheetRangeHelper.AdjustDrawingsColumn(range.Worksheet, range._fromCol, range.Columns, range._fromRow, range._toRow);
+                WorksheetRangeHelper.AdjustDrawingsColumn(range.Worksheet, range._fromCol, -range.Columns, range._fromRow, range._toRow);
             }
         }
 
@@ -553,7 +553,6 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 var workSheetName = range.WorkSheetName;
                 var rowFrom = range._fromRow;
-                var columnFrom = range._fromCol;
                 var rows = range.Rows;
 
                 var delSF = new List<int>();

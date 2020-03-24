@@ -142,14 +142,15 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
-            {                
-                if(!((drawing.From.Column > colFrom-1 || (drawing.From.Column == colFrom-1 && drawing.From.ColumnOff==0)) &&
-                   (drawing.To.Column <= colTo)))
+            {
+
+                if (!drawing.IsWithinColumnRange(colFrom, colTo))
                 {
                     continue;
                 }
 
-                if(rows < 0 && drawing.From.Row>=rowFrom-1 && 
+                if(drawing.CellAnchor == eEditAs.TwoCell && 
+                    rows < 0 && drawing.From.Row>=rowFrom-1 && 
                     ((drawing.To.Row<=(rowFrom-rows-1) && drawing.To.RowOff==0) || drawing.To.Row <= (rowFrom - rows - 2))) //If delete and the entire drawing is withing the deleted range, remove it.
                 {
                     deletedDrawings.Add(drawing);
@@ -177,7 +178,7 @@ namespace OfficeOpenXml.Core.Worksheet
                             }
                         }
                     }
-                    else if (drawing.To.Row >= rowFrom-1)
+                    else if (drawing.To != null && drawing.To.Row >= rowFrom-1)
                     {
                         drawing.To.RowOff = 0;
                         if (drawing.To.Row+rows < rowFrom-1)
@@ -201,13 +202,13 @@ namespace OfficeOpenXml.Core.Worksheet
             var deletedDrawings = new List<ExcelDrawing>();
             foreach (ExcelDrawing drawing in ws.Drawings)
             {
-                if (!((drawing.From.Row > rowFrom - 1 || (drawing.From.Row == rowFrom - 1 && drawing.From.RowOff == 0)) &&
-                   (drawing.To.Row <= rowTo)))
+                if(!drawing.IsWithinRowRange(rowFrom, rowTo))
                 {
                     continue;
                 }
 
-                if (columns < 0 && drawing.From.Column >= columnFrom - 1 &&
+                if (drawing.CellAnchor==eEditAs.TwoCell && 
+                    columns < 0 && drawing.From.Column >= columnFrom - 1 &&
                     ((drawing.To.Column <= (columnFrom - columns - 1) && drawing.To.ColumnOff == 0) || drawing.To.Column <= (columnFrom - columns - 2))) //If delete and the entire drawing is withing the deleted range, remove it.
                 {
                     deletedDrawings.Add(drawing);
@@ -235,7 +236,7 @@ namespace OfficeOpenXml.Core.Worksheet
                             }
                         }
                     }
-                    else if (drawing.To.Column >= columnFrom - 1)
+                    else if (drawing.To!=null && drawing.To.Column >= columnFrom - 1)
                     {
                         drawing.To.ColumnOff = 0;
                         if (drawing.To.Column + columns < columnFrom - 1)
@@ -293,7 +294,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         if (tokenAddress.Collide(delRange, true) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
                         {
                             doConvertSF = true;
-                            continue;
+                            break;
                         }
                     }
                 }
@@ -316,7 +317,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress)
+        internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress, ExcelAddressBase effectedAddressTable)
         {
             //Validate merged Cells
             foreach (var a in range.Worksheet.MergedCells)
@@ -328,15 +329,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            //Validate tables Cells
-            foreach (var t in range.Worksheet.Tables)
-            {
-                if (effectedAddress.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly)
-                {
-                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
-                }
-            }
-
             //Validate pivot tables Cells
             foreach (var pt in range.Worksheet.PivotTables)
             {
@@ -345,6 +337,16 @@ namespace OfficeOpenXml.Core.Worksheet
                     throw new InvalidOperationException($"Can't insert into the range. Cells collide with pivot table {pt.Name}");
                 }
             }
+
+            //Validate tables Cells
+            foreach (var t in range.Worksheet.Tables)
+            {
+                if (effectedAddressTable.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly)
+                {
+                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
+                }
+            }
+
         }
 
     }

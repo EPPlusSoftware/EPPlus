@@ -51,7 +51,7 @@ namespace OfficeOpenXml
         /// Cells in the range are shifted downwards
         /// </summary>
         Down,
-        /// <summary>
+        /// <summary>   
         /// The range for the entire row is used in the shift operation
         /// </summary>
         EntireRow,
