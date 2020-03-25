@@ -2502,7 +2502,6 @@ namespace OfficeOpenXml
             else
             {
                 SetValueInner(tbl.Address._toRow, colNum, col.TotalsRowLabel);
-
             }
         }
 

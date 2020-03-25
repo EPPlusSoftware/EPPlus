@@ -19,6 +19,7 @@ using OfficeOpenXml.Utils;
 using System.Security;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Filter;
+using OfficeOpenXml.Core.Worksheet;
 
 namespace OfficeOpenXml.Table
 {
@@ -625,6 +626,78 @@ namespace OfficeOpenXml.Table
         public int GetHashCode(ExcelTable obj)
         {
             return obj.TableXml.OuterXml.GetHashCode();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <returns></returns>
+        public ExcelRangeBase AddRow(int rows = 1)
+        {
+            return InsertRow(int.MaxValue, rows);
+        }
+        /// <summary>
+        /// Insert a row before the specified position in the table.
+        /// </summary>
+        /// <param name="position">The position in the table where the row will be inserted. Default is in the end of the table. 0 will insert the row at the top. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
+        /// <param name="rows">Number of rows to insert.</param>
+        /// <returns>The inserted range</returns>
+        public ExcelRangeBase InsertRow(int position, int rows=1)
+        {
+            if(position < 0)
+            {
+                throw new ArgumentException("position", "position can't be negative");
+            }
+            if (rows < 0)
+            {
+                throw new ArgumentException("position", "rows can't be negative");
+            }
+            var subtact = ShowTotal ? 2 : 1;
+            if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtact)
+            {
+                position = _address.Rows - subtact;
+            }
+            if (_address._fromRow+position+rows>ExcelPackage.MaxRows)
+            {
+                throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
+            }
+            position++;
+            var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
+            var range = new ExcelRangeBase(WorkSheet, address);
+
+            WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);            
+            
+            if(range._toRow > _address._toRow)
+            {
+                Address = _address.AddRow(_address._toRow, rows);
+
+            }
+            return range;
+        }
+        /// <summary>
+        /// Delete a row at the specified position in the table.
+        /// </summary>
+        /// <param name="position">The position in the table where the row will be deleted. Default is in the end of the table. 0 will delete the first row. </param>
+        /// <param name="rows">Number of rows to insert.</param>
+        /// <returns></returns>
+        public ExcelRangeBase DeleteRow(int position, int rows = 1)
+        {
+            if (position < 0)
+            {
+                throw new ArgumentException("position", "position can't be negative");
+            }
+            if (_address._fromRow + position + rows - 1 > _address._toRow)
+            {
+                throw new ArgumentException("rows", "Insert will exceed the maximum number of rows in the worksheet");
+            }
+            if (rows < 0)
+            {
+                throw new ArgumentException("position", "rows can't be negative");
+            }
+            var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
+            var range = new ExcelRangeBase(WorkSheet, address);
+            range.Delete(eShiftTypeDelete.Up);
+            return range;
         }
     }
 }

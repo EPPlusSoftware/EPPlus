@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
             }
         }
-        internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift)
+        internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy)
         {
             var effectedAddress = GetEffectedRange(range, shift);
             WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1));
@@ -146,7 +146,10 @@ namespace OfficeOpenXml.Core.Worksheet
 
             WorksheetRangeHelper.FixMergedCells(ws, range, shift);
 
-            SetStylesForRange(range, shift, styleList);
+            if (styleCopy)
+            {
+                SetStylesForRange(range, shift, styleList);
+            }
 
             InsertTableAddresses(ws, range, shift, effectedAddress);
             InsertPivottableAddresses(ws, range, shift, effectedAddress);
