@@ -634,7 +634,7 @@ namespace OfficeOpenXml.Table
         /// <returns></returns>
         public ExcelRangeBase AddRow(int rows = 1)
         {
-            return InsertRow(int.MaxValue, rows);
+            return  InsertRow(int.MaxValue, rows);
         }
         /// <summary>
         /// Insert a row before the specified position in the table.
@@ -697,6 +697,50 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
             range.Delete(eShiftTypeDelete.Up);
+            return range;
+        }
+
+        /// <summary>
+        /// Insert a column before the specified position in the table.
+        /// </summary>
+        /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
+        /// <param name="columns">Number of rows to insert.</param>
+        /// <returns>The inserted range</returns>
+        internal ExcelRangeBase InsertColumn(int position, int columns)
+        {
+            if (position < 0)
+            {
+                throw new ArgumentException("position", "position can't be negative");
+            }
+            if (columns < 0)
+            {
+                throw new ArgumentException("columns", "columns can't be negative");
+            }
+
+            if (position >= ExcelPackage.MaxColumns || position > _address._fromCol + position + columns - 1)
+            {
+                position = _address.Columns;
+            }
+
+            if (_address._fromCol + position + columns - 1 > ExcelPackage.MaxColumns)
+            {
+                throw new InvalidOperationException("Insert will exceed the maximum number of columns in the worksheet");
+            }
+
+            var address = ExcelCellBase.GetAddress(_address._fromRow, _address._fromCol + position, _address._toRow, _address._fromCol + position + columns - 1);
+            var range = new ExcelRangeBase(WorkSheet, address);
+
+            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, false);
+
+            if (position == 0)
+            {
+                Address = new ExcelAddressBase(_address._fromRow, _address._fromCol - columns, _address._toRow, _address._toCol);
+            }
+            else if (range._toCol > _address._toCol)
+            {
+                Address = _address.AddColumn(_address._toCol, columns);
+            }
+
             return range;
         }
     }

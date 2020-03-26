@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Table
         public int Position
         {
             get;
-            private set;
+            internal set;
         }
         /// <summary>
         /// The name of the column

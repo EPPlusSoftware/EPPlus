@@ -10,9 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -25,13 +27,20 @@ namespace OfficeOpenXml.Table
     {
         List<ExcelTableColumn> _cols = new List<ExcelTableColumn>();
         Dictionary<string, int> _colNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        internal int _maxId = 1;
         internal ExcelTableColumnCollection(ExcelTable table)
         {
             Table = table;
             foreach(XmlNode node in table.TableXml.SelectNodes("//d:table/d:tableColumns/d:tableColumn",table.NameSpaceManager))
-            {                
-                _cols.Add(new ExcelTableColumn(table.NameSpaceManager, node, table, _cols.Count));
+            {
+                var item = new ExcelTableColumn(table.NameSpaceManager, node, table, _cols.Count);
+                _cols.Add(item);
                 _colNames.Add(_cols[_cols.Count - 1].Name, _cols.Count - 1);
+                var id = item.Id;
+                if (id>=_maxId)
+                {
+                    _maxId = id+1;
+                }
             }
         }
         /// <summary>
@@ -112,5 +121,59 @@ namespace OfficeOpenXml.Table
             }
             return name;
         }
+        /// <summary>
+        /// Add a column at the end of the table.
+        /// </summary>
+        /// <param name="columns">Number of columns to add.</param>
+        /// <returns>The added range</returns>
+        public ExcelRangeBase Add(int columns = 1)
+        {
+            return Insert(int.MaxValue, columns);
+        }
+        /// <summary>
+        /// Insert a column before the specified position in the table.
+        /// </summary>
+        /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost position. Any value larger than the number of rows in the table will insert a row at the end of the table.</param>
+        /// <param name="columns">Number of columns to insert.</param>
+        /// <returns>The inserted range</returns>
+        public ExcelRangeBase Insert(int position, int columns = 1)
+        {
+            var range=Table.InsertColumn(position, columns);
+            XmlNode refNode;
+            if(position>=_cols.Count)
+            {
+                refNode = _cols[_cols.Count - 1].TopNode;
+                position = _cols.Count;
+            }
+            else
+            {
+                refNode = _cols[position].TopNode;
+            }
+            for(int i=position;i< position+columns; i++)
+            {
+                var node = Table.TableXml.CreateElement("tableColumn", ExcelPackage.schemaMain);
+                
+                if(i >= _cols.Count)
+                {
+                    refNode.ParentNode.AppendChild(node);
+                }
+                else
+                {
+                    refNode.ParentNode.InsertBefore(node, refNode);
+                }
+                var item = new ExcelTableColumn(Table.NameSpaceManager, node, Table, i);
+                item.Name = GetUniqueName($"Column{i+1}");
+                item.Id = _maxId++;
+                _cols.Insert(i, item);
+            }
+            for(int i=position;i<_cols.Count;i++)
+            {
+                _cols[i].Position = i;
+            }
+            _colNames = _cols.ToDictionary(x=>x.Name, y=>y.Id);
+            
+            return range;
+        }
+
     }
 }

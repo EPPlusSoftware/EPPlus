@@ -581,7 +581,10 @@ namespace OfficeOpenXml.Core.CellStore
 
             var sourcePage = sourceColIx._pages[sourcePagePos];
             var sourceRowIx = sourcePage.GetRowPosition(sourceStartRow);
-
+            if(sourceRowIx<0)
+            {
+                sourceRowIx = ~sourceRowIx;
+            }
             //Get and create the destination column
             ColumnIndex destColIx;
             if (destColPos < 0 && sourceRowIx >= 0 && sourcePage.GetRow(sourceRowIx)<=sourceEndRow)
