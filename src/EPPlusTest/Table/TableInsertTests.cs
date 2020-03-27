@@ -135,6 +135,18 @@ namespace EPPlusTest.Table
             }
         }
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TableInsertRowRowsNegative()
+        {
+            //Setup
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Table1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
+                tbl.InsertRow(0, -1);
+            }
+        }
+        [TestMethod]
         public void TableAddRowToMax()
         {
             //Setup
@@ -256,9 +268,9 @@ namespace EPPlusTest.Table
         public void TableAddColumnToMax()
         {
             //Setup
-            var ws = _pck.Workbook.Worksheets.Add("TableMaxRow");
+            var ws = _pck.Workbook.Worksheets.Add("TableMaxColumn");
             LoadTestdata(ws, 100);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableMaxRow");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableMaxColumn");
             //Act
             tbl.Columns.Add(ExcelPackage.MaxColumns - 4);
             //Assert

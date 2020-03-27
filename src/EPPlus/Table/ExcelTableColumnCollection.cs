@@ -122,7 +122,7 @@ namespace OfficeOpenXml.Table
             return name;
         }
         /// <summary>
-        /// Add a column at the end of the table.
+        /// Add one or more columns at the end of the table.
         /// </summary>
         /// <param name="columns">Number of columns to add.</param>
         /// <returns>The added range</returns>
@@ -131,7 +131,7 @@ namespace OfficeOpenXml.Table
             return Insert(int.MaxValue, columns);
         }
         /// <summary>
-        /// Insert a column before the specified position in the table.
+        /// Insert one or more columns before the specified position in the table.
         /// </summary>
         /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost position. Any value larger than the number of rows in the table will insert a row at the end of the table.</param>
         /// <param name="columns">Number of columns to insert.</param>
@@ -172,6 +172,31 @@ namespace OfficeOpenXml.Table
             }
             _colNames = _cols.ToDictionary(x=>x.Name, y=>y.Id);
             
+            return range;
+        }
+        /// <summary>
+        /// Delete one or more columns from the specified position in the table.
+        /// </summary>
+        /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost position. Any value larger than the number of rows in the table will insert a row at the end of the table.</param>
+        /// <param name="columns">Number of columns to insert.</param>
+        /// <returns>The inserted range</returns>
+        public ExcelRangeBase Delete(int position, int columns = 1)
+        {
+            var range = Table.DeleteColumn(position, columns);
+
+            for (int i = position+columns-1; i >= position; i--)
+            {
+                var n=Table.Columns[i].TopNode;
+                n.ParentNode.RemoveChild(n);
+                Table.Columns._colNames.Remove(_cols[i].Name);
+                Table.Columns._cols.RemoveAt(i);
+            }
+            for (int i = position; i < _cols.Count; i++)
+            {
+                _cols[i].Position = i;
+            }
+            _colNames = _cols.ToDictionary(x => x.Name, y => y.Id);
+
             return range;
         }
 

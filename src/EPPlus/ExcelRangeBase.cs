@@ -1183,11 +1183,11 @@ namespace OfficeOpenXml
         /// <param name="shift">The direction that the cells will shift.</param>
         public void Delete(eShiftTypeDelete shift)
         {
-            if (shift == eShiftTypeDelete.EntireColumn)
+            if (shift == eShiftTypeDelete.EntireColumn || (_fromRow<=1 && _toRow>=ExcelPackage.MaxRows))
             {
                 WorksheetRangeDeleteHelper.DeleteColumn(_worksheet, _fromCol, Columns);
             }
-            else if (shift == eShiftTypeDelete.EntireRow)
+            else if (shift == eShiftTypeDelete.EntireRow || (_fromCol <= 1 && _toRow >= ExcelPackage.MaxColumns))
             {
                 WorksheetRangeDeleteHelper.DeleteRow(_worksheet, _fromRow, Rows);
             }

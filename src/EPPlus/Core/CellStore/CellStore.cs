@@ -527,15 +527,10 @@ namespace OfficeOpenXml.Core.CellStore
             {
                 var maxCol = _columnIndex[ColumnCount - 1].Index;
                 var cols = fromAddress.Columns;
-                for (int col = fromAddress._toCol+1; col <= maxCol; col++)
-                {
-                    var destCol = col-cols;
-                    //if (col > maxCol)
-                    //{
-                    //    Delete(fromAddress._fromRow, col, fromAddress.Rows, fromAddress._toCol, false);
-                    //    return;
-                    //}
-                    MoveRangeColumnWise(col, fromAddress._fromRow, fromAddress._toRow, destCol, fromAddress._fromRow);
+                for (int srcCol = fromAddress._toCol+1; srcCol <= maxCol; srcCol++)
+                {   
+                    var destCol = srcCol-cols;
+                    MoveRangeColumnWise(srcCol, fromAddress._fromRow, fromAddress._toRow, destCol, fromAddress._fromRow);
                 }
                 Delete(fromAddress._fromRow, maxCol-cols+1, fromAddress.Rows, cols, false);
             }
@@ -577,14 +572,24 @@ namespace OfficeOpenXml.Core.CellStore
             {
                 sourcePagePos = ~sourcePagePos;
             }
-            if(sourcePagePos> sourceColIx._pages.Length-1) return;
+            if (sourcePagePos > sourceColIx._pages.Length - 1 || sourceColIx.PageCount==0)
+            {
+                Delete(destStartRow, destCol, rows, 1, false);
+                return;
+            }
 
             var sourcePage = sourceColIx._pages[sourcePagePos];
+            
             var sourceRowIx = sourcePage.GetRowPosition(sourceStartRow);
             if(sourceRowIx<0)
             {
                 sourceRowIx = ~sourceRowIx;
+                if (sourcePage.GetRow(sourceRowIx) < sourceStartRow)
+                {
+                    return;
+                }
             }
+            
             //Get and create the destination column
             ColumnIndex destColIx;
             if (destColPos < 0 && sourceRowIx >= 0 && sourcePage.GetRow(sourceRowIx)<=sourceEndRow)

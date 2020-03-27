@@ -677,8 +677,8 @@ namespace OfficeOpenXml.Table
         /// <summary>
         /// Delete a row at the specified position in the table.
         /// </summary>
-        /// <param name="position">The position in the table where the row will be deleted. Default is in the end of the table. 0 will delete the first row. </param>
-        /// <param name="rows">Number of rows to insert.</param>
+        /// <param name="position">The position in the table where the row will be deleted. 0 will delete the first row. </param>
+        /// <param name="rows">Number of rows to delete.</param>
         /// <returns></returns>
         public ExcelRangeBase DeleteRow(int position, int rows = 1)
         {
@@ -686,20 +686,25 @@ namespace OfficeOpenXml.Table
             {
                 throw new ArgumentException("position", "position can't be negative");
             }
-            if (_address._fromRow + position + rows - 1 > _address._toRow)
-            {
-                throw new ArgumentException("rows", "Insert will exceed the maximum number of rows in the worksheet");
-            }
             if (rows < 0)
             {
                 throw new ArgumentException("position", "rows can't be negative");
             }
+            if (_address._fromRow + position + rows > _address._toRow)
+            {
+                throw new InvalidOperationException("Delete will exceed the number of rows in the table");
+            }
+            var subtract = ShowTotal ? 2 : 1;
+            if(position==0 && rows+subtract >=_address.Rows)
+            {
+                throw new InvalidOperationException("Can't delete all table rows. A table must have at least one row.");
+            }
+            position++; //Header row should not be deleted.
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
             range.Delete(eShiftTypeDelete.Up);
             return range;
         }
-
         /// <summary>
         /// Insert a column before the specified position in the table.
         /// </summary>
@@ -740,6 +745,40 @@ namespace OfficeOpenXml.Table
             {
                 Address = _address.AddColumn(_address._toCol, columns);
             }
+
+            return range;
+        }
+        /// <summary>
+        /// Insert a column before the specified position in the table.
+        /// </summary>
+        /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
+        /// <param name="columns">Number of rows to insert.</param>
+        /// <returns>The inserted range</returns>
+        internal ExcelRangeBase DeleteColumn(int position, int columns)
+        {
+            if (position < 0)
+            {
+                throw new ArgumentException("position", "position can't be negative");
+            }
+            if (columns < 0)
+            {
+                throw new ArgumentException("columns", "columns can't be negative");
+            }
+
+            if (position >= ExcelPackage.MaxColumns || position > _address._fromCol + position + columns - 1)
+            {
+                position = _address.Columns;
+            }
+
+            if (_address._fromCol + position + columns - 1 > ExcelPackage.MaxColumns)
+            {
+                throw new InvalidOperationException("Delete will exceed the maximum number of columns in the worksheet");
+            }
+
+            var address = ExcelCellBase.GetAddress(_address._fromRow, _address._fromCol + position, _address._toRow, _address._fromCol + position + columns - 1);
+            var range = new ExcelRangeBase(WorkSheet, address);
+
+            WorksheetRangeDeleteHelper.Delete(range, eShiftTypeDelete.Left);
 
             return range;
         }

@@ -341,7 +341,11 @@ namespace OfficeOpenXml.Core.Worksheet
             //Validate tables Cells
             foreach (var t in range.Worksheet.Tables)
             {
-                if (effectedAddressTable.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly)
+                var headerRange = new ExcelAddressBase(t.Address._fromRow, t.Address._fromCol, t.Address._fromRow, t.Address._toCol);
+                if (effectedAddressTable.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly
+                    ||
+                    (headerRange.Collide(range) != ExcelAddressBase.eAddressCollition.No &&
+                     effectedAddress.Collide(t.Address) < ExcelAddressBase.eAddressCollition.Inside))
                 {
                     throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
                 }
