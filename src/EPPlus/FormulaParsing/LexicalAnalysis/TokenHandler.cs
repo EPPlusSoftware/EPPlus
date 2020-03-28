@@ -19,15 +19,22 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     public class TokenHandler : ITokenIndexProvider
     {
         public TokenHandler(TokenizerContext context, ITokenFactory tokenFactory, ITokenSeparatorProvider tokenProvider)
+            : this(context, tokenFactory, tokenProvider, new TokenSeparatorHandler(tokenProvider))
+        {
+
+        }
+        public TokenHandler(TokenizerContext context, ITokenFactory tokenFactory, ITokenSeparatorProvider tokenProvider, TokenSeparatorHandler tokenSeparatorHandler)
         {
             _context = context;
             _tokenFactory = tokenFactory;
             _tokenProvider = tokenProvider;
+            _tokenSeparatorHandler = tokenSeparatorHandler;
         }
 
         private readonly TokenizerContext _context;
         private readonly ITokenSeparatorProvider _tokenProvider;
         private readonly ITokenFactory _tokenFactory;
+        private readonly TokenSeparatorHandler _tokenSeparatorHandler;
         private int _tokenIndex = -1;
 
         public string Worksheet { get; set; }
@@ -49,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             Token tokenSeparator;
             if (CharIsTokenSeparator(c, out tokenSeparator))
             {
-                if (TokenSeparatorHandler.Handle(c, tokenSeparator, _context, this))
+                if (_tokenSeparatorHandler.Handle(c, tokenSeparator, _context, this))
                 {
                     return;
                 }

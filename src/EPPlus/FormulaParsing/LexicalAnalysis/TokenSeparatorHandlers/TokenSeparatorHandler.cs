@@ -21,15 +21,23 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
     /// This class provides access to <see cref="SeparatorHandler"/>s - classes that exposes functionatlity
     /// needed when parsing strings to tokens.
     /// </summary>
-    public static class TokenSeparatorHandler
+    public class TokenSeparatorHandler
     {
-        private static SeparatorHandler[] _handlers = new SeparatorHandler[]
-        { 
-            new StringHandler(),
-            new BracketHandler(),
-            new SheetnameHandler(),
-            new MultipleCharSeparatorHandler()
-        };
+        public TokenSeparatorHandler(ITokenSeparatorProvider tokenSeparatorProvider)
+            : this(new SeparatorHandler[]
+                {
+                    new StringHandler(),
+                    new BracketHandler(),
+                    new SheetnameHandler(),
+                    new MultipleCharSeparatorHandler(tokenSeparatorProvider)
+                }){}
+
+        public TokenSeparatorHandler(params SeparatorHandler[] handlers)
+        {
+            _handlers = handlers;
+        }
+
+        private readonly SeparatorHandler[] _handlers;
 
         /// <summary>
         /// Handles a tokenseparator.
@@ -39,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
         /// <param name="context"></param>
         /// <param name="tokenIndexProvider"></param>
         /// <returns>Returns true if the tokenseparator was handled.</returns>
-        public static bool Handle(char c, Token tokenSeparator, TokenizerContext context, ITokenIndexProvider tokenIndexProvider)
+        public bool Handle(char c, Token tokenSeparator, TokenizerContext context, ITokenIndexProvider tokenIndexProvider)
         {
             foreach(var handler in _handlers)
             {
