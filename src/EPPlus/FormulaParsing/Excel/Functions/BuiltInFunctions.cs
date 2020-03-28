@@ -64,6 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["asin"] = new Asin();
             Functions["asinh"] = new Asinh();
             Functions["acot"] = new Acot();
+            Functions["acoth"] = new Acoth();
             Functions["cos"] = new Cos();
             Functions["cot"] = new Cot();
             Functions["coth"] = new Coth();

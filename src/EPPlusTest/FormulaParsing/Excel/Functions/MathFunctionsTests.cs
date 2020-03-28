@@ -229,6 +229,15 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void AcothShouldReturnCorrectResult_MinusPi()
+        {
+            var func = new Acoth();
+            var args = FunctionsHelper.CreateArgs(-5);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-0.2027, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
         public void RadiansShouldReturnCorrectResult_50()
         {
             var func = new Radians();
