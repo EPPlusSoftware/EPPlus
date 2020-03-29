@@ -20,62 +20,56 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     internal class Rank : ExcelFunction
     {
-        bool _isAvg;
-        public Rank(bool isAvg=false)
+        public Rank()
+            : this(false)
+        {
+
+        }
+        
+        public Rank(bool isAvg)
         {
             _isAvg=isAvg;
         }
+
+        private readonly bool _isAvg;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var number = ArgToDecimal(arguments, 0);
-            var refer = arguments.ElementAt(1);
-            bool asc = false;
-            if (arguments.Count() > 2)
+            var refArg = arguments.ElementAt(1);
+            var sortAscending = arguments.Count() > 2 ? ArgToBool(arguments, 2) : false;
+            var numbers = GetNumbersFromRange(refArg, sortAscending);
+            double rank = numbers.IndexOf(number) + 1;
+            if(_isAvg)
             {
-                asc = base.ArgToBool(arguments, 2);
+                var lastRank = numbers.LastIndexOf(number) + 1;
+                rank = rank + ((lastRank - rank) / 2d);
             }
-            var l = new List<double>();
-
-            foreach (var c in refer.ValueAsRangeInfo)
-            {
-                var v = Utils.ConvertUtil.GetValueDouble(c.Value, false, true);
-                if (!double.IsNaN(v))
-                {
-                    l.Add(v);
-                }
-            }
-            l.Sort();
-            double ix;
-            if (asc)
-            {
-                ix = l.IndexOf(number)+1;
-                if(_isAvg)
-                {
-                    int st = Convert.ToInt32(ix);
-                    while (l.Count > st && l[st] == number) st++;
-                    if (st > ix) ix = ix + ((st - ix) / 2D);
-                }
-            }
-            else
-            {
-                ix = l.LastIndexOf(number);
-                if (_isAvg)
-                {
-                    int st = Convert.ToInt32(ix)-1;
-                    while (0 <= st && l[st] == number) st--;
-                    if (st+1 < ix) ix = ix - ((ix - st - 1) / 2D);
-                }
-                ix = l.Count - ix;
-            }
-            if (ix <= 0 || ix>l.Count)
+            
+            if (rank <= 0 || rank > numbers.Count)
             {
                 return new CompileResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
             }
-            else
+            return CreateResult(rank, DataType.Decimal);
+        }
+
+        private static List<double> GetNumbersFromRange(FunctionArgument refArg, bool sortAscending)
+        {
+            var numbers = new List<double>();
+            foreach (var cell in refArg.ValueAsRangeInfo)
             {
-                return CreateResult(ix, DataType.Decimal);
+                var cellValue = Utils.ConvertUtil.GetValueDouble(cell.Value, false, true);
+                if (!double.IsNaN(cellValue))
+                {
+                    numbers.Add(cellValue);
+                }
             }
+            if (sortAscending)
+                numbers.Sort();
+            else
+                numbers.Sort((x, y) => y.CompareTo(x));
+            return numbers;
         }
     }
 }

@@ -179,4 +179,7 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FormulaParsing\Excel\Functions\Statistical\" />
+  </ItemGroup>
 </Project>
