@@ -229,6 +229,15 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void AcothShouldReturnCorrectResult_MinusPi()
+        {
+            var func = new Acoth();
+            var args = FunctionsHelper.CreateArgs(-5);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual(-0.2027, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
         public void RadiansShouldReturnCorrectResult_50()
         {
             var func = new Radians();
@@ -304,6 +313,114 @@ namespace EPPlusTest.Excel.Functions
             args = FunctionsHelper.CreateArgs(3295);
             result = func.Execute(args, _parsingContext).Result;
             Assert.AreEqual("MMMCCXCV", result, "3295 was not MMMCCXCV");
+        }
+
+        [TestMethod]
+        public void RomanType1ShouldReturnCorrectResult()
+        {
+            var func = new Roman();
+
+            var args = FunctionsHelper.CreateArgs(495, 1);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("LDVL", result, "495 was not LDVL");
+
+            args = FunctionsHelper.CreateArgs(45, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VL", result, "45 was not VL");
+
+            args = FunctionsHelper.CreateArgs(49, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VLIV", result, "59 was not VLIV");
+
+            args = FunctionsHelper.CreateArgs(99, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VCIV", result, "99 was not VCIV");
+
+            args = FunctionsHelper.CreateArgs(395, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("CCCVC", result, "395 was not CCCVC");
+
+            args = FunctionsHelper.CreateArgs(949, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("CMVLIV", result, "949 was not CMVLIV");
+
+            args = FunctionsHelper.CreateArgs(3295, 1);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("MMMCCVC", result, "3295 was not MMMCCVC");
+        }
+
+        [TestMethod]
+        public void RomanType2ShouldReturnCorrectResult()
+        {
+            var func = new Roman();
+
+            var args = FunctionsHelper.CreateArgs(495, 2);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XDV", result, "495 was not XDV");
+
+            args = FunctionsHelper.CreateArgs(45, 2);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VL", result, "45 was not VL");
+
+            args = FunctionsHelper.CreateArgs(59, 2);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("LIX", result, "59 was not LIX");
+
+            args = FunctionsHelper.CreateArgs(99, 2);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("IC", result, "99 was not IC");
+
+            args = FunctionsHelper.CreateArgs(490, 2);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("XD", result, "490 was not XD");
+
+            args = FunctionsHelper.CreateArgs(949, 2);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("CMIL", result, "949 was not CMIL");
+
+            args = FunctionsHelper.CreateArgs(2999, 2);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("MMXMIX", result, "2999 was not MMXMIX");
+        }
+
+        [TestMethod]
+        public void RomanType3ShouldReturnCorrectResult()
+        {
+            var func = new Roman();
+
+            var args = FunctionsHelper.CreateArgs(495, 3);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VD", result, "495 was not VD");
+
+            args = FunctionsHelper.CreateArgs(499, 3);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VDIV", result, "499 was not VDIV");
+
+            args = FunctionsHelper.CreateArgs(995, 3);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VM", result, "995 was not VM");
+
+            args = FunctionsHelper.CreateArgs(999, 3);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("VMIV", result, "999 was not VMIV");
+
+            args = FunctionsHelper.CreateArgs(1999, 3);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("MVMIV", result, "490 was not MVMIV");
+        }
+
+        [TestMethod]
+        public void RomanType4ShouldReturnCorrectResult()
+        {
+            var func = new Roman();
+
+            var args = FunctionsHelper.CreateArgs(499, 4);
+            var result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("ID", result, "499 was not ID");
+
+            args = FunctionsHelper.CreateArgs(999, 4);
+            result = func.Execute(args, _parsingContext).Result;
+            Assert.AreEqual("IM", result, "999 was not IM");
         }
 
         [TestMethod]

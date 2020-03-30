@@ -184,6 +184,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void AcothShouldReturnCorrectResult()
+        {
+            var expectedValue = 0.5493d;
+            var result = _parser.Parse("ACOTH(2)");
+            Assert.AreEqual(expectedValue, Math.Round((double)result, 4));
+        }
+
+        [TestMethod]
         public void RadiansShouldReturnCorrectResult()
         {
             var expectedValue = Math.PI;
