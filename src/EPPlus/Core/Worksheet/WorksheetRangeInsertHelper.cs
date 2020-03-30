@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Core.Worksheet
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy)
         {
             var effectedAddress = GetEffectedRange(range, shift);
-            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1));
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), true);
 
             var ws = range.Worksheet;
             var styleList = GetStylesForRange(range, shift);

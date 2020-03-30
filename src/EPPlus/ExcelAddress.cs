@@ -750,8 +750,7 @@ namespace OfficeOpenXml
             }
 
             return Collide(address._fromRow, address._fromCol, address._toRow, address._toCol);
-            }
-
+        }
         internal eAddressCollition Collide(int fromRow, int fromCol, int toRow, int toCol)
         {
             if (DoNotCollide(fromRow, fromCol, toRow, toCol))
@@ -779,6 +778,10 @@ namespace OfficeOpenXml
                    _fromRow > toRow || _fromCol > toCol;
         }
 
+        internal bool CollideFullRowOrColumn(ExcelAddressBase address)
+        {
+            return CollideFullRowOrColumn(address._fromRow, address._fromCol, address._toRow, address._toCol);
+        }
         internal bool CollideFullRowOrColumn(int fromRow, int fromCol, int toRow, int toCol)
         {
             return CollideFullRow(fromRow, toRow) || CollideFullColumn(fromCol, toCol);

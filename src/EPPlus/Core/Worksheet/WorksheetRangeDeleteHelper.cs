@@ -336,7 +336,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             var effectedAddress = GetEffectedRange(range, shift);
-            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1));
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), false);
 
             var ws = range.Worksheet;
             WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);

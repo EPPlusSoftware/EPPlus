@@ -190,7 +190,7 @@ namespace EPPlusTest.Table
             }
         }
         #endregion
-        #region Insert Column
+        #region Delete Column
         [TestMethod]
         public void TableDeleteColumnFirst()
         {
@@ -221,85 +221,76 @@ namespace EPPlusTest.Table
             Assert.IsNull(tbl.Address);
             Assert.AreEqual("Shift Me Right", ws.Cells["B99"].Value);
         }
-        //[TestMethod]
-        //public void TableAddColumnWithTotal()
-        //{
-        //    //Setup
-        //    var ws = _pck.Workbook.Worksheets.Add("TableAddColTotal");
-        //    LoadTestdata(ws, 100, 2);
-        //    ws.Cells["F100"].Value = "Shift Me Right";
-        //    ws.Cells["A50,F102"].Value = "Don't Shift Me";
+        [TestMethod]
+        public void TableDeleteColumnWithTotal()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("TableDeleteColTotal");
+            LoadTestdata(ws, 100, 2);
+            ws.Cells["F100"].Value = "Shift Me Left";
+            ws.Cells["A50,F102"].Value = "Don't Shift Me";
 
-        //    var tbl = ws.Tables.Add(ws.Cells["B1:E100"], "TableAddTotal");
-        //    tbl.ShowTotal = true;
-        //    tbl.Columns[0].TotalsRowFunction = RowFunctions.Sum;
-        //    tbl.Columns[1].TotalsRowFunction = RowFunctions.Count;
-        //    tbl.Columns[2].TotalsRowFunction = RowFunctions.Average;
-        //    tbl.Columns[3].TotalsRowFunction = RowFunctions.CountNums;
-        //    tbl.Columns.Insert(0, 1);
-        //    Assert.AreEqual("B1:F101", tbl.Address.Address);
-        //    Assert.AreEqual(RowFunctions.Sum, tbl.Columns[1].TotalsRowFunction);
-        //    Assert.AreEqual(RowFunctions.CountNums, tbl.Columns[4].TotalsRowFunction);
-        //    Assert.AreEqual("Shift Me Right", ws.Cells["G100"].Value);
-        //    tbl.Columns.Add(3);
-        //    Assert.AreEqual("B1:I101", tbl.Address.Address);
-        //    Assert.AreEqual("Don't Shift Me", ws.Cells["A50"].Value);
-        //    Assert.AreEqual("Don't Shift Me", ws.Cells["F102"].Value);
-        //}
-        //[TestMethod]
-        //public void TableInsertColumnInside()
-        //{
-        //    //Setup
-        //    var ws = _pck.Workbook.Worksheets.Add("TableInsertColInside");
-        //    LoadTestdata(ws, 100);
-        //    ws.Cells["E9999"].Value = "Don't Me Down";
-        //    ws.Cells["E19999"].Value = "Don't Me Down";
-        //    var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableInsertColInside");
-        //    tbl.Columns.Insert(4,2);
-        //    Assert.AreEqual("A1:F100", tbl.Address.Address);
-        //    tbl.Columns.Insert(8, 8);
-        //    Assert.AreEqual("A1:N100", tbl.Address.Address);
-        //    Assert.AreEqual("Don't Me Down", ws.Cells["E9999"].Value);
-        //    Assert.AreEqual("Don't Me Down", ws.Cells["E19999"].Value);
-        //}
-        //[TestMethod]
-        //[ExpectedException(typeof(ArgumentException))]
-        //public void TableInsertColumnPositionNegative()
-        //{
-        //    //Setup
-        //    using (var p = new ExcelPackage())
-        //    {
-        //        var ws = p.Workbook.Worksheets.Add("Table1");
-        //        var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
-        //        tbl.Columns.Insert(-1);
-        //    }
-        //}
-        //[TestMethod]
-        //public void TableAddColumnToMax()
-        //{
-        //    //Setup
-        //    var ws = _pck.Workbook.Worksheets.Add("TableMaxColumn");
-        //    LoadTestdata(ws, 100);
-        //    var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableMaxColumn");
-        //    //Act
-        //    tbl.Columns.Add(ExcelPackage.MaxColumns - 4);
-        //    //Assert
-        //    Assert.AreEqual(ExcelPackage.MaxColumns, tbl.Address._toCol);
-        //}
-        //[TestMethod]
-        //[ExpectedException(typeof(InvalidOperationException))]
-        //public void TableAddColumnOverMax()
-        //{
-        //    using (var p = new ExcelPackage())
-        //    {
-        //        //Setup
-        //        var ws = p.Workbook.Worksheets.Add("TableOverMaxColumn");
-        //        LoadTestdata(ws, 100);
-        //        var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableOverMaxRow");
-        //        //Act
-        //        tbl.Columns.Add(ExcelPackage.MaxColumns - 3);
-        //    }
-        //}
+            var tbl = ws.Tables.Add(ws.Cells["B1:E100"], "TableAddTotal");
+            tbl.ShowTotal = true;
+            tbl.Columns[0].TotalsRowFunction = RowFunctions.Sum;
+            tbl.Columns[1].TotalsRowFunction = RowFunctions.Count;
+            tbl.Columns[2].TotalsRowFunction = RowFunctions.Average;
+            tbl.Columns[3].TotalsRowFunction = RowFunctions.CountNums;
+            tbl.Columns.Delete(0, 1);
+            Assert.AreEqual("B1:D101", tbl.Address.Address);
+            Assert.AreEqual(RowFunctions.Count, tbl.Columns[0].TotalsRowFunction);
+            Assert.AreEqual(RowFunctions.CountNums, tbl.Columns[2].TotalsRowFunction);
+            Assert.AreEqual("Shift Me Left", ws.Cells["E100"].Value);
+            tbl.Columns.Delete(1,2);
+            Assert.AreEqual("B1:B101", tbl.Address.Address);
+            Assert.AreEqual(RowFunctions.Count, tbl.Columns[0].TotalsRowFunction);
+            Assert.AreEqual("Don't Shift Me", ws.Cells["A50"].Value);
+            Assert.AreEqual("Don't Shift Me", ws.Cells["F102"].Value);
+        }
+        [TestMethod]
+        public void TableDeleteColumnInside()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("TableInsertColInside");
+            LoadTestdata(ws, 100, 5, 2);
+            ws.Cells["A1,C50,D102,XE102,GGG1"].Value = "Don't Shift Me";
+            ws.Cells["XG2,Y101"].Value = "Shift Me";
+            var tbl = ws.Tables.Add(ws.Cells["E2:H101"], "TableInsertColInside");
+            tbl.Columns.Delete(1, 2);
+            Assert.AreEqual("E2:F101", tbl.Address.Address);
+            Assert.AreEqual("Don't Shift Me", ws.Cells["A1"].Value);
+            Assert.AreEqual("Don't Shift Me", ws.Cells["C50"].Value);
+            Assert.AreEqual("Don't Shift Me", ws.Cells["D102"].Value);
+            Assert.AreEqual("Don't Shift Me", ws.Cells["XE102"].Value);
+            Assert.AreEqual("Don't Shift Me", ws.Cells["GGG1"].Value);
+
+            Assert.AreEqual("Shift Me", ws.Cells["XE2"].Value);
+            Assert.AreEqual("Shift Me", ws.Cells["W101"].Value);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TableDeleteColumnPositionNegative()
+        {
+            //Setup
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Table1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
+                tbl.Columns.Delete(-1);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TableDeleteColumnColumnsNegative()
+        {
+            //Setup
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Table1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
+                tbl.Columns.Delete(0, -1);
+            }
+        }
         #endregion
     }
 }

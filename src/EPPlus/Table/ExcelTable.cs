@@ -765,14 +765,9 @@ namespace OfficeOpenXml.Table
                 throw new ArgumentException("columns", "columns can't be negative");
             }
 
-            if (position >= ExcelPackage.MaxColumns || position > _address._fromCol + position + columns - 1)
+            if (_address._toCol < _address._fromCol + position + columns - 1)
             {
-                position = _address.Columns;
-            }
-
-            if (_address._fromCol + position + columns - 1 > ExcelPackage.MaxColumns)
-            {
-                throw new InvalidOperationException("Delete will exceed the maximum number of columns in the worksheet");
+                throw new InvalidOperationException("Delete will exceed the number of columns in the table");
             }
 
             var address = ExcelCellBase.GetAddress(_address._fromRow, _address._fromCol + position, _address._toRow, _address._fromCol + position + columns - 1);

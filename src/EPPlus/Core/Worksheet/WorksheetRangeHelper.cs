@@ -317,7 +317,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress, ExcelAddressBase effectedAddressTable)
+        internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress, ExcelAddressBase effectedAddressTable, bool insert)
         {
             //Validate merged Cells
             foreach (var a in range.Worksheet.MergedCells)
@@ -325,7 +325,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 var mc = new ExcelAddressBase(a);
                 if (effectedAddress.Collide(mc) == ExcelAddressBase.eAddressCollition.Partly)
                 {
-                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with merged range {a}");
+                    throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with merged range {a}");
                 }
             }
 
@@ -334,7 +334,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 if (effectedAddress.Collide(pt.Address) == ExcelAddressBase.eAddressCollition.Partly)
                 {
-                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with pivot table {pt.Name}");
+                    throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with pivot table {pt.Name}");
                 }
             }
 
@@ -343,11 +343,10 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 var headerRange = new ExcelAddressBase(t.Address._fromRow, t.Address._fromCol, t.Address._fromRow, t.Address._toCol);
                 if (effectedAddressTable.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly
-                    ||
-                    (headerRange.Collide(range) != ExcelAddressBase.eAddressCollition.No &&
-                     effectedAddress.Collide(t.Address) < ExcelAddressBase.eAddressCollition.Inside))
+                    &&
+                    t.Address.CollideFullRowOrColumn(range) ==false)
                 {
-                    throw new InvalidOperationException($"Can't insert into the range. Cells collide with table {t.Name}");
+                    throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with table {t.Name}");
                 }
             }
 
