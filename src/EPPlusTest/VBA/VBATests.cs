@@ -108,12 +108,16 @@ namespace EPPlusTest.VBA
         [TestMethod]
         public void ValidateName()
         {
-            _pck.Workbook.Worksheets.Add("Work!Sheet");
-            _pck.Workbook.Worksheets.Add("Mod=ule1");
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.CreateVBAProject();
+                p.Workbook.Worksheets.Add("Work!Sheet");
+                p.Workbook.Worksheets.Add("Mod=ule1");
 
-            Assert.AreEqual("ThisWorkbook", _pck.Workbook.VbaProject.Modules[0].Name);
-            Assert.AreEqual("Sheet0", _pck.Workbook.VbaProject.Modules[1].Name);
-            Assert.AreEqual("Sheet1", _pck.Workbook.VbaProject.Modules[2].Name);
+                Assert.AreEqual("ThisWorkbook", p.Workbook.VbaProject.Modules[0].Name);
+                Assert.AreEqual("Sheet0", p.Workbook.VbaProject.Modules[1].Name);
+                Assert.AreEqual("Sheet1", p.Workbook.VbaProject.Modules[2].Name);
+            }
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
