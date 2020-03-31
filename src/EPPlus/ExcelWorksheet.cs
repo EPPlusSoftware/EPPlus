@@ -151,8 +151,7 @@ namespace OfficeOpenXml
                     if (token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var a = new ExcelFormulaAddress(token.Value);
-                        f += a.GetOffset(row - StartRow, column - StartCol, true);
-                            
+                        f += a.GetOffset(row - StartRow, column - StartCol, true);                            
                     }
                     else
                     {

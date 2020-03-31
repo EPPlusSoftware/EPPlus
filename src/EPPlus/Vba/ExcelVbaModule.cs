@@ -25,7 +25,8 @@ namespace OfficeOpenXml.VBA
     {
         string _name = "";
         ModuleNameChange _nameChangeCallback = null;
-        private const string _validModulePattern = "^[a-zA-Z][a-zA-Z0-9_ ]*$";
+        private static readonly char[] _nonValidChars = new char[] { '!', '\\', '"', '@', '#', '$', '%', '&', '/', '{', '}', '[', ']', '(', ')', '<', '>', '=', '+', '-', '?', '`', '~', '^', '\'', '*', ';', ':' };
+        //private const string _validModulePattern = "^[a-zA-Z][a-zA-Z0-9_ ]*$";
         internal ExcelVBAModule()
         {
             Attributes = new ExcelVbaModuleAttributesCollection();
@@ -67,7 +68,14 @@ namespace OfficeOpenXml.VBA
         }
         internal static bool IsValidModuleName(string name)
         {
-            return Regex.IsMatch(name, _validModulePattern);
+            //return Regex.IsMatch(name, _validModulePattern);
+            if (string.IsNullOrEmpty(name) ||           //Not null or empty
+               (name[0]>='0' && name[0]<=9) ||          //Don't start with a number
+               name.Any(x=>x<0x20  || x > 255 || _nonValidChars.Contains(x)))      //Don't contain invalid or unicode chars 
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>

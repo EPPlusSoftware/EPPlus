@@ -43,22 +43,6 @@ namespace EPPlusTest
     [TestClass]
     public class VBATests : TestBase
     {
-        [TestMethod]
-        public void Compression()
-        {
-            //Compression/Decompression
-            string value = "#aaabcdefaaaaghijaaaaaklaaamnopqaaaaaaaaaaaarstuvwxyzaaa";
-
-            byte[] compValue = VBACompression.CompressPart(Encoding.GetEncoding(1252).GetBytes(value));
-            string decompValue = Encoding.GetEncoding(1252).GetString(VBACompression.DecompressPart(compValue));
-            Assert.AreEqual(value, decompValue);
-
-            value = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-
-            compValue = VBACompression.CompressPart(Encoding.GetEncoding(1252).GetBytes(value));
-            decompValue = Encoding.GetEncoding(1252).GetString(VBACompression.DecompressPart(compValue));
-            Assert.AreEqual(value, decompValue);
-        }
         [Ignore]
         [TestMethod]
         public void ReadVBA()
@@ -83,65 +67,11 @@ namespace EPPlusTest
         }
         [Ignore]
         [TestMethod]
-        public void WriteVBA()
-        {
-            var package = new ExcelPackage();
-            package.Workbook.Worksheets.Add("Sheet1");
-            package.Workbook.CreateVBAProject();
-            package.Workbook.VbaProject.Modules["Sheet1"].Code += "\r\nPrivate Sub Worksheet_SelectionChange(ByVal Target As Range)\r\nMsgBox(\"Test of the VBA Feature!\")\r\nEnd Sub\r\n";
-            package.Workbook.VbaProject.Modules["Sheet1"].Name = "Blad1";
-            package.Workbook.CodeModule.Name = "DenHärArbetsboken";
-            package.Workbook.Worksheets[1].Name = "FirstSheet";
-            package.Workbook.CodeModule.Code += "\r\nPrivate Sub Workbook_Open()\r\nBlad1.Cells(1,1).Value = \"VBA test\"\r\nMsgBox \"VBA is running!\"\r\nEnd Sub";
-            //X509Store store = new X509Store(StoreLocation.CurrentUser);
-            //store.Open(OpenFlags.ReadOnly);
-            //package.Workbook.VbaProject.Signature.Certificate = store.Certificates[11];
-
-            var m = package.Workbook.VbaProject.Modules.AddModule("Module1");
-            m.Code += "Public Sub Test(param1 as string)\r\n\r\nEnd sub\r\nPublic Function functest() As String\r\n\r\nEnd Function\r\n";
-            var c = package.Workbook.VbaProject.Modules.AddClass("Class1", false);
-            c.Code += "Private Sub Class_Initialize()\r\n\r\nEnd Sub\r\nPrivate Sub Class_Terminate()\r\n\r\nEnd Sub";
-            var c2 = package.Workbook.VbaProject.Modules.AddClass("Class2", true);
-            c2.Code += "Private Sub Class_Initialize()\r\n\r\nEnd Sub\r\nPrivate Sub Class_Terminate()\r\n\r\nEnd Sub";
-
-            package.Workbook.VbaProject.Protection.SetPassword("EPPlus");
-            package.SaveAs(new FileInfo(@"c:\temp\vbaWrite.xlsm"));
-
-        }
-        [Ignore]
-        [TestMethod]
         public void Resign()
         {
             var package = new ExcelPackage(new FileInfo(@"c:\temp\vbaWrite.xlsm"));
             //package.Workbook.VbaProject.Signature.Certificate = store.Certificates[11];
             package.SaveAs(new FileInfo(@"c:\temp\vbaWrite2.xlsm"));
-        }
-        [Ignore]
-        [TestMethod]
-        public void WriteLongVBAModule()
-        {
-            var package = new ExcelPackage();
-            package.Workbook.Worksheets.Add("VBASetData");
-            package.Workbook.CreateVBAProject();
-            package.Workbook.CodeModule.Code = "Private Sub Workbook_Open()\r\nCreateData\r\nEnd Sub";
-            var module = package.Workbook.VbaProject.Modules.AddModule("Code");
-
-            StringBuilder code = new StringBuilder("Public Sub CreateData()\r\n");
-            for (int row = 1; row < 30; row++)
-            {
-                for (int col = 1; col < 30; col++)
-                {
-                    code.AppendLine(string.Format("VBASetData.Cells({0},{1}).Value=\"Cell {2}\"", row, col, new ExcelAddressBase(row, col, row, col).Address));
-                }
-            }
-            code.AppendLine("End Sub");
-            module.Code = code.ToString();
-
-            //X509Store store = new X509Store(StoreLocation.CurrentUser);
-            //store.Open(OpenFlags.ReadOnly);
-            //package.Workbook.VbaProject.Signature.Certificate = store.Certificates[19];
-
-            package.SaveAs(new FileInfo(@"c:\temp\vbaLong.xlsm"));
         }
         [Ignore]
         [TestMethod]
@@ -187,30 +117,6 @@ namespace EPPlusTest
             package.Workbook.VbaProject.Signature.Certificate = store.Certificates[19];
             //package.Workbook.VbaProject.Protection.SetPassword("");
             package.SaveAs(new FileInfo(@"c:\temp\vbaSaved.xlsm"));
-        }
-        [TestMethod]
-        public void CreateUnicodeWsName()
-        {
-            using (var package = new ExcelPackage())
-            {
-                //ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Test");
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("测试");
-
-                package.Workbook.CreateVBAProject();
-                var sb = new StringBuilder();
-                sb.AppendLine("Sub GetData()");
-                sb.AppendLine("MsgBox (\"Hello,World\")");
-                sb.AppendLine("End Sub");
-
-                ExcelWorksheet worksheet2 = package.Workbook.Worksheets.Add("Sheet1");
-                var stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("Private Sub Worksheet_Change(ByVal Target As Range)");
-                stringBuilder.AppendLine("GetData");
-                stringBuilder.AppendLine("End Sub");
-                worksheet.CodeModule.Code = stringBuilder.ToString();
-
-                SaveWorkbook("invvba.xlsm", package);
-            }
         }
         //Issue with chunk overwriting 4096 bytes
         [Ignore]

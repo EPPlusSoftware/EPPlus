@@ -272,6 +272,7 @@ namespace OfficeOpenXml
                 Set_Formula(range, value, address.Start.Row, address.Start.Column);
                 return;
             }
+
             range.CheckAndSplitSharedFormula(address);
             ExcelWorksheet.Formulas f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
             f.Formula = value;
@@ -293,6 +294,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+
         private static void Set_HyperLink(ExcelRangeBase range, object value, int row, int col)
         {
             if (value is Uri)
@@ -982,6 +984,10 @@ namespace OfficeOpenXml
                     {
                         Set_Formula(this, value, _fromRow, _fromCol);
                     }
+                    else if (HasOffSheetReference(value))
+                    {
+                        Set_Formula_Range(this, value);
+                    }
                     else
                     {
                         Set_SharedFormula(this, value, this, false);
@@ -996,6 +1002,68 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private void Set_Formula_Range(ExcelRangeBase range, string formula)
+        {
+            if (formula[0] == '=') formula = formula.Substring(1); // remove any starting equalsign.
+            range.CheckAndSplitSharedFormula(range);
+
+            ExcelWorksheet.Formulas f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
+            f.Formula = formula;
+            f.Address = range.FirstAddress;
+            f.StartCol = range.Start.Column;
+            f.StartRow = range.Start.Row;
+
+            if(range.Addresses==null)
+            {
+                SetFormulaAddress(range, range, f);
+            }
+            else
+            {
+                foreach(var address in range.Addresses)
+                {
+                    SetFormulaAddress(range, address, f);
+                }
+            }
+        }
+
+        private void SetFormulaAddress(ExcelRangeBase range, ExcelAddressBase address, ExcelWorksheet.Formulas f)
+        {
+            for (int row = address._fromRow; row <= address._toRow; row++)
+            {
+                for (int col = address._fromCol; col <= address._toCol; col++)
+                {                    
+                    if (string.IsNullOrEmpty(f.Formula))
+                    {
+                        range._worksheet._formulas.SetValue(row, col, string.Empty);
+                    }
+                    else
+                    {
+                        range._worksheet._formulas.SetValue(row, col, f.GetFormula(row, col, WorkSheetName));
+                        range._worksheet.SetValueInner(row, col, null);
+                    }
+                }
+            }
+        }
+
+        private bool HasOffSheetReference(string value)
+        {
+            var tokenizer = SourceCodeTokenizer.Default;
+            var tokens = tokenizer.Tokenize(value, WorkSheetName);
+            foreach(var t in tokens)
+            {
+                if(t.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    var a = new ExcelAddressBase(t.Value);
+                    if(string.IsNullOrEmpty(a.WorkSheetName)==false && a.WorkSheetName.Equals(WorkSheetName)==false)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Gets or Set a formula in R1C1 format.
         /// </summary>
