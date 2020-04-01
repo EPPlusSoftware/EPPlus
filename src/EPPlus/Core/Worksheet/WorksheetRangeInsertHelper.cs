@@ -127,6 +127,8 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy)
         {
+            ValidateInsert(range, shift);
+
             var effectedAddress = GetEffectedRange(range, shift);
             WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), true);
 
@@ -173,6 +175,14 @@ namespace OfficeOpenXml.Core.Worksheet
             else
             {
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
+            }
+        }
+
+        private static void ValidateInsert(ExcelRangeBase range, eShiftTypeInsert shift)
+        {
+            if (range == null || (range.Addresses != null && range.Addresses.Count > 1))
+            {
+                throw new ArgumentException("Can't insert into range. ´range´ can't be null or have multiple addresses.", "range");
             }
         }
 

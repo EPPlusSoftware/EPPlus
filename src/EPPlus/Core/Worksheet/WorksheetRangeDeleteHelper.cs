@@ -326,14 +326,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void Delete(ExcelRangeBase range, eShiftTypeDelete shift)
         {
-            if (shift == eShiftTypeDelete.Left)
-            {
-                ValidateColumn(range._fromCol, range.Columns);
-            }
-            else
-            {
-                ValidateRow(range._fromRow, range.Rows);
-            }
+            ValidateDelete(range, shift);
 
             var effectedAddress = GetEffectedRange(range, shift);
             WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), false);
@@ -360,6 +353,23 @@ namespace OfficeOpenXml.Core.Worksheet
             DeleteConditionalForatting(range, shift, ws, effectedAddress);
 
             AdjustDrawings(range, shift);
+        }
+
+        private static void ValidateDelete(ExcelRangeBase range, eShiftTypeDelete shift)
+        {
+            if (range == null || (range.Addresses != null && range.Addresses.Count > 1))
+            {
+                throw new ArgumentException("Can't delete range. ´range´ can't be null or have multiple addresses.", "range");
+            }
+
+            if (shift == eShiftTypeDelete.Left)
+            {
+                ValidateColumn(range._fromCol, range.Columns);
+            }
+            else
+            {
+                ValidateRow(range._fromRow, range.Rows);
+            }
         }
 
         private static void AdjustDrawings(ExcelRangeBase range, eShiftTypeDelete shift)
