@@ -141,6 +141,7 @@ namespace OfficeOpenXml.Sparkline
             group.ColorLast.Rgb = "FFD00000";
             group.ColorHigh.Rgb = "FFD00000";
             group.ColorLow.Rgb = "FFD00000";
+            _lst.Add(group);
             return group;
         }
 

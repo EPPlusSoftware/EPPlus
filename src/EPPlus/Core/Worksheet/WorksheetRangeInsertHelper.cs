@@ -145,7 +145,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertCellStoreShiftRight(range._worksheet, range);
             }
             FixFormulasInsert(range, effectedAddress, shift);
-
+            FixFilterInsert(range, effectedAddress, shift);
             WorksheetRangeHelper.FixMergedCells(ws, range, shift);
 
             if (styleCopy)
@@ -168,13 +168,78 @@ namespace OfficeOpenXml.Core.Worksheet
                 ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
             }
 
-            if(shift==eShiftTypeInsert.Down)
+            InsertSparkLines(range, shift, effectedAddress);
+
+            if (shift == eShiftTypeInsert.Down)
             {
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, range._fromRow, range.Rows, range._fromCol, range._toCol);
             }
             else
             {
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
+            }
+        }
+
+        private static void FixFilterInsert(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        {
+            var ws = range.Worksheet;
+            if (ws.AutoFilterAddress != null && effectedAddress.Collide(ws.AutoFilterAddress) != ExcelAddressBase.eAddressCollition.No)
+            {
+                if(shift==eShiftTypeInsert.Down)
+                {
+                    ws.AutoFilterAddress = ws.AutoFilterAddress.AddRow(range._fromRow, range.Rows);
+                }
+                else
+                {
+                    ws.AutoFilterAddress = ws.AutoFilterAddress.AddColumn(range._fromCol, range.Columns);
+                }
+            }
+        }
+        private static void InsertSparkLines(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
+        {
+            foreach (var slg in range.Worksheet.SparklineGroups)
+            {
+                if (slg.DateAxisRange!=null && effectedAddress.Collide(slg.DateAxisRange) >= ExcelAddressBase.eAddressCollition.Inside)
+                {
+                    string address;
+                    if (shift == eShiftTypeInsert.Down)
+                    {
+                        address = slg.DateAxisRange.AddRow(range._fromRow, range.Rows).Address;
+                    }
+                    else
+                    {
+                        address = slg.DateAxisRange.AddColumn(range._fromCol, range.Columns).Address;
+                    }
+                    slg.DateAxisRange = range.Worksheet.Cells[address];
+                }
+
+                foreach (var sl in slg.Sparklines)
+                {
+                    if (shift == eShiftTypeInsert.Down)
+                    {
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside)
+                        {
+                            sl.RangeAddress = sl.RangeAddress.AddRow(range._fromRow, range.Rows);
+                        }
+
+                        if (sl.Cell.Row>=range._fromRow && sl.Cell.Column >= range._fromCol && sl.Cell.Column <= range._toCol)
+                        {
+                            sl.Cell = new ExcelCellAddress(sl.Cell.Row + range.Rows, sl.Cell.Column);
+                        }
+                    }
+                    else
+                    {                        
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside)
+                        {
+                            sl.RangeAddress = sl.RangeAddress.AddColumn(range._fromCol, range.Columns);
+                        }
+
+                        if (sl.Cell.Column >= range._fromCol && sl.Cell.Row>=range._fromRow && sl.Cell.Row<=range._toRow)
+                        {
+                            sl.Cell = new ExcelCellAddress(sl.Cell.Row, sl.Cell.Column + range.Columns);
+                        }
+                    }
+                }
             }
         }
 
