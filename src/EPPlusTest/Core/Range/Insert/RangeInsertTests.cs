@@ -908,6 +908,29 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("B1:F100", ws.AutoFilterAddress.Address);
         }
         [TestMethod]
+        public void ValidateFilterInsertRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertRow");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.InsertRow(1,1);
+            Assert.AreEqual("A2:D101", ws.AutoFilterAddress.Address);
+            ws.InsertRow(5, 2);
+            Assert.AreEqual("A2:D103", ws.AutoFilterAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateFilterInsertColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertCol");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.InsertColumn(1,1);
+            Assert.AreEqual("B1:E100", ws.AutoFilterAddress.Address);
+            ws.InsertColumn(3,2);
+            Assert.AreEqual("B1:G100", ws.AutoFilterAddress.Address);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateFilterShiftDownPartial()
         {
@@ -932,9 +955,9 @@ namespace EPPlusTest.Core.Range.Insert
             LoadTestdata(ws,10);
             ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
             ws.Cells["E5"].Insert(eShiftTypeInsert.Right);
-            //Assert.AreEqual("A2:D101", ws.AutoFilterAddress.Address);
-            //ws.Cells["A50:D50"].Insert(eShiftTypeInsert.Down);
-            //Assert.AreEqual("A2:D102", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("F5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.Cells["A1:A10"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual("B2:E10", ws.SparklineGroups[0].DataRange.Address);
         }
         [TestMethod]
         public void ValidateSparkLineShiftDown()
@@ -946,6 +969,28 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("E6", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
             ws.Cells["A1:E1"].Insert(eShiftTypeInsert.Down);
             Assert.AreEqual("A3:D11", ws.SparklineGroups[0].DataRange.Address);
+        }
+        [TestMethod]
+        public void ValidateSparkLineInsertRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparkLineInsertRow");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.InsertRow(5, 1);
+            Assert.AreEqual("E6", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.InsertRow(1, 1);
+            Assert.AreEqual("A3:D12", ws.SparklineGroups[0].DataRange.Address);
+        }
+        [TestMethod]
+        public void ValidateSparkLineInsertColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparkLineInsertColumn");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.InsertColumn(2, 1);
+            Assert.AreEqual("F5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.InsertColumn(1, 1);
+            Assert.AreEqual("B2:F10", ws.SparklineGroups[0].DataRange.Address);
         }
 
         [TestMethod]

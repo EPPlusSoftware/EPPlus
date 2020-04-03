@@ -16,6 +16,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using System;
@@ -71,7 +72,12 @@ namespace OfficeOpenXml.Core.Worksheet
                         }
                     }
                 }
-
+                
+                var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
+                var effectedAddress = GetEffectedRange(range, eShiftTypeDelete.Up);
+                DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Up);
+                DeleteSparkLinesAddress(range, eShiftTypeDelete.Up, effectedAddress);
+                
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, -rows);
             }
         }
@@ -151,6 +157,11 @@ namespace OfficeOpenXml.Core.Worksheet
                         }
                     }
                 }
+
+                var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
+                var effectedAddress = GetEffectedRange(range, eShiftTypeDelete.Left);
+                DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Left);
+                DeleteSparkLinesAddress(range, eShiftTypeDelete.Left, effectedAddress);
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, -columns);
@@ -344,6 +355,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             FixFormulasDelete(range, effectedAddress, shift);
             WorksheetRangeHelper.FixMergedCells(ws, range, shift);
+            DeleteFilterAddress(range, effectedAddress, shift);
 
             DeleteTableAddresses(ws, range, shift, effectedAddress);
             DeletePivottableAddresses(ws, range, shift, effectedAddress);
@@ -352,9 +364,93 @@ namespace OfficeOpenXml.Core.Worksheet
             DeleteDataValidations(range, shift, ws, effectedAddress);
             DeleteConditionalForatting(range, shift, ws, effectedAddress);
 
+            DeleteSparkLinesAddress(range, shift, effectedAddress);
             AdjustDrawings(range, shift);
         }
+        private static void DeleteSparkLinesAddress(ExcelRangeBase range, eShiftTypeDelete shift, ExcelAddressBase effectedAddress)
+        {
+            var delSparklineGroups = new List<ExcelSparklineGroup>();
+            foreach (var slg in range.Worksheet.SparklineGroups)
+            {
+                if (slg.DateAxisRange != null && effectedAddress.Collide(slg.DateAxisRange) >= ExcelAddressBase.eAddressCollition.Inside)
+                {
+                    string address;
+                    if (shift == eShiftTypeDelete.Up)
+                    {
+                        address = slg.DateAxisRange.DeleteRow(range._fromRow, range.Rows).Address;
+                    }
+                    else
+                    {
+                        address = slg.DateAxisRange.DeleteColumn(range._fromCol, range.Columns).Address;
+                    }
+                    
+                    slg.DateAxisRange = address == null? null : range.Worksheet.Cells[address];
+                }
 
+                var delSparklines = new List<ExcelSparkline>();
+                foreach (var sl in slg.Sparklines)
+                {
+                    if(range.Collide(sl.Cell.Row, sl.Cell.Column)>=ExcelAddressBase.eAddressCollition.Inside)
+                    {
+                        delSparklines.Add(sl);
+                    }
+                    else if (shift == eShiftTypeDelete.Up)
+                    {
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside ||
+                            range.CollideFullRow(sl.RangeAddress._fromRow, sl.RangeAddress._toRow))
+                        {
+                            sl.RangeAddress = sl.RangeAddress.DeleteRow(range._fromRow, range.Rows);
+                        }
+
+                        if (sl.Cell.Row >= range._fromRow && sl.Cell.Column >= range._fromCol && sl.Cell.Column <= range._toCol)
+                        {
+                            sl.Cell = new ExcelCellAddress(sl.Cell.Row - range.Rows, sl.Cell.Column);
+                        }
+                    }
+                    else
+                    {
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside
+                             ||
+                            range.CollideFullColumn(sl.RangeAddress._fromCol, sl.RangeAddress._toCol))
+                        {
+                            sl.RangeAddress = sl.RangeAddress.DeleteColumn(range._fromCol, range.Columns);
+                        }
+
+                        if (sl.Cell.Column >= range._fromCol && sl.Cell.Row >= range._fromRow && sl.Cell.Row <= range._toRow)
+                        {
+                            sl.Cell = new ExcelCellAddress(sl.Cell.Row, sl.Cell.Column - range.Columns);
+                        }
+                    }
+                }
+                
+                delSparklines.ForEach(x=>slg.Sparklines.Remove(x));
+                if(slg.Sparklines.Count==0)
+                {
+                    delSparklineGroups.Add(slg);
+                }
+            }
+            delSparklineGroups.ForEach(x => range.Worksheet.SparklineGroups.Remove(x));
+        }
+        private static void DeleteFilterAddress(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
+        {
+            var ws = range.Worksheet;
+            if (ws.AutoFilterAddress != null && effectedAddress.Collide(ws.AutoFilterAddress) != ExcelAddressBase.eAddressCollition.No)
+            {
+                var firstRow = new ExcelAddress(ws.AutoFilterAddress._fromRow, ws.AutoFilterAddress._fromCol, ws.AutoFilterAddress._fromRow, ws.AutoFilterAddress._toCol);
+                if(range.Collide(firstRow, true)>=ExcelAddressBase.eAddressCollition.Inside)
+                {
+                    ws.AutoFilterAddress = null;
+                }
+                else if (shift == eShiftTypeDelete.Up)
+                {
+                    ws.AutoFilterAddress = ws.AutoFilterAddress.DeleteRow(range._fromRow, range.Rows);
+                }
+                else
+                {
+                    ws.AutoFilterAddress = ws.AutoFilterAddress.DeleteColumn(range._fromCol, range.Columns);
+                }
+            }
+        }
         private static void ValidateDelete(ExcelRangeBase range, eShiftTypeDelete shift)
         {
             if (range == null || (range.Addresses != null && range.Addresses.Count > 1))

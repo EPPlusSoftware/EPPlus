@@ -214,7 +214,7 @@ namespace EPPlusTest
                 ws.SetValue(row, startColumn + 3, row * 33);
                 dt = dt.AddDays(1);
             }
-            ws.Cells[startRow, 1, row, 1].Style.Numberformat.Format = "yyyy-MM-dd";
+            ws.Cells[startRow, startColumn, row, startColumn].Style.Numberformat.Format = "yyyy-MM-dd";
             ws.Cells.AutoFitColumns();
         }
         protected static void SetDateValues(ExcelWorksheet _ws, int noItems=100)
