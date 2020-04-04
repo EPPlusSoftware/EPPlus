@@ -125,14 +125,25 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             validation.Validate();
         }
 
-        //[TestMethod, Ignore]
-        //public void DataValidations_ReadExistingWorkbookWithDataValidations()
-        //{
-        //    using (var package = new ExcelPackage(new FileInfo(GetTestOutputPath("DVTest.xlsx"))))
-        //    {
-        //        Assert.AreEqual(3, package.Workbook.Worksheets[1].DataValidations.Count);
-        //    }
-        //}
+        [TestMethod]
+        public void ShouldMoveIntValidationToExtListWhenReferringOtherWorksheet()
+        {
+            var sheet1 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet1");
+            var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet2");
+
+            var v = sheet1.Cells["A1"].DataValidation.AddIntegerDataValidation();
+            v.Formula.ExcelFormula = "extlist_sheet2!A1";
+            v.Formula2.ExcelFormula = "B2";
+            v.Operator = ExcelDataValidationOperator.between;
+            v.ShowErrorMessage = true;
+            v.ShowInputMessage = true;
+            v.AllowBlank = true;
+
+            sheet2.Cells["A1"].Value = 1;
+            sheet1.Cells["A2"].Value = 3;
+
+            SaveWorkbook("MoveToExtLstInt.xlsx", _unitTestPackage);
+        }
 
         [TestMethod]
         public void ShouldMoveListValidationToExtListWhenReferringOtherWorksheet()

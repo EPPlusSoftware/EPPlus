@@ -106,6 +106,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["sumifs"] = new SumIfs();
             Functions["sumproduct"] = new SumProduct();
             Functions["sumsq"] = new Sumsq();
+            Functions["sumx2my2"] = new SumX2My2();
             Functions["stdev"] = new Stdev();
             Functions["stdevp"] = new StdevP();
             Functions["stdev.s"] = new Stdev();
