@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
-    internal class SumX2My2 : SumxBase
+    internal class SumX2mY2 : SumxBase
     {
         public override double Calculate(double[] set1, double[] set2)
         {
