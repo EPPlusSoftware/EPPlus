@@ -10,24 +10,30 @@
  *************************************************************************************************
   04/03/2020         EPPlus Software AB           EPPlus 5.1
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
-    internal class SumX2pY2 : SumxBase
+    internal class Seriessum : ExcelFunction
     {
-        public override double Calculate(double[] set1, double[] set2)
+        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
+            ValidateArguments(arguments, 4);
+            var x = ArgToDecimal(arguments, 0);
+            var n = ArgToDecimal(arguments, 1);
+            var m = ArgToDecimal(arguments, 2);
+            var coeffs = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(3) }, context).ToArray();
             var result = 0d;
-            for (var x = 0; x < set1.Length; x++)
+            for(var i = 0; i < coeffs.Count(); i++)
             {
-                var a = set1[x];
-                var b = set2[x];
-                result += a * a + b * b;
+                var c = coeffs[i];
+                result += c * System.Math.Pow(x, (i * n) + m);
             }
-            return result;
+            return CreateResult(result, DataType.Decimal);
         }
     }
 }
