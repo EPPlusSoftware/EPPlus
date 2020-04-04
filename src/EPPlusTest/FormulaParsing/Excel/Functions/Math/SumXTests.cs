@@ -94,5 +94,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             _sheet.Calculate();
             Assert.AreEqual(16d, _sheet.Cells["C1"].Value);
         }
+
+        [TestMethod]
+        public void SumXMy2_TwoRanges()
+        {
+            _sheet.Cells["A1"].Value = 5;
+            _sheet.Cells["A2"].Value = 6;
+            _sheet.Cells["A3"].Value = 7;
+            _sheet.Cells["B1"].Value = 3;
+            _sheet.Cells["B2"].Value = 4;
+            _sheet.Cells["B3"].Value = 2;
+            _sheet.Cells["C1"].Formula = "SUMXMY2(A1:A3,B1:B3)";
+            _sheet.Calculate();
+            Assert.AreEqual(33d, _sheet.Cells["C1"].Value);
+        }
     }
 }
