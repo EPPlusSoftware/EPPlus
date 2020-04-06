@@ -33,7 +33,7 @@ namespace OfficeOpenXml.DataValidation
                     extValidation.Error = validation.Error;
                     extValidation.ErrorStyle = validation.ErrorStyle;
                     extValidation.ErrorTitle = validation.ErrorTitle;
-                    extValidation.ShowErrorMessage = extValidation.ShowErrorMessage;
+                    extValidation.ShowErrorMessage = validation.ShowErrorMessage;
                     extValidation.Formula.ExcelFormula = e.NewValue;
                     _dataValidations.Remove(listValidation);
                     _dataValidations.DataValidationsExt.AddValidation(extValidation);

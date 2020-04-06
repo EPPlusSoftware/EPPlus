@@ -31,6 +31,7 @@ using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 
 namespace EPPlusTest.DataValidation
@@ -86,6 +87,32 @@ namespace EPPlusTest.DataValidation
         public void ListDataValidation_ShouldThrowWhenNoFormulaOrValueIsSet()
         {
             _validation.Validate();
+        }
+
+        [TestMethod]
+        public void ListDataValidation_ShowErrorMessageIsSet()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("list formula");
+
+                var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+                sheet2.Cells["A1"].Value = "A";
+                sheet2.Cells["A2"].Value = "B";
+                sheet2.Cells["A3"].Value = "C";
+
+                // add a validation and set values
+                var validation = sheet.DataValidations.AddListValidation("A1");
+                // Alternatively:
+                // var validation = sheet.Cells["A1"].DataValidation.AddListDataValidation();
+                validation.ShowErrorMessage = true;
+                validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
+                validation.ErrorTitle = "An invalid value was entered";
+                validation.Error = "Select a value from the list";
+                validation.Formula.ExcelFormula = "Sheet2!A1:A3";
+
+                Assert.IsTrue(validation.ShowErrorMessage.Value);
+            }
         }
     }
 }
