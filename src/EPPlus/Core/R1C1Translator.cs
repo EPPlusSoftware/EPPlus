@@ -153,8 +153,10 @@ namespace OfficeOpenXml.Core
                         num = "";
                         break;
                     default:
-                        if ((r1C1Address[i] >= '0' && r1C1Address[i] <= '9') || r1C1Address[i] >= '-')
+                        if ((r1C1Address[i] >= '0' && r1C1Address[i] <= '9') || r1C1Address[i] == '-' || r1C1Address[i] == '+')
                             num += r1C1Address[i];
+                        else
+                            return r1C1Address; //This is not a R1C1 Address. Return the address without any change.
                         break;
                 }
             }
@@ -225,6 +227,10 @@ namespace OfficeOpenXml.Core
                     returnAddress = GetCellAddress("C", address._fromCol, col, address._fromColFixed) + ":" + GetCellAddress("C", address._toCol, col, address._toColFixed);
                 }
 
+            }
+            else if(address.Table!=null)
+            {
+                return address.Address;
             }
             else
             {

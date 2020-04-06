@@ -628,16 +628,16 @@ namespace OfficeOpenXml.Table
             return obj.TableXml.OuterXml.GetHashCode();
         }
         /// <summary>
-        /// 
+        /// Adds new rows to the table. 
         /// </summary>
-        /// <param name="rows"></param>
+        /// <param name="rows">Number of rows to add to the table. Default is 1</param>
         /// <returns></returns>
         public ExcelRangeBase AddRow(int rows = 1)
         {
             return  InsertRow(int.MaxValue, rows);
         }
         /// <summary>
-        /// Insert a row before the specified position in the table.
+        /// Inserts one or more rows before the specified position in the table.
         /// </summary>
         /// <param name="position">The position in the table where the row will be inserted. Default is in the end of the table. 0 will insert the row at the top. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
         /// <param name="rows">Number of rows to insert.</param>
@@ -675,7 +675,7 @@ namespace OfficeOpenXml.Table
             return range;
         }
         /// <summary>
-        /// Delete a row at the specified position in the table.
+        /// Deletes one or more rows at the specified position in the table.
         /// </summary>
         /// <param name="position">The position in the table where the row will be deleted. 0 will delete the first row. </param>
         /// <param name="rows">Number of rows to delete.</param>
@@ -706,7 +706,7 @@ namespace OfficeOpenXml.Table
             return range;
         }
         /// <summary>
-        /// Insert a column before the specified position in the table.
+        /// Inserts one or more columns before the specified position in the table.
         /// </summary>
         /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
         /// <param name="columns">Number of rows to insert.</param>
@@ -749,11 +749,11 @@ namespace OfficeOpenXml.Table
             return range;
         }
         /// <summary>
-        /// Insert a column before the specified position in the table.
+        /// Deletes one or more columns at the specified position in the table.
         /// </summary>
-        /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
-        /// <param name="columns">Number of rows to insert.</param>
-        /// <returns>The inserted range</returns>
+        /// <param name="position">The position in the table where the column will be deleted.</param>
+        /// <param name="columns">Number of rows to delete.</param>
+        /// <returns>The deleted range</returns>
         internal ExcelRangeBase DeleteColumn(int position, int columns)
         {
             if (position < 0)

@@ -1138,6 +1138,25 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue70()
+        {
+            using (var p = OpenTemplatePackage("HiddenOO.xlsx"))
+            {
+                Assert.IsTrue(p.Workbook.Worksheets[0].Column(2).Hidden);
+                SaveWorkbook("Issue70.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue72()
+        {
+            using (var p = OpenTemplatePackage("Issue72-Table.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual("COUNTIF(Base[Date],Calc[[#This Row],[Date]])", ws.Cells["F3"].Formula);
+                SaveWorkbook("Issue72.xlsx", p);
+            }
+        }
+        [TestMethod]
         public void Issue54()
         {
             using (var p = new ExcelPackage())

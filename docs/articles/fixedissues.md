@@ -51,6 +51,42 @@
 * Merged cells got cleared if a value was set over multiple cells
 * RichText causes xml "corruption" if a blank string or null was added to the collection.
 
-## Version 5.0.5
-* Images added with AddImage(Image) did not use a oneCellAnchore element.
+## Version 5.1.0
+### Features
+* Insert and Delete method added to ExcelRange. Cells will be shifted depending on the argument supplied.
+* AddRow, InsertRow and DeleteRow added to ExcelTable.
+* Add, Insert and Delete added To ExcelTableColumnCollection.	
+* Added support for new functions: 
+	* FACTDOUBLE
+	* COMBIN
+	* COMBINA
+	* SEC
+	* SECH
+	* CSC
+	* CSCH
+	* COT
+	* COTH
+	* RADIANS
+	* ACOT
+	* ACOTH
+	* ROMAN
+	* GCD
+	* LCM
+	* FLOOR.PRECISE
+	* CEILING.PRECISE
+	* MROUND
+	* ISO.CEILING
+	* FLOOR.MATH
+	* CEILING.MATH
+	* SUMXMY2
+	* SUMX2MY2 
+	* SUMX2PY2
+	* SERIESSUM
+
+### Fixed issues
+* Images added with AddImage(Image) did not use the oneCellAnchore element.
 * ExcelPackage.CopyStreamAsync did not fully use async (Flush-->FlushAsync), causing an exception.
+* VBA module names restricts some allowed characters.
+* Shared Formulas are not handled correctly when an address argument reference another worksheet.
+* Adding a Sparklinegroup does not add it to the SparklineGroups collection.
+* Files saved in LibreOffice did not handle boolean properties correctly for rows and columns, (for example the hidden property)
