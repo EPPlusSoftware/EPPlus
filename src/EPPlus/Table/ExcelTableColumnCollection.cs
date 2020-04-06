@@ -122,7 +122,7 @@ namespace OfficeOpenXml.Table
             return name;
         }
         /// <summary>
-        /// Add one or more columns at the end of the table.
+        /// Adds one or more columns at the end of the table.
         /// </summary>
         /// <param name="columns">Number of columns to add.</param>
         /// <returns>The added range</returns>
@@ -131,7 +131,7 @@ namespace OfficeOpenXml.Table
             return Insert(int.MaxValue, columns);
         }
         /// <summary>
-        /// Insert one or more columns before the specified position in the table.
+        /// Inserts one or more columns before the specified position in the table.
         /// </summary>
         /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost position. Any value larger than the number of rows in the table will insert a row at the end of the table.</param>
         /// <param name="columns">Number of columns to insert.</param>
@@ -175,7 +175,7 @@ namespace OfficeOpenXml.Table
             return range;
         }
         /// <summary>
-        /// Delete one or more columns from the specified position in the table.
+        /// Deletes one or more columns from the specified position in the table.
         /// </summary>
         /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost position. Any value larger than the number of rows in the table will insert a row at the end of the table.</param>
         /// <param name="columns">Number of columns to insert.</param>

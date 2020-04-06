@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.0.4.0</AssemblyVersion>
-    <FileVersion>5.0.4.0</FileVersion>
-    <Version>5.0.4</Version>
+    <AssemblyVersion>5.1.0.0</AssemblyVersion>
+    <FileVersion>5.1.0.0</FileVersion>
+    <Version>5.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-      EPPlus 5.0.4
+      EPPlus 5.1.0
       IMPORTAT NOTICE!
       From version 5 EPPlus changes the licence model using a dual license, Polyform Non Commercial / Commercial license.
       EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
@@ -34,6 +34,7 @@
       * Ignore Error on cells
       * Improvements of the formula calc engine and 13 new supported functions
       * Refactored/improved codebase
+      * Insert/Delete in ranges and tables.
 
       Breaking Changes
       * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
@@ -49,7 +50,8 @@
       Version history
       5.0.3 20200308 Initial release EPPlus 5
       5.0.4 20200310 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-    </PackageReleaseNotes>
+      5.1.0 20200401 Insert, Delete in Ranges and Tables. Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+</PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
     <NeutralLanguage />
