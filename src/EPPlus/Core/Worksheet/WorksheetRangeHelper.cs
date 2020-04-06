@@ -319,6 +319,15 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void ValidateIfInsertDeleteIsPossible(ExcelRangeBase range, ExcelAddressBase effectedAddress, ExcelAddressBase effectedAddressTable, bool insert)
         {
+            //Validate autofilter
+            if (range.Worksheet.AutoFilterAddress!=null && 
+                effectedAddress.Collide(range.Worksheet.AutoFilterAddress) == ExcelAddressBase.eAddressCollition.Partly 
+                    &&
+                    range.Worksheet.AutoFilterAddress.CollideFullRowOrColumn(range) == false)
+            {
+                throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with the worksheets autofilter.");
+            }
+
             //Validate merged Cells
             foreach (var a in range.Worksheet.MergedCells)
             {
@@ -341,7 +350,6 @@ namespace OfficeOpenXml.Core.Worksheet
             //Validate tables Cells
             foreach (var t in range.Worksheet.Tables)
             {
-                var headerRange = new ExcelAddressBase(t.Address._fromRow, t.Address._fromCol, t.Address._fromRow, t.Address._toCol);
                 if (effectedAddressTable.Collide(t.Address) == ExcelAddressBase.eAddressCollition.Partly
                     &&
                     t.Address.CollideFullRowOrColumn(range) ==false)

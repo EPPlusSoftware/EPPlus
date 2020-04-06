@@ -55,6 +55,11 @@ namespace OfficeOpenXml.Core.Worksheet
                     ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddRow(rowFrom, rows).Address;
                 }
 
+                var range = ws.Cells[rowFrom, 1, rowFrom+rows-1, ExcelPackage.MaxColumns];
+                var effectedAddress = GetEffectedRange(range, eShiftTypeInsert.Down);
+                InsertFilterAddress(range, effectedAddress, eShiftTypeInsert.Down);
+                InsertSparkLinesAddress(range, eShiftTypeInsert.Down, effectedAddress);
+
                 //Update data validation references
                 foreach (ExcelDataValidation dv in ws.DataValidations)
                 {
@@ -109,6 +114,10 @@ namespace OfficeOpenXml.Core.Worksheet
                         }
                     }
                 }
+                var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
+                var effectedAddress = GetEffectedRange(range, eShiftTypeInsert.Right);
+                InsertFilterAddress(range, effectedAddress, eShiftTypeInsert.Right);
+                InsertSparkLinesAddress(range, eShiftTypeInsert.Right, effectedAddress);
 
                 //Adjust DataValidation
                 foreach (ExcelDataValidation dv in ws.DataValidations)
@@ -127,6 +136,8 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy)
         {
+            ValidateInsert(range, shift);
+
             var effectedAddress = GetEffectedRange(range, shift);
             WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), true);
 
@@ -142,8 +153,8 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 InsertCellStoreShiftRight(range._worksheet, range);
             }
-            FixFormulasInsert(range, effectedAddress, shift);
-
+            AdjustFormulasInsert(range, effectedAddress, shift);
+            InsertFilterAddress(range, effectedAddress, shift);
             WorksheetRangeHelper.FixMergedCells(ws, range, shift);
 
             if (styleCopy)
@@ -151,8 +162,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 SetStylesForRange(range, shift, styleList);
             }
 
-            InsertTableAddresses(ws, range, shift, effectedAddress);
-            InsertPivottableAddresses(ws, range, shift, effectedAddress);
+            InsertTableAddress(ws, range, shift, effectedAddress);
+            InsertPivottableAddress(ws, range, shift, effectedAddress);
 
             //Update data validation references
             foreach (var dv in ws.DataValidations)
@@ -166,13 +177,88 @@ namespace OfficeOpenXml.Core.Worksheet
                 ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
             }
 
-            if(shift==eShiftTypeInsert.Down)
+            InsertSparkLinesAddress(range, shift, effectedAddress);
+
+            if (shift == eShiftTypeInsert.Down)
             {
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, range._fromRow, range.Rows, range._fromCol, range._toCol);
             }
             else
             {
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
+            }
+        }
+
+        private static void InsertFilterAddress(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        {
+            var ws = range.Worksheet;
+            if (ws.AutoFilterAddress != null && effectedAddress.Collide(ws.AutoFilterAddress) != ExcelAddressBase.eAddressCollition.No)
+            {
+                if(shift==eShiftTypeInsert.Down)
+                {
+                    ws.AutoFilterAddress = ws.AutoFilterAddress.AddRow(range._fromRow, range.Rows);
+                }
+                else
+                {
+                    ws.AutoFilterAddress = ws.AutoFilterAddress.AddColumn(range._fromCol, range.Columns);
+                }
+            }
+        }
+        private static void InsertSparkLinesAddress(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
+        {
+            foreach (var slg in range.Worksheet.SparklineGroups)
+            {
+                if (slg.DateAxisRange!=null && effectedAddress.Collide(slg.DateAxisRange) >= ExcelAddressBase.eAddressCollition.Inside)
+                {
+                    string address;
+                    if (shift == eShiftTypeInsert.Down)
+                    {
+                        address = slg.DateAxisRange.AddRow(range._fromRow, range.Rows).Address;
+                    }
+                    else
+                    {
+                        address = slg.DateAxisRange.AddColumn(range._fromCol, range.Columns).Address;
+                    }
+                    slg.DateAxisRange = range.Worksheet.Cells[address];
+                }
+
+                foreach (var sl in slg.Sparklines)
+                {
+                    if (shift == eShiftTypeInsert.Down)
+                    {
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside ||
+                            range.CollideFullRow(sl.RangeAddress._fromRow, sl.RangeAddress._toRow))
+                        {
+                            sl.RangeAddress = sl.RangeAddress.AddRow(range._fromRow, range.Rows);
+                        }
+
+                        if (sl.Cell.Row>=range._fromRow && sl.Cell.Column >= range._fromCol && sl.Cell.Column <= range._toCol)
+                        {
+                            sl.Cell = new ExcelCellAddress(sl.Cell.Row + range.Rows, sl.Cell.Column);
+                        }
+                    }
+                    else
+                    {                        
+                        if (effectedAddress.Collide(sl.RangeAddress) >= ExcelAddressBase.eAddressCollition.Inside ||
+                            range.CollideFullColumn(sl.RangeAddress._fromCol, sl.RangeAddress._toCol))
+                        {
+                            sl.RangeAddress = sl.RangeAddress.AddColumn(range._fromCol, range.Columns);
+                        }
+
+                        if (sl.Cell.Column >= range._fromCol && sl.Cell.Row>=range._fromRow && sl.Cell.Row<=range._toRow)
+                        {
+                            sl.Cell = new ExcelCellAddress(sl.Cell.Row, sl.Cell.Column + range.Columns);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void ValidateInsert(ExcelRangeBase range, eShiftTypeInsert shift)
+        {
+            if (range == null || (range.Addresses != null && range.Addresses.Count > 1))
+            {
+                throw new ArgumentException("Can't insert into range. ´range´ can't be null or have multiple addresses.", "range");
             }
         }
 
@@ -225,7 +311,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void InsertPivottableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
+        private static void InsertPivottableAddress(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
         {
             foreach (var ptbl in ws.PivotTables)
             {
@@ -265,7 +351,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void InsertTableAddresses(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
+        private static void InsertTableAddress(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress)
         {
             foreach (var tbl in ws.Tables)
             {               
@@ -449,7 +535,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        private static void FixFormulasInsert(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        private static void AdjustFormulasInsert(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
         {
             //Adjust formulas
             foreach (var ws in range._workbook.Worksheets)

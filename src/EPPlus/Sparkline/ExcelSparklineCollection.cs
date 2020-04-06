@@ -90,5 +90,10 @@ namespace OfficeOpenXml.Sparkline
             sl.RangeAddress = sqref;
             _lst.Add(sl);
         }
+        internal void Remove(ExcelSparkline sparkline)
+        {
+            sparkline.TopNode.ParentNode.RemoveChild(sparkline.TopNode);
+            _lst.Remove(sparkline);
+        }
     }
 }

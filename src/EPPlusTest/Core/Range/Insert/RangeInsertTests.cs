@@ -651,7 +651,9 @@ namespace EPPlusTest.Core.Range.Insert
         [TestMethod]
         public void ValidateStyleShiftDown()
         {
-                var ws = _pck.Workbook.Worksheets.Add("StyleShiftDown");
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("StyleShiftDown");
                 ws.Cells["A1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed2);
                 ws.Cells["B1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed3);
                 ws.Cells["C1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed4);
@@ -673,32 +675,36 @@ namespace EPPlusTest.Core.Range.Insert
                 Assert.AreEqual(2, ws.Cells["A4"].StyleID);
                 Assert.AreEqual(3, ws.Cells["B4"].StyleID);
                 Assert.AreEqual(4, ws.Cells["C4"].StyleID);
+            }
         }
         [TestMethod]
         public void ValidateStyleShiftRight()
         {
-            var ws = _pck.Workbook.Worksheets.Add("StyleShiftRight");
-            ws.Cells["A1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed2);
-            ws.Cells["B1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed3);
-            ws.Cells["C1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed4);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("StyleShiftRight");
+                ws.Cells["A1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed2);
+                ws.Cells["B1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed3);
+                ws.Cells["C1"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed4);
 
-            ws.Cells["A2"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed5);
-            ws.Cells["A3"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed6);
+                ws.Cells["A2"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed5);
+                ws.Cells["A3"].Style.Fill.SetBackground(OfficeOpenXml.Style.ExcelIndexedColor.Indexed6);
 
-            ws.Cells["A1:A3"].Insert(eShiftTypeInsert.Right);
-            Assert.AreEqual(0, ws.Cells["A1"].StyleID);
-            Assert.AreEqual(0, ws.Cells["A2"].StyleID);
-            Assert.AreEqual(0, ws.Cells["A3"].StyleID);
-            Assert.AreEqual(2, ws.Cells["B1"].StyleID);
-            Assert.AreEqual(5, ws.Cells["B2"].StyleID);
-            Assert.AreEqual(6, ws.Cells["B3"].StyleID);
-            ws.Cells["C1:D3"].Insert(eShiftTypeInsert.Right);
-            Assert.AreEqual(2, ws.Cells["C1"].StyleID);
-            Assert.AreEqual(5, ws.Cells["C2"].StyleID);
-            Assert.AreEqual(6, ws.Cells["C3"].StyleID);
-            Assert.AreEqual(2, ws.Cells["D1"].StyleID);
-            Assert.AreEqual(5, ws.Cells["D2"].StyleID);
-            Assert.AreEqual(6, ws.Cells["D3"].StyleID);
+                ws.Cells["A1:A3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual(0, ws.Cells["A1"].StyleID);
+                Assert.AreEqual(0, ws.Cells["A2"].StyleID);
+                Assert.AreEqual(0, ws.Cells["A3"].StyleID);
+                Assert.AreEqual(2, ws.Cells["B1"].StyleID);
+                Assert.AreEqual(5, ws.Cells["B2"].StyleID);
+                Assert.AreEqual(6, ws.Cells["B3"].StyleID);
+                ws.Cells["C1:D3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual(2, ws.Cells["C1"].StyleID);
+                Assert.AreEqual(5, ws.Cells["C2"].StyleID);
+                Assert.AreEqual(6, ws.Cells["C3"].StyleID);
+                Assert.AreEqual(2, ws.Cells["D1"].StyleID);
+                Assert.AreEqual(5, ws.Cells["D2"].StyleID);
+                Assert.AreEqual(6, ws.Cells["D3"].StyleID);
+            }
         }
         #region Data validation
         [TestMethod]
@@ -880,7 +886,114 @@ namespace EPPlusTest.Core.Range.Insert
         }
         #endregion
         [TestMethod]
+        public void ValidateFilterShiftDown()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftDown");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.Cells["A1:D1"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("A2:D101", ws.AutoFilterAddress.Address);
+            ws.Cells["A50:D50"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("A2:D102", ws.AutoFilterAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateFilterShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftRight");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.Cells["A1:A100"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual("B1:E100", ws.AutoFilterAddress.Address);
+            ws.Cells["C1:C100"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual("B1:F100", ws.AutoFilterAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateFilterInsertRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertRow");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.InsertRow(1,1);
+            Assert.AreEqual("A2:D101", ws.AutoFilterAddress.Address);
+            ws.InsertRow(5, 2);
+            Assert.AreEqual("A2:D103", ws.AutoFilterAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateFilterInsertColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertCol");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.InsertColumn(1,1);
+            Assert.AreEqual("B1:E100", ws.AutoFilterAddress.Address);
+            ws.InsertColumn(3,2);
+            Assert.AreEqual("B1:G100", ws.AutoFilterAddress.Address);
+        }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateFilterShiftDownPartial()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftDownPart");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateFilterShiftRightPartial()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftRightPart");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.Cells["A1:A99"].Insert(eShiftTypeInsert.Right);
+        }
+        [TestMethod]
+        public void ValidateSparkLineShiftRight()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparkLineShiftRight");
+            LoadTestdata(ws,10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.Cells["E5"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual("F5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.Cells["A1:A10"].Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual("B2:E10", ws.SparklineGroups[0].DataRange.Address);
+        }
+        [TestMethod]
+        public void ValidateSparkLineShiftDown()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparkLineShiftDown");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.Cells["E5"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("E6", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.Cells["A1:E1"].Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual("A3:D11", ws.SparklineGroups[0].DataRange.Address);
+        }
+        [TestMethod]
+        public void ValidateSparkLineInsertRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparkLineInsertRow");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.InsertRow(5, 1);
+            Assert.AreEqual("E6", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.InsertRow(1, 1);
+            Assert.AreEqual("A3:D12", ws.SparklineGroups[0].DataRange.Address);
+        }
+        [TestMethod]
+        public void ValidateSparkLineInsertColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparkLineInsertColumn");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.InsertColumn(2, 1);
+            Assert.AreEqual("F5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.InsertColumn(1, 1);
+            Assert.AreEqual("B2:F10", ws.SparklineGroups[0].DataRange.Address);
+        }
+
+        [TestMethod]
         public void InsertIntoTemplate1()
         {
             using (var p = OpenTemplatePackage("InsertDeleteTemplate.xlsx"))

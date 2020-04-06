@@ -35,11 +35,26 @@ namespace OfficeOpenXml.Sparkline
         {
             get
             {
-                return new ExcelAddressBase(GetXmlNodeString(_fPath));
+                var v = GetXmlNodeString(_fPath);
+                if(string.IsNullOrEmpty(v))
+                {
+                    return null;
+                }
+                else
+                {
+                    return new ExcelAddressBase(v);
+                }
             }
             internal set
             {
-                SetXmlNodeString(_fPath, value.FullAddress);
+                if(value==null || value.Address=="#REF!")
+                {
+                    DeleteNode(_fPath);
+                }
+                else
+                {
+                    SetXmlNodeString(_fPath, value.FullAddress);
+                }
             }
         }
         const string _sqrefPath = "xm:sqref";

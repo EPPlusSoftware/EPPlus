@@ -780,7 +780,8 @@ namespace EPPlusTest.Core.Range.Delete
                 ws.Cells["F5"].Value = "F5";
                 var pt = ws.PivotTables.Add(ws.Cells["B2:D3"], ws.Cells["E5:F6"], "pivottable1");
                 //Act
-                ws.Cells["B2:D3"].Delete(eShiftTypeDelete.Left);
+                ws.Cells["B2:D3"].Delete
+                    (eShiftTypeDelete.Left);
                 //Assert
                 Assert.AreEqual(0, ws.PivotTables.Count);
                 Assert.IsNull(pt.Address);
@@ -1004,6 +1005,143 @@ namespace EPPlusTest.Core.Range.Delete
         }
         #endregion
 
+        [TestMethod]
+        public void ValidateFilterShiftUp()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftUp");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A2:D100");
+            ws.Cells["A1:D1"].Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual("A1:D99", ws.AutoFilterAddress.Address);
+            ws.Cells["A50:D50"].Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual("A1:D98", ws.AutoFilterAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateFilterDeleteFirstRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteFirstRow");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.Cells["A1:D1"].Delete(eShiftTypeDelete.Up);
+            Assert.IsNull(ws.AutoFilterAddress);
+        }
+        [TestMethod]
+        public void ValidateFilterShiftLeft()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftLeft");
+            LoadTestdata(ws, 100, 2);
+            ws.AutoFilterAddress = new ExcelAddressBase("B1:E100");
+            ws.Cells["A1:A100"].Delete(eShiftTypeDelete.Left);
+            Assert.AreEqual("A1:D100", ws.AutoFilterAddress.Address);
+            ws.Cells["C1:C100"].Delete(eShiftTypeDelete.Left); 
+            Assert.AreEqual("A1:C100", ws.AutoFilterAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateFilterDeleteRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteRow");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A2:D100");
+            ws.DeleteRow(1, 1);
+            Assert.AreEqual("A1:D99", ws.AutoFilterAddress.Address);
+            ws.DeleteRow(5, 2);
+            Assert.AreEqual("A1:D97", ws.AutoFilterAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateFilterDeleteRowFirstRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteRowFirstRow");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.DeleteRow(1);
+            Assert.IsNull(ws.AutoFilterAddress);
+        }
+        [TestMethod]
+        public void ValidateFilterDeleteColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteCol");
+            LoadTestdata(ws);
+            ws.AutoFilterAddress = new ExcelAddressBase("B1:E100");
+            ws.DeleteColumn(1, 1);
+            Assert.AreEqual("A1:D100", ws.AutoFilterAddress.Address);
+            ws.DeleteColumn(1, 2);
+            Assert.AreEqual("A1:B100", ws.AutoFilterAddress.Address);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateFilterShiftUpPartial()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AutoFilterShiftUpPart");
+                LoadTestdata(ws);
+                ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+                ws.Cells["A1:C1"].Delete(eShiftTypeDelete.Up);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateFilterShiftLeftPartial()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("AutoFilterShiftLeftPart");
+                LoadTestdata(ws);
+                ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+                ws.Cells["A1:A99"].Delete(eShiftTypeDelete.Left);
+            }
+        }
+        [TestMethod]
+        public void ValidateSparkLineShiftLeft()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparklineShiftLeft");
+            LoadTestdata(ws, 10, 2);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Line, ws.Cells["F2:F10"], ws.Cells["B2:E10"]);
+            ws.Cells["F5"].Delete(eShiftTypeDelete.Left);
+            Assert.AreEqual("F6", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.Cells["A1:A10"].Delete(eShiftTypeDelete.Left);
+            Assert.AreEqual("A2:D10", ws.SparklineGroups[0].DataRange.Address);
+            ws.Cells["B2:D2"].Delete(eShiftTypeDelete.Left);
+            Assert.AreEqual("SparklineShiftLeft!A2", ws.SparklineGroups[0].Sparklines[0].RangeAddress.Address);
+            ws.Cells["A3:D3"].Delete(eShiftTypeDelete.Left);
+            Assert.IsNull(ws.SparklineGroups[0].Sparklines[1].RangeAddress);
+        }
+        [TestMethod]
+        public void ValidateSparkLineShiftUp()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparklineShiftUp");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["F2:F10"], ws.Cells["B2:E10"]);
+            ws.Cells["F5"].Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual("F5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            Assert.AreEqual("SparklineShiftUp!B6:E6", ws.SparklineGroups[0].Sparklines[3].RangeAddress.Address);
+            ws.Cells["A1:E1"].Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual("B1:E9", ws.SparklineGroups[0].DataRange.Address);
+        }
+        [TestMethod]
+        public void ValidateSparkLineDeleteRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparklineDeleteRow");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.DeleteRow(5, 1);
+            Assert.AreEqual("E5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            ws.DeleteRow(1, 1);
+            Assert.AreEqual("A1:D8", ws.SparklineGroups[0].DataRange.Address);
+        }
+        [TestMethod]
+        public void ValidateSparkLineInsertColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SparklineDeleteColumn");
+            LoadTestdata(ws, 10);
+            ws.SparklineGroups.Add(OfficeOpenXml.Sparkline.eSparklineType.Column, ws.Cells["E2:E10"], ws.Cells["A2:D10"]);
+            ws.DeleteColumn(2, 1);
+            Assert.AreEqual("D5", ws.SparklineGroups[0].Sparklines[3].Cell.Address);
+            Assert.AreEqual("A5:C5", ws.SparklineGroups[0].Sparklines[3].RangeAddress.FirstAddress);
+            ws.DeleteColumn(1, 1);
+            Assert.AreEqual("A2:B10", ws.SparklineGroups[0].DataRange.Address);
+        }
         [TestMethod]
         public void DeleteFromTemplate1()
         {

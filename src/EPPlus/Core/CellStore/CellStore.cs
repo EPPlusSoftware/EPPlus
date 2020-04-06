@@ -553,7 +553,7 @@ namespace OfficeOpenXml.Core.CellStore
         private void MoveRangeColumnWise(int sourceCol, int sourceStartRow, int sourceEndRow, int destCol, int destStartRow)
         {
             var sourceColPos = GetColumnPosition(sourceCol);
-            var destColPos = GetColumnPosition(destCol);
+            int destColPos = GetColumnPosition(destCol);
 
             var rows = sourceEndRow - sourceStartRow + 1;
             if (sourceColPos < 0 && destColPos < 0)             //Neither source nor destiontion exists, so we're done
@@ -584,8 +584,9 @@ namespace OfficeOpenXml.Core.CellStore
             if(sourceRowIx<0)
             {
                 sourceRowIx = ~sourceRowIx;
-                if (sourcePage.GetRow(sourceRowIx) < sourceStartRow)
+                if (sourceRowIx>=sourcePage.RowCount || sourcePage.GetRow(sourceRowIx) < sourceStartRow)
                 {
+                    Delete(destStartRow, destCol, rows, 1, false);
                     return;
                 }
             }
@@ -609,7 +610,7 @@ namespace OfficeOpenXml.Core.CellStore
                 return;
             }
 
-            if (sourceRowIx < 0 || sourcePage.GetRow(sourceRowIx) > sourceEndRow)
+            if (sourcePage.GetRow(sourceRowIx) > sourceEndRow)
             {
                 return;
             }
