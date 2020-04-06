@@ -1202,11 +1202,11 @@ namespace OfficeOpenXml
 
                         col.ColumnMax = int.Parse(xr.GetAttribute("max"));
                         col.Width = xr.GetAttribute("width") == null ? 0 : double.Parse(xr.GetAttribute("width"), CultureInfo.InvariantCulture);
-                        col.BestFit = xr.GetAttribute("bestFit") != null && xr.GetAttribute("bestFit") == "1" ? true : false;
-                        col.Collapsed = xr.GetAttribute("collapsed") != null && xr.GetAttribute("collapsed") == "1" ? true : false;
-                        col.Phonetic = xr.GetAttribute("phonetic") != null && xr.GetAttribute("phonetic") == "1" ? true : false;
+                        col.BestFit = GetBoolFromString(xr.GetAttribute("bestFit"));
+                        col.Collapsed = GetBoolFromString(xr.GetAttribute("collapsed"));
+                        col.Phonetic = GetBoolFromString(xr.GetAttribute("phonetic"));
                         col.OutlineLevel = (short)(xr.GetAttribute("outlineLevel") == null ? 0 : int.Parse(xr.GetAttribute("outlineLevel"), CultureInfo.InvariantCulture));
-                        col.Hidden = xr.GetAttribute("hidden") != null && xr.GetAttribute("hidden") == "1" ? true : false;
+                        col.Hidden = GetBoolFromString(xr.GetAttribute("hidden"));
                         SetValueInner(0, min, col);
 
                         int style;
@@ -1218,6 +1218,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+
         /// <summary>
         /// Read until the node is found. If not found the xmlreader is reseted.
         /// </summary>
@@ -1534,12 +1535,12 @@ namespace OfficeOpenXml
         {
             return new RowInternal()
             {
-                Collapsed = (xr.GetAttribute("collapsed") != null && xr.GetAttribute("collapsed") == "1" ? true : false),
-                OutlineLevel = (xr.GetAttribute("outlineLevel") == null ? (short)0 : short.Parse(xr.GetAttribute("outlineLevel"), CultureInfo.InvariantCulture)),
+                Collapsed = GetBoolFromString(xr.GetAttribute("collapsed")),
+                OutlineLevel = (xr.GetAttribute("outlineLevel") == null ? (short) 0 : short.Parse(xr.GetAttribute("outlineLevel"), CultureInfo.InvariantCulture)),
                 Height = (xr.GetAttribute("ht") == null ? -1 : double.Parse(xr.GetAttribute("ht"), CultureInfo.InvariantCulture)),
-                Hidden = (xr.GetAttribute("hidden") != null && xr.GetAttribute("hidden") == "1" ? true : false),
-                Phonetic = xr.GetAttribute("ph") != null && xr.GetAttribute("ph") == "1" ? true : false,
-                CustomHeight = xr.GetAttribute("customHeight") == null ? false : xr.GetAttribute("customHeight") == "1"
+                Hidden = GetBoolFromString(xr.GetAttribute("hidden")),
+                Phonetic = GetBoolFromString(xr.GetAttribute("ph")),
+                CustomHeight = GetBoolFromString(xr.GetAttribute("customHeight"))
             };
         }
 

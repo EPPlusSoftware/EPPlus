@@ -1138,6 +1138,15 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue70()
+        {
+            using (var p = OpenTemplatePackage("HiddenOO.xlsx"))
+            {
+                Assert.IsTrue(p.Workbook.Worksheets[0].Column(2).Hidden);
+                SaveWorkbook("Issue70.xlsx", p);
+            }
+        }
+        [TestMethod]
         public void Issue54()
         {
             using (var p = new ExcelPackage())
