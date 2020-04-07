@@ -112,6 +112,22 @@ namespace OfficeOpenXml
             _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol);
         }
 
+        internal static bool IsTableAddress(string address)
+        {
+            SplitAddress(address, out string wb, out string ws, out string intAddress);
+            var lPos = intAddress.IndexOf("[");
+            if(lPos >= 0) 
+            {
+                var rPos= intAddress.IndexOf("]",lPos);
+                if(rPos>lPos)
+                {
+                    var c=intAddress[lPos+1];
+                    return !((c >= '0' && c <= '9') || c == '-');
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Creates an Address object
         /// </summary>
@@ -373,6 +389,17 @@ namespace OfficeOpenXml
                     }
                     _address = _ws.Substring(pos+2);
                     _ws = _ws.Substring(1, pos-1);
+                    pos = _address.IndexOf(":'");
+                    if(pos>0)
+                    {
+                        var a1 = _address.Substring(0,pos);
+                        pos = _address.LastIndexOf("\'!");
+                        if (pos > 0)
+                        {
+                            var a2 = _address.Substring(pos+2);
+                            _address=a1 + ":" + a2; //Remove any worksheet on second reference of the address. 
+                        }
+                    }
                     return;
                 }
             }

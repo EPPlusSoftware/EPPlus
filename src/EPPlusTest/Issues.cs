@@ -1032,7 +1032,7 @@ namespace EPPlusTest
             {
                 ExcelWorksheet ws = p.Workbook.Worksheets[0];
                 p.Workbook.Worksheets.Copy(ws.Name, "NewName");
-                p.SaveAs(new FileInfo(@"c:\epplusissues\GoogleSpreadsheet-Saved.xlsx"));
+                SaveWorkbook("GoogleSpreadsheet-Saved.xlsx", p);
             }
         }
         [TestMethod]
@@ -1183,6 +1183,26 @@ namespace EPPlusTest
                 var validation = worksheet.DataValidations.AddListValidation(rangeToSet);
                 validation.Formula.ExcelFormula = $"=ListName";
                 SaveWorkbook("dv.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue73()
+        {
+            using (var p = OpenTemplatePackage("Issue73.xlsx"))
+            {
+                var workSheet = p.Workbook.Worksheets[0];
+
+                SaveWorkbook("Issue73Saved.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue74()
+        {
+            using (var p = OpenTemplatePackage("Issue74.xlsx"))
+            {
+                var workSheet = p.Workbook.Worksheets[0];
+
+                SaveWorkbook("Issue74Saved.xlsx", p);
             }
         }
     }
