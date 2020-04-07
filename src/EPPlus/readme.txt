@@ -62,7 +62,7 @@ EPPlus 5 comes with a set of new features, see (https://www.epplussoftware.com/D
 ## Breaking Changes
 * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
 * Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
-* ...and more, see https://epplussoftware.com/docs/5.0/articles/breakingchanges.html
+* ...and more, see https://epplussoftware.com/docs/5.1/articles/breakingchanges.html
 
 ## Improved documentation
 EPPlus 5 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.

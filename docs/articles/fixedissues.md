@@ -89,4 +89,6 @@
 * VBA module names restricts some allowed characters.
 * Shared Formulas are not handled correctly when an address argument reference another worksheet.
 * Adding a Sparklinegroup does not add it to the SparklineGroups collection.
-* Files saved in LibreOffice did not handle boolean properties correctly for rows and columns, (for example the hidden property)
+* Files saved in LibreOffice did not handle boolean properties correctly for rows and columns, (for example the hidden property).
+* Data validation - List validation did not set the ShowErrorMessage when an address referenced another worksheet.
+* Addresses with style: 'sheet'!A1:'sheet'!A2 was not handled correctly.
