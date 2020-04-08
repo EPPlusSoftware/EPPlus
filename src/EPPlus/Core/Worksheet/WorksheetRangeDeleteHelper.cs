@@ -341,31 +341,34 @@ namespace OfficeOpenXml.Core.Worksheet
 
             var effectedAddress = GetEffectedRange(range, shift);
             WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), false);
-
+            
             var ws = range.Worksheet;
-            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
-            if (shift == eShiftTypeDelete.Up)
+            lock (ws)
             {
-                DeleteCellStores(ws, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
+                if (shift == eShiftTypeDelete.Up)
+                {
+                    DeleteCellStores(ws, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
+                }
+                else
+                {
+                    DeleteCellStoresShiftLeft(ws, range);
+                }
+
+                FixFormulasDelete(range, effectedAddress, shift);
+                WorksheetRangeHelper.FixMergedCells(ws, range, shift);
+                DeleteFilterAddress(range, effectedAddress, shift);
+
+                DeleteTableAddresses(ws, range, shift, effectedAddress);
+                DeletePivottableAddresses(ws, range, shift, effectedAddress);
+
+                //Adjust/delete data validations and conditional formatting
+                DeleteDataValidations(range, shift, ws, effectedAddress);
+                DeleteConditionalForatting(range, shift, ws, effectedAddress);
+
+                DeleteSparkLinesAddress(range, shift, effectedAddress);
+                AdjustDrawings(range, shift);
             }
-            else
-            {
-                DeleteCellStoresShiftLeft(ws, range);
-            }
-
-            FixFormulasDelete(range, effectedAddress, shift);
-            WorksheetRangeHelper.FixMergedCells(ws, range, shift);
-            DeleteFilterAddress(range, effectedAddress, shift);
-
-            DeleteTableAddresses(ws, range, shift, effectedAddress);
-            DeletePivottableAddresses(ws, range, shift, effectedAddress);
-
-            //Adjust/delete data validations and conditional formatting
-            DeleteDataValidations(range, shift, ws, effectedAddress);
-            DeleteConditionalForatting(range, shift, ws, effectedAddress);
-
-            DeleteSparkLinesAddress(range, shift, effectedAddress);
-            AdjustDrawings(range, shift);
         }
         private static void DeleteSparkLinesAddress(ExcelRangeBase range, eShiftTypeDelete shift, ExcelAddressBase effectedAddress)
         {

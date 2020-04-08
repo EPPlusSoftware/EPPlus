@@ -142,50 +142,53 @@ namespace OfficeOpenXml.Core.Worksheet
             WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), true);
 
             var ws = range.Worksheet;
-            var styleList = GetStylesForRange(range, shift);
-            WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
-
-            if (shift == eShiftTypeInsert.Down)
+            lock (ws)
             {
-                InsertCellStores(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
-            }
-            else
-            {
-                InsertCellStoreShiftRight(range._worksheet, range);
-            }
-            AdjustFormulasInsert(range, effectedAddress, shift);
-            InsertFilterAddress(range, effectedAddress, shift);
-            WorksheetRangeHelper.FixMergedCells(ws, range, shift);
+                var styleList = GetStylesForRange(range, shift);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
 
-            if (styleCopy)
-            {
-                SetStylesForRange(range, shift, styleList);
-            }
+                if (shift == eShiftTypeInsert.Down)
+                {
+                    InsertCellStores(range._worksheet, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);
+                }
+                else
+                {
+                    InsertCellStoreShiftRight(range._worksheet, range);
+                }
+                AdjustFormulasInsert(range, effectedAddress, shift);
+                InsertFilterAddress(range, effectedAddress, shift);
+                WorksheetRangeHelper.FixMergedCells(ws, range, shift);
 
-            InsertTableAddress(ws, range, shift, effectedAddress);
-            InsertPivottableAddress(ws, range, shift, effectedAddress);
+                if (styleCopy)
+                {
+                    SetStylesForRange(range, shift, styleList);
+                }
 
-            //Update data validation references
-            foreach (var dv in ws.DataValidations)
-            {
-                ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
-            }
+                InsertTableAddress(ws, range, shift, effectedAddress);
+                InsertPivottableAddress(ws, range, shift, effectedAddress);
 
-            //Update Conditional formatting references
-            foreach (var cf in ws.ConditionalFormatting)
-            {
-                ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
-            }
+                //Update data validation references
+                foreach (var dv in ws.DataValidations)
+                {
+                    ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
+                }
 
-            InsertSparkLinesAddress(range, shift, effectedAddress);
+                //Update Conditional formatting references
+                foreach (var cf in ws.ConditionalFormatting)
+                {
+                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
+                }
 
-            if (shift == eShiftTypeInsert.Down)
-            {
-                WorksheetRangeHelper.AdjustDrawingsRow(ws, range._fromRow, range.Rows, range._fromCol, range._toCol);
-            }
-            else
-            {
-                WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
+                InsertSparkLinesAddress(range, shift, effectedAddress);
+
+                if (shift == eShiftTypeInsert.Down)
+                {
+                    WorksheetRangeHelper.AdjustDrawingsRow(ws, range._fromRow, range.Rows, range._fromCol, range._toCol);
+                }
+                else
+                {
+                    WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
+                }
             }
         }
 
