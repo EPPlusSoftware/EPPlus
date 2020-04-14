@@ -273,7 +273,7 @@ namespace OfficeOpenXml.Drawing
             }
             XmlElement drawNode = CreateDrawingXml(DrawingType);
 
-            ExcelChart chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
+            var chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
             chart.Name = Name;
             _drawings.Add(chart);
             _drawingNames.Add(Name, _drawings.Count - 1);
@@ -290,6 +290,28 @@ namespace OfficeOpenXml.Drawing
         {
             return AddChart(Name, ChartType, null);
         }
+        /// <summary>
+        /// Adds a new chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ChartType">Type of chart</param>
+        /// <returns>The chart</returns>
+        public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType)
+        {
+            return (ExcelChartEx)AddChart(Name, (eChartType)ChartType, null);
+        }
+        /// <summary>
+        /// Adds a new extended chart to the worksheet.
+        /// Extended charts are 
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ChartType">Type of chart</param>
+        /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
+        /// <returns>The chart</returns>
+        public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType, ExcelPivotTable PivotTableSource)
+        {
+            return (ExcelChartEx)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+        }        
         /// <summary>
         /// Add a new linechart to the worksheet.
         /// </summary>

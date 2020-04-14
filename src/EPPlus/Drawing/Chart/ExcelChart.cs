@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Base class for Chart object.
     /// </summary>
-    public class ExcelChart : ExcelDrawing, IDrawingStyle, IStyleMandatoryProperties, IPictureRelationDocument
+    public class ExcelChart : ExcelDrawing, IExcelChart, IDrawingStyle, IStyleMandatoryProperties, IPictureRelationDocument
     {
         internal const string topPath = "c:chartSpace";
         internal const string plotAreaPath = "c:chart/c:plotArea";
@@ -43,8 +43,8 @@ namespace OfficeOpenXml.Drawing.Chart
         protected internal XmlHelper _chartXmlHelper;
         internal ExcelChart _topChart = null;
         #region "Constructors"
-        internal ExcelChart(ExcelDrawings drawings, XmlNode node, eChartType? type, bool isPivot, ExcelGroupShape parent) :
-            base(drawings, node, "xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
+        internal ExcelChart(ExcelDrawings drawings, XmlNode node, eChartType? type, bool isPivot, ExcelGroupShape parent, string drawingPath= "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
+            base(drawings, node, drawingPath, nvPrPath, parent)
         {            
             if (type.HasValue) ChartType = type.Value;
             CreateNewChart(drawings, null, null, type);
@@ -54,8 +54,8 @@ namespace OfficeOpenXml.Drawing.Chart
             SetTypeProperties();
             LoadAxis();
         }
-        internal ExcelChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent=null) :
-            base(drawings, drawingsNode, "xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
+        internal ExcelChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent=null, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
+            base(drawings, drawingsNode, drawingPath, nvPrPath, parent)
         {            
             if(type.HasValue) ChartType = type.Value;
             _topChart = topChart;
@@ -86,8 +86,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
-        internal ExcelChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent) :
-           base(drawings, node, "xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
+        internal ExcelChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
+           base(drawings, node, drawingPath, nvPrPath, parent)
         {
             UriChart = uriChart;
             Part = part;
@@ -97,8 +97,8 @@ namespace OfficeOpenXml.Drawing.Chart
             InitChartLoad(drawings, chartNode);
             ChartType = GetChartType(chartNode.LocalName);
         }
-        internal ExcelChart(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent) :
-            base(topChart._drawings, topChart.TopNode, "xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
+        internal ExcelChart(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
+            base(topChart._drawings, topChart.TopNode, drawingPath, nvPrPath, parent)
         {
             UriChart = topChart.UriChart;
             Part = topChart.Part;
@@ -1841,6 +1841,15 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.SurfaceTopViewWireframe:
                 case eChartType.SurfaceWireframe:
                     return new ExcelSurfaceChart(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
+                case eChartType.Treemap:
+                case eChartType.Histogram:
+                case eChartType.Waterfall:
+                case eChartType.Sunburst:
+                case eChartType.Boxwhisker:
+                case eChartType.Pareto:
+                case eChartType.Funnel:
+                case eChartType.RegionMap:
+                    return new ExcelChartEx(drawings, drawNode, chartType, topChart , PivotTableSource, chartXml);
                 default:
                     return new ExcelChart(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
                 

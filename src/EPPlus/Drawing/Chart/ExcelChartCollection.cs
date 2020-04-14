@@ -49,9 +49,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             var prependingChartNode = _list[_list.Count - 1].TopNode;
-            ExcelChart chart = ExcelChart.GetNewChart(_topChart.WorkSheet.Drawings, _topChart.TopNode, chartType, _topChart, null);
+            var chart = ExcelChart.GetNewChart(_topChart.WorkSheet.Drawings, _topChart.TopNode, chartType, _topChart, null);
 
-            _list.Add(chart);
+            _list.Add((ExcelChart)chart);
             return chart;
         }
         /// <summary>
