@@ -25,8 +25,8 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartLegend : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
-        ExcelChart _chart;
-        internal ExcelChartLegend(XmlNamespaceManager ns, XmlNode node, ExcelChart chart)
+        ExcelChartBase _chart;
+        internal ExcelChartLegend(XmlNamespaceManager ns, XmlNode node, ExcelChartBase chart)
            : base(ns,node)
        {
            _chart=chart;

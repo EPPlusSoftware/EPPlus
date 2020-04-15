@@ -36,13 +36,13 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             SetTypeProperties();
         }
-        internal ExcelRadarChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+        internal ExcelRadarChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChartBase topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             SetTypeProperties();
         }
         #endregion
-        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
+        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerieBase> list = null)
         {
             base.InitSeries(chart, ns, node, isPivot, list);
             Series.Init(chart, ns, node, isPivot, base.Series._list);

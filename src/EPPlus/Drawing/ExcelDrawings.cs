@@ -146,6 +146,10 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("cs", ExcelPackage.schemaChartStyle);
             NameSpaceManager.AddNamespace("mc", ExcelPackage.schemaMarkupCompatibility);
             NameSpaceManager.AddNamespace("c14", ExcelPackage.schemaChart14);
+            NameSpaceManager.AddNamespace("mc", ExcelPackage.schemaMc2006);
+            NameSpaceManager.AddNamespace("cx", ExcelPackage.schemaChartExMain); 
+            NameSpaceManager.AddNamespace("cx1", ExcelPackage.schemaChartEx2015);
+            
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion
@@ -254,7 +258,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>
         /// <param name="DrawingType">The top element drawingtype. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes</param>
         /// <returns>The chart</returns>
-        public ExcelChart AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
+        public ExcelChartBase AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
         {
             if (_drawingNames.ContainsKey(Name))
             {
@@ -288,7 +292,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelChart AddChart(string Name, eChartType ChartType)
         {
-            return AddChart(Name, ChartType, null);
+            return (ExcelChart)AddChart(Name, ChartType, null);
         }
         /// <summary>
         /// Adds a new chart to the worksheet.
@@ -719,7 +723,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="crtxFile">The crtx file</param>
         /// <param name="name">The name of the chart</param>
         /// <returns>The new chart</returns>
-        public ExcelChart AddChartFromTemplate(FileInfo crtxFile, string name)
+        public ExcelChartBase AddChartFromTemplate(FileInfo crtxFile, string name)
         {
             return AddChartFromTemplate(crtxFile, name, null);
         }
@@ -730,7 +734,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="name">The name of the chart</param>
         /// <param name="pivotTableSource">Pivot table source, if the chart is a pivottable</param>
         /// <returns>The new chart</returns>
-        public ExcelChart AddChartFromTemplate(FileInfo crtxFile, string name, ExcelPivotTable pivotTableSource)
+        public ExcelChartBase AddChartFromTemplate(FileInfo crtxFile, string name, ExcelPivotTable pivotTableSource)
         {
             if(!crtxFile.Exists)
             {
@@ -759,7 +763,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="crtxStream">The crtx file as a stream</param>
         /// <param name="name">The name of the chart</param>
         /// <returns>The new chart</returns>
-        public ExcelChart AddChartFromTemplate(Stream crtxStream, string name)
+        public ExcelChartBase AddChartFromTemplate(Stream crtxStream, string name)
         {
             return AddChartFromTemplate(crtxStream, name, null);
         }
@@ -770,7 +774,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="name">The name of the chart</param>
         /// <param name="pivotTableSource">Pivot table source, if the chart is a pivottable</param>
         /// <returns>The new chart</returns>
-        public ExcelChart AddChartFromTemplate(Stream crtxStream, string name, ExcelPivotTable pivotTableSource)
+        public ExcelChartBase AddChartFromTemplate(Stream crtxStream, string name, ExcelPivotTable pivotTableSource)
         {
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {

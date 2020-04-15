@@ -26,8 +26,8 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTitle : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
-        ExcelChart _chart;
-        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node) :
+        ExcelChartBase _chart;
+        internal ExcelChartTitle(ExcelChartBase chart, XmlNamespaceManager nameSpaceManager, XmlNode node) :
             base(nameSpaceManager, node)
         {
             XmlNode topNode = node.SelectSingleNode("c:title", NameSpaceManager);

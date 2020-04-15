@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
                 SetTypeProperties();
         }
-        internal ExcelOfPieChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+        internal ExcelOfPieChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChartBase topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             SetTypeProperties();

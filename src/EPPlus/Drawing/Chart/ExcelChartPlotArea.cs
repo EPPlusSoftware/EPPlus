@@ -23,8 +23,8 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public sealed class ExcelChartPlotArea :  XmlHelper, IDrawingStyleBase
     {
-        ExcelChart _firstChart;
-        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart)
+        ExcelChartBase _firstChart;
+        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChartBase firstChart)
            : base(ns,node)
        {
 

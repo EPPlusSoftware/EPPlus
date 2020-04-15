@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Drawing.Chart.Style;
+﻿using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -12,23 +13,73 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
-    public class ExcelChartEx : ExcelChart
+    public class ExcelChartEx : ExcelChartBase
     {
-        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, eChartType? type, bool isPivot, ExcelGroupShape parent) : 
-            base(drawings, node,type, isPivot, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
+        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, bool isPivot, ExcelGroupShape parent) : 
+            base(drawings, node, GetChartType(node, drawings.NameSpaceManager), isPivot, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
-
+            
         }
 
-        internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
-            base(drawings, drawingsNode, type, topChart, PivotTableSource, chartXml, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
+        private static eChartType GetChartType(XmlNode node, XmlNamespaceManager nsm)
+        {
+            var layoutId = node.SelectSingleNode("cx:plotArea/cx:plotAreaRegion/cx:series[1]/@layoutId", nsm);
+            if (layoutId == null) throw new InvalidOperationException($"No series in chart"); 
+            switch(layoutId.Value)
+            {
+                case "clusteredColumn":
+                    return eChartType.Histogram;
+                case "paretoLine":
+                    return eChartType.Pareto;
+                case "boxWhisker":
+                    return eChartType.Boxwhisker;
+                case "funnel":
+                    return eChartType.Funnel;
+                case "regionMap":
+                    return eChartType.RegionMap;
+                case "sunburst":
+                    return eChartType.Sunburst;
+                case "treemap":
+                    return eChartType.Treemap;
+                case "waterfall":
+                    return eChartType.Waterfall;
+                default:
+                    throw new InvalidOperationException($"Unsupported layoutId in ChartEx Xml: {layoutId}");
+            }          
+        }
+
+        internal override void AddAxis()
+        {
+            
+        }
+
+        internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
+            base(drawings, drawingsNode, type, null, PivotTableSource, chartXml, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
         }
 
 
-        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent) :
+        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent=null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
+            ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
+
+        }
+        /// <summary>
+        /// Chart series
+        /// </summary>
+        public new ExcelChartSeries<ExcelChartExSerie> Series { get; } = new ExcelChartSeries<ExcelChartExSerie>();
+
+        public override bool VaryColors
+        {
+            get 
+            { 
+                return false; 
+            }
+            set
+            {
+                throw new InvalidOperationException("VaryColors do not apply to Extended charts");
+            }
         }
         //public eChartExType ChartType { get; set; }
         //public ExcelTextFont Font => throw new NotImplementedException();

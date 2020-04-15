@@ -22,8 +22,8 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartSurface : XmlHelper, IDrawingStyleBase
     {
-        ExcelChart _chart;
-        internal ExcelChartSurface(ExcelChart chart, XmlNamespaceManager ns, XmlNode node)
+        ExcelChartBase _chart;
+        internal ExcelChartSurface(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node)
            : base(ns,node)
        {
            SchemaNodeOrder = new string[] { "thickness", "spPr", "pictureOptions" };

@@ -426,6 +426,10 @@ namespace OfficeOpenXml.Drawing
             {
                 return new ExcelConnectionShape(drawings, node);
             }
+            else if(node.SelectNodes("mc:AlternateContent", drawings.NameSpaceManager) !=null)
+            {
+                return ExcelChart.GetChartEx(drawings, node);
+            }
             else
             {
                 return new ExcelDrawing(drawings, node, "","");

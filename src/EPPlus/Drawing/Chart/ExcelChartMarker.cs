@@ -25,9 +25,9 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartMarker : XmlHelper, IDrawingStyleBase
     {
-        ExcelChart _chart;
+        ExcelChartBase _chart;
         bool _allowMarkers;
-        internal ExcelChartMarker(ExcelChart chart,XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
+        internal ExcelChartMarker(ExcelChartBase chart,XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
         {
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "symbol", "size", "spPr"});
             _chart = chart;

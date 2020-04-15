@@ -22,13 +22,103 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 namespace OfficeOpenXml.Drawing.Chart
 {
+    public abstract class ExcelChartSerieBase : XmlHelper, IDrawingStyleBase
+    {
+        internal ExcelChartBase _chart;
+        string _prefix;
+        internal ExcelChartSerieBase(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, string prefix="c")
+            : base(ns, node)
+        {
+            _chart = chart;
+            _prefix = prefix;
+        }
+        public abstract string Header { get; set; }
+        /// <summary>
+        /// Literals for the Y serie, if the literal values are numeric
+        /// </summary>
+        public double[] NumberLiteralsY { get; protected set; } = null;
+        /// <summary>
+        /// Literals for the X serie, if the literal values are numeric
+        /// </summary>
+        public double[] NumberLiteralsX { get; protected set; } = null;
+        /// <summary>
+        /// Literals for the X serie, if the literal values are strings
+        /// </summary>
+        public string[] StringLiteralsX { get; protected set; } = null;
+        void IDrawingStyleBase.CreatespPr()
+        {
+            CreatespPrNode();
+        }
+        public abstract ExcelAddressBase HeaderAddress { get; set; }
+        public abstract string Series { get; set; }
+        public abstract string XSeries { get; set; }
+        ExcelDrawingFill _fill = null;
+        /// <summary>
+        /// Access to fill properties
+        /// </summary>
+        public ExcelDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, $"{_prefix}:spPr", SchemaNodeOrder);
+                }
+                return _fill;
+            }
+        }
+        ExcelDrawingBorder _border = null;
+        /// <summary>
+        /// Access to border properties
+        /// </summary>
+        public ExcelDrawingBorder Border
+        {
+            get
+            {
+                if (_border == null)
+                {
+                    _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{_prefix}:spPr/a:ln", SchemaNodeOrder);
+                }
+                return _border;
+            }
+        }
+        ExcelDrawingEffectStyle _effect = null;
+        /// <summary>
+        /// Effects
+        /// </summary>
+        public ExcelDrawingEffectStyle Effect
+        {
+            get
+            {
+                if (_effect == null)
+                {
+                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{_prefix}c:spPr/a:effectLst", SchemaNodeOrder);
+                }
+                return _effect;
+            }
+        }
+        ExcelDrawing3D _threeD = null;
+        /// <summary>
+        /// 3D properties
+        /// </summary>
+        public ExcelDrawing3D ThreeD
+        {
+            get
+            {
+                if (_threeD == null)
+                {
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_prefix}:spPr", SchemaNodeOrder);
+                }
+                return _threeD;
+            }
+        }
+
+    }
     /// <summary>
     /// A chart serie
     /// </summary>
-    public class ExcelChartSerie : XmlHelper, IDrawingStyleBase
-   {
-        //internal ExcelChartSeries _chartSeries;
-        internal ExcelChart _chart;
+    public class ExcelChartSerie : ExcelChartSerieBase
+    {
         private readonly bool _isPivot;
         /// <summary>
         /// Default constructor
@@ -37,11 +127,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
        /// <param name="isPivot">Is pivotchart</param>  
-       internal ExcelChartSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
-           : base(ns,node)
+       internal ExcelChartSerie(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
+           : base(chart, ns, node)
        {
-            //_chartSeries = chartSeries;
-            _chart = chart;
+           _chart = chart;
            _isPivot = isPivot;
            SchemaNodeOrder = new string[] { "idx", "order", "tx", "spPr", "marker", "invertIfNegative", "pictureOptions", "explosion", "dPt", "dLbls", "trendline","errBars", "cat", "val", "xVal", "yVal", "smooth","shape", "bubbleSize", "bubble3D", "numRef", "numLit", "strRef", "strLit", "formatCode", "ptCount", "pt" };
 
@@ -91,7 +180,7 @@ namespace OfficeOpenXml.Drawing.Chart
        /// <summary>
        /// Header for the serie.
        /// </summary>
-       public string Header 
+       public override string Header 
        {
            get
            {
@@ -116,7 +205,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
        /// Header address for the serie.
        /// </summary>
-       public ExcelAddressBase HeaderAddress
+       public override ExcelAddressBase HeaderAddress
        {
            get
            {
@@ -149,8 +238,8 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Set this to a valid address or the drawing will be invalid.
         /// </summary>
-        public virtual string Series
-       {
+        public override string Series
+        {
            get
            {
                return GetXmlNodeString(_seriesPath);
@@ -177,7 +266,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
 
-       }
+        }
 
        string _xSeries=null;
        string _xSeriesTopPath;
@@ -186,7 +275,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Set an address for the horisontal labels
         /// </summary>
-        public virtual string XSeries
+       public override string XSeries
        {
            get
            {
@@ -220,19 +309,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
        }
-
-        /// <summary>
-        /// Literals for the Y serie, if the literal values are numeric
-        /// </summary>
-        public double[] NumberLiteralsY { get; private set; } = null;
-        /// <summary>
-        /// Literals for the X serie, if the literal values are numeric
-        /// </summary>
-        public double[] NumberLiteralsX { get; private set; } = null;
-        /// <summary>
-        /// Literals for the X serie, if the literal values are strings
-        /// </summary>
-        public string[] StringLiteralsX { get; private set; } = null;
 
         private void GetLitValues(string value, out double[] numberLiterals, out string[] stringLiterals)
         {
@@ -426,70 +502,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 return _trendLines;
             }
-        }
-        ExcelDrawingFill _fill = null;
-        /// <summary>
-        /// Access to fill properties
-        /// </summary>
-        public ExcelDrawingFill Fill
-        {
-            get
-            {
-                if (_fill == null)
-                {
-                    _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
-                }
-                return _fill;
-            }
-        }
-        ExcelDrawingBorder _border = null;
-        /// <summary>
-        /// Access to border properties
-        /// </summary>
-        public ExcelDrawingBorder Border
-        {
-            get
-            {
-                if (_border == null)
-                {
-                    _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, "c:spPr/a:ln", SchemaNodeOrder);
-                }
-                return _border;
-            }
-        }
-        ExcelDrawingEffectStyle _effect = null;
-        /// <summary>
-        /// Effects
-        /// </summary>
-        public ExcelDrawingEffectStyle Effect
-        {
-            get
-            {
-                if (_effect == null)
-                {
-                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, "c:spPr/a:effectLst", SchemaNodeOrder);
-                }
-                return _effect;
-            }
-        }
-        ExcelDrawing3D _threeD = null;
-        /// <summary>
-        /// 3D properties
-        /// </summary>
-        public ExcelDrawing3D ThreeD
-        {
-            get
-            {
-                if (_threeD == null)
-                {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
-                }
-                return _threeD;
-            }
-        }
-        void IDrawingStyleBase.CreatespPr()
-        {
-            CreatespPrNode();
         }
         /// <summary>
         /// Number of items in the serie

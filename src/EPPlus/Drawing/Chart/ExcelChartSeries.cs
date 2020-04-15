@@ -22,13 +22,13 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Collection class for chart series
     /// </summary>
-    public class ExcelChartSeries<T> : IEnumerable<T> where T : ExcelChartSerie
+    public class ExcelChartSeries<T> : IEnumerable<T> where T : ExcelChartSerieBase
     {
-        internal List<ExcelChartSerie> _list;
-        internal ExcelChart _chart;
+        internal List<ExcelChartSerieBase> _list;
+        internal ExcelChartBase _chart;
         XmlNode _node;
         XmlNamespaceManager _ns;
-        internal void Init(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
+        internal void Init(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerieBase> list = null)
         {
             _ns = ns;
             _chart = chart;
@@ -36,17 +36,16 @@ namespace OfficeOpenXml.Drawing.Chart
             _isPivot = isPivot;
             if (list == null)
             {
-                _list = new List<ExcelChartSerie>();
+                _list = new List<ExcelChartSerieBase>();
             }
             else
             {
                 _list = list;
                 return;
             }
-            //SchemaNodeOrder = new string[] { "view3D", "plotArea", "barDir", "grouping", "scatterStyle", "varyColors", "ser", "marker", "invertIfNegative", "pictureOptions", "dPt", "explosion", "dLbls", "firstSliceAng", "holeSize", "shape", "legend", "axId" };
             foreach (XmlNode n in node.SelectNodes("c:ser", ns))
             {
-                ExcelChartSerie s;
+                ExcelChartSerieBase s;
                 switch (chart.ChartNode.LocalName)
                 {
                     case "barChart":
@@ -88,7 +87,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 _list.Add((T)s);
             }
         }
-
         /// <summary>
         /// Returns the serie at the specified position.  
         /// </summary>
@@ -117,14 +115,14 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="PositionID">Zero based</param>
         public void Delete(int PositionID)
         {
-            ExcelChartSerie ser = _list[PositionID];
+            ExcelChartSerieBase ser = _list[PositionID];
             ser.TopNode.ParentNode.RemoveChild(ser.TopNode);
             _list.RemoveAt(PositionID);
         }
         /// <summary>
         /// A reference to the chart object
         /// </summary>
-        public ExcelChart Chart
+        public ExcelChartBase Chart
         {
             get
             {
@@ -194,7 +192,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
             int idx = FindIndex();
             ser.InnerXml = string.Format("<c:idx val=\"{1}\" /><c:order val=\"{1}\" /><c:tx><c:strRef><c:f></c:f><c:strCache><c:ptCount val=\"1\" /></c:strCache></c:strRef></c:tx>{2}{5}{0}{3}{4}", AddExplosion(Chart.ChartType), idx, AddSpPrAndScatterPoint(Chart.ChartType), AddAxisNodes(Chart.ChartType), AddSmooth(Chart.ChartType), AddMarker(Chart.ChartType));
-            ExcelChartSerie serie;
+            ExcelChartSerieBase serie;
             switch (Chart.ChartType)
             {
                 case eChartType.Bubble:

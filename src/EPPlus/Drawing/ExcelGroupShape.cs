@@ -24,6 +24,7 @@ namespace OfficeOpenXml.Drawing
     public class ExcelDrawingsGroup : IEnumerable<ExcelDrawing>, IDisposable
     {
         private ExcelGroupShape _parent;
+        internal Dictionary<string, int> _drawingNames;
         private List<ExcelDrawing> _groupDrawings;
         XmlNamespaceManager _nsm;
         XmlNode _topNode;
@@ -61,7 +62,7 @@ namespace OfficeOpenXml.Drawing
                         continue;
                 }
                 _groupDrawings.Add(grpDraw);
-                _parent._drawings._drawingNames.Add(grpDraw.Name, _groupDrawings.Count-1);
+                _drawingNames.Add(grpDraw.Name, _groupDrawings.Count-1);
             }
         }
         /// <summary>
@@ -96,9 +97,9 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                if (_parent._drawings._drawingNames.ContainsKey(Name))
+                if (_drawingNames.ContainsKey(Name))
                 {
-                    return _parent._drawings[_parent._drawings._drawingNames[Name]];
+                    return _groupDrawings[_parent._drawings._drawingNames[Name]];
                 }
                 else
                 {

@@ -210,6 +210,12 @@ namespace OfficeOpenXml
         internal const string contentTypeWorkbookDefault = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml";
         internal const string contentTypeWorkbookMacroEnabled = "application/vnd.ms-excel.sheet.macroEnabled.main+xml";
         internal const string contentTypeSharedString = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml";
+
+        //Chart Ex
+        internal const string schemaMc2006 = "http://schemas.openxmlformats.org/markup-compatibility/2006";
+        internal const string schemaChartExMain = "http://schemas.microsoft.com/office/drawing/2014/chartex";
+        internal const string schemaChartEx2015 = "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex";
+
         //Package reference
         private Packaging.ZipPackage _package;
 		internal ExcelWorkbook _workbook;
