@@ -26,6 +26,8 @@ using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Packaging;
+
 namespace OfficeOpenXml
 {
 	/// <summary>
@@ -959,7 +961,19 @@ namespace OfficeOpenXml
                 var rel = rels[i];
                 if (rel.RelationshipType != ExcelPackage.schemaImage)
                 {
-                    DeleteRelationsAndParts(_pck.Package.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri)));
+                    ZipPackagePart p;
+
+                    // A relationship might refer to a part that is not present in the package
+                    try
+                    {
+                        p = _pck.Package.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        continue;
+                    }
+
+                    DeleteRelationsAndParts(p);
                 }
                 part.DeleteRelationship(rel.Id);
             }            
