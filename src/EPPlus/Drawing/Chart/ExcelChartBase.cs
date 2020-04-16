@@ -32,12 +32,12 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public abstract class ExcelChartBase : ExcelDrawing, IDrawingStyle, IStyleMandatoryProperties, IPictureRelationDocument
     {
-        private bool _isChartEx;
+        internal bool _isChartEx;
         internal const string topPath = "c:chartSpace";
         internal const string plotAreaPath = "c:chart/c:plotArea";
         //string _chartPath;
         internal ExcelChartAxis[] _axis;
-        private Dictionary<string, HashInfo> _hashes;
+        internal Dictionary<string, HashInfo> _hashes;
         /// <summary>
         /// The Xml helper for the chart xml
         /// </summary>

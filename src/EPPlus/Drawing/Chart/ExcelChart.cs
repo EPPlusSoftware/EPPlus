@@ -32,9 +32,6 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChart : ExcelChartBase
     {
-        private bool _isChartEx;
-        internal ExcelChartAxis[] _axis;
-        private Dictionary<string, HashInfo> _hashes;
         #region "Constructors"
         internal ExcelChart(ExcelDrawings drawings, XmlNode node, eChartType? type, bool isPivot, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, node, type, isPivot, parent, drawingPath, nvPrPath)

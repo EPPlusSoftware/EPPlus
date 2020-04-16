@@ -959,7 +959,11 @@ namespace OfficeOpenXml
                 var rel = rels[i];
                 if (rel.RelationshipType != ExcelPackage.schemaImage)
                 {
-                    DeleteRelationsAndParts(_pck.Package.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri)));
+                    var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                    if (_pck.Package.PartExists(uri))
+                    {
+                        DeleteRelationsAndParts(_pck.Package.GetPart(uri));
+                    }
                 }
                 part.DeleteRelationship(rel.Id);
             }            

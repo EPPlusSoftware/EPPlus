@@ -1,16 +1,20 @@
-﻿using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing.Style.Effect;
-using OfficeOpenXml.Drawing.Style.ThreeD;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  04/15/2020         EPPlus Software AB       Initial release EPPlus 5
+ *************************************************************************************************/
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Table.PivotTable;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-
 namespace OfficeOpenXml.Drawing.Chart
 {
     public class ExcelChartEx : ExcelChartBase
@@ -18,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, bool isPivot, ExcelGroupShape parent) : 
             base(drawings, node, GetChartType(node, drawings.NameSpaceManager), isPivot, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
-            
+            _isChartEx = true;
         }
 
         private static eChartType GetChartType(XmlNode node, XmlNamespaceManager nsm)
@@ -56,14 +60,16 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, type, null, PivotTableSource, chartXml, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
+            _isChartEx = true;
         }
 
 
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent=null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
+            _isChartEx = true;
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
-
+            Series.Init(this, drawings.NameSpaceManager, chartNode, false, Series._list);
         }
         /// <summary>
         /// Chart series

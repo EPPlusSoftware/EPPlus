@@ -8,18 +8,11 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
+using OfficeOpenXml.Drawing.Chart.ChartEx.enums;
+using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
-using System.Linq;
-using OfficeOpenXml.Core.CellStore;
-using System.Globalization;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing.Style.Effect;
-using OfficeOpenXml.Drawing.Style.ThreeD;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     /// <summary>
@@ -27,61 +20,150 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public class ExcelChartExSerie : ExcelChartSerieBase
     {
+        XmlNode _dataNode;
+        XmlHelper _dataHelper;
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="chart">The chart</param>
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
-       internal ExcelChartExSerie(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node)
-           : base(chart,ns,node)
-       {
-       }
-       const string headerAddressPath = "c:tx/c:strRef/c:f";
-        /// <summary>
-       /// Header address for the serie.
-       /// </summary>
-       public override ExcelAddressBase HeaderAddress
-       {
-           get
-           {
-              return null; //TODO check handling
-           }
-           set
-           {
-                throw new NotImplementedException();
+        internal ExcelChartExSerie(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node)
+            : base(chart, ns, node)
+        {
+            SchemaNodeOrder = new string[] { "tx", "spPr", "valueColors", "valueColorPositions", "dataPt", "dataLabels", "dataId", "layoutPr", "axisId" };
+            _dataNode = node.SelectSingleNode($"../../../../cx:chartData/cx:data[@id={DataId}]", ns);
+            _dataHelper = XmlHelperFactory.Create(ns, _dataNode);
+        }
+        internal int DataId
+        {
+            get
+            {
+                return GetXmlNodeInt("cx:dataId/@val");
             }
-       }        
+        }
+        const string headerAddressPath = "c:tx/c:strRef/c:f";
+        /// <summary>
+        /// Header address for the serie.
+        /// </summary>
+        public override ExcelAddressBase HeaderAddress
+        {
+            get
+            {
+                var f = GetXmlNodeString("cx:tx/cx:txData/cx:f");
+                if (ExcelAddress.IsValidAddress(f))
+                {
+                    return new ExcelAddressBase(f);
+                }
+                else
+                {
+                    if (_chart.WorkSheet.Workbook.Names.ContainsKey(f))
+                    {
+                        return _chart.WorkSheet.Workbook.Names[f];
+                    }
+                    else if (_chart.WorkSheet.Names.ContainsKey(f))
+                    {
+                        return _chart.WorkSheet.Names[f];
+                    }
+                    return null;
+                }
+            }
+            set
+            {
+                SetXmlNodeString("cx:tx/cx:txData/cx:f", value.Address);
+            }
+        }
+        public override string Header
+        {
+            get
+            {
+                return GetXmlNodeString("cx:tx/cx:txData/cx:v");
+            }
+            set
+            {
+                SetXmlNodeString("cx:tx/cx:txData/cx:v", value);
+            }
+        }
         /// <summary>
         /// Set this to a valid address or the drawing will be invalid.
         /// </summary>
         public override string Series
         {
-           get
-           {
-               return GetXmlNodeString("cx:*Dim[type='val']");
-           }
-           set
-           {
-                SetXmlNodeString("cx:*Dim[type='val']", value); 
-           }
-
-       }
+            get
+            {
+                return _dataHelper.GetXmlNodeString("cx:numDim[@type='val']|cx:strDim[@type='val']");
+            }
+            set
+            {
+                _dataHelper.SetXmlNodeString("cx:numDim[@type='val']|cx:strDim[@type='val']", value);
+            }
+        }
         /// <summary>
-        /// Set an address for the horisontal labels
+        /// Set an address for the horizontal labels
         /// </summary>
         public override string XSeries
-       {
-           get
-           {
-                return GetXmlNodeString("cx:*Dim[type='cat']");
+        {
+            get
+            {
+                return _dataHelper.GetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']");
             }
-           set
-           {
-                SetXmlNodeString("cx:*Dim[type='cat']", value);
+            set
+            {
+                _dataHelper.SetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']", value);
             }
-       }
-
-        public override string Header { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        }
+        ExcelChartExSerieElementVisibilities _elementVisibility = null;
+        public ExcelChartExSerieElementVisibilities ElementVisibility
+        {
+            get
+            {
+                if(_elementVisibility==null)
+                {
+                    _elementVisibility = new ExcelChartExSerieElementVisibilities(NameSpaceManager, TopNode, SchemaNodeOrder);
+                }
+                return _elementVisibility;
+            }
+        }
+        public eParentLabelLayout ParentLabelLayout
+        {
+            get
+            {
+                return GetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val").ToEnum(eParentLabelLayout.None);
+            }
+            set
+            {
+                SetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val", value.ToEnumString());
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public eQuartileMethod? QuartileMethod 
+        { 
+            get
+            {
+                var s = GetXmlNodeString("cx:layoutPr/cx:statistics/@quartileMethod");
+                if (string.IsNullOrEmpty(s)) return null;                
+                return s.ToEnum(eQuartileMethod.Inclusive);
+            }
+            set
+            {
+                SetXmlNodeString("cx:layoutPr/cx:statistics/@quartileMethod", value.ToEnumString());
+            }
+        }
+        /// <summary>
+        /// If the serie is hidden
+        /// </summary>
+        public bool Hidden
+        {
+            get
+            {
+                return GetXmlNodeBool("@hidden", false);
+            }
+            set
+            {
+                SetXmlNodeBool("@hidden", value, false);
+            }
+        }
     }
 }

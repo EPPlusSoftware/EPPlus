@@ -20,7 +20,7 @@ namespace EPPlusTest.Drawing.Chart
         [ClassCleanup]
         public static void Cleanup()
         {
-            SaveAndCleanup(_pck);
+            //SaveAndCleanup(_pck);
         }
         [TestMethod]
         public void ReadChartEx()

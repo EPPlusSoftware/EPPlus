@@ -16,6 +16,7 @@ using System.Xml;
 using System.Collections;
 using OfficeOpenXml.Table.PivotTable;
 using System.Linq;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -28,11 +29,11 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartBase _chart;
         XmlNode _node;
         XmlNamespaceManager _ns;
-        internal void Init(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerieBase> list = null)
+        internal void Init(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot, List<ExcelChartSerieBase> list = null)
         {
             _ns = ns;
             _chart = chart;
-            _node = node;
+            _node = chartNode;
             _isPivot = isPivot;
             if (list == null)
             {
@@ -43,7 +44,26 @@ namespace OfficeOpenXml.Drawing.Chart
                 _list = list;
                 return;
             }
-            foreach (XmlNode n in node.SelectNodes("c:ser", ns))
+
+            if(_chart._isChartEx)
+            {
+                AddSeriesChartEx(chart, ns, chartNode);
+            }
+            else
+            {
+                AddSeriesStandard(chart, ns, chartNode, isPivot);
+            }
+        }
+        private void AddSeriesChartEx(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode chartNode)
+        {
+            foreach (XmlNode n in chartNode.SelectNodes("cx:plotArea/cx:plotAreaRegion/cx:series", ns))
+            {
+                _list.Add(new ExcelChartExSerie(chart, ns, n));
+            }
+        }
+        private void AddSeriesStandard(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot)
+        {
+            foreach (XmlNode n in chartNode.SelectNodes("c:ser", ns))
             {
                 ExcelChartSerieBase s;
                 switch (chart.ChartNode.LocalName)
@@ -87,6 +107,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 _list.Add((T)s);
             }
         }
+
         /// <summary>
         /// Returns the serie at the specified position.  
         /// </summary>
