@@ -1520,8 +1520,9 @@ namespace EPPlusTest
         public void LoadArray()
         {
             var ws = _pck.Workbook.Worksheets.Add("Loaded Array");
-            List<object[]> testArray = new List<object[]>() { new object[] { 3, 4, 5, 6 }, new string[] { "Test1", "test", "5", "6" } };
-            ws.Cells["A1"].LoadFromArrays(testArray);
+            List<object[]> testArray = new List<object[]>() { new object[] { 3, 4, 5 }, new string[] { "Test1", "test", "5", "6" } };
+            var range = ws.Cells["A1"].LoadFromArrays(testArray);
+            Assert.AreEqual("A1:D2", range.Address);
         }
         [TestMethod]
         public void SetBackground()
