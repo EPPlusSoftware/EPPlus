@@ -131,5 +131,22 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
+        [TestMethod]
+        public void LoadFromCollectionObjectDynamic()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("LoadFromCollection");
+
+                var range = ws.Cells["A1"].LoadFromCollection(new List<object>() { 1, "s", null });
+                Assert.AreEqual("A1:A3",range.Address);
+
+                range = ws.Cells["B1"].LoadFromCollection(new List<dynamic>() { 1, "s", null });
+                Assert.AreEqual("B1:B3", range.Address);
+
+                range = ws.Cells["C1"].LoadFromCollection(new List<dynamic>() { new  TestDTO{ Name="Test"} });
+                Assert.AreEqual("C1", range.Address);
+            }
+        }
     }
 }

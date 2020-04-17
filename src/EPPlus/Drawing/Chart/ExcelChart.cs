@@ -1025,7 +1025,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Border
         /// </summary>
-        public ExcelDrawingBorder Border
+        public override ExcelDrawingBorder Border
         {
             get
             {
@@ -1040,7 +1040,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Access to Fill properties
         /// </summary>
-        public ExcelDrawingFill Fill
+        public override ExcelDrawingFill Fill
         {
             get
             {
@@ -1055,7 +1055,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Effects
         /// </summary>
-        public ExcelDrawingEffectStyle Effect
+        public override ExcelDrawingEffectStyle Effect
         {
             get
             {
@@ -1070,7 +1070,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// 3D properties
         /// </summary>
-        public ExcelDrawing3D ThreeD
+        public override ExcelDrawing3D ThreeD
         {
             get
             {
@@ -1085,7 +1085,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Access to font properties
         /// </summary>
-        public ExcelTextFont Font
+        public override ExcelTextFont Font
         {
             get
             {
@@ -1100,7 +1100,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Access to text body properties
         /// </summary>
-        public ExcelTextBody TextBody
+        public override ExcelTextBody TextBody
         {
             get
             {

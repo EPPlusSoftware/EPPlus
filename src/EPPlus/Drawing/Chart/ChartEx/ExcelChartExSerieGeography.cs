@@ -8,22 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/15/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System.Xml;
+
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    /// <summary>
-    /// The quartile calculation methods
-    /// </summary>
-    public enum eQuartileMethod
+    public class ExcelChartExSerieGeography : XmlHelper
     {
-        /// <summary>
-        /// The quartile calculation includes the median when splitting the dataset into quartiles
-        /// </summary>
-        Inclusive,
-        /// <summary>
-        /// The quartile calculation excludes the median when splitting the dataset into quartiles
-        /// </summary>
-        Exclusive
+        internal ExcelChartExSerieGeography(XmlNamespaceManager ns, XmlNode node) :
+            base(ns, node)
+        {
+            
+        }
+        //TODO: Apply all properties for region maps.
+        public byte[] Cache { get; set; }
+        //public ExcelChartExSerieGeographyClear Data { get; set; }
+        public string Provider { get; set; }
     }
 }

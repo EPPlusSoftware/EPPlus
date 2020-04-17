@@ -37,12 +37,9 @@ namespace OfficeOpenXml.Drawing.Chart
 
             AddSchemaNodeOrder(SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
             var fullNodeName = "c:" + nodeName;
-            //XmlNode topNode = node.SelectSingleNode(fullNodeName, NameSpaceManager);
             var topNode = GetNode(fullNodeName);
             if (topNode == null)
             {
-                //topNode = node.OwnerDocument.CreateElement("c", nodeName, ExcelPackage.schemaChart);
-                //InserAfter(node, "c:marker,c:tx,c:order,c:ser,c:explosion,c:pictureOptions,c:order,c:marker,c;invertIfNegatives", topNode);
                 topNode = CreateNode(fullNodeName);
                 topNode.InnerXml = "<c:showLegendKey val=\"0\" /><c:showVal val=\"0\" /><c:showCatName val=\"0\" /><c:showSerName val=\"0\" /><c:showPercent val=\"0\" /><c:showBubbleSize val=\"0\" /> <c:separator>\r\n</c:separator><c:showLeaderLines val=\"0\" />";                      
             }

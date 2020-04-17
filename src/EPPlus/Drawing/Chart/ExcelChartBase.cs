@@ -321,95 +321,47 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
         }
-        ExcelDrawingBorder _border = null;
         /// <summary>
         /// Border
         /// </summary>
-        public ExcelDrawingBorder Border
+        public abstract ExcelDrawingBorder Border
         {
-            get
-            {
-                if (_border == null)
-                {
-                    _border = new ExcelDrawingBorder(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:spPr/a:ln", _chartXmlHelper.SchemaNodeOrder);
-                }
-                return _border;
-            }
+            get;
         }
-        ExcelDrawingFill _fill = null;
         /// <summary>
         /// Access to Fill properties
         /// </summary>
-        public ExcelDrawingFill Fill
+        public abstract ExcelDrawingFill Fill
         {
-            get
-            {
-                if (_fill == null)
-                {
-                    _fill = new ExcelDrawingFill(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:spPr", _chartXmlHelper.SchemaNodeOrder);
-                }
-                return _fill;
-            }
+            get;
         }
-        ExcelDrawingEffectStyle _effect = null;
         /// <summary>
         /// Effects
         /// </summary>
-        public ExcelDrawingEffectStyle Effect
+        public abstract ExcelDrawingEffectStyle Effect
         {
-            get
-            {
-                if (_effect == null)
-                {
-                    _effect = new ExcelDrawingEffectStyle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:spPr/a:effectLst", _chartXmlHelper.SchemaNodeOrder);
-                }
-                return _effect;
-            }
+            get;
         }
-        ExcelDrawing3D _threeD = null;
         /// <summary>
         /// 3D properties
         /// </summary>
-        public ExcelDrawing3D ThreeD
+        public abstract ExcelDrawing3D ThreeD
         {
-            get
-            {
-                if (_threeD == null)
-                {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:spPr", _chartXmlHelper.SchemaNodeOrder);
-                }
-                return _threeD;
-            }
+            get;
         }
-        ExcelTextFont _font = null;
         /// <summary>
         /// Access to font properties
         /// </summary>
-        public ExcelTextFont Font
+        public abstract ExcelTextFont Font
         {
-            get
-            {
-                if (_font == null)
-                {
-                    _font = new ExcelTextFont(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:txPr/a:p/a:pPr/a:defRPr", _chartXmlHelper.SchemaNodeOrder);
-                }
-                return _font;
-            }
+            get;
         }
-        ExcelTextBody _textBody = null;
         /// <summary>
         /// Access to text body properties
         /// </summary>
-        public ExcelTextBody TextBody
+        public abstract ExcelTextBody TextBody
         {
-            get
-            {
-                if (_textBody == null)
-                {
-                    _textBody = new ExcelTextBody(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager), "c:txPr/a:bodyPr", _chartXmlHelper.SchemaNodeOrder);
-                }
-                return _textBody;
-            }
+            get;
         }
 
         /// <summary>

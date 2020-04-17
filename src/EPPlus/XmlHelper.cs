@@ -97,12 +97,12 @@ namespace OfficeOpenXml
         }
 
         internal XmlNode CreateNode(string path)
-		{
-			if (path == "")
-				return TopNode;
-			else
-				return CreateNode(path, false);
-		}
+        {
+            if (path == "")
+                return TopNode;
+            else
+                return CreateNode(path, false);
+        }
         /// <summary>
         /// Create the node path. Nodes are inserted according to the Schema node order
         /// </summary>
@@ -111,108 +111,108 @@ namespace OfficeOpenXml
         /// <param name="addNew">Always add a new item at the last level.</param>
         /// <param name="exitName">Exit if after this named node has been created</param>
         /// <returns></returns>
-        internal XmlNode CreateNode(string path, bool insertFirst, bool addNew=false, string exitName="")
-		{
-			XmlNode node = TopNode;
-			XmlNode prependNode = null;
+        internal XmlNode CreateNode(string path, bool insertFirst, bool addNew = false, string exitName = "")
+        {
+            XmlNode node = TopNode;
+            XmlNode prependNode = null;
             int lastUsedOrderIndex = 0;
             if (path.StartsWith("/")) path = path.Substring(1);
             var subPaths = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-            for(int i= 0; i < subPaths.Length;i++)
-			{
+            for (int i = 0; i < subPaths.Length; i++)
+            {
                 string subPath = subPaths[i];
                 XmlNode subNode = node.SelectSingleNode(subPath, NameSpaceManager);
-				if (subNode == null || (i==subPaths.Length-1 && addNew))
-				{
-					string nodeName;
-					string nodePrefix;
+                if (subNode == null || (i == subPaths.Length - 1 && addNew))
+                {
+                    string nodeName;
+                    string nodePrefix;
 
-					string nameSpaceURI = "";
-					string[] nameSplit = subPath.Split(':');
+                    string nameSpaceURI = "";
+                    string[] nameSplit = subPath.Split(':');
 
-					if (SchemaNodeOrder != null && subPath[0] != '@')
-					{
-						insertFirst = false;
-						prependNode = GetPrependNode(subPath, node, ref lastUsedOrderIndex);
-					}
+                    if (SchemaNodeOrder != null && subPath[0] != '@')
+                    {
+                        insertFirst = false;
+                        prependNode = GetPrependNode(subPath, node, ref lastUsedOrderIndex);
+                    }
 
-					if (nameSplit.Length > 1)
-					{
-						nodePrefix = nameSplit[0];
-						if (nodePrefix[0] == '@') nodePrefix = nodePrefix.Substring(1, nodePrefix.Length - 1);
-						nameSpaceURI = NameSpaceManager.LookupNamespace(nodePrefix);
-						nodeName = nameSplit[1];
-					}
-					else
-					{
-						nodePrefix = "";
-						nameSpaceURI = "";
-						nodeName = nameSplit[0];
-					}
-					if (subPath.StartsWith("@"))
-					{
-						XmlAttribute addedAtt = node.OwnerDocument.CreateAttribute(subPath.Substring(1, subPath.Length - 1), nameSpaceURI);  //nameSpaceURI
-						node.Attributes.Append(addedAtt);
-					}
-					else
-					{
-						if (nodePrefix == "")
-						{
-							subNode = node.OwnerDocument.CreateElement(nodeName, nameSpaceURI);
-						}
-						else
-						{
-							if (nodePrefix == "" || (node.OwnerDocument != null && node.OwnerDocument.DocumentElement != null && node.OwnerDocument.DocumentElement.NamespaceURI == nameSpaceURI &&
-									node.OwnerDocument.DocumentElement.Prefix == ""))
-							{
-								subNode = node.OwnerDocument.CreateElement(nodeName, nameSpaceURI);
-							}
-							else
-							{
-								subNode = node.OwnerDocument.CreateElement(nodePrefix, nodeName, nameSpaceURI);
-							}
-						}
-						if (prependNode != null)
-						{
-							node.InsertBefore(subNode, prependNode);
-							prependNode = null;
-						}
-						else if (insertFirst)
-						{
-							node.PrependChild(subNode);
-						}
-						else
-						{
-							node.AppendChild(subNode);
-						}
-					}
-                    if(nodeName==exitName)
+                    if (nameSplit.Length > 1)
+                    {
+                        nodePrefix = nameSplit[0];
+                        if (nodePrefix[0] == '@') nodePrefix = nodePrefix.Substring(1, nodePrefix.Length - 1);
+                        nameSpaceURI = NameSpaceManager.LookupNamespace(nodePrefix);
+                        nodeName = nameSplit[1];
+                    }
+                    else
+                    {
+                        nodePrefix = "";
+                        nameSpaceURI = "";
+                        nodeName = nameSplit[0];
+                    }
+                    if (subPath.StartsWith("@"))
+                    {
+                        XmlAttribute addedAtt = node.OwnerDocument.CreateAttribute(subPath.Substring(1, subPath.Length - 1), nameSpaceURI);  //nameSpaceURI
+                        node.Attributes.Append(addedAtt);
+                    }
+                    else
+                    {
+                        if (nodePrefix == "")
+                        {
+                            subNode = node.OwnerDocument.CreateElement(nodeName, nameSpaceURI);
+                        }
+                        else
+                        {
+                            if (nodePrefix == "" || (node.OwnerDocument != null && node.OwnerDocument.DocumentElement != null && node.OwnerDocument.DocumentElement.NamespaceURI == nameSpaceURI &&
+                                    node.OwnerDocument.DocumentElement.Prefix == ""))
+                            {
+                                subNode = node.OwnerDocument.CreateElement(nodeName, nameSpaceURI);
+                            }
+                            else
+                            {
+                                subNode = node.OwnerDocument.CreateElement(nodePrefix, nodeName, nameSpaceURI);
+                            }
+                        }
+                        if (prependNode != null)
+                        {
+                            node.InsertBefore(subNode, prependNode);
+                            prependNode = null;
+                        }
+                        else if (insertFirst)
+                        {
+                            node.PrependChild(subNode);
+                        }
+                        else
+                        {
+                            node.AppendChild(subNode);
+                        }
+                    }
+                    if (nodeName == exitName)
                     {
                         return subNode;
                     }
-				}
-                else if(_schemaNodeOrder!=null && subPath!="..")  //Parent node, node order should not change. Parent node (..) is only supported in the start of the xpath
-                {                    
+                }
+                else if (_schemaNodeOrder != null && subPath != "..")  //Parent node, node order should not change. Parent node (..) is only supported in the start of the xpath
+                {
                     var ix = GetNodePos(subNode.LocalName, lastUsedOrderIndex);
-                    if(ix>=0)
+                    if (ix >= 0)
                     {
                         lastUsedOrderIndex = GetIndex(ix);
                     }
                 }
                 node = subNode;
-			}
-			return node;
-		}
+            }
+            return node;
+        }
         internal bool CreateNodeUntil(string path, string untilNodeName, out XmlNode spPrNode)
         {
             spPrNode = CreateNode(path, false, false, untilNodeName);
-            return spPrNode!=null && spPrNode.LocalName == untilNodeName;
+            return spPrNode != null && spPrNode.LocalName == untilNodeName;
         }
         internal XmlNode ReplaceElement(XmlNode oldChild, string newNodeName)
         {
             var newNameSplit = newNodeName.Split(':');
             XmlElement newElement;
-            if (newNodeName.Length>1)
+            if (newNodeName.Length > 1)
             {
                 var prefix = newNameSplit[0];
                 var name = newNameSplit[1];
@@ -222,314 +222,314 @@ namespace OfficeOpenXml
             }
             else
             {
-                newElement= oldChild.OwnerDocument.CreateElement(newNodeName, NameSpaceManager.DefaultNamespace); 
+                newElement = oldChild.OwnerDocument.CreateElement(newNodeName, NameSpaceManager.DefaultNamespace);
             }
             oldChild.ParentNode.ReplaceChild(newElement, oldChild);
             return newElement;
         }
-		/// <summary>
-		/// Options to insert a node in the XmlDocument
-		/// </summary>
-		internal enum eNodeInsertOrder
-		{
-			/// <summary>
-			/// Insert as first node of "topNode"
-			/// </summary>
-			First,
+        /// <summary>
+        /// Options to insert a node in the XmlDocument
+        /// </summary>
+        internal enum eNodeInsertOrder
+        {
+            /// <summary>
+            /// Insert as first node of "topNode"
+            /// </summary>
+            First,
 
-			/// <summary>
-			/// Insert as the last child of "topNode"
-			/// </summary>
-			Last,
+            /// <summary>
+            /// Insert as the last child of "topNode"
+            /// </summary>
+            Last,
 
-			/// <summary>
-			/// Insert after the "referenceNode"
-			/// </summary>
-			After,
+            /// <summary>
+            /// Insert after the "referenceNode"
+            /// </summary>
+            After,
 
-			/// <summary>
-			/// Insert before the "referenceNode"
-			/// </summary>
-			Before,
+            /// <summary>
+            /// Insert before the "referenceNode"
+            /// </summary>
+            Before,
 
-			/// <summary>
-			/// Use the Schema List to insert in the right order. If the Schema list
-			/// is null or empty, consider "Last" as the selected option
-			/// </summary>
-			SchemaOrder
-		}
+            /// <summary>
+            /// Use the Schema List to insert in the right order. If the Schema list
+            /// is null or empty, consider "Last" as the selected option
+            /// </summary>
+            SchemaOrder
+        }
 
-		/// <summary>
-		/// Create a complex node. Insert the node according to SchemaOrder
-		/// using the TopNode as the parent
-		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		internal XmlNode CreateComplexNode(
-			string path)
-		{
-			return CreateComplexNode(
-				TopNode,
-				path,
-				eNodeInsertOrder.SchemaOrder,
-				null);
-		}
+        /// <summary>
+        /// Create a complex node. Insert the node according to SchemaOrder
+        /// using the TopNode as the parent
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        internal XmlNode CreateComplexNode(
+            string path)
+        {
+            return CreateComplexNode(
+                TopNode,
+                path,
+                eNodeInsertOrder.SchemaOrder,
+                null);
+        }
 
-		/// <summary>
-		/// Create a complex node. Insert the node according to the <paramref name="path"/>
-		/// using the <paramref name="topNode"/> as the parent
-		/// </summary>
-		/// <param name="topNode"></param>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		internal XmlNode CreateComplexNode(
-			XmlNode topNode,
-			string path)
-		{
-			return CreateComplexNode(
-				topNode,
-				path,
-				eNodeInsertOrder.SchemaOrder,
-				null);
-		}
+        /// <summary>
+        /// Create a complex node. Insert the node according to the <paramref name="path"/>
+        /// using the <paramref name="topNode"/> as the parent
+        /// </summary>
+        /// <param name="topNode"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        internal XmlNode CreateComplexNode(
+            XmlNode topNode,
+            string path)
+        {
+            return CreateComplexNode(
+                topNode,
+                path,
+                eNodeInsertOrder.SchemaOrder,
+                null);
+        }
 
-		/// <summary>
-		/// Creates complex XML nodes
-    /// </summary>
-    /// <remarks>
-		/// 1. "d:conditionalFormatting"
-		///		1.1. Creates/find the first "conditionalFormatting" node
-		/// 
-		/// 2. "d:conditionalFormatting/@sqref"
-		///		2.1. Creates/find the first "conditionalFormatting" node
-		///		2.2. Creates (if not exists) the @sqref attribute
-		///
-		/// 3. "d:conditionalFormatting/@id='7'/@sqref='A9:B99'"
-		///		3.1. Creates/find the first "conditionalFormatting" node
-		///		3.2. Creates/update its @id attribute to "7"
-		///		3.3. Creates/update its @sqref attribute to "A9:B99"
-		///
-		/// 4. "d:conditionalFormatting[@id='7']/@sqref='X1:X5'"
-		///		4.1. Creates/find the first "conditionalFormatting" node with @id=7
-		///		4.2. Creates/update its @sqref attribute to "X1:X5"
-		///	
-		/// 5. "d:conditionalFormatting[@id='7']/@id='8'/@sqref='X1:X5'/d:cfRule/@id='AB'"
-		///		5.1. Creates/find the first "conditionalFormatting" node with @id=7
-		///		5.2. Set its @id attribute to "8"
-		///		5.2. Creates/update its @sqref attribute and set it to "X1:X5"
-		///		5.3. Creates/find the first "cfRule" node (inside the node)
-		///		5.4. Creates/update its @id attribute to "AB"
-		///	
-		/// 6. "d:cfRule/@id=''"
-		///		6.1. Creates/find the first "cfRule" node
-		///		6.1. Remove the @id attribute
-    ///	</remarks>
-		/// <param name="topNode"></param>
-		/// <param name="path"></param>
-		/// <param name="nodeInsertOrder"></param>
-		/// <param name="referenceNode"></param>
-		/// <returns>The last node creates/found</returns>
-		internal XmlNode CreateComplexNode(
-			XmlNode topNode,
-			string path,
-			eNodeInsertOrder nodeInsertOrder,
-			XmlNode referenceNode)
-		{
-			// Path is obrigatory
-			if ((path == null) || (path == string.Empty))
-			{
-				return topNode;
-			}
+        /// <summary>
+        /// Creates complex XML nodes
+        /// </summary>
+        /// <remarks>
+        /// 1. "d:conditionalFormatting"
+        ///		1.1. Creates/find the first "conditionalFormatting" node
+        /// 
+        /// 2. "d:conditionalFormatting/@sqref"
+        ///		2.1. Creates/find the first "conditionalFormatting" node
+        ///		2.2. Creates (if not exists) the @sqref attribute
+        ///
+        /// 3. "d:conditionalFormatting/@id='7'/@sqref='A9:B99'"
+        ///		3.1. Creates/find the first "conditionalFormatting" node
+        ///		3.2. Creates/update its @id attribute to "7"
+        ///		3.3. Creates/update its @sqref attribute to "A9:B99"
+        ///
+        /// 4. "d:conditionalFormatting[@id='7']/@sqref='X1:X5'"
+        ///		4.1. Creates/find the first "conditionalFormatting" node with @id=7
+        ///		4.2. Creates/update its @sqref attribute to "X1:X5"
+        ///	
+        /// 5. "d:conditionalFormatting[@id='7']/@id='8'/@sqref='X1:X5'/d:cfRule/@id='AB'"
+        ///		5.1. Creates/find the first "conditionalFormatting" node with @id=7
+        ///		5.2. Set its @id attribute to "8"
+        ///		5.2. Creates/update its @sqref attribute and set it to "X1:X5"
+        ///		5.3. Creates/find the first "cfRule" node (inside the node)
+        ///		5.4. Creates/update its @id attribute to "AB"
+        ///	
+        /// 6. "d:cfRule/@id=''"
+        ///		6.1. Creates/find the first "cfRule" node
+        ///		6.1. Remove the @id attribute
+        ///	</remarks>
+        /// <param name="topNode"></param>
+        /// <param name="path"></param>
+        /// <param name="nodeInsertOrder"></param>
+        /// <param name="referenceNode"></param>
+        /// <returns>The last node creates/found</returns>
+        internal XmlNode CreateComplexNode(
+            XmlNode topNode,
+            string path,
+            eNodeInsertOrder nodeInsertOrder,
+            XmlNode referenceNode)
+        {
+            // Path is obrigatory
+            if ((path == null) || (path == string.Empty))
+            {
+                return topNode;
+            }
 
-			XmlNode node = topNode;
-			string nameSpaceURI = string.Empty;
+            XmlNode node = topNode;
+            string nameSpaceURI = string.Empty;
             int lastIndex = 0;
-      //TODO: BUG: when the "path" contains "/" in an attrribue value, it gives an error.
+            //TODO: BUG: when the "path" contains "/" in an attrribue value, it gives an error.
 
-			// Separate the XPath to Nodes and Attributes
-			foreach (string subPath in path.Split('/'))
-			{
-				// The subPath can be any one of those:
-				// nodeName
-				// x:nodeName
-				// nodeName[find criteria]
-				// x:nodeName[find criteria]
-				// @attribute
-				// @attribute='attribute value'
+            // Separate the XPath to Nodes and Attributes
+            foreach (string subPath in path.Split('/'))
+            {
+                // The subPath can be any one of those:
+                // nodeName
+                // x:nodeName
+                // nodeName[find criteria]
+                // x:nodeName[find criteria]
+                // @attribute
+                // @attribute='attribute value'
 
-				// Check if the subPath has at least one character
-				if (subPath.Length > 0)
-				{
-					// Check if the subPath is an attribute (with or without value)
-					if (subPath.StartsWith("@"))
-					{
-						// @attribute										--> Create attribute
-						// @attribute=''								--> Remove attribute
-						// @attribute='attribute value' --> Create attribute + update value
-						string[] attributeSplit = subPath.Split('=');
-						string attributeName = attributeSplit[0].Substring(1, attributeSplit[0].Length - 1);
-						string attributeValue = null;	// Null means no attribute value
-                        
-						// Check if we have an attribute value to set
-						if (attributeSplit.Length > 1)
-						{
-							// Remove the ' or " from the attribute value
-							attributeValue = attributeSplit[1].Replace("'", "").Replace("\"", "");
-						}
+                // Check if the subPath has at least one character
+                if (subPath.Length > 0)
+                {
+                    // Check if the subPath is an attribute (with or without value)
+                    if (subPath.StartsWith("@"))
+                    {
+                        // @attribute										--> Create attribute
+                        // @attribute=''								--> Remove attribute
+                        // @attribute='attribute value' --> Create attribute + update value
+                        string[] attributeSplit = subPath.Split('=');
+                        string attributeName = attributeSplit[0].Substring(1, attributeSplit[0].Length - 1);
+                        string attributeValue = null;   // Null means no attribute value
 
-						// Get the attribute (if exists)
-						XmlAttribute attribute = (XmlAttribute)(node.Attributes.GetNamedItem(attributeName));
+                        // Check if we have an attribute value to set
+                        if (attributeSplit.Length > 1)
+                        {
+                            // Remove the ' or " from the attribute value
+                            attributeValue = attributeSplit[1].Replace("'", "").Replace("\"", "");
+                        }
 
-						// Remove the attribute if value is empty (not null)
-						if (attributeValue == string.Empty)
-						{
-							// Only if the attribute exists
-							if (attribute != null)
-							{
-								node.Attributes.Remove(attribute);
-							}
-						}
-						else
-						{
-							// Create the attribue if does not exists
-							if (attribute == null)
-							{
-								// Create the attribute
-								attribute = node.OwnerDocument.CreateAttribute(
-									attributeName);
+                        // Get the attribute (if exists)
+                        XmlAttribute attribute = (XmlAttribute)(node.Attributes.GetNamedItem(attributeName));
 
-								// Add it to the current node
-								node.Attributes.Append(attribute);
-							}
+                        // Remove the attribute if value is empty (not null)
+                        if (attributeValue == string.Empty)
+                        {
+                            // Only if the attribute exists
+                            if (attribute != null)
+                            {
+                                node.Attributes.Remove(attribute);
+                            }
+                        }
+                        else
+                        {
+                            // Create the attribue if does not exists
+                            if (attribute == null)
+                            {
+                                // Create the attribute
+                                attribute = node.OwnerDocument.CreateAttribute(
+                                    attributeName);
 
-							// Update the attribute value
-							if (attributeValue != null)
-							{
-								node.Attributes[attributeName].Value = attributeValue;
-							}
-						}
-					}
-					else
-					{
-						// nodeName
-						// x:nodeName
-						// nodeName[find criteria]
-						// x:nodeName[find criteria]
+                                // Add it to the current node
+                                node.Attributes.Append(attribute);
+                            }
 
-						// Look for the node (with or without filter criteria)
-						XmlNode subNode = node.SelectSingleNode(subPath, NameSpaceManager);
+                            // Update the attribute value
+                            if (attributeValue != null)
+                            {
+                                node.Attributes[attributeName].Value = attributeValue;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // nodeName
+                        // x:nodeName
+                        // nodeName[find criteria]
+                        // x:nodeName[find criteria]
 
-						// Check if the node does not exists
-						if (subNode == null)
-						{
-							string nodeName;
-							string nodePrefix;
-							string[] nameSplit = subPath.Split(':');
-							nameSpaceURI = string.Empty;
+                        // Look for the node (with or without filter criteria)
+                        XmlNode subNode = node.SelectSingleNode(subPath, NameSpaceManager);
 
-							// Check if the name has a prefix like "d:nodeName"
-							if (nameSplit.Length > 1)
-							{
-								nodePrefix = nameSplit[0];
-								nameSpaceURI = NameSpaceManager.LookupNamespace(nodePrefix);
-								nodeName = nameSplit[1];
-							}
-							else
-							{
-								nodePrefix = string.Empty;
-								nameSpaceURI = string.Empty;
-								nodeName = nameSplit[0];
-							}
+                        // Check if the node does not exists
+                        if (subNode == null)
+                        {
+                            string nodeName;
+                            string nodePrefix;
+                            string[] nameSplit = subPath.Split(':');
+                            nameSpaceURI = string.Empty;
 
-							// Check if we have a criteria part in the node name
-							if (nodeName.IndexOf("[") > 0)
-							{
-								// remove the criteria from the node name
-								nodeName = nodeName.Substring(0, nodeName.IndexOf("["));
-							}
+                            // Check if the name has a prefix like "d:nodeName"
+                            if (nameSplit.Length > 1)
+                            {
+                                nodePrefix = nameSplit[0];
+                                nameSpaceURI = NameSpaceManager.LookupNamespace(nodePrefix);
+                                nodeName = nameSplit[1];
+                            }
+                            else
+                            {
+                                nodePrefix = string.Empty;
+                                nameSpaceURI = string.Empty;
+                                nodeName = nameSplit[0];
+                            }
 
-							if (nodePrefix == string.Empty)
-							{
-								subNode = node.OwnerDocument.CreateElement(nodeName, nameSpaceURI);
-							}
-							else
-							{
-								if (node.OwnerDocument != null
-									&& node.OwnerDocument.DocumentElement != null
-									&& node.OwnerDocument.DocumentElement.NamespaceURI == nameSpaceURI
-									&& node.OwnerDocument.DocumentElement.Prefix == string.Empty)
-								{
-									subNode = node.OwnerDocument.CreateElement(
-										nodeName,
-										nameSpaceURI);
-								}
-								else
-								{
-									subNode = node.OwnerDocument.CreateElement(
-										nodePrefix,
-										nodeName,
-										nameSpaceURI);
-								}
-							}
+                            // Check if we have a criteria part in the node name
+                            if (nodeName.IndexOf("[") > 0)
+                            {
+                                // remove the criteria from the node name
+                                nodeName = nodeName.Substring(0, nodeName.IndexOf("["));
+                            }
 
-							// Check if we need to use the "SchemaOrder"
-							if (nodeInsertOrder == eNodeInsertOrder.SchemaOrder)
-							{
-								// Check if the Schema Order List is empty
-								if ((SchemaNodeOrder == null) || (SchemaNodeOrder.Length == 0))
-								{
-									// Use the "Insert Last" option when Schema Order List is empty
-									nodeInsertOrder = eNodeInsertOrder.Last;
-								}
-								else
-								{
-									// Find the prepend node in order to insert
-									referenceNode = GetPrependNode(nodeName, node, ref lastIndex);
+                            if (nodePrefix == string.Empty)
+                            {
+                                subNode = node.OwnerDocument.CreateElement(nodeName, nameSpaceURI);
+                            }
+                            else
+                            {
+                                if (node.OwnerDocument != null
+                                    && node.OwnerDocument.DocumentElement != null
+                                    && node.OwnerDocument.DocumentElement.NamespaceURI == nameSpaceURI
+                                    && node.OwnerDocument.DocumentElement.Prefix == string.Empty)
+                                {
+                                    subNode = node.OwnerDocument.CreateElement(
+                                        nodeName,
+                                        nameSpaceURI);
+                                }
+                                else
+                                {
+                                    subNode = node.OwnerDocument.CreateElement(
+                                        nodePrefix,
+                                        nodeName,
+                                        nameSpaceURI);
+                                }
+                            }
 
-									if (referenceNode != null)
-									{
-										nodeInsertOrder = eNodeInsertOrder.Before;
-									}
-									else
-									{
-										nodeInsertOrder = eNodeInsertOrder.Last;
-									}
-								}
-							}
+                            // Check if we need to use the "SchemaOrder"
+                            if (nodeInsertOrder == eNodeInsertOrder.SchemaOrder)
+                            {
+                                // Check if the Schema Order List is empty
+                                if ((SchemaNodeOrder == null) || (SchemaNodeOrder.Length == 0))
+                                {
+                                    // Use the "Insert Last" option when Schema Order List is empty
+                                    nodeInsertOrder = eNodeInsertOrder.Last;
+                                }
+                                else
+                                {
+                                    // Find the prepend node in order to insert
+                                    referenceNode = GetPrependNode(nodeName, node, ref lastIndex);
 
-							switch (nodeInsertOrder)
-							{
-								case eNodeInsertOrder.After:
-									node.InsertAfter(subNode, referenceNode);
+                                    if (referenceNode != null)
+                                    {
+                                        nodeInsertOrder = eNodeInsertOrder.Before;
+                                    }
+                                    else
+                                    {
+                                        nodeInsertOrder = eNodeInsertOrder.Last;
+                                    }
+                                }
+                            }
+
+                            switch (nodeInsertOrder)
+                            {
+                                case eNodeInsertOrder.After:
+                                    node.InsertAfter(subNode, referenceNode);
                                     referenceNode = null;
                                     break;
 
-								case eNodeInsertOrder.Before:
-									node.InsertBefore(subNode, referenceNode);
+                                case eNodeInsertOrder.Before:
+                                    node.InsertBefore(subNode, referenceNode);
                                     referenceNode = null;
-									break;
+                                    break;
 
-								case eNodeInsertOrder.First:
-									node.PrependChild(subNode);
-									break;
+                                case eNodeInsertOrder.First:
+                                    node.PrependChild(subNode);
+                                    break;
 
-								case eNodeInsertOrder.Last:
-									node.AppendChild(subNode);
-									break;
-							}
-						}
+                                case eNodeInsertOrder.Last:
+                                    node.AppendChild(subNode);
+                                    break;
+                            }
+                        }
 
-						// Make the newly created node the top node when the rest of the path
-						// is being evaluated. So newly created nodes will be the children of the
-						// one we just created.
-						node = subNode;
-					}
-				}
-			}
+                        // Make the newly created node the top node when the rest of the path
+                        // is being evaluated. So newly created nodes will be the children of the
+                        // one we just created.
+                        node = subNode;
+                    }
+                }
+            }
 
-			// Return the last created/found node
-			return node;
-		}
+            // Return the last created/found node
+            return node;
+        }
 
         internal XmlNode GetNode(string path)
         {
@@ -544,37 +544,37 @@ namespace OfficeOpenXml
         /// <param name="index">Out index to keep track of level in the xml</param>
         /// <returns></returns>
         private XmlNode GetPrependNode(string nodeName, XmlNode node, ref int index)
-		{
-			var ix = GetNodePos(nodeName, index);
-			if (ix < 0)
-			{                
-				return null;
-			}
+        {
+            var ix = GetNodePos(nodeName, index);
+            if (ix < 0)
+            {
+                return null;
+            }
             XmlNode prependNode = null;
-			foreach (XmlNode childNode in node.ChildNodes)
-			{
-				int childPos = GetNodePos(childNode.Name, index);
-				if (childPos > -1)  //Found?
-				{
-					if (childPos > ix) //Position is before
-					{
-						
-                        index=childPos+1;
-						return childNode; 
+            foreach (XmlNode childNode in node.ChildNodes)
+            {
+                int childPos = GetNodePos(childNode.Name, index);
+                if (childPos > -1)  //Found?
+                {
+                    if (childPos > ix) //Position is before
+                    {
+
+                        index = childPos + 1;
+                        return childNode;
                     }
-				}
-			}
-            index = GetIndex(ix+1);
+                }
+            }
+            index = GetIndex(ix + 1);
             return prependNode;
-		}
+        }
 
         private int GetIndex(int ix)
         {
-            if(_levels!=null)
+            if (_levels != null)
             {
-                for(int i=0;i<=_levels.GetUpperBound(0);i++)
+                for (int i = 0; i <= _levels.GetUpperBound(0); i++)
                 {
-                    if(_levels[i]>=ix)
+                    if (_levels[i] >= ix)
                     {
                         return _levels[i];
                     }
@@ -584,131 +584,143 @@ namespace OfficeOpenXml
         }
 
         private int GetNodePos(string nodeName, int startIndex)
-		{
-			int ix = nodeName.IndexOf(":");
-			if (ix > 0)
-			{
-				nodeName = nodeName.Substring(ix + 1, nodeName.Length - (ix + 1));
-			}
-			for (int i = startIndex; i < _schemaNodeOrder.Length; i++)
-			{
-				if (nodeName == _schemaNodeOrder[i])
-				{
-					return i;
-				}
-			}
-			return -1;
-		}
-		internal void DeleteAllNode(string path)
-		{
-			string[] split = path.Split('/');
-			XmlNode node = TopNode;
-			foreach (string s in split)
-			{
-				node = node.SelectSingleNode(s, NameSpaceManager);
-				if (node != null)
-				{
-					if (node is XmlAttribute)
-					{
-						(node as XmlAttribute).OwnerElement.Attributes.Remove(node as XmlAttribute);
-					}
-					else
-					{
-						node.ParentNode.RemoveChild(node);
-					}
-				}
-				else
-				{
-					break;
-				}   
-			}
-		}
-		internal void DeleteNode(string path)
-		{
-			var node = TopNode.SelectSingleNode(path, NameSpaceManager);
-			if (node != null)
-			{
-				if (node is XmlAttribute)
-				{
-					var att = (XmlAttribute)node;
-					att.OwnerElement.Attributes.Remove(att);
-				}
-				else
-				{
-					node.ParentNode.RemoveChild(node);
-				}
-			}
-		}
-    internal void DeleteTopNode()
-    {
-      TopNode.ParentNode.RemoveChild(TopNode);
-    }
-		internal void SetXmlNodeString(string path, string value)
-		{
-			SetXmlNodeString(TopNode, path, value, false, false);
-		}
-		internal void SetXmlNodeString(string path, string value, bool removeIfBlank)
-		{
-			SetXmlNodeString(TopNode, path, value, removeIfBlank, false);
-		}
-		internal void SetXmlNodeString(XmlNode node, string path, string value)
-		{
-			SetXmlNodeString(node, path, value, false, false);
-		}
-		internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank)
-		{
-			SetXmlNodeString(node, path, value, removeIfBlank, false);
-		}
-		internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank, bool insertFirst)
-		{
-			if (node == null)
-			{
-				return;
-			}
-			if (value == "" && removeIfBlank)
-			{
-				DeleteAllNode(path);    
-			}
-			else
-			{
-				XmlNode nameNode = node.SelectSingleNode(path, NameSpaceManager);
-				if (nameNode == null)
-				{
-					CreateNode(path, insertFirst);
-					nameNode = node.SelectSingleNode(path, NameSpaceManager);
-				}
-				//if (nameNode.InnerText != value) HasChanged();
-				nameNode.InnerText = value;
-			}
-		}
-		internal void SetXmlNodeBool(string path, bool value)
-		{
-			SetXmlNodeString(TopNode, path, value ? "1" : "0", false, false);
-		}
-		internal void SetXmlNodeBool(string path, bool value, bool removeIf)
-		{
-			if (value == removeIf)
-			{
-				var node = TopNode.SelectSingleNode(path, NameSpaceManager);
-				if (node != null)
-				{
-					if (node is XmlAttribute)
-					{
-						var elem = (node as XmlAttribute).OwnerElement;
-						elem.ParentNode.RemoveChild(elem);
-					}
-					else
-					{
-						node.ParentNode.RemoveChild(node);
-					}
-				}
-			}
-			else
-			{
-				SetXmlNodeString(TopNode, path, value ? "1" : "0", false, false);
-			}
-		}
-        internal void SetXmlNodePercentage(string path, double? value, bool allowNegative=true, double minMaxValue=100D)
+        {
+            int ix = nodeName.IndexOf(":");
+            if (ix > 0)
+            {
+                nodeName = nodeName.Substring(ix + 1, nodeName.Length - (ix + 1));
+            }
+            for (int i = startIndex; i < _schemaNodeOrder.Length; i++)
+            {
+                if (nodeName == _schemaNodeOrder[i])
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        internal void DeleteAllNode(string path)
+        {
+            string[] split = path.Split('/');
+            XmlNode node = TopNode;
+            foreach (string s in split)
+            {
+                node = node.SelectSingleNode(s, NameSpaceManager);
+                if (node != null)
+                {
+                    if (node is XmlAttribute)
+                    {
+                        (node as XmlAttribute).OwnerElement.Attributes.Remove(node as XmlAttribute);
+                    }
+                    else
+                    {
+                        node.ParentNode.RemoveChild(node);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        internal void DeleteNode(string path)
+        {
+            var node = TopNode.SelectSingleNode(path, NameSpaceManager);
+            if (node != null)
+            {
+                if (node is XmlAttribute)
+                {
+                    var att = (XmlAttribute)node;
+                    att.OwnerElement.Attributes.Remove(att);
+                }
+                else
+                {
+                    node.ParentNode.RemoveChild(node);
+                }
+            }
+        }
+        internal void DeleteTopNode()
+        {
+            TopNode.ParentNode.RemoveChild(TopNode);
+        }
+        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null)
+        {
+            if (d == null)
+            {
+                DeleteNode(path);
+            }
+            else
+            {
+                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
+            }
+        }
+
+        internal void SetXmlNodeString(string path, string value)
+        {
+            SetXmlNodeString(TopNode, path, value, false, false);
+        }
+        internal void SetXmlNodeString(string path, string value, bool removeIfBlank)
+        {
+            SetXmlNodeString(TopNode, path, value, removeIfBlank, false);
+        }
+        internal void SetXmlNodeString(XmlNode node, string path, string value)
+        {
+            SetXmlNodeString(node, path, value, false, false);
+        }
+        internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank)
+        {
+            SetXmlNodeString(node, path, value, removeIfBlank, false);
+        }
+        internal void SetXmlNodeString(XmlNode node, string path, string value, bool removeIfBlank, bool insertFirst)
+        {
+            if (node == null)
+            {
+                return;
+            }
+            if (value == "" && removeIfBlank)
+            {
+                DeleteAllNode(path);
+            }
+            else
+            {
+                XmlNode nameNode = node.SelectSingleNode(path, NameSpaceManager);
+                if (nameNode == null)
+                {
+                    CreateNode(path, insertFirst);
+                    nameNode = node.SelectSingleNode(path, NameSpaceManager);
+                }
+                //if (nameNode.InnerText != value) HasChanged();
+                nameNode.InnerText = value;
+            }
+        }
+        internal void SetXmlNodeBool(string path, bool value)
+        {
+            SetXmlNodeString(TopNode, path, value ? "1" : "0", false, false);
+        }
+        internal void SetXmlNodeBool(string path, bool value, bool removeIf)
+        {
+            if (value == removeIf)
+            {
+                var node = TopNode.SelectSingleNode(path, NameSpaceManager);
+                if (node != null)
+                {
+                    if (node is XmlAttribute)
+                    {
+                        var elem = (node as XmlAttribute).OwnerElement;
+                        elem.ParentNode.RemoveChild(elem);
+                    }
+                    else
+                    {
+                        node.ParentNode.RemoveChild(node);
+                    }
+                }
+            }
+            else
+            {
+                SetXmlNodeString(TopNode, path, value ? "1" : "0", false, false);
+            }
+        }
+        internal void SetXmlNodePercentage(string path, double? value, bool allowNegative = true, double minMaxValue = 100D)
         {
             if (value.HasValue)
             {
@@ -721,7 +733,7 @@ namespace OfficeOpenXml
                 DeleteNode(path);
             }
         }
-        internal void SetXmlNodeAngel(string path, double? value, string parameter=null, int minValue=0, int maxValue = 360)
+        internal void SetXmlNodeAngel(string path, double? value, string parameter = null, int minValue = 0, int maxValue = 360)
         {
             if (value.HasValue)
             {
@@ -751,7 +763,7 @@ namespace OfficeOpenXml
                 DeleteNode(path);
             }
         }
-        internal void SetXmlNodeFontSize(string path, double? value, string propertyName, bool AllowNegative=true)
+        internal void SetXmlNodeFontSize(string path, double? value, string propertyName, bool AllowNegative = true)
         {
             if (value.HasValue)
             {
@@ -771,65 +783,65 @@ namespace OfficeOpenXml
             }
         }
         internal bool ExistNode(string path)
-		{
-			if (TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-		internal bool? GetXmlNodeBoolNullable(string path)
-		{
-			var value = GetXmlNodeString(path);
-			if (string.IsNullOrEmpty(value))
-			{
-				return null;
-			}
-			return GetXmlNodeBool(path);
-		}
-		internal bool GetXmlNodeBool(string path)
-		{
-			return GetXmlNodeBool(path, false);
-		}
-		internal bool GetXmlNodeBool(string path, bool blankValue)
-		{
-			string value = GetXmlNodeString(path);
-			if (value == "1" || value == "-1" || value.Equals("true",StringComparison.OrdinalIgnoreCase))
-			{
-				return true;
-			}
-			else if (value == "")
-			{
-				return blankValue;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		protected static bool GetBoolFromString(string s)
-		{
-			return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
-		}
-
-		internal int GetXmlNodeInt(string path)
-		{
-			int i;
-			if (int.TryParse(GetXmlNodeString(path), NumberStyles.Number, CultureInfo.InvariantCulture, out i))
-			{
-				return i;
-			}
-			else
-			{
-				return int.MinValue;
-			}
-		}
-        internal double GetXmlNodeAngel(string path, double defaultValue=0)
         {
-            int a=GetXmlNodeInt(path);
+            if (TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        internal bool? GetXmlNodeBoolNullable(string path)
+        {
+            var value = GetXmlNodeString(path);
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+            return GetXmlNodeBool(path);
+        }
+        internal bool GetXmlNodeBool(string path)
+        {
+            return GetXmlNodeBool(path, false);
+        }
+        internal bool GetXmlNodeBool(string path, bool blankValue)
+        {
+            string value = GetXmlNodeString(path);
+            if (value == "1" || value == "-1" || value.Equals("true", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            else if (value == "")
+            {
+                return blankValue;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        protected static bool GetBoolFromString(string s)
+        {
+            return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
+        }
+
+        internal int GetXmlNodeInt(string path)
+        {
+            int i;
+            if (int.TryParse(GetXmlNodeString(path), NumberStyles.Number, CultureInfo.InvariantCulture, out i))
+            {
+                return i;
+            }
+            else
+            {
+                return int.MinValue;
+            }
+        }
+        internal double GetXmlNodeAngel(string path, double defaultValue = 0)
+        {
+            int a = GetXmlNodeInt(path);
             if (a < 0) return defaultValue;
             return a / 60000D;
         }
@@ -842,14 +854,14 @@ namespace OfficeOpenXml
         internal double? GetXmlNodeEmuToPtNull(string path)
         {
             var v = GetXmlNodeLongNull(path);
-            if (v==null) return null;
+            if (v == null) return null;
             return (double)(v / (double)Drawing.ExcelDrawing.EMU_PER_POINT);
         }
         internal int? GetXmlNodeIntNull(string path)
         {
             int i;
             string s = GetXmlNodeString(path);
-            if (s!="" && int.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out i))
+            if (s != "" && int.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out i))
             {
                 return i;
             }
@@ -887,17 +899,17 @@ namespace OfficeOpenXml
         }
 
         internal decimal GetXmlNodeDecimal(string path)
-		{
-			decimal d;
-			if (decimal.TryParse(GetXmlNodeString(path), NumberStyles.Any, CultureInfo.InvariantCulture, out d))
-			{
-				return d;
-			}
-			else
-			{
-				return 0;
-			}
-		}
+        {
+            decimal d;
+            if (decimal.TryParse(GetXmlNodeString(path), NumberStyles.Any, CultureInfo.InvariantCulture, out d))
+            {
+                return d;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         internal decimal? GetXmlNodeDecimalNull(string path)
         {
             decimal d;
@@ -911,75 +923,75 @@ namespace OfficeOpenXml
             }
         }
         internal double? GetXmlNodeDoubleNull(string path)
-		{
-			string s = GetXmlNodeString(path);
-			if (s == "")
-			{
-				return null;
-			}
-			else
-			{
-				double v;
-                if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out v))
-				{
-					return v;
-				}
-				else
-				{
-					return null;
-				}
-			}
-		}		
-        internal double GetXmlNodeDouble(string path)
-		{
-			string s = GetXmlNodeString(path);
-			if (s == "")
-			{
-				return double.NaN;
-			}
-			else
-			{
+        {
+            string s = GetXmlNodeString(path);
+            if (s == "")
+            {
+                return null;
+            }
+            else
+            {
                 double v;
-				if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out v))
-				{
-					return v;
-				}
-				else
-				{
-					return double.NaN;
-				}
-			}
-		}
-
-    internal string GetXmlNodeString(XmlNode node, string path)
-    {
-      if (node == null)
-      {
-        return "";
-      }
-
-      XmlNode nameNode = node.SelectSingleNode(path, NameSpaceManager);
-
-      if (nameNode != null)
-      {
-        if (nameNode.NodeType == XmlNodeType.Attribute)
-        {
-          return nameNode.Value != null ? nameNode.Value : "";
+                if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out v))
+                {
+                    return v;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
-        else
+        internal double GetXmlNodeDouble(string path)
         {
-          return nameNode.InnerText;
+            string s = GetXmlNodeString(path);
+            if (s == "")
+            {
+                return double.NaN;
+            }
+            else
+            {
+                double v;
+                if (double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out v))
+                {
+                    return v;
+                }
+                else
+                {
+                    return double.NaN;
+                }
+            }
         }
-      }
-      else
-      {
-        return "";
-      }
-    }
-		internal string GetXmlNodeString(string path)
-		{
+
+        internal string GetXmlNodeString(XmlNode node, string path)
+        {
+            if (node == null)
+            {
+                return "";
+            }
+
+            XmlNode nameNode = node.SelectSingleNode(path, NameSpaceManager);
+
+            if (nameNode != null)
+            {
+                if (nameNode.NodeType == XmlNodeType.Attribute)
+                {
+                    return nameNode.Value != null ? nameNode.Value : "";
+                }
+                else
+                {
+                    return nameNode.InnerText;
+                }
+            }
+            else
+            {
+                return "";
+            }
+        }
+        internal string GetXmlNodeString(string path)
+        {
             return GetXmlNodeString(TopNode, path);
-		}
+        }
         internal static Uri GetNewUri(Packaging.ZipPackage package, string sUri)
         {
             var id = 1;
@@ -1017,20 +1029,20 @@ namespace OfficeOpenXml
         }
         internal double GetXmlNodeFontSize(string path)
         {
-            return (GetXmlNodeDoubleNull(path)??0) / 100;
+            return (GetXmlNodeDoubleNull(path) ?? 0) / 100;
         }
         internal void RenameNode(XmlNode node, string newName)
         {
             var doc = node.OwnerDocument;
             var newNode = doc.CreateElement("xdr", newName, ExcelPackage.schemaSheetDrawings);
 
-            while(TopNode.ChildNodes.Count>0)
+            while (TopNode.ChildNodes.Count > 0)
             {
                 newNode.AppendChild(TopNode.ChildNodes[0]);
             }
             TopNode.ParentNode.ReplaceChild(newNode, TopNode);
             TopNode = newNode;
-        }   
+        }
         /// <summary>
         /// Insert the new node before any of the nodes in the comma separeted list
         /// </summary>
@@ -1038,20 +1050,20 @@ namespace OfficeOpenXml
         /// <param name="beforeNodes">comma separated list containing nodes to insert after. Left to right order</param>
         /// <param name="newNode">The new node to be inserterd</param>
         internal void InserAfter(XmlNode parentNode, string beforeNodes, XmlNode newNode)
-		{
-			string[] nodePaths = beforeNodes.Split(',');
+        {
+            string[] nodePaths = beforeNodes.Split(',');
 
-			foreach (string nodePath in nodePaths)
-			{
-				XmlNode node = parentNode.SelectSingleNode(nodePath, NameSpaceManager);
-				if (node != null)
-				{
-					parentNode.InsertAfter(newNode, node);
-					return;
-				}
-			}
-			parentNode.InsertAfter(newNode, null);
-		}
+            foreach (string nodePath in nodePaths)
+            {
+                XmlNode node = parentNode.SelectSingleNode(nodePath, NameSpaceManager);
+                if (node != null)
+                {
+                    parentNode.InsertAfter(newNode, node);
+                    return;
+                }
+            }
+            parentNode.InsertAfter(newNode, null);
+        }
         internal static void LoadXmlSafe(XmlDocument xmlDoc, Stream stream)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -1061,26 +1073,26 @@ namespace OfficeOpenXml
 #else
             settings.ProhibitDtd = true;            
 #endif
-            
-			XmlReader reader = XmlReader.Create(stream, settings);			
-			xmlDoc.Load(reader);			
-		}
+
+            XmlReader reader = XmlReader.Create(stream, settings);
+            xmlDoc.Load(reader);
+        }
         internal static void LoadXmlSafe(XmlDocument xmlDoc, string xml, Encoding encoding)
         {
             var stream = new MemoryStream(encoding.GetBytes(xml));
             LoadXmlSafe(xmlDoc, stream);
         }
-		internal protected void CreatespPrNode(string nodePath= "c:spPr", bool withLine=true)
-		{
-			if (!ExistNode(nodePath))
-			{
-				var node = CreateNode(nodePath);
-				if(withLine)
-					node.InnerXml = "<a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/><a:sp3d/>";
-				else
-					node.InnerXml = "<a:noFill/><a:effectLst/><a:sp3d/>";
+        internal protected void CreatespPrNode(string nodePath = "c:spPr", bool withLine = true)
+        {
+            if (!ExistNode(nodePath))
+            {
+                var node = CreateNode(nodePath);
+                if (withLine)
+                    node.InnerXml = "<a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/><a:sp3d/>";
+                else
+                    node.InnerXml = "<a:noFill/><a:effectLst/><a:sp3d/>";
 
-			}
-		}
-	}
+            }
+        }
+    }
 }

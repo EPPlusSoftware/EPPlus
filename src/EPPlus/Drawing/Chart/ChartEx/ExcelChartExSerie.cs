@@ -10,7 +10,7 @@
  *************************************************************************************************
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Chart.ChartEx.enums;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
@@ -112,6 +112,18 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 _dataHelper.SetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']", value);
             }
         }
+        ExcelChartExDataPointCollection _dataPoints = null;
+        public ExcelChartExDataPointCollection DataPoints
+        {
+            get
+            {
+                if(_dataPoints==null)
+                {
+                    _dataPoints = new ExcelChartExDataPointCollection(_chart,NameSpaceManager, TopNode, SchemaNodeOrder);
+                }
+                return _dataPoints;
+            }
+        }
         ExcelChartExSerieElementVisibilities _elementVisibility = null;
         public ExcelChartExSerieElementVisibilities ElementVisibility
         {
@@ -123,6 +135,56 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
                 return _elementVisibility;
             }
+        }
+        public eRegionLabelLayout RegionLableLayout 
+        {
+            get
+            {
+                return GetXmlNodeString("cx:layoutPr/cx:regionLabelLayout/@val").ToEnum(eRegionLabelLayout.None);
+            }
+            set
+            {
+                SetXmlNodeString("cx:layoutPr/cx:regionLabelLayout/@val", value.ToEnumString());
+            }
+        }
+        internal const string _aggregationPath = "cx:layoutPr/cx:aggregation";
+        public bool Aggregation
+        {
+            get
+            {
+                return ExistNode(_aggregationPath);
+            }
+            set
+            {
+                if(value)
+                {
+                    CreateNode(_aggregationPath);
+                }
+                else
+                {
+                    DeleteNode(_aggregationPath);
+                }
+            }
+        }
+        ExcelChartExSerieBinning _binning = null;
+        /// <summary>
+        /// The data binning properties
+        /// </summary>
+        public ExcelChartExSerieBinning Binning
+        {
+            get
+            {
+                if(_binning==null)
+                {
+                    _binning = new ExcelChartExSerieBinning(NameSpaceManager, TopNode);
+                }
+                return _binning;
+            }
+        }
+        public ExcelChartExSerieGeography Geography 
+        { 
+            get; 
+            set; 
         }
         public eParentLabelLayout ParentLabelLayout
         {

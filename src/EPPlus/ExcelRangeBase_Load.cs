@@ -340,8 +340,9 @@ namespace OfficeOpenXml
                 }
             }
 
+            var members = Members.Length == 0 ? 1 : Members.Length;
             // create buffer
-            object[,] values = new object[(PrintHeaders ? Collection.Count() + 1 : Collection.Count()), Members.Count()];
+            object[,] values = new object[(PrintHeaders ? Collection.Count() + 1 : Collection.Count()), members];
 
             int col = 0, row = 0;
             if (Members.Length > 0 && PrintHeaders)
@@ -381,31 +382,38 @@ namespace OfficeOpenXml
 
             foreach (var item in Collection)
             {
-                col = 0;
-                if (item is string || item is decimal || item is DateTime || TypeCompat.IsPrimitive(item))
+                if (item == null)
                 {
-                    values[row, col++] = item;
+                    col = members;
                 }
                 else
                 {
-                    foreach (var t in Members)
+                    col = 0;
+                    if (members == 1 || item is string || item is decimal || item is DateTime || TypeCompat.IsPrimitive(item))
                     {
-                        if (isSameType == false && item.GetType().GetMember(t.Name, memberFlags).Length == 0)
+                        values[row, col++] = item;
+                    }
+                    else
+                    {
+                        foreach (var t in Members)
                         {
-                            col++;
-                            continue; //Check if the property exists if and inherited class is used
-                        }
-                        else if (t is PropertyInfo)
-                        {
-                            values[row, col++] = ((PropertyInfo)t).GetValue(item, null);
-                        }
-                        else if (t is FieldInfo)
-                        {
-                            values[row, col++] = ((FieldInfo)t).GetValue(item);
-                        }
-                        else if (t is MethodInfo)
-                        {
-                            values[row, col++] = ((MethodInfo)t).Invoke(item, null);
+                            if (isSameType == false && item.GetType().GetMember(t.Name, memberFlags).Length == 0)
+                            {
+                                col++;
+                                continue; //Check if the property exists if and inherited class is used
+                            }
+                            else if (t is PropertyInfo)
+                            {
+                                values[row, col++] = ((PropertyInfo)t).GetValue(item, null);
+                            }
+                            else if (t is FieldInfo)
+                            {
+                                values[row, col++] = ((FieldInfo)t).GetValue(item);
+                            }
+                            else if (t is MethodInfo)
+                            {
+                                values[row, col++] = ((MethodInfo)t).Invoke(item, null);
+                            }
                         }
                     }
                 }

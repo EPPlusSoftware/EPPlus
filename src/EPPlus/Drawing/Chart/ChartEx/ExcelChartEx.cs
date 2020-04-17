@@ -11,7 +11,10 @@
   04/15/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Style.Effect;
+using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Xml;
@@ -71,6 +74,117 @@ namespace OfficeOpenXml.Drawing.Chart
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
             Series.Init(this, drawings.NameSpaceManager, chartNode, false, Series._list);
         }
+        ExcelDrawingBorder _border = null;
+        /// <summary>
+        /// Border
+        /// </summary>
+        public override ExcelDrawingBorder Border
+        {
+            get
+            {
+                if (_border == null)
+                {
+                    _border = new ExcelDrawingBorder(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:spPr/a:ln", _chartXmlHelper.SchemaNodeOrder);
+                }
+                return _border;
+            }
+        }
+        ExcelDrawingFill _fill = null;
+        /// <summary>
+        /// Access to Fill properties
+        /// </summary>
+        public override ExcelDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelDrawingFill(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:spPr", _chartXmlHelper.SchemaNodeOrder);
+                }
+                return _fill;
+            }
+        }
+        ExcelDrawingEffectStyle _effect = null;
+        /// <summary>
+        /// Effects
+        /// </summary>
+        public override ExcelDrawingEffectStyle Effect
+        {
+            get
+            {
+                if (_effect == null)
+                {
+                    _effect = new ExcelDrawingEffectStyle(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:spPr/a:effectLst", _chartXmlHelper.SchemaNodeOrder);
+                }
+                return _effect;
+            }
+        }
+        ExcelDrawing3D _threeD = null;
+        /// <summary>
+        /// 3D properties
+        /// </summary>
+        public override ExcelDrawing3D ThreeD
+        {
+            get
+            {
+                if (_threeD == null)
+                {
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:spPr", _chartXmlHelper.SchemaNodeOrder);
+                }
+                return _threeD;
+            }
+        }
+        ExcelTextFont _font = null;
+        /// <summary>
+        /// Access to font properties
+        /// </summary>
+        public override ExcelTextFont Font
+        {
+            get
+            {
+                if (_font == null)
+                {
+                    _font = new ExcelTextFont(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:txPr/a:p/a:pPr/a:defRPr", _chartXmlHelper.SchemaNodeOrder);
+                }
+                return _font;
+            }
+        }
+        ExcelTextBody _textBody = null;
+        /// <summary>
+        /// Access to text body properties
+        /// </summary>
+        public override ExcelTextBody TextBody
+        {
+            get
+            {
+                if (_textBody == null)
+                {
+                    _textBody = new ExcelTextBody(NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace", NameSpaceManager), "cx:txPr/a:bodyPr", _chartXmlHelper.SchemaNodeOrder);
+                }
+                return _textBody;
+            }
+        }
+
+        /// <summary>
+        /// 3D-settings
+        /// </summary>
+        public ExcelView3D View3D
+        {
+            get
+            {
+                if (IsType3D())
+                {
+                    return new ExcelView3D(NameSpaceManager, ChartXml.SelectSingleNode("//cx:view3D", NameSpaceManager));
+                }
+                else
+                {
+                    throw (new Exception("Charttype does not support 3D"));
+                }
+
+            }
+        }
+
+
         /// <summary>
         /// Chart series
         /// </summary>
@@ -87,83 +201,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 throw new InvalidOperationException("VaryColors do not apply to Extended charts");
             }
         }
-        //public eChartExType ChartType { get; set; }
-        //public ExcelTextFont Font => throw new NotImplementedException();
-
-        //public ExcelTextBody TextBody => throw new NotImplementedException();
-
-        //public ExcelDrawingBorder Border => throw new NotImplementedException();
-
-        //public ExcelDrawingEffectStyle Effect => throw new NotImplementedException();
-
-        //public ExcelDrawingFill Fill => throw new NotImplementedException();
-
-        //public ExcelDrawing3D ThreeD => throw new NotImplementedException();
-
-        //public ExcelChartStyleManager StyleManager => throw new NotImplementedException();
-
-        //public ExcelWorksheet WorkSheet => throw new NotImplementedException();
-
-        //public XmlDocument ChartXml => throw new NotImplementedException();
-
-        //public ExcelChartTitle Title => throw new NotImplementedException();
-
-        //public bool HasTitle => throw new NotImplementedException();
-
-        //public bool HasLegend => throw new NotImplementedException();
-
-        //public ExcelChartSeries<ExcelChartSerie> Series => throw new NotImplementedException();
-
-        //public ExcelChartAxis[] Axis => throw new NotImplementedException();
-
-        //public ExcelChartAxis XAxis => throw new NotImplementedException();
-
-        //public ExcelChartAxis YAxis => throw new NotImplementedException();
-
-        //public bool UseSecondaryAxis => throw new NotImplementedException();
-
-        //public eChartStyle Style => throw new NotImplementedException();
-
-        //public bool RoundedCorners { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        //public bool ShowHiddenData { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        //public eDisplayBlanksAs DisplayBlanksAs { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        //public bool ShowDataLabelsOverMaximum { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        //public ExcelChartPlotArea PlotArea => throw new NotImplementedException();
-
-        //public ExcelChartLegend Legend => throw new NotImplementedException();
-
-        //public ExcelView3D View3D => throw new NotImplementedException();
-
-        //public eGrouping Grouping => throw new NotImplementedException();
-
-        //public bool VaryColors => throw new NotImplementedException();
-
-        //public ExcelPivotTable PivotTableSource => throw new NotImplementedException();
-
-        //ExcelPackage IPictureRelationDocument.Package => throw new NotImplementedException();
-
-        //Dictionary<string, HashInfo> IPictureRelationDocument.Hashes => throw new NotImplementedException();
-
-        //ZipPackagePart IPictureRelationDocument.RelatedPart => throw new NotImplementedException();
-
-        //Uri IPictureRelationDocument.RelatedUri => throw new NotImplementedException();
-
-        //eChartType IExcelChart.ChartType => throw new NotImplementedException();
-
-        //public void CreatespPr()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void DeleteTitle()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void SetMandatoryProperties()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

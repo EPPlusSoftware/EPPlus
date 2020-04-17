@@ -8,22 +8,26 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/15/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     /// <summary>
-    /// The quartile calculation methods
+    /// The interval closed side.
     /// </summary>
-    public enum eQuartileMethod
+    public enum eIntervalClosed
     {
         /// <summary>
-        /// The quartile calculation includes the median when splitting the dataset into quartiles
+        /// The IntervalClosed is not specified.
         /// </summary>
-        Inclusive,
+        None,
         /// <summary>
-        /// The quartile calculation excludes the median when splitting the dataset into quartiles
+        /// The interval is closed on the left side
         /// </summary>
-        Exclusive
+        Left,
+        /// <summary>
+        /// The interval is closed on the right side
+        /// </summary>
+        Right
     }
 }

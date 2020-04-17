@@ -10,7 +10,7 @@
  *************************************************************************************************
   04/15/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-namespace OfficeOpenXml.Drawing.Chart.ChartEx.enums
+namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     /// <summary>
     /// The parent label layout

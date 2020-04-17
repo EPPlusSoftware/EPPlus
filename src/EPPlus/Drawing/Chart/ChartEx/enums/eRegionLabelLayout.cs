@@ -13,17 +13,21 @@
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     /// <summary>
-    /// The quartile calculation methods
+    /// The layout type for region labels of a geospatial series
     /// </summary>
-    public enum eQuartileMethod
+    public enum eRegionLabelLayout
     {
         /// <summary>
-        /// The quartile calculation includes the median when splitting the dataset into quartiles
+        /// No region labels appear in a geospatial series
         /// </summary>
-        Inclusive,
+        None,
         /// <summary>
-        /// The quartile calculation excludes the median when splitting the dataset into quartiles
+        /// Region labels only appear if they can fit in their respective containing geometries in a geospatial series
         /// </summary>
-        Exclusive
+        BestFitOnly,
+        /// <summary>
+        /// All region labels appear
+        /// </summary>
+        All
     }
 }
