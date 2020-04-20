@@ -438,8 +438,8 @@ namespace OfficeOpenXml
             }
             return r;
         }
-#endregion
-#region LoadFromText
+        #endregion
+        #region LoadFromText
         /// <summary>
         /// Loads a CSV text into a range starting from the top left cell.
         /// Default settings is Comma separation

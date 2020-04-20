@@ -140,11 +140,12 @@ namespace EPPlusTest.Core.Range
 
                 var range = ws.Cells["A1"].LoadFromCollection(new List<object>() { 1, "s", null });
                 Assert.AreEqual("A1:A3",range.Address);
+                Assert.AreEqual("A1:A3", range.Address);
 
                 range = ws.Cells["B1"].LoadFromCollection(new List<dynamic>() { 1, "s", null });
                 Assert.AreEqual("B1:B3", range.Address);
 
-                range = ws.Cells["C1"].LoadFromCollection(new List<dynamic>() { new  TestDTO{ Name="Test"} });
+                range = ws.Cells["C1"].LoadFromCollection(new List<dynamic>() { new TestDTO { Name = "Test" } });
                 Assert.AreEqual("C1", range.Address);
             }
         }

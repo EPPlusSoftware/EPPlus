@@ -105,6 +105,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelConditionalFormattingConstants.Paths.CfRule,
             _worksheet.NameSpaceManager);
 
+          // Checking the count of cfRuleNodes "materializes" the collection which prevents a rare infinite loop bug
+          if (cfRuleNodes.Count == 0)
+          {
+              continue;
+          }
+
           // Foreach <cfRule> inside the current <conditionalFormatting>
           foreach (XmlNode cfRuleNode in cfRuleNodes)
           {
