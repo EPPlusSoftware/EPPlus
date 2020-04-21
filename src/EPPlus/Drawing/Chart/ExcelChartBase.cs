@@ -166,16 +166,17 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _chartNode;
             }
         }
+        ExcelChartTitle _title = null;
         /// <summary>
         /// Titel of the chart
         /// </summary>
-        public ExcelChartTitle Title
+        public virtual ExcelChartTitle Title
         {
             get
             {
                 if (_title == null)
                 {
-                    _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager));
+                    _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c");
                 }
                 return _title;
             }
@@ -183,7 +184,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// True if the chart has a title
         /// </summary>
-        public bool HasTitle
+        public virtual bool HasTitle
         {
             get
             {
@@ -193,7 +194,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// If the chart has a legend
         /// </summary>
-        public bool HasLegend
+        public virtual bool HasLegend
         {
             get
             {
@@ -203,7 +204,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Remove the title from the chart
         /// </summary>
-        public void DeleteTitle()
+        public virtual void DeleteTitle()
         {
             _title = null;
             _chartXmlHelper.DeleteNode("../../c:title");
@@ -294,7 +295,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Plotarea
         /// </summary>
-        public ExcelChartPlotArea PlotArea
+        public virtual ExcelChartPlotArea PlotArea
         {
             get
             {
@@ -309,13 +310,13 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Legend
         /// </summary>
-        public ExcelChartLegend Legend
+        public virtual ExcelChartLegend Legend
         {
             get
             {
                 if (_legend == null)
                 {
-                    _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this);
+                    _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this, "c");
                 }
                 return _legend;
             }
@@ -385,7 +386,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get { return ""; }
         }
-        ExcelChartTitle _title = null;
         #endregion
         #region "Chart type functions
         /// <summary>

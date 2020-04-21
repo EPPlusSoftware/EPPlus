@@ -511,9 +511,9 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         CreateNode("c:title");
                         node = TopNode.SelectSingleNode("c:title", NameSpaceManager);
-                        node.InnerXml = ExcelChartTitle.GetInitXml();
+                        node.InnerXml = ExcelChartTitle.GetInitXml("c");
                     }
-                    _title = new ExcelChartTitle(_chart, NameSpaceManager, TopNode);
+                    _title = new ExcelChartTitle(_chart, NameSpaceManager, TopNode,"c");
                 }
                 return _title;
             }            

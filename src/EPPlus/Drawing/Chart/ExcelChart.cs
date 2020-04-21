@@ -24,6 +24,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -757,13 +758,13 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Titel of the chart
         /// </summary>
-        public ExcelChartTitle Title
+        public new ExcelChartExTitle Title
         {
             get
             {
                 if (_title == null)
                 {
-                    _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager));
+                    _title = new ExcelChartExTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace/cx:chart", NameSpaceManager));
                 }
                 return _title;
             }
@@ -1009,13 +1010,13 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Legend
         /// </summary>
-        public ExcelChartLegend Legend
+        public override ExcelChartLegend Legend
         {
             get
             {
                 if (_legend == null)
                 {
-                    _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this);
+                    _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this, "c");
                 }
                 return _legend;
             }
@@ -1167,7 +1168,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
-        ExcelChartTitle _title = null;
+        ExcelChartExTitle _title = null;
         #endregion
         #region "Grouping Enum Translation"
         private string GetGroupingText(eGrouping grouping)

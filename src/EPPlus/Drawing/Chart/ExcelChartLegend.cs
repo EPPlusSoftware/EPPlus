@@ -25,18 +25,30 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartLegend : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
-        ExcelChartBase _chart;
-        internal ExcelChartLegend(XmlNamespaceManager ns, XmlNode node, ExcelChartBase chart)
+        protected ExcelChartBase _chart;
+        protected string _nsPrefix;
+        private readonly string OVERLAY_PATH;
+
+        internal ExcelChartLegend(XmlNamespaceManager ns, XmlNode node, ExcelChartBase chart, string nsPrefix)
            : base(ns,node)
        {
            _chart=chart;
-           AddSchemaNodeOrder(new string[] { "legendPos","legendEntry", "layout", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
+            _nsPrefix = nsPrefix;
+            if(chart._isChartEx)
+            {
+                OVERLAY_PATH = "@overlay";
+            }
+            else
+            {
+                OVERLAY_PATH = "c:overlay/@val";
+            }
+            AddSchemaNodeOrder(new string[] { "legendPos","legendEntry", "layout", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
        }
         const string POSITION_PATH = "c:legendPos/@val";
         /// <summary>
         /// The position of the Legend
         /// </summary>
-        public eLegendPosition Position 
+        public virtual eLegendPosition Position 
         {
             get
             {
@@ -77,11 +89,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
-        const string OVERLAY_PATH = "c:overlay/@val";
         /// <summary>
         /// If the legend overlays other objects
         /// </summary>
-        public bool Overlay
+        public virtual bool Overlay
         {
             get
             {
@@ -118,7 +129,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, "c:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
                 }
                 return _border;
             }
@@ -134,7 +145,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_font == null)
                 {
 
-                    _font = new ExcelTextFont(_chart,NameSpaceManager, TopNode, "c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
+                    _font = new ExcelTextFont(_chart,NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
             }
@@ -149,7 +160,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, "c:txPr/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }
@@ -165,7 +176,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, "c:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -180,14 +191,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }
         }
         void IDrawingStyleBase.CreatespPr()
         {
-            CreatespPrNode();
+            CreatespPrNode($"{_nsPrefix}:spPr");
         }
 
         /// <summary>
@@ -202,7 +213,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Adds a legend to the chart
         /// </summary>
-        public void Add()
+        public virtual void Add()
         {
             if(TopNode!=null) return;
 
@@ -227,7 +238,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (Font.Kerning == 0) Font.Kerning = 12;
             Font.Bold = Font.Bold; //Must be set
 
-            CreatespPrNode();
+            CreatespPrNode($"{_nsPrefix}:spPr");
         }
     }
 }
