@@ -32,6 +32,9 @@ namespace OfficeOpenXml.Drawing.Chart
         protected internal string _nsPrefix;
         private readonly string _minorGridlinesPath;
         private readonly string _majorGridlinesPath;
+        private readonly string _formatPath;
+        private readonly string _sourceLinkedPath;
+
         internal ExcelChartAxis(ExcelChartBase chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) :
             base(nameSpaceManager, topNode)
         {
@@ -40,6 +43,8 @@ namespace OfficeOpenXml.Drawing.Chart
 
             _chart = chart;
             _nsPrefix = nsPrefix;
+            _formatPath = $"{_nsPrefix}:numFmt/@formatCode";
+            _sourceLinkedPath = $"{_nsPrefix}:numFmt/@sourceLinked";
             _minorGridlinesPath = $"{nsPrefix}:minorGridlines";
             _majorGridlinesPath = $"{nsPrefix}:majorGridlines";
         }
@@ -119,22 +124,42 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// The Numberformat used
         /// </summary>
-        public abstract string Format 
+        public string Format
         {
-            get;
-            set;
+            get
+            {
+                return GetXmlNodeString(_formatPath);
+            }
+            set
+            {
+                SetXmlNodeString(_formatPath, value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    SourceLinked = true;
+                }
+                else
+                {
+                    SourceLinked = false;
+                }
+            }
         }
         /// <summary>
         /// The Numberformats are linked to the source data.
         /// </summary>
-        public abstract bool SourceLinked
+        public bool SourceLinked
         {
-            get;
-            set;
+            get
+            {
+                return GetXmlNodeBool(_sourceLinkedPath);
+            }
+            set
+            {
+                SetXmlNodeBool(_sourceLinkedPath, value);
+            }
         }
         /// <summary>
-        /// The Position of the labels
-        /// </summary>
+                 /// The Position of the labels
+                 /// </summary>
         public abstract eTickLabelPosition LabelPosition
         {
             get;
@@ -259,13 +284,17 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-        }        
+        }
         /// <summary>
         /// Chart axis title
         /// </summary>
-        public abstract ExcelChartTitle Title
+        internal protected ExcelChartTitle _title=null;
+        public virtual ExcelChartTitle Title
         {
-            get;
+            get
+            {
+                return _title;
+            }
         }
         #region "Scaling"
         /// <summary>
@@ -453,6 +482,15 @@ namespace OfficeOpenXml.Drawing.Chart
         }
 
         #endregion
+        internal protected void AddTitleNode()
+        {
+            var node = TopNode.SelectSingleNode($"{_nsPrefix}:title", NameSpaceManager);
+            if (node == null)
+            {
+                node = CreateNode($"{_nsPrefix}:title");
+                node.InnerXml = ExcelChartTitle.GetInitXml("_nsPrefix");
+            }
+        }
         void IStyleMandatoryProperties.SetMandatoryProperties()
         {
             TextBody.Anchor = eTextAnchoringType.Center;

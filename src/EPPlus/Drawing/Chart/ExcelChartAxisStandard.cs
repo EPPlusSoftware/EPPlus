@@ -114,45 +114,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString(AXIS_POSITION_PATH, value.ToString().ToLower(CultureInfo.InvariantCulture).Substring(0, 1));
             }
         }
-        const string _formatPath = "c:numFmt/@formatCode";
-        /// <summary>
-        /// The Numberformat used
-        /// </summary>
-        public override string Format
-        {
-            get
-            {
-                return GetXmlNodeString(_formatPath);
-            }
-            set
-            {
-                SetXmlNodeString(_formatPath, value);
-                if (string.IsNullOrEmpty(value))
-                {
-                    SourceLinked = true;
-                }
-                else
-                {
-                    SourceLinked = false;
-                }
-            }
-        }
-        const string _sourceLinkedPath = "c:numFmt/@sourceLinked";
-        /// <summary>
-        /// The Numberformats are linked to the source data.
-        /// </summary>
-        public override bool SourceLinked
-        {
-            get
-            {
-                return GetXmlNodeBool(_sourceLinkedPath);
-            }
-            set
-            {
-                SetXmlNodeBool(_sourceLinkedPath, value);
-            }
-        }
-        ExcelChartTitle _title = null;
         /// <summary>
         /// Chart axis title
         /// </summary>
@@ -162,13 +123,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_title == null)
                 {
-                    var node = TopNode.SelectSingleNode("c:title", NameSpaceManager);
-                    if (node == null)
-                    {
-                        CreateNode("c:title");
-                        node = TopNode.SelectSingleNode("c:title", NameSpaceManager);
-                        node.InnerXml = ExcelChartTitle.GetInitXml("c");
-                    }
+                    AddTitleNode();
                     _title = new ExcelChartTitle(_chart, NameSpaceManager, TopNode, "c");
                 }
                 return _title;
