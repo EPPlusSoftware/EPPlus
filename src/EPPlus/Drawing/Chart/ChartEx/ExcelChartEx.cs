@@ -17,6 +17,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table.PivotTable;
 using System;
+using System.Collections.Generic;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -57,7 +58,11 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal override void AddAxis()
         {
-            
+            var l = new List<ExcelChartAxis>();
+            foreach (XmlNode axNode in _chartXmlHelper.GetNodes("cx:plotArea/cx:axis"))
+            {
+                l.Add(new ExcelChartExAxis(this, NameSpaceManager, axNode));
+            }
         }
 
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
@@ -164,27 +169,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _textBody;
             }
         }
-
-        /// <summary>
-        /// 3D-settings
-        /// </summary>
-        public ExcelView3D View3D
-        {
-            get
-            {
-                if (IsType3D())
-                {
-                    return new ExcelView3D(NameSpaceManager, ChartXml.SelectSingleNode("//cx:view3D", NameSpaceManager));
-                }
-                else
-                {
-                    throw (new Exception("Charttype does not support 3D"));
-                }
-
-            }
-        }
-
-
         /// <summary>
         /// Chart series
         /// </summary>

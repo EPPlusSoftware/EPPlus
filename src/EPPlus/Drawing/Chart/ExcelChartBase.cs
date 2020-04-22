@@ -55,6 +55,9 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartBase(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
            base(drawings, node, drawingPath, nvPrPath, parent)
         {
+            ChartXml = chartXml;
+            WorkSheet = drawings.Worksheet;
+            _chartXmlHelper = XmlHelperFactory.Create(drawings.NameSpaceManager ,chartXml.DocumentElement);
         }
         internal ExcelChartBase(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(topChart._drawings, topChart.TopNode, drawingPath, nvPrPath, parent)
@@ -395,44 +398,44 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns>True if the chart is a 3D chart</returns>
         internal static bool IsType3D(eChartType chartType)
         {
-            return chartType == eChartType.Area3D ||
-                            chartType == eChartType.AreaStacked3D ||
-                            chartType == eChartType.AreaStacked1003D ||
-                            chartType == eChartType.BarClustered3D ||
-                            chartType == eChartType.BarStacked3D ||
-                            chartType == eChartType.BarStacked1003D ||
-                            chartType == eChartType.Column3D ||
-                            chartType == eChartType.ColumnClustered3D ||
-                            chartType == eChartType.ColumnStacked3D ||
-                            chartType == eChartType.ColumnStacked1003D ||
-                            chartType == eChartType.Line3D ||
-                            chartType == eChartType.Pie3D ||
-                            chartType == eChartType.PieExploded3D ||
-                            chartType == eChartType.ConeBarClustered ||
-                            chartType == eChartType.ConeBarStacked ||
-                            chartType == eChartType.ConeBarStacked100 ||
-                            chartType == eChartType.ConeCol ||
-                            chartType == eChartType.ConeColClustered ||
-                            chartType == eChartType.ConeColStacked ||
-                            chartType == eChartType.ConeColStacked100 ||
-                            chartType == eChartType.CylinderBarClustered ||
-                            chartType == eChartType.CylinderBarStacked ||
-                            chartType == eChartType.CylinderBarStacked100 ||
-                            chartType == eChartType.CylinderCol ||
-                            chartType == eChartType.CylinderColClustered ||
-                            chartType == eChartType.CylinderColStacked ||
-                            chartType == eChartType.CylinderColStacked100 ||
-                            chartType == eChartType.PyramidBarClustered ||
-                            chartType == eChartType.PyramidBarStacked ||
-                            chartType == eChartType.PyramidBarStacked100 ||
-                            chartType == eChartType.PyramidCol ||
-                            chartType == eChartType.PyramidColClustered ||
-                            chartType == eChartType.PyramidColStacked ||
-                            chartType == eChartType.PyramidColStacked100 ||
-                            chartType == eChartType.Surface ||
-                            chartType == eChartType.SurfaceTopView ||
-                            chartType == eChartType.SurfaceTopViewWireframe ||
-                            chartType == eChartType.SurfaceWireframe;
+            return  chartType == eChartType.Area3D ||
+                    chartType == eChartType.AreaStacked3D ||
+                    chartType == eChartType.AreaStacked1003D ||
+                    chartType == eChartType.BarClustered3D ||
+                    chartType == eChartType.BarStacked3D ||
+                    chartType == eChartType.BarStacked1003D ||
+                    chartType == eChartType.Column3D ||
+                    chartType == eChartType.ColumnClustered3D ||
+                    chartType == eChartType.ColumnStacked3D ||
+                    chartType == eChartType.ColumnStacked1003D ||
+                    chartType == eChartType.Line3D ||
+                    chartType == eChartType.Pie3D ||
+                    chartType == eChartType.PieExploded3D ||
+                    chartType == eChartType.ConeBarClustered ||
+                    chartType == eChartType.ConeBarStacked ||
+                    chartType == eChartType.ConeBarStacked100 ||
+                    chartType == eChartType.ConeCol ||
+                    chartType == eChartType.ConeColClustered ||
+                    chartType == eChartType.ConeColStacked ||
+                    chartType == eChartType.ConeColStacked100 ||
+                    chartType == eChartType.CylinderBarClustered ||
+                    chartType == eChartType.CylinderBarStacked ||
+                    chartType == eChartType.CylinderBarStacked100 ||
+                    chartType == eChartType.CylinderCol ||
+                    chartType == eChartType.CylinderColClustered ||
+                    chartType == eChartType.CylinderColStacked ||
+                    chartType == eChartType.CylinderColStacked100 ||
+                    chartType == eChartType.PyramidBarClustered ||
+                    chartType == eChartType.PyramidBarStacked ||
+                    chartType == eChartType.PyramidBarStacked100 ||
+                    chartType == eChartType.PyramidCol ||
+                    chartType == eChartType.PyramidColClustered ||
+                    chartType == eChartType.PyramidColStacked ||
+                    chartType == eChartType.PyramidColStacked100 ||
+                    chartType == eChartType.Surface ||
+                    chartType == eChartType.SurfaceTopView ||
+                    chartType == eChartType.SurfaceTopViewWireframe ||
+                    chartType == eChartType.SurfaceWireframe;
         }
 
         /// <summary>
@@ -676,6 +679,26 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             base.DeleteMe();
         }
+        /// <summary>
+        /// 3D-settings
+        /// </summary>
+        public ExcelView3D View3D
+        {
+            get
+            {
+                if (IsType3D())
+                {
+                    return new ExcelView3D(NameSpaceManager, ChartXml.SelectSingleNode("//cx:view3D", NameSpaceManager));
+                }
+                else
+                {
+                    return null;    //return null instead of throwing exception
+                    //throw (new Exception("Charttype does not support 3D"));
+                }
+
+            }
+        }
+
         void IStyleMandatoryProperties.SetMandatoryProperties()
         {
             _chartXmlHelper.CreatespPrNode("../c:spPr");

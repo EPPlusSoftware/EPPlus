@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace EPPlusTest.Drawing.Chart
             using (var p=OpenTemplatePackage("Chartex.xlsx"))
             {
                 var drawing = p.Workbook.Worksheets[0].Drawings[0];
+                Assert.IsNotNull(((ExcelChartEx)drawing).Fill);
             }
         }
     }

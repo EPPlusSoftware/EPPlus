@@ -535,6 +535,10 @@ namespace OfficeOpenXml
         {
             return TopNode.SelectSingleNode(path, NameSpaceManager);
         }
+        internal XmlNodeList GetNodes(string path)
+        {
+            return TopNode.SelectNodes(path, NameSpaceManager);
+        }
 
         /// <summary>
         /// return Prepend node

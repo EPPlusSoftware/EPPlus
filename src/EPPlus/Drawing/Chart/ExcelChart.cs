@@ -236,7 +236,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         if (axn.ParentNode.LocalName.EndsWith("Ax"))
                         {
                             XmlNode axisNode = axNode[1].ParentNode;
-                            ExcelChartAxis ax = new ExcelChartAxis(this, NameSpaceManager, axisNode);
+                            ExcelChartAxis ax = new ExcelChartAxisStandard(this, NameSpaceManager, axisNode, "c");
                             l.Add(ax);
                         }
                     }
@@ -720,8 +720,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 _axis = newAxis;
             }
 
-            _axis[_axis.Length - 2] = new ExcelChartAxis(this, NameSpaceManager, catAx);
-            _axis[_axis.Length - 1] = new ExcelChartAxis(this, NameSpaceManager, valAx);
+            _axis[_axis.Length - 2] = new ExcelChartAxisStandard(this, NameSpaceManager, catAx, "c");
+            _axis[_axis.Length - 1] = new ExcelChartAxisStandard(this, NameSpaceManager, valAx, "c");
             foreach (var chart in _plotArea.ChartTypes)
             {
                 chart._axis = _axis;
@@ -730,30 +730,6 @@ namespace OfficeOpenXml.Drawing.Chart
         internal void RemoveSecondaryAxis()
         {
             throw (new NotImplementedException("Not yet implemented"));
-        }
-        #region "Properties"
-        /// <summary>
-        /// Reference to the worksheet
-        /// </summary>
-        public ExcelWorksheet WorkSheet { get; internal set; }
-        /// <summary>
-        /// The chart xml document
-        /// </summary>
-        public XmlDocument ChartXml { get; internal set; }
-        /// <summary>
-        /// Type of chart
-        /// </summary>
-        public eChartType ChartType { get; internal set; }
-        /// <summary>
-        /// The chart element
-        /// </summary>
-        internal protected XmlNode _chartNode = null;
-        internal XmlNode ChartNode
-        {
-            get
-            {
-                return _chartNode;
-            }
         }
         /// <summary>
         /// Titel of the chart
@@ -1169,7 +1145,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         ExcelChartExTitle _title = null;
-        #endregion
+
         #region "Grouping Enum Translation"
         private string GetGroupingText(eGrouping grouping)
         {
