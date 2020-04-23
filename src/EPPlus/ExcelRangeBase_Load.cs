@@ -232,7 +232,7 @@ namespace OfficeOpenXml
         public ExcelRangeBase LoadFromArrays(IEnumerable<object[]> Data)
         {
             //thanx to Abdullin for the code contribution
-            if (!(Data?.Any() ?? false)) throw new ArgumentNullException(nameof(Data));
+            if (!(Data?.Any() ?? false)) return null;
 
             var maxColumn = 0;
             var row = _fromRow;
