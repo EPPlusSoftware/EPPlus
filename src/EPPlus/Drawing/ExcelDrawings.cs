@@ -148,8 +148,9 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("c14", ExcelPackage.schemaChart14);
             NameSpaceManager.AddNamespace("mc", ExcelPackage.schemaMc2006);
             NameSpaceManager.AddNamespace("cx", ExcelPackage.schemaChartExMain); 
-            NameSpaceManager.AddNamespace("cx1", ExcelPackage.schemaChartEx2015);
-            
+            NameSpaceManager.AddNamespace("cx1", ExcelPackage.schemaChartEx2015_9_8);
+            NameSpaceManager.AddNamespace("cx2", ExcelPackage.schemaChartEx2015_10_21);
+
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion

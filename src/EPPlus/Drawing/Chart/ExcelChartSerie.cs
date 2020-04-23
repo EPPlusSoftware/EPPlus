@@ -22,11 +22,11 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 namespace OfficeOpenXml.Drawing.Chart
 {
-    public abstract class ExcelChartSerieBase : XmlHelper, IDrawingStyleBase
+    public abstract class ExcelChartSerie : XmlHelper, IDrawingStyleBase
     {
         internal ExcelChart _chart;
         string _prefix;
-        internal ExcelChartSerieBase(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string prefix="c")
+        internal ExcelChartSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string prefix="c")
             : base(ns, node)
         {
             _chart = chart;
@@ -112,12 +112,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _threeD;
             }
         }
-
+        public abstract int NumberOfItems { get; }
+        public abstract ExcelChartTrendlineCollection TrendLines{ get; }
+        internal abstract void SetID(string id);
     }
     /// <summary>
     /// A chart serie
     /// </summary>
-    public class ExcelChartSerie : ExcelChartSerieBase
+    public class ExcelChartSerieStandard : ExcelChartSerie
     {
         private readonly bool _isPivot;
         /// <summary>
@@ -127,7 +129,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
        /// <param name="isPivot">Is pivotchart</param>  
-       internal ExcelChartSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
+       internal ExcelChartSerieStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
            : base(chart, ns, node)
        {
            _chart = chart;
@@ -171,7 +173,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _xSeriesStrLitPath = string.Format("{0}/c:strLit", _xSeriesTopPath);
             _xSeriesNumLitPath = string.Format("{0}/c:numLit", _xSeriesTopPath);
        }
-        internal void SetID(string id)
+       internal override void SetID(string id)
        {
            SetXmlNodeString("c:idx/@val",id);
            SetXmlNodeString("c:order/@val", id);
@@ -492,7 +494,7 @@ namespace OfficeOpenXml.Drawing.Chart
        /// <summary>
        /// Access to the trendline collection
        /// </summary>
-        public ExcelChartTrendlineCollection TrendLines
+        public override ExcelChartTrendlineCollection TrendLines
         {
             get
             {
@@ -506,7 +508,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Number of items in the serie
         /// </summary>
-        public int NumberOfItems
+        public override int NumberOfItems
         {
             get
             {
@@ -628,6 +630,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 throw (new NotImplementedException("Litteral cache has not been implemented yet."));
             }
         }
-
     }
 }

@@ -749,11 +749,9 @@ namespace OfficeOpenXml
 			var xml = origSheet.VmlDrawingsComments.VmlDrawingXml.OuterXml;
 			var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetID), UriKind.Relative);
 			var part = _pck.Package.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
-			using (var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write)))
-			{
-				streamDrawing.Write(xml);
-                streamDrawing.Flush();
-            }
+            var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
+			streamDrawing.Write(xml);
+            streamDrawing.Flush();
 			
             //Add the relationship ID to the worksheet xml.
 			var vmlRelation = newSheet.Part.CreateRelationship(UriHelper.GetRelativeUri(newSheet.WorksheetUri,vmlUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");

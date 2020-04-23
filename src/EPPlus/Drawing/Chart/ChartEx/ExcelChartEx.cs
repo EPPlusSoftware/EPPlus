@@ -28,12 +28,32 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _isChartEx = true;
         }
+        internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
+            base(drawings, drawingsNode, type, null, PivotTableSource, chartXml, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
+        {
+            _isChartEx = true;
+        }
+        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent=null) :
+            base(drawings, node, uriChart, part, chartXml, chartNode, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
+        {
+            _isChartEx = true;
+            ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
+            Series.Init(this, drawings.NameSpaceManager, chartNode, false, Series._list);
+        }
+        internal override void AddAxis()
+        {
+            var l = new List<ExcelChartAxis>();
+            foreach (XmlNode axNode in _chartXmlHelper.GetNodes("cx:plotArea/cx:axis"))
+            {
+                l.Add(new ExcelChartExAxis(this, NameSpaceManager, axNode));
+            }
+        }
 
         private static eChartType GetChartType(XmlNode node, XmlNamespaceManager nsm)
         {
             var layoutId = node.SelectSingleNode("cx:plotArea/cx:plotAreaRegion/cx:series[1]/@layoutId", nsm);
-            if (layoutId == null) throw new InvalidOperationException($"No series in chart"); 
-            switch(layoutId.Value)
+            if (layoutId == null) throw new InvalidOperationException($"No series in chart");
+            switch (layoutId.Value)
             {
                 case "clusteredColumn":
                     return eChartType.Histogram;
@@ -53,32 +73,20 @@ namespace OfficeOpenXml.Drawing.Chart
                     return eChartType.Waterfall;
                 default:
                     throw new InvalidOperationException($"Unsupported layoutId in ChartEx Xml: {layoutId}");
-            }          
-        }
-
-        internal override void AddAxis()
-        {
-            var l = new List<ExcelChartAxis>();
-            foreach (XmlNode axNode in _chartXmlHelper.GetNodes("cx:plotArea/cx:axis"))
-            {
-                l.Add(new ExcelChartExAxis(this, NameSpaceManager, axNode));
             }
         }
 
-        internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
-            base(drawings, drawingsNode, type, null, PivotTableSource, chartXml, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
+        /// <summary>
+        /// An array containg all axis of all Charttypes
+        /// </summary>
+        public new ExcelChartExAxis[] Axis
         {
-            _isChartEx = true;
+            get
+            {
+                return (ExcelChartExAxis[])_axis;
+            }
         }
 
-
-        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent=null) :
-            base(drawings, node, uriChart, part, chartXml, chartNode, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
-        {
-            _isChartEx = true;
-            ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
-            Series.Init(this, drawings.NameSpaceManager, chartNode, false, Series._list);
-        }
         ExcelDrawingBorder _border = null;
         /// <summary>
         /// Border

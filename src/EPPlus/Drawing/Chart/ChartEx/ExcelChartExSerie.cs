@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// <summary>
     /// A chart serie
     /// </summary>
-    public class ExcelChartExSerie : ExcelChartSerieBase
+    public class ExcelChartExSerie : ExcelChartSerie
     {
         XmlNode _dataNode;
         XmlHelper _dataHelper;
@@ -226,6 +226,15 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 SetXmlNodeBool("@hidden", value, false);
             }
+        }
+
+        public override int NumberOfItems => throw new System.NotImplementedException();
+
+        public override ExcelChartTrendlineCollection TrendLines => throw new System.NotImplementedException();
+
+        internal override void SetID(string id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -214,7 +214,8 @@ namespace OfficeOpenXml
         //Chart Ex
         internal const string schemaMc2006 = "http://schemas.openxmlformats.org/markup-compatibility/2006";
         internal const string schemaChartExMain = "http://schemas.microsoft.com/office/drawing/2014/chartex";
-        internal const string schemaChartEx2015 = "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex";
+        internal const string schemaChartEx2015_9_8 = "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex";
+        internal const string schemaChartEx2015_10_21 = "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex";
 
         //Package reference
         private Packaging.ZipPackage _package;

@@ -23,13 +23,13 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Collection class for chart series
     /// </summary>
-    public class ExcelChartSeries<T> : IEnumerable<T> where T : ExcelChartSerieBase
+    public class ExcelChartSeries<T> : IEnumerable<T> where T : ExcelChartSerie
     {
-        internal List<ExcelChartSerieBase> _list;
+        internal List<ExcelChartSerie> _list;
         internal ExcelChart _chart;
         XmlNode _node;
         XmlNamespaceManager _ns;
-        internal void Init(ExcelChart chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot, List<ExcelChartSerieBase> list = null)
+        internal void Init(ExcelChart chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot, List<ExcelChartSerie> list = null)
         {
             _ns = ns;
             _chart = chart;
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _isPivot = isPivot;
             if (list == null)
             {
-                _list = new List<ExcelChartSerieBase>();
+                _list = new List<ExcelChartSerie>();
             }
             else
             {
@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             foreach (XmlNode n in chartNode.SelectNodes("c:ser", ns))
             {
-                ExcelChartSerieBase s;
+                ExcelChartSerie s;
                 switch (chart.ChartNode.LocalName)
                 {
                     case "barChart":
@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         s = new ExcelAreaChartSerie(_chart, ns, n, isPivot);
                         break;
                     default:
-                        s = new ExcelChartSerie(_chart, ns, n, isPivot);
+                        s = new ExcelChartSerieStandard(_chart, ns, n, isPivot);
                         break;
                 }
                 _list.Add((T)s);
@@ -136,7 +136,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="PositionID">Zero based</param>
         public void Delete(int PositionID)
         {
-            ExcelChartSerieBase ser = _list[PositionID];
+            ExcelChartSerie ser = _list[PositionID];
             ser.TopNode.ParentNode.RemoveChild(ser.TopNode);
             _list.RemoveAt(PositionID);
         }
@@ -213,7 +213,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
             int idx = FindIndex();
             ser.InnerXml = string.Format("<c:idx val=\"{1}\" /><c:order val=\"{1}\" /><c:tx><c:strRef><c:f></c:f><c:strCache><c:ptCount val=\"1\" /></c:strCache></c:strRef></c:tx>{2}{5}{0}{3}{4}", AddExplosion(Chart.ChartType), idx, AddSpPrAndScatterPoint(Chart.ChartType), AddAxisNodes(Chart.ChartType), AddSmooth(Chart.ChartType), AddMarker(Chart.ChartType));
-            ExcelChartSerieBase serie;
+            ExcelChartSerie serie;
             switch (Chart.ChartType)
             {
                 case eChartType.Bubble:
@@ -316,7 +316,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     serie = new ExcelAreaChartSerie(_chart, _ns, ser, _isPivot);
                     break;
                 default:
-                    serie = new ExcelChartSerie(_chart, _ns, ser, _isPivot);
+                    serie = new ExcelChartSerieStandard(_chart, _ns, ser, _isPivot);
                     break;
             }
             serie.Series = SerieAddress;
@@ -324,7 +324,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _list.Add((T)serie);
             if (_chart.StyleManager.StylePart != null)
             {
-                _chart.StyleManager.ApplyStyle(serie, _chart.StyleManager.GetDataPointStyle(_chart));
+                _chart.StyleManager.ApplySeries();
             }
             return (T)serie;
         }

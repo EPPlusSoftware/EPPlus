@@ -99,7 +99,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if(CreateNodeUntil(_linePath, "spPr", out XmlNode spPrNode))
                 {
-                    spPrNode.InnerXml = "<a:noFill/><a:ln><a:noFill/></a:ln ><a:effectLst/><a:sp3d/>";
+                    spPrNode.InnerXml = "<a:ln><a:noFill/></a:ln ><a:effectLst/>";
                  }
             }
             isSpInit = true;

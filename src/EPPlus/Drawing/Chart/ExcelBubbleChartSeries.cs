@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public sealed class ExcelBubbleChartSeries : ExcelChartSeries<ExcelBubbleChartSerie>
     {
-        internal ExcelBubbleChartSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerieBase> list)
+        internal ExcelBubbleChartSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list)
         {
             Init(chart, ns, node, isPivot, list);
         }

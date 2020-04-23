@@ -541,7 +541,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
         }
 
-        private void GenerateDataPointsSerie(ExcelChartSerieBase serie)
+        private void GenerateDataPointsSerie(ExcelChartSerie serie)
         {
             if(serie is IDrawingChartDataPoints dtpSerie)
             {

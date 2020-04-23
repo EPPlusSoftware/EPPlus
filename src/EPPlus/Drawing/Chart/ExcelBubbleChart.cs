@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Chart
             base(topChart, chartNode, parent)
         {
         }
-        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerieBase> list = null)
+        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
         {
             base.InitSeries(chart, ns, node, isPivot, list);
             Series = new ExcelBubbleChartSeries(chart, ns, node, isPivot, base.Series._list);

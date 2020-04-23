@@ -3203,7 +3203,6 @@ namespace OfficeOpenXml
             }
             sw.Write(">");
         }
-
         /// <summary>
         /// Update xml with hyperlinks 
         /// </summary>

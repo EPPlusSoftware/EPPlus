@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         #endregion
-        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerieBase> list = null)
+        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
         {
             base.InitSeries(chart, ns, node, isPivot, list);
             AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "gapWidth", "upbars", "downbars" });

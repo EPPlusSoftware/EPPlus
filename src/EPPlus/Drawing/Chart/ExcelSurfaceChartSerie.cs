@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A serie for a surface chart
     /// </summary>
-    public sealed class ExcelSurfaceChartSerie : ExcelChartSerie
+    public sealed class ExcelSurfaceChartSerie : ExcelChartSerieStandard
     {
         /// <summary>
         /// Default constructor

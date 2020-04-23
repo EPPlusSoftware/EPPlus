@@ -215,11 +215,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public virtual ExcelChartSeries<ExcelChartSerieBase> Series { get; } = new ExcelChartSeries<ExcelChartSerieBase>();
+        public virtual ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>
-        public ExcelChartAxis[] Axis
+        public virtual ExcelChartAxis[] Axis
         {
             get
             {
@@ -718,7 +718,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
-            XmlNode chartNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
+            XmlNode chartNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1' or @Requires='cx2']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
             if (chartNode != null)
             {
                 var drawingRelation = drawings.Part.GetRelationship(chartNode.Attributes["r:id"].Value);

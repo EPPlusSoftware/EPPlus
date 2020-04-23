@@ -106,7 +106,7 @@ namespace OfficeOpenXml.Drawing.Chart
             InitSeries(this, drawings.NameSpaceManager, _chartNode, isPivot);
             LoadAxis();
         }
-        internal virtual void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerieBase> list = null)
+        internal virtual void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
         {
             Series.Init(chart, ns, node, isPivot, list);
         }
@@ -776,7 +776,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public virtual ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
+        public virtual ExcelChartSeries<ExcelChartSerieStandard> Series { get; } = new ExcelChartSeries<ExcelChartSerieStandard>();
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>
