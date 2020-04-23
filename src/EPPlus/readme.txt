@@ -56,6 +56,15 @@ This might be the easiest way of configuring this. Just as above, set the variab
 
 **Important!** The environment variable should be set at the user level.
 
+## Using EPPlus on Non-Windows systems
+To use EPPlus with .NET Core on Non-Windows systems, libgdiplus is required.
+
+Homebrew on MacOS:  
+`brew install mono-libgdiplus`
+
+apt-get:  
+`apt-get install libgdiplus`
+
 ## New features in EPPlus 5
 EPPlus 5 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
 

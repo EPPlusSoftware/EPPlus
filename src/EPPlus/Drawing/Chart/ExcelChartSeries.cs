@@ -305,7 +305,7 @@ namespace OfficeOpenXml.Drawing.Chart
             _list.Add((T)serie);
             if (_chart.StyleManager.StylePart != null)
             {
-                _chart.StyleManager.ApplyStyle(serie, _chart.StyleManager.GetDataPointStyle(_chart));
+                _chart.StyleManager.ApplySeries();
             }
             return (T)serie;
         }
