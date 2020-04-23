@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Provides access to line chart specific properties
     /// </summary>
-    public class ExcelRadarChart : ExcelChart, IDrawingDataLabel
+    public class ExcelRadarChart : ExcelChartStandard, IDrawingDataLabel
     {
         #region "Constructors"
         internal ExcelRadarChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, Packaging.ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             SetTypeProperties();
         }
-        internal ExcelRadarChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChartBase topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+        internal ExcelRadarChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             SetTypeProperties();

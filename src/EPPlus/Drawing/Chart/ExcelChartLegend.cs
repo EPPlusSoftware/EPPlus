@@ -25,11 +25,11 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartLegend : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
-        protected ExcelChartBase _chart;
+        protected ExcelChart _chart;
         protected string _nsPrefix;
         private readonly string OVERLAY_PATH;
 
-        internal ExcelChartLegend(XmlNamespaceManager ns, XmlNode node, ExcelChartBase chart, string nsPrefix)
+        internal ExcelChartLegend(XmlNamespaceManager ns, XmlNode node, ExcelChart chart, string nsPrefix)
            : base(ns,node)
        {
            _chart=chart;

@@ -30,21 +30,21 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartDataPoint : XmlHelper, IDisposable, IDrawingStyleBase
     {
         internal const string topNodePath = "c:dPt";
-        ExcelChartBase _chart;
-        internal ExcelChartDataPoint(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
+        ExcelChart _chart;
+        internal ExcelChartDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
             Init(chart);
             Index = GetXmlNodeInt(indexPath);
         }
 
-        internal ExcelChartDataPoint(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode topNode, int index) : base(ns, topNode)
+        internal ExcelChartDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, int index) : base(ns, topNode)
         {
             Init(chart);
             SetXmlNodeString(indexPath, index.ToString(CultureInfo.InvariantCulture));
             Bubble3D = false;
             Index = index;
         }
-        private void Init(ExcelChartBase chart)
+        private void Init(ExcelChart chart)
         {
             _chart = chart;
             AddSchemaNodeOrder(new string[] { "idx", "invertIfNegative", "marker", "bubble3D", "explosion", "spPr", "pictureOptions", "extLst" }, ExcelDrawing._schemaNodeOrderSpPr);

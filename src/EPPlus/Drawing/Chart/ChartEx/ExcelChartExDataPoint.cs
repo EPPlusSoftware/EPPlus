@@ -19,13 +19,13 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataPoint : XmlHelper, IDrawingStyleBase
     {
-        ExcelChartBase _chart;
-        internal ExcelChartExDataPoint(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
+        ExcelChart _chart;
+        internal ExcelChartExDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
             SchemaNodeOrder=new string[]{"spPr"};
             Index = GetXmlNodeInt(indexPath);
         }
-        internal ExcelChartExDataPoint(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode topNode, int index) : base(ns, topNode)
+        internal ExcelChartExDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, int index) : base(ns, topNode)
         {
             SchemaNodeOrder = new string[] { "spPr" };
             Index = index;

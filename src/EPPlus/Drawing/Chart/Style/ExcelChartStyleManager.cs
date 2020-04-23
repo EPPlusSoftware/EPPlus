@@ -34,10 +34,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
     /// </summary>
     public class ExcelChartStyleManager : XmlHelper
     {
-        internal readonly ExcelChartBase _chart;
+        internal readonly ExcelChart _chart;
         private readonly ExcelThemeManager _theme;
         private static bool _hasLoadedLibraryFiles=false;
-        internal ExcelChartStyleManager(XmlNamespaceManager nameSpaceManager, ExcelChartBase chart) : base(nameSpaceManager)
+        internal ExcelChartStyleManager(XmlNamespaceManager nameSpaceManager, ExcelChart chart) : base(nameSpaceManager)
         {
             _chart = chart;
             LoadStyleAndColors(chart);
@@ -685,7 +685,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
         }
 
-        internal ExcelChartStyleEntry GetDataPointStyle(ExcelChartBase chart)
+        internal ExcelChartStyleEntry GetDataPointStyle(ExcelChart chart)
         {
             ExcelChartStyleEntry dataPoint;
             if (chart.IsType3D())
@@ -1047,7 +1047,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
             return 1;
         }
-        private void LoadStyleAndColors(ExcelChartBase chart)
+        private void LoadStyleAndColors(ExcelChart chart)
         {
             if (chart.Part == null) return;
             var p = chart.WorkSheet.Workbook._package;

@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
         /// <param name="isPivot">Is pivotchart</param>
-        internal ExcelBarChartSerie(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, bool isPivot) :
+        internal ExcelBarChartSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot) :
             base(chart, ns, node, isPivot)
         {
         }

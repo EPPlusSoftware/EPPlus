@@ -23,10 +23,10 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Represents an Area Chart
     /// </summary>
-    public sealed class ExcelAreaChart : ExcelChart, IDrawingDataLabel
+    public sealed class ExcelAreaChart : ExcelChartStandard, IDrawingDataLabel
     {
         #region "Constructors"
-        internal ExcelAreaChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChartBase topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+        internal ExcelAreaChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
         }

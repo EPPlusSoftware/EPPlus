@@ -24,9 +24,9 @@ namespace OfficeOpenXml.Drawing.Chart
 {
     public abstract class ExcelChartSerieBase : XmlHelper, IDrawingStyleBase
     {
-        internal ExcelChartBase _chart;
+        internal ExcelChart _chart;
         string _prefix;
-        internal ExcelChartSerieBase(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, string prefix="c")
+        internal ExcelChartSerieBase(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string prefix="c")
             : base(ns, node)
         {
             _chart = chart;
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
        /// <param name="isPivot">Is pivotchart</param>  
-       internal ExcelChartSerie(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
+       internal ExcelChartSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
            : base(chart, ns, node)
        {
            _chart = chart;

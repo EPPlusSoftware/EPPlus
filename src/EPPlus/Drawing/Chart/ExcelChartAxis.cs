@@ -28,14 +28,14 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Type of axis
         /// </summary>
-        protected internal ExcelChartBase _chart;
+        protected internal ExcelChart _chart;
         protected internal string _nsPrefix;
         private readonly string _minorGridlinesPath;
         private readonly string _majorGridlinesPath;
         private readonly string _formatPath;
         private readonly string _sourceLinkedPath;
 
-        internal ExcelChartAxis(ExcelChartBase chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) :
+        internal ExcelChartAxis(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) :
             base(nameSpaceManager, topNode)
         {
             AddSchemaNodeOrder(new string[] { "axId", "scaling", "delete", "axPos", "majorGridlines", "minorGridlines", "title", "numFmt", "majorTickMark", "minorTickMark", "tickLblPos", "spPr", "txPr", "crossAx", "crosses", "crossesAt", "crossBetween", "auto", "lblOffset", "baseTimeUnit", "majorUnit", "majorTimeUnit", "minorUnit", "minorTimeUnit", "tickLblSkip", "tickMarkSkip", "dispUnits", "noMultiLvlLbl", "logBase", "orientation", "max", "min" },

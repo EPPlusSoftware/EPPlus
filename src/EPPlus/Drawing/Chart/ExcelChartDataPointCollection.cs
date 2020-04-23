@@ -25,9 +25,9 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartDataPointCollection : XmlHelper, IEnumerable<ExcelChartDataPoint>
     {
-        ExcelChartBase _chart;
+        ExcelChart _chart;
         private readonly SortedDictionary<int,ExcelChartDataPoint> _dic = new SortedDictionary<int, ExcelChartDataPoint>();
-        internal ExcelChartDataPointCollection(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
+        internal ExcelChartDataPointCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
             foreach (XmlNode pointNode in TopNode.SelectNodes(ExcelChartDataPoint.topNodePath, ns))

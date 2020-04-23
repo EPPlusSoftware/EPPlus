@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public sealed class ExcelChartSerieDataLabel : ExcelChartDataLabel
     {
-       internal ExcelChartSerieDataLabel(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder)
+       internal ExcelChartSerieDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder)
            : base(chart, ns,node,"dLbls", schemaNodeOrder)
        {
             Position = eLabelPosition.Center;

@@ -23,8 +23,8 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartDataTable : XmlHelper, IDrawingStyle
     {
-        ExcelChartBase _chart;
-       internal ExcelChartDataTable(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node)
+        ExcelChart _chart;
+       internal ExcelChartDataTable(ExcelChart chart, XmlNamespaceManager ns, XmlNode node)
            : base(ns,node)
         {
             AddSchemaNodeOrder(new string[] { "dTable", "showHorzBorder", "showVertBorder", "showOutline", "showKeys", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);

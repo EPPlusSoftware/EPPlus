@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Chart
 {
     public sealed class ExcelChartAxisStandard : ExcelChartAxis
     {
-        internal ExcelChartAxisStandard(ExcelChartBase chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) : base(chart, nameSpaceManager, topNode, nsPrefix)
+        internal ExcelChartAxisStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) : base(chart, nameSpaceManager, topNode, nsPrefix)
         {
         }
         internal override string Id

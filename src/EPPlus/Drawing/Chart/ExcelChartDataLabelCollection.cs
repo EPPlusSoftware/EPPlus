@@ -22,9 +22,9 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartDataLabelCollection : XmlHelper, IEnumerable<ExcelChartDataLabelItem>
     {
-        ExcelChartBase _chart;
+        ExcelChart _chart;
         private readonly List<ExcelChartDataLabelItem> _list;
-        internal ExcelChartDataLabelCollection(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
+        internal ExcelChartDataLabelCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
             _list = new List<ExcelChartDataLabelItem>();

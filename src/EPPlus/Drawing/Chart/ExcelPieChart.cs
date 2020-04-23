@@ -21,14 +21,14 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Provides access to pie chart specific properties
     /// </summary>
-    public class ExcelPieChart : ExcelChart, IDrawingDataLabel
+    public class ExcelPieChart : ExcelChartStandard, IDrawingDataLabel
     {
         internal ExcelPieChart(ExcelDrawings drawings, XmlNode node, eChartType type, bool isPivot, ExcelGroupShape parent = null) :
             base(drawings, node, type, isPivot, parent)
         {
             
         }
-        internal ExcelPieChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChartBase topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+        internal ExcelPieChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             

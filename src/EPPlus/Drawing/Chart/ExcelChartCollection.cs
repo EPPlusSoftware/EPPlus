@@ -18,16 +18,16 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Enumerates charttypes 
     /// </summary>
-    public class ExcelChartCollection : IEnumerable<ExcelChartBase>
+    public class ExcelChartCollection : IEnumerable<ExcelChart>
     {
-        List<ExcelChartBase> _list = new List<ExcelChartBase>();
-        ExcelChartBase _topChart;
-        internal ExcelChartCollection(ExcelChartBase chart)
+        List<ExcelChart> _list = new List<ExcelChart>();
+        ExcelChart _topChart;
+        internal ExcelChartCollection(ExcelChart chart)
         {
             _topChart = chart;
             _list.Add(chart);
         }
-        internal void Add(ExcelChartBase chart)
+        internal void Add(ExcelChart chart)
         {
             _list.Add(chart);
         }
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         /// <param name="chartType">The type of the new chart</param>
         /// <returns></returns>
-        public ExcelChartBase Add(eChartType chartType)
+        public ExcelChart Add(eChartType chartType)
         {
             if (_topChart.PivotTableSource != null)
             {
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _list.Count;
             }
         }
-        IEnumerator<ExcelChartBase> IEnumerable<ExcelChartBase>.GetEnumerator()
+        IEnumerator<ExcelChart> IEnumerable<ExcelChart>.GetEnumerator()
         {
             return _list.GetEnumerator();
         }
@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         /// <param name="PositionID">The position of the chart. 0-base</param>
         /// <returns></returns>
-        public ExcelChartBase this[int PositionID]
+        public ExcelChart this[int PositionID]
         {
             get
             {

@@ -8,7 +8,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExTitle : ExcelChartTitle
     {
-        public ExcelChartExTitle(ExcelChartBase chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node, "cx")
+        public ExcelChartExTitle(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node, "cx")
         {
 
         }

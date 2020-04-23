@@ -23,10 +23,10 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Represents a Bar Chart
     /// </summary>
-    public sealed class ExcelBarChart : ExcelChart, IDrawingDataLabel
+    public sealed class ExcelBarChart : ExcelChartStandard, IDrawingDataLabel
     {
         #region "Constructors"
-        internal ExcelBarChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChartBase topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+        internal ExcelBarChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             SetChartNodeText("");

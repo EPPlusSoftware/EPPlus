@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
-    public class ExcelChartEx : ExcelChartBase
+    public class ExcelChartEx : ExcelChart
     {
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, bool isPivot, ExcelGroupShape parent) : 
             base(drawings, node, GetChartType(node, drawings.NameSpaceManager), isPivot, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")

@@ -20,8 +20,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExSerieDataLabels : XmlHelper, IDrawingStyle
     {
-        ExcelChartBase _chart;
-        internal ExcelChartExSerieDataLabels(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder) : base(ns, node)
+        ExcelChart _chart;
+        internal ExcelChartExSerieDataLabels(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder) : base(ns, node)
         {
             _chart = chart;
             AddSchemaNodeOrder(schemaNodeOrder, new string[]{ "numFmt","spPr", "txPr", "visibility", "separator"});

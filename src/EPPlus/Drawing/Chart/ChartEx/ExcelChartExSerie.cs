@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// <param name="chart">The chart</param>
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
-        internal ExcelChartExSerie(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node)
+        internal ExcelChartExSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node)
             : base(chart, ns, node)
         {
             SchemaNodeOrder = new string[] { "tx", "spPr", "valueColors", "valueColorPositions", "dataPt", "dataLabels", "dataId", "layoutPr", "axisId" };

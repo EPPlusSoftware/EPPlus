@@ -258,7 +258,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>
         /// <param name="DrawingType">The top element drawingtype. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes</param>
         /// <returns>The chart</returns>
-        public ExcelChartBase AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
+        public ExcelChart AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
         {
             if (_drawingNames.ContainsKey(Name))
             {
@@ -723,7 +723,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="crtxFile">The crtx file</param>
         /// <param name="name">The name of the chart</param>
         /// <returns>The new chart</returns>
-        public ExcelChartBase AddChartFromTemplate(FileInfo crtxFile, string name)
+        public ExcelChart AddChartFromTemplate(FileInfo crtxFile, string name)
         {
             return AddChartFromTemplate(crtxFile, name, null);
         }
@@ -734,7 +734,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="name">The name of the chart</param>
         /// <param name="pivotTableSource">Pivot table source, if the chart is a pivottable</param>
         /// <returns>The new chart</returns>
-        public ExcelChartBase AddChartFromTemplate(FileInfo crtxFile, string name, ExcelPivotTable pivotTableSource)
+        public ExcelChart AddChartFromTemplate(FileInfo crtxFile, string name, ExcelPivotTable pivotTableSource)
         {
             if(!crtxFile.Exists)
             {
@@ -763,7 +763,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="crtxStream">The crtx file as a stream</param>
         /// <param name="name">The name of the chart</param>
         /// <returns>The new chart</returns>
-        public ExcelChartBase AddChartFromTemplate(Stream crtxStream, string name)
+        public ExcelChart AddChartFromTemplate(Stream crtxStream, string name)
         {
             return AddChartFromTemplate(crtxStream, name, null);
         }
@@ -774,7 +774,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="name">The name of the chart</param>
         /// <param name="pivotTableSource">Pivot table source, if the chart is a pivottable</param>
         /// <returns>The new chart</returns>
-        public ExcelChartBase AddChartFromTemplate(Stream crtxStream, string name, ExcelPivotTable pivotTableSource)
+        public ExcelChart AddChartFromTemplate(Stream crtxStream, string name, ExcelPivotTable pivotTableSource)
         {
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {

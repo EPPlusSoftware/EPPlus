@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartDataLabelItem : ExcelChartDataLabel
     {
-        internal ExcelChartDataLabelItem(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
+        internal ExcelChartDataLabelItem(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, schemaNodeOrder)
         {
             

@@ -20,9 +20,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataPointCollection : XmlHelper, IEnumerable<ExcelChartExDataPoint>
     {
-        ExcelChartBase _chart;
+        ExcelChart _chart;
         private readonly SortedDictionary<int, ExcelChartExDataPoint> _dic = new SortedDictionary<int, ExcelChartExDataPoint>();
-        internal ExcelChartExDataPointCollection(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
+        internal ExcelChartExDataPointCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
             foreach (XmlNode pointNode in TopNode.SelectNodes(ExcelChartExDataPoint.topNodePath, ns))

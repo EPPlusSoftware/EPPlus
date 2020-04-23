@@ -24,9 +24,9 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartErrorBars : XmlHelper, IDrawingStyleBase
     {
-        ExcelChartBase _chart;
+        ExcelChart _chart;
         string[] _topSchemaNodeOrder;
-        internal ExcelChartErrorBars(ExcelChartBase chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string[] schemaNodeOrder) :
+        internal ExcelChartErrorBars(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string[] schemaNodeOrder) :
             base(nameSpaceManager, node)
         {
             _chart = chart;

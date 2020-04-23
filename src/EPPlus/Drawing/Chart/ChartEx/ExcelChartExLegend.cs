@@ -8,7 +8,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExLegend : ExcelChartLegend
     {
-        internal ExcelChartExLegend(ExcelChartBase chart, XmlNamespaceManager nsm, XmlNode node) : base(nsm, node, chart, "cx")
+        internal ExcelChartExLegend(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(nsm, node, chart, "cx")
         {
 
         }

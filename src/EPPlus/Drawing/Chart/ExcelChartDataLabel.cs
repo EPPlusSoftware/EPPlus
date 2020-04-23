@@ -27,9 +27,9 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartDataLabel : XmlHelper, IDrawingStyle
     {
-        internal protected ExcelChartBase _chart;
+        internal protected ExcelChart _chart;
         string _nodeName;
-        internal ExcelChartDataLabel(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
+        internal ExcelChartDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(ns,node)
        {
             _nodeName = nodeName;
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal static bool ForbiddDataLabelPosition(ExcelChartBase _chart)
+        internal static bool ForbiddDataLabelPosition(ExcelChart _chart)
         {
             return (_chart.IsType3D() && !_chart.IsTypePie() && _chart.ChartType != eChartType.Line3D)
                                || _chart.IsTypeDoughnut();

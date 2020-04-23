@@ -26,10 +26,10 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartSeries<T> : IEnumerable<T> where T : ExcelChartSerieBase
     {
         internal List<ExcelChartSerieBase> _list;
-        internal ExcelChartBase _chart;
+        internal ExcelChart _chart;
         XmlNode _node;
         XmlNamespaceManager _ns;
-        internal void Init(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot, List<ExcelChartSerieBase> list = null)
+        internal void Init(ExcelChart chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot, List<ExcelChartSerieBase> list = null)
         {
             _ns = ns;
             _chart = chart;
@@ -54,14 +54,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 AddSeriesStandard(chart, ns, chartNode, isPivot);
             }
         }
-        private void AddSeriesChartEx(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode chartNode)
+        private void AddSeriesChartEx(ExcelChart chart, XmlNamespaceManager ns, XmlNode chartNode)
         {
             foreach (XmlNode n in chartNode.SelectNodes("cx:plotArea/cx:plotAreaRegion/cx:series", ns))
             {
                 _list.Add(new ExcelChartExSerie(chart, ns, n));
             }
         }
-        private void AddSeriesStandard(ExcelChartBase chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot)
+        private void AddSeriesStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot)
         {
             foreach (XmlNode n in chartNode.SelectNodes("c:ser", ns))
             {
@@ -143,7 +143,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// A reference to the chart object
         /// </summary>
-        public ExcelChartBase Chart
+        public ExcelChart Chart
         {
             get
             {

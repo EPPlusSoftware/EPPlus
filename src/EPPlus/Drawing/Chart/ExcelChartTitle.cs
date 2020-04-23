@@ -26,11 +26,11 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTitle : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
-        ExcelChartBase _chart;
+        ExcelChart _chart;
         string _nsPrefix = "";
         private readonly string titlePath = "{0}:tx/{0}:rich/a:p/a:r/a:t";
 
-        internal ExcelChartTitle(ExcelChartBase chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
+        internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
             base(nameSpaceManager, node)
         {
             XmlNode topNode = node.SelectSingleNode($"{nsPrefix}:title", NameSpaceManager);
