@@ -263,21 +263,35 @@ namespace OfficeOpenXml
                             else
                             {
                                 var v = ws._values.GetValue(0, col);
-                                colCache.Add(col, v);
-                                s = v._styleId;
-                            }
-                            if (s == 0)
-                            {
-                                int r = 0, c = col;
-                                if (ws._values.PrevCell(ref r, ref c))
+                                if (v._value==null)
                                 {
-                                    if (!colCache.ContainsKey(c)) colCache.Add(c, ws._values.GetValue(0, c));
-                                    var val = colCache[c];
-                                    var colObj = (ExcelColumn)(val._value);
-                                    if (colObj != null && colObj.ColumnMax >= col) //Fixes issue 15174
+                                    if (GetFromCache(colCache, col, ref s) == false)
                                     {
-                                        s = val._styleId;
+                                        int r = 0, c = col;
+                                        if (ws._values.PrevCell(ref r, ref c))
+                                        {
+                                            if (!colCache.ContainsKey(c)) colCache.Add(c, ws._values.GetValue(0, c));
+                                            var val = colCache[c];
+                                            var colObj = val._value as ExcelColumn;
+                                            if (colObj != null && colObj.ColumnMax >= col) //Fixes issue 15174
+                                            {
+                                                s = val._styleId;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            colCache.Add(col, new ExcelValue() { _styleId = 0 });
+                                        }
                                     }
+                                    else
+                                    {
+                                        colCache.Add(col, new ExcelValue() { _styleId = 0 });
+                                    }
+                                }
+                                else
+                                {
+                                    colCache.Add(col, v);
+                                    s = v._styleId;
                                 }
                             }
                         }
@@ -295,6 +309,25 @@ namespace OfficeOpenXml
                     }
                 }            
             }
+        }
+
+        private bool GetFromCache(Dictionary<int, ExcelValue> colCache, int col, ref int s)
+        {
+            var c = col;
+            while(!colCache.ContainsKey(--c))
+            {
+                if (c <= 0) return false;
+            }
+            var colObj = (ExcelColumn)(colCache[c]._value);
+            if (colObj != null && colObj.ColumnMax >= col) //Fixes issue 15174
+            {
+                s = colCache[c]._styleId;
+            }
+            else
+            {
+                s = 0;
+            }
+            return true;
         }
 
         private void SetStyleFullRow(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCashe)
