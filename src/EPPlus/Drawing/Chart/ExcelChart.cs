@@ -215,11 +215,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public virtual ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
+        public abstract ExcelChartSeries<ExcelChartSerie> Series { get; }
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>
-        public virtual ExcelChartAxis[] Axis
+        public ExcelChartAxis[] Axis
         {
             get
             {
@@ -232,7 +232,7 @@ namespace OfficeOpenXml.Drawing.Chart
         public ExcelChartAxis XAxis
         {
             get;
-            private set;
+            internal protected set;
         }
         /// <summary>
         /// The Y Axis
@@ -240,59 +240,15 @@ namespace OfficeOpenXml.Drawing.Chart
         public ExcelChartAxis YAxis
         {
             get;
-            private set;
+            internal protected set;
         }
         /// <summary>
         /// The build-in chart styles. 
         /// </summary>
-        public eChartStyle Style
+        public abstract eChartStyle Style
         {
-            get
-            {
-                XmlNode node = ChartXml.SelectSingleNode("c:chartSpace/c:style/@val", NameSpaceManager);
-                if (node == null)
-                {
-                    return eChartStyle.None;
-                }
-                else
-                {
-                    int v;
-                    if (int.TryParse(node.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out v))
-                    {
-                        return (eChartStyle)v;
-                    }
-                    else
-                    {
-                        return eChartStyle.None;
-                    }
-                }
-
-            }
-            set
-            {
-                if (value == eChartStyle.None)
-                {
-                    XmlElement element = ChartXml.SelectSingleNode("c:chartSpace/c:style", NameSpaceManager) as XmlElement;
-                    if (element != null)
-                    {
-                        element.ParentNode.RemoveChild(element);
-                    }
-                }
-                else
-                {
-                    if (!_chartXmlHelper.ExistNode("../../../c:style"))
-                    {
-                        XmlElement element = ChartXml.CreateElement("c:style", ExcelPackage.schemaChart);
-                        element.SetAttribute("val", ((int)value).ToString());
-                        XmlElement parent = ChartXml.SelectSingleNode("c:chartSpace", NameSpaceManager) as XmlElement;
-                        parent.InsertBefore(element, parent.SelectSingleNode("c:chart", NameSpaceManager));
-                    }
-                    else
-                    {
-                        _chartXmlHelper.SetXmlNodeString("../../../ c:style/@val", ((int)value).ToString(CultureInfo.InvariantCulture));
-                    }                    
-                }
-            }
+            get;
+            set;
         }
         ExcelChartPlotArea _plotArea = null;
         /// <summary>

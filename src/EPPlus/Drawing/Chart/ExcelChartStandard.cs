@@ -734,13 +734,13 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Titel of the chart
         /// </summary>
-        public new ExcelChartExTitle Title
+        public new ExcelChartTitle Title
         {
             get
             {
                 if (_title == null)
                 {
-                    _title = new ExcelChartExTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace/cx:chart", NameSpaceManager));
+                    _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager),"c");
                 }
                 return _title;
             }
@@ -776,37 +776,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public virtual ExcelChartSeries<ExcelChartSerieStandard> Series { get; } = new ExcelChartSeries<ExcelChartSerieStandard>();
-        /// <summary>
-        /// An array containg all axis of all Charttypes
-        /// </summary>
-        public ExcelChartAxis[] Axis
-        {
-            get
-            {
-                return _axis;
-            }
-        }
-        /// <summary>
-        /// The X Axis
-        /// </summary>
-        public ExcelChartAxis XAxis
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// The Y Axis
-        /// </summary>
-        public ExcelChartAxis YAxis
-        {
-            get;
-            private set;
-        }
+        public override ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
         /// <summary>
         /// The build-in chart styles. 
         /// </summary>
-        public eChartStyle Style
+        public override eChartStyle Style
         {
             get
             {
@@ -1144,7 +1118,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
-        ExcelChartExTitle _title = null;
+        ExcelChartTitle _title = null;
 
         #region "Grouping Enum Translation"
         private string GetGroupingText(eGrouping grouping)

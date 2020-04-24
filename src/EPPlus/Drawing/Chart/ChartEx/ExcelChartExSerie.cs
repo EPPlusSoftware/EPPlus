@@ -125,7 +125,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _dataLabels;
             }
         }
-
         ExcelChartExDataPointCollection _dataPoints = null;
         public ExcelChartExDataPointCollection DataPoints
         {

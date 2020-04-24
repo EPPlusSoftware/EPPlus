@@ -33,6 +33,7 @@ namespace OfficeOpenXml.Drawing
             _parent = parent;
             _nsm = nsm;
             _topNode = topNode;
+            _drawingNames = new Dictionary<string, int>();
             AddDrawings();
         }
         private void AddDrawings()

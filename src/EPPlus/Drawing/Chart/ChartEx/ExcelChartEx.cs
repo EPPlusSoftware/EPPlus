@@ -180,7 +180,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public new ExcelChartSeries<ExcelChartExSerie> Series { get; } = new ExcelChartSeries<ExcelChartExSerie>();
+        public override ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
 
         public override bool VaryColors
         {
@@ -193,5 +193,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 throw new InvalidOperationException("VaryColors do not apply to Extended charts");
             }
         }
+        public override eChartStyle Style { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
