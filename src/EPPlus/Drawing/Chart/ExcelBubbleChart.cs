@@ -134,7 +134,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_dataLabel == null)
                 {
-                    _dataLabel = new ExcelChartDataLabel(Series._chart, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
+                    _dataLabel = new ExcelChartDataLabelStandard(Series._chart, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _dataLabel;
             }

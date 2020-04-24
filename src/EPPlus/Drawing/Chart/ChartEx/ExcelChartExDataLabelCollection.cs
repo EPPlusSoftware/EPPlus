@@ -14,55 +14,19 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
+using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public class ExcelChartExSerieDataLabels : XmlHelper, IDrawingStyle
+    public class ExcelChartExDataLabelCollection : ExcelChartExDataLabel, IDrawingStyle, IEnumerable<ExcelChartExDataLabelItem>
     {
-        ExcelChart _chart;
-        internal ExcelChartExSerieDataLabels(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder) : base(ns, node)
+        internal ExcelChartExDataLabelCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder) : 
+            base(chart, ns, node)
         {
             _chart = chart;
             AddSchemaNodeOrder(schemaNodeOrder, new string[]{ "numFmt","spPr", "txPr", "visibility", "separator"});
-        }
-        const string _formatPath = "cx:numFmt/@formatCode";
-        /// <summary>
-        /// The Numberformat string.
-        /// </summary>
-        public string Format 
-        {
-            get
-            {
-                return GetXmlNodeString(_formatPath);
-            }
-            set
-            {
-                SetXmlNodeString(_formatPath, value);
-                if (string.IsNullOrEmpty(value))
-                {
-                    SourceLinked = true;
-                }
-                else
-                {
-                    SourceLinked = false;
-                }
-            }
-        }
-        const string _sourceLinkedPath = "cx:numFmt/@sourceLinked";
-        /// <summary>
-        /// The Numberformats are linked to the source data.
-        /// </summary>
-        public bool SourceLinked 
-        {
-            get
-            {
-                return GetXmlNodeBool(_sourceLinkedPath);
-            }
-            set
-            {
-                SetXmlNodeBool(_sourceLinkedPath, value);
-            }
         }
         const string _seriesNameVisiblePath = "cx:visibility/@seriesName";
         public bool SeriesNameVisible
@@ -221,6 +185,16 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode("cx:spPr");
+        }
+
+        public IEnumerator<ExcelChartExDataLabelItem> GetEnumerator()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

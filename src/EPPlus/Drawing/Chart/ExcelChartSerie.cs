@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Drawing.Chart
         public ExcelDrawing3D ThreeD
         {
             get
-            {
+            {   
                 if (_threeD == null)
                 {
                     _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_prefix}:spPr", SchemaNodeOrder);

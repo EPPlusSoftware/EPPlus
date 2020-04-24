@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_DataLabel == null)
                 {
-                    _DataLabel = new ExcelChartDataLabel(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
+                    _DataLabel = new ExcelChartDataLabelStandard(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _DataLabel;
             }

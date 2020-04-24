@@ -11,6 +11,7 @@
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
@@ -112,6 +113,19 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 _dataHelper.SetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']", value);
             }
         }
+        ExcelChartExSerieDataLabel _dataLabels = null;
+        public ExcelChartExSerieDataLabel DataLabel
+        {
+            get
+            {
+                if (_dataLabels == null)
+                {
+                    _dataLabels = new ExcelChartExSerieDataLabel(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
+                }
+                return _dataLabels;
+            }
+        }
+
         ExcelChartExDataPointCollection _dataPoints = null;
         public ExcelChartExDataPointCollection DataPoints
         {
@@ -228,7 +242,18 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
-        public override int NumberOfItems => throw new System.NotImplementedException();
+        /// <summary>
+        /// If the chart has datalabel
+        /// </summary>
+        public bool HasDataLabel
+        {
+            get
+            {
+                return TopNode.SelectSingleNode("c:dataLabels", NameSpaceManager) != null;
+            }
+        }
+
+        public override int NumberOfItems => 0;
 
         public override ExcelChartTrendlineCollection TrendLines => throw new System.NotImplementedException();
 
