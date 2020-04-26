@@ -135,7 +135,7 @@ namespace OfficeOpenXml.Style
         {
             for (int ix = 0 ; ix < _paragraphs.Count; ix++)
             {
-                _paragraphs[ix].ParentNode.RemoveChild(_paragraphs[ix]);
+                _paragraphs[ix].ParentNode?.RemoveChild(_paragraphs[ix]);
             }
             _list.Clear();
             _paragraphs.Clear();
