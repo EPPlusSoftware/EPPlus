@@ -189,7 +189,9 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void TableDeleteTest()
         {
-                var wb = _pck.Workbook;
+            using (var p = OpenPackage("TableDeleteTest.xlsx"))
+            {
+                var wb = p.Workbook;
                 var sheets = new[]
                 {
                     wb.Worksheets.Add("WorkSheet A"),
@@ -242,6 +244,8 @@ namespace EPPlusTest.Table
                 {
                     Assert.IsNull(cell.Value);
                 }
+                SaveAndCleanup(p);
+            }
         }
     }
 }
