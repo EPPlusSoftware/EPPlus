@@ -531,11 +531,22 @@ namespace OfficeOpenXml
                 return _vba;
             }
         }
+		/// <summary>
+		/// Remove the from the file VBA project.
+		/// </summary>
+		public void RemoveVBAProject()
+		{
+			if (_vba != null)
+			{
+				_vba.RemoveMe();
+				_vba = null;
+			}
+		}
 
-        /// <summary>
-        /// Create an empty VBA project.
-        /// </summary>
-        public void CreateVBAProject()
+		/// <summary>
+		/// Create an empty VBA project.
+		/// </summary>
+		public void CreateVBAProject()
         {
             if (_vba != null || _package.Package.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
             {

@@ -1226,6 +1226,15 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue94()
+        {
+            using (var p = OpenTemplatePackage("Issue425.xlsm"))
+            {
+                p.Workbook.VbaProject.Remove();
+                SaveWorkbook("Issue425.xlsx", p);
+            }
+        }
+        [TestMethod]
         public void Issue95()
         {
             using (var p = OpenTemplatePackage("Issue95.xlsx"))
