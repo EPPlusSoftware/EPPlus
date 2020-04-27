@@ -212,21 +212,21 @@ namespace EPPlusTest.Table
                 }
                 var tables = new[]
                 {
-                    sheets[1].Tables.Add(sheets[1].Cells["A1:D73"], "Tablea"),
-                    sheets[0].Tables.Add(sheets[0].Cells["A1:D73"], "Table2"),
-                    sheets[1].Tables.Add(sheets[1].Cells["F3:K10"], "Tableb"),
-                    sheets[0].Tables.Add(sheets[0].Cells["F3:K10"], "Table3"),
+                    sheets[1].Tables.Add(sheets[1].Cells["A1:D73"], "TableDeletea"),
+                    sheets[0].Tables.Add(sheets[0].Cells["A1:D73"], "TableDelete2"),
+                    sheets[1].Tables.Add(sheets[1].Cells["F3:K10"], "TableDeleteb"),
+                    sheets[0].Tables.Add(sheets[0].Cells["F3:K10"], "TableDelete3"),
                 };
                 Assert.AreEqual(5, wb._nextTableID);
                 Assert.AreEqual(1, tables[0].Id);
                 Assert.AreEqual(2, tables[1].Id);
                 try
                 {
-                    sheets[0].Tables.Delete("Tablea");
+                    sheets[0].Tables.Delete("TableDeletea");
                     Assert.Fail("ArgumentException should have been thrown.");
                 }
                 catch (ArgumentOutOfRangeException) { }
-                sheets[1].Tables.Delete("Tablea");
+                sheets[1].Tables.Delete("TableDeletea");
                 Assert.AreEqual(1, tables[1].Id);
                 Assert.AreEqual(2, tables[2].Id);
 
