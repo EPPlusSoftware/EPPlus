@@ -196,8 +196,24 @@ namespace OfficeOpenXml.Table
  			{
  				if (value.StartsWith("=")) value = value.Substring(1, value.Length - 1);
  				SetXmlNodeString(CALCULATEDCOLUMNFORMULA_PATH, value);
+
+                SetTableFormula();
  			}
  		}
 
+        private void SetTableFormula()
+        {
+            int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
+            int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
+            var colNum = _tbl.Address._fromRow + Position;
+            string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, fromRow, colNum);
+            bool needsTranslation = r1c1Formula != CalculatedColumnFormula;
+
+            for (int row = fromRow; row <= toRow; row++)
+            {
+                _tbl.WorkSheet.SetFormula(row, colNum, needsTranslation ? ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum) : r1c1Formula);
+            }
+
+        }
     }
 }

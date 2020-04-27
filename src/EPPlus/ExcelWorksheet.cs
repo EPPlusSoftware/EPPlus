@@ -2409,18 +2409,6 @@ namespace OfficeOpenXml
                             throw(new InvalidDataException(string.Format("Table {0} Column {1} does not have a unique name.", tbl.Name, col.Name)));
                         }                        
                         colVal.Add(n);
-                        if (!string.IsNullOrEmpty(col.CalculatedColumnFormula))
-                        {
-                            int fromRow = tbl.ShowHeader ? tbl.Address._fromRow + 1 : tbl.Address._fromRow;
-                            int toRow = tbl.ShowTotal ? tbl.Address._toRow - 1 : tbl.Address._toRow;
-                            string r1c1Formula = ExcelCellBase.TranslateToR1C1(col.CalculatedColumnFormula, fromRow, colNum);
-                            bool needsTranslation = r1c1Formula != col.CalculatedColumnFormula;
-
-                            for (int row = fromRow; row <= toRow; row++)
-                            {
-                                SetFormula(row, colNum, needsTranslation ? ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum) : r1c1Formula);
-                            }
-                        }
                         colNum++;
                     }
                 }                

@@ -1222,8 +1222,15 @@ namespace EPPlusTest
             {
                 var ws1 = p.Workbook.Worksheets[0];
                 var ws2 = p.Workbook.Worksheets.Add("test", ws1);
-                p.Save();
-                //SaveWorkbook("Issue88Saved.xlsm", p);
+                SaveWorkbook("Issue88Saved.xlsm", p);
+            }
+        }
+        [TestMethod]
+        public void Issue95()
+        {
+            using (var p = OpenTemplatePackage("Issue95.xlsx"))
+            {               
+                SaveAndCleanup(p);
             }
         }
     }
