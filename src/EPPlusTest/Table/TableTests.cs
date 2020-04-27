@@ -88,7 +88,7 @@ namespace EPPlusTest.Table
         {
             using (var pck = new ExcelPackage())
             {
-                var ws = pck.Workbook.Worksheets.Add("Table");
+                var ws = pck.Workbook.Worksheets.Add("TableNoWhiteSpace");
                 var tbl = ws.Tables.Add(ws.Cells["A1"], "Test Table");
             }
         }
@@ -112,10 +112,10 @@ namespace EPPlusTest.Table
             var ws = _pck.Workbook.Worksheets.Add("TotalsFormulaTest");
             ws.Cells["A1"].Value = "Col1";
             ws.Cells["B1"].Value = "[#'Col2']";
-            var tbl = ws.Tables.Add(ws.Cells["A1:B2"], "Table1");
+            var tbl = ws.Tables.Add(ws.Cells["A1:B2"], "TableFormulaTest");
             tbl.ShowTotal = true;
             tbl.Columns[1].TotalsRowFunction = RowFunctions.Sum;
-            Assert.AreEqual("SUBTOTAL(109,Table1['['#''Col2''']])", ws.Cells["B3"].Formula);
+            Assert.AreEqual("SUBTOTAL(109,TableFormulaTest['['#''Col2''']])", ws.Cells["B3"].Formula);
         }
         [TestMethod]
         public void ValidateEncodingForTableColumnNames()
