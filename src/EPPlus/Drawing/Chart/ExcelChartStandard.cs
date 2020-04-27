@@ -941,11 +941,10 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             return false;
         }
-        ExcelChartPlotArea _plotArea = null;
         /// <summary>
         /// Plotarea
         /// </summary>
-        public ExcelChartPlotArea PlotArea
+        public override ExcelChartPlotArea PlotArea
         {
             get
             {
@@ -1172,18 +1171,6 @@ namespace OfficeOpenXml.Drawing.Chart
             fmts.InnerXml = "<c:pivotFmt><c:idx val=\"0\"/><c:marker><c:symbol val=\"none\"/></c:marker></c:pivotFmt>";
 
             Series.AddPivotSerie(pivotTableSource);
-        }
-        internal override void DeleteMe()
-        {
-            try
-            {
-                Part.Package.DeletePart(UriChart);
-            }
-            catch (Exception ex)
-            {
-                throw (new InvalidDataException("EPPlus internal error when deleting chart.", ex));
-            }
-            base.DeleteMe();
         }
     }
 }

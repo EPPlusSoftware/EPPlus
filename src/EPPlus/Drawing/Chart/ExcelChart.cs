@@ -250,20 +250,13 @@ namespace OfficeOpenXml.Drawing.Chart
             get;
             set;
         }
-        ExcelChartPlotArea _plotArea = null;
+        protected ExcelChartPlotArea _plotArea = null;
         /// <summary>
         /// Plotarea
         /// </summary>
-        public virtual ExcelChartPlotArea PlotArea
+        public abstract ExcelChartPlotArea PlotArea
         {
-            get
-            {
-                if (_plotArea == null)
-                {
-                    _plotArea = new ExcelChartPlotArea(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea", NameSpaceManager), this);
-                }
-                return _plotArea;
-            }
+            get;
         }
         ExcelChartLegend _legend = null;
         /// <summary>

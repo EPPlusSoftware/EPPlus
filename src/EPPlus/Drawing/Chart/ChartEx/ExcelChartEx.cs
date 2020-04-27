@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     throw new InvalidOperationException($"Unsupported layoutId in ChartEx Xml: {layoutId}");
             }
         }
-
+        public override ExcelChartPlotArea PlotArea => throw new NotImplementedException();
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>

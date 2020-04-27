@@ -488,7 +488,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (node == null)
             {
                 node = CreateNode($"{_nsPrefix}:title");
-                node.InnerXml = ExcelChartTitle.GetInitXml("_nsPrefix");
+                node.InnerXml = ExcelChartTitle.GetInitXml(_nsPrefix);
             }
         }
         void IStyleMandatoryProperties.SetMandatoryProperties()

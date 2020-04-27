@@ -845,7 +845,7 @@ namespace EPPlusTest
             shape1 = ws.Drawings.AddShape("Shape1", eShapeStyle.ActionButtonBackPrevious);
             pic1 = ws.Drawings.AddPicture("Pic1", Resources.Test1);
             ws.Drawings.Clear();
-        }
+        }   
         [TestMethod]
         public void ReadDocument()
         {
