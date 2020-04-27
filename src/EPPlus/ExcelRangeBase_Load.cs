@@ -242,23 +242,6 @@ namespace OfficeOpenXml
                 if (maxColumn < item.Length) maxColumn = item.Length;
                 row++;
             }
-            //_worksheet._values.SetRangeValueSpecial(_fromRow, _fromCol, _fromRow + rowArray.Count - 1, _fromCol + maxColumn - 1,
-            //    (List<ExcelCoreValue> list, int index, int rowIx, int columnIx, object value) =>
-            //    {
-            //        rowIx -= _fromRow;
-            //        columnIx -= _fromCol;
-
-            //        var values = ((List<object[]>)value);
-            //        if (values.Count <= rowIx) return;
-            //        var item = values[rowIx];
-            //        if (item.Length <= columnIx) return;
-
-            //        var val = item[columnIx];
-            //        if (val != null && val != DBNull.Value && !string.IsNullOrEmpty(val.ToString()))
-            //        {
-            //            list[index] = new ExcelCoreValue { _value = val, _styleId = list[index]._styleId };
-            //        }
-            //    }, rowArray);
 
             return _worksheet.Cells[_fromRow, _fromCol, row - 1, _fromCol + maxColumn - 1];
         }
