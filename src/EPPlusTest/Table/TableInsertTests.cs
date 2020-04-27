@@ -267,14 +267,17 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void TableAddColumnToMax()
         {
-            //Setup
-            var ws = _pck.Workbook.Worksheets.Add("TableMaxColumn");
-            LoadTestdata(ws, 100);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableMaxColumn");
-            //Act
-            tbl.Columns.Add(ExcelPackage.MaxColumns - 4);
-            //Assert
-            Assert.AreEqual(ExcelPackage.MaxColumns, tbl.Address._toCol);
+            using (var p = new ExcelPackage()) // We discard this as it takes to long time to save
+            {
+                //Setup
+                var ws = p.Workbook.Worksheets.Add("TableMaxColumn");
+                LoadTestdata(ws, 100);
+                var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableMaxColumn");
+                //Act
+                tbl.Columns.Add(ExcelPackage.MaxColumns - 4);
+                //Assert
+                Assert.AreEqual(ExcelPackage.MaxColumns, tbl.Address._toCol);
+            }
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]

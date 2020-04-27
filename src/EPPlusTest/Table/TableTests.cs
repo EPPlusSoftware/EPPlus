@@ -189,7 +189,7 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void TableDeleteTest()
         {
-            using (var p = OpenPackage("TableDeleteTest.xlsx"))
+            using (var p = OpenPackage("TableDeleteTest.xlsx", true))
             {
                 var wb = p.Workbook;
                 var sheets = new[]
