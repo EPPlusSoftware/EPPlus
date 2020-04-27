@@ -1215,5 +1215,32 @@ namespace EPPlusTest
                 SaveWorkbook("Issue76Saved.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue88()
+        {
+            using (var p = OpenTemplatePackage("Issue88.xlsm"))
+            {
+                var ws1 = p.Workbook.Worksheets[0];
+                var ws2 = p.Workbook.Worksheets.Add("test", ws1);
+                SaveWorkbook("Issue88Saved.xlsm", p);
+            }
+        }
+        [TestMethod]
+        public void Issue94()
+        {
+            using (var p = OpenTemplatePackage("Issue425.xlsm"))
+            {
+                p.Workbook.VbaProject.Remove();
+                SaveWorkbook("Issue425.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue95()
+        {
+            using (var p = OpenTemplatePackage("Issue95.xlsx"))
+            {               
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

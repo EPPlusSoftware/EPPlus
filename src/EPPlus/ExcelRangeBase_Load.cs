@@ -232,38 +232,18 @@ namespace OfficeOpenXml
         public ExcelRangeBase LoadFromArrays(IEnumerable<object[]> Data)
         {
             //thanx to Abdullin for the code contribution
-            if (Data == null) throw new ArgumentNullException("data");
+            if (!(Data?.Any() ?? false)) return null;
 
-            var rowArray = new List<object[]>();
             var maxColumn = 0;
             var row = _fromRow;
             foreach (object[] item in Data)
             {
-                //rowArray.Add(item);
                 _worksheet._values.SetValueRow_Value(row, _fromCol, item);
                 if (maxColumn < item.Length) maxColumn = item.Length;
                 row++;
             }
-            if (rowArray.Count == 0) return null; //Issue #57
-            //_worksheet._values.SetRangeValueSpecial(_fromRow, _fromCol, _fromRow + rowArray.Count - 1, _fromCol + maxColumn - 1,
-            //    (List<ExcelCoreValue> list, int index, int rowIx, int columnIx, object value) =>
-            //    {
-            //        rowIx -= _fromRow;
-            //        columnIx -= _fromCol;
 
-            //        var values = ((List<object[]>)value);
-            //        if (values.Count <= rowIx) return;
-            //        var item = values[rowIx];
-            //        if (item.Length <= columnIx) return;
-
-            //        var val = item[columnIx];
-            //        if (val != null && val != DBNull.Value && !string.IsNullOrEmpty(val.ToString()))
-            //        {
-            //            list[index] = new ExcelCoreValue { _value = val, _styleId = list[index]._styleId };
-            //        }
-            //    }, rowArray);
-
-            return _worksheet.Cells[_fromRow, _fromCol, _fromRow + rowArray.Count - 1, _fromCol + maxColumn - 1];
+            return _worksheet.Cells[_fromRow, _fromCol, row - 1, _fromCol + maxColumn - 1];
         }
 #endregion
 #region LoadFromCollection

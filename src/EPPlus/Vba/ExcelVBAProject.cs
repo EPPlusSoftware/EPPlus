@@ -1058,6 +1058,11 @@ namespace OfficeOpenXml.VBA
         /// </summary>
         public void Remove()
         {
+            _wb.RemoveVBAProject();
+        }
+
+        internal void RemoveMe()
+        {
             if (Part == null) return;
 
             foreach (var rel in Part.GetRelationships())
@@ -1078,6 +1083,7 @@ namespace OfficeOpenXml.VBA
             MinorVersion = 0;
             HelpContextID = 0;
         }
+
         /// <summary>
         /// The name of the project
         /// </summary>

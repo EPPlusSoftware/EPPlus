@@ -138,41 +138,43 @@ namespace OfficeOpenXml.Table
         /// <returns>The inserted range</returns>
         public ExcelRangeBase Insert(int position, int columns = 1)
         {
-            var range=Table.InsertColumn(position, columns);
-            XmlNode refNode;
-            if(position>=_cols.Count)
+            lock(Table)
             {
-                refNode = _cols[_cols.Count - 1].TopNode;
-                position = _cols.Count;
-            }
-            else
-            {
-                refNode = _cols[position].TopNode;
-            }
-            for(int i=position;i< position+columns; i++)
-            {
-                var node = Table.TableXml.CreateElement("tableColumn", ExcelPackage.schemaMain);
-                
-                if(i >= _cols.Count)
+                var range = Table.InsertColumn(position, columns);
+                XmlNode refNode;
+                if (position >= _cols.Count)
                 {
-                    refNode.ParentNode.AppendChild(node);
+                    refNode = _cols[_cols.Count - 1].TopNode;
+                    position = _cols.Count;
                 }
                 else
                 {
-                    refNode.ParentNode.InsertBefore(node, refNode);
+                    refNode = _cols[position].TopNode;
                 }
-                var item = new ExcelTableColumn(Table.NameSpaceManager, node, Table, i);
-                item.Name = GetUniqueName($"Column{i+1}");
-                item.Id = _maxId++;
-                _cols.Insert(i, item);
+                for (int i = position; i < position + columns; i++)
+                {
+                    var node = Table.TableXml.CreateElement("tableColumn", ExcelPackage.schemaMain);
+
+                    if (i >= _cols.Count)
+                    {
+                        refNode.ParentNode.AppendChild(node);
+                    }
+                    else
+                    {
+                        refNode.ParentNode.InsertBefore(node, refNode);
+                    }
+                    var item = new ExcelTableColumn(Table.NameSpaceManager, node, Table, i);
+                    item.Name = GetUniqueName($"Column{i + 1}");
+                    item.Id = _maxId++;
+                    _cols.Insert(i, item);
+                }
+                for (int i = position; i < _cols.Count; i++)
+                {
+                    _cols[i].Position = i;
+                }
+                _colNames = _cols.ToDictionary(x => x.Name, y => y.Id);
+                return range;
             }
-            for(int i=position;i<_cols.Count;i++)
-            {
-                _cols[i].Position = i;
-            }
-            _colNames = _cols.ToDictionary(x=>x.Name, y=>y.Id);
-            
-            return range;
         }
         /// <summary>
         /// Deletes one or more columns from the specified position in the table.
@@ -182,22 +184,25 @@ namespace OfficeOpenXml.Table
         /// <returns>The inserted range</returns>
         public ExcelRangeBase Delete(int position, int columns = 1)
         {
-            var range = Table.DeleteColumn(position, columns);
-
-            for (int i = position+columns-1; i >= position; i--)
+            lock (Table)
             {
-                var n=Table.Columns[i].TopNode;
-                n.ParentNode.RemoveChild(n);
-                Table.Columns._colNames.Remove(_cols[i].Name);
-                Table.Columns._cols.RemoveAt(i);
-            }
-            for (int i = position; i < _cols.Count; i++)
-            {
-                _cols[i].Position = i;
-            }
-            _colNames = _cols.ToDictionary(x => x.Name, y => y.Id);
+                var range = Table.DeleteColumn(position, columns);
 
-            return range;
+                for (int i = position + columns - 1; i >= position; i--)
+                {
+                    var n = Table.Columns[i].TopNode;
+                    n.ParentNode.RemoveChild(n);
+                    Table.Columns._colNames.Remove(_cols[i].Name);
+                    Table.Columns._cols.RemoveAt(i);
+                }
+                for (int i = position; i < _cols.Count; i++)
+                {
+                    _cols[i].Position = i;
+                }
+                _colNames = _cols.ToDictionary(x => x.Name, y => y.Id);
+
+                return range;
+            }
         }
 
     }

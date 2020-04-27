@@ -92,3 +92,13 @@
 * Files saved in LibreOffice did not handle boolean properties correctly for rows and columns, (for example the hidden property).
 * Data validation - List validation did not set the ShowErrorMessage when an address referenced another worksheet.
 * Addresses with style: 'sheet'!A1:'sheet'!A2 was not handled correctly.
+
+## Version 5.1.1
+### Features
+* Added method RemoveVBAProject to ExcelWorkbook.
+### Fixed issues
+* CalculatedColumnFormula property was set to the range on save, overwriting any cell value that was changed in the range of the formula.
+* VbaProject. Remove didn't fully remove the VBA project.
+* LoadFromCollection didn't work will List<object>.
+* Group shapes containg shapes with the same name throw exception.
+* Worksheets with a large amount of columns had bad performance on save.
