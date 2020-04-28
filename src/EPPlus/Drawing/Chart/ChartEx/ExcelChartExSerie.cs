@@ -35,6 +35,19 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             SchemaNodeOrder = new string[] { "tx", "spPr", "valueColors", "valueColorPositions", "dataPt", "dataLabels", "dataId", "layoutPr", "axisId" };
             _dataNode = node.SelectSingleNode($"../../../../cx:chartData/cx:data[@id={DataId}]", ns);
             _dataHelper = XmlHelperFactory.Create(ns, _dataNode);
+
+            foreach (XmlElement e in _dataNode.ChildNodes)
+            {
+                var t = e.GetAttribute("type");
+                if(e.LocalName == "numDim" || t!="x")
+                {
+                    _seriesPath = "cx:numDim";
+                }
+                else if(e.LocalName=="strDim")
+                {
+                    _seriesXPath = "cx:numDim";
+                }
+            }
         }
         internal int DataId
         {
@@ -43,6 +56,22 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return GetXmlNodeInt("cx:dataId/@val");
             }
         }
+        ExcelChartExDataCollection _dataDimensions = null;
+        /// <summary>
+        /// The dimensions of the serie
+        /// </summary>
+        public ExcelChartExDataCollection DataDimensions
+        {
+            get
+            {
+                if (_dataDimensions == null)
+                {
+                    _dataDimensions = new ExcelChartExDataCollection(this, NameSpaceManager, _dataNode);
+                }
+                return _dataDimensions;
+            }
+        }
+
         const string headerAddressPath = "c:tx/c:strRef/c:f";
         /// <summary>
         /// Header address for the serie.
@@ -85,6 +114,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("cx:tx/cx:txData/cx:v", value);
             }
         }
+
+        string _seriesPath;
         /// <summary>
         /// Set this to a valid address or the drawing will be invalid.
         /// </summary>
@@ -92,13 +123,14 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _dataHelper.GetXmlNodeString("cx:numDim[@type='val']|cx:strDim[@type='val']");
+                return _dataHelper.GetXmlNodeString(_seriesPath + "/cx:f");
             }
             set
             {
-                _dataHelper.SetXmlNodeString("cx:numDim[@type='val']|cx:strDim[@type='val']", value);
+                _dataHelper.SetXmlNodeString("cx:numDim[@type='val']|cx:strDim[@type='val']/cx:f", value);
             }
         }
+        string _seriesXPath;
         /// <summary>
         /// Set an address for the horizontal labels
         /// </summary>
@@ -106,11 +138,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _dataHelper.GetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']");
+                return _dataHelper.GetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']/cx:f");
             }
             set
             {
-                _dataHelper.SetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']", value);
+                _dataHelper.SetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']/cx:f", value);
             }
         }
         ExcelChartExSerieDataLabel _dataLabels = null;

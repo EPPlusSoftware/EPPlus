@@ -293,7 +293,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelChart AddChart(string Name, eChartType ChartType)
         {
-            return (ExcelChart)AddChart(Name, ChartType, null);
+            return AddChart(Name, ChartType, null);
         }
         /// <summary>
         /// Adds a new chart to the worksheet.
