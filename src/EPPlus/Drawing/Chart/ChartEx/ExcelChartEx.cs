@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _isChartEx = true;
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
-            Series.Init(this, drawings.NameSpaceManager, chartNode, false, Series._list);
+            Series.Init(this, drawings.NameSpaceManager, chartNode, false, Series._list);            
         }
         internal override void AddAxis()
         {
@@ -75,7 +75,24 @@ namespace OfficeOpenXml.Drawing.Chart
                     throw new InvalidOperationException($"Unsupported layoutId in ChartEx Xml: {layoutId}");
             }
         }
-        public override ExcelChartPlotArea PlotArea => throw new NotImplementedException();
+
+        public override void DeleteTitle()
+        {
+            DeleteNode("cx:title");
+        }
+
+        public override ExcelChartPlotArea PlotArea
+        {
+            get
+            {
+                if (_plotArea==null)
+                {
+                    var node = TopNode.SelectSingleNode("cx:chartSpace/cx:chart/cx:plotArea");
+                    _plotArea = new ExcelChartExPlotarea(NameSpaceManager, node);
+                }
+                return _plotArea;
+            }
+        }
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>
@@ -193,6 +210,26 @@ namespace OfficeOpenXml.Drawing.Chart
                 throw new InvalidOperationException("VaryColors do not apply to Extended charts");
             }
         }
-        public override eChartStyle Style { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override eChartStyle Style 
+        { 
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException(); 
+        }
+
+        public override bool HasTitle
+        {
+            get
+            {
+                return ExistNode("cx:title");
+            }
+        }
+
+        public override bool HasLegend
+        {
+            get
+            {
+                return ExistNode("cx:legend");
+            }
+        }
     }
 }

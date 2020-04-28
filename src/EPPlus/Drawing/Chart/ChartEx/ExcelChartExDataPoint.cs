@@ -22,11 +22,13 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         ExcelChart _chart;
         internal ExcelChartExDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
         {
+            _chart = chart;
             SchemaNodeOrder=new string[]{"spPr"};
             Index = GetXmlNodeInt(indexPath);
         }
         internal ExcelChartExDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, int index) : base(ns, topNode)
         {
+            _chart = chart;
             SchemaNodeOrder = new string[] { "spPr" };
             Index = index;
         }

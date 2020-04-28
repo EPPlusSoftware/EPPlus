@@ -10,20 +10,26 @@
  *************************************************************************************************
   04/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public class ExcelChartExDataLabelItem : ExcelChartExDataLabel
+    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
     {
-        internal ExcelChartExDataLabelItem(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node)
+        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node) : base(ns, node, null)
         {
-
+            SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
+        }
+        public override ExcelChartDataTable CreateDataTable()
+        {
+            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
+        }
+        public override void RemoveDataTable()
+        {
+            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
         }
     }
 }

@@ -563,21 +563,6 @@ namespace OfficeOpenXml.Drawing.Chart
         #endregion
         #endregion
 
-        internal ExcelChartStyleManager _styleManager = null;
-        /// <summary>
-        /// Manage style settings for the chart
-        /// </summary>
-        public ExcelChartStyleManager StyleManager
-        {
-            get
-            {
-                if (_styleManager == null)
-                {
-                    _styleManager = new ExcelChartStyleManager(NameSpaceManager, this);
-                }
-                return _styleManager;
-            }
-        }
         /// <summary>
         /// Get the name of the chart node
         /// </summary>
@@ -748,7 +733,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// True if the chart has a title
         /// </summary>
-        public bool HasTitle
+        public override bool HasTitle
         {
             get
             {
@@ -758,7 +743,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// If the chart has a legend
         /// </summary>
-        public bool HasLegend
+        public override bool HasLegend
         {
             get
             {
@@ -768,7 +753,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Remove the title from the chart
         /// </summary>
-        public void DeleteTitle()
+        public override void DeleteTitle()
         {
             _title = null;
             _chartXmlHelper.DeleteNode("../../c:title");
@@ -791,8 +776,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else
                 {
-                    int v;
-                    if (int.TryParse(node.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out v))
+                    if (int.TryParse(node.Value, NumberStyles.Number, CultureInfo.InvariantCulture, out int v))
                     {
                         return (eChartStyle)v;
                     }
@@ -801,7 +785,6 @@ namespace OfficeOpenXml.Drawing.Chart
                         return eChartStyle.None;
                     }
                 }
-
             }
             set
             {

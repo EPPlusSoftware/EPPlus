@@ -43,6 +43,10 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 throw (new InvalidOperationException("Can not add other charttypes to a pivot chart"));
             }
+            else if(_topChart._isChartEx)
+            {
+                throw (new InvalidOperationException("Extended charts can not be combined with other charttypes"));
+            }
             else if (ExcelChart.IsType3D(chartType) || _list[0].IsType3D())
             {
                 throw(new InvalidOperationException("3D charts can not be combined with other charttypes"));

@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A charts plot area
     /// </summary>
-    public sealed class ExcelChartPlotArea :  XmlHelper, IDrawingStyleBase
+    public class ExcelChartPlotArea :  XmlHelper, IDrawingStyleBase
     {
         ExcelChart _firstChart;
         internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart)
@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// The datatable can also be accessed via the DataTable propery
         /// <see cref="DataTable"/>
         /// </summary>
-        public ExcelChartDataTable CreateDataTable()
+        public virtual ExcelChartDataTable CreateDataTable()
         {
             if(DataTable!=null)
             {
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Remove the data table if it's created in the plotarea
         /// </summary>
-        public void RemoveDataTable()
+        public virtual void RemoveDataTable()
         {
             DeleteAllNode("c:dTable");
             DataTable = null;

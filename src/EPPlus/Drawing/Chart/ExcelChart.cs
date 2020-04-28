@@ -119,6 +119,10 @@ namespace OfficeOpenXml.Drawing.Chart
                         {
                             throw (new Exception("Pie charts do not support axis"));
                         }
+                        else if(_isChartEx)
+                        {
+                            throw (new InvalidOperationException("Extentions charts don't support secondary axis"));
+                        }
                         else if (HasPrimaryAxis() == false)
                         {
                             throw (new Exception("Can't set to secondary axis when no serie uses the primary axis"));
@@ -187,31 +191,21 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// True if the chart has a title
         /// </summary>
-        public virtual bool HasTitle
+        public abstract bool HasTitle
         {
-            get
-            {
-                return ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:title", NameSpaceManager) != null;
-            }
+            get;
         }
         /// <summary>
         /// If the chart has a legend
         /// </summary>
-        public virtual bool HasLegend
+        public abstract bool HasLegend
         {
-            get
-            {
-                return ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager) != null;
-            }
+            get;
         }
         /// <summary>
         /// Remove the title from the chart
         /// </summary>
-        public virtual void DeleteTitle()
-        {
-            _title = null;
-            _chartXmlHelper.DeleteNode("../../c:title");
-        }
+        public abstract void DeleteTitle();
         /// <summary>
         /// Chart series
         /// </summary>

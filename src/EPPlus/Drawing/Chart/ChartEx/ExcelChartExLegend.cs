@@ -10,7 +10,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     {
         internal ExcelChartExLegend(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(nsm, node, chart, "cx")
         {
-
+            SchemaNodeOrder = new string[] { "spPr","txPr" };
         }
         public ePositionAlign PositionAlignment
         {
