@@ -759,10 +759,6 @@ namespace OfficeOpenXml.Drawing.Chart
             _chartXmlHelper.DeleteNode("../../c:title");
         }
         /// <summary>
-        /// Chart series
-        /// </summary>
-        public override ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
-        /// <summary>
         /// The build-in chart styles. 
         /// </summary>
         public override eChartStyle Style
@@ -933,7 +929,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_plotArea == null)
                 {
-                    _plotArea = new ExcelChartPlotArea(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea", NameSpaceManager), this);
+                    _plotArea = new ExcelChartPlotArea(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea", NameSpaceManager), this, "c");
                 }
                 return _plotArea;
             }

@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node) : base(ns, node, null)
+        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")
         {
             SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
         }

@@ -24,12 +24,21 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartPlotArea :  XmlHelper, IDrawingStyleBase
     {
         ExcelChart _firstChart;
-        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart)
+        string _nsPrefix;
+        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart, string nsPrefix)
            : base(ns,node)
        {
-
-            AddSchemaNodeOrder(new string[] { "areaChart", "area3DChart", "lineChart", "line3DChart", "stockChart", "radarChart", "scatterChart", "pieChart", "pie3DChart", "doughnutChart", "barChart", "bar3DChart", "ofPieChart", "surfaceChart", "surface3DChart", "valAx", "catAx", "dateAx", "serAx", "dTable", "spPr" },
-                ExcelDrawing._schemaNodeOrderSpPr);
+            _nsPrefix = nsPrefix;
+            if(firstChart._isChartEx)
+            {
+                AddSchemaNodeOrder(new string[] { "plotAreaRegion", "plotSurface", "series", "axis","spPr" },
+                    ExcelDrawing._schemaNodeOrderSpPr);
+            }
+            else
+            {
+                AddSchemaNodeOrder(new string[] { "areaChart", "area3DChart", "lineChart", "line3DChart", "stockChart", "radarChart", "scatterChart", "pieChart", "pie3DChart", "doughnutChart", "barChart", "bar3DChart", "ofPieChart", "surfaceChart", "surface3DChart", "valAx", "catAx", "dateAx", "serAx", "dTable", "spPr" },
+                    ExcelDrawing._schemaNodeOrderSpPr);
+            }
 
             _firstChart = firstChart;
             if (TopNode.SelectSingleNode("c:dTable", NameSpaceManager) != null)
@@ -95,7 +104,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_fill == null)
                 {
-                    _fill = new ExcelDrawingFill(_firstChart, NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
@@ -110,7 +119,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_firstChart, NameSpaceManager, TopNode, "c:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
                 }   
                 return _border;
             }
@@ -125,7 +134,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_firstChart, NameSpaceManager, TopNode, "c:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -140,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }

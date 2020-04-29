@@ -18,6 +18,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -26,20 +27,37 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, bool isPivot, ExcelGroupShape parent) : 
             base(drawings, node, GetChartType(node, drawings.NameSpaceManager), isPivot, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
-            _isChartEx = true;
+            Init();
         }
+
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, type, null, PivotTableSource, chartXml, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
-            _isChartEx = true;
+            Init();
         }
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent=null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
-            _isChartEx = true;
+            Init();
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
             Series.Init(this, drawings.NameSpaceManager, chartNode, false, Series._list);            
         }
+        void LoadAxis()
+        {
+            var l = new List<ExcelChartAxis>();
+            foreach (XmlNode axNode in _chartXmlHelper.GetNodes("cx:chart/cx:plotArea/cx:axis"))
+            {
+                l.Add(new ExcelChartExAxis(this, NameSpaceManager, axNode));
+            }
+            _axis = l.ToArray();
+        }
+        private void Init()
+        {
+            _isChartEx = true;
+            _chartNode = _chartXmlHelper.GetNode("cx:chart");
+            LoadAxis();
+        }
+
         internal override void AddAxis()
         {
             var l = new List<ExcelChartAxis>();
@@ -78,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         public override void DeleteTitle()
         {
-            DeleteNode("cx:title");
+            _chartXmlHelper.DeleteNode("cx:chart/cx:title");
         }
 
         public override ExcelChartPlotArea PlotArea
@@ -87,12 +105,13 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_plotArea==null)
                 {
-                    var node = TopNode.SelectSingleNode("cx:chartSpace/cx:chart/cx:plotArea");
-                    _plotArea = new ExcelChartExPlotarea(NameSpaceManager, node);
+                    var node = _chartXmlHelper.GetNode("cx:chart/cx:plotArea");
+                    _plotArea = new ExcelChartExPlotarea(NameSpaceManager, node, this);
                 }
                 return _plotArea;
             }
         }
+        ExcelChartExAxis[] _exAxis = null;
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>
@@ -100,7 +119,33 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return (ExcelChartExAxis[])_axis;
+                if(_exAxis==null)
+                {
+                    _exAxis=_axis.Select(x => (ExcelChartExAxis)x).ToArray();
+                }
+                return _exAxis;
+            }
+        }
+        public new ExcelChartExTitle Title
+        {
+            get
+            {
+                if (_title == null)
+                {
+                    return (ExcelChartExTitle)base.Title;
+                }
+                return (ExcelChartExTitle)_title;
+            }
+        }
+        public new ExcelChartExLegend Legend
+        {
+            get
+            {
+                if (_legend == null)
+                {
+                    return (ExcelChartExLegend)base.Legend;
+                }
+                return (ExcelChartExLegend)_legend;
             }
         }
 
@@ -197,8 +242,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public override ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
-
+        public new ExcelChartSeries<ExcelChartExSerie> Series { get; } = new ExcelChartSeries<ExcelChartExSerie>();
         public override bool VaryColors
         {
             get 
@@ -220,7 +264,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return ExistNode("cx:title");
+                return _chartXmlHelper.ExistNode("cx:chart/cx:title");
             }
         }
 
@@ -228,7 +272,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return ExistNode("cx:legend");
+                return _chartXmlHelper.ExistNode("cx:chart/cx:legend");
             }
         }
     }

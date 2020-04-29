@@ -33,21 +33,29 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
             base(nameSpaceManager, node)
         {
-            XmlNode topNode = node.SelectSingleNode($"{nsPrefix}:title", NameSpaceManager);
-            if (topNode == null)
-            {
-                topNode = node.OwnerDocument.CreateElement(nsPrefix, "title", ExcelPackage.schemaChart);
-                node.InsertBefore(topNode, node.ChildNodes[0]);
-                topNode.InnerXml = GetInitXml(nsPrefix);
-            }
             _chart = chart;
             _nsPrefix = nsPrefix;
-            TopNode = topNode;
             titlePath = string.Format(titlePath, nsPrefix);
-            AddSchemaNodeOrder(new string[] { "tx", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
+            if(chart._isChartEx)
+            {
+                AddSchemaNodeOrder(_chart.SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
+            }
+            else
+            {
+                AddSchemaNodeOrder(new string[] { "tx", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
+            }
+            CreateTopNode();
             if (chart.StyleManager.StylePart != null)
             {
                 chart.StyleManager.ApplyStyle(this, chart.StyleManager.Style.Title);
+            }
+        }
+
+        private void CreateTopNode()
+        {            
+            if (TopNode.LocalName != "title")
+            {
+                TopNode = CreateNode(_nsPrefix+":title");
             }
         }
 

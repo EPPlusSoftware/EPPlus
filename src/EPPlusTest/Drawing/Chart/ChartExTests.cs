@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +29,27 @@ namespace EPPlusTest.Drawing.Chart
         {
             using (var p=OpenTemplatePackage("Chartex.xlsx"))
             {
-                var drawing = p.Workbook.Worksheets[0].Drawings[0];
-                Assert.IsNotNull(((ExcelChartEx)drawing).Fill);
+                var chart1 = (ExcelChartEx)p.Workbook.Worksheets[0].Drawings[0];
+                var chart2 = (ExcelChartEx)p.Workbook.Worksheets[0].Drawings[1];
+                var chart3 = (ExcelChartEx)p.Workbook.Worksheets[0].Drawings[2];
+
+                Assert.IsNotNull(chart1.Fill);
+                Assert.IsNotNull(chart1.PlotArea);
+                Assert.IsNotNull(chart1.Legend);
+                Assert.IsNotNull(chart1.Title);
+
+                Assert.IsInstanceOfType(chart1.Series[0].DataDimensions[0], typeof(ExcelChartExStringData));
+                Assert.AreEqual(eStringDataType.Category, ((ExcelChartExStringData)chart1.Series[0].DataDimensions[0]).Type);
+                Assert.AreEqual("_xlchart.v1.0", chart1.Series[0].DataDimensions[0].Formula);
+                Assert.IsInstanceOfType(chart1.Series[0].DataDimensions[1], typeof(ExcelChartExNumericData));
+                Assert.AreEqual(eNumericDataType.Value, ((ExcelChartExNumericData)chart1.Series[0].DataDimensions[1]).Type);
+                Assert.AreEqual("_xlchart.v1.2", chart1.Series[0].DataDimensions[1].Formula);
+
+                Assert.IsInstanceOfType(chart1.Series[1].DataDimensions[0], typeof(ExcelChartExStringData));
+                Assert.AreEqual("_xlchart.v1.0", chart1.Series[1].DataDimensions[0].Formula);
+                Assert.IsInstanceOfType(chart1.Series[1].DataDimensions[1], typeof(ExcelChartExNumericData));
+                Assert.AreEqual("_xlchart.v1.4", chart1.Series[1].DataDimensions[1].Formula);
+
             }
         }
     }

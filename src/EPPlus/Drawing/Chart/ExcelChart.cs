@@ -24,6 +24,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -173,7 +174,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _chartNode;
             }
         }
-        ExcelChartTitle _title = null;
+        protected internal ExcelChartTitle _title = null;
         /// <summary>
         /// Titel of the chart
         /// </summary>
@@ -183,7 +184,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_title == null)
                 {
-                    _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c");
+                    if(_isChartEx)
+                    {
+                        _title = new ExcelChartExTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace/cx:chart", NameSpaceManager));
+                    }
+                    else
+                    {
+                        _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c");
+                    }
                 }
                 return _title;
             }
@@ -209,7 +217,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public abstract ExcelChartSeries<ExcelChartSerie> Series { get; }
+        public virtual ExcelChartSeries<ExcelChartSerie> Series { get; }
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>
@@ -252,7 +260,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
         }
-        ExcelChartLegend _legend = null;
+        internal protected ExcelChartLegend _legend = null;
         /// <summary>
         /// Legend
         /// </summary>
@@ -262,7 +270,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_legend == null)
                 {
-                    _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this, "c");
+                    if(_isChartEx)
+                    {
+                        _legend = new ExcelChartExLegend(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace/cx:chart/cx:legend", NameSpaceManager));
+                    }
+                    else
+                    {
+                        _legend = new ExcelChartLegend(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:legend", NameSpaceManager), this, "c");
+                    }
                 }
                 return _legend;
             }
