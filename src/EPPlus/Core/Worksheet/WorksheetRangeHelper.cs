@@ -159,11 +159,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 if (drawing.EditAs != eEditAs.Absolute)
                 {
                     if (drawing.From.Row >= rowFrom-1)
-                    {
-                        drawing.From.RowOff = 0;
+                    {                       
                         if (drawing.From.Row + rows < rowFrom - 1)
                         {
                             drawing.From.Row = rowFrom - 1;
+                            drawing.From.RowOff = 0;
                         }
                         else
                         {
@@ -173,17 +173,17 @@ namespace OfficeOpenXml.Core.Worksheet
                         if (drawing.EditAs == eEditAs.TwoCell)
                         {
                             if (drawing.To.Row >= rowFrom-1)
-                            {                                
+                            {
                                 drawing.To.Row += rows;
                             }
                         }
                     }
                     else if (drawing.To != null && drawing.To.Row >= rowFrom-1)
                     {
-                        drawing.To.RowOff = 0;
                         if (drawing.To.Row+rows < rowFrom-1)
                         {
                             drawing.To.Row = rowFrom-1;
+                            drawing.To.RowOff = 0;
                         }
                         else
                         {
@@ -218,10 +218,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (drawing.From.Column >= columnFrom - 1)
                     {
-                        drawing.From.ColumnOff = 0;
                         if (drawing.From.Column + columns < columnFrom - 1)
                         {
                             drawing.From.Column = columnFrom - 1;
+                            drawing.From.ColumnOff = 0;
                         }
                         else
                         {
@@ -238,10 +238,10 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else if (drawing.To!=null && drawing.To.Column >= columnFrom - 1)
                     {
-                        drawing.To.ColumnOff = 0;
                         if (drawing.To.Column + columns < columnFrom - 1)
                         {
                             drawing.To.Column = columnFrom - 1;
+                            drawing.To.ColumnOff = 0;
                         }
                         else
                         {
