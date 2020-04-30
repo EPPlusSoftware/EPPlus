@@ -26,6 +26,8 @@ using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using static OfficeOpenXml.Drawing.PictureStore;
+
 namespace OfficeOpenXml
 {
 	/// <summary>
@@ -659,8 +661,7 @@ namespace OfficeOpenXml
             e.SetAttribute("id", ExcelPackage.schemaRelationships, newVmlRel.Id);
         }
         private void CopyDrawing(ExcelWorksheet Copy, ExcelWorksheet workSheet/*, PackageRelationship r*/)
-        {
-            
+        {            
                 //First copy the drawing XML                
                 string xml = Copy.Drawings.DrawingXml.OuterXml;            
                 var uriDraw=new Uri(string.Format("/xl/drawings/drawing{0}.xml", workSheet.SheetID),  UriKind.Relative);
@@ -680,9 +681,8 @@ namespace OfficeOpenXml
                 {
                     ExcelDrawing draw = Copy.Drawings[i];
                     draw.AdjustPositionAndSize();       //Adjust position for any change in normal style font/row size etc.
-                    if (draw is ExcelChart)
+                    if (draw is ExcelChart chart)
                     {
-                        ExcelChart chart = draw as ExcelChart;
                         xml = chart.ChartXml.InnerXml;
 
                         var UriChart = XmlHelper.GetNewUri(_pck.Package, "/xl/charts/chart{0}.xml");
@@ -696,34 +696,27 @@ namespace OfficeOpenXml
                         XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), Copy.Drawings.NameSpaceManager) as XmlAttribute;
                         relAtt.Value=rel.Id;
                     }
-                    else if (draw is ExcelPicture)
+                    else if (draw is ExcelPicture pic)
                     {
-                        ExcelPicture pic = draw as ExcelPicture;
                         IPictureContainer container = pic;
                         var uri = container.UriPic;
-                        if(!workSheet.Workbook._package.Package.PartExists(uri))
-                        {
-                            var picPart = workSheet.Workbook._package.Package.CreatePart(uri, pic.ContentType, CompressionLevel.None);
-                            pic.Image.Save(picPart.GetStream(FileMode.Create, FileAccess.Write), PictureStore.GetImageFormat(pic.ContentType));
-                        }
-                        
-                        var rel = part.CreateRelationship(UriHelper.GetRelativeUri(workSheet.WorksheetUri, uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                        var img=PictureStore.ImageToByteArray(pic.Image);
+                        var ii=workSheet.Workbook._package.PictureStore.AddImage(img, null, pic.ContentType);
+
+                        var rel = part.CreateRelationship(UriHelper.GetRelativeUri(workSheet.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                         //Fixes problem with invalid image when the same image is used more than once.
                         XmlNode relAtt =
                             drawXml.SelectSingleNode(
                                 string.Format(
                                     "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
                                     pic.Name), Copy.Drawings.NameSpaceManager);
+
                         if(relAtt!=null)
                         {
                             relAtt.Value = rel.Id;
                         }
-                        if (_pck.PictureStore._images.ContainsKey(container.ImageHash))
-                        {
-                            _pck.PictureStore._images[container.ImageHash].RefCount++;
                     }
                 }
-            }
                 //rewrite the drawing xml with the new relID's
                 streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 streamDrawing.Write(drawXml.OuterXml);
