@@ -127,6 +127,9 @@ namespace EPPlusTest.Core.Range.Delete
             var shape3 = ws.Drawings.AddShape("Shape3", OfficeOpenXml.Drawing.eShapeStyle.Rect);
             shape3.SetPosition(22, 0, 5, 0);
 
+            var dv = ws.DataValidations.AddIntegerValidation("C1:D5");
+            dv.Operator = OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal;
+            dv.Formula.Value = 1;
             //Act
             ws.DeleteColumn(3, 10);
 
@@ -138,6 +141,8 @@ namespace EPPlusTest.Core.Range.Delete
 
             Assert.AreEqual(2, shape3.From.Column);
             Assert.AreEqual(5, shape3.To.Column);
+            Assert.AreEqual(0, ws.DataValidations.Count);
+
         }
         [TestMethod]
         public void DeleteColumnDrawingPartialColumn()
