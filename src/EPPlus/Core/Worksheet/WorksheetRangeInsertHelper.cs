@@ -59,18 +59,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 var effectedAddress = GetEffectedRange(range, eShiftTypeInsert.Down);
                 InsertFilterAddress(range, effectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, effectedAddress);
-
-                //Update data validation references
-                foreach (ExcelDataValidation dv in ws.DataValidations)
-                {
-                    var addr = dv.Address;
-                    var newAddr = addr.AddRow(rowFrom, rows).Address;
-                    if (addr.Address != newAddr)
-                    {
-                        dv.SetAddress(newAddr);
-                    }
-                }
-
+                InsertDataValidation(range, eShiftTypeInsert.Down, effectedAddress, ws);
+                InsertConditionalFormatting(range, eShiftTypeInsert.Down, effectedAddress, ws);
+                
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
         }
@@ -118,17 +109,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 var effectedAddress = GetEffectedRange(range, eShiftTypeInsert.Right);
                 InsertFilterAddress(range, effectedAddress, eShiftTypeInsert.Right);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Right, effectedAddress);
-
-                //Adjust DataValidation
-                foreach (ExcelDataValidation dv in ws.DataValidations)
-                {
-                    var addr = dv.Address;
-                    var newAddr = addr.AddColumn(columnFrom, columns).Address;
-                    if (addr.Address != newAddr)
-                    {
-                        dv.SetAddress(newAddr);
-                    }
-                }
+                InsertDataValidation(range, eShiftTypeInsert.Right, effectedAddress, ws);
+                InsertConditionalFormatting(range, eShiftTypeInsert.Right, effectedAddress, ws);
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
@@ -167,17 +149,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertTableAddress(ws, range, shift, effectedAddress);
                 InsertPivottableAddress(ws, range, shift, effectedAddress);
 
-                //Update data validation references
-                foreach (var dv in ws.DataValidations)
-                {
-                    ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
-                }
-
-                //Update Conditional formatting references
-                foreach (var cf in ws.ConditionalFormatting)
-                {
-                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
-                }
+                InsertDataValidation(range, shift, effectedAddress, ws);
+                InsertConditionalFormatting(range, shift, effectedAddress, ws);
 
                 InsertSparkLinesAddress(range, shift, effectedAddress);
 
@@ -189,6 +162,24 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     WorksheetRangeHelper.AdjustDrawingsColumn(ws, range._fromCol, range.Columns, range._fromRow, range._toRow);
                 }
+            }
+        }
+
+        private static void InsertConditionalFormatting(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
+        {
+            //Update Conditional formatting references
+            foreach (var cf in ws.ConditionalFormatting)
+            {
+                ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
+            }
+        }
+
+        private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
+        {
+            //Update data validation references
+            foreach (var dv in ws.DataValidations)
+            {
+                ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
             }
         }
 
