@@ -154,5 +154,34 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual("110", _worksheet.Cells["A2"].Value, "6 was not 110");
         }
+
+        [TestMethod]
+        public void Dec2Hex_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "10";
+            _worksheet.Cells["A2"].Formula = "DEC2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("A", _worksheet.Cells["A2"].Value, "10 was not A");
+
+            _worksheet.Cells["A1"].Value = "31";
+            _worksheet.Cells["A2"].Formula = "DEC2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1F", _worksheet.Cells["A2"].Value, "31 was not 1F");
+
+            _worksheet.Cells["A1"].Value = "16";
+            _worksheet.Cells["A2"].Formula = "DEC2HEX(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000010", _worksheet.Cells["A2"].Value, "16 was not 0000000010");
+
+            _worksheet.Cells["A1"].Value = "-16";
+            _worksheet.Cells["A2"].Formula = "DEC2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("FFFFFFFFF0", _worksheet.Cells["A2"].Value, "-16 was not FFFFFFFFF0");
+
+            _worksheet.Cells["A1"].Value = "273";
+            _worksheet.Cells["A2"].Formula = "DEC2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("111", _worksheet.Cells["A2"].Value, "273 was not 111");
+        }
     }
 }
