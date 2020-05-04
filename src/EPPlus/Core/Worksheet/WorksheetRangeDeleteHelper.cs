@@ -59,22 +59,11 @@ namespace OfficeOpenXml.Core.Worksheet
                         ptbl.Address = ptbl.Address.DeleteRow(rowFrom, rows);
                     }
                 }
-                //Issue 15573
-                foreach (ExcelDataValidation dv in ws.DataValidations)
-                {
-                    var addr = dv.Address;
-                    if (addr.Start.Row > rowFrom + rows)
-                    {
-                        var newAddr = addr.DeleteRow(rowFrom, rows).Address;
-                        if (addr.Address != newAddr)
-                        {
-                            dv.SetAddress(newAddr);
-                        }
-                    }
-                }
                 
                 var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
                 var effectedAddress = GetEffectedRange(range, eShiftTypeDelete.Up);
+                DeleteDataValidations(range, eShiftTypeDelete.Up, ws, effectedAddress);
+                DeleteConditionalFormatting(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Up);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Up, effectedAddress);
                 
@@ -109,8 +98,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 foreach (var wsToUpdate in ws.Workbook.Worksheets)
                 {
                     FixFormulasDeleteColumn(wsToUpdate, columnFrom, columns, ws.Name);
-                }                
-                
+                }
+
                 WorksheetRangeHelper.FixMergedCellsColumn(ws, columnFrom, columns, true);
 
                 foreach (var tbl in ws.Tables)
@@ -130,36 +119,25 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
 
                     tbl.Address = tbl.Address.DeleteColumn(columnFrom, columns);
-
-                    foreach (var ptbl in ws.PivotTables)
-                    {
-                        if (ptbl.Address.Start.Column > columnFrom + columns)
-                        {
-                            ptbl.Address = ptbl.Address.DeleteColumn(columnFrom, columns);
-                        }
-                        if (ptbl.CacheDefinition.SourceRange.Start.Column > columnFrom + columns)
-                        {
-                            ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.DeleteColumn(columnFrom, columns).Address;
-                        }
-                    }
                 }
 
-                //Adjust DataValidation
-                foreach (ExcelDataValidation dv in ws.DataValidations)
+                foreach (var ptbl in ws.PivotTables)
                 {
-                    var addr = dv.Address;
-                    if (addr.Start.Column > columnFrom + columns)
+                    if (ptbl.Address.Start.Column >= columnFrom + columns)
                     {
-                        var newAddr = addr.DeleteColumn(columnFrom, columns).Address;
-                        if (addr.Address != newAddr)
-                        {
-                            dv.SetAddress(newAddr);
-                        }
+                        ptbl.Address = ptbl.Address.DeleteColumn(columnFrom, columns);
+                    }
+                    if (ptbl.CacheDefinition.SourceRange.Start.Column > columnFrom + columns)
+                    {
+                        ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.DeleteColumn(columnFrom, columns).Address;
                     }
                 }
 
                 var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
                 var effectedAddress = GetEffectedRange(range, eShiftTypeDelete.Left);
+                DeleteDataValidations(range, eShiftTypeDelete.Left, ws, effectedAddress);
+                DeleteConditionalFormatting(range, eShiftTypeDelete.Left, ws, effectedAddress);
+
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Left);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Left, effectedAddress);
 
@@ -167,6 +145,29 @@ namespace OfficeOpenXml.Core.Worksheet
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, -columns);
             }
         }
+
+        //private static void DeleteColumnDataValidations(ExcelWorksheet ws, int columnFrom, int columns)
+        //{
+        //    //Adjust DataValidation
+        //    var delDv = new List<ExcelDataValidation>();
+        //    foreach (ExcelDataValidation dv in ws.DataValidations)
+        //    {
+        //        var addr = dv.Address;
+        //        if (addr.Start.Column >= columnFrom)
+        //        {
+        //            var newAddr = addr.DeleteColumn(columnFrom, columns);
+        //            if (newAddr == null)
+        //            {
+        //                delDv.Add(dv);
+        //            }
+        //            else if (addr.Address != newAddr.Address)
+        //            {
+        //                dv.SetAddress(newAddr.Address);
+        //            }
+        //        }
+        //    }
+        //    delDv.ForEach(x => ws.DataValidations.Remove(x));
+        //}
 
         private static void ValidateRow(int rowFrom, int rows)
         {
@@ -364,7 +365,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 //Adjust/delete data validations and conditional formatting
                 DeleteDataValidations(range, shift, ws, effectedAddress);
-                DeleteConditionalForatting(range, shift, ws, effectedAddress);
+                DeleteConditionalFormatting(range, shift, ws, effectedAddress);
 
                 DeleteSparkLinesAddress(range, shift, effectedAddress);
                 AdjustDrawings(range, shift);
@@ -483,7 +484,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void DeleteConditionalForatting(ExcelRangeBase range, eShiftTypeDelete shift, ExcelWorksheet ws, ExcelAddressBase effectedAddress)
+        private static void DeleteConditionalFormatting(ExcelRangeBase range, eShiftTypeDelete shift, ExcelWorksheet ws, ExcelAddressBase effectedAddress)
         {
             //Update Conditional formatting references
             var deletedCF = new List<IExcelConditionalFormattingRule>();

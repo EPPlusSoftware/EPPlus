@@ -127,6 +127,9 @@ namespace EPPlusTest.Core.Range.Delete
             var shape3 = ws.Drawings.AddShape("Shape3", OfficeOpenXml.Drawing.eShapeStyle.Rect);
             shape3.SetPosition(22, 0, 5, 0);
 
+            var dv = ws.DataValidations.AddIntegerValidation("C1:D5");
+            dv.Operator = OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal;
+            dv.Formula.Value = 1;
             //Act
             ws.DeleteColumn(3, 10);
 
@@ -138,6 +141,8 @@ namespace EPPlusTest.Core.Range.Delete
 
             Assert.AreEqual(2, shape3.From.Column);
             Assert.AreEqual(5, shape3.To.Column);
+            Assert.AreEqual(0, ws.DataValidations.Count);
+
         }
         [TestMethod]
         public void DeleteColumnDrawingPartialColumn()
@@ -260,6 +265,46 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(10, shape.To.Row);
             Assert.AreEqual(10, chart.To.Row);
         }
+        [TestMethod]
+        public void DeleteRangeWithDrawingPartialShiftUpOffset()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DrawingsDeleteRangeUpPartOff");
+            var shape = ws.Drawings.AddShape("Shape1_TwoCell", OfficeOpenXml.Drawing.eShapeStyle.Rect);
+
+            shape.SetPosition(5, 5, 11, 5);
+
+            //Act & Assert
+            ws.Cells["A1:X1"].Delete(eShiftTypeDelete.Up);
+
+            Assert.AreEqual(4, shape.From.Row);
+            Assert.AreEqual(5*ExcelDrawing.EMU_PER_PIXEL, shape.From.RowOff);
+
+            ws.Cells["A5:X5"].Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual(4, shape.From.Row);
+            Assert.AreEqual(0, shape.From.RowOff);
+        }
+        [TestMethod]
+        public void DeleteRangeWithDrawingPartialShiftLeftOffset()
+        {
+            //Setup
+            var ws = _pck.Workbook.Worksheets.Add("DrawingsDeleteRangeLeftPartOff");
+            var shape = ws.Drawings.AddShape("Shape1_TwoCell", OfficeOpenXml.Drawing.eShapeStyle.Rect);
+
+            shape.SetPosition(5, 5, 5, 5);
+
+            //Act & Assert
+            ws.Cells["A1:A15"].Delete(eShiftTypeDelete.Left);
+
+            Assert.AreEqual(4, shape.From.Column);
+            Assert.AreEqual(5 * ExcelDrawing.EMU_PER_PIXEL, shape.From.ColumnOff);
+
+            ws.Cells["E1:E15"].Delete(eShiftTypeDelete.Left);
+            Assert.AreEqual(4, shape.From.Column);
+            Assert.AreEqual(0, shape.From.ColumnOff);
+        }
+
+
         [TestMethod]
         public void DeleteRangeWithDrawingPartialShiftLeft()
         {

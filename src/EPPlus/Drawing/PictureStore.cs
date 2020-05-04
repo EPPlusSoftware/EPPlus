@@ -270,13 +270,9 @@ namespace OfficeOpenXml.Drawing
         }        //Add a new image to the compare collection
         internal static string SavePicture(Image image, IPictureContainer container)
         {
-#if (Core)
-            byte[] img = ImageCompat.GetImageAsByteArray(image);
-#else
-            ImageConverter ic = new ImageConverter();
-            byte[] img = (byte[])ic.ConvertTo(image, typeof(byte[]));
-#endif
+            byte[] img = ImageToByteArray(image); 
             var store = container.RelationDocument.Package.PictureStore;
+
             var ii = store.AddImage(img);
 
             container.ImageHash = ii.Hash;
@@ -301,6 +297,16 @@ namespace OfficeOpenXml.Drawing
             hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id));
 
             return container.RelPic.Id;
+        }
+
+        internal static byte[] ImageToByteArray(Image image)
+        {
+#if (Core)
+            return ImageCompat.GetImageAsByteArray(image);
+#else
+            ImageConverter ic = new ImageConverter();
+            return (byte[])ic.ConvertTo(image, typeof(byte[]));
+#endif
         }
 
         public void Dispose()
