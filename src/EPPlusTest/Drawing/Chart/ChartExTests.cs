@@ -27,7 +27,7 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void ReadChartEx()
         {
-            using (var p=OpenTemplatePackage("Chartex.xlsx"))
+            using (var p = OpenTemplatePackage("Chartex.xlsx"))
             {
                 var chart1 = (ExcelChartEx)p.Workbook.Worksheets[0].Drawings[0];
                 var chart2 = (ExcelChartEx)p.Workbook.Worksheets[0].Drawings[1];
@@ -37,6 +37,7 @@ namespace EPPlusTest.Drawing.Chart
                 Assert.IsNotNull(chart1.PlotArea);
                 Assert.IsNotNull(chart1.Legend);
                 Assert.IsNotNull(chart1.Title);
+                Assert.IsNotNull(chart1.Title.Font);
 
                 Assert.IsInstanceOfType(chart1.Series[0].DataDimensions[0], typeof(ExcelChartExStringData));
                 Assert.AreEqual(eStringDataType.Category, ((ExcelChartExStringData)chart1.Series[0].DataDimensions[0]).Type);
@@ -50,6 +51,16 @@ namespace EPPlusTest.Drawing.Chart
                 Assert.IsInstanceOfType(chart1.Series[1].DataDimensions[1], typeof(ExcelChartExNumericData));
                 Assert.AreEqual("_xlchart.v1.4", chart1.Series[1].DataDimensions[1].Formula);
 
+            }
+        }
+        [TestMethod]
+        public void AddChartEx()
+        {
+            using (var p = OpenPackage("Chartex.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sunburst");
+                LoadTestdata(ws);
+                var chart = ws.Drawings.AddExtendedChart("Sunburst1", eChartExType.Sunburst);
             }
         }
     }

@@ -37,17 +37,20 @@ namespace OfficeOpenXml.Style
 
             _path = path;
             var par = (XmlElement)TopNode.SelectSingleNode(path, NameSpaceManager);
-            _paragraphs.Add(par);
-            var nl = par.SelectNodes("a:r", NameSpaceManager);
-            if (nl != null)
+            if (par != null)
             {
-                foreach (XmlNode n in nl)
+                _paragraphs.Add(par);
+                var nl = par.SelectNodes("a:r", NameSpaceManager);
+                if (nl != null)
                 {
-                    if (_list.Count==0 || n.ParentNode!=_list[_list.Count-1].TopNode.ParentNode)
+                    foreach (XmlNode n in nl)
                     {
-                        _paragraphs.Add((XmlElement)n.ParentNode);
+                        if (_list.Count == 0 || n.ParentNode != _list[_list.Count - 1].TopNode.ParentNode)
+                        {
+                            _paragraphs.Add((XmlElement)n.ParentNode);
+                        }
+                        _list.Add(new ExcelParagraph(drawing._drawings, ns, n, "", schemaNodeOrder));
                     }
-                    _list.Add(new ExcelParagraph(drawing._drawings, ns, n, "",schemaNodeOrder));
                 }
             }
         }

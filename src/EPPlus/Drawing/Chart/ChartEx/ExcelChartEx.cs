@@ -16,9 +16,12 @@ using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -33,6 +36,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, type, null, PivotTableSource, chartXml, parent, "mc:AlternateContent/mc:choice/xdr:graphicFrame")
         {
+            CreateNewChart(drawings, chartXml, type);
             Init();
         }
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent=null) :
@@ -44,7 +48,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         void LoadAxis()
         {
-            var l = new List<ExcelChartAxis>();
+            var l = new List<ExcelChartAxis>();            
             foreach (XmlNode axNode in _chartXmlHelper.GetNodes("cx:chart/cx:plotArea/cx:axis"))
             {
                 l.Add(new ExcelChartExAxis(this, NameSpaceManager, axNode));
@@ -54,8 +58,65 @@ namespace OfficeOpenXml.Drawing.Chart
         private void Init()
         {
             _isChartEx = true;
-            _chartNode = _chartXmlHelper.GetNode("cx:chart");
+            _chartXmlHelper.SchemaNodeOrder = new string[] { "chartData", "chart", "spPr", "txPr", "clrMapOvr", "fmtOvrs", "title", "plotarea", "legend", "printSettings" };
             LoadAxis();
+        }
+
+        private void CreateNewChart(ExcelDrawings drawings, XmlDocument chartXml = null, eChartType? type = null)
+        {
+            XmlElement graphFrame = TopNode.OwnerDocument.CreateElement("mc","AlternateContent", ExcelPackage.schemaMarkupCompatibility);
+            graphFrame.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+            TopNode.AppendChild(graphFrame);
+            graphFrame.InnerXml = string.Format("<mc:Choice xmlns:cx1=\"http://schemas.microsoft.com/office/drawing/2015/9/8/chartex\" Requires=\"cx1\"><xdr:graphicFrame macro=\"\"><xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"\"><a:extLst><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\" id=\"{{9FE3C5B3-14FE-44E2-AB27-50960A44C7C4}}\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.microsoft.com/office/drawing/2014/chartex\"><cx:chart xmlns:cx=\"http://schemas.microsoft.com/office/drawing/2014/chartex\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/></a:graphicData></a:graphic></xdr:graphicFrame></mc:Choice><mc:Fallback><xdr:sp macro=\"\" textlink=\"\"><xdr:nvSpPr><xdr:cNvPr id=\"0\" name=\"\"/><xdr:cNvSpPr><a:spLocks noTextEdit=\"1\"/></xdr:cNvSpPr></xdr:nvSpPr><xdr:spPr><a:xfrm><a:off x=\"3609974\" y=\"938212\"/><a:ext cx=\"5762625\" cy=\"2743200\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom><a:solidFill><a:prstClr val=\"white\"/></a:solidFill><a:ln w=\"1\"><a:solidFill><a:prstClr val=\"green\"/></a:solidFill></a:ln></xdr:spPr><xdr:txBody><a:bodyPr vertOverflow=\"clip\" horzOverflow=\"clip\"/><a:lstStyle/><a:p><a:r><a:rPr lang=\"en-US\" sz=\"1100\"/><a:t>This chart isn't available in your version of Excel. Editing this shape or saving this workbook into a different file format will permanently break the chart.</a:t></a:r></a:p></xdr:txBody></xdr:sp></mc:Fallback>", _id);
+            //TopNode.AppendChild(TopNode.OwnerDocument.CreateElement("clientData", ExcelPackage.schemaSheetDrawings));
+
+            var package = drawings.Worksheet._package.Package;
+            UriChart = GetNewUri(package, "/xl/charts/chart{0}.xml");
+
+            if (chartXml == null)
+            {
+                ChartXml = new XmlDocument
+                {
+                    PreserveWhitespace = ExcelPackage.preserveWhitespace
+                };
+                LoadXmlSafe(ChartXml, ChartStartXml(type.Value), Encoding.UTF8);
+            }
+            else
+            {
+                ChartXml = chartXml;
+            }
+
+            // save it to the package
+            Part = package.CreatePart(UriChart, "application/vnd.openxmlformats-officedocument.drawingml.chart+xml", _drawings._package.Compression);
+
+            StreamWriter streamChart = new StreamWriter(Part.GetStream(FileMode.Create, FileAccess.Write));
+            ChartXml.Save(streamChart);
+            streamChart.Close();
+            package.Flush();
+
+            var chartRelation = drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(drawings.UriDrawing, UriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
+            graphFrame.SelectSingleNode("mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", NameSpaceManager).Attributes["r:id"].Value = chartRelation.Id;
+            package.Flush();
+            _chartNode = ChartXml.SelectSingleNode("cx:chartSpace/cx:chart", NameSpaceManager);
+            _chartXmlHelper = XmlHelperFactory.Create(NameSpaceManager, _chartNode);
+            GetPositionSize();
+        }
+
+        private string ChartStartXml(eChartType type)
+        {
+            StringBuilder xml = new StringBuilder();
+
+            xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+            xml.Append("<cx:chartSpace xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:cx=\"http://schemas.microsoft.com/office/drawing/2014/chartex\" >");
+            xml.Append("<cx:chart><cx:title overlay=\"0\" align=\"ctr\" pos=\"t\"/><cx:plotArea><cx:plotAreaRegion></cx:plotAreaRegion></cx:plotArea></cx:chart>");
+            xml.Append("</cx:chartSpace>");
+
+            return xml.ToString();
+        }
+
+        private static void AddData(StringBuilder xml)
+        {
+            xml.Append("<cx:chartData><cx:data id=\"0\"><cx:strDim type=\"cat\"><cx:f dir=\"row\">_xlchart.v1.31</cx:f></cx:strDim><cx:numDim type=\"size\"><cx:f dir=\"row\">_xlchart.v1.32</cx:f></cx:numDim></cx:data><cx:data id=\"1\"><cx:strDim type=\"cat\"><cx:f dir=\"row\">_xlchart.v1.31</cx:f></cx:strDim><cx:numDim type=\"size\"><cx:f dir=\"row\">_xlchart.v1.33</cx:f></cx:numDim></cx:data></cx:chartData>");
         }
 
         internal override void AddAxis()

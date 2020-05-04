@@ -51,19 +51,29 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal ExcelChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent=null, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, drawingsNode, drawingPath, nvPrPath, parent)
-        {            
+        {
+            Init(drawings, chartXml);
         }
         internal ExcelChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
            base(drawings, node, drawingPath, nvPrPath, parent)
         {
-            ChartXml = chartXml;
-            WorkSheet = drawings.Worksheet;
-            _chartXmlHelper = XmlHelperFactory.Create(drawings.NameSpaceManager ,chartXml.DocumentElement);
+            Init(drawings, chartXml);
         }
+
         internal ExcelChart(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(topChart._drawings, topChart.TopNode, drawingPath, nvPrPath, parent)
         {
         }
+        private void Init(ExcelDrawings drawings, XmlDocument chartXml)
+        {
+            WorkSheet = drawings.Worksheet;
+            if (chartXml != null)
+            {
+                ChartXml = chartXml;
+                _chartXmlHelper = XmlHelperFactory.Create(drawings.NameSpaceManager, chartXml.DocumentElement);
+            }
+        }
+
         #endregion
         internal ExcelChartStyleManager _styleManager = null;
         /// <summary>
