@@ -67,5 +67,63 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual(-122, _worksheet.Cells["A2"].Value, "110 was not 6");
         }
+
+        [TestMethod]
+        public void Bin2Hex_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "10";
+            _worksheet.Cells["A2"].Formula = "BIN2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("2", _worksheet.Cells["A2"].Value, "10 was not 2");
+
+            _worksheet.Cells["A1"].Value = "0000000001";
+            _worksheet.Cells["A2"].Formula = "BIN2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1", _worksheet.Cells["A2"].Value, "0000000001 was not 1 but " + _worksheet.Cells["A2"].Value);
+
+            _worksheet.Cells["A1"].Value = "1111111110";
+            _worksheet.Cells["A2"].Formula = "BIN2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("FFFFFFFFFE", _worksheet.Cells["A2"].Value, "1111111110 was not FFFFFFFFFE but " + _worksheet.Cells["A2"].Value);
+
+            _worksheet.Cells["A1"].Value = "11101";
+            _worksheet.Cells["A2"].Formula = "BIN2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1D", _worksheet.Cells["A2"].Value, "11101 was not 1D but " + _worksheet.Cells["A2"].Value);
+
+            _worksheet.Cells["A1"].Value = "10";
+            _worksheet.Cells["A2"].Formula = "BIN2HEX(A1,10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000002", _worksheet.Cells["A2"].Value, "10 (padded with 10) was not 0000000002 but " + _worksheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void Bin2Oct_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "101";
+            _worksheet.Cells["A2"].Formula = "BIN2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("5", _worksheet.Cells["A2"].Value, "101 was not 5");
+
+            _worksheet.Cells["A1"].Value = "0000000001";
+            _worksheet.Cells["A2"].Formula = "BIN2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1", _worksheet.Cells["A2"].Value, "0000000001 was not 1");
+
+            _worksheet.Cells["A1"].Value = "10";
+            _worksheet.Cells["A2"].Formula = "BIN2OCT(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000002", _worksheet.Cells["A2"].Value, "10 was not 0000000002");
+
+            _worksheet.Cells["A1"].Value = "1111111110";
+            _worksheet.Cells["A2"].Formula = "BIN2OCT(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("7777777776", _worksheet.Cells["A2"].Value, "1111111110 was not 7777777776");
+
+            _worksheet.Cells["A1"].Value = "1110";
+            _worksheet.Cells["A2"].Formula = "BIN2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("16", _worksheet.Cells["A2"].Value, "1110 was not 16");
+        }
     }
 }
