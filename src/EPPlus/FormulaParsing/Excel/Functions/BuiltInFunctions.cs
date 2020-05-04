@@ -236,6 +236,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["bin2dec"] = new Bin2Dec();
             Functions["bin2hex"] = new Bin2Hex();
             Functions["bin2oct"] = new Bin2Oct();
+            Functions["dec2bin"] = new Dec2Bin();
         }
     }
 }

@@ -125,5 +125,34 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual("16", _worksheet.Cells["A2"].Value, "1110 was not 16");
         }
+
+        [TestMethod]
+        public void Dec2Bin_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "2";
+            _worksheet.Cells["A2"].Formula = "DEC2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("10", _worksheet.Cells["A2"].Value, "2 was not 10");
+
+            _worksheet.Cells["A1"].Value = "3";
+            _worksheet.Cells["A2"].Formula = "DEC2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("11", _worksheet.Cells["A2"].Value, "3 was not 11");
+
+            _worksheet.Cells["A1"].Value = "2";
+            _worksheet.Cells["A2"].Formula = "DEC2BIN(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000010", _worksheet.Cells["A2"].Value, "2 (padded with 10) was not 0000000010");
+
+            _worksheet.Cells["A1"].Value = "-2";
+            _worksheet.Cells["A2"].Formula = "DEC2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1111111110", _worksheet.Cells["A2"].Value, "-2 was not 1111111110");
+
+            _worksheet.Cells["A1"].Value = "6";
+            _worksheet.Cells["A2"].Formula = "DEC2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("110", _worksheet.Cells["A2"].Value, "6 was not 110");
+        }
     }
 }
