@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Packaging
         }
         Dictionary<string, ZipPackagePart> Parts = new Dictionary<string, ZipPackagePart>(StringComparer.OrdinalIgnoreCase);
         internal Dictionary<string, ContentType> _contentTypes = new Dictionary<string, ContentType>(StringComparer.OrdinalIgnoreCase);
-        internal char _dirSeparator='/';
+        internal char _dirSeparator='0';
         internal ZipPackage()
         {
             AddNew();
@@ -66,20 +66,14 @@ namespace OfficeOpenXml.Packaging
                 using (ZipInputStream zip = new ZipInputStream(stream))
                 {
                     var e = zip.GetNextEntry();
-                    if(e==null)
+                    if (e == null)
                     {
                         throw (new InvalidDataException("The file is not an valid Package file. If the file is encrypted, please supply the password in the constructor."));
                     }
-                    if (e.FileName.Contains("\\"))
-                    {
-                        _dirSeparator = '\\';
-                    }
-                    else
-                    {
-                        _dirSeparator = '/';
-                    }
+
                     while (e != null)
                     {
+                        GetDirSeparator(e);
                         if (e.UncompressedSize > 0)
                         {
                             var b = new byte[e.UncompressedSize];
@@ -89,7 +83,7 @@ namespace OfficeOpenXml.Packaging
                                 AddContentTypes(Encoding.UTF8.GetString(b));
                                 hasContentTypeXml = true;
                             }
-                            else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase)) 
+                            else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
                             {
                                 ReadRelation(Encoding.UTF8.GetString(b), "");
                             }
@@ -100,7 +94,7 @@ namespace OfficeOpenXml.Packaging
                                     rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(b));
                                 }
                                 else
-                                {                                    
+                                {
                                     var part = new ZipPackagePart(this, e);
                                     part.Stream = new MemoryStream();
                                     part.Stream.Write(b, 0, b.Length);
@@ -108,12 +102,9 @@ namespace OfficeOpenXml.Packaging
                                 }
                             }
                         }
-                        else
-                        {
-                        }
                         e = zip.GetNextEntry();
                     }
-
+                    if (_dirSeparator == '0') _dirSeparator = '/';
                     foreach (var p in Parts)
                     {
                         string name = Path.GetFileName(p.Key);
@@ -142,6 +133,21 @@ namespace OfficeOpenXml.Packaging
                     }
                     zip.Close();
                     zip.Dispose();
+                }
+            }
+        }
+
+        private void GetDirSeparator(ZipEntry e)
+        {
+            if (_dirSeparator == '0')
+            {
+                if (e.FileName.Contains("\\"))
+                {
+                    _dirSeparator = '\\';
+                }
+                else if (e.FileName.Contains("/"))
+                {
+                    _dirSeparator = '/';
                 }
             }
         }
