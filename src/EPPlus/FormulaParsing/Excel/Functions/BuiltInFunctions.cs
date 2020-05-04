@@ -23,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -231,6 +232,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dvarp"] = new Dvarp();
             //Finance
             Functions["pmt"] = new Pmt();
+            //Engineering
+            Functions["bin2dec"] = new Bin2Dec();
         }
     }
 }
