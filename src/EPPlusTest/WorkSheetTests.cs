@@ -1311,8 +1311,11 @@ namespace EPPlusTest
         public void LoadDataTable()
         {
             if (_pck == null) _pck = new ExcelPackage();
-            var ws = _pck.Workbook.Worksheets.Add("Loaded DataTable");
+            _pck.Workbook.Properties.Title = $"Bamboo Profit Share from {DateTime.Today.AddDays(-7):D} to {DateTime.Today:D}";
+            _pck.Workbook.Properties.Author = "Steve Dearman";
+            _pck.Workbook.Properties.Company = "Second-HandPhones.com";
 
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataTable");
             var dt = new DataTable();
             dt.Columns.Add("String", typeof(string));
             dt.Columns.Add("Int", typeof(int));
@@ -1342,7 +1345,7 @@ namespace EPPlusTest
             dt.Rows.Add(dr);
 
             var range = ws.Cells["A1"].LoadFromDataTable(dt, true, OfficeOpenXml.Table.TableStyles.Medium5);
-
+            range.AutoFilter = true;
             ws.Tables[0].Columns[1].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
             ws.Tables[0].ShowTotal = true;
 
@@ -1351,6 +1354,58 @@ namespace EPPlusTest
             Assert.AreEqual("Double", ws.Cells["D1"].Value);
             Assert.AreEqual("Row3", ws.Cells["A4"].Value);
             Assert.AreEqual(3.125, ws.Cells["D4"].Value);
+        }
+        [TestMethod]
+        public async Task LoadDataTableAsync()
+        {
+
+            using (var p = OpenPackage("Loaddb.xlsx"))
+            {
+                p.Workbook.Properties.Title = $"from {DateTime.Today.AddDays(-7):D} to {DateTime.Today:D}";
+                p.Workbook.Properties.Author = "Jan Källman";
+                p.Workbook.Properties.Company = "EPPlus software";
+
+                var ws = p.Workbook.Worksheets.Add("Loaded DataTable");
+                var dt = new DataTable();
+                dt.Columns.Add("String", typeof(string));
+                dt.Columns.Add("Int", typeof(int));
+                dt.Columns.Add("Bool", typeof(bool));
+                dt.Columns.Add("Double", typeof(double));
+
+
+                var dr = dt.NewRow();
+                dr[0] = "Row1";
+                dr[1] = 1;
+                dr[2] = true;
+                dr[3] = 1.5;
+                dt.Rows.Add(dr);
+
+                dr = dt.NewRow();
+                dr[0] = "Row2";
+                dr[1] = 2;
+                dr[2] = false;
+                dr[3] = 2.25;
+                dt.Rows.Add(dr);
+
+                dr = dt.NewRow();
+                dr[0] = "Row3";
+                dr[1] = 3;
+                dr[2] = true;
+                dr[3] = 3.125;
+                dt.Rows.Add(dr);
+
+                var range = ws.Cells["A1"].LoadFromDataTable(dt, true, OfficeOpenXml.Table.TableStyles.Medium5);
+                range.AutoFilter = true;
+                ws.Tables[0].Columns[1].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
+                ws.Tables[0].ShowTotal = true;
+
+                Assert.AreEqual("A1:D4", range.Address);
+                Assert.AreEqual("String", ws.Cells["A1"].Value);
+                Assert.AreEqual("Double", ws.Cells["D1"].Value);
+                Assert.AreEqual("Row3", ws.Cells["A4"].Value);
+                Assert.AreEqual(3.125, ws.Cells["D4"].Value);
+                await p.SaveAsync();
+            }
         }
 
         [TestMethod]

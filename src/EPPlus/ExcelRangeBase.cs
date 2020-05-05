@@ -1186,7 +1186,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                IsRangeValid("autofilter");
+                IsRangeValid("autofilter");                
                 if (_worksheet.AutoFilterAddress != null)
                 {
                     var c = this.Collide(_worksheet.AutoFilterAddress);
@@ -1201,9 +1201,18 @@ namespace OfficeOpenXml
                 }
                 if (value)
                 {
-                    _worksheet.AutoFilterAddress = this;
-                    var result = _worksheet.Names.Add("_xlnm._FilterDatabase", this);
-                    result.IsNameHidden = true;
+                    ValidateAutofilterDontCollide();
+                    var tbl = _worksheet.Tables.GetFromRange(this);
+                    if(tbl==null)
+                    {
+                        _worksheet.AutoFilterAddress = this;
+                        var result = _worksheet.Names.Add("_xlnm._FilterDatabase", this);
+                        result.IsNameHidden = true;
+                    }
+                    else
+                    {
+                        tbl.ShowFilter = true;
+                    }
                 }
                 else
                 {
@@ -1211,6 +1220,28 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private void ValidateAutofilterDontCollide()
+        {
+            foreach(var tbl in _worksheet.Tables)
+            {
+                var c = tbl.Address.Collide(this);
+                if (c == eAddressCollition.Equal) return;   //Autofilter is on a table.
+                if(c!=eAddressCollition.No)
+                {
+                    throw new InvalidOperationException($"Auto filter collides with table {tbl.Name}");
+                }
+            }
+            foreach (var pt in _worksheet.PivotTables)
+            {
+                var c = pt.Address.Collide(this);
+                if (c != eAddressCollition.No)
+                {
+                    throw new InvalidOperationException($"Auto filter collides with pivot table {pt.Name}");
+                }
+            }
+        }
+
         /// <summary>
         /// If the value is in richtext format.
         /// </summary>
