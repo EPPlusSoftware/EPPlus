@@ -280,6 +280,7 @@ namespace OfficeOpenXml.Drawing
 
             var chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
             chart.Name = Name;
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.BarChartStyle1);
             _drawings.Add(chart);
             _drawingNames.Add(Name, _drawings.Count - 1);
             return chart;

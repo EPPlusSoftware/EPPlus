@@ -308,7 +308,18 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             LoadStyleAndColorsXml(styleXml, fallBackStyle, colorsXml);
 
-            ApplyStyles();
+            if (_chart._isChartEx)
+            {
+                //Make sure we have a theme
+                if (_theme.CurrentTheme == null)
+                {
+                    _theme.CreateDefaultTheme();
+                }
+            }
+            else
+            {
+                ApplyStyles();
+            }
 
             return Style.Id;
         }   
@@ -344,7 +355,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
 
             LoadColorXml(colorsXml);
-            _chart.InitChartTheme((int)fallBackStyle);
+            if (_chart._isChartEx==false)
+            {
+                _chart.InitChartTheme((int)fallBackStyle);
+            }
         }
         /// <summary>
         /// Loads a theme override xml document for the chart.

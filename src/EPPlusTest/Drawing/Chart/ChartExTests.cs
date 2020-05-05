@@ -56,11 +56,13 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void AddChartEx()
         {
-            using (var p = OpenPackage("Chartex.xlsx"))
+            using (var p = OpenPackage("Chartex.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sunburst");
                 LoadTestdata(ws);
                 var chart = ws.Drawings.AddExtendedChart("Sunburst1", eChartExType.Sunburst);
+
+                SaveAndCleanup(p);
             }
         }
     }

@@ -13,6 +13,7 @@
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils.Extentions;
+using System;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
@@ -291,6 +292,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         internal override void SetID(string id)
         {
             throw new System.NotImplementedException();
+        }
+
+        internal static XmlElement CreateSerieElement(XmlNamespaceManager ns, XmlNode node, ExcelChart chart)
+        {
+            throw new NotImplementedException();
         }
     }
 }
