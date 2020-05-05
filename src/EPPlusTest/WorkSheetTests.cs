@@ -1311,9 +1311,9 @@ namespace EPPlusTest
         public void LoadDataTable()
         {
             if (_pck == null) _pck = new ExcelPackage();
-            _pck.Workbook.Properties.Title = $"Bamboo Profit Share from {DateTime.Today.AddDays(-7):D} to {DateTime.Today:D}";
-            _pck.Workbook.Properties.Author = "Steve Dearman";
-            _pck.Workbook.Properties.Company = "Second-HandPhones.com";
+            _pck.Workbook.Properties.Title = $"from {DateTime.Today.AddDays(-7):D} to {DateTime.Today:D}";
+            _pck.Workbook.Properties.Author = "Jan Källman";
+            _pck.Workbook.Properties.Company = "EPPlus software";
 
             var ws = _pck.Workbook.Worksheets.Add("Loaded DataTable");
             var dt = new DataTable();
@@ -1365,7 +1365,7 @@ namespace EPPlusTest
                 p.Workbook.Properties.Author = "Jan Källman";
                 p.Workbook.Properties.Company = "EPPlus software";
 
-                var ws = p.Workbook.Worksheets.Add("Loaded DataTable");
+                var ws = p.Workbook.Worksheets.Add("Loaded DataTable Async");
                 var dt = new DataTable();
                 dt.Columns.Add("String", typeof(string));
                 dt.Columns.Add("Int", typeof(int));
