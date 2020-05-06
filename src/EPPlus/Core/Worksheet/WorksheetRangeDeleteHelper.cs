@@ -524,6 +524,34 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static ExcelAddressBase DeleteSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
         {
+            if (address.Addresses == null)
+            {
+                return DeleteSplitIndividualAddress(address, range, effectedAddress, shift);
+            }
+            else
+            {
+                var newAddress = "";
+                foreach (var a in address.Addresses)
+                {
+                    var na = DeleteSplitIndividualAddress(a, range, effectedAddress, shift);
+                    if(na!=null)
+                    {
+                        newAddress += na.Address + ",";
+                    }
+                }
+                if(string.IsNullOrEmpty(newAddress))
+                {
+                    return null;
+                }
+                else
+                {
+                    return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length - 1));
+                }
+            }
+        }
+
+        private static ExcelAddressBase DeleteSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)
+        {
             var collide = effectedAddress.Collide(address);
             if (collide == ExcelAddressBase.eAddressCollition.Partly)
             {
@@ -539,8 +567,8 @@ namespace OfficeOpenXml.Core.Worksheet
                     var fromRow = Math.Max(address._fromRow, addressToShift._fromRow);
                     newAddress += ExcelCellBase.GetAddress(fromRow, address._fromCol, address._toRow, addressToShift._fromCol - 1) + ",";
                 }
-                
-                if(shiftedAddress != null)
+
+                if (shiftedAddress != null)
                 {
                     newAddress += $"{shiftedAddress.Address},";
                 }
