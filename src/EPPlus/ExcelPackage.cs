@@ -426,7 +426,11 @@ namespace OfficeOpenXml
             if (template != null) template.Refresh();
             if (template.Exists)
             {
-                if(_stream==null) _stream=new MemoryStream();
+                if(template.Length==0)
+                {
+                    throw new IOException($"{template.FullName} can not be a zero-byte file.");
+                }
+                if (_stream==null) _stream=new MemoryStream();
                 var ms = new MemoryStream();
                 if (password != null)
                 {
@@ -442,7 +446,6 @@ namespace OfficeOpenXml
                 }
                 try
                 {
-                    //_package = Package.Open(_stream, FileMode.Open, FileAccess.ReadWrite);
                     _package = new Packaging.ZipPackage(ms);
                 }
                 catch (Exception ex)
@@ -466,7 +469,7 @@ namespace OfficeOpenXml
             var ms = new MemoryStream();
             if (_stream == null) _stream = new MemoryStream();
             if (File != null) File.Refresh();
-            if (File != null && File.Exists)
+            if (File != null && File.Exists && File.Length > 0)
             {
                 if (password != null)
                 {
@@ -474,7 +477,6 @@ namespace OfficeOpenXml
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
                     ms = encrHandler.DecryptPackage(File, Encryption);
-                    encrHandler = null;
                 }
                 else
                 {
@@ -482,8 +484,7 @@ namespace OfficeOpenXml
                 }
                 try
                 {
-                    //_package = Package.Open(_stream, FileMode.Open, FileAccess.ReadWrite);
-                    _package = new Packaging.ZipPackage(ms);
+                    _package = new ZipPackage(ms);
                 }
                 catch (Exception ex)
                {
@@ -499,8 +500,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                //_package = Package.Open(_stream, FileMode.Create, FileAccess.ReadWrite);
-                _package = new Packaging.ZipPackage(ms);
+                _package = new ZipPackage(ms);
                 CreateBlankWb();
             }
         }
