@@ -680,7 +680,7 @@ namespace OfficeOpenXml
                 for(int i=0;i<Copy.Drawings.Count;i++)
                 {
                     ExcelDrawing draw = Copy.Drawings[i];
-                    draw.AdjustPositionAndSize();       //Adjust position for any change in normal style font/row size etc.
+                    //draw.AdjustPositionAndSize();       //Adjust position for any change in normal style font/row size etc.
                     if (draw is ExcelChart chart)
                     {
                         xml = chart.ChartXml.InnerXml;
