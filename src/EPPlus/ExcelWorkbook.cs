@@ -1171,10 +1171,34 @@ namespace OfficeOpenXml
 				return true;
 			}
 			return false;
-		}        
+		}
 		#endregion
 
 		#endregion
+
+		/// <summary>
+		/// Removes all formulas within the entire workbook, but keeps the calculated values.
+		/// </summary>
+		public void ClearFormulas()
+		{
+			if (Worksheets == null || Worksheets.Count == 0) return;
+			foreach(var worksheet in this.Worksheets)
+			{
+				worksheet.ClearFormulas();
+			}
+		}
+
+		/// <summary>
+		/// Removes all values of cells with formulas in the entire workbook, but keeps the formulas.
+		/// </summary>
+		public void ClearFormulaValues()
+		{
+			if (Worksheets == null || Worksheets.Count == 0) return;
+			foreach (var worksheet in this.Worksheets)
+			{
+				worksheet.ClearFormulaValues();
+			}
+		}
 		internal bool ExistsTableName(string Name)
 		{
 			foreach (var ws in Worksheets)

@@ -1654,6 +1654,33 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        /// <summary>
+        /// Removes all formulas within the range, but keeps the calculated values.
+        /// </summary>
+        public void ClearFormulas()
+        {
+            var formulaCells = new CellStoreEnumerator<object>(this.Worksheet._formulas, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while(formulaCells.Next())
+            {
+                formulaCells.Value = null;
+            }
+        }
+
+        /// <summary>
+        /// Removes all values of cells with formulas, but keeps the formulas.
+        /// </summary>
+        public void ClearFormulaValues()
+        {
+            var formulaCell = new CellStoreEnumerator<ExcelValue>(this.Worksheet._values, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while (formulaCell.Next())
+            {
+                var newVal = new ExcelValue();
+                newVal._styleId = formulaCell.Value._styleId;
+                formulaCell.Value = newVal;
+            }
+        }
+
         private object ConvertData(ExcelTextFormat Format, string v, int col, bool isText)
         {
             if (isText && (Format.DataTypes == null || Format.DataTypes.Length < col)) return string.IsNullOrEmpty(v) ? null : v;

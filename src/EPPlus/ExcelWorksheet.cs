@@ -174,6 +174,33 @@ namespace OfficeOpenXml
                 };
             }
         }
+
+        /// <summary>
+        /// Removes all formulas within the entire worksheet, but keeps the calculated values.
+        /// </summary>
+        public void ClearFormulas()
+        {
+            var formulaCells = new CellStoreEnumerator<object>(_formulas, Dimension.Start.Row, Dimension.Start.Column, Dimension.End.Row, Dimension.End.Column);
+            while (formulaCells.Next())
+            {
+                formulaCells.Value = null;
+            }
+        }
+
+        /// <summary>
+        /// Removes all values of cells with formulas in the entire worksheet, but keeps the formulas.
+        /// </summary>
+        public void ClearFormulaValues()
+        {
+            var formulaCell = new CellStoreEnumerator<ExcelValue>(_values, Dimension.Start.Row, Dimension.Start.Column, Dimension.End.Row, Dimension.End.Column);
+            while (formulaCell.Next())
+            {
+                var newVal = new ExcelValue();
+                newVal._styleId = formulaCell.Value._styleId;
+                formulaCell.Value = newVal;
+            }
+        }
+
         /// <summary>
         /// Collection containing merged cell addresses
         /// </summary>
