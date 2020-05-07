@@ -236,6 +236,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
             Functions["bitxor"] = new BitXor();
+            Functions["bitlshift"] = new BitLshift();
+            Functions["bitrshift"] = new BitRshift();
             Functions["convert"] = new ConvertFunction();
             Functions["bin2dec"] = new Bin2Dec();
             Functions["bin2hex"] = new Bin2Hex();

@@ -437,5 +437,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual(3, _worksheet.Cells["A2"].Value);
         }
+
+        [TestMethod]
+        public void BitLshiftTests()
+        {
+            _worksheet.Cells["A2"].Formula = "BITLSHIFT(3,5)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(96, _worksheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void BitRshiftTests()
+        {
+            _worksheet.Cells["A2"].Formula = "BITRSHIFT(20,2)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(5, _worksheet.Cells["A2"].Value);
+        }
     }
 }
