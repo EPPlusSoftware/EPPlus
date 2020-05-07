@@ -413,5 +413,29 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             result = System.Math.Round((double)_worksheet.Cells["A2"].Value, 6);
             Assert.AreEqual(256d, result, "2Gbit was not 256 Mbyte");
         }
+
+        [TestMethod]
+        public void BitAndTests()
+        {
+            _worksheet.Cells["A2"].Formula = "BITAND(5,7)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(5, _worksheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void BitOrTests()
+        {
+            _worksheet.Cells["A2"].Formula = "BITOR(9,12)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(13, _worksheet.Cells["A2"].Value);
+        }
+
+        [TestMethod]
+        public void BitXorTests()
+        {
+            _worksheet.Cells["A2"].Formula = "BITXOR(5,6)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(3, _worksheet.Cells["A2"].Value);
+        }
     }
 }
