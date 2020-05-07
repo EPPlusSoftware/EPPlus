@@ -1168,5 +1168,17 @@ namespace EPPlusTest.Core.Range.Delete
                 SaveWorkbook("DeleteTest2.xlsx", p);
             }
         }
+        [TestMethod]
+        public void ValidateConditionalFormattingDeleteColumnMultiRange()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialUpMR");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5,D3:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.DeleteColumn(4);
+
+            Assert.AreEqual("B2:D5,D3:D5", cf.Address.Address);
+        }
+
     }
 }
