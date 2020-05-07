@@ -192,12 +192,13 @@ namespace OfficeOpenXml
         /// </summary>
         public void ClearFormulaValues()
         {
-            var formulaCell = new CellStoreEnumerator<ExcelValue>(_values, Dimension.Start.Row, Dimension.Start.Column, Dimension.End.Row, Dimension.End.Column);
+            var formulaCell = new CellStoreEnumerator<object>(_formulas, Dimension.Start.Row, Dimension.Start.Column, Dimension.End.Row, Dimension.End.Column);
             while (formulaCell.Next())
             {
-                var newVal = new ExcelValue();
-                newVal._styleId = formulaCell.Value._styleId;
-                formulaCell.Value = newVal;
+
+                var val = _values.GetValue(formulaCell.Row, formulaCell.Column);
+                val._value = null;
+                _values.SetValue(formulaCell.Row, formulaCell.Column, val);
             }
         }
 
