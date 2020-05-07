@@ -33,11 +33,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             var result = Convert.ToString(number, 2);
             if(padding.HasValue)
             {
-                result = BinaryHelper.EnsureLength(result, padding.Value, "0");
+                result = PaddingHelper.EnsureLength(result, padding.Value, "0");
             }
             else
             {
-                result = BinaryHelper.EnsureMinLength(result, 10);
+                result = PaddingHelper.EnsureMinLength(result, 10);
             }
             return CreateResult(result, DataType.String);
         }

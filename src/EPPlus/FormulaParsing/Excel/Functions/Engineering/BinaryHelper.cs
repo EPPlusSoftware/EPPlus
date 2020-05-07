@@ -16,7 +16,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    public static class BinaryHelper
+    internal static class BinaryHelper
     {
         public static bool TryParseBinaryToDecimal(string number, int raiseToBase, out int result)
         {
@@ -43,32 +43,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 result += current;
             }
             return true;
-        }
-
-        public static string EnsureLength(string input, int length, string padWith = "")
-        {
-            if (input == null) input = string.Empty;
-            if (input.Length < length && !string.IsNullOrEmpty(padWith))
-            {
-                while (input.Length < length)
-                {
-                    input = padWith + input;
-                }
-            }
-            else if (input.Length > length)
-            {
-                input = input.Substring(input.Length - length);
-            }
-            return input;
-        }
-
-        public static string EnsureMinLength(string input, int length)
-        {
-            if (input.Length > length)
-            {
-                input = input.Substring(input.Length - length);
-            }
-            return input;
         }
     }
 }

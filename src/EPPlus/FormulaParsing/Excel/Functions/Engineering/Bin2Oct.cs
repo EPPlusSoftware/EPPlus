@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             }
             if(padding.HasValue)
             {
-                octStr = BinaryHelper.EnsureLength(octStr, 10, "0");
+                octStr = PaddingHelper.EnsureLength(octStr, 10, "0");
             }
             return CreateResult(octStr, DataType.String);
         }

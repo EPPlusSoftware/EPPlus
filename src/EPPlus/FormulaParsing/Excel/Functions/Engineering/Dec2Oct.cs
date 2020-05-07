@@ -18,7 +18,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Dec2Hex : ExcelFunction
+    internal class Dec2Oct : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -30,16 +30,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 padding = ArgToInt(arguments, 1);
                 if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
             }
-            var result = Convert.ToString(number, 16);
-            if(!string.IsNullOrEmpty(result))
+            var result = Convert.ToString(number, 8);
+            if (number < 0)
             {
-                result = result.ToUpper();
+                result = PaddingHelper.EnsureLength(result, 10, "7");
             }
-            if(number < 0)
-            {
-                result = PaddingHelper.EnsureLength(result, 10, "F");
-            }
-            else if(padding.HasValue)
+            else if (padding.HasValue)
             {
                 result = PaddingHelper.EnsureLength(result, padding.Value, "0");
             }

@@ -185,6 +185,35 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
         }
 
         [TestMethod]
+        public void Dec2Oct_Tests()
+        {
+            _worksheet.Cells["A1"].Value = 8;
+            _worksheet.Cells["A2"].Formula = "DEC2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("10", _worksheet.Cells["A2"].Value, "8 was not 10");
+
+            _worksheet.Cells["A1"].Value = 18;
+            _worksheet.Cells["A2"].Formula = "DEC2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("22", _worksheet.Cells["A2"].Value, "18 was not 22");
+
+            _worksheet.Cells["A1"].Value = 8;
+            _worksheet.Cells["A2"].Formula = "DEC2OCT(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000010", _worksheet.Cells["A2"].Value, "8 was not 0000000010");
+
+            _worksheet.Cells["A1"].Value = -8;
+            _worksheet.Cells["A2"].Formula = "DEC2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("7777777770", _worksheet.Cells["A2"].Value, "-8 was not 7777777770");
+
+            _worksheet.Cells["A1"].Value = 237;
+            _worksheet.Cells["A2"].Formula = "DEC2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("355", _worksheet.Cells["A2"].Value, "237 was not 355");
+        }
+
+        [TestMethod]
         public void ConvertDistanceTests()
         {
             _worksheet.Cells["A1"].Value = "1";
