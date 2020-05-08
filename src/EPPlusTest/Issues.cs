@@ -1258,18 +1258,5 @@ namespace EPPlusTest
                 SaveWorkbook("Issue99Saved.xlsx", p);
             }
         }
-        [TestMethod]
-        public void Issue107()
-        {
-            using (var p = OpenTemplatePackage("DeleteIssue.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                ws.DeleteColumn(2, 2);
-                ws.DeleteColumn(2, 2);
-                ws.DeleteColumn(2, 2);
-                ws.DeleteColumn(2, 1);
-                SaveWorkbook("Issue107Saved.xlsx", p);
-            }
-        }
     }
 }

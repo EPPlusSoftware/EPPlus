@@ -1179,6 +1179,34 @@ namespace EPPlusTest.Core.Range.Delete
 
             Assert.AreEqual("B2:D5,D3:D5", cf.Address.Address);
         }
+        [TestMethod]
+        public void ValidateColumnShifting()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ColumnDelete");
+            var col1 = ws.Column(3);
+            col1.Width = 3;
+            var col2 = ws.Column(4);
+            col2.Width = 4;
+            var col3 = ws.Column(6);
+            col3.Width = 6;
+            col3.ColumnMax = 8;
 
+            var col4 = ws.Column(14);
+            col4.Width = 14;
+            col4.ColumnMax = 18;
+
+            ws.DeleteColumn(1, 2);
+            Assert.AreEqual(3, ws.Column(1).Width);
+            Assert.AreEqual(4, ws.Column(2).Width);
+            Assert.AreEqual(6, ws.Column(4).Width);
+            ws.DeleteColumn(2, 2);
+            Assert.AreEqual(6, ws.Column(2).Width);
+            Assert.AreEqual(6, ws.Column(3).Width);
+            Assert.AreEqual(6, ws.Column(4).Width);
+            ws.DeleteColumn(1, 2);
+            Assert.AreEqual(6, ws.Column(1).Width);
+            Assert.AreEqual(6, ws.Column(2).Width);
+            Assert.AreEqual(9.140625, ws.Column(3).Width);
+        }
     }
 }
