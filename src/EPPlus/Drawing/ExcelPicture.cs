@@ -236,8 +236,8 @@ namespace OfficeOpenXml.Drawing
                 _width = Image.Width;
                 _height = Image.Height;
 
-                _width = (int)(_width * ((decimal)Percent / 100));
-                _height = (int)(_height * ((decimal)Percent / 100));
+                _width = (int)(_width * ((double)Percent / 100));
+                _height = (int)(_height * ((double)Percent / 100));
 
                 _doNotAdjust = true;
                 SetPixelWidth(_width, Image.HorizontalResolution);

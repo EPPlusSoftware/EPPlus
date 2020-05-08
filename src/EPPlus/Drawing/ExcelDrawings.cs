@@ -1088,7 +1088,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         #endregion 
-        internal void AdjustWidth(int[,] pos)
+        internal void AdjustWidth(double[,] pos)
         {
             var ix = 0;
             //Now set the size for all drawings depending on the editAs property.
@@ -1106,7 +1106,7 @@ namespace OfficeOpenXml.Drawing
                 ix++;
             }
         }
-        internal void AdjustHeight(int[,] pos)
+        internal void AdjustHeight(double[,] pos)
         {
             var ix = 0;
             //Now set the size for all drawings depending on the editAs property.
@@ -1124,9 +1124,9 @@ namespace OfficeOpenXml.Drawing
                 ix++;
             }
         }
-        internal int[,] GetDrawingWidths()
+        internal double[,] GetDrawingWidths()
         {
-            int[,] pos = new int[Count, 2];
+            double[,] pos = new double[Count, 2];
             int ix = 0;
             //Save the size for all drawings
             foreach (ExcelDrawing d in this)
@@ -1136,9 +1136,9 @@ namespace OfficeOpenXml.Drawing
             }
             return pos;
         }
-        internal int[,] GetDrawingHeight()
+        internal double[,] GetDrawingHeight()
         {
-            int[,] pos = new int[Count, 2];
+            double[,] pos = new double[Count, 2];
             int ix = 0;
             //Save the size for all drawings
             foreach (ExcelDrawing d in this)

@@ -23,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -231,6 +232,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dvarp"] = new Dvarp();
             //Finance
             Functions["pmt"] = new Pmt();
+            //Engineering
+            Functions["bitand"] = new BitAnd();
+            Functions["bitor"] = new BitOr();
+            Functions["bitxor"] = new BitXor();
+            Functions["bitlshift"] = new BitLshift();
+            Functions["bitrshift"] = new BitRshift();
+            Functions["convert"] = new ConvertFunction();
+            Functions["bin2dec"] = new Bin2Dec();
+            Functions["bin2hex"] = new Bin2Hex();
+            Functions["bin2oct"] = new Bin2Oct();
+            Functions["dec2bin"] = new Dec2Bin();
+            Functions["dec2hex"] = new Dec2Hex();
+            Functions["dec2oct"] = new Dec2Oct();
         }
     }
 }

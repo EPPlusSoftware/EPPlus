@@ -1311,8 +1311,11 @@ namespace EPPlusTest
         public void LoadDataTable()
         {
             if (_pck == null) _pck = new ExcelPackage();
-            var ws = _pck.Workbook.Worksheets.Add("Loaded DataTable");
+            _pck.Workbook.Properties.Title = $"from {DateTime.Today.AddDays(-7):D} to {DateTime.Today:D}";
+            _pck.Workbook.Properties.Author = "Jan Källman";
+            _pck.Workbook.Properties.Company = "EPPlus software";
 
+            var ws = _pck.Workbook.Worksheets.Add("Loaded DataTable");
             var dt = new DataTable();
             dt.Columns.Add("String", typeof(string));
             dt.Columns.Add("Int", typeof(int));
@@ -1342,7 +1345,7 @@ namespace EPPlusTest
             dt.Rows.Add(dr);
 
             var range = ws.Cells["A1"].LoadFromDataTable(dt, true, OfficeOpenXml.Table.TableStyles.Medium5);
-
+            range.AutoFilter = true;
             ws.Tables[0].Columns[1].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
             ws.Tables[0].ShowTotal = true;
 
@@ -1352,7 +1355,6 @@ namespace EPPlusTest
             Assert.AreEqual("Row3", ws.Cells["A4"].Value);
             Assert.AreEqual(3.125, ws.Cells["D4"].Value);
         }
-
         [TestMethod]
         public void LoadEmptyDataTable()
         {
@@ -1868,6 +1870,40 @@ namespace EPPlusTest
             catch (Exception exception)
             {
                 return exception;
+            }
+        }
+
+        [TestMethod]
+        public void ClearFormulasTest()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+                worksheet.Cells["A1"].Value = 1;
+                worksheet.Cells["A2"].Value = 2;
+                worksheet.Cells["A3"].Formula = "SUM(A1:A2)";
+                worksheet.Calculate();
+                Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
+                Assert.AreEqual("SUM(A1:A2)", worksheet.Cells["A3"].Formula);
+                worksheet.ClearFormulas();
+                Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
+                Assert.AreEqual(string.Empty, worksheet.Cells["A3"].Formula);
+            }
+        }
+
+        [TestMethod]
+        public void ClearFormulaValuesTest()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+                worksheet.Cells["A1"].Value = 1;
+                worksheet.Cells["A2"].Value = 2;
+                worksheet.Cells["A3"].Formula = "SUM(A1:A2)";
+                worksheet.Calculate();
+                Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
+                worksheet.ClearFormulaValues();
+                Assert.IsNull(worksheet.Cells["A3"].Value);
             }
         }
     }

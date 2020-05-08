@@ -1186,7 +1186,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                IsRangeValid("autofilter");
+                IsRangeValid("autofilter");                
                 if (_worksheet.AutoFilterAddress != null)
                 {
                     var c = this.Collide(_worksheet.AutoFilterAddress);
@@ -1201,9 +1201,18 @@ namespace OfficeOpenXml
                 }
                 if (value)
                 {
-                    _worksheet.AutoFilterAddress = this;
-                    var result = _worksheet.Names.Add("_xlnm._FilterDatabase", this);
-                    result.IsNameHidden = true;
+                    ValidateAutofilterDontCollide();
+                    var tbl = _worksheet.Tables.GetFromRange(this);
+                    if(tbl==null)
+                    {
+                        _worksheet.AutoFilterAddress = this;
+                        var result = _worksheet.Names.Add("_xlnm._FilterDatabase", this);
+                        result.IsNameHidden = true;
+                    }
+                    else
+                    {
+                        tbl.ShowFilter = true;
+                    }
                 }
                 else
                 {
@@ -1211,6 +1220,28 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private void ValidateAutofilterDontCollide()
+        {
+            foreach(var tbl in _worksheet.Tables)
+            {
+                var c = tbl.Address.Collide(this);
+                if (c == eAddressCollition.Equal) return;   //Autofilter is on a table.
+                if(c!=eAddressCollition.No)
+                {
+                    throw new InvalidOperationException($"Auto filter collides with table {tbl.Name}");
+                }
+            }
+            foreach (var pt in _worksheet.PivotTables)
+            {
+                var c = pt.Address.Collide(this);
+                if (c != eAddressCollition.No)
+                {
+                    throw new InvalidOperationException($"Auto filter collides with pivot table {pt.Name}");
+                }
+            }
+        }
+
         /// <summary>
         /// If the value is in richtext format.
         /// </summary>
@@ -1623,6 +1654,33 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        /// <summary>
+        /// Removes all formulas within the range, but keeps the calculated values.
+        /// </summary>
+        public void ClearFormulas()
+        {
+            var formulaCells = new CellStoreEnumerator<object>(this.Worksheet._formulas, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while(formulaCells.Next())
+            {
+                formulaCells.Value = null;
+            }
+        }
+
+        /// <summary>
+        /// Removes all values of cells with formulas, but keeps the formulas.
+        /// </summary>
+        public void ClearFormulaValues()
+        {
+            var formulaCell = new CellStoreEnumerator<object>(this.Worksheet._formulas, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while (formulaCell.Next())
+            {
+                var val = Worksheet._values.GetValue(formulaCell.Row, formulaCell.Column);
+                val._value = null;
+                Worksheet._values.SetValue(formulaCell.Row, formulaCell.Column, val);
+            }
+        }
+
         private object ConvertData(ExcelTextFormat Format, string v, int col, bool isText)
         {
             if (isText && (Format.DataTypes == null || Format.DataTypes.Length < col)) return string.IsNullOrEmpty(v) ? null : v;

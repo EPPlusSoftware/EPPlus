@@ -48,6 +48,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.IO.Compression;
 
 namespace EPPlusTest
 {
@@ -1238,7 +1239,7 @@ namespace EPPlusTest
         public void Issue95()
         {
             using (var p = OpenTemplatePackage("Issue95.xlsx"))
-            {               
+            {
                 SaveAndCleanup(p);
             }
         }
@@ -1247,14 +1248,14 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("Issue99.xlsx"))
             {
-                var p2 = OpenPackage("Issue99Saved-new.xlsx",true);
+                var p2 = OpenPackage("Issue99-2Saved-new.xlsx", true);
                 var ws = p2.Workbook.Worksheets.Add("Picture");
                 ws.Drawings.AddPicture("Test1", Properties.Resources.Test1);
                 p.Workbook.Worksheets.Add("copy1", p.Workbook.Worksheets[0]);
                 p2.Workbook.Worksheets.Add("copy1", p.Workbook.Worksheets[0]);
                 p.Workbook.Worksheets.Add("copy2", p2.Workbook.Worksheets[0]);
                 SaveAndCleanup(p2);
-                SaveWorkbook("Issue99Saved.xlsx", p);
+                SaveWorkbook("Issue99-2Saved.xlsx", p);
             }
         }
     }

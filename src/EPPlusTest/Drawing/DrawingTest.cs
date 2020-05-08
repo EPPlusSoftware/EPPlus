@@ -958,7 +958,7 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("PicOneCellAnchor");
             var pic = ws.Drawings.AddPicture("Pic1", Resources.Test1);
 
-            pic.ChangeCellAnchor(eEditAs.OneCell, 600, 500, pic._width, pic._height);
+            pic.ChangeCellAnchor(eEditAs.OneCell, 600, 500, (int)pic._width, (int)pic._height);
             AssertPic(pic, 600, 500);
         }
         [TestMethod]
@@ -967,7 +967,7 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("PicAbsoluteAnchor");
             var pic = ws.Drawings.AddPicture("Pic1", Resources.Test1);
 
-            pic.ChangeCellAnchor(eEditAs.Absolute, 600, 500, pic._width, pic._height);
+            pic.ChangeCellAnchor(eEditAs.Absolute, 600, 500, (int)pic._width, (int)pic._height);
             AssertPic(pic, 600, 500);
         }
         [TestMethod]
@@ -976,9 +976,9 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("PicTwoCellAnchor");
             var pic = ws.Drawings.AddPicture("Pic1", Resources.Test1);
 
-            pic.ChangeCellAnchor(eEditAs.OneCell, 600, 500, pic._width, pic._height);
+            pic.ChangeCellAnchor(eEditAs.OneCell, 600, 500, (int)pic._width, (int)pic._height);
             AssertPic(pic, 600, 500);
-            pic.ChangeCellAnchor(eEditAs.TwoCell, 600, 500, pic._width, pic._height);
+            pic.ChangeCellAnchor(eEditAs.TwoCell, 600, 500, (int)pic._width, (int)pic._height);
             AssertPic(pic, 600, 500);
         }
         [TestMethod]
@@ -1017,7 +1017,7 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("PicAbsoluteAnchorNoPosChange");
             var pic = ws.Drawings.AddPicture("Pic1", Resources.Test1);
 
-            pic.ChangeCellAnchor(eEditAs.OneCell, 500, 500, pic._width, pic._height);
+            pic.ChangeCellAnchor(eEditAs.OneCell, 500, 500, (int)pic._width, (int)pic._height);
         }
         [TestMethod]
         public void ChangeToTwoCellAnchorNoPositionAndSize()
@@ -1025,8 +1025,8 @@ namespace EPPlusTest
             var ws = _pck.Workbook.Worksheets.Add("PicTwoCellAnchorNoPosChange");
             var pic = ws.Drawings.AddPicture("Pic1", Resources.Test1);
 
-            pic.ChangeCellAnchor(eEditAs.OneCell, 500, 500, pic._width, pic._height);
-            pic.ChangeCellAnchor(eEditAs.TwoCell, 500, 500, pic._width, pic._height);
+            pic.ChangeCellAnchor(eEditAs.OneCell, 500, 500, (int)pic._width, (int)pic._height);
+            pic.ChangeCellAnchor(eEditAs.TwoCell, 500, 500, (int)pic._width, (int)pic._height);
         }
         [TestMethod]
         public void ValidateTextBody()
