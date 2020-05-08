@@ -13,41 +13,26 @@
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Dec2Hex : ExcelFunction
+    public class ConvertFunction : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var number = ArgToInt(arguments, 0);
-            var padding = default(int?);
-            if (arguments.Count() > 1)
+            ValidateArguments(arguments, 3);
+            var number = ArgToDecimal(arguments, 0);
+            var fromUnit = ArgToString(arguments, 1);
+            var toUnit = ArgToString(arguments, 2);
+            if (!Conversions.IsValidUnit(fromUnit)) return CreateResult(eErrorType.NA);
+            if (!Conversions.IsValidUnit(toUnit)) return CreateResult(eErrorType.NA);
+            var result = Conversions.Convert(number, fromUnit, toUnit);
+            if(double.IsNaN(result))
             {
-                padding = ArgToInt(arguments, 1);
-                if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
+                return CreateResult(eErrorType.NA);
             }
-            var result = Convert.ToString(number, 16);
-            if(!string.IsNullOrEmpty(result))
-            {
-                result = result.ToUpper();
-            }
-            if(number < 0)
-            {
-                result = PaddingHelper.EnsureLength(result, 10, "F");
-            }
-            else if(padding.HasValue)
-            {
-                result = PaddingHelper.EnsureLength(result, padding.Value, "0");
-            }
-            else
-            {
-                result = PaddingHelper.EnsureMinLength(result, 10);
-            }
-            return CreateResult(result, DataType.String);
+            return CreateResult(result, DataType.Decimal);
         }
     }
 }

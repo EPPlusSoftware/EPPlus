@@ -18,36 +18,23 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Dec2Hex : ExcelFunction
+    internal class BitLshift : ExcelFunction
     {
+        private bool IsInteger(object n)
+        {
+            return Convert.ToDouble(n) % 1 == 0;
+        }
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
+            ValidateArguments(arguments, 2);
+            if (!IsNumeric(arguments.ElementAt(0).Value) || !IsNumeric(arguments.ElementAt(1).Value)) return CreateResult(eErrorType.Value);
+            if (!IsInteger(arguments.ElementAt(0).Value) || !IsInteger(arguments.ElementAt(1).Value)) return CreateResult(eErrorType.Num);
             var number = ArgToInt(arguments, 0);
-            var padding = default(int?);
-            if (arguments.Count() > 1)
-            {
-                padding = ArgToInt(arguments, 1);
-                if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
-            }
-            var result = Convert.ToString(number, 16);
-            if(!string.IsNullOrEmpty(result))
-            {
-                result = result.ToUpper();
-            }
-            if(number < 0)
-            {
-                result = PaddingHelper.EnsureLength(result, 10, "F");
-            }
-            else if(padding.HasValue)
-            {
-                result = PaddingHelper.EnsureLength(result, padding.Value, "0");
-            }
-            else
-            {
-                result = PaddingHelper.EnsureMinLength(result, 10);
-            }
-            return CreateResult(result, DataType.String);
+            var shiftAmount = ArgToInt(arguments, 1);
+            if (number < 0 || shiftAmount < 0) return CreateResult(eErrorType.Num);
+            if (number > (System.Math.Pow(2, 48) - 1)) return CreateResult(eErrorType.Num);
+            return CreateResult(number << shiftAmount, DataType.Integer);
         }
     }
 }

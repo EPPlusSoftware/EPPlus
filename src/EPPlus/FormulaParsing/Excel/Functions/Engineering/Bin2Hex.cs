@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 var hexStr = result.ToString(formatString);
                 if(result < 0)
                 {
-                    hexStr = BinaryHelper.EnsureLength(hexStr, 10, "F");
+                    hexStr = PaddingHelper.EnsureLength(hexStr, 10, "F");
                 }
                 return CreateResult(hexStr, DataType.String);
             }
