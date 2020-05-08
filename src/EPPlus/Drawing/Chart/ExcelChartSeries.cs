@@ -322,7 +322,7 @@ namespace OfficeOpenXml.Drawing.Chart
             serie.Series = SerieAddress;
             serie.XSeries = XSerieAddress;
             _list.Add((T)serie);
-            if (_chart.StyleManager.StylePart != null)
+            if (_chart.StyleManager.StylePart != null && _chart._isChartEx==false)
             {
                 _chart.StyleManager.ApplySeries();
             }
@@ -375,6 +375,10 @@ namespace OfficeOpenXml.Drawing.Chart
             ser.SetAttribute("layoutId", Chart.ChartType.ToEnumString());
             ser.InnerXml = $"<cx:dataId val=\"{serieCount}\"/>";
 
+            chartex._chartXmlHelper.CreateNode("../cx:chartData",true);
+            var dataElement = (XmlElement)chartex._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
+            dataElement.SetAttribute("id",serieCount.ToString());
+            dataElement.InnerXml = "<cx:strDim type=\"cat\"><cx:f dir=\"row\"></cx:f></cx:strDim><cx:numDim type=\"val\"><cx:f dir=\"row\"></cx:f></cx:numDim>";
             return ser;
         }
         private static int FindIndex(ExcelChart chart)

@@ -169,7 +169,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_plotArea==null)
                 {
-                    var node = _chartXmlHelper.GetNode("cx:chart/cx:plotArea");
+                    var node = _chartXmlHelper.GetNode("cx:plotArea");
                     _plotArea = new ExcelChartExPlotarea(NameSpaceManager, node, this);
                 }
                 return _plotArea;
