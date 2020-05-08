@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Chart
     {
         #region "Constructors"
         internal ExcelChartStandard(ExcelDrawings drawings, XmlNode node, eChartType? type, bool isPivot, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
-            base(drawings, node, type, isPivot, parent, drawingPath, nvPrPath)
+            base(drawings, node, parent, drawingPath, nvPrPath)
         {
             if (type.HasValue) ChartType = type.Value;
             CreateNewChart(drawings, null, null, type);
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Chart
             LoadAxis();
         }
         internal ExcelChartStandard(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
-            base(drawings, drawingsNode, type, topChart, PivotTableSource, chartXml, parent, drawingPath, nvPrPath)
+            base(drawings, drawingsNode, chartXml, parent, drawingPath, nvPrPath)
         {
             if (type.HasValue) ChartType = type.Value;
             _topChart = topChart;
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         internal ExcelChartStandard(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
-           base(drawings, node, uriChart, part, chartXml, chartNode, parent, drawingPath, nvPrPath)
+           base(drawings, node, chartXml, parent, drawingPath, nvPrPath)
         {
             UriChart = uriChart;
             Part = part;

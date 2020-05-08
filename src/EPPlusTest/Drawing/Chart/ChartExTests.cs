@@ -61,7 +61,7 @@ namespace EPPlusTest.Drawing.Chart
                 var ws = p.Workbook.Worksheets.Add("Sunburst");
                 LoadTestdata(ws);
                 var chart = ws.Drawings.AddExtendedChart("Sunburst1", eChartExType.Sunburst);
-
+                chart.Series.Add("A1:A5", "B1:B5");
                 SaveAndCleanup(p);
             }
         }

@@ -17,6 +17,7 @@ using System.Collections;
 using OfficeOpenXml.Table.PivotTable;
 using System.Linq;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Utils.Extentions;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -196,7 +197,7 @@ namespace OfficeOpenXml.Drawing.Chart
             XmlElement serElement;
             if(_chart._isChartEx)
             {
-                serElement = CreateExSerieElement();
+                serElement = CreateSerieExElement();
             }
             else
             {
@@ -328,9 +329,9 @@ namespace OfficeOpenXml.Drawing.Chart
             return (T)serie;
         }
 
-        internal static  XmlElement CreateSerieElement(XmlNamespaceManager _ns,XmlNode _node, ExcelChart _chart)
+        internal XmlElement CreateSerieElement()
         {
-            XmlElement ser = _node.OwnerDocument.CreateElement("c", "ser", ExcelPackage.schemaChart);
+            XmlElement ser = _node.OwnerDocument.CreateElement("cx", "series", ExcelPackage.schemaChart);
             XmlNodeList node = _node.SelectNodes("c:ser", _ns);
             if (node.Count > 0)
             {
@@ -348,17 +349,33 @@ namespace OfficeOpenXml.Drawing.Chart
                 ser.InnerXml = _chart._drawings._seriesTemplateXml;
             }
 
-            int idx = FindIndex();
+            int idx = FindIndex(_chart);
             ser.InnerXml = string.Format("<c:idx val=\"{1}\" /><c:order val=\"{1}\" /><c:tx><c:strRef><c:f></c:f><c:strCache><c:ptCount val=\"1\" /></c:strCache></c:strRef></c:tx>{2}{5}{0}{3}{4}", AddExplosion(Chart.ChartType), idx, AddSpPrAndScatterPoint(Chart.ChartType), AddAxisNodes(Chart.ChartType), AddSmooth(Chart.ChartType), AddMarker(Chart.ChartType));
             return ser;
         }
-
-        bool _isPivot;
-        internal void AddPivotSerie(ExcelPivotTable pivotTableSource)
+        internal XmlElement CreateSerieExElement()
         {
-            var r = pivotTableSource.WorkSheet.Cells[pivotTableSource.Address.Address];
-            _isPivot = true;
-            AddSeries(r.Offset(0, 1, r._toRow - r._fromRow + 1, 1).FullAddressAbsolute, r.Offset(0, 0, r._toRow - r._fromRow + 1, 1).FullAddressAbsolute, "");
+            var chartex = (ExcelChartEx)_chart;
+            var plotareaNode = chartex._chartXmlHelper.CreateNode("cx:plotArea/cx:plotAreaRegion");
+            XmlElement ser = plotareaNode.OwnerDocument.CreateElement("cx", "series", ExcelPackage.schemaChartExMain);
+            XmlNodeList node = plotareaNode.SelectNodes("cx:series", _ns);
+
+            var serieCount = node.Count;
+            if (serieCount > 0)
+            {
+                _node.InsertAfter(ser, node[node.Count - 1]);
+            }
+            else
+            {
+                var f = XmlHelperFactory.Create(_ns, plotareaNode);
+                f.InserAfter(plotareaNode, "cx:plotSurface", ser);
+            }
+            ser.SetAttribute("formatIdx", serieCount.ToString());
+            ser.SetAttribute("uniqueId","{" + Guid.NewGuid().ToString() + "}");
+            ser.SetAttribute("layoutId", Chart.ChartType.ToEnumString());
+            ser.InnerXml = $"<cx:dataId val=\"{serieCount}\"/>";
+
+            return ser;
         }
         private static int FindIndex(ExcelChart chart)
         {
@@ -393,6 +410,14 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 return chart.Series.Count;
             }
+        }
+
+        bool _isPivot;
+        internal void AddPivotSerie(ExcelPivotTable pivotTableSource)
+        {
+            var r = pivotTableSource.WorkSheet.Cells[pivotTableSource.Address.Address];
+            _isPivot = true;
+            AddSeries(r.Offset(0, 1, r._toRow - r._fromRow + 1, 1).FullAddressAbsolute, r.Offset(0, 0, r._toRow - r._fromRow + 1, 1).FullAddressAbsolute, "");
         }
         #endregion
         #region "Xml init Functions"
