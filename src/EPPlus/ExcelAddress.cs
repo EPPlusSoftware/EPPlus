@@ -821,7 +821,17 @@ namespace OfficeOpenXml
         }
         internal bool CollideFullRowOrColumn(int fromRow, int fromCol, int toRow, int toCol)
         {
-            return CollideFullRow(fromRow, toRow) || CollideFullColumn(fromCol, toCol);
+            return (CollideFullRow(fromRow, toRow) && CollideColumn(fromCol, toCol)) || 
+                   (CollideFullColumn(fromCol, toCol) && CollideRow(fromRow, toRow));
+        }
+        private bool CollideColumn(int fromCol, int toCol)
+        {
+            return fromCol  <= _toCol && toCol >= _fromCol;
+        }
+
+        internal bool CollideRow(int fromRow, int toRow)
+        {
+            return fromRow <= _toRow && toRow >= _fromRow;
         }
         internal bool CollideFullRow(int fromRow, int toRow)
         {

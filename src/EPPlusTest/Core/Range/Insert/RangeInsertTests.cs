@@ -1019,5 +1019,18 @@ namespace EPPlusTest.Core.Range.Insert
                 SaveWorkbook("InsertTest2.xlsx", p);
             }
         }
+        [TestMethod]
+        public void ValidateConditionalFormattingInsertColumnMultiRange()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CondFormPartialUpMR");
+            var cf = ws.ConditionalFormatting.AddAboveAverage(new ExcelAddress("B2:E5,D3:E5"));
+            cf.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent1);
+
+            ws.InsertColumn(4,1);
+
+            Assert.AreEqual("B2:F5,E3:F5", cf.Address.Address);
+        }
+
+
     }
 }
