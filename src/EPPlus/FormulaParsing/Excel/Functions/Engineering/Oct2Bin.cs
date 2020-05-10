@@ -19,7 +19,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Hex2Bin : ExcelFunction
+    internal class Oct2Bin : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 padding = ArgToInt(arguments, 1);
                 if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
             }
-            var decNumber = TwoComplementHelper.ParseDecFromString(number, 16);
+            var decNumber = TwoComplementHelper.ParseDecFromString(number, 8);
             var result = Convert.ToString((int)decNumber, 2);
             if (padding.HasValue)
             {

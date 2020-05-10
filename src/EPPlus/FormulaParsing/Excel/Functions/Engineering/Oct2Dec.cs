@@ -19,29 +19,14 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Hex2Bin : ExcelFunction
+    internal class Oct2Dec : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var number = ArgToString(arguments, 0);
-            var padding = default(int?);
-            if (arguments.Count() > 1)
-            {
-                padding = ArgToInt(arguments, 1);
-                if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
-            }
-            var decNumber = TwoComplementHelper.ParseDecFromString(number, 16);
-            var result = Convert.ToString((int)decNumber, 2);
-            if (padding.HasValue)
-            {
-                result = PaddingHelper.EnsureLength(result, padding.Value, "0");
-            }
-            else
-            {
-                result = PaddingHelper.EnsureMinLength(result, 10);
-            }
-            return CreateResult(result, DataType.String);
+            var result = TwoComplementHelper.ParseDecFromString(number, 8);
+            return CreateResult(result, DataType.Integer);
         }
     }
 }

@@ -10,7 +10,6 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
@@ -19,29 +18,19 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Hex2Bin : ExcelFunction
+    internal class Delta : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var number = ArgToString(arguments, 0);
-            var padding = default(int?);
-            if (arguments.Count() > 1)
+            var n1 = ArgToDecimal(arguments, 0);
+            var n2 = 0d;
+            if(arguments.Count() > 1)
             {
-                padding = ArgToInt(arguments, 1);
-                if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
+                n2 = ArgToDecimal(arguments, 1);
             }
-            var decNumber = TwoComplementHelper.ParseDecFromString(number, 16);
-            var result = Convert.ToString((int)decNumber, 2);
-            if (padding.HasValue)
-            {
-                result = PaddingHelper.EnsureLength(result, padding.Value, "0");
-            }
-            else
-            {
-                result = PaddingHelper.EnsureMinLength(result, 10);
-            }
-            return CreateResult(result, DataType.String);
+            if (n1.CompareTo(n2) == 0) return CreateResult(1, DataType.Integer);
+            return CreateResult(0, DataType.Integer);
         }
     }
 }

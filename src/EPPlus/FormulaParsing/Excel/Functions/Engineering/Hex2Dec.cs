@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         {
             ValidateArguments(arguments, 1);
             var number = ArgToString(arguments, 0);
-            var result = HexHelper.GetDecFromHex(number);
+            var result = TwoComplementHelper.ParseDecFromString(number, 16);
             return CreateResult(result, DataType.Integer);
         }
     }

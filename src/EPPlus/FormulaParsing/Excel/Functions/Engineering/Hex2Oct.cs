@@ -31,8 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 padding = ArgToInt(arguments, 1);
                 if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
             }
-            var hexToDec = new Hex2Dec();
-            var decNumber = (double)hexToDec.Execute(new FunctionArgument[] { arguments.ElementAt(0) }, context).ResultValue;
+            var decNumber = TwoComplementHelper.ParseDecFromString(number, 16);
             var result = Convert.ToString(Convert.ToInt32(decNumber), 8);
             if (decNumber < 0)
             {

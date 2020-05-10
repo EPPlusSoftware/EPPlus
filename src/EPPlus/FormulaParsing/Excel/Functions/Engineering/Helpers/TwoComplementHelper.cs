@@ -16,24 +16,24 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
 {
-    internal static class HexHelper
+    internal static class TwoComplementHelper
     {
-        private static bool IsNegativeHexNumber(string candidate)
+        private static bool IsNegativeNumber(string candidate, int fromBase)
         {
             if (string.IsNullOrEmpty(candidate)) return false;
-            return candidate.Length >= 10 && candidate.ToUpper().StartsWith("F");
+            return candidate.Length >= 10 && candidate.ToUpper().StartsWith(fromBase == 16 ? "F" : "7");
         }
 
-        public static double GetDecFromHex(string number)
+        public static double ParseDecFromString(string number, int fromBase)
         {
-            if(IsNegativeHexNumber(number))
+            if(IsNegativeNumber(number, fromBase))
             {
-                return NegativeFromHex(number) * -1;
+                return NegativeFromBase(number, fromBase) * -1;
             }
-            return Convert.ToInt32(number, 16);
+            return Convert.ToInt32(number, fromBase);
         }
 
-        private static double NegativeFromHex(string number)
+        private static double NegativeFromBase(string number, int fromBase)
         {
             if (string.IsNullOrEmpty(number)) return double.NaN;
             var len = number.Length;
@@ -41,10 +41,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
             var result = string.Empty;
             for (var x = len - 1; x >= 0; x--)
             {
-                var part = Convert.ToInt32(numArr[x].ToString(), 16);
-                result = (15 - part).ToString("X") + result;
+                var part = Convert.ToInt32(numArr[x].ToString(), fromBase);
+                if(fromBase == 16)
+                {
+                    result = (fromBase - 1 - part).ToString("X") + result;
+                }
+                else
+                {
+                    result = (fromBase - 1 - part).ToString() + result;
+                }
             }
-            var decResult = Convert.ToInt32(result, 16) + 1;
+            var decResult = Convert.ToInt32(result, fromBase) + 1;
             return decResult;
         }
     }
