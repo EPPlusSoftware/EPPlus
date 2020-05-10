@@ -10,38 +10,23 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal static class PaddingHelper
+    internal class Hex2Dec : ExcelFunction
     {
-        public static string EnsureLength(string input, int length, string padWith = "")
+        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            if (input == null) input = string.Empty;
-            if (input.Length < length && !string.IsNullOrEmpty(padWith))
-            {
-                while (input.Length < length)
-                {
-                    input = padWith + input;
-                }
-            }
-            else if (input.Length > length)
-            {
-                input = input.Substring(input.Length - length);
-            }
-            return input;
-        }
-
-        public static string EnsureMinLength(string input, int length)
-        {
-            if (input.Length > length)
-            {
-                input = input.Substring(input.Length - length);
-            }
-            return input;
+            ValidateArguments(arguments, 1);
+            var number = ArgToString(arguments, 0);
+            var result = HexHelper.GetDecFromHex(number);
+            return CreateResult(result, DataType.Integer);
         }
     }
 }

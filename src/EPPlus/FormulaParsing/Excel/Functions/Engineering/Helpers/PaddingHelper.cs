@@ -10,37 +10,38 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
 {
-    internal class Dec2Bin : ExcelFunction
+    internal static class PaddingHelper
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public static string EnsureLength(string input, int length, string padWith = "")
         {
-            ValidateArguments(arguments, 1);
-            var number = ArgToInt(arguments, 0);
-            var padding = default(int?);
-            if (arguments.Count() > 1)
+            if (input == null) input = string.Empty;
+            if (input.Length < length && !string.IsNullOrEmpty(padWith))
             {
-                padding = ArgToInt(arguments, 1);
-                if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
+                while (input.Length < length)
+                {
+                    input = padWith + input;
+                }
             }
-            var result = Convert.ToString(number, 2);
-            if(padding.HasValue)
+            else if (input.Length > length)
             {
-                result = PaddingHelper.EnsureLength(result, padding.Value, "0");
+                input = input.Substring(input.Length - length);
             }
-            else
+            return input;
+        }
+
+        public static string EnsureMinLength(string input, int length)
+        {
+            if (input.Length > length)
             {
-                result = PaddingHelper.EnsureMinLength(result, 10);
+                input = input.Substring(input.Length - length);
             }
-            return CreateResult(result, DataType.String);
+            return input;
         }
     }
 }
