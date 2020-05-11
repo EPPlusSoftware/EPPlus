@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataLabelItem : ExcelChartExDataLabel
     {
-        internal ExcelChartExDataLabelItem(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node)
+        internal ExcelChartExDataLabelItem(ExcelChartExSerie serie, XmlNamespaceManager nsm, XmlNode node) : base(serie, nsm, node)
         {
 
         }

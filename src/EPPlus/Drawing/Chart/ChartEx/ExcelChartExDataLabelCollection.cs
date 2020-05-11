@@ -22,10 +22,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataLabelCollection : ExcelChartExDataLabel, IDrawingStyle, IEnumerable<ExcelChartExDataLabelItem>
     {
-        internal ExcelChartExDataLabelCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder) : 
-            base(chart, ns, node)
+        internal ExcelChartExDataLabelCollection(ExcelChartExSerie serie, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder) : 
+            base(serie, ns, node)
         {
-            _chart = chart;
+            _chart = serie._chart;
             AddSchemaNodeOrder(schemaNodeOrder, new string[]{ "numFmt","spPr", "txPr", "visibility", "separator"});
         }
         const string _seriesNameVisiblePath = "cx:visibility/@seriesName";
@@ -65,17 +65,17 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         const string _separatorPath = "cx:separator";
-        public string Separator 
-        {
-            get
-            {
-                return GetXmlNodeString(_separatorPath);
-            }
-            set
-            {
-                SetXmlNodeString(_separatorPath, value, true);
-            }
-        }
+        //public string Separator 
+        //{
+        //    get
+        //    {
+        //        return GetXmlNodeString(_separatorPath);
+        //    }
+        //    set
+        //    {
+        //        SetXmlNodeString(_separatorPath, value, true);
+        //    }
+        //}
         void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode("cx:spPr");

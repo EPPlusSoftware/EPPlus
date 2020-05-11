@@ -999,6 +999,75 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// Stacked Bar Chart Style 11
         /// </summary>
         StackedColumnChartStyle11 = 348,
+        /// <summary>
+        /// Sunburst Chart Style 1
+        /// </summary>
+        Sunburst1 = 381,
+        /// <summary>
+        /// Sunburst Chart Style 2
+        /// </summary>
+        Sunburst2 = 382,
+        /// <summary>
+        /// Sunburst Chart Style 3
+        /// </summary>
+        Sunburst3 = 383,
+        /// <summary>
+        /// Sunburst Chart Style 4
+        /// </summary>
+        Sunburst4 = 384,
+        /// <summary>
+        /// Sunburst Chart Style 5
+        /// </summary>
+        Sunburst5 = 385,
+        /// <summary>
+        /// Sunburst Chart Style 6
+        /// </summary>
+        Sunburst6 = 386,
+        /// <summary>
+        /// Sunburst Chart Style 7
+        /// </summary>
+        Sunburst7 = 387,
+        /// <summary>
+        /// Sunburst Chart Style 8
+        /// </summary>
+        Sunburst8 = 388,
+        /// <summary>
+        /// Treemap Chart Style 1
+        /// </summary>
+        Treemap1 = 410,
+        /// <summary>
+        /// Treemap Chart Style 2
+        /// </summary>
+        Treemap2 = 411,
+        /// <summary>
+        /// Treemap Chart Style 3
+        /// </summary>
+        Treemap3 = 412,
+        /// <summary>
+        /// Treemap Chart Style 4
+        /// </summary>
+        Treemap4 = 413,
+        /// <summary>
+        /// Treemap Chart Style 5
+        /// </summary>
+        Treemap5 = 414,
+        /// <summary>
+        /// Treemap Chart Style 6
+        /// </summary>
+        Treemap6 = 415,
+        /// <summary>
+        /// Treemap Chart Style 7
+        /// </summary>
+        Treemap7 = 416,
+        /// <summary>
+        /// Treemap Chart Style 8
+        /// </summary>
+        Treemap8 = 417,
+        /// <summary>
+        /// Treemap Chart Style 9
+        /// </summary>
+        Treemap9 = 418,
+
     }
     /// <summary>
     /// Maps to Excel's built-in chart styles, for charts with more that one data serie. 
@@ -1926,6 +1995,74 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// Stacked Bar Chart Style 11
         /// </summary>
         StackedColumnChartStyle11 = 348,
+        /// <summary>
+        /// Sunburst Chart Style 1
+        /// </summary>
+        Sunburst1 = 381,
+        /// <summary>
+        /// Sunburst Chart Style 2
+        /// </summary>
+        Sunburst2 = 382,
+        /// <summary>
+        /// Sunburst Chart Style 3
+        /// </summary>
+        Sunburst3 = 383,
+        /// <summary>
+        /// Sunburst Chart Style 4
+        /// </summary>
+        Sunburst4 = 384,
+        /// <summary>
+        /// Sunburst Chart Style 5
+        /// </summary>
+        Sunburst5 = 385,
+        /// <summary>
+        /// Sunburst Chart Style 6
+        /// </summary>
+        Sunburst6 = 386,
+        /// <summary>
+        /// Sunburst Chart Style 7
+        /// </summary>
+        Sunburst7 = 387,
+        /// <summary>
+        /// Sunburst Chart Style 8
+        /// </summary>
+        Sunburst8 = 388,
+        /// <summary>
+        /// Treemap Chart Style 1
+        /// </summary>
+        Treemap1 = 410,
+        /// <summary>
+        /// Treemap Chart Style 2
+        /// </summary>
+        Treemap2 = 411,
+        /// <summary>
+        /// Treemap Chart Style 3
+        /// </summary>
+        Treemap3 = 412,
+        /// <summary>
+        /// Treemap Chart Style 4
+        /// </summary>
+        Treemap4 = 413,
+        /// <summary>
+        /// Treemap Chart Style 5
+        /// </summary>
+        Treemap5 = 414,
+        /// <summary>
+        /// Treemap Chart Style 6
+        /// </summary>
+        Treemap6 = 415,
+        /// <summary>
+        /// Treemap Chart Style 7
+        /// </summary>
+        Treemap7 = 416,
+        /// <summary>
+        /// Treemap Chart Style 8
+        /// </summary>
+        Treemap8 = 417,
+        /// <summary>
+        /// Treemap Chart Style 9
+        /// </summary>
+        Treemap9 = 418,
     }
     /// <summary>
     /// Chart color schemes mapping to the default colors in Excel

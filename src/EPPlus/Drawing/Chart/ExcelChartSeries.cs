@@ -363,7 +363,7 @@ namespace OfficeOpenXml.Drawing.Chart
             var serieCount = node.Count;
             if (serieCount > 0)
             {
-                _node.InsertAfter(ser, node[node.Count - 1]);
+                plotareaNode.InsertAfter(ser, node[node.Count - 1]);
             }
             else
             {
@@ -373,14 +373,27 @@ namespace OfficeOpenXml.Drawing.Chart
             ser.SetAttribute("formatIdx", serieCount.ToString());
             ser.SetAttribute("uniqueId","{" + Guid.NewGuid().ToString() + "}");
             ser.SetAttribute("layoutId", Chart.ChartType.ToEnumString());
-            ser.InnerXml = $"<cx:dataId val=\"{serieCount}\"/>";
+            ser.InnerXml = $"<cx:dataId val=\"{serieCount}\"/><cx:layoutPr/>";
 
             chartex._chartXmlHelper.CreateNode("../cx:chartData",true);
             var dataElement = (XmlElement)chartex._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
             dataElement.SetAttribute("id",serieCount.ToString());
-            dataElement.InnerXml = "<cx:strDim type=\"cat\"><cx:f dir=\"row\"></cx:f></cx:strDim><cx:numDim type=\"val\"><cx:f dir=\"row\"></cx:f></cx:numDim>";
+            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f></cx:strDim><cx:numDim type=\"{GetNumType(Chart.ChartType)}\"><cx:f></cx:f></cx:numDim>";
             return ser;
         }
+
+        private string GetNumType(eChartType chartType)
+        {
+            switch(chartType)
+            {
+                case eChartType.Sunburst:
+                case eChartType.Treemap:
+                    return "size";
+                default:
+                    return "val";
+            }
+        }
+
         private static int FindIndex(ExcelChart chart)
         {
             int ret = 0, newID = 0;

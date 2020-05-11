@@ -36,19 +36,20 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             SchemaNodeOrder = new string[] { "tx", "spPr", "valueColors", "valueColorPositions", "dataPt", "dataLabels", "dataId", "layoutPr", "axisId" };
             _dataNode = node.SelectSingleNode($"../../../../cx:chartData/cx:data[@id={DataId}]", ns);
             _dataHelper = XmlHelperFactory.Create(ns, _dataNode);
-
-            foreach (XmlElement e in _dataNode.ChildNodes)
-            {
-                var t = e.GetAttribute("type");
-                if(e.LocalName == "numDim" || t!="x")
-                {
-                    _seriesPath = "cx:numDim";
-                }
-                else if(e.LocalName=="strDim")
-                {
-                    _seriesXPath = "cx:numDim";
-                }
-            }
+            _seriesXPath = "cx:strDim";
+            _seriesPath = "cx:numDim";
+            //foreach (XmlElement e in _dataNode.ChildNodes)
+            //{
+            //    var t = e.GetAttribute("type");
+            //    if(e.LocalName == "numDim" || t!="x")
+            //    {
+            //        _seriesPath = "cx:numDim";
+            //    }
+            //    else if(e.LocalName=="strDim")
+            //    {
+            //        _seriesXPath = "cx:numDim";
+            //    }
+            //}
         }
         internal int DataId
         {
@@ -124,11 +125,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _dataHelper.GetXmlNodeString(_seriesPath + "/cx:f");
+                return _dataHelper.GetXmlNodeString("*[1]/cx:f");
             }
             set
             {
-                _dataHelper.SetXmlNodeString("cx:numDim[@type='val']|cx:strDim[@type='val']/cx:f", value);
+                _dataHelper.SetXmlNodeString("*[1]/cx:f", value);
             }
         }
         string _seriesXPath;
@@ -139,11 +140,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _dataHelper.GetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']/cx:f");
+                return _dataHelper.GetXmlNodeString("*[2]/cx:f");
             }
             set
             {
-                _dataHelper.SetXmlNodeString("cx:numDim[@type='cat']|cx:strDim[@type='cat']/cx:f", value);
+                _dataHelper.SetXmlNodeString("*[2]/cx:f", value);
             }
         }
         ExcelChartExSerieDataLabel _dataLabels = null;
@@ -153,7 +154,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_dataLabels == null)
                 {
-                    _dataLabels = new ExcelChartExSerieDataLabel(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
+                    _dataLabels = new ExcelChartExSerieDataLabel(this, NameSpaceManager, TopNode, SchemaNodeOrder);
                 }
                 return _dataLabels;
             }

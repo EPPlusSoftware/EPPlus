@@ -20,9 +20,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataLabel : ExcelChartDataLabel
     {
-        internal ExcelChartExDataLabel(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node, "", "cx")
+        protected internal readonly ExcelChartExSerie _serie;
+        internal ExcelChartExDataLabel(ExcelChartExSerie serie, XmlNamespaceManager nsm, XmlNode node) : base(serie._chart, nsm, node, "", "cx")
         {
-
+            _serie = serie;
         }
 
         public override eLabelPosition Position 
@@ -33,9 +34,19 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
+                SetDataLabelNode();
                 SetXmlNodeString("@pos", GetPosText(value));
             }
         }
+
+        private void SetDataLabelNode()
+        {
+            if (TopNode.LocalName == "series")
+            {
+                TopNode = _serie.CreateNode("cx:dataLabels");
+            }
+        }
+
         private const string _showValuePath = "cx:visibility/@value";
         public override bool ShowValue 
         { 
@@ -45,10 +56,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
+                SetDataLabelNode();
                 SetXmlNodeBool(_showValuePath, value);
             }
         }
-        private const string _showCategoryPath = "cx:visibility/@showCategory";
+        private const string _showCategoryPath = "cx:visibility/@categoryName";
         public override bool ShowCategory 
         {
             get
@@ -57,6 +69,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
+                SetDataLabelNode();
                 SetXmlNodeBool(_showCategoryPath, value);
             }
         }
@@ -69,6 +82,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
+                SetDataLabelNode();
                 SetXmlNodeBool(_seriesNamePath, value);
             }
         }
@@ -100,6 +114,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
+                SetDataLabelNode();
                 SetXmlNodeString("cx:separator", value);
             }
         }

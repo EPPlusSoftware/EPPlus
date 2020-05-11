@@ -222,7 +222,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart series
         /// </summary>
-        public virtual ExcelChartSeries<ExcelChartSerie> Series { get; }
+        public virtual ExcelChartSeries<ExcelChartSerie> Series { get; } = new ExcelChartSeries<ExcelChartSerie>();
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>

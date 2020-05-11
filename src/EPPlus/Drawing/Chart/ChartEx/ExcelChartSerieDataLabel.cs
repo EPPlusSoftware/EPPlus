@@ -25,8 +25,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public class ExcelChartExSerieDataLabel : ExcelChartExDataLabel
     {
-        internal ExcelChartExSerieDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder)
-             : base(chart, ns, node)
+        internal ExcelChartExSerieDataLabel(ExcelChartExSerie serie, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder)
+             : base(serie, ns, node)
         {
             SchemaNodeOrder = schemaNodeOrder;
             Position = eLabelPosition.Center;
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_dataLabels == null)
                 {
-                    _dataLabels = new ExcelChartExDataLabelCollection(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
+                    _dataLabels = new ExcelChartExDataLabelCollection(_serie, NameSpaceManager, TopNode, SchemaNodeOrder);
                 }
                 return _dataLabels;
             }
