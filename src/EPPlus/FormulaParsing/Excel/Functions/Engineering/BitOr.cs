@@ -20,10 +20,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
     internal class BitOr : ExcelFunction
     {
-        private bool IsInteger(object n)
-        {
-            return Convert.ToDouble(n) % 1 == 0;
-        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);

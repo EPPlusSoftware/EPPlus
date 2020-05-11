@@ -256,6 +256,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return Regex.IsMatch(value.ToString(), @"^[\d]+(\,[\d])?");
         }
 
+        protected bool IsInteger(object n)
+        {
+            if (!IsNumeric(n)) return false;
+            return Convert.ToDouble(n) % 1 == 0;
+        }
+
         /// <summary>
         /// If the argument is a boolean value its value will be returned.
         /// If the argument is an integer value, true will be returned if its

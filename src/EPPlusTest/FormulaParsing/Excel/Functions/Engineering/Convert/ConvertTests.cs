@@ -214,6 +214,190 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
         }
 
         [TestMethod]
+        public void Hex2Bin_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "2";
+            _worksheet.Cells["A2"].Formula = "HEX2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("10", _worksheet.Cells["A2"].Value, "2 was not 10");
+
+            _worksheet.Cells["A1"].Value = "0000000001";
+            _worksheet.Cells["A2"].Formula = "HEX2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1", _worksheet.Cells["A2"].Value, "0000000001 was not 1");
+
+            _worksheet.Cells["A1"].Value = "2";
+            _worksheet.Cells["A2"].Formula = "HEX2BIN(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000010", _worksheet.Cells["A2"].Value, "2 was not 0000000010");
+
+            _worksheet.Cells["A1"].Value = "FFFFFFFF9C";
+            _worksheet.Cells["A2"].Formula = "HEX2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1110011100", _worksheet.Cells["A2"].Value, "FFFFFFFF9C was not 1110011100");
+
+            _worksheet.Cells["A1"].Value = "F0";
+            _worksheet.Cells["A2"].Formula = "HEX2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("11110000", _worksheet.Cells["A2"].Value, "F0 was not 11110000");
+
+            _worksheet.Cells["A1"].Value = "1D";
+            _worksheet.Cells["A2"].Formula = "HEX2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("11101", _worksheet.Cells["A2"].Value, "1D was not 11101");
+        }
+
+        [TestMethod]
+        public void Hex2Dec_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "A";
+            _worksheet.Cells["A2"].Formula = "HEX2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(10d, _worksheet.Cells["A2"].Value, "A was not 10");
+
+            _worksheet.Cells["A1"].Value = "1F";
+            _worksheet.Cells["A2"].Formula = "HEX2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(31d, _worksheet.Cells["A2"].Value, "1F was not 31");
+
+            _worksheet.Cells["A1"].Value = "0000000010";
+            _worksheet.Cells["A2"].Formula = "HEX2DEC(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(16d, _worksheet.Cells["A2"].Value, "0000000010 was not 16");
+
+            _worksheet.Cells["A1"].Value = "FFFFFFFFF0";
+            _worksheet.Cells["A2"].Formula = "HEX2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(-16d, _worksheet.Cells["A2"].Value, "FFFFFFFFF0 was not -16");
+
+            _worksheet.Cells["A1"].Value = "FFFFFFFF10";
+            _worksheet.Cells["A2"].Formula = "HEX2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(-240d, _worksheet.Cells["A2"].Value, "FFFFFFFF10 was not -240");
+
+            _worksheet.Cells["A1"].Value = "111";
+            _worksheet.Cells["A2"].Formula = "HEX2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(273d, _worksheet.Cells["A2"].Value, "111 was not 273");
+        }
+
+        [TestMethod]
+        public void Hex2Oct_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "A";
+            _worksheet.Cells["A2"].Formula = "HEX2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("12", _worksheet.Cells["A2"].Value, "A was not 12");
+
+            _worksheet.Cells["A1"].Value = "000000000F";
+            _worksheet.Cells["A2"].Formula = "HEX2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("17", _worksheet.Cells["A2"].Value, "000000000F was not 17");
+
+            _worksheet.Cells["A1"].Value = "8";
+            _worksheet.Cells["A2"].Formula = "HEX2OCT(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000010", _worksheet.Cells["A2"].Value, "8 was not 0000000010");
+
+            _worksheet.Cells["A1"].Value = "FFFFFFFFF8";
+            _worksheet.Cells["A2"].Formula = "HEX2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("7777777770", _worksheet.Cells["A2"].Value, "FFFFFFFFF0 was not 7777777770");
+
+            _worksheet.Cells["A1"].Value = "1F3";
+            _worksheet.Cells["A2"].Formula = "HEX2OCT(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("763", _worksheet.Cells["A2"].Value, "1F3 was not 273");
+        }
+
+        [TestMethod]
+        public void Oct2Bin_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "5";
+            _worksheet.Cells["A2"].Formula = "OCT2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("101", _worksheet.Cells["A2"].Value, "5 was not 101");
+
+            _worksheet.Cells["A1"].Value = "0000000001";
+            _worksheet.Cells["A2"].Formula = "OCT2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1", _worksheet.Cells["A2"].Value, "0000000001 was not 1");
+
+            _worksheet.Cells["A1"].Value = "2";
+            _worksheet.Cells["A2"].Formula = "OCT2BIN(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000010", _worksheet.Cells["A2"].Value, "2 was not 0000000010");
+
+            _worksheet.Cells["A1"].Value = "7777777770";
+            _worksheet.Cells["A2"].Formula = "OCT2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1111111000", _worksheet.Cells["A2"].Value, "7777777770 was not 1111111000");
+
+            _worksheet.Cells["A1"].Value = "16";
+            _worksheet.Cells["A2"].Formula = "OCT2BIN(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1110", _worksheet.Cells["A2"].Value, "1F3 was not 1110");
+        }
+
+        [TestMethod]
+        public void Oct2Dec_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "10";
+            _worksheet.Cells["A2"].Formula = "OCT2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(8d, _worksheet.Cells["A2"].Value, "10 was not 8");
+
+            _worksheet.Cells["A1"].Value = "22";
+            _worksheet.Cells["A2"].Formula = "OCT2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(18d, _worksheet.Cells["A2"].Value, "22 was not 18");
+
+            _worksheet.Cells["A1"].Value = "0000000010";
+            _worksheet.Cells["A2"].Formula = "OCT2DEC(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(8d, _worksheet.Cells["A2"].Value, "0000000010 was not 8");
+
+            _worksheet.Cells["A1"].Value = "7777777770";
+            _worksheet.Cells["A2"].Formula = "OCT2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(-8d, _worksheet.Cells["A2"].Value, "7777777770 was not -8");
+
+            _worksheet.Cells["A1"].Value = "355";
+            _worksheet.Cells["A2"].Formula = "OCT2DEC(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual(237d, _worksheet.Cells["A2"].Value, "355 was not 237");
+        }
+
+        [TestMethod]
+        public void Oct2Hex_Tests()
+        {
+            _worksheet.Cells["A1"].Value = "10";
+            _worksheet.Cells["A2"].Formula = "OCT2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("8", _worksheet.Cells["A2"].Value, "10 was not 8");
+
+            _worksheet.Cells["A1"].Value = "0000000007";
+            _worksheet.Cells["A2"].Formula = "OCT2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("7", _worksheet.Cells["A2"].Value, "22 was not 7");
+
+            _worksheet.Cells["A1"].Value = "10";
+            _worksheet.Cells["A2"].Formula = "OCT2HEX(A1, 10)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0000000008", _worksheet.Cells["A2"].Value, "0000000010 was not 0000000008");
+
+            _worksheet.Cells["A1"].Value = "7777777770";
+            _worksheet.Cells["A2"].Formula = "OCT2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("FFFFFFFFF8", _worksheet.Cells["A2"].Value, "7777777770 was not FFFFFFFFF8");
+
+            _worksheet.Cells["A1"].Value = "763";
+            _worksheet.Cells["A2"].Formula = "OCT2HEX(A1)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("1F3", _worksheet.Cells["A2"].Value, "763 was not 1F3");
+        }
+
+        [TestMethod]
         public void ConvertDistanceTests()
         {
             _worksheet.Cells["A1"].Value = "1";

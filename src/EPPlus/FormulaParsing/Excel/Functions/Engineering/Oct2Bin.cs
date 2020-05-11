@@ -19,35 +19,29 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Bin2Hex : ExcelFunction
+    internal class Oct2Bin : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var number = ArgToString(arguments, 0);
-            var formatString = "X";
-            if(arguments.Count() > 1)
+            var padding = default(int?);
+            if (arguments.Count() > 1)
             {
-                var padding = ArgToInt(arguments, 1);
-                if (padding < 0 ^ padding > 10) return CreateResult(eErrorType.Num);
-                formatString += padding;
+                padding = ArgToInt(arguments, 1);
+                if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
             }
-            if (number.Length > 10) return CreateResult(eErrorType.Num);
-            if (number.Length < 10)
+            var decNumber = TwoComplementHelper.ParseDecFromString(number, 8);
+            var result = Convert.ToString((int)decNumber, 2);
+            if (padding.HasValue)
             {
-                var n = Convert.ToInt32(number, 2);
-                return CreateResult(n.ToString(formatString), DataType.Decimal);
+                result = PaddingHelper.EnsureLength(result, padding.Value, "0");
             }
             else
             {
-                if (!BinaryHelper.TryParseBinaryToDecimal(number, 2, out int result)) return CreateResult(eErrorType.Num);
-                var hexStr = result.ToString(formatString);
-                if(result < 0)
-                {
-                    hexStr = PaddingHelper.EnsureLength(hexStr, 10, "F");
-                }
-                return CreateResult(hexStr, DataType.String);
+                result = PaddingHelper.EnsureMinLength(result, 10);
             }
+            return CreateResult(result, DataType.String);
         }
     }
 }

@@ -10,7 +10,6 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
@@ -19,35 +18,19 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Bin2Hex : ExcelFunction
+    internal class Delta : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var number = ArgToString(arguments, 0);
-            var formatString = "X";
+            var n1 = ArgToDecimal(arguments, 0);
+            var n2 = 0d;
             if(arguments.Count() > 1)
             {
-                var padding = ArgToInt(arguments, 1);
-                if (padding < 0 ^ padding > 10) return CreateResult(eErrorType.Num);
-                formatString += padding;
+                n2 = ArgToDecimal(arguments, 1);
             }
-            if (number.Length > 10) return CreateResult(eErrorType.Num);
-            if (number.Length < 10)
-            {
-                var n = Convert.ToInt32(number, 2);
-                return CreateResult(n.ToString(formatString), DataType.Decimal);
-            }
-            else
-            {
-                if (!BinaryHelper.TryParseBinaryToDecimal(number, 2, out int result)) return CreateResult(eErrorType.Num);
-                var hexStr = result.ToString(formatString);
-                if(result < 0)
-                {
-                    hexStr = PaddingHelper.EnsureLength(hexStr, 10, "F");
-                }
-                return CreateResult(hexStr, DataType.String);
-            }
+            if (n1.CompareTo(n2) == 0) return CreateResult(1, DataType.Integer);
+            return CreateResult(0, DataType.Integer);
         }
     }
 }
