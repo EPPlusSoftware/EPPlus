@@ -1246,15 +1246,15 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue99()
         {
-            using (var p = OpenTemplatePackage("Issue99.xlsx"))
+            using (var p = OpenTemplatePackage("Issue-99-2.xlsx"))
             {
-                var p2 = OpenPackage("Issue99-2Saved-new.xlsx", true);
-                var ws = p2.Workbook.Worksheets.Add("Picture");
-                ws.Drawings.AddPicture("Test1", Properties.Resources.Test1);
-                p.Workbook.Worksheets.Add("copy1", p.Workbook.Worksheets[0]);
-                p2.Workbook.Worksheets.Add("copy1", p.Workbook.Worksheets[0]);
-                p.Workbook.Worksheets.Add("copy2", p2.Workbook.Worksheets[0]);
-                SaveAndCleanup(p2);
+                //var p2 = OpenPackage("Issue99-2Saved-new.xlsx", true);
+                //var ws = p2.Workbook.Worksheets.Add("Picture");
+                //ws.Drawings.AddPicture("Test1", Properties.Resources.Test1);
+                //p.Workbook.Worksheets.Add("copy1", p.Workbook.Worksheets[0]);
+                //p2.Workbook.Worksheets.Add("copy1", p.Workbook.Worksheets[0]);
+                //p.Workbook.Worksheets.Add("copy2", p2.Workbook.Worksheets[0]);
+                //SaveAndCleanup(p2);
                 SaveWorkbook("Issue99-2Saved.xlsx", p);
             }
         }
