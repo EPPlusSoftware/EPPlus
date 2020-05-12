@@ -103,5 +103,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(-26762.76, result);
         }
+
+        [TestMethod]
+        public void Rate_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "RATE( 60, -1000, 50000 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(0.0062, result);
+
+            _worksheet.Cells["A1"].Formula = "RATE( 24, -800, 0, 20000, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(0.0033, result);
+        }
     }
 }

@@ -10,24 +10,15 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
-    internal class Npv : ExcelFunction
+    public enum PmtDue
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            ValidateArguments(arguments, 2);
-            var rate = ArgToDecimal(arguments, 0);
-            var args = ArgsToDoubleEnumerable(false, true, arguments, context).ToList();
-            var retVal = CashFlowHelper.Npv(rate, args.Skip(1).Select(x => (double)x));
-            return CreateResult(retVal, DataType.Decimal);
-        }
+        EndOfPeriod = 0,
+        BeginningOfPeriod = 1
     }
 }

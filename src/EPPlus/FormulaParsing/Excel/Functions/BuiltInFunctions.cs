@@ -235,6 +235,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["pv"] = new Pv();
             Functions["fv"] = new Fv();
             Functions["npv"] = new Npv();
+            Functions["rate"] = new Rate();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
