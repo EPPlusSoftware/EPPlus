@@ -84,8 +84,21 @@ namespace EPPlusTest.Drawing.Chart
             serie.DataLabel.ShowSeriesName = true;
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Treemap9);
         }
-
-
+        //[TestMethod]
+        //public void AddBox()
+        //{
+        //    var ws = _pck.Workbook.Worksheets.Add("Boxwhisker");
+        //    AddHierarkiData(ws);
+        //    var chart = ws.Drawings.AddExtendedChart("Boxwhisker", eChartExType.Boxwhisker);
+        //    var serie = chart.Series.Add("Boxwhisker!$A$2:$C$17", "Boxwhisker!$D$2:$D$17");
+        //    chart.SetPosition(2, 0, 15, 0);
+        //    chart.SetSize(1600, 900);
+        //    serie.DataLabel.Position = eLabelPosition.Center;
+        //    serie.DataLabel.ShowCategory = true;
+        //    serie.DataLabel.ShowValue = true;
+        //    serie.DataLabel.ShowSeriesName = true;
+        //    chart.StyleManager.SetChartStyle(ePresetChartStyle.Treemap9);
+        //}
         private class SalesData
         {
             public string Continent { get; set; }
