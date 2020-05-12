@@ -119,5 +119,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
             Assert.AreEqual(0.0033, result);
         }
+
+        [TestMethod]
+        public void Nper_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "NPER( 4%, -6000, 50000 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(10.34, result);
+
+            _worksheet.Cells["A1"].Formula = "NPER( 6%/4, -2000, 60000, 30000, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(52.79, result);
+        }
     }
 }
