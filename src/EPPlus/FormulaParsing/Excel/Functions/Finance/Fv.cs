@@ -18,14 +18,29 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
-    internal class Npv : ExcelFunction
+    internal class Fv : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var rate = ArgToDecimal(arguments, 0);
-            var args = ArgsToDoubleEnumerable(false, true, arguments, context).ToList();
-            var retVal = CashFlowHelper.Npv(rate, args.Skip(1).Select(x => (double)x));
+            var nPer = ArgToDecimal(arguments, 1);
+            var pmt = 0d;
+            if(arguments.Count() >= 3)
+            {
+                pmt = ArgToDecimal(arguments, 2);
+            }
+            var pv = 0d;
+            if(arguments.Count() >= 4)
+            {
+                pv = ArgToDecimal(arguments, 3);
+            }
+            var type = 0;
+            if(arguments.Count() >= 5)
+            {
+                type = ArgToInt(arguments, 4);
+            }
+            var retVal = CashFlowHelper.Fv(rate, nPer, pmt, pv, type);
             return CreateResult(retVal, DataType.Decimal);
         }
     }

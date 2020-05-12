@@ -65,5 +65,29 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A10"].Value, 2);
             Assert.AreEqual(2678.68, result);
         }
+
+        [TestMethod]
+        public void Fv_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "FV(5 %/ 12, 60, -1000)";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(68006.08d, result);
+
+            _worksheet.Cells["A1"].Formula = "FV( 10%/4, 16, -2000, 0, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(39729.46, result);
+
+            _worksheet.Cells["A1"].Formula = "FV(5%/12, 10 * 12, 0, -1000)";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 0);
+            Assert.AreEqual(1647d, result);
+
+
+        }
     }
 }
