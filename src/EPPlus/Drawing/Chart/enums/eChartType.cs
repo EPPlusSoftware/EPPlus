@@ -328,7 +328,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// A box whisker
         /// </summary>
-        Boxwhisker = 121,
+        BoxWhisker = 121,
         /// <summary>
         /// A Histogram Pareto chart
         /// </summary>

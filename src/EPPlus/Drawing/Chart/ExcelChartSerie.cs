@@ -115,11 +115,12 @@ namespace OfficeOpenXml.Drawing.Chart
         public abstract int NumberOfItems { get; }
         public abstract ExcelChartTrendlineCollection TrendLines{ get; }
         internal abstract void SetID(string id);
+
     }
     /// <summary>
     /// A chart serie
     /// </summary>
-    public class ExcelChartSerieStandard : ExcelChartSerie
+    public class ExcelChartStandardSerie : ExcelChartSerie
     {
         private readonly bool _isPivot;
         /// <summary>
@@ -129,7 +130,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
        /// <param name="isPivot">Is pivotchart</param>  
-       internal ExcelChartSerieStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
+       internal ExcelChartStandardSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
            : base(chart, ns, node)
        {
            _chart = chart;
@@ -630,5 +631,127 @@ namespace OfficeOpenXml.Drawing.Chart
                 throw (new NotImplementedException("Litteral cache has not been implemented yet."));
             }
         }
+        internal static XmlElement CreateSerieElement(ExcelChart chart)
+        {
+            var ser = (XmlElement)chart._chartXmlHelper.CreateNode("c:ser", false, true);
+
+            //If the chart is added from a chart template, then use the chart templates series xml
+            if (!string.IsNullOrEmpty(chart._drawings._seriesTemplateXml))
+            {
+                ser.InnerXml = chart._drawings._seriesTemplateXml;
+            }
+
+            int idx = FindIndex(chart);
+            ser.InnerXml = string.Format("<c:idx val=\"{1}\" /><c:order val=\"{1}\" /><c:tx><c:strRef><c:f></c:f><c:strCache><c:ptCount val=\"1\" /></c:strCache></c:strRef></c:tx>{2}{5}{0}{3}{4}", AddExplosion(chart.ChartType), idx, AddSpPrAndScatterPoint(chart.ChartType), AddAxisNodes(chart.ChartType), AddSmooth(chart.ChartType), AddMarker(chart.ChartType));
+            return ser;
+        }
+
+        private static int FindIndex(ExcelChart chart)
+        {
+            int ret = 0, newID = 0;
+            if (chart.PlotArea.ChartTypes.Count > 1)
+            {
+                foreach (var chartType in chart.PlotArea.ChartTypes)
+                {
+                    if (newID > 0)
+                    {
+                        foreach (ExcelChartSerie serie in chartType.Series)
+                        {
+                            serie.SetID((++newID).ToString());
+                        }
+                    }
+                    else
+                    {
+                        if (chartType == chart)
+                        {
+                            ret += chartType.Series.Count + 1;
+                            newID = ret;
+                        }
+                        else
+                        {
+                            ret += chart.Series.Count;
+                        }
+                    }
+                }
+                return ret - 1;
+            }
+            else
+            {
+                return chart.Series.Count;
+            }
+        }
+        #region "Xml init Functions"
+        private static string AddMarker(eChartType chartType)
+        {
+            if (chartType == eChartType.Line ||
+                chartType == eChartType.LineStacked ||
+                chartType == eChartType.LineStacked100 ||
+                chartType == eChartType.XYScatterLines ||
+                chartType == eChartType.XYScatterSmooth ||
+                chartType == eChartType.XYScatterLinesNoMarkers ||
+                chartType == eChartType.XYScatterSmoothNoMarkers)
+            {
+                return "<c:marker><c:symbol val=\"none\" /></c:marker>";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        private static string AddSpPrAndScatterPoint(eChartType chartType)
+        {
+            if (chartType == eChartType.XYScatter)
+            {
+                return "<c:spPr><a:noFill/><a:ln w=\"28575\"><a:noFill /></a:ln><a:effectLst/><a:sp3d/></c:spPr>";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        private static string AddAxisNodes(eChartType chartType)
+        {
+            if (chartType == eChartType.XYScatter ||
+                 chartType == eChartType.XYScatterLines ||
+                 chartType == eChartType.XYScatterLinesNoMarkers ||
+                 chartType == eChartType.XYScatterSmooth ||
+                 chartType == eChartType.XYScatterSmoothNoMarkers ||
+                 chartType == eChartType.Bubble ||
+                 chartType == eChartType.Bubble3DEffect)
+            {
+                return "<c:xVal /><c:yVal />";
+            }
+            else
+            {
+                return "<c:val />";
+            }
+        }
+
+        private static string AddExplosion(eChartType chartType)
+        {
+            if (chartType == eChartType.PieExploded3D ||
+               chartType == eChartType.PieExploded ||
+                chartType == eChartType.DoughnutExploded)
+            {
+                return "<c:explosion val=\"25\" />"; //Default 25;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        private static string AddSmooth(eChartType chartType)
+        {
+            if (chartType == eChartType.XYScatterSmooth ||
+               chartType == eChartType.XYScatterSmoothNoMarkers)
+            {
+                return "<c:smooth val=\"1\" />"; //Default 25;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        #endregion
     }
 }

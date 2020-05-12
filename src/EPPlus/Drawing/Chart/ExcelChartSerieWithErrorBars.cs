@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A base class used for chart series that support ErrorBars
     /// </summary>
-    public class ExcelChartSerieWithErrorBars : ExcelChartSerieStandard, IDrawingChartErrorBars  
+    public class ExcelChartSerieWithErrorBars : ExcelChartStandardSerie, IDrawingChartErrorBars  
     {
         /// <summary>
         /// Default constructor

@@ -142,7 +142,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 case "paretoLine":
                     return eChartType.Pareto;
                 case "boxWhisker":
-                    return eChartType.Boxwhisker;
+                    return eChartType.BoxWhisker;
                 case "funnel":
                     return eChartType.Funnel;
                 case "regionMap":

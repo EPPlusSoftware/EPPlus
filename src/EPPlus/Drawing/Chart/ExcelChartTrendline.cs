@@ -24,8 +24,8 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartTrendline : XmlHelper, IDrawingStyleBase
     {
-        ExcelChartSerieStandard _serie;
-        internal ExcelChartTrendline(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelChartSerieStandard serie) :
+        ExcelChartStandardSerie _serie;
+        internal ExcelChartTrendline(XmlNamespaceManager namespaceManager, XmlNode topNode, ExcelChartStandardSerie serie) :
             base(namespaceManager,topNode)
 
         {

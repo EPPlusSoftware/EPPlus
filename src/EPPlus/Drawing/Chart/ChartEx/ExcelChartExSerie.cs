@@ -17,6 +17,13 @@ using System;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    public class ExcelChartExHistogramSerie : ExcelChartExSerie
+    {
+        public ExcelChartExHistogramSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
+        {
+
+        }
+    }
     /// <summary>
     /// A chart serie
     /// </summary>
@@ -36,20 +43,39 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             SchemaNodeOrder = new string[] { "tx", "spPr", "valueColors", "valueColorPositions", "dataPt", "dataLabels", "dataId", "layoutPr", "axisId" };
             _dataNode = node.SelectSingleNode($"../../../../cx:chartData/cx:data[@id={DataId}]", ns);
             _dataHelper = XmlHelperFactory.Create(ns, _dataNode);
-            _seriesXPath = "cx:strDim";
-            _seriesPath = "cx:numDim";
-            //foreach (XmlElement e in _dataNode.ChildNodes)
-            //{
-            //    var t = e.GetAttribute("type");
-            //    if(e.LocalName == "numDim" || t!="x")
-            //    {
-            //        _seriesPath = "cx:numDim";
-            //    }
-            //    else if(e.LocalName=="strDim")
-            //    {
-            //        _seriesXPath = "cx:numDim";
-            //    }
-            //}
+            if((chart.ChartType == eChartType.BoxWhisker ||
+                chart.ChartType == eChartType.Histogram ||
+                chart.ChartType == eChartType.Pareto) && chart.Series._list==null)
+            {
+                AddAxis();
+            }
+        }
+
+        private void AddAxis()
+        {
+            var axis0=(XmlElement)_chart._chartXmlHelper.CreateNode("cx:plotArea/cx:axis");
+            axis0.SetAttribute("id", "0");
+            var axis1 = (XmlElement)_chart._chartXmlHelper.CreateNode("cx:plotArea/cx:axis", false, true);
+            axis1.SetAttribute("id", "1");
+
+            switch(_chart.ChartType)
+            {
+                case eChartType.BoxWhisker:
+                    axis0.InnerXml = "<cx:valScaling/><cx:majorGridlines/><cx:tickLabels/>";
+                    axis1.InnerXml = "<cx:catScaling gapWidth=\"1\"/><cx:tickLabels/>";
+                    break;
+                case eChartType.Histogram:
+                case eChartType.Pareto:
+                    axis0.InnerXml = "<cx:catScaling gapWidth=\"0\"/><cx:tickLabels/>";
+                    axis1.InnerXml = "<cx:valScaling/><cx:majorGridlines/><cx:tickLabels/>";
+                    if(_chart.ChartType== eChartType.Pareto)
+                    {
+                        var axis2 = (XmlElement)_chart._chartXmlHelper.CreateNode("cx:plotArea/cx:axis", false, true);
+                        axis2.SetAttribute("id", "1");
+                        axis2.InnerXml = "<cx:valScaling min=\"0\" max=\"1\"/><cx:units unit=\"percentage\"/><cx:tickLabels/>";
+                    }
+                    break;
+            }
         }
         internal int DataId
         {
@@ -117,7 +143,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
-        string _seriesPath;
         /// <summary>
         /// Set this to a valid address or the drawing will be invalid.
         /// </summary>
@@ -132,7 +157,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 _dataHelper.SetXmlNodeString("*[1]/cx:f", value);
             }
         }
-        string _seriesXPath;
         /// <summary>
         /// Set an address for the horizontal labels
         /// </summary>
@@ -295,9 +319,86 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             throw new System.NotImplementedException();
         }
 
-        internal static XmlElement CreateSerieElement(XmlNamespaceManager ns, XmlNode node, ExcelChart chart)
+        internal static XmlElement CreateSerieElement(ExcelChartEx chart)
         {
-            throw new NotImplementedException();
+            var plotareaNode = chart._chartXmlHelper.CreateNode("cx:plotArea/cx:plotAreaRegion");
+            XmlElement ser = plotareaNode.OwnerDocument.CreateElement("cx", "series", ExcelPackage.schemaChartExMain);
+            XmlNodeList node = plotareaNode.SelectNodes("cx:series", chart.NameSpaceManager);
+
+            var serieCount = node.Count;
+            if (serieCount > 0)
+            {
+                plotareaNode.InsertAfter(ser, node[node.Count - 1]);
+            }
+            else
+            {
+                var f = XmlHelperFactory.Create(chart.NameSpaceManager, plotareaNode);
+                f.InserAfter(plotareaNode, "cx:plotSurface", ser);
+            }
+            ser.SetAttribute("formatIdx", serieCount.ToString());
+            ser.SetAttribute("uniqueId", "{" + Guid.NewGuid().ToString() + "}");
+            ser.SetAttribute("layoutId", GetLayoutId(chart.ChartType));
+            ser.InnerXml = $"<cx:dataId val=\"{serieCount}\"/><cx:layoutPr/>{AddAxisReferense(chart)}";
+            SetLayoutProperties(chart, ser);
+            
+            chart._chartXmlHelper.CreateNode("../cx:chartData", true);
+            var dataElement = (XmlElement)chart._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
+            dataElement.SetAttribute("id", serieCount.ToString());
+            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f></cx:strDim><cx:numDim type=\"{GetNumType(chart.ChartType)}\"><cx:f></cx:f></cx:numDim>";
+            return ser;
         }
+
+        private static object AddAxisReferense(ExcelChartEx chart)
+        {
+            if(chart.ChartType==eChartType.Pareto)
+            {
+                return "<cx:axisId val=\"1\"/>";
+            }
+            else
+            {
+                return "";
+            }            
+        }
+
+        private static string GetLayoutId(eChartType chartType)
+        {
+            switch(chartType)
+            {
+                case eChartType.Histogram:
+                case eChartType.Pareto:     //Pareto will be the second serie.
+                    return "clusteredColumn";
+                default:
+                    return chartType.ToEnumString();
+            }            
+        }
+
+        private static void SetLayoutProperties(ExcelChartEx chart, XmlElement ser)
+        {
+            switch (chart.ChartType)
+            {
+                case eChartType.BoxWhisker:
+                    var layoutPr=ser.SelectSingleNode("cx:layoutPr", chart.NameSpaceManager);
+                    layoutPr.InnerXml = "<cx:parentLabelLayout val=\"banner\"/><cx:visibility outliers=\"1\" nonoutliers=\"0\" meanMarker=\"1\" meanLine=\"0\"/><cx:statistics quartileMethod=\"exclusive\"/>";
+                    break;
+                case eChartType.Histogram:
+                case eChartType.Pareto:
+                    layoutPr = ser.SelectSingleNode("cx:layoutPr", chart.NameSpaceManager);
+                    layoutPr.InnerXml = "<cx:binning intervalClosed=\"r\"/>";
+                    break;
+            }
+        }
+
+        private static string GetNumType(eChartType chartType)
+        {
+            switch (chartType)
+            {
+                case eChartType.Sunburst:
+                case eChartType.Treemap:
+                    return "size";
+                default:
+                    return "val";
+            }
+        }
+
     }
 }

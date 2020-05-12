@@ -70,7 +70,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Sunburst7);
         }
         [TestMethod]
-        public void AddTreemap()
+        public void AddTreemapChart()
         {
             var ws = _pck.Workbook.Worksheets.Add("Treemap");
             AddHierarkiData(ws);
@@ -84,21 +84,39 @@ namespace EPPlusTest.Drawing.Chart
             serie.DataLabel.ShowSeriesName = true;
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Treemap9);
         }
-        //[TestMethod]
-        //public void AddBox()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("Boxwhisker");
-        //    AddHierarkiData(ws);
-        //    var chart = ws.Drawings.AddExtendedChart("Boxwhisker", eChartExType.Boxwhisker);
-        //    var serie = chart.Series.Add("Boxwhisker!$A$2:$C$17", "Boxwhisker!$D$2:$D$17");
-        //    chart.SetPosition(2, 0, 15, 0);
-        //    chart.SetSize(1600, 900);
-        //    serie.DataLabel.Position = eLabelPosition.Center;
-        //    serie.DataLabel.ShowCategory = true;
-        //    serie.DataLabel.ShowValue = true;
-        //    serie.DataLabel.ShowSeriesName = true;
-        //    chart.StyleManager.SetChartStyle(ePresetChartStyle.Treemap9);
-        //}
+        [TestMethod]
+        public void AddBoxWhiskerChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("BoxWhisker");
+            AddHierarkiData(ws);
+            var chart = ws.Drawings.AddExtendedChart("BoxWhisker", eChartExType.BoxWhisker);
+            var serie = chart.Series.Add("BoxWhisker!$A$2:$C$17", "BoxWhisker!$D$2:$D$17");
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.BoxWhiskerStyle3);
+        }
+        [TestMethod]
+        public void AddHistogramChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Histogram");
+            AddHierarkiData(ws);
+            var chart = ws.Drawings.AddExtendedChart("Histogram", eChartExType.Histogram);
+            var serie = chart.Series.Add("Histogram!$A$2:$C$17", "Histogram!$D$2:$D$17");
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle2);
+        }
+        [TestMethod]
+        public void AddParetoChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Pareto");
+            AddHierarkiData(ws);
+            var chart = ws.Drawings.AddExtendedChart("Pareto", eChartExType.Pareto);
+            var serie = chart.Series.Add("Pareto!$A$2:$C$17", "Pareto!$D$2:$D$17");
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
+        }
         private class SalesData
         {
             public string Continent { get; set; }

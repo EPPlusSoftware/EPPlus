@@ -1067,6 +1067,54 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// Treemap Chart Style 9
         /// </summary>
         Treemap9 = 418,
+        /// <summary>
+        /// Box &amp; Whisker Chart Style 1
+        /// </summary>
+        BoxWhiskerStyle1 = 406,
+        /// <summary>
+        /// Box &amp; Whisker Chart Style 2
+        /// </summary>
+        BoxWhiskerStyle2 = 407,
+        /// <summary>
+        /// Box &amp; Whisker Chart Style 3
+        /// </summary>
+        BoxWhiskerStyle3 = 408,
+        /// <summary>
+        /// Box &amp; Whisker Chart Style 4
+        /// </summary>
+        BoxWhiskerStyle4 = 409,
+        /// <summary>
+        /// Box &amp; Whisker Chart Style 5
+        /// </summary>
+        BoxWhiskerStyle5 = 373,
+        /// <summary>
+        /// Box &amp; Whisker Chart Style 6
+        /// </summary>
+        BoxWhiskerStyle6 = 374,
+        /// <summary>
+        /// Histogram Chart Style 1
+        /// </summary>
+        HistogramStyle1 = 366,
+        /// <summary>
+        /// Histogram Chart Style 2
+        /// </summary>
+        HistogramStyle2 = 367,
+        /// <summary>
+        /// Histogram Chart Style 3
+        /// </summary>
+        HistogramStyle3 = 368,
+        /// <summary>
+        /// Histogram Chart Style 4
+        /// </summary>
+        HistogramStyle4 = 369,
+        /// <summary>
+        /// Histogram Chart Style 5
+        /// </summary>
+        HistogramStyle5 = 370,
+        /// <summary>
+        /// Histogram Chart Style 6
+        /// </summary>
+        HistogramStyle6 = 371,
 
     }
     /// <summary>

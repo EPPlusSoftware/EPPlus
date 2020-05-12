@@ -850,7 +850,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Histogram:
                 case eChartType.Waterfall:
                 case eChartType.Sunburst:
-                case eChartType.Boxwhisker:
+                case eChartType.BoxWhisker:
                 case eChartType.Pareto:
                 case eChartType.Funnel:
                 case eChartType.RegionMap:

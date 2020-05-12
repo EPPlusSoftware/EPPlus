@@ -102,7 +102,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         s = new ExcelAreaChartSerie(_chart, ns, n, isPivot);
                         break;
                     default:
-                        s = new ExcelChartSerieStandard(_chart, ns, n, isPivot);
+                        s = new ExcelChartStandardSerie(_chart, ns, n, isPivot);
                         break;
                 }
                 _list.Add((T)s);
@@ -197,11 +197,11 @@ namespace OfficeOpenXml.Drawing.Chart
             XmlElement serElement;
             if(_chart._isChartEx)
             {
-                serElement = CreateSerieExElement();
+                serElement = ExcelChartExSerie.CreateSerieElement((ExcelChartEx)_chart);
             }
             else
             {
-                 serElement = CreateSerieElement();
+                 serElement = ExcelChartStandardSerie.CreateSerieElement(_chart);
             }
             ExcelChartSerie serie;
             switch (Chart.ChartType)
@@ -309,14 +309,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Histogram:
                 case eChartType.Waterfall:
                 case eChartType.Sunburst:
-                case eChartType.Boxwhisker:
+                case eChartType.BoxWhisker:
                 case eChartType.Pareto:
                 case eChartType.Funnel:
                 case eChartType.RegionMap:
                     serie = new ExcelChartExSerie(_chart, _ns, serElement);
                     break;
                 default:
-                    serie = new ExcelChartSerieStandard(_chart, _ns, serElement, _isPivot);
+                    serie = new ExcelChartStandardSerie(_chart, _ns, serElement, _isPivot);
                     break;
             }
             serie.Series = SerieAddress;
@@ -329,104 +329,9 @@ namespace OfficeOpenXml.Drawing.Chart
             return (T)serie;
         }
 
-        internal XmlElement CreateSerieElement()
+        private void AddParetoLineSerie(XmlElement serElement)
         {
-            XmlElement ser = _node.OwnerDocument.CreateElement("cx", "series", ExcelPackage.schemaChart);
-            XmlNodeList node = _node.SelectNodes("c:ser", _ns);
-            if (node.Count > 0)
-            {
-                _node.InsertAfter(ser, node[node.Count - 1]);
-            }
-            else
-            {
-                var f = XmlHelperFactory.Create(_ns, _node);
-                f.InserAfter(_node, "c:varyColors,c:grouping,c:barDir,c:scatterStyle,c:ofPieType", ser);
-            }
-
-            //If the chart is added from a chart template, then use the chart templates series xml
-            if (!string.IsNullOrEmpty(_chart._drawings._seriesTemplateXml))
-            {
-                ser.InnerXml = _chart._drawings._seriesTemplateXml;
-            }
-
-            int idx = FindIndex(_chart);
-            ser.InnerXml = string.Format("<c:idx val=\"{1}\" /><c:order val=\"{1}\" /><c:tx><c:strRef><c:f></c:f><c:strCache><c:ptCount val=\"1\" /></c:strCache></c:strRef></c:tx>{2}{5}{0}{3}{4}", AddExplosion(Chart.ChartType), idx, AddSpPrAndScatterPoint(Chart.ChartType), AddAxisNodes(Chart.ChartType), AddSmooth(Chart.ChartType), AddMarker(Chart.ChartType));
-            return ser;
-        }
-        internal XmlElement CreateSerieExElement()
-        {
-            var chartex = (ExcelChartEx)_chart;
-            var plotareaNode = chartex._chartXmlHelper.CreateNode("cx:plotArea/cx:plotAreaRegion");
-            XmlElement ser = plotareaNode.OwnerDocument.CreateElement("cx", "series", ExcelPackage.schemaChartExMain);
-            XmlNodeList node = plotareaNode.SelectNodes("cx:series", _ns);
-
-            var serieCount = node.Count;
-            if (serieCount > 0)
-            {
-                plotareaNode.InsertAfter(ser, node[node.Count - 1]);
-            }
-            else
-            {
-                var f = XmlHelperFactory.Create(_ns, plotareaNode);
-                f.InserAfter(plotareaNode, "cx:plotSurface", ser);
-            }
-            ser.SetAttribute("formatIdx", serieCount.ToString());
-            ser.SetAttribute("uniqueId","{" + Guid.NewGuid().ToString() + "}");
-            ser.SetAttribute("layoutId", Chart.ChartType.ToEnumString());
-            ser.InnerXml = $"<cx:dataId val=\"{serieCount}\"/><cx:layoutPr/>";
-
-            chartex._chartXmlHelper.CreateNode("../cx:chartData",true);
-            var dataElement = (XmlElement)chartex._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
-            dataElement.SetAttribute("id",serieCount.ToString());
-            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f></cx:strDim><cx:numDim type=\"{GetNumType(Chart.ChartType)}\"><cx:f></cx:f></cx:numDim>";
-            return ser;
-        }
-
-        private string GetNumType(eChartType chartType)
-        {
-            switch(chartType)
-            {
-                case eChartType.Sunburst:
-                case eChartType.Treemap:
-                    return "size";
-                default:
-                    return "val";
-            }
-        }
-
-        private static int FindIndex(ExcelChart chart)
-        {
-            int ret = 0, newID = 0;
-            if (chart.PlotArea.ChartTypes.Count > 1)
-            {
-                foreach (var chartType in chart.PlotArea.ChartTypes)
-                {
-                    if (newID > 0)
-                    {
-                        foreach (ExcelChartSerie serie in chartType.Series)
-                        {
-                            serie.SetID((++newID).ToString());
-                        }
-                    }
-                    else
-                    {
-                        if (chartType == chart)
-                        {
-                            ret += chartType.Series.Count + 1;
-                            newID = ret;
-                        }
-                        else
-                        {
-                            ret += chart.Series.Count;
-                        }
-                    }
-                }
-                return ret - 1;
-            }
-            else
-            {
-                return chart.Series.Count;
-            }
+            
         }
 
         bool _isPivot;
@@ -437,78 +342,6 @@ namespace OfficeOpenXml.Drawing.Chart
             AddSeries(r.Offset(0, 1, r._toRow - r._fromRow + 1, 1).FullAddressAbsolute, r.Offset(0, 0, r._toRow - r._fromRow + 1, 1).FullAddressAbsolute, "");
         }
         #endregion
-        #region "Xml init Functions"
-        private string AddMarker(eChartType chartType)
-        {
-            if (chartType == eChartType.Line ||
-                chartType == eChartType.LineStacked ||
-                chartType == eChartType.LineStacked100 ||
-                chartType == eChartType.XYScatterLines ||
-                chartType == eChartType.XYScatterSmooth ||
-                chartType == eChartType.XYScatterLinesNoMarkers ||
-                chartType == eChartType.XYScatterSmoothNoMarkers)
-            {
-                return "<c:marker><c:symbol val=\"none\" /></c:marker>";
-            }
-            else
-            {
-                return "";
-            }
-        }
-        private string AddSpPrAndScatterPoint(eChartType chartType)
-        {
-            if (chartType == eChartType.XYScatter)
-            {
-                return "<c:spPr><a:noFill/><a:ln w=\"28575\"><a:noFill /></a:ln><a:effectLst/><a:sp3d/></c:spPr>";
-            }
-            else
-            {
-                return "";
-            }
-        }
-        private string AddAxisNodes(eChartType chartType)
-        {
-            if (chartType == eChartType.XYScatter ||
-                 chartType == eChartType.XYScatterLines ||
-                 chartType == eChartType.XYScatterLinesNoMarkers ||
-                 chartType == eChartType.XYScatterSmooth ||
-                 chartType == eChartType.XYScatterSmoothNoMarkers ||
-                 chartType == eChartType.Bubble ||
-                 chartType == eChartType.Bubble3DEffect)
-            {
-                return "<c:xVal /><c:yVal />";
-            }
-            else
-            {
-                return "<c:val />";
-            }
-        }
-
-        private string AddExplosion(eChartType chartType)
-        {
-            if (chartType == eChartType.PieExploded3D ||
-               chartType == eChartType.PieExploded ||
-                chartType == eChartType.DoughnutExploded)
-            {
-                return "<c:explosion val=\"25\" />"; //Default 25;
-            }
-            else
-            {
-                return "";
-            }
-        }
-        private string AddSmooth(eChartType chartType)
-        {
-            if (chartType == eChartType.XYScatterSmooth ||
-               chartType == eChartType.XYScatterSmoothNoMarkers)
-            {
-                return "<c:smooth val=\"1\" />"; //Default 25;
-            }
-            else
-            {
-                return "";
-            }
-        }
         /// <summary>
         /// Gets the enumerator for the collection
         /// </summary>
@@ -526,6 +359,5 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             return _list.GetEnumerator();
         }
-        #endregion
     }
 }

@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A serie for a pie chart
     /// </summary>
-    public sealed class ExcelPieChartSerie : ExcelChartSerieStandard, IDrawingSerieDataLabel, IDrawingChartDataPoints
+    public sealed class ExcelPieChartSerie : ExcelChartStandardSerie, IDrawingSerieDataLabel, IDrawingChartDataPoints
     {
         /// <summary>
         /// Default constructor

@@ -22,8 +22,8 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartTrendlineCollection : IEnumerable<ExcelChartTrendline>
     {
         List<ExcelChartTrendline> _list = new List<ExcelChartTrendline>();
-        ExcelChartSerieStandard _serie;
-        internal ExcelChartTrendlineCollection(ExcelChartSerieStandard serie)
+        ExcelChartStandardSerie _serie;
+        internal ExcelChartTrendlineCollection(ExcelChartStandardSerie serie)
         {
             _serie = serie;
             foreach (XmlNode node in _serie.TopNode.SelectNodes("c:trendline", _serie.NameSpaceManager))
