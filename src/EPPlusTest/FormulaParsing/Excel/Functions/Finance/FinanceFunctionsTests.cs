@@ -86,8 +86,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 0);
             Assert.AreEqual(1647d, result);
+        }
 
+        [TestMethod]
+        public void Pv_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "PV(5 %/ 12, 60, 1000)";
+            _worksheet.Calculate();
 
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-52990.71, result);
+
+            _worksheet.Cells["A1"].Formula = "PV( 10%/4, 16, 2000, 0, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-26762.76, result);
         }
     }
 }

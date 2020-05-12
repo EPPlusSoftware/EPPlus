@@ -19,7 +19,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
-    internal class Fv : ExcelFunction
+    internal class Pv : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -27,21 +27,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var rate = ArgToDecimal(arguments, 0);
             var nPer = ArgToDecimal(arguments, 1);
             var pmt = 0d;
-            if(arguments.Count() >= 3)
+            if (arguments.Count() >= 3)
             {
                 pmt = ArgToDecimal(arguments, 2);
             }
-            var pv = 0d;
-            if(arguments.Count() >= 4)
+            var fv = 0d;
+            if (arguments.Count() >= 4)
             {
-                pv = ArgToDecimal(arguments, 3);
+                fv = ArgToDecimal(arguments, 3);
             }
             var type = 0;
-            if(arguments.Count() >= 5)
+            if (arguments.Count() >= 5)
             {
                 type = ArgToInt(arguments, 4);
             }
-            var retVal = CashFlowHelper.Fv(rate, nPer, pmt, pv, (PmtDue)type);
+            var retVal = CashFlowHelper.Pv(rate, nPer, pmt, fv, (PmtDue)type);
             return CreateResult(retVal, DataType.Decimal);
         }
     }
