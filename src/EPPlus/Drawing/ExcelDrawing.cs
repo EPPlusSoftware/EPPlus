@@ -488,12 +488,12 @@ namespace OfficeOpenXml.Drawing
                 ExcelWorksheet ws = _drawings.Worksheet;
                 decimal mdw = ws.Workbook.MaxFontWidth;
 
-                pix = -From.ColumnOff / EMU_PER_PIXEL;
+                pix = -From.ColumnOff / (double)EMU_PER_PIXEL;
                 for (int col = From.Column + 1; col <= To.Column; col++)
                 {
                     pix += (double)decimal.Truncate(((256 * GetColumnWidth(col) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
                 }
-                pix += Math.Round(Convert.ToDouble(To.ColumnOff) / EMU_PER_PIXEL, 0);
+                pix += Convert.ToDouble(To.ColumnOff) / (double)EMU_PER_PIXEL;
             }
             else
             {
@@ -501,23 +501,23 @@ namespace OfficeOpenXml.Drawing
             }
             return pix;
         }
-        internal int GetPixelHeight()
+        internal double GetPixelHeight()
         {
-            int pix;
+            double pix;
             if (CellAnchor == eEditAs.TwoCell)
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
 
-                pix = -(From.RowOff / EMU_PER_PIXEL);
+                pix = -(From.RowOff / (double)EMU_PER_PIXEL);
                 for (int row = From.Row + 1; row <= To.Row; row++)
                 {
-                    pix += (int)(GetRowHeight(row) / 0.75);
+                    pix += GetRowHeight(row) / 0.75;
                 }
-                pix += Convert.ToInt32(Math.Round(Convert.ToDouble(To.RowOff) / EMU_PER_PIXEL, 0));
+                pix += Math.Round(Convert.ToDouble(To.RowOff) / EMU_PER_PIXEL, 0);
             }
             else
             {
-                pix = (int)(Size.Height / EMU_PER_PIXEL);
+                pix = Size.Height / (double)EMU_PER_PIXEL;
             }
             return pix;
         }
