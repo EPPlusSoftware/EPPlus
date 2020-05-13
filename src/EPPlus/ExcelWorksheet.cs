@@ -1114,9 +1114,9 @@ namespace OfficeOpenXml
                 pos = sr.ReadBlock(block, 0, size);
                 sb.Append(block, 0, pos);
                 length += size;
+                startmMatch = Regex.Match(sb.ToString(), string.Format("(<[^>]*{0}[^>]*>)", "sheetData"));
             }
-            while (length < start + 20 && length < end);    //the  start-pos contains the stream position of the sheetData element. Add 20 (with some safty for whitespace, streampointer diff etc, just so be sure). 
-            startmMatch = Regex.Match(sb.ToString(), string.Format("(<[^>]*{0}[^>]*>)", "sheetData"));
+            while (length < start + 20 && length < end || (startmMatch.Success==false && length<stream.Length));    //the  start-pos contains the stream position of the sheetData element. Add 20 (with some safty for whitespace, streampointer diff etc, just so be sure). 
             if (!startmMatch.Success) //Not found
             {
                 encoding = sr.CurrentEncoding;

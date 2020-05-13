@@ -948,12 +948,12 @@ namespace OfficeOpenXml
             for(int i=0;i<rels.Count;i++)
             {
                 var rel = rels[i];
-                if (rel.RelationshipType != ExcelPackage.schemaImage)
+                if (rel.RelationshipType != ExcelPackage.schemaImage && rel.TargetMode==Packaging.TargetMode.Internal)
                 {
-                    var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                    if (_pck.Package.PartExists(uri))
+                    var relUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                    if (_pck.Package.PartExists(relUri))
                     {
-                        DeleteRelationsAndParts(_pck.Package.GetPart(uri));
+                        DeleteRelationsAndParts(_pck.Package.GetPart(relUri));
                     }
                 }
                 part.DeleteRelationship(rel.Id);
