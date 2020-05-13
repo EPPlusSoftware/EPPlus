@@ -99,6 +99,39 @@
 ### Fixed issues
 * CalculatedColumnFormula property was set to the range on save, overwriting any cell value that was changed in the range of the formula.
 * VbaProject. Remove didn't fully remove the VBA project.
-* LoadFromCollection didn't work will List<object>.
+* LoadFromCollection didn't work will List&lt;object&gt;.
 * Group shapes containg shapes with the same name throw exception.
 * Worksheets with a large amount of columns had bad performance on save.
+
+## Version 5.1.2
+### Features
+* Added ClearFormulas and ClearFormulaValues to Range, Worksheet and Workbook. ClearFormulas removes all formulas, ClearFormulaValues removes all previously calculated/cached values.
+* Added support for 19 new engineering functions: 
+	* CONVERT
+	* DELTA
+	* BIN2DEC
+	* BIN2HEX
+	* BIN2OCT
+	* DEC2BIN
+	* DEC2HEX
+	* DEC2OCT
+	* HEX2BIN
+	* HEX2DEC
+	* HEX2OCT
+	* OCT2BIN
+	* OCT2DEC
+	* OCT2HEX
+	* BITLSHIFT
+	* BITAND
+	* BITOR
+	* BITRSHIFT
+	* BITXOR
+### Fixed issues
+* Delete method adjusted row offset on drawings incorrectly.
+* When copying a worksheet with images to an other package did not work correctly in some cases.
+* Datavalidation addresses did not update correctly when deleting columns.
+* Opening a packages saved with System.IO.Compression caused a corrupted package on save. 
+* Added a check to the ExcelPackage Construcors if the FileInfo exists and is zero-byte. Supplying a zero-byte file will now create a new package. Supplying a zero-byte template will throw an exception.
+* Fixed scaling for pictures. Changed data type for internal pixel variables from int to double.
+* Delete/Insert din't handle comma separated addresses in data validation / conditional formatting
+* ColumnMin and ColumnMax were not correctly updated when one or more columns were deleted

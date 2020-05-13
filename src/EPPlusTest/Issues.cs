@@ -1258,5 +1258,16 @@ namespace EPPlusTest
                 SaveWorkbook("Issue99-2Saved.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue102()
+        {
+            using (var p = OpenTemplatePackage("2838907_Ruitenbeek_3785KJ_20191017_analyseresultaat.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("NewSheet");
+                p.Workbook.Worksheets.Delete(0);
+                SaveWorkbook("Issue102-Saved.xlsx", p);
+            }
+        }
+
     }
 }
