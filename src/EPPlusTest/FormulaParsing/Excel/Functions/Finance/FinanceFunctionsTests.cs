@@ -135,5 +135,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(52.79, result);
         }
+
+        [TestMethod]
+        public void Irr_Tests()
+        {
+            _worksheet.Cells["B1"].Value = -100;
+            _worksheet.Cells["B2"].Value = 20;
+            _worksheet.Cells["B3"].Value = 24;
+            _worksheet.Cells["B4"].Value = 28.80;
+            _worksheet.Cells["B5"].Value = 34.56;
+            _worksheet.Cells["B6"].Value = 41.47;
+            
+            _worksheet.Cells["C2"].Formula = "IRR(B1:B4)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["C2"].Value, 2);
+            Assert.AreEqual(-0.14, result);
+
+            _worksheet.Cells["C2"].Formula = "IRR(B1:B6)";
+            _worksheet.Calculate();
+            result = System.Math.Round((double)_worksheet.Cells["C2"].Value, 2);
+            Assert.AreEqual(0.13, result);
+        }
     }
 }
