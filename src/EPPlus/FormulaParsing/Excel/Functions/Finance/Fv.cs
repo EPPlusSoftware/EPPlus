@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             {
                 type = ArgToInt(arguments, 4);
             }
-            var retVal = CashFlowHelper.Fv(rate, nPer, pmt, pv, (PmtDue)type);
+            var retVal = FvImpl.Fv(rate, nPer, pmt, pv, (PmtDue)type);
             return CreateResult(retVal, DataType.Decimal);
         }
     }
