@@ -177,5 +177,61 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["C2"].Value, 1);
             Assert.AreEqual(0.1, result);
         }
+
+        [TestMethod]
+        public void Ipmt_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "IPMT( 5%/12, 1, 60, 50000 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-208.33, result);
+
+            _worksheet.Cells["A1"].Formula = "IPMT( 5%/12, 2, 60, 50000 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-205.27, result);
+
+            _worksheet.Cells["A1"].Formula = "IPMT( 3.5%/4, 1, 8, 0, 5000, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(0.00, result);
+
+            _worksheet.Cells["A1"].Formula = "IPMT( 3.5%/4, 2, 8, 0, 5000, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(5.26, result);
+        }
+
+        [TestMethod]
+        public void Ppmt_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "PPMT( 5%/12, 1, 60, 50000 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-735.23, result);
+
+            _worksheet.Cells["A1"].Formula = "PPMT( 5%/12, 2, 60, 50000 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-738.29, result);
+
+            _worksheet.Cells["A1"].Formula = "PPMT( 3.5%/4, 1, 8, 0, 5000, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-600.85, result);
+
+            _worksheet.Cells["A1"].Formula = "PPMT( 3.5%/4, 2, 8, 0, 5000, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-606.11, result);
+        }
     }
 }
