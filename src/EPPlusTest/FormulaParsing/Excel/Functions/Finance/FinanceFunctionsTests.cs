@@ -318,5 +318,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
             Assert.AreEqual(0.0247d, result);
         }
+
+        [TestMethod]
+        public void Effect_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "EFFECT( 10%, 4 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(0.1038d, result);
+
+            _worksheet.Cells["A1"].Formula = "EFFECT( 2.5%, 2 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(0.0252d, result);
+        }
     }
 }
