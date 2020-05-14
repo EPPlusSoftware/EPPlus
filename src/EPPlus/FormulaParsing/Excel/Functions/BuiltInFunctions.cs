@@ -231,6 +231,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dvar"] = new Dvar();
             Functions["dvarp"] = new Dvarp();
             //Finance
+            Functions["ddb"] = new Ddb();
             Functions["pmt"] = new Pmt();
             Functions["ppmt"] = new Ppmt();
             Functions["ipmt"] = new Ipmt();

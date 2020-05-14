@@ -265,5 +265,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(50d, result);
         }
+
+        [TestMethod]
+        public void Ddb_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "DDB( 10000, 1000, 5, 1 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(4000d, result);
+
+            _worksheet.Cells["A1"].Formula = "DDB( 10000, 1000, 5, 4 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(864d, result);
+        }
     }
 }
