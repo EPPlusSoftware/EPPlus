@@ -281,5 +281,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(864d, result);
         }
+
+        [TestMethod]
+        public void FvSchedule_Tests()
+        {
+            _worksheet.Cells["B2"].Value = 0.05;
+            _worksheet.Cells["B3"].Value = 0.05;
+            _worksheet.Cells["B4"].Value = 0.035;
+            _worksheet.Cells["B5"].Value = 0.035;
+            _worksheet.Cells["B6"].Value = 0.035;
+            _worksheet.Cells["A1"].Formula = "FVSCHEDULE( 10000, B2:B6 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(12223.61, result);
+
+            _worksheet.Cells["A1"].Formula = "FVSCHEDULE( 1000, {0.02, 0.03, 0.04, 0.05} )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(1147.26, result);
+        }
     }
 }
