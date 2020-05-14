@@ -20,17 +20,30 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataPointCollection : XmlHelper, IEnumerable<ExcelChartExDataPoint>
     {
-        ExcelChart _chart;
-        private readonly SortedDictionary<int, ExcelChartExDataPoint> _dic = new SortedDictionary<int, ExcelChartExDataPoint>();
-        internal ExcelChartExDataPointCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
+        ExcelChartExSerie _serie;
+        internal readonly SortedDictionary<int, ExcelChartExDataPoint> _dic = new SortedDictionary<int, ExcelChartExDataPoint>();
+        internal ExcelChartExDataPointCollection(ExcelChartExSerie serie, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
-            foreach (XmlNode pointNode in TopNode.SelectNodes(ExcelChartExDataPoint.topNodePath, ns))
+            foreach (XmlNode pointNode in TopNode.SelectNodes(ExcelChartExDataPoint.dataPtPath, ns))
             {
-                var item = new ExcelChartExDataPoint(chart, ns, pointNode);
+                var item = new ExcelChartExDataPoint(serie, ns, pointNode, SchemaNodeOrder);
                 _dic.Add(item.Index, item);
             }
-            _chart = chart;
+            foreach (XmlElement stNode in TopNode.SelectNodes(ExcelChartExDataPoint.SubTotalPath, ns))
+            {
+                var ix = int.Parse(stNode.GetAttribute("val"));
+                if(_dic.ContainsKey(ix))
+                {
+                    _dic[ix].SubTotal = true;
+                }
+                else
+                {
+                    var item = new ExcelChartExDataPoint(serie, ns, TopNode, SchemaNodeOrder);
+                    _dic.Add(item.Index, item);
+                }
+            }
+            _serie = serie;
 
         }
         /// <summary>
@@ -48,10 +61,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 throw (new ArgumentException($"Point with index {idx} already exists"));
             }
-            var pos = GetItemBefore(idx);
-
-            XmlElement element = CreateElement(pos, uniqueId);
-            var dp = new ExcelChartExDataPoint(_chart, NameSpaceManager, element, idx);
+            
+            var dp = new ExcelChartExDataPoint(_serie, NameSpaceManager, TopNode, idx, SchemaNodeOrder);
 
             _dic.Add(idx, dp);
 
@@ -67,56 +78,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             return _dic.ContainsKey(index);
         }
-        private XmlElement CreateElement(int idx, string uniqueId = "")
-        {
-            XmlElement pointElement;
-            if (_dic.Count == 0)
-                pointElement = (XmlElement)CreateNode(ExcelChartDataPoint.topNodePath);
-            else
-            {
-                pointElement = TopNode.OwnerDocument.CreateElement("c", "dPt", ExcelPackage.schemaChart);
-                if (_dic.ContainsKey(idx))
-                {
-                    _dic[idx].TopNode.ParentNode.InsertAfter(pointElement, _dic[idx].TopNode);
-                }
-                else
-                {
-                    var first = _dic.Values.First().TopNode;
-                    first.ParentNode.InsertBefore(pointElement, first);
-                }
-            }
-            if (!string.IsNullOrEmpty(uniqueId))
-            {
-                if (_chart.IsType3D())
-                {
-                    pointElement.InnerXml = "<c:spPr><a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/><a:sp3d contourW=\"25400\"><a:contourClr><a:schemeClr val=\"lt1\"/></a:contourClr></a:sp3d></c:spPr><c:extLst><c:ext xmlns:c16=\"http://schemas.microsoft.com/office/drawing/2014/chart\" uri = \"{C3380CC4-5D6E-409C-BE32-E72D297353CC}\"><c16:uniqueId val=\"{" + uniqueId + "}\"/></c:ext></c:extLst>";
-                }
-                else
-                {
-                    pointElement.InnerXml = "<c:extLst><c:ext xmlns:c16=\"http://schemas.microsoft.com/office/drawing/2014/chart\" uri = \"{C3380CC4-5D6E-409C-BE32-E72D297353CC}\"><c16:uniqueId val=\"{" + uniqueId + "}\"/></c:ext></c:extLst>";
-                }
-            }
-            return pointElement;
-        }
-
-        private int GetItemBefore(int index)
-        {
-            if (_dic.ContainsKey(index - 1))
-            {
-                return index - 1;
-            }
-            int retIx = -1;
-            foreach (int ix in _dic.Keys.OrderBy(x => x))
-            {
-                if (index < ix)
-                {
-                    return retIx;
-                }
-                retIx = ix;
-            }
-            return retIx;
-        }
-
         /// <summary>
         /// Indexer
         /// </summary>

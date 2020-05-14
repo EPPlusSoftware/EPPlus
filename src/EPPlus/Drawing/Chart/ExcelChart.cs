@@ -854,7 +854,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Pareto:
                 case eChartType.Funnel:
                 case eChartType.RegionMap:
-                    return new ExcelChartEx(drawings, drawNode, chartType, PivotTableSource, chartXml);
+                    return new ExcelChartEx(drawings, drawNode, chartType, chartXml);
                 default:
                     return new ExcelChartStandard(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
 

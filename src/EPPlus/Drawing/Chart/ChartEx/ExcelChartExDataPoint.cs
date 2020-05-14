@@ -13,27 +13,32 @@
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataPoint : XmlHelper, IDrawingStyleBase
     {
-        ExcelChart _chart;
-        internal ExcelChartExDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode) : base(ns, topNode)
+        ExcelChartExSerie _serie;
+        internal ExcelChartExDataPoint(ExcelChartExSerie serie, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
         {
-            _chart = chart;
-            SchemaNodeOrder=new string[]{"spPr"};
+            _serie = serie;
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "spPr" });
             Index = GetXmlNodeInt(indexPath);
         }
-        internal ExcelChartExDataPoint(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, int index) : base(ns, topNode)
+        internal ExcelChartExDataPoint(ExcelChartExSerie serie, XmlNamespaceManager ns, XmlNode topNode, int index, string[] schemaNodeOrder) : base(ns, topNode)
         {
-            _chart = chart;
-            SchemaNodeOrder = new string[] { "spPr" };
+            _serie = serie;
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "spPr" });
             Index = index;
         }
 
-        internal const string topNodePath = "cx:dataPt";
+        internal const string dataPtPath = "cx:dataPt";
+        internal const string SubTotalPath = "cx:layoutPr/cx:subtotals";
         const string indexPath = "@idx";
         /// <summary>
         /// The index of the datapoint
@@ -42,6 +47,41 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get;
             private set;
+        }
+        public bool SubTotal
+        {
+            get
+            {
+                return ExistNode($"{GetSubTotalPath()}[@val={Index}]");
+            }
+            set
+            {
+                var path = GetSubTotalPath();
+                if (value)
+                {
+                    if (!ExistNode($"{path}[@val={Index}]"))
+                    {
+                        var idxElement = (XmlElement)CreateNode(path, false, true);
+                        idxElement.SetAttribute("val", Index.ToString(CultureInfo.InvariantCulture));
+                    }
+                }
+                else
+                {
+                    DeleteNode($"{path}/[@val={Index}]");
+                }
+            }
+        }
+
+        private string GetSubTotalPath()
+        {
+            if(TopNode.LocalName=="series")
+            {
+                return "cx:layoutPr/cx:subtotals/cx:idx";
+            }
+            else
+            {
+                return "../cx:layoutPr/cx:subtotals/cx:idx";
+            }
         }
 
         ExcelDrawingFill _fill = null;
@@ -54,11 +94,13 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_fill == null)
                 {
-                    _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, "cx:spPr", SchemaNodeOrder);
+                    CreateDp();
+                    _fill = new ExcelDrawingFill(_serie._chart, NameSpaceManager, TopNode, "cx:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
         }
+
         ExcelDrawingBorder _line = null;
         /// <summary>
         /// A reference to line properties
@@ -69,7 +111,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_line == null)
                 {
-                    _line = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, "cx:spPr/a:ln", SchemaNodeOrder);
+                    CreateDp();
+                    _line = new ExcelDrawingBorder(_serie._chart, NameSpaceManager, TopNode, "cx:spPr/a:ln", SchemaNodeOrder);
                 }
                 return _line;
             }
@@ -84,7 +127,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, "cx:spPr/a:effectLst", SchemaNodeOrder);
+                    CreateDp();
+                    _effect = new ExcelDrawingEffectStyle(_serie._chart, NameSpaceManager, TopNode, "cx:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -99,15 +143,49 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_threeD == null)
                 {
+                    CreateDp();
                     _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "cx:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }
         }
-        void IDrawingStyleBase.CreatespPr()
+        private void CreateDp()
         {
-            CreatespPrNode();
+            if (TopNode.LocalName == "series")
+            {
+                XmlElement pointElement;
+                var prepend = GetPrependItem();
+                if (prepend == null)
+                {
+                    pointElement = (XmlElement)CreateNode(dataPtPath);
+                }
+                else
+                {
+                    pointElement = TopNode.OwnerDocument.CreateElement(dataPtPath, ExcelPackage.schemaChartExMain);
+                    prepend.ParentNode.InsertBefore(pointElement, prepend);
+                }
+                pointElement.SetAttribute("idx", Index.ToString(CultureInfo.InvariantCulture));
+                TopNode = pointElement;
+            }
         }
 
+        private XmlElement GetPrependItem()
+        {
+            var dic = _serie.DataPoints._dic;
+            var prevKey = -1;
+            foreach (var v in dic.Values)
+            {
+                if (v.TopNode.LocalName == "dataPt" && prevKey < v.Index)
+                {
+                    return (XmlElement)v.TopNode;
+                }
+            }
+            return null;
+        }
+
+        void IDrawingStyleBase.CreatespPr()
+        {
+            
+        }
     }
 }

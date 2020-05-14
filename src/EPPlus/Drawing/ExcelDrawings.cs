@@ -107,15 +107,11 @@ namespace OfficeOpenXml.Drawing
                 switch (node.LocalName)
                 {
                     case "oneCellAnchor":
-                        dr = ExcelDrawing.GetDrawing(this, node);
-                        break;
                     case "twoCellAnchor":
-                        dr = ExcelDrawing.GetDrawing(this, node);
-                        break;
                     case "absoluteAnchor":
                         dr = ExcelDrawing.GetDrawing(this, node);
                         break;
-                    default: //"absoluteCellAnchor":
+                    default:
                         dr = null;
                         break;
                 }

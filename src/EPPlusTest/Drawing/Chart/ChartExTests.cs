@@ -1,10 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -87,7 +89,7 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void AddBoxWhiskerChart()
         {
-            var ws = _pck.Workbook.Worksheets.Add("BoxWhisker");
+            var ws = _pck.Workbook.Worksheets.Add("BoxWhisker");    
             AddHierarkiData(ws);
             var chart = ws.Drawings.AddExtendedChart("BoxWhisker", eChartExType.BoxWhisker);
             var serie = chart.Series.Add("BoxWhisker!$A$2:$C$17", "BoxWhisker!$D$2:$D$17");
@@ -106,16 +108,56 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetSize(1600, 900);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle2);
         }
+        //[TestMethod]
+        //public void AddParetoChart()
+        //{
+        //    var ws = _pck.Workbook.Worksheets.Add("Pareto");
+        //    AddHierarkiData(ws);
+        //    var chart = ws.Drawings.AddExtendedChart("Pareto", eChartExType.Pareto);
+        //    var serie = chart.Series.Add("Pareto!$A$2:$C$17", "Pareto!$D$2:$D$17");
+        //    chart.SetPosition(2, 0, 15, 0);
+        //    chart.SetSize(1600, 900);
+        //    chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
+        //}
         [TestMethod]
-        public void AddParetoChart()
+        public void AddWaterfallChart()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Pareto");
+            var ws = _pck.Workbook.Worksheets.Add("Waterfall");
             AddHierarkiData(ws);
-            var chart = ws.Drawings.AddExtendedChart("Pareto", eChartExType.Pareto);
-            var serie = chart.Series.Add("Pareto!$A$2:$C$17", "Pareto!$D$2:$D$17");
+            var chart = ws.Drawings.AddExtendedChart("Waterfall", eChartExType.Waterfall);
+            var serie = chart.Series.Add("Waterfall!$A$2:$C$17", "Waterfall!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            var dt = chart.Series[0].DataPoints.Add(15);
+            dt.SubTotal = true;
+            dt = chart.Series[0].DataPoints.Add(0);
+            dt.SubTotal = true;            
+            dt=chart.Series[0].DataPoints.Add(4);
+            dt.Fill.Style = eFillStyle.SolidFill;
+            dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent2);
+            dt = chart.Series[0].DataPoints.Add(2);
+            dt.Fill.Style = eFillStyle.SolidFill;
+            dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent4);
+
+            dt=chart.Series[0].DataPoints[0];
+            dt.Border.Fill.Style = eFillStyle.GradientFill;
+            dt.Border.Fill.GradientFill.Colors.AddRgb(0, Color.Green);
+            dt.Border.Fill.GradientFill.Colors.AddRgb(40, Color.Blue);
+            dt.Border.Fill.GradientFill.Colors.AddRgb(70, Color.Red);
+            dt.Fill.Style = eFillStyle.SolidFill;
+            dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent1);
+
             chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
+        }
+        [TestMethod]
+        public void AddFunnelChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Funnel");
+            AddHierarkiData(ws);
+            var chart = ws.Drawings.AddExtendedChart("Funnel", eChartExType.Funnel);
+            var serie = chart.Series.Add("Funnel!$A$2:$C$17", "Funnel!$D$2:$D$17");
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
         }
         private class SalesData
         {

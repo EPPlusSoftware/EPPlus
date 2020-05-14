@@ -28,14 +28,14 @@ namespace OfficeOpenXml.Drawing.Chart
 {
     public class ExcelChartEx : ExcelChart
     {
-        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, bool isPivot, ExcelGroupShape parent) : 
+        internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) : 
             base(drawings, node, parent, "mc:AlternateContent/mc:Choice/xdr:graphicFrame")
         {
             ChartType = GetChartType(node, drawings.NameSpaceManager);
             Init();
         }
 
-        internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, ExcelPivotTable PivotTableSource, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
+        internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, chartXml, parent, "mc:AlternateContent/mc:Choice/xdr:graphicFrame")
         {
             ChartType = type.Value;
@@ -45,6 +45,8 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent=null) :
             base(drawings, node, chartXml, parent, "mc:AlternateContent/mc:Choice/xdr:graphicFrame")
         {
+            UriChart = uriChart;
+            Part = part;
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
             Init();
         }

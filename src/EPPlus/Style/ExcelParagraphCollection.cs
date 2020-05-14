@@ -36,8 +36,8 @@ namespace OfficeOpenXml.Style
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
 
             _path = path;
-            var par = (XmlElement)TopNode.SelectSingleNode(path, NameSpaceManager);
-            if (par != null)
+            var pars = TopNode.SelectNodes(path, NameSpaceManager);
+            foreach(XmlElement par in pars)
             {
                 _paragraphs.Add(par);
                 var nl = par.SelectNodes("a:r", NameSpaceManager);

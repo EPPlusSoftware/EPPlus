@@ -45,6 +45,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             _dataHelper = XmlHelperFactory.Create(ns, _dataNode);
             if((chart.ChartType == eChartType.BoxWhisker ||
                 chart.ChartType == eChartType.Histogram ||
+                chart.ChartType == eChartType.Pareto ||
+                chart.ChartType == eChartType.Waterfall ||
                 chart.ChartType == eChartType.Pareto) && chart.Series._list==null)
             {
                 AddAxis();
@@ -63,6 +65,13 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 case eChartType.BoxWhisker:
                     axis0.InnerXml = "<cx:valScaling/><cx:majorGridlines/><cx:tickLabels/>";
                     axis1.InnerXml = "<cx:catScaling gapWidth=\"1\"/><cx:tickLabels/>";
+                    break;
+                case eChartType.Waterfall:
+                    axis0.InnerXml = "<cx:catScaling/><cx:tickLabels/>";
+                    axis1.InnerXml = "<cx:valScaling/><cx:tickLabels/>";
+                    break;
+                case eChartType.Funnel:
+                    axis1.InnerXml = "<cx:catScaling gapWidth=\"0.06\"/><cx:tickLabels/>";
                     break;
                 case eChartType.Histogram:
                 case eChartType.Pareto:
@@ -190,7 +199,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if(_dataPoints==null)
                 {
-                    _dataPoints = new ExcelChartExDataPointCollection(_chart,NameSpaceManager, TopNode, SchemaNodeOrder);
+                    _dataPoints = new ExcelChartExDataPointCollection(this, NameSpaceManager, TopNode, SchemaNodeOrder);
                 }
                 return _dataPoints;
             }
@@ -374,16 +383,18 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
         private static void SetLayoutProperties(ExcelChartEx chart, XmlElement ser)
         {
+            var layoutPr = ser.SelectSingleNode("cx:layoutPr", chart.NameSpaceManager);
             switch (chart.ChartType)
             {
                 case eChartType.BoxWhisker:
-                    var layoutPr=ser.SelectSingleNode("cx:layoutPr", chart.NameSpaceManager);
                     layoutPr.InnerXml = "<cx:parentLabelLayout val=\"banner\"/><cx:visibility outliers=\"1\" nonoutliers=\"0\" meanMarker=\"1\" meanLine=\"0\"/><cx:statistics quartileMethod=\"exclusive\"/>";
                     break;
                 case eChartType.Histogram:
                 case eChartType.Pareto:
-                    layoutPr = ser.SelectSingleNode("cx:layoutPr", chart.NameSpaceManager);
                     layoutPr.InnerXml = "<cx:binning intervalClosed=\"r\"/>";
+                    break;
+                case eChartType.Waterfall:
+                    layoutPr.InnerXml = "<cx:visibility connectorLines=\"0\" />";
                     break;
             }
         }
@@ -399,6 +410,5 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                     return "val";
             }
         }
-
     }
 }

@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -13,15 +13,14 @@
 namespace OfficeOpenXml.Drawing.Chart.Style
 {
     /// <summary>
-    /// Maps to Excel's built-in chart styles, primary for charts with one data serie. 
+    /// Maps to Excel's built-in chart styles, for charts with more that one data serie. 
     /// Note that Excel changes chart type depending on many parameters, like number of series, axis type and more, so it will not always match the number in Excel.
     /// To be certain of getting the correct style use the chart style number of the style you want to apply
-    /// For charts with more than one series use <see cref="ePresetChartStyleMultiSeries"/>
-    /// By default the styles are loaded into the StyleLibrary.You can also load your own with your own id's.
+    /// For charts with only one data serie use <see cref="ePresetChartStyle"/>
     /// Styles are fetched from the StyleLibrary by the id provided in this enum. 
     /// <seealso cref="ExcelChartStyleManager.StyleLibrary" />
     /// </summary>
-    public enum ePresetChartStyle
+    public enum ePresetChartStyleMultiSeries
     {
         /// <summary>
         /// 3D Area Chart style 1
@@ -58,11 +57,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// 3D Area Chart style 9
         /// </summary>
-        Area3dChartStyle9 = 316,
-        /// <summary>
-        /// 3D Area Chart style 10
-        /// </summary>
-        Area3dChartStyle10 = 350,
+        Area3dChartStyle9 = 350,
         /// <summary>
         /// Area Chart style 1
         /// </summary>
@@ -102,11 +97,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Area Chart style 10
         /// </summary>
-        AreaChartStyle10 = 285,
-        /// <summary>
-        /// Area Chart style 11
-        /// </summary>
-        AreaChartStyle11 = 346,
+        AreaChartStyle10 = 346,
         /// <summary>
         /// Bar 3d Chart Style 1
         /// </summary>
@@ -146,15 +137,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Bar 3d Chart Style 10
         /// </summary>
-        Bar3dChartStyle10 = 295,
+        Bar3dChartStyle10 = 296,
         /// <summary>
         /// Bar 3d Chart Style 11
         /// </summary>
-        Bar3dChartStyle11 = 296,
-        /// <summary>
-        /// Bar 3d Chart Style 12
-        /// </summary>
-        Bar3dChartStyle12 = 347,
+        Bar3dChartStyle11 = 347,
         /// <summary>
         /// Bar Chart style 1
         /// </summary>
@@ -202,19 +189,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Bar Chart style 12
         /// </summary>
-        BarChartStyle12 = 226,
-        /// <summary>
-        /// Bar Chart style 13
-        /// </summary>
-        BarChartStyle13 = 341,
-        /// <summary>
-        /// Bubble Chart Style 1
-        /// </summary>
-        BubbleChartStyle1 = 269,
-        /// <summary>
-        /// Bubble Chart Style 2
-        /// </summary>
-        BubbleChartStyle2 = 270,
+        BarChartStyle12 = 341,
         /// <summary>
         /// Bubble 3d Chart Style 1
         /// </summary>
@@ -246,11 +221,15 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Bubble 3d Chart Style 8
         /// </summary>
-        Bubble3dChartStyle8 = 275,
+        Bubble3dChartStyle8 = 343,
         /// <summary>
-        /// Bubble 3d Chart Style 8
+        /// Bubble Chart Style 1
         /// </summary>
-        Bubble3dChartStyle9 = 343,
+        BubbleChartStyle1 = 269,
+        /// <summary>
+        /// Bubble Chart Style 2
+        /// </summary>
+        BubbleChartStyle2 = 270,
         /// <summary>
         /// Bubble Chart Style 3
         /// </summary>
@@ -282,11 +261,63 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Bubble Chart Style 10
         /// </summary>
-        BubbleChartStyle10 = 275,
+        BubbleChartStyle10 = 343,
         /// <summary>
-        /// Bubble Chart Style 11
+        /// Column Chart style 1
         /// </summary>
-        BubbleChartStyle11 = 343,
+        ColumnChartStyle1 = 201,
+        /// <summary>
+        /// Column Chart style 2
+        /// </summary>
+        ColumnChartStyle2 = 202,
+        /// <summary>
+        /// Column Chart style 3
+        /// </summary>
+        ColumnChartStyle3 = 203,
+        /// <summary>
+        /// Column Chart style 4
+        /// </summary>
+        ColumnChartStyle4 = 205,
+        /// <summary>
+        /// Column Chart style 5
+        /// </summary>
+        ColumnChartStyle5 = 206,
+        /// <summary>
+        /// Column Chart style 6
+        /// </summary>
+        ColumnChartStyle6 = 207,
+        /// <summary>
+        /// Column Chart style 7
+        /// </summary>
+        ColumnChartStyle7 = 208,
+        /// <summary>
+        /// Column Chart style 8
+        /// </summary>
+        ColumnChartStyle8 = 209,
+        /// <summary>
+        /// Column Chart style 9
+        /// </summary>
+        ColumnChartStyle9 = 210,
+        /// <summary>
+        /// Column Chart style 10
+        /// </summary>
+        ColumnChartStyle10 = 211,
+        /// <summary>
+        /// Column Chart style 11
+        /// </summary>
+        ColumnChartStyle11 = 212,
+        /// <summary>
+        /// Column Chart style 12
+        /// </summary>
+        ColumnChartStyle12 = 213,
+        /// <summary>
+        /// Column Chart style 13
+        /// </summary>
+        ColumnChartStyle13 = 215,
+        /// <summary>
+        /// Column Chart style 14
+        /// </summary>
+        ColumnChartStyle14 = 340,
         /// <summary>
         /// Column 3d Chart Style 1
         /// </summary>
@@ -326,79 +357,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Column 3d Chart Style 10
         /// </summary>
-        Column3dChartStyle10 = 295,
+        Column3dChartStyle10 = 296,
         /// <summary>
         /// Column 3d Chart Style 11
         /// </summary>
-        Column3dChartStyle11 = 296,
-        /// <summary>
-        /// Column 3d Chart Style 12
-        /// </summary>
-        Column3dChartStyle12 = 347,
-        /// <summary>
-        /// Column Chart style 1
-        /// </summary>
-        ColumnChartStyle1 = 201,
-        /// <summary>
-        /// Column Chart style 2
-        /// </summary>
-        ColumnChartStyle2 = 202,
-        /// <summary>
-        /// Column Chart style 3
-        /// </summary>
-        ColumnChartStyle3 = 203,
-        /// <summary>
-        /// Column Chart style 4
-        /// </summary>
-        ColumnChartStyle4 = 204,
-        /// <summary>
-        /// Column Chart style 5
-        /// </summary>
-        ColumnChartStyle5 = 205,
-        /// <summary>
-        /// Column Chart style 6
-        /// </summary>
-        ColumnChartStyle6 = 206,
-        /// <summary>
-        /// Column Chart style 7
-        /// </summary>
-        ColumnChartStyle7 = 207,
-        /// <summary>
-        /// Column Chart style 8
-        /// </summary>
-        ColumnChartStyle8 = 208,
-        /// <summary>
-        /// Column Chart style 9
-        /// </summary>
-        ColumnChartStyle9 = 209,
-        /// <summary>
-        /// Column Chart style 10
-        /// </summary>
-        ColumnChartStyle10 = 210,
-        /// <summary>
-        /// Column Chart style 11
-        /// </summary>
-        ColumnChartStyle11 = 211,
-        /// <summary>
-        /// Column Chart style 12
-        /// </summary>
-        ColumnChartStyle12 = 212,
-        /// <summary>
-        /// Column Chart style 13
-        /// </summary>
-        ColumnChartStyle13 = 213,
-        /// <summary>
-        /// Column Chart style 14
-        /// </summary>
-        ColumnChartStyle14 = 214,
-        /// <summary>
-        /// Column Chart style 15
-        /// </summary>
-        ColumnChartStyle15 = 215,
-        /// <summary>
-        /// Column Chart style 16
-        /// </summary>
-        ColumnChartStyle16 = 340,
+        Column3dChartStyle11 = 347,
         /// <summary>
         /// Custom Combined Chart Style 1
         /// </summary>
@@ -466,11 +429,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Doughnut Chart Style 9
         /// </summary>
-        DoughnutChartStyle9 = 260,
-        /// <summary>
-        /// Doughnut Chart Style 10
-        /// </summary>
-        DoughnutChartStyle10 = 261,
+        DoughnutChartStyle9 = 261,
         /// <summary>
         /// Line 3d Chart style 1
         /// </summary>
@@ -498,55 +457,47 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Line Chart style 3
         /// </summary>
-        LineChartStyle3 = 229,
+        LineChartStyle3 = 230,
         /// <summary>
         /// Line Chart style 4
         /// </summary>
-        LineChartStyle4 = 230,
+        LineChartStyle4 = 231,
         /// <summary>
         /// Line Chart style 5
         /// </summary>
-        LineChartStyle5 = 231,
+        LineChartStyle5 = 232,
         /// <summary>
         /// Line Chart style 6
         /// </summary>
-        LineChartStyle6 = 232,
+        LineChartStyle6 = 233,
         /// <summary>
         /// Line Chart style 7
         /// </summary>
-        LineChartStyle7 = 233,
+        LineChartStyle7 = 234,
         /// <summary>
         /// Line Chart style 8
         /// </summary>
-        LineChartStyle8 = 234,
+        LineChartStyle8 = 235,
         /// <summary>
         /// Line Chart style 9
         /// </summary>
-        LineChartStyle9 = 235,
+        LineChartStyle9 = 236,
         /// <summary>
         /// Line Chart style 10
         /// </summary>
-        LineChartStyle10 = 236,
+        LineChartStyle10 = 237,
         /// <summary>
         /// Line Chart style 11
         /// </summary>
-        LineChartStyle11 = 237,
+        LineChartStyle11 = 239,
         /// <summary>
         /// Line Chart style 12
         /// </summary>
-        LineChartStyle12 = 238,
+        LineChartStyle12 = 332,
         /// <summary>
         /// Line Chart style 13
         /// </summary>
-        LineChartStyle13 = 239,
-        /// <summary>
-        /// Line Chart style 14
-        /// </summary>
-        LineChartStyle14 = 332,
-        /// <summary>
-        /// Line Chart style 15
-        /// </summary>
-        LineChartStyle15 = 342,
+        LineChartStyle13 = 342,
         /// <summary>
         /// Pie- or Bar-of pie Chart style 1
         /// </summary>
@@ -596,46 +547,6 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// </summary>
         OfPieChartStyle12 = 344,
         /// <summary>
-        /// Pie 3d Chart Style 1
-        /// </summary>
-        Pie3dChartStyle1 = 262,
-        /// <summary>
-        /// Pie 3d Chart Style 2
-        /// </summary>
-        Pie3dChartStyle2 = 263,
-        /// <summary>
-        /// Pie 3d Chart Style 3
-        /// </summary>
-        Pie3dChartStyle3 = 264,
-        /// <summary>
-        /// Pie 3d Chart Style 4
-        /// </summary>
-        Pie3dChartStyle4 = 265,
-        /// <summary>
-        /// Pie 3d Chart Style 5
-        /// </summary>
-        Pie3dChartStyle5 = 266,
-        /// <summary>
-        /// Pie 3d Chart Style 6
-        /// </summary>
-        Pie3dChartStyle6 = 267,
-        /// <summary>
-        /// Pie 3d Chart Style 7
-        /// </summary>
-        Pie3dChartStyle7 = 268,
-        /// <summary>
-        /// Pie 3d Chart Style 8
-        /// </summary>
-        Pie3dChartStyle8 = 259,
-        /// <summary>
-        /// Pie 3d Chart Style 9
-        /// </summary>
-        Pie3dChartStyle9 = 261,
-        /// <summary>
-        /// Pie 3d Chart Style 10
-        /// </summary>
-        Pie3dChartStyle10 = 345,
-        /// <summary>
         /// Pie Chart Style 1
         /// </summary>
         PieChartStyle1 = 251,
@@ -683,6 +594,46 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// Pie Chart style 12
         /// </summary>
         PieChartStyle12 = 344,
+        /// <summary>
+        /// Pie 3d Chart Style 1
+        /// </summary>
+        Pie3dChartStyle1 = 262,
+        /// <summary>
+        /// Pie 3d Chart Style 2
+        /// </summary>
+        Pie3dChartStyle2 = 263,
+        /// <summary>
+        /// Pie 3d Chart Style 3
+        /// </summary>
+        Pie3dChartStyle3 = 264,
+        /// <summary>
+        /// Pie 3d Chart Style 4
+        /// </summary>
+        Pie3dChartStyle4 = 265,
+        /// <summary>
+        /// Pie 3d Chart Style 5
+        /// </summary>
+        Pie3dChartStyle5 = 266,
+        /// <summary>
+        /// Pie 3d Chart Style 6
+        /// </summary>
+        Pie3dChartStyle6 = 267,
+        /// <summary>
+        /// Pie 3d Chart Style 7
+        /// </summary>
+        Pie3dChartStyle7 = 268,
+        /// <summary>
+        /// Pie 3d Chart Style 8
+        /// </summary>
+        Pie3dChartStyle8 = 259,
+        /// <summary>
+        /// Pie 3d Chart Style 9
+        /// </summary>
+        Pie3dChartStyle9 = 261,
+        /// <summary>
+        /// Pie 3d Chart Style 10
+        /// </summary>
+        Pie3dChartStyle10 = 345,
         /// <summary>
         /// Radar Chart style 1
         /// </summary>
@@ -746,23 +697,19 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Scatter Chart style 8
         /// </summary>
-        ScatterChartStyle8 = 247,
+        ScatterChartStyle8 = 248,
         /// <summary>
         /// Scatter Chart style 9
         /// </summary>
-        ScatterChartStyle9 = 248,
+        ScatterChartStyle9 = 249,
         /// <summary>
         /// Scatter Chart style 10
         /// </summary>
-        ScatterChartStyle10 = 249,
+        ScatterChartStyle10 = 250,
         /// <summary>
         /// Scatter Chart style 11
         /// </summary>
-        ScatterChartStyle11 = 250,
-        /// <summary>
-        /// Scatter Chart style 12
-        /// </summary>
-        ScatterChartStyle12 = 343,
+        ScatterChartStyle11 = 343,
         /// <summary>
         /// Stacked Area 3d Chart Style 1
         /// </summary>
@@ -796,13 +743,9 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// </summary>
         StackedArea3dChartStyle8 = 315,
         /// <summary>
-        /// Stacked Area 3d Chart Style 8
+        /// Stacked Area 3d Chart Style 9
         /// </summary>
-        StackedArea3dChartStyle9 = 316,
-        /// <summary>
-        /// Stacked Area 3d Chart Style 10
-        /// </summary>
-        StackedArea3dChartStyle10 = 350,
+        StackedArea3dChartStyle9 = 350,
         /// <summary>
         /// Stacked Area Chart Style 1
         /// </summary>
@@ -842,11 +785,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Stacked Area Chart Style 10
         /// </summary>
-        StackedAreaChartStyle10 = 285,
-        /// <summary>
-        /// Stacked Area Chart Style 11
-        /// </summary>
-        StackedAreaChartStyle11 = 346,
+        StackedAreaChartStyle10 = 346,
         /// <summary>
         /// Stacked Column Stacked 3d Chart Style 1
         /// </summary>
