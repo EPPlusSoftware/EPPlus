@@ -249,5 +249,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(2400d, result);
         }
+
+        [TestMethod]
+        public void Sln_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "SLN( 10000, 1000, 5 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(1800d, result);
+
+            _worksheet.Cells["A1"].Formula = "SLN( 500, 100, 8 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(50d, result);
+        }
     }
 }
