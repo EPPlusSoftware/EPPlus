@@ -302,5 +302,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(1147.26, result);
         }
+
+        [TestMethod]
+        public void Nominal_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "NOMINAL( 10%, 4 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(0.0965d, result);
+
+            _worksheet.Cells["A1"].Formula = "NOMINAL( 2.5%, 12 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(0.0247d, result);
+        }
     }
 }
