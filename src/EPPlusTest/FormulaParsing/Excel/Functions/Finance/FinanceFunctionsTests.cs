@@ -334,5 +334,31 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
             Assert.AreEqual(0.0252d, result);
         }
+
+        [TestMethod]
+        public void Xnpv_Tests()
+        {
+            _worksheet.Cells["B1"].Value = 0.05;
+
+            _worksheet.Cells["A2"].Value = new DateTime(2016, 1, 1);
+            _worksheet.Cells["A3"].Value = new DateTime(2016, 2, 1);
+            _worksheet.Cells["A4"].Value = new DateTime(2016, 5, 1);
+            _worksheet.Cells["A5"].Value = new DateTime(2016, 7, 1);
+            _worksheet.Cells["A6"].Value = new DateTime(2016, 11, 1);
+            _worksheet.Cells["A7"].Value = new DateTime(2017, 1, 1);
+
+            _worksheet.Cells["B2"].Value = -10000;
+            _worksheet.Cells["B3"].Value = 2000;
+            _worksheet.Cells["B4"].Value = 2400;
+            _worksheet.Cells["B5"].Value = 2900;
+            _worksheet.Cells["B6"].Value = 3500;
+            _worksheet.Cells["B7"].Value = 4100;
+
+            _worksheet.Cells["A1"].Formula = "XNPV( B1, B2:B7, A2:A7 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(4447.94, result);
+        }
     }
 }
