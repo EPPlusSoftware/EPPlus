@@ -1259,13 +1259,12 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue102()
+        public void Issue108()
         {
-            using (var p = OpenTemplatePackage("2838907_Ruitenbeek_3785KJ_20191017_analyseresultaat.xlsx"))
+            using(var p = OpenTemplatePackage("Test.xlsx"))
             {
-                var ws = p.Workbook.Worksheets.Add("NewSheet");
-                p.Workbook.Worksheets.Delete(0);
-                SaveWorkbook("Issue102-Saved.xlsx", p);
+                Assert.AreEqual(3, ((ExcelShape)p.Workbook.Worksheets[0].Drawings[0]).RichText.Count);
+                SaveWorkbook("Issue108.xlsx", p);
             }
         }
 

@@ -15,14 +15,18 @@ namespace EPPlusTest.Drawing
             [ClassInitialize]
             public static void Init(TestContext context)
             {
-                _pck = OpenPackage("DrawingRichText.xlsx", true);
+                _pck = OpenPackage("DrawingRichText.xlsx", true);                
                 _ws = _pck.Workbook.Worksheets.Add("Richtext");
             }
             [ClassCleanup]
             public static void Cleanup()
             {
+                var dirName = _pck.File.DirectoryName;
+                var fileName = _pck.File.FullName;
 
                 SaveAndCleanup(_pck);
+
+                File.Copy(fileName, dirName + "\\DrawingRichTextRead.xlsx", true);
             }
 
             [TestMethod]
@@ -71,6 +75,33 @@ namespace EPPlusTest.Drawing
                 Assert.IsTrue(shape.RichText[5].IsLastInParagraph);
                 Assert.IsTrue(shape.RichText[6].IsFirstInParagraph);
                 Assert.IsTrue(shape.RichText[6].IsLastInParagraph);
+            }
+            [TestMethod]
+            public void ReadThreeParagraphsAndValidate()
+            {
+                AssertIfNotExists("DrawingRichTextRead.xlsx");
+                using (var p = OpenPackage("DrawingRichTextRead.xlsx"))
+                {
+                    var shape = (ExcelShape)p.Workbook.Worksheets[0].Drawings["shape1"];
+                    Assert.AreEqual("Line1\r\nLine2\r\nLine3", shape.Text);
+                    Assert.AreEqual("Line1\r\nLine2\r\nLine3", shape.RichText.Text);
+
+                    Assert.AreEqual(7, shape.RichText.Count);
+                    Assert.IsTrue(shape.RichText[0].IsFirstInParagraph);
+                    Assert.IsTrue(shape.RichText[0].IsLastInParagraph);
+                    Assert.IsTrue(shape.RichText[1].IsFirstInParagraph);
+                    Assert.IsFalse(shape.RichText[1].IsLastInParagraph);
+                    Assert.IsFalse(shape.RichText[2].IsFirstInParagraph);
+                    Assert.IsFalse(shape.RichText[2].IsLastInParagraph);
+                    Assert.IsFalse(shape.RichText[3].IsFirstInParagraph);
+                    Assert.IsFalse(shape.RichText[3].IsLastInParagraph);
+                    Assert.IsFalse(shape.RichText[4].IsFirstInParagraph);
+                    Assert.IsFalse(shape.RichText[4].IsLastInParagraph);
+                    Assert.IsFalse(shape.RichText[5].IsFirstInParagraph);
+                    Assert.IsTrue(shape.RichText[5].IsLastInParagraph);
+                    Assert.IsTrue(shape.RichText[6].IsFirstInParagraph);
+                    Assert.IsTrue(shape.RichText[6].IsLastInParagraph);
+                }
             }
             [TestMethod]
             public void AddEmptyParagraphFirst()
