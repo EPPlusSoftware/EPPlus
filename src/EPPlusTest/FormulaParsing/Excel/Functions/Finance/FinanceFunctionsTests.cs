@@ -156,5 +156,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["C2"].Value, 2);
             Assert.AreEqual(0.13, result);
         }
+
+        [TestMethod]
+        public void Mirr_Tests()
+        {
+            _worksheet.Cells["B2"].Value = -100;
+            _worksheet.Cells["B3"].Value = 18;
+            _worksheet.Cells["B4"].Value = 22.5;
+            _worksheet.Cells["B5"].Value = 28;
+            _worksheet.Cells["B6"].Value = 35.5;
+            _worksheet.Cells["B7"].Value = 45;
+
+            _worksheet.Cells["C2"].Formula = "MIRR( B2:B6, 5.5%, 5% )";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["C2"].Value, 4);
+            Assert.AreEqual(0.0254, result);
+
+            _worksheet.Cells["C2"].Formula = "MIRR( B2:B7, 5.5%, 5% )";
+            _worksheet.Calculate();
+            result = System.Math.Round((double)_worksheet.Cells["C2"].Value, 1);
+            Assert.AreEqual(0.1, result);
+        }
     }
 }
