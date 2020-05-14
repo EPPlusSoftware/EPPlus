@@ -241,6 +241,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["nper"] = new Nper();
             Functions["irr"] = new Irr();
             Functions["mirr"] = new Mirr();
+            Functions["syd"] = new Syd();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();

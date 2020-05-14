@@ -145,7 +145,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _worksheet.Cells["B4"].Value = 28.80;
             _worksheet.Cells["B5"].Value = 34.56;
             _worksheet.Cells["B6"].Value = 41.47;
-            
+
             _worksheet.Cells["C2"].Formula = "IRR(B1:B4)";
             _worksheet.Calculate();
             var result = System.Math.Round((double)_worksheet.Cells["C2"].Value, 2);
@@ -232,6 +232,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(-606.11, result);
+        }
+
+        [TestMethod]
+        public void Syd_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "SYD( 10000, 1000, 5, 1 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(3000d, result);
+
+            _worksheet.Cells["A1"].Formula = "SYD( 10000, 1000, 5, 2 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(2400d, result);
         }
     }
 }
