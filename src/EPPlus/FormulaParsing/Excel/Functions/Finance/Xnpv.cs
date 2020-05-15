@@ -39,7 +39,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
                 result += val / System.Math.Pow(1d + rate, dt.Subtract(firstDate).TotalDays / 365d);
             }
             return CreateResult(result, DataType.Decimal);
-            //return cf / Math.Pow(1.0 + this.r, (double)(d - this.d0).Days / 365.0);
         }
 
         private IEnumerable<System.DateTime> GetDates(FunctionArgument arg, ParsingContext context)

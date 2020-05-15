@@ -207,6 +207,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void Ispmt_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "ISPMT( 5%/12, 1, 60, 50000 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-204.86, result);
+
+            _worksheet.Cells["A1"].Formula = "ISPMT( 5%/12, 2, 60, 50000 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-201.39, result);
+        }
+
+        [TestMethod]
         public void Ppmt_Tests()
         {
             _worksheet.Cells["A1"].Formula = "PPMT( 5%/12, 1, 60, 50000 )";

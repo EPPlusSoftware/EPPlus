@@ -237,6 +237,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["pmt"] = new Pmt();
             Functions["ppmt"] = new Ppmt();
             Functions["ipmt"] = new Ipmt();
+            Functions["ispmt"] = new IsPmt();
             Functions["pv"] = new Pv();
             Functions["fv"] = new Fv();
             Functions["npv"] = new Npv();
