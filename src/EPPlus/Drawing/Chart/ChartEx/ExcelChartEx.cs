@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/15/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -24,7 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-namespace OfficeOpenXml.Drawing.Chart
+namespace OfficeOpenXml.Drawing.ChartEx
 {
     public class ExcelChartEx : ExcelChart
     {
@@ -63,10 +64,14 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _isChartEx = true;
             _chartXmlHelper.SchemaNodeOrder = new string[] { "chartData", "chart", "spPr", "txPr", "clrMapOvr", "fmtOvrs", "title", "plotArea","plotAreaRegion","axis", "legend", "printSettings" };
-            Series.Init(this, NameSpaceManager, _chartNode, false, Series._list);
+            InitSeries(this, NameSpaceManager, _chartNode, false);
             LoadAxis();
         }
-
+        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
+        {
+            base.InitSeries(chart, ns, node, isPivot);
+            Series.Init(chart, ns, node, isPivot, base.Series._list);
+        }
         private void CreateNewChart(ExcelDrawings drawings, XmlDocument chartXml = null, eChartType? type = null)
         {
             XmlElement graphFrame = TopNode.OwnerDocument.CreateElement("mc","AlternateContent", ExcelPackage.schemaMarkupCompatibility);
@@ -171,8 +176,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_plotArea==null)
                 {
-                    var node = _chartXmlHelper.GetNode("cx:plotArea");
-                    _plotArea = new ExcelChartExPlotarea(NameSpaceManager, node, this);
+                    _plotArea = new ExcelChartExPlotarea(NameSpaceManager, _chartXmlHelper.TopNode, this, _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _plotArea;
             }

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
@@ -276,11 +277,35 @@ namespace OfficeOpenXml.Drawing
 
             var chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
             chart.Name = Name;
-            chart.StyleManager.SetChartStyle(381);
+            chart.StyleManager.SetChartStyle(GetChartStyle(ChartType));
             _drawings.Add(chart);
             _drawingNames.Add(Name, _drawings.Count - 1);
             return chart;
         }
+
+        private ePresetChartStyle GetChartStyle(eChartType chartType)
+        {
+            switch(chartType)
+            {
+                case eChartType.Sunburst:
+                    return ePresetChartStyle.Sunburst1;
+                case eChartType.Treemap:
+                    return ePresetChartStyle.Treemap1;
+                case eChartType.Histogram:
+                case eChartType.Pareto:
+                    return ePresetChartStyle.HistogramStyle1;
+                case eChartType.BoxWhisker:
+                    return ePresetChartStyle.BoxWhiskerStyle1;
+                case eChartType.Waterfall:
+                    return ePresetChartStyle.Waterfall1;
+                case eChartType.Funnel:
+                    return ePresetChartStyle.Funnel1;
+                case eChartType.RegionMap:
+                    return ePresetChartStyle.RegionMap1;
+            }
+            throw new InvalidOperationException("Unsupported charttype for extension chart");
+        }
+
         /// <summary>
         /// Adds a new chart to the worksheet.
         /// Do not support Stock charts . 
@@ -303,6 +328,24 @@ namespace OfficeOpenXml.Drawing
             return (ExcelChartEx)AddChart(Name, (eChartType)ChartType, null);
         }
         /// <summary>
+        /// Adds a new sunburst chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelSunburstChart AddSunburstChart(string Name)
+        {
+            return (ExcelSunburstChart)AddChart(Name, eChartType.Sunburst, null);
+        }
+        /// <summary>
+        /// Adds a new treemap chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelTreemapChart AddTreemapChart(string Name)
+        {
+            return (ExcelTreemapChart)AddChart(Name, eChartType.Treemap, null);
+        }
+        /// <summary>
         /// Adds a new extended chart to the worksheet.
         /// Extended charts are 
         /// </summary>
@@ -315,7 +358,7 @@ namespace OfficeOpenXml.Drawing
             return (ExcelChartEx)AddChart(Name, (eChartType)ChartType, PivotTableSource);
         }        
         /// <summary>
-        /// Add a new linechart to the worksheet.
+        /// Add a new line chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">Type of linechart</param>

@@ -46,6 +46,25 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _dataLabels;
             }
         }
-
+        /// <summary>
+        /// Add data labels to the serie.
+        /// </summary>
+        /// <param name="showCategory">Show category name</param>
+        /// <param name="showValue">Show values</param>
+        /// <param name="showSeriesName">Show series name</param>
+        public void Add(bool showCategory=true, bool showValue=false, bool showSeriesName=false)
+        {
+            SetDataLabelNode();
+            ShowCategory = showCategory;
+            ShowValue = showValue;
+            ShowSeriesName = showSeriesName;
+        }
+        /// <summary>
+        /// Remove datalabels from the chart
+        /// </summary>
+        public void Remove()
+        {
+            _serie.DeleteNode("cx:dataLabels");
+        }        
     }
 }

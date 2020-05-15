@@ -18,6 +18,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System.Linq;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Drawing.ChartEx;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -59,7 +60,15 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             foreach (XmlNode n in chartNode.SelectNodes("cx:plotArea/cx:plotAreaRegion/cx:series", ns))
             {
-                _list.Add(new ExcelChartExSerie(chart, ns, n));
+                switch (chart.ChartType)
+                {
+                    case eChartType.Treemap:
+                        _list.Add(new ExcelChartTreemapSerie(chart, ns, n));
+                        break;  
+                    default:
+                        _list.Add(new ExcelChartExSerie(chart, ns, n));
+                        break;
+                }
             }
         }
         private void AddSeriesStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode chartNode, bool isPivot)
@@ -306,6 +315,8 @@ namespace OfficeOpenXml.Drawing.Chart
                     serie = new ExcelAreaChartSerie(_chart, _ns, serElement, _isPivot);
                     break;
                 case eChartType.Treemap:
+                    serie = new ExcelChartTreemapSerie(_chart, _ns, serElement);
+                    break;
                 case eChartType.Histogram:
                 case eChartType.Waterfall:
                 case eChartType.Sunburst:

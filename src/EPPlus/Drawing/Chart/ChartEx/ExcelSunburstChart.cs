@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/15/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -24,20 +25,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-namespace OfficeOpenXml.Drawing.Chart
+namespace OfficeOpenXml.Drawing.ChartEx
 {
-    public class ExcelChartExWithAxis : ExcelChartEx
+    public class ExcelSunburstChart : ExcelChartEx
     {
-        internal ExcelChartExWithAxis(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) : 
+        internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) :
             base(drawings, node, parent)
         {
         }
 
-        internal ExcelChartExWithAxis(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
+        internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, type, chartXml, parent)
         {
         }
-        internal ExcelChartExWithAxis(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
+        internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent)
         {
         }

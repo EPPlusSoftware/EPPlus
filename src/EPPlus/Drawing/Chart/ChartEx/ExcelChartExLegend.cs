@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 {
                     throw new InvalidOperationException("TopRight can not be set for Extended charts. Please use Top and set the PositionAlignment property.");
                 }
-                SetXmlNodeString("@align", value.ToEnumString().Substring(0, 1).ToLowerInvariant());
+                SetXmlNodeString("@pos", value.ToEnumString().Substring(0, 1).ToLowerInvariant());
             }
         }
         /// <summary>
@@ -58,12 +58,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             if (TopNode != null) return;
 
-            //XmlHelper xml = new XmlHelper(NameSpaceManager, _chart.ChartXml);
-            XmlHelper xml = XmlHelperFactory.Create(NameSpaceManager, _chart.ChartXml);
-            xml.SchemaNodeOrder = _chart.SchemaNodeOrder;
-
-            xml.CreateNode("cx:chartSpace/cx:chart/cx:legend");
-            TopNode = _chart.ChartXml.SelectSingleNode("c:chartSpace/cx:chart/cx:legend", NameSpaceManager);
+            TopNode = _chart._chartXmlHelper.CreateNode("cx:legend");            
         }
     }
 }

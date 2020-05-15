@@ -8,29 +8,16 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
+    public class ExcelChartExHistogramSerie : ExcelChartExSerie
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart, string[] schemaNodeOrder) : base(ns, node, chart, "cx", "cx:plotArea/cx:plotAreaRegion/cx:plotSurface/")
+        public ExcelChartExHistogramSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
         {
-            SchemaNodeOrder = schemaNodeOrder;
-        }
-        public override ExcelChartDataTable CreateDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts can not have a data table"));
-        }
-        public override void RemoveDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts can not have a data table"));
-        }
 
+        }
     }
 }

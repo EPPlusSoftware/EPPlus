@@ -106,10 +106,6 @@ namespace OfficeOpenXml.Drawing.Chart
             InitSeries(this, drawings.NameSpaceManager, _chartNode, isPivot);
             LoadAxis();
         }
-        internal virtual void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
-        {
-            Series.Init(chart, ns, node, isPivot, list);
-        }
         private void Init(ExcelDrawings drawings, XmlNode chartNode)
         {
             _isChartEx = chartNode.NamespaceURI == ExcelPackage.schemaChartExMain;
@@ -934,7 +930,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _plotArea;
             }
         }
-        ExcelChartLegend _legend = null;
         /// <summary>
         /// Legend
         /// </summary>
@@ -1096,7 +1091,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
-        ExcelChartTitle _title = null;
 
         #region "Grouping Enum Translation"
         private string GetGroupingText(eGrouping grouping)
@@ -1135,6 +1129,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 return 0;
             }
         }
+
+        public override ExcelChartSeries<ExcelChartSerie> Series => new ExcelChartSeries<ExcelChartSerie>();
 
         internal void SetPivotSource(ExcelPivotTable pivotTableSource)
         {

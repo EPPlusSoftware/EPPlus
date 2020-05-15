@@ -38,14 +38,15 @@ namespace OfficeOpenXml.Drawing.Chart
             titlePath = string.Format(titlePath, nsPrefix);
             if(chart._isChartEx)
             {
-                AddSchemaNodeOrder(_chart.SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(_chart._chartXmlHelper.SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
             }
             else
             {
                 AddSchemaNodeOrder(new string[] { "tx", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
             }
             CreateTopNode();
-            if (chart.StyleManager.StylePart != null)
+           
+            if (chart.StyleManager.StylePart != null && chart._isChartEx==false)
             {
                 chart.StyleManager.ApplyStyle(this, chart.StyleManager.Style.Title);
             }
@@ -56,18 +57,29 @@ namespace OfficeOpenXml.Drawing.Chart
             if (TopNode.LocalName != "title")
             {
                 TopNode = CreateNode(_nsPrefix+":title");
+                TopNode.InnerXml = ExcelChartTitle.GetInitXml(_chart, _nsPrefix);
             }
         }
 
-        internal static string GetInitXml(string prefix)
+        internal static string GetInitXml(ExcelChart chart, string prefix)
         {
-            return $"<{prefix}:tx><{prefix}:rich><a:bodyPr rot=\"0\" spcFirstLastPara=\"1\" vertOverflow=\"ellipsis\" vert=\"horz\" wrap=\"square\" anchor=\"ctr\" anchorCtr=\"1\" />" +
-                    $"<a:lstStyle />" +
-                    $"<a:p><a:pPr>" +
-                    $"<a:defRPr sz=\"1080\" b=\"1\" i=\"0\" u=\"none\" strike=\"noStrike\" kern=\"1200\" baseline=\"0\">" +
-                    $"<a:solidFill><a:schemeClr val=\"dk1\"/></a:solidFill><a:effectLst/><a:latin typeface=\"+mn-lt\"/><a:ea typeface=\"+mn-ea\"/><a:cs typeface=\"+mn-cs\"/></a:defRPr>" +
-                    $"</a:pPr><a:r><a:t /></a:r></a:p></{prefix}:rich></{prefix}:tx><{prefix}:layout /><{prefix}:overlay val=\"0\" />" +
-                    $"<{prefix}:spPr><a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/></{prefix}:spPr>";
+            if (chart._isChartEx)
+            {
+                return $"<{prefix}:tx><{prefix}:rich><a:bodyPr anchorCtr=\"1\" anchor=\"ctr\" bIns=\"0\" rIns=\"0\" tIns=\"0\" lIns=\"0\" wrap=\"square\" horzOverflow=\"overflow\" vertOverflow=\"ellipsis\" spcFirstLastPara=\"1\" />" +
+                        $"<a:lstStyle />" +
+                        $"<a:p><a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr/></a:pPr><a:r><a:rPr baseline=\"0\" spc=\"100\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"1\" sz=\"1600\"><a:solidFill><a:sysClr lastClr=\"FFFFFF\" val=\"window\"><a:lumMod val=\"95000\"/></a:sysClr></a:solidFill><a:effectLst><a:outerShdw dir=\"5400000\" algn=\"t\" rotWithShape=\"0\" dist=\"38100\" blurRad=\"50800\"><a:prstClr val=\"black\"><a:alpha val=\"40000\"/></a:prstClr></a:outerShdw></a:effectLst><a:latin panose=\"020F0502020204030204\" typeface=\"Calibri\"/></a:rPr>" +
+                        $"<a:t/></a:r></a:p></{prefix}:rich></{prefix}:tx>";
+            }
+            else
+            {
+                return $"<{prefix}:tx><{prefix}:rich><a:bodyPr rot=\"0\" spcFirstLastPara=\"1\" vertOverflow=\"ellipsis\" vert=\"horz\" wrap=\"square\" anchor=\"ctr\" anchorCtr=\"1\" />" +
+                        $"<a:lstStyle />" +
+                        $"<a:p><a:pPr>" +
+                        $"<a:defRPr sz=\"1080\" b=\"1\" i=\"0\" u=\"none\" strike=\"noStrike\" kern=\"1200\" baseline=\"0\">" +
+                        $"<a:solidFill><a:schemeClr val=\"dk1\"/></a:solidFill><a:effectLst/><a:latin typeface=\"+mn-lt\"/><a:ea typeface=\"+mn-ea\"/><a:cs typeface=\"+mn-cs\"/></a:defRPr>" +
+                        $"</a:pPr><a:r><a:t /></a:r></a:p></{prefix}:rich></{prefix}:tx><{prefix}:layout /><{prefix}:overlay val=\"0\" />" +
+                        $"<{prefix}:spPr><a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/></{prefix}:spPr>";
+            }
         }
 
         /// <summary>
@@ -181,7 +193,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         void IDrawingStyleBase.CreatespPr()
         {
-            CreatespPrNode();
+            CreatespPrNode("cx:spPr");
         }
 
         ExcelParagraphCollection _richText = null;

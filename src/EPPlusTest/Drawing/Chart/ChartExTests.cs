@@ -4,6 +4,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.ChartEx;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -62,21 +63,36 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = _pck.Workbook.Worksheets.Add("Sunburst");
             AddHierarkiData(ws);
-            var chart = ws.Drawings.AddExtendedChart("Sunburst1", eChartExType.Sunburst);
-            var serie = chart.Series.Add("Sunburst!$A$2:$C$17", "Sunburst!$D$2:$D$17");
+            var chart = ws.Drawings.AddSunburstChart("Sunburst1");
+            var serie = chart.Series.Add(ws.Cells["$A$2:$C$17"], ws.Cells["$D$2:$D$17"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             serie.DataLabel.Position = eLabelPosition.Center;
             serie.DataLabel.ShowCategory = true;
             serie.DataLabel.ShowValue=true;
+            chart.Legend.Add();
+            chart.Legend.Position = eLegendPosition.Bottom;
+            chart.Legend.PositionAlignment = ePositionAlign.Center;
+            chart.Title.Text = "Sunburst 1";
+            
+            chart.PlotArea.Fill.Style = eFillStyle.SolidFill;
+            chart.PlotArea.Fill.SolidFill.Color.SetRgbColor(Color.White);
+
+            chart.Fill.Style = eFillStyle.SolidFill;
+            chart.Fill.SolidFill.Color.SetRgbColor(Color.Green);            
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Sunburst7);
+
+            Assert.IsInstanceOfType(chart, typeof(ExcelSunburstChart));
+            Assert.AreEqual(0, chart.Axis.Length);
+            Assert.IsNull(chart.XAxis);
+            Assert.IsNull(chart.YAxis);
         }
         [TestMethod]
         public void AddTreemapChart()
         {
             var ws = _pck.Workbook.Worksheets.Add("Treemap");
             AddHierarkiData(ws);
-            var chart = ws.Drawings.AddExtendedChart("Treemap", eChartExType.Treemap);
+            var chart = ws.Drawings.AddTreemapChart("Treemap");
             var serie = chart.Series.Add("Treemap!$A$2:$C$17", "Treemap!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
@@ -84,6 +100,8 @@ namespace EPPlusTest.Drawing.Chart
             serie.DataLabel.ShowCategory = true;
             serie.DataLabel.ShowValue = true;
             serie.DataLabel.ShowSeriesName = true;
+            serie.ParentLabelLayout = eParentLabelLayout.Banner;
+            serie.Effect.SetPresetShadow(ePresetExcelShadowType.InnerTopRight);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Treemap9);
         }
         [TestMethod]

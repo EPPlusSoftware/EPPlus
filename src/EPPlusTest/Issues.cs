@@ -1258,15 +1258,5 @@ namespace EPPlusTest
                 SaveWorkbook("Issue99-2Saved.xlsx", p);
             }
         }
-        [TestMethod]
-        public void Issue108()
-        {
-            using(var p = OpenTemplatePackage("Test.xlsx"))
-            {
-                Assert.AreEqual(3, ((ExcelShape)p.Workbook.Worksheets[0].Drawings[0]).RichText.Count);
-                SaveWorkbook("Issue108.xlsx", p);
-            }
-        }
-
     }
 }
