@@ -17,8 +17,7 @@ using System.Collections;
 using OfficeOpenXml.Table.PivotTable;
 using System.Linq;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Utils.Extentions;
-using OfficeOpenXml.Drawing.ChartEx;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -47,27 +46,52 @@ namespace OfficeOpenXml.Drawing.Chart
                 return;
             }
 
-            if(_chart._isChartEx)
+            if (_chart._isChartEx)
             {
-                AddSeriesChartEx(chart, ns, chartNode);
+                AddSeriesChartEx((ExcelChartEx)chart, ns, chartNode);
             }
             else
             {
                 AddSeriesStandard(chart, ns, chartNode, isPivot);
             }
         }
-        private void AddSeriesChartEx(ExcelChart chart, XmlNamespaceManager ns, XmlNode chartNode)
+        private void AddSeriesChartEx(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode chartNode)
         {
-            foreach (XmlNode n in chartNode.SelectNodes("cx:plotArea/cx:plotAreaRegion/cx:series", ns))
+            var histoGramSeries = new List<XmlElement>(); ;
+            foreach (XmlElement serieElement in chartNode.SelectNodes("cx:plotArea/cx:plotAreaRegion/cx:series", ns))
             {
                 switch (chart.ChartType)
                 {
                     case eChartType.Treemap:
-                        _list.Add(new ExcelChartTreemapSerie(chart, ns, n));
-                        break;  
-                    default:
-                        _list.Add(new ExcelChartExSerie(chart, ns, n));
+                        _list.Add(new ExcelTreemapChartSerie(chart, ns, serieElement));
                         break;
+                    case eChartType.BoxWhisker:
+                        _list.Add(new ExcelBoxWhiskerChartSerie(chart, ns, serieElement));
+                        break;
+                    case eChartType.Histogram:
+                        _list.Add(new ExcelHistogramChartSerie(chart, ns, serieElement));
+                        break;
+                    case eChartType.Pareto:
+                        histoGramSeries.Add(serieElement);
+                        break;
+                    default:
+                        _list.Add(new ExcelChartExSerie(chart, ns, serieElement));
+                        break;
+                }
+            }
+            if (chart.ChartType == eChartType.Pareto)
+            {
+                foreach (var e in histoGramSeries)
+                {
+                    if (e.GetAttribute("layoutId") == "paretoLine")
+                    {
+                        if (ConvertUtil.TryParseIntString(e.GetAttribute("ownerId"), out int ownerId))
+                        {
+                            var ser = new ExcelHistogramChartSerie(chart, ns, histoGramSeries[ownerId]);
+                            _list.Add(ser);
+                            ser.AddParetoLineFromSerie(e);
+                        }
+                    }
                 }
             }
         }
@@ -204,13 +228,13 @@ namespace OfficeOpenXml.Drawing.Chart
                 throw (new InvalidOperationException("Charts have a maximum of 256 series."));
             }
             XmlElement serElement;
-            if(_chart._isChartEx)
+            if (_chart._isChartEx)
             {
-                serElement = ExcelChartExSerie.CreateSerieElement((ExcelChartEx)_chart);
+                serElement = ExcelChartExSerie.CreateSeriesAndDataElement((ExcelChartEx)_chart);
             }
             else
             {
-                 serElement = ExcelChartStandardSerie.CreateSerieElement(_chart);
+                serElement = ExcelChartStandardSerie.CreateSerieElement(_chart);
             }
             ExcelChartSerie serie;
             switch (Chart.ChartType)
@@ -315,16 +339,20 @@ namespace OfficeOpenXml.Drawing.Chart
                     serie = new ExcelAreaChartSerie(_chart, _ns, serElement, _isPivot);
                     break;
                 case eChartType.Treemap:
-                    serie = new ExcelChartTreemapSerie(_chart, _ns, serElement);
+                    serie = new ExcelTreemapChartSerie((ExcelChartEx)_chart, _ns, serElement);
+                    break;
+                case eChartType.BoxWhisker:
+                    serie = new ExcelBoxWhiskerChartSerie((ExcelChartEx)_chart, _ns, serElement);
                     break;
                 case eChartType.Histogram:
+                case eChartType.Pareto:
+                    serie=new ExcelHistogramChartSerie((ExcelChartEx)_chart, _ns, serElement);
+                    break;
                 case eChartType.Waterfall:
                 case eChartType.Sunburst:
-                case eChartType.BoxWhisker:
-                case eChartType.Pareto:
                 case eChartType.Funnel:
                 case eChartType.RegionMap:
-                    serie = new ExcelChartExSerie(_chart, _ns, serElement);
+                    serie = new ExcelChartExSerie((ExcelChartEx)_chart, _ns, serElement);
                     break;
                 default:
                     serie = new ExcelChartStandardSerie(_chart, _ns, serElement, _isPivot);
@@ -333,18 +361,12 @@ namespace OfficeOpenXml.Drawing.Chart
             serie.Series = SerieAddress;
             serie.XSeries = XSerieAddress;
             _list.Add((T)serie);
-            if (_chart.StyleManager.StylePart != null && _chart._isChartEx==false)
+            if (_chart.StyleManager.StylePart != null && _chart._isChartEx == false)
             {
                 _chart.StyleManager.ApplySeries();
             }
             return (T)serie;
         }
-
-        private void AddParetoLineSerie(XmlElement serElement)
-        {
-            
-        }
-
         bool _isPivot;
         internal void AddPivotSerie(ExcelPivotTable pivotTableSource)
         {
@@ -369,6 +391,44 @@ namespace OfficeOpenXml.Drawing.Chart
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
+        }
+    }
+    public class ExcelHistogramChartSeries : ExcelChartSeries<ExcelHistogramChartSerie>
+    {
+        public void AddParetoLine()
+        {
+            if(_chart.ChartType==eChartType.Pareto)
+            {
+                return;
+            }
+            if (_chart.Axis.Length == 2)
+            {
+                //Add pareto axis
+                var axis2 = (XmlElement)_chart._chartXmlHelper.CreateNode("cx:plotArea/cx:axis", false, true);
+                axis2.SetAttribute("id", "2");
+                axis2.InnerXml = "<cx:valScaling min=\"0\" max=\"1\"/><cx:units unit=\"percentage\"/><cx:tickLabels/>";
+            }
+            foreach(ExcelHistogramChartSerie ser in _list)
+            {
+                ser.AddParetoLineFromSerie((XmlElement)ser.TopNode);                
+            }
+        }
+        public void RemoveParetoLine()
+        {
+            if (_chart.ChartType == eChartType.Histogram)
+            {
+                return;
+            }
+            if (_chart.Axis.Length == 2)
+            {
+                if (_chart.Axis.Length == 3)
+                {
+                    //Remove percentage axis
+                    _chart.Axis[2].TopNode.ParentNode.RemoveChild(_chart.Axis[2].TopNode);
+                    ((ExcelChartEx)_chart)._exAxis = null;
+                    _chart._axis = new ExcelChartAxis[] { _chart._axis[0], _chart._axis[1] };
+                }
+            }
         }
     }
 }

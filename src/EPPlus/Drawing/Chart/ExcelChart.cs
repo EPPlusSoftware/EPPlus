@@ -25,7 +25,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Drawing.ChartEx;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -855,10 +855,12 @@ namespace OfficeOpenXml.Drawing.Chart
                     return new ExcelSunburstChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Treemap:
                     return new ExcelTreemapChart(drawings, drawNode, chartType, chartXml);
+                case eChartType.BoxWhisker:
+                    return new ExcelBoxWhiskerChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Histogram:
                 case eChartType.Pareto:
+                    return new ExcelHistogramChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Waterfall:
-                case eChartType.BoxWhisker:
                 case eChartType.Funnel:
                 case eChartType.RegionMap:
                     return new ExcelChartEx(drawings, drawNode, chartType, chartXml);

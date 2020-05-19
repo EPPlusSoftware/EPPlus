@@ -4,7 +4,6 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml.Drawing.ChartEx;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -109,34 +108,53 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = _pck.Workbook.Worksheets.Add("BoxWhisker");    
             AddHierarkiData(ws);
-            var chart = ws.Drawings.AddExtendedChart("BoxWhisker", eChartExType.BoxWhisker);
+            var chart = ws.Drawings.AddBoxWhiskerChart("BoxWhisker");
             var serie = chart.Series.Add("BoxWhisker!$A$2:$C$17", "BoxWhisker!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            serie.ElementVisibility.ConnectorLines = true;
             chart.StyleManager.SetChartStyle(ePresetChartStyle.BoxWhiskerStyle3);
+
+            Assert.AreEqual(2, chart.Axis.Length);
+            Assert.IsNotNull(chart.XAxis);
+            Assert.IsNotNull(chart.YAxis);
+
+            Assert.IsTrue(serie.ElementVisibility.ConnectorLines);
+            Assert.IsFalse(serie.ElementVisibility.MeanLine);
+            Assert.IsTrue(serie.ElementVisibility.MeanMarker);
+            Assert.IsTrue(serie.ElementVisibility.Outliers);
+            Assert.IsFalse(serie.ElementVisibility.NonOutliers);
+
+            Assert.AreEqual(eQuartileMethod.Exclusive, serie.QuartileMethod);
         }
         [TestMethod]
         public void AddHistogramChart()
         {
             var ws = _pck.Workbook.Worksheets.Add("Histogram");
             AddHierarkiData(ws);
-            var chart = ws.Drawings.AddExtendedChart("Histogram", eChartExType.Histogram);
+            var chart = ws.Drawings.AddHistogramChart("Histogram");
             var serie = chart.Series.Add("Histogram!$A$2:$C$17", "Histogram!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle2);
         }
-        //[TestMethod]
-        //public void AddParetoChart()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("Pareto");
-        //    AddHierarkiData(ws);
-        //    var chart = ws.Drawings.AddExtendedChart("Pareto", eChartExType.Pareto);
-        //    var serie = chart.Series.Add("Pareto!$A$2:$C$17", "Pareto!$D$2:$D$17");
-        //    chart.SetPosition(2, 0, 15, 0);
-        //    chart.SetSize(1600, 900);
-        //    chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
-        //}
+        [TestMethod]
+        public void AddParetoChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Pareto");
+            AddHierarkiData(ws);
+            var chart = ws.Drawings.AddHistogramChart("Pareto", true);
+            var serie = chart.Series.Add("Pareto!$A$2:$C$17", "Pareto!$D$2:$D$17");
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+
+            Assert.IsNotNull(serie.ParetoLine);
+            serie.ParetoLine.Fill.Style = eFillStyle.SolidFill;
+            serie.ParetoLine.Fill.SolidFill.Color.SetRgbColor(Color.FromArgb(128,255,0,0),true);
+            serie.ParetoLine.Effect.SetPresetShadow(ePresetExcelShadowType.OuterBottomRight);
+
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
+        }
         [TestMethod]
         public void AddWaterfallChart()
         {

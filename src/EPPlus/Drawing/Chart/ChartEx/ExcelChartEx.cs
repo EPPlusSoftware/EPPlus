@@ -25,7 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-namespace OfficeOpenXml.Drawing.ChartEx
+namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartEx : ExcelChart
     {
@@ -51,14 +51,20 @@ namespace OfficeOpenXml.Drawing.ChartEx
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
             Init();
         }
-        void LoadAxis()
+        internal void LoadAxis()
         {
             var l = new List<ExcelChartAxis>();            
-            foreach (XmlNode axNode in _chartXmlHelper.GetNodes("cx:chart/cx:plotArea/cx:axis"))
+            foreach (XmlNode axNode in _chartXmlHelper.GetNodes("cx:plotArea/cx:axis"))
             {
                 l.Add(new ExcelChartExAxis(this, NameSpaceManager, axNode));
             }
             _axis = l.ToArray();
+            _exAxis = null;
+            if(Axis.Length>0)
+            {
+                XAxis = Axis[0];
+                YAxis = Axis[1];
+            }
         }
         private void Init()
         {
@@ -145,7 +151,15 @@ namespace OfficeOpenXml.Drawing.ChartEx
             switch (layoutId.Value)
             {
                 case "clusteredColumn":
-                    return eChartType.Histogram;
+                    layoutId = node.SelectSingleNode("cx:plotArea/cx:plotAreaRegion/cx:series[@layoutId='paretoLine']", nsm);
+                    if(layoutId==null)
+                    {
+                        return eChartType.Histogram;
+                    }
+                    else
+                    {
+                        return eChartType.Pareto;
+                    }
                 case "paretoLine":
                     return eChartType.Pareto;
                 case "boxWhisker":
@@ -181,7 +195,7 @@ namespace OfficeOpenXml.Drawing.ChartEx
                 return _plotArea;
             }
         }
-        ExcelChartExAxis[] _exAxis = null;
+        internal ExcelChartExAxis[] _exAxis = null;
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>

@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
-using OfficeOpenXml.Drawing.ChartEx;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
@@ -344,6 +344,25 @@ namespace OfficeOpenXml.Drawing
         public ExcelTreemapChart AddTreemapChart(string Name)
         {
             return (ExcelTreemapChart)AddChart(Name, eChartType.Treemap, null);
+        }
+        /// <summary>
+        /// Adds a new box &amp; whisker chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelBoxWhiskerChart AddBoxWhiskerChart(string Name)
+        {
+            return (ExcelBoxWhiskerChart)AddChart(Name, eChartType.BoxWhisker, null);
+        }
+        /// <summary>
+        /// Adds a new Histogram or Pareto chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="addParetoLine">if true a pareto line is added to the chart. The <see cref="ExcelChart.ChartType"/> will also be Pareto.</param>
+        /// <returns>The chart</returns>
+        public ExcelHistogramChart AddHistogramChart(string Name, bool addParetoLine=false)
+        {
+            return (ExcelHistogramChart)AddChart(Name, addParetoLine ? eChartType.Pareto : eChartType.Histogram, null);
         }
         /// <summary>
         /// Adds a new extended chart to the worksheet.

@@ -480,7 +480,17 @@ namespace OfficeOpenXml.Drawing.Chart
                 _minorGridlines = null; 
             } 
         }
-
+        public void AddGridlines(bool addMajor=true, bool addMinor=false)
+        {
+            if(addMajor)
+            {
+                CreateNode(_majorGridlinesPath);
+            }
+            if (addMinor)
+            {
+                CreateNode(_minorGridlinesPath);
+            }
+        }
         #endregion
         internal protected void AddTitleNode()
         {

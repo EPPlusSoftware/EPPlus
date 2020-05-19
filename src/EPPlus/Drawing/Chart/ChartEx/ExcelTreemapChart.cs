@@ -16,7 +16,7 @@ using OfficeOpenXml.Packaging;
 using System;
 using System.Collections.Generic;
 using System.Xml;
-namespace OfficeOpenXml.Drawing.ChartEx
+namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelTreemapChart : ExcelChartEx
     {
@@ -39,9 +39,9 @@ namespace OfficeOpenXml.Drawing.ChartEx
             base.InitSeries(chart, ns, node, isPivot, list);
             Series.Init(chart, ns, node, isPivot, base.Series._list);
         }
-        public new ExcelChartSeries<ExcelChartTreemapSerie> Series
+        public new ExcelChartSeries<ExcelTreemapChartSerie> Series
         {
             get;
-        } = new ExcelChartSeries<ExcelChartTreemapSerie>();
+        } = new ExcelChartSeries<ExcelTreemapChartSerie>();
     }
 }

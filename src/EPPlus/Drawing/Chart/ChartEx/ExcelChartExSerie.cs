@@ -11,7 +11,7 @@
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Drawing.ChartEx;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils.Extentions;
 using System;
@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// <param name="chart">The chart</param>
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
-        internal ExcelChartExSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node)
+        internal ExcelChartExSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node)
             : base(chart, ns, node, "cx")
         {
             SchemaNodeOrder = new string[] { "tx", "spPr", "valueColors", "valueColorPositions", "dataPt", "dataLabels", "dataId", "layoutPr", "axisId" };
@@ -41,9 +41,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 chart.ChartType == eChartType.Histogram ||
                 chart.ChartType == eChartType.Pareto ||
                 chart.ChartType == eChartType.Waterfall ||
-                chart.ChartType == eChartType.Pareto) && chart.Series._list==null)
+                chart.ChartType == eChartType.Pareto) && chart.Series.Count==0)
             {
                 AddAxis();
+                chart.LoadAxis();
             }
         }
 
@@ -74,7 +75,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                     if(_chart.ChartType== eChartType.Pareto)
                     {
                         var axis2 = (XmlElement)_chart._chartXmlHelper.CreateNode("cx:plotArea/cx:axis", false, true);
-                        axis2.SetAttribute("id", "1");
+                        axis2.SetAttribute("id", "2");
                         axis2.InnerXml = "<cx:valScaling min=\"0\" max=\"1\"/><cx:units unit=\"percentage\"/><cx:tickLabels/>";
                     }
                     break;
@@ -198,18 +199,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _dataPoints;
             }
         }
-        ExcelChartExSerieElementVisibilities _elementVisibility = null;
-        public ExcelChartExSerieElementVisibilities ElementVisibility
-        {
-            get
-            {
-                if(_elementVisibility==null)
-                {
-                    _elementVisibility = new ExcelChartExSerieElementVisibilities(NameSpaceManager, TopNode, SchemaNodeOrder);
-                }
-                return _elementVisibility;
-            }
-        }
         public eRegionLabelLayout RegionLableLayout 
         {
             get
@@ -261,22 +250,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             set; 
         }
         /// <summary>
-        /// 
-        /// </summary>
-        public eQuartileMethod? QuartileMethod 
-        { 
-            get
-            {
-                var s = GetXmlNodeString("cx:layoutPr/cx:statistics/@quartileMethod");
-                if (string.IsNullOrEmpty(s)) return null;                
-                return s.ToEnum(eQuartileMethod.Inclusive);
-            }
-            set
-            {
-                SetXmlNodeString("cx:layoutPr/cx:statistics/@quartileMethod", value.ToEnumString());
-            }
-        }
-        /// <summary>
         /// If the serie is hidden
         /// </summary>
         public bool Hidden
@@ -311,32 +284,37 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             throw new System.NotImplementedException();
         }
 
-        internal static XmlElement CreateSerieElement(ExcelChartEx chart)
+        internal static XmlElement CreateSeriesAndDataElement(ExcelChartEx chart)
+        {
+            XmlElement ser = CreateSeriesElement(chart, chart.ChartType, chart.Series.Count);
+            ser.InnerXml = $"<cx:dataId val=\"{chart.Series.Count}\"/><cx:layoutPr/>{AddAxisReferense(chart)}";
+            SetLayoutProperties(chart, ser);
+
+            chart._chartXmlHelper.CreateNode("../cx:chartData", true);
+            var dataElement = (XmlElement)chart._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
+            dataElement.SetAttribute("id", chart.Series.Count.ToString());
+            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f></cx:strDim><cx:numDim type=\"{GetNumType(chart.ChartType)}\"><cx:f></cx:f></cx:numDim>";
+            return ser;
+        }
+
+        internal static XmlElement CreateSeriesElement(ExcelChartEx chart, eChartType type, int index, XmlNode referenceNode = null, bool isPareto=false)
         {
             var plotareaNode = chart._chartXmlHelper.CreateNode("cx:plotArea/cx:plotAreaRegion");
-            XmlElement ser = plotareaNode.OwnerDocument.CreateElement("cx", "series", ExcelPackage.schemaChartExMain);
+            var ser = plotareaNode.OwnerDocument.CreateElement("cx", "series", ExcelPackage.schemaChartExMain);
             XmlNodeList node = plotareaNode.SelectNodes("cx:series", chart.NameSpaceManager);
 
-            var serieCount = node.Count;
-            if (serieCount > 0)
+            if(node.Count > 0)
             {
-                plotareaNode.InsertAfter(ser, node[node.Count - 1]);
+                plotareaNode.InsertAfter(ser, referenceNode ?? node[node.Count - 1]);
             }
             else
             {
                 var f = XmlHelperFactory.Create(chart.NameSpaceManager, plotareaNode);
                 f.InserAfter(plotareaNode, "cx:plotSurface", ser);
             }
-            ser.SetAttribute("formatIdx", serieCount.ToString());
+            ser.SetAttribute("formatIdx", index.ToString());
             ser.SetAttribute("uniqueId", "{" + Guid.NewGuid().ToString() + "}");
-            ser.SetAttribute("layoutId", GetLayoutId(chart.ChartType));
-            ser.InnerXml = $"<cx:dataId val=\"{serieCount}\"/><cx:layoutPr/>{AddAxisReferense(chart)}";
-            SetLayoutProperties(chart, ser);
-            
-            chart._chartXmlHelper.CreateNode("../cx:chartData", true);
-            var dataElement = (XmlElement)chart._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
-            dataElement.SetAttribute("id", serieCount.ToString());
-            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f></cx:strDim><cx:numDim type=\"{GetNumType(chart.ChartType)}\"><cx:f></cx:f></cx:numDim>";
+            ser.SetAttribute("layoutId", GetLayoutId(type, isPareto));
             return ser;
         }
 
@@ -352,12 +330,13 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }            
         }
 
-        private static string GetLayoutId(eChartType chartType)
+        private static string GetLayoutId(eChartType chartType, bool isPareto)
         {
+            if (isPareto) return "paretoLine";
             switch(chartType)
             {
                 case eChartType.Histogram:
-                case eChartType.Pareto:     //Pareto will be the second serie.
+                case eChartType.Pareto:
                     return "clusteredColumn";
                 default:
                     return chartType.ToEnumString();

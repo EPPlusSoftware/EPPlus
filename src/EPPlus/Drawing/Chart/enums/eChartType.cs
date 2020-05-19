@@ -326,11 +326,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         Sunburst = 120,
         /// <summary>
-        /// A box whisker
+        /// A box & whisker chart
         /// </summary>
         BoxWhisker = 121,
         /// <summary>
-        /// A Histogram Pareto chart
+        /// A histogram chart with a pareto line
         /// </summary>
         Pareto = 122,
         /// <summary>
