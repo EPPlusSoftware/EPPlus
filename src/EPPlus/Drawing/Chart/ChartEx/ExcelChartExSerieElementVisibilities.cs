@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public class ExcelChartExSerieElementVisibilities : XmlHelper
     {
-        const string _path = "cx:layoutPr/cx:visibility";
+        const string _path = "cx:layout/cx:visibility";
         public ExcelChartExSerieElementVisibilities(XmlNamespaceManager nsm, XmlNode node, string[] schemaNodeOrder) : base(nsm, node)
         {
             SchemaNodeOrder = schemaNodeOrder;

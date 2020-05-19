@@ -8,28 +8,34 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
+using OfficeOpenXml.Drawing.Style.Effect;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
+    public class ExcelChartExParetoLine : ExcelDrawingBorder
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")
+        private readonly ExcelChart _chart;
+        internal ExcelChartExParetoLine(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node, "cx:spPr/a:ln", new string[] { "spPr", "axisId" })
         {
-            SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
+            _chart = chart;
         }
-        public override ExcelChartDataTable CreateDataTable()
+        ExcelDrawingEffectStyle _effect = null;
+        /// <summary>
+        /// Effects
+        /// </summary>
+        public ExcelDrawingEffectStyle Effect
         {
-            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
-        }
-        public override void RemoveDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
+            get
+            {
+                if (_effect == null)
+                {
+                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, "cx:spPr/a:effectLst", SchemaNodeOrder);
+                }
+                return _effect;
+            }
         }
     }
 }

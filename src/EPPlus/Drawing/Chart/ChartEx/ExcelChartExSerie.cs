@@ -11,13 +11,23 @@
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+<<<<<<< HEAD
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+=======
+>>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    public class ExcelChartExHistogramSerie : ExcelChartExSerie
+    {
+        public ExcelChartExHistogramSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
+        {
+
+        }
+    }
     /// <summary>
     /// A chart serie
     /// </summary>
@@ -31,8 +41,13 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// <param name="chart">The chart</param>
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
+<<<<<<< HEAD
         internal ExcelChartExSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node)
             : base(chart, ns, node, "cx")
+=======
+        internal ExcelChartExSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node)
+            : base(chart, ns, node)
+>>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
         {
             SchemaNodeOrder = new string[] { "tx", "spPr", "valueColors", "valueColorPositions", "dataPt", "dataLabels", "dataId", "layoutPr", "axisId" };
             _dataNode = node.SelectSingleNode($"../../../../cx:chartData/cx:data[@id={DataId}]", ns);
@@ -248,6 +263,17 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         { 
             get; 
             set; 
+        }
+        public eParentLabelLayout ParentLabelLayout
+        {
+            get
+            {
+                return GetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val").ToEnum(eParentLabelLayout.None);
+            }
+            set
+            {
+                SetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val", value.ToEnumString());
+            }
         }
         /// <summary>
         /// If the serie is hidden

@@ -8,28 +8,28 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
+using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
-
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
+    public class ExcelTreemapChartSerie : ExcelChartExSerie
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")
+        public ExcelTreemapChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
         {
-            SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
+
         }
-        public override ExcelChartDataTable CreateDataTable()
+        public eParentLabelLayout ParentLabelLayout
         {
-            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
-        }
-        public override void RemoveDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
+            get
+            {
+                return GetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val").ToEnum(eParentLabelLayout.None);
+            }
+            set
+            {
+                SetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val", value.ToEnumString());
+            }
         }
     }
 }

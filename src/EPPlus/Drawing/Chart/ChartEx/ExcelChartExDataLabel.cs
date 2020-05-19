@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
-        protected void SetDataLabelNode()
+        private void SetDataLabelNode()
         {
             if (TopNode.LocalName == "series")
             {

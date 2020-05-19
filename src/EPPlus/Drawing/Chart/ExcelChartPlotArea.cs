@@ -25,13 +25,11 @@ namespace OfficeOpenXml.Drawing.Chart
     {
         ExcelChart _firstChart;
         string _nsPrefix;
-        string _path;
-        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart, string nsPrefix, string path = "")
+        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart, string nsPrefix)
            : base(ns,node)
        {
             _nsPrefix = nsPrefix;
-            _path = path;
-            if (firstChart._isChartEx)
+            if(firstChart._isChartEx)
             {
                 AddSchemaNodeOrder(new string[] { "plotAreaRegion", "plotSurface", "series", "axis","spPr" },
                     ExcelDrawing._schemaNodeOrderSpPr);
@@ -106,7 +104,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_fill == null)
                 {
-                    _fill = new ExcelDrawingFill(_firstChart, NameSpaceManager, TopNode, $"{_path}{_nsPrefix}:spPr", SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
@@ -121,7 +119,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_firstChart, NameSpaceManager, TopNode, $"{_path}{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
                 }   
                 return _border;
             }
@@ -136,7 +134,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_firstChart, NameSpaceManager, TopNode, $"{_path}{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -151,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_path}{_nsPrefix}:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }
