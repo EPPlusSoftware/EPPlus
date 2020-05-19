@@ -24,11 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-<<<<<<< HEAD:src/EPPlus/Drawing/Chart/ChartEx/ExcelSunburstChart.cs
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
-=======
-namespace OfficeOpenXml.Drawing.Chart
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.:src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExWithAxis.cs
 {
     public class ExcelChartExWithAxis : ExcelChartEx
     {

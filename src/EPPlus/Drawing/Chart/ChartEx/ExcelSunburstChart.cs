@@ -12,33 +12,35 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Style.Effect;
+using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public class ExcelTreemapChart : ExcelChartEx
+    public class ExcelSunburstChart : ExcelChartEx
     {
-        internal ExcelTreemapChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) :
+        internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) :
             base(drawings, node, parent)
         {
-            Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
 
-        internal ExcelTreemapChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
+        internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, type, chartXml, parent)
         {
-            Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
-        internal ExcelTreemapChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
+        internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent)
         {
-            Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
-        public new ExcelChartSeries<ExcelTreemapChartSerie> Series
-        {
-            get;
-        } = new ExcelChartSeries<ExcelTreemapChartSerie>();
     }
 }

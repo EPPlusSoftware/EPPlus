@@ -17,12 +17,7 @@ using System.Collections;
 using OfficeOpenXml.Table.PivotTable;
 using System.Linq;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-<<<<<<< HEAD
 using OfficeOpenXml.Utils;
-=======
-using OfficeOpenXml.Utils.Extentions;
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
-
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -61,10 +56,9 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         private void AddSeriesChartEx(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode chartNode)
         {
-            var histoGramSeries = new List<XmlElement>(); ;
+            var histoGramSeries = new List<XmlElement>();
             foreach (XmlElement serieElement in chartNode.SelectNodes("cx:plotArea/cx:plotAreaRegion/cx:series", ns))
             {
-<<<<<<< HEAD
                 switch (chart.ChartType)
                 {
                     case eChartType.Treemap:
@@ -83,9 +77,6 @@ namespace OfficeOpenXml.Drawing.Chart
                         _list.Add(new ExcelChartExSerie(chart, ns, serieElement));
                         break;
                 }
-=======
-                _list.Add(new ExcelChartExSerie(chart, ns, n));
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
             }
             if (chart.ChartType == eChartType.Pareto)
             {
@@ -347,14 +338,11 @@ namespace OfficeOpenXml.Drawing.Chart
                     serie = new ExcelAreaChartSerie(_chart, _ns, serElement, _isPivot);
                     break;
                 case eChartType.Treemap:
-<<<<<<< HEAD
                     serie = new ExcelTreemapChartSerie((ExcelChartEx)_chart, _ns, serElement);
                     break;
                 case eChartType.BoxWhisker:
                     serie = new ExcelBoxWhiskerChartSerie((ExcelChartEx)_chart, _ns, serElement);
                     break;
-=======
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
                 case eChartType.Histogram:
                 case eChartType.Pareto:
                     serie=new ExcelHistogramChartSerie((ExcelChartEx)_chart, _ns, serElement);

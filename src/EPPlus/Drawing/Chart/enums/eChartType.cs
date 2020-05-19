@@ -326,7 +326,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         Sunburst = 120,
         /// <summary>
-        /// A box & whisker chart
+        /// A box &amp; whisker chart
         /// </summary>
         BoxWhisker = 121,
         /// <summary>

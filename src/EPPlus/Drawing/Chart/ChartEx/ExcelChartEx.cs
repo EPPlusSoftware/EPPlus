@@ -24,11 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-<<<<<<< HEAD
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
-=======
-namespace OfficeOpenXml.Drawing.Chart
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
 {
     public class ExcelChartEx : ExcelChart
     {
@@ -51,6 +47,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             UriChart = uriChart;
             Part = part;
+            _chartNode = chartNode;
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
             Init();
         }
@@ -73,6 +70,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _isChartEx = true;
             _chartXmlHelper.SchemaNodeOrder = new string[] { "chartData", "chart", "spPr", "txPr", "clrMapOvr", "fmtOvrs", "title", "plotArea","plotAreaRegion","axis", "legend", "printSettings" };
+            base.Series.Init(this, NameSpaceManager, _chartNode, false);
             Series.Init(this, NameSpaceManager, _chartNode, false, Series._list);
             LoadAxis();
         }

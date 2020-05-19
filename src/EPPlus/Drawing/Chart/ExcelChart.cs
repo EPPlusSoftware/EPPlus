@@ -25,11 +25,6 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-<<<<<<< HEAD
-using OfficeOpenXml.Drawing.Chart.ChartEx;
-=======
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
-
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -851,7 +846,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.SurfaceWireframe:
                     return new ExcelSurfaceChart(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
                 case eChartType.Treemap:
-<<<<<<< HEAD
                     return new ExcelTreemapChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.BoxWhisker:
                     return new ExcelBoxWhiskerChart(drawings, drawNode, chartType, chartXml);
@@ -859,13 +853,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Pareto:
                     return new ExcelHistogramChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Waterfall:
-=======
-                case eChartType.Histogram:
-                case eChartType.Waterfall:
                 case eChartType.Sunburst:
-                case eChartType.BoxWhisker:
-                case eChartType.Pareto:
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
                 case eChartType.Funnel:
                 case eChartType.RegionMap:
                     return new ExcelChartEx(drawings, drawNode, chartType, chartXml);
