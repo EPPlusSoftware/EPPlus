@@ -14,13 +14,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
-    internal static class FvImpl
+    internal class FinancialDay_Actual_Actual : FinancialDay
     {
-        internal static FinanceCalcResult<double> Fv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+        public FinancialDay_Actual_Actual(System.DateTime date) : base(date)
         {
-            return new FinanceCalcResult<double>(InternalMethods.FV_Internal(Rate, NPer, Pmt, PV, Due));
+        }
+
+        public FinancialDay_Actual_Actual(int year, int month, int day) : base(year, month, day)
+        {
+        }
+
+        protected override DayCountBasis Basis => DayCountBasis.Actual_Actual;
+
+        protected override FinancialDay Factory(short year, short month, short day)
+        {
+            return new FinancialDay_Actual_Actual(year, month, day);
         }
     }
 }

@@ -14,13 +14,28 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
-    internal static class FvImpl
+    internal class FinancialDaysEuropean_30_360 : FinancialDaysBase, IFinanicalDays
     {
-        internal static FinanceCalcResult<double> Fv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+
+        public double GetDaysBetweenDates(System.DateTime startDate, System.DateTime endDate)
         {
-            return new FinanceCalcResult<double>(InternalMethods.FV_Internal(Rate, NPer, Pmt, PV, Due));
+            var start = FinancialDayFactory.Create(startDate, DayCountBasis.Actual_Actual);
+            var end = FinancialDayFactory.Create(endDate, DayCountBasis.Actual_Actual);
+            return GetDaysBetweenDates(start, end, 360);
+        }
+
+        public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate)
+        {
+            if (startDate.Day == 31) startDate.Day = 30;
+            if (endDate.Day == 31) endDate.Day = 30;
+            return GetDaysBetweenDates(startDate, endDate, 360);
+        }
+
+        public double GetCoupdays(FinancialDay start, FinancialDay end, int frequency)
+        {
+            return 360 / frequency;
         }
     }
 }

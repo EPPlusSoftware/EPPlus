@@ -10,17 +10,39 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
-    public class FinanceCalcResult
+    public class FinanceCalcResult<T>
     {
-        public FinanceCalcResult(double result)
+        public FinanceCalcResult(T result)
         {
             Result = result;
+            if(result is double)
+            {
+                DataType = DataType.Decimal;
+            }
+            else if(result is int)
+            {
+                DataType = DataType.Integer;
+            }
+            else if(result is System.DateTime)
+            {
+                DataType = DataType.Date;
+            }
+            else
+            {
+                DataType = DataType.Unknown;
+            }
+        }
+        public FinanceCalcResult(T result, DataType dataType)
+        {
+            Result = result;
+            DataType = dataType;
         }
 
         public FinanceCalcResult(eErrorType error)
@@ -29,7 +51,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             ExcelErrorType = error;
         }
 
-        public double Result { get; private set; }
+        public T Result { get; private set; }
+
+        public DataType DataType { get; private set; }
 
         public bool HasError
         {

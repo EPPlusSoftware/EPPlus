@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  05/13/2020         EPPlus Software AB       Implemented function (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     internal class InternalMethods
     {
-        internal static FinanceCalcResult PMT_Internal(double Rate, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+        internal static FinanceCalcResult<double> PMT_Internal(double Rate, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
         {
             double dTemp;
             double dTemp2;
@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             //       Checking for error conditions
             if (NPer == 0.0)
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
 
             if(Rate == 0.0)
             {
-                return new FinanceCalcResult((-FV - PV) / NPer);
+                return new FinanceCalcResult<double>((-FV - PV) / NPer);
             }
             else
             {
@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 //       to make sure that they (pow and ^) are same for all conditions
                 dTemp2 = System.Math.Pow(dTemp3, NPer);
                 var result = ((-FV - PV * dTemp2) / (dTemp * (dTemp2 - 1.0)) * Rate);
-                return new FinanceCalcResult(result);
+                return new FinanceCalcResult<double>(result);
             }
         }
 

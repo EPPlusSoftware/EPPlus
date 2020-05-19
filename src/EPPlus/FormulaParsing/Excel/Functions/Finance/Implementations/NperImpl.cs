@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/03/2020         EPPlus Software AB         Implemented function (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     public static class NperImpl
     {
-        public static FinanceCalcResult NPer(double Rate, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+        public static FinanceCalcResult<double> NPer(double Rate, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
         {
             double dTemp3;
             double dTempFv;
@@ -27,14 +27,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             //   Checking Error Conditions
             if (Rate <= -1.0)
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
 
             if (Rate == 0.0)
             {
                 if (Pmt == 0.0)
-                    return new FinanceCalcResult(eErrorType.Num);
+                    return new FinanceCalcResult<double>(eErrorType.Num);
 
-                return new FinanceCalcResult(-(PV + FV) / Pmt);
+                return new FinanceCalcResult<double>(-(PV + FV) / Pmt);
             }
             else
             {
@@ -57,12 +57,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 }
                 else if(dTempFv <= 0.0 || dTempPv <= 0.0)
                 {
-                    return new FinanceCalcResult(eErrorType.Num);
+                    return new FinanceCalcResult<double>(eErrorType.Num);
                 }
                 dTemp4 = Rate + 1.0;
 
                 var result = (System.Math.Log(dTempFv) - System.Math.Log(dTempPv)) / System.Math.Log(dTemp4);
-                return new FinanceCalcResult(result);
+                return new FinanceCalcResult<double>(result);
             }
         }
     }

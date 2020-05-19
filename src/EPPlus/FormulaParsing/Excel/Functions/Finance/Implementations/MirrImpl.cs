@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/03/2020         EPPlus Software AB         Implemented function (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             return dTotal;
         }
 
-        internal static FinanceCalcResult MIRR(double[] ValueArray, double FinanceRate, double ReinvestRate)
+        internal static FinanceCalcResult<double> MIRR(double[] ValueArray, double FinanceRate, double ReinvestRate)
         {
             double dNpvPos;
             double dNpvNeg;
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             if(ValueArray.Rank != 1)
             {
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
             }
 
             lLower = 0;
@@ -75,23 +75,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             if(FinanceRate == -1d)
             {
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
             }
 
             if(ReinvestRate == -1d)
             {
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
             }
 
             if(lCVal <= 1d)
             {
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
             }
 
             dNpvNeg = LDoNPV(FinanceRate, ref ValueArray, -1);
 
             if (dNpvNeg == 0.0)
-                return new FinanceCalcResult(eErrorType.Div0);
+                return new FinanceCalcResult<double>(eErrorType.Div0);
 
             dNpvPos = LDoNPV(ReinvestRate, ref ValueArray, 1); // npv of +ve values
             dTemp1 = ReinvestRate + 1.0;
@@ -100,11 +100,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             dTemp = -dNpvPos * System.Math.Pow(dTemp1, dNTemp2) / (dNpvNeg * (FinanceRate + 1.0));
 
             if (dTemp < 0d)
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
 
             dTemp1 = 1d / (lCVal - 1d);
 
-            return new FinanceCalcResult(System.Math.Pow(dTemp, dTemp1) - 1.0);
+            return new FinanceCalcResult<double>(System.Math.Pow(dTemp, dTemp1) - 1.0);
         }
 
     }

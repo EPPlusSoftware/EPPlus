@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5 (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     internal static class DdbImpl
     {
-        internal static FinanceCalcResult Ddb(double Cost, double Salvage, double Life, double Period, double Factor = 2.0)
+        internal static FinanceCalcResult<double> Ddb(double Cost, double Salvage, double Life, double Period, double Factor = 2.0)
         {
             double dRet;
             double dTot;
@@ -28,25 +28,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             if(Factor <= 0d || Salvage < 0d || Period <= 0d || Period > Life)
             {
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
             }
 
             if (Cost <= 0)
-                return new FinanceCalcResult(0.0d);
+                return new FinanceCalcResult<double>(0.0d);
 
             if(Life < 2d)
             {
-                return new FinanceCalcResult(Cost - Salvage);
+                return new FinanceCalcResult<double>(Cost - Salvage);
             }
 
             if(Life == 2d && Period > 1d)
             {
-                return new FinanceCalcResult(0d);
+                return new FinanceCalcResult<double>(0d);
             }
 
             if(Life == 2d && Period <= 1d)
             {
-                return new FinanceCalcResult(Cost - Salvage);
+                return new FinanceCalcResult<double>(Cost - Salvage);
             }
 
             if(Period <= 1d)
@@ -54,9 +54,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 dRet = Cost * Factor / Life;
                 dTemp = Cost - Salvage;
                 if (dRet > dTemp)
-                    return new FinanceCalcResult(dTemp);
+                    return new FinanceCalcResult<double>(dTemp);
                 else
-                    return new FinanceCalcResult(dRet);
+                    return new FinanceCalcResult<double>(dRet);
             }
 
             //   Perform the calculation
@@ -79,9 +79,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             if(dRet >= 0d)
             {
-                return new FinanceCalcResult(dRet);
+                return new FinanceCalcResult<double>(dRet);
             }
-            return new FinanceCalcResult(0d);
+            return new FinanceCalcResult<double>(0d);
         }
     }
 }

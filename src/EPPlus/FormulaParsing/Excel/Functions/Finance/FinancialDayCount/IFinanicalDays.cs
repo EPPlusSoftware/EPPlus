@@ -13,14 +13,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SDateTime = System.DateTime;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
-    internal static class FvImpl
+    internal interface IFinanicalDays
     {
-        internal static FinanceCalcResult<double> Fv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod)
-        {
-            return new FinanceCalcResult<double>(InternalMethods.FV_Internal(Rate, NPer, Pmt, PV, Due));
-        }
+        double GetDaysBetweenDates(SDateTime startDate, SDateTime endDate);
+
+        double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate);
+
+        FinancialPeriod GetCouponPeriod(FinancialDay settlementDate, FinancialDay maturityDate, int frequency);
+
+        int GetNumberOfCouponPeriods(FinancialDay settlementDate, FinancialDay maturityDate, int frequency);
+
+        double GetCoupdays(FinancialDay startDate, FinancialDay endDate, int frequency);
     }
 }

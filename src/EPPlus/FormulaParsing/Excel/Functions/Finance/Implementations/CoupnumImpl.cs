@@ -8,19 +8,26 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
-    internal static class FvImpl
+    internal class CoupnumImpl : Coupbase
     {
-        internal static FinanceCalcResult<double> Fv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+        public CoupnumImpl(FinancialDay settlement, FinancialDay maturity, int frequency, DayCountBasis basis) : base(settlement, maturity, frequency, basis)
         {
-            return new FinanceCalcResult<double>(InternalMethods.FV_Internal(Rate, NPer, Pmt, PV, Due));
+        }
+
+        internal FinanceCalcResult<int> GetCoupnum()
+        {
+            var fds = FinancialDaysFactory.Create(Basis);
+            return new FinanceCalcResult<int>(fds.GetNumberOfCouponPeriods(Settlement, Maturity, Frequency));
         }
     }
 }

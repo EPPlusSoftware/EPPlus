@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/03/2020         EPPlus Software AB         Implemented function (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
         private const double cnL_IT_STEP = 0.00001;
         private const double cnL_IT_EPSILON = 0.0000001;
 
-        public static FinanceCalcResult Rate(double NPer, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod, double Guess = 0.1)
+        public static FinanceCalcResult<double> Rate(double NPer, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod, double Guess = 0.1)
         {
             double dTemp;
             double dRate0;
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                         dRate0 = dRate0 - cnL_IT_STEP * (-1);
                     dY0 = LEvalRate(dRate0, NPer, Pmt, PV, FV, Due);
                     if (dY1 == dY0)
-                        return new FinanceCalcResult(eErrorType.Num);
+                        return new FinanceCalcResult<double>(eErrorType.Num);
                 }
 
                 dRate0 = dRate1 - (dRate1 - dRate0) * dY1 / (dY1 - dY0);
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 // Secant method of generating next approximation
                 dY0 = LEvalRate(dRate0, NPer, Pmt, PV, FV, Due);
                 if (System.Math.Abs(dY0) < cnL_IT_EPSILON)
-                    return new FinanceCalcResult(dRate0);
+                    return new FinanceCalcResult<double>(dRate0);
 
                 dTemp = dY0;
                 dY0 = dY1;
@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 dRate1 = dTemp;
             }
 
-            return new FinanceCalcResult(eErrorType.Num);
+            return new FinanceCalcResult<double>(eErrorType.Num);
         }
 
         public static double LEvalRate(double Rate, double NPer, double Pmt, double PV, double dFv, PmtDue Due)

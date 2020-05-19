@@ -223,6 +223,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void TestWorksheet()
+        {
+            using(var package = new ExcelPackage())
+            {
+                package.Workbook.Worksheets.Add("$Unit");
+                var sheet = package.Workbook.Worksheets["$Unit"];
+                Assert.IsNotNull(sheet);
+
+                package.Workbook.Worksheets.Add("Unit1$");
+                var sheet2 = package.Workbook.Worksheets["Unit1$"];
+                Assert.IsNotNull(sheet2);
+            }
+        }
+
+        [TestMethod]
         public void Ppmt_Tests()
         {
             _worksheet.Cells["A1"].Formula = "PPMT( 5%/12, 1, 60, 50000 )";

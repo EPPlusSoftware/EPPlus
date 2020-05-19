@@ -169,6 +169,7 @@
     <EmbeddedResource Include="resources\DefaultChartStyles.ecs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="EPPlusLogo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

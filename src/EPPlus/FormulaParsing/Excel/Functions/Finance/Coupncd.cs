@@ -8,8 +8,9 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/13/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
@@ -19,24 +20,12 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
-    internal class Irr : ExcelFunction
+    internal class Coupncd : CoupFunctionBase<System.DateTime>
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        protected override FinanceCalcResult<System.DateTime> ExecuteFunction(FinancialDay settlementDate, FinancialDay maturityDate, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
         {
-            ValidateArguments(arguments, 1);
-            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(0) }, context);
-            var result = default(FinanceCalcResult<double>);
-            if(arguments.Count() == 1)
-            {
-                result = IrrImpl.Irr(values.Select(x => (double)x).ToArray());
-            }
-            else
-            {
-                var guess = ArgToDecimal(arguments, 1);
-                result = IrrImpl.Irr(values.Select(x => (double)x).ToArray(), guess);
-            }
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
-            return CreateResult(result.Result, DataType.Decimal);
+            var impl = new CoupncdImpl(settlementDate, maturityDate, frequency, basis);
+            return impl.GetCoupncd();
         }
     }
 }

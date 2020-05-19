@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/03/2020         EPPlus Software AB         Implemented function (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -18,24 +18,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     internal static class PpmtImpl
     {
-        internal static FinanceCalcResult Ppmt(double Rate, double Per, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+        internal static FinanceCalcResult<double> Ppmt(double Rate, double Per, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
         {
             double Pmt;
             double dIPMT;
 
             //   Checking for error conditions
             if ((Per <= 0.0) || (Per >= (NPer + 1)))
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
 
             var pmtResult = InternalMethods.PMT_Internal(Rate, NPer, PV, FV, Due);
-            if (pmtResult.HasError) return new FinanceCalcResult(pmtResult.ExcelErrorType);
+            if (pmtResult.HasError) return new FinanceCalcResult<double>(pmtResult.ExcelErrorType);
             Pmt = pmtResult.Result;
 
             var iPmtResult = IPmtImpl.Ipmt(Rate, Per, NPer, PV, FV, Due);
-            if (iPmtResult.HasError) return new FinanceCalcResult(iPmtResult.ExcelErrorType);
+            if (iPmtResult.HasError) return new FinanceCalcResult<double>(iPmtResult.ExcelErrorType);
             dIPMT = iPmtResult.Result;
 
-            return new FinanceCalcResult(Pmt - dIPMT);
+            return new FinanceCalcResult<double>(Pmt - dIPMT);
         }
     }
 }

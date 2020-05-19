@@ -249,6 +249,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["sln"] = new Sln();
             Functions["syd"] = new Syd();
             Functions["xnpv"] = new Xnpv();
+            Functions["coupdays"] = new Coupdays();
+            Functions["coupdaysnc"] = new Coupdaysnc();
+            Functions["coupdaybs"] = new Coupdaybs();
+            Functions["coupnum"] = new Coupnum();
+            Functions["coupncd"] = new Coupncd();
+            Functions["couppcd"] = new Couppcd();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();

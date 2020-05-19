@@ -10,17 +10,26 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 {
-    internal static class FvImpl
+    internal class FinancialPeriod
     {
-        internal static FinanceCalcResult<double> Fv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+        public FinancialPeriod(FinancialDay start, FinancialDay end)
         {
-            return new FinanceCalcResult<double>(InternalMethods.FV_Internal(Rate, NPer, Pmt, PV, Due));
+            Start = start;
+            End = end;
+        }
+        internal FinancialDay Start { get; }
+
+        internal FinancialDay End { get; }
+
+        public override string ToString()
+        {
+            return $"{Start.ToString()} - {End.ToString()}";
         }
     }
 }

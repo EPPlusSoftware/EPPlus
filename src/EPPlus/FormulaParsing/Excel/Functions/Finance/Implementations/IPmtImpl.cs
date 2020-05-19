@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  05/13/2020         EPPlus Software AB       Implemented function Implemented function (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     internal static class IPmtImpl
     {
-        internal static FinanceCalcResult Ipmt(double Rate, double Per, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+        internal static FinanceCalcResult<double> Ipmt(double Rate, double Per, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
         {
             double Pmt;
             double dTFv;
@@ -36,17 +36,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             // Type = 0 or non-zero only. Offset to calculate FV
             if((Per <= 0) || (Per >= NPer + 1))
             {
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
             }
 
             if(Due != PmtDue.EndOfPeriod && (Per == 1.0))
             {
-                return new FinanceCalcResult(0d); ;
+                return new FinanceCalcResult<double>(0d); ;
             }
 
             //   Calculate PMT (i.e. annuity) for given parms. Rqrd for FV
             var result = InternalMethods.PMT_Internal(Rate, NPer, PV, FV, Due);
-            if (result.HasError) return new FinanceCalcResult(eErrorType.Num);
+            if (result.HasError) return new FinanceCalcResult<double>(eErrorType.Num);
             Pmt = result.Result;
 
             if(Due != PmtDue.EndOfPeriod)
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             dTFv = InternalMethods.FV_Internal(Rate, (Per - dTemp), Pmt, PV, PmtDue.EndOfPeriod);
 
-            return new FinanceCalcResult(dTFv * Rate);
+            return new FinanceCalcResult<double>(dTFv * Rate);
         }
     }
 }

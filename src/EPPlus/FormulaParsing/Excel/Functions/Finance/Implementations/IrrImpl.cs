@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/03/2020         EPPlus Software AB         Implemented function (ported to c# from Microsoft.VisualBasic.Financial.vb (MIT))
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             return dTotal;
         }
 
-        internal static FinanceCalcResult Irr(double[] ValueArray, double Guess = 0.1)
+        internal static FinanceCalcResult<double> Irr(double[] ValueArray, double Guess = 0.1)
         {
             double dTemp;
             double dRate0;
@@ -63,16 +63,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             }
             catch (StackOverflowException soe)
             {
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
             }
             catch (OutOfMemoryException ome)
             {
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
             }
             catch (ArgumentException ae)
             {
                 // return error due to invalid value array
-                return new FinanceCalcResult(eErrorType.Value);
+                return new FinanceCalcResult<double>(eErrorType.Value);
             }
 
             lCVal = lUpper + 1;
@@ -80,11 +80,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             //Function fails for invalid parameters
             if (Guess <= -1.0)
             {
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
             }
             if (lCVal <= 1)
             {
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
             }
 
             //'We scale the epsilon depending on cash flow values. It is necessary
@@ -120,7 +120,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 dRate1 = dRate0 - cnL_IT_STEP;
 
             if (dRate1 <= -1.0)
-                return new FinanceCalcResult(eErrorType.Num);
+                return new FinanceCalcResult<double>(eErrorType.Num);
 
             dNpv1 = OptPV2(ref ValueArray, dRate1);
 
@@ -135,7 +135,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 }
                 dNPv0 = OptPV2(ref ValueArray, dRate0);
                 if (dNpv1 == dNPv0)
-                    return new FinanceCalcResult(eErrorType.Value);
+                    return new FinanceCalcResult<double>(eErrorType.Value);
 
                 dRate0 = dRate1 - (dRate1 - dRate0) * dNpv1 / (dNpv1 - dNPv0);
 
@@ -158,7 +158,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
                 //Test : npv - > 0 and rate converges
                 if (dTemp1 < dNpvEpsilon && dTemp < cnL_IT_EPSILON)
-                    return new FinanceCalcResult(dRate0);
+                    return new FinanceCalcResult<double>(dRate0);
 
                 //Exchange the values - store the new values in the 1's
                 dTemp = dNPv0;
@@ -168,7 +168,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 dRate0 = dRate1;
                 dRate1 = dTemp;
             }
-            return new FinanceCalcResult(eErrorType.Value);
+            return new FinanceCalcResult<double>(eErrorType.Value);
         }
     }
 }
