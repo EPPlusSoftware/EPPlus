@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             _isChartEx = true;
             _chartXmlHelper.SchemaNodeOrder = new string[] { "chartData", "chart", "spPr", "txPr", "clrMapOvr", "fmtOvrs", "title", "plotArea","plotAreaRegion","axis", "legend", "printSettings" };
-            base.Series.Init(this, NameSpaceManager, _chartNode, false);
+            base.Series.Init(this, NameSpaceManager, _chartNode, false, base.Series._list);
             Series.Init(this, NameSpaceManager, _chartNode, false, Series._list);
             LoadAxis();
         }
@@ -144,7 +144,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         private static eChartType GetChartType(XmlNode node, XmlNamespaceManager nsm)
         {
             var layoutId = node.SelectSingleNode("cx:plotArea/cx:plotAreaRegion/cx:series[1]/@layoutId", nsm);
-            if (layoutId == null) throw new InvalidOperationException($"No series in chart");
+            if (layoutId == null) return eChartType.Treemap;
             switch (layoutId.Value)
             {
                 case "clusteredColumn":

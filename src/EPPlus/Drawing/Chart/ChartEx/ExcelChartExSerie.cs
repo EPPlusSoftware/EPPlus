@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 chart.ChartType == eChartType.Histogram ||
                 chart.ChartType == eChartType.Pareto ||
                 chart.ChartType == eChartType.Waterfall ||
-                chart.ChartType == eChartType.Pareto) && chart.Series.Count==0)
+                chart.ChartType == eChartType.Pareto) && ((ExcelChart)chart).Series.Count==0)
             {
                 AddAxis();
                 chart.LoadAxis();

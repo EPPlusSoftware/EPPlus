@@ -680,17 +680,36 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal static ExcelChartEx GetChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
-            XmlNode chartNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1' or @Requires='cx2']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
-            if (chartNode != null)
+            XmlNode chartDrawingNode = node.SelectSingleNode("mc:AlternateContent/mc:Choice[@Requires='cx1' or @Requires='cx2']/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", drawings.NameSpaceManager);
+            if (chartDrawingNode != null)
             {
-                var drawingRelation = drawings.Part.GetRelationship(chartNode.Attributes["r:id"].Value);
+                var drawingRelation = drawings.Part.GetRelationship(chartDrawingNode.Attributes["r:id"].Value);
                 var uriChart = UriHelper.ResolvePartUri(drawings.UriDrawing, drawingRelation.TargetUri);
 
                 var part = drawings.Part.Package.GetPart(uriChart);
                 var chartXml = new XmlDocument();
                 LoadXmlSafe(chartXml, part.GetStream());
 
-                return new ExcelChartEx(drawings, node, uriChart, part, chartXml, chartXml.SelectSingleNode("cx:chartSpace/cx:chart", drawings.NameSpaceManager));
+                var chartNode = chartXml.SelectSingleNode("cx:chartSpace/cx:chart", drawings.NameSpaceManager);
+                var layoutId = chartNode.SelectSingleNode("cx:plotArea/cx:plotAreaRegion/cx:series[1]/@layoutId", drawings.NameSpaceManager);
+                if(layoutId==null)
+                {
+                    return new ExcelTreemapChart(drawings, node, uriChart, part, chartXml, chartNode);
+                }
+                switch (layoutId.Value)
+                {
+                    case "treemap":
+                        return new ExcelTreemapChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    case "sunburst":
+                        return new ExcelSunburstChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    case "boxWhisker":
+                        return new ExcelBoxWhiskerChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    case "clusteredColumn":
+                    case "pareto":
+                        return new ExcelHistogramChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    default:
+                        return new ExcelChartEx(drawings, node, uriChart, part, chartXml, chartNode);
+                }
             }
             else
             {
