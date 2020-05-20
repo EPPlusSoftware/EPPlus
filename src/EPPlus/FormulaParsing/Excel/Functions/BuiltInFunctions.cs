@@ -234,6 +234,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["ddb"] = new Ddb();
             Functions["effect"] = new Effect();
             Functions["fvschedule"] = new FvSchedule();
+            Functions["pduration"] = new Pduration();
             Functions["pmt"] = new Pmt();
             Functions["ppmt"] = new Ppmt();
             Functions["ipmt"] = new Ipmt();

@@ -335,6 +335,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void Pduration_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "PDURATION(4%, 10000, 15000)";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(10.34, result);
+
+            _worksheet.Cells["A1"].Formula = "PDURATION(0.025/12,1000,1200)";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 1);
+            Assert.AreEqual(87.6, result);
+        }
+
+        [TestMethod]
         public void Nominal_Tests()
         {
             _worksheet.Cells["A1"].Formula = "NOMINAL( 10%, 4 )";
