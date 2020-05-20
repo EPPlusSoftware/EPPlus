@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, chartXml, parent, "mc:AlternateContent/mc:Choice/xdr:graphicFrame")
-        {
+       {
             ChartType = type.Value;
             CreateNewChart(drawings, chartXml, type);
             Init();

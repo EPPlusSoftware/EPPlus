@@ -67,10 +67,10 @@ namespace EPPlusTest.Drawing.Style
 
             //Act
             shape.Fill.Style=eFillStyle.SolidFill;
-            shape.Fill.SolidFill.Color.SetRgbColor(Color.FromArgb(80,255,0,0), true);
+            shape.Fill.SolidFill.Color.SetRgbColor(Color.FromArgb(127,255,0,0), true);
 
             //Assert
-            Assert.AreEqual(80, shape.Fill.SolidFill.Color.Transforms[0].Value);
+            Assert.AreEqual(50, shape.Fill.SolidFill.Color.Transforms[0].Value);
             Assert.AreEqual(0xFFFF0000, (uint)shape.Fill.SolidFill.Color.RgbColor.Color.ToArgb());
         }
         private static string TranslateFromColor(Color c)

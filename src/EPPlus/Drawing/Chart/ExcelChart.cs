@@ -707,6 +707,10 @@ namespace OfficeOpenXml.Drawing.Chart
                     case "clusteredColumn":
                     case "pareto":
                         return new ExcelHistogramChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    case "funnel":
+                        return new ExcelFunnelChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    case "waterfall":
+                        return new ExcelWaterfallChart(drawings, node, uriChart, part, chartXml, chartNode);
                     default:
                         return new ExcelChartEx(drawings, node, uriChart, part, chartXml, chartNode);
                 }
@@ -864,6 +868,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.SurfaceTopViewWireframe:
                 case eChartType.SurfaceWireframe:
                     return new ExcelSurfaceChart(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
+                case eChartType.Sunburst:
+                    return new ExcelSunburstChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Treemap:
                     return new ExcelTreemapChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.BoxWhisker:
@@ -872,8 +878,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Pareto:
                     return new ExcelHistogramChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Waterfall:
-                case eChartType.Sunburst:
+                    return new ExcelWaterfallChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Funnel:
+                    return new ExcelFunnelChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.RegionMap:
                     return new ExcelChartEx(drawings, drawNode, chartType, chartXml);
                 default:

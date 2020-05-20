@@ -70,6 +70,8 @@ namespace EPPlusTest.Drawing.Chart
             serie.DataLabel.ShowCategory = true;
             serie.DataLabel.ShowValue=true;
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Sunburst7);
+
+            Assert.IsInstanceOfType(chart, typeof(ExcelSunburstChart));
         }
         [TestMethod]
         public void AddTreemapChart()
@@ -85,6 +87,7 @@ namespace EPPlusTest.Drawing.Chart
             serie.DataLabel.ShowValue = true;
             serie.DataLabel.ShowSeriesName = true;
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Treemap9);
+            Assert.IsInstanceOfType(chart, typeof(ExcelTreemapChart));
         }
         [TestMethod]
         public void AddBoxWhiskerChart()
@@ -98,6 +101,7 @@ namespace EPPlusTest.Drawing.Chart
             serie.ElementVisibility.ConnectorLines = true;
             chart.StyleManager.SetChartStyle(ePresetChartStyle.BoxWhiskerStyle3);
 
+            Assert.IsInstanceOfType(chart, typeof(ExcelBoxWhiskerChart));
             Assert.AreEqual(2, chart.Axis.Length);
             Assert.IsNotNull(chart.XAxis);
             Assert.IsNotNull(chart.YAxis);
@@ -120,6 +124,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle2);
+            Assert.IsInstanceOfType(chart, typeof(ExcelHistogramChart));
         }
         [TestMethod]
         public void AddParetoChart()
@@ -131,11 +136,12 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
 
+            Assert.IsInstanceOfType(chart, typeof(ExcelHistogramChart));
             Assert.IsNotNull(serie.ParetoLine);
             serie.ParetoLine.Fill.Style = eFillStyle.SolidFill;
             serie.ParetoLine.Fill.SolidFill.Color.SetRgbColor(Color.FromArgb(128,255,0,0),true);
             serie.ParetoLine.Effect.SetPresetShadow(ePresetExcelShadowType.OuterBottomRight);
-
+            Assert.AreEqual(eChartType.Pareto, chart.ChartType);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
         }
         [TestMethod]
@@ -143,22 +149,22 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = _pck.Workbook.Worksheets.Add("Waterfall");
             AddHierarkiData(ws);
-            var chart = ws.Drawings.AddExtendedChart("Waterfall", eChartExType.Waterfall);
+            var chart = ws.Drawings.AddWaterfallChart("Waterfall");
             var serie = chart.Series.Add("Waterfall!$A$2:$C$17", "Waterfall!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             var dt = chart.Series[0].DataPoints.Add(15);
             dt.SubTotal = true;
-            dt = chart.Series[0].DataPoints.Add(0);
+            dt = serie.DataPoints.Add(0);
             dt.SubTotal = true;            
-            dt=chart.Series[0].DataPoints.Add(4);
+            dt= serie.DataPoints.Add(4);
             dt.Fill.Style = eFillStyle.SolidFill;
             dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent2);
-            dt = chart.Series[0].DataPoints.Add(2);
+            dt = serie.DataPoints.Add(2);
             dt.Fill.Style = eFillStyle.SolidFill;
             dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent4);
 
-            dt=chart.Series[0].DataPoints[0];
+            dt= serie.DataPoints[0];
             dt.Border.Fill.Style = eFillStyle.GradientFill;
             dt.Border.Fill.GradientFill.Colors.AddRgb(0, Color.Green);
             dt.Border.Fill.GradientFill.Colors.AddRgb(40, Color.Blue);
@@ -167,13 +173,22 @@ namespace EPPlusTest.Drawing.Chart
             dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent1);
 
             chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
+
+            Assert.IsInstanceOfType(chart, typeof(ExcelWaterfallChart));
+            Assert.AreEqual(4,serie.DataPoints.Count);
+            Assert.IsTrue(serie.DataPoints[0].SubTotal);
+            Assert.AreEqual(eFillStyle.GradientFill, serie.DataPoints[0].Border.Fill.Style);
+            Assert.AreEqual(3, serie.DataPoints[0].Border.Fill.GradientFill.Colors.Count);
+            Assert.AreEqual(eFillStyle.SolidFill, serie.DataPoints[0].Fill.Style);
+            Assert.AreEqual(eSchemeColor.Accent1, serie.DataPoints[0].Fill.SolidFill.Color.SchemeColor.Color);
+            Assert.IsTrue(serie.DataPoints[15].SubTotal);
         }
         [TestMethod]
         public void AddFunnelChart()
         {
             var ws = _pck.Workbook.Worksheets.Add("Funnel");
             AddHierarkiData(ws);
-            var chart = ws.Drawings.AddExtendedChart("Funnel", eChartExType.Funnel);
+            var chart = ws.Drawings.AddFunnelChart("Funnel");
             var serie = chart.Series.Add("Funnel!$A$2:$C$17", "Funnel!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);

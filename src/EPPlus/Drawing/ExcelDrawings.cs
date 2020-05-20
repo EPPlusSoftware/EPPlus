@@ -334,11 +334,29 @@ namespace OfficeOpenXml.Drawing
         /// Adds a new Histogram or Pareto chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="addParetoLine">if true a pareto line is added to the chart. The <see cref="ExcelChart.ChartType"/> will also be Pareto.</param>
+        /// <param name="AddParetoLine">If true a pareto line is added to the chart. The <see cref="ExcelChart.ChartType"/> will also be Pareto.</param>
         /// <returns>The chart</returns>
-        public ExcelHistogramChart AddHistogramChart(string Name, bool addParetoLine=false)
+        public ExcelHistogramChart AddHistogramChart(string Name, bool AddParetoLine=false)
         {
-            return (ExcelHistogramChart)AddChart(Name, addParetoLine ? eChartType.Pareto : eChartType.Histogram, null);
+            return (ExcelHistogramChart)AddChart(Name, AddParetoLine ? eChartType.Pareto : eChartType.Histogram, null);
+        }
+        /// <summary>
+        /// Adds a waterfall chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelWaterfallChart AddWaterfallChart(string Name)
+        {
+            return (ExcelWaterfallChart)AddChart(Name, eChartType.Waterfall, null);
+        }
+        /// <summary>
+        /// Adds a funnel chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelFunnelChart AddFunnelChart(string Name)
+        {
+            return (ExcelFunnelChart)AddChart(Name, eChartType.Funnel, null);
         }
         /// <summary>
         /// Adds a new extended chart to the worksheet.
