@@ -12,10 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
-<<<<<<< HEAD
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-=======
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
@@ -307,7 +304,6 @@ namespace OfficeOpenXml.Drawing
             return (ExcelChartEx)AddChart(Name, (eChartType)ChartType, null);
         }
         /// <summary>
-<<<<<<< HEAD
         /// Adds a new sunburst chart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
@@ -345,8 +341,6 @@ namespace OfficeOpenXml.Drawing
             return (ExcelHistogramChart)AddChart(Name, addParetoLine ? eChartType.Pareto : eChartType.Histogram, null);
         }
         /// <summary>
-=======
->>>>>>> parent of c9b9039... WIP:Added typed classes for Sunburst and treemap charts. More properties and fixed issues.
         /// Adds a new extended chart to the worksheet.
         /// Extended charts are 
         /// </summary>
