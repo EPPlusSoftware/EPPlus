@@ -351,6 +351,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void Rri_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "RRI(10, 10000, 15000)";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(0.0414, result);
+        }
+
+        [TestMethod]
         public void Nominal_Tests()
         {
             _worksheet.Cells["A1"].Formula = "NOMINAL( 10%, 4 )";

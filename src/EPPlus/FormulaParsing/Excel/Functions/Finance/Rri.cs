@@ -19,16 +19,16 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
-    internal class Pduration : ExcelFunction
+    internal class Rri : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);
-            var rate = ArgToDecimal(arguments, 0);
+            var nper = ArgToDecimal(arguments, 0);
             var pv = ArgToDecimal(arguments, 1);
             var fv = ArgToDecimal(arguments, 2);
-            if (rate <= 0d || pv <= 0d || fv <= 0d) return CreateResult(eErrorType.Num);
-            var retVal = (System.Math.Log(fv) - System.Math.Log(pv)) / System.Math.Log(1 + rate);
+            if (nper <= 0d || pv <= 0d || fv < 0d) return CreateResult(eErrorType.Num);
+            var retVal = (System.Math.Pow(fv / pv, 1 / nper)) - 1;
             return CreateResult(retVal, DataType.Decimal);
         }
     }
