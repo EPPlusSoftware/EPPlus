@@ -26,9 +26,12 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartTrendlineCollection(ExcelChartStandardSerie serie)
         {
             _serie = serie;
-            foreach (XmlNode node in _serie.TopNode.SelectNodes("c:trendline", _serie.NameSpaceManager))
+            if (serie != null)
             {
-                _list.Add(new ExcelChartTrendline(_serie.NameSpaceManager, node, serie));
+                foreach (XmlNode node in _serie.TopNode.SelectNodes("c:trendline", _serie.NameSpaceManager))
+                {
+                    _list.Add(new ExcelChartTrendline(_serie.NameSpaceManager, node, serie));
+                }
             }
         }
         /// <summary>
@@ -38,12 +41,13 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns>The trendline</returns>
         public ExcelChartTrendline Add(eTrendLine Type)
         {
-            if (_serie._chart.IsType3D() ||
+            if (_serie==null ||
+                _serie._chart.IsType3D() ||
                 _serie._chart.IsTypePercentStacked() ||    
                 _serie._chart.IsTypeStacked() ||
                 _serie._chart.IsTypePieDoughnut())
             {
-                throw(new ArgumentException("Type","Trendlines don't apply to 3d-charts, stacked charts, pie charts or doughnut charts"));
+                throw(new ArgumentException("Type","Trendlines don't apply to 3d-charts, stacked charts, pie charts, doughnut charts or Excel 2016 chart types"));
             }
             ExcelChartTrendline tl;
             XmlNode insertAfter;

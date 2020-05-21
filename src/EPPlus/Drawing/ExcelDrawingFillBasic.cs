@@ -190,7 +190,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     else
                     {
-                        spPrNode.InnerXml = $"<a:noFill/><a:ln><a:noFill/></a:ln ><a:effectLst/><a:sp3d/>";
+                        spPrNode.InnerXml = $"<a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/><a:sp3d/>";
                     }
                     _fillNode = GetNode(_fillPath);
                     _fillTypeNode = _fillNode.FirstChild;

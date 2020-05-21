@@ -10,26 +10,29 @@
  *************************************************************************************************
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extentions;
-using System.Xml;
-namespace OfficeOpenXml.Drawing.Chart.ChartEx
+namespace OfficeOpenXml.Drawing.Chart.ChartEx   
 {
-    public class ExcelTreemapChartSerie : ExcelChartExSerie
+    public enum eProjectionType
     {
-        internal ExcelTreemapChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
-        {
-
-        }
-        public eParentLabelLayout ParentLabelLayout
-        {
-            get
-            {
-                return GetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val").ToEnum(eParentLabelLayout.None);
-            }
-            set
-            {
-                SetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val", value.ToEnumString());
-            }
-        }
+        /// <summary>
+        /// Automatic
+        /// </summary>
+        Automatic,
+        /// <summary>
+        /// A Mercator projection.
+        /// </summary>
+        Mercator,
+        /// <summary>
+        /// a Miller cylindrical projection.
+        /// </summary>
+        Miller,
+        /// <summary>
+        /// A Robinson projection.
+        /// </summary>
+        Robinson,
+        /// <summary>
+        /// An Albers equal-area conic projection.
+        /// </summary>
+        Albers
     }
 }

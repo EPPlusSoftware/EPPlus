@@ -66,12 +66,21 @@ namespace EPPlusTest.Drawing.Chart
             var serie = chart.Series.Add("Sunburst!$A$2:$C$17", "Sunburst!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
-            serie.DataLabel.Position = eLabelPosition.Center;
+            serie.DataLabel.Position = eLabelPosition.Center;   
             serie.DataLabel.ShowCategory = true;
             serie.DataLabel.ShowValue=true;
+            var dp=serie.DataPoints.Add(2);
+            dp.Fill.Style = eFillStyle.PatternFill;
+            dp.Fill.PatternFill.PatternType = eFillPatternStyle.DashDnDiag;
+            dp.Fill.PatternFill.BackgroundColor.SetRgbColor(Color.Red);
+            dp.Fill.PatternFill.ForegroundColor.SetRgbColor(Color.DarkGray);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.Sunburst7);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelSunburstChart));
+            Assert.AreEqual(0, chart.Axis.Length);
+            Assert.IsNull(chart.XAxis);
+            Assert.IsNull(chart.YAxis);
+            
         }
         [TestMethod]
         public void AddTreemapChart()
@@ -193,6 +202,17 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
         }
+        [TestMethod]
+        public void AddRegionMapChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("RegionMap");
+            AddGeoData(ws);
+            var chart = ws.Drawings.AddRegionMapChart("RegionMap");
+            var serie = chart.Series.Add("RegionMap!$A$2:$B$11", "RegionMap!$C$2:$C$11");
+
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+        }
         private class SalesData
         {
             public string Continent { get; set; }
@@ -201,6 +221,14 @@ namespace EPPlusTest.Drawing.Chart
             public double Sales { get; set; }
 
         }
+        private class GeoData
+        {
+            public string Country { get; set; }
+            public string State { get; set; }
+            public double Sales { get; set; }
+
+        }
+
         private void AddHierarkiData(ExcelWorksheet ws)
         {
 
@@ -226,5 +254,25 @@ namespace EPPlusTest.Drawing.Chart
 
             ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);
         }
+    private void AddGeoData(ExcelWorksheet ws)
+    {
+
+        var l = new List<GeoData>
+            {
+                new GeoData{ Country="Sweden", State = "Stockholm", Sales = 154 },
+                new GeoData{ Country="Sweden", State = "Jämtland", Sales = 55 },
+                new GeoData{ Country="Sweden", State = "Västerbotten", Sales = 44},
+                new GeoData{ Country="Sweden", State = "Dalarna", Sales = 33 },
+                new GeoData{ Country="Sweden", State = "Uppsala", Sales = 22 },
+                new GeoData{ Country="Sweden", State = "Skåne", Sales = 47 },
+                new GeoData{ Country="Sweden", State = "Halland", Sales = 88 },
+                new GeoData{ Country="Sweden", State = "Norrbotten", Sales = 99 },
+                new GeoData{ Country="Sweden", State = "Västra Götaland", Sales = 120 },
+                new GeoData{ Country="Sweden", State = "Södermanland", Sales = 57 },
+            };
+
+        ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);
+    }
     }
 }
+

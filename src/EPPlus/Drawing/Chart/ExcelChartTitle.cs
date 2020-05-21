@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         void IDrawingStyleBase.CreatespPr()
         {
-            CreatespPrNode();
+            CreatespPrNode($"{_nsPrefix}:spPr");
         }
 
         ExcelParagraphCollection _richText = null;
@@ -234,11 +234,11 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeBool($"{_nsPrefix}:tx/c:rich/a:bodyPr/@anchorCtr", false);
+                return GetXmlNodeBool($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@anchorCtr", false);
             }
             set
             {
-                SetXmlNodeBool($"{_nsPrefix}:tx/c:rich/a:bodyPr/@anchorCtr", value, false);
+                SetXmlNodeBool($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@anchorCtr", value, false);
             }
         }
         /// <summary>
@@ -248,7 +248,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return GetXmlNodeString($"{_nsPrefix}:tx/c:rich/a:bodyPr/@anchor").TranslateTextAchoring();
+                return GetXmlNodeString($"{_nsPrefix}:tx/{_nsPrefix}:rich/a:bodyPr/@anchor").TranslateTextAchoring();
             }
             set
             {

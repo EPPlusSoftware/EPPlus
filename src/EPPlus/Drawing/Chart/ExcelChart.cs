@@ -711,8 +711,10 @@ namespace OfficeOpenXml.Drawing.Chart
                         return new ExcelFunnelChart(drawings, node, uriChart, part, chartXml, chartNode);
                     case "waterfall":
                         return new ExcelWaterfallChart(drawings, node, uriChart, part, chartXml, chartNode);
+                    case "regionMap":
+                        return new ExcelRegionMapChart(drawings, node, uriChart, part, chartXml, chartNode);
                     default:
-                        return new ExcelChartEx(drawings, node, uriChart, part, chartXml, chartNode);
+                        return new ExcelChartEx(drawings, node, uriChart, part, chartXml, chartNode); //Unsupported charttype
                 }
             }
             else
@@ -882,7 +884,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Funnel:
                     return new ExcelFunnelChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.RegionMap:
-                    return new ExcelChartEx(drawings, drawNode, chartType, chartXml);
+                    return new ExcelRegionMapChart(drawings, drawNode, chartType, chartXml);
                 default:
                     return new ExcelChartStandard(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
 

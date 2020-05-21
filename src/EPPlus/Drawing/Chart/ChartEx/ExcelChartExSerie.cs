@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Utils.Extentions;
 using System;
+using System.Globalization;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
@@ -285,7 +286,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
         public override int NumberOfItems => 0;
 
-        public override ExcelChartTrendlineCollection TrendLines => throw new System.NotImplementedException();
+        public override ExcelChartTrendlineCollection TrendLines => new ExcelChartTrendlineCollection(null);
 
         internal override void SetID(string id)
         {
@@ -362,6 +363,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 case eChartType.Histogram:
                 case eChartType.Pareto:
                     layoutPr.InnerXml = "<cx:binning intervalClosed=\"r\"/>";
+                    break;
+                case eChartType.RegionMap:
+                    var ci = CultureInfo.CurrentCulture;
+                    layoutPr.InnerXml = $"<cx:geography attribution = \"Powered by Bing\" cultureRegion = \"{ci.TwoLetterISOLanguageName}\" cultureLanguage = \"{ci.Name}\" ><cx:geoCache provider=\"{{E9337A44-BEBE-4D9F-B70C-5C5E7DAFC167}}\"><cx:binary/></cx:geoCache></cx:geography>";
                     break;
                 case eChartType.Waterfall:
                     layoutPr.InnerXml = "<cx:visibility connectorLines=\"0\" />";

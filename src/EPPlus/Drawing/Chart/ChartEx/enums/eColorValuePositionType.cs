@@ -10,26 +10,21 @@
  *************************************************************************************************
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extentions;
-using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public class ExcelTreemapChartSerie : ExcelChartExSerie
+    public enum eColorValuePositionType
     {
-        internal ExcelTreemapChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
-        {
-
-        }
-        public eParentLabelLayout ParentLabelLayout
-        {
-            get
-            {
-                return GetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val").ToEnum(eParentLabelLayout.None);
-            }
-            set
-            {
-                SetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val", value.ToEnumString());
-            }
-        }
+        /// <summary>
+        /// The position’s location on the gradient is determined the numerical value in the <see cref="ExcelChartExValueColor.PositionValue"/> property.
+        /// </summary>
+        Number,
+        /// <summary>
+        /// The position’s location on the gradient is determined by a fixed percent value in the <see cref="ExcelChartExValueColor.PositionValue"/> property, represented by the gradient. Ranges from 1 to 100 percent.
+        /// </summary>
+        Percent,
+        /// <summary>
+        /// The position is the minimum or maximum stop of the gradient.
+        /// </summary>
+        Extreme
     }
 }

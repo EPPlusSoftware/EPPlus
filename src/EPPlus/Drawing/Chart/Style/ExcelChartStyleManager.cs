@@ -728,6 +728,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
             chartPart.CreatespPr();
             if(applyFill) ApplyStyleFill(chartPart, section, indexForColor, numberOfItems);
+            
             ApplyStyleBorder(chartPart.Border, section, indexForColor, numberOfItems);
             ApplyStyleEffect(chartPart.Effect, section, indexForColor, numberOfItems);
             ApplyStyle3D(chartPart, section, indexForColor, numberOfItems);

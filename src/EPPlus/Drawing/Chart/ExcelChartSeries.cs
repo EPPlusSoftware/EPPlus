@@ -233,7 +233,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else
             {
-                serElement = ExcelChartStandardSerie.CreateSerieElement(_chart);
+                serElement = ExcelChartStandardSerie.CreateSerieElement(_chart._topChart ?? _chart);
             }
             ExcelChartSerie serie;
             switch (Chart.ChartType)
@@ -347,10 +347,12 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Pareto:
                     serie=new ExcelHistogramChartSerie((ExcelChartEx)_chart, _ns, serElement);
                     break;
+                case eChartType.RegionMap:
+                    serie = new ExcelRegionMapChartSerie((ExcelChartEx)_chart, _ns, serElement);
+                    break;
                 case eChartType.Waterfall:
                 case eChartType.Sunburst:
                 case eChartType.Funnel:
-                case eChartType.RegionMap:
                     serie = new ExcelChartExSerie((ExcelChartEx)_chart, _ns, serElement);
                     break;
                 default:

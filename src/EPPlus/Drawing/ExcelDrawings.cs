@@ -359,6 +359,16 @@ namespace OfficeOpenXml.Drawing
             return (ExcelFunnelChart)AddChart(Name, eChartType.Funnel, null);
         }
         /// <summary>
+        /// Adds a region map chart to the worksheet.
+        /// Note that EPPlus rely on the spreadsheet application to create the geocache data
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelRegionMapChart AddRegionMapChart(string Name)
+        {
+            return (ExcelRegionMapChart)AddChart(Name, eChartType.RegionMap, null);
+        }
+        /// <summary>
         /// Adds a new extended chart to the worksheet.
         /// Extended charts are 
         /// </summary>
