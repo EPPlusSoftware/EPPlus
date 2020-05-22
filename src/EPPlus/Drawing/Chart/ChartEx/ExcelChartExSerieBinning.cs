@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
@@ -24,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
 
         }
-        const string _binSizePath = "cx:binning/cx:binSize";
+        const string _binSizePath = "cx:layoutPr/cx:binning/cx:binSize/@val";
         /// <summary>
         /// The binning by bin size. Setting this property clears the <see cref="Count"/> property
         /// </summary>
@@ -36,29 +37,29 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                DeleteNode(ExcelChartExSerie._aggregationPath);
+                DeleteNode(ExcelHistogramChartSerie._aggregationPath);
                 DeleteNode(_binCountPath);
                 SetXmlNodeDouble(_binSizePath, value);
             }
         }
-        const string _binCountPath = "cx:binning/cx:binCount";
+        const string _binCountPath = "cx:layoutPr/cx:binning/cx:binCount/@val";
         /// <summary>
         /// The binning by bin count. Setting this property clears the <see cref="Size"/> property
         /// </summary>
-        public double? Count 
+        public int? Count 
         {
             get
             {
-                return GetXmlNodeDoubleNull(_binCountPath);
+                return GetXmlNodeIntNull(_binCountPath);
             }
             set
             {
-                DeleteNode(ExcelChartExSerie._aggregationPath);
+                DeleteNode(ExcelHistogramChartSerie._aggregationPath);
                 DeleteNode(_binSizePath);
-                SetXmlNodeDouble(_binCountPath, value);
+                SetXmlNodeInt(_binCountPath, value);
             }
         }
-        const string _intervalClosedPath = "cx:binning/cx:binCount";
+        const string _intervalClosedPath = "cx:layoutPr/cx:binning/@intervalClosed";
         /// <summary>
         /// The interval closed side.
         /// </summary>
@@ -79,7 +80,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                DeleteNode(ExcelChartExSerie._aggregationPath);
+                DeleteNode(ExcelHistogramChartSerie._aggregationPath);
                 if (value==eIntervalClosed.Left)
                 {
                     SetXmlNodeString(_intervalClosedPath, "l");
@@ -94,7 +95,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
             }
         }
-        const string _underflowPath = "cx:binning/@underflow";
+        const string _underflowPath = "cx:layoutPr/cx:binning/@underflow";
         /// <summary>
         /// The custom value for underflow bin is set to automatic.
         /// </summary>
@@ -125,7 +126,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeDouble(_underflowPath, value);
             }
         }
-        const string _overflowPath = "cx:binning/@overflow";
+        const string _overflowPath = "cx:layoutPr/cx:binning/@overflow";
         /// <summary>
         /// The custom value for overflow bin is set to automatic.
         /// </summary>

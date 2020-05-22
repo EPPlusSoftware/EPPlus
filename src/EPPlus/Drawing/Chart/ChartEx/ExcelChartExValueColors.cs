@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             SchemaNodeOrder = schemaNodeOrder;
             _prefix = prefix;
-            _positionPath = $"cx:valueColorPosition/cx{prefix}Position";
+            _positionPath = $"cx:valueColorPositions/cx:{prefix}Position";
         }
 
         ExcelDrawingColorManager _color = null;
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if(_color==null)
                 {
-                    _color = new ExcelDrawingColorManager(NameSpaceManager, TopNode, $"cx:valueColors/{_prefix}Color", SchemaNodeOrder);
+                    _color = new ExcelDrawingColorManager(NameSpaceManager, TopNode, $"cx:valueColors/cx:{_prefix}Color", SchemaNodeOrder);
                 }
                 return _color;
             }
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if(ValueType!=value)
                 {
-                    DeleteNode(_positionPath);
+                    ClearChildren(_positionPath);
                     switch(value)
                     {
                         case eColorValuePositionType.Extreme:
@@ -109,7 +109,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
                 else if (t == eColorValuePositionType.Percent)
                 {
-                    SetXmlNodePercentage($"{_positionPath}/cx:percent/@val", value, false);
+                    if (value < 0 || value > 100)
+                    {
+                        throw new InvalidOperationException("PositionValue out of range. Percantage range is from 0 to 100");
+                    }
+                    SetXmlNodeDouble($"{_positionPath}/cx:percent/@val", value);
                 }
             }
         }
@@ -123,7 +127,29 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             _series = series;
             SchemaNodeOrder = schemaNodeOrder;
         }
-
+        /// <summary>
+        /// Number of colors to create the series gradient color scale.
+        /// If two colors the mid color is null.
+        /// </summary>
+        public eNumberOfColors NumberOfColors 
+        { 
+            get
+            {
+                var v=GetXmlNodeString("cx:valueColorPositions/@count");
+                if(v=="3")
+                {
+                    return eNumberOfColors.ThreeColor;
+                }
+                else
+                {
+                    return eNumberOfColors.TwoColor;
+                }
+            }
+            set
+            {
+                SetXmlNodeString("cx:valueColorPositions/@count", ((int)value).ToString(CultureInfo.InvariantCulture));
+            }
+        }
         ExcelChartExValueColor _minColor = null;
         public ExcelChartExValueColor MinColor 
         {
@@ -141,6 +167,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
+                if (NumberOfColors == eNumberOfColors.TwoColor) return null;
                 if (_midColor == null)
                 {
                     _midColor = new ExcelChartExValueColor(NameSpaceManager, TopNode, SchemaNodeOrder, "mid");

@@ -208,45 +208,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("cx:layoutPr/cx:regionLabelLayout/@val", value.ToEnumString());
             }
         }
-        internal const string _aggregationPath = "cx:layoutPr/cx:aggregation";
-        public bool Aggregation
-        {
-            get
-            {
-                return ExistNode(_aggregationPath);
-            }
-            set
-            {
-                if(value)
-                {
-                    CreateNode(_aggregationPath);
-                }
-                else
-                {
-                    DeleteNode(_aggregationPath);
-                }
-            }
-        }
-        ExcelChartExSerieBinning _binning = null;
-        /// <summary>
-        /// The data binning properties
-        /// </summary>
-        public ExcelChartExSerieBinning Binning
-        {
-            get
-            {
-                if(_binning==null)
-                {
-                    _binning = new ExcelChartExSerieBinning(NameSpaceManager, TopNode);
-                }
-                return _binning;
-            }
-        }
-        public ExcelChartExSerieGeography Geography 
-        { 
-            get; 
-            set; 
-        }
         public eParentLabelLayout ParentLabelLayout
         {
             get
@@ -381,6 +342,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 case eChartType.Sunburst:
                 case eChartType.Treemap:
                     return "size";
+                case eChartType.RegionMap:
+                    return "colorVal";
                 default:
                     return "val";
             }

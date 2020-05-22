@@ -7,6 +7,7 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -130,9 +131,13 @@ namespace EPPlusTest.Drawing.Chart
             AddHierarkiData(ws);
             var chart = ws.Drawings.AddHistogramChart("Histogram");
             var serie = chart.Series.Add("Histogram!$A$2:$C$17", "Histogram!$D$2:$D$17");
+            serie.Binning.Underflow = 1;
+            serie.Binning.OverflowAutomatic = true;
+            serie.Binning.Count = 3;
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle2);
+
             Assert.IsInstanceOfType(chart, typeof(ExcelHistogramChart));
         }
         [TestMethod]
@@ -209,9 +214,28 @@ namespace EPPlusTest.Drawing.Chart
             AddGeoData(ws);
             var chart = ws.Drawings.AddRegionMapChart("RegionMap");
             var serie = chart.Series.Add("RegionMap!$A$2:$B$11", "RegionMap!$C$2:$C$11");
-
+            serie.Region = new CultureInfo("sv");
+            serie.Language = new CultureInfo("sv-SE");
+            serie.Colors.NumberOfColors = eNumberOfColors.ThreeColor;
+            serie.Colors.MinColor.Color.SetSchemeColor(eSchemeColor.Dark1);
+            serie.Colors.MinColor.ValueType = eColorValuePositionType.Number;
+            serie.Colors.MinColor.PositionValue = 22;
+            serie.Colors.MidColor.ValueType = eColorValuePositionType.Percent;
+            serie.Colors.MidColor.PositionValue = 50.11;
+            serie.Colors.MaxColor.ValueType = eColorValuePositionType.Extreme;
+            serie.Colors.MaxColor.Color.SetRgbColor(Color.Red);
+            serie.DataLabel.Border.Width = 1;
+            serie.ViewedRegionType = eGeoMappingLevel.DataOnly;
+            serie.ProjectionType = eProjectionType.Miller;
+            chart.Legend.Add();
+            chart.Legend.Position = eLegendPosition.Left;
+            chart.Legend.PositionAlignment = ePositionAlign.Center;
+            chart.Title.Text = "Sweden Region Map";
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+
+            Assert.AreEqual("sv", serie.Region.TwoLetterISOLanguageName);
+            Assert.AreEqual("sv-SE", serie.Language.Name);
         }
         private class SalesData
         {

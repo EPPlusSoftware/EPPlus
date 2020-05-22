@@ -22,7 +22,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
 
         }
-        const string _attributionPath = "cx:geography/@attribution";
+
+        const string _attributionPath = "cx:layoutPr/cx:geography/@attribution";
         public string Attribution 
         { 
             get
@@ -34,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString(_attributionPath, value);
             }
         }
-        const string _regionPath = "cx:geography/@cultureRegion";
+        const string _regionPath = "cx:layoutPr/cx:geography/@cultureRegion";
         public CultureInfo Region 
         { 
             get
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
-        const string _languagePath = "cx:geography/@cultureLanguage";
+        const string _languagePath = "cx:layoutPr/cx:geography/@cultureLanguage";
         public CultureInfo Language 
         {
             get
@@ -69,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString(_languagePath, value.Name);
             }
         }
-        const string _projectionTypePath = "cx:geography/@projectionType";
+        const string _projectionTypePath = "cx:layoutPr/cx:geography/@projectionType";
         public eProjectionType ProjectionType 
         { 
             get
@@ -88,8 +89,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
             }
         }
-        const string _geoMappingLevelPath = "cx:geography/@geoMappingLevel";
-        public eGeoMappingLevel GeoMappingLevel
+        const string _geoMappingLevelPath = "cx:layoutPr/cx:geography/@viewedRegionType";
+        public eGeoMappingLevel ViewedRegionType
         {
             get
             {

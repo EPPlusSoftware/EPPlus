@@ -539,6 +539,14 @@ namespace OfficeOpenXml
         {
             return TopNode.SelectNodes(path, NameSpaceManager);
         }
+        internal void ClearChildren(string path)
+        {
+            var n=TopNode.SelectSingleNode(path, NameSpaceManager);
+            if(n!=null)
+            {
+                n.InnerXml = null;
+            }
+        }
 
         /// <summary>
         /// return Prepend node
@@ -653,6 +661,17 @@ namespace OfficeOpenXml
             {
                 DeleteNode(path);
             }
+            else
+            {
+                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
+            }
+        }
+        internal void SetXmlNodeInt(string path, int? d, CultureInfo ci = null)
+        {
+            if (d == null)
+            {
+                DeleteNode(path);
+            }   
             else
             {
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));

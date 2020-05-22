@@ -10,20 +10,17 @@
  *************************************************************************************************
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System.Xml;
-
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public class ExcelChartExSerieGeography : XmlHelper
+    public enum eNumberOfColors
     {
-        internal ExcelChartExSerieGeography(XmlNamespaceManager ns, XmlNode node) :
-            base(ns, node)
-        {
-            
-        }
-        //TODO: Apply all properties for region maps.
-        public byte[] Cache { get; set; }
-        //public ExcelChartExSerieGeographyClear Data { get; set; }
-        public string Provider { get; set; }
+        /// <summary>
+        /// Uses two colors to create the gradient color scale
+        /// </summary>
+        TwoColor=2,
+        /// <summary>
+        /// Diverging. Uses three colors to create the gradient color scale
+        /// </summary>
+        ThreeColor=3
     }
 }

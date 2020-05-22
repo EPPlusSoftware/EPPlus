@@ -81,7 +81,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
+                var applyStyle = (RichText.Count == 0);
                 RichText.Text = value;
+                if(applyStyle) _chart.StyleManager.ApplyStyle(this, _chart.StyleManager.Style.Title);
             }
         }
         ExcelDrawingBorder _border = null;
@@ -194,7 +196,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_richText == null)
                 {
-                    _richText = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:tx/{ _nsPrefix }:rich/a:p", SchemaNodeOrder);
+                    _richText = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:tx/{ _nsPrefix }:rich/a:p", SchemaNodeOrder, 14);
                 }
                 return _richText;
             }

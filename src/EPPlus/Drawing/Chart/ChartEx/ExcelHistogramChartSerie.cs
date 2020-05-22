@@ -31,6 +31,46 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             serElement.InnerXml = "<cx:axisId val=\"2\"/>";
             AddParetoLineFromSerie(serElement);
         }
+        ExcelChartExSerieBinning _binning = null;
+        /// <summary>
+        /// The data binning properties
+        /// </summary>
+        public ExcelChartExSerieBinning Binning
+        {
+            get
+            {
+                if (_binning == null)
+                {
+                    _binning = new ExcelChartExSerieBinning(NameSpaceManager, TopNode);
+                }
+                return _binning;
+            }
+        }
+        internal const string _aggregationPath = "cx:layoutPr/cx:aggregation";
+        internal const string _binningPath = "cx:layoutPr/cx:binning";
+        public bool Aggregation
+        {
+            get
+            {
+                return ExistNode(_aggregationPath);
+            }
+            set
+            {
+                if (value)
+                {
+                    DeleteNode(_binningPath);
+                    CreateNode(_aggregationPath);
+                }
+                else
+                {
+                    DeleteNode(_aggregationPath);
+                    if(!ExistNode(_binningPath))
+                    {
+                        Binning.IntervalClosed = eIntervalClosed.Right;
+                    }
+                }
+            }
+        }
         internal void AddParetoLineFromSerie(XmlElement serElement)
         {
             ParetoLine = new ExcelChartExParetoLine(_chart, NameSpaceManager, serElement);

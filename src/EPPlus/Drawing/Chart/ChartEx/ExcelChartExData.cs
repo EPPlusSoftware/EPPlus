@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
 
         /// <summary>
-        /// Dimension name formula. Return null if the element does not exist
+        /// The dimensions name formula. Return null if the element does not exist
         /// </summary>
         public string NameFormula
         {
@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                SetXmlNodeString("cx:nf", value);
+                SetXmlNodeString("cx:nf", value,true);
             }
         }
         /// <summary>
