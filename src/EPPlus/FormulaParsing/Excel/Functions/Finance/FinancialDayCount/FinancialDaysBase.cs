@@ -75,7 +75,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 
         protected virtual double GetDaysBetweenDates(FinancialDay start, FinancialDay end, int basis)
         {
-            return (basis * (end.Year - start.Year) + 30 * (end.Month - start.Month) + (end.Day - start.Day));
+            return (basis * (end.Year - start.Year) + 30 * (end.Month - start.Month) + ((end.Day > 30 ? 30 : end.Day) - (start.Day > 30 ? 30 : start.Day)));
         }
 
         protected double ActualDaysInLeapYear(FinancialDay start, FinancialDay end)

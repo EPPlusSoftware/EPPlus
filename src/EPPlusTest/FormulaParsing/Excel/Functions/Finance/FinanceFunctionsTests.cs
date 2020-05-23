@@ -178,6 +178,55 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             Assert.AreEqual(0.1, result);
         }
 
+        //[TestMethod]
+        //public void Xirr_Tests1()
+        //{
+        //    _worksheet.Cells["B2"].Value = -100;
+        //    _worksheet.Cells["B3"].Value = 20;
+        //    _worksheet.Cells["B4"].Value = 40;
+        //    _worksheet.Cells["B5"].Value = 25;
+        //    _worksheet.Cells["B6"].Value = 8;
+        //    _worksheet.Cells["B7"].Value = 15;
+
+        //    _worksheet.Cells["C2"].Value = new System.DateTime(2016, 01, 01);
+        //    _worksheet.Cells["C3"].Value = new System.DateTime(2016, 04, 01);
+        //    _worksheet.Cells["C4"].Value = new System.DateTime(2016, 10, 01);
+        //    _worksheet.Cells["C5"].Value = new System.DateTime(2017, 02, 01);
+        //    _worksheet.Cells["C6"].Value = new System.DateTime(2017, 03, 01);
+        //    _worksheet.Cells["C7"].Value = new System.DateTime(2017, 06, 01);
+
+        //    _worksheet.Cells["D2"].Formula = "XIRR(B2:B5, C2:C5)";
+        //    _worksheet.Calculate();
+        //    var result = System.Math.Round((double)_worksheet.Cells["D2"].Value, 4);
+        //    Assert.AreEqual(-0.1967, result);
+
+        //    _worksheet.Cells["D4"].Formula = "XIRR(B2:B7, C2:C7)";
+        //    _worksheet.Calculate();
+        //    result = System.Math.Round((double)_worksheet.Cells["D4"].Value, 4);
+        //    Assert.AreEqual(0.0944, result);
+        //}
+
+        //[TestMethod]
+        //public void Xirr_Tests2()
+        //{
+        //    _worksheet.Cells["A3"].Value = -10000;
+        //    _worksheet.Cells["A4"].Value = 2750;
+        //    _worksheet.Cells["A5"].Value = 4250;
+        //    _worksheet.Cells["A6"].Value = 3250;
+        //    _worksheet.Cells["A7"].Value = 2750;
+
+        //    _worksheet.Cells["B3"].Value = new System.DateTime(2008, 01, 01);
+        //    _worksheet.Cells["B4"].Value = new System.DateTime(2008, 03, 01);
+        //    _worksheet.Cells["B5"].Value = new System.DateTime(2008, 10, 30);
+        //    _worksheet.Cells["B6"].Value = new System.DateTime(2009, 02, 15);
+        //    _worksheet.Cells["B7"].Value = new System.DateTime(2009, 04, 01);
+
+        //    _worksheet.Cells["D2"].Formula = "XIRR(A3:A7, B3:B7, 0.1)";
+        //    _worksheet.Calculate();
+        //    var result = System.Math.Round((double)_worksheet.Cells["D2"].Value, 4);
+        //    Assert.AreEqual(0.3734, result);
+        //}
+
         [TestMethod]
         public void Ipmt_Tests()
         {
@@ -204,6 +253,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(5.26, result);
+        }
+
+        [TestMethod]
+        public void Cumipmt_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "CUMIPMT( 5%/12, 60, 50000, 1, 12, 0 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-2294.98, result);
+
+            _worksheet.Cells["A1"].Formula = "CUMIPMT( 5%/12, 60, 50000, 13, 24, 0 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-1833.10, result);
+
+            _worksheet.Cells["A1"].Formula = "CUMIPMT( 5%/12, 60, 50000, 13, 24, 1 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(-1825.49, result);
         }
 
         [TestMethod]
@@ -416,6 +487,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(4447.94, result);
+        }
+
+        [TestMethod]
+        public void Price_Tests()
+        {
+            _worksheet.Cells["B1"].Value = new DateTime(2012, 04, 01);
+            _worksheet.Cells["B2"].Value = new DateTime(2020, 03, 31);
+            _worksheet.Cells["A1"].Formula = "PRICE( B1, B2, 12%, 10%, 100, 2 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(110.8345, result);
+
+            _worksheet.Cells["B1"].Value = new DateTime(2012, 04, 01);
+            _worksheet.Cells["B2"].Value = new DateTime(2012, 06, 01);
+            _worksheet.Cells["A1"].Formula = "PRICE( B1, B2, 12%, 10%, 100, 2 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(100.2623, result);
         }
     }
 }

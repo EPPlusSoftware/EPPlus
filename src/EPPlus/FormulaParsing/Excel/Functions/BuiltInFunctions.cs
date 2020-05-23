@@ -231,6 +231,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dvar"] = new Dvar();
             Functions["dvarp"] = new Dvarp();
             //Finance
+            Functions["cumipmt"] = new Cumipmt();
             Functions["ddb"] = new Ddb();
             Functions["effect"] = new Effect();
             Functions["fvschedule"] = new FvSchedule();
@@ -257,6 +258,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["coupnum"] = new Coupnum();
             Functions["coupncd"] = new Coupncd();
             Functions["couppcd"] = new Couppcd();
+            Functions["price"] = new Price();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
@@ -277,6 +279,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["oct2dec"] = new Oct2Dec();
             Functions["oct2hex"] = new Oct2Hex();
             Functions["delta"] = new Delta();
+            Functions["erf"] = new Erf();
+            Functions["erf.precise"] = new ErfPrecise();
+            Functions["erfc"] = new Erfc();
+            Functions["erfc.precise"] = new Erfc();
         }
     }
 }
