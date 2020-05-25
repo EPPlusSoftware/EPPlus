@@ -263,12 +263,6 @@ namespace OfficeOpenXml.Drawing
                 throw new Exception("Name already exists in the drawings collection");
             }
 
-            if (ChartType == eChartType.StockHLC ||
-                ChartType == eChartType.StockOHLC ||
-                ChartType == eChartType.StockVOHLC)
-            {
-                throw (new NotImplementedException("Chart type is not supported in the current version"));
-            }
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart Worksheets can't have more than one chart");
@@ -277,7 +271,6 @@ namespace OfficeOpenXml.Drawing
 
             var chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
             chart.Name = Name;
-            chart.StyleManager.SetChartStyle(381);
             _drawings.Add(chart);
             _drawingNames.Add(Name, _drawings.Count - 1);
             return chart;
@@ -379,7 +372,26 @@ namespace OfficeOpenXml.Drawing
         public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType, ExcelPivotTable PivotTableSource)
         {
             return (ExcelChartEx)AddChart(Name, (eChartType)ChartType, PivotTableSource);
-        }        
+        }
+        /// <summary>
+        /// Adds a new extended chart to the worksheet.
+        /// Extended charts are 
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ChartType">Type of chart</param>
+        /// <param name="CategorySerie">The category serie</param>
+        /// <param name="HighSerie">The serie containing the high serie</param>    
+        /// <param name="LowSerie">The serie containing the low serie</param>    
+        /// <param name="CloseSerie">The serie containing the close serie</param>    
+        /// <returns>The chart</returns>
+        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie =null)
+        {
+            var chart = (ExcelStockChart)AddChart(Name, (eChartType)ChartType, null);
+            chart.Series.Add(CategorySerie, HighSerie);
+            chart.Series.Add(CategorySerie, LowSerie);
+            chart.Series.Add(CategorySerie, CloseSerie);
+            return chart;
+        }
         /// <summary>
         /// Add a new linechart to the worksheet.
         /// </summary>

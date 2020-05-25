@@ -641,7 +641,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 ser.InnerXml = chart._drawings._seriesTemplateXml;
             }
 
-            int idx = FindIndex(chart);
+            int idx = FindIndex(chart._topChart??chart);
             ser.InnerXml = string.Format("<c:idx val=\"{1}\" /><c:order val=\"{1}\" /><c:tx><c:strRef><c:f></c:f><c:strCache><c:ptCount val=\"1\" /></c:strCache></c:strRef></c:tx>{2}{5}{0}{3}{4}", AddExplosion(chart.ChartType), idx, AddSpPrAndScatterPoint(chart.ChartType), AddAxisNodes(chart.ChartType), AddSmooth(chart.ChartType), AddMarker(chart.ChartType));
             return ser;
         }

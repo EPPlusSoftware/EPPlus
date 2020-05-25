@@ -870,6 +870,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.SurfaceTopViewWireframe:
                 case eChartType.SurfaceWireframe:
                     return new ExcelSurfaceChart(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
+                case eChartType.StockHLC:
+                case eChartType.StockOHLC:
+                case eChartType.StockVHLC:
+                case eChartType.StockVOHLC:
+                    return new ExcelStockChart(drawings, drawNode, chartType, topChart, PivotTableSource, chartXml);
                 case eChartType.Sunburst:
                     return new ExcelSunburstChart(drawings, drawNode, chartType, chartXml);
                 case eChartType.Treemap:
@@ -897,11 +902,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 case "stockChart":
                     if (topChart == null)
                     {
-                        return new ExcelChartStandard(drawings, node, uriChart, part, chartXml, chartNode, parent);
+                        return new ExcelStockChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
                     }
                     else
                     {
-                        return new ExcelChartStandard(topChart, chartNode, parent);
+                        return new ExcelStockChart(topChart, chartNode, parent);
                     }
                 case "area3DChart":
                 case "areaChart":

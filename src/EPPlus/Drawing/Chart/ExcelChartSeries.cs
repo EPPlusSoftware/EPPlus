@@ -233,7 +233,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else
             {
-                serElement = ExcelChartStandardSerie.CreateSerieElement(_chart._topChart ?? _chart);
+                serElement = ExcelChartStandardSerie.CreateSerieElement(_chart);
             }
             ExcelChartSerie serie;
             switch (Chart.ChartType)

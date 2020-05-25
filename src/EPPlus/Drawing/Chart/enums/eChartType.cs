@@ -258,19 +258,19 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         RadarMarkers = 81,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with a High, Low and Close serie
         /// </summary>
         StockHLC =88,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with an Open, High, Low and Close serie
         /// </summary>
         StockOHLC = 89,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with an Volume, High, Low and Close serie
         /// </summary>
         StockVHLC = 90,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with an Volume, Open, High, Low and Close serie
         /// </summary>
         StockVOHLC = 91,
         /// <summary>

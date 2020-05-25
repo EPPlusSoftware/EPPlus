@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Chart
     public sealed class ExcelBubbleChart : ExcelChartStandard, IDrawingDataLabel
     {
         internal ExcelBubbleChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent=null) :
-        base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
+            base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             ShowNegativeBubbles = false;
             BubbleScale = 100;
