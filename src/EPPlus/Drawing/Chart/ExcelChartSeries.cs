@@ -351,6 +351,8 @@ namespace OfficeOpenXml.Drawing.Chart
                     serie = new ExcelRegionMapChartSerie((ExcelChartEx)_chart, _ns, serElement);
                     break;
                 case eChartType.Waterfall:
+                    serie = new ExcelWaterfallChartSerie((ExcelChartEx)_chart, _ns, serElement);
+                    break;
                 case eChartType.Sunburst:
                 case eChartType.Funnel:
                     serie = new ExcelChartExSerie((ExcelChartEx)_chart, _ns, serElement);

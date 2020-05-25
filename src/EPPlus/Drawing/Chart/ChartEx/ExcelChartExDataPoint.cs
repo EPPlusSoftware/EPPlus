@@ -48,6 +48,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             get;
             private set;
         }
+        /// <summary>
+        /// The data point is a subtotal. Applies for waterfall charts.
+        /// </summary>
         public bool SubTotal
         {
             get

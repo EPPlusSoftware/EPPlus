@@ -17,10 +17,14 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelBoxWhiskerChartSerie : ExcelChartExSerie
     {
-        public ExcelBoxWhiskerChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
+        const string _path = "cx:layoutPr/cx:visibility";
+        internal ExcelBoxWhiskerChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
         {
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public eParentLabelLayout ParentLabelLayout
         {
             get
@@ -48,16 +52,60 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("cx:layoutPr/cx:statistics/@quartileMethod", value.ToEnumString());
             }
         }
-        ExcelChartExSerieElementVisibilities _elementVisibility = null;
-        public ExcelChartExSerieElementVisibilities ElementVisibility
+        /// <summary>
+        /// The visibility of connector lines between data points
+        /// </summary>
+        public bool ShowMeanLine
         {
             get
             {
-                if (_elementVisibility == null)
-                {
-                    _elementVisibility = new ExcelChartExSerieElementVisibilities(NameSpaceManager, TopNode, SchemaNodeOrder);
-                }
-                return _elementVisibility;
+                return GetXmlNodeBool($"{_path}/@meanLine");
+            }
+            set
+            {
+                SetXmlNodeBool($"{_path}/@meanLine", value);
+            }
+        }
+        /// <summary>
+        /// The visibility of markers denoting the mean
+        /// </summary>
+        public bool ShowMeanMarker
+        {
+            get
+            {
+                return GetXmlNodeBool($"{_path}/@meanMarker");
+            }
+            set
+            {
+                SetXmlNodeBool($"{_path}/@meanMarker", value);
+            }
+        }
+        /// <summary>
+        /// The visibility of non-outlier data points
+        /// </summary>
+        public bool ShowNonOutliers
+        {
+            get
+            {
+                return GetXmlNodeBool($"{_path}/@nonOutliers");
+            }
+            set
+            {
+                SetXmlNodeBool($"{_path}/@nonOutliers", value);
+            }
+        }
+        /// <summary>
+        /// The visibility of outlier data points
+        /// </summary>
+        public bool ShowOutliers
+        {
+            get
+            {
+                return GetXmlNodeBool($"{_path}/@outliers");
+            }
+            set
+            {
+                SetXmlNodeBool($"{_path}/@outliers", value);
             }
         }
     }

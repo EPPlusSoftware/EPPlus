@@ -32,15 +32,22 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         internal ExcelWaterfallChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) :
             base(drawings, node, parent)
         {
+            Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
 
         internal ExcelWaterfallChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, type, chartXml, parent)
         {
+            Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
         internal ExcelWaterfallChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent)
         {
+            Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
+        public new ExcelChartSeries<ExcelWaterfallChartSerie> Series
+        {
+            get;
+        } = new ExcelChartSeries<ExcelWaterfallChartSerie>();
     }
 }

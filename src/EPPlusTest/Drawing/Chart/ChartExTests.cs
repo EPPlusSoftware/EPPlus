@@ -108,7 +108,6 @@ namespace EPPlusTest.Drawing.Chart
             var serie = chart.Series.Add("BoxWhisker!$A$2:$C$17", "BoxWhisker!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
-            serie.ElementVisibility.ConnectorLines = true;
             chart.StyleManager.SetChartStyle(ePresetChartStyle.BoxWhiskerStyle3);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelBoxWhiskerChart));
@@ -116,11 +115,10 @@ namespace EPPlusTest.Drawing.Chart
             Assert.IsNotNull(chart.XAxis);
             Assert.IsNotNull(chart.YAxis);
 
-            Assert.IsTrue(serie.ElementVisibility.ConnectorLines);
-            Assert.IsFalse(serie.ElementVisibility.MeanLine);
-            Assert.IsTrue(serie.ElementVisibility.MeanMarker);
-            Assert.IsTrue(serie.ElementVisibility.Outliers);
-            Assert.IsFalse(serie.ElementVisibility.NonOutliers);
+            Assert.IsFalse(serie.ShowMeanLine);
+            Assert.IsTrue(serie.ShowMeanMarker);
+            Assert.IsTrue(serie.ShowOutliers);
+            Assert.IsFalse(serie.ShowNonOutliers);
 
             Assert.AreEqual(eQuartileMethod.Exclusive, serie.QuartileMethod);
         }
