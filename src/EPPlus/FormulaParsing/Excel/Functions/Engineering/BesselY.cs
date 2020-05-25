@@ -10,40 +10,23 @@
  *************************************************************************************************
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
-    internal class Fv : ExcelFunction
+    internal class BesselY : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var rate = ArgToDecimal(arguments, 0);
-            var nPer = ArgToDecimal(arguments, 1);
-            var pmt = 0d;
-            if(arguments.Count() >= 3)
-            {
-                pmt = ArgToDecimal(arguments, 2);
-            }
-            var pv = 0d;
-            if(arguments.Count() >= 4)
-            {
-                pv = ArgToDecimal(arguments, 3);
-            }
-            var type = 0;
-            if(arguments.Count() >= 5)
-            {
-                type = ArgToInt(arguments, 4);
-            }
-            var retVal = FvImpl.Fv(rate, nPer, pmt, pv, (PmtDue)type);
-            if (retVal.HasError) return CreateResult(retVal.ExcelErrorType);
-            return CreateResult(retVal.Result, DataType.Decimal);
+            var x = ArgToDecimal(arguments, 0);
+            var n = ArgToInt(arguments, 1);
+            var result = new BesselYImpl().BesselY(x, n);
+            return CreateResult(result.Result, DataType.Decimal);
         }
     }
 }

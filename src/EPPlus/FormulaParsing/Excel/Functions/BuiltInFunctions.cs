@@ -285,6 +285,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["erf.precise"] = new ErfPrecise();
             Functions["erfc"] = new Erfc();
             Functions["erfc.precise"] = new Erfc();
+            Functions["besseli"] = new BesselI();
+            Functions["besselj"] = new BesselJ();
+            Functions["besselk"] = new BesselK();
+            Functions["bessely"] = new BesselY();
         }
     }
 }
