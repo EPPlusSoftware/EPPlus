@@ -249,6 +249,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["nominal"] = new Nominal();
             Functions["irr"] = new Irr();
             Functions["mirr"] = new Mirr();
+            Functions["xirr"] = new Xirr();
             Functions["sln"] = new Sln();
             Functions["syd"] = new Syd();
             Functions["xnpv"] = new Xnpv();
@@ -259,6 +260,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["coupncd"] = new Coupncd();
             Functions["couppcd"] = new Couppcd();
             Functions["price"] = new Price();
+            Functions["yield"] = new Yield();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
