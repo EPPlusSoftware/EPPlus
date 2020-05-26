@@ -263,6 +263,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["price"] = new Price();
             Functions["yield"] = new Yield();
             Functions["duration"] = new Duration();
+            Functions["disc"] = new Disc();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();

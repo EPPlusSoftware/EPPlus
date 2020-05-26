@@ -558,5 +558,25 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
             Assert.AreEqual(6.67, result);
         }
+
+        [TestMethod]
+        public void DiscTest()
+        {
+            _worksheet.Cells["B1"].Value = new DateTime(2016, 04, 01);
+            _worksheet.Cells["B2"].Value = new DateTime(2021, 03, 31);
+            _worksheet.Cells["A1"].Formula = "DISC( B1, B2, 95, 100 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(0.01, result);
+
+            _worksheet.Cells["B1"].Value = new DateTime(2018, 07, 01);
+            _worksheet.Cells["B2"].Value = new DateTime(2048, 01, 01);
+            _worksheet.Cells["A1"].Formula = "DISC(B1,B2,97.975,100,1)";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(0.000686, result);
+        }
     }
 }
