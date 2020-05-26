@@ -280,6 +280,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void Cumprinc_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "CUMPRINC( 5%/12, 60, 50000, 1, 12, 0  )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(-9027.7626, result);
+
+            _worksheet.Cells["A1"].Formula = "CUMPRINC( 5%/12, 60, 50000, 13, 24, 0 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
+            Assert.AreEqual(-9489.6401, result);
+        }
+
+        [TestMethod]
         public void Ispmt_Tests()
         {
             _worksheet.Cells["A1"].Formula = "ISPMT( 5%/12, 1, 60, 50000 )";
