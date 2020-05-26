@@ -107,8 +107,10 @@ namespace OfficeOpenXml.Drawing.Chart
                         break;
                     case "lineChart":
                     case "line3DChart":
-                    case "stockChart":
                         s = new ExcelLineChartSerie(_chart, ns, n, isPivot);
+                        break;
+                    case "stockChart":
+                        s = new ExcelStockChartSerie(_chart, ns, n, isPivot);
                         break;
                     case "scatterChart":
                         s = new ExcelScatterChartSerie(_chart, ns, n, isPivot);
@@ -336,6 +338,12 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.AreaStacked1003D:
                 case eChartType.AreaStacked3D:
                     serie = new ExcelAreaChartSerie(_chart, _ns, serElement, _isPivot);
+                    break;
+                case eChartType.StockHLC:
+                case eChartType.StockOHLC:
+                case eChartType.StockVHLC:
+                case eChartType.StockVOHLC:
+                    serie = new ExcelStockChartSerie(_chart, _ns, serElement, _isPivot);
                     break;
                 case eChartType.Treemap:
                     serie = new ExcelTreemapChartSerie((ExcelChartEx)_chart, _ns, serElement);

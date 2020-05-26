@@ -20,64 +20,23 @@ using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
-    /// <summary>
-    /// Provides access to line chart specific properties
-    /// </summary>
-    public class ExcelLineChart : ExcelChartStandard, IDrawingDataLabel
+    public abstract class ExcelStandardChartWithLines : ExcelChartStandard, IDrawingDataLabel
     {
-        #region "Constructors"
-        internal ExcelLineChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, Packaging.ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
+        internal ExcelStandardChartWithLines(ExcelDrawings drawings, XmlNode node, Uri uriChart, Packaging.ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent)
         {
         }
 
-        internal ExcelLineChart (ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent = null) :
+        internal ExcelStandardChartWithLines(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(topChart, chartNode, parent)
         {
         }
-        internal ExcelLineChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+        internal ExcelStandardChartWithLines(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
-            if (type != eChartType.Line3D)
-            {
-                Smooth = false;
-            }
-        }
-        #endregion
-        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
-        {
-            base.InitSeries(chart, ns, node, isPivot, list);
-            AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "gapWidth", "upbars", "downbars" });
-            Series.Init(chart, ns, node, isPivot, base.Series._list);
-
-            //Up bars
-            if (ExistNode(_upBarPath))
-            {
-                _upBar = new ExcelChartStyleItem(ns, node, this, _upBarPath, RemoveUpBar);
-            }
-
-            //Down bars
-            if (ExistNode(_downBarPath))
-            {
-                _downBar = new ExcelChartStyleItem(ns, node, this, _downBarPath, RemoveDownBar);
-            }
-
-            //Drop lines
-            if (ExistNode(_dropLinesPath))
-            {
-                _dropLines = new ExcelChartStyleItem(ns, node, this, _dropLinesPath, RemoveDropLines);
-            }
-
-            //High / low lines
-            if (ExistNode(_hiLowLinesPath))
-            {
-                _hiLowLines = new ExcelChartStyleItem(ns, node, this, _hiLowLinesPath, RemoveHiLowLines);
-            }
-            
 
         }
-
-        string MARKER_PATH ="c:marker/@val";
+        string MARKER_PATH = "c:marker/@val";
         /// <summary>
         /// If the series has markers
         /// </summary>
@@ -105,7 +64,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
-                if(ChartType==eChartType.Line3D)
+                if (ChartType == eChartType.Line3D)
                 {
                     throw new ArgumentException("Smooth", "Smooth does not apply to 3d line charts");
                 }
@@ -150,7 +109,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
-                if(value==null)
+                if (value == null)
                 {
                     _chartXmlHelper.DeleteNode(_gapWidthPath);
                 }
@@ -215,18 +174,18 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         /// <param name="upBars">Adds up bars if up bars does not exist.</param>
         /// <param name="downBars">Adds down bars if down bars does not exist.</param>
-        public void AddUpDownBars(bool upBars=true, bool downBars=true)
+        public void AddUpDownBars(bool upBars = true, bool downBars = true)
         {
-            if (upBars && _upBar==null)
+            if (upBars && _upBar == null)
             {
                 _upBar = new ExcelChartStyleItem(NameSpaceManager, ChartNode, this, _upBarPath, RemoveUpBar);
-                var chart = _topChart ?? this;                
-                if (chart.StyleManager.StylePart!=null)
+                var chart = _topChart ?? this;
+                if (chart.StyleManager.StylePart != null)
                 {
                     chart.StyleManager.ApplyStyle(_upBar, chart.StyleManager.Style.UpBar);
                 }
             }
-            if (downBars && _downBar==null)
+            if (downBars && _downBar == null)
             {
                 _downBar = new ExcelChartStyleItem(NameSpaceManager, ChartNode, this, _downBarPath, RemoveDownBar);
                 var chart = _topChart ?? this;
@@ -292,45 +251,78 @@ namespace OfficeOpenXml.Drawing.Chart
         //}
         internal override eChartType GetChartType(string name)
         {
-               if(name=="lineChart")
-               {
-                   if(Marker)
-                   {
-                       if(Grouping==eGrouping.Stacked)
-                       {
-                           return eChartType.LineMarkersStacked;
-                       }
-                       else if (Grouping == eGrouping.PercentStacked)
-                       {
-                           return eChartType.LineMarkersStacked100;
-                       }
-                       else
-                       {
-                           return eChartType.LineMarkers;
-                       }
-                   }
-                   else
-                   {
-                       if(Grouping==eGrouping.Stacked)
-                       {
-                           return eChartType.LineStacked;
-                       }
-                       else if (Grouping == eGrouping.PercentStacked)
-                       {
-                           return eChartType.LineStacked100;
-                       }
-                       else
-                       {
-                           return eChartType.Line;
-                       }
-                   }
-               }
-               else if (name=="line3DChart")
-               {
-                   return eChartType.Line3D;               
-               }
-               return base.GetChartType(name);
+            if (name == "lineChart")
+            {
+                if (Marker)
+                {
+                    if (Grouping == eGrouping.Stacked)
+                    {
+                        return eChartType.LineMarkersStacked;
+                    }
+                    else if (Grouping == eGrouping.PercentStacked)
+                    {
+                        return eChartType.LineMarkersStacked100;
+                    }
+                    else
+                    {
+                        return eChartType.LineMarkers;
+                    }
+                }
+                else
+                {
+                    if (Grouping == eGrouping.Stacked)
+                    {
+                        return eChartType.LineStacked;
+                    }
+                    else if (Grouping == eGrouping.PercentStacked)
+                    {
+                        return eChartType.LineStacked100;
+                    }
+                    else
+                    {
+                        return eChartType.Line;
+                    }
+                }
+            }
+            else if (name == "line3DChart")
+            {
+                return eChartType.Line3D;
+            }
+            return base.GetChartType(name);
         }
+        internal override void InitSeries(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot, List<ExcelChartSerie> list = null)
+        {
+            base.InitSeries(chart, ns, node, isPivot, list);
+            AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "gapWidth", "upbars", "downbars" });
+            Series.Init(chart, ns, node, isPivot, base.Series._list);
+
+            //Up bars
+            if (ExistNode(_upBarPath))
+            {
+                _upBar = new ExcelChartStyleItem(ns, node, this, _upBarPath, RemoveUpBar);
+            }
+
+            //Down bars
+            if (ExistNode(_downBarPath))
+            {
+                _downBar = new ExcelChartStyleItem(ns, node, this, _downBarPath, RemoveDownBar);
+            }
+
+            //Drop lines
+            if (ExistNode(_dropLinesPath))
+            {
+                _dropLines = new ExcelChartStyleItem(ns, node, this, _dropLinesPath, RemoveDropLines);
+            }
+
+            //High / low lines
+            if (ExistNode(_hiLowLinesPath))
+            {
+                _hiLowLines = new ExcelChartStyleItem(ns, node, this, _hiLowLinesPath, RemoveHiLowLines);
+            }
+
+
+        }
+
         /// <summary>
         /// The series for the chart
         /// </summary>
@@ -354,6 +346,33 @@ namespace OfficeOpenXml.Drawing.Chart
         private void RemoveHiLowLines()
         {
             _hiLowLines = null;
+        }
+        #endregion
+
+    }
+
+    /// <summary>
+    /// Provides access to line chart specific properties
+    /// </summary>
+    public class ExcelLineChart : ExcelStandardChartWithLines
+    {
+        #region "Constructors"
+        internal ExcelLineChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, Packaging.ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
+            base(drawings, node, uriChart, part, chartXml, chartNode, parent)
+        {
+        }
+
+        internal ExcelLineChart (ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent = null) :
+            base(topChart, chartNode, parent)
+        {
+        }
+        internal ExcelLineChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
+            base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
+        {
+            if (type != eChartType.Line3D)
+            {
+                Smooth = false;
+            }
         }
         #endregion
     }

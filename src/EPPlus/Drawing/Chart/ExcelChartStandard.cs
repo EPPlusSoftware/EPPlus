@@ -656,6 +656,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.SurfaceTopViewWireframe:
                     return "c:surfaceChart";
                 case eChartType.StockHLC:
+                case eChartType.StockOHLC:
+                case eChartType.StockVHLC:
+                case eChartType.StockVOHLC:
                     return "c:stockChart";
                 default:
                     throw (new NotImplementedException("Chart type not implemented"));

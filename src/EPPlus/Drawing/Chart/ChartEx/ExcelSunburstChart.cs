@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
             base(drawings, drawingsNode, type, chartXml, parent)
         {
-            StyleManager.SetChartStyle(Chart.Style.ePresetChartStyle.Sunburst1);
+            StyleManager.SetChartStyle(Chart.Style.ePresetChartStyle.SunburstChartStyle1);
         }
         internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent)

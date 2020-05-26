@@ -1054,14 +1054,17 @@ namespace OfficeOpenXml
         {
             return (GetXmlNodeDoubleNull(path) ?? 0) / 100;
         }
-        internal void RenameNode(XmlNode node, string newName)
+        internal void RenameNode(XmlNode node, string prefix, string newName, string[] allowedChildren=null)
         {
+            
             var doc = node.OwnerDocument;
-            var newNode = doc.CreateElement("xdr", newName, ExcelPackage.schemaSheetDrawings);
-
+            var newNode = doc.CreateElement(prefix, newName, NameSpaceManager.LookupNamespace(prefix));
             while (TopNode.ChildNodes.Count > 0)
             {
-                newNode.AppendChild(TopNode.ChildNodes[0]);
+                if (allowedChildren == null || allowedChildren.Contains(TopNode.ChildNodes[0].LocalName))
+                    newNode.AppendChild(TopNode.ChildNodes[0]);
+                else
+                    TopNode.RemoveChild(TopNode.ChildNodes[0]);
             }
             TopNode.ParentNode.ReplaceChild(newNode, TopNode);
             TopNode = newNode;

@@ -18,6 +18,8 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Utils.Extentions;
+using System.Runtime.InteropServices;
+
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -476,7 +478,7 @@ namespace OfficeOpenXml.Drawing.Chart
   
             if (removeMinor) 
             { 
-                DeleteNode(_minorGridlinesPath); 
+                DeleteNode(_minorGridlinesPath);    
                 _minorGridlines = null; 
             } 
         }
@@ -490,6 +492,15 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 CreateNode(_minorGridlinesPath);
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        internal void ChangeAxisType(eAxisType type)
+        {
+            var children = XmlHelper.CopyToSchemaNodeOrder(ExcelChartAxisStandard._schemaNodeOrderDateShared, ExcelChartAxisStandard._schemaNodeOrderDate);
+            RenameNode(TopNode, "c", "dateAx", children);            
         }
         #endregion
         internal protected void AddTitleNode()

@@ -535,7 +535,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 ApplyStyle(_chart.Legend, Style.Legend);
             }
             
-            if(_chart is ExcelLineChart lineChart)
+            if(_chart is ExcelStandardChartWithLines lineChart)
             {
                 if (!(lineChart.DropLine is null)) ApplyStyle(lineChart.DropLine, Style.DropLine);
                 if (!(lineChart.HighLowLine is null)) ApplyStyle(lineChart.HighLowLine, Style.HighLowLine);

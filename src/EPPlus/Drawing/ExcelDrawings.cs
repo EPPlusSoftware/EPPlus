@@ -387,9 +387,23 @@ namespace OfficeOpenXml.Drawing
         public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie =null)
         {
             var chart = (ExcelStockChart)AddChart(Name, (eChartType)ChartType, null);
-            chart.Series.Add(CategorySerie, HighSerie);
-            chart.Series.Add(CategorySerie, LowSerie);
-            chart.Series.Add(CategorySerie, CloseSerie);
+            if(CategorySerie.Rows>1)
+            {
+                if(CategorySerie.Offset(0,0,1,1).Value is string)
+                {
+                    chart.XAxis.ChangeAxisType(eAxisType.Date);
+                }
+            }
+            chart.AddHighLowLines();
+            if(ChartType==eStockChartType.StockOHLC)
+            {
+                chart.AddUpDownBars(true, true);
+            }
+            if(OpenSerie!=null) chart.Series.Add(OpenSerie, CategorySerie);
+            chart.Series.Add(HighSerie, CategorySerie);
+            chart.Series.Add(LowSerie, CategorySerie);
+            chart.Series.Add(CloseSerie, CategorySerie);            
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.StockChartStyle1);
             return chart;
         }
         /// <summary>

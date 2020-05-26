@@ -1267,6 +1267,6 @@ namespace EPPlusTest
                 SaveWorkbook("Issue108.xlsx", p);
             }
         }
-
+        
     }
 }

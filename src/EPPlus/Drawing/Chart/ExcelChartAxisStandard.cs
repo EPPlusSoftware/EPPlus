@@ -18,6 +18,30 @@ namespace OfficeOpenXml.Drawing.Chart
 {
     public sealed class ExcelChartAxisStandard : ExcelChartAxis
     {
+        internal readonly static string[] _schemaNodeOrderDateShared = new string[]
+        {
+            "axId",
+            "scaling",
+            "delete",
+            "axPos",
+            "majorGridlines",
+            "minorGridlines",
+            "title",
+            "numFmt",
+            "majorTickMark",
+            "minorTickMark",
+            "tickLblPos",
+            "spPr",
+            "txPr",
+            "crossAx",
+            "crosses",
+            "crossesAt"
+        };
+        internal static string[] _schemaNodeOrderCat = new string[] { "auto", "lblAlgn", "lblOffset", "tickLblSkip", "tickMarkSkip", "noMultiLvlLbl", "extLst" };
+        internal static string[] _schemaNodeOrderDate = new string[] { "auto", "lblOffset", "baseTimeUnit", "majorUnit", "majorTimeUnit", "minorUnit", "minorTimeUnit", "extLst" };
+        internal static string[] _schemaNodeOrderSer = new string[] { "tickLblSkip", "tickMarkSkip","extLst" };
+        internal static string[] _schemaNodeOrderVal = new string[] { "crossBetween", "majorUnit", "minorUnit", "dispUnits", "extLst" };      
+
         internal ExcelChartAxisStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) : base(chart, nameSpaceManager, topNode, nsPrefix)
         {
         }

@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             base(drawings, drawingsNode, type, chartXml, parent)
         {
             Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
-            StyleManager.SetChartStyle(Chart.Style.ePresetChartStyle.Waterfall1);
+            StyleManager.SetChartStyle(Chart.Style.ePresetChartStyle.WaterfallChartStyle1);
         }
         internal ExcelWaterfallChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent)

@@ -75,7 +75,7 @@ namespace EPPlusTest.Drawing.Chart
             dp.Fill.PatternFill.PatternType = eFillPatternStyle.DashDnDiag;
             dp.Fill.PatternFill.BackgroundColor.SetRgbColor(Color.Red);
             dp.Fill.PatternFill.ForegroundColor.SetRgbColor(Color.DarkGray);
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.Sunburst7);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.SunburstChartStyle7);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelSunburstChart));
             Assert.AreEqual(0, chart.Axis.Length);
@@ -96,7 +96,7 @@ namespace EPPlusTest.Drawing.Chart
             serie.DataLabel.ShowCategory = true;
             serie.DataLabel.ShowValue = true;
             serie.DataLabel.ShowSeriesName = true;
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.Treemap9);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.TreemapChartStyle9);
             Assert.IsInstanceOfType(chart, typeof(ExcelTreemapChart));
         }
         [TestMethod]
@@ -108,7 +108,7 @@ namespace EPPlusTest.Drawing.Chart
             var serie = chart.Series.Add("BoxWhisker!$A$2:$C$17", "BoxWhisker!$D$2:$D$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.BoxWhiskerStyle3);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.BoxWhiskerChartStyle3);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelBoxWhiskerChart));
             Assert.AreEqual(2, chart.Axis.Length);
@@ -134,7 +134,7 @@ namespace EPPlusTest.Drawing.Chart
             serie.Binning.Count = 3;
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle2);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramChartStyle2);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelHistogramChart));
         }
@@ -154,7 +154,7 @@ namespace EPPlusTest.Drawing.Chart
             serie.ParetoLine.Fill.SolidFill.Color.SetRgbColor(Color.FromArgb(128,255,0,0),true);
             serie.ParetoLine.Effect.SetPresetShadow(ePresetExcelShadowType.OuterBottomRight);
             Assert.AreEqual(eChartType.Pareto, chart.ChartType);
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramChartStyle4);
         }
         [TestMethod]
         public void AddWaterfallChart()
@@ -184,7 +184,7 @@ namespace EPPlusTest.Drawing.Chart
             dt.Fill.Style = eFillStyle.SolidFill;
             dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent1);
 
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramStyle4);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramChartStyle4);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelWaterfallChart));
             Assert.AreEqual(4,serie.DataPoints.Count);

@@ -810,7 +810,7 @@ namespace OfficeOpenXml.Drawing
             if (type != CellAnchor)
             {
                 CellAnchor = type;
-                RenameNode(TopNode, $"{type.ToEnumString()}Anchor");
+                RenameNode(TopNode, "xdr", $"{type.ToEnumString()}Anchor");
                 CleanupPositionXml();
                 SetPositionProperties(_drawings, TopNode);
                 CellAnchorChanged();

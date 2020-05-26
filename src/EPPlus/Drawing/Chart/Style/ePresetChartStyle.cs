@@ -1000,89 +1000,133 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// </summary>
         StackedColumnChartStyle11 = 348,
         /// <summary>
+        /// Stock Chart Style 1
+        /// </summary>
+        StockChartStyle1 = 322,
+        /// <summary>
+        /// Stock Chart Style 2
+        /// </summary>
+        StockChartStyle2 = 323,
+        /// <summary>
+        /// Stock Chart Style 3
+        /// </summary>
+        StockChartStyle3 = 324,
+        /// <summary>
+        /// Stock Chart Style 4
+        /// </summary>
+        StockChartStyle4 = 325,
+        /// <summary>
+        /// Stock Chart Style 5
+        /// </summary>
+        StockChartStyle5 = 326,
+        /// <summary>
+        /// Stock Chart Style 6
+        /// </summary>
+        StockChartStyle6 = 327,
+        /// <summary>
+        /// Stock Chart Style 7
+        /// </summary>
+        StockChartStyle7 = 328,
+        /// <summary>
+        /// Stock Chart Style 8
+        /// </summary>
+        StockChartStyle8 = 329,
+        /// <summary>
+        /// Stock Chart Style 9
+        /// </summary>
+        StockChartStyle9 = 330,
+        /// <summary>
+        /// Stock Chart Style 10
+        /// </summary>
+        StockChartStyle10 = 331,
+        /// <summary>
+        /// Stock Chart Style 11
+        /// </summary>
+        StockChartStyle11 = 352,
+        /// <summary>
         /// Sunburst Chart Style 1
         /// </summary>
-        Sunburst1 = 381,
+        SunburstChartStyle1 = 381,
         /// <summary>
         /// Sunburst Chart Style 2
         /// </summary>
-        Sunburst2 = 382,
+        SunburstChartStyle2 = 382,
         /// <summary>
         /// Sunburst Chart Style 3
         /// </summary>
-        Sunburst3 = 383,
+        SunburstChartStyle3 = 383,
         /// <summary>
         /// Sunburst Chart Style 4
         /// </summary>
-        Sunburst4 = 384,
+        SunburstChartStyle4 = 384,
         /// <summary>
         /// Sunburst Chart Style 5
         /// </summary>
-        Sunburst5 = 385,
+        SunburstChartStyle5 = 385,
         /// <summary>
         /// Sunburst Chart Style 6
         /// </summary>
-        Sunburst6 = 386,
+        SunburstChartStyle6 = 386,
         /// <summary>
         /// Sunburst Chart Style 7
         /// </summary>
-        Sunburst7 = 387,
+        SunburstChartStyle7 = 387,
         /// <summary>
         /// Sunburst Chart Style 8
         /// </summary>
-        Sunburst8 = 388,
+        SunburstChartStyle8 = 388,
         /// <summary>
         /// Treemap Chart Style 1
         /// </summary>
-        Treemap1 = 410,
+        TreemapChartStyle1 = 410,
         /// <summary>
         /// Treemap Chart Style 2
         /// </summary>
-        Treemap2 = 411,
+        TreemapChartStyle2 = 411,
         /// <summary>
         /// Treemap Chart Style 3
         /// </summary>
-        Treemap3 = 412,
+        TreemapChartStyle3 = 412,
         /// <summary>
         /// Treemap Chart Style 4
         /// </summary>
-        Treemap4 = 413,
+        TreemapChartStyle4 = 413,
         /// <summary>
         /// Treemap Chart Style 5
         /// </summary>
-        Treemap5 = 414,
+        TreemapChartStyle5 = 414,
         /// <summary>
         /// Treemap Chart Style 6
         /// </summary>
-        Treemap6 = 415,
+        TreemapChartStyle6 = 415,
         /// <summary>
         /// Treemap Chart Style 7
         /// </summary>
-        Treemap7 = 416,
+        TreemapChartStyle7 = 416,
         /// <summary>
         /// Treemap Chart Style 8
         /// </summary>
-        Treemap8 = 417,
+        TreemapChartStyle8 = 417,
         /// <summary>
         /// Treemap Chart Style 9
         /// </summary>
-        Treemap9 = 418,
+        TreemapChartStyle9 = 418,
         /// <summary>
         /// Box &amp; Whisker Chart Style 1
         /// </summary>
-        BoxWhiskerStyle1 = 406,
+        BoxWhiskerChartStyle1 = 406,
         /// <summary>
         /// Box &amp; Whisker Chart Style 2
         /// </summary>
-        BoxWhiskerStyle2 = 407,
+        BoxWhiskerChartStyle2 = 407,
         /// <summary>
         /// Box &amp; Whisker Chart Style 3
         /// </summary>
-        BoxWhiskerStyle3 = 408,
+        BoxWhiskerChartStyle3 = 408,
         /// <summary>
         /// Box &amp; Whisker Chart Style 4
         /// </summary>
-        BoxWhiskerStyle4 = 409,
+        BoxWhiskerChartStyle4 = 409,
         /// <summary>
         /// Box &amp; Whisker Chart Style 5
         /// </summary>
@@ -1090,114 +1134,114 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Box &amp; Whisker Chart Style 6
         /// </summary>
-        BoxWhiskerStyle6 = 374,
+        BoxWhiskerChartStyle6 = 374,
         /// <summary>
         /// Histogram Chart Style 1
         /// </summary>
-        HistogramStyle1 = 366,
+        HistogramChartStyle1 = 366,
         /// <summary>
         /// Histogram Chart Style 2
         /// </summary>
-        HistogramStyle2 = 367,
+        HistogramChartStyle2 = 367,
         /// <summary>
         /// Histogram Chart Style 3
         /// </summary>
-        HistogramStyle3 = 368,
+        HistogramChartStyle3 = 368,
         /// <summary>
         /// Histogram Chart Style 4
         /// </summary>
-        HistogramStyle4 = 369,
+        HistogramChartStyle4 = 369,
         /// <summary>
         /// Histogram Chart Style 5
         /// </summary>
-        HistogramStyle5 = 370,
+        HistogramChartStyle5 = 370,
         /// <summary>
         /// Histogram Chart Style 6
         /// </summary>
-        HistogramStyle6 = 371,
+        HistogramChartStyle6 = 371,
         /// <summary>
         /// Waterfall Chart Style 1
         /// </summary>
-        Waterfall1 = 395,
+        WaterfallChartStyle1 = 395,
         /// <summary>
         /// Waterfall Chart Style 2
         /// </summary>
-        Waterfall2 = 396,
+        WaterfallChartStyle2 = 396,
         /// <summary>
         /// Waterfall Chart Style 3
         /// </summary>
-        Waterfall3 = 397,
+        WaterfallChartStyle3 = 397,
         /// <summary>
         /// Waterfall Chart Style 4
         /// </summary>
-        Waterfall4 = 398,
+        WaterfallChartStyle4 = 398,
         /// <summary>
         /// Waterfall Chart Style 5
         /// </summary>
-        Waterfall5 = 399,
+        WaterfallChartStyle5 = 399,
         /// <summary>
         /// Waterfall Chart Style 6
         /// </summary>
-        Waterfall6 = 400,
+        WaterfallChartStyle6 = 400,
         /// <summary>
         /// Waterfall Chart Style 7
         /// </summary>
-        Waterfall7 = 372,
+        WaterfallChartStyle7 = 372,
         /// <summary>
         /// Waterfall Chart Style 8
         /// </summary>
-        Waterfall8 = 389,
+        WaterfallChartStyle8 = 389,
         /// <summary>
         /// Funnel Chart Style 1
         /// </summary>
-        Funnel1 = 419,
+        FunnelChartStyle1 = 419,
         /// <summary>
         /// Funnel Chart Style 2
         /// </summary>
-        Funnel2 = 423,
+        FunnelChartStyle2 = 423,
         /// <summary>
         /// Funnel Chart Style 3
         /// </summary>
-        Funnel3 = 424,
+        FunnelChartStyle3 = 424,
         /// <summary>
         /// Funnel Chart Style 4
         /// </summary>
-        Funnel4 = 425,
+        FunnelChartStyle4 = 425,
         /// <summary>
         /// Funnel Chart Style 5
         /// </summary>
-        Funnel5 = 426,
+        FunnelChartStyle5 = 426,
         /// <summary>
         /// Funnel Chart Style 6
         /// </summary>
-        Funnel6 = 427,
+        FunnelChartStyle6 = 427,
         /// <summary>
         /// Funnel Chart Style 7
         /// </summary>
-        Funnel7 = 428,
+        FunnelChartStyle7 = 428,
         /// <summary>
         /// Funnel Chart Style 8
         /// </summary>
-        Funnel8 = 429,
+        FunnelChartStyle8 = 429,
         /// <summary>
         /// Funnel Chart Style 9
         /// </summary>
-        Funnel9 = 430,
+        FunnelChartStyle9 = 430,
         /// <summary>
         /// Regionmap Chart Style 1
         /// </summary>
-        RegionMap1 = 494,
+        RegionMapChartStyle1 = 494,
         /// <summary>
         /// Regionmap Chart Style 2
         /// </summary>
-        RegionMap2 = 495,
+        RegionMapChartStyle2 = 495,
         /// <summary>
         /// Regionmap Chart Style 3
         /// </summary>
-        RegionMap3 = 496,
+        RegionMapChartStyle3 = 496,
         /// <summary>
         /// Regionmap Chart Style 4
         /// </summary>
-        RegionMap4 = 497,
+        RegionMapChartStyle4 = 497,
     }
 }
