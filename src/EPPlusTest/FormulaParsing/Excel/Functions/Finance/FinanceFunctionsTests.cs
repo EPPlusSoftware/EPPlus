@@ -546,5 +546,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 4);
             Assert.AreEqual(-0.0235, result);
         }
+
+        [TestMethod]
+        public void DurationTest()
+        {
+            _worksheet.Cells["B1"].Value = new DateTime(2015, 04, 01);
+            _worksheet.Cells["B2"].Value = new DateTime(2025, 03, 31);
+            _worksheet.Cells["A1"].Formula = "DURATION( B1, B2, 10%, 8%, 4 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(6.67, result);
+        }
     }
 }

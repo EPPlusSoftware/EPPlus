@@ -14,8 +14,8 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
-    public interface IPriceProvider
+    public interface IYearFracProvider
     {
-        double GetPrice(System.DateTime settlement, System.DateTime maturity, double rate, double yield, double redemption, int frequency, DayCountBasis basis = DayCountBasis.US_30_360);
+        double GetYearFrac(System.DateTime date1, System.DateTime date2, DayCountBasis basis);
     }
 }
