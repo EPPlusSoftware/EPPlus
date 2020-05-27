@@ -28,6 +28,12 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelStockChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(drawings, node, uriChart, part, chartXml, chartNode, parent)
         {
+            if(chartNode.LocalName=="barChart")
+            {
+                var barChart = new ExcelBarChart(this, chartNode, parent);
+                _plotArea = new ExcelChartPlotArea(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea", NameSpaceManager), barChart, "c");
+                _chartNode = chartNode.NextSibling;
+            }
         }
         internal ExcelStockChart(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent = null) :
             base(topChart, chartNode, parent)
@@ -42,6 +48,5 @@ namespace OfficeOpenXml.Drawing.Chart
         /// A collection of series for a Scatter Chart
         /// </summary>
         public new ExcelChartSeries<ExcelStockChartSerie> Series { get; } = new ExcelChartSeries<ExcelStockChartSerie>();
-
     }
 }

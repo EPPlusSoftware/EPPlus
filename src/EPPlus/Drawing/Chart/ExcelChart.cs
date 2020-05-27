@@ -745,7 +745,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         var subChart = GetChart(n, null, null, null, null, null, topChart, parent);
                         if (subChart != null)
                         {
-                            topChart.PlotArea.ChartTypes.Add(subChart);
+                            topChart.PlotArea.ChartTypes.Add(subChart);                            
                         }
                     }
                 }
@@ -906,7 +906,14 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        return new ExcelStockChart(topChart, chartNode, parent);
+                        if(topChart is ExcelStockChart chart)
+                        {
+                            return chart;
+                        }
+                        else
+                        {
+                            return new ExcelStockChart(topChart, chartNode, parent);
+                        }
                     }
                 case "area3DChart":
                 case "areaChart":
@@ -950,7 +957,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 case "bar3DChart":
                     if (topChart == null)
                     {
-                        return new ExcelBarChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
+                        if (chartNode.LocalName == "barChart" && chartNode.NextSibling?.LocalName == "stockChart")
+                        {
+                            return new ExcelStockChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
+                        }
+                        else
+                        {
+                            return new ExcelBarChart(drawings, node, uriChart, part, chartXml, chartNode, parent);
+                        }
                     }
                     else
                     {

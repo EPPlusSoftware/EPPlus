@@ -51,6 +51,15 @@ namespace EPPlusTest.Drawing.Chart
         public static void Cleanup()
         {
             SaveAndCleanup(_pck);
+        }        
+        [TestMethod]
+        public void ReadStockVHLC()
+        {
+            using(var p=OpenTemplatePackage("StockVHLC.xlsx"))
+            {
+                var c = p.Workbook.Worksheets[0].Drawings[0];
+                SaveWorkbook("StockVHLCSaved.xlsx", p);
+            }
         }
         [TestMethod]
         public void AddStockHLCText()
@@ -96,7 +105,7 @@ namespace EPPlusTest.Drawing.Chart
         {
             var l = new List<PeriodData>()
             {
-                new PeriodData{ Date=new DateTime(2019,12,31),OpeningPrice=100, HighPrice=100, LowPrice=99, ClosePrice=99.5 },
+                new PeriodData{ Date=new DateTime(2019,12,31), OpeningPrice=100, HighPrice=100, LowPrice=99, ClosePrice=99.5 },
                 new PeriodData{ Date=new DateTime(2020,01,01), OpeningPrice=99.5,HighPrice=102, LowPrice=99, ClosePrice=101 },
                 new PeriodData{ Date=new DateTime(2020,01,02), OpeningPrice=101,HighPrice=101, LowPrice=92, ClosePrice=94 },
                 new PeriodData{ Date=new DateTime(2020,01,03), OpeningPrice=94,HighPrice=97, LowPrice=93, ClosePrice=96.5},
