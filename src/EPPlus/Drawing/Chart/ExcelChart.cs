@@ -469,7 +469,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns>True if the chart is a sureface chart</returns>
         internal protected bool HasThirdAxis()
         {
-            return IsTypeSurface() || ChartType == eChartType.Line3D;
+            return IsTypeSurface() ||
+                    ChartType == eChartType.Line3D ||
+                    ChartType == eChartType.StockVHLC ||
+                    ChartType == eChartType.StockVOHLC;
         }
         /// <summary>
         /// Returns true if the chart has shapes, like bars and columns

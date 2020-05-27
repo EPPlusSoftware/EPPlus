@@ -25,7 +25,6 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartCollection(ExcelChart chart)
         {
             _topChart = chart;
-            _list.Add(chart);
         }
         internal void Add(ExcelChart chart)
         {

@@ -23,6 +23,12 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelStockChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
+            if(type==eChartType.StockVHLC || type==eChartType.StockVOHLC)
+            {
+                var barChart = new ExcelBarChart(this, _chartNode.PreviousSibling, parent);
+                barChart.Direction = eDirection.Column;
+                _plotArea = new ExcelChartPlotArea(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea", NameSpaceManager), barChart, "c", this);
+            }
         }
 
         internal ExcelStockChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
@@ -31,7 +37,8 @@ namespace OfficeOpenXml.Drawing.Chart
             if(chartNode.LocalName=="barChart")
             {
                 var barChart = new ExcelBarChart(this, chartNode, parent);
-                _plotArea = new ExcelChartPlotArea(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea", NameSpaceManager), barChart, "c");
+                barChart.Direction = eDirection.Column;
+                _plotArea = new ExcelChartPlotArea(NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart/c:plotArea", NameSpaceManager), barChart, "c", this);
                 _chartNode = chartNode.NextSibling;
             }
         }

@@ -45,7 +45,7 @@ namespace EPPlusTest.Drawing.Chart
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("StockHLC.xlsx", true);
+            _pck = OpenPackage("Stock.xlsx", true);
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -72,22 +72,22 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetSize(1600, 900);
         }
         [TestMethod]
-        public void AddStockOHLCText()
-        {
-            var ws = _pck.Workbook.Worksheets.Add("StockTextOHLC");
-            AddHLCText(ws);
-
-            var chart = ws.Drawings.AddStockChart("StockTextOHLC", eStockChartType.StockOHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["B1:B7"]);
-            chart.SetPosition(2, 0, 15, 0);
-            chart.SetSize(1600, 900);
-        }
-        [TestMethod]
         public void AddStockHLCPeriod()
         {
             var ws = _pck.Workbook.Worksheets.Add("StockPeriodHLC");
             AddHLCPeriod(ws);
 
             var chart = ws.Drawings.AddStockChart("StockPeriodHLC", eStockChartType.StockHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"]);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+        }
+        [TestMethod]
+        public void AddStockOHLCText()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextOHLC");
+            AddHLCText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextOHLC", eStockChartType.StockOHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["B1:B7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
         }
@@ -101,16 +101,37 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
         }
+        [TestMethod]
+        public void AddStockVHLCPeriod()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockPeriodVHLC");
+            AddHLCPeriod(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockPeriodVHLC", eStockChartType.StockVHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], null, ws.Cells["F1:F7"]);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+        }
+        [TestMethod]
+        public void AddStockVHLCText()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextVHLC");
+            AddHLCText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextVHLC", eStockChartType.StockVHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], null, ws.Cells["F1:F7"]);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+        }
+
         private void AddHLCPeriod(ExcelWorksheet ws)
         {
             var l = new List<PeriodData>()
             {
-                new PeriodData{ Date=new DateTime(2019,12,31), OpeningPrice=100, HighPrice=100, LowPrice=99, ClosePrice=99.5 },
-                new PeriodData{ Date=new DateTime(2020,01,01), OpeningPrice=99.5,HighPrice=102, LowPrice=99, ClosePrice=101 },
-                new PeriodData{ Date=new DateTime(2020,01,02), OpeningPrice=101,HighPrice=101, LowPrice=92, ClosePrice=94 },
-                new PeriodData{ Date=new DateTime(2020,01,03), OpeningPrice=94,HighPrice=97, LowPrice=93, ClosePrice=96.5},
-                new PeriodData{ Date=new DateTime(2020,01,04), OpeningPrice=99.6,HighPrice=107, LowPrice=96.5, ClosePrice=106 },
-                new PeriodData{ Date=new DateTime(2020,01,05), OpeningPrice=106,HighPrice=106, LowPrice=103, ClosePrice=104 }
+                new PeriodData{ Date=new DateTime(2019,12,31), OpeningPrice=100, HighPrice=100, LowPrice=99, ClosePrice=99.5, Volume=10 },
+                new PeriodData{ Date=new DateTime(2020,01,01), OpeningPrice=99.5,HighPrice=102, LowPrice=99, ClosePrice=101, Volume=7 },
+                new PeriodData{ Date=new DateTime(2020,01,02), OpeningPrice=101,HighPrice=101, LowPrice=92, ClosePrice=94, Volume=8 },
+                new PeriodData{ Date=new DateTime(2020,01,03), OpeningPrice=94,HighPrice=97, LowPrice=93, ClosePrice=96.5, Volume=5 },
+                new PeriodData{ Date=new DateTime(2020,01,04), OpeningPrice=99.6,HighPrice=107, LowPrice=96.5, ClosePrice=106, Volume=11 },
+                new PeriodData{ Date=new DateTime(2020,01,05), OpeningPrice=106,HighPrice=106, LowPrice=103, ClosePrice=104, Volume=7 },
             };
             ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium11);
             ws.Cells["A1:A10"].Style.Numberformat.Format = "yyyy-MM-dd";
@@ -120,12 +141,12 @@ namespace EPPlusTest.Drawing.Chart
         {
             var l = new List<EquityData>()
             {
-                new EquityData{ EquityName="EPPlus Software AB",OpeningPrice=100, HighPrice=100, LowPrice=99, ClosePrice=99.5 },
-                new EquityData{ EquityName="Company A", OpeningPrice=99.5,HighPrice=102, LowPrice=99, ClosePrice=101 },
-                new EquityData{ EquityName="Company B", OpeningPrice=101,HighPrice=101, LowPrice=92, ClosePrice=94 },
-                new EquityData{ EquityName="Company C", OpeningPrice=94,HighPrice=97, LowPrice=93, ClosePrice=96.5},
-                new EquityData{ EquityName="Company D", OpeningPrice=99.6,HighPrice=107, LowPrice=96.5, ClosePrice=106 },
-                new EquityData{ EquityName="Company F", OpeningPrice=106,HighPrice=106, LowPrice=103, ClosePrice=104 }
+                new EquityData{ EquityName="EPPlus Software AB",  OpeningPrice=100, HighPrice=100, LowPrice=99, ClosePrice=99.5, Volume=10 },
+                new EquityData{ EquityName="Company A", OpeningPrice=99.5,HighPrice=102, LowPrice=99, ClosePrice=101, Volume=7 },
+                new EquityData{ EquityName="Company B", OpeningPrice=101,HighPrice=101, LowPrice=92, ClosePrice=94, Volume=8},
+                new EquityData{ EquityName="Company C", OpeningPrice=94,HighPrice=97, LowPrice=93, ClosePrice=96.5, Volume=5 },
+                new EquityData{ EquityName="Company D", OpeningPrice=99.6,HighPrice=107, LowPrice=96.5, ClosePrice=106, Volume=11 },
+                new EquityData{ EquityName="Company F", OpeningPrice=106,HighPrice=106, LowPrice=103, ClosePrice=104, Volume=7 }
             };
             ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium11);
             ws.Cells["A1:A10"].Style.Numberformat.Format = "yyyy-MM-dd";
@@ -138,6 +159,7 @@ namespace EPPlusTest.Drawing.Chart
             public double HighPrice { get; set; }
             public double LowPrice { get; set; }
             public double ClosePrice { get; set; }
+            public double Volume { get; set; }
         }
 
         private class EquityData
@@ -147,7 +169,7 @@ namespace EPPlusTest.Drawing.Chart
             public double HighPrice { get; set; }
             public double LowPrice { get; set; }
             public double ClosePrice { get; set; }
+            public double Volume { get; set; }
         }
-
     }
 }

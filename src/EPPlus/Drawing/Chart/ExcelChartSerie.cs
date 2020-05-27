@@ -669,7 +669,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         }
                         else
                         {
-                            ret += chart.Series.Count;
+                            ret += chartType.Series.Count;
                         }
                     }
                 }

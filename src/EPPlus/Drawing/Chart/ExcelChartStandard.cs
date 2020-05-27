@@ -235,7 +235,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         if (axn.ParentNode.LocalName.EndsWith("Ax"))
                         {
-                            XmlNode axisNode = axNode[1].ParentNode;
+                            XmlNode axisNode = axn.ParentNode;
                             ExcelChartAxis ax = new ExcelChartAxisStandard(this, NameSpaceManager, axisNode, "c");
                             l.Add(ax);
                         }
@@ -310,9 +310,16 @@ namespace OfficeOpenXml.Drawing.Chart
             xml.AppendFormat("{0}{1}<c:plotArea><c:layout/>", AddPerspectiveXml(type), Add3DXml(type));
 
             string chartNodeText = GetChartNodeText();
-            xml.AppendFormat("<{0}>", chartNodeText);
-            xml.Append(GetChartSerieStartXml(type, axID, xAxID, serAxID));
-            xml.AppendFormat("</{0}>", chartNodeText);
+            if(type==eChartType.StockVHLC || type==eChartType.StockVOHLC)
+            {
+                AppendStockChartXml(type, xml, chartNodeText);
+            }
+            else
+            {
+                xml.AppendFormat("<{0}>", chartNodeText);
+                xml.Append(GetChartSerieStartXml(type, axID, xAxID, serAxID));
+                xml.AppendFormat("</{0}>", chartNodeText);
+            }
 
             //Axis
             if (!IsTypePieDoughnut())
@@ -328,7 +335,14 @@ namespace OfficeOpenXml.Drawing.Chart
                 xml.AppendFormat("<c:valAx><c:axId val=\"{1}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"l\"/><c:majorGridlines/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{0}\"/><c:crosses val=\"autoZero\"/><c:crossBetween val=\"between\"/></c:valAx>", axID, xAxID, GetAxisShapeProperties());
                 if (serAxID == 3) //Surface Chart
                 {
-                    xml.AppendFormat("<c:serAx><c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"b\"/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{1}\"/><c:crosses val=\"autoZero\"/></c:serAx>", serAxID, xAxID, GetAxisShapeProperties());
+                    if (IsTypeSurface() || ChartType==eChartType.Line3D)
+                    {
+                        xml.AppendFormat("<c:serAx><c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"b\"/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{1}\"/><c:crosses val=\"autoZero\"/></c:serAx>", serAxID, xAxID, GetAxisShapeProperties());
+                    }
+                    else
+                    {
+                        xml.AppendFormat("<c:valAx><c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"r\"/><c:majorGridlines/><c:majorTickMark val=\"none\"/><c:minorTickMark val=\"none\"/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{1}\"/><c:crosses val=\"max\"/><c:crossBetween val=\"between\"/></c:valAx>", serAxID, xAxID, GetAxisShapeProperties());
+                    }
                 }
             }
 
@@ -338,6 +352,16 @@ namespace OfficeOpenXml.Drawing.Chart
 
             xml.Append("<c:printSettings><c:headerFooter/><c:pageMargins b=\"0.75\" l=\"0.7\" r=\"0.7\" t=\"0.75\" header=\"0.3\" footer=\"0.3\"/><c:pageSetup/></c:printSettings></c:chartSpace>");
             return xml.ToString();
+        }
+
+        private void AppendStockChartXml(eChartType type, StringBuilder xml, string chartNodeText)
+        {
+            xml.Append("<c:barChart>");
+            xml.Append(AddAxisId(1, 2, -1));
+            xml.Append("</c:barChart>");
+            xml.AppendFormat("<{0}>", chartNodeText);
+            xml.Append(GetChartSerieStartXml(type, 1, 3, -1));
+            xml.AppendFormat("</{0}>", chartNodeText);
         }
 
         private object GetAxisShapeProperties()
@@ -390,7 +414,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (!IsTypePieDoughnut())
             {
-                if (HasThirdAxis())
+                if (serAxID>0)
                 {
                     return string.Format("<c:axId val=\"{0}\"/><c:axId val=\"{1}\"/><c:axId val=\"{2}\"/>", axID, xAxID, serAxID);
                 }

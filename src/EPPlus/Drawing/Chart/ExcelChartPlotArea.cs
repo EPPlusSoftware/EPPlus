@@ -24,8 +24,9 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartPlotArea :  XmlHelper, IDrawingStyleBase
     {
         ExcelChart _firstChart;
+        ExcelChart _topChart;
         string _nsPrefix;
-        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart, string nsPrefix)
+        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart, string nsPrefix, ExcelChart topChart=null)
            : base(ns,node)
        {
             _nsPrefix = nsPrefix;
@@ -41,6 +42,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             _firstChart = firstChart;
+            _topChart = topChart ?? firstChart;
             if (TopNode.SelectSingleNode("c:dTable", NameSpaceManager) != null)
             {
                 DataTable = new ExcelChartDataTable(firstChart,NameSpaceManager, TopNode);
@@ -57,7 +59,12 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_chartTypes == null)
                 {
-                    _chartTypes = new ExcelChartCollection(_firstChart); 
+                    _chartTypes = new ExcelChartCollection(_topChart);
+                    _chartTypes.Add(_firstChart);
+                    if (_topChart!=_firstChart)
+                    {
+                        _chartTypes.Add(_topChart);
+                    }
                 }
                 return _chartTypes;
             }

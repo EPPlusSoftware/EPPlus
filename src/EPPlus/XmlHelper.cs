@@ -1099,7 +1099,6 @@ namespace OfficeOpenXml
 #else
             settings.ProhibitDtd = true;            
 #endif
-
             XmlReader reader = XmlReader.Create(stream, settings);
             xmlDoc.Load(reader);
         }

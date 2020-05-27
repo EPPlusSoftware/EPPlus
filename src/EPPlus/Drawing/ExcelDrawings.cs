@@ -399,10 +399,17 @@ namespace OfficeOpenXml.Drawing
             {
                 chart.AddUpDownBars(true, true);
             }
-            if(OpenSerie!=null) chart.Series.Add(OpenSerie, CategorySerie);
+            if (ChartType == eStockChartType.StockVHLC || ChartType == eStockChartType.StockVOHLC)
+            {
+                chart.PlotArea.ChartTypes[0].Series.Add(VolumeSerie, CategorySerie);
+            }
+
+            if (ChartType==eStockChartType.StockOHLC || ChartType==eStockChartType.StockVOHLC) 
+                chart.Series.Add(OpenSerie, CategorySerie);
+
             chart.Series.Add(HighSerie, CategorySerie);
             chart.Series.Add(LowSerie, CategorySerie);
-            chart.Series.Add(CloseSerie, CategorySerie);            
+            chart.Series.Add(CloseSerie, CategorySerie);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.StockChartStyle1);
             return chart;
         }
