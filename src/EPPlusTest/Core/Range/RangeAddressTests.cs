@@ -248,7 +248,7 @@ namespace EPPlusTest.Core.Range
         {
             using (var package = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("NEW"); 
+                var sheet = package.Workbook.Worksheets.Add("NEW");
                 var range = sheet.Cells[2, 2, 3, 4];
                 var namedRange = sheet.Names.Add("NewNamedRange", range);
 
@@ -403,5 +403,16 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("D2", ws.Cells[2, 4].Value);
             }
         }
-    }
+        [TestMethod]
+        public void VerifyFullAddress()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws = pck.Workbook.Worksheets.Add("AddressVerify");
+                Assert.AreEqual("'AddressVerify'!B6:D8", ws.Cells["B6:D8"].FullAddress);
+                Assert.AreEqual("'AddressVerify'!B6:D8,'AddressVerify'!B10:D11", ws.Cells["B6:D8,B10:D11"].FullAddress);
+            }
+
+        }
+}
 }

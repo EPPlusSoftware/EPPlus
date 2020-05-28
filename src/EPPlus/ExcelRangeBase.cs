@@ -1387,15 +1387,19 @@ namespace OfficeOpenXml
         {
             get
             {
-                string fullAddress = GetFullAddress(_worksheet.Name, _address);
-                if (Addresses != null)
+                if (Addresses == null)
                 {
+                    return GetFullAddress(_worksheet.Name, _address);
+                }
+                else
+                {
+                    string fullAddress="";
                     foreach (var a in Addresses)
                     {
-                        fullAddress += "," + GetFullAddress(_worksheet.Name, a.Address);
+                        fullAddress +=  GetFullAddress(_worksheet.Name, a.Address)+",";
                     }
+                    return fullAddress.Substring(0,fullAddress.Length-1);
                 }
-                return fullAddress;
             }
         }
         /// <summary>
