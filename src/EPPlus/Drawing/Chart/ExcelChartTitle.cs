@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 var applyStyle = (RichText.Count == 0);
                 RichText.Text = value;
-                if(applyStyle && _chart._styleManager!=null) _chart.StyleManager.ApplyStyle(this, _chart.StyleManager.Style.Title);
+                if(applyStyle && _chart._styleManager?.Style !=null) _chart.StyleManager.ApplyStyle(this, _chart.StyleManager.Style.Title);
             }
         }
         ExcelDrawingBorder _border = null;
