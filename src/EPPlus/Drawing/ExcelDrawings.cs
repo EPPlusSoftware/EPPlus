@@ -23,6 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq.Expressions;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -374,38 +375,112 @@ namespace OfficeOpenXml.Drawing
             return (ExcelChartEx)AddChart(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
-        /// Adds a new extended chart to the worksheet.
-        /// Extended charts are 
+        /// Adds a new stock chart to the worksheet.
+        /// Requires a range with four, five or six columns depending on the stock chart type.
+        /// The first column is the category series. 
+        /// The following columns in the range depend on the stock chart type (HLC, OHLC, VHLC, VOHLC).
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="ChartType">Type of chart</param>
-        /// <param name="CategorySerie">The category serie</param>
-        /// <param name="HighSerie">The serie containing the high serie</param>    
-        /// <param name="LowSerie">The serie containing the low serie</param>    
-        /// <param name="CloseSerie">The serie containing the close serie</param>    
+        /// <param name="ChartType">The Stock chart type</param>
+        /// <param name="Range">The category serie. A serie containng dates </param>
         /// <returns>The chart</returns>
-        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie =null)
+        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase Range)
         {
-            var chart = (ExcelStockChart)AddChart(Name, (eChartType)ChartType, null);
-            if(CategorySerie.Rows>1)
+            var startRow = Range.Start.Row;
+            var startCol = Range.Start.Column;
+            var endRow = Range.End.Row;
+            var ws = Range.Worksheet;
+            switch (ChartType)
             {
-                if(CategorySerie.Offset(0,0,1,1).Value is string)
+                case eStockChartType.StockHLC:
+                    if(Range.Columns!=4)
+                    {
+                        throw (new InvalidOperationException("Range must contain 4 columns with the Category serie to the left and the High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name, 
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3]);
+                case eStockChartType.StockOHLC:
+                    if (Range.Columns != 5)
+                    {
+                        throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left and the Opening Price, High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
+                        ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
+                case eStockChartType.StockVHLC:
+                    if (Range.Columns != 5)
+                    {
+                        throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left and the Volume, High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
+                        ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
+                        null,
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
+                case eStockChartType.StockVOHLC:
+                    if (Range.Columns != 6)
+                    {
+                        throw (new InvalidOperationException("Range must contain 6 columns with the Category serie to the left and the Volume, Opening Price, High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
+                        ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
+                        ws.Cells[startRow, startCol + 5, endRow, startCol + 5],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
+                default:
+                    throw new InvalidOperationException("Unknown eStockChartType");
+            }
+        }
+        /// <summary>
+        /// Adds a new stock chart to the worksheet.
+        /// The stock chart type will depend on if the parameters OpenSerie and/or VolumeSerie is supplied
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="CategorySerie">The category serie. A serie containng dates </param>
+        /// <param name="HighSerie">The high price serie</param>    
+        /// <param name="LowSerie">The low price serie</param>    
+        /// <param name="CloseSerie">The close price serie containing</param>    
+        /// <param name="OpenSerie">The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart</param>
+        /// <param name="VolumeSerie">The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart</param>
+        /// <returns>The chart</returns>
+        public ExcelStockChart AddStockChart(string Name, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie =null)
+        {
+            ValidateSeries(CategorySerie, LowSerie, HighSerie, CloseSerie);
+
+            var chartType = GetChartType(OpenSerie, VolumeSerie);
+
+            var chart = (ExcelStockChart)AddChart(Name, chartType, null);
+            if (CategorySerie.Rows > 1)
+            {
+                if (CategorySerie.Offset(0, 0, 1, 1).Value is string)
                 {
                     chart.XAxis.ChangeAxisType(eAxisType.Date);
                 }
             }
             chart.AddHighLowLines();
-            if(ChartType==eStockChartType.StockOHLC)
+            if (chartType == eChartType.StockOHLC || chartType == eChartType.StockVOHLC)
             {
                 chart.AddUpDownBars(true, true);
             }
-            if (ChartType == eStockChartType.StockVHLC || ChartType == eStockChartType.StockVOHLC)
+
+            if (chartType == eChartType.StockVHLC || chartType == eChartType.StockVOHLC)
             {
                 chart.PlotArea.ChartTypes[0].Series.Add(VolumeSerie, CategorySerie);
             }
-
-            if (ChartType==eStockChartType.StockOHLC || ChartType==eStockChartType.StockVOHLC) 
+            if (chartType == eChartType.StockOHLC || chartType == eChartType.StockVOHLC)
+            {
                 chart.Series.Add(OpenSerie, CategorySerie);
+            }
 
             chart.Series.Add(HighSerie, CategorySerie);
             chart.Series.Add(LowSerie, CategorySerie);
@@ -413,6 +488,50 @@ namespace OfficeOpenXml.Drawing
             chart.StyleManager.SetChartStyle(ePresetChartStyle.StockChartStyle1);
             return chart;
         }
+
+        private static eChartType GetChartType(ExcelRangeBase OpenSerie, ExcelRangeBase VolumeSerie)
+        {
+            eChartType chartType;
+            if (OpenSerie == null && VolumeSerie == null)
+            {
+                chartType = eChartType.StockHLC;
+            }
+            else if (OpenSerie == null && VolumeSerie != null)
+            {
+                chartType = eChartType.StockVHLC;
+            }
+            else if (OpenSerie != null && VolumeSerie == null)
+            {
+                chartType = eChartType.StockOHLC;
+            }
+            else
+            {
+                chartType = eChartType.StockVOHLC;
+            }
+
+            return chartType;
+        }
+
+        private void ValidateSeries(ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie)
+        {
+            if (CategorySerie == null)
+            {
+                throw new ArgumentNullException("CategorySerie");
+            }
+            else if (HighSerie == null)
+            {
+                throw new ArgumentNullException("HighSerie");
+            }
+            else if (LowSerie == null)
+            {
+                throw new ArgumentNullException("LowSerie");
+            }
+            else if (CloseSerie == null)
+            {
+                throw new ArgumentNullException("CloseSerie ");
+            }
+        }
+
         /// <summary>
         /// Add a new linechart to the worksheet.
         /// </summary>

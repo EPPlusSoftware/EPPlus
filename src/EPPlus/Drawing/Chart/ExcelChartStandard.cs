@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using System.Linq;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -223,29 +224,35 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         private void LoadAxis()
         {
-            XmlNodeList nl = _chartNode.SelectNodes("c:axId", NameSpaceManager);
             List<ExcelChartAxis> l = new List<ExcelChartAxis>();
-            foreach (XmlNode node in nl)
+            foreach (XmlNode node in _chartNode.ParentNode.ChildNodes)
             {
-                string id = node.Attributes["val"].Value;
-                var axNode = ChartXml.SelectNodes(topPath + "/" + plotAreaPath + string.Format("/*/c:axId[@val=\"{0}\"]", id), NameSpaceManager);
-                if (axNode != null && axNode.Count > 1)
+                if (node.LocalName.EndsWith("Ax"))
                 {
-                    foreach (XmlNode axn in axNode)
-                    {
-                        if (axn.ParentNode.LocalName.EndsWith("Ax"))
-                        {
-                            XmlNode axisNode = axn.ParentNode;
-                            ExcelChartAxis ax = new ExcelChartAxisStandard(this, NameSpaceManager, axisNode, "c");
-                            l.Add(ax);
-                        }
-                    }
+                    ExcelChartAxis ax = new ExcelChartAxisStandard(this, NameSpaceManager, node, "c");
+                    l.Add(ax);
                 }
             }
             _axis = l.ToArray();
 
-            if (_axis.Length > 0) XAxis = _axis[0];
-            if (_axis.Length > 1) YAxis = _axis[1];
+            XmlNodeList nl = _chartNode.SelectNodes("c:axId", NameSpaceManager);
+            foreach (XmlNode node in nl)
+            {                
+                string id = node.Attributes["val"].Value;
+                var ix = Array.FindIndex(_axis, x => x.Id == id);
+                if(ix>=0)
+                {
+                    if(XAxis==null)
+                    {
+                        XAxis = _axis[ix];
+                    }
+                    else
+                    {
+                        YAxis = _axis[ix];
+                        break;
+                    }
+                }
+            }
         }
         internal virtual eChartType GetChartType(string name)
         {
@@ -341,7 +348,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        xml.AppendFormat("<c:valAx><c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"r\"/><c:majorGridlines/><c:majorTickMark val=\"none\"/><c:minorTickMark val=\"none\"/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{1}\"/><c:crosses val=\"max\"/><c:crossBetween val=\"between\"/></c:valAx>", serAxID, xAxID, GetAxisShapeProperties());
+                        xml.AppendFormat("<c:valAx><c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"r\"/><c:majorGridlines/><c:majorTickMark val=\"none\"/><c:minorTickMark val=\"none\"/><c:tickLblPos val=\"nextTo\"/>{2}<c:crossAx val=\"{1}\"/><c:crosses val=\"max\"/><c:crossBetween val=\"between\"/></c:valAx>", serAxID, axID, GetAxisShapeProperties());
                     }
                 }
             }

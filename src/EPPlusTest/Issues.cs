@@ -1267,6 +1267,16 @@ namespace EPPlusTest
                 SaveWorkbook("Issue108.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue115()
+        {
+            using (var p = OpenPackage("Issue115.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("DefinedNamesIssue");
+                p.Workbook.Names.Add("Name", ws.Cells["B6:D8,B10:D11"]);
+                SaveAndCleanup(p);
+            }
+        }
         
     }
 }

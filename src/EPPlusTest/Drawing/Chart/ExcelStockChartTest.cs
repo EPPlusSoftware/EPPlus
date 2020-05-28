@@ -67,9 +67,10 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("StockTextHLC");
             AddHLCText(ws);
             
-            var chart = ws.Drawings.AddStockChart("StockPeriodHLC", eStockChartType.StockHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"]);
+            var chart = ws.Drawings.AddStockChart("StockPeriodHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockHLC, chart.ChartType);
         }
         [TestMethod]
         public void AddStockHLCPeriod()
@@ -77,9 +78,10 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("StockPeriodHLC");
             AddHLCPeriod(ws);
 
-            var chart = ws.Drawings.AddStockChart("StockPeriodHLC", eStockChartType.StockHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"]);
+            var chart = ws.Drawings.AddStockChart("StockPeriodHLC",  ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockHLC, chart.ChartType);
         }
         [TestMethod]
         public void AddStockOHLCText()
@@ -87,9 +89,10 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("StockTextOHLC");
             AddHLCText(ws);
 
-            var chart = ws.Drawings.AddStockChart("StockTextOHLC", eStockChartType.StockOHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["B1:B7"]);
+            var chart = ws.Drawings.AddStockChart("StockTextOHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockOHLC, chart.ChartType);
         }
         [TestMethod]
         public void AddStockOHLCPeriod()
@@ -97,9 +100,10 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("StockPeriodOHLC");
             AddHLCPeriod(ws);
 
-            var chart = ws.Drawings.AddStockChart("StockPeriodOHLC", eStockChartType.StockOHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["B1:B7"]);
+            var chart = ws.Drawings.AddStockChart("StockPeriodOHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockOHLC, chart.ChartType);
         }
         [TestMethod]
         public void AddStockVHLCPeriod()
@@ -107,9 +111,10 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("StockPeriodVHLC");
             AddHLCPeriod(ws);
 
-            var chart = ws.Drawings.AddStockChart("StockPeriodVHLC", eStockChartType.StockVHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], null, ws.Cells["F1:F7"]);
+            var chart = ws.Drawings.AddStockChart("StockPeriodVHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], null, ws.Cells["B1:B7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockVHLC, chart.ChartType);
         }
         [TestMethod]
         public void AddStockVHLCText()
@@ -117,9 +122,33 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("StockTextVHLC");
             AddHLCText(ws);
 
-            var chart = ws.Drawings.AddStockChart("StockTextVHLC", eStockChartType.StockVHLC, ws.Cells["A1:A7"], ws.Cells["C1:C7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], null, ws.Cells["F1:F7"]);
+            var chart = ws.Drawings.AddStockChart("StockTextVHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], null, ws.Cells["B1:B7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockVHLC, chart.ChartType);
+        }
+        [TestMethod]
+        public void AddStockVOHLCPeriod()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockPeriodVOHLC");
+            AddHLCPeriod(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockPeriodVOHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"], ws.Cells["B1:B7"]);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
+        }
+
+        [TestMethod]
+        public void AddStockVOHLCText()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextVOHLC");
+            AddHLCText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextVOHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"], ws.Cells["B1:B7"]);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
         }
 
         private void AddHLCPeriod(ExcelWorksheet ws)
@@ -155,21 +184,21 @@ namespace EPPlusTest.Drawing.Chart
         private class PeriodData
         {
             public DateTime Date { get; set; }
+            public double Volume { get; set; }
             public double OpeningPrice { get; set; }
             public double HighPrice { get; set; }
             public double LowPrice { get; set; }
             public double ClosePrice { get; set; }
-            public double Volume { get; set; }
         }
 
         private class EquityData
         {
             public string EquityName { get; set; }
+            public double Volume { get; set; }
             public double OpeningPrice { get; set; }
             public double HighPrice { get; set; }
             public double LowPrice { get; set; }
             public double ClosePrice { get; set; }
-            public double Volume { get; set; }
         }
     }
 }
