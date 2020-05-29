@@ -14,10 +14,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Financial,
+        EPPlusVersion = "5.2",
+        Description = "Returns the sum-of-years' digits depreciation of an asset for a specified period")]
     internal class Syd : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

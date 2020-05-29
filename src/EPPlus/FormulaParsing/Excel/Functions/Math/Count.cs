@@ -15,10 +15,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "4",
+        Description = "Returns the number of numerical values in a supplied set of cells or values")]
     internal class Count : HiddenValuesHandlingFunction
     {
         private enum ItemContext

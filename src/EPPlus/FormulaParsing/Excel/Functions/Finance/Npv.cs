@@ -11,6 +11,7 @@
   05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Financial,
+        EPPlusVersion = "5.2",
+        Description = "Calculates the net present value of an investment, based on a supplied discount rate, and a series of periodic cash flows")]
     internal class Npv : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

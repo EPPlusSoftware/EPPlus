@@ -15,10 +15,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Financial,
+        EPPlusVersion = "5.2",
+        Description = "Calculates the interest payment for a given period of an investment, with periodic constant payments and a constant interest rate")]
     internal class Ipmt : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

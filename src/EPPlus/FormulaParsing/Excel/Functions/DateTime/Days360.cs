@@ -15,10 +15,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.DateAndTime,
+        EPPlusVersion = "4",
+        Description = "Calculates the number of days between 2 dates, based on a 360-day year (12 x 30 months)")]
     internal class Days360 : ExcelFunction
     {
         private enum Days360Calctype

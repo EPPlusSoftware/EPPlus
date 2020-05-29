@@ -17,9 +17,14 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using MathObj = System.Math;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "4",
+        Description = "Returns the standard deviation of a supplied set of values (which represent a sample of a population) ")]
     internal class Stdev : HiddenValuesHandlingFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

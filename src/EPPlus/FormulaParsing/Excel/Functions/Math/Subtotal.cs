@@ -14,10 +14,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.MathAndTrig,
+        EPPlusVersion = "4",
+        Description = "Performs a specified calculation (e.g. the sum, product, average, etc.) for a supplied set of values")]
     internal class Subtotal : ExcelFunction
     {
         private Dictionary<int, HiddenValuesHandlingFunction> _functions = new Dictionary<int, HiddenValuesHandlingFunction>();

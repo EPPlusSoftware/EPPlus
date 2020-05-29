@@ -14,12 +14,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.LookupAndReference,
+        EPPlusVersion = "4",
+        Description = "Returns a reference to a cell (or range of cells) for requested rows and columns within a supplied range")]
     internal class Index : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

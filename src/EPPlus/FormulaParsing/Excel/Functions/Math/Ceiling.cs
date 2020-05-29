@@ -14,10 +14,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.MathAndTrig,
+        EPPlusVersion = "4",
+        Description = "Rounds a number away from zero (i.e. rounds a positive number up and a negative number down), to a multiple of significance")]
     internal class Ceiling : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

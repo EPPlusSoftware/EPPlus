@@ -16,9 +16,14 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.LookupAndReference,
+        EPPlusVersion = "4",
+        Description = "Finds the relative position of a value in a supplied array")]
     internal class Match : LookupFunction
     {
         private enum MatchType

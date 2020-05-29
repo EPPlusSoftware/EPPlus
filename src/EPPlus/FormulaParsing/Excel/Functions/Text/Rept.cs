@@ -14,10 +14,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Text,
+        EPPlusVersion = "4",
+        Description = "Returns a string consisting of a supplied text string, repeated a specified number of times")]
     internal class Rept : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.XPath;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Utilities;
@@ -23,6 +24,11 @@ using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "4",
+        Description = "Returns the number of cells (of a supplied range), that satisfy a set of given criteria",
+        IntroducedInExcelVersion = "2007")]
     internal class CountIfs : MultipleRangeCriteriasFunction
     {
 

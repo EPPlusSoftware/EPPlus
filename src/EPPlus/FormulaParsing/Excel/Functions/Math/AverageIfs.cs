@@ -14,10 +14,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "4",
+        Description = "Calculates the Average of the cells in a supplied range, that satisfy multiple criteria",
+        IntroducedInExcelVersion = "2007")]
     internal class AverageIfs : MultipleRangeCriteriasFunction
     {
         private string GetCriteraFromArgsByIndex(FunctionArgument[] arguments, int index)

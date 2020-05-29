@@ -17,9 +17,14 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.LookupAndReference,
+        EPPlusVersion = "4",
+        Description = "Returns a reference, in text format, for a supplied row and column number")]
     internal class Address : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

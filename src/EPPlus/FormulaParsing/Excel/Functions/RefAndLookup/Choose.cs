@@ -14,11 +14,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.LookupAndReference,
+        EPPlusVersion = "4",
+        Description = "Returns one of a list of values, depending on the value of a supplied index number")]
     internal class Choose : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

@@ -11,6 +11,7 @@
   05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
 using EPPlus.PortedFunctions.LibreOffice.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,10 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Financial,
+        EPPlusVersion = "5.2",
+        Description = "Calculates the internal rate of return for a schedule of cash flows occurring at a series of supplied dates")]
     internal class Xirr : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

@@ -16,10 +16,16 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.DateAndTime,
+        EPPlusVersion = "4",
+        Description = "Returns the number of whole networkdays (excluding weekends & holidays), between two supplied dates, using parameters to specify weekend days",
+        IntroducedInExcelVersion = "2010")]
     internal class NetworkdaysIntl : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
