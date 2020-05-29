@@ -15,7 +15,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
     /// <summary>
     /// A tranformation operation for a color
     /// </summary>
-    internal class ExcelColorTransformSimpleItem : IColorTransformItem
+    internal class ExcelColorTransformSimpleItem : IColorTransformItem, ISource
     {
         /// <summary>
         /// Type of tranformation
@@ -30,5 +30,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         /// The value
         /// </summary>
         public double Value { get; set; }
+
+        bool ISource._fromStyleTemplate { get; set; } = false;
     }
 }

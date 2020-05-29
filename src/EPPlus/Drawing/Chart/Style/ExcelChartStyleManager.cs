@@ -650,10 +650,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 foreach (ExcelChartSerie serie in chart.Series)
                 {
                     //Note: Datalabels are applied in the ApplyDataLabels method
-
                     //Marker
+                    var applyBorder = !(chart.IsTypeStock() && serie.Border.Width==0);
                     var items = serie.NumberOfItems;                    
-                    ApplyStyle(serie, dataPoint, serieNo, items, applyFill);
+                    ApplyStyle(serie, dataPoint, serieNo, items, applyFill, applyBorder);
                     if (serie is IDrawingChartMarker serieMarker && serieMarker.HasMarker())     //Applies to Line and Scatterchart series
                     {
                         ApplyStyle(serieMarker.Marker, Style.DataPointMarker, serieNo, items);
@@ -676,7 +676,8 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                     {
                         foreach (var dp in dps.DataPoints)
                         {
-                            ApplyStyle(dp, dataPoint, dp.Index, items, applyFill);
+                            applyBorder = !(chart.IsTypeStock() && dp.Border.Width == 0);
+                            ApplyStyle(dp, dataPoint, dp.Index, items, applyFill, applyBorder);
                             if (dp.HasMarker())
                             {
                                 ApplyStyle(dp.Marker, Style.DataPointMarker, dp.Index, items);
@@ -720,7 +721,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             return dataPoint;
         }
 
-        internal void ApplyStyle(IDrawingStyleBase chartPart, ExcelChartStyleEntry section, int indexForColor=0, int numberOfItems=0, bool applyFill=true)
+        internal void ApplyStyle(IDrawingStyleBase chartPart, ExcelChartStyleEntry section, int indexForColor=0, int numberOfItems=0, bool applyFill=true, bool applyBorder=true)
         {
             if(chartPart is IStyleMandatoryProperties setMandatoryProperties)
             {
@@ -728,8 +729,8 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
             chartPart.CreatespPr();
             if(applyFill) ApplyStyleFill(chartPart, section, indexForColor, numberOfItems);
-            
-            ApplyStyleBorder(chartPart.Border, section, indexForColor, numberOfItems);
+
+            if(applyBorder) ApplyStyleBorder(chartPart.Border, section, indexForColor, numberOfItems);
             ApplyStyleEffect(chartPart.Effect, section, indexForColor, numberOfItems);
             ApplyStyle3D(chartPart, section, indexForColor, numberOfItems);
             if (chartPart is IDrawingStyle chartPartWithFont)

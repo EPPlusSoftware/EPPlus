@@ -56,7 +56,7 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void StockChartHLC_Styles()
         {
-            var ws = _pck.Workbook.Worksheets.Add("StockChartStyling");
+            var ws = _pck.Workbook.Worksheets.Add("StockHLCChartStyling");
             var members = new MemberInfo[] 
             {
                 typeof(PeriodData).GetProperty("Date"),
@@ -67,85 +67,137 @@ namespace EPPlusTest.Drawing.Chart
 
             LoadStockChartDataPeriod(ws, members);
 
-            StockChartStyle(ws, eStockChartType.StockHLC);
+            StockChartStyle(ws, eStockChartType.StockHLC, ws.Cells["A1:D7"]);
         }
-        private static void StockChartStyle(ExcelWorksheet ws, eStockChartType chartType)
+        [TestMethod]
+        public void StockChartOHLC_Styles()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockOHLCChartStyling");
+            var members = new MemberInfo[]
+            {
+                typeof(PeriodData).GetProperty("Date"),
+                typeof(PeriodData).GetProperty("OpeningPrice"),
+                typeof(PeriodData).GetProperty("HighPrice"),
+                typeof(PeriodData).GetProperty("LowPrice"),
+                typeof(PeriodData).GetProperty("ClosePrice"),
+            };
+
+            LoadStockChartDataPeriod(ws, members);
+
+            StockChartStyle(ws, eStockChartType.StockOHLC, ws.Cells["A1:E7"]);
+        }
+        [TestMethod]
+        public void StockChartVHLC_Styles()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockVHLCChartStyling");
+            var members = new MemberInfo[]
+            {
+                typeof(PeriodData).GetProperty("Date"),
+                typeof(PeriodData).GetProperty("Volume"),
+                typeof(PeriodData).GetProperty("HighPrice"),
+                typeof(PeriodData).GetProperty("LowPrice"),
+                typeof(PeriodData).GetProperty("ClosePrice"),
+            };
+
+            LoadStockChartDataPeriod(ws, members);
+
+            StockChartStyle(ws, eStockChartType.StockVHLC, ws.Cells["A1:E7"]);
+        }
+        [TestMethod]
+        public void StockChartVOHLC_Styles()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockVOHLCChartStyling");
+            var members = new MemberInfo[]
+            {
+                typeof(PeriodData).GetProperty("Date"),
+                typeof(PeriodData).GetProperty("Volume"),
+                typeof(PeriodData).GetProperty("OpeningPrice"),
+                typeof(PeriodData).GetProperty("HighPrice"),
+                typeof(PeriodData).GetProperty("LowPrice"),
+                typeof(PeriodData).GetProperty("ClosePrice"),
+            };
+
+            LoadStockChartDataPeriod(ws, members);
+
+            StockChartStyle(ws, eStockChartType.StockVOHLC, ws.Cells["A1:F7"]);
+        }
+
+        private static void StockChartStyle(ExcelWorksheet ws, eStockChartType chartType, ExcelRange Range)
         {
             //Surface charts don't use chart styling in Excel, but styles can be applied anyway. 
 
             //Stock chart Style 1
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle1, "StockChartStyle1", 0, 5, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle1, "StockChartStyle1", 0, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
-                }) ;
+                });
 
             //Stock chart Style 2
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle2, "StockChartStyle2", 0, 18, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle2, "StockChartStyle2", 0, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 3
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle3, "StockChartStyle3", 0, 31, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle3, "StockChartStyle3", 0, 31, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 4
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle4, "StockChartStyle4", 20, 5, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle4, "StockChartStyle4", 20, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 5
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle5, "StockChartStyle5", 20, 18, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle5, "StockChartStyle5", 20, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 6
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle6, "StockChartStyle6", 20, 31, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle6, "StockChartStyle6", 20, 31, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 7
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle7, "StockChartStyle7", 40, 5, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle7, "StockChartStyle7", 40, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 8
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle8, "StockChartStyle8", 40, 18, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle8, "StockChartStyle8", 40, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 9
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle9, "StockChartStyle9", 40, 31, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle9, "StockChartStyle9", 40, 31, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-
             //Stock chart Style 10
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle10, "StockChartStyle10", 60, 18, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle10, "StockChartStyle10", 60, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 11
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle11, "StockChartStyle11", 60, 31, ws.Cells["A1:D7"],
+            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle11, "StockChartStyle11", 60, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;

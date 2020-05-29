@@ -122,7 +122,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                    DeleteNode(_crossesAtPath, true);
         }
         /// <summary>
         /// The Numberformat used
@@ -287,8 +286,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                            DeleteNode(_custUnitPath, true);
-                    DeleteNode(_displayUnitPath, true);
         }
         /// <summary>
         /// Chart axis title
@@ -310,7 +307,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                    DeleteNode(_minValuePath,true);
         }
         /// <summary>
         /// Max value for the axis.
@@ -320,7 +316,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                    DeleteNode(_maxValuePath, true);
         }
         /// <summary>
         /// Major unit for the axis.
@@ -330,8 +325,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                    DeleteNode(_majorUnitPath, true);
-                    DeleteNode(_majorUnitCatPath, true);
         }
         /// <summary>
         /// Major time unit for the axis.
@@ -341,7 +334,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                    DeleteNode(_majorTimeUnitPath, true);
         }
         /// <summary>
         /// Minor unit for the axis.
@@ -351,8 +343,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                    DeleteNode(_minorUnitPath, true);
-                    DeleteNode(_minorUnitCatPath, true);
         }
         /// <summary>
         /// Minor time unit for the axis.
@@ -371,7 +361,6 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
             set;
-                    DeleteNode(_logbasePath, true);
         }
         /// <summary>
         /// Axis orientation

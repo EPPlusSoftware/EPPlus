@@ -84,17 +84,17 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
                     break;
             }
             //Variations should be added first, so temporary store the transforms and add the again
-            var trans = Transforms.ToList();
+            var trans = Transforms.Where(x=>((ISource)x)._fromStyleTemplate==false).ToList();
             Transforms.Clear();
             if (variation != null)
             {
                 ApplyNewTransform(variation);
             }
             ApplyNewTransform(trans);
-            ApplyNewTransform(newColor.Transforms);
+            ApplyNewTransform(newColor.Transforms, true);
         }
 
-        private void ApplyNewTransform(IEnumerable<IColorTransformItem> transforms)
+        private void ApplyNewTransform(IEnumerable<IColorTransformItem> transforms, bool isSourceStyleTemplate=false)
         {
             foreach (var t in transforms)
             {
@@ -184,6 +184,10 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
                     case eColorTransformType.Tint:
                         Transforms.AddTint(t.Value);
                         break;
+                }
+                if (isSourceStyleTemplate && Transforms.Count > 0)
+                {
+                    ((ISource)Transforms.Last())._fromStyleTemplate = true;
                 }
             }
         }

@@ -605,6 +605,14 @@ namespace OfficeOpenXml.Drawing.Chart
                            ChartType == eChartType.PieExploded3D ||
                            ChartType == eChartType.BarOfPie;
         }
+        protected internal bool IsTypeStock()
+        {
+            return ChartType == eChartType.StockHLC ||
+                           ChartType == eChartType.StockOHLC ||
+                           ChartType == eChartType.StockVHLC ||
+                           ChartType == eChartType.StockVOHLC;
+        }
+
         #endregion
         internal void InitChartTheme(int fallBackStyleId)
         {

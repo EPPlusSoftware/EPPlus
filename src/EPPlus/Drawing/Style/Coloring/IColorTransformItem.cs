@@ -30,4 +30,8 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         /// </summary>
         double Value { get; set; }
     }
+    internal interface ISource
+    {
+        bool _fromStyleTemplate { get; set; }
+    }
 }
