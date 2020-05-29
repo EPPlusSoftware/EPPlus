@@ -111,7 +111,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    _chartXmlHelper.DeleteNode(_gapWidthPath);
+                    _chartXmlHelper.DeleteNode(_gapWidthPath, true);
                 }
                 if (value < 0 || value > 500)
                 {

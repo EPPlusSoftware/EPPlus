@@ -635,15 +635,27 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal void DeleteNode(string path)
+		/// <summary>
+		/// Delete the element or attribut matching the XPath
+		/// </summary>
+		/// <param name="path">The path</param>
+		/// <param name="deleteElement">If true and the node is an attribute, the parent element is deleted. Default false</param>
+		internal void DeleteNode(string path, bool deleteElement=false)
         {
             var node = TopNode.SelectSingleNode(path, NameSpaceManager);
             if (node != null)
             {
                 if (node is XmlAttribute)
-                {
+				{
                     var att = (XmlAttribute)node;
-                    att.OwnerElement.Attributes.Remove(att);
+					if (deleteElement)
+					{
+						att.OwnerElement.ParentNode.RemoveChild(att.OwnerElement);
+					}
+					else
+					{
+						att.OwnerElement.Attributes.Remove(att);
+					}
                 }
                 else
                 {

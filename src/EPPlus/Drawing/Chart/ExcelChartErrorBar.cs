@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_valuePath);
+                    DeleteNode(_valuePath, true);
                 }
                 else
                 {

@@ -786,6 +786,7 @@ namespace EPPlusTest
             cs3.XAxis.Deleted = false;
             cs3.XAxis.MajorUnit = 20;
             cs3.XAxis.MinorUnit = 3;
+            cs3.XAxis.MinorUnit = null;
 
             cs3.XAxis.TickLabelPosition = eTickLabelPosition.High;
             cs3.YAxis.LogBase = 10.2;

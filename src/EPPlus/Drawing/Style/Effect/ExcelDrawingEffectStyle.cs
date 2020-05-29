@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
                 }
                 else
                 {
-                    DeleteNode(_softEdgeRadiusPath);
+                    DeleteNode(_softEdgeRadiusPath, true);
                 }
             }
         }        

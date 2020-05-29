@@ -223,7 +223,7 @@ namespace OfficeOpenXml.Style
 					// If Excel 2010 encounters a vertical align value of blank, it will not load
 					// the spreadsheet. So if None is specified, delete the node, it will be 
 					// recreated if a new value is applied later.
-					DeleteNode(VERT_ALIGN_PATH);
+					DeleteNode(VERT_ALIGN_PATH, true);
 				} else {
 					SetXmlNodeString(VERT_ALIGN_PATH, value.ToString().ToLowerInvariant());
 				}
