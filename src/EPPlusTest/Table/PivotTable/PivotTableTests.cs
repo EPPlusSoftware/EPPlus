@@ -417,5 +417,30 @@ namespace EPPlusTest.Table.PivotTable
             rf.SubTotalFunctions = eSubTotalFunctions.None;
             pt.DataOnRows = true;
         }
+        [TestMethod]
+        public void Pivot_ManyPageFields()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-Many PageFields");
+
+            var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:O11"], "Pivottable12");
+            pt.ColumnFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[0]);
+            var pf1 = pt.PageFields.Add(pt.Fields[2]);
+            var pf2 = pt.PageFields.Add(pt.Fields[4]);
+            pf1.MultipleItemSelectionAllowed = true;
+            pf2.MultipleItemSelectionAllowed = true;
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.DataOnRows = true;
+            pt.ColumnHeaderCaption = "Column Caption";
+            pt.RowHeaderCaption = "Row Caption";
+
+            Assert.AreEqual(1, pt.ColumnFields.Count);
+            Assert.AreEqual(2, pt.PageFields.Count);
+            Assert.AreEqual(1, pt.RowFields.Count);
+            Assert.AreEqual(1, pt.DataFields.Count);
+            Assert.IsTrue(pf1.MultipleItemSelectionAllowed);
+        }
+
     }
 }
