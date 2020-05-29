@@ -88,7 +88,7 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    DeleteNode(_lineStylePath);
+                    DeleteNode(_lineStylePath, true);
                 }
             }
         }

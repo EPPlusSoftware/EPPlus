@@ -88,5 +88,13 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(0, _ws.Cells["D1"].RichText.Count);
             Assert.IsFalse(_ws.Cells["D1"].IsRichText);
         }
+        [TestMethod]
+        public void RemoveVerticalAlign()
+        {
+            var p=_ws.Cells["G1"].RichText.Add("RemoveVerticalAlign");
+            p.VerticalAlign = OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Baseline;
+            p.VerticalAlign = OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None;
+            Assert.AreEqual(p.VerticalAlign, OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None);
+        }
     }
 }

@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_crossesAtPath);
+                    DeleteNode(_crossesAtPath, true);
                 }
                 else
                 {
@@ -483,12 +483,12 @@ namespace OfficeOpenXml.Drawing.Chart
                     {
                         if((double)(long)v==value)
                         {
-                            DeleteNode(_custUnitPath);
+                            DeleteNode(_custUnitPath, true);
                             SetXmlNodeString(_displayUnitPath, ((eBuildInUnits)value).ToString());
                             return;
                         }
                     }
-                    DeleteNode(_displayUnitPath);
+                    DeleteNode(_displayUnitPath, true);
                     if(value!=0)
                     {
                         SetXmlNodeString(_custUnitPath, value.ToString(CultureInfo.InvariantCulture));
@@ -534,7 +534,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_minValuePath);
+                    DeleteNode(_minValuePath,true);
                 }
                 else
                 {
@@ -557,7 +557,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_maxValuePath);
+                    DeleteNode(_maxValuePath, true);
                 }
                 else
                 {
@@ -588,8 +588,8 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_majorUnitPath);
-                    DeleteNode(_majorUnitCatPath);
+                    DeleteNode(_majorUnitPath, true);
+                    DeleteNode(_majorUnitCatPath, true);
                 }
                 else
                 {
@@ -631,7 +631,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else
                 {
-                    DeleteNode(_majorTimeUnitPath);
+                    DeleteNode(_majorTimeUnitPath, true);
                 }
             }
         }
@@ -658,8 +658,8 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_minorUnitPath);
-                    DeleteNode(_minorUnitCatPath);
+                    DeleteNode(_minorUnitPath, true);
+                    DeleteNode(_minorUnitCatPath, true);
                 }
                 else
                 {
@@ -720,7 +720,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (value == null)
                 {
-                    DeleteNode(_logbasePath);
+                    DeleteNode(_logbasePath, true);
                 }
                 else
                 {
