@@ -38,7 +38,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class SunBurstChartStylingTest : TestBase
@@ -58,14 +58,14 @@ namespace EPPlusTest.Drawing.Chart
         public void SunburstChart_Styles()
         {
             var ws = _pck.Workbook.Worksheets.Add("SunburstChart");
-            LoadTestdata(ws);
+            LoadHierarkiTestData(ws);
             SunburstChartStyle(ws);
         }
         private static void SunburstChartStyle(ExcelWorksheet ws)
         {
             //Sunburst Chart styles
 
-            //Sunburst chart Style 1
+            //Sunburst Chart Style 1
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle1, "SunburstChartStyle1", 0, 5,
                 c =>
                 {
@@ -74,7 +74,7 @@ namespace EPPlusTest.Drawing.Chart
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Sunburst chart Style 2
+            //Sunburst Chart Style 2
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle2, "SunburstChartStyle2", 0, 18,
                 c =>
                 {
@@ -82,42 +82,42 @@ namespace EPPlusTest.Drawing.Chart
                     var dl=c.Series[0].DataLabel.DataLabels.Add(0);
                 });
 
-            //Sunburst chart Style 3
+            //Sunburst Chart Style 3
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle3, "SunburstChartStyle3", 0, 31,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Sunburst chart Style 4
+            //Sunburst Chart Style 4
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle4, "SunburstChartStyle4", 20, 5,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Sunburst chart Style 5
+            //Sunburst Chart Style 5
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle5, "SunburstChartStyle5", 20, 18,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Sunburst chart Style 6
+            //Sunburst Chart Style 6
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle6, "SunburstChartStyle6", 20, 31,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Sunburst chart Style 7
+            //Sunburst Chart Style 7
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle7, "SunburstChartStyle7", 40, 5,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Sunburst chart Style 8
+            //Sunburst Chart Style 8
             AddChartEx(ws, ePresetChartStyle.SunburstChartStyle8, "SunburstChartStyle8", 40, 18,
                 c =>
                 {
@@ -132,7 +132,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.To.ColumnOff = 0;
             chart.To.Row = row + 18;
             chart.To.RowOff = 0;
-            chart.Series.Add("A2:A8", "D2:D8");
+            chart.Series.Add("A2:C17", "D2:D17");
 
             SetProperties(chart);
 

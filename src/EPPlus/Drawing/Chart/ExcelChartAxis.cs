@@ -40,9 +40,6 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartAxis(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) :
             base(nameSpaceManager, topNode)
         {
-            AddSchemaNodeOrder(new string[] { "axId", "scaling", "delete", "axPos", "majorGridlines", "minorGridlines", "title", "numFmt", "majorTickMark", "minorTickMark", "tickLblPos", "spPr", "txPr", "crossAx", "crosses", "crossesAt", "crossBetween", "auto", "lblOffset", "baseTimeUnit", "majorUnit", "majorTimeUnit", "minorUnit", "minorTimeUnit", "tickLblSkip", "tickMarkSkip", "dispUnits", "noMultiLvlLbl", "logBase", "orientation", "max", "min" },
-                ExcelDrawing._schemaNodeOrderSpPr);
-
             _chart = chart;
             _nsPrefix = nsPrefix;
             _formatPath = $"{_nsPrefix}:numFmt/@formatCode";
@@ -294,10 +291,12 @@ namespace OfficeOpenXml.Drawing.Chart
         public virtual ExcelChartTitle Title
         {
             get
-            {
-                return _title;
+            {                                
+                return GetTitle();
             }
         }
+
+        protected abstract ExcelChartTitle GetTitle();
         #region "Scaling"
         /// <summary>
         /// Minimum value for the axis.
@@ -503,14 +502,18 @@ namespace OfficeOpenXml.Drawing.Chart
             RenameNode(TopNode, "c", "dateAx", children);            
         }
         #endregion
-        internal protected void AddTitleNode()
+        internal protected XmlNode AddTitleNode()
         {
             var node = TopNode.SelectSingleNode($"{_nsPrefix}:title", NameSpaceManager);
             if (node == null)
             {
                 node = CreateNode($"{_nsPrefix}:title");
-                node.InnerXml = ExcelChartTitle.GetInitXml(_nsPrefix);
+                if (_chart._isChartEx == false)
+                {
+                    node.InnerXml = ExcelChartTitle.GetInitXml(_nsPrefix);
+                }
             }
+            return node;
         }
         void IStyleMandatoryProperties.SetMandatoryProperties()
         {

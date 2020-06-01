@@ -39,7 +39,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class WaterfallChartStylingTest : TestBase
@@ -74,6 +74,10 @@ namespace EPPlusTest.Drawing.Chart
                     c.Legend.PositionAlignment = ePositionAlign.Min;
                     c.Series[0].DataPoints.Add(0).SubTotal = true;
                     c.Series[0].DataPoints.Add(6).SubTotal = true;
+
+                    c.Title.Text = "Waterfall 1";
+                    c.YAxis.Title.Text = "Waterfall 1 Y-Axis"; 
+                    //c.XAxis.Title.Text = "Waterfall 1 X-Axis";
                 });
 
             //Waterfall chart Style 2
@@ -98,6 +102,7 @@ namespace EPPlusTest.Drawing.Chart
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
+                    c.Series[0].ShowConnectorLines = true;
                 });
 
             //Waterfall chart Style 4

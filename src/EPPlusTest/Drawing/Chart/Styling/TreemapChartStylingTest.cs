@@ -38,7 +38,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class TreemapChartStylingTest : TestBase
@@ -58,7 +58,7 @@ namespace EPPlusTest.Drawing.Chart
         public void TreemapChart_Styles()
         {
             var ws = _pck.Workbook.Worksheets.Add("TreemapChart");
-            LoadTestdata(ws);
+            LoadHierarkiTestData(ws);
             TreemapChartStyle(ws);
         }
         private static void TreemapChartStyle(ExcelWorksheet ws)
@@ -71,6 +71,8 @@ namespace EPPlusTest.Drawing.Chart
                 {
                     c.Title.Text = "Treemap 1";
                     c.Legend.Position = eLegendPosition.Bottom;
+                    c.Series[0].DataLabel.Add(false,true);
+                    c.Series[0].DataLabel.Position = eLabelPosition.Center;
                 });
 
             //Treemap chart Style 2
@@ -139,7 +141,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.To.ColumnOff = 0;
             chart.To.Row = row + 18;
             chart.To.RowOff = 0;
-            chart.Series.Add("A2:A8", "D2:D8");
+            chart.Series.Add("A1:C17", "D1:D17");
 
             SetProperties(chart);
 

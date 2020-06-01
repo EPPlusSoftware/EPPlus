@@ -87,11 +87,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return GetXmlNodeBool($"{_path}/@nonOutliers");
+                return GetXmlNodeBool($"{_path}/@nonoutliers");
             }
             set
             {
-                SetXmlNodeBool($"{_path}/@nonOutliers", value);
+                SetXmlNodeBool($"{_path}/@nonoutliers", value);
             }
         }
         /// <summary>

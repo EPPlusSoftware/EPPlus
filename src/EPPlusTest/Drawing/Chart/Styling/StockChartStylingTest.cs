@@ -37,7 +37,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class StockChartStylingTest : StockChartTestBase

@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     {
         internal ExcelChartExAxis(ExcelChart chart, XmlNamespaceManager nsm, XmlNode topNode) : base(chart, nsm, topNode, "cx")
         {
-
+            SchemaNodeOrder = new string[] { "catScaling", "valScaling","title","units", "majorGridlines", "minorGridlines","majorTickMarks","minorTickMarks", "tickLabels", "numFmt", "spPr", "txPr" };
         }
         string _majorTickMarkPath = "cx:majorTickMarks/@type";
         public override eAxisTickMark MajorTickMark 
@@ -141,13 +141,17 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                if(_title==null)
-                {
-                    AddTitleNode();
-                    _title = new ExcelChartExTitle(_chart, NameSpaceManager, TopNode);
-                }
-                return (ExcelChartExTitle)_title;
+                return (ExcelChartExTitle)GetTitle();
             }
+        }
+        protected override ExcelChartTitle GetTitle()
+        {
+            if (_title == null)
+            {
+                var node = AddTitleNode();
+                _title = new ExcelChartExTitle(_chart, NameSpaceManager, node);
+            }
+            return _title;
         }
 
         public override double? MinValue 

@@ -44,6 +44,8 @@ namespace OfficeOpenXml.Drawing.Chart
 
         internal ExcelChartAxisStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string nsPrefix) : base(chart, nameSpaceManager, topNode, nsPrefix)
         {
+            AddSchemaNodeOrder(new string[] { "axId", "scaling", "delete", "axPos", "majorGridlines", "minorGridlines", "title", "numFmt", "majorTickMark", "minorTickMark", "tickLblPos", "spPr", "txPr", "crossAx", "crosses", "crossesAt", "crossBetween", "auto", "lblOffset", "baseTimeUnit", "majorUnit", "majorTimeUnit", "minorUnit", "minorTimeUnit", "tickLblSkip", "tickMarkSkip", "dispUnits", "noMultiLvlLbl", "logBase", "orientation", "max", "min" },
+                ExcelDrawing._schemaNodeOrderSpPr);
         }
         internal override string Id
         {
@@ -145,14 +147,19 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                if (_title == null)
-                {
-                    AddTitleNode();
-                    _title = new ExcelChartTitle(_chart, NameSpaceManager, TopNode, "c");
-                }
-                return _title;
+                return GetTitle();
             }
         }
+        protected override ExcelChartTitle GetTitle()
+        {
+            if (_title == null)
+            {
+                AddTitleNode();
+                _title = new ExcelChartTitle(_chart, NameSpaceManager, TopNode, "c");
+            }
+            return _title;
+        }
+
         const string _minValuePath = "c:scaling/c:min/@val";
         /// <summary>
         /// Minimum value for the axis.

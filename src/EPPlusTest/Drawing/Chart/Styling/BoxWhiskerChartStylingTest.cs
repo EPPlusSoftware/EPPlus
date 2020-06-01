@@ -38,7 +38,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class BoxWhiskerChartStylingTest : TestBase
@@ -78,6 +78,10 @@ namespace EPPlusTest.Drawing.Chart
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
+                    c.Series[0].ShowOutliers = false;
+                    c.Series[0].ShowMeanLine = false;
+                    c.Series[0].ShowMeanMarker = true;
+                    c.Series[0].ShowNonOutliers = true;
                 });
 
             //Box & Whisker chart Style 3
@@ -85,6 +89,10 @@ namespace EPPlusTest.Drawing.Chart
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
+                    c.Series[0].ShowMeanMarker = false;
+                    c.Series[0].ShowNonOutliers = false;
+                    c.Series[0].ShowOutliers = true;
+                    c.Series[0].ShowMeanLine = true;
                 });
 
             //Box & Whisker chart Style 4

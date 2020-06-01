@@ -38,7 +38,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class HistogramChartStylingTest : TestBase
@@ -76,8 +76,7 @@ namespace EPPlusTest.Drawing.Chart
             AddChartEx(ws, ePresetChartStyle.HistogramChartStyle1, "HistogramChartStyle1", 0, 5, type,
                 c =>
                 {
-                    c.Title.Text = "sunburst" +
-                    " 1";
+                    c.Title.Text = "Sunburst 1";
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
@@ -86,6 +85,8 @@ namespace EPPlusTest.Drawing.Chart
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
+                    var s = c.Series[0];
+                    s.Aggregation = true;
                 });
 
             //Histogram chart Style 3
@@ -93,6 +94,7 @@ namespace EPPlusTest.Drawing.Chart
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
+                    c.Series[0].Binning.Count = 4;
                 });
 
             //Histogram chart Style 4
@@ -100,6 +102,7 @@ namespace EPPlusTest.Drawing.Chart
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
+                    c.Series[0].Binning.Size=50;
                 });
 
             //Histogram chart Style 5

@@ -38,7 +38,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class PieChartStylingTest : TestBase

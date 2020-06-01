@@ -38,7 +38,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class RegionMapChartStylingTest : TestBase
@@ -71,6 +71,8 @@ namespace EPPlusTest.Drawing.Chart
                 {
                     c.Title.Text = "RegionMap 1";
                     c.Series[0].DataLabel.Add(false,true);
+                    c.Series[0].RegionLableLayout = eRegionLabelLayout.BestFitOnly;
+                    c.Series[0].ViewedRegionType = eGeoMappingLevel.World;
                 });
 
             //RegionMap chart Style 2

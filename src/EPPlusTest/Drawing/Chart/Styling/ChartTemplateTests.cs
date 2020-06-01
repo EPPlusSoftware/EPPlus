@@ -37,7 +37,7 @@ using System.Drawing;
 using System.IO;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class ChartTemplateTests : TestBase
