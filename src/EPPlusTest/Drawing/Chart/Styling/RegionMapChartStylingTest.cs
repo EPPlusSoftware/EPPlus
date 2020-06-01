@@ -41,13 +41,13 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
-    public class TreemapChartStylingTest : TestBase
+    public class RegionMapChartStylingTest : TestBase
     {
         static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("TreemapChartStyling.xlsx", true);
+            _pck = OpenPackage("RegionMapChartStyling.xlsx", true);
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -55,91 +55,57 @@ namespace EPPlusTest.Drawing.Chart
             SaveAndCleanup(_pck);
         }
         [TestMethod]
-        public void TreemapChart_Styles()
+        public void RegionMapChart_Styles()
         {
-            var ws = _pck.Workbook.Worksheets.Add("TreemapChart");
-            LoadTestdata(ws);
-            TreemapChartStyle(ws);
+            var ws = _pck.Workbook.Worksheets.Add("RegionMapChart");
+            LoadGeoTestData(ws);
+            RegionMapChartStyle(ws);
         }
-        private static void TreemapChartStyle(ExcelWorksheet ws)
+        private static void RegionMapChartStyle(ExcelWorksheet ws)
         {
-            //Treemap Chart styles
+            //RegionMap Chart styles
 
-            //Treemap chart Style 1
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle1, "TreemapChartStyle1", 0, 5,
+            //RegionMap chart Style 1
+            AddChart(ws, ePresetChartStyle.RegionMapChartStyle1, "RegionMapChartStyle1", 0, 5,
                 c =>
                 {
-                    c.Title.Text = "Treemap 1";
-                    c.Legend.Position = eLegendPosition.Bottom;
+                    c.Title.Text = "RegionMap 1";
+                    c.Series[0].DataLabel.Add(false,true);
                 });
 
-            //Treemap chart Style 2
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle2, "TreemapChartStyle2", 0, 18,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 3
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle3, "TreemapChartStyle3", 0, 31,
+            //RegionMap chart Style 2
+            AddChart(ws, ePresetChartStyle.RegionMapChartStyle2, "RegionMapChartStyle2", 0, 18,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 4
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle4, "TreemapChartStyle4", 20, 5,
+            //RegionMap chart Style 3
+            AddChart(ws, ePresetChartStyle.RegionMapChartStyle3, "RegionMapChartStyle3", 0, 31,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 5
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle5, "TreemapChartStyle5", 20, 18,
+            //RegionMap chart Style 4
+            AddChart(ws, ePresetChartStyle.RegionMapChartStyle4, "RegionMapChartStyle4", 20, 5,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 6
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle6, "TreemapChartStyle6", 20, 31,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 7
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle7, "TreemapChartStyle7", 40, 5,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 8
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle8, "TreemapChartStyle8", 40, 18,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 9
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle9, "TreemapChartStyle9", 40, 31,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
         }
 
 
-        private static ExcelTreemapChart AddChart(ExcelWorksheet ws, ePresetChartStyle style, string name, int row, int col, Action<ExcelTreemapChart> SetProperties)
+        private static ExcelRegionMapChart AddChart(ExcelWorksheet ws, ePresetChartStyle style, string name, int row, int col, Action<ExcelRegionMapChart> SetProperties)
         {
-            var chart = ws.Drawings.AddTreemapChart(name);
+            var chart = ws.Drawings.AddRegionMapChart(name);
             chart.SetPosition(row, 0, col, 0);
             chart.To.Column = col+12;
             chart.To.ColumnOff = 0;
             chart.To.Row = row + 18;
             chart.To.RowOff = 0;
-            chart.Series.Add("A2:A8", "D2:D8");
+            chart.Series.Add("A1:B11", "C1:C11");
 
             SetProperties(chart);
 

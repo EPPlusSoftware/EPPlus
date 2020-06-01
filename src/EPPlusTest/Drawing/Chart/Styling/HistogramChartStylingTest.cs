@@ -41,13 +41,13 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
-    public class TreemapChartStylingTest : TestBase
+    public class HistogramChartStylingTest : TestBase
     {
         static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("TreemapChartStyling.xlsx", true);
+            _pck = OpenPackage("HistogramChartStyling.xlsx", true);
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -55,85 +55,70 @@ namespace EPPlusTest.Drawing.Chart
             SaveAndCleanup(_pck);
         }
         [TestMethod]
-        public void TreemapChart_Styles()
+        public void HistogramChart_Styles()
         {
-            var ws = _pck.Workbook.Worksheets.Add("TreemapChart");
+            var ws = _pck.Workbook.Worksheets.Add("HistogramChart");
             LoadTestdata(ws);
-            TreemapChartStyle(ws);
+            HistogramChartStyle(ws, eChartExType.Histogram);
         }
-        private static void TreemapChartStyle(ExcelWorksheet ws)
+        [TestMethod]
+        public void ParetoChart_Styles()
         {
-            //Treemap Chart styles
+            var ws = _pck.Workbook.Worksheets.Add("ParetoChart");
+            LoadTestdata(ws);
+            HistogramChartStyle(ws, eChartExType.Pareto);
+        }
+        private static void HistogramChartStyle(ExcelWorksheet ws, eChartExType type)
+        {
+            //Histogram Chart styles
 
-            //Treemap chart Style 1
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle1, "TreemapChartStyle1", 0, 5,
+            //Histogram chart Style 1
+            AddChartEx(ws, ePresetChartStyle.HistogramChartStyle1, "HistogramChartStyle1", 0, 5, type,
                 c =>
                 {
-                    c.Title.Text = "Treemap 1";
+                    c.Title.Text = "sunburst" +
+                    " 1";
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 2
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle2, "TreemapChartStyle2", 0, 18,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 3
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle3, "TreemapChartStyle3", 0, 31,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 4
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle4, "TreemapChartStyle4", 20, 5,
+            //Histogram chart Style 2
+            AddChartEx(ws, ePresetChartStyle.HistogramChartStyle2, "HistogramChartStyle2", 0, 18, type,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 5
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle5, "TreemapChartStyle5", 20, 18,
+            //Histogram chart Style 3
+            AddChartEx(ws, ePresetChartStyle.HistogramChartStyle3, "HistogramChartStyle3", 0, 31, type,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 6
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle6, "TreemapChartStyle6", 20, 31,
+            //Histogram chart Style 4
+            AddChartEx(ws, ePresetChartStyle.HistogramChartStyle4, "HistogramChartStyle4", 20, 5, type,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 7
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle7, "TreemapChartStyle7", 40, 5,
+            //Histogram chart Style 5
+            AddChartEx(ws, ePresetChartStyle.HistogramChartStyle5, "HistogramChartStyle5", 20, 18, type,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 8
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle8, "TreemapChartStyle8", 40, 18,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 9
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle9, "TreemapChartStyle9", 40, 31,
+            //Histogram chart Style 6
+            AddChartEx(ws, ePresetChartStyle.HistogramChartStyle6, "HistogramChartStyle6", 20, 31, type,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
         }
-
-
-        private static ExcelTreemapChart AddChart(ExcelWorksheet ws, ePresetChartStyle style, string name, int row, int col, Action<ExcelTreemapChart> SetProperties)
+        private static ExcelHistogramChart AddChartEx(ExcelWorksheet ws, ePresetChartStyle style, string name, int row, int col,eChartExType type, Action<ExcelHistogramChart> SetProperties)
         {
-            var chart = ws.Drawings.AddTreemapChart(name);
+            var chart = ws.Drawings.AddHistogramChart(name, type==eChartExType.Pareto);
             chart.SetPosition(row, 0, col, 0);
             chart.To.Column = col+12;
             chart.To.ColumnOff = 0;

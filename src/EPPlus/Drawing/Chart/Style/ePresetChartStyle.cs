@@ -1130,7 +1130,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <summary>
         /// Box &amp; Whisker Chart Style 5
         /// </summary>
-        BoxWhiskerStyle5 = 373,
+        BoxWhiskerChartStyle5 = 373,
         /// <summary>
         /// Box &amp; Whisker Chart Style 6
         /// </summary>

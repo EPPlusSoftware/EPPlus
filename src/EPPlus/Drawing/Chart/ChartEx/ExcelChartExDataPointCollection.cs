@@ -49,17 +49,17 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// <summary>
         /// Adds a new datapoint to the collection
         /// </summary>
-        /// <param name="index">The index</param>
+        /// <param name="index">The zero based index</param>
         /// <returns>The datapoint</returns>
         public ExcelChartExDataPoint Add(int index)
         {
-            return AddDp(index, null);
+            return AddDp(index);
         }
-        internal ExcelChartExDataPoint AddDp(int idx, string uniqueId = null)
+        internal ExcelChartExDataPoint AddDp(int idx)
         {
             if (_dic.ContainsKey(idx))
             {
-                throw (new ArgumentException($"Point with index {idx} already exists"));
+                throw (new ArgumentException($"Data point with index {idx} already exists"));
             }
             
             var dp = new ExcelChartExDataPoint(_serie, NameSpaceManager, TopNode, idx, SchemaNodeOrder);

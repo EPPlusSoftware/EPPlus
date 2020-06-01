@@ -20,12 +20,14 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
+                if (TopNode == null) Add();
                 SetXmlNodeString("@align", value.ToEnumString().Replace("center", "ctr"));
             }
         }
         /// <summary>
-        /// The position of the Legend
+        /// The position of the Legend.
         /// </summary>
+        /// <remarks>Setting the Position to TopRight will set the <see cref="Position"/> to Right and the <see cref="PositionAlignment"> to Min</remarks>
         public override eLegendPosition Position
         {
             get
@@ -44,9 +46,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
+                if (TopNode == null) Add();
                 if (value == eLegendPosition.TopRight)
                 {
-                    throw new InvalidOperationException("TopRight can not be set for Extended charts. Please use Top and set the PositionAlignment property.");
+                    PositionAlignment = ePositionAlign.Min;
+                    value = eLegendPosition.Right;
                 }
                 SetXmlNodeString("@pos", value.ToEnumString().Substring(0, 1).ToLowerInvariant());
             }

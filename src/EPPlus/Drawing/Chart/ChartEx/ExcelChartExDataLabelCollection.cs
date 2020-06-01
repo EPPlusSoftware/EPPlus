@@ -11,9 +11,7 @@
   04/16/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Drawing.Style.Effect;
-using OfficeOpenXml.Drawing.Style.ThreeD;
-using OfficeOpenXml.Style;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
@@ -22,73 +20,44 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
     public class ExcelChartExDataLabelCollection : ExcelChartExDataLabel, IDrawingStyle, IEnumerable<ExcelChartExDataLabelItem>
     {
+        SortedDictionary<int, ExcelChartExDataLabelItem> _dic=new SortedDictionary<int, ExcelChartExDataLabelItem>();
         internal ExcelChartExDataLabelCollection(ExcelChartExSerie serie, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder) : 
             base(serie, ns, node)
         {
             _chart = serie._chart;
             AddSchemaNodeOrder(schemaNodeOrder, new string[]{ "numFmt","spPr", "txPr", "visibility", "separator"});
-        }
-        const string _seriesNameVisiblePath = "cx:visibility/@seriesName";
-        public bool SeriesNameVisible
-        { 
-            get
+            foreach (XmlNode pointNode in TopNode.SelectNodes(ExcelChartExDataLabel._dataLabelPath, ns))
             {
-                return GetXmlNodeBool(_seriesNameVisiblePath);
-            }
-            set
-            {
-                SetXmlNodeBool(_seriesNameVisiblePath, value);
+                var item = new ExcelChartExDataLabelItem(serie, ns, pointNode);
+                _dic.Add(item.Index, item);
             }
         }
-        const string _categoryNameVisiblePath = "cx:visibility/@categoryName";
-        public bool CategoryNameVisible
-        {
-            get
-            {
-                return GetXmlNodeBool(_categoryNameVisiblePath);
-            }
-            set
-            {
-                SetXmlNodeBool(_categoryNameVisiblePath, value);
-            }
-        }
-        const string _valueVisiblePath = "cx:visibility/@value";
-        public bool ValueVisible
-        {
-            get
-            {
-                return GetXmlNodeBool(_valueVisiblePath);
-            }
-            set
-            {
-                SetXmlNodeBool(_valueVisiblePath, value);
-            }
-        }
-        const string _separatorPath = "cx:separator";
-        //public string Separator 
-        //{
-        //    get
-        //    {
-        //        return GetXmlNodeString(_separatorPath);
-        //    }
-        //    set
-        //    {
-        //        SetXmlNodeString(_separatorPath, value, true);
-        //    }
-        //}
         void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode("cx:spPr");
         }
-
+        /// <summary>
+        /// Adds an individual data label for customization.
+        /// </summary>
+        /// <param name="index">The zero based index</param>
+        /// <returns></returns>
+        public ExcelChartExDataLabelItem Add(int index)
+        {
+            if(_dic.ContainsKey(index))
+            {
+                throw new InvalidOperationException($"Data label with index {index} already exists.");
+            }
+            var node = _serie.CreateNode("cx:dataLabels/cx:dataLabel", false, true);
+            return new ExcelChartExDataLabelItem(_serie, NameSpaceManager, node, index);
+        }
         public IEnumerator<ExcelChartExDataLabelItem> GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            return _dic.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            return _dic.Values.GetEnumerator();
         }
     }
 }

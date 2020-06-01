@@ -24,8 +24,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         internal ExcelChartExDataLabel(ExcelChartExSerie serie, XmlNamespaceManager nsm, XmlNode node) : base(serie._chart, nsm, node, "", "cx")
         {
             _serie = serie;
+            SchemaNodeOrder = new string[] { "numFmt","visibility", "spPr","txPr","visibility", "separator" };
         }
-
+        internal const string _dataLabelPath = "cx:dataLabel";
         public override eLabelPosition Position 
         {
             get
@@ -39,7 +40,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
-        internal protected void SetDataLabelNode()
+        internal virtual void SetDataLabelNode()
         {
             if (TopNode.LocalName == "series")
             {
@@ -88,23 +89,47 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
         public override bool ShowPercent 
         {
-            get;
-            set; 
+            get
+            {
+                return false;
+            }
+            set
+            {
+                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+            }
         }
         public override bool ShowLeaderLines 
         {
-            get;
-            set;
+            get
+            {
+                return false;
+            }
+            set
+            {
+                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+            }
         }
         public override bool ShowBubbleSize 
         {
-            get;
-            set;
+            get
+            {
+                return false;
+            }
+            set
+            {
+                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+            }
         }
         public override bool ShowLegendKey 
         {
-            get;
-            set;
+            get
+            {
+                return false;
+            }
+            set
+            {
+                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+            }
         }
         public override string Separator
         {

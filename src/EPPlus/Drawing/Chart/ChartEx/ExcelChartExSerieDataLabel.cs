@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
         ExcelChartExDataLabelCollection _dataLabels = null;
         /// <summary>
-        /// Individually formatted datalabels.
+        /// Individually formatted data labels.
         /// </summary>
         public ExcelChartExDataLabelCollection DataLabels
         {
@@ -47,9 +47,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         /// <summary>
-        /// Add data labels to the serie.
+        /// Adds data labels to the series.
         /// </summary>
-        /// <param name="showCategory">Show category name</param>
+        /// <param name="showCategory">Show the category name</param>
         /// <param name="showValue">Show values</param>
         /// <param name="showSeriesName">Show series name</param>
         public void Add(bool showCategory=true, bool showValue=false, bool showSeriesName=false)
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             ShowSeriesName = showSeriesName;
         }
         /// <summary>
-        /// Remove datalabels from the chart
+        /// Removes data labels from the series
         /// </summary>
         public void Remove()
         {

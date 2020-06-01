@@ -41,13 +41,13 @@ using System.Xml;
 namespace EPPlusTest.Drawing.Chart
 {
     [TestClass]
-    public class TreemapChartStylingTest : TestBase
+    public class FunnelChartStylingTest : TestBase
     {
         static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("TreemapChartStyling.xlsx", true);
+            _pck = OpenPackage("FunnelChartStyling.xlsx", true);
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -55,75 +55,75 @@ namespace EPPlusTest.Drawing.Chart
             SaveAndCleanup(_pck);
         }
         [TestMethod]
-        public void TreemapChart_Styles()
+        public void FunnelChart_Styles()
         {
-            var ws = _pck.Workbook.Worksheets.Add("TreemapChart");
+            var ws = _pck.Workbook.Worksheets.Add("FunnelChart");
             LoadTestdata(ws);
-            TreemapChartStyle(ws);
+            FunnelChartStyle(ws);
         }
-        private static void TreemapChartStyle(ExcelWorksheet ws)
+        private static void FunnelChartStyle(ExcelWorksheet ws)
         {
-            //Treemap Chart styles
+            //Funnel Chart styles
 
-            //Treemap chart Style 1
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle1, "TreemapChartStyle1", 0, 5,
+            //Funnel chart Style 1
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle1, "FunnelChartStyle1", 0, 5,
                 c =>
                 {
-                    c.Title.Text = "Treemap 1";
+                    c.Title.Text = "Funnel 1";
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 2
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle2, "TreemapChartStyle2", 0, 18,
-                c =>
-                {
-                    c.Legend.Position = eLegendPosition.Bottom;
-                });
-
-            //Treemap chart Style 3
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle3, "TreemapChartStyle3", 0, 31,
+            //Funnel chart Style 2
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle2, "FunnelChartStyle2", 0, 18,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 4
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle4, "TreemapChartStyle4", 20, 5,
+            //Funnel chart Style 3
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle3, "FunnelChartStyle3", 0, 31,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 5
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle5, "TreemapChartStyle5", 20, 18,
+            //Funnel chart Style 4
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle4, "FunnelChartStyle4", 20, 5,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 6
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle6, "TreemapChartStyle6", 20, 31,
+            //Funnel chart Style 5
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle5, "FunnelChartStyle5", 20, 18,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 7
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle7, "TreemapChartStyle7", 40, 5,
+            //Funnel chart Style 6
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle6, "FunnelChartStyle6", 20, 31,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 8
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle8, "TreemapChartStyle8", 40, 18,
+            //Funnel chart Style 7
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle7, "FunnelChartStyle7", 40, 5,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
-            //Treemap chart Style 9
-            AddChart(ws, ePresetChartStyle.TreemapChartStyle9, "TreemapChartStyle9", 40, 31,
+            //Funnel chart Style 8
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle8, "FunnelChartStyle8", 40, 18,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Bottom;
+                });
+
+            //Funnel chart Style 9
+            AddChart(ws, ePresetChartStyle.FunnelChartStyle9, "FunnelChartStyle9", 40, 31,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
@@ -131,9 +131,9 @@ namespace EPPlusTest.Drawing.Chart
         }
 
 
-        private static ExcelTreemapChart AddChart(ExcelWorksheet ws, ePresetChartStyle style, string name, int row, int col, Action<ExcelTreemapChart> SetProperties)
+        private static ExcelFunnelChart AddChart(ExcelWorksheet ws, ePresetChartStyle style, string name, int row, int col, Action<ExcelFunnelChart> SetProperties)
         {
-            var chart = ws.Drawings.AddTreemapChart(name);
+            var chart = ws.Drawings.AddFunnelChart(name);
             chart.SetPosition(row, 0, col, 0);
             chart.To.Column = col+12;
             chart.To.ColumnOff = 0;

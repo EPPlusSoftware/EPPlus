@@ -23,7 +23,21 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     {
         internal ExcelChartExDataLabelItem(ExcelChartExSerie serie, XmlNamespaceManager nsm, XmlNode node) : base(serie, nsm, node)
         {
-
+        }
+        internal ExcelChartExDataLabelItem(ExcelChartExSerie serie, XmlNamespaceManager nsm, XmlNode node, int index) : base(serie, nsm, node)
+        {
+            Index = index;
+        }
+        public int Index 
+        { 
+            get
+            {
+                return GetXmlNodeInt("@idx");
+            }
+            private set
+            {                
+                SetXmlNodeInt("@idx", value);
+            }
         }
     }
 }
