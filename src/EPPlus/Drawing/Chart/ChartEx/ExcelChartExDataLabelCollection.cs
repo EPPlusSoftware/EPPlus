@@ -50,6 +50,22 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             var node = _serie.CreateNode("cx:dataLabels/cx:dataLabel", false, true);
             return new ExcelChartExDataLabelItem(_serie, NameSpaceManager, node, index);
         }
+        /// <summary>
+        /// Returns tje data label at the specific position.  
+        /// </summary>
+        /// <param name="index">The index of the datalabel. 0-base.</param>
+        /// <returns>Returns null if the data label does not exist in the collection</returns>
+        public ExcelChartExDataLabel this[int index]
+        {
+            get
+            {
+                if (_dic.ContainsKey(index))
+                {
+                    return _dic[index];
+                }
+                return null;
+            }
+        }
         public IEnumerator<ExcelChartExDataLabelItem> GetEnumerator()
         {
             return _dic.Values.GetEnumerator();

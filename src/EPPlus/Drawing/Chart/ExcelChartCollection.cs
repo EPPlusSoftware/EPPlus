@@ -160,7 +160,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 return (_list[PositionID]);
             }
         }
-
-
-}
+    }
 }

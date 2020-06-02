@@ -310,11 +310,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
 
             if (_chart._isChartEx)
             {
-                //Make sure we have a theme
-                if (_theme.CurrentTheme == null)
-                {
-                    _theme.CreateDefaultTheme();
-                }
+                ApplyStylesEx();
             }
             else
             {
@@ -546,7 +542,32 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             ApplyAxis();
             ApplySeries();
         }
+        /// <summary>
+        /// Apply the chart and color style to the chart.
+        /// <seealso cref="Style"/>
+        /// <seealso cref="ColorsManager"/>
+        /// </summary>
+        public void ApplyStylesEx()
+        {
+            //Make sure we have a theme
+            if (_theme.CurrentTheme == null)
+            {
+                _theme.CreateDefaultTheme();
+            }
 
+            //Title
+            if (_chart.HasTitle && _chart.Title.TopNode.HasChildNodes)
+            {
+                ApplyStyle(_chart.Title, Style.Title);
+            }
+
+            if (_chart.HasLegend && _chart.Legend.TopNode.HasChildNodes)
+            {
+                ApplyStyle(_chart.Legend, Style.Legend);
+            }
+
+            ApplyAxis();
+        }
         private void GenerateDataPoints()
         {            
             foreach (var serie in _chart.Series)
@@ -626,8 +647,13 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 {
                     currStyle = Style.ValueAxis;
                 }
-                ApplyStyle(axis, currStyle);
-                if(axis.HasMajorGridlines)
+                
+                if (_chart._isChartEx == false || axis._title != null)
+                {
+                    ApplyStyle(axis, currStyle);
+                }
+
+                if (axis.HasMajorGridlines)
                 {
                     ApplyStyleBorder(axis.MajorGridlines, Style.GridlineMajor, 0, 0);
                     ApplyStyleEffect(axis.MajorGridlineEffects, Style.GridlineMajor, 0, 0);

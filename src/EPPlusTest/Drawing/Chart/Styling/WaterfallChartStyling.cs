@@ -76,8 +76,11 @@ namespace EPPlusTest.Drawing.Chart.Styling
                     c.Series[0].DataPoints.Add(6).SubTotal = true;
 
                     c.Title.Text = "Waterfall 1";
-                    c.YAxis.Title.Text = "Waterfall 1 Y-Axis"; 
-                    //c.XAxis.Title.Text = "Waterfall 1 X-Axis";
+                    c.YAxis.Title.Text = "Waterfall 1 Y-Axis";
+                    c.XAxis.Title.Text = "Waterfall 1 X-Axis";
+                    
+                    c.YAxis.AddGridlines(true, true);
+                    c.YAxis.MajorTickMark = eAxisTickMark.Out;
                 });
 
             //Waterfall chart Style 2
@@ -85,9 +88,10 @@ namespace EPPlusTest.Drawing.Chart.Styling
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
+                    c.Title.Text = "Waterfall 2";
                     var dl = c.Series[0].DataLabel.DataLabels.Add(1);
                     dl.Format = "#,##0.00";
-                    dl =c.Series[0].DataLabel.DataLabels.Add(0);
+                    dl = c.Series[0].DataLabel.DataLabels.Add(0);
                     dl.Border.Width = 1;
                     dl.Border.Fill.Style = OfficeOpenXml.Drawing.eFillStyle.SolidFill;
                     dl.Border.Fill.SolidFill.Color.SetPresetColor(ePresetColor.DarkCyan);

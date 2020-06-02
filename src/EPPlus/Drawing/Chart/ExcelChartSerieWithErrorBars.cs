@@ -50,10 +50,8 @@ namespace OfficeOpenXml.Drawing.Chart
             ErrorBars.BarType = barType;
             ErrorBars.ValueType = valueType;
             ErrorBars.NoEndCap = false;
-            if (_chart.StyleManager.StylePart != null)
-            {
-                _chart.StyleManager.ApplyStyle(ErrorBars, _chart.StyleManager.Style.ErrorBar);
-            }
+
+            _chart.ApplyStyleOnPart(ErrorBars, _chart.StyleManager?.Style?.ErrorBar);
         }
         /// <summary>
         /// Returns true if the serie has Error Bars

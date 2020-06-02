@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 var ix = GetItemAfter(index);
                 if (_list[ix].Index == index)
                 {
-                    throw (new ArgumentException($"Point with index {index} already exists"));
+                    throw (new ArgumentException($"Data label with index {index} already exists"));
                 }
                 return CreateDataLabel(ix);
             }
@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             else
             {
-                pointNode = (XmlElement)CreateNode(ExcelChartDataPoint.topNodePath);
+                pointNode = (XmlElement)CreateNode("c:dLbl");
             }
             return pointNode;
         }

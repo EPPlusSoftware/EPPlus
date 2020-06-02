@@ -194,7 +194,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set => throw new NotImplementedException(); 
         }
-
+        
         internal override string Id
         {
             get

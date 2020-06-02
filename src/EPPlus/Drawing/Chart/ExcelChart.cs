@@ -186,7 +186,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                if (_title == null)
+                 if (_title == null)
                 {
                     if(_isChartEx)
                     {
@@ -397,6 +397,12 @@ namespace OfficeOpenXml.Drawing.Chart
                     chartType == eChartType.SurfaceTopView ||
                     chartType == eChartType.SurfaceTopViewWireframe ||
                     chartType == eChartType.SurfaceWireframe;
+        }
+
+        internal void ApplyStyleOnPart(IDrawingStyleBase chartPart, ExcelChartStyleEntry section, bool applyChartEx=false)
+        {
+            if((applyChartEx==false && _isChartEx) || section == null) return;
+            _styleManager.ApplyStyle(chartPart, section);
         }
 
         /// <summary>

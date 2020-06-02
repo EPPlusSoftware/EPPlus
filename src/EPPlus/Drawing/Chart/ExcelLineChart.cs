@@ -180,19 +180,13 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 _upBar = new ExcelChartStyleItem(NameSpaceManager, ChartNode, this, _upBarPath, RemoveUpBar);
                 var chart = _topChart ?? this;
-                if (chart.StyleManager.StylePart != null)
-                {
-                    chart.StyleManager.ApplyStyle(_upBar, chart.StyleManager.Style.UpBar);
-                }
+                chart.ApplyStyleOnPart(_upBar, chart.StyleManager?.Style?.UpBar);
             }
             if (downBars && _downBar == null)
             {
                 _downBar = new ExcelChartStyleItem(NameSpaceManager, ChartNode, this, _downBarPath, RemoveDownBar);
                 var chart = _topChart ?? this;
-                if (chart.StyleManager.StylePart != null)
-                {
-                    chart.StyleManager.ApplyStyle(_downBar, chart.StyleManager.Style.DownBar);
-                }
+                chart.ApplyStyleOnPart(_upBar, chart.StyleManager?.Style?.DownBar);
             }
         }
         /// <summary>
@@ -204,10 +198,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 _dropLines = new ExcelChartStyleItem(NameSpaceManager, ChartNode, this, _dropLinesPath, RemoveDropLines);
                 var chart = _topChart ?? this;
-                if (chart.StyleManager.StylePart != null)
-                {
-                    chart.StyleManager.ApplyStyle(_dropLines, chart.StyleManager.Style.DropLine);
-                }
+                chart.ApplyStyleOnPart(_upBar, chart.StyleManager?.Style?.DropLine);
             }
             return _dropLines;
         }
@@ -220,10 +211,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 _hiLowLines = new ExcelChartStyleItem(NameSpaceManager, ChartNode, this, _hiLowLinesPath, RemoveHiLowLines);
                 var chart = _topChart ?? this;
-                if (chart.StyleManager.StylePart != null)
-                {
-                    chart.StyleManager.ApplyStyle(_hiLowLines, chart.StyleManager.Style.HighLowLine);
-                }
+                chart.ApplyStyleOnPart(_upBar, chart.StyleManager?.Style?.HighLowLine);
             }
             return HighLowLine;
         }

@@ -257,7 +257,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         void IDrawingStyleBase.CreatespPr()
         {
-            CreatespPrNode();
+            CreatespPrNode($"{_nsPrefix}:spPr");
         }
 
         /// <summary>
@@ -481,16 +481,39 @@ namespace OfficeOpenXml.Drawing.Chart
                 _minorGridlines = null; 
             } 
         }
+        /// <summary>
+        /// Adds gridlines and styles them according to the style selected in the StyleManager
+        /// </summary>
+        /// <param name="addMajor">Indicates if the Major gridlines should be added</param>
+        /// <param name="addMinor">Indicates if the Minor gridlines should be added</param>
         public void AddGridlines(bool addMajor=true, bool addMinor=false)
         {
             if(addMajor)
             {
                 CreateNode(_majorGridlinesPath);
+                _chart.ApplyStyleOnPart(this, _chart._styleManager?.Style?.GridlineMajor);
             }
             if (addMinor)
             {
                 CreateNode(_minorGridlinesPath);
+                _chart.ApplyStyleOnPart(this, _chart._styleManager?.Style?.GridlineMinor);
             }
+        }
+        /// <summary>
+        /// Adds the axis title and styles it according to the style selected in the StyleManager
+        /// </summary>
+        /// <param name="title"></param>
+        public void AddTitle(string title)
+        {
+            Title.Text = title;
+            _chart.ApplyStyleOnPart(Title, _chart._styleManager?.Style?.AxisTitle);
+        }
+        /// <summary>
+        /// Removes the axis title
+        /// </summary>
+        public void RemoveTitle()
+        {
+            DeleteNode($"{_nsPrefix}:title");
         }
         /// <summary>
         /// 
@@ -527,7 +550,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (Font.Kerning == 0) Font.Kerning = 12;
             Font.Bold = Font.Bold; //Must be set
 
-            CreatespPrNode();
+            CreatespPrNode($"{_nsPrefix}:spPr");
         }
     }
 }

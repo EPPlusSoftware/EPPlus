@@ -83,6 +83,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             DataTable = new ExcelChartDataTable(_firstChart, NameSpaceManager, TopNode);
+            _firstChart.ApplyStyleOnPart(DataTable, _firstChart._styleManager?.Style?.DataTable);
             return DataTable;
         }
         /// <summary>

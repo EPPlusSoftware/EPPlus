@@ -460,11 +460,16 @@ namespace OfficeOpenXml.Drawing
             var chartType = GetChartType(OpenSerie, VolumeSerie);
 
             var chart = (ExcelStockChart)AddChart(Name, chartType, null);
+            var firstRowIsHeader = false;
             if (CategorySerie.Rows > 1)
             {
-                if (CategorySerie.Offset(0, 0, 1, 1).Value is string)
+                if (CategorySerie.Offset(1, 0, 1, 1).Value is string)
                 {
                     chart.XAxis.ChangeAxisType(eAxisType.Date);
+                }
+                if(HighSerie.Offset(0, 0, 1, 1).Value is string)
+                {
+                    firstRowIsHeader = true;
                 }
             }
             chart.AddHighLowLines();

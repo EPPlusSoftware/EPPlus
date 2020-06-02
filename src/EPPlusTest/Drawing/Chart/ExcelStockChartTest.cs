@@ -67,9 +67,13 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("StockTextHLC");
             LoadStockChartDataText(ws);
             
-            var chart = ws.Drawings.AddStockChart("StockPeriodHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"]);
+            var chart = ws.Drawings.AddStockChart("StockPeriodHLC", ws.Cells["A2:A7"], ws.Cells["D2:D7"], ws.Cells["E2:E7"], ws.Cells["F2:F7"]);
+            chart.Series[0].HeaderAddress = ws.Cells["D1"];
+            chart.Series[1].HeaderAddress = ws.Cells["E1"];
+            chart.Series[2].HeaderAddress = ws.Cells["F1"];
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            chart.YAxis.AddGridlines();
             Assert.AreEqual(eChartType.StockHLC, chart.ChartType);
         }
         [TestMethod]
@@ -148,6 +152,65 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings.AddStockChart("StockTextVOHLC", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"], ws.Cells["B1:B7"]);
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+            Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
+        }
+
+        [TestMethod]
+        public void AddStockWithDataTable()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextVOHLCDTable");
+            LoadStockChartDataText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextVOHLCDTable", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"], ws.Cells["B1:B7"]);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.PlotArea.CreateDataTable();
+            Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
+            Assert.IsNotNull(chart.PlotArea.DataTable);
+        }
+        [TestMethod]
+        public void AddStockWithTrendLines()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextVOHLCTrendLines");
+            LoadStockChartDataText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextVOHLCTrendLines", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"], ws.Cells["B1:B7"]);
+            chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.StockChartStyle9);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.Series[1].TrendLines.Add(eTrendLine.Linear);
+            Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
+            Assert.AreEqual(1, chart.Series[1].TrendLines.Count);
+        }
+        [TestMethod]
+        public void AddStockWithGridLines()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextVOHLCGridLines");
+            LoadStockChartDataText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextVOHLCGridLines", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"], ws.Cells["B1:B7"]);
+            chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.StockChartStyle9);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.XAxis.AddGridlines(true, true);
+            chart.YAxis.AddGridlines(true, true);
+            chart.Axis[2].AddGridlines(true, true);
+            Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
+        }
+        [TestMethod]
+        public void AddStockWithDataLabels()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextVOHLCDatalabels");
+            LoadStockChartDataText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextVOHLCDatalabels", ws.Cells["A1:A7"], ws.Cells["D1:D7"], ws.Cells["E1:E7"], ws.Cells["F1:F7"], ws.Cells["C1:C7"], ws.Cells["B1:B7"]);
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.DataLabel.ShowValue = true;
+            var dl = chart.Series[0].DataLabel.DataLabels.Add(0);
+            dl.ShowSeriesName = true;
+            dl.ShowCategory = true;
+            dl.Effect.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType.OuterCenter);
             Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
         }
     }

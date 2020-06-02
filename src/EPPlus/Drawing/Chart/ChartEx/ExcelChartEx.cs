@@ -178,7 +178,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
         public override void DeleteTitle()
         {
-            _chartXmlHelper.DeleteNode("cx:chart/cx:title");
+            _chartXmlHelper.DeleteNode("cx:title");
         }
 
         public override ExcelChartPlotArea PlotArea
@@ -346,7 +346,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _chartXmlHelper.ExistNode("cx:chart/cx:title");
+                return _chartXmlHelper.ExistNode("cx:title");
             }
         }
 
@@ -354,7 +354,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _chartXmlHelper.ExistNode("cx:chart/cx:legend");
+                return _chartXmlHelper.ExistNode("cx:legend");
             }
         }
     }

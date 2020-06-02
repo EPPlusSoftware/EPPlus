@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -38,17 +39,14 @@ namespace OfficeOpenXml.Drawing.Chart
             titlePath = string.Format(titlePath, nsPrefix);
             if(chart._isChartEx)
             {
-                AddSchemaNodeOrder(_chart.SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(new string[] { "tx", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
             }
             else
             {
-                AddSchemaNodeOrder(new string[] { "tx", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(_chart._chartXmlHelper.SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
+                chart.ApplyStyleOnPart(this, chart.StyleManager?.Style?.Title, true);
             }
             CreateTopNode();
-            if (chart.StyleManager.StylePart != null)
-            {
-                chart.StyleManager.ApplyStyle(this, chart.StyleManager.Style.Title);
-            }
         }
 
         private void CreateTopNode()
@@ -83,7 +81,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 var applyStyle = (RichText.Count == 0);
                 RichText.Text = value;
-                if(applyStyle && _chart._styleManager?.Style !=null) _chart.StyleManager.ApplyStyle(this, _chart.StyleManager.Style.Title);
+                if(applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
             }
         }
         ExcelDrawingBorder _border = null;
@@ -196,11 +194,32 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_richText == null)
                 {
-                    _richText = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:tx/{ _nsPrefix }:rich/a:p", SchemaNodeOrder, 14);
+                    float defFont = 14;
+                    var stylePart = GetStylePart();
+                    if(stylePart!=null && stylePart.HasTextRun)
+                    {
+                        defFont = Convert.ToSingle(stylePart.DefaultTextRun.FontSize);
+                    }
+                    _richText = new ExcelParagraphCollection(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:tx/{ _nsPrefix }:rich/a:p", SchemaNodeOrder, defFont);
                 }
                 return _richText;
             }
         }
+
+        private ExcelChartStyleEntry GetStylePart()
+        {
+            var style = _chart._styleManager?.Style;
+            if (style == null) return null;
+            if (TopNode.ParentNode.LocalName == "chart")
+            {
+                return _chart._styleManager.Style.Title;
+            }
+            else
+            {
+                return _chart._styleManager.Style.AxisTitle;
+            }
+        }
+
         /// <summary>
         /// Show without overlaping the chart.
         /// </summary>
