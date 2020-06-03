@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Chart.ChartEx   
 {
+    /// <summary>
+    /// The cartographic map projection for a region map chart series
+    /// </summary>
     public enum eProjectionType
     {
         /// <summary>

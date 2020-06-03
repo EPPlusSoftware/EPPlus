@@ -27,6 +27,9 @@ using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Represents a Box &amp; Whisker Chart
+    /// </summary>
     public class ExcelBoxWhiskerChart : ExcelChartEx
     {
         internal ExcelBoxWhiskerChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
@@ -40,6 +43,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
+        /// <summary>
+        /// The series for a Box &amp; Whisker chart
+        /// </summary>
         public new ExcelChartSeries<ExcelBoxWhiskerChartSerie> Series { get; } = new ExcelChartSeries<ExcelBoxWhiskerChartSerie>();
     }
 }

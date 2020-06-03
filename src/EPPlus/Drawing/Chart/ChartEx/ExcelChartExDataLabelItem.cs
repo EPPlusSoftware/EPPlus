@@ -19,6 +19,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// An individual datalabel item
+    /// </summary>
     public class ExcelChartExDataLabelItem : ExcelChartExDataLabel
     {
         internal ExcelChartExDataLabelItem(ExcelChartExSerie serie, XmlNamespaceManager nsm, XmlNode node) : base(serie, nsm, node)
@@ -28,6 +31,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             Index = index;
         }
+        /// <summary>
+        /// The index of the datapoint the label is attached to
+        /// </summary>
         public int Index 
         { 
             get

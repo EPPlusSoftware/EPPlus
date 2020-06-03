@@ -14,6 +14,9 @@ using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A series for an Waterfall Chart
+    /// </summary>
     public class ExcelWaterfallChartSerie : ExcelChartExSerie
     {
         internal ExcelWaterfallChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)

@@ -15,11 +15,17 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Numeric data reference for an extended chart
+    /// </summary>
     public class ExcelChartExNumericData : ExcelChartExData
     {
         internal ExcelChartExNumericData(XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
         {
         }
+        /// <summary>
+        /// The type of data.
+        /// </summary>
         public eNumericDataType Type 
         { 
             get

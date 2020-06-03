@@ -6,12 +6,18 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A legend for an Extended chart
+    /// </summary>
     public class ExcelChartExLegend : ExcelChartLegend
     {
         internal ExcelChartExLegend(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(nsm, node, chart, "cx")
         {
             SchemaNodeOrder = new string[] { "spPr","txPr" };
         }
+        /// <summary>
+        /// The side position alignment of the legend
+        /// </summary>
         public ePositionAlign PositionAlignment
         {
             get

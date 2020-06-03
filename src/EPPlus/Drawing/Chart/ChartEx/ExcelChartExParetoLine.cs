@@ -15,6 +15,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A pareto line for a histogram chart
+    /// </summary>
     public class ExcelChartExParetoLine : ExcelDrawingBorder
     {
         private readonly ExcelChart _chart;

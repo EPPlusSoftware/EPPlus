@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return GetTitle();
             }
         }
-        protected override ExcelChartTitle GetTitle()
+        internal protected override ExcelChartTitle GetTitle()
         {
             if (_title == null)
             {

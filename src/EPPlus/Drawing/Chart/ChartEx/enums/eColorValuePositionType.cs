@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// The color type for a region map charts color variation
+    /// </summary>
     public enum eColorValuePositionType
     {
         /// <summary>

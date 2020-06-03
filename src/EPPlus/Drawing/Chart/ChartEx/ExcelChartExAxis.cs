@@ -16,6 +16,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// An axis for an extended chart
+    /// </summary>
     public sealed class ExcelChartExAxis : ExcelChartAxis
     {
         internal ExcelChartExAxis(ExcelChart chart, XmlNamespaceManager nsm, XmlNode topNode) : base(chart, nsm, topNode, "cx")
@@ -23,6 +26,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             SchemaNodeOrder = new string[] { "catScaling", "valScaling","title","units", "majorGridlines", "minorGridlines","majorTickMarks","minorTickMarks", "tickLabels", "numFmt", "spPr", "txPr" };
         }
         string _majorTickMarkPath = "cx:majorTickMarks/@type";
+        /// <summary>
+        /// Major tickmarks settings for the axis
+        /// </summary>
         public override eAxisTickMark MajorTickMark 
         {
             get
@@ -35,6 +41,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         string _minorTickMarkPath = "cx:majorTickMarks/@type";
+        /// <summary>
+        /// Minor tickmarks settings for the axis
+        /// </summary>
         public override eAxisTickMark MinorTickMark
         {
             get
@@ -47,7 +56,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         /// <summary>
-        /// Where the axis is located. This property does not apply to extended charts
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
         /// </summary>
         public override eAxisPosition AxisPosition 
         { 
@@ -55,46 +64,70 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 return eAxisPosition.Left;
             }
-            internal set => throw new NotImplementedException(); 
+            internal set => throw new NotSupportedException(); 
         }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override eCrosses Crosses 
         { 
             get => eCrosses.AutoZero; 
-            set => throw new NotImplementedException(); 
+            set => throw new NotSupportedException(); 
         }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override eCrossBetween CrossBetween 
         {
             get
             {
                 return eCrossBetween.Between;
             } 
-            set => throw new NotImplementedException(); 
+            set => throw new NotSupportedException(); 
         }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override double? CrossesAt 
         {
             get
             {
                 return null;
             } 
-            set => throw new NotImplementedException(); 
+            set => throw new NotSupportedException(); 
         }
+        /// <summary>
+        /// Labelposition. This property does not apply to extended charts.
+        /// </summary>
         public override eTickLabelPosition LabelPosition 
         { 
             get => eTickLabelPosition.None; 
-            set => throw new NotImplementedException(); 
+            set => throw new NotSupportedException(); 
         }
+        /// <summary>
+        /// If the axis is hidden. 
+        /// </summary>
         public override bool Deleted 
-        { 
-            get => false; 
-            set => throw new NotImplementedException(); 
+        {
+            get
+            {
+                return GetXmlNodeBool("@hidden");
+            }
+            set
+            {
+                SetXmlNodeBool("@hidden", value);
+            }
         }
+        /// <summary>
+        /// Tick label position. This property does not apply to extended charts.
+        /// </summary>
         public override eTickLabelPosition TickLabelPosition 
         {
             get
             {
                 return eTickLabelPosition.None;
             }
-            set => throw new NotImplementedException(); 
+            set => throw new NotSupportedException(); 
         }
         string _displayUnitPath = "cx:units/@unit";
         /// <summary>
@@ -136,7 +169,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
             }
         }
-
+        /// <summary>
+        /// The title of the chart
+        /// </summary>
         public new ExcelChartExTitle Title
         {
             get
@@ -144,7 +179,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return (ExcelChartExTitle)GetTitle();
             }
         }
-        protected override ExcelChartTitle GetTitle()
+        internal protected override ExcelChartTitle GetTitle()
         {
             if (_title == null)
             {
@@ -154,45 +189,70 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             return _title;
         }
 
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override double? MinValue 
         {
             get
             {
                 return null;
             }
-            set => throw new NotImplementedException(); 
+            set => throw new NotSupportedException(); 
         }
-        public override double? MaxValue { get => null; set => throw new NotImplementedException(); }
-        public override double? MajorUnit { get => null; set => throw new NotImplementedException(); }
-        public override eTimeUnit? MajorTimeUnit { get => null; set => throw new NotImplementedException(); }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
+        public override double? MaxValue { get => null; set => throw new NotSupportedException(); }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
+        public override double? MajorUnit { get => null; set => throw new NotSupportedException(); }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
+        public override eTimeUnit? MajorTimeUnit { get => null; set => throw new NotSupportedException(); }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override double? MinorUnit 
         {
             get
             {
                 return null;
             }
-            set => throw new NotImplementedException(); }
+            set => throw new NotSupportedException(); }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override eTimeUnit? MinorTimeUnit 
         {
             get
             {
                 return null;
             }
-            set => throw new NotImplementedException(); }
+            set => throw new NotSupportedException(); }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override double? LogBase 
         {
             get
             {
                 return null;
             }
-            set => throw new NotImplementedException(); }
+            set => throw new NotSupportedException(); 
+        }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override eAxisOrientation Orientation 
         {
             get
             {
                 return eAxisOrientation.MinMax;
             }
-            set => throw new NotImplementedException(); 
+            set => throw new NotSupportedException(); 
         }
         
         internal override string Id

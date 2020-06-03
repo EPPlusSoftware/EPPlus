@@ -18,6 +18,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Datalabel on chart level. 
+    /// </summary>
     public class ExcelChartExDataLabel : ExcelChartDataLabel
     {
         protected internal readonly ExcelChartExSerie _serie;
@@ -27,6 +30,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             SchemaNodeOrder = new string[] { "numFmt","visibility", "spPr","txPr","visibility", "separator" };
         }
         internal const string _dataLabelPath = "cx:dataLabel";
+        /// <summary>
+        /// The datalabel position
+        /// </summary>
         public override eLabelPosition Position 
         {
             get
@@ -49,6 +55,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
 
         private const string _showValuePath = "cx:visibility/@value";
+        /// <summary>
+        /// Show values in the datalabels
+        /// </summary>
         public override bool ShowValue 
         { 
             get
@@ -62,6 +71,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         private const string _showCategoryPath = "cx:visibility/@categoryName";
+        /// <summary>
+        /// Show category names in the datalabels
+        /// </summary>
         public override bool ShowCategory 
         {
             get
@@ -75,6 +87,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         private const string _seriesNamePath = "cx:visibility/@seriesName";
+        /// <summary>
+        /// Show series names in the datalabels
+        /// </summary>
         public override bool ShowSeriesName 
         {
             get
@@ -87,6 +102,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeBool(_seriesNamePath, value);
             }
         }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override bool ShowPercent 
         {
             get
@@ -95,9 +113,12 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+                throw (new NotSupportedException("ShowPercent do not apply to Extension Charts"));
             }
         }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override bool ShowLeaderLines 
         {
             get
@@ -106,9 +127,12 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+                throw (new NotSupportedException("ShowLeaderLines do not apply to Extension Charts"));
             }
         }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override bool ShowBubbleSize 
         {
             get
@@ -117,9 +141,12 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+                throw (new NotSupportedException("ShowBubbleSize do not apply to Extension Charts"));
             }
         }
+        /// <summary>
+        /// This property is not used for extended charts. Trying to set this property will result in a NotSupportedException.
+        /// </summary>
         public override bool ShowLegendKey 
         {
             get
@@ -128,9 +155,12 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                throw (new InvalidOperationException("Show Percent do not apply to Extension Charts"));
+                throw (new InvalidOperationException("ShowLegendKey do not apply to Extension Charts"));
             }
         }
+        /// <summary>
+        /// The separator between items in the datalabel
+        /// </summary>
         public override string Separator
         {
             get

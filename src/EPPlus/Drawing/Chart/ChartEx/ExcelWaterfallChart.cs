@@ -27,6 +27,9 @@ using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Represents an Waterfall Chart
+    /// </summary>
     public class ExcelWaterfallChart : ExcelChartEx
     {
         internal ExcelWaterfallChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) :
@@ -45,6 +48,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
+        /// <summary>
+        /// The series for a waterfall chart
+        /// </summary>
         public new ExcelChartSeries<ExcelWaterfallChartSerie> Series
         {
             get;

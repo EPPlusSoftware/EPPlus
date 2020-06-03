@@ -15,6 +15,9 @@ using System;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Represents a Region Map Chart
+    /// </summary>
     public class ExcelRegionMapChart : ExcelChartEx
     {
 
@@ -29,6 +32,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
+        /// <summary>
+        /// The series for a region map chart
+        /// </summary>
         public new ExcelChartSeries<ExcelRegionMapChartSerie> Series { get; } = new ExcelChartSeries<ExcelRegionMapChartSerie>();
     }
 }

@@ -17,107 +17,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public class ExcelChartExValueColor : XmlHelper
-    {
-        string _prefix;
-        string _positionPath;
-        internal ExcelChartExValueColor(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder, string prefix) : base(nameSpaceManager, topNode)
-        {
-            SchemaNodeOrder = schemaNodeOrder;
-            _prefix = prefix;
-            _positionPath = $"cx:valueColorPositions/cx:{prefix}Position";
-        }
-
-        ExcelDrawingColorManager _color = null;
-        public ExcelDrawingColorManager Color
-        {
-            get
-            {
-                if(_color==null)
-                {
-                    _color = new ExcelDrawingColorManager(NameSpaceManager, TopNode, $"cx:valueColors/cx:{_prefix}Color", SchemaNodeOrder);
-                }
-                return _color;
-            }
-        }
-        public eColorValuePositionType ValueType
-        {
-            get
-            {
-                if(ExistNode($"{_positionPath}/cx:number"))
-                {
-                    return eColorValuePositionType.Number;
-                }
-                else if(ExistNode($"{_positionPath}/cx:percent"))
-                {
-                    return eColorValuePositionType.Percent;
-                }
-                else
-                {
-                    return eColorValuePositionType.Extreme;
-                }
-            }
-            set
-            {
-                if(ValueType!=value)
-                {
-                    ClearChildren(_positionPath);
-                    switch(value)
-                    {
-                        case eColorValuePositionType.Extreme:
-                            CreateNode($"{_positionPath}/cx:extremeValue");
-                            break;
-                        case eColorValuePositionType.Percent:
-                            SetXmlNodeString($"{_positionPath}/cx:percent/@val", "0");
-                            break;
-                        default:
-                            SetXmlNodeString($"{_positionPath}/cx:number/@val", "0");
-                            break;
-                    }
-                }
-            }
-        }
-
-        public double PositionValue
-        {
-            get
-            {
-                var t = ValueType;
-                if (t==eColorValuePositionType.Extreme)
-                {
-                    return 0;
-                }
-                else if(ValueType==eColorValuePositionType.Number)
-                {
-                    return GetXmlNodeDouble($"{_positionPath}/cx:number/@val");
-                }
-                else
-                {
-                    return GetXmlNodePercentage($"{_positionPath}/cx:number/@val")??0;
-                }
-            }
-            set
-            {
-                var t = ValueType;
-                if (t==eColorValuePositionType.Extreme)
-                {
-                    throw (new InvalidOperationException("Can't set PositionValue when ValueType is Extreme"));
-                }
-                else if (t==eColorValuePositionType.Number)
-                {
-                    SetXmlNodeString($"{_positionPath}/cx:number/@val", value.ToString(CultureInfo.InvariantCulture));
-                }
-                else if (t == eColorValuePositionType.Percent)
-                {
-                    if (value < 0 || value > 100)
-                    {
-                        throw new InvalidOperationException("PositionValue out of range. Percantage range is from 0 to 100");
-                    }
-                    SetXmlNodeDouble($"{_positionPath}/cx:percent/@val", value);
-                }
-            }
-        }
-    }
+    /// <summary>
+    /// Color variation for a region map chart series
+    /// </summary>
     public class ExcelChartExValueColors : XmlHelper
     {
         private ExcelRegionMapChartSerie _series;
@@ -151,6 +53,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         ExcelChartExValueColor _minColor = null;
+        /// <summary>
+        /// The minimum color value.
+        /// </summary>
         public ExcelChartExValueColor MinColor 
         {
             get
@@ -163,6 +68,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         ExcelChartExValueColor _midColor = null;
+        /// <summary>
+        /// The mid color value. Null if NumberOfcolors is set to TwoColors
+        /// </summary>
         public ExcelChartExValueColor MidColor
         {
             get
@@ -176,6 +84,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         ExcelChartExValueColor _maxColor = null;
+        /// <summary>
+        /// The maximum color value.
+        /// </summary>
         public ExcelChartExValueColor MaxColor
         {
             get

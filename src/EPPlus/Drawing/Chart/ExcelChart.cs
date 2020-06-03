@@ -180,7 +180,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         protected internal ExcelChartTitle _title = null;
         /// <summary>
-        /// Titel of the chart
+        /// The titel of the chart
         /// </summary>
         public virtual ExcelChartTitle Title
         {
@@ -731,7 +731,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     case "regionMap":
                         return new ExcelRegionMapChart(drawings, node, uriChart, part, chartXml, chartNode);
                     default:
-                        return new ExcelChartEx(drawings, node, uriChart, part, chartXml, chartNode); //Unsupported charttype
+                        throw new NotSupportedException($"Unsupported chart layout {layoutId.Value}");
                 }
             }
             else

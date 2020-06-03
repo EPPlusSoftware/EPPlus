@@ -20,6 +20,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A collection of chart data.
+    /// </summary>
     public class ExcelChartExDataCollection : XmlHelper, IEnumerable<ExcelChartExData>
     {
         List<ExcelChartExData> _list=new List<ExcelChartExData>();
@@ -39,6 +42,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
             }
         }
+        /// <summary>
+        /// The id of the data
+        /// </summary>
         public int Id 
         { 
             get
@@ -46,6 +52,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return GetXmlNodeInt("@id");
             }
         }
+        /// <summary>
+        /// Adds a numeric dimension
+        /// </summary>
+        /// <param name="formula">The formula or address</param>
+        /// <returns>The numeric data</returns>
         public ExcelChartExNumericData AddNumericDimension(string formula)
         {
             var node = CreateNode("cx:numDim", true);
@@ -53,6 +64,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             _list.Add(nd);
             return nd;
         }
+        /// <summary>
+        /// Adds a string dimension
+        /// </summary>
+        /// <param name="formula">The formula or address</param>
+        /// <returns>The string data</returns>
         public ExcelChartExStringData AddStringDimension(string formula)
         {
             var node = CreateNode("cx:strDim", true);

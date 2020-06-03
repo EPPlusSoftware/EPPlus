@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Geomapping level
+    /// </summary>
     public enum eGeoMappingLevel
     {
         /// <summary>

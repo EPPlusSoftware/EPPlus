@@ -18,6 +18,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A collection of individual data labels
+    /// </summary>
     public class ExcelChartExDataLabelCollection : ExcelChartExDataLabel, IDrawingStyle, IEnumerable<ExcelChartExDataLabelItem>
     {
         SortedDictionary<int, ExcelChartExDataLabelItem> _dic=new SortedDictionary<int, ExcelChartExDataLabelItem>();

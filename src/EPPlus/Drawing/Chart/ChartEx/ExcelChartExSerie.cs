@@ -174,6 +174,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         ExcelChartExSerieDataLabel _dataLabels = null;
+        /// <summary>
+        /// Data label properties
+        /// </summary>
         public ExcelChartExSerieDataLabel DataLabel
         {
             get
@@ -186,6 +189,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         ExcelChartExDataPointCollection _dataPoints = null;
+        /// <summary>
+        /// A collection of individual data points
+        /// </summary>
         public ExcelChartExDataPointCollection DataPoints
         {
             get
@@ -195,28 +201,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                     _dataPoints = new ExcelChartExDataPointCollection(this, NameSpaceManager, TopNode, SchemaNodeOrder);
                 }
                 return _dataPoints;
-            }
-        }
-        public eRegionLabelLayout RegionLableLayout 
-        {
-            get
-            {
-                return GetXmlNodeString("cx:layoutPr/cx:regionLabelLayout/@val").ToEnum(eRegionLabelLayout.None);
-            }
-            set
-            {
-                SetXmlNodeString("cx:layoutPr/cx:regionLabelLayout/@val", value.ToEnumString());
-            }
-        }
-        public eParentLabelLayout ParentLabelLayout
-        {
-            get
-            {
-                return GetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val").ToEnum(eParentLabelLayout.None);
-            }
-            set
-            {
-                SetXmlNodeString("cx:layoutPr/cx:parentLabelLayout/@val", value.ToEnumString());
             }
         }
         /// <summary>
@@ -247,6 +231,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
         public override int NumberOfItems => 0;
 
+        /// <summary>
+        /// Trendline do not apply to extended charts.
+        /// </summary>
         public override ExcelChartTrendlineCollection TrendLines => new ExcelChartTrendlineCollection(null);
 
         internal override void SetID(string id)

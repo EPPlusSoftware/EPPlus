@@ -16,6 +16,9 @@ using System.Globalization;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A chart series for a region map chart
+    /// </summary>
     public class ExcelRegionMapChartSerie : ExcelChartExSerie
     {
         internal ExcelRegionMapChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
@@ -24,6 +27,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
 
         const string _attributionPath = "cx:layoutPr/cx:geography/@attribution";
+        /// <summary>
+        /// The provider or source of the geographical data. Default is Bing.
+        /// </summary>
         public string Attribution 
         { 
             get
@@ -36,6 +42,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         const string _regionPath = "cx:layoutPr/cx:geography/@cultureRegion";
+        /// <summary>
+        /// Specifies the country code. Uses the TwoLetterISOLanguageName property of the CultureInfo object.
+        /// </summary>
         public CultureInfo Region 
         { 
             get
@@ -54,6 +63,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
 
         const string _languagePath = "cx:layoutPr/cx:geography/@cultureLanguage";
+        /// <summary>
+        /// Specifies the language. 
+        /// </summary>
         public CultureInfo Language 
         {
             get
@@ -71,6 +83,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         const string _projectionTypePath = "cx:layoutPr/cx:geography/@projectionType";
+        /// <summary>
+        /// The cartographic map projection for the series
+        /// </summary>
         public eProjectionType ProjectionType 
         { 
             get
@@ -90,6 +105,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         const string _geoMappingLevelPath = "cx:layoutPr/cx:geography/@viewedRegionType";
+        /// <summary>
+        /// The level of view for the series
+        /// </summary>
         public eGeoMappingLevel ViewedRegionType
         {
             get
@@ -109,6 +127,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         ExcelChartExValueColors _colors = null;
+        /// <summary>
+        /// Colors for the gradient scale of the region map series. 
+        /// </summary>
         public ExcelChartExValueColors Colors
         {
             get
@@ -120,5 +141,20 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _colors;
             }
         }
+        /// <summary>
+        /// Layout type for region labels
+        /// </summary>
+        public eRegionLabelLayout RegionLableLayout
+        {
+            get
+            {
+                return GetXmlNodeString("cx:layoutPr/cx:regionLabelLayout/@val").ToEnum(eRegionLabelLayout.None);
+            }
+            set
+            {
+                SetXmlNodeString("cx:layoutPr/cx:regionLabelLayout/@val", value.ToEnumString());
+            }
+        }
+
     }
 }

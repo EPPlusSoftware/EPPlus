@@ -26,7 +26,10 @@ using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
-    public class ExcelChartEx : ExcelChart
+    /// <summary>
+    /// Base class for all extention charts
+    /// </summary>
+    public abstract class ExcelChartEx : ExcelChart
     {
         internal ExcelChartEx(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent) : 
             base(drawings, node, parent, "mc:AlternateContent/mc:Choice/xdr:graphicFrame")
@@ -176,11 +179,17 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
+        /// <summary>
+        /// Delete the charts title
+        /// </summary>
         public override void DeleteTitle()
         {
             _chartXmlHelper.DeleteNode("cx:title");
         }
 
+        /// <summary>
+        /// Plotarea properties
+        /// </summary>
         public override ExcelChartPlotArea PlotArea
         {
             get
@@ -208,6 +217,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _exAxis;
             }
         }
+
+        /// <summary>
+        /// The titel of the chart
+        /// </summary>
         public new ExcelChartExTitle Title
         {
             get
@@ -219,6 +232,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return (ExcelChartExTitle)_title;
             }
         }
+        /// <summary>
+        /// Legend
+        /// </summary>
         public new ExcelChartExLegend Legend
         {
             get
@@ -325,6 +341,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// Chart series
         /// </summary>
         public new ExcelChartSeries<ExcelChartExSerie> Series { get; } = new ExcelChartSeries<ExcelChartExSerie>();
+        /// <summary>
+        /// Do not apply to Extension charts
+        /// </summary>
         public override bool VaryColors
         {
             get 
@@ -336,12 +355,17 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 throw new InvalidOperationException("VaryColors do not apply to Extended charts");
             }
         }
+        /// <summary>
+        /// Can not be set for extenstion charts. Please use <see cref="ExcelChart.StyleManager"/>
+        /// </summary>
         public override eChartStyle Style 
         {
             get;
             set;
         }
-
+        /// <summary>
+        /// If the chart has a title or not
+        /// </summary>
         public override bool HasTitle
         {
             get

@@ -27,6 +27,9 @@ using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Represents a Funnel Chart
+    /// </summary>
     public class ExcelFunnelChart : ExcelChartEx
     {
         internal ExcelFunnelChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :

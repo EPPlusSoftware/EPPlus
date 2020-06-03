@@ -27,6 +27,9 @@ using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Represents a Histogram Chart
+    /// </summary>
     public class ExcelHistogramChart : ExcelChartEx
     {
         internal ExcelHistogramChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :
@@ -40,6 +43,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             Series.Init(this, NameSpaceManager, TopNode, false, base.Series._list);
         }
+        /// <summary>
+        /// The series for a histogram chart
+        /// </summary>
         public new ExcelHistogramChartSeries Series { get; } = new ExcelHistogramChartSeries();
 
     }

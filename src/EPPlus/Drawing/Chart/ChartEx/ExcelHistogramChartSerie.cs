@@ -14,9 +14,12 @@ using System;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A series for an Histogram Chart
+    /// </summary>
     public class ExcelHistogramChartSerie : ExcelChartExSerie
     {
-        public ExcelHistogramChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
+        internal ExcelHistogramChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
         {
             if (chart.ChartType == eChartType.Pareto)
             {
@@ -48,6 +51,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
         internal const string _aggregationPath = "cx:layoutPr/cx:aggregation";
         internal const string _binningPath = "cx:layoutPr/cx:binning";
+        /// <summary>
+        /// If x-axis is per category
+        /// </summary>
         public bool Aggregation
         {
             get
@@ -75,9 +81,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             ParetoLine = new ExcelChartExParetoLine(_chart, NameSpaceManager, serElement);
         }
-        public void RemoveParetoLine()
+        internal void RemoveParetoLine()
         {
             ParetoLine?.DeleteNode(".");
+            ParetoLine = null;
         }
         public ExcelChartExParetoLine ParetoLine
         {

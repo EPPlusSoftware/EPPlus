@@ -3,6 +3,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// The data used as source for the chart. Only spreadsheet internal data is supported at this point.
+    /// </summary>
     public abstract class ExcelChartExData : XmlHelper
     {
         internal ExcelChartExData(XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
@@ -22,6 +25,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("cx:f", value);
             }
         }
+        /// <summary>
+        /// The direction of the formula
+        /// </summary>
         public eFormulaDirection FormulaDirection
         {
             get
@@ -56,7 +62,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         /// <summary>
-        /// Directopm for the name formula
+        /// Direction for the name formula
         /// </summary>
         public eFormulaDirection? NameFormulaDirection 
         { 

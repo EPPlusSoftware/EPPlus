@@ -14,11 +14,17 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// String data reference for an extended chart
+    /// </summary>
     public class ExcelChartExStringData : ExcelChartExData
     {
         internal ExcelChartExStringData(XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
         {
         }
+        /// <summary>
+        /// The type of data
+        /// </summary>
         public eStringDataType Type 
         {
             get

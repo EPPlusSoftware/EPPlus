@@ -17,6 +17,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A plotarea for an extended chart
+    /// </summary>
     public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
     {
         public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")

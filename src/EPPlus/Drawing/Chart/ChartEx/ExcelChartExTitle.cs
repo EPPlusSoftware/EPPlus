@@ -6,12 +6,18 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ExcelChartExTitle : ExcelChartTitle
     {
         public ExcelChartExTitle(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node, "cx")
         {
-            //SchemaNodeOrder = new string[] { "tx", "spPr", "txPr" };
+            
         }
+        /// <summary>
+        /// The side position alignment of the title
+        /// </summary>
         public ePositionAlign PositionAlignment
         { 
             get
@@ -23,6 +29,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("@align", value.ToEnumString().Replace("center","ctr"));
             }
         }
+        /// <summary>
+        /// The position if the title
+        /// </summary>
         public eSidePositions Position
         {
             get

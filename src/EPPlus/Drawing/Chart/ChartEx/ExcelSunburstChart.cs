@@ -27,6 +27,9 @@ using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// Represents a Sunburst Chart
+    /// </summary>
     public class ExcelSunburstChart : ExcelChartEx
     {
         internal ExcelSunburstChart(ExcelDrawings drawings, XmlNode drawingsNode, eChartType? type, XmlDocument chartXml = null, ExcelGroupShape parent = null) :

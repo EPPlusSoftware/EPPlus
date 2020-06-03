@@ -18,6 +18,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// Provides access to stock chart specific properties
+    /// </summary>
     public class ExcelStockChart : ExcelStandardChartWithLines
     {
         internal ExcelStockChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
@@ -52,7 +55,7 @@ namespace OfficeOpenXml.Drawing.Chart
             Series.Init(chart, ns, node, isPivot, base.Series._list);
         }
         /// <summary>
-        /// A collection of series for a Scatter Chart
+        /// A collection of series for a Stock Chart
         /// </summary>
         public new ExcelChartSeries<ExcelStockChartSerie> Series { get; } = new ExcelChartSeries<ExcelStockChartSerie>();
     }

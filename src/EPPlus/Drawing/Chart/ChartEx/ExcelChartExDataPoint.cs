@@ -21,6 +21,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// An individual data point
+    /// </summary>
     public class ExcelChartExDataPoint : XmlHelper, IDrawingStyleBase
     {
         ExcelChartExSerie _serie;
@@ -188,7 +191,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
         void IDrawingStyleBase.CreatespPr()
         {
-            
+            base.CreatespPrNode("cx:spPr");
         }
     }
 }

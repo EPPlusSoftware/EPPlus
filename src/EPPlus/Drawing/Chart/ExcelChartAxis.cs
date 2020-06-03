@@ -296,7 +296,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        protected abstract ExcelChartTitle GetTitle();
+        internal protected abstract ExcelChartTitle GetTitle();
         #region "Scaling"
         /// <summary>
         /// Minimum value for the axis.

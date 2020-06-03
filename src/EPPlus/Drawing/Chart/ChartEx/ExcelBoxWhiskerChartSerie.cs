@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
         }
         /// <summary>
-        /// 
+        /// The layout type for the parent labels
         /// </summary>
         public eParentLabelLayout ParentLabelLayout
         {

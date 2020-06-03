@@ -18,6 +18,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A collection of datapoints for a chart
+    /// </summary>
     public class ExcelChartExDataPointCollection : XmlHelper, IEnumerable<ExcelChartExDataPoint>
     {
         ExcelChartExSerie _serie;
