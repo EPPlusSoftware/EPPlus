@@ -42,10 +42,13 @@ namespace EPPlusTest.Drawing.Chart
     public class ExcelStockChartTest : StockChartTestBase
     {
         static ExcelPackage _pck;
+        static ExcelWorksheet _ws;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
             _pck = OpenPackage("Stock.xlsx", true);
+            _ws = _pck.Workbook.Worksheets.Add("StockSheetData");
+            LoadStockChartDataPeriod(_ws);
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -208,10 +211,70 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetSize(1600, 900);
             chart.DataLabel.ShowValue = true;
             var dl = chart.Series[0].DataLabel.DataLabels.Add(0);
+            chart.Series[0].DataLabel.ShowValue=true;
             dl.ShowSeriesName = true;
             dl.ShowCategory = true;
             dl.Effect.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType.OuterCenter);
             Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
+            Assert.AreEqual(1, chart.Series[0].DataLabel.DataLabels.Count);
+            Assert.IsTrue(chart.Series[0].DataLabel.ShowValue);
+        }
+        [TestMethod]
+        public void AddStockWorksheetHLCPeriod()
+        {
+            var chartWs = _pck.Workbook.Worksheets.AddStockChart("StockSheetPeriodHLC", _ws.Cells["A1:A7"], _ws.Cells["D1:D7"], _ws.Cells["E1:E7"], _ws.Cells["F1:F7"]);
+            Assert.AreEqual(eChartType.StockHLC, chartWs.Chart.ChartType);
+        }
+        [TestMethod]
+        public void AddStockWorksheetOHLCPeriod()
+        {
+            var chartWs = _pck.Workbook.Worksheets.AddStockChart("StockSheetPeriodOHLC", _ws.Cells["A1:A7"], _ws.Cells["D1:D7"], _ws.Cells["E1:E7"], _ws.Cells["F1:F7"], _ws.Cells["C1:C7"]);
+            Assert.AreEqual(eChartType.StockOHLC, chartWs.Chart.ChartType);
+        }
+        [TestMethod]
+        public void AddStockWorksheetVOHLCPeriod()
+        {
+            var chartWs = _pck.Workbook.Worksheets.AddStockChart("StockSheetPeriodVOHLC", _ws.Cells["A1:A7"], _ws.Cells["D1:D7"], _ws.Cells["E1:E7"], _ws.Cells["F1:F7"], _ws.Cells["C1:C7"], _ws.Cells["B1:B7"]);
+            Assert.AreEqual(eChartType.StockVOHLC, chartWs.Chart.ChartType);
+        }
+        [TestMethod]
+        public void AddStockWorksheetVHLCPeriod()
+        {
+            var chartWs = _pck.Workbook.Worksheets.AddStockChart("StockSheetPeriodVHLC", _ws.Cells["A1:A7"], _ws.Cells["D1:D7"], _ws.Cells["E1:E7"], _ws.Cells["F1:F7"], null, _ws.Cells["B1:B7"]);
+            Assert.AreEqual(eChartType.StockVHLC, chartWs.Chart.ChartType);
+        }
+        [TestMethod]
+        public void AddStockWithDataLabelsStringAddresses()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StockTextVOHLCStringAdr");
+            LoadStockChartDataText(ws);
+
+            var chart = ws.Drawings.AddStockChart("StockTextVOHLCStringAdr", "A1:A7", "D1:D7", "E1:E7", "F1:F7", "C1:C7", "B1:B7");
+            chart.SetPosition(2, 0, 15, 0);
+            chart.SetSize(1600, 900);
+            chart.DataLabel.ShowValue = true;
+            var dl = chart.Series[0].DataLabel.DataLabels.Add(0);
+            dl.ShowSeriesName = true;
+            dl.ShowCategory = true;
+            dl.Effect.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType.OuterCenter);
+            Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
+
+            Assert.AreEqual("'StockTextVOHLCStringAdr'!A1:A7", chart.Series[0].XSeries);
+            Assert.AreEqual("'StockTextVOHLCStringAdr'!C1:C7", chart.Series[0].Series);
+            Assert.AreEqual("'StockTextVOHLCStringAdr'!D1:D7", chart.Series[1].Series);
+            Assert.AreEqual("'StockTextVOHLCStringAdr'!E1:E7", chart.Series[2].Series);
+            Assert.AreEqual("'StockTextVOHLCStringAdr'!F1:F7", chart.Series[3].Series);
+            Assert.AreEqual("'StockTextVOHLCStringAdr'!B1:B7", chart.PlotArea.ChartTypes[0].Series[0].Series);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))] 
+        public void AddStockChartFromAddChart()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("stock");
+                var chart = ws.Drawings.AddChart("StockTextHLCDatalabels", eChartType.StockHLC);
+            }
         }
     }
 }

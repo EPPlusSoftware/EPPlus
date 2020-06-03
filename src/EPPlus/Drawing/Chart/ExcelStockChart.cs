@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/25/2020         EPPlus Software AB       Added this class
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
 using System;
@@ -58,5 +59,50 @@ namespace OfficeOpenXml.Drawing.Chart
         /// A collection of series for a Stock Chart
         /// </summary>
         public new ExcelChartSeries<ExcelStockChartSerie> Series { get; } = new ExcelChartSeries<ExcelStockChartSerie>();
+        internal static eChartType GetChartType(object OpenSerie, object VolumeSerie)
+        {
+            eChartType chartType;
+            if (OpenSerie == null && VolumeSerie == null)
+            {
+                chartType = eChartType.StockHLC;
+            }
+            else if (OpenSerie == null && VolumeSerie != null)
+            {
+                chartType = eChartType.StockVHLC;
+            }
+            else if (OpenSerie != null && VolumeSerie == null)
+            {
+                chartType = eChartType.StockOHLC;
+            }
+            else
+            {
+                chartType = eChartType.StockVOHLC;
+            }
+
+            return chartType;
+        }
+
+        internal static void SetStockChartSeries(ExcelStockChart chart, eChartType chartType, string CategorySerie, string HighSerie, string LowSerie, string CloseSerie, string OpenSerie, string VolumeSerie)
+        {
+            chart.AddHighLowLines();
+            if (chartType == eChartType.StockOHLC || chartType == eChartType.StockVOHLC)
+            {
+                chart.AddUpDownBars(true, true);
+            }
+
+            if (chartType == eChartType.StockVHLC || chartType == eChartType.StockVOHLC)
+            {
+                chart.PlotArea.ChartTypes[0].Series.Add(VolumeSerie, CategorySerie);
+            }
+            if (chartType == eChartType.StockOHLC || chartType == eChartType.StockVOHLC)
+            {
+                chart.Series.Add(OpenSerie, CategorySerie);
+            }
+
+            chart.Series.Add(HighSerie, CategorySerie);
+            chart.Series.Add(LowSerie, CategorySerie);
+            chart.Series.Add(CloseSerie, CategorySerie);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.StockChartStyle1);
+        }
     }
 }

@@ -613,10 +613,15 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         protected internal bool IsTypeStock()
         {
-            return ChartType == eChartType.StockHLC ||
-                           ChartType == eChartType.StockOHLC ||
-                           ChartType == eChartType.StockVHLC ||
-                           ChartType == eChartType.StockVOHLC;
+            return IsTypeStock(ChartType);
+        }
+
+        internal static bool IsTypeStock(eChartType chartType)
+        {
+            return chartType == eChartType.StockHLC ||
+                   chartType == eChartType.StockOHLC ||
+                   chartType == eChartType.StockVHLC ||
+                   chartType == eChartType.StockVOHLC;
         }
 
         #endregion

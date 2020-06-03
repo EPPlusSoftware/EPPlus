@@ -84,6 +84,29 @@ namespace EPPlusTest.Drawing.Chart
             
         }
         [TestMethod]
+        public void AddSunburstChartSheet()
+        {
+            var ws = _pck.Workbook.Worksheets.AddChart("SunburstSheet", eChartType.Sunburst);
+            var chart = (ExcelSunburstChart)ws.Chart;
+            var serie = chart.Series.Add("Sunburst!$A$2:$C$17", "Sunburst!$D$2:$D$17");
+            serie.DataLabel.Position = eLabelPosition.Center;
+            serie.DataLabel.ShowCategory = true;
+            serie.DataLabel.ShowValue = true;
+            var dp = serie.DataPoints.Add(2);
+            dp.Fill.Style = eFillStyle.PatternFill;
+            dp.Fill.PatternFill.PatternType = eFillPatternStyle.DashDnDiag;
+            dp.Fill.PatternFill.BackgroundColor.SetRgbColor(Color.Red);
+            dp.Fill.PatternFill.ForegroundColor.SetRgbColor(Color.DarkGray);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.SunburstChartStyle7);
+
+            Assert.IsInstanceOfType(chart, typeof(ExcelSunburstChart));
+            Assert.AreEqual(0, chart.Axis.Length);
+            Assert.IsNull(chart.XAxis);
+            Assert.IsNull(chart.YAxis);
+
+        }
+
+        [TestMethod]
         public void AddTreemapChart()
         {
             var ws = _pck.Workbook.Worksheets.Add("Treemap");

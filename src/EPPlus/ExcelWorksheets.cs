@@ -272,6 +272,10 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelChartsheet AddChart(string Name, eChartType chartType)
         {
+            if(ExcelChart.IsTypeStock(chartType))
+            {
+                throw (new InvalidOperationException("Please use method AddStockChart for Stock Charts"));
+            }
             return (ExcelChartsheet)AddSheet(Name, true, chartType, null);
         }
         /// <summary>
@@ -284,6 +288,25 @@ namespace OfficeOpenXml
         public ExcelChartsheet AddChart(string Name, eChartType chartType, ExcelPivotTable pivotTableSource)
         {
             return (ExcelChartsheet)AddSheet(Name, true, chartType, pivotTableSource);
+        }
+        /// <summary>
+        /// Adds a stock chart sheet to the workbook.
+        /// </summary>
+        /// <param name="Name">The name of the worksheet</param>
+        /// <param name="CategorySerie">The category serie. A serie containing dates or names</param>
+        /// <param name="HighSerie">The high price serie</param>    
+        /// <param name="LowSerie">The low price serie</param>    
+        /// <param name="CloseSerie">The close price serie containing</param>    
+        /// <param name="OpenSerie">The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart</param>
+        /// <param name="VolumeSerie">The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart</param>
+        /// <returns></returns>
+        public ExcelChartsheet AddStockChart(string Name, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie = null)
+        {
+            var chartType = ExcelStockChart.GetChartType(OpenSerie, VolumeSerie);
+            var sheet = (ExcelChartsheet)AddSheet(Name, true, chartType, null);
+            var chart = (ExcelStockChart)sheet.Chart;
+            ExcelStockChart.SetStockChartSeries(chart, chartType, CategorySerie.FullAddress, HighSerie.FullAddress, LowSerie.FullAddress, CloseSerie.FullAddress, OpenSerie?.FullAddress, VolumeSerie?.FullAddress);
+            return sheet;
         }
         private void CopySheetNames(ExcelWorksheet Copy, ExcelWorksheet added)
         {

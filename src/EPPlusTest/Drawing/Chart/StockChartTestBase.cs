@@ -10,7 +10,7 @@ namespace EPPlusTest.Drawing.Chart
 {
     public abstract class StockChartTestBase : TestBase
     {
-        protected void LoadStockChartDataPeriod(ExcelWorksheet ws, MemberInfo[] members=null)
+        protected static void LoadStockChartDataPeriod(ExcelWorksheet ws, MemberInfo[] members=null)
         {
             var l = new List<PeriodData>()
             {

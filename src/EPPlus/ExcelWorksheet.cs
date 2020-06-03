@@ -76,7 +76,7 @@ namespace OfficeOpenXml
         internal ExcelChartsheet(XmlNamespaceManager ns, ExcelPackage pck, string relID, Uri uriWorksheet, string sheetName, int sheetID, int positionID, eWorkSheetHidden? hidden, eChartType chartType, ExcelPivotTable pivotTableSource ) :
             base(ns, pck, relID, uriWorksheet, sheetName, sheetID, positionID, hidden)
         {
-            Drawings.AddChart("Chart 1", chartType, pivotTableSource, eEditAs.Absolute);
+            Drawings.AddAllChartTypes("Chart 1", chartType, pivotTableSource, eEditAs.Absolute);
         }
         internal ExcelChartsheet(XmlNamespaceManager ns, ExcelPackage pck, string relID, Uri uriWorksheet, string sheetName, int sheetID, int positionID, eWorkSheetHidden? hidden) :
             base(ns, pck, relID, uriWorksheet, sheetName, sheetID, positionID, hidden)
