@@ -377,7 +377,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 "<c:txPr>" +
                 "<a:bodyPr rot=\"-60000000\" spcFirstLastPara=\"1\" vertOverflow=\"ellipsis\" vert=\"horz\" wrap=\"square\" anchor=\"ctr\" anchorCtr=\"1\"/>" +
                 "<a:lstStyle/>" +
-                "<a:p/>" +
+                "<a:p><a:pPr><a:defRPr kern=\"1200\" sz=\"900\"/></a:pPr></a:p>" +
                 "</c:txPr>";
         }
 

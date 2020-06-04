@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Utils.Extentions;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
@@ -8,8 +9,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public abstract class ExcelChartExData : XmlHelper
     {
-        internal ExcelChartExData(XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
+        string _worksheetName;
+        internal ExcelChartExData(string worksheetName, XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
         {
+            _worksheetName = worksheetName;
         }
         /// <summary>
         /// Data formula
@@ -22,7 +25,14 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                SetXmlNodeString("cx:f", value);
+                if (ExcelCellBase.IsValidAddress(value))
+                {
+                    SetXmlNodeString("cx:f", ExcelCellBase.GetFullAddress(_worksheetName, value));
+                }
+                else
+                {
+                    SetXmlNodeString("cx:f", value);
+                }
             }
         }
         /// <summary>
@@ -58,7 +68,14 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                SetXmlNodeString("cx:nf", value,true);
+                if(ExcelCellBase.IsValidAddress(value))
+                {
+                    SetXmlNodeString("cx:nf", ExcelCellBase.GetFullAddress(_worksheetName, value), true);
+                }
+                else
+                {
+                    SetXmlNodeString("cx:nf", value, true);
+                }
             }
         }
         /// <summary>

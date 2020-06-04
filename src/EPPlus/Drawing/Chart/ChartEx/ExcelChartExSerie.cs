@@ -101,7 +101,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _dataDimensions;
             }
         }
-
         const string headerAddressPath = "c:tx/c:strRef/c:f";
         /// <summary>
         /// Header address for the serie.
@@ -130,7 +129,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                SetXmlNodeString("cx:tx/cx:txData/cx:f", value.Address);
+                SetXmlNodeString("cx:tx/cx:txData/cx:f", value.FullAddress);
             }
         }
         public override string Header
@@ -156,7 +155,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                _dataHelper.SetXmlNodeString("*[1]/cx:f", value);
+                _dataHelper.SetXmlNodeString("*[1]/cx:f", ToFullAddress(value));
             }
         }
         /// <summary>
@@ -170,7 +169,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
             set
             {
-                _dataHelper.SetXmlNodeString("*[2]/cx:f", value);
+                _dataHelper.SetXmlNodeString("*[2]/cx:f", ToFullAddress(value));
             }
         }
         ExcelChartExSerieDataLabel _dataLabels = null;
@@ -250,7 +249,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             chart._chartXmlHelper.CreateNode("../cx:chartData", true);
             var dataElement = (XmlElement)chart._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
             dataElement.SetAttribute("id", chart.Series.Count.ToString());
-            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f></cx:strDim><cx:numDim type=\"{GetNumType(chart.ChartType)}\"><cx:f></cx:f></cx:numDim>";
+            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f><cx:nf></cx:nf></cx:strDim><cx:numDim type=\"{GetNumType(chart.ChartType)}\"><cx:f></cx:f><cx:nf></cx:nf></cx:numDim>";
             return ser;
         }
 

@@ -235,6 +235,10 @@ namespace EPPlusTest.Drawing.Chart
             LoadGeoTestData(ws);
             var chart = ws.Drawings.AddRegionMapChart("RegionMap");
             var serie = chart.Series.Add("RegionMap!$A$2:$B$11", "RegionMap!$C$2:$C$11");
+            serie.HeaderAddress = ws.Cells["A1"];
+            serie.DataDimensions[0].NameFormula = "A1:B1";
+            serie.DataDimensions[1].NameFormula = "C1";
+            serie.ColorBy = eColorBy.CategoryNames;
             serie.Region = new CultureInfo("sv");
             serie.Language = new CultureInfo("sv-SE");
             serie.Colors.NumberOfColors = eNumberOfColors.ThreeColor;
@@ -248,6 +252,7 @@ namespace EPPlusTest.Drawing.Chart
             serie.DataLabel.Border.Width = 1;
             serie.ViewedRegionType = eGeoMappingLevel.DataOnly;
             serie.ProjectionType = eProjectionType.Miller;
+            
             chart.Legend.Add();
             chart.Legend.Position = eLegendPosition.Left;
             chart.Legend.PositionAlignment = ePositionAlign.Center;

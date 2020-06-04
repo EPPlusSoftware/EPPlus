@@ -34,11 +34,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if(c.LocalName=="numDim")
                 {
-                    _list.Add(new ExcelChartExNumericData(NameSpaceManager, c));
+                    _list.Add(new ExcelChartExNumericData(serie._chart.WorkSheet.Name, NameSpaceManager, c));
                 }
                 else if(c.LocalName == "strDim")
                 {
-                    _list.Add(new ExcelChartExStringData(NameSpaceManager, c));
+                    _list.Add(new ExcelChartExStringData(serie._chart.WorkSheet.Name, NameSpaceManager, c));
                 }
             }
         }
@@ -59,8 +59,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// <returns>The numeric data</returns>
         public ExcelChartExNumericData AddNumericDimension(string formula)
         {
-            var node = CreateNode("cx:numDim", true);
-            var nd = new ExcelChartExNumericData(NameSpaceManager, node) { Formula = formula };
+            var node = CreateNode("cx:numDim", false, true);
+            var nd = new ExcelChartExNumericData(_serie._chart.WorkSheet.Name, NameSpaceManager, node) { Formula = formula };
             _list.Add(nd);
             return nd;
         }
@@ -71,10 +71,50 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// <returns>The string data</returns>
         public ExcelChartExStringData AddStringDimension(string formula)
         {
-            var node = CreateNode("cx:strDim", true);
-            var nd = new ExcelChartExStringData(NameSpaceManager, node) { Formula = formula };
+            var node = CreateNode("cx:strDim", false, true);
+            var nd = new ExcelChartExStringData(_serie._chart.WorkSheet.Name, NameSpaceManager, node) { Formula = formula };
             _list.Add(nd);
             return nd;
+        }
+        internal void SetTypeNumeric(int index, eNumericDataType type)
+        {
+            if(index < 0 || index >= _list.Count) throw (new IndexOutOfRangeException("index is out of range"));
+            if (_list[index] is ExcelChartExStringData data)
+            {
+                var node = data.TopNode;
+                var innerXml = data.TopNode.InnerXml;
+                node.ParentNode.RemoveChild(node);
+
+                var newNode = CreateNode("cx:numDim", false, true);
+                newNode.InnerXml = innerXml;
+                var nd = new ExcelChartExNumericData(_serie._chart.WorkSheet.Name, NameSpaceManager, newNode);
+                nd.Type = type;
+                _list[index] = nd;
+            }
+            else
+            {
+                ((ExcelChartExNumericData)_list[index]).Type = type;
+            }
+        }
+        internal void SetTypeString(int index, eStringDataType type)
+        {
+            if (index < 0 || index >= _list.Count) throw (new IndexOutOfRangeException("index is out of range"));
+            if (_list[index] is ExcelChartExNumericData data)
+            {
+                var node = data.TopNode;
+                var innerXml = data.TopNode.InnerXml;
+                node.ParentNode.RemoveChild(node);
+
+                var newNode = CreateNode("cx:strDim", false, true);
+                newNode.InnerXml = innerXml;
+                var nd = new ExcelChartExStringData(_serie._chart.WorkSheet.Name, NameSpaceManager, newNode);
+                nd.Type = type;
+                _list[index] = nd;
+            }
+            else
+            {
+                ((ExcelChartExStringData)_list[index]).Type = type;
+            }
         }
         /// <summary>
         /// Indexer

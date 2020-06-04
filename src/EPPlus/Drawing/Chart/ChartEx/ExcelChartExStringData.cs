@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public class ExcelChartExStringData : ExcelChartExData
     {
-        internal ExcelChartExStringData(XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
+        internal ExcelChartExStringData(string worksheetName, XmlNamespaceManager nsm, XmlNode topNode) : base(worksheetName, nsm, topNode)
         {
         }
         /// <summary>

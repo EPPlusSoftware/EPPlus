@@ -502,7 +502,6 @@ namespace OfficeOpenXml.Drawing
             chart.Series.Add(HighSerie, CategorySerie);
             chart.Series.Add(LowSerie, CategorySerie);
             chart.Series.Add(CloseSerie, CategorySerie);
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.StockChartStyle1);
             return chart;
         }
         /// <summary>

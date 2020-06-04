@@ -35,8 +35,10 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelStockChartSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot) :
             base(chart, ns, node, isPivot)
         {
-                Marker.Style = eMarkerStyle.None;
-                Smooth = 0;
+            Marker.Style = eMarkerStyle.None;
+            Smooth = 0;
+            Border.LineCap = eLineCap.Round;
+            Border.Fill.Style = eFillStyle.NoFill;            
         }
 
         ExcelChartSerieDataLabel _dataLabel = null;

@@ -156,5 +156,33 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
+        public eColorBy ColorBy 
+        { 
+            get
+            {
+                if(DataDimensions.Count < 2 && DataDimensions[1] is ExcelChartExStringData s)
+                {
+                    if(s.Type==eStringDataType.ColorString)
+                    {
+                        return eColorBy.CategoryNames;
+                    }
+                }
+                return eColorBy.Value;
+            }
+            set
+            {
+                if(ColorBy != value)
+                {
+                    if(value==eColorBy.Value)
+                    {
+                        DataDimensions.SetTypeNumeric(1, eNumericDataType.ColorValue);
+                    }
+                    else
+                    {
+                        DataDimensions.SetTypeString(1, eStringDataType.ColorString);
+                    }
+                }
+            }
+        }
     }
 }

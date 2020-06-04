@@ -127,85 +127,119 @@ namespace EPPlusTest.Drawing.Chart.Styling
             //Surface charts don't use chart styling in Excel, but styles can be applied anyway. 
 
             //Stock chart Style 1
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle1, "StockChartStyle1", 0, 5, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle1, "StockChartStyle1", 0, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 2
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle2, "StockChartStyle2", 0, 18, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle2, "StockChartStyle2", 0, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 3
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle3, "StockChartStyle3", 0, 31, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle3, "StockChartStyle3", 0, 31, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 4
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle4, "StockChartStyle4", 20, 5, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle4, "StockChartStyle4", 20, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 5
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle5, "StockChartStyle5", 20, 18, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle5, "StockChartStyle5", 20, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 6
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle6, "StockChartStyle6", 20, 31, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle6, "StockChartStyle6", 20, 31, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 7
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle7, "StockChartStyle7", 40, 5, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle7, "StockChartStyle7", 40, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 8
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle8, "StockChartStyle8", 40, 18, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle8, "StockChartStyle8", 40, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 9
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle9, "StockChartStyle9", 40, 31, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle9, "StockChartStyle9", 40, 31, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 10
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle10, "StockChartStyle10", 60, 5, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle10, "StockChartStyle10", 60, 5, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
 
             //Stock chart Style 11
-            AddStockChart(ws, chartType, ePresetChartStyle.StockChartStyle11, "StockChartStyle11", 60, 18, Range,
+            AddStockChartStyleManager(ws, chartType, ePresetChartStyle.StockChartStyle11, "StockChartStyle11", 60, 18, Range,
                 c =>
                 {
                     c.Legend.Position = eLegendPosition.Bottom;
                 });
+
+            //Stock buildin chart 15
+            AddStockChartStyle(ws, chartType, eChartStyle.Style15, "StockChartStyle15", 80, 5, Range,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Bottom;
+                });
+
+            //Stock buildin chart 33
+            AddStockChartStyle(ws, chartType, eChartStyle.Style33, "StockChartStyle33", 80, 18, Range,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Bottom;
+                });
+
+            //Stock buildin chart 48
+            AddStockChartStyle(ws, chartType, eChartStyle.Style48, "StockChartStyle48", 80, 31, Range,
+                c =>
+                {
+                    c.Legend.Position = eLegendPosition.Bottom;
+                });
+
         }
 
+        private static ExcelStockChart AddStockChartStyleManager(ExcelWorksheet ws, eStockChartType type, ePresetChartStyle style, string name, int row, int col, ExcelRange range, Action<ExcelStockChart> SetProperties)
+        {
+            var chart = AddStockChart(ws, type, name, row, col, range, SetProperties);
+            chart.StyleManager.SetChartStyle(style);
+            return chart;
+        }
+        private static ExcelStockChart AddStockChartStyle(ExcelWorksheet ws, eStockChartType type, eChartStyle style, string name, int row, int col, ExcelRange range, Action<ExcelStockChart> SetProperties)
+        {
+            var chart = AddStockChart(ws, type, name, row, col, range, SetProperties);
+            chart.Style= style;
+            return chart;
+        }
 
-        private static ExcelStockChart AddStockChart(ExcelWorksheet ws, eStockChartType type, ePresetChartStyle style, string name, int row, int col,ExcelRange range, Action<ExcelStockChart> SetProperties)    
+        private static ExcelStockChart AddStockChart(ExcelWorksheet ws, eStockChartType type, string name, int row, int col,ExcelRange range, Action<ExcelStockChart> SetProperties)    
         {
             var chart = ws.Drawings.AddStockChart(name, type, range);
             chart.SetPosition(row, 0, col, 0);
@@ -216,7 +250,6 @@ namespace EPPlusTest.Drawing.Chart.Styling
 
             SetProperties(chart);
 
-            chart.StyleManager.SetChartStyle(style);
             return chart;
         }
     }
