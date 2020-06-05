@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/29/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/29/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Utils.Extentions;
