@@ -139,6 +139,7 @@ namespace EPPlusTest.Core.Range
                 var ws = p.Workbook.Worksheets.Add("LoadFromCollection");
 
                 var range = ws.Cells["A1"].LoadFromCollection(new List<object>() { 1, "s", null });
+                Assert.AreEqual("A1:A3",range.Address);
                 Assert.AreEqual("A1:A3", range.Address);
 
                 range = ws.Cells["B1"].LoadFromCollection(new List<dynamic>() { 1, "s", null });

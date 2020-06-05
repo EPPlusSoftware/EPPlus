@@ -29,10 +29,12 @@ namespace OfficeOpenXml.Style
         private readonly ExcelDrawing _drawing;
         private readonly string _path;
         private readonly List<XmlElement> _paragraphs=new List<XmlElement>();
-        internal ExcelParagraphCollection(ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder) :
+        private readonly float _defaultFontSize;
+        internal ExcelParagraphCollection(ExcelDrawing drawing, XmlNamespaceManager ns, XmlNode topNode, string path, string[] schemaNodeOrder, float defaultFontSize =11) :
             base(ns, topNode)
         {
             _drawing = drawing;
+            _defaultFontSize = defaultFontSize;
             AddSchemaNodeOrder(schemaNodeOrder, new string[] { "strRef","rich", "f", "strCache", "bodyPr", "lstStyle", "p", "ptCount","pt","pPr", "lnSpc", "spcBef", "spcAft", "buClrTx", "buClr", "buSzTx", "buSzPct", "buSzPts", "buFontTx", "buFont","buNone", "buAutoNum", "buChar","buBlip", "tabLst","defRPr", "r","br","fld" ,"endParaRPr" });
 
             _path = path;
@@ -125,7 +127,7 @@ namespace OfficeOpenXml.Style
                 rt.LatinFont = normalStyle.Style.Font.Name;
                 rt.ComplexFont = normalStyle.Style.Font.Name;
             }
-            rt.Size = 11;
+            rt.Size = _defaultFontSize;
 
             rt.Text = Text;
             _list.Add(rt);

@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  01/27/2020         EPPlus Software AB       EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
 using System;
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_dataLabel == null)
                 {
-                    if (ExcelChartDataLabel.ForbiddDataLabelPosition(_chart) == false)
+                    if (ExcelChartDataLabelStandard.ForbiddDataLabelPosition(_chart) == false)
                     {
                         _dataLabel = new ExcelChartSerieDataLabel(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
                     }

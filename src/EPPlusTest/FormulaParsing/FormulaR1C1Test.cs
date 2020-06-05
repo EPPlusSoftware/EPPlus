@@ -88,7 +88,7 @@ namespace EPPlusTest.FormulaParsing
             string fR1C1 = "SUM(A!C2)";
             _sheet.Cells[5, 3].FormulaR1C1 = fR1C1;
             string f = _sheet.Cells[5, 3].Formula;
-            Assert.AreEqual("SUM('A'!$B:$B)", f);
+            Assert.AreEqual("SUM(A!$B:$B)", f);
         }
         [TestMethod]
         public void C2()
@@ -111,7 +111,7 @@ namespace EPPlusTest.FormulaParsing
             fR1C1 = "SUM(TEST2!R2)";
             _sheet.Cells[5, 3].FormulaR1C1 = fR1C1;
             f = _sheet.Cells[5, 3].Formula;
-            Assert.AreEqual("SUM('TEST2'!$2:$2)", f);
+            Assert.AreEqual("SUM(TEST2!$2:$2)", f);
 
         }
         [TestMethod]

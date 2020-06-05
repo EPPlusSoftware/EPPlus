@@ -176,7 +176,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             if(setAlpha && color.A != 0xFF)
             {
                 Transforms.RemoveOfType(eColorTransformType.Alpha);
-                Transforms.AddAlpha((double)color.A);
+                Transforms.AddAlpha((((double)color.A)+1)/256*100);
             }
             RgbColor = new ExcelDrawingRgbColor(_nameSpaceManager, _colorNode) { Color = color };
         }

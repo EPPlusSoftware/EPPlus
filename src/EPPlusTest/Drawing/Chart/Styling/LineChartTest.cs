@@ -33,7 +33,7 @@ using OfficeOpenXml.Drawing.Chart;
 using System;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class LineChartTest : TestBase

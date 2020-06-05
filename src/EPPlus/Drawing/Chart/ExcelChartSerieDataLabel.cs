@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Datalabel properties
     /// </summary>
-    public sealed class ExcelChartSerieDataLabel : ExcelChartDataLabel
+    public sealed class ExcelChartSerieDataLabel : ExcelChartDataLabelStandard
     {
        internal ExcelChartSerieDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string[] schemaNodeOrder)
            : base(chart, ns,node,"dLbls", schemaNodeOrder)

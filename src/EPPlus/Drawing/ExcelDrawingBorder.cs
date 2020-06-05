@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing
     /// <summary>
     /// Border for drawings
     /// </summary>    
-    public sealed class ExcelDrawingBorder : XmlHelper
+    public class ExcelDrawingBorder : XmlHelper
     {
         string _linePath;
         IPictureRelationDocument _pictureRelationDocument;

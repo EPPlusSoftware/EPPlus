@@ -25,7 +25,6 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartCollection(ExcelChart chart)
         {
             _topChart = chart;
-            _list.Add(chart);
         }
         internal void Add(ExcelChart chart)
         {
@@ -43,15 +42,19 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 throw (new InvalidOperationException("Can not add other charttypes to a pivot chart"));
             }
+            else if(_topChart._isChartEx)
+            {
+                throw (new InvalidOperationException("Extended charts can not be combined with other charttypes"));
+            }
             else if (ExcelChart.IsType3D(chartType) || _list[0].IsType3D())
             {
                 throw(new InvalidOperationException("3D charts can not be combined with other charttypes"));
             }
 
             var prependingChartNode = _list[_list.Count - 1].TopNode;
-            ExcelChart chart = ExcelChart.GetNewChart(_topChart.WorkSheet.Drawings, _topChart.TopNode, chartType, _topChart, null);
+            var chart = ExcelChart.GetNewChart(_topChart.WorkSheet.Drawings, _topChart.TopNode, chartType, _topChart, null);
 
-            _list.Add(chart);
+            _list.Add((ExcelChart)chart);
             return chart;
         }
         /// <summary>
@@ -157,7 +160,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 return (_list[PositionID]);
             }
         }
-
-
-}
+    }
 }

@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Provides access to scatter chart specific properties
     /// </summary>
-    public sealed class ExcelScatterChart : ExcelChart, IDrawingDataLabel
+    public sealed class ExcelScatterChart : ExcelChartStandard, IDrawingDataLabel
     {
         internal ExcelScatterChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent=null) :
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
@@ -127,7 +127,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_dataLabel == null)
                 {
-                    _dataLabel = new ExcelChartDataLabel(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
+                    _dataLabel = new ExcelChartDataLabelStandard(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _dataLabel;
             }

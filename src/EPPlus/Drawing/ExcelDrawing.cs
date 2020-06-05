@@ -17,6 +17,7 @@ using System.Linq;
 using System.Xml;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.Drawing
     /// Base class for drawings. 
     /// Drawings are Charts, Shapes and Pictures.
     /// </summary>
-    public class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
+    public partial class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
     {
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
@@ -104,6 +105,7 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
+
 
         private void SetPositionProperties(ExcelDrawings drawings, XmlNode node)
         {
@@ -426,6 +428,10 @@ namespace OfficeOpenXml.Drawing
             else if (node.SelectSingleNode("xdr:cxnSp", drawings.NameSpaceManager) != null)
             {
                 return new ExcelConnectionShape(drawings, node);
+            }
+            else if(node.SelectNodes("mc:AlternateContent", drawings.NameSpaceManager) !=null)
+            {
+                return ExcelChart.GetChartEx(drawings, node);
             }
             else
             {
@@ -806,7 +812,7 @@ namespace OfficeOpenXml.Drawing
             if (type != CellAnchor)
             {
                 CellAnchor = type;
-                RenameNode(TopNode, $"{type.ToEnumString()}Anchor");
+                RenameNode(TopNode, "xdr", $"{type.ToEnumString()}Anchor");
                 CleanupPositionXml();
                 SetPositionProperties(_drawings, TopNode);
                 CellAnchorChanged();

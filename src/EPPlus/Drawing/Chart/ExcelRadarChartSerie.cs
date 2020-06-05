@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A serie for a scatter chart
     /// </summary>
-    public sealed class ExcelRadarChartSerie : ExcelChartSerie, IDrawingSerieDataLabel, IDrawingChartMarker, IDrawingChartDataPoints
+    public sealed class ExcelRadarChartSerie : ExcelChartStandardSerie, IDrawingSerieDataLabel, IDrawingChartMarker, IDrawingChartDataPoints
     {
         /// <summary>
         /// Default constructor

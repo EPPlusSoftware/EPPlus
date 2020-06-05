@@ -258,19 +258,19 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         RadarMarkers = 81,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with a High, Low and Close serie
         /// </summary>
         StockHLC =88,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with an Open, High, Low and Close serie
         /// </summary>
         StockOHLC = 89,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with an Volume, High, Low and Close serie
         /// </summary>
         StockVHLC = 90,
         /// <summary>
-        /// Stock chart, not supported in EPPlus
+        /// Stock chart with an Volume, Open, High, Low and Close serie
         /// </summary>
         StockVOHLC = 91,
         /// <summary>
@@ -308,6 +308,38 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// A scatter line chart with no markers and smooth lines
         /// </summary>
-        XYScatterSmoothNoMarkers = 73
+        XYScatterSmoothNoMarkers = 73,
+        /// <summary>
+        /// A treemap chart
+        /// </summary>
+        Treemap = 117,
+        /// <summary>
+        /// A histogram chart
+        /// </summary>
+        Histogram = 118,
+        /// <summary>
+        /// A waterfall chart
+        /// </summary>
+        Waterfall = 119,
+        /// <summary>
+        /// A sunburst chart
+        /// </summary>
+        Sunburst = 120,
+        /// <summary>
+        /// A box &amp; whisker chart
+        /// </summary>
+        BoxWhisker = 121,
+        /// <summary>
+        /// A histogram chart with a pareto line
+        /// </summary>
+        Pareto = 122,
+        /// <summary>
+        /// A funnel chart
+        /// </summary>
+        Funnel = 123,
+        /// <summary>
+        /// A region map chart
+        /// </summary>
+        RegionMap = 140
     }
 }

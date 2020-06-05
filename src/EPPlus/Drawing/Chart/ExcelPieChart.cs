@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Provides access to pie chart specific properties
     /// </summary>
-    public class ExcelPieChart : ExcelChart, IDrawingDataLabel
+    public class ExcelPieChart : ExcelChartStandard, IDrawingDataLabel
     {
         internal ExcelPieChart(ExcelDrawings drawings, XmlNode node, eChartType type, bool isPivot, ExcelGroupShape parent = null) :
             base(drawings, node, type, isPivot, parent)
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_dataLabel == null)
                 {
-                    _dataLabel = new ExcelChartDataLabel(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
+                    _dataLabel = new ExcelChartDataLabelStandard(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _dataLabel;
             }

@@ -53,8 +53,8 @@ namespace EPPlusTest.Drawing.Chart
             LoadTestdata(ws);
             var lineChart = ws.Drawings.AddLineChart("LineChart1", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
             var serie = lineChart.Series.Add("A1:A12", "B1:B12");
-            Assert.AreEqual("'SeriesAddress'!A1:A12", serie.Series);
-            Assert.AreEqual("'SeriesAddress'!B1:B12", serie.XSeries);
+            Assert.AreEqual("SeriesAddress!A1:A12", serie.Series);
+            Assert.AreEqual("SeriesAddress!B1:B12", serie.XSeries);
         }
         [TestMethod]
         public void ChartSeriesFullRangeAddress()

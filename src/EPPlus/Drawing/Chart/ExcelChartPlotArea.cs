@@ -21,17 +21,28 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A charts plot area
     /// </summary>
-    public sealed class ExcelChartPlotArea :  XmlHelper, IDrawingStyleBase
+    public class ExcelChartPlotArea :  XmlHelper, IDrawingStyleBase
     {
         ExcelChart _firstChart;
-        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart)
+        ExcelChart _topChart;
+        string _nsPrefix;
+        internal ExcelChartPlotArea(XmlNamespaceManager ns, XmlNode node, ExcelChart firstChart, string nsPrefix, ExcelChart topChart=null)
            : base(ns,node)
        {
-
-            AddSchemaNodeOrder(new string[] { "areaChart", "area3DChart", "lineChart", "line3DChart", "stockChart", "radarChart", "scatterChart", "pieChart", "pie3DChart", "doughnutChart", "barChart", "bar3DChart", "ofPieChart", "surfaceChart", "surface3DChart", "valAx", "catAx", "dateAx", "serAx", "dTable", "spPr" },
-                ExcelDrawing._schemaNodeOrderSpPr);
+            _nsPrefix = nsPrefix;
+            if(firstChart._isChartEx)
+            {
+                AddSchemaNodeOrder(new string[] { "plotAreaRegion", "plotSurface", "series", "axis","spPr" },
+                    ExcelDrawing._schemaNodeOrderSpPr);
+            }
+            else
+            {
+                AddSchemaNodeOrder(new string[] { "areaChart", "area3DChart", "lineChart", "line3DChart", "stockChart", "radarChart", "scatterChart", "pieChart", "pie3DChart", "doughnutChart", "barChart", "bar3DChart", "ofPieChart", "surfaceChart", "surface3DChart", "valAx", "catAx", "dateAx", "serAx", "dTable", "spPr" },
+                    ExcelDrawing._schemaNodeOrderSpPr);
+            }
 
             _firstChart = firstChart;
+            _topChart = topChart ?? firstChart;
             if (TopNode.SelectSingleNode("c:dTable", NameSpaceManager) != null)
             {
                 DataTable = new ExcelChartDataTable(firstChart,NameSpaceManager, TopNode);
@@ -48,7 +59,12 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_chartTypes == null)
                 {
-                    _chartTypes = new ExcelChartCollection(_firstChart); 
+                    _chartTypes = new ExcelChartCollection(_topChart);
+                    _chartTypes.Add(_firstChart);
+                    if (_topChart!=_firstChart)
+                    {
+                        _chartTypes.Add(_topChart);
+                    }
                 }
                 return _chartTypes;
             }
@@ -59,7 +75,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// The datatable can also be accessed via the DataTable propery
         /// <see cref="DataTable"/>
         /// </summary>
-        public ExcelChartDataTable CreateDataTable()
+        public virtual ExcelChartDataTable CreateDataTable()
         {
             if(DataTable!=null)
             {
@@ -67,12 +83,13 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             DataTable = new ExcelChartDataTable(_firstChart, NameSpaceManager, TopNode);
+            _firstChart.ApplyStyleOnPart(DataTable, _firstChart._styleManager?.Style?.DataTable);
             return DataTable;
         }
         /// <summary>
         /// Remove the data table if it's created in the plotarea
         /// </summary>
-        public void RemoveDataTable()
+        public virtual void RemoveDataTable()
         {
             DeleteAllNode("c:dTable");
             DataTable = null;
@@ -95,7 +112,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_fill == null)
                 {
-                    _fill = new ExcelDrawingFill(_firstChart, NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
@@ -110,7 +127,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_firstChart, NameSpaceManager, TopNode, "c:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
                 }   
                 return _border;
             }
@@ -125,7 +142,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_firstChart, NameSpaceManager, TopNode, "c:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_firstChart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -140,7 +157,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }

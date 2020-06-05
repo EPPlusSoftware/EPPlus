@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A base class used for chart series that support ErrorBars
     /// </summary>
-    public class ExcelChartSerieWithErrorBars : ExcelChartSerie, IDrawingChartErrorBars  
+    public class ExcelChartSerieWithErrorBars : ExcelChartStandardSerie, IDrawingChartErrorBars  
     {
         /// <summary>
         /// Default constructor
@@ -50,10 +50,8 @@ namespace OfficeOpenXml.Drawing.Chart
             ErrorBars.BarType = barType;
             ErrorBars.ValueType = valueType;
             ErrorBars.NoEndCap = false;
-            if (_chart.StyleManager.StylePart != null)
-            {
-                _chart.StyleManager.ApplyStyle(ErrorBars, _chart.StyleManager.Style.ErrorBar);
-            }
+
+            _chart.ApplyStyleOnPart(ErrorBars, _chart.StyleManager?.Style?.ErrorBar);
         }
         /// <summary>
         /// Returns true if the serie has Error Bars

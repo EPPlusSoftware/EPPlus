@@ -33,12 +33,28 @@ using System.IO;
 using System.Reflection;
 using OfficeOpenXml.Drawing;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace EPPlusTest
 {
     [TestClass]
     public abstract class TestBase
     {
+        private class SalesData
+        {
+            public string Continent { get; set; }
+            public string Country { get; set; }
+            public string State { get; set; }
+            public double Sales { get; set; }
+
+        }
+        private class GeoData
+        {
+            public string Country { get; set; }
+            public string State { get; set; }
+            public double Sales { get; set; }
+
+        }
         protected static FileInfo _file;
         protected static string _clipartPath ="";
         protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
@@ -217,6 +233,51 @@ namespace EPPlusTest
             ws.Cells[startRow, startColumn, row, startColumn].Style.Numberformat.Format = "yyyy-MM-dd";
             ws.Cells.AutoFitColumns();
         }
+        protected static void LoadHierarkiTestData(ExcelWorksheet ws)
+        {
+
+            var l = new List<SalesData>
+            {
+                new SalesData{ Continent="Europe", Country="Sweden", State = "Stockholm", Sales = 154 },
+                new SalesData{ Continent="Asia", Country="Vietnam", State = "Ho Chi Minh", Sales= 88 },
+                new SalesData{ Continent="Europe", Country="Sweden", State = "Västerås", Sales = 33 },
+                new SalesData{ Continent="Asia", Country="Japan", State = "Tokyo", Sales= 534 },
+                new SalesData{ Continent="Europe", Country="Germany", State = "Frankfurt", Sales = 109 },
+                new SalesData{ Continent="Asia", Country="Vietnam", State = "Hanoi", Sales= 322 },
+                new SalesData{ Continent="Asia", Country="Japan", State = "Osaka", Sales= 88 },
+                new SalesData{ Continent="North America", Country="Canada", State = "Vancover", Sales= 99 },
+                new SalesData{ Continent="Asia", Country="China", State = "Peking", Sales= 205 },
+                new SalesData{ Continent="North America", Country="Canada", State = "Toronto", Sales= 138 },
+                new SalesData{ Continent="Europe", Country="France", State = "Lyon", Sales = 185 },
+                new SalesData{ Continent="North America", Country="USA", State = "Boston", Sales= 155 },
+                new SalesData{ Continent="Europe", Country="France", State = "Paris", Sales = 127 },
+                new SalesData{ Continent="North America", Country="USA", State = "New York", Sales= 330 },
+                new SalesData{ Continent="Europe", Country="Germany", State = "Berlin", Sales = 210 },
+                new SalesData{ Continent="North America", Country="USA", State = "San Fransico", Sales= 411 },
+            };
+
+            ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);
+        }
+        protected static void LoadGeoTestData(ExcelWorksheet ws)
+        {
+
+            var l = new List<GeoData>
+            {
+                new GeoData{ Country="Sweden", State = "Stockholm", Sales = 154 },
+                new GeoData{ Country="Sweden", State = "Jämtland", Sales = 55 },
+                new GeoData{ Country="Sweden", State = "Västerbotten", Sales = 44},
+                new GeoData{ Country="Sweden", State = "Dalarna", Sales = 33 },
+                new GeoData{ Country="Sweden", State = "Uppsala", Sales = 22 },
+                new GeoData{ Country="Sweden", State = "Skåne", Sales = 47 },
+                new GeoData{ Country="Sweden", State = "Halland", Sales = 88 },
+                new GeoData{ Country="Sweden", State = "Norrbotten", Sales = 99 },
+                new GeoData{ Country="Sweden", State = "Västra Götaland", Sales = 120 },
+                new GeoData{ Country="Sweden", State = "Södermanland", Sales = 57 },
+            };
+
+            ws.Cells["A1"].LoadFromCollection(l, true, OfficeOpenXml.Table.TableStyles.Medium12);
+        }
+
         protected static void SetDateValues(ExcelWorksheet _ws, int noItems=100)
         {
             /* Set dates in numeric column */

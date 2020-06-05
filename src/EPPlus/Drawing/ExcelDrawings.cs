@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
@@ -22,6 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq.Expressions;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -142,6 +144,11 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("cs", ExcelPackage.schemaChartStyle);
             NameSpaceManager.AddNamespace("mc", ExcelPackage.schemaMarkupCompatibility);
             NameSpaceManager.AddNamespace("c14", ExcelPackage.schemaChart14);
+            NameSpaceManager.AddNamespace("mc", ExcelPackage.schemaMc2006);
+            NameSpaceManager.AddNamespace("cx", ExcelPackage.schemaChartExMain); 
+            NameSpaceManager.AddNamespace("cx1", ExcelPackage.schemaChartEx2015_9_8);
+            NameSpaceManager.AddNamespace("cx2", ExcelPackage.schemaChartEx2015_10_21);
+
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion
@@ -243,7 +250,7 @@ namespace OfficeOpenXml.Drawing
         #region Add functions
         /// <summary>
         /// Adds a new chart to the worksheet.
-        /// Do not support stock charts. 
+        /// Stock charts can not be added by this method. See <see cref="ExcelDrawings.AddStockChart(string, eStockChartType, ExcelRangeBase)"/>
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">Type of chart</param>
@@ -252,29 +259,35 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelChart AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
         {
+            if (ExcelChart.IsTypeStock(ChartType))
+            {
+                throw new InvalidOperationException("For stock charts please use the AddStockChart method.");
+            }
+            
+            return AddAllChartTypes(Name, ChartType, PivotTableSource, DrawingType);
+        }
+
+        internal ExcelChart AddAllChartTypes(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
+        {
             if (_drawingNames.ContainsKey(Name))
             {
                 throw new Exception("Name already exists in the drawings collection");
             }
 
-            if (ChartType == eChartType.StockHLC ||
-                ChartType == eChartType.StockOHLC ||
-                ChartType == eChartType.StockVOHLC)
-            {
-                throw (new NotImplementedException("Chart type is not supported in the current version"));
-            }
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart Worksheets can't have more than one chart");
             }
+
             XmlElement drawNode = CreateDrawingXml(DrawingType);
 
-            ExcelChart chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
+            var chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
             chart.Name = Name;
             _drawings.Add(chart);
             _drawingNames.Add(Name, _drawings.Count - 1);
             return chart;
         }
+
         /// <summary>
         /// Adds a new chart to the worksheet.
         /// Do not support Stock charts . 
@@ -287,6 +300,252 @@ namespace OfficeOpenXml.Drawing
             return AddChart(Name, ChartType, null);
         }
         /// <summary>
+        /// Adds a new chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ChartType">Type of chart</param>
+        /// <returns>The chart</returns>
+        public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType)
+        {
+            return (ExcelChartEx)AddAllChartTypes(Name, (eChartType)ChartType, null);
+        }
+        /// <summary>
+        /// Adds a new sunburst chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelSunburstChart AddSunburstChart(string Name)
+        {
+            return (ExcelSunburstChart)AddAllChartTypes(Name, eChartType.Sunburst, null);
+        }
+        /// <summary>
+        /// Adds a new treemap chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelTreemapChart AddTreemapChart(string Name)
+        {
+            return (ExcelTreemapChart)AddAllChartTypes(Name, eChartType.Treemap, null);
+        }
+        /// <summary>
+        /// Adds a new box &amp; whisker chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelBoxWhiskerChart AddBoxWhiskerChart(string Name)
+        {
+            return (ExcelBoxWhiskerChart)AddAllChartTypes(Name, eChartType.BoxWhisker, null);
+        }
+        /// <summary>
+        /// Adds a new Histogram or Pareto chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="AddParetoLine">If true a pareto line is added to the chart. The <see cref="ExcelChart.ChartType"/> will also be Pareto.</param>
+        /// <returns>The chart</returns>
+        public ExcelHistogramChart AddHistogramChart(string Name, bool AddParetoLine=false)
+        {
+            return (ExcelHistogramChart)AddAllChartTypes(Name, AddParetoLine ? eChartType.Pareto : eChartType.Histogram, null);
+        }
+        /// <summary>
+        /// Adds a waterfall chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelWaterfallChart AddWaterfallChart(string Name)
+        {
+            return (ExcelWaterfallChart)AddAllChartTypes(Name, eChartType.Waterfall, null);
+        }
+        /// <summary>
+        /// Adds a funnel chart to the worksheet.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelFunnelChart AddFunnelChart(string Name)
+        {
+            return (ExcelFunnelChart)AddAllChartTypes(Name, eChartType.Funnel, null);
+        }
+        /// <summary>
+        /// Adds a region map chart to the worksheet.
+        /// Note that EPPlus rely on the spreadsheet application to create the geocache data
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns>The chart</returns>
+        public ExcelRegionMapChart AddRegionMapChart(string Name)
+        {
+            return (ExcelRegionMapChart)AddAllChartTypes(Name, eChartType.RegionMap, null);
+        }
+        /// <summary>
+        /// Adds a new extended chart to the worksheet.
+        /// Extended charts are 
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ChartType">Type of chart</param>
+        /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
+        /// <returns>The chart</returns>
+        public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType, ExcelPivotTable PivotTableSource)
+        {
+            return (ExcelChartEx)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
+        }
+        /// <summary>
+        /// Adds a new stock chart to the worksheet.
+        /// Requires a range with four, five or six columns depending on the stock chart type.
+        /// The first column is the category series. 
+        /// The following columns in the range depend on the stock chart type (HLC, OHLC, VHLC, VOHLC).
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ChartType">The Stock chart type</param>
+        /// <param name="Range">The category serie. A serie containng dates </param>
+        /// <returns>The chart</returns>
+        public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase Range)
+        {
+            var startRow = Range.Start.Row;
+            var startCol = Range.Start.Column;
+            var endRow = Range.End.Row;
+            var ws = Range.Worksheet;
+            switch (ChartType)
+            {
+                case eStockChartType.StockHLC:
+                    if(Range.Columns!=4)
+                    {
+                        throw (new InvalidOperationException("Range must contain 4 columns with the Category serie to the left and the High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name, 
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3]);
+                case eStockChartType.StockOHLC:
+                    if (Range.Columns != 5)
+                    {
+                        throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left and the Opening Price, High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
+                        ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
+                case eStockChartType.StockVHLC:
+                    if (Range.Columns != 5)
+                    {
+                        throw (new InvalidOperationException("Range must contain 5 columns with the Category serie to the left and the Volume, High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
+                        ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
+                        null,
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
+                case eStockChartType.StockVOHLC:
+                    if (Range.Columns != 6)
+                    {
+                        throw (new InvalidOperationException("Range must contain 6 columns with the Category serie to the left and the Volume, Opening Price, High Price, Low Price and Close Price series"));
+                    }
+                    return AddStockChart(Name,
+                        ws.Cells[startRow, startCol, endRow, startCol],
+                        ws.Cells[startRow, startCol + 3, endRow, startCol + 3],
+                        ws.Cells[startRow, startCol + 4, endRow, startCol + 4],
+                        ws.Cells[startRow, startCol + 5, endRow, startCol + 5],
+                        ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
+                        ws.Cells[startRow, startCol + 1, endRow, startCol + 1]);
+                default:
+                    throw new InvalidOperationException("Unknown eStockChartType");
+            }
+        }
+        /// <summary>
+        /// Adds a new stock chart to the worksheet.
+        /// The stock chart type will depend on if the parameters OpenSerie and/or VolumeSerie is supplied
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="CategorySerie">The category serie. A serie containng dates </param>
+        /// <param name="HighSerie">The high price serie</param>    
+        /// <param name="LowSerie">The low price serie</param>    
+        /// <param name="CloseSerie">The close price serie containing</param>    
+        /// <param name="OpenSerie">The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart</param>
+        /// <param name="VolumeSerie">The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart</param>
+        /// <returns>The chart</returns>
+        public ExcelStockChart AddStockChart(string Name, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie =null)
+        {
+            ValidateSeries(CategorySerie, LowSerie, HighSerie, CloseSerie);
+
+            var chartType = ExcelStockChart.GetChartType(OpenSerie, VolumeSerie);
+
+            var chart = (ExcelStockChart)AddAllChartTypes(Name, chartType, null);
+            var firstRowIsHeader = false;
+            if (CategorySerie.Rows > 1)
+            {
+                if (CategorySerie.Offset(1, 0, 1, 1).Value is string)
+                {
+                    chart.XAxis.ChangeAxisType(eAxisType.Date);
+                }
+                if(HighSerie.Offset(0, 0, 1, 1).Value is string)
+                {
+                    firstRowIsHeader = true;
+                }
+            }
+            chart.AddHighLowLines();
+            if (chartType == eChartType.StockOHLC || chartType == eChartType.StockVOHLC)
+            {
+                chart.AddUpDownBars(true, true);
+            }
+
+            if (chartType == eChartType.StockVHLC || chartType == eChartType.StockVOHLC)
+            {
+                chart.PlotArea.ChartTypes[0].Series.Add(VolumeSerie, CategorySerie);
+            }
+            if (chartType == eChartType.StockOHLC || chartType == eChartType.StockVOHLC)
+            {
+                chart.Series.Add(OpenSerie, CategorySerie);
+            }
+
+            chart.Series.Add(HighSerie, CategorySerie);
+            chart.Series.Add(LowSerie, CategorySerie);
+            chart.Series.Add(CloseSerie, CategorySerie);
+            return chart;
+        }
+        /// <summary>
+        /// Adds a new stock chart to the worksheet.
+        /// The stock chart type will depend on if the parameters OpenSerie and/or VolumeSerie is supplied
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="CategorySerie">The category serie. A serie containing dates </param>
+        /// <param name="HighSerie">The high price serie</param>    
+        /// <param name="LowSerie">The low price serie</param>    
+        /// <param name="CloseSerie">The close price serie containing</param>    
+        /// <param name="OpenSerie">The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart</param>
+        /// <param name="VolumeSerie">The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart</param>
+        /// <returns>The chart</returns>
+        public ExcelStockChart AddStockChart(string Name, string CategorySerie, string HighSerie, string LowSerie, string CloseSerie, string OpenSerie = null, string VolumeSerie = null)
+        {
+            var chartType = ExcelStockChart.GetChartType(OpenSerie, VolumeSerie);
+
+            var chart = (ExcelStockChart)AddAllChartTypes(Name, chartType, null);
+            ExcelStockChart.SetStockChartSeries(chart, chartType, CategorySerie, HighSerie, LowSerie, CloseSerie, OpenSerie, VolumeSerie);
+            return chart;
+        }
+
+        private void ValidateSeries(ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie)
+        {
+            if (CategorySerie == null)
+            {
+                throw new ArgumentNullException("CategorySerie");
+            }
+            else if (HighSerie == null)
+            {
+                throw new ArgumentNullException("HighSerie");
+            }
+            else if (LowSerie == null)
+            {
+                throw new ArgumentNullException("LowSerie");
+            }
+            else if (CloseSerie == null)
+            {
+                throw new ArgumentNullException("CloseSerie ");
+            }
+        }
+
+        /// <summary>
         /// Add a new linechart to the worksheet.
         /// </summary>
         /// <param name="Name"></param>
@@ -294,7 +553,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelLineChart AddLineChart(string Name, eLineChartType ChartType)
         {
-            return (ExcelLineChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelLineChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new linechart to the worksheet.
@@ -305,7 +564,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelLineChart AddLineChart(string Name, eLineChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelLineChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelLineChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Add a new area chart to the worksheet.
@@ -315,7 +574,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelAreaChart AddAreaChart(string Name, eAreaChartType ChartType)
         {
-            return (ExcelAreaChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelAreaChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new area chart to the worksheet.
@@ -326,7 +585,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelAreaChart AddAreaChart(string Name, eAreaChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelAreaChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelAreaChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new barchart to the worksheet.
@@ -336,7 +595,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelBarChart AddBarChart(string Name, eBarChartType ChartType)
         {
-            return (ExcelBarChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelBarChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new column- or bar- chart to the worksheet.
@@ -347,7 +606,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelBarChart AddBarChart(string Name, eLineChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelBarChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelBarChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new pie chart to the worksheet.
@@ -357,7 +616,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>    
         public ExcelPieChart AddPieChart(string Name, ePieChartType ChartType)
         {
-            return (ExcelPieChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelPieChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new pie chart to the worksheet.
@@ -368,7 +627,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelPieChart AddPieChart(string Name, ePieChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelPieChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelPieChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new doughnut chart to the worksheet.
@@ -379,7 +638,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelDoughnutChart AddDoughnutChart(string Name, eDoughnutChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelDoughnutChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelDoughnutChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new doughnut chart to the worksheet.
@@ -389,7 +648,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>    
         public ExcelDoughnutChart AddDoughnutChart(string Name, eDoughnutChartType ChartType)
         {
-            return (ExcelDoughnutChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelDoughnutChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new line chart to the worksheet.
@@ -399,7 +658,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>    
         public ExcelOfPieChart AddOfPieChart(string Name, eOfPieChartType ChartType)
         {
-            return (ExcelOfPieChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelOfPieChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Add a new pie of pie or bar of pie chart to the worksheet.
@@ -410,7 +669,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelOfPieChart AddOfPieChart(string Name, eOfPieChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelOfPieChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelOfPieChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new bubble chart to the worksheet.
@@ -420,7 +679,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>    
         public ExcelBubbleChart AddBubbleChart(string Name, eBubbleChartType ChartType)
         {
-            return (ExcelBubbleChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelBubbleChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new bubble chart to the worksheet.
@@ -431,7 +690,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelBubbleChart AddBubbleChart(string Name, eBubbleChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelBubbleChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelBubbleChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new scatter chart to the worksheet.
@@ -442,7 +701,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelScatterChart AddScatterChart(string Name, eScatterChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelScatterChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelScatterChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new scatter chart to the worksheet.
@@ -452,7 +711,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>    
         public ExcelScatterChart AddScatterChart(string Name, eScatterChartType ChartType)
         {
-            return (ExcelScatterChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelScatterChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new radar chart to the worksheet.
@@ -463,7 +722,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelRadarChart AddRadarChart(string Name, eRadarChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelRadarChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelRadarChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new radar chart to the worksheet.
@@ -473,7 +732,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>    
         public ExcelRadarChart AddRadarChart(string Name, eRadarChartType ChartType)
         {
-            return (ExcelRadarChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelRadarChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a new surface chart to the worksheet.
@@ -484,7 +743,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>
         public ExcelSurfaceChart AddSurfaceChart(string Name, eSurfaceChartType ChartType, ExcelPivotTable PivotTableSource)
         {
-            return (ExcelSurfaceChart)AddChart(Name, (eChartType)ChartType, PivotTableSource);
+            return (ExcelSurfaceChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
         /// <summary>
         /// Adds a new surface chart to the worksheet.
@@ -494,7 +753,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The chart</returns>    
         public ExcelSurfaceChart AddSurfaceChart(string Name, eSurfaceChartType ChartType)
         {
-            return (ExcelSurfaceChart)AddChart(Name, (eChartType)ChartType, null);
+            return (ExcelSurfaceChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
         /// <summary>
         /// Adds a picture to the worksheet

@@ -308,7 +308,14 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             LoadStyleAndColorsXml(styleXml, fallBackStyle, colorsXml);
 
-            ApplyStyles();
+            if (_chart._isChartEx)
+            {
+                ApplyStylesEx();
+            }
+            else
+            {
+                ApplyStyles();
+            }
 
             return Style.Id;
         }   
@@ -344,7 +351,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
 
             LoadColorXml(colorsXml);
-            _chart.InitChartTheme((int)fallBackStyle);
+            if (_chart._isChartEx==false)
+            {
+                _chart.InitChartTheme((int)fallBackStyle);
+            }
         }
         /// <summary>
         /// Loads a theme override xml document for the chart.
@@ -521,7 +531,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 ApplyStyle(_chart.Legend, Style.Legend);
             }
             
-            if(_chart is ExcelLineChart lineChart)
+            if(_chart is ExcelStandardChartWithLines lineChart)
             {
                 if (!(lineChart.DropLine is null)) ApplyStyle(lineChart.DropLine, Style.DropLine);
                 if (!(lineChart.HighLowLine is null)) ApplyStyle(lineChart.HighLowLine, Style.HighLowLine);
@@ -532,7 +542,32 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             ApplyAxis();
             ApplySeries();
         }
+        /// <summary>
+        /// Apply the chart and color style to the chart.
+        /// <seealso cref="Style"/>
+        /// <seealso cref="ColorsManager"/>
+        /// </summary>
+        public void ApplyStylesEx()
+        {
+            //Make sure we have a theme
+            if (_theme.CurrentTheme == null)
+            {
+                _theme.CreateDefaultTheme();
+            }
 
+            //Title
+            if (_chart.HasTitle && _chart.Title.TopNode.HasChildNodes)
+            {
+                ApplyStyle(_chart.Title, Style.Title);
+            }
+
+            if (_chart.HasLegend && _chart.Legend.TopNode.HasChildNodes)
+            {
+                ApplyStyle(_chart.Legend, Style.Legend);
+            }
+
+            ApplyAxis();
+        }
         private void GenerateDataPoints()
         {            
             foreach (var serie in _chart.Series)
@@ -612,8 +647,13 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 {
                     currStyle = Style.ValueAxis;
                 }
-                ApplyStyle(axis, currStyle);
-                if(axis.HasMajorGridlines)
+                
+                if (_chart._isChartEx == false || axis._title != null)
+                {
+                    ApplyStyle(axis, currStyle);
+                }
+
+                if (axis.HasMajorGridlines)
                 {
                     ApplyStyleBorder(axis.MajorGridlines, Style.GridlineMajor, 0, 0);
                     ApplyStyleEffect(axis.MajorGridlineEffects, Style.GridlineMajor, 0, 0);
@@ -636,10 +676,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 foreach (ExcelChartSerie serie in chart.Series)
                 {
                     //Note: Datalabels are applied in the ApplyDataLabels method
-
                     //Marker
+                    var applyBorder = !(chart.IsTypeStock() && serie.Border.Width==0);
                     var items = serie.NumberOfItems;                    
-                    ApplyStyle(serie, dataPoint, serieNo, items, applyFill);
+                    ApplyStyle(serie, dataPoint, serieNo, items, applyFill, applyBorder);
                     if (serie is IDrawingChartMarker serieMarker && serieMarker.HasMarker())     //Applies to Line and Scatterchart series
                     {
                         ApplyStyle(serieMarker.Marker, Style.DataPointMarker, serieNo, items);
@@ -662,7 +702,8 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                     {
                         foreach (var dp in dps.DataPoints)
                         {
-                            ApplyStyle(dp, dataPoint, dp.Index, items, applyFill);
+                            applyBorder = !(chart.IsTypeStock() && dp.Border.Width == 0);
+                            ApplyStyle(dp, dataPoint, dp.Index, items, applyFill, applyBorder);
                             if (dp.HasMarker())
                             {
                                 ApplyStyle(dp.Marker, Style.DataPointMarker, dp.Index, items);
@@ -706,7 +747,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             return dataPoint;
         }
 
-        internal void ApplyStyle(IDrawingStyleBase chartPart, ExcelChartStyleEntry section, int indexForColor=0, int numberOfItems=0, bool applyFill=true)
+        internal void ApplyStyle(IDrawingStyleBase chartPart, ExcelChartStyleEntry section, int indexForColor=0, int numberOfItems=0, bool applyFill=true, bool applyBorder=true)
         {
             if(chartPart is IStyleMandatoryProperties setMandatoryProperties)
             {
@@ -714,7 +755,8 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             }
             chartPart.CreatespPr();
             if(applyFill) ApplyStyleFill(chartPart, section, indexForColor, numberOfItems);
-            ApplyStyleBorder(chartPart.Border, section, indexForColor, numberOfItems);
+
+            if(applyBorder) ApplyStyleBorder(chartPart.Border, section, indexForColor, numberOfItems);
             ApplyStyleEffect(chartPart.Effect, section, indexForColor, numberOfItems);
             ApplyStyle3D(chartPart, section, indexForColor, numberOfItems);
             if (chartPart is IDrawingStyle chartPartWithFont)

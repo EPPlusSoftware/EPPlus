@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             _chart = chart;
         }
+        
         /// <summary>
         /// Checkes if the index exists in the collection
         /// </summary>

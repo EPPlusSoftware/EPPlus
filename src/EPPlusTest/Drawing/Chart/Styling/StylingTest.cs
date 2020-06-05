@@ -35,7 +35,7 @@ using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Xml;
 
-namespace EPPlusTest.Drawing.Chart
+namespace EPPlusTest.Drawing.Chart.Styling
 {
     [TestClass]
     public class StylingTest : TestBase

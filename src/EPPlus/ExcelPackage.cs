@@ -175,7 +175,7 @@ namespace OfficeOpenXml
         internal const string schemaChartStyle = "http://schemas.microsoft.com/office/drawing/2012/chartStyle";
 
         //Chart styling
-        internal const string contentTypeChartStyle = "application/vnd.ms-office.chartstyle+xml";
+        internal const string contentTypeChartStyle = "application/vnd.ms-office.chartstyle+xml";        
         internal const string schemaChartStyleRelationships = "http://schemas.microsoft.com/office/2011/relationships/chartStyle";
         internal const string contentTypeChartColorStyle = "application/vnd.ms-office.chartcolorstyle+xml";
         internal const string schemaChartColorStyleRelationships = "http://schemas.microsoft.com/office/2011/relationships/chartColorStyle";
@@ -210,6 +210,14 @@ namespace OfficeOpenXml
         internal const string contentTypeWorkbookDefault = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml";
         internal const string contentTypeWorkbookMacroEnabled = "application/vnd.ms-excel.sheet.macroEnabled.main+xml";
         internal const string contentTypeSharedString = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml";
+
+        //Chart Ex
+        internal const string schemaMc2006 = "http://schemas.openxmlformats.org/markup-compatibility/2006";
+        internal const string schemaChartExMain = "http://schemas.microsoft.com/office/drawing/2014/chartex";
+        internal const string schemaChartEx2015_9_8 = "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex";
+        internal const string schemaChartEx2015_10_21 = "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex";
+        internal const string schemaChartExRelationships = "http://schemas.microsoft.com/office/2014/relationships/chartEx";
+        internal const string contentTypeChartEx = "application/vnd.ms-office.chartex+xml";
         //Package reference
         private Packaging.ZipPackage _package;
 		internal ExcelWorkbook _workbook;

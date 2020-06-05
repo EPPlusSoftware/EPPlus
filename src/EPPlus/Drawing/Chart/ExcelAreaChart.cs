@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Represents an Area Chart
     /// </summary>
-    public sealed class ExcelAreaChart : ExcelChart, IDrawingDataLabel
+    public sealed class ExcelAreaChart : ExcelChartStandard, IDrawingDataLabel
     {
         #region "Constructors"
         internal ExcelAreaChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_DataLabel == null)
                 {
-                    _DataLabel = new ExcelChartDataLabel(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
+                    _DataLabel = new ExcelChartDataLabelStandard(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _DataLabel;
             }

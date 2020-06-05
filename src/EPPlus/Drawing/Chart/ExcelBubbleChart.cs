@@ -25,10 +25,10 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Represents a Bar Chart
     /// </summary>
-    public sealed class ExcelBubbleChart : ExcelChart, IDrawingDataLabel
+    public sealed class ExcelBubbleChart : ExcelChartStandard, IDrawingDataLabel
     {
         internal ExcelBubbleChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent=null) :
-        base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
+            base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             ShowNegativeBubbles = false;
             BubbleScale = 100;
@@ -134,7 +134,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_dataLabel == null)
                 {
-                    _dataLabel = new ExcelChartDataLabel(Series._chart, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
+                    _dataLabel = new ExcelChartDataLabelStandard(Series._chart, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _dataLabel;
             }

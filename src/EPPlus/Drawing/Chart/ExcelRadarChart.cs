@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Provides access to line chart specific properties
     /// </summary>
-    public class ExcelRadarChart : ExcelChart, IDrawingDataLabel
+    public class ExcelRadarChart : ExcelChartStandard, IDrawingDataLabel
     {
         #region "Constructors"
         internal ExcelRadarChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, Packaging.ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_DataLabel == null)
                 {
-                    _DataLabel = new ExcelChartDataLabel(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
+                    _DataLabel = new ExcelChartDataLabelStandard(this, NameSpaceManager, ChartNode, "dLbls", _chartXmlHelper.SchemaNodeOrder);
                 }
                 return _DataLabel;
             }

@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
     /// <summary>
     /// Different types of transformation performed on a color 
     /// </summary>
-    public class ExcelColorTransformItem : XmlHelper, IColorTransformItem
+    public class ExcelColorTransformItem : XmlHelper, IColorTransformItem, ISource
     {
         internal ExcelColorTransformItem(XmlNamespaceManager nsm, XmlNode topNode,eColorTransformType type) : base(nsm, topNode)
         {
@@ -123,6 +123,9 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
                 }
             }
         }
+
+        bool ISource._fromStyleTemplate { get; set; } = false;
+
         /// <summary>
         /// Converts the object to a string
         /// </summary>

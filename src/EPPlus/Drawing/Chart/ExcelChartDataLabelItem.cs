@@ -26,12 +26,11 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// Represents an individual datalabel
     /// </summary>
-    public class ExcelChartDataLabelItem : ExcelChartDataLabel
+    public class ExcelChartDataLabelItem : ExcelChartDataLabelStandard
     {
         internal ExcelChartDataLabelItem(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, schemaNodeOrder)
         {
-            
         }
         /// <summary>
         /// The index of an individual datalabel

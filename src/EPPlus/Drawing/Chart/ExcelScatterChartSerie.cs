@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         ExcelChartSerieDataLabel _dataLabel = null;
         /// <summary>
-        /// Datalabel
+        /// Data label properties
         /// </summary>
         public ExcelChartSerieDataLabel DataLabel
         {

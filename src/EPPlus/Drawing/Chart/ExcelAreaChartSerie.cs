@@ -19,7 +19,7 @@ using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
-    /// A serie for an Area Chart
+    /// A series for an Area Chart
     /// </summary>
     public sealed class ExcelAreaChartSerie : ExcelChartSerieWithErrorBars, IDrawingSerieDataLabel, IDrawingChartDataPoints
     {

@@ -73,7 +73,7 @@ namespace EPPlusTest
             var sg4 = ws.SparklineGroups[3];
             Assert.AreEqual("D10:G10", sg4.LocationRange.Address);
             Assert.AreEqual("B1:C4", sg4.DataRange.Address);
-            Assert.AreEqual("'Sparklines'!A20:A23", sg4.DateAxisRange.Address);
+            Assert.AreEqual("Sparklines!A20:A23", sg4.DateAxisRange.Address);
 
             var c1 = sg1.ColorMarkers;
             Assert.AreEqual(c1.Rgb, "FFD00000");

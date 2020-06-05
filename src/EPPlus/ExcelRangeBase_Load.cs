@@ -540,6 +540,10 @@ namespace OfficeOpenXml
                 lineNo++;
             }
 
+            if(row<=0)
+            {
+                return null;
+            }
             return _worksheet.Cells[_fromRow, _fromCol, _fromRow + row - 1, _fromCol + maxCol];
         }
 
@@ -605,10 +609,12 @@ namespace OfficeOpenXml
         {
             var r = LoadFromText(Text, Format);
 
-            var tbl = _worksheet.Tables.Add(r, "");
-            tbl.ShowHeader = FirstRowIsHeader;
-            tbl.TableStyle = TableStyle;
-
+            if (r != null)
+            {
+                var tbl = _worksheet.Tables.Add(r, "");
+                tbl.ShowHeader = FirstRowIsHeader;
+                tbl.TableStyle = TableStyle;
+            }
             return r;
         }
         /// <summary>
@@ -628,6 +634,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormat Format)
         {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format);
         }
         /// <summary>
@@ -640,6 +651,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormat Format, TableStyles TableStyle, bool FirstRowIsHeader)
         {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
             return LoadFromText(File.ReadAllText(TextFile.FullName, Format.Encoding), Format, TableStyle, FirstRowIsHeader);
         }
 #region LoadFromText async
@@ -651,6 +667,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public async Task<ExcelRangeBase> LoadFromTextAsync(FileInfo TextFile)
         {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
             var fs = new FileStream(TextFile.FullName, FileMode.Open, FileAccess.Read);
             var sr = new StreamReader(fs, Encoding.ASCII);            
             return LoadFromText(await sr.ReadToEndAsync().ConfigureAwait(false));
@@ -663,6 +684,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public async Task<ExcelRangeBase> LoadFromTextAsync(FileInfo TextFile, ExcelTextFormat Format)
         {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
             var fs = new FileStream(TextFile.FullName, FileMode.Open, FileAccess.Read);
             var sr = new StreamReader(fs, Format.Encoding);
             return LoadFromText(await sr.ReadToEndAsync().ConfigureAwait(false), Format);
@@ -677,6 +703,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public async Task<ExcelRangeBase> LoadFromTextAsync(FileInfo TextFile, ExcelTextFormat Format, TableStyles TableStyle, bool FirstRowIsHeader)
         {
+            if (TextFile.Exists == false)
+            {
+                throw (new ArgumentException($"File does not exist {TextFile.FullName}"));
+            }
+
             var fs = new FileStream(TextFile.FullName, FileMode.Open, FileAccess.Read);
             var sr = new StreamReader(fs, Format.Encoding);
             return LoadFromText(await sr.ReadToEndAsync().ConfigureAwait(false), Format, TableStyle, FirstRowIsHeader);

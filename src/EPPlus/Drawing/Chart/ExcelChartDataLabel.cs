@@ -8,11 +8,8 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  04/24/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
@@ -25,186 +22,129 @@ namespace OfficeOpenXml.Drawing.Chart
     /// Datalabel on chart level. 
     /// This class is inherited by ExcelChartSerieDataLabel
     /// </summary>
-    public class ExcelChartDataLabel : XmlHelper, IDrawingStyle
+    public abstract class ExcelChartDataLabel : XmlHelper, IDrawingStyle
     {
         internal protected ExcelChart _chart;
-        string _nodeName;
-        internal ExcelChartDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
+        internal protected string _nodeName;
+        private string _nsPrefix;
+        private readonly string _formatPath;
+        private readonly string _sourceLinkedPath;
+
+        internal ExcelChartDataLabel(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string nsPrefix)
            : base(ns,node)
        {
             _nodeName = nodeName;
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "idx", "spPr", "txPr", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator", "showLeaderLines" }, new int[] { 0, schemaNodeOrder.Length });
-
-            AddSchemaNodeOrder(SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
-            var fullNodeName = "c:" + nodeName;
-            //XmlNode topNode = node.SelectSingleNode(fullNodeName, NameSpaceManager);
-            var topNode = GetNode(fullNodeName);
-            if (topNode == null)
-            {
-                //topNode = node.OwnerDocument.CreateElement("c", nodeName, ExcelPackage.schemaChart);
-                //InserAfter(node, "c:marker,c:tx,c:order,c:ser,c:explosion,c:pictureOptions,c:order,c:marker,c;invertIfNegatives", topNode);
-                topNode = CreateNode(fullNodeName);
-                topNode.InnerXml = "<c:showLegendKey val=\"0\" /><c:showVal val=\"0\" /><c:showCatName val=\"0\" /><c:showSerName val=\"0\" /><c:showPercent val=\"0\" /><c:showBubbleSize val=\"0\" /> <c:separator>\r\n</c:separator><c:showLeaderLines val=\"0\" />";                      
-            }
-            TopNode = topNode;
-            _chart = chart;            
+            _chart = chart;
+            _nsPrefix = nsPrefix;
+            _formatPath = $"{nsPrefix}:numFmt/@formatCode";
+            _sourceLinkedPath = $"{nsPrefix}:numFmt/@sourceLinked";
         }
         #region "Public properties"
-        const string positionPath = "c:dLblPos/@val";
-        /// <summary>
-        /// Position of the labels
-        /// </summary>
-        public eLabelPosition Position
-        {
-            get
-            {
-                return GetPosEnum(GetXmlNodeString(positionPath));
-            }
-            set
-            {
-                if (ForbiddDataLabelPosition(_chart))
-                {
-                    throw (new InvalidOperationException("Can't set data label position on a 3D-chart"));
-                }
-                SetXmlNodeString(positionPath, GetPosText(value));
-            }
-        }
-
-        internal static bool ForbiddDataLabelPosition(ExcelChart _chart)
-        {
-            return (_chart.IsType3D() && !_chart.IsTypePie() && _chart.ChartType != eChartType.Line3D)
-                               || _chart.IsTypeDoughnut();
-        }
-
-        const string showValPath = "c:showVal/@val";
+        public abstract eLabelPosition Position { get; set; }
        /// <summary>
        /// Show the values 
        /// </summary>
-        public bool ShowValue
-       {
-           get
-           {
-               return GetXmlNodeBool(showValPath);
-           }
-           set
-           {
-               SetXmlNodeString(showValPath, value ? "1" : "0");
-           }
-       }
-       const string showCatPath = "c:showCatName/@val";
+        public abstract bool ShowValue
+        {
+            get;
+            set;
+        }
        /// <summary>
        /// Show category names  
        /// </summary>
-        public bool ShowCategory
-       {
-           get
-           {
-               return GetXmlNodeBool(showCatPath);
-           }
-           set
-           {
-               SetXmlNodeString(showCatPath, value ? "1" : "0");
-           }
-       }
-       const string showSerPath = "c:showSerName/@val";
+        public abstract bool ShowCategory
+        {
+            get;
+            set;
+        }
        /// <summary>
        /// Show series names
        /// </summary>
-        public bool ShowSeriesName
-       {
-           get
-           {
-               return GetXmlNodeBool(showSerPath);
-           }
-           set
-           {
-               SetXmlNodeString(showSerPath, value ? "1" : "0");
-           }
-       }
-       const string showPerentPath = "c:showPercent/@val";
+        public abstract bool ShowSeriesName
+        {
+            get;
+            set;
+        }
        /// <summary>
        /// Show percent values
        /// </summary>
-        public bool ShowPercent
-       {
-           get
-           {
-               return GetXmlNodeBool(showPerentPath);
-           }
-           set
-           {
-               SetXmlNodeString(showPerentPath, value ? "1" : "0");
-           }
-       }
-       const string showLeaderLinesPath = "c:showLeaderLines/@val";
+        public abstract bool ShowPercent
+        {
+            get;
+            set;
+        }
        /// <summary>
        /// Show the leader lines
        /// </summary>
-        public bool ShowLeaderLines
-       {
-           get
-           {
-               return GetXmlNodeBool(showLeaderLinesPath);
-           }
-           set
-           {
-               SetXmlNodeString(showLeaderLinesPath, value ? "1" : "0");
-           }
+        public abstract bool ShowLeaderLines
+        {
+           get;
+           set;
        }
-       const string showBubbleSizePath = "c:showBubbleSize/@val";
        /// <summary>
        /// Show Bubble Size
        /// </summary>
-       public bool ShowBubbleSize
+       public abstract bool ShowBubbleSize
        {
-           get
-           {
-               return GetXmlNodeBool(showBubbleSizePath);
-           }
-           set
-           {
-               SetXmlNodeString(showBubbleSizePath, value ? "1" : "0");
-           }
+            get;
+            set;
        }
-       const string showLegendKeyPath = "c:showLegendKey/@val";
         /// <summary>
         /// Show the Lengend Key
         /// </summary>
-        public bool ShowLegendKey
-       {
-           get
-           {
-               return GetXmlNodeBool(showLegendKeyPath);
-           }
-           set
-           {
-               SetXmlNodeString(showLegendKeyPath, value ? "1" : "0");
-           }
+        public abstract bool ShowLegendKey
+        {
+            get;
+            set;
        }
-       const string separatorPath = "c:separator";
        /// <summary>
        /// Separator string 
        /// </summary>
-        public string Separator
+        public abstract string Separator
        {
-           get
-           {
-               return GetXmlNodeString(separatorPath);
-           }
-           set
-           {
-               if (string.IsNullOrEmpty(value))
-               {
-                   DeleteNode(separatorPath);
-               }
-               else
-               {
-                   SetXmlNodeString(separatorPath, value);
-               }
-           }
+            get;
+            set;
        }
-            
-       ExcelDrawingFill _fill = null;
+
+        /// <summary>
+        /// The Numberformat string.
+        /// </summary>
+        public string Format
+        {
+            get
+            {
+                return GetXmlNodeString(_formatPath);
+            }
+            set
+            {
+                SetXmlNodeString(_formatPath, value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    SourceLinked = true;
+                }
+                else
+                {
+                    SourceLinked = false;
+                }
+            }
+        }
+        /// <summary>
+        /// The Numberformats are linked to the source data.
+        /// </summary>
+        public bool SourceLinked
+        {
+            get
+            {
+                return GetXmlNodeBool(_sourceLinkedPath);
+            }
+            set
+            {
+                SetXmlNodeBool(_sourceLinkedPath, value);
+            }
+        }
+
+
+        ExcelDrawingFill _fill = null;
        /// <summary>
        /// Access fill properties
        /// </summary>
@@ -214,7 +154,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_fill == null)
                {
-                   _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                   _fill = new ExcelDrawingFill(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                }
                return _fill;
            }
@@ -229,7 +169,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_border == null)
                {
-                   _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, "c:spPr/a:ln", SchemaNodeOrder);
+                   _border = new ExcelDrawingBorder(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:ln", SchemaNodeOrder);
                }
                return _border;
            }
@@ -244,7 +184,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, "c:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -259,7 +199,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, "c:spPr", SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, $"{_nsPrefix}:spPr", SchemaNodeOrder);
                 }
                 return _threeD;
             }
@@ -275,7 +215,7 @@ namespace OfficeOpenXml.Drawing.Chart
            {
                if (_font == null)
                {
-                   _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, "c:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
+                   _font = new ExcelTextFont(_chart, NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder, CreateDefaultText);
                }
                return _font;
            }
@@ -287,14 +227,14 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private void CreateDefaultText()
         {
-            if (TopNode.SelectSingleNode("c:txPr", NameSpaceManager) == null)
+            if (TopNode.SelectSingleNode($"{_nsPrefix}:txPr", NameSpaceManager) == null)
             {
-                if (!ExistNode("c:spPr"))
+                if (!ExistNode($"{_nsPrefix}:spPr"))
                 {
-                    var spNode = CreateNode("c:spPr");
+                    var spNode = CreateNode($"{_nsPrefix}:spPr");
                     spNode.InnerXml = "<a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/>";
                 }
-                var node = CreateNode("c:txPr");
+                var node = CreateNode($"{_nsPrefix}:txPr");
                 node.InnerXml = "<a:bodyPr anchorCtr=\"1\" anchor=\"ctr\" bIns=\"19050\" rIns=\"38100\" tIns=\"19050\" lIns=\"38100\" wrap=\"square\" vert=\"horz\" vertOverflow=\"ellipsis\" spcFirstLastPara=\"1\" rot=\"0\"><a:spAutoFit/></a:bodyPr><a:lstStyle/>";
             }
             
@@ -310,7 +250,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_textBody == null)
                 {
-                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, "c:txPr/a:bodyPr", SchemaNodeOrder);
+                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:bodyPr", SchemaNodeOrder);
                 }
                 return _textBody;
             }

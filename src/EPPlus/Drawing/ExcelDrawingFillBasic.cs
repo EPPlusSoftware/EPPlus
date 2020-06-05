@@ -184,7 +184,14 @@ namespace OfficeOpenXml.Drawing
             {
                 if (!string.IsNullOrEmpty(_fillPath) && !ExistNode(_fillPath) && CreateNodeUntil(_fillPath, "spPr", out XmlNode spPrNode))
                 {
-                    spPrNode.InnerXml = $"<a:noFill/><a:ln><a:noFill/></a:ln ><a:effectLst/><a:sp3d/>";
+                    if(_fillPath.EndsWith("ln"))
+                    {
+                        spPrNode.InnerXml = $"<a:ln><a:noFill/></a:ln ><a:effectLst/><a:sp3d/>";
+                    }
+                    else
+                    {
+                        spPrNode.InnerXml = $"<a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/><a:sp3d/>";
+                    }
                     _fillNode = GetNode(_fillPath);
                     _fillTypeNode = _fillNode.FirstChild;
                 }

@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A Surface chart
     /// </summary>
-    public sealed class ExcelSurfaceChart : ExcelChart
+    public sealed class ExcelSurfaceChart : ExcelChartStandard
     {
         #region "Constructors"
         internal ExcelSurfaceChart(ExcelDrawings drawings, XmlNode node, eChartType? type, ExcelChart topChart, ExcelPivotTable PivotTableSource, XmlDocument chartXml, ExcelGroupShape parent = null) :
