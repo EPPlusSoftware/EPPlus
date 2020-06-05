@@ -259,12 +259,12 @@ namespace EPPlusTest.Drawing.Chart
             dl.Effect.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType.OuterCenter);
             Assert.AreEqual(eChartType.StockVOHLC, chart.ChartType);
 
-            Assert.AreEqual("'StockTextVOHLCStringAdr'!A1:A7", chart.Series[0].XSeries);
-            Assert.AreEqual("'StockTextVOHLCStringAdr'!C1:C7", chart.Series[0].Series);
-            Assert.AreEqual("'StockTextVOHLCStringAdr'!D1:D7", chart.Series[1].Series);
-            Assert.AreEqual("'StockTextVOHLCStringAdr'!E1:E7", chart.Series[2].Series);
-            Assert.AreEqual("'StockTextVOHLCStringAdr'!F1:F7", chart.Series[3].Series);
-            Assert.AreEqual("'StockTextVOHLCStringAdr'!B1:B7", chart.PlotArea.ChartTypes[0].Series[0].Series);
+            Assert.AreEqual("StockTextVOHLCStringAdr!A1:A7", chart.Series[0].XSeries);
+            Assert.AreEqual("StockTextVOHLCStringAdr!C1:C7", chart.Series[0].Series);
+            Assert.AreEqual("StockTextVOHLCStringAdr!D1:D7", chart.Series[1].Series);
+            Assert.AreEqual("StockTextVOHLCStringAdr!E1:E7", chart.Series[2].Series);
+            Assert.AreEqual("StockTextVOHLCStringAdr!F1:F7", chart.Series[3].Series);
+            Assert.AreEqual("StockTextVOHLCStringAdr!B1:B7", chart.PlotArea.ChartTypes[0].Series[0].Series);
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))] 

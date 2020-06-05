@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
                 else
                 {
-                    var item = new ExcelChartExDataPoint(serie, ns, TopNode, SchemaNodeOrder);
+                    var item = new ExcelChartExDataPoint(serie, ns, TopNode, ix, SchemaNodeOrder);
                     _dic.Add(item.Index, item);
                 }
             }

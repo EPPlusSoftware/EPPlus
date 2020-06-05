@@ -105,7 +105,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 }
                 else
                 {
-                    return GetXmlNodePercentage($"{_positionPath}/cx:number/@val")??0;
+                    return GetXmlNodeDoubleNull($"{_positionPath}/cx:percent/@val")??0;
                 }
             }
             set

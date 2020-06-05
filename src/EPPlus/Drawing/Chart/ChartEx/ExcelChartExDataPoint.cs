@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
 
         internal const string dataPtPath = "cx:dataPt";
-        internal const string SubTotalPath = "cx:layoutPr/cx:subtotals";
+        internal const string SubTotalPath = "cx:layoutPr/cx:subtotals/cx:idx";
         const string indexPath = "@idx";
         /// <summary>
         /// The index of the datapoint

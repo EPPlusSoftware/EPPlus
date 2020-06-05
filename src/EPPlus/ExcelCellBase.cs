@@ -510,7 +510,18 @@ namespace OfficeOpenXml
         }
         internal static string GetFullAddress(string worksheetName, string address, bool fullRowCol)
         {
-            if (!string.IsNullOrEmpty(worksheetName)) worksheetName = worksheetName.Replace("'", "''");   //Makesure addresses handle single qoutes
+            var wsForAddress = "";
+            if (!string.IsNullOrEmpty(worksheetName))
+            {
+                if(ExcelWorksheet.NameNeedsApostrophes(worksheetName))
+                {
+                    wsForAddress = "'"+worksheetName.Replace("'", "''") + "'";   //Makesure addresses handle single qoutes
+                }
+                else
+                {
+                    wsForAddress = worksheetName;
+                }
+            }
             if (address.IndexOf("!") == -1 || address == "#REF!")
             {
                 if (fullRowCol)
@@ -518,7 +529,7 @@ namespace OfficeOpenXml
                     string[] cells = address.Split(':');
                     if (cells.Length > 0)
                     {
-                        address = string.IsNullOrEmpty(worksheetName) ? cells[0] : string.Format("'{0}'!{1}", worksheetName, cells[0]);
+                        address = string.IsNullOrEmpty(wsForAddress) ? cells[0] : string.Format("{0}!{1}", wsForAddress, cells[0]);
                         if (cells.Length > 1)
                         {
                             address += string.Format(":{0}", cells[1]);
@@ -530,9 +541,9 @@ namespace OfficeOpenXml
                     var a = new ExcelAddressBase(address);
                     if ((a._fromRow == 1 && a._toRow == ExcelPackage.MaxRows) || (a._fromCol == 1 && a._toCol == ExcelPackage.MaxColumns))
                     {
-                        if (string.IsNullOrEmpty(worksheetName))
+                        if (string.IsNullOrEmpty(wsForAddress))
                         {
-                            address = $"'{worksheetName}'!";
+                            address = $"{wsForAddress}!";
                         }
                         address += string.Format("{0}{1}:{2}{3}", ExcelAddress.GetColumnLetter(a._fromCol), a._fromRow, ExcelAddress.GetColumnLetter(a._toCol), a._toRow);
                     }

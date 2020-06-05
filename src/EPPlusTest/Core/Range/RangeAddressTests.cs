@@ -179,7 +179,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertRow(1, 1);
 
-                Assert.AreEqual("'NEW'!A3:C4", namedRange.FullAddress);
+                Assert.AreEqual("NEW!A3:C4", namedRange.FullAddress);
             }
         }
 
@@ -209,7 +209,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertRow(3, 1);
 
-                Assert.AreEqual("'NEW'!A2:C4", namedRange.FullAddress);
+                Assert.AreEqual("NEW!A2:C4", namedRange.FullAddress);
             }
         }
 
@@ -224,7 +224,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertColumn(1, 1);
 
-                Assert.AreEqual("'NEW'!C2:E3", namedRange.FullAddress);
+                Assert.AreEqual("NEW!C2:E3", namedRange.FullAddress);
             }
         }
 
@@ -270,7 +270,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertRow(1, 1);
 
-                Assert.AreEqual("'NEW'!A3:C4", namedRange.FullAddress);
+                Assert.AreEqual("NEW!A3:C4", namedRange.FullAddress);
             }
         }
 
@@ -286,7 +286,7 @@ namespace EPPlusTest.Core.Range
 
                 sheet.InsertColumn(1, 1);
 
-                Assert.AreEqual("'NEW'!C2:D3", namedRange.FullAddress);
+                Assert.AreEqual("NEW!C2:D3", namedRange.FullAddress);
             }
         }
 
@@ -409,8 +409,8 @@ namespace EPPlusTest.Core.Range
             using (var pck = new ExcelPackage())
             {
                 var ws = pck.Workbook.Worksheets.Add("AddressVerify");
-                Assert.AreEqual("'AddressVerify'!B6:D8", ws.Cells["B6:D8"].FullAddress);
-                Assert.AreEqual("'AddressVerify'!B6:D8,'AddressVerify'!B10:D11", ws.Cells["B6:D8,B10:D11"].FullAddress);
+                Assert.AreEqual("AddressVerify!B6:D8", ws.Cells["B6:D8"].FullAddress);
+                Assert.AreEqual("AddressVerify!B6:D8,AddressVerify!B10:D11", ws.Cells["B6:D8,B10:D11"].FullAddress);
             }
 
         }

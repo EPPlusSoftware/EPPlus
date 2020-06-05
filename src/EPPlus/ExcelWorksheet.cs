@@ -472,6 +472,21 @@ namespace OfficeOpenXml
         /// The unique identifier for the worksheet.
         /// </summary>
         internal int SheetID { get { return (_sheetID); } }
+
+        internal static bool NameNeedsApostrophes(string ws)
+        {
+            if (ws[0] >= '0' && ws[0]<='9')
+            {
+                return true;
+            }
+            foreach(var c in ws)
+            {
+                if (!(char.IsLetterOrDigit(c) || c=='_' ))
+                    return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// The position of the worksheet.
         /// </summary>

@@ -262,5 +262,20 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return GetXmlNodeString("@id");
             }
         }
+        internal override eAxisType AxisType
+        {
+            get
+            {
+                if(Id=="0")
+                {
+                    return eAxisType.Cat;
+                }
+                else
+                {
+                    return eAxisType.Val;
+                }
+            }
+        }
     }
 }
+    

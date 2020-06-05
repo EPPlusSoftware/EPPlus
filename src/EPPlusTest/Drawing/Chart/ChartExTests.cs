@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -27,7 +28,10 @@ namespace EPPlusTest.Drawing.Chart
         [ClassCleanup]
         public static void Cleanup()
         {
+            var dirName = _pck.File.DirectoryName;
+            var fileName = _pck.File.FullName;
             SaveAndCleanup(_pck);
+            File.Copy(fileName, dirName + "\\ChartExRead.xlsx", true);
         }
         [TestMethod]
         public void ReadChartEx()
@@ -192,14 +196,14 @@ namespace EPPlusTest.Drawing.Chart
             dt.SubTotal = true;
             dt = serie.DataPoints.Add(0);
             dt.SubTotal = true;            
-            dt= serie.DataPoints.Add(4);
+            dt = serie.DataPoints.Add(4);
             dt.Fill.Style = eFillStyle.SolidFill;
             dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent2);
             dt = serie.DataPoints.Add(2);
             dt.Fill.Style = eFillStyle.SolidFill;
             dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent4);
 
-            dt= serie.DataPoints[0];
+            dt = serie.DataPoints[0];
             dt.Border.Fill.Style = eFillStyle.GradientFill;
             dt.Border.Fill.GradientFill.Colors.AddRgb(0, Color.Green);
             dt.Border.Fill.GradientFill.Colors.AddRgb(40, Color.Blue);
@@ -207,7 +211,7 @@ namespace EPPlusTest.Drawing.Chart
             dt.Fill.Style = eFillStyle.SolidFill;
             dt.Fill.SolidFill.Color.SetSchemeColor(eSchemeColor.Accent1);
 
-            chart.StyleManager.SetChartStyle(ePresetChartStyle.HistogramChartStyle4);
+            chart.StyleManager.SetChartStyle(ePresetChartStyle.WaterfallChartStyle4);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelWaterfallChart));
             Assert.AreEqual(4,serie.DataPoints.Count);
@@ -263,6 +267,7 @@ namespace EPPlusTest.Drawing.Chart
             Assert.AreEqual("sv", serie.Region.TwoLetterISOLanguageName);
             Assert.AreEqual("sv-SE", serie.Language.Name);
         }
+
 
     }
 }

@@ -612,5 +612,22 @@ namespace OfficeOpenXml.Drawing.Chart
                 SetXmlNodeString(_orientationPath, s);
             }
         }
+
+        internal override eAxisType AxisType
+        {
+            get
+            {
+                try
+                {
+                    var axType = TopNode.LocalName.Substring(0, TopNode.LocalName.Length - 2);
+                    if (axType == "ser") return eAxisType.Serie;
+                    return (eAxisType)Enum.Parse(typeof(eAxisType), axType, true);
+                }
+                catch
+                {
+                    return eAxisType.Val;
+                }
+            }
+        }
     }
 }

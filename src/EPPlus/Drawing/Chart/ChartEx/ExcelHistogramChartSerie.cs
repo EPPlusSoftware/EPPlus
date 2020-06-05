@@ -19,11 +19,16 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public class ExcelHistogramChartSerie : ExcelChartExSerie
     {
-        internal ExcelHistogramChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node) : base(chart, ns, node)
+        internal int _index;
+        internal ExcelHistogramChartSerie(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode node, int index=-1) : base(chart, ns, node)
         {
-            if (chart.ChartType == eChartType.Pareto)
+            if(index==-1)
             {
-                AddParetoLine();
+                _index = chart.Series.Count * (chart.ChartType == eChartType.Pareto ? 2 : 1);
+            }
+            else
+            {
+                _index = index;
             }
         }
         internal void AddParetoLine()

@@ -17,6 +17,7 @@ using System.Linq;
 using System.Xml;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
@@ -29,7 +30,7 @@ namespace OfficeOpenXml.Drawing
     /// Base class for drawings. 
     /// Drawings are Charts, Shapes and Pictures.
     /// </summary>
-    public class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
+    public partial class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
     {
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
@@ -104,6 +105,7 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
+
 
         private void SetPositionProperties(ExcelDrawings drawings, XmlNode node)
         {

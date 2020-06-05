@@ -464,7 +464,7 @@ namespace OfficeOpenXml
                     address = "[" + _wb + "]";
                 }
 
-                if (_address.IndexOf("'!")>=0)
+                if (_address.IndexOf("'!")>=0 || ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
                     address += string.Format("'{0}'!", _ws);
                 }

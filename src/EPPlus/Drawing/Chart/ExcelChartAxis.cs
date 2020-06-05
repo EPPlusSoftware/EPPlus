@@ -68,24 +68,12 @@ namespace OfficeOpenXml.Drawing.Chart
             get;
             set;
         }
-         /// <summary>
+        /// <summary>
         /// The type of axis
         /// </summary>
-        internal eAxisType AxisType
+        internal abstract eAxisType AxisType
         {
-            get
-            {
-                try
-                {
-                    var axType = TopNode.LocalName.Substring(0, TopNode.LocalName.Length - 2);
-                    if (axType == "ser") return eAxisType.Serie;
-                    return (eAxisType)Enum.Parse(typeof(eAxisType), axType , true);
-                }
-                catch
-                {
-                    return eAxisType.Val;
-                }
-            }
+            get;
         }
         /// <summary>
         /// Where the axis is located

@@ -57,6 +57,7 @@ namespace OfficeOpenXml.Drawing.Chart
         private void AddSeriesChartEx(ExcelChartEx chart, XmlNamespaceManager ns, XmlNode chartNode)
         {
             var histoGramSeries = new List<XmlElement>();
+            int index = 0;
             foreach (XmlElement serieElement in chartNode.SelectNodes("cx:plotArea/cx:plotAreaRegion/cx:series", ns))
             {
                 switch (chart.ChartType)
@@ -68,15 +69,27 @@ namespace OfficeOpenXml.Drawing.Chart
                         _list.Add(new ExcelBoxWhiskerChartSerie(chart, ns, serieElement));
                         break;
                     case eChartType.Histogram:
-                        _list.Add(new ExcelHistogramChartSerie(chart, ns, serieElement));
-                        break;
                     case eChartType.Pareto:
-                        histoGramSeries.Add(serieElement);
+                        if(serieElement.GetAttribute("layoutId") == "paretoLine")
+                        {
+                            histoGramSeries.Add(serieElement);
+                        }
+                        else
+                        {
+                            _list.Add(new ExcelHistogramChartSerie(chart, ns, serieElement, index));
+                        }
+                        break;
+                    case eChartType.RegionMap:
+                        _list.Add(new ExcelRegionMapChartSerie(chart, ns, serieElement));
+                        break;
+                    case eChartType.Waterfall:
+                        _list.Add(new ExcelWaterfallChartSerie(chart, ns, serieElement));
                         break;
                     default:
                         _list.Add(new ExcelChartExSerie(chart, ns, serieElement));
                         break;
                 }
+                index++;
             }
             if (chart.ChartType == eChartType.Pareto)
             {
@@ -84,11 +97,13 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if (e.GetAttribute("layoutId") == "paretoLine")
                     {
-                        if (ConvertUtil.TryParseIntString(e.GetAttribute("ownerId"), out int ownerId))
+                        if (ConvertUtil.TryParseIntString(e.GetAttribute("ownerIdx"), out int ownerId))
                         {
-                            var ser = new ExcelHistogramChartSerie(chart, ns, histoGramSeries[ownerId]);
-                            _list.Add(ser);
-                            ser.AddParetoLineFromSerie(e);
+                            var serie=(ExcelHistogramChartSerie)_list.FirstOrDefault(x => ((ExcelHistogramChartSerie)x)._index == ownerId);
+                            if(serie!=null)
+                            {
+                                serie.AddParetoLineFromSerie(e);
+                            }
                         }
                     }
                 }
@@ -354,6 +369,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 case eChartType.Histogram:
                 case eChartType.Pareto:
                     serie=new ExcelHistogramChartSerie((ExcelChartEx)_chart, _ns, serElement);
+                    if(Chart.ChartType== eChartType.Pareto)
+                    {
+                        ((ExcelHistogramChartSerie)serie).AddParetoLine();
+                    }
                     break;
                 case eChartType.RegionMap:
                     serie = new ExcelRegionMapChartSerie((ExcelChartEx)_chart, _ns, serElement);
