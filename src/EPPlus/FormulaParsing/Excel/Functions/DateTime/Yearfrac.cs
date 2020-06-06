@@ -15,11 +15,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.DateAndTime,
+        EPPlusVersion = "4",
+        Description = "Calculates the fraction of the year represented by the number of whole days between two dates")]
     internal class Yearfrac : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

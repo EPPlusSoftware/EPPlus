@@ -231,7 +231,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dvar"] = new Dvar();
             Functions["dvarp"] = new Dvarp();
             //Finance
+            Functions["cumipmt"] = new Cumipmt();
+            Functions["cumprinc"] = new Cumprinc();
+            Functions["ddb"] = new Ddb();
+            Functions["effect"] = new Effect();
+            Functions["fvschedule"] = new FvSchedule();
+            Functions["pduration"] = new Pduration();
+            Functions["rri"] = new Rri();
             Functions["pmt"] = new Pmt();
+            Functions["ppmt"] = new Ppmt();
+            Functions["ipmt"] = new Ipmt();
+            Functions["ispmt"] = new IsPmt();
+            Functions["pv"] = new Pv();
+            Functions["fv"] = new Fv();
+            Functions["npv"] = new Npv();
+            Functions["rate"] = new Rate();
+            Functions["nper"] = new Nper();
+            Functions["nominal"] = new Nominal();
+            Functions["irr"] = new Irr();
+            Functions["mirr"] = new Mirr();
+            Functions["xirr"] = new Xirr();
+            Functions["sln"] = new Sln();
+            Functions["syd"] = new Syd();
+            Functions["xnpv"] = new Xnpv();
+            Functions["coupdays"] = new Coupdays();
+            Functions["coupdaysnc"] = new Coupdaysnc();
+            Functions["coupdaybs"] = new Coupdaybs();
+            Functions["coupnum"] = new Coupnum();
+            Functions["coupncd"] = new Coupncd();
+            Functions["couppcd"] = new Couppcd();
+            Functions["price"] = new Price();
+            Functions["yield"] = new Yield();
+            Functions["duration"] = new Duration();
+            Functions["disc"] = new Disc();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();
@@ -252,6 +284,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["oct2dec"] = new Oct2Dec();
             Functions["oct2hex"] = new Oct2Hex();
             Functions["delta"] = new Delta();
+            Functions["erf"] = new Erf();
+            Functions["erf.precise"] = new ErfPrecise();
+            Functions["erfc"] = new Erfc();
+            Functions["erfc.precise"] = new Erfc();
+            Functions["besseli"] = new BesselI();
+            Functions["besselj"] = new BesselJ();
+            Functions["besselk"] = new BesselK();
+            Functions["bessely"] = new BesselY();
         }
     }
 }

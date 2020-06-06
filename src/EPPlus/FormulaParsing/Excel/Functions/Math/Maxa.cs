@@ -14,11 +14,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "4",
+        Description = "Returns the largest value from a list of supplied values, counting text and the logical value FALSE as the value 0 and counting the logical value TRUE as the value 1")]
     internal class Maxa : ExcelFunction
     {
         private readonly DoubleEnumerableArgConverter _argConverter;

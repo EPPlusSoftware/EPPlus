@@ -16,9 +16,14 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Information,
+        EPPlusVersion = "4",
+        Description = "Tests if an initial supplied value (or expression) returns an error and if so, returns TRUE; Otherwise returns FALSE")]
     internal class IsError : ErrorHandlingFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

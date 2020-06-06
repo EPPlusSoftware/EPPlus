@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
@@ -23,6 +24,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     /// Simple implementation of DateValue function, just using .NET built-in
     /// function System.DateTime.TryParse, based on current culture
     /// </summary>
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.DateAndTime,
+        EPPlusVersion = "4",
+        Description = "Converts a text string showing a date, to an integer that represents the date in Excel's date-time code")]
     internal class DateValue : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

@@ -15,10 +15,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.DateAndTime,
+        EPPlusVersion = "4",
+        Description = "Returns an integer representing the week number (from 1 to 53) of the year from a user-supplied date")]
     internal class Weeknum : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

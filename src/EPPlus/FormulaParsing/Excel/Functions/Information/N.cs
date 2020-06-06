@@ -14,12 +14,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Information,
+        EPPlusVersion = "4",
+        Description = "Converts a non-number value to a number, a date to a serial number, the logical value TRUE to 1 and all other values to 0")]
     internal class N : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

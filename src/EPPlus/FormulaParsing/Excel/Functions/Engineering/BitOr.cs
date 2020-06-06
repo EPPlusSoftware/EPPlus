@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
@@ -18,6 +19,11 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Engineering,
+        EPPlusVersion = "5.1",
+        Description = "Returns a Bitwise 'Or' of two numbers",
+        IntroducedInExcelVersion = "2013")]
     internal class BitOr : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

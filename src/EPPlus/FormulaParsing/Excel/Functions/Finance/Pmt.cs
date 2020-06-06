@@ -14,10 +14,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Financial,
+        EPPlusVersion = "5.2",
+        Description = "Calculates the payments required to reduce a loan, from a supplied present value to a specified future value")]
     internal class Pmt : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
@@ -26,17 +32,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var rate = ArgToDecimal(arguments, 0);
             var nPer = ArgToInt(arguments, 1);
             var presentValue = ArgToDecimal(arguments, 2);
-            var payEndOfPeriod = false;
+            var payEndOfPeriod = 0;
             var futureValue = 0d;
             if (arguments.Count() > 3) futureValue = ArgToDecimal(arguments, 3);
-            if (arguments.Count() > 4) payEndOfPeriod = ArgToBool(arguments, 4);
+            if (arguments.Count() > 4) payEndOfPeriod = ArgToInt(arguments, 4);
+            var result = InternalMethods.PMT_Internal(rate, nPer, presentValue, futureValue, payEndOfPeriod == 0 ? PmtDue.EndOfPeriod : PmtDue.BeginningOfPeriod);
+            if (result.HasError) return CreateResult(result.ExcelErrorType);
 
-            var result = (futureValue + presentValue * System.Math.Pow(rate + 1, nPer)) * rate
-                      /
-                   ((payEndOfPeriod ? rate + 1 : 1) * (1 - System.Math.Pow(rate + 1, nPer)));
-       
-
-            return CreateResult(result, DataType.Decimal);
+            return CreateResult(result.Result, DataType.Decimal);
         }
 
         private static double GetInterest(double rate, double remainingAmount)

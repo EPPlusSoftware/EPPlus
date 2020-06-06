@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -21,6 +22,11 @@ using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "4",
+        Description = "Calculates the Average of the cells in a supplied range, that satisfy a given criteria",
+        IntroducedInExcelVersion = "2007")]
     internal class AverageIf : HiddenValuesHandlingFunction
     {
         private readonly ExpressionEvaluator _expressionEvaluator;
