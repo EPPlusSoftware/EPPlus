@@ -239,7 +239,7 @@ namespace EPPlusTest.Drawing.Chart
             LoadGeoTestData(ws);
             var chart = ws.Drawings.AddRegionMapChart("RegionMap");
             var serie = chart.Series.Add("RegionMap!$A$2:$B$11", "RegionMap!$C$2:$C$11");
-            serie.HeaderAddress = ws.Cells["A1"];
+            serie.HeaderAddress = ws.Cells["$A$1"];
             serie.DataDimensions[0].NameFormula = "$A$1:$B$1";
             serie.DataDimensions[1].NameFormula = "$C$1";
             serie.ColorBy = eColorBy.CategoryNames;
