@@ -32,7 +32,7 @@ using OfficeOpenXml;
 namespace EPPlusTest.Core.Worksheet
 {
     [TestClass]
-    public class WorksheetReferenceTests
+    public class WorksheetReferenceTests : TestBase
     {
         [TestMethod]
         public void InsertRowsUpdatesReferencesCorrectly()
@@ -219,5 +219,31 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("Goodbye, world!", sheet1.Cells[4, 4].Value);
             }
         }
+        [TestMethod]
+        public void AddWorksheetWithDollarSign()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheetName = "Sheet1$";
+                var sheet1 = package.Workbook.Worksheets.Add(sheetName);
+                Assert.AreEqual(sheetName, sheet1.Name);
+                Assert.AreEqual(sheet1, package.Workbook.Worksheets[sheetName]);
+
+                package.Workbook.Names.Add("WorkbookDefinedName1", sheet1.Cells["A1"]);
+                sheet1.Names.Add("DefinedName1", sheet1.Cells["A1"]);
+
+                package.Save();
+                using(var p2 = new ExcelPackage(package.Stream))
+                {
+                    sheet1 = package.Workbook.Worksheets[sheetName];
+                    Assert.IsNotNull(sheet1);
+                    Assert.AreEqual(sheetName, sheet1.Name);
+                    Assert.AreEqual(sheet1, package.Workbook.Worksheets[sheetName]);
+                    Assert.AreEqual("'Sheet1$'!A1", sheet1.Names["DefinedName1"].FullAddress);
+                }
+            }
+        }
+
+
     }
 }

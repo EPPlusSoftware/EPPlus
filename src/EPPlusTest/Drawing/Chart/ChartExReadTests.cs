@@ -203,9 +203,9 @@ namespace EPPlusTest.Drawing.Chart
             Assert.AreEqual("RegionMap!$A$2:$B$11", serie.Series);
             Assert.AreEqual("RegionMap!$C$2:$C$11", serie.XSeries);
 
-            Assert.AreEqual("RegionMap!A1", serie.HeaderAddress.Address);
-            Assert.AreEqual("RegionMap!A1:B1", serie.DataDimensions[0].NameFormula);
-            Assert.AreEqual("RegionMap!C1", serie.DataDimensions[1].NameFormula);
+            Assert.AreEqual("RegionMap!$A$1", serie.HeaderAddress.Address);
+            Assert.AreEqual("RegionMap!$A$1:$B$1", serie.DataDimensions[0].NameFormula);
+            Assert.AreEqual("RegionMap!$C$1", serie.DataDimensions[1].NameFormula);
             Assert.IsInstanceOfType(serie.DataDimensions[1], typeof(ExcelChartExStringData));
             Assert.AreEqual(eStringDataType.ColorString, ((ExcelChartExStringData)serie.DataDimensions[1]).Type);
 
