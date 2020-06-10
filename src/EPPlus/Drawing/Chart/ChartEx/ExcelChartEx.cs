@@ -73,8 +73,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             _isChartEx = true;
             _chartXmlHelper.SchemaNodeOrder = new string[] { "chartData", "chart", "spPr", "txPr", "clrMapOvr", "fmtOvrs", "title", "plotArea","plotAreaRegion","axis", "legend", "printSettings" };
-            base.Series.Init(this, NameSpaceManager, _chartNode, false, base.Series._list);
-            Series.Init(this, NameSpaceManager, _chartNode, false, Series._list);
+            base.Series.Init(this, NameSpaceManager, _chartNode, false);
+            Series.Init(this, NameSpaceManager, _chartNode, false, base.Series._list);
             LoadAxis();
         }
 

@@ -69,7 +69,16 @@ namespace OfficeOpenXml.Drawing
             _textBodyPath = string.Format(_textBodyPath, topPath);
             AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "nvSpPr", "spPr", "txSp", "style", "txBody", "hlinkClick", "hlinkHover", "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d", "pPr", "r", "br", "fld", "endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" });
         }
-
+        /// <summary>
+        /// The type of drawing
+        /// </summary>
+        public override eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.Shape;
+            }
+        }
         /// <summary>
         /// Shape style
         /// </summary>

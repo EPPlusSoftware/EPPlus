@@ -85,6 +85,7 @@ namespace EPPlusTest
          {
             var ws = _pck.Workbook.Worksheets.Add("Picture");
             var pic = ws.Drawings.AddPicture("Pic1", Resources.Test1);
+            Assert.AreEqual(eDrawingType.Picture, pic.DrawingType);
 
             pic = ws.Drawings.AddPicture("Pic2", Resources.Test1);
             pic.SetPosition(150, 200);
@@ -124,7 +125,6 @@ namespace EPPlusTest
                 TestContext.WriteLine("AG00021_.GIF does not exists. Skipping Pic7.");
 #endif
             }
-
             var wsCopy = _pck.Workbook.Worksheets.Add("Picture3", ws2);
          }
         [TestMethod]
@@ -549,6 +549,7 @@ namespace EPPlusTest
         {
             var ws = _pck.Workbook.Worksheets.Add("Line");
             var chrt = ws.Drawings.AddChart("Line1", eChartType.Line) as ExcelLineChart;
+            Assert.AreEqual(eDrawingType.Chart, chrt.DrawingType);
             AddTestSerie(ws, chrt);
             chrt.SetSize(150);
             chrt.VaryColors = true;
@@ -631,6 +632,7 @@ namespace EPPlusTest
             foreach(eShapeStyle style in Enum.GetValues(typeof(eShapeStyle)))
             {
                 var shape = ws.Drawings.AddShape("shape"+i.ToString(), style);
+                Assert.AreEqual(eDrawingType.Shape, shape.DrawingType);
                 shape.SetPosition(y, 100);
                 shape.SetSize(300, 300);
                 y += 400;

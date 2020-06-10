@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         { 
             get
             {
-                if(DataDimensions.Count < 2 && DataDimensions[1] is ExcelChartExStringData s)
+                if(DataDimensions.Count < 2 && DataDimensions[0] is ExcelChartExStringData s)
                 {
                     if(s.Type==eStringDataType.ColorString)
                     {
@@ -175,11 +175,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 {
                     if(value==eColorBy.Value)
                     {
-                        DataDimensions.SetTypeNumeric(1, eNumericDataType.ColorValue);
+                        DataDimensions.SetTypeNumeric(0, eNumericDataType.ColorValue);
                     }
                     else
                     {
-                        DataDimensions.SetTypeString(1, eStringDataType.ColorString);
+                        DataDimensions.SetTypeString(0, eStringDataType.ColorString);
                     }
                 }
             }

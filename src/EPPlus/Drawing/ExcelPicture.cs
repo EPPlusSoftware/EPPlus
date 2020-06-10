@@ -83,8 +83,17 @@ namespace OfficeOpenXml.Drawing
             SetPosDefaults(image);
             package.Flush();
         }
-
-        #if !NET35 && !NET40
+        /// <summary>
+        /// The type of drawing
+        /// </summary>
+        public override eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.Picture;
+            }
+        }
+#if !NET35 && !NET40
         internal async Task LoadImageAsync(Stream stream, ePictureType type)
         {
             var img = new byte[stream.Length];

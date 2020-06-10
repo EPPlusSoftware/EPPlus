@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 chart.ChartType == eChartType.Histogram ||
                 chart.ChartType == eChartType.Pareto ||
                 chart.ChartType == eChartType.Waterfall ||
-                chart.ChartType == eChartType.Pareto) && ((ExcelChart)chart).Series.Count==0)
+                chart.ChartType == eChartType.Pareto) && chart.Series.Count==0)
             {
                 AddAxis();
                 chart.LoadAxis();
@@ -240,7 +240,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             throw new System.NotImplementedException();
         }
 
-        internal static XmlElement CreateSeriesAndDataElement(ExcelChartEx chart)
+        internal static XmlElement CreateSeriesAndDataElement(ExcelChartEx chart, bool hasCatSerie)
         {
             XmlElement ser = CreateSeriesElement(chart, chart.ChartType, chart.Series.Count);
             ser.InnerXml = $"<cx:dataId val=\"{chart.Series.Count}\"/><cx:layoutPr/>{AddAxisReferense(chart)}";
@@ -249,7 +249,12 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             chart._chartXmlHelper.CreateNode("../cx:chartData", true);
             var dataElement = (XmlElement)chart._chartXmlHelper.CreateNode("../cx:chartData/cx:data", false, true);
             dataElement.SetAttribute("id", chart.Series.Count.ToString());
-            dataElement.InnerXml = $"<cx:strDim type=\"cat\"><cx:f></cx:f><cx:nf></cx:nf></cx:strDim><cx:numDim type=\"{GetNumType(chart.ChartType)}\"><cx:f></cx:f><cx:nf></cx:nf></cx:numDim>";
+            var innerXml = $"<cx:numDim type=\"{GetNumType(chart.ChartType)}\"><cx:f></cx:f><cx:nf></cx:nf></cx:numDim>";
+            if (hasCatSerie==true)
+            {
+                innerXml += $"<cx:strDim type=\"cat\"><cx:f></cx:f><cx:nf></cx:nf></cx:strDim>";
+            }
+            dataElement.InnerXml = innerXml;
             return ser;
         }
 

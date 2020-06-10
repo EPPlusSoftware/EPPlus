@@ -88,6 +88,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         internal ExcelWorksheet Worksheet { get; set; }
+        
         /// <summary>
         /// A reference to the drawing xml document
         /// </summary>

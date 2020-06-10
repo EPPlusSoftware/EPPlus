@@ -12,128 +12,156 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using System;
+
 namespace OfficeOpenXml.Drawing
 {
-    public partial class ExcelDrawing
+    /// <summary>
+    /// Provides a simple way to type cast drawing object top its top level class.
+    /// </summary>
+    public class ExcelDrawingAsType
     {
-
+        ExcelDrawing _drawing;
+        internal ExcelDrawingAsType(ExcelDrawing drawing)
+        {
+           _drawing = drawing;
+        }
+        /// <summary>
+        /// Converts the drawing to it's top level or other nested drawing class.        
+        /// </summary>
+        /// <typeparam name="T">The type of drawing. T must be inherited from ExcelDrawing</typeparam>
+        /// <returns>The drawing as type T</returns>
+        public T Type<T>() where T : ExcelDrawing
+        {
+            return _drawing as T;
+        }
         /// <summary>
         /// Returns the drawing as a shape. 
         /// If this drawing is not a shape, null will be returned
         /// </summary>
         /// <returns>The drawing as a shape</returns>
-        public ExcelShape AsShape()
+        public ExcelShape Shape()
         {
-            return this as ExcelShape;
+            return _drawing as ExcelShape;
         }
         /// <summary>
         /// Returns return the drawing as a picture/image. 
         /// If this drawing is not a picture, null will be returned
         /// </summary>
         /// <returns>The drawing as a picture</returns>
-        public ExcelPicture AsPicture()
+        public ExcelPicture Picture()
         {
-            return this as ExcelPicture;
+            return _drawing as ExcelPicture;
         }
         #region Standard Charts
+        /// <summary>
+        /// Returns return the drawing as a generic chart. This the base class for all charts.
+        /// If this drawing is not a chart, null will be returned
+        /// </summary>
+        /// <returns>The drawing as a chart</returns>
+        public ExcelChart Chart()
+        {
+            return _drawing as ExcelChart;
+        }
+
         /// <summary>
         /// Returns the drawing as an area chart. 
         /// If this drawing is not an area chart, null will be returned
         /// </summary>
         /// <returns>The drawing as an area chart</returns>
-        public ExcelAreaChart AsAreaChart()
+        public ExcelAreaChart AreaChart()
         {
-            return this as ExcelAreaChart;
+            return _drawing as ExcelAreaChart;
         }
         /// <summary>
         /// Returns return the drawing as a bar chart. 
         /// If this drawing is not a bar chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a bar chart</returns>
-        public ExcelBarChart AsBarChart()
+        public ExcelBarChart BarChart()
         {
-            return this as ExcelBarChart;
+            return _drawing as ExcelBarChart;
         }
         /// <summary>
         /// Returns the drawing as a bubble chart. 
         /// If this drawing is not a bubble chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a bubble chart</returns>
-        public ExcelBubbleChart AsBubbleChart()
+        public ExcelBubbleChart BubbleChart()
         {
-            return this as ExcelBubbleChart;
+            return _drawing as ExcelBubbleChart;
         }
         /// <summary>
         /// Returns return the drawing as a doughnut chart. 
         /// If this drawing is not a doughnut chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a doughnut chart</returns>
-        public ExcelDoughnutChart AsDoughnutChart()
+        public ExcelDoughnutChart DoughnutChart()
         {
-            return this as ExcelDoughnutChart;
+            return _drawing as ExcelDoughnutChart;
         }
         /// <summary>
         /// Returns the drawing as a PieOfPie or a BarOfPie chart. 
         /// If this drawing is not a PieOfPie or a BarOfPie chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a PieOfPie or a BarOfPie chart</returns>
-        public ExcelOfPieChart AsOfPieChart()
+        public ExcelOfPieChart OfPieChart()
         {
-            return this as ExcelOfPieChart;
+            return _drawing as ExcelOfPieChart;
         }
         /// <summary>
         /// Returns the drawing as a pie chart. 
         /// If this drawing is not a pie chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a pie chart</returns>
-        public ExcelPieChart AsPieChart()
+        public ExcelPieChart PieChart()
         {
-            return this as ExcelPieChart;
+            return _drawing as ExcelPieChart;
         }
         /// <summary>
         /// Returns return the drawing as a line chart. 
         /// If this drawing is not a line chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a line chart</returns>
-        public ExcelLineChart AsLineChart()
+        public ExcelLineChart LineChart()
         {
-            return this as ExcelLineChart;
+            return _drawing as ExcelLineChart;
         }
         /// <summary>
         /// Returns the drawing as a radar chart. 
         /// If this drawing is not a radar chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a radar chart</returns>
-        public ExcelRadarChart AsRadarChart()
+        public ExcelRadarChart RadarChart()
         {
-            return this as ExcelRadarChart;
+            return _drawing as ExcelRadarChart;
         }
         /// <summary>
         /// Returns the drawing as a scatter chart. 
         /// If this drawing is not a scatter chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a scatter chart</returns>
-        public ExcelScatterChart AsScatterChart()
+        public ExcelScatterChart ScatterChart()
         {
-            return this as ExcelScatterChart;
+            return _drawing as ExcelScatterChart;
         }
         /// <summary>
         /// Returns the drawing as a stock chart. 
         /// If this drawing is not a stock chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a stock chart</returns>
-        public ExcelStockChart AsStockChart()
+        public ExcelStockChart StockChart()
         {
-            return this as ExcelStockChart;
+            return _drawing as ExcelStockChart;
         }
         /// <summary>
         /// Returns the drawing as a surface chart. 
         /// If this drawing is not a surface chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a surface chart</returns>
-        public ExcelSurfaceChart AsSurfaceChart()
+        public ExcelSurfaceChart SurfaceChart()
         {
-            return this as ExcelSurfaceChart;
+            return _drawing as ExcelSurfaceChart;
         }
         #endregion
         #region ChartEx methods
@@ -142,63 +170,63 @@ namespace OfficeOpenXml.Drawing
         /// If this drawing is not a sunburst chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a sunburst chart</returns>
-        public ExcelSunburstChart AsSunburstChart()
+        public ExcelSunburstChart SunburstChart()
         {
-            return this as ExcelSunburstChart;
+            return _drawing as ExcelSunburstChart;
         }
         /// <summary>
         /// Returns return the drawing as a treemap chart. 
         /// If this drawing is not a treemap chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a treemap chart</returns>
-        public ExcelTreemapChart AsTreemapChart()
+        public ExcelTreemapChart TreemapChart()
         {
-            return this as ExcelTreemapChart;
+            return _drawing as ExcelTreemapChart;
         }
         /// <summary>
         /// Returns return the drawing as a boxwhisker chart. 
         /// If this drawing is not a boxwhisker chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a boxwhisker chart</returns>
-        public ExcelBoxWhiskerChart AsBoxWhiskerChart()
+        public ExcelBoxWhiskerChart BoxWhiskerChart()
         {
-            return this as ExcelBoxWhiskerChart;
+            return _drawing as ExcelBoxWhiskerChart;
         }
         /// <summary>
         /// Returns return the drawing as a histogram chart. 
         /// If this drawing is not a histogram chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a histogram Chart</returns>
-        public ExcelHistogramChart AsHistogramChart()
+        public ExcelHistogramChart HistogramChart()
         {
-            return this as ExcelHistogramChart;
+            return _drawing as ExcelHistogramChart;
         }
         /// <summary>
         /// Returns return the drawing as a funnel chart. 
         /// If this drawing is not a funnel chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a funnel Chart</returns>
-        public ExcelFunnelChart AsFunnelChart()
+        public ExcelFunnelChart FunnelChart()
         {
-            return this as ExcelFunnelChart;
+            return _drawing as ExcelFunnelChart;
         }
         /// <summary>
         /// Returns the drawing as a waterfall chart. 
         /// If this drawing is not a waterfall chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a waterfall chart</returns>
-        public ExcelWaterfallChart AsWaterfallChart()
+        public ExcelWaterfallChart WaterfallChart()
         {
-            return this as ExcelWaterfallChart;
+            return _drawing as ExcelWaterfallChart;
         }
         /// <summary>
         /// Returns the drawing as a region map chart. 
         /// If this drawing is not a region map chart, null will be returned
         /// </summary>
         /// <returns>The drawing as a region map chart</returns>
-        public ExcelRegionMapChart AsRegionMapChart()
+        public ExcelRegionMapChart RegionMapChart()
         {
-            return this as ExcelRegionMapChart;
+            return _drawing as ExcelRegionMapChart;
         }
         #endregion
     }

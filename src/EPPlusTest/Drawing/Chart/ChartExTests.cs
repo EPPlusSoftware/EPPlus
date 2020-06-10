@@ -81,6 +81,7 @@ namespace EPPlusTest.Drawing.Chart
             dp.Fill.PatternFill.ForegroundColor.SetRgbColor(Color.DarkGray);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.SunburstChartStyle7);
 
+            Assert.AreEqual(eDrawingType.Chart, chart.DrawingType);
             Assert.IsInstanceOfType(chart, typeof(ExcelSunburstChart));
             Assert.AreEqual(0, chart.Axis.Length);
             Assert.IsNull(chart.XAxis);

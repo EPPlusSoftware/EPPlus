@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return _list.Count;
+                return _list?.Count ?? 0;
             }
         }
         /// <summary>
@@ -214,7 +214,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 throw (new InvalidOperationException("Can't add a serie to a pivotchart"));
             }
-            return AddSeries(Serie.FullAddressAbsolute, XSerie.FullAddressAbsolute, "");
+            return AddSeries(Serie.FullAddressAbsolute, XSerie?.FullAddressAbsolute, "");
         }
         /// <summary>
         /// Add a new serie to the chart.Do not apply to pivotcharts.
@@ -246,7 +246,7 @@ namespace OfficeOpenXml.Drawing.Chart
             XmlElement serElement;
             if (_chart._isChartEx)
             {
-                serElement = ExcelChartExSerie.CreateSeriesAndDataElement((ExcelChartEx)_chart);
+                serElement = ExcelChartExSerie.CreateSeriesAndDataElement((ExcelChartEx)_chart, !string.IsNullOrEmpty(XSerieAddress));
             }
             else
             {
@@ -389,7 +389,10 @@ namespace OfficeOpenXml.Drawing.Chart
                     break;
             }
             serie.Series = SerieAddress;
-            serie.XSeries = XSerieAddress;
+            if (!string.IsNullOrEmpty(XSerieAddress))
+            {
+                serie.XSeries = XSerieAddress;
+            }
             _list.Add((T)serie);
             if (_chart.StyleManager.StylePart != null && _chart._isChartEx == false)
             {

@@ -164,6 +164,17 @@ namespace OfficeOpenXml.Drawing.Chart
         /// </summary>
         public XmlDocument ChartXml { get; internal set; }
         /// <summary>
+        /// The type of drawing
+        /// </summary>
+        public override eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.Chart;
+            }
+        }
+
+        /// <summary>
         /// Type of chart
         /// </summary>
         public eChartType ChartType { get; internal set; }

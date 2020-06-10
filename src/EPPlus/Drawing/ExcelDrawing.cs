@@ -23,6 +23,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.Drawing
     /// Base class for drawings. 
     /// Drawings are Charts, Shapes and Pictures.
     /// </summary>
-    public partial class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
+    public class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
     {
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
@@ -49,11 +50,11 @@ namespace OfficeOpenXml.Drawing
         public const int EMU_PER_CM = 360000;
         public const int EMU_PER_US_INCH = 914400;
 
-        internal double _width = double.MinValue, _height = double.MinValue, _top= double.MinValue, _left= double.MinValue;
-        internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill","grpFill","blipFill","ln","effectLst","effectDag","scene3d","sp3d" };
+        internal double _width = double.MinValue, _height = double.MinValue, _top = double.MinValue, _left = double.MinValue;
+        internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill", "grpFill", "blipFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d" };
 
         internal protected bool _doNotAdjust = false;
-        internal ExcelDrawing(ExcelDrawings drawings, XmlNode node,string topPath, string nvPrPath, ExcelGroupShape parent=null) :
+        internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null) :
             base(drawings.NameSpaceManager, node)
         {
             _drawings = drawings;
@@ -63,7 +64,7 @@ namespace OfficeOpenXml.Drawing
                 _topNode = node;
                 _id = drawings.Worksheet.Workbook._nextDrawingID++;
                 AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "nvSpPr", "nvCxnSpPr", "spPr", "style", "clientData" }, _schemaNodeOrderSpPr);
-                if(_parent==null)
+                if (_parent == null)
                 {
                     _topPath = topPath;
                     _nvPrPath = _topPath + "/" + nvPrPath;
@@ -143,7 +144,7 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.OneCell)
             {
                 var dpi = STANDARD_DPI;
-                if(this is ExcelPicture pic)
+                if (this is ExcelPicture pic)
                 {
                     dpi = pic.Image.HorizontalResolution;
                 }
@@ -173,8 +174,8 @@ namespace OfficeOpenXml.Drawing
                 return ((From.Row > rowFrom - 1 || (From.Row == rowFrom - 1 && From.RowOff == 0)) && (row <= rowTo));
             }
             else if (CellAnchor == eEditAs.TwoCell)
-            {               
-                return((From.Row > rowFrom - 1 || (From.Row == rowFrom - 1 && From.RowOff == 0)) && (To.Row <= rowTo));
+            {
+                return ((From.Row > rowFrom - 1 || (From.Row == rowFrom - 1 && From.RowOff == 0)) && (To.Row <= rowTo));
             }
             else
             {
@@ -184,7 +185,7 @@ namespace OfficeOpenXml.Drawing
 
         internal static eEditAs GetAnchoreFromName(string topElementName)
         {
-            switch(topElementName)
+            switch (topElementName)
             {
                 case "oneCellAnchor":
                     return eEditAs.OneCell;
@@ -192,6 +193,16 @@ namespace OfficeOpenXml.Drawing
                     return eEditAs.Absolute;
                 default:
                     return eEditAs.TwoCell;
+            }
+        }
+        /// <summary>
+        /// The type of drawing
+        /// </summary>
+        public virtual eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.Drawing;
             }
         }
         /// <summary>
@@ -398,6 +409,21 @@ namespace OfficeOpenXml.Drawing
                     }
                 }
                 _hyperLink = value;
+            }
+        }
+        ExcelDrawingAsType _as = null;
+        /// <summary>
+        /// Provides access to type conversion for all top-level drawing classes.
+        /// </summary>
+        public ExcelDrawingAsType As
+        {
+            get
+            {
+                if (_as == null)
+                {
+                    _as = new ExcelDrawingAsType(this);
+                }
+                return _as;
             }
         }
         internal Packaging.ZipPackageRelationship HypRel { get; set; }

@@ -59,6 +59,7 @@ namespace EPPlusTest.Drawing.Chart
             LoadTestdata(ws);
 
             var chart = ws.Drawings.AddLineChart("LineChart1", eLineChartType.Line);
+            Assert.AreEqual(eDrawingType.Chart, chart.DrawingType);
             var serie = chart.Series.Add("D2:D100", "A2:A100");
             serie.AddErrorBars(eErrorBarType.Both, eErrorValueType.StandardDeviation);
             serie.ErrorBars.Direction = eErrorBarDirection.Y;
