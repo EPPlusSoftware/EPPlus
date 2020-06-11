@@ -77,52 +77,59 @@ namespace OfficeOpenXml.ConditionalFormatting
                 CreateComplexNode(
                   TopNode,
                   ExcelConditionalFormattingConstants.Paths.ColorScale);
-
-                // LowValue default
-                LowValue = new ExcelConditionalFormattingColorScaleValue(
-                  eExcelConditionalFormattingValueObjectPosition.Low,
-                  eExcelConditionalFormattingValueObjectType.Min,
-                  ExcelConditionalFormattingConstants.Colors.CfvoLowValue,
-                  eExcelConditionalFormattingRuleType.ThreeColorScale,
-                  address,
-                  priority,
-                  worksheet,
-                  NameSpaceManager);
-
-                // MiddleValue default
-                MiddleValue = new ExcelConditionalFormattingColorScaleValue(
-                  eExcelConditionalFormattingValueObjectPosition.Middle,
-                  eExcelConditionalFormattingValueObjectType.Percent,
-                  ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
-                  50,
-                  string.Empty,
-                  eExcelConditionalFormattingRuleType.ThreeColorScale,
-                  address,
-                  priority,
-                  worksheet,
-                  NameSpaceManager);
-
-                // HighValue default
-                HighValue = new ExcelConditionalFormattingColorScaleValue(
-                  eExcelConditionalFormattingValueObjectPosition.High,
-                  eExcelConditionalFormattingValueObjectType.Max,
-                  ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
-                  eExcelConditionalFormattingRuleType.ThreeColorScale,
-                  address,
-                  priority,
-                  worksheet,
-                  NameSpaceManager);
             }
-    }
+            else
+            {
+                itemElementNode=itemElementNode.ChildNodes[0];
+            }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingThreeColorScale(
+            // LowValue default
+            LowValue = new ExcelConditionalFormattingColorScaleValue(
+              eExcelConditionalFormattingValueObjectPosition.Low,
+              eExcelConditionalFormattingValueObjectType.Min,
+              ExcelConditionalFormattingConstants.Colors.CfvoLowValue,
+              eExcelConditionalFormattingRuleType.ThreeColorScale,
+              address,
+              priority,
+              worksheet,
+              itemElementNode,
+              NameSpaceManager);
+
+            // MiddleValue default
+            MiddleValue = new ExcelConditionalFormattingColorScaleValue(
+              eExcelConditionalFormattingValueObjectPosition.Middle,
+              eExcelConditionalFormattingValueObjectType.Percent,
+              ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
+              50,
+              string.Empty,
+              eExcelConditionalFormattingRuleType.ThreeColorScale,
+              address,
+              priority,
+              worksheet,
+              itemElementNode,
+              NameSpaceManager);
+
+            // HighValue default
+            HighValue = new ExcelConditionalFormattingColorScaleValue(
+              eExcelConditionalFormattingValueObjectPosition.High,
+              eExcelConditionalFormattingValueObjectType.Max,
+              ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
+              eExcelConditionalFormattingRuleType.ThreeColorScale,
+              address,
+              priority,
+              worksheet,
+              itemElementNode,
+              NameSpaceManager);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <param name="address"></param>
+        /// <param name="worksheet"></param>
+        /// <param name="itemElementNode"></param>
+        internal ExcelConditionalFormattingThreeColorScale(
       ExcelAddress address,
       int priority,
       ExcelWorksheet worksheet,

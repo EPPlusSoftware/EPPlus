@@ -49,6 +49,8 @@ using OfficeOpenXml.FormulaParsing;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace EPPlusTest
 {
@@ -1277,6 +1279,13 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        
+        [TestMethod]
+        public void Issue121()
+        {
+            using (var p=OpenTemplatePackage("Deployment aftaler.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+            }
+        }
     }
 }
