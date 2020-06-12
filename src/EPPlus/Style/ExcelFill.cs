@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Style
             base(styles, ChangedEvent, PositionID, address)
 
         {
-            Index = index;
+            Index = (index == int.MinValue ? 0 : index);
         }
         /// <summary>
         /// The pattern for solid fills.
