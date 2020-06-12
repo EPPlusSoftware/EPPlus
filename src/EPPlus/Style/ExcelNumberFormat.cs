@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Style
         internal ExcelNumberFormat(ExcelStyles styles, OfficeOpenXml.XmlHelper.ChangedEventHandler ChangedEvent, int PositionID, string Address, int index) :
             base(styles, ChangedEvent, PositionID, Address)
         {
-            Index = (index == int.MinValue ? 0 : index);
+            Index = index;
         }
         /// <summary>
         /// The numeric index fror the format

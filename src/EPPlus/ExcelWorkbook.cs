@@ -24,6 +24,7 @@ using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml
 {
@@ -413,9 +414,10 @@ namespace OfficeOpenXml
                 var ix = Styles.NamedStyles.FindIndexByID("Normal");
                 if (ix >= 0)
                 {
-                    if (_standardFontWidth == decimal.MinValue || _fontID != Styles.NamedStyles[ix].Style.Font.Id)
+					var font = Styles.NamedStyles[ix].Style.Font;
+					if (font.Index == int.MinValue) font.Index=0;
+					if (_standardFontWidth == decimal.MinValue || _fontID != font.Id)
 				    {
-                        var font = Styles.NamedStyles[ix].Style.Font;
                         try
                         {
                             _standardFontWidth = GetWidthPixels(font.Name, font.Size);

@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Style
         internal Border(ExcelStyles styles, OfficeOpenXml.XmlHelper.ChangedEventHandler ChangedEvent, int PositionID, string address, int index) :
             base(styles, ChangedEvent, PositionID, address)
 	    {
-            Index = (index == int.MinValue ? 0 : index);
+            Index = index;
         }
         /// <summary>
         /// Left border style
