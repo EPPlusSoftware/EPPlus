@@ -148,5 +148,21 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             return _list.GetEnumerator();
         }
+
+        internal ExcelChartExData GetValueDimension()
+        {
+            foreach(var d in _list)
+            {
+                if(d is ExcelChartExStringData s)
+                {
+                    if (s.Type != eStringDataType.Category) return d;
+                }
+                else if(d is ExcelChartExNumericData n)
+                {
+                    return n;
+                }
+            }
+            return null;
+        }
     }
 }

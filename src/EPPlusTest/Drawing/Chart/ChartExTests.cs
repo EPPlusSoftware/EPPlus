@@ -68,7 +68,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("Sunburst");
             LoadHierarkiTestData(ws);
             var chart = ws.Drawings.AddExtendedChart("Sunburst1", eChartExType.Sunburst);
-            var serie = chart.Series.Add("Sunburst!$A$2:$C$17", "Sunburst!$D$2:$D$17");
+            var serie = chart.Series.Add("Sunburst!$D$2:$D$17", "Sunburst!$A$2:$C$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             serie.DataLabel.Position = eLabelPosition.Center;   
@@ -85,15 +85,14 @@ namespace EPPlusTest.Drawing.Chart
             Assert.IsInstanceOfType(chart, typeof(ExcelSunburstChart));
             Assert.AreEqual(0, chart.Axis.Length);
             Assert.IsNull(chart.XAxis);
-            Assert.IsNull(chart.YAxis);
-            
+            Assert.IsNull(chart.YAxis);            
         }
         [TestMethod]
         public void AddSunburstChartSheet()
         {
             var ws = _pck.Workbook.Worksheets.AddChart("SunburstSheet", eChartType.Sunburst);
             var chart = (ExcelSunburstChart)ws.Chart;
-            var serie = chart.Series.Add("Sunburst!$A$2:$C$17", "Sunburst!$D$2:$D$17");
+            var serie = chart.Series.Add("Sunburst!$D$2:$D$17", "Sunburst!$A$2:$C$17");
             serie.DataLabel.Position = eLabelPosition.Center;
             serie.DataLabel.ShowCategory = true;
             serie.DataLabel.ShowValue = true;
@@ -117,7 +116,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("Treemap");
             LoadHierarkiTestData(ws);
             var chart = ws.Drawings.AddExtendedChart("Treemap", eChartExType.Treemap);
-            var serie = chart.Series.Add("Treemap!$A$2:$C$17", "Treemap!$D$2:$D$17");
+            var serie = chart.Series.Add("Treemap!$D$2:$D$17", "Treemap!$A$2:$C$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             serie.DataLabel.Position = eLabelPosition.Center;
@@ -133,7 +132,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("BoxWhisker");    
             LoadHierarkiTestData(ws);
             var chart = ws.Drawings.AddBoxWhiskerChart("BoxWhisker");
-            var serie = chart.Series.Add("BoxWhisker!$A$2:$C$17", "BoxWhisker!$D$2:$D$17");
+            var serie = chart.Series.Add("BoxWhisker!$D$2:$D$17", "BoxWhisker!$A$2:$C$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             chart.StyleManager.SetChartStyle(ePresetChartStyle.BoxWhiskerChartStyle3);
@@ -156,7 +155,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("Histogram");
             LoadHierarkiTestData(ws);
             var chart = ws.Drawings.AddHistogramChart("Histogram");
-            var serie = chart.Series.Add("Histogram!$A$2:$C$17", "Histogram!$D$2:$D$17");
+            var serie = chart.Series.Add("Histogram!$D$2:$D$17", "Histogram!$A$2:$C$17");
             serie.Binning.Underflow = 1;
             serie.Binning.OverflowAutomatic = true;
             serie.Binning.Count = 3;
@@ -172,7 +171,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("Pareto");
             LoadHierarkiTestData(ws);
             var chart = ws.Drawings.AddHistogramChart("Pareto", true);
-            var serie = chart.Series.Add("Pareto!$A$2:$C$17", "Pareto!$D$2:$D$17");
+            var serie = chart.Series.Add("Pareto!$D$2:$D$17", "Pareto!$A$2:$C$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
 
@@ -190,7 +189,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("Waterfall");
             LoadHierarkiTestData(ws);
             var chart = ws.Drawings.AddWaterfallChart("Waterfall");
-            var serie = chart.Series.Add("Waterfall!$A$2:$C$17", "Waterfall!$D$2:$D$17");
+            var serie = chart.Series.Add("Waterfall!$D$2:$D$17", "Waterfall!$A$2:$C$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
             var dt = chart.Series[0].DataPoints.Add(15);
@@ -229,7 +228,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("Funnel");
             LoadHierarkiTestData(ws);
             var chart = ws.Drawings.AddFunnelChart("Funnel");
-            var serie = chart.Series.Add("Funnel!$A$2:$C$17", "Funnel!$D$2:$D$17");
+            var serie = chart.Series.Add("Funnel!$D$2:$D$17", "Funnel!$A$2:$C$17");
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
         }
@@ -239,7 +238,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = _pck.Workbook.Worksheets.Add("RegionMap");
             LoadGeoTestData(ws);
             var chart = ws.Drawings.AddRegionMapChart("RegionMap");
-            var serie = chart.Series.Add("RegionMap!$A$2:$B$11", "RegionMap!$C$2:$C$11");
+            var serie = chart.Series.Add("RegionMap!$C$2:$C$11", "RegionMap!$A$2:$B$11");
             serie.HeaderAddress = ws.Cells["$A$1"];
             serie.DataDimensions[0].NameFormula = "$A$1:$B$1";
             serie.DataDimensions[1].NameFormula = "$C$1";
@@ -264,6 +263,9 @@ namespace EPPlusTest.Drawing.Chart
             chart.Title.Text = "Sweden Region Map";
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
+
+            Assert.AreEqual("RegionMap!$A$2:$B$11", serie.XSeries);
+            Assert.AreEqual("RegionMap!$C$2:$C$11", serie.Series);
 
             Assert.AreEqual("sv", serie.Region.TwoLetterISOLanguageName);
             Assert.AreEqual("sv-SE", serie.Language.Name);

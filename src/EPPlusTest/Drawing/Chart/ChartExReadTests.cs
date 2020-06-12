@@ -36,8 +36,8 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings[0].As.SunburstChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
-            Assert.AreEqual("Sunburst!$A$2:$C$17", serie.Series);
-            Assert.AreEqual("Sunburst!$D$2:$D$17", serie.XSeries);
+            Assert.AreEqual("Sunburst!$D$2:$D$17", serie.Series);
+            Assert.AreEqual("Sunburst!$A$2:$C$17", serie.XSeries);
             Assert.IsNotNull(serie.DataLabel);
             Assert.AreEqual(eLabelPosition.Center, serie.DataLabel.Position);
             Assert.IsTrue(serie.DataLabel.ShowCategory);
@@ -65,8 +65,8 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings[0].As.TreemapChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
-            Assert.AreEqual("Treemap!$A$2:$C$17", serie.Series);
-            Assert.AreEqual("Treemap!$D$2:$D$17", serie.XSeries);
+            Assert.AreEqual("Treemap!$D$2:$D$17", serie.Series);
+            Assert.AreEqual("Treemap!$A$2:$C$17", serie.XSeries);
             Assert.IsNotNull(serie.DataLabel);
             Assert.AreEqual(eLabelPosition.Center, serie.DataLabel.Position);
             Assert.IsTrue(serie.DataLabel.ShowCategory);
@@ -84,8 +84,8 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings[0].As.BoxWhiskerChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
-            Assert.AreEqual("BoxWhisker!$A$2:$C$17", serie.Series);
-            Assert.AreEqual("BoxWhisker!$D$2:$D$17", serie.XSeries);
+            Assert.AreEqual("BoxWhisker!$D$2:$D$17", serie.Series);
+            Assert.AreEqual("BoxWhisker!$A$2:$C$17", serie.XSeries);
 
             Assert.AreEqual(((int)ePresetChartStyle.BoxWhiskerChartStyle3), chart.StyleManager.Style.Id);
 
@@ -109,8 +109,8 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings[0].As.HistogramChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
-            Assert.AreEqual("Histogram!$A$2:$C$17", serie.Series);
-            Assert.AreEqual("Histogram!$D$2:$D$17", serie.XSeries);
+            Assert.AreEqual("Histogram!$D$2:$D$17", serie.Series);
+            Assert.AreEqual("Histogram!$A$2:$C$17", serie.XSeries);
             Assert.AreEqual(1, serie.Binning.Underflow);
             Assert.IsTrue(serie.Binning.OverflowAutomatic);
             Assert.AreEqual(3, serie.Binning.Count);
@@ -126,8 +126,8 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings[0].As.Type<ExcelHistogramChart>();
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
-            Assert.AreEqual("Pareto!$A$2:$C$17", serie.Series);
-            Assert.AreEqual("Pareto!$D$2:$D$17", serie.XSeries);
+            Assert.AreEqual("Pareto!$D$2:$D$17", serie.Series);
+            Assert.AreEqual("Pareto!$A$2:$C$17", serie.XSeries);
 
             Assert.IsInstanceOfType(chart, typeof(ExcelHistogramChart));
             Assert.IsNotNull(serie.ParetoLine);
@@ -150,8 +150,8 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings[0].As.WaterfallChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
-            Assert.AreEqual("Waterfall!$A$2:$C$17", serie.Series);
-            Assert.AreEqual("Waterfall!$D$2:$D$17", serie.XSeries);
+            Assert.AreEqual("Waterfall!$D$2:$D$17", serie.Series);
+            Assert.AreEqual("Waterfall!$A$2:$C$17", serie.XSeries);
 
             Assert.AreEqual(4, serie.DataPoints.Count);
             var dt = serie.DataPoints[15];
@@ -186,8 +186,8 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings[0].As.FunnelChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
-            Assert.AreEqual("Funnel!$A$2:$C$17", serie.Series);
-            Assert.AreEqual("Funnel!$D$2:$D$17", serie.XSeries);
+            Assert.AreEqual("Funnel!$D$2:$D$17", serie.Series);
+            Assert.AreEqual("Funnel!$A$2:$C$17", serie.XSeries);
             
             Assert.AreEqual(((int)ePresetChartStyle.FunnelChartStyle1), chart.StyleManager.Style.Id);
             Assert.IsInstanceOfType(chart, typeof(ExcelFunnelChart));
@@ -204,8 +204,8 @@ namespace EPPlusTest.Drawing.Chart
             Assert.AreEqual("RegionMap!$C$2:$C$11", serie.Series);
 
             Assert.AreEqual("RegionMap!$A$1", serie.HeaderAddress.Address);
-            Assert.AreEqual("RegionMap!$A$1:$B$1", serie.DataDimensions[1].NameFormula);
-            Assert.AreEqual("RegionMap!$C$1", serie.DataDimensions[0].NameFormula);
+            Assert.AreEqual("RegionMap!$A$1:$B$1", serie.DataDimensions[0].NameFormula);
+            Assert.AreEqual("RegionMap!$C$1", serie.DataDimensions[1].NameFormula);
             Assert.IsInstanceOfType(serie.DataDimensions[1], typeof(ExcelChartExStringData));
             Assert.AreEqual(eStringDataType.ColorString, ((ExcelChartExStringData)serie.DataDimensions[1]).Type);
 

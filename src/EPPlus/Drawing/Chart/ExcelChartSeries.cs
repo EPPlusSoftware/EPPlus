@@ -201,9 +201,35 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         #region "Add Series"
+        /// <summary>
+        /// Adds a new serie to the chart. Do not apply to pivotcharts.
+        /// </summary>
+        /// <param name="Serie">The value serie range</param>
+        /// <returns>The serie</returns>
+        public virtual T Add(ExcelRangeBase Serie)
+        {
+            if (_chart.PivotTableSource != null)
+            {
+                throw (new InvalidOperationException("Can't add a serie to a pivotchart"));
+            }
+            return AddSeries(Serie.FullAddressAbsolute, null, "");
+        }
+        /// <summary>
+        /// Adds a new serie to the chart. Do not apply to pivotcharts.
+        /// </summary>
+        /// <param name="Serie">The value serie range</param>
+        /// <returns>The serie</returns>
+        public virtual T Add(string Serie)
+        {
+            if (_chart.PivotTableSource != null)
+            {
+                throw (new InvalidOperationException("Can't add a serie to a pivotchart"));
+            }
+            return AddSeries(Serie, null, "");
+        }
 
         /// <summary>
-        /// Add a new serie to the chart. Do not apply to pivotcharts.
+        /// Adds a new serie to the chart. Do not apply to pivotcharts.
         /// </summary>
         /// <param name="Serie">The Y-Axis range</param>
         /// <param name="XSerie">The X-Axis range</param>
@@ -217,7 +243,7 @@ namespace OfficeOpenXml.Drawing.Chart
             return AddSeries(Serie.FullAddressAbsolute, XSerie?.FullAddressAbsolute, "");
         }
         /// <summary>
-        /// Add a new serie to the chart.Do not apply to pivotcharts.
+        /// Adds a new serie to the chart.Do not apply to pivotcharts.
         /// </summary>
         /// <param name="SerieAddress">The Y-Axis range</param>
         /// <param name="XSerieAddress">The X-Axis range</param>
