@@ -52,18 +52,24 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             try
             {
-                var function = _parsingContext.Configuration.FunctionRepository.GetFunction(ExpressionString);
+                var funcName = ExpressionString;
+
+                // older versions of Excel (pre 2007) adds "_xlfn." in front of some function names for compatibility reasons.
+                // EPPlus implements most of these functions, so we just remove this.
+                if (funcName.StartsWith("_xlfn.")) funcName.Replace("_xlfn.", string.Empty);
+
+                var function = _parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
                 if (function == null)
                 {
                     if (_parsingContext.Debug)
                     {
-                        _parsingContext.Configuration.Logger.Log(_parsingContext, string.Format("'{0}' is not a supported function", ExpressionString));
+                        _parsingContext.Configuration.Logger.Log(_parsingContext, string.Format("'{0}' is not a supported function", funcName));
                     }
                     return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
                 }
                 if (_parsingContext.Debug)
                 {
-                    _parsingContext.Configuration.Logger.LogFunction(ExpressionString);
+                    _parsingContext.Configuration.Logger.LogFunction(funcName);
                 }
                 var compiler = _functionCompilerFactory.Create(function);
                 var result = compiler.Compile(HasChildren ? Children : Enumerable.Empty<Expression>());
@@ -74,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                         if (_parsingContext.Debug)
                         {
                             var msg = string.Format("Trying to negate a non-numeric value ({0}) in function '{1}'",
-                                result.Result, ExpressionString);
+                                result.Result, funcName);
                             _parsingContext.Configuration.Logger.Log(_parsingContext, msg);
                         }
                         return new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
