@@ -1258,5 +1258,19 @@ namespace EPPlusTest
                 SaveWorkbook("Issue99-2Saved.xlsx", p);
             }
         }
+
+        [TestMethod]
+        public void SupportCase17()
+        {
+            using(var p = new ExcelPackage(new FileInfo(@"c:\temp\Issue17\BreakLinks3.xlsx")))
+            {
+                var stopwatch = Stopwatch.StartNew();
+                p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulalog.txt"));
+                p.Workbook.Calculate();
+                stopwatch.Stop();
+                var ms = stopwatch.Elapsed.TotalSeconds;
+
+            }
+        }
     }
 }

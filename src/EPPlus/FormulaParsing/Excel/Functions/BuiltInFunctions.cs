@@ -139,6 +139,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["rank"] = new Rank();
             Functions["rank.eq"] = new Rank();
             Functions["rank.avg"] = new Rank(true);
+            Functions["percentrank"] = new Percentrank();
+            Functions["percentrank.inc"] = new PercentrankInc();
             Functions["quotient"] = new Quotient();
             Functions["trunc"] = new Trunc();
             Functions["tan"] = new Tan();
