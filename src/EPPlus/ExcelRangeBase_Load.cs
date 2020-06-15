@@ -451,7 +451,7 @@ namespace OfficeOpenXml
             string[] lines;
             if (Format.TextQualifier == 0)
             {
-                lines = Regex.Split(Text, Format.EOL);
+                lines = SplitLines(Text, Format.EOL);
             }
             else
             {
@@ -545,6 +545,17 @@ namespace OfficeOpenXml
                 return null;
             }
             return _worksheet.Cells[_fromRow, _fromCol, _fromRow + row - 1, _fromCol + maxCol];
+        }
+
+        private string[] SplitLines(string text, string EOL)
+        {
+            var lines=Regex.Split(text, EOL);
+            for(int i=0;i<lines.Length;i++)
+            {
+                if (EOL == "\n" && lines[i].EndsWith("\r")) lines[i] = lines[i].Substring(0, lines[i].Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
+                if (EOL == "\r" && lines[i].StartsWith("\n")) lines[i] = lines[i].Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
+            }
+            return lines;
         }
 
         private string[] GetLines(string text, ExcelTextFormat Format)
