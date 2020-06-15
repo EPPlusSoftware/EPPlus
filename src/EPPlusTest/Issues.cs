@@ -1287,5 +1287,14 @@ namespace EPPlusTest
                 var sheet = p.Workbook.Worksheets[0];
             }
         }
+        [TestMethod]
+        public void Issue17()
+        {
+            using (var p = OpenTemplatePackage("Excel Sample Circular Ref break links.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                sheet.Calculate();
+            }
+        }
     }
 }

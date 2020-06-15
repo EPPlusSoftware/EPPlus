@@ -1023,7 +1023,6 @@ namespace OfficeOpenXml.Drawing
                 serNode.ParentNode.RemoveChild(serNode);
             }
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell);
-            //ExcelChart chart = ExcelChart.CreateChartFromXml(this, drawNode, chartXml);            
             var chartType = ExcelChart.GetChartTypeFromNodeName(GetChartNodeName(chartXmlHelper));
             var chart = ExcelChart.GetNewChart(this, drawNode, chartType, null, pivotTableSource, chartXml);
             

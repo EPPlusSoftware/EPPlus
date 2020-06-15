@@ -981,7 +981,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
 
             foreach (var themeRel in partToCopy.GetRelationships())
             {
-                var uri = OfficeOpenXml.Utils.UriHelper.ResolvePartUri(new Uri("xl/chart/theme1.xml", UriKind.Relative), themeRel.TargetUri);
+                var uri = OfficeOpenXml.Utils.UriHelper.ResolvePartUri(new Uri("/xl/chart/theme1.xml", UriKind.Relative), themeRel.TargetUri);
                 var toPart = _chart.Part.Package.CreatePart(uri, PictureStore.GetContentType(uri.OriginalString));                
                 var imageRel = ThemeOverridePart.CreateRelationship(uri, TargetMode.Internal, themeRel.RelationshipType);
                 SetRelIdInThemeDoc(ThemeOverrideXml, themeRel.Id, imageRel.Id);

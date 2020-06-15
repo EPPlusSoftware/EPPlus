@@ -215,9 +215,9 @@ namespace OfficeOpenXml.Utils
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="t"></param>
-        /// <param name="encodeTabCRLF"></param>
+        /// <param name="encodeTabLF"></param>
         /// <returns></returns>
-        internal static void ExcelEncodeString(StringBuilder sb, string t, bool encodeTabCRLF=false)
+        internal static void ExcelEncodeString(StringBuilder sb, string t, bool encodeTabLF=false)
         {
             if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
             {
@@ -232,7 +232,7 @@ namespace OfficeOpenXml.Utils
             }
             for (int i = 0; i < t.Length; i++)
             {
-                if (t[i] <= 0x1f && ((t[i] != '\t' && t[i] != '\n' && t[i] != '\r' && encodeTabCRLF == false) || encodeTabCRLF)) //Not Tab, CR or LF
+                if (t[i] <= 0x1f && ((t[i] != '\n' && encodeTabLF == false) || encodeTabLF)) //Not Tab, CR or LF
                 {
                     sb.AppendFormat("_x00{0}_", (t[i] <= 0xf ? "0" : "") + ((int)t[i]).ToString("X"));
                 }

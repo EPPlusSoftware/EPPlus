@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             var borderItem = new ExcelBorderItemXml(NameSpaceManager);
             borderItem.Style = _borderStyle;
-            borderItem.Color = Exists ? _color.Copy() : null;
+            borderItem.Color = _color==null ? new ExcelColorXml(NameSpaceManager) { Auto = true } : _color.Copy();
             return borderItem;
         }
 
