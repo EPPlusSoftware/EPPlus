@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "4",
         Description = "Returns the statistical rank of a given value, within a supplied array of values")]
-    internal class Rank : ExcelFunction
+    internal class Rank : RankFunctionBase
     {
         public Rank()
             : this(false)
@@ -59,22 +59,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return CreateResult(rank, DataType.Decimal);
         }
 
-        private static List<double> GetNumbersFromRange(FunctionArgument refArg, bool sortAscending)
-        {
-            var numbers = new List<double>();
-            foreach (var cell in refArg.ValueAsRangeInfo)
-            {
-                var cellValue = Utils.ConvertUtil.GetValueDouble(cell.Value, false, true);
-                if (!double.IsNaN(cellValue))
-                {
-                    numbers.Add(cellValue);
-                }
-            }
-            if (sortAscending)
-                numbers.Sort();
-            else
-                numbers.Sort((x, y) => y.CompareTo(x));
-            return numbers;
-        }
+        
     }
 }
