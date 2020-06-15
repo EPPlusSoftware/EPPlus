@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipeline;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
@@ -56,16 +57,21 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
                 // older versions of Excel (pre 2007) adds "_xlfn." in front of some function names for compatibility reasons.
                 // EPPlus implements most of these functions, so we just remove this.
-                if (funcName.StartsWith("_xlfn.")) funcName.Replace("_xlfn.", string.Empty);
+                if (funcName.StartsWith("_xlfn.")) funcName = funcName.Replace("_xlfn.", string.Empty);
 
                 var function = _parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
                 if (function == null)
                 {
-                    if (_parsingContext.Debug)
+                    var pipeline = new FunctionsPipeline();
+                    function = pipeline.FindFunction(funcName);
+                    if(function == null)
                     {
-                        _parsingContext.Configuration.Logger.Log(_parsingContext, string.Format("'{0}' is not a supported function", funcName));
+                        if (_parsingContext.Debug)
+                        {
+                            _parsingContext.Configuration.Logger.Log(_parsingContext, string.Format("'{0}' is not a supported function", funcName));
+                        }
+                        return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
                     }
-                    return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
                 }
                 if (_parsingContext.Debug)
                 {
