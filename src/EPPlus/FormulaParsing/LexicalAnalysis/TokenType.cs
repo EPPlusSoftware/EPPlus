@@ -90,7 +90,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <summary>
         /// The parsed token represents a boolean value
         /// </summary>
-        Boolean = 65536,
+        Boolean = 65536,    //16
         /// <summary>
         /// The parsed token represents a decimal value
         /// </summary>
@@ -138,6 +138,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <summary>
         /// The parsed token represents a circular reference
         /// </summary>
-        CircularReference = 268435456
+        CircularReference = 268435456,
+        /// <summary>
+        /// The parsed token represents a colon (address separator). Used for handling the offset function adress handling
+        /// </summary>
+        Colon = 1 << 29 //Bit 29, 536870912? 
     }
 }

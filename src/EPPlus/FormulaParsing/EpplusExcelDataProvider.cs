@@ -136,6 +136,7 @@ namespace OfficeOpenXml.FormulaParsing
 
             public void Reset()
             {
+                _cellCount = 0;
                 _values.Init();
             }
 
