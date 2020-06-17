@@ -1310,5 +1310,16 @@ namespace EPPlusTest
                 p.Workbook.Calculate();
             }
         }
+        [TestMethod]
+        public void Issue18()
+        {
+            using (var p = OpenTemplatePackage("000P020-SQ101_H0.xlsm"))
+            {
+                p.Workbook.Worksheets.Delete(0);
+                p.Workbook.Worksheets.Delete(2);
+                p.Workbook.Calculate();
+                SaveWorkbook("null_issue_vba.xlsm", p);
+            }
+        }
     }
 }

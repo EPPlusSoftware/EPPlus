@@ -948,12 +948,13 @@ namespace OfficeOpenXml
 					sheetsNode.RemoveChild(sheetNode);
 				}
 			}
-			_worksheets.RemoveAndShift(Index-_pck._worksheetAdd);
             if (_pck.Workbook.VbaProject != null)
             {
                 _pck.Workbook.VbaProject.Modules.Remove(worksheet.CodeModule);
             }
-			ReindexWorksheetDictionary();
+            
+            _worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
+            ReindexWorksheetDictionary();
             //If the active sheet is deleted, set the first tab as active.
             if (_pck.Workbook.View.ActiveTab >= _pck.Workbook.Worksheets.Count)
             {
