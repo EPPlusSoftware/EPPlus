@@ -161,6 +161,95 @@ namespace EPPlusTest.ConditionalFormatting
             ws.SetValue(5, 3, 5);
         }
         [TestMethod]
+        public void WriteReadEqual()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Equal");
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddEqual();
+                cf.Formula = "1";
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.Equal;
+                    Assert.AreEqual("1", cf.Formula);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WriteReadThreeIcon()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("FiveIcon");
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
+
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.ThreeIconSet;
+                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights2, cf.IconSet);
+                }
+            }
+        }
+        [TestMethod]
+        public void WriteReadFourIcon()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("FourIcon");
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddFourIconSet(eExcelconditionalFormatting4IconsSetType.ArrowsGray);
+
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.FourIconSet;
+                    Assert.AreEqual(eExcelconditionalFormatting4IconsSetType.ArrowsGray, cf.IconSet);
+                }
+            }
+        }
+        [TestMethod]
+        public void WriteReadFiveIcon()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("FiveIcon");
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType.Arrows);
+
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.FiveIconSet;
+                    Assert.AreEqual(eExcelconditionalFormatting5IconsSetType.Arrows, cf.IconSet);
+                }
+            }
+        }
+
+
+        [TestMethod]
+        public void WriteReadDataBar()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("DataBar");
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddDatabar(Color.Red);
+
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.DataBar;
+                    Assert.AreEqual(Color.Red.ToArgb(), cf.Color.ToArgb());
+                }
+            }
+        }
+
+        [TestMethod]
         public void WriteReadTwoColorScale()
         {
             using (var p = new ExcelPackage())
@@ -180,7 +269,7 @@ namespace EPPlusTest.ConditionalFormatting
                 using (var p2 = new ExcelPackage(p.Stream))
                 {
                     ws = p2.Workbook.Worksheets[0];
-                    cf = (IExcelConditionalFormattingTwoColorScale)ws.ConditionalFormatting[0];
+                    cf = ws.ConditionalFormatting[0].As.TwoColorScale;
                     Assert.AreEqual(2, cf.LowValue.Value);
                     Assert.AreEqual(50, cf.HighValue.Value);
                 }
@@ -210,7 +299,7 @@ namespace EPPlusTest.ConditionalFormatting
                 using (var p2 = new ExcelPackage(p.Stream))
                 {
                     ws = p2.Workbook.Worksheets[0];
-                    cf = (IExcelConditionalFormattingThreeColorScale)ws.ConditionalFormatting[0];
+                    cf = ws.ConditionalFormatting[0].As.ThreeColorScale;
                     Assert.AreEqual(2, cf.LowValue.Value);
                     Assert.AreEqual(50, cf.HighValue.Value);
                 }

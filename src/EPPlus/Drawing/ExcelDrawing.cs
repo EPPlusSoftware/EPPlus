@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Drawing
                     _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
                     CellAnchor = GetAnchoreFromName(node.LocalName);
                     SetPositionProperties(drawings, node);
-                    GetPositionSize();  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
+                    GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
 
                     string relID = GetXmlNodeString(_hyperLinkPath + "/@r:id");
                     if (!string.IsNullOrEmpty(relID))
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Drawing
                     _nvPrPath = nvPrPath;
                     _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
                 }
-            }
+            }   
         }
 
 

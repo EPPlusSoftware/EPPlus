@@ -49,12 +49,12 @@ namespace OfficeOpenXml.ConditionalFormatting
     BelowOrEqualAverage,
         #endregion
 
-        #region StdDev
-        /// <summary>
-        /// Highlights cells that are above the standard deviation for all values in the range.
-        /// <remarks>AboveAverage Excel CF Rule Type</remarks>
-        /// </summary>
-        AboveStdDev,
+    #region StdDev
+    /// <summary>
+    /// Highlights cells that are above the standard deviation for all values in the range.
+    /// <remarks>AboveAverage Excel CF Rule Type</remarks>
+    /// </summary>
+    AboveStdDev,
 
     /// <summary>
     /// Highlights cells that are below the standard deviation for all values in the range.

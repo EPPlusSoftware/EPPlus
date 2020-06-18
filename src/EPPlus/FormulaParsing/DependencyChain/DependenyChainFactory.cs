@@ -31,7 +31,8 @@ namespace OfficeOpenXml.FormulaParsing
                 if (!(ws is ExcelChartsheet))
                 {
                     GetChain(depChain, wb.FormulaParser.Lexer, ws.Cells, options);
-                    GetWorksheetNames(ws, depChain, options);
+                    GetWorksheetNames
+                        (ws, depChain, options);
                 }
             }
             foreach (var name in wb.Names)

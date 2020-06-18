@@ -60,5 +60,6 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         /// Indicates that the conditional formatting is associated with a PivotTable
         /// </summary>
         bool PivotTable { get; set; }
+        ExcelConditionalFormattingAsType As { get; }
     }
 }

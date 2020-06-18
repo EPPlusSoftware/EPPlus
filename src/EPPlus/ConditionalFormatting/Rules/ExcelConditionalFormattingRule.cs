@@ -619,6 +619,19 @@ namespace OfficeOpenXml.ConditionalFormatting
         secondNode.InnerText = value;
       }
     }
+
+    private ExcelConditionalFormattingAsType _as = null;
+    public ExcelConditionalFormattingAsType As 
+    { 
+        get
+        {
+            if(_as==null)
+            {
+                _as = new ExcelConditionalFormattingAsType(this);
+            }
+            return _as;
+        }
+    } 
     #endregion Internal Properties
     /****************************************************************************************/
     internal protected void SetStyle(ExcelDxfStyleConditionalFormatting style)
