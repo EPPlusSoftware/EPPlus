@@ -14,10 +14,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Database,
+        EPPlusVersion = "4",
+        Description = "Calculates the sum of values in a field of a list or database, that satisfy specified conditions")]
     public class Dsum : DatabaseFunction
     {
         public Dsum()

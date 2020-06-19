@@ -24,10 +24,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "5.2",
         IntroducedInExcelVersion = "2019",
-        Description = "The Excel Textjoin function joins together a series of supplied text strings into one combined text string. The user can specify a delimiter to add between the individual text items, if required.")]
+        Description = "Joins together two or more text strings, separated by a delimiter")]
     internal class Textjoin : ExcelFunction
     {
-        private readonly int MaxReturnLength = 32752;
+        private readonly int MaxReturnLength = 32767;
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {

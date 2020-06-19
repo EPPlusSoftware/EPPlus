@@ -15,11 +15,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Database,
+        EPPlusVersion = "4",
+        Description = "Returns the number of non-blank cells in a field of a list or database, that satisfy specified conditions")]
     public class DcountA : DatabaseFunction
     {
 
