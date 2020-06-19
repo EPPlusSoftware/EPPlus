@@ -342,5 +342,37 @@ namespace EPPlusTest.Excel.Functions.Text
             var r = System.Math.Round((double)result.Result, 15);
             Assert.AreEqual(0.100015d, r);
         }
+
+        [TestMethod]
+        public void TextjoinShouldReturnCorrectResult_IgnoreEmpty()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Hello";
+                sheet.Cells["A2"].Value = "world";
+                sheet.Cells["A3"].Value = "";
+                sheet.Cells["A4"].Value = "!";
+                sheet.Cells["A5"].Formula = "TEXTJOIN(\" \", TRUE, A1:A4)";
+                sheet.Calculate();
+                Assert.AreEqual("Hello world !", sheet.Cells["A5"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void TextjoinShouldReturnCorrectResult_AllowEmpty()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Hello";
+                sheet.Cells["A2"].Value = "world";
+                sheet.Cells["A3"].Value = "";
+                sheet.Cells["A4"].Value = "!";
+                sheet.Cells["A5"].Formula = "TEXTJOIN(\".\", False, A1:A4, \"how are you?\")";
+                sheet.Calculate();
+                Assert.AreEqual("Hello.world..!.how are you?", sheet.Cells["A5"].Value);
+            }
+        }
     }
 }

@@ -15,8 +15,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
 
             if (StartRange == null || EndRange == null) return CreateResult(eErrorType.Value);
-
-            // A1 should be set as StartRange by the UnregognizedFunctionName pipline in the FunctionExpression.
             
             //Build the address from the minimum row and column to the maximum row and column. StartRange and offsetRange are single cells.
             var fromRow = System.Math.Min(StartRange.Address._fromRow, EndRange.Address._fromRow);
@@ -25,7 +23,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var toCol = System.Math.Max(StartRange.Address._toCol, EndRange.Address._toCol);
             var rangeAddress = new EpplusExcelDataProvider.RangeInfo(StartRange.Worksheet, new ExcelAddressBase(fromRow, fromCol, toRow, toCol));
             return CreateResult(rangeAddress, DataType.Enumerable);
-            //throw new NotImplementedException();
         }
     }
 }

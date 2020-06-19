@@ -43,6 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["substitute"] = new Substitute();
             Functions["concatenate"] = new Concatenate();
             Functions["concat"] = new Concat();
+            Functions["textjoin"] = new Textjoin();
             Functions["char"] = new CharFunction();
             Functions["exact"] = new Exact();
             Functions["find"] = new Find();
