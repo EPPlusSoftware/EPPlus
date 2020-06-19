@@ -54,7 +54,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             _excelDataProvider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => _excelDataProvider.GetDimensionEnd(A<string>.Ignored)).Returns(new ExcelCellAddress(10, 1));
             A.CallTo(() => _excelDataProvider.GetWorkbookNameValues()).Returns(new ExcelNamedRangeCollection(_package.Workbook));
-            _parser = new FormulaParser(_excelDataProvider);    
+            _parser = new FormulaParser(_excelDataProvider);
         }
 
         [TestCleanup]
@@ -66,7 +66,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestMethod]
         public void VLookupShouldReturnCorrespondingValue()
         {
-            using(var pck = new ExcelPackage())
+            using (var pck = new ExcelPackage())
             {
                 var ws = pck.Workbook.Worksheets.Add("test");
                 var lookupAddress = "A1:B2";
@@ -126,7 +126,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[2, 2].Value = 2;
                 s.Cells[5, 5].Formula = "HLOOKUP(4, " + lookupAddress + ", 2, true)";
                 s.Calculate();
-                Assert.AreEqual(1, s.Cells[5,5].Value);
+                Assert.AreEqual(1, s.Cells[5, 5].Value);
             }
         }
 
@@ -152,13 +152,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             //var result = _parser.Parse("LOOKUP(4, " + lookupAddress + ")");
             //Assert.AreEqual(1, result);
         }
-           
+
         [TestMethod]
         public void MatchShouldReturnIndexOfMatchingValue()
         {
             var lookupAddress = "A1:A2";
-            A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName,1, 1)).Returns(3);
-            A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName,1, 2)).Returns(5);
+            A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName, 1, 1)).Returns(3);
+            A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName, 1, 2)).Returns(5);
             var result = _parser.Parse("MATCH(3, " + lookupAddress + ")");
             Assert.AreEqual(1, result);
         }
@@ -418,6 +418,48 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[1, 4].Formula = "LOOKUP(C1, A1:A2, B1:B2)";
                 s.Calculate();
                 Assert.AreEqual(10, s.Cells[1, 4].Value);
+            }
+        }
+        [TestMethod]
+        public void OffsetInSecondPartOfRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                package.Workbook.FormulaParser.Configure(x => x.AllowCircularReferences = true);
+                s.Cells[1, 1].Value = 3;
+                s.Cells[2, 1].Value = 5;
+                s.Cells[3, 1].Formula = "SUM(A1:OFFSET(A3,-1,0))";
+                s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(8d, s.Cells[3, 1].Value);
+            }
+        }
+
+        [TestMethod]
+        public void OffsetInFirstPartOfRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells[1, 1].Value = 3;
+                s.Cells[2, 1].Value = 5;
+                s.Cells[4, 1].Formula = "SUM(OFFSET(A3,-1,0):A1)";
+                s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(8d, s.Cells[4, 1].Value);
+            }
+        }
+
+        [TestMethod]
+        public void OffsetInBothPartsOfRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var s = package.Workbook.Worksheets.Add("test");
+                s.Cells[1, 1].Value = 3;
+                s.Cells[2, 1].Value = 5;
+                s.Cells[4, 1].Formula = "SUM(OFFSET(A3,-2,0):OFFSET(A3,-1,0))";
+                s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(8d, s.Cells[4, 1].Value);
             }
         }
     }

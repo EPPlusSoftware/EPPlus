@@ -28,6 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly IExpressionFactory _expressionFactory;
         private readonly ParsingContext _parsingContext;
         private int _tokenIndex = 0;
+        private int _nRangeOffsetTokens = 0;
+        private RangeOffsetExpression _rangeOffsetExpression;
         private bool _negateNextExpression;
 
         public ExpressionGraphBuilder(ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
@@ -61,6 +63,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 {
                     SetOperatorOnExpression(parent, op);
                 }
+                else if (token.TokenTypeIsSet(TokenType.RangeOffset))
+                {
+                    BuildRangeOffsetExpression(tokens, parent, token);
+                }
                 else if (token.TokenTypeIsSet(TokenType.Function))
                 {
                     BuildFunctionExpression(tokens, parent, token.Value);
@@ -74,10 +80,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 {
                     _tokenIndex++;
                     BuildGroupExpression(tokens, parent);
-                    //if (parent is FunctionExpression)
-                    //{
-                    //    return;
-                    //}
                 }
                 else if (token.TokenTypeIsSet(TokenType.ClosingParenthesis) || token.TokenTypeIsSet(TokenType.ClosingEnumerable))
                 {
@@ -159,11 +161,48 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         private bool IsWaste(Token token)
         {
-            if (token.TokenTypeIsSet(TokenType.String))
+            if (token.TokenTypeIsSet(TokenType.String) || token.TokenTypeIsSet(TokenType.Colon))
             {
                 return true;
             }
             return false;
+        }
+
+        private void BuildRangeOffsetExpression(Token[] tokens, Expression parent, Token token)
+        {
+            if(_nRangeOffsetTokens++ % 2 == 0)
+            {
+                _rangeOffsetExpression = new RangeOffsetExpression(_parsingContext);
+                if(token.TokenTypeIsSet(TokenType.Function) && token.Value.ToLower() == "offset")
+                {
+                    _rangeOffsetExpression.OffsetExpression1 = new FunctionExpression("offset", _parsingContext, false);
+                    HandleFunctionArguments(tokens, _rangeOffsetExpression.OffsetExpression1);
+                }
+                else if(token.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    _rangeOffsetExpression.AddressExpression2 = _expressionFactory.Create(token) as ExcelAddressExpression;
+                }
+            }
+            else
+            {
+                if (parent == null)
+                {
+                    _graph.Add(_rangeOffsetExpression);
+                }
+                else
+                {
+                    parent.AddChild(_rangeOffsetExpression);
+                }
+                if (token.TokenTypeIsSet(TokenType.Function) && token.Value.ToLower() == "offset")
+                {
+                    _rangeOffsetExpression.OffsetExpression2 = new FunctionExpression("offset", _parsingContext, _negateNextExpression);
+                    HandleFunctionArguments(tokens, _rangeOffsetExpression.OffsetExpression2);
+                }
+                else if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    _rangeOffsetExpression.AddressExpression2 = _expressionFactory.Create(token) as ExcelAddressExpression;
+                }
+            }
         }
 
         private void BuildFunctionExpression(Token[] tokens, Expression parent, string funcName)

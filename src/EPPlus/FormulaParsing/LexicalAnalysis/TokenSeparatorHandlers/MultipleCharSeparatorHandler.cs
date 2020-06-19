@@ -42,7 +42,24 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                 context.NewToken();
                 return true;
             }
+            if(c==':')
+            {
+                HandleAddressSeparatorToken(c, tokenSeparator, context);
+                return true;
+            }
             return false;
+        }
+
+        private static void HandleAddressSeparatorToken(char c, Token tokenSeparator, TokenizerContext context)
+        {
+            if (context.LastToken != null && context.LastToken.Value.Value == ")")
+            {
+                context.AddToken(tokenSeparator);
+            }
+            else
+            {
+                context.AppendToCurrentToken(c);
+            }
         }
 
         private bool IsPartOfMultipleCharSeparator(TokenizerContext context, char c)

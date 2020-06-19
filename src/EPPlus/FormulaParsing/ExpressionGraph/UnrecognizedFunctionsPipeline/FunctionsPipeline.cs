@@ -23,18 +23,22 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipe
     /// </summary>
     internal class FunctionsPipeline
     {
-        public FunctionsPipeline()
-            : this(new RangeOffsetFunctionHandler())
+        public FunctionsPipeline(ParsingContext context, IEnumerable<Expression> children)
+            : this(context, children, new RangeOffsetFunctionHandler())
         {
 
         }
 
-        public FunctionsPipeline(params UnrecognizedFunctionsHandler[] handlers)
+        public FunctionsPipeline(ParsingContext context, IEnumerable<Expression> children, params UnrecognizedFunctionsHandler[] handlers)
         {
+            _context = context;
             _handlers = handlers;
+            _children = children;
         }
 
         private IEnumerable<UnrecognizedFunctionsHandler> _handlers;
+        private readonly ParsingContext _context;
+        private readonly IEnumerable<Expression> _children;
 
         /// <summary>
         /// Tries to find a registred handler that can handle the function name
@@ -46,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipe
         {
             foreach(var handler in _handlers)
             {
-                if(handler.Handle(funcName, out ExcelFunction function))
+                if(handler.Handle(funcName, _children, _context, out ExcelFunction function))
                 {
                     return function;
                 }

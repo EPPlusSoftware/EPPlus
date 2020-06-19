@@ -50,6 +50,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
                 {
                     HandleUnrecognizedToken();
                 }
+                else if(token.TokenTypeIsSet(TokenType.Colon))
+                {
+                    HandleColon();
+                }
                 else if(token.TokenTypeIsSet(TokenType.WorksheetName))
                 {
                     HandleWorksheetNameToken();
@@ -71,6 +75,54 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         private void ChangeValueOnCurrentToken(string value)
         {
             _context.ChangeValue(value, _navigator.Index);
+        }
+
+        private bool IsOffsetFunctionToken(Token token)
+        {
+            return token.TokenTypeIsSet(TokenType.Function) && token.Value.ToLower() == "offset";
+        }
+
+        private void HandleColon()
+        {
+            var prevToken = _navigator.GetTokenAtRelativePosition(-1);
+            var nextToken = _navigator.GetTokenAtRelativePosition(1);
+            if (prevToken.TokenTypeIsSet(TokenType.ClosingParenthesis))
+            {
+                // Previous expression should be an OFFSET function
+                var index = 0;
+                var openedParenthesis = 0;
+                var closedParethesis = 0;
+                while(openedParenthesis == 0 || openedParenthesis > closedParethesis)
+                {
+                    index--;
+                    var token = _navigator.GetTokenAtRelativePosition(index);
+                    if (token.TokenTypeIsSet(TokenType.ClosingParenthesis))
+                        openedParenthesis++;
+                    else if (token.TokenTypeIsSet(TokenType.OpeningParenthesis))
+                        closedParethesis++;
+                }
+                var offsetCandidate = _navigator.GetTokenAtRelativePosition(--index);
+                if(IsOffsetFunctionToken(offsetCandidate))
+                {
+                    _context.ChangeTokenType(TokenType.Function | TokenType.RangeOffset, _navigator.Index + index);
+                    if (nextToken.TokenTypeIsSet(TokenType.ExcelAddress))
+                    {
+                        // OFFSET:A1
+                        _context.ChangeTokenType(TokenType.ExcelAddress | TokenType.RangeOffset, _navigator.Index + 1);
+                    }
+                    else if(IsOffsetFunctionToken(nextToken))
+                    {
+                        // OFFSET:OFFSET
+                        _context.ChangeTokenType(TokenType.Function | TokenType.RangeOffset, _navigator.Index + 1);
+                    }
+                }
+            }
+            else if(prevToken.TokenTypeIsSet(TokenType.ExcelAddress) && IsOffsetFunctionToken(nextToken))
+            {
+                // A1: OFFSET
+                _context.ChangeTokenType(TokenType.ExcelAddress | TokenType.RangeOffset, _navigator.Index - 1);
+                _context.ChangeTokenType(TokenType.Function | TokenType.RangeOffset, _navigator.Index + 1);
+            }
         }
 
         private void HandleNegators()

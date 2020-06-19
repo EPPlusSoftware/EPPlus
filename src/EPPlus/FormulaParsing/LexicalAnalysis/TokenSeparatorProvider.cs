@@ -48,6 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             _tokens.Add("[", new Token("[", TokenType.OpeningBracket));
             _tokens.Add("]", new Token("]", TokenType.ClosingBracket));
             _tokens.Add("%", new Token("%", TokenType.Percent));
+            _tokens.Add(":", new Token(":", TokenType.Colon));
         }
 
         IDictionary<string, Token> ITokenSeparatorProvider.Tokens

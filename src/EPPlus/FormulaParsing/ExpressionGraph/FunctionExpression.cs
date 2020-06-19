@@ -62,7 +62,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 var function = _parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
                 if (function == null)
                 {
-                    var pipeline = new FunctionsPipeline();
+                    // Handle unrecognized func name
+                    var pipeline = new FunctionsPipeline(_parsingContext, Children);
                     function = pipeline.FindFunction(funcName);
                     if(function == null)
                     {
