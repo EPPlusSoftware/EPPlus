@@ -26,8 +26,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipe
         /// Examines an unrecognized function name, returns a function if it can be handled
         /// </summary>
         /// <param name="funcName">The unrecognized function name</param>
+        /// <param name="children">Child expressions of the <see cref="FunctionExpression"/> (i.e. function arguments)</param>
+        /// <param name="context">The <see cref="ParsingContext"></see></param>
         /// <param name="function">An <see cref="ExcelFunction"/> that can execute the function</param>
         /// <returns></returns>
-        public abstract bool Handle(string funcName, out ExcelFunction function);
+        public abstract bool Handle(string funcName, IEnumerable<Expression> children, ParsingContext context, out ExcelFunction function);
     }
 }

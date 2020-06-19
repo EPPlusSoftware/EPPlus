@@ -431,7 +431,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[2, 1].Value = 5;
                 s.Cells[3, 1].Formula = "SUM(A1:OFFSET(A3,-1,0))";
                 s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
-                Assert.AreEqual(8, s.Cells[3, 1].Value);
+                Assert.AreEqual(8d, s.Cells[3, 1].Value);
             }
         }
         [TestMethod]
@@ -444,7 +444,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[2, 1].Value = 5;
                 s.Cells[4, 1].Formula = "SUM(OFFSET(A3,-1,0):A1)";
                 s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
-                Assert.AreEqual(1, s.Cells[4, 1].Value);
+                Assert.AreEqual(8d, s.Cells[4, 1].Value);
             }
         }
         [TestMethod]

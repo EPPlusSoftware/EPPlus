@@ -142,6 +142,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <summary>
         /// The parsed token represents a colon (address separator). Used for handling the offset function adress handling
         /// </summary>
-        Colon = 1 << 29 //Bit 29, 536870912? 
+        Colon = 1 << 29, //Bit 29, 536870912? 
+        /// <summary>
+        /// The parsed token represents an address with the OFFSET function, either before, after or on both sides of the colon.
+        /// </summary>
+        RangeOffset = 1 << 30
     }
 }
