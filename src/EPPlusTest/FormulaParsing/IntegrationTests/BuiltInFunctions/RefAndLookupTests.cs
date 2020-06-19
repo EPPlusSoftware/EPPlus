@@ -434,6 +434,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 Assert.AreEqual(8d, s.Cells[3, 1].Value);
             }
         }
+
         [TestMethod]
         public void OffsetInFirstPartOfRange()
         {
@@ -447,6 +448,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 Assert.AreEqual(8d, s.Cells[4, 1].Value);
             }
         }
+
         [TestMethod]
         public void OffsetInBothPartsOfRange()
         {
@@ -457,7 +459,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s.Cells[2, 1].Value = 5;
                 s.Cells[4, 1].Formula = "SUM(OFFSET(A3,-2,0):OFFSET(A3,-1,0))";
                 s.Calculate(new ExcelCalculationOption() { AllowCircularReferences = true });
-                Assert.AreEqual(1, s.Cells[4, 1].Value);
+                Assert.AreEqual(8d, s.Cells[4, 1].Value);
             }
         }
     }

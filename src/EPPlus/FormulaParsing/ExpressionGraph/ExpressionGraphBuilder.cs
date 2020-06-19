@@ -198,6 +198,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     _rangeOffsetExpression.OffsetExpression2 = new FunctionExpression("offset", _parsingContext, _negateNextExpression);
                     HandleFunctionArguments(tokens, _rangeOffsetExpression.OffsetExpression2);
                 }
+                else if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    _rangeOffsetExpression.AddressExpression2 = _expressionFactory.Create(token) as ExcelAddressExpression;
+                }
             }
         }
 

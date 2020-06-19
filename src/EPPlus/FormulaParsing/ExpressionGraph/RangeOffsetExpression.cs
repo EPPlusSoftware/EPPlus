@@ -59,8 +59,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             };
             if(AddressExpression2 != null)
             {
-                var addressRange2 = AddressExpression2.Compile().Result;
-                rangeOffset.EndRange = addressRange2 as ExcelDataProvider.IRangeInfo;
+                var c = _parsingContext.Scopes.Current;
+                var resultRange = _parsingContext.ExcelDataProvider.GetRange(c.Address.Worksheet, c.Address.FromRow, c.Address.FromCol, AddressExpression2.ExpressionString);
+                rangeOffset.EndRange = resultRange;
             }
             else
             {
