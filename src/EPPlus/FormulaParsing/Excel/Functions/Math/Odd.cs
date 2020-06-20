@@ -21,7 +21,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
+        Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.0",
         Description = "Rounds a number away from zero (i.e. rounds a positive number up and a negative number down), to the next odd number")]
     internal class Odd : ExcelFunction
