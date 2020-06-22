@@ -114,8 +114,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["seriessum"] = new Seriessum();
             Functions["stdev"] = new Stdev();
             Functions["stdevp"] = new StdevP();
-            Functions["stdev.s"] = new Stdev();
-            Functions["stdev.p"] = new StdevP();
+            Functions["stdev.s"] = new StdevDotS();
+            Functions["stdev.p"] = new StdevDotP();
             Functions["subtotal"] = new Subtotal();
             Functions["exp"] = new Exp();
             Functions["log"] = new Log();
@@ -138,8 +138,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["rand"] = new Rand();
             Functions["randbetween"] = new RandBetween();
             Functions["rank"] = new Rank();
-            Functions["rank.eq"] = new Rank();
-            Functions["rank.avg"] = new Rank(true);
+            Functions["rank.eq"] = new RankEq();
+            Functions["rank.avg"] = new RankAvg();
+            Functions["percentile"] = new Percentile();
+            Functions["percentile.inc"] = new PercentileInc();
             Functions["percentrank"] = new Percentrank();
             Functions["percentrank.inc"] = new PercentrankInc();
             Functions["quotient"] = new Quotient();
@@ -290,7 +292,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["erf"] = new Erf();
             Functions["erf.precise"] = new ErfPrecise();
             Functions["erfc"] = new Erfc();
-            Functions["erfc.precise"] = new Erfc();
+            Functions["erfc.precise"] = new ErfcPrecise();
             Functions["besseli"] = new BesselI();
             Functions["besselj"] = new BesselJ();
             Functions["besselk"] = new BesselK();
