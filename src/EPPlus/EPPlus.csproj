@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.1.2.0</AssemblyVersion>
-    <FileVersion>5.1.2.0</FileVersion>
-    <Version>5.1.2</Version>
+    <AssemblyVersion>5.2.0.0</AssemblyVersion>
+    <FileVersion>5.2.0.0</FileVersion>
+    <Version>5.2.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,15 +18,29 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-      EPPlus 5.1.2
+      EPPlus 5.2.0
       IMPORTAT NOTICE!
       From version 5 EPPlus changes the licence model using a dual license, Polyform Non Commercial / Commercial license.
       EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
       Commercial licenses can be purchased from https://epplussoftware.
       This applies to EPPlus version 5 and later. Previous versions are still licensed LGPL.
 
-      New features in version 5.1:
+      New features in version 5.2:
 
+      * Support for extended chart types and Stock charts:
+        * Four types of stock charts: High-Low-Close, Open-High-Low-Close, Volume-High-Low-Close and Volume-Open-High-Low-Close
+        * Sunburst Chart
+        * Treemap Chart
+        * Histogram Chart
+        * Pareto Chart
+        * Funnel Chat
+        * Waterfall Chart
+        * Box &amp; Whister Chart
+      * Region Map Chart.
+      * Support for 50+ new functions.
+      * Bug fixes
+
+      New features in version 5.0 and 5.1:
       * Extensively improved chart and drawing functionality/styling
       * Theme support
       * Filter support
@@ -53,6 +67,7 @@
       5.1.0 20200401 Insert, Delete in Ranges and Tables. Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.1.1 20200427 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.1.2 20200513 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+      5.2.0 20200623 Support for 12 new chart types. Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
     </PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>

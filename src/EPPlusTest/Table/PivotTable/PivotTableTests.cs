@@ -441,6 +441,44 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(1, pt.DataFields.Count);
             Assert.IsTrue(pf1.MultipleItemSelectionAllowed);
         }
+        [TestMethod]
+        public void Pivot_StylingFieldsFalse()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-StylingFieldsFalse");
+
+            var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:O11"], "Pivottable12");
+            pt.ColumnFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[0]);
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.DataOnRows = true;
+            pt.ColumnHeaderCaption = "Column Caption";
+            pt.RowHeaderCaption = "Row Caption";
+
+            Assert.IsTrue(pt.ShowColumnHeaders);
+            Assert.IsFalse(pt.ShowColumnStripes);
+            Assert.IsTrue(pt.ShowRowHeaders);
+            Assert.IsFalse(pt.ShowRowStripes);
+            Assert.IsTrue(pt.ShowLastColumn);
+
+            pt.ShowColumnHeaders = false;
+            pt.ShowColumnStripes = true;
+            pt.ShowRowHeaders = false;
+            pt.ShowRowStripes = true;
+            pt.ShowLastColumn = false;
+
+            Assert.IsFalse(pt.ShowColumnHeaders);
+            Assert.IsTrue(pt.ShowColumnStripes);
+            Assert.IsFalse(pt.ShowRowHeaders);
+            Assert.IsTrue(pt.ShowRowStripes);
+            Assert.IsFalse(pt.ShowLastColumn);
+
+            Assert.AreEqual(1, pt.ColumnFields.Count);
+            Assert.AreEqual(1, pt.RowFields.Count);
+            Assert.AreEqual(1, pt.DataFields.Count);
+
+        }
+
 
     }
 }

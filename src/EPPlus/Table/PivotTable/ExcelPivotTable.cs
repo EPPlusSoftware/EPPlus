@@ -892,6 +892,81 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString(STYLENAME_PATH, value, true);
             }
         }
+        const string SHOWCOLHEADERS_PATH = "d:pivotTableStyleInfo/@showColHeaders";
+        /// <summary>
+        /// Whether to show column headers for the pivot table.
+        /// </summary>
+        public bool ShowColumnHeaders
+        {
+            get
+            {
+                return GetXmlNodeBool(SHOWCOLHEADERS_PATH);
+            }
+            set
+            {
+                SetXmlNodeBool(SHOWCOLHEADERS_PATH, value);
+            }
+        }
+        const string SHOWCOLSTRIPES_PATH = "d:pivotTableStyleInfo/@showColStripes";
+        /// <summary>
+        /// Whether to show column stripe formatting for the pivot table.
+        /// </summary>
+        public bool ShowColumnStripes
+        {
+            get
+            {
+                return GetXmlNodeBool(SHOWCOLSTRIPES_PATH);
+            }
+            set
+            {
+                SetXmlNodeBool(SHOWCOLSTRIPES_PATH, value);
+            }
+        }
+        const string SHOWLASTCOLUMN_PATH = "d:pivotTableStyleInfo/@showLastColumn";
+        /// <summary>
+        /// Whether to show the last column for the pivot table.
+        /// </summary>
+        public bool ShowLastColumn
+        {
+            get
+            {
+                return GetXmlNodeBool(SHOWLASTCOLUMN_PATH);
+            }
+            set
+            {
+                SetXmlNodeBool(SHOWLASTCOLUMN_PATH, value);
+            }
+        }
+        const string SHOWROWHEADERS_PATH = "d:pivotTableStyleInfo/@showRowHeaders";
+        /// <summary>
+        /// Whether to show row headers for the pivot table.
+        /// </summary>
+        public bool ShowRowHeaders
+        {
+            get
+            {
+                return GetXmlNodeBool(SHOWROWHEADERS_PATH);
+            }
+            set
+            {
+                SetXmlNodeBool(SHOWROWHEADERS_PATH, value);
+            }
+        }
+        const string SHOWROWSTRIPES_PATH = "d:pivotTableStyleInfo/@showRowStripes";
+        /// <summary>
+        /// Whether to show row stripe formatting for the pivot table.
+        /// </summary>
+        public bool ShowRowStripes
+        {
+            get
+            {
+                return GetXmlNodeBool(SHOWROWSTRIPES_PATH);
+            }
+            set
+            {
+                SetXmlNodeBool(SHOWROWSTRIPES_PATH, value);
+            }
+        }
         TableStyles _tableStyle = Table.TableStyles.Medium6;
         /// <summary>
         /// The table style. If this property is cusom the style from the StyleName propery is used.
