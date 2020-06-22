@@ -469,6 +469,22 @@ namespace OfficeOpenXml.DataValidation
             return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
         }
         internal bool IsExtLst { get; set; }
+
+        ExcelDataValidationAsType _as = null;
+        /// <summary>
+        /// Us this property to case <see cref="IExcelDataValidation"/>s to its subtypes
+        /// </summary>
+        public ExcelDataValidationAsType As
+        {
+            get
+            {
+                if(_as == null)
+                {
+                    _as = new ExcelDataValidationAsType(this);
+                }
+                return _as;
+            }
+        }
         #endregion
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Financial,
-        EPPlusVersion = "5.2",
+        EPPlusVersion = "4",
         Description = "Calculates the payments required to reduce a loan, from a supplied present value to a specified future value")]
     internal class Pmt : ExcelFunction
     {

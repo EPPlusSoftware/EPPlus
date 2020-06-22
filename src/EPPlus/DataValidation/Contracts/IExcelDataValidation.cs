@@ -73,6 +73,8 @@ namespace OfficeOpenXml.DataValidation.Contracts
         /// <summary>
         /// Validates the state of the validation.
         /// </summary>
+        
+        ExcelDataValidationAsType As { get; }
         void Validate();
 
 
