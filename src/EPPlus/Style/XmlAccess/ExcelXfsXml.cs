@@ -698,6 +698,18 @@ namespace OfficeOpenXml.Style.XmlAccess
                 case eStyleProperty.Scheme:
                     fnt.Scheme = value.ToString();
                     break;
+                case eStyleProperty.Charset:
+                    fnt.Charset = (int?)value;
+                    break;
+                case eStyleProperty.Condense:
+                    fnt.Condense = (bool)value;
+                    break;
+                case eStyleProperty.Extend:
+                    fnt.Extend = (bool)value;
+                    break;
+                case eStyleProperty.Shadow:
+                    fnt.Shadow = (bool)value;
+                    break;
                 default:
                     throw (new Exception("Invalid property for class Font"));
             }

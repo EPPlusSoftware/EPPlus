@@ -134,4 +134,72 @@
 * Added a check to the ExcelPackage Construcors if the FileInfo exists and is zero-byte. Supplying a zero-byte file will now create a new package. Supplying a zero-byte template will throw an exception.
 * Fixed scaling for pictures. Changed data type for internal pixel variables from int to double.
 * Delete/Insert din't handle comma separated addresses in data validation / conditional formatting
-* ColumnMin and ColumnMax were not correctly updated when one or more columns were deleted
+* ColumnMin and ColumnMax were not correctly updated when one or more columns were deleted.
+
+## Version 5.2.0
+### Features
+* Support for extended chart types and Stock charts:
+	* Four types of stock charts: High-Low-Close, Open-High-Low-Close, Volume-High-Low-Close and Volume-Open-High-Low-Close
+	* Sunburst Chart
+	* Treemap Chart
+	* Histogram Chart
+	* Pareto Chart
+	* Funnel Chat
+	* Waterfall Chart	
+	* Box &amp; Whister Chart
+	* Region Map Chart.
+* Support for 40+ new functions:
+	* NPV 
+	* PV
+	* RATE
+	* NPER
+	* FV
+	* IRR
+	* MIRR
+	* PPT
+	* IPMT
+	* SYD
+	* SLN
+	* DDB
+	* FVSCHEADULE
+	* NOMINAL 
+	* EFFECT
+	* XNPV
+	* ISPMT
+	* COUPDAYSBS
+	* COUPDAYS
+	* COUPDAYSNC
+	* COUPNCD
+	* COUPNUM
+	* COUPPCD
+	* PDURATION
+	* RRI
+	* ERF
+	* ERF.PRECISE
+	* ERFC
+	* ERFC.PRECISE
+	* CUMIPMT
+	* PRICE
+	* BESSELI
+	* BESSELJ
+	* BESSELK
+	* BESSELY
+	* CUMPRINC
+	* DURATION
+	* DISC
+	* PERCENTRANK
+	* PERCENTRANK.INC
+* Four new properties to Style.Font
+	* Charset
+	* Condense
+	* Extend
+	* Shadow
+* Added 'As' proerty to the ExcelDrawing class and ExcelConditionalFormattingRule class for easier type cast.
+* OFFSET function calculation can now be a part of a range. For example SUM(A1:OFFSET(A3, -2, 0))
+* Added ShowColumnHeaders, ShowColumnStripes, ShowRowHeaders, ShowRowStripes and ShowLastColumn properties to ExcelPivotTable
+### Fixed issues
+* Ignore a leading "_xlfn." in function names when calculating formulas.
+* Only the fist Paragrah was loaded when the Richtext property was loaded from the XML.
+* Vertical Align property did not deleted the XmlNode properly when set to None.
+* A named style with a missing fontid crashed on load.
+* Deleting a worksheet in a macroendabled workbook causes NullReferenceException.
