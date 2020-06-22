@@ -693,8 +693,9 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                     //Trendlines
                     foreach (var tl in serie.TrendLines)
                     {
-                        ApplyStyle(tl, Style.Trendline);
-                        if(tl.HasLbl) ApplyStyle(tl.Label, Style.TrendlineLabel);
+                        serieNo++;  
+                        ApplyStyle(tl, Style.Trendline, serieNo);
+                        if(tl.HasLbl) ApplyStyle(tl.Label, Style.TrendlineLabel, serieNo);
                     }
 
                     //Datapoints
