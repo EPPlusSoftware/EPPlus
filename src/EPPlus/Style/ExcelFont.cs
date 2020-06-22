@@ -194,6 +194,79 @@ namespace OfficeOpenXml.Style
             }
         }
         /// <summary>
+        /// The character set for the font
+        /// </summary>
+        /// <remarks>
+        /// The following values can be used for this property
+        /// <list type="table">f
+        /// <listheader>Value</listheader><listheader>Description</listheader>
+        /// <item>0x00</item><item>The ANSI character set. (IANA name iso-8859-1)</item>
+        /// <item>0x01</item><item>The default character set.</item>
+        /// <item>0x02</item><item>The Symbol character set. This value specifies that the characters in the Unicode private use area(U+FF00 to U+FFFF) of the font should be used to display characters in the range U+0000 to U+00FF.</item>
+        ///<item>0x4D</item><item>A Macintosh(Standard Roman) character set. (IANA name macintosh)</item>
+        ///<item>0x80</item><item>The JIS character set. (IANA name shift_jis)</item>
+        ///<item>0x81</item><item>The Hangul character set. (IANA name ks_c_5601-1987)</item>
+        ///<item>0x82</item><item>A Johab character set. (IANA name KS C-5601-1992)</item>
+        ///<item>0x86</item><item>The GB-2312 character set. (IANA name GBK)</item>
+        ///<item>0x88</item><item>The Chinese Big Five character set. (IANA name Big5)</item>
+        ///<item>0xA1</item><item>A Greek character set. (IANA name windows-1253)</item>
+        ///<item>0xA2</item><item>A Turkish character set. (IANA name iso-8859-9)</item>
+        ///<item>0xA3</item><item>A Vietnamese character set. (IANA name windows-1258)</item>
+        ///<item>0xB1</item><item>A Hebrew character set. (IANA name windows-1255)</item>
+        ///<item>0xB2</item><item>An Arabic character set. (IANA name windows-1256)</item>
+        ///<item>0xBA</item><item>A Baltic character set. (IANA name windows-1257)</item>
+        ///<item>0xCC</item><item>A Russian character set. (IANA name windows-1251)</item>
+        ///<item>0xDE</item><item>A Thai character set. (IANA name windows-874)</item>
+        ///<item>0xEE</item><item>An Eastern European character set. (IANA name windows-1250)</item>
+        ///<item>0xFF</item><item>An OEM character set not defined by ISO/IEC 29500.</item>
+        ///<item>Any other value</item><item>Application-defined, can be ignored</item>
+        /// </list>
+        /// </remarks>
+        public int? Charset
+        {
+            get
+            {
+                return _styles.Fonts[Index].Charset;
+            }
+            set
+            {
+                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Charset, value, _positionID, _address));
+            }
+        }
+        public bool Extend
+        {
+            get
+            {
+                return _styles.Fonts[Index].Extend;
+            }
+            set
+            {
+                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Extend, value, _positionID, _address));
+            }
+        }
+        public bool Condense
+        {
+            get
+            {
+                return _styles.Fonts[Index].Condense;
+            }
+            set
+            {
+                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Condense, value, _positionID, _address));
+            }
+        }
+        public bool Shadow
+        {
+            get
+            {
+                return _styles.Fonts[Index].Shadow;
+            }
+            set
+            {
+                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Shadow, value, _positionID, _address));
+            }
+        }        
+        /// <summary>
         /// Set the font from a Font object
         /// </summary>
         /// <param name="Font"></param>
