@@ -91,7 +91,7 @@ namespace EPPlusTest.Drawing.Chart
         public void AddSunburstChartSheet()
         {
             var ws = _pck.Workbook.Worksheets.AddChart("SunburstSheet", eChartType.Sunburst);
-            var chart = (ExcelSunburstChart)ws.Chart;
+            var chart = ws.Chart.As.Chart.SunburstChart;
             var serie = chart.Series.Add("Sunburst!$D$2:$D$17", "Sunburst!$A$2:$C$17");
             serie.DataLabel.Position = eLabelPosition.Center;
             serie.DataLabel.ShowCategory = true;

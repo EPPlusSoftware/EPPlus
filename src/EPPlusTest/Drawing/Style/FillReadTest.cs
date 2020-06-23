@@ -654,7 +654,7 @@ namespace EPPlusTest.Drawing
             var wsName = "BlipFillPieChart";
             var ws = _pck.Workbook.Worksheets[wsName];
             if (ws == null)     Assert.Inconclusive($"{wsName} worksheet is missing");
-            var chart = (ExcelChart)ws.Drawings[0];
+            var chart = ws.Drawings[0].As.Chart.PieChart;
 
             Assert.AreEqual(eFillStyle.BlipFill, chart.Fill.Style);
             Assert.IsNull(chart.Fill.SolidFill);

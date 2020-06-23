@@ -863,10 +863,10 @@ namespace EPPlusTest
             {
                 foreach(ExcelDrawing d in ws.Drawings)
                 {
-                    if (d is ExcelChart)
+                    if (d is ExcelChart c)
                     {
 #if (!Core)
-                        TestContext.WriteLine(((ExcelChart)d).ChartType.ToString());
+                        TestContext.WriteLine(c.ChartType.ToString());
 #endif
                     }
                 }

@@ -33,7 +33,7 @@ namespace EPPlusTest.Drawing.Chart
         {            
             var ws = GetWorksheet("Sunburst");
             Assert.AreEqual(1,ws.Drawings.Count);
-            var chart = ws.Drawings[0].As.SunburstChart;
+            var chart = ws.Drawings[0].As.Chart.SunburstChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
             Assert.AreEqual("Sunburst!$D$2:$D$17", serie.Series);
@@ -62,7 +62,7 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = GetWorksheet("Treemap");
             Assert.AreEqual(1, ws.Drawings.Count);
-            var chart = ws.Drawings[0].As.TreemapChart;
+            var chart = ws.Drawings[0].As.Chart.TreemapChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
             Assert.AreEqual("Treemap!$D$2:$D$17", serie.Series);
@@ -81,7 +81,7 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = GetWorksheet("BoxWhisker"); 
             Assert.AreEqual(1, ws.Drawings.Count);
-            var chart = ws.Drawings[0].As.BoxWhiskerChart;
+            var chart = ws.Drawings[0].As.Chart.BoxWhiskerChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
             Assert.AreEqual("BoxWhisker!$D$2:$D$17", serie.Series);
@@ -106,7 +106,7 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = GetWorksheet("Histogram");
             Assert.AreEqual(1, ws.Drawings.Count);
-            var chart = ws.Drawings[0].As.HistogramChart;
+            var chart = ws.Drawings[0].As.Chart.HistogramChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
             Assert.AreEqual("Histogram!$D$2:$D$17", serie.Series);
@@ -147,7 +147,7 @@ namespace EPPlusTest.Drawing.Chart
             var ws = GetWorksheet("Waterfall");
 
             Assert.AreEqual(1, ws.Drawings.Count);
-            var chart = ws.Drawings[0].As.WaterfallChart;
+            var chart = ws.Drawings[0].As.Chart.WaterfallChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
             Assert.AreEqual("Waterfall!$D$2:$D$17", serie.Series);
@@ -183,7 +183,7 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = GetWorksheet("Funnel");
             Assert.AreEqual(1, ws.Drawings.Count);
-            var chart = ws.Drawings[0].As.FunnelChart;
+            var chart = ws.Drawings[0].As.Chart.FunnelChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
             Assert.AreEqual("Funnel!$D$2:$D$17", serie.Series);
@@ -197,7 +197,7 @@ namespace EPPlusTest.Drawing.Chart
         {
             var ws = GetWorksheet("RegionMap");
             Assert.AreEqual(1, ws.Drawings.Count);
-            var chart = ws.Drawings[0].As.RegionMapChart;
+            var chart = ws.Drawings[0].As.Chart.RegionMapChart;
             Assert.AreEqual(1, chart.Series.Count);
             var serie = chart.Series[0];
             Assert.AreEqual("RegionMap!$A$2:$B$11", serie.XSeries);

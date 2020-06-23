@@ -62,7 +62,7 @@ namespace EPPlusTest.Drawing
                 var grpShp = ((ExcelGroupShape)p.Workbook.Worksheets[1 + p._worksheetAdd].Drawings[0]);
                 Assert.AreEqual(4, grpShp.Drawings.Count);
                 Assert.AreEqual(eShapeStyle.Rect, ((ExcelShape)grpShp.Drawings[0]).Style);
-                Assert.AreEqual(6,((ExcelPieChart)p.Workbook.Worksheets[1 + p._worksheetAdd].Drawings[1]).StyleManager.ColorsManager.Colors.Count);
+                Assert.AreEqual(6, p.Workbook.Worksheets[1 + p._worksheetAdd].Drawings[1].As.Chart.PieChart.StyleManager.ColorsManager.Colors.Count);
             }
         }
         [TestMethod]

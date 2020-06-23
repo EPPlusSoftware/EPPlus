@@ -56,7 +56,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             LoadTestdata(ws);
 
             StyleColumnChart(ws, eBarChartType.ColumnClustered);
-            var chart2 = (ExcelBarChart)ws.Drawings[1];
+            var chart2 = ws.Drawings[1].As.Chart.BarChart;
             Assert.AreEqual(6, chart2.StyleManager.ColorsManager.Colors.Count);
             Assert.AreEqual(9, chart2.StyleManager.ColorsManager.Variations.Count);
         }
@@ -67,7 +67,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             LoadTestdata(ws);
 
             StyleColumnStackedChart(ws, eBarChartType.ColumnStacked);
-            var chart2 = (ExcelBarChart)ws.Drawings[1];
+            var chart2 = ws.Drawings[1].As.Chart.BarChart;
         }
         [TestMethod]
         public void ColumnStacked100Chart_Styles()
@@ -76,7 +76,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             LoadTestdata(ws);
 
             StyleColumnStackedChart(ws, eBarChartType.ColumnStacked100);
-            var chart2 = (ExcelBarChart)ws.Drawings[1];
+            var chart2 = ws.Drawings[1].As.Chart.BarChart;
         }
         private static void StyleColumnChart(ExcelWorksheet ws, eBarChartType chartType)
         {
