@@ -20,7 +20,7 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
+        Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
         Description = "Returns the constant value of pi")]
     internal class Pi : ExcelFunction
