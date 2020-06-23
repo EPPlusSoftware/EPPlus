@@ -1643,5 +1643,43 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(4.75d, result);
             }
         }
+
+        [TestMethod]
+        public void ModeShouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 2;
+                sheet.Cells["A5"].Value = 2;
+                sheet.Cells["A6"].Value = 3;
+                sheet.Cells["B1"].Formula = "MODE(A1:A6)";
+                sheet.Calculate();
+                Assert.AreEqual(2d, sheet.Cells["B1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ModeShouldReturnLowestIfMultipleResults()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 3;
+                sheet.Cells["B1"].Formula = "MODE.SNGL(A1:A6)";
+                sheet.Calculate();
+                Assert.AreEqual(1d, sheet.Cells["B1"].Value);
+            }
+        }
     }
 }
