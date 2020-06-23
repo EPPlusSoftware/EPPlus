@@ -127,6 +127,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["min"] = new Min();
             Functions["mina"] = new Mina();
             Functions["mod"] = new Mod();
+            Functions["mode"] = new Mode();
+            Functions["mode.sngl"] = new ModeSngl();
             Functions["mround"] = new Mround();
             Functions["average"] = new Average();
             Functions["averagea"] = new AverageA();
@@ -154,7 +156,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["acos"] = new Acos();
             Functions["acosh"] = new Acosh();
             Functions["var"] = new Var();
+            Functions["var.s"] = new VarDotS();
             Functions["varp"] = new VarP();
+            Functions["var.p"] = new VarDotP();
             Functions["large"] = new Large();
             Functions["small"] = new Small();
             Functions["degrees"] = new Degrees();

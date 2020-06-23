@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,27 +8,20 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.MathAndTrig,
-        EPPlusVersion = "4",
-        Description = "Returns the constant value of pi")]
-    internal class Pi : ExcelFunction
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "5.2",
+        Description = "Returns the variance of a supplied set of values (which represent an entire population) ")]
+    internal class VarDotP : VarP
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            var result = System.Math.Round((double)System.Math.PI, 14);
-            return CreateResult(result, DataType.Decimal);
-        }
     }
 }
