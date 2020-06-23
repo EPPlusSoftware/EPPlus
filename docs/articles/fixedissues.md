@@ -148,7 +148,7 @@
 	* Waterfall Chart	
 	* Box &amp; Whisker Chart
 	* Region Map Chart.
-* Support for 40 new functions:
+* Support for 49 new functions:
     * BESSELI
     * BESSELJ
     * BESSELK
