@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlus.PortedFunctions.LibreOffice.Finance
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 {
     public static class XirrImpl
     {

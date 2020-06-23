@@ -27,17 +27,17 @@
 
       New features in version 5.2:
 
-      * Support for extended chart types and Stock charts:
+      * Support for extended chart types and stock charts:
         * Four types of stock charts: High-Low-Close, Open-High-Low-Close, Volume-High-Low-Close and Volume-Open-High-Low-Close
         * Sunburst Chart
         * Treemap Chart
         * Histogram Chart
         * Pareto Chart
-        * Funnel Chat
+        * Funnel Chart
         * Waterfall Chart
-        * Box &amp; Whister Chart
-      * Region Map Chart.
-      * Support for 50+ new functions.
+        * Box &amp; Whisker Chart
+        * Region Map Chart.
+      * Support for 40 new functions.
       * Bug fixes
 
       New features in version 5.0 and 5.1:
@@ -53,13 +53,13 @@
       Breaking Changes
       * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
       * Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
-      * ...and more, see https://epplussoftware.com/docs/5.1/articles/breakingchanges.html
+      * ...and more, see https://epplussoftware.com/docs/5.2/articles/breakingchanges.html
 
       Worksheets collection behavior in .NET Framework
       The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
       For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
       For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-5.0
-      A list of fixed issues can be found here https://epplussoftware.com/docs/5.1/articles/fixedissues.html
+      A list of fixed issues can be found here https://epplussoftware.com/docs/5.2/articles/fixedissues.html
 
       Version history
       5.0.3 20200308 Initial release EPPlus 5

@@ -43,6 +43,7 @@ The old behavior can be set via the Picture.ChangeCellAnchor method.
 ### Chart
 `ExcelScatterChartSerie`, `ExcelLineChartSerie` och `ExcelRadarChartSerie` has changed the datatype of the `Marker` Property from the enum `eMarkerStyle` to a new `Marker` class.
 The old `Marker` property can be set via the new class `Marker.Style`
+ExcelChart has been changed to an abstract class from Version 5.2. Standard charts has a new implementation class called ExcelChartStandard. The new Extended charts uses the ExcelChartEx class.
 
 ### Formula parser
 Handling of circular references has been redesigned to better reflect Excel.

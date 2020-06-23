@@ -57,10 +57,10 @@ This might be the easiest way of configuring this. Just as above, set the variab
 **Important!** The environment variable should be set at the user level.
 
 
-## Breaking changes EPPLus 5
+## Breaking changes EPPlus 5
 * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. 
 * Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
-* And more..., see https://epplussoftware.com/docs/5.0/articles/breakingchanges.html
+* And more..., see https://epplussoftware.com/docs/5.2/articles/breakingchanges.html
 
 ## New features in EPPlus 5
 EPPlus 5 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)

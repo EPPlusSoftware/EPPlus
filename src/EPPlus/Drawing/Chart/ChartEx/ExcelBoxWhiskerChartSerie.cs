@@ -15,6 +15,9 @@ using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// A series for an Box &amp; Whisker Chart
+    /// </summary>
     public class ExcelBoxWhiskerChartSerie : ExcelChartExSerie
     {
         const string _path = "cx:layoutPr/cx:visibility";

@@ -144,11 +144,11 @@
 	* Treemap Chart
 	* Histogram Chart
 	* Pareto Chart
-	* Funnel Chat
+	* Funnel Chart
 	* Waterfall Chart	
-	* Box &amp; Whister Chart
+	* Box &amp; Whisker Chart
 	* Region Map Chart.
-* Support for 40+ new functions:
+* Support for 40 new functions:
 	* NPV 
 	* PV
 	* RATE
@@ -194,12 +194,12 @@
 	* Condense
 	* Extend
 	* Shadow
-* Added 'As' proerty to the ExcelDrawing class and ExcelConditionalFormattingRule class for easier type cast.
-* OFFSET function calculation can now be a part of a range. For example SUM(A1:OFFSET(A3, -2, 0))
+* Added   * New `As` property to the Drawing, ConditionalFormatting and DataValidation objects for easier type cast. For example `var sunburstChart = worksheet.Drawings[0].As.Chart.SunburstChart;` or `var listDv = sheet.DataValidations.First().As.ListValidation;`
+* OFFSET function calculation can now be a part of a range. For example `SUM(A1:OFFSET(A3, -2, 0))`
 * Added ShowColumnHeaders, ShowColumnStripes, ShowRowHeaders, ShowRowStripes and ShowLastColumn properties to ExcelPivotTable
 ### Fixed issues
 * Ignore a leading "_xlfn." in function names when calculating formulas.
-* Only the fist Paragrah was loaded when the Richtext property was loaded from the XML.
-* Vertical Align property did not deleted the XmlNode properly when set to None.
+* Only the fist paragraph was loaded when the RichText property was loaded from the XML.
+* VerticalAlign property did not delete the XmlNode properly when set to None.
 * A named style with a missing fontid crashed on load.
-* Deleting a worksheet in a macroendabled workbook causes NullReferenceException.
+* Deleting a worksheet in a macro enabled workbook causes a NullReferenceException.
