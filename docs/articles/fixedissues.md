@@ -149,53 +149,63 @@
 	* Box &amp; Whisker Chart
 	* Region Map Chart.
 * Support for 40 new functions:
-	* NPV 
-	* PV
-	* RATE
-	* NPER
-	* FV
-	* IRR
-	* MIRR
-	* PPT
-	* IPMT
-	* SYD
-	* SLN
-	* DDB
-	* FVSCHEADULE
-	* NOMINAL 
-	* EFFECT
-	* XNPV
-	* ISPMT
-	* COUPDAYSBS
-	* COUPDAYS
-	* COUPDAYSNC
-	* COUPNCD
-	* COUPNUM
-	* COUPPCD
-	* PDURATION
-	* RRI
-	* ERF
-	* ERF.PRECISE
-	* ERFC
-	* ERFC.PRECISE
-	* CUMIPMT
-	* PRICE
-	* BESSELI
-	* BESSELJ
-	* BESSELK
-	* BESSELY
-	* CUMPRINC
-	* DURATION
-	* DISC
-	* PERCENTRANK
-	* PERCENTRANK.INC
+    * BESSELI
+    * BESSELJ
+    * BESSELK
+    * BESSELY
+    * COUPDAYBS
+    * COUPDAYS
+    * COUPDAYSNC
+    * COUPNCD
+    * COUPNUM
+    * COUPPCD
+    * CUMIPMT
+    * CUMPRINC
+    * DDB
+    * DISC
+    * DURATION
+    * EFFECT
+    * ERF
+    * ERF.PRECISE
+    * ERFC
+    * ERFC.PRECISE
+    * FV
+    * FVSCHEDULE
+    * IPMT
+    * IRR
+    * ISPMT
+    * MIRR
+    * MODE
+    * MODE.SNGL
+    * NOMINAL
+    * NPER
+    * NPV
+    * PDURATION
+    * PERCENTILE
+    * PERCENTILE.INC
+    * PERCENTRANK
+    * PERCENTRANK.INC
+    * PPMT
+    * PRICE
+    * PV
+    * RATE
+    * RRI
+    * SLN
+    * SYD
+    * TEXTJOIN
+    * VAR.P
+    * VAR.S
+    * XIRR
+    * XNPV
+    * YIELD
+
 * Four new properties to Style.Font
 	* Charset
 	* Condense
 	* Extend
 	* Shadow
 * Added   * New `As` property to the Drawing, ConditionalFormatting and DataValidation objects for easier type cast. For example `var sunburstChart = worksheet.Drawings[0].As.Chart.SunburstChart;` or `var listDv = sheet.DataValidations.First().As.ListValidation;`
-* OFFSET function calculation can now be a part of a range. For example `SUM(A1:OFFSET(A3, -2, 0))`
+* OFFSET function calculation can now be a part of a range in formula calculation. For example `SUM(A1:OFFSET(A3, -2, 0))`
 * Added ShowColumnHeaders, ShowColumnStripes, ShowRowHeaders, ShowRowStripes and ShowLastColumn properties to ExcelPivotTable
 ### Fixed issues
 * Ignore a leading "_xlfn." in function names when calculating formulas.

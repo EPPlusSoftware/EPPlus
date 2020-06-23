@@ -37,7 +37,7 @@
         * Waterfall Chart
         * Box &amp; Whisker Chart
         * Region Map Chart.
-      * Support for 40 new functions.
+      * Support for 49 new functions in the formula calc engine, mainly finance and engineering.
       * Bug fixes
 
       New features in version 5.0 and 5.1:
@@ -46,7 +46,7 @@
       * Filter support
       * Async / Await support for I/O operations
       * Ignore Error on cells
-      * Improvements of the formula calc engine and 58 new supported functions
+      * Improvements of the formula calc engine and over 100 new supported functions
       * Refactored/improved codebase
       * Insert/Delete in ranges and tables.
 
