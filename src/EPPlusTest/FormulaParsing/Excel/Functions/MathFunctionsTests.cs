@@ -883,6 +883,15 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void VarDotSShouldReturnCorrectResult()
+        {
+            var func = new VarDotS();
+            var args = FunctionsHelper.CreateArgs(1, 2, 3, 4);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.6667d, System.Math.Round((double)result.Result, 4));
+        }
+
+        [TestMethod]
         public void VarShouldIgnoreHiddenValuesIfIgnoreHiddenIsTrue()
         {
             var func = new Var();
@@ -897,6 +906,15 @@ namespace EPPlusTest.Excel.Functions
         public void VarPShouldReturnCorrectResult()
         {
             var func = new VarP();
+            var args = FunctionsHelper.CreateArgs(1, 2, 3, 4);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.25d, result.Result);
+        }
+
+        [TestMethod]
+        public void VarDotPShouldReturnCorrectResult()
+        {
+            var func = new VarDotP();
             var args = FunctionsHelper.CreateArgs(1, 2, 3, 4);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(1.25d, result.Result);
