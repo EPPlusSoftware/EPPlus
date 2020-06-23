@@ -169,7 +169,7 @@ namespace EPPlusTest.Excel.Functions
         public void SechShouldReturnCorrectResult_PiDividedBy4()
         {
             var func = new SecH();
-            var args = FunctionsHelper.CreateArgs(Math.PI/4);
+            var args = FunctionsHelper.CreateArgs(Math.PI / 4);
             var result = func.Execute(args, _parsingContext).Result;
             Assert.AreEqual(0.7549, Math.Round((double)result, 4));
         }
@@ -707,7 +707,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new AverageA();
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(1d, 2d, 3d, "ABC"));
             var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(1.5d,result.Result);
+            Assert.AreEqual(1.5d, result.Result);
         }
 
         [TestMethod]
@@ -743,7 +743,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Rand();
             var args = new FunctionArgument[0];
             var result1 = func.Execute(args, _parsingContext);
-            Assert.IsTrue(((double)result1.Result) > 0 && ((double) result1.Result) < 1);
+            Assert.IsTrue(((double)result1.Result) > 0 && ((double)result1.Result) < 1);
             var result2 = func.Execute(args, _parsingContext);
             Assert.AreNotEqual(result1.Result, result2.Result, "The two numbers were the same");
             Assert.IsTrue(((double)result2.Result) > 0 && ((double)result2.Result) < 1);
@@ -1008,7 +1008,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Atan();
             var args = FunctionsHelper.CreateArgs(10);
             var result = func.Execute(args, _parsingContext);
-            var roundedResult = Math.Round((double) result.Result, 9);
+            var roundedResult = Math.Round((double)result.Result, 9);
             Assert.AreEqual(1.471127674d, roundedResult);
         }
 
@@ -1016,7 +1016,7 @@ namespace EPPlusTest.Excel.Functions
         public void Atan2ShouldReturnCorrectResult()
         {
             var func = new Atan2();
-            var args = FunctionsHelper.CreateArgs(1,2);
+            var args = FunctionsHelper.CreateArgs(1, 2);
             var result = func.Execute(args, _parsingContext);
             var roundedResult = Math.Round((double)result.Result, 9);
             Assert.AreEqual(1.107148718d, roundedResult);
@@ -1189,7 +1189,7 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(120d, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof (ExcelErrorValueException))]
+        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
         public void FactShouldThrowWhenNegativeNumber()
         {
             var func = new Fact();
@@ -1504,7 +1504,7 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void PercentrankInc_Test1()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = 1;
@@ -1551,6 +1551,78 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Calculate();
                 result = sheet.Cells["A10"].Value;
                 Assert.AreEqual(0.41666, result);
+            }
+        }
+
+        [TestMethod]
+        public void Percentile_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 6;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 5;
+
+                sheet.Cells["A10"].Formula = "PERCENTILE(A1:A6,0.2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(2d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE(A1:A6,60%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(4d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE(A1:A6,50%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3.5d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE(A1:A6,95%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(5.75d, result);
+            }
+        }
+
+        [TestMethod]
+        public void PercentileInc_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 0;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["A5"].Value = 4;
+                sheet.Cells["A6"].Value = 5;
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.INC(A1:A6,0.2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(1d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.INC(A1:A6,60%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.INC(A1:A6,50%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(2.5d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.INC(A1:A6,95%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(4.75d, result);
             }
         }
     }
