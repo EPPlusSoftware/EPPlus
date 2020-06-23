@@ -233,39 +233,6 @@ namespace OfficeOpenXml.Style
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Charset, value, _positionID, _address));
             }
         }
-        public bool Extend
-        {
-            get
-            {
-                return _styles.Fonts[Index].Extend;
-            }
-            set
-            {
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Extend, value, _positionID, _address));
-            }
-        }
-        public bool Condense
-        {
-            get
-            {
-                return _styles.Fonts[Index].Condense;
-            }
-            set
-            {
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Condense, value, _positionID, _address));
-            }
-        }
-        public bool Shadow
-        {
-            get
-            {
-                return _styles.Fonts[Index].Shadow;
-            }
-            set
-            {
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Shadow, value, _positionID, _address));
-            }
-        }        
         /// <summary>
         /// Set the font from a Font object
         /// </summary>
@@ -285,7 +252,7 @@ namespace OfficeOpenXml.Style
         {
             get 
             {
-                return Name + Size.ToString() + Family.ToString() + Scheme.ToString() + Bold.ToString()[0] + Italic.ToString()[0] + Strike.ToString()[0] + UnderLine.ToString()[0] + VerticalAlign;
+                return Name + Size.ToString() + Family.ToString() + Scheme.ToString() + Bold.ToString()[0] + Italic.ToString()[0] + Strike.ToString()[0] + UnderLine.ToString()[0] + VerticalAlign + Charset.ToString();
             }
         }
     }

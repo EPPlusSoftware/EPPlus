@@ -1091,16 +1091,22 @@ namespace OfficeOpenXml
         {
             string[] nodePaths = beforeNodes.Split(',');
 
-            foreach (string nodePath in nodePaths)
+            XmlNode insertAfter = null;
+            foreach (XmlNode childNode in parentNode.ChildNodes)
             {
-                XmlNode node = parentNode.SelectSingleNode(nodePath, NameSpaceManager);
-                if (node != null)
+                if (nodePaths.Contains(childNode.Name))
                 {
-                    parentNode.InsertAfter(newNode, node);
-                    return;
+                    insertAfter = childNode;
                 }
             }
-            parentNode.InsertAfter(newNode, null);
+            if(insertAfter==null)
+            {
+                parentNode.AppendChild(newNode);
+            }
+            else
+            {
+                parentNode.InsertAfter(newNode, insertAfter);
+            }
         }
         internal static void LoadXmlSafe(XmlDocument xmlDoc, Stream stream)
         {

@@ -37,8 +37,6 @@ namespace OfficeOpenXml.Style.XmlAccess
             _underlineType = ExcelUnderLineType.None ;
             _verticalAlign = "";
             _charset = null;
-            _condense = true;
-            _shadow = true;
         }
         internal ExcelFontXml(XmlNamespaceManager nsm, XmlNode topNode) :
             base(nsm, topNode)
@@ -53,9 +51,6 @@ namespace OfficeOpenXml.Style.XmlAccess
             _strike = GetBoolValue(topNode, strikePath);
             _verticalAlign = GetXmlNodeString(verticalAlignPath);
             _charset = GetXmlNodeIntNull(_charsetPath);
-            _condense = GetXmlNodeBool(_condensePath, true);
-            _shadow = GetXmlNodeBool(_shadowPath,true);
-            Extend = GetXmlNodeBool(_extendPath, true);
             if (topNode.SelectSingleNode(underLinedPath, NameSpaceManager) != null)
             {
                 string ut = GetXmlNodeString(underLinedPath + "/@val");
@@ -78,7 +73,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             get
             {
-                return Name + "|" + Size + "|" + Family + "|" + Color.Id + "|" + Scheme + "|" + Bold.ToString() + "|" + Italic.ToString() + "|" + Strike.ToString() + "|" + VerticalAlign + "|" + UnderLineType.ToString() + "|" + (Charset.HasValue ? Charset.ToString() : "") + "|" + Shadow.ToString() + "|" + Condense.ToString() + "|" + Extend.ToString();
+                return Name + "|" + Size + "|" + Family + "|" + Color.Id + "|" + Scheme + "|" + Bold.ToString() + "|" + Italic.ToString() + "|" + Strike.ToString() + "|" + VerticalAlign + "|" + UnderLineType.ToString() + "|" + (Charset.HasValue ? Charset.ToString() : "");
             }
         }
         const string namePath = "d:name/@val";
@@ -300,50 +295,6 @@ namespace OfficeOpenXml.Style.XmlAccess
                 _charset = value;
             }
         }
-        const string _condensePath = "d:condense/@val";
-        bool _condense;
-        /// <summary>
-        /// Macintosh compatibility setting.
-        /// Condense the text (squeeze it together).
-        /// </summary>
-        public bool Condense
-        {
-            get
-            {
-                return _condense;
-            }
-            set
-            {
-                _condense = value;
-            }
-        }
-        bool _shadow=true;
-        const string _shadowPath = "d:shadow/@val";
-        /// <summary>
-        /// Macintosh compatibility setting.
-        /// Renders a shadow behind, beneath and to the right of the text.
-        /// </summary>
-        public bool Shadow
-        {
-            get
-            {
-                return _shadow;
-            }
-            set
-            {
-                _shadow = value;
-            }
-        }
-        const string _extendPath = "d:extend/@val";
-        /// <summary>
-        /// A compatibility setting used for previous spreadsheet applications
-        /// The effect extends or stretches out the text.
-        /// </summary>
-        public bool Extend
-        {
-            get;
-            set;
-        }
         /// <summary>
         /// Sets the font from a system font object
         /// </summary>
@@ -415,7 +366,6 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             ExcelFontXml newFont = new ExcelFontXml(NameSpaceManager);
             newFont.Name = _name;
-            newFont.Charset = _charset;
             newFont.Size = _size;
             newFont.Family = _family;
             newFont.Scheme = _scheme;
@@ -425,15 +375,12 @@ namespace OfficeOpenXml.Style.XmlAccess
             newFont.Strike = _strike;
             newFont.VerticalAlign = _verticalAlign;
             newFont.Color = Color.Copy();
-            newFont.Condense = _condense;
-            newFont.Shadow = _shadow;
-            newFont.Extend = Extend;
+            newFont.Charset = _charset;
             return newFont;
         }
         internal override XmlNode CreateXmlNode(XmlNode topElement)
         {
             TopNode = topElement;
-            SetXmlNodeInt(_charsetPath, Charset);
             if (_bold) CreateNode(boldPath); else DeleteAllNode(boldPath);
             if (_italic) CreateNode(italicPath); else DeleteAllNode(italicPath);
             if (_strike) CreateNode(strikePath); else DeleteAllNode(strikePath);
@@ -459,13 +406,12 @@ namespace OfficeOpenXml.Style.XmlAccess
                 CreateNode(_colorPath);
                 TopNode.AppendChild(_color.CreateXmlNode(TopNode.SelectSingleNode(_colorPath, NameSpaceManager)));
             }
-            SetXmlNodeBool(_shadowPath, _shadow, true);
-            SetXmlNodeBool(_condensePath, _condense, true);
-            SetXmlNodeBool(_extendPath, Extend, true);
 
             if (!string.IsNullOrEmpty(_name)) SetXmlNodeString(namePath, _name);
             if(_family>int.MinValue) SetXmlNodeString(familyPath, _family.ToString());
             if (_scheme != "") SetXmlNodeString(schemePath, _scheme.ToString());
+
+            SetXmlNodeInt(_charsetPath, Charset);
 
             return TopNode;
         }

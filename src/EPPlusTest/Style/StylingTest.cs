@@ -150,20 +150,10 @@ namespace EPPlusTest.Style
             ws.Cells["A1:C3"].Value = "Font";
 
             Assert.IsNull(ws.Cells["A1"].Style.Font.Charset);
-            Assert.IsTrue(ws.Cells["A2"].Style.Font.Condense);
-            Assert.IsTrue(ws.Cells["A3"].Style.Font.Extend);
-            Assert.IsTrue(ws.Cells["B1"].Style.Font.Shadow);
 
             ws.Cells["A1"].Style.Font.Charset=2;
-            ws.Cells["A2"].Style.Font.Condense = false;
-            ws.Cells["A3"].Style.Font.Extend = false;
-            ws.Cells["B1"].Style.Font.Shadow = false;
 
             Assert.AreEqual(2, ws.Cells["A1"].Style.Font.Charset);
-            Assert.IsFalse(ws.Cells["A2"].Style.Font.Condense);
-            Assert.IsFalse(ws.Cells["A3"].Style.Font.Extend);
-            Assert.IsFalse(ws.Cells["B1"].Style.Font.Shadow);
-
         }
     }
 }

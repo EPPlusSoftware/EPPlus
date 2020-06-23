@@ -514,13 +514,20 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         private string AddVaryColors()
         {
-            if (IsTypePieDoughnut())
+            if (IsTypeStock() || IsTypeSurface())
             {
-                return "<c:varyColors val=\"1\" />";
+                return "";
             }
             else
             {
-                return "<c:varyColors val=\"0\" />";
+                if (IsTypePieDoughnut())
+                {
+                    return "<c:varyColors val=\"1\" />";
+                }
+                else
+                {
+                    return "<c:varyColors val=\"0\" />";
+                }
             }
         }
         private string AddHasMarker(eChartType type)

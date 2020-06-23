@@ -20,16 +20,23 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, "c")
         {
-            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "idx", "spPr", "txPr", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator", "showLeaderLines" }, new int[] { 0, schemaNodeOrder.Length });
+            AddSchemaNodeOrder(schemaNodeOrder, new string[] { "idx", "spPr", "txPr", "dLbl", "dLblPos", "showLegendKey", "showVal", "showCatName", "showSerName", "showPercent", "showBubbleSize", "separator", "showLeaderLines" }, new int[] { 0, schemaNodeOrder.Length });
             AddSchemaNodeOrder(SchemaNodeOrder, ExcelDrawing._schemaNodeOrderSpPr);
-            var fullNodeName = "c:" + nodeName;
-            var topNode = GetNode(fullNodeName);
-            if (topNode == null)
+            if(nodeName=="dLbl")
             {
-                topNode = CreateNode(fullNodeName);
-                topNode.InnerXml = "<c:showLegendKey val=\"0\" /><c:showVal val=\"0\" /><c:showCatName val=\"0\" /><c:showSerName val=\"0\" /><c:showPercent val=\"0\" /><c:showBubbleSize val=\"0\" /> <c:separator>\r\n</c:separator><c:showLeaderLines val=\"0\" />";
+                TopNode = node;
             }
-            TopNode = topNode;
+            else
+            {
+                var fullNodeName = "c:" + nodeName;
+                var topNode = GetNode(fullNodeName);
+                if (topNode == null)
+                {
+                    topNode = CreateNode(fullNodeName);
+                    topNode.InnerXml = "<c:showLegendKey val=\"0\" /><c:showVal val=\"0\" /><c:showCatName val=\"0\" /><c:showSerName val=\"0\" /><c:showPercent val=\"0\" /><c:showBubbleSize val=\"0\" /> <c:separator>\r\n</c:separator><c:showLeaderLines val=\"0\" />";
+                }
+                TopNode = topNode;
+            }
         }
 
         const string positionPath = "c:dLblPos/@val";
