@@ -54,8 +54,8 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             switch(_chart.ChartType)
             {
                 case eChartType.BoxWhisker:
-                    axis0.InnerXml = "<cx:valScaling/><cx:majorGridlines/><cx:tickLabels/>";
-                    axis1.InnerXml = "<cx:catScaling gapWidth=\"1\"/><cx:tickLabels/>";
+                    axis0.InnerXml = "<cx:catScaling gapWidth=\"1\"/><cx:tickLabels/>";
+                    axis1.InnerXml = "<cx:valScaling/><cx:majorGridlines/><cx:tickLabels/>";
                     break;
                 case eChartType.Waterfall:
                     axis0.InnerXml = "<cx:catScaling/><cx:tickLabels/>";

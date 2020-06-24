@@ -65,8 +65,16 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             _exAxis = null;
             if(Axis.Length>0)
             {
-                XAxis = Axis[0];
-                YAxis = Axis[1];
+                if(Axis[1].AxisType==eAxisType.Cat)
+                {
+                    XAxis = Axis[1];
+                    YAxis = Axis[0];
+                }
+                else
+                {
+                    XAxis = Axis[0];
+                    YAxis = Axis[1];
+                }
             }
         }
         private void Init()
