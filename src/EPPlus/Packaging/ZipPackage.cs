@@ -260,7 +260,9 @@ namespace OfficeOpenXml.Packaging
         {
             var enc = Encoding.UTF8;
             ZipOutputStream os = new ZipOutputStream(stream, true);
+            os.EnableZip64 = Zip64Option.AsNecessary;
             os.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)_compression;            
+
             /**** ContentType****/
             var entry = os.PutNextEntry("[Content_Types].xml");
             byte[] b = enc.GetBytes(GetContentTypeXml());
