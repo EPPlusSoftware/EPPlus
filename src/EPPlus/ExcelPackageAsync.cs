@@ -15,6 +15,7 @@ using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.IO;
 #if !NET35 && !NET40
+using System.Threading;
 using System.Threading.Tasks;
 #endif
 namespace OfficeOpenXml
@@ -23,66 +24,78 @@ namespace OfficeOpenXml
     {
 #if !NET35 && !NET40
         #region Load
+
         /// <summary>
         /// Loads the specified package data from a stream.
         /// </summary>
         /// <param name="fileInfo">The input file.</param>
-        public async Task LoadAsync(FileInfo fileInfo)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task LoadAsync(FileInfo fileInfo, CancellationToken cancellationToken = default)
         {
             var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, new MemoryStream(), null).ConfigureAwait(false);
+            await LoadAsync(stream, new MemoryStream(), null, cancellationToken).ConfigureAwait(false);
         }
+
         /// <summary>
         /// Loads the specified package data from a stream.
         /// </summary>
         /// <param name="fileInfo">The input file.</param>
         /// <param name="Password">The password</param>
-        public async Task LoadAsync(FileInfo fileInfo, string Password)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task LoadAsync(FileInfo fileInfo, string Password, CancellationToken cancellationToken = default)
         {
             var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, new MemoryStream(), Password).ConfigureAwait(false);
+            await LoadAsync(stream, new MemoryStream(), Password, cancellationToken).ConfigureAwait(false);
         }
+
         /// <summary>
         /// Loads the specified package data from a stream.
         /// </summary>
         /// <param name="fileInfo">The input file.</param>
         /// <param name="output">The out stream. Sets the Stream property</param>
         /// <param name="Password">The password</param>
-        public async Task LoadAsync(FileInfo fileInfo, Stream output, string Password)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task LoadAsync(FileInfo fileInfo, Stream output, string Password, CancellationToken cancellationToken = default)
         {
             var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, output, Password).ConfigureAwait(false);
+            await LoadAsync(stream, output, Password, cancellationToken).ConfigureAwait(false);
         }
+
         /// <summary>
         /// Loads the specified package data from a stream.
         /// </summary>
         /// <param name="input">The input.</param>
-        public async Task LoadAsync(Stream input)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task LoadAsync(Stream input, CancellationToken cancellationToken = default)
         {
-            await LoadAsync(input, new MemoryStream(), null).ConfigureAwait(false);
+            await LoadAsync(input, new MemoryStream(), null, cancellationToken).ConfigureAwait(false);
         }
+
         /// <summary>
         /// Loads the specified package data from a stream.
         /// </summary>
         /// <param name="input">The input.</param>
         /// <param name="Password">The password to decrypt the document</param>
-        public async Task LoadAsync(Stream input, string Password)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task LoadAsync(Stream input, string Password, CancellationToken cancellationToken = default)
         {
-            await LoadAsync(input, new MemoryStream(), Password).ConfigureAwait(false); ;
+            await LoadAsync(input, new MemoryStream(), Password, cancellationToken).ConfigureAwait(false);
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="input"></param>    
         /// <param name="output"></param>
         /// <param name="Password"></param>
-        private async Task LoadAsync(Stream input, Stream output, string Password)
+        /// <param name="cancellationToken"></param>
+        private async Task LoadAsync(Stream input, Stream output, string Password, CancellationToken cancellationToken)
         {
             ReleaseResources();
             if (input.Length == 0) // Template is blank, Construct new
             {
                 _stream = output;
-                await ConstructNewFileAsync(Password).ConfigureAwait(false);
+                await ConstructNewFileAsync(Password, cancellationToken).ConfigureAwait(false);
             }
             else
             {
@@ -91,15 +104,15 @@ namespace OfficeOpenXml
                 if (Password != null)
                 {
                     Stream encrStream = new MemoryStream();
-                    await CopyStreamAsync(input, encrStream).ConfigureAwait(false);
-                    EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                    await CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
+                    var eph = new EncryptedPackageHandler();
                     Encryption.Password = Password;
                     ms = eph.DecryptPackage((MemoryStream)encrStream, Encryption);
                 }
                 else
                 {
                     ms = new MemoryStream();
-                    await CopyStreamAsync(input, ms).ConfigureAwait(false);
+                    await CopyStreamAsync(input, ms, cancellationToken).ConfigureAwait(false);
                 }
 
                 try
@@ -108,22 +121,21 @@ namespace OfficeOpenXml
                 }
                 catch (Exception ex)
                 {
-                    EncryptedPackageHandler eph = new EncryptedPackageHandler();
-                    if (Password == null && await CompoundDocumentFile.IsCompoundDocumentAsync((MemoryStream)_stream).ConfigureAwait(false))
+                    if (Password == null && await CompoundDocumentFile.IsCompoundDocumentAsync((MemoryStream)_stream, cancellationToken).ConfigureAwait(false))
                     {
                         throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
             }
             //Clear the workbook so that it gets reinitialized next time
             this._workbook = null;
         }
         #endregion
+
         #region SaveAsync
+
         /// <summary>
         /// Saves all the components back into the package.
         /// This method recursively calls the Save method on all sub-components.
@@ -131,7 +143,7 @@ namespace OfficeOpenXml
         /// d to encrypt the workbook with. 
         /// </summary>
         /// <returns></returns>
-        public async Task SaveAsync()
+        public async Task SaveAsync(CancellationToken cancellationToken = default)
         {
             try
             {
@@ -156,16 +168,16 @@ namespace OfficeOpenXml
                     {
                         var ms = new MemoryStream();
                         _package.Save(ms);
-                        byte[] file = ms.ToArray();
-                        EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                        var file = ms.ToArray();
+                        var eph = new EncryptedPackageHandler();
                         var msEnc = eph.EncryptPackage(file, Encryption);
-                        await CopyStreamAsync(msEnc, _stream).ConfigureAwait(false);
+                        await CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
                     }
                     else
                     {
                         _package.Save(_stream);
                     }
-                    _stream.Flush();
+                    await _stream.FlushAsync(cancellationToken);
                     _package.Close();
                 }
                 else
@@ -178,38 +190,47 @@ namespace OfficeOpenXml
                         }
                         catch (Exception ex)
                         {
-                            throw (new Exception(string.Format("Error overwriting file {0}", File.FullName), ex));
+                            throw new Exception($"Error overwriting file {File.FullName}", ex);
                         }
                     }
 
                     _package.Save(_stream);
                     _package.Close();
-                    if (Stream is MemoryStream)
+                    if (Stream is MemoryStream stream)
                     {
-                        var fi = new FileStream(File.FullName, FileMode.Create);
-                        //EncryptPackage
-                        if (Encryption.IsEncrypted)
+#if NETSTANDARD2_1
+                        await using (var fi = new FileStream(File.FullName, FileMode.Create))
+#else
+                        using (var fi = new FileStream(File.FullName, FileMode.Create))
+#endif
                         {
-                            byte[] file = ((MemoryStream)Stream).ToArray();
-                            EncryptedPackageHandler eph = new EncryptedPackageHandler();
-                            var ms = eph.EncryptPackage(file, Encryption);
+                            //EncryptPackage
+                            if (Encryption.IsEncrypted)
+                            {
+                                var file = stream.ToArray();
+                                var eph = new EncryptedPackageHandler();
+                                var ms = eph.EncryptPackage(file, Encryption);
 
-                            await fi.WriteAsync(ms.ToArray(), 0, (int)ms.Length).ConfigureAwait(false);
+                                await fi.WriteAsync(ms.ToArray(), 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                await fi.WriteAsync(stream.ToArray(), 0, (int)Stream.Length, cancellationToken).ConfigureAwait(false);
+                            }
                         }
-                        else
-                        {
-                            await fi.WriteAsync(((MemoryStream)Stream).ToArray(), 0, (int)Stream.Length).ConfigureAwait(false);
-                        }
-                        fi.Close();
-                        fi.Dispose();
                     }
                     else
                     {
-                        using (FileStream fs = new FileStream(File.FullName, FileMode.Create))
+#if NETSTANDARD2_1
+                        await using (var fs = new FileStream(File.FullName, FileMode.Create))
+#else
+                        using (var fs = new FileStream(File.FullName, FileMode.Create))
+#endif
                         {
-                            var b = await GetAsByteArrayAsync(false).ConfigureAwait(false);
-                            await fs.WriteAsync(b, 0, b.Length).ConfigureAwait(false);
+                            var b = await GetAsByteArrayAsync(false, cancellationToken).ConfigureAwait(false);
+                            await fs.WriteAsync(b, 0, b.Length, cancellationToken).ConfigureAwait(false);
                         }
+
                     }
                 }
             }
@@ -219,12 +240,11 @@ namespace OfficeOpenXml
                 {
                     throw;
                 }
-                else
-                {
-                    throw (new InvalidOperationException(string.Format("Error saving file {0}", File.FullName), ex));
-                }
+
+                throw new InvalidOperationException($"Error saving file {File.FullName}", ex);
             }
         }
+
         /// <summary>
         /// Saves all the components back into the package.
         /// This method recursively calls the Save method on all sub-components.
@@ -232,23 +252,29 @@ namespace OfficeOpenXml
         /// Supply a password to encrypt the workbook package. 
         /// </summary>
         /// <param name="password">This parameter overrides the Workbook.Encryption.Password.</param>
-        public async Task SaveAsync(string password)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsync(string password, CancellationToken cancellationToken = default)
         {
             Encryption.Password = password;
-            await SaveAsync().ConfigureAwait(false);
+            await SaveAsync(cancellationToken).ConfigureAwait(false);
         }
+
         #endregion
+
         #region SaveAsAsync
+
         /// <summary>
         /// Saves the workbook to a new file
         /// The package is closed after it has been saved        
         /// </summary>
         /// <param name="file">The file location</param>
-        public async Task SaveAsAsync(FileInfo file)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsAsync(FileInfo file, CancellationToken cancellationToken = default)
         {
             File = file;
-            await SaveAsync().ConfigureAwait(false); 
+            await SaveAsync(cancellationToken).ConfigureAwait(false); 
         }
+
         /// <summary>
         /// Saves the workbook to a new file
         /// The package is closed after it has been saved
@@ -256,27 +282,31 @@ namespace OfficeOpenXml
         /// <param name="file">The file</param>
         /// <param name="password">The password to encrypt the workbook with. 
         /// This parameter overrides the Encryption.Password.</param>
-        public async Task SaveAsAsync(FileInfo file, string password)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsAsync(FileInfo file, string password, CancellationToken cancellationToken = default)
         {
             File = file;
             Encryption.Password = password;
-            await SaveAsync().ConfigureAwait(false);
+            await SaveAsync(cancellationToken).ConfigureAwait(false);
         }
+
         /// <summary>
         /// Copies the Package to the Outstream
         /// The package is closed after it has been saved
         /// </summary>
         /// <param name="OutputStream">The stream to copy the package to</param>
-        public async Task SaveAsAsync(Stream OutputStream)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsAsync(Stream OutputStream, CancellationToken cancellationToken = default)
         {
             File = null;
-            await SaveAsync().ConfigureAwait(false); 
+            await SaveAsync(cancellationToken).ConfigureAwait(false); 
 
             if (OutputStream != _stream)
             {
-                await CopyStreamAsync(_stream, OutputStream).ConfigureAwait(false);
+                await CopyStreamAsync(_stream, OutputStream, cancellationToken).ConfigureAwait(false);
             }
         }
+
         /// <summary>
         /// Copies the Package to the Outstream
         /// The package is closed after it has been saved
@@ -284,26 +314,30 @@ namespace OfficeOpenXml
         /// <param name="OutputStream">The stream to copy the package to</param>
         /// <param name="password">The password to encrypt the workbook with. 
         /// This parameter overrides the Encryption.Password.</param>
-        public async Task SaveAsAsync(Stream OutputStream, string password)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public async Task SaveAsAsync(Stream OutputStream, string password, CancellationToken cancellationToken = default)
         {
             Encryption.Password = password;
-            await SaveAsAsync(OutputStream).ConfigureAwait(false); 
+            await SaveAsAsync(OutputStream, cancellationToken).ConfigureAwait(false); 
         }
+
         #endregion
+
         /// <summary>
         /// Copies the input stream to the output stream.
         /// </summary>
         /// <param name="inputStream">The input stream.</param>
         /// <param name="outputStream">The output stream.</param>
-        internal static async Task CopyStreamAsync(Stream inputStream, Stream outputStream)
+        /// <param name="cancellationToken">The cancellation token</param>
+        internal static async Task CopyStreamAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken)
         {
             if (!inputStream.CanRead)
             {
-                throw (new Exception("Can not read from inputstream"));
+                throw new Exception("Can not read from inputstream");
             }
             if (!outputStream.CanWrite)
             {
-                throw (new Exception("Can not write to outputstream"));
+                throw new Exception("Can not write to outputstream");
             }
             if (inputStream.CanSeek)
             {
@@ -311,17 +345,18 @@ namespace OfficeOpenXml
             }
 
             const int bufferLength = 8096;
-            var buffer = new Byte[bufferLength];
-            int bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength).ConfigureAwait(false);
+            var buffer = new byte[bufferLength];
+            var bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength, cancellationToken).ConfigureAwait(false);
             // write the required bytes
             while (bytesRead > 0)
             {
-                await outputStream.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
-                bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength).ConfigureAwait(false);
+                await outputStream.WriteAsync(buffer, 0, bytesRead, cancellationToken).ConfigureAwait(false);
+                bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength, cancellationToken).ConfigureAwait(false);
             }
-            await outputStream.FlushAsync();
+            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
-        internal async Task<byte[]> GetAsByteArrayAsync(bool save)
+
+        internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {
             if (save)
             {
@@ -329,15 +364,15 @@ namespace OfficeOpenXml
                 _package.Close();
                 _package.Save(_stream);
             }
-            Byte[] byRet = new byte[Stream.Length];
-            long pos = Stream.Position;
+            var byRet = new byte[Stream.Length];
+            var pos = Stream.Position;
             Stream.Seek(0, SeekOrigin.Begin);
-            await Stream.ReadAsync(byRet, 0, (int)Stream.Length).ConfigureAwait(false);
+            await Stream.ReadAsync(byRet, 0, (int)Stream.Length, cancellationToken).ConfigureAwait(false);
 
             //Encrypt Workbook?
             if (Encryption.IsEncrypted)
             {
-                EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                var eph = new EncryptedPackageHandler();
                 var ms = eph.EncryptPackage(byRet, Encryption);
                 byRet = ms.ToArray();
             }
@@ -346,6 +381,7 @@ namespace OfficeOpenXml
             Stream.Close();
             return byRet;
         }
+
         /// <summary>
         /// Saves and returns the Excel files as a bytearray.
         /// Note that the package is closed upon save
@@ -361,11 +397,13 @@ namespace OfficeOpenXml
         ///  Response.BinaryWrite(bin);
         /// </code>
         /// </example>
+        /// <param name="cancellationToken">The cancellation token</param>
         /// <returns></returns>
-        public async Task<byte[]> GetAsByteArrayAsync()
+        public async Task<byte[]> GetAsByteArrayAsync(CancellationToken cancellationToken = default)
         {
-            return await GetAsByteArrayAsync(true).ConfigureAwait(false);
+            return await GetAsByteArrayAsync(true, cancellationToken).ConfigureAwait(false);
         }
+
         /// <summary>
         /// Saves and returns the Excel files as a bytearray
         /// Note that the package is closed upon save
@@ -383,20 +421,22 @@ namespace OfficeOpenXml
         /// </example>
         /// <param name="password">The password to encrypt the workbook with. 
         /// This parameter overrides the Encryption.Password.</param>
+        /// <param name="cancellationToken">The cancellation token</param>
         /// <returns></returns>
-        public async Task<byte[]> GetAsByteArrayAsync(string password)
+        public async Task<byte[]> GetAsByteArrayAsync(string password, CancellationToken cancellationToken = default)
         {
             if (password != null)
             {
                 Encryption.Password = password;
             }
-            return await GetAsByteArrayAsync(true).ConfigureAwait(false);
+            return await GetAsByteArrayAsync(true, cancellationToken).ConfigureAwait(false);
         }
-        private async Task ConstructNewFileAsync(string password)
+
+        private async Task ConstructNewFileAsync(string password, CancellationToken cancellationToken)
         {
             var ms = new MemoryStream();
             if (_stream == null) _stream = new MemoryStream();
-            if (File != null) File.Refresh();
+            File?.Refresh();
             if (File != null && File.Exists)
             {
                 if (password != null)
@@ -405,11 +445,10 @@ namespace OfficeOpenXml
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
                     ms = encrHandler.DecryptPackage(File, Encryption);
-                    encrHandler = null;
                 }
                 else
                 {
-                    await WriteFileToStreamAsync(File.FullName, ms);
+                    await WriteFileToStreamAsync(File.FullName, ms, cancellationToken).ConfigureAwait(false);
                 }
                 try
                 {
@@ -417,14 +456,12 @@ namespace OfficeOpenXml
                 }
                 catch (Exception ex)
                 {
-                    if (password == null && await CompoundDocumentFile.IsCompoundDocumentAsync(File).ConfigureAwait(false))
+                    if (password == null && await CompoundDocumentFile.IsCompoundDocumentAsync(File, cancellationToken).ConfigureAwait(false))
                     {
                         throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
                     }
-                    else
-                    {
-                        throw;
-                    }
+
+                    throw;
                 }
             }
             else
@@ -433,15 +470,21 @@ namespace OfficeOpenXml
                 CreateBlankWb();
             }
         }
-        private static async Task WriteFileToStreamAsync(string path, Stream stream)
+
+        private static async Task WriteFileToStreamAsync(string path, Stream stream,
+            CancellationToken cancellationToken)
         {
+#if NETSTANDARD2_1
+            await using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+#else
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+#endif
             {
                 var buffer = new byte[4096];
                 int read;
-                while ((read = await fileStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+                while ((read = await fileStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) > 0)
                 {
-                    await stream.WriteAsync(buffer, 0, read).ConfigureAwait(false);
+                    await stream.WriteAsync(buffer, 0, read, cancellationToken).ConfigureAwait(false);
                 }
             }
         }
