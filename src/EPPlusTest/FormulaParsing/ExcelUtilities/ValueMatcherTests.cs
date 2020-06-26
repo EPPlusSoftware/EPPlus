@@ -47,21 +47,21 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
-        public void ShouldReturn1WhenFirstParamIsSomethingAndSecondParamIsNull()
+        public void ShouldReturnMinus1WhenFirstParamIsSomethingAndSecondParamIsNull()
         {
-            object o1 = 1;
+            object searchedValue = 1;
             object o2 = null;
-            var result = _matcher.IsMatch(o1, o2);
-            Assert.AreEqual(1, result);
+            var result = _matcher.IsMatch(searchedValue, o2);
+            Assert.AreEqual(-1, result);
         }
 
         [TestMethod]
-        public void ShouldReturnMinus1WhenFirstParamIsNullAndSecondParamIsSomething()
+        public void ShouldReturn1WhenFirstParamIsNullAndSecondParamIsSomething()
         {
-            object o1 = null;
+            object searchedValue = null;
             object o2 = 1;
-            var result = _matcher.IsMatch(o1, o2);
-            Assert.AreEqual(-1, result);
+            var result = _matcher.IsMatch(searchedValue, o2);
+            Assert.AreEqual(1, result);
         }
 
         [TestMethod]
@@ -83,21 +83,21 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
-        public void ShouldReturnMinus1WhenFirstParamIsLessThanSecondParam()
+        public void ShouldReturn1WhenFirstParamIsLessThanSecondParam()
         {
             object o1 = 1d;
             object o2 = 5d;
             var result = _matcher.IsMatch(o1, o2);
-            Assert.AreEqual(-1, result);
+            Assert.AreEqual(1, result);
         }
 
         [TestMethod]
-        public void ShouldReturn1WhenFirstParamIsGreaterThanSecondParam()
+        public void ShouldReturnMinus1WhenFirstParamIsGreaterThanSecondParam()
         {
             object o1 = 3d;
             object o2 = 1d;
             var result = _matcher.IsMatch(o1, o2);
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(-1, result);
         }
 
         [TestMethod]
@@ -142,21 +142,21 @@ namespace EPPlusTest.ExcelUtilities
         }
 
         [TestMethod]
-        public void ShouldReturn1WhenDateTimeLargerThanDouble()
+        public void ShouldReturnMinus1WhenDateTimeLargerThanDouble()
         {
-            var dt = new DateTime(2020, 2, 7).Date;
-            var o2 = dt.AddDays(-1).ToOADate();
-            var result = _matcher.IsMatch(dt, o2);
-            Assert.AreEqual(1, result);
+            var searchedValue = new DateTime(2020, 2, 7).Date;
+            var o2 = searchedValue.AddDays(-1).ToOADate();
+            var result = _matcher.IsMatch(searchedValue, o2);
+            Assert.AreEqual(-1, result);
         }
 
         [TestMethod]
         public void ShouldReturn1WhenDateTimeSmallerThanDouble()
         {
-            var dt = new DateTime(2020, 2, 7).Date;
-            var o2 = dt.AddDays(1).ToOADate();
-            var result = _matcher.IsMatch(dt, o2);
-            Assert.AreEqual(-1, result);
+            var searchedValue = new DateTime(2020, 2, 7).Date;
+            var o2 = searchedValue.AddDays(1).ToOADate();
+            var result = _matcher.IsMatch(searchedValue, o2);
+            Assert.AreEqual(1, result);
         }
     }
 }
