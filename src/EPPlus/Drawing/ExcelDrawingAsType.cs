@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Slicer;
 using System;
 
 namespace OfficeOpenXml.Drawing
@@ -69,6 +70,14 @@ namespace OfficeOpenXml.Drawing
                     _chartAsType = new ExcelChartAsType(_drawing);
                 }
                 return _chartAsType;
+            }
+        }
+
+        public ExcelSlicer Slicer 
+        { 
+            get
+            {
+                return _drawing as ExcelSlicer;
             }
         }
     }

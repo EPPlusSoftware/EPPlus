@@ -678,7 +678,7 @@ namespace OfficeOpenXml
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }
-        internal void SetXmlNodeInt(string path, int? d, CultureInfo ci = null)
+        internal void SetXmlNodeInt(string path, int? d, CultureInfo ci = null, bool allowNegative = true)
         {
             if (d == null)
             {
@@ -686,6 +686,10 @@ namespace OfficeOpenXml
             }   
             else
             {
+                if(allowNegative==false && d.Value<0)
+                {
+                    throw new ArgumentException("Negative value not permitted");
+                }
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }

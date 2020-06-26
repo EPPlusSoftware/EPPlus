@@ -130,7 +130,7 @@ namespace OfficeOpenXml
     ///
     ///       return newFile.FullName;
     /// </code>
-    /// More samples can be found at  <a href="https://github.com/JanKallman/EPPlus/">https://github.com/JanKallman/EPPlus/</a>
+    /// More samples can be found at  <a href="https://github.com/EPPlusSoftware/EPPlus/">https://github.com/EPPlusSoftware/EPPlus/</a>
     /// </example>
     /// </remarks>
 	public sealed partial class ExcelPackage : IDisposable
@@ -218,6 +218,8 @@ namespace OfficeOpenXml
         internal const string schemaChartEx2015_10_21 = "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex";
         internal const string schemaChartExRelationships = "http://schemas.microsoft.com/office/2014/relationships/chartEx";
         internal const string contentTypeChartEx = "application/vnd.ms-office.chartex+xml";
+
+        internal const string schemaSlicer = "http://schemas.microsoft.com/office/drawing/2012/slicer";
         //Package reference
         private Packaging.ZipPackage _package;
 		internal ExcelWorkbook _workbook;

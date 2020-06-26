@@ -3846,6 +3846,30 @@ namespace OfficeOpenXml
             styleId = _values.GetValue(row, col)._styleId;
             return (styleId != 0);
         }
-#endregion
+        #endregion
+        internal string SlicerRelId 
+        { 
+            get
+            {
+                return GetXmlNodeString("d:extLst/d:ext/x14:slicerList/x14:slicer/@r:id");
+            }
+        }
+        XmlDocument _slicerXml=null;
+        public XmlDocument SlicerXml
+        {
+            get
+            {
+                if (_slicerXml == null && SlicerRelId!="")
+                {
+                    var slicerRelation = Part.GetRelationship(SlicerRelId);
+                    var uriSlicer = UriHelper.ResolvePartUri(WorksheetUri, slicerRelation.TargetUri);
+                    var slicerPart = Part.Package.GetPart(uriSlicer);
+
+                    _slicerXml = new XmlDocument();
+                    LoadXmlSafe(_slicerXml, slicerPart.GetStream());
+                }
+                return _slicerXml;
+            }
+        }
     }  // END class Worksheet
 }
