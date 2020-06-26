@@ -255,7 +255,14 @@ namespace OfficeOpenXml
 		/// <returns>A string describing the range of columns covered by the column definition.</returns>
 		public override string ToString()
 		{
-			return string.Format("Column Range: {0} to {1}", _colElement.GetAttribute("min"), _colElement.GetAttribute("min"));
+            string output = String.Empty;
+
+            if (_colElement != null)
+            {
+                output = string.Format("Column Range: {0} to {1}", _colElement.GetAttribute("min"), _colElement.GetAttribute("min"));
+            }
+
+            return output;
 		}
         /// <summary>
         /// Set the column width from the content of the range. The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
