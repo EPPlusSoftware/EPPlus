@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
     {
         private readonly WildCardValueMatcher _wildCardValueMatcher;
         private readonly CompileResultFactory _compileResultFactory;
-
+        private readonly Regex _regex = new Regex(@"^([^a-zA-Z0-9]{1,2})");
         public ExpressionEvaluator()
             : this(new WildCardValueMatcher(), new CompileResultFactory())
         {
@@ -37,12 +37,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
         private string GetNonAlphanumericStartChars(string expression)
         {
+            string result = null;
+
             if (!string.IsNullOrEmpty(expression))
             {
-                if (Regex.IsMatch(expression, @"^([^a-zA-Z0-9]{2})")) return expression.Substring(0, 2);
-                if (Regex.IsMatch(expression, @"^([^a-zA-Z0-9]{1})")) return expression.Substring(0, 1);
+                Match match = _regex.Match(expression);
+                if (match.Success && (match.Groups.Count >= 2))
+                {
+                    Group g = match.Groups[1];
+                    result = g.Value;
+                }
             }
-            return null;
+            return result;
         }
 
         private bool EvaluateOperator(object left, object right, IOperator op)
