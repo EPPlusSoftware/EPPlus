@@ -866,7 +866,7 @@ namespace OfficeOpenXml
             return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
         }
 
-        internal int GetXmlNodeInt(string path)
+        internal int GetXmlNodeInt(string path, int defaultValue=int.MinValue)
         {
             int i;
             if (int.TryParse(GetXmlNodeString(path), NumberStyles.Number, CultureInfo.InvariantCulture, out i))
@@ -875,7 +875,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return int.MinValue;
+                return defaultValue;
             }
         }
         internal double GetXmlNodeAngel(string path, double defaultValue = 0)

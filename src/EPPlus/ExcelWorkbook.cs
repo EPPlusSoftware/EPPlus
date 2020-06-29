@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Drawing.Slicer;
 
 namespace OfficeOpenXml
 {
@@ -1320,6 +1321,28 @@ namespace OfficeOpenXml
                         }
                     }
                 }
+            }
+        }
+
+		internal Dictionary<string, ExcelSlicerCache> _slicerCaches = null;
+		internal ExcelSlicerCache GetSlicerCaches(string key)
+        {
+			if(_slicerCaches==null)
+            {
+				_slicerCaches = new Dictionary<string, ExcelSlicerCache>();
+				foreach (var r in Part.GetRelationshipsByType(ExcelPackage.schemaRelationshipsSlicerCache))
+				{
+					var cache = new ExcelSlicerCache(this, NameSpaceManager, r);
+					_slicerCaches.Add(cache.Name, cache);
+				}
+			}
+			if (_slicerCaches!=null && _slicerCaches.TryGetValue(key, out ExcelSlicerCache c))
+			{
+				return c;
+			}
+			else
+            {
+				return null;
             }
         }
     } // end Workbook

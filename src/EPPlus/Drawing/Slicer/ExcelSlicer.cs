@@ -8,8 +8,8 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/15/2020         EPPlus Software AB       EPPlus 5.2
- *************************************************************************************************/
+  06/26/2020         EPPlus Software AB       EPPlus 5.3
+ ******0*******************************************************************************************/
 using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Xml;
@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get
             { 
-                return _slicerXmlHelper.GetXmlNodeInt("@startItem");
+                return _slicerXmlHelper.GetXmlNodeInt("@startItem", 0);
             }
             set
             {
@@ -88,13 +88,13 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         /// <summary>
-        /// Number of columns
+        /// Number of columns. Default is 1.
         /// </summary>
         public int ColumnCount
         {
             get
             {
-                return _slicerXmlHelper.GetXmlNodeInt("@columnCount");
+                return _slicerXmlHelper.GetXmlNodeInt("@columnCount", 1);
             }
             internal set
             {
@@ -163,6 +163,17 @@ namespace OfficeOpenXml.Drawing.Slicer
                 _slicerXmlHelper.SetXmlNodeString("@cache", value);
             }
         }
-
+        ExcelSlicerCache _cache = null;
+        public ExcelSlicerCache Cache
+        {
+            get
+            {
+                if(_cache==null)
+                {
+                    _cache = _drawings.Worksheet.Workbook.GetSlicerCaches(CacheName);
+                }
+                return _cache;
+            }
+        }
     }
 }

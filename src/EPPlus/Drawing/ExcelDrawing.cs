@@ -466,6 +466,12 @@ namespace OfficeOpenXml.Drawing
                                 return ExcelChart.GetChartEx(drawings, node);
                             case ExcelPackage.schemaSlicer:
                                 return new ExcelSlicer(drawings, node);
+                            case ExcelPackage.schemaDrawings2010:
+                                if (choice.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/@uri", drawings.NameSpaceManager)?.Value == ExcelPackage.schemaSlicer2010)
+                                {
+                                    return new ExcelSlicer(drawings, node);
+                                }
+                                break;
 
                         }
                     }

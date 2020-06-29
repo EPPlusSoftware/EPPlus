@@ -1107,6 +1107,16 @@ namespace EPPlusTest
             Assert.AreEqual("Third", ws.Drawings["Third"].Name);
             Assert.AreEqual("Fourth", ws.Drawings["Fourth"].Name);
         }
+        [TestMethod]
+        public void ReadControls()
+        {
+            using (var p = OpenTemplatePackage("Controls.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual(3, ws.Drawings.Count);
+
+            }
+        }
 
     }
 }

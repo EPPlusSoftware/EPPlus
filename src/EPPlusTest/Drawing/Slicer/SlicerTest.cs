@@ -45,6 +45,30 @@ namespace EPPlusTest.Drawing.Slicer
 
                 var slicer = ws.Drawings[0].As.Slicer;
                 Assert.AreEqual(eSlicerStyle.None, slicer.Style);
+                Assert.AreEqual("CompanyName", slicer.Caption);
+                Assert.AreEqual("CompanyName", slicer.Name);
+                Assert.AreEqual("Slicer_CompanyName", slicer.CacheName);
+                Assert.AreEqual(0, slicer.StartItem);
+                Assert.AreEqual(19, slicer.RowHeight);
+                Assert.AreEqual(1, slicer.ColumnCount);
+                Assert.IsNotNull(slicer.Cache);
+
+
+                ws = p.Workbook.Worksheets[1];
+                Assert.AreEqual(3, ws.Drawings.Count);
+                Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelSlicer));
+                Assert.IsInstanceOfType(ws.Drawings[2], typeof(ExcelSlicer));
+                Assert.AreNotEqual("", ws.SlicerRelId);
+                Assert.IsNotNull(ws.SlicerXml);
+
+                slicer = ws.Drawings[1].As.Slicer;
+                Assert.AreEqual(eSlicerStyle.None, slicer.Style);
+                Assert.AreEqual("CompanyName", slicer.Caption);
+                Assert.AreEqual("CompanyName 1", slicer.Name);
+                Assert.AreEqual("Slicer_CompanyName1", slicer.CacheName);
+                Assert.AreEqual(4, slicer.StartItem);
+                Assert.AreEqual(19, slicer.RowHeight);
+                Assert.AreEqual(1, slicer.ColumnCount);
             }
         }
     }
