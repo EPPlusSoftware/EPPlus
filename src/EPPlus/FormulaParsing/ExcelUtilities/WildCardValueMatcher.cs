@@ -20,20 +20,20 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
     public class WildCardValueMatcher : ValueMatcher
     {
-        protected override int CompareStringToString(string s1, string s2)
+        protected override int CompareStringToString(string searchedValue, string candidate)
         {
-            if (s1.Contains("*") || s1.Contains("?"))
+            if (searchedValue.Contains("*") || searchedValue.Contains("?"))
             {
-                var regexPattern = Regex.Escape(s1);
+                var regexPattern = Regex.Escape(searchedValue);
                 regexPattern = string.Format("^{0}$", regexPattern);
                 regexPattern = regexPattern.Replace(@"\*", ".*");
                 regexPattern = regexPattern.Replace(@"\?", ".");
-                if (Regex.IsMatch(s2, regexPattern))
+                if (Regex.IsMatch(candidate, regexPattern))
                 {
                     return 0;
                 }
             }
-            return base.CompareStringToString(s1, s2);
+            return base.CompareStringToString(candidate, searchedValue);
         }
     }
 }

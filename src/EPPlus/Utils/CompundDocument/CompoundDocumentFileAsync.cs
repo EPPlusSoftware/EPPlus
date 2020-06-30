@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -28,14 +29,15 @@ namespace OfficeOpenXml.Utils.CompundDocument
         /// Verifies that the header is correct.
         /// </summary>
         /// <param name="fi">The file</param>
+        /// <param name="cancellationToken">The cancellation token</param>
         /// <returns></returns>
-        public static async Task<bool> IsCompoundDocumentAsync(FileInfo fi)
+        public static async Task<bool> IsCompoundDocumentAsync(FileInfo fi, CancellationToken cancellationToken = default)
         {
             try
             {
                 var fs = fi.OpenRead();
                 var b = new byte[8];
-                await fs.ReadAsync(b, 0, 8).ConfigureAwait(false);
+                await fs.ReadAsync(b, 0, 8, cancellationToken).ConfigureAwait(false);
                 return IsCompoundDocument(b);
             }
             catch
@@ -43,12 +45,19 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 return false;
             }            
         }
-        public static async Task<bool> IsCompoundDocumentAsync(MemoryStream ms)
+
+        /// <summary>
+        /// Verifies that the header is correct.
+        /// </summary>
+        /// <param name="ms">The memory stream</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        /// <returns></returns>
+        public static async Task<bool> IsCompoundDocumentAsync(MemoryStream ms, CancellationToken cancellationToken = default)
         {
             var pos = ms.Position;
             ms.Position = 0;
             var b=new byte[8];
-            await ms.ReadAsync(b, 0, 8).ConfigureAwait(false);
+            await ms.ReadAsync(b, 0, 8, cancellationToken).ConfigureAwait(false);
             ms.Position = pos;
             return IsCompoundDocument(b);
         }

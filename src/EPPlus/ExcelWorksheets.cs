@@ -639,6 +639,12 @@ namespace OfficeOpenXml
             {
                 added.SetFormula(row, col, v);
             }
+
+            var hyperLink = Copy._hyperLinks.GetValue(row, col);
+            if (hyperLink != null)
+            {
+                added._hyperLinks.SetValue(row,col,hyperLink);
+            }
             return valueCore._styleId;
         }
 

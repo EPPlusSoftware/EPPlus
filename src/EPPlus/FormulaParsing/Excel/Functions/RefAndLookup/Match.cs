@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             int? lastValidIndex = null;
             do
             {
-                var matchResult = IsMatch(navigator.CurrentValue, searchedValue);
+                var matchResult = IsMatch(searchedValue, navigator.CurrentValue);
 
                 // For all match types, if the match result indicated equality, return the index (1 based)
                 if (matchResult == 0)

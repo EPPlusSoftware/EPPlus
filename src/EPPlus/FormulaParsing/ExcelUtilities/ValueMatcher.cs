@@ -21,32 +21,40 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
     {
         public const int IncompatibleOperands = -2;
 
-        public virtual int IsMatch(object o1, object o2)
+        public virtual int IsMatch(object searchedValue, object candidate)
         {
-            if (o1 != null && o2 == null) return 1;
-            if (o1 == null && o2 != null) return -1;
-            if (o1 == null && o2 == null) return 0;
+            if (searchedValue != null && candidate == null) return -1;
+            if (searchedValue == null && candidate != null) return 1;
+            if (searchedValue == null && candidate == null) return 0;
             //Handle ranges and defined names
-            o1 = CheckGetRange(o1);
-            o2 = CheckGetRange(o2);
+            searchedValue = CheckGetRange(searchedValue);
+            candidate = CheckGetRange(candidate);
 
-            if (o1 is string && o2 is string)
+            if (searchedValue is string && candidate is string)
             {
-                return CompareStringToString(o1.ToString().ToLower(), o2.ToString().ToLower());
+                return CompareStringToString(searchedValue.ToString().ToLower(), candidate.ToString().ToLower());
             }
-            else if( o1.GetType() == typeof(string))
+            else if(searchedValue.GetType() == typeof(string))
             {
-                return CompareStringToObject(o1.ToString(), o2);
+                return CompareStringToObject(searchedValue.ToString(), candidate);
             }
-            else if (o2.GetType() == typeof(string))
+            else if (candidate.GetType() == typeof(string))
             {
-                return CompareObjectToString(o1, o2.ToString());
+                return CompareObjectToString(searchedValue, candidate.ToString());
             }
-            else if(o1 is DateTime)
+            else if(candidate is DateTime && searchedValue is DateTime)
             {
-                return ((DateTime)o1).ToOADate().CompareTo(Convert.ToDouble(o2));
+                return ((DateTime)candidate).CompareTo(((DateTime)searchedValue));
             }
-            return Convert.ToDouble(o1).CompareTo(Convert.ToDouble(o2));
+            else if(candidate is DateTime)
+            {
+                return ((DateTime)candidate).ToOADate().CompareTo(Convert.ToDouble(searchedValue));
+            }
+            else if(searchedValue is DateTime)
+            {
+                return Convert.ToDouble(candidate).CompareTo(((DateTime)searchedValue).ToOADate());
+            }
+            return Convert.ToDouble(candidate).CompareTo(Convert.ToDouble(searchedValue));
         }
 
         private static object CheckGetRange(object v)
@@ -68,37 +76,33 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             return v;
         }
 
-        protected virtual int CompareStringToString(string s1, string s2)
+        protected virtual int CompareStringToString(string searchedValue, string candidate)
         {
-            return s1.CompareTo(s2);
+            return candidate.CompareTo(searchedValue);
         }
 
-        protected virtual int CompareStringToObject(string o1, object o2)
+        protected virtual int CompareStringToObject(string searchedValue, object candidate)
         {
-            double d1;
-            if (double.TryParse(o1, out d1))
+            if (double.TryParse(searchedValue, out double dsv))
             {
-                return d1.CompareTo(Convert.ToDouble(o2));
+                return Convert.ToDouble(candidate).CompareTo(dsv);
             }
-            bool b1;
-            if (bool.TryParse(o1, out b1))
+            if (bool.TryParse(searchedValue, out bool bsv))
             {
-                return b1.CompareTo(Convert.ToBoolean(o2));
+                return Convert.ToBoolean(candidate).CompareTo(bsv);
             }
-            DateTime dt1;
-            if (DateTime.TryParse(o1, out dt1))
+            if (DateTime.TryParse(searchedValue, out DateTime dtsv))
             {
-                return dt1.CompareTo(Convert.ToDateTime(o2));
+                return Convert.ToDateTime(candidate).CompareTo(dtsv);
             }
             return IncompatibleOperands;
         }
 
-        protected virtual int CompareObjectToString(object o1, string o2)
+        protected virtual int CompareObjectToString(object searchedValue, string candidate)
         {
-            double d2;
-            if (double.TryParse(o2, out d2))
+            if (double.TryParse(candidate, out double d2))
             {
-                return Convert.ToDouble(o1).CompareTo(d2);
+                return d2.CompareTo(Convert.ToDouble(searchedValue));
             }
             return IncompatibleOperands;
         }
