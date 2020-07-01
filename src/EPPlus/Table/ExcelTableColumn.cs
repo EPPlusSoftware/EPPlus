@@ -200,7 +200,13 @@ namespace OfficeOpenXml.Table
                 SetTableFormula();
  			}
  		}
-
+        public ExcelTable Table
+        {
+            get
+            {
+                return _tbl;
+            }
+        }
         private void SetTableFormula()
         {
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;

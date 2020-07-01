@@ -10,40 +10,22 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
-    public abstract class ExcelSlicerCache : XmlHelper
+    public class ExcelPivotTableSlicerCache : ExcelSlicerCache
     {
-        internal ExcelSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
+        internal ExcelPivotTableSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
+
         }
-        internal ZipPackageRelationship CacheRel{ get; set; }
-        internal ZipPackagePart Part { get; set; }
-        public XmlDocument SlicerCacheXml { get; }
-        public string Name
+        public override eSlicerSourceType SourceType
         {
             get
             {
-                return GetXmlNodeString("@name");
+                return eSlicerSourceType.PivotTable;
             }
-        }
-        public string SourceName
-        {
-            get
-            {
-                return GetXmlNodeString("@sourceName");
-            }
-        }
-        public abstract eSlicerSourceType SourceType
-        {
-            get;
         }
     }
 }

@@ -459,17 +459,22 @@ namespace OfficeOpenXml.Drawing
                     {
                         var req = choice.GetAttribute("Requires");  //NOTE:Can be space sparated. Might have to implement functinality for this.
                         var ns = drawNode.GetAttribute($"xmlns:{req}");
+                        if(ns=="")
+                        {
+                            ns = choice.GetAttribute($"xmlns:{req}");
+                        }
                         switch (ns)
                         {
                             case ExcelPackage.schemaChartEx2015_9_8:
                             case ExcelPackage.schemaChartEx2015_10_21:
+                            case ExcelPackage.schemaChartEx2016_5_10:
                                 return ExcelChart.GetChartEx(drawings, node);
                             case ExcelPackage.schemaSlicer:
-                                return new ExcelSlicer(drawings, node);
+                                return new ExcelTableSlicer(drawings, node);
                             case ExcelPackage.schemaDrawings2010:
                                 if (choice.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/@uri", drawings.NameSpaceManager)?.Value == ExcelPackage.schemaSlicer2010)
                                 {
-                                    return new ExcelSlicer(drawings, node);
+                                    return new ExcelPivotTableSlicer(drawings, node);
                                 }
                                 break;
 

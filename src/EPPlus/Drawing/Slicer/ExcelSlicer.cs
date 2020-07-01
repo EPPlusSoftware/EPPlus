@@ -10,31 +10,14 @@
  *************************************************************************************************
   06/26/2020         EPPlus Software AB       EPPlus 5.3
  ******0*******************************************************************************************/
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
-    /*
-      <xsd:complexType name="CT_Slicer">
-       <xsd:sequence>
-         <xsd:element name="extLst" type="x:CT_ExtensionList" minOccurs="0" maxOccurs="1"/>
-       </xsd:sequence>
-       <xsd:attribute name="name" type="x:ST_Xstring" use="required"/>
-       <xsd:attribute ref="xr10:uid" use="optional"/>
-       <xsd:attribute name="cache" type="x:ST_Xstring" use="required"/>
-       <xsd:attribute name="caption" type="x:ST_Xstring" use="optional"/>
-       <xsd:attribute name="startItem" type="xsd:unsignedInt" use="optional" default="0"/>
-       <xsd:attribute name="columnCount" type="xsd:unsignedInt" use="optional" default="1"/>
-       <xsd:attribute name="showCaption" type="xsd:boolean" use="optional" default="true"/>
-       <xsd:attribute name="level" type="xsd:unsignedInt" use="optional" default="0"/>
-       <xsd:attribute name="style" type="x:ST_Xstring" use="optional"/>
-       <xsd:attribute name="lockedPosition" type="xsd:boolean" use="optional" default="false"/>
-       <xsd:attribute name="rowHeight" type="xsd:unsignedInt" use="required"/>
-     </xsd:complexType>
-     */
-    public class ExcelSlicer : ExcelDrawing
+    public abstract class ExcelSlicer<T> : ExcelDrawing where T : ExcelSlicerCache
     {
         internal ExcelWorksheet _ws;
         XmlHelper _slicerXmlHelper;
@@ -42,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             base(drawings, node, "mc:AlternateContent/mc:Choice/xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
         {
             _ws = drawings.Worksheet;
-            var slicerNode = _ws.SlicerXml.DocumentElement.SelectSingleNode($"x14:slicer[@name=\"{Name}\"]", NameSpaceManager);
+            var slicerNode = drawings.Worksheet.SlicerXml.DocumentElement.SelectSingleNode($"x14:slicer[@name=\"{Name}\"]", drawings.NameSpaceManager);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
         }
         /// <summary>
@@ -99,6 +82,20 @@ namespace OfficeOpenXml.Drawing.Slicer
             internal set
             {
                 _slicerXmlHelper.SetXmlNodeInt("@columnCount", value, null, false);
+            }
+        }
+        /// <summary>
+        /// If the slicer view is locked or not.
+        /// </summary>
+        public bool Locked
+        {
+            get
+            {
+                return _slicerXmlHelper.GetXmlNodeBool("@lockedPosition", false);
+            }
+            internal set
+            {
+                _slicerXmlHelper.SetXmlNodeBool("@lockedPosition", value, false);
             }
         }
         /// <summary>
@@ -164,7 +161,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         ExcelSlicerCache _cache = null;
-        public ExcelSlicerCache Cache
+        public T Cache
         {
             get
             {
@@ -172,7 +169,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 {
                     _cache = _drawings.Worksheet.Workbook.GetSlicerCaches(CacheName);
                 }
-                return _cache;
+                return _cache as T;
             }
         }
     }

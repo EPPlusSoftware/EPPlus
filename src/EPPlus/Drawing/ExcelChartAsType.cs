@@ -15,6 +15,9 @@ using OfficeOpenXml.Drawing.Chart.ChartEx;
 
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// Provides easy access to convert the drawing to a it's typed ExcelChart class.
+    /// </summary>
     public class ExcelChartAsType
     {
         ExcelDrawing _drawing;

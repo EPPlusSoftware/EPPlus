@@ -73,11 +73,16 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        public ExcelSlicer Slicer 
+        ExcelSlicerAsType _slicerAsType;
+        public ExcelSlicerAsType Slicer 
         { 
             get
             {
-                return _drawing as ExcelSlicer;
+                if (_slicerAsType == null)
+                {
+                    _slicerAsType = new ExcelSlicerAsType(_drawing);
+                }
+                return _slicerAsType;
             }
         }
     }

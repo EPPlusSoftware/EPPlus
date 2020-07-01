@@ -1332,7 +1332,22 @@ namespace OfficeOpenXml
 				_slicerCaches = new Dictionary<string, ExcelSlicerCache>();
 				foreach (var r in Part.GetRelationshipsByType(ExcelPackage.schemaRelationshipsSlicerCache))
 				{
-					var cache = new ExcelSlicerCache(this, NameSpaceManager, r);
+					var p = Part.Package.GetPart(UriHelper.ResolvePartUri(WorkbookUri, r.TargetUri));
+					var xml = new XmlDocument();
+					LoadXmlSafe(xml, p.GetStream());
+
+					ExcelSlicerCache cache;
+					if(xml.DocumentElement.FirstChild.LocalName=="pivotTables")
+					{
+						cache = new ExcelPivotTableSlicerCache(NameSpaceManager);
+					}
+					else
+                    {
+						cache = new ExcelTableSlicerCache(NameSpaceManager);
+					}
+					cache.CacheRel = r;
+					cache.Part = p;
+					cache.TopNode = xml.DocumentElement;
 					_slicerCaches.Add(cache.Name, cache);
 				}
 			}

@@ -24,7 +24,11 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         List<ExcelPivotTable> _pivotTables = new List<ExcelPivotTable>();
         internal Dictionary<string, int> _pivotTableNames = new Dictionary<string, int>();
-        ExcelWorksheet _ws;        
+        ExcelWorksheet _ws;
+        
+        internal ExcelPivotTableCollection()
+        {
+        }
         internal ExcelPivotTableCollection(ExcelWorksheet ws)
         {
             var pck = ws._package.Package;

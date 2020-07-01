@@ -293,7 +293,7 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// The Style applied to the whole row. Only effekt cells with no individual style set. 
-        /// Use ExcelRange object if you want to set specific styles.
+        /// Use the <see cref="ExcelWorksheet.Cells"/> Style property if you want to set specific styles.
         /// </summary>
         public ExcelStyle Style
         {

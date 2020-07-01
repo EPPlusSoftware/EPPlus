@@ -194,6 +194,7 @@ namespace OfficeOpenXml
         internal const string schemaVt = @"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes";
         
         internal const string schemaMainX14 = "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main";
+        internal const string schemaMainX15 = "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main";
         internal const string schemaMainXm = "http://schemas.microsoft.com/office/excel/2006/main";
         internal const string schemaXr = "http://schemas.microsoft.com/office/spreadsheetml/2014/revision";
         internal const string schemaXr2 = "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2";
@@ -216,6 +217,7 @@ namespace OfficeOpenXml
         internal const string schemaChartExMain = "http://schemas.microsoft.com/office/drawing/2014/chartex";
         internal const string schemaChartEx2015_9_8 = "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex";
         internal const string schemaChartEx2015_10_21 = "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex";
+        internal const string schemaChartEx2016_5_10 = "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex";
         internal const string schemaChartExRelationships = "http://schemas.microsoft.com/office/2014/relationships/chartEx";
         internal const string contentTypeChartEx = "application/vnd.ms-office.chartex+xml";
 
@@ -712,6 +714,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("dcmitype", schemaDcmiType);
             ns.AddNamespace("xsi", schemaXsi);
             ns.AddNamespace("x14", schemaMainX14);
+            ns.AddNamespace("x15", schemaMainX15);
             ns.AddNamespace("xm", schemaMainXm);
             ns.AddNamespace("xr", schemaXr);
             ns.AddNamespace("xr2", schemaXr2);
