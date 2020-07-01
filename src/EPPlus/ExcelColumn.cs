@@ -22,7 +22,6 @@ namespace OfficeOpenXml
 	public class ExcelColumn : IRangeID
 	{
 		private ExcelWorksheet _worksheet;
-		private XmlElement _colElement = null;
 
 		#region ExcelColumn Constructor
 		/// <summary>
@@ -255,7 +254,7 @@ namespace OfficeOpenXml
 		/// <returns>A string describing the range of columns covered by the column definition.</returns>
 		public override string ToString()
 		{
-			return string.Format("Column Range: {0} to {1}", _colElement.GetAttribute("min"), _colElement.GetAttribute("min"));
+			return string.Format("Column Range: {0} to {1}", ColumnMin, ColumnMax);
 		}
         /// <summary>
         /// Set the column width from the content of the range. The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
