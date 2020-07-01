@@ -35,14 +35,17 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             _compileResultFactory = compileResultFactory;
         }
 
-        private string GetNonAlphanumericStartChars(string expression)
+        private string GetNonAlphanumericStartChars(string expr)
         {
-            if (!string.IsNullOrEmpty(expression))
+            var result = string.Empty;
+            if (!string.IsNullOrEmpty(expr))
             {
-                if (Regex.IsMatch(expression, @"^([^a-zA-Z0-9]{2})")) return expression.Substring(0, 2);
-                if (Regex.IsMatch(expression, @"^([^a-zA-Z0-9]{1})")) return expression.Substring(0, 1);
+                if (expr.Length > 1 && !char.IsLetterOrDigit(expr[0]) && !char.IsLetterOrDigit(expr[1])) 
+                    result = expr.Substring(0, 2);
+                else if (expr.Length > 0 && !char.IsLetterOrDigit(expr[0])) 
+                    result = expr.Substring(0, 1);
             }
-            return null;
+            return result;
         }
 
         private bool EvaluateOperator(object left, object right, IOperator op)
