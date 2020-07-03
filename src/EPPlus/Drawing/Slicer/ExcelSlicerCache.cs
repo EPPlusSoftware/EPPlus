@@ -45,5 +45,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get;
         }
+
+        internal abstract void Init(ExcelWorkbook wb);
     }
 }

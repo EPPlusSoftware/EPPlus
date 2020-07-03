@@ -32,9 +32,8 @@ namespace EPPlusTest.Drawing.Slicer
             using (var p = OpenTemplatePackage("Slicer.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                Assert.AreEqual(2, ws.Drawings.Count);
+                Assert.AreEqual(1, ws.Drawings.Count);
                 Assert.IsInstanceOfType(ws.Drawings[0], typeof(ExcelTableSlicer));
-                Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelTableSlicer));
                 Assert.AreNotEqual("", ws.SlicerRelId);
                 Assert.IsNotNull(ws.SlicerXml);
 
@@ -48,12 +47,14 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.AreEqual(1, tableSlicer.ColumnCount);
                 Assert.IsNotNull(tableSlicer.Cache);
                 Assert.AreEqual(1, tableSlicer.Cache.TableId);
-                Assert.AreEqual(1, tableSlicer.Cache.ColumnIndex);
-
+                Assert.AreEqual(1, tableSlicer.Cache.ColumnId);
+                Assert.IsNotNull(tableSlicer.Cache.TableColumn);
+                
                 ws = p.Workbook.Worksheets[1];
-                Assert.AreEqual(3, ws.Drawings.Count);
+                Assert.AreEqual(4, ws.Drawings.Count);
                 Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelPivotTableSlicer));
                 Assert.IsInstanceOfType(ws.Drawings[2], typeof(ExcelPivotTableSlicer));
+                Assert.IsInstanceOfType(ws.Drawings[3], typeof(ExcelTableSlicer));
                 Assert.AreNotEqual("", ws.SlicerRelId);
                 Assert.IsNotNull(ws.SlicerXml);
 
@@ -65,6 +66,7 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.AreEqual(4, pivotTableslicer.StartItem);
                 Assert.AreEqual(19, pivotTableslicer.RowHeight);
                 Assert.AreEqual(1, pivotTableslicer.ColumnCount);
+                Assert.AreEqual(1, pivotTableslicer.Cache.PivotTables.Count);
             }
         }
     }

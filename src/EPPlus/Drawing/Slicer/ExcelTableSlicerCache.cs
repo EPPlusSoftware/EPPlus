@@ -10,8 +10,10 @@
  *************************************************************************************************
   06/29/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils.Extentions;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
@@ -26,6 +28,12 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal ExcelTableSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
         }
+        internal override void Init(ExcelWorkbook wb)
+        {
+            var tbl = wb.GetTable(TableId);
+            TableColumn = tbl?.Columns.FirstOrDefault(x=>x.Id==ColumnId);
+        }
+
         public override eSlicerSourceType SourceType 
         {
             get
@@ -39,6 +47,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         public ExcelTableColumn TableColumn
         {
             get;
+            private set;
         }
         
         const string _sortOrderPath = _topPath + "/@sortOrder";
@@ -118,7 +127,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         const string _columnIndexPath = _topPath + "/@column";
-        internal int ColumnIndex
+        internal int ColumnId
         {
             get
             {
@@ -141,6 +150,5 @@ namespace OfficeOpenXml.Drawing.Slicer
                 SetXmlNodeInt(_tableIdPath, value);
             }
         }
-
     }
 }

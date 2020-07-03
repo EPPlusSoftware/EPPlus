@@ -26,6 +26,8 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Table;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -1348,6 +1350,8 @@ namespace OfficeOpenXml
 					cache.CacheRel = r;
 					cache.Part = p;
 					cache.TopNode = xml.DocumentElement;
+					cache.Init(this);
+
 					_slicerCaches.Add(cache.Name, cache);
 				}
 			}
@@ -1359,6 +1363,19 @@ namespace OfficeOpenXml
             {
 				return null;
             }
+        }
+
+        internal ExcelTable GetTable(int tableId)
+        {
+            foreach(var ws in Worksheets)
+            {
+				var t=ws.Tables.FirstOrDefault(x => x.Id == tableId);
+				if(t!=null)
+                {
+					return t;
+                }
+            }
+			return null;
         }
     } // end Workbook
 }

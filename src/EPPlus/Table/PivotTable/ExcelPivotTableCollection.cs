@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        private ExcelPivotTable Add(ExcelPivotTable tbl)
+        internal ExcelPivotTable Add(ExcelPivotTable tbl)
         {
             _pivotTables.Add(tbl);
             _pivotTableNames.Add(tbl.Name, _pivotTables.Count - 1);

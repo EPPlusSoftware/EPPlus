@@ -969,7 +969,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         TableStyles _tableStyle = Table.TableStyles.Medium6;
         /// <summary>
-        /// The table style. If this property is cusom the style from the StyleName propery is used.
+        /// The table style. If this property is custom the style from the StyleName propery is used.
         /// </summary>
         public TableStyles TableStyle
         {
@@ -1002,6 +1002,5 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         #endregion
-
     }
 }
