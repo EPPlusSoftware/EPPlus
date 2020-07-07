@@ -414,5 +414,30 @@ namespace EPPlusTest.Core.Range
             }
 
         }
-}
+        [TestMethod]
+        public void VerifyFullWorksheetAddress()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws1 = pck.Workbook.Worksheets.Add("FullSheet");
+                ws1.SetValue("A1", "Col1");
+                ws1.SetValue("B1", "Col2");
+                ws1.SetValue("A2", 1);
+                ws1.SetValue("B2", "Row 1");
+                ws1.SetValue("A3", 2);
+                ws1.SetValue("B3", "Row 2");
+                ws1.SetValue("A4", 3);
+                ws1.SetValue("B4", "Row 3");
+
+                var ws2 = pck.Workbook.Worksheets.Add("Formula");
+                ws2.SetFormula(1, 1, "VLOOKUP(2,FullSheet,2,FALSE)");
+                ws2.SetFormula(2, 1, "VLOOKUP(3,'FullSheet',2,FALSE)");
+                ws2.Calculate();
+                Assert.AreEqual("Row 2", ws2.Cells["A1"].Value);
+                Assert.AreEqual("Row 3", ws2.Cells["A2"].Value);
+            }
+
+        }
+
+    }
 }

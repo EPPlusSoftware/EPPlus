@@ -383,11 +383,18 @@ namespace OfficeOpenXml
                 }
                 if (pos>0)
                 {
-                    if (_ws[pos+1]!='!')
+                    if(_ws.Length-1==pos)
+                    {
+                        _address = "A:XFD";
+                    }
+                    else if (_ws[pos+1]!='!')
                     {
                         throw new InvalidOperationException($"Address is not valid {address}. Missing ! after sheet name.");
                     }
-                    _address = _ws.Substring(pos+2);
+                    else
+                    {
+                        _address = _ws.Substring(pos + 2);
+                    }
                     _ws = _ws.Substring(1, pos-1);
                     pos = _address.IndexOf(":'");
                     if(pos>0)
@@ -419,6 +426,10 @@ namespace OfficeOpenXml
             else
             {
                 _address = address;
+            }
+            if(string.IsNullOrEmpty(_address))
+            {
+                _address = "A:XFD";
             }
         }
         internal void ChangeWorksheet(string wsName, string newWs)
@@ -1634,9 +1645,12 @@ namespace OfficeOpenXml
             }
             else
             {
-                var cells = address.Split(':');
-                GetFixed(cells[0], out _fromRowFixed, out _fromColFixed);
-                GetFixed(cells[1], out _toRowFixed, out _toColFixed);
+                var cells = address.Split(':');                
+                if(cells.Length>1) //If 1 then the address is the entire worksheet
+                {
+                    GetFixed(cells[0], out _fromRowFixed, out _fromColFixed);
+                    GetFixed(cells[1], out _toRowFixed, out _toColFixed);
+                }
             }
         }
 
