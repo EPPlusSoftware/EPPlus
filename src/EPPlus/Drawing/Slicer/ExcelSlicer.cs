@@ -20,14 +20,18 @@ namespace OfficeOpenXml.Drawing.Slicer
     public abstract class ExcelSlicer<T> : ExcelDrawing where T : ExcelSlicerCache
     {
         internal ExcelWorksheet _ws;
-        XmlHelper _slicerXmlHelper;
+        protected XmlHelper _slicerXmlHelper;
         internal ExcelSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null) :
             base(drawings, node, "mc:AlternateContent/mc:Choice/xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
         {
             _ws = drawings.Worksheet;
-            var slicerNode = drawings.Worksheet.SlicerXml.DocumentElement.SelectSingleNode($"x14:slicer[@name=\"{Name}\"]", drawings.NameSpaceManager);
-            _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
         }
+        internal ExcelSlicer(ExcelDrawings drawings, XmlNode node, XmlDocument slicerXml, ExcelGroupShape parent = null) :
+            base(drawings, node, "mc:AlternateContent/mc:Choice/xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
+        {
+            _ws = drawings.Worksheet;
+        }
+
         /// <summary>
         /// The caption text of the slicer.
         /// </summary>

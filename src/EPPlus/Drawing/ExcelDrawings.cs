@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq.Expressions;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Drawing.Slicer;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -87,6 +89,7 @@ namespace OfficeOpenXml.Drawing
                 AddDrawings();
             }
         }
+
         internal ExcelWorksheet Worksheet { get; set; }
         
         /// <summary>
@@ -1081,6 +1084,25 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawings.Count - 1);
             return shape;
         }
+        internal ExcelTableSlicer AddTableSlicer(string Name, ExcelTableColumn TableColumn)
+        {
+            if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
+            {
+                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
+            }
+            if (_drawingNames.ContainsKey(Name))
+            {
+                throw new Exception("Name already exists in the drawings collection");
+            }
+            XmlElement drawNode = CreateDrawingXml();
+            var slicer = new ExcelTableSlicer(this, drawNode, TableColumn);
+            slicer.Name = Name;
+            _drawings.Add(slicer);
+            _drawingNames.Add(Name, _drawings.Count - 1);
+            
+            return slicer;
+        }
+
         ///// <summary>
         ///// Adds a line connectin two shapes
         ///// </summary>

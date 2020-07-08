@@ -453,6 +453,7 @@ namespace OfficeOpenXml
 
             CreateXml();
             TopNode = _worksheetXml.DocumentElement;
+            SlicerXmlSources = new ExcelSlicerXmlSources(ns, TopNode, Part);
         }
 
         #endregion
@@ -1731,11 +1732,15 @@ namespace OfficeOpenXml
                 return ps;
             }
         }
-#endregion
+        #endregion
 
-#endregion // END Worksheet Public Properties
+        #endregion // END Worksheet Public Properties
+        internal ExcelSlicerXmlSources SlicerXmlSources
+        {
+            get;
+        }
 
-#region Worksheet Public Methods
+        #region Worksheet Public Methods
 
         ///// <summary>
         ///// Provides access to an individual cell within the worksheet.
@@ -3548,8 +3553,8 @@ namespace OfficeOpenXml
                 return _package.Workbook;
             }
         }
-#endregion
-#endregion  // END Worksheet Private Methods
+        #endregion
+        #endregion  // END Worksheet Private Methods
 
         /// <summary>
         /// Get the next ID from a shared formula or an Array formula
@@ -3847,29 +3852,5 @@ namespace OfficeOpenXml
             return (styleId != 0);
         }
         #endregion
-        internal string SlicerRelId 
-        { 
-            get
-            {
-                return GetXmlNodeString("d:extLst/d:ext/x14:slicerList/x14:slicer/@r:id");
-            }
-        }
-        XmlDocument _slicerXml=null;
-        public XmlDocument SlicerXml
-        {
-            get
-            {
-                if (_slicerXml == null && SlicerRelId!="")
-                {
-                    var slicerRelation = Part.GetRelationship(SlicerRelId);
-                    var uriSlicer = UriHelper.ResolvePartUri(WorksheetUri, slicerRelation.TargetUri);
-                    var slicerPart = Part.Package.GetPart(uriSlicer);
-
-                    _slicerXml = new XmlDocument();
-                    LoadXmlSafe(_slicerXml, slicerPart.GetStream());
-                }
-                return _slicerXml;
-            }
-        }
     }  // END class Worksheet
 }

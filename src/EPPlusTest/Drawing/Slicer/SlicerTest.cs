@@ -32,10 +32,9 @@ namespace EPPlusTest.Drawing.Slicer
             using (var p = OpenTemplatePackage("Slicer.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                Assert.AreEqual(1, ws.Drawings.Count);
+                Assert.AreEqual(5, ws.Drawings.Count);
                 Assert.IsInstanceOfType(ws.Drawings[0], typeof(ExcelTableSlicer));
-                Assert.AreNotEqual("", ws.SlicerRelId);
-                Assert.IsNotNull(ws.SlicerXml);
+                Assert.AreEqual(1, ws.SlicerXmlSources._list.Count);
 
                 var tableSlicer = ws.Drawings[0].As.Slicer.TableSlicer;
                 Assert.AreEqual(eSlicerStyle.None, tableSlicer.Style);
@@ -55,8 +54,7 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelPivotTableSlicer));
                 Assert.IsInstanceOfType(ws.Drawings[2], typeof(ExcelPivotTableSlicer));
                 Assert.IsInstanceOfType(ws.Drawings[3], typeof(ExcelTableSlicer));
-                Assert.AreNotEqual("", ws.SlicerRelId);
-                Assert.IsNotNull(ws.SlicerXml);
+                Assert.AreEqual(2, ws.SlicerXmlSources._list.Count);
 
                 var pivotTableslicer = ws.Drawings[1].As.Slicer.PivotTableSlicer;
                 Assert.AreEqual(eSlicerStyle.None, pivotTableslicer.Style);
@@ -68,6 +66,15 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.AreEqual(1, pivotTableslicer.ColumnCount);
                 Assert.AreEqual(1, pivotTableslicer.Cache.PivotTables.Count);
             }
+        }
+        [TestMethod]
+        public void AddTableSlicer()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableSlicer");
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"],"Table1");
+            var slicer = ws.Drawings.AddTableSlicer("Slicer1", tbl.Columns[0]);
         }
     }
 }
