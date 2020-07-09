@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// <summary>
         /// If the slicer view is locked or not.
         /// </summary>
-        public bool Locked
+        public bool LockedPosition
         {
             get
             {
@@ -164,7 +164,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 _slicerXmlHelper.SetXmlNodeString("@cache", value);
             }
         }
-        ExcelSlicerCache _cache = null;
+        protected internal ExcelSlicerCache _cache = null;
         public T Cache
         {
             get

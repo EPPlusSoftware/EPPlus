@@ -18,10 +18,11 @@ namespace OfficeOpenXml.Drawing.Slicer
 {
     public class ExcelPivotTableSlicer : ExcelSlicer<ExcelPivotTableSlicerCache>
     {
+        ExcelSlicerXmlSource _source;
         internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
             _ws = drawings.Worksheet;
-            var slicerNode = _ws.SlicerXmlSources.GetSource(Name, eSlicerSourceType.Table);
+            var slicerNode = _ws.SlicerXmlSources.GetSource(Name, eSlicerSourceType.PivotTable, out _source);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
         }
         public ExcelPivotTableCollection PivotTables

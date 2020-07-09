@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table.PivotTable;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// </summary>
         /// <param name="wb"></param>
         internal override void Init(ExcelWorkbook wb)
-        {
+        {            
             foreach(XmlElement ptElement in GetNodes("x14:pivotTables/x14:pivotTable"))
             {
                 var name = ptElement.GetAttribute("name");
@@ -74,7 +75,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             get
             {
                 return eSlicerSourceType.PivotTable;
-            }
+            }   
         }
         public ExcelSlicerPivotTableCollection PivotTables { get; } = new ExcelSlicerPivotTableCollection();
         ExcelPivotTableSlicerCacheData _data=null;

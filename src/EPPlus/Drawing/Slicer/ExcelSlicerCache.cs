@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal ZipPackageRelationship CacheRel{ get; set; }
         internal ZipPackagePart Part { get; set; }
-        public XmlDocument SlicerCacheXml { get; }
+        public XmlDocument SlicerCacheXml { get; protected internal set; }
         public string Name
         {
             get
@@ -47,5 +47,11 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
 
         internal abstract void Init(ExcelWorkbook wb);
+
+        protected internal string GetStartXml()
+        {
+            return "<slicerCacheDefinition sourceName=\"\" xr10:uid=\"{0}\" name=\"\" xmlns:xr10=\"http://schemas.microsoft.com/office/spreadsheetml/2016/revision10\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" mc:Ignorable=\"x xr10\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" />";
+        }
+
     }
 }

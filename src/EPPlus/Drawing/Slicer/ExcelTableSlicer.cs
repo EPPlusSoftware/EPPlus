@@ -12,6 +12,7 @@
  ******0*******************************************************************************************/
 using OfficeOpenXml.Table;
 using System;
+using System.Data.Common;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -39,19 +40,30 @@ namespace OfficeOpenXml.Drawing.Slicer
     public class ExcelTableSlicer : ExcelSlicer<ExcelTableSlicerCache>
     {
         ExcelTable _table;
+        ExcelSlicerXmlSource _xmlSource;
         internal ExcelTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
             _ws = drawings.Worksheet;
-            var slicerNode = _ws.SlicerXmlSources.GetSource(Name, eSlicerSourceType.Table);
+            var slicerNode = _ws.SlicerXmlSources.GetSource(Name, eSlicerSourceType.Table, out _xmlSource);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
         }
         internal ExcelTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelTableColumn column) : base(drawings, node)
         {
+            TableColumn = column;
             _table = column.Table;
-            CreateDrawing(column.Name);
+            CreateDrawing();
+
+            Caption = column.Name;
+            Name = column.Name;
+            RowHeight = 14;
+            CacheName = "Slicer_" + Name;
+
+            var cache = new ExcelTableSlicerCache(NameSpaceManager);
+            cache.Init(column);
+            _cache = cache;            
         }
 
-        private void CreateDrawing(string name)
+        private void CreateDrawing()
         {
             XmlElement graphFrame = TopNode.OwnerDocument.CreateElement("mc","AlternateContent", ExcelPackage.schemaMarkupCompatibility);
             graphFrame.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
@@ -63,28 +75,16 @@ namespace OfficeOpenXml.Drawing.Slicer
 
             TopNode.AppendChild(TopNode.OwnerDocument.CreateElement("clientData", ExcelPackage.schemaSheetDrawings));
 
-            var source = _ws.SlicerXmlSources.GetOrCreateSource(eSlicerSourceType.Table);
-            //LoadXmlSafe(slicerXml, GetStartXml(), Encoding.UTF8);
+            _xmlSource = _ws.SlicerXmlSources.GetOrCreateSource(eSlicerSourceType.Table);
+            var node = _xmlSource.XmlDocument.CreateElement("slicer", ExcelPackage.schemaMainX14);
+            _xmlSource.XmlDocument.DocumentElement.AppendChild(node);
+            _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, node);
 
-            //// save it to the package
-            //Part = package.CreatePart(UriChart, ExcelPackage.contentTypeChartEx, _drawings._package.Compression);
-
-            //StreamWriter streamChart = new StreamWriter(Part.GetStream(FileMode.Create, FileAccess.Write));
-            //ChartXml.Save(streamChart);
-            //streamChart.Close();
-            //package.Flush();
-
-            //var chartRelation = drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(drawings.UriDrawing, UriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaChartExRelationships);
-            //graphFrame.SelectSingleNode("mc:Choice/xdr:graphicFrame/a:graphic/a:graphicData/cx:chart", NameSpaceManager).Attributes["r:id"].Value = chartRelation.Id;
-            //package.Flush();
-            //_chartNode = ChartXml.SelectSingleNode("cx:chartSpace/cx:chart", NameSpaceManager);
-            //_chartXmlHelper = XmlHelperFactory.Create(NameSpaceManager, _chartNode);
-            //GetPositionSize();
+            GetPositionSize();
         }
-
-        private Stream GetStartXml()
+        public ExcelTableColumn TableColumn
         {
-            throw new NotImplementedException();
+            get;
         }
     }
 }

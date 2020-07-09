@@ -12,7 +12,9 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
+using System;
 using System.Linq;
 using System.Xml;
 
@@ -28,12 +30,23 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal ExcelTableSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
         }
+
         internal override void Init(ExcelWorkbook wb)
         {
-            var tbl = wb.GetTable(TableId);
-            TableColumn = tbl?.Columns.FirstOrDefault(x=>x.Id==ColumnId);
+            var tbl = wb.GetTable(TableId);                
+            TableColumn = tbl?.Columns.FirstOrDefault(x => x.Id == ColumnId);
         }
-
+        internal void Init(ExcelTableColumn column)
+        {
+            var wb = column.Table.WorkSheet.Workbook;
+            var p = wb._package.Package;
+            var uri = GetNewUri(p, "/xl/slicerCaches/slicerCache{0}.xml");
+            Part = p.CreatePart(uri, "application/vnd.ms-excel.slicerCache+xml");
+            CacheRel = wb.Part.CreateRelationship(UriHelper.GetRelativeUri(wb.WorkbookUri, uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicerCache);
+            SlicerCacheXml = new XmlDocument();
+            SlicerCacheXml.LoadXml(GetStartXml());
+            SlicerCacheXml.DocumentElement.InnerXml = $"<extLst><x:ext uri=\"{{2F2917AC-EB37-4324-AD4E-5DD8C200BD13}}\" xmlns:x15=\"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main\"><x15:tableSlicerCache tableId=\"{column.Table.Id}\" column=\"{column.Id}\"/></x:ext></extLst>";
+        }
         public override eSlicerSourceType SourceType 
         {
             get
@@ -139,6 +152,8 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         const string _tableIdPath = _topPath + "/@tableId";
+        private ExcelTableColumn column;
+
         internal int TableId
         {
             get

@@ -13,7 +13,7 @@ namespace EPPlusTest.Drawing.Slicer
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("SlicerText.xlsx", true);
+            _pck = OpenPackage("SlicerTest.xlsx", true);
             _ws = _pck.Workbook.Worksheets.Add("Richtext");
         }
         [ClassCleanup]

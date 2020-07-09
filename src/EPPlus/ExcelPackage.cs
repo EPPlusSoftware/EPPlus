@@ -224,6 +224,7 @@ namespace OfficeOpenXml
         internal const string schemaSlicer = "http://schemas.microsoft.com/office/drawing/2012/slicer";
         internal const string schemaDrawings2010 = "http://schemas.microsoft.com/office/drawing/2010/main";
         internal const string schemaSlicer2010 = "http://schemas.microsoft.com/office/drawing/2010/slicer";
+        internal const string schemaRelationshipsSlicer = "http://schemas.microsoft.com/office/2007/relationships/slicer";
         internal const string schemaRelationshipsSlicerCache = "http://schemas.microsoft.com/office/2007/relationships/slicerCache";
         //Package reference
         private Packaging.ZipPackage _package;
