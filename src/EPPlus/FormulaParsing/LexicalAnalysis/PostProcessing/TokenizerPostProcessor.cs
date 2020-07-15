@@ -187,7 +187,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         private void HandleWorksheetNameToken()
         {
             // use this and the following three tokens
-            var tokenType = _navigator.GetTokenAtRelativePosition(3).GetTokenTypeFlags();
+            var relativeToken = _navigator.GetTokenAtRelativePosition(3);
+            var tokenType = relativeToken.GetTokenTypeFlags();
             ChangeTokenTypeOnCurrentToken(tokenType);
             var sb = new StringBuilder();
             var nToRemove = 3;
@@ -196,12 +197,22 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
                 ChangeTokenTypeOnCurrentToken(TokenType.InvalidReference);
                 nToRemove = _navigator.NbrOfRemainingTokens;
             }
-            else if (!_navigator.GetTokenAtRelativePosition(3).TokenTypeIsSet(TokenType.ExcelAddress) &&
-                    !_navigator.GetTokenAtRelativePosition(3).TokenTypeIsSet(TokenType.ExcelAddressR1C1))
+            if (relativeToken.TokenTypeIsSet(TokenType.Comma) ||
+               relativeToken.TokenTypeIsSet(TokenType.ClosingParenthesis))
+            {
+                for (var ix = 0; ix < 3; ix++)
+                {
+                    sb.Append(_navigator.GetTokenAtRelativePosition(ix).Value);
+                }
+                ChangeTokenTypeOnCurrentToken(TokenType.ExcelAddress);
+                nToRemove = 2;
+            }
+            else if (!relativeToken.TokenTypeIsSet(TokenType.ExcelAddress) &&
+                     !relativeToken.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
             {
                 ChangeTokenTypeOnCurrentToken(TokenType.InvalidReference);
                 nToRemove--;
-            }
+            }            
             else
             {
                 for (var ix = 0; ix < 4; ix++)
