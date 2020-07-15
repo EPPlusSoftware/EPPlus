@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Packaging
 {
     /// <summary>
-    /// Specifies whether the target is inside or outside the System.IO.Packaging.Package.
+    /// Specifies whether the target is inside or outside the Package.
     /// </summary>
     public enum TargetMode
     {

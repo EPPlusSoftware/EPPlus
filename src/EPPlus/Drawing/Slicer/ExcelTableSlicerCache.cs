@@ -46,6 +46,20 @@ namespace OfficeOpenXml.Drawing.Slicer
             SlicerCacheXml = new XmlDocument();
             SlicerCacheXml.LoadXml(GetStartXml());
             SlicerCacheXml.DocumentElement.InnerXml = $"<extLst><x:ext uri=\"{{2F2917AC-EB37-4324-AD4E-5DD8C200BD13}}\" xmlns:x15=\"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main\"><x15:tableSlicerCache tableId=\"{column.Table.Id}\" column=\"{column.Id}\"/></x:ext></extLst>";
+            TopNode = SlicerCacheXml.DocumentElement;
+            Name = "Slicer_" + column.Name;
+            SourceName = column.Name;
+            wb.Names.AddFormula(Name, "#N/A");
+
+            var slNode = wb.GetNode("d:extLst/d:ext[uri='{46BE6895-7355-4a93-B00E-2C351335B9C9}']/x14:slicerList");
+            if (slNode == null)
+            {
+                wb.CreateNode("d:extLst/d:ext", false, true);
+                slNode = wb.CreateNode("d:extLst/d:ext/x15:slicerCaches", false, true);
+                ((XmlElement)slNode.ParentNode).SetAttribute("uri", "{46BE6895-7355-4a93-B00E-2C351335B9C9}");
+            }
+            var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);
+            xh.SetXmlNodeString("x14:slicerCache/@r:id", CacheRel.Id);
         }
         public override eSlicerSourceType SourceType 
         {

@@ -14,7 +14,6 @@ namespace EPPlusTest.Drawing.Slicer
         public static void Init(TestContext context)
         {
             _pck = OpenPackage("SlicerTest.xlsx", true);
-            _ws = _pck.Workbook.Worksheets.Add("Richtext");
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -74,7 +73,14 @@ namespace EPPlusTest.Drawing.Slicer
 
             LoadTestdata(ws);
             var tbl = ws.Tables.Add(ws.Cells["A1:D100"],"Table1");
-            var slicer = ws.Drawings.AddTableSlicer("Slicer1", tbl.Columns[0]);
+            var slicer = ws.Drawings.AddTableSlicer(tbl.Columns[0]);
+
+            slicer.Filter.Filters.Add("2019-11-04");
+            slicer.Filter.Filters.Add("2019-11-05");
+
+            tbl.AutoFilter.ApplyFilter();
+            slicer.SetPosition(1, 0, 5, 0);
+            slicer.SetSize(200, 600);
         }
     }
 }

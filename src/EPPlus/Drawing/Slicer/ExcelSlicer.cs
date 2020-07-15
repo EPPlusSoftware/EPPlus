@@ -47,6 +47,22 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         /// <summary>
+        /// The the name of the slicer.
+        /// </summary>
+        public string SlicerName
+        {
+            get
+            {
+                return _slicerXmlHelper.GetXmlNodeString("@name");
+            }
+            set
+            {
+                _slicerXmlHelper.SetXmlNodeString("@name", value);
+                Name = value;
+            }
+        }
+
+        /// <summary>
         /// Row height in points
         /// </summary>
         public double RowHeight 

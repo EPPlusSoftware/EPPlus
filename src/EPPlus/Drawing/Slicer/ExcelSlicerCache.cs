@@ -15,6 +15,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
@@ -33,12 +34,20 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 return GetXmlNodeString("@name");
             }
+            internal protected set
+            {
+                SetXmlNodeString("@name",value);
+            }
         }
         public string SourceName
         {
             get
             {
                 return GetXmlNodeString("@sourceName");
+            }
+            internal protected set
+            {
+                SetXmlNodeString("@sourceName", value);
             }
         }
         public abstract eSlicerSourceType SourceType
@@ -50,7 +59,7 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         protected internal string GetStartXml()
         {
-            return "<slicerCacheDefinition sourceName=\"\" xr10:uid=\"{0}\" name=\"\" xmlns:xr10=\"http://schemas.microsoft.com/office/spreadsheetml/2016/revision10\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" mc:Ignorable=\"x xr10\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" />";
+            return $"<slicerCacheDefinition sourceName=\"\" xr10:uid=\"{{{Guid.NewGuid().ToString()}}}\" name=\"\" xmlns:xr10=\"http://schemas.microsoft.com/office/spreadsheetml/2016/revision10\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" mc:Ignorable=\"x xr10\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" />";
         }
 
     }

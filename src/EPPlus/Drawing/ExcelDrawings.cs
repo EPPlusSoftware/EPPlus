@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq.Expressions;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Filter;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -1084,25 +1085,29 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawings.Count - 1);
             return shape;
         }
-        internal ExcelTableSlicer AddTableSlicer(string Name, ExcelTableColumn TableColumn)
+        internal ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
         {
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-            if (_drawingNames.ContainsKey(Name))
+            if (_drawingNames.ContainsKey(TableColumn.Name))
             {
                 throw new Exception("Name already exists in the drawings collection");
             }
+            if(TableColumn.Table.AutoFilter.Columns[TableColumn.Id]==null)
+            {
+                TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
+            }
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelTableSlicer(this, drawNode, TableColumn);
-            slicer.Name = Name;
+            slicer.EditAs = eEditAs.Absolute;
+            slicer.Name = TableColumn.Name;
             _drawings.Add(slicer);
-            _drawingNames.Add(Name, _drawings.Count - 1);
+            _drawingNames.Add(TableColumn.Name, _drawings.Count - 1);
             
             return slicer;
         }
-
         ///// <summary>
         ///// Adds a line connectin two shapes
         ///// </summary>
