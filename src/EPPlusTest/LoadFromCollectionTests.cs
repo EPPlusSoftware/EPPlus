@@ -28,6 +28,7 @@
  *******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -121,6 +122,31 @@ namespace EPPlusTest
                 sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, BindingFlags.Public | BindingFlags.Instance, typeof(string).GetMembers());
 
                 Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldLoadExpandoObjects()
+        {
+            dynamic o1 = new ExpandoObject();
+            o1.Id = 1;
+            o1.Name = "TestName 1";
+            dynamic o2 = new ExpandoObject();
+            o2.Id = 2;
+            o2.Name = "TestName 2";
+            var items = new List<ExpandoObject>()
+            {
+                o1,
+                o2
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.None);
+
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual(1, sheet.Cells["A2"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["B3"].Value);
             }
         }
     }

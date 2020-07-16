@@ -295,6 +295,12 @@ namespace OfficeOpenXml
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
         {
+            if(Collection is IEnumerable<IDictionary<string, object>>)
+            {
+                if(Members == null)
+                    return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle);
+                return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle, Members.Select(x => x.Name));
+            }
             var type = typeof(T);
             bool isSameType = true;
             if (Members == null)
