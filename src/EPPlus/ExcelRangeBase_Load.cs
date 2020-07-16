@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.LoadFunctions;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -731,7 +732,7 @@ namespace OfficeOpenXml
         #endregion
         #region LoadFromDictionaries
         /// <summary>
-        /// Load a collection of dictionaries into the worksheet starting from the top left row of the range.
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries/></param>
@@ -742,7 +743,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Load a collection of dictionaries into the worksheet starting from the top left row of the range.
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries/></param>
@@ -754,7 +755,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Load a collection of dictionaries into the worksheet starting from the top left row of the range.
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries/></param>
@@ -787,7 +788,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Load a collection of dictionaries into the worksheet starting from the top left row of the range.
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries/></param>
@@ -817,59 +818,8 @@ namespace OfficeOpenXml
         /// </example>
         public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles tableStyle, IEnumerable<string> keys)
         {
-            if (items == null || !items.Any()) return null;
-            var firstItem = items.First();
-            if(keys == null || !keys.Any())
-            {
-                keys = firstItem.Keys;
-            }
-            var members = keys.Count() == 0 ? 1 : keys.Count();
-            // create buffer
-            object[,] values = new object[(printHeaders ? items.Count() + 1 : items.Count()), members];
-            int col = 0, row = 0;
-            if(printHeaders && keys.Count() > 0)
-            {
-                foreach(var key in keys)
-                {
-                    values[row, col++] = key;
-                }
-                row++;
-            }
-            foreach(var item in items)
-            {
-                col = 0;
-                foreach(var key in keys)
-                {
-                    if(item.ContainsKey(key))
-                    {
-                        values[row, col++] = item[key];
-                    }
-                    else
-                    {
-                        col++;
-                    }
-                }
-                row++;
-            }
-
-            _worksheet.SetRangeValueInner(_fromRow, _fromCol, _fromRow + row - 1, _fromCol + col - 1, values);
-
-            //Must have at least 1 row, if header is shown
-            if (row == 1 && printHeaders)
-            {
-                row++;
-            }
-
-            var r = _worksheet.Cells[_fromRow, _fromCol, _fromRow + row - 1, _fromCol + col - 1];
-
-            if (tableStyle != TableStyles.None)
-            {
-                var tbl = _worksheet.Tables.Add(r, "");
-                tbl.ShowHeader = printHeaders;
-                tbl.TableStyle = tableStyle;
-            }
-
-            return r;
+            var func = new LoadFromDictionaries(this, items, printHeaders, tableStyle, keys);
+            return func.Load();
         }
         #endregion
     }
