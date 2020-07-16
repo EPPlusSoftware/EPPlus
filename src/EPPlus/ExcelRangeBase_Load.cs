@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.LoadFunctions;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -223,7 +224,7 @@ namespace OfficeOpenXml
             return _worksheet.Cells[_fromRow, _fromCol, row, _fromCol + Table.Columns.Count - 1];
         }
 #endregion
-#region LoadFromArrays
+        #region LoadFromArrays
         /// <summary>
         /// Loads data from the collection of arrays of objects into the range, starting from
         /// the top-left cell.
@@ -246,7 +247,7 @@ namespace OfficeOpenXml
             return _worksheet.Cells[_fromRow, _fromCol, row - 1, _fromCol + maxColumn - 1];
         }
 #endregion
-#region LoadFromCollection
+        #region LoadFromCollection
         /// <summary>
         /// Load a collection into a the worksheet starting from the top left row of the range.
         /// </summary>
@@ -727,7 +728,99 @@ namespace OfficeOpenXml
             return LoadFromText(await sr.ReadToEndAsync().ConfigureAwait(false), Format, TableStyle, FirstRowIsHeader);
         }
 #endif
-#endregion
-#endregion
+        #endregion
+        #endregion
+        #region LoadFromDictionaries
+        /// <summary>
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
+        /// These dictionaries should have the same set of keys.
+        /// </summary>
+        /// <param name="items">A list of dictionaries/></param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items)
+        {
+            return LoadFromDictionaries(items, false, TableStyles.None, null);
+        }
+
+        /// <summary>
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
+        /// These dictionaries should have the same set of keys.
+        /// </summary>
+        /// <param name="items">A list of dictionaries/></param>
+        /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders)
+        {
+            return LoadFromDictionaries(items, printHeaders, TableStyles.None, null);
+        }
+
+        /// <summary>
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
+        /// These dictionaries should have the same set of keys.
+        /// </summary>
+        /// <param name="items">A list of dictionaries/></param>
+        /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
+        /// <param name="tableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
+        /// <returns>The filled range</returns>
+        /// <example>
+        ///  var items = new List&lt;IDictionary&lt;string, object&gt;&gt;()
+        ///    {
+        ///        new Dictionary&lt;string, object&gt;()
+        ///        { 
+        ///            { "Id", 1 },
+        ///            { "Name", "TestName 1" }
+        ///        },
+        ///        new Dictionary&lt;string, object&gt;()
+        ///        {
+        ///            { "Id", 2 },
+        ///            { "Name", "TestName 2" }
+        ///        }
+        ///    };
+        ///    using(var package = new ExcelPackage())
+        ///    {
+        ///        var sheet = package.Workbook.Worksheets.Add("test");
+        ///        var r = sheet.Cells["A1"].LoadFromDictionaries(items, true, TableStyles.None);
+        ///    }
+        /// </example>
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles tableStyle)
+        {
+            return LoadFromDictionaries(items, printHeaders, tableStyle, null);
+        }
+
+        /// <summary>
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
+        /// These dictionaries should have the same set of keys.
+        /// </summary>
+        /// <param name="items">A list of dictionaries/></param>
+        /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
+        /// <param name="tableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
+        /// <param name="keys">Keys that should be used, keys omitted will not be included</param>
+        /// <returns>The filled range</returns>
+        /// <example>
+        ///  var items = new List&lt;IDictionary&lt;string, object&gt;&gt;()
+        ///    {
+        ///        new Dictionary&lt;string, object&gt;()
+        ///        { 
+        ///            { "Id", 1 },
+        ///            { "Name", "TestName 1" }
+        ///        },
+        ///        new Dictionary&lt;string, object&gt;()
+        ///        {
+        ///            { "Id", 2 },
+        ///            { "Name", "TestName 2" }
+        ///        }
+        ///    };
+        ///    using(var package = new ExcelPackage())
+        ///    {
+        ///        var sheet = package.Workbook.Worksheets.Add("test");
+        ///        var r = sheet.Cells["A1"].LoadFromDictionaries(items, true, TableStyles.None, null);
+        ///    }
+        /// </example>
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles tableStyle, IEnumerable<string> keys)
+        {
+            var func = new LoadFromDictionaries(this, items, printHeaders, tableStyle, keys);
+            return func.Load();
+        }
+        #endregion
     }
 }
