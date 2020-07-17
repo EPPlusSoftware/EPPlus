@@ -362,6 +362,16 @@ namespace OfficeOpenXml
             {
                 Workbook.Save();
                 _package.Close();
+                if (_stream is MemoryStream && _stream.Length > 0)
+                {
+                    _stream.Close();
+#if Standard21
+                    await _stream.DisposeAsync();
+#else
+                    _stream.Dispose();
+#endif
+                    _stream = new MemoryStream();
+                }
                 _package.Save(_stream);
             }
             var byRet = new byte[Stream.Length];
@@ -490,5 +500,5 @@ namespace OfficeOpenXml
         }
 
 #endif
-    }
-}
+                }
+            }

@@ -10,8 +10,20 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Core
 {
     [TestClass]
-    public class LoadSaveTests
+    public class LoadSaveTests : TestBase
     {
+        static ExcelPackage _pck;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            _pck = OpenPackage("LoadSaveTest.xlsx", true);
+        }
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            SaveAndCleanup(_pck);
+        }
         [TestMethod]
         public void CheckCfLfIsRetained()
         {
@@ -31,6 +43,39 @@ namespace EPPlusTest.Core
                 }
             }
         }
+        [TestMethod]
+        public void SaveTwiceShouldNotCorruptPackage()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws=p.Workbook.Worksheets.Add("SaveTwice");
+                p.Workbook.Properties.Application = "EPPlus";
+                ws.Cells["A1"].Value = "A1";
+                p.Workbook.Properties.Title = "EPPlus";
+                p.Save();
+                var length = p.Stream.Length;
+                var b = p.GetAsByteArray();
+
+                Assert.AreEqual(length, b.Length);
+            }
+        }
+        [TestMethod]
+        public async Task SaveTwiceShouldNotCorruptPackageAsync()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("SaveTwice");
+                p.Workbook.Properties.Application = "EPPlus";
+                ws.Cells["A1"].Value = "A1";
+                p.Workbook.Properties.Title = "EPPlus";
+                p.Save();
+                var length = p.Stream.Length;
+                var b = await p.GetAsByteArrayAsync();
+
+                Assert.AreEqual(length, b.Length);
+            }
+        }
+
         [TestMethod]
         public void ChartSheetShouldNotThrowException()
         {
