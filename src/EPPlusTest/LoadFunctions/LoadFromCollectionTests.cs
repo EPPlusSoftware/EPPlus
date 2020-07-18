@@ -28,6 +28,7 @@
  *******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -36,7 +37,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 
-namespace EPPlusTest
+namespace EPPlusTest.LoadFunctions
 {
     [TestClass]
     public class LoadFromCollectionTests
@@ -59,6 +60,37 @@ namespace EPPlusTest
             public int Number { get; set; }
         }
 
+        internal class BClass
+        {
+            [DisplayName("MyId")]
+            public string Id { get; set; }
+            [System.ComponentModel.Description("MyName")]
+            public string Name { get; set; }
+            public int Number { get; set; }
+        }
+
+        [TestMethod]
+        public void ShouldNotIncludeHeadersWhenPrintHeadersIsOmitted()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3},
+                new Aclass(){ Id = "456", Name = "Item 2", Number = 6}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items);
+
+                Assert.AreEqual("123", sheet.Cells["C1"].Value);
+                Assert.AreEqual(6, sheet.Cells["E2"].Value);
+                Assert.AreEqual(3, sheet.Dimension._fromCol);
+                Assert.AreEqual(5, sheet.Dimension._toCol);
+                Assert.AreEqual(1, sheet.Dimension._fromRow);
+                Assert.AreEqual(2, sheet.Dimension._toRow);
+            }
+        }
+
         [TestMethod]
         public void ShouldUseAclassProperties()
         {
@@ -72,6 +104,39 @@ namespace EPPlusTest
                 sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1);
 
                 Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+                Assert.AreEqual("123", sheet.Cells["C2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldUseDisplayNameAttribute()
+        {
+            var items = new List<BClass>()
+            {
+                new BClass(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1);
+
+                Assert.AreEqual("MyId", sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldUseDescriptionAttribute()
+        {
+            var items = new List<BClass>()
+            {
+                new BClass(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1);
+
+                Assert.AreEqual("MyName", sheet.Cells["D1"].Value);
             }
         }
 
@@ -122,6 +187,27 @@ namespace EPPlusTest
                 sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, BindingFlags.Public | BindingFlags.Instance, typeof(string).GetMembers());
 
                 Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldUseLambdaConfig()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.TableStyle = TableStyles.Dark1;
+                });
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+                Assert.AreEqual("123", sheet.Cells["C2"].Value);
+                Assert.AreEqual(3, sheet.Cells["E2"].Value);
             }
         }
 
