@@ -7,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using OfficeOpenXml.LoadFunctions.Params;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.LoadFunctions
 {
@@ -17,6 +19,7 @@ namespace OfficeOpenXml.LoadFunctions
             _items = items;
             _members = parameters.Members;
             _bindingFlags = parameters.BindingFlags;
+            _headerParsingType = parameters.HeaderParsingType;
             var type = typeof(T);
             if (_members == null)
             {
@@ -45,6 +48,7 @@ namespace OfficeOpenXml.LoadFunctions
 
         private readonly BindingFlags _bindingFlags;
         private readonly MemberInfo[] _members;
+        private readonly HeaderParsingTypes _headerParsingType;
         private readonly IEnumerable<T> _items;
         private readonly bool _isSameType;
 
@@ -84,7 +88,7 @@ namespace OfficeOpenXml.LoadFunctions
                         }
                         else
                         {
-                            header = t.Name.Replace('_', ' ');
+                            header = ParseHeader(t.Name);
                         }
                     }
                     //_worksheet.SetValueInner(row, col++, header);
@@ -139,5 +143,24 @@ namespace OfficeOpenXml.LoadFunctions
                 row++;
             }
         }
+
+        private string ParseHeader(string header)
+        {
+            switch(_headerParsingType)
+            {
+                case HeaderParsingTypes.Preserve:
+                    return header;
+                case HeaderParsingTypes.UnderscoreToSpace:
+                    return header.Replace("_", " ");
+                case HeaderParsingTypes.CamelCaseToSpace:
+                    return Regex.Replace(header, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+                case HeaderParsingTypes.UnderscoreAndCamelCaseToSpace:
+                    header = Regex.Replace(header, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+                    return header.Replace("_ ", "_").Replace("_", " ");
+                default:
+                    return header;
+            }
+        }
     }
 }
+

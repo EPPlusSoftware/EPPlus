@@ -12,41 +12,30 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions.Params
 {
     /// <summary>
-    /// Parameters for the LoadFromCollection method
+    /// Declares how headers should be parsed before they are added to the worksheet
     /// </summary>
-    public class LoadFromCollectionParams : LoadFunctionFunctionParamsBase
+    public enum HeaderParsingTypes
     {
-        public LoadFromCollectionParams()
-        {
-            // set default values on properties
-            BindingFlags = DefaultBindingFlags;
-            HeaderParsingType = HeaderParsingTypes.UnderscoreToSpace;
-        }
-
         /// <summary>
-        /// Default value for the BindingFlags property
+        /// Leaves the header as it is
         /// </summary>
-        public const BindingFlags DefaultBindingFlags = BindingFlags.Public | BindingFlags.Instance;
-        
+        Preserve,
         /// <summary>
-        /// The <see cref="BindingFlags"/> used when reading properties via reflection.
+        /// Replaces any underscore characters with a space
         /// </summary>
-        public BindingFlags BindingFlags { get; set; }
-
+        UnderscoreToSpace,
         /// <summary>
-        /// If not null, this specifies the members that should be used. Any member not present will be ignored.
+        /// Adds a space between camel cased words ('MyProp' => 'My Prop')
         /// </summary>
-        public MemberInfo[] Members { get; set; }
-
+        CamelCaseToSpace,
         /// <summary>
-        /// Sets how headers should be parsed before added to the worksheet, see <see cref="HeaderParsingTypes"/>
+        /// Replaces any underscore characters with a space and adds a space between camel cased words ('MyProp' => 'My Prop')
         /// </summary>
-        public HeaderParsingTypes HeaderParsingType { get; set; }
+        UnderscoreAndCamelCaseToSpace
     }
 }
