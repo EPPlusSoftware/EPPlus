@@ -159,7 +159,7 @@ internal class ColumnIndex : IndexBase, IDisposable
     {
         for (int p = 0; p < PageCount; p++)
         {
-            ((IDisposable)_pages[p])?.Dispose();
+            (_pages[p] as IDisposable)?.Dispose();
         }
         _pages = null;
     }

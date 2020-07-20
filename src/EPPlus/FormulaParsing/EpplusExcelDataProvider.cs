@@ -369,7 +369,12 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
-                    return null;
+                    var wsName = _package.Workbook.Worksheets[name];
+                    if(wsName == null)
+                    {
+                        return null;
+                    }
+                    nameItem = new ExcelNamedRange(name, ws,wsName, "A:XFD", -1);
                 }
             }
             id = ExcelAddressBase.GetCellID(nameItem.LocalSheetId, nameItem.Index, 0);
@@ -384,7 +389,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     Id = id,
                     Name = name,
-                    Worksheet = nameItem.Worksheet==null ? nameItem._ws : nameItem.Worksheet.Name, 
+                    Worksheet = string.IsNullOrEmpty(worksheet) ? (nameItem.Worksheet==null ? nameItem._ws : nameItem.Worksheet.Name) : worksheet, 
                     Formula = nameItem.Formula
                 };
                 if (nameItem._fromRow > 0)

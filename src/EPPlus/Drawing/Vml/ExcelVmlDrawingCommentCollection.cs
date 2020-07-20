@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         ~ExcelVmlDrawingCommentCollection()
         {
-            _drawings.Dispose();
+            _drawings?.Dispose();
             _drawings = null;
         }
         protected void AddDrawingsFromXml(ExcelWorksheet ws)

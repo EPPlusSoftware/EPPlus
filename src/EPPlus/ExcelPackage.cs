@@ -1090,6 +1090,10 @@ namespace OfficeOpenXml
             {
                 Workbook.Save();
                 _package.Close();
+                if(_stream is MemoryStream && _stream.Length>0)
+                {
+                    CloseStream();
+                }
                 _package.Save(_stream);
             }
             Byte[] byRet = new byte[Stream.Length];
