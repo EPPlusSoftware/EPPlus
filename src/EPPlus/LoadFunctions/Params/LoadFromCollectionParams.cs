@@ -22,22 +22,15 @@ namespace OfficeOpenXml.LoadFunctions.Params
     /// </summary>
     public class LoadFromCollectionParams : LoadFunctionFunctionParamsBase
     {
-        public LoadFromCollectionParams()
-        {
-            // set default values on properties
-            BindingFlags = DefaultBindingFlags;
-            HeaderParsingType = HeaderParsingTypes.UnderscoreToSpace;
-        }
-
         /// <summary>
         /// Default value for the BindingFlags property
         /// </summary>
         public const BindingFlags DefaultBindingFlags = BindingFlags.Public | BindingFlags.Instance;
-        
+
         /// <summary>
         /// The <see cref="BindingFlags"/> used when reading properties via reflection.
         /// </summary>
-        public BindingFlags BindingFlags { get; set; }
+        public BindingFlags BindingFlags { get; set; } = DefaultBindingFlags;
 
         /// <summary>
         /// If not null, this specifies the members that should be used. Any member not present will be ignored.
@@ -47,6 +40,6 @@ namespace OfficeOpenXml.LoadFunctions.Params
         /// <summary>
         /// Sets how headers should be parsed before added to the worksheet, see <see cref="HeaderParsingTypes"/>
         /// </summary>
-        public HeaderParsingTypes HeaderParsingType { get; set; }
+        public HeaderParsingTypes HeaderParsingType { get; set; } = HeaderParsingTypes.UnderscoreToSpace;
     }
 }
