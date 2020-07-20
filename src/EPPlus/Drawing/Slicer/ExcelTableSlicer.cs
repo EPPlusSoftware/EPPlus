@@ -13,6 +13,7 @@
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.Text;
@@ -52,12 +53,13 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             TableColumn = column;
             _table = column.Table;
-            CreateDrawing(column.Name);
+            var name = drawings.Worksheet.Workbook.GetTableSlicerName(column.Name);
+            CreateDrawing(name);
+            SlicerName = name;
 
             Caption = column.Name;
-            SlicerName = column.Name;
             RowHeight = 19;
-            CacheName = "Slicer_" + Name;
+            CacheName = "Slicer_" + name.Replace(" ", "_");
 
             var cache = new ExcelTableSlicerCache(NameSpaceManager);
             cache.Init(column);
@@ -99,15 +101,34 @@ namespace OfficeOpenXml.Drawing.Slicer
             get;
         }
         /// <summary>
-        /// The filter for the slicer. This is the same filter as the filter for the table.
-        /// 
+        /// The value filters for the slicer. This is the same filter as the filter for the table.
+        /// This filter must be a value filter.
         /// </summary>
-        public ExcelValueFilterColumn Filter
+        public ExcelValueFilterCollection Filters
         {
             get
             {
-                return TableColumn.Table.AutoFilter.Columns[TableColumn.Position] as ExcelValueFilterColumn;
+                var f=TableColumn.Table.AutoFilter.Columns[TableColumn.Position] as ExcelValueFilterColumn;
+                if(f!=null)
+                {
+                    return f.Filters;
+                }
+                else
+                {
+                    return null;
+                }
             }
+        } 
+
+        internal override bool CheckSlicerNameIsUnique(string name)
+        {
+            if (_drawings.Worksheet.Workbook._tableSlicerNames.Contains(name))
+            {
+                return false;
+            }
+            _drawings.Worksheet.Workbook._tableSlicerNames.Add(name);
+            return true;
         }
-    }
 }
+}
+

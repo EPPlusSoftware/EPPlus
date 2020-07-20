@@ -10,6 +10,7 @@
  *************************************************************************************************
   06/29/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -51,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             SourceName = column.Name;
             wb.Names.AddFormula(Name, "#N/A");
 
-            var slNode = wb.GetNode("d:extLst/d:ext[uri='{46BE6895-7355-4a93-B00E-2C351335B9C9}']/x14:slicerList");
+            var slNode = wb.GetExtLstSubNode("{46BE6895-7355-4a93-B00E-2C351335B9C9}", "x15:slicerCaches");
             if (slNode == null)
             {
                 wb.CreateNode("d:extLst/d:ext", false, true);
@@ -59,7 +60,8 @@ namespace OfficeOpenXml.Drawing.Slicer
                 ((XmlElement)slNode.ParentNode).SetAttribute("uri", "{46BE6895-7355-4a93-B00E-2C351335B9C9}");
             }
             var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);
-            xh.SetXmlNodeString("x14:slicerCache/@r:id", CacheRel.Id);
+            var element = (XmlElement)xh.CreateNode("x14:slicerCache", false, true);
+            element.SetAttribute("id", ExcelPackage.schemaRelationships, CacheRel.Id);
         }
         public override eSlicerSourceType SourceType 
         {

@@ -19,6 +19,7 @@ using OfficeOpenXml.Style;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml
 {
@@ -1140,6 +1141,17 @@ namespace OfficeOpenXml
                     node.InnerXml = "<a:noFill/><a:effectLst/><a:sp3d/>";
 
             }
+        }
+        internal XmlNode GetExtLstSubNode(string uriGuid, string subNodePath)
+        {
+            foreach(XmlElement node in GetNodes("d:extLst/d:ext"))
+            {
+                if(node.Attributes["uri"].Value.Equals(uriGuid, StringComparison.OrdinalIgnoreCase))
+                {
+                    return node.SelectSingleNode(subNodePath, NameSpaceManager);
+                }
+            }
+            return null;
         }
     }
 }

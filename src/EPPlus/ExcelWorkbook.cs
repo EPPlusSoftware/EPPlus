@@ -72,15 +72,37 @@ namespace OfficeOpenXml
 		private OfficeProperties _properties;
 
 		private ExcelStyles _styles;
-		#endregion
+		internal HashSet<string> _tableSlicerNames = new HashSet<string>();
+		internal HashSet<string> _pivotTableSlicerNames = new HashSet<string>();
 
-		#region ExcelWorkbook Constructor
-		/// <summary>
-		/// Creates a new instance of the ExcelWorkbook class.
-		/// </summary>
-		/// <param name="package">The parent package</param>
-		/// <param name="namespaceManager">NamespaceManager</param>
-		internal ExcelWorkbook(ExcelPackage package, XmlNamespaceManager namespaceManager) :
+        internal string GetTableSlicerName(string name)
+        {
+            return GetUniqueName(name, _tableSlicerNames);
+        }
+		internal string GetPivotTableSlicerName(string name)
+		{
+			return GetUniqueName(name, _pivotTableSlicerNames);
+		}
+
+		private string GetUniqueName(string name, HashSet<string> hs)
+        {
+            var n = name;
+            var ix = 1;
+            while (hs.Contains(n))
+            {
+                n = name + $"{ix}";
+            }
+            return n;
+        }
+        #endregion
+
+        #region ExcelWorkbook Constructor
+        /// <summary>
+        /// Creates a new instance of the ExcelWorkbook class.
+        /// </summary>
+        /// <param name="package">The parent package</param>
+        /// <param name="namespaceManager">NamespaceManager</param>
+        internal ExcelWorkbook(ExcelPackage package, XmlNamespaceManager namespaceManager) :
 			base(namespaceManager)
 		{
 			_package = package;

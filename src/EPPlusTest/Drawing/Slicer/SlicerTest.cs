@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Filter;
 using System.IO;
 
 namespace EPPlusTest.Drawing.Slicer
@@ -37,8 +38,8 @@ namespace EPPlusTest.Drawing.Slicer
 
                 var tableSlicer = ws.Drawings[0].As.Slicer.TableSlicer;
                 Assert.AreEqual(eSlicerStyle.None, tableSlicer.Style);
-                Assert.AreEqual("CompanyName", tableSlicer.Caption);
-                Assert.AreEqual("CompanyName", tableSlicer.Name);
+                Assert.AreEqual("Company Name", tableSlicer.Caption);
+                Assert.AreEqual("Company Name", tableSlicer.Name);
                 Assert.AreEqual("Slicer_CompanyName", tableSlicer.CacheName);
                 Assert.AreEqual(0, tableSlicer.StartItem);
                 Assert.AreEqual(19, tableSlicer.RowHeight);
@@ -47,7 +48,7 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.AreEqual(1, tableSlicer.Cache.TableId);
                 Assert.AreEqual(1, tableSlicer.Cache.ColumnId);
                 Assert.IsNotNull(tableSlicer.Cache.TableColumn);
-                
+
                 ws = p.Workbook.Worksheets[1];
                 Assert.AreEqual(4, ws.Drawings.Count);
                 Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelPivotTableSlicer));
@@ -60,27 +61,45 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.AreEqual("CompanyName", pivotTableslicer.Caption);
                 Assert.AreEqual("CompanyName 1", pivotTableslicer.Name);
                 Assert.AreEqual("Slicer_CompanyName1", pivotTableslicer.CacheName);
-                Assert.AreEqual(4, pivotTableslicer.StartItem);
+                Assert.AreEqual(0, pivotTableslicer.StartItem);
                 Assert.AreEqual(19, pivotTableslicer.RowHeight);
                 Assert.AreEqual(1, pivotTableslicer.ColumnCount);
                 Assert.AreEqual(1, pivotTableslicer.Cache.PivotTables.Count);
             }
         }
         [TestMethod]
-        public void AddTableSlicer()
+        public void AddTableSlicerDate()
         {
-            var ws = _pck.Workbook.Worksheets.Add("TableSlicer");
+            var ws = _pck.Workbook.Worksheets.Add("TableSlicerDate");
 
             LoadTestdata(ws);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"],"Table1");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
             var slicer = ws.Drawings.AddTableSlicer(tbl.Columns[0]);
 
-            slicer.Filter.Filters.Add("2019-11-04");
-            slicer.Filter.Filters.Add("2019-11-05");
-
-            tbl.AutoFilter.ApplyFilter();
+            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 11, 4));
+            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 11, 5));
+            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 11, 7));
+            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 12));
             slicer.SetPosition(1, 0, 5, 0);
             slicer.SetSize(200, 600);
         }
+        [TestMethod]
+        public void AddTableSlicerString()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableSlicerNumber");
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table2");
+            var slicer = ws.Drawings.AddTableSlicer(tbl.Columns[1]);
+
+            slicer.Filters.Add("52");
+            slicer.Filters.Add("53");
+            slicer.Filters.Add("61");
+            slicer.Filters.Add("102");
+            slicer.StartItem = 50;
+            slicer.SetPosition(1, 0, 5, 0);
+            slicer.SetSize(200, 600);
+        }
+
     }
 }

@@ -61,5 +61,15 @@ namespace OfficeOpenXml.Drawing.Slicer
             //_chartXmlHelper = XmlHelperFactory.Create(NameSpaceManager, _chartNode);
             GetPositionSize();
         }
+        internal override bool CheckSlicerNameIsUnique(string name)
+        {
+            if (_drawings.Worksheet.Workbook._pivotTableSlicerNames.Contains(name))
+            {
+                return false;
+            }
+            _drawings.Worksheet.Workbook._pivotTableSlicerNames.Add(name);
+            return true;
+        }
+
     }
 }

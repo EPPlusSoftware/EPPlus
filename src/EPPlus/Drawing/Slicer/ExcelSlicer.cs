@@ -57,10 +57,16 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             set
             {
+                if(!CheckSlicerNameIsUnique(value))
+                {
+                    throw new InvalidOperationException("Slicer Name is not unique");
+                }
                 _slicerXmlHelper.SetXmlNodeString("@name", value);
                 Name = value;
             }
         }
+
+        internal abstract bool CheckSlicerNameIsUnique(string name);
 
         /// <summary>
         /// Row height in points

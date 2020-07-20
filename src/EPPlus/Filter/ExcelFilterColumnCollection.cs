@@ -206,5 +206,27 @@ namespace OfficeOpenXml.Filter
         {
             return _columns.Values.GetEnumerator();
         }
+        /// <summary>
+        /// Remove the filter column with the position from the collection
+        /// </summary>
+        /// <param name="position">The index of the column to remove</param>
+        public void RemoveAt(int position)
+        {
+            if(!_columns.ContainsKey(position))
+            {
+                throw new InvalidOperationException($"Column with position {position} does not exist in the filter collection");
+            }
+            Remove(_columns[position]);
+        }
+        /// <summary>
+        /// Remove the filter column from the collection
+        /// </summary>
+        /// <param name="column">The column</param>
+        public void Remove(ExcelFilterColumn column)
+        {
+            var node = column.TopNode;
+            node.ParentNode.RemoveChild(node);
+            _columns.Remove(column.Position);
+        }
     }
 }
