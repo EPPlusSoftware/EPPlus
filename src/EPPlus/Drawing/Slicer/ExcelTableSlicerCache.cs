@@ -116,7 +116,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 SetXmlNodeString(_crossFilterPath, value.ToEnumString());
             }
         }
-        const string _customListSortPath = _topPath + "/@customList";
+        const string _customListSortPath = _topPath + "/@customListSort";
         /// <summary>
         /// If custom lists are used when sorting the items
         /// </summary>
@@ -145,13 +145,18 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 if(value)
                 {
-                    var node = CreateNode("x14:extLst", false, true);
+                    var node = CreateNode("x14:extLst/d:ext",false,true);
+                    ((XmlElement)node).SetAttribute("uri", "{470722E0-AACD-4C17-9CDC-17EF765DBC7E}");
                     var helper = XmlHelperFactory.Create(NameSpaceManager, node);
-                    helper.CreateNode("d:ext/"+_hideItemsWithNoDataPath);
+                    helper.CreateNode(_hideItemsWithNoDataPath, false, true);
                 }
                 else
                 {
-                    DeleteAllNode(_extPath + "/" + _hideItemsWithNoDataPath);
+                    var hideNode = GetNode(_extPath + "/" + _hideItemsWithNoDataPath);
+                    if(hideNode!=null)
+                    {
+                        hideNode.ParentNode.ParentNode.RemoveChild(hideNode.ParentNode);
+                    }
                 }
             }
         }
@@ -168,8 +173,6 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         const string _tableIdPath = _topPath + "/@tableId";
-        private ExcelTableColumn column;
-
         internal int TableId
         {
             get

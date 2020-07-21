@@ -154,25 +154,26 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get
             {
-                return GetXmlNodeString("@style");
+                return _slicerXmlHelper.GetXmlNodeString("@style");
             }
             set
             {
-                if(String.IsNullOrEmpty(value))
+                if(string.IsNullOrEmpty(value))
                 {
-                    Style = eSlicerStyle.None;
+                    _slicerXmlHelper.DeleteNode("@style");
+                    return;
                 }
                 if(value.StartsWith("SlicerStyle", StringComparison.OrdinalIgnoreCase))
                 {
-                    var style = value.Substring(11).ToEnum<eSlicerStyle>(eSlicerStyle.Custom);
+                    var style = value.Substring(11).ToEnum(eSlicerStyle.Custom);
                     if(style!=eSlicerStyle.Custom || style!=eSlicerStyle.None)
                     {
-                        Style = style;
+                        _slicerXmlHelper.SetXmlNodeString("@style", "SlicerStyle" + style);
                         return;
                     }
                 }
                 Style = eSlicerStyle.Custom;
-                SetXmlNodeString("@style", value);
+                _slicerXmlHelper.SetXmlNodeString("@style", value);
             }
         }
         internal string CacheName

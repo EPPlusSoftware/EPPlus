@@ -67,6 +67,7 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.AreEqual(1, pivotTableslicer.Cache.PivotTables.Count);
             }
         }
+
         [TestMethod]
         public void AddTableSlicerDate()
         {
@@ -76,12 +77,39 @@ namespace EPPlusTest.Drawing.Slicer
             var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table1");
             var slicer = ws.Drawings.AddTableSlicer(tbl.Columns[0]);
 
-            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 11, 4));
-            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 11, 5));
-            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 11, 7));
-            slicer.Filters.Add(new ExcelFilterDateGroupItem(2019, 12));
+            slicer.FilterValues.Add(new ExcelFilterDateGroupItem(2019, 11, 4));
+            slicer.FilterValues.Add(new ExcelFilterDateGroupItem(2019, 11, 5));
+            slicer.FilterValues.Add(new ExcelFilterDateGroupItem(2019, 11, 7));
+            slicer.FilterValues.Add(new ExcelFilterDateGroupItem(2019, 12));
+            slicer.Cache.HideItemsWithNoData = true;
             slicer.SetPosition(1, 0, 5, 0);
             slicer.SetSize(200, 600);
+
+            Assert.AreEqual(eCrossFilter.None, slicer.Cache.CrossFilter);
+            Assert.IsTrue(slicer.Cache.HideItemsWithNoData);
+            slicer.Cache.HideItemsWithNoData = false;       //Validate element is removed
+            Assert.IsFalse(slicer.Cache.HideItemsWithNoData);
+            slicer.Cache.HideItemsWithNoData = true;       //Add element again
+
+            var slicer2 = ws.Drawings.AddTableSlicer(tbl.Columns[2]);
+            slicer2.Style = eSlicerStyle.Light4;
+            slicer2.LockedPosition = true;
+            slicer2.ColumnCount = 3;
+            slicer2.Cache.CrossFilter = eCrossFilter.None;
+            slicer2.Cache.SortOrder = eSortOrder.Descending;
+            slicer2.Cache.CustomListSort=false;
+
+            slicer2.SetPosition(1, 0, 9, 0);
+            slicer2.SetSize(200, 600);
+
+            Assert.AreEqual(eCrossFilter.None, slicer2.Cache.CrossFilter);
+            Assert.AreEqual(eSortOrder.Descending, slicer2.Cache.SortOrder);
+            Assert.IsFalse(slicer2.Cache.CustomListSort);
+
+            Assert.IsTrue(slicer2.LockedPosition);
+            Assert.AreEqual(3, slicer2.ColumnCount);
+            Assert.AreEqual("SlicerStyleLight4", slicer2.StyleName);
+            Assert.AreEqual(eSlicerStyle.Light4, slicer2.Style);
         }
         [TestMethod]
         public void AddTableSlicerString()
@@ -92,13 +120,17 @@ namespace EPPlusTest.Drawing.Slicer
             var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table2");
             var slicer = ws.Drawings.AddTableSlicer(tbl.Columns[1]);
 
-            slicer.Filters.Add("52");
-            slicer.Filters.Add("53");
-            slicer.Filters.Add("61");
-            slicer.Filters.Add("102");
+            slicer.Style = eSlicerStyle.Dark1;
+            slicer.FilterValues.Add("52");
+            slicer.FilterValues.Add("53");
+            slicer.FilterValues.Add("61");
+            slicer.FilterValues.Add("102");
             slicer.StartItem = 50;
             slicer.SetPosition(1, 0, 5, 0);
             slicer.SetSize(200, 600);
+
+            Assert.AreEqual(50, slicer.StartItem);
+            Assert.AreEqual(eSlicerStyle.Dark1, slicer.Style);
         }
 
     }

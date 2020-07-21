@@ -142,6 +142,7 @@ namespace OfficeOpenXml.Drawing
         {
             NameTable nt = new NameTable();
             NameSpaceManager = new XmlNamespaceManager(nt);
+            NameSpaceManager.AddNamespace("d", ExcelPackage.schemaMain);
             NameSpaceManager.AddNamespace("a", ExcelPackage.schemaDrawings);
             NameSpaceManager.AddNamespace("xdr", ExcelPackage.schemaSheetDrawings);
             NameSpaceManager.AddNamespace("c", ExcelPackage.schemaChart);

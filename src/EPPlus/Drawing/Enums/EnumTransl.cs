@@ -317,7 +317,7 @@ namespace OfficeOpenXml.Drawing
             {
                 try
                 {
-                    return (eSlicerStyle)Enum.Parse(typeof(eSlicerStyle), value);
+                    return (eSlicerStyle)Enum.Parse(typeof(eSlicerStyle), value.Substring(11));
                 }
                 catch
                 {

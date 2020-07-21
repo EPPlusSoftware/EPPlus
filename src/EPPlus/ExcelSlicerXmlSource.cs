@@ -61,6 +61,7 @@ namespace OfficeOpenXml
                     case eSlicerSourceType.Table:
                         src=new ExcelSlicerXmlSource(eSlicerSourceType.Table, _part, null);
                         _list.Add(src);
+
                         break;
                     case eSlicerSourceType.PivotTable:
                         src = new ExcelSlicerXmlSource(eSlicerSourceType.PivotTable, _part, null);
