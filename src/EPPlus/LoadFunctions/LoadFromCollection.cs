@@ -112,7 +112,7 @@ namespace OfficeOpenXml.LoadFunctions
                 else
                 {
                     col = 0;
-                    if (nMembers == 1 || item is string || item is decimal || item is DateTime || TypeCompat.IsPrimitive(item))
+                    if (item is string || item is decimal || item is DateTime || TypeCompat.IsPrimitive(item))
                     {
                         values[row, col++] = item;
                     }

@@ -640,9 +640,12 @@ namespace OfficeOpenXml
             var param = new LoadFromDictionariesParams
             {
                 PrintHeaders = printHeaders,
-                TableStyle = tableStyle,
-                Keys = keys
+                TableStyle = tableStyle
             };
+            if(keys != null && keys.Any())
+            {
+                param.SetKeys(keys.ToArray());
+            }
             var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
         }
