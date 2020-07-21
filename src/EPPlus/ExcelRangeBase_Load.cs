@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.LoadFunctions;
+using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -301,129 +302,42 @@ namespace OfficeOpenXml
                     return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle);
                 return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle, Members.Select(x => x.Name));
             }
-            var type = typeof(T);
-            bool isSameType = true;
-            if (Members == null)
+            var param = new LoadFromCollectionParams
             {
-                Members = type.GetProperties(memberFlags);
-            }
-            else
+                PrintHeaders = PrintHeaders,
+                TableStyle = TableStyle,
+                BindingFlags = memberFlags,
+                Members = Members
+            };
+            var func = new LoadFromCollection<T>(this, Collection, param);
+            return func.Load();
+        }
+
+        /// <summary>
+        /// Load a collection into the worksheet starting from the top left row of the range.
+        /// </summary>
+        /// <typeparam name="T">The datatype in the collection</typeparam>
+        /// <param name="collection">The collection to load</param>
+        /// <param name="paramConfig"><see cref="Action{LoacFromCollectionParams}"/> to provide parameters to the function</param>
+        /// <example>
+        /// sheet.Cells["C1"].LoadFromCollection(items, c =>
+        /// {
+        ///     c.PrintHeaders = true;
+        ///     c.TableStyle = TableStyles.Dark1;
+        /// });
+        /// </example>
+        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> collection, Action<LoadFromCollectionParams> paramConfig)
+        {
+            var param = new LoadFromCollectionParams();
+            paramConfig.Invoke(param);
+            if (collection is IEnumerable<IDictionary<string, object>>)
             {
-                if (Members.Length == 0)   //Fixes issue 15555
-                {
-                    throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
-                }
-                foreach (var t in Members)
-                {
-                    if (t.DeclaringType != null && t.DeclaringType != type)
-                    {
-                        isSameType = false;
-                    }
-                    //Fixing inverted check for IsSubclassOf / Pullrequest from tomdam
-                    if (t.DeclaringType != null && t.DeclaringType != type && !TypeCompat.IsSubclassOf(type, t.DeclaringType) && !TypeCompat.IsSubclassOf(t.DeclaringType, type))
-                    {
-                        throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
-                    }
-                }
+                if (param.Members == null)
+                    return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle);
+                return LoadFromDictionaries(collection as IEnumerable<IDictionary<string, object>>, param.PrintHeaders, param.TableStyle, param.Members.Select(x => x.Name));
             }
-
-            var members = Members.Length == 0 ? 1 : Members.Length;
-            // create buffer
-            object[,] values = new object[(PrintHeaders ? Collection.Count() + 1 : Collection.Count()), members];
-
-            int col = 0, row = 0;
-            if (Members.Length > 0 && PrintHeaders)
-            {
-                foreach (var t in Members)
-                {
-                    var descriptionAttribute = t.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
-                    var header = string.Empty;
-                    if (descriptionAttribute != null)
-                    {
-                        header = descriptionAttribute.Description;
-                    }
-                    else
-                    {
-                        var displayNameAttribute =
-                            t.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as
-                            DisplayNameAttribute;
-                        if (displayNameAttribute != null)
-                        {
-                            header = displayNameAttribute.DisplayName;
-                        }
-                        else
-                        {
-                            header = t.Name.Replace('_', ' ');
-                        }
-                    }
-                    //_worksheet.SetValueInner(row, col++, header);
-                    values[row, col++] = header;
-                }
-                row++;
-            }
-
-            if (!Collection.Any() && (Members.Length == 0 || PrintHeaders == false))
-            {
-                return null;
-            }
-
-            foreach (var item in Collection)
-            {
-                if (item == null)
-                {
-                    col = members;
-                }
-                else
-                {
-                    col = 0;
-                    if (members == 1 || item is string || item is decimal || item is DateTime || TypeCompat.IsPrimitive(item))
-                    {
-                        values[row, col++] = item;
-                    }
-                    else
-                    {
-                        foreach (var t in Members)
-                        {
-                            if (isSameType == false && item.GetType().GetMember(t.Name, memberFlags).Length == 0)
-                            {
-                                col++;
-                                continue; //Check if the property exists if and inherited class is used
-                            }
-                            else if (t is PropertyInfo)
-                            {
-                                values[row, col++] = ((PropertyInfo)t).GetValue(item, null);
-                            }
-                            else if (t is FieldInfo)
-                            {
-                                values[row, col++] = ((FieldInfo)t).GetValue(item);
-                            }
-                            else if (t is MethodInfo)
-                            {
-                                values[row, col++] = ((MethodInfo)t).Invoke(item, null);
-                            }
-                        }
-                    }
-                }
-                row++;
-            }
-
-            _worksheet.SetRangeValueInner(_fromRow, _fromCol, _fromRow + row - 1, _fromCol + col - 1, values);
-
-            //Must have at least 1 row, if header is showen
-            if (row == 1 && PrintHeaders)
-            {
-                row++;
-            }
-
-            var r = _worksheet.Cells[_fromRow, _fromCol, _fromRow + row - 1, _fromCol + col - 1];
-
-            if (TableStyle != TableStyles.None)
-            {
-                var tbl = _worksheet.Tables.Add(r, "");
-                tbl.ShowHeader = PrintHeaders;
-                tbl.TableStyle = TableStyle;
-            }
-            return r;
+            var func = new LoadFromCollection<T>(this, collection, param);
+            return func.Load();
         }
         #endregion
         #region LoadFromText
@@ -872,7 +786,13 @@ namespace OfficeOpenXml
         /// </example>
         public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles tableStyle, IEnumerable<string> keys)
         {
-            var func = new LoadFromDictionaries(this, items, printHeaders, tableStyle, keys);
+            var param = new LoadFromDictionariesParams
+            {
+                PrintHeaders = printHeaders,
+                TableStyle = tableStyle,
+                Keys = keys
+            };
+            var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
         }
         #endregion

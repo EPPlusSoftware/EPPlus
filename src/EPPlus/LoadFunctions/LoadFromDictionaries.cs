@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/16/2020         EPPlus Software AB       EPPlus 5.2.1
  *************************************************************************************************/
+using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,11 @@ namespace OfficeOpenXml.LoadFunctions
 {
     internal class LoadFromDictionaries : LoadFunctionBase
     {
-        public LoadFromDictionaries(ExcelRangeBase range, IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles tableStyle, IEnumerable<string> keys) 
-            : base(range, printHeaders, tableStyle)
+        public LoadFromDictionaries(ExcelRangeBase range, IEnumerable<IDictionary<string, object>> items, LoadFromDictionariesParams parameters) 
+            : base(range, parameters)
         {
             _items = items;
+            _keys = parameters.Keys;
             if(items == null || !items.Any())
             {
                 _keys = Enumerable.Empty<string>();
@@ -31,13 +33,13 @@ namespace OfficeOpenXml.LoadFunctions
             else
             {
                 var firstItem = items.First();
-                if (keys == null || !keys.Any())
+                if (_keys == null || !_keys.Any())
                 {
                     _keys = firstItem.Keys;
                 }
                 else
                 {
-                    _keys = keys;
+                    _keys = parameters.Keys;
                 }
             }
         }

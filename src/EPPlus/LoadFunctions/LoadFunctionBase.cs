@@ -13,6 +13,7 @@
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
@@ -22,11 +23,11 @@ namespace OfficeOpenXml.LoadFunctions
     /// </summary>
     internal abstract class LoadFunctionBase
     {
-        public LoadFunctionBase(ExcelRangeBase range, bool printHeaders, TableStyles tableStyle)
+        public LoadFunctionBase(ExcelRangeBase range, LoadFunctionFunctionParamsBase parameters)
         {
             Range = range;
-            PrintHeaders = printHeaders;
-            TableStyle = tableStyle;
+            PrintHeaders = parameters.PrintHeaders;
+            TableStyle = parameters.TableStyle;
         }
 
         /// <summary>

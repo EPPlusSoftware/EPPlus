@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EPPlusTest
+namespace EPPlusTest.LoadFunctions
 {
     [TestClass]
     public class LoadFromDictionariesTests
