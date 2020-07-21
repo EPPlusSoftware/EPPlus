@@ -364,7 +364,52 @@ namespace EPPlusTest
 				Assert.AreEqual(expectedDateWithMath, formulaCell.Value);
 			}
 		}
-		private string GetOutput(string file)
+
+        [TestMethod]
+        public void TestValueFunction()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Test");
+                var sourceCell = worksheet.Cells[2, 2];
+                var formulaCell = worksheet.Cells[2, 3];
+
+                sourceCell.Value = "10.8";
+
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                string expectedResult = "10.8";
+                var result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, result.Value.ToString());
+
+                sourceCell.Value = "10.8%";
+                formulaCell = worksheet.Cells[2, 3];
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                expectedResult = "0.108";
+                result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, result.Value.ToString());
+
+                sourceCell.Value = "(10.8)";
+                formulaCell = worksheet.Cells[2, 3];
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                expectedResult = "-10.8";
+                result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, result.Value.ToString());
+
+
+                sourceCell.Value = "(10.8)%";
+                formulaCell = worksheet.Cells[2, 3];
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                expectedResult = "-0.108";
+                result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, result.Value.ToString());
+
+            }
+        }
+        private string GetOutput(string file)
         {
             using (var pck = new ExcelPackage(new FileInfo(file)))
             {
