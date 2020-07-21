@@ -181,16 +181,13 @@ namespace OfficeOpenXml
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders, TableStyles TableStyle)
         {
-            var r = LoadFromDataTable(Table, PrintHeaders);
-
-            int rows = (Table.Rows.Count == 0 ? 1 : Table.Rows.Count) + (PrintHeaders ? 1 : 0);
-            if (rows >= 0 && Table.Columns.Count > 0)
+            var parameters = new LoadFromDataTableParams
             {
-                var tbl = _worksheet.Tables.Add(new ExcelAddressBase(_fromRow, _fromCol, _fromRow + rows - 1, _fromCol + Table.Columns.Count - 1), Table.TableName);
-                tbl.ShowHeader = PrintHeaders;
-                tbl.TableStyle = TableStyle;
-            }
-            return r;
+                PrintHeaders = PrintHeaders,
+                TableStyle = TableStyle
+            };
+            var func = new LoadFromDataTable(this, Table, parameters);
+            return func.Load();
         }
         /// <summary>
         /// Load the data from the datatable starting from the top left cell of the range
@@ -200,29 +197,39 @@ namespace OfficeOpenXml
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders)
         {
-            if (Table == null)
-            {
-                throw (new ArgumentNullException("Table can't be null"));
-            }
+            return LoadFromDataTable(Table, PrintHeaders, TableStyles.None);
+        }
 
-            if (Table.Rows.Count == 0 && PrintHeaders == false)
-            {
-                return null;
-            }
+        /// <summary>
+        /// Load the data from the datatable starting from the top left cell of the range
+        /// </summary>
+        /// <param name="table">The datatable to load</param>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromDataTable(DataTable table)
+        {
+            return LoadFromDataTable(table, false, TableStyles.None);
+        }
 
-            //var rowArray = new List<object[]>();
-            var row = _fromRow;
-            if (PrintHeaders)
-            {
-                _worksheet._values.SetValueRow_Value(_fromRow, _fromCol, Table.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
-                row++;
-            }
-            foreach (DataRow dr in Table.Rows)
-            {
-                _worksheet._values.SetValueRow_Value(row++, _fromCol, dr.ItemArray);
-            }
-            if (row != _fromRow) row--;
-            return _worksheet.Cells[_fromRow, _fromCol, row, _fromCol + Table.Columns.Count - 1];
+        /// <summary>
+        /// Load the data from the <see cref="DataTable"/> starting from the top left cell of the range
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="paramsConfig"><see cref="Action{LoacFromCollectionParams}"/> to provide parameters to the function</param>
+        /// <example>
+        /// <code>
+        /// sheet.Cells["C1"].LoadFromDataTable(dataTable, c =>
+        /// {
+        ///     c.PrintHeaders = true;
+        ///     c.TableStyle = TableStyles.Dark1;
+        /// });
+        /// </code>
+        /// </example>
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromDataTable(DataTable table, Action<LoadFromDataTableParams> paramsConfig)
+        {
+            var parameters = new LoadFromDataTableParams();
+            paramsConfig.Invoke(parameters);
+            return LoadFromDataTable(table, parameters.PrintHeaders, parameters.TableStyle);
         }
 #endregion
         #region LoadFromArrays
@@ -318,18 +325,21 @@ namespace OfficeOpenXml
         /// </summary>
         /// <typeparam name="T">The datatype in the collection</typeparam>
         /// <param name="collection">The collection to load</param>
-        /// <param name="paramConfig"><see cref="Action{LoacFromCollectionParams}"/> to provide parameters to the function</param>
+        /// <param name="paramsConfig"><see cref="Action{LoacFromCollectionParams}"/> to provide parameters to the function</param>
         /// <example>
+        /// <code>
         /// sheet.Cells["C1"].LoadFromCollection(items, c =>
         /// {
         ///     c.PrintHeaders = true;
         ///     c.TableStyle = TableStyles.Dark1;
         /// });
+        /// </code>
         /// </example>
-        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> collection, Action<LoadFromCollectionParams> paramConfig)
+        /// <returns>The filled range</returns>
+        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> collection, Action<LoadFromCollectionParams> paramsConfig)
         {
             var param = new LoadFromCollectionParams();
-            paramConfig.Invoke(param);
+            paramsConfig.Invoke(param);
             if (collection is IEnumerable<IDictionary<string, object>>)
             {
                 if (param.Members == null)
@@ -365,171 +375,12 @@ namespace OfficeOpenXml
                 r.Value = "";
                 return r;
             }
-
-            if (Format == null) Format = new ExcelTextFormat();
-
-
-            string[] lines;
-            if (Format.TextQualifier == 0)
+            var parameters = new LoadFromTextParams
             {
-                lines = SplitLines(Text, Format.EOL);
-            }
-            else
-            {
-                lines = GetLines(Text, Format);
-            }
-
-            int row = 0;
-            int col = 0;
-            int maxCol = col;
-            int lineNo = 1;
-            //var values = new List<object>[lines.Length];
-            foreach (string line in lines)
-            {
-                var items = new List<object>();
-                //values[row] = items;
-
-                if (lineNo > Format.SkipLinesBeginning && lineNo <= lines.Length - Format.SkipLinesEnd)
-                {
-                    col = 0;
-                    string v = "";
-                    bool isText = false, isQualifier = false;
-                    int QCount = 0;
-                    int lineQCount = 0;
-                    foreach (char c in line)
-                    {
-                        if (Format.TextQualifier != 0 && c == Format.TextQualifier)
-                        {
-                            if (!isText && v != "")
-                            {
-                                throw (new Exception(string.Format("Invalid Text Qualifier in line : {0}", line)));
-                            }
-                            isQualifier = !isQualifier;
-                            QCount += 1;
-                            lineQCount++;
-                            isText = true;
-                        }
-                        else
-                        {
-                            if (QCount > 1 && !string.IsNullOrEmpty(v))
-                            {
-                                v += new string(Format.TextQualifier, QCount / 2);
-                            }
-                            else if (QCount > 2 && string.IsNullOrEmpty(v))
-                            {
-                                v += new string(Format.TextQualifier, (QCount - 1) / 2);
-                            }
-
-                            if (isQualifier)
-                            {
-                                v += c;
-                            }
-                            else
-                            {
-                                if (c == Format.Delimiter)
-                                {
-                                    items.Add(ConvertData(Format, v, col, isText));
-                                    v = "";
-                                    isText = false;
-                                    col++;
-                                }
-                                else
-                                {
-                                    if (QCount % 2 == 1)
-                                    {
-                                        throw (new Exception(string.Format("Text delimiter is not closed in line : {0}", line)));
-                                    }
-                                    v += c;
-                                }
-                            }
-                            QCount = 0;
-                        }
-                    }
-                    if (QCount > 1 && (v != "" && QCount == 2))
-                    {
-                        v += new string(Format.TextQualifier, QCount / 2);
-                    }
-                    if (lineQCount % 2 == 1)
-                        throw (new Exception(string.Format("Text delimiter is not closed in line : {0}", line)));
-                    items.Add(ConvertData(Format, v, col, isText));
-
-                    _worksheet._values.SetValueRow_Value(_fromRow + row, _fromCol, items);
-
-                    if (col > maxCol) maxCol = col;
-                    row++;
-                }
-                lineNo++;
-            }
-
-            if(row<=0)
-            {
-                return null;
-            }
-            return _worksheet.Cells[_fromRow, _fromCol, _fromRow + row - 1, _fromCol + maxCol];
-        }
-
-        private string[] SplitLines(string text, string EOL)
-        {
-            var lines=Regex.Split(text, EOL);
-            for(int i=0;i<lines.Length;i++)
-            {
-                if (EOL == "\n" && lines[i].EndsWith("\r")) lines[i] = lines[i].Substring(0, lines[i].Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
-                if (EOL == "\r" && lines[i].StartsWith("\n")) lines[i] = lines[i].Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
-            }
-            return lines;
-        }
-
-        private string[] GetLines(string text, ExcelTextFormat Format)
-        {
-            if (Format.EOL == null || Format.EOL.Length == 0) return new string[] { text };
-            var eol = Format.EOL;
-            var list = new List<string>();
-            var inTQ = false;
-            var prevLineStart = 0;
-            for (int i = 0; i < text.Length; i++)
-            {
-                if (text[i] == Format.TextQualifier)
-                {
-                    inTQ = !inTQ;
-                }
-                else if (!inTQ)
-                {
-                    if (IsEOL(text, i, eol))
-                    {
-                        var s = text.Substring(prevLineStart, i - prevLineStart);
-                        if (eol == "\n" && s.EndsWith("\r")) s = s.Substring(0, s.Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
-                        if (eol == "\r" && s.StartsWith("\n")) s = s.Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
-                        list.Add(s);
-                        i += eol.Length - 1;
-                        prevLineStart = i + 1;
-                    }
-                }
-            }
-
-            if (inTQ)
-            {
-                throw (new ArgumentException(string.Format("Text delimiter is not closed in line : {0}", list.Count)));
-            }
-
-            if (prevLineStart >= Format.EOL.Length && IsEOL(text, prevLineStart - Format.EOL.Length, Format.EOL))
-            {
-                //list.Add(text.Substring(prevLineStart- Format.EOL.Length, Format.EOL.Length));
-                list.Add("");
-            }
-            else
-            {
-                list.Add(text.Substring(prevLineStart));
-            }
-            return list.ToArray();
-        }
-        private bool IsEOL(string text, int ix, string eol)
-        {
-            for (int i = 0; i < eol.Length; i++)
-            {
-                if (text[ix + i] != eol[i])
-                    return false;
-            }
-            return ix + eol.Length <= text.Length;
+                Format = Format
+            };
+            var func = new LoadFromText(this, Text, parameters);
+            return func.Load();
         }
 
         /// <summary>
@@ -757,7 +608,7 @@ namespace OfficeOpenXml
         /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
         /// These dictionaries should have the same set of keys.
         /// </summary>
-        /// <param name="items">A list of dictionaries/></param>
+        /// <param name="items">A list of dictionaries</param>
         /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
         /// <param name="tableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
         /// <param name="keys">Keys that should be used, keys omitted will not be included</param>
@@ -792,6 +643,27 @@ namespace OfficeOpenXml
                 TableStyle = tableStyle,
                 Keys = keys
             };
+            var func = new LoadFromDictionaries(this, items, param);
+            return func.Load();
+        }
+
+        /// <summary>
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
+        /// These dictionaries should have the same set of keys.
+        /// </summary>
+        /// <param name="items">A list of dictionaries/ExpandoObjects</param>
+        /// <param name="paramsConfig"><see cref="Action{LoadFromDictionariesParams}"/> to provide parameters to the function</param>
+        /// <example>
+        /// sheet.Cells["C1"].LoadFromDictionaries(items, c =>
+        /// {
+        ///     c.PrintHeaders = true;
+        ///     c.TableStyle = TableStyles.Dark1;
+        /// });
+        /// </example>
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, Action<LoadFromDictionariesParams> paramsConfig)
+        {
+            var param = new LoadFromDictionariesParams();
+            paramsConfig.Invoke(param);
             var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
         }

@@ -100,10 +100,10 @@ namespace EPPlusTest.LoadFunctions
                 o1,
                 o2
             };
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                var r = sheet.Cells["A1"].LoadFromDictionaries(items, true, TableStyles.None, null);
+                using (var package = new ExcelPackage())
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    var r = sheet.Cells["A1"].LoadFromDictionaries(items, true, TableStyles.None, null);
 
                 Assert.AreEqual("Id", sheet.Cells["A1"].Value);
                 Assert.AreEqual(1, sheet.Cells["A2"].Value);
