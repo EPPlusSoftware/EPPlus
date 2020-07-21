@@ -118,6 +118,51 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldUseSelectedMembers()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                var mi = typeof(Aclass)
+                    .GetProperties()
+                    .Where(pi => pi.Name != "Name")
+                    .Select(pi => (MemberInfo)pi)
+                    .ToArray();
+
+                sheet.Cells.LoadFromCollection(items, false, TableStyles.None, BindingFlags.Instance | BindingFlags.Public, mi);
+
+                Assert.AreEqual("123", sheet.Cells["A1"].Value);
+                Assert.AreEqual(3, sheet.Cells["B1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void OneMemberShouldShowValue()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                var mi = typeof(Aclass)
+                    .GetProperties()
+                    .Where(pi => pi.Name == "Name")
+                    .Select(pi => (MemberInfo)pi)
+                    .ToArray();
+
+                sheet.Cells.LoadFromCollection(items, false, TableStyles.None, BindingFlags.Instance | BindingFlags.Public, mi);
+
+                Assert.AreEqual("Item 1", sheet.Cells["A1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void ShouldUseDisplayNameAttribute()
         {
             var items = new List<BClass>()
@@ -144,10 +189,10 @@ namespace EPPlusTest.LoadFunctions
             {
                 var sheet = pck.Workbook.Worksheets.Add("sheet");
                 var t = typeof(Implementation);
-                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, LoadFromCollectionParams.DefaultBindingFlags, 
-                    new MemberInfo[] 
-                    { 
-                        t.GetProperty("Id"), 
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, LoadFromCollectionParams.DefaultBindingFlags,
+                    new MemberInfo[]
+                    {
+                        t.GetProperty("Id"),
                         t.GetProperty("Name")
                     });
 
@@ -200,7 +245,7 @@ namespace EPPlusTest.LoadFunctions
             {
                 new Implementation(){ Id = "123", Name = "Item 1", Number = 3}
             };
-            var items = objs.Select(x => new {Id = x.Id, Name = x.Name}).ToList();
+            var items = objs.Select(x => new { Id = x.Id, Name = x.Name }).ToList();
             using (var pck = new ExcelPackage(new MemoryStream()))
             {
                 var sheet = pck.Workbook.Worksheets.Add("sheet");
