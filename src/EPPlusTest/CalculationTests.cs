@@ -364,7 +364,53 @@ namespace EPPlusTest
 				Assert.AreEqual(expectedDateWithMath, formulaCell.Value);
 			}
 		}
-		private string GetOutput(string file)
+
+        [TestMethod]
+        public void TestValueFunction()
+        {
+            var ds = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Test");
+                var sourceCell = worksheet.Cells[2, 2];
+                var formulaCell = worksheet.Cells[2, 3];
+
+                sourceCell.Value = $"10{ds}8";
+
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                var expectedResult = 10.8d;
+                var result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, result.Value);
+
+                sourceCell.Value = $"10{ds}8%";
+                formulaCell = worksheet.Cells[2, 3];
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                expectedResult = 0.108d;
+                result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, Math.Round((double)result.Value, 3));
+
+                sourceCell.Value = $"(10{ds}8)";
+                formulaCell = worksheet.Cells[2, 3];
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                expectedResult = -10.8;
+                result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, result.Value);
+
+
+                sourceCell.Value = $"(10{ds}8)%";
+                formulaCell = worksheet.Cells[2, 3];
+                formulaCell.Formula = $"VALUE(B2)";
+                worksheet.Calculate();
+                expectedResult = -0.108;
+                result = worksheet.Cells[2, 3];
+                Assert.AreEqual(expectedResult, Math.Round((double)result.Value, 3));
+
+            }
+        }
+        private string GetOutput(string file)
         {
             using (var pck = new ExcelPackage(new FileInfo(file)))
             {
