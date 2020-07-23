@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.LoadFunctions
 {
@@ -26,6 +27,7 @@ namespace OfficeOpenXml.LoadFunctions
         {
             _items = items;
             _keys = parameters.Keys;
+            _headerParsingType = parameters.HeaderParsingType;
             if(items == null || !items.Any())
             {
                 _keys = Enumerable.Empty<string>();
@@ -46,6 +48,7 @@ namespace OfficeOpenXml.LoadFunctions
 
         private readonly IEnumerable<IDictionary<string, object>> _items;
         private readonly IEnumerable<string> _keys;
+        private readonly HeaderParsingTypes _headerParsingType;
 
         
 
@@ -57,7 +60,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 foreach (var key in _keys)
                 {
-                    values[row, col++] = key;
+                    values[row, col++] = ParseHeader(key);
                 }
                 row++;
             }
@@ -89,6 +92,24 @@ namespace OfficeOpenXml.LoadFunctions
         {
             if (_keys == null) return 0;
             return _keys.Count();
+        }
+
+        private string ParseHeader(string header)
+        {
+            switch (_headerParsingType)
+            {
+                case HeaderParsingTypes.Preserve:
+                    return header;
+                case HeaderParsingTypes.UnderscoreToSpace:
+                    return header.Replace("_", " ");
+                case HeaderParsingTypes.CamelCaseToSpace:
+                    return Regex.Replace(header, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+                case HeaderParsingTypes.UnderscoreAndCamelCaseToSpace:
+                    header = Regex.Replace(header, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+                    return header.Replace("_ ", "_").Replace("_", " ");
+                default:
+                    return header;
+            }
         }
     }
 }

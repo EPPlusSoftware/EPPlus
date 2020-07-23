@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.LoadFunctions
 {
-    public class LoadFromText
+    internal class LoadFromText
     {
         public LoadFromText(ExcelRangeBase range, string text, LoadFromTextParams parameters)
         {

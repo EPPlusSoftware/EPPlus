@@ -28,10 +28,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Converts a text string into a numeric value")]
     internal class Value : ExcelFunction
     {
-        private readonly string _groupSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator;
-        private readonly string _decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-        private readonly string _timeSeparator = CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator;
-        private readonly string _shortTimePattern = CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
+        public Value(CultureInfo ci)
+        {
+            _cultureInfo = ci;
+            _groupSeparator = _cultureInfo.NumberFormat.NumberGroupSeparator;
+            _decimalSeparator = _cultureInfo.NumberFormat.NumberDecimalSeparator;
+            _timeSeparator = _cultureInfo.DateTimeFormat.TimeSeparator;
+            _shortTimePattern = _cultureInfo.DateTimeFormat.ShortTimePattern;
+        }
+
+        private readonly CultureInfo _cultureInfo;
+        private readonly string _groupSeparator;
+        private readonly string _decimalSeparator;
+        private readonly string _timeSeparator;
+        private readonly string _shortTimePattern;
         private readonly DateValue _dateValueFunc = new DateValue();
         private readonly TimeValue _timeValueFunc = new TimeValue();
 
@@ -42,25 +52,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             double result = 0d;
             if (string.IsNullOrEmpty(val)) return CreateResult(result, DataType.Integer);
             val = val.TrimEnd(' ');
-            if (Regex.IsMatch(val, $"^[\\d]*({Regex.Escape(_groupSeparator)}?[\\d]*)?({Regex.Escape(_decimalSeparator)}[\\d]*)*?[ ?% ?]?$"))
+            bool isPercentage = false;
+            if(val.EndsWith("%"))
             {
-                if (val.EndsWith("%"))
-                {
-                    val = val.TrimEnd('%');
-                    result = double.Parse(val) / 100;
-                }
-                else
-                {
-                    result = double.Parse(val);
-                }
-                return CreateResult(result, DataType.Decimal);
+                val = val.TrimEnd('%');
+                isPercentage = true;
             }
-            if (double.TryParse(val, NumberStyles.Float, CultureInfo.CurrentCulture, out result))
+            if(val.StartsWith("(") && val.EndsWith(")"))
             {
-                return CreateResult(result, DataType.Decimal);
+                var numCandidate = val.Substring(1, val.Length - 2);
+                if(double.TryParse(numCandidate, NumberStyles.Any, _cultureInfo, out double tmp))
+                {
+                    val = "-" + numCandidate;
+                }
+            }
+            if (Regex.IsMatch(val, $"^[\\d]*({Regex.Escape(_groupSeparator)}?[\\d]*)?({Regex.Escape(_decimalSeparator)}[\\d]*)*?[ ?% ?]?$", RegexOptions.Compiled))
+            {
+                result = double.Parse(val, _cultureInfo);
+                return CreateResult(isPercentage ? result/100 : result, DataType.Decimal);
+            }
+            if (double.TryParse(val, NumberStyles.Float, _cultureInfo, out result))
+            {
+                return CreateResult(isPercentage ? result/100d : result, DataType.Decimal);
             }
             var timeSeparator = Regex.Escape(_timeSeparator);
-            if (Regex.IsMatch(val, @"^[\d]{1,2}" + timeSeparator + @"[\d]{2}(" + timeSeparator + @"[\d]{2})?$"))
+            if (Regex.IsMatch(val, @"^[\d]{1,2}" + timeSeparator + @"[\d]{2}(" + timeSeparator + @"[\d]{2})?$", RegexOptions.Compiled))
             {
                 var timeResult = _timeValueFunc.Execute(val);
                 if (timeResult.DataType == DataType.Date)

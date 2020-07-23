@@ -90,5 +90,13 @@ namespace EPPlusTest.LoadFunctions
             Assert.AreEqual("Look, a bird!", _worksheet.Cells["A1"].Value);
             Assert.AreEqual("One apple, one orange", _worksheet.Cells["A2"].Value);
         }
+
+        [TestMethod]
+        public void ShouldReturnRange()
+        {
+            AddLine("a,b,c");
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString());
+            Assert.AreEqual("A1:C2", r.FirstAddress);
+        }
     }
 }

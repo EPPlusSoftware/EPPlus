@@ -24,6 +24,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
+using System.Globalization;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -53,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["text"] = new Text.Text();
             Functions["t"] = new T();
             Functions["hyperlink"] = new Hyperlink();
-            Functions["value"] = new Value();
+            Functions["value"] = new Value(CultureInfo.CurrentCulture);
             Functions["trim"] = new Trim();
             Functions["clean"] = new Clean();
             Functions["unicode"] = new Unicode();
