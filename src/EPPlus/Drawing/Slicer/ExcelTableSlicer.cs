@@ -41,7 +41,6 @@ namespace OfficeOpenXml.Drawing.Slicer
      */
     public class ExcelTableSlicer : ExcelSlicer<ExcelTableSlicerCache>
     {
-        ExcelTable _table;
         ExcelSlicerXmlSource _xmlSource;
         internal ExcelTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
@@ -52,7 +51,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal ExcelTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelTableColumn column) : base(drawings, node)
         {
             TableColumn = column;
-            _table = column.Table;
+            column.Slicer = this;
             var name = drawings.Worksheet.Workbook.GetTableSlicerName(column.Name);
             CreateDrawing(name);
             SlicerName = name;
@@ -64,6 +63,21 @@ namespace OfficeOpenXml.Drawing.Slicer
             var cache = new ExcelTableSlicerCache(NameSpaceManager);
             cache.Init(column);
             _cache = cache;            
+        }
+        internal override void DeleteMe()
+        {
+            try
+            {
+                _xmlSource.Part.Package.DeletePart(_xmlSource.Uri);
+                _xmlSource.Part.Package.DeletePart(Cache.Uri);
+                TableColumn.Slicer = null;
+            }
+            catch (Exception ex)
+            {
+                throw (new InvalidDataException("EPPlus internal error when deleting the slicer.", ex));
+            }
+
+            base.DeleteMe();
         }
 
         private void CreateDrawing(string name)

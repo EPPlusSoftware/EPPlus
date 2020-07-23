@@ -13,6 +13,7 @@
 using System;
 using System.Globalization;
 using System.Xml;
+using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Table
@@ -179,14 +180,24 @@ namespace OfficeOpenXml.Table
             }
         }
   		const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
- 		/// <summary>
- 		/// Sets a calculated column Formula.
- 		/// Be carefull with this property since it is not validated. 
- 		/// <example>
- 		/// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);
- 		/// </example>
- 		/// </summary>
- 		public string CalculatedColumnFormula
+
+        public ExcelTableSlicer Slicer 
+        { 
+            get; 
+            internal set; 
+        }
+        public void AddSlicer()
+        {            
+            _tbl.WorkSheet.Drawings.AddTableSlicer(this);
+        }
+        /// <summary>
+        /// Sets a calculated column Formula.
+        /// Be carefull with this property since it is not validated. 
+        /// <example>
+        /// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);
+        /// </example>
+        /// </summary>
+        public string CalculatedColumnFormula
  		{
  			get
  			{

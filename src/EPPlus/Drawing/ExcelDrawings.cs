@@ -1092,6 +1092,10 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
+            if(TableColumn.Slicer!=null)
+            {
+                throw new InvalidOperationException("A slice already attaced to this column");
+            }
             if (_drawingNames.ContainsKey(TableColumn.Name))
             {
                 throw new Exception("Name already exists in the drawings collection");
@@ -1101,9 +1105,11 @@ namespace OfficeOpenXml.Drawing
                 TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
             }
             XmlElement drawNode = CreateDrawingXml();
-            var slicer = new ExcelTableSlicer(this, drawNode, TableColumn);
-            slicer.EditAs = eEditAs.Absolute;
-            slicer.Name = TableColumn.Name;
+            var slicer = new ExcelTableSlicer(this, drawNode, TableColumn)
+            {
+                EditAs = eEditAs.Absolute,
+                Name = TableColumn.Name
+            };
             _drawings.Add(slicer);
             _drawingNames.Add(TableColumn.Name, _drawings.Count - 1);
             

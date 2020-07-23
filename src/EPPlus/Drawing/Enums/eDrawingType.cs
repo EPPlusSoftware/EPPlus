@@ -21,6 +21,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A Chart drawing
         /// </summary>
-        Chart
+        Chart,
+        /// <summary>
+        /// A slicer drawing
+        /// </summary>
+        Slicer
     }
 }

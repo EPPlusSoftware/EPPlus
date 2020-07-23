@@ -31,7 +31,16 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             _ws = drawings.Worksheet;
         }
-
+        /// <summary>
+        /// The type of drawing
+        /// </summary>
+        public override eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.Slicer;
+            }
+        }
         /// <summary>
         /// The caption text of the slicer.
         /// </summary>

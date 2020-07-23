@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal ZipPackageRelationship CacheRel{ get; set; }
         internal ZipPackagePart Part { get; set; }
+        internal Uri Uri { get; set; }
         public XmlDocument SlicerCacheXml { get; protected internal set; }
         public string Name
         {
