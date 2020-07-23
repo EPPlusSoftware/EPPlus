@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// <summary>
         /// The position of the Legend.
         /// </summary>
-        /// <remarks>Setting the Position to TopRight will set the <see cref="Position"/> to Right and the <see cref="PositionAlignment"> to Min</remarks>
+        /// <remarks>Setting the Position to TopRight will set the <see cref="Position"/> to Right and the <see cref="PositionAlignment" /> to Min</remarks>
         public override eLegendPosition Position
         {
             get

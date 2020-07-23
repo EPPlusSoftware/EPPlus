@@ -11,6 +11,7 @@
       * Performance issue in ExpressionEvaluator.GetNonAlphanumericStar
       * Using the sheet name to reference the entire worksheet did not work in formulas.
       * GetAsByteArray corrupted the package if ExcelPackage.Save was called before.
+      * Parsing issue in the Value function
 
 ## Version 5.2.0
 ### Features
