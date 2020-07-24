@@ -48,6 +48,19 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
 
         }
+
+        internal void Init(ExcelWorkbook wb, ExcelPivotTableField field)
+        {
+            CreatePart(wb);
+            SlicerCacheXml.DocumentElement.InnerXml = $"";
+            TopNode = SlicerCacheXml.DocumentElement;
+            Name = "Slicer_" + field.Name;
+            SourceName = field.Name;
+            wb.Names.AddFormula(Name, "#N/A");
+
+            CreateWorkbookReference(wb, "{BBE1A952-AA13-448e-AADC-164F8A28A991}");
+        }
+
         /// <summary>
         /// Init must be called before accessing any properties as it sets several properties.
         /// </summary>

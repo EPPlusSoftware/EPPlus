@@ -19,6 +19,22 @@ namespace OfficeOpenXml.Drawing.Slicer
     public class ExcelPivotTableSlicer : ExcelSlicer<ExcelPivotTableSlicerCache>
     {
         ExcelSlicerXmlSource _source;
+        ExcelPivotTableDataField _field;
+        internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelPivotTableField field, ExcelGroupShape parent = null) : base(drawings, node, parent)
+        {
+            _ws = drawings.Worksheet;
+            var name = drawings.Worksheet.Workbook.GetPivotTableSlicerName(field.Name);
+            var slicerNode = _ws.SlicerXmlSources.GetSource(name, eSlicerSourceType.PivotTable, out _source);
+            _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
+
+            Caption = field.Name;
+            RowHeight = 19;
+            CacheName = "Slicer_" + name.Replace(" ", "_");
+
+            var cache = new ExcelPivotTableSlicerCache(NameSpaceManager);
+            cache.Init(drawings.Worksheet.Workbook, field);
+            _cache = cache;
+        }
         internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
             _ws = drawings.Worksheet;

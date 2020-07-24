@@ -1086,6 +1086,12 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawings.Count - 1);
             return shape;
         }
+        #region Add Slicers
+        /// <summary>
+        /// Adds a slicer to a table column
+        /// </summary>
+        /// <param name="TableColumn">The table column</param>
+        /// <returns>The slicer drawing</returns>
         internal ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
         {
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
@@ -1094,12 +1100,12 @@ namespace OfficeOpenXml.Drawing
             }
             if(TableColumn.Slicer!=null)
             {
-                throw new InvalidOperationException("A slice already attaced to this column");
+                throw new InvalidOperationException("A slice is already attached to this column");
             }
-            if (_drawingNames.ContainsKey(TableColumn.Name))
-            {
-                throw new Exception("Name already exists in the drawings collection");
-            }
+            //if (_drawingNames.ContainsKey(TableColumn.Name))
+            //{
+            //    throw new Exception("Name already exists in the drawings collection");
+            //}
             if(TableColumn.Table.AutoFilter.Columns[TableColumn.Id]==null)
             {
                 TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
@@ -1108,13 +1114,46 @@ namespace OfficeOpenXml.Drawing
             var slicer = new ExcelTableSlicer(this, drawNode, TableColumn)
             {
                 EditAs = eEditAs.Absolute,
-                Name = TableColumn.Name
             };
             _drawings.Add(slicer);
-            _drawingNames.Add(TableColumn.Name, _drawings.Count - 1);
+            _drawingNames.Add(slicer.Name, _drawings.Count - 1);
             
             return slicer;
         }
+        /// <summary>
+        /// Adds a slicer to a pivot table field
+        /// </summary>
+        /// <param name="Field">The pivot table field</param>
+        /// <returns>The slicer drawing</returns>
+        internal ExcelPivotTableSlicer AddPivotTableSlicer(ExcelPivotTableField Field)
+        {
+            if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
+            {
+                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
+            }
+            if (Field.Slicer != null)
+            {
+                throw new InvalidOperationException("A slice already attached to this column");
+            }
+            //if (_drawingNames.ContainsKey(Field.Name))
+            //{
+            //    throw new Exception("Name already exists in the drawings collection");
+            //}
+            //if (TableColumn.Table.AutoFilter.Columns[TableColumn.Id] == null)
+            //{
+            //    TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
+            //}
+            XmlElement drawNode = CreateDrawingXml();
+            var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)
+            {
+                EditAs = eEditAs.Absolute,
+            };
+            _drawings.Add(slicer);
+            _drawingNames.Add(slicer.Name, _drawings.Count - 1);
+
+            return slicer;
+        }
+        #endregion
         ///// <summary>
         ///// Adds a line connectin two shapes
         ///// </summary>

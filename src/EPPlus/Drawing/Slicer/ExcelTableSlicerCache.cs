@@ -40,29 +40,15 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal void Init(ExcelTableColumn column)
         {
             var wb = column.Table.WorkSheet.Workbook;
-            var p = wb._package.Package;
-            Uri = GetNewUri(p, "/xl/slicerCaches/slicerCache{0}.xml");
-            Part = p.CreatePart(Uri, "application/vnd.ms-excel.slicerCache+xml");
-            CacheRel = wb.Part.CreateRelationship(UriHelper.GetRelativeUri(wb.WorkbookUri, Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicerCache);
-            SlicerCacheXml = new XmlDocument();
-            SlicerCacheXml.LoadXml(GetStartXml());
+            CreatePart(wb);
             SlicerCacheXml.DocumentElement.InnerXml = $"<extLst><x:ext uri=\"{{2F2917AC-EB37-4324-AD4E-5DD8C200BD13}}\" xmlns:x15=\"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main\"><x15:tableSlicerCache tableId=\"{column.Table.Id}\" column=\"{column.Id}\"/></x:ext></extLst>";
             TopNode = SlicerCacheXml.DocumentElement;
             Name = "Slicer_" + column.Name;
             SourceName = column.Name;
-            wb.Names.AddFormula(Name, "#N/A");
 
-            var slNode = wb.GetExtLstSubNode("{46BE6895-7355-4a93-B00E-2C351335B9C9}", "x15:slicerCaches");
-            if (slNode == null)
-            {
-                wb.CreateNode("d:extLst/d:ext", false, true);
-                slNode = wb.CreateNode("d:extLst/d:ext/x15:slicerCaches", false, true);
-                ((XmlElement)slNode.ParentNode).SetAttribute("uri", "{46BE6895-7355-4a93-B00E-2C351335B9C9}");
-            }
-            var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);
-            var element = (XmlElement)xh.CreateNode("x14:slicerCache", false, true);
-            element.SetAttribute("id", ExcelPackage.schemaRelationships, CacheRel.Id);
+            CreateWorkbookReference(wb, "{46BE6895-7355-4a93-B00E-2C351335B9C9}");
         }
+
         public override eSlicerSourceType SourceType 
         {
             get

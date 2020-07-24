@@ -132,6 +132,20 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.AreEqual(50, slicer.StartItem);
             Assert.AreEqual(eSlicerStyle.Dark1, slicer.Style);
         }
+        [TestMethod]
+        public void AddPivotTableSlicer()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotTableSlicer");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            var slicer = ws.Drawings.AddPivotTableSlicer(tbl.Fields[0]);
+
+            slicer.Style = eSlicerStyle.Dark1;
+            slicer.SetPosition(1, 0, 5, 0);
+            slicer.SetSize(200, 600);
+
+        }
 
     }
 }

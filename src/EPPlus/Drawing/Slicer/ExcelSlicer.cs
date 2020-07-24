@@ -17,6 +17,24 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
+    /*
+      <xsd:complexType name="CT_Slicer">
+       <xsd:sequence>
+         <xsd:element name="extLst" type="x:CT_ExtensionList" minOccurs="0" maxOccurs="1"/>
+       </xsd:sequence>
+       <xsd:attribute name="name" type="x:ST_Xstring" use="required"/>
+       <xsd:attribute ref="xr10:uid" use="optional"/>
+       <xsd:attribute name="cache" type="x:ST_Xstring" use="required"/>
+       <xsd:attribute name="caption" type="x:ST_Xstring" use="optional"/>
+       <xsd:attribute name="startItem" type="xsd:unsignedInt" use="optional" default="0"/>
+       <xsd:attribute name="columnCount" type="xsd:unsignedInt" use="optional" default="1"/>
+       <xsd:attribute name="showCaption" type="xsd:boolean" use="optional" default="true"/>
+       <xsd:attribute name="level" type="xsd:unsignedInt" use="optional" default="0"/>
+       <xsd:attribute name="style" type="x:ST_Xstring" use="optional"/>
+       <xsd:attribute name="lockedPosition" type="xsd:boolean" use="optional" default="false"/>
+       <xsd:attribute name="rowHeight" type="xsd:unsignedInt" use="required"/>
+     </xsd:complexType>
+     */
     public abstract class ExcelSlicer<T> : ExcelDrawing where T : ExcelSlicerCache
     {
         internal ExcelWorksheet _ws;
@@ -56,6 +74,20 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         /// <summary>
+        /// If the caption of the slicer is visible.
+        /// </summary>
+        public bool ShowCaption
+        {
+            get
+            {
+                return _slicerXmlHelper.GetXmlNodeBool("@showCaption", true);
+            }
+            set
+            {
+                _slicerXmlHelper.SetXmlNodeBool("@showCaption", value, true);
+            }
+        }        
+        /// <summary>
         /// The the name of the slicer.
         /// </summary>
         public string SlicerName
@@ -92,7 +124,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         /// <summary>
-        /// The start item
+        /// The index of the starting item in the slicer. Default is 0.
         /// </summary>
         public int StartItem
         {

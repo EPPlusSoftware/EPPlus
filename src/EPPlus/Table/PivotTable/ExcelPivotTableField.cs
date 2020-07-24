@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Globalization;
+using OfficeOpenXml.Drawing.Slicer;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -823,6 +824,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _items;
             }
         }
+
+        public ExcelPivotTableSlicer Slicer { get; internal set; }
+
         /// <summary>
         /// Add numberic grouping to the field
         /// </summary>
