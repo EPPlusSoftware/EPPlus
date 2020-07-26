@@ -128,7 +128,6 @@ namespace EPPlusTest.LoadFunctions
             {
                 var sheet = pck.Workbook.Worksheets.Add("sheet");
                 sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1);
-                pck.SaveAs(new FileInfo(@"c:\temp\headers2.xlsx"));
                 Assert.AreEqual("Id", sheet.Cells["C1"].Value);
             }
         }
