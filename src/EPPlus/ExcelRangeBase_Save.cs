@@ -315,7 +315,8 @@ namespace OfficeOpenXml
                 var v = _worksheet.GetCoreValueInner(row, col);
                 sb.Append(ValueToTextHandler.GetFormattedText(v._value, _workbook, v._styleId, false, ci));
                 if (hasTextQ) sb.Append(Format.TextQualifier);
-                sb.Append(Format.Delimiter);
+                if(col < _toCol)
+                    sb.Append(Format.Delimiter);
             }
             if (row != _toRow) sb.Append(Format.EOL);
             return sb.ToString();
