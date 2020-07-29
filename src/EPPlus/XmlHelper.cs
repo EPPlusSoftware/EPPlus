@@ -862,7 +862,7 @@ namespace OfficeOpenXml
                 return false;
             }
         }
-        protected static bool GetBoolFromString(string s)
+        internal static bool GetBoolFromString(string s)
         {
             return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
         }

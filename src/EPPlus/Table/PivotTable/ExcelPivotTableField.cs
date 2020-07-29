@@ -15,6 +15,10 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Globalization;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using System.Linq;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -572,6 +576,67 @@ namespace OfficeOpenXml.Table.PivotTable
                     _grouping = new ExcelPivotTableFieldDateGroup(NameSpaceManager, groupNode);
                 }
             }
+
+            var si = cacheField.SelectSingleNode("d:sharedItems", NameSpaceManager);
+            if (si != null)
+            {
+                int x = 0;
+                foreach (XmlElement c in si.ChildNodes)
+                {
+                    if (c.LocalName == "s")
+                    {
+                        Items[x].Value = c.Attributes["v"].Value;
+                    }
+                    else if (c.LocalName == "d")
+                    {
+                        if (ConvertUtil.TryParseDateString(c.Attributes["v"].Value, out DateTime d))
+                        {
+                            Items[x].Value = d;
+                        }
+                        else
+                        {
+                            Items[x].Value = c.Attributes["v"].Value;
+                        }
+                    }
+                    else if (c.LocalName == "n")
+                    {
+                        if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num))
+                        {
+                            Items[x].Value = num;
+                        }
+                        else
+                        {
+                            Items[x].Value = c.Attributes["v"].Value;
+                        }
+                    }
+                    else if (c.LocalName == "b")
+                    {
+                        if (ConvertUtil.TryParseBooleanString(c.Attributes["v"].Value, out bool b))
+                        {
+                            Items[x].Value = b;
+                        }
+                        else
+                        {
+                            Items[x].Value = false;
+                        }
+                    }
+                    else if (c.LocalName == "e")
+                    {
+                        if (ExcelErrorValue.Values.StringIsErrorValue(c.Attributes["v"].Value))
+                        {
+                            Items[x].Value = ExcelErrorValue.Parse(c.Attributes["v"].Value);
+                        }
+                        else
+                        {
+                            Items[x].Value = c.Attributes["v"].Value;
+                        }
+                    }
+                    else
+                    {
+                        Items[x].Value = null;
+                    }
+                }
+            }
         }
         #endregion
         #region Grouping
@@ -786,40 +851,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 if (_items == null)
                 {
                     _items = new ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>(_table);
-                    foreach (XmlNode node in TopNode.SelectNodes("d:items//d:item", NameSpaceManager))
+                    foreach (XmlElement node in TopNode.SelectNodes("d:items//d:item", NameSpaceManager))
                     {
-                        var item = new ExcelPivotTableFieldItem(NameSpaceManager, node,this);
-                        if (item.T == "")
-                        {
-                            _items.AddInternal(item);
-                        }
+                        _items.AddInternal(new ExcelPivotTableFieldItem(node));
                     }
-                    //if (_grouping is ExcelPivotTableFieldDateGroup)
-                    //{
-                    //    ExcelPivotTableFieldDateGroup dtgrp = ((ExcelPivotTableFieldDateGroup)_grouping);
-
-                    //    ExcelPivotTableFieldItem minItem=null, maxItem=null;
-                    //    foreach (var item in _items)
-                    //    {
-                    //        if (item.X == 0)
-                    //        {
-                    //            minItem = item;
-                    //        }
-                    //        else if (maxItem == null || maxItem.X < item.X)
-                    //        {
-                    //            maxItem = item;
-                    //        }
-                    //    }
-                    //    if (dtgrp.AutoStart)
-                    //    {
-                    //        _items._list.Remove(minItem);
-                    //    }
-                    //    if (dtgrp.AutoEnd)
-                    //    {
-                    //        _items._list.Remove(maxItem);
-                    //    }
-
-                    //}
                 }
                 return _items;
             }
@@ -1009,6 +1044,35 @@ namespace OfficeOpenXml.Table.PivotTable
                 Compact = false;
                 SetDateGroup(groupBy, startDate, endDate, interval);
                 return this;
+            }
+        }
+        public void CreateItems()
+        {
+            var ws = _table.CacheDefinition.SourceRange.Worksheet;
+            var column = _table.CacheDefinition.SourceRange._fromRow + Index;
+            var toRow = _table.CacheDefinition.SourceRange._toRow;
+            var hs = new HashSet<object>();
+            for (int row=0;row <= toRow;row++)
+            {
+                var o = ws.GetValue(row, column);
+                if (!hs.Contains(o))
+                {
+                    hs.Add(o);
+                }
+            }
+
+            var l = new List<ExcelPivotTableFieldItem>();
+            foreach(var i in Items)
+            {
+                if(hs.Contains(i.Value))
+                {
+                    hs.Remove(i.Value);
+                }
+            }
+            Items.Clear();
+            foreach(var c in hs)
+            {
+                Items.AddInternal(new ExcelPivotTableFieldItem() { Value = c });
             }
         }
         private void AddCacheField(ExcelPivotTableField field, DateTime startDate, DateTime endDate, int interval)

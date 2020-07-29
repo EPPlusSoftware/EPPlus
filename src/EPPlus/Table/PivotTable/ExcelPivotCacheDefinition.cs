@@ -233,6 +233,23 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+        //private ExcelPivotTableFieldCollectionBase<ExcelPivotTableCacheField> _fields = null;
+        //public ExcelPivotTableFieldCollectionBase<ExcelPivotTableCacheField> Fields
+        //{ 
+        //    get
+        //    {
+        //        if(_fields==null)
+        //        {
+        //            _fields = new ExcelPivotTableFieldCollectionBase<ExcelPivotTableCacheField>(PivotTable);
+        //            foreach(XmlNode n in GetNodes("d:cacheFields/d:cacheField"))
+        //            {
+        //                _fields.AddInternal(new ExcelPivotTableCacheField(n));
+        //            }
+        //        }
+        //        return _fields;
+        //    }
+        //}
+
         private string GetStartXml(ExcelRangeBase sourceAddress)
         {
             string xml="<pivotCacheDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"\" refreshOnLoad=\"1\" refreshedBy=\"SomeUser\" refreshedDate=\"40504.582403125001\" createdVersion=\"1\" refreshedVersion=\"3\" recordCount=\"5\" upgradeOnRefresh=\"1\">";

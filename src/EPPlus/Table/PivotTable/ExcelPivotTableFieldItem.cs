@@ -18,56 +18,138 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    public class ExcelPivotTableFieldItem
+    {
+        public ExcelPivotTableFieldItem()
+        {
+        }
+        public ExcelPivotTableFieldItem (XmlElement node)
+        {
+            foreach(XmlAttribute a in node.Attributes)
+            {
+                switch(a.LocalName)
+                {
+                    case "c":
+                        C = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "d":
+                        D = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "e":
+                        E = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "f":
+                        F = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "h":
+                        Hidden = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "m":
+                        M = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "n":
+                        Text = a.Value;
+                        break;
+                    case "s":
+                        S = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "sd":
+                        HideDetails = XmlHelper.GetBoolFromString(a.Value);
+                        break;
+                    case "t":
+                        Type = a.Value;
+                        break;
+                    case "x":
+                        X = int.Parse(a.Value);
+                        break;
+                }
+            }
+        }
+        public string Text { get; set; }
+        public object Value { get; set; }
+        public bool Hidden { get; set; }
+        internal bool HideDetails{ get; set; }
+        internal bool C { get; set; }
+        internal bool D { get; set; }
+        internal bool E { get; set; }
+        internal bool F { get; set; }
+        internal bool M { get; set; }
+        internal bool S { get; set; }
+        internal int X { get; set; } = -1;
+        internal string Type { get; set; }
+    }
     /// <summary>
     /// A field Item. Used for grouping
     /// </summary>
-    public class ExcelPivotTableFieldItem : XmlHelper
-    {
-        ExcelPivotTableField _field;
-        internal ExcelPivotTableFieldItem(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTableField field) :
-            base(ns, topNode)
-        {
-           _field = field;
-        }
-        /// <summary>
-        /// The text. Unique values only
-        /// </summary>
-        public string Text
-        {
-            get
-            {
-                return GetXmlNodeString("@n");
-            }
-            set
-            {
-                if(string.IsNullOrEmpty(value))
-                {
-                    DeleteNode("@n");
-                    return;
-                }
-                foreach (var item in _field.Items)
-                {
-                    if (item.Text == value)
-                    {
-                        throw(new ArgumentException("Duplicate Text"));
-                    }
-                }
-                SetXmlNodeString("@n", value);
-            }
-        }
-        internal int X
-        {
-            get
-            {
-                return GetXmlNodeInt("@x"); 
-            }
-        }
-        internal string T
-        {
-            get
-            {
-                return GetXmlNodeString("@t");
-            }
-        }
-    }
+    //public class ExcelPivotTableFieldItem : XmlHelper
+    //{
+    //ExcelPivotTableField _field;
+    //internal ExcelPivotTableFieldItem(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTableField field) :
+    //    base(ns, topNode)
+    //{
+    //   _field = field;
+    //}
+    ///// <summary>
+    ///// The text. Unique values only
+    ///// </summary>
+    //public string Text
+    //{
+    //    get
+    //    {
+    //        return GetXmlNodeString("@n");
+    //    }
+    //    set
+    //    {
+    //        if(string.IsNullOrEmpty(value))
+    //        {
+    //            DeleteNode("@n");
+    //            return;
+    //        }
+    //        foreach (var item in _field.Items)
+    //        {
+    //            if (item.Text == value)
+    //            {
+    //                throw(new ArgumentException("Duplicate Text"));
+    //            }
+    //        }
+    //        SetXmlNodeString("@n", value);
+    //    }
+    //}
+    //internal int X
+    //{
+    //    get
+    //    {
+    //        return GetXmlNodeInt("@x"); 
+    //    }
+    //}
+    //internal string T
+    //{
+    //    get
+    //    {
+    //        return GetXmlNodeString("@t");
+    //    }
+    //}
+    //public bool HideDetails 
+    //{
+    //    get
+    //    {
+    //        return GetXmlNodeBool("@sd");
+    //    }
+    //    set
+    //    {
+    //        SetXmlNodeBool("@sd", value, false);
+    //    }
+    //}
+    //internal bool Hidden
+    //{
+    //    get
+    //    {
+    //        return GetXmlNodeBool("@h");
+    //    }
+    //    set
+    //    {
+    //        SetXmlNodeBool("@h", value, false);
+    //    }
+    //}
+    //}
 }

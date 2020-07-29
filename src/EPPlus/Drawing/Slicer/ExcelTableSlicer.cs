@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         /// <summary>
         /// The value filters for the slicer. This is the same filter as the filter for the table.
-        /// This filter must be a value filter.
+        /// This filter is a value filter.
         /// </summary>
         public ExcelValueFilterCollection FilterValues
         {

@@ -24,7 +24,7 @@ namespace EPPlusTest.Drawing.Slicer
 
             SaveAndCleanup(_pck);
 
-            File.Copy(fileName, dirName + "\\SlicerRead.xlsx", true);
+            //File.Copy(fileName, dirName + "\\SlicerRead.xlsx", true);
         }
         [TestMethod]
         public void ReadSlicer()
@@ -50,7 +50,7 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.IsNotNull(tableSlicer.Cache.TableColumn);
 
                 ws = p.Workbook.Worksheets[1];
-                Assert.AreEqual(4, ws.Drawings.Count);
+                Assert.AreEqual(3, ws.Drawings.Count);
                 Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelPivotTableSlicer));
                 Assert.IsInstanceOfType(ws.Drawings[2], typeof(ExcelPivotTableSlicer));
                 Assert.IsInstanceOfType(ws.Drawings[3], typeof(ExcelTableSlicer));
@@ -65,6 +65,22 @@ namespace EPPlusTest.Drawing.Slicer
                 Assert.AreEqual(19, pivotTableslicer.RowHeight);
                 Assert.AreEqual(1, pivotTableslicer.ColumnCount);
                 Assert.AreEqual(1, pivotTableslicer.Cache.PivotTables.Count);
+            }
+        }
+        [TestMethod]
+        public void ReadSlicerPivot()
+        {
+            using (var p = OpenTemplatePackage("SlicerPivot.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+                Assert.AreEqual(2, ws.Drawings.Count);
+                Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelPivotTableSlicer));
+                Assert.AreEqual(1, ws.SlicerXmlSources._list.Count);
+
+                Assert.AreEqual(22, ws.PivotTables[0].Fields[0].Items.Count);
+                Assert.AreEqual(6, ws.PivotTables[0].Fields[1].Items.Count);
+                Assert.AreEqual(22, ws.PivotTables[0].Fields[2].Items.Count);
+                Assert.AreEqual(13, ws.PivotTables[0].Fields[3].Items.Count);
             }
         }
 
@@ -140,7 +156,7 @@ namespace EPPlusTest.Drawing.Slicer
             LoadTestdata(ws);
             var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
             var slicer = ws.Drawings.AddPivotTableSlicer(tbl.Fields[0]);
-
+            tbl.Fields[0].CreateItems();
             slicer.Style = eSlicerStyle.Dark1;
             slicer.SetPosition(1, 0, 5, 0);
             slicer.SetSize(200, 600);

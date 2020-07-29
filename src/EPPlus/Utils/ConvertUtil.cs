@@ -65,8 +65,23 @@ namespace OfficeOpenXml.Utils
         /// <returns>True if <paramref name="candidateString"/> could be parsed </returns>
         internal static bool TryParseBooleanString(string candidateString, out bool result)
 		{
-			if (!string.IsNullOrEmpty(candidateString))
-				return bool.TryParse(candidateString, out result);
+            if (!string.IsNullOrEmpty(candidateString))
+            {
+                if(candidateString == "-1"  || candidateString == "1")
+                {
+                    result = true;
+                    return true;
+                }
+                else if (candidateString == "0")
+                {
+                    result = false;
+                    return true;
+                }
+                else
+                {
+                    return bool.TryParse(candidateString, out result);
+                }
+            }
 			result = false;
 			return false;
 		}

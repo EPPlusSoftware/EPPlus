@@ -142,13 +142,6 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         private void LoadFields()
         {
-            //Fields.Clear();
-            //int ix=0;
-            //foreach(XmlElement fieldNode in PivotXml.SelectNodes("//d:pivotFields/d:pivotField",NameSpaceManager))
-            //{
-            //    Fields.AddInternal(new ExcelPivotTableField(NameSpaceManager, fieldNode, this, ix++));
-            //}
-
             int index = 0;
             //Add fields.
             foreach (XmlElement fieldElem in TopNode.SelectNodes("d:pivotFields/d:pivotField", NameSpaceManager))
@@ -164,8 +157,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 var fld = Fields[index++];
                 fld.SetCacheFieldNode(fieldElem);
             }
-
-
         }
         private string GetStartXml(string name, int id, ExcelAddressBase address, ExcelAddressBase sourceAddress)
         {
