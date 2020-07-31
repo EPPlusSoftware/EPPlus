@@ -543,12 +543,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         return field;
                     }
-                    //else if (fieldIndex > index)
-                    //{
-                    //    newElement = rowsNode.OwnerDocument.CreateElement(fieldNodeText, ExcelPackage.schemaMain);
-                    //    newElement.SetAttribute(indexAttrText, index.ToString());
-                    //    rowsNode.InsertAfter(newElement, field);
-                    //}
                 }
                 prevField=field;
             }
@@ -1046,13 +1040,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 return this;
             }
         }
-        public void CreateItems()
+        public void RefreshItems()
         {
             var ws = _table.CacheDefinition.SourceRange.Worksheet;
             var column = _table.CacheDefinition.SourceRange._fromRow + Index;
             var toRow = _table.CacheDefinition.SourceRange._toRow;
             var hs = new HashSet<object>();
-            for (int row=0;row <= toRow;row++)
+            for (int row=_table.CacheDefinition.SourceRange._fromRow+1; row <= toRow;row++)
             {
                 var o = ws.GetValue(row, column);
                 if (!hs.Contains(o))
@@ -1068,6 +1062,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     hs.Remove(i.Value);
                 }
+                
             }
             Items.Clear();
             foreach(var c in hs)

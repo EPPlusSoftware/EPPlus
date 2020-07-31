@@ -13,9 +13,10 @@
 using System;
 using System.Text;
 using System.Xml;
-using System.Linq;
 using OfficeOpenXml.Utils;
 using System.Security;
+using System.Linq;
+using OfficeOpenXml.Packaging;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -24,52 +25,47 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotCacheDefinition : XmlHelper
     {
+        ExcelWorkbook _wb;
+        private PivotTableCacheInternal _cacheReference;
         internal ExcelPivotCacheDefinition(XmlNamespaceManager ns, ExcelPivotTable pivotTable) :
             base(ns, null)
         {
-            foreach (var r in pivotTable.Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheDefinition"))
+            var cacheDefinitionUri=pivotTable.GetCacheUriFromRel();
+            _wb=PivotTable.WorkSheet.Workbook;
+            var c = _wb._pivotTableCaches.Values.FirstOrDefault(x => x.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString);
+            if (c == null)
             {
-                Relationship = r;
+                var pck = pivotTable.WorkSheet._package.Package;
+                _cacheReference = new PivotTableCacheInternal(ns)
+                {
+                    Part = pck.GetPart(cacheDefinitionUri),
+                    CacheDefinitionUri = CacheDefinitionUri,
+                    CacheDefinitionXml = new XmlDocument(),
+                };
+                _cacheReference.Init();
             }
-            CacheDefinitionUri = UriHelper.ResolvePartUri(Relationship.SourceUri, Relationship.TargetUri);
-
-            var pck = pivotTable.WorkSheet._package.Package;
-            Part = pck.GetPart(CacheDefinitionUri);
-            CacheDefinitionXml = new XmlDocument();
-            LoadXmlSafe(CacheDefinitionXml, Part.GetStream());
-
-            TopNode = CacheDefinitionXml.DocumentElement;
+            else
+            {
+                _cacheReference = c;
+            }
             PivotTable = pivotTable;
         }
         internal ExcelPivotCacheDefinition(XmlNamespaceManager ns, ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, int tblId) :
             base(ns, null)
         {
             PivotTable = pivotTable;
-
-            var pck = pivotTable.WorkSheet._package.Package;
-            
-            //CacheDefinition
-            CacheDefinitionXml = new XmlDocument();
-            LoadXmlSafe(CacheDefinitionXml, GetStartXml(sourceAddress), Encoding.UTF8);
-            CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref tblId); 
-            Part = pck.CreatePart(CacheDefinitionUri, ExcelPackage.schemaPivotCacheDefinition);
-            TopNode = CacheDefinitionXml.DocumentElement;
-
-            //CacheRecord. Create an empty one.
-            CacheRecordUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref tblId); 
-            var cacheRecord = new XmlDocument();
-            cacheRecord.LoadXml("<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />");
-            var recPart = pck.CreatePart(CacheRecordUri, ExcelPackage.schemaPivotCacheRecords);
-            cacheRecord.Save(recPart.GetStream());
-
-            RecordRelationship = Part.CreateRelationship(UriHelper.ResolvePartUri(CacheDefinitionUri, CacheRecordUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
-            RecordRelationshipID = RecordRelationship.Id;
-
-            CacheDefinitionXml.Save(Part.GetStream());
+            _wb = PivotTable.WorkSheet.Workbook;
+            if (_wb._pivotTableCaches.TryGetValue(sourceAddress.FullAddress, out _cacheReference))
+            {
+                _cacheReference._pivotTables.Add(pivotTable);
+            }
+            else
+            {
+                _cacheReference = new PivotTableCacheInternal(ns);
+                _cacheReference.InitNew(pivotTable, sourceAddress, tblId, null);
+                _wb._pivotTableCaches.Add(sourceAddress.FullAddress, _cacheReference);
+            }
         }        
-        /// <summary>
-        /// Reference to the internal package part
-        /// </summary>
         internal Packaging.ZipPackagePart Part
         {
             get;
@@ -78,43 +74,32 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// Provides access to the XML data representing the cache definition in the package.
         /// </summary>
-        public XmlDocument CacheDefinitionXml { get; private set; }
+        public XmlDocument CacheDefinitionXml
+        { 
+            get
+            {
+                return _cacheReference.CacheDefinitionXml;
+            }
+        }
         /// <summary>
         /// The package internal URI to the pivottable cache definition Xml Document.
         /// </summary>
         public Uri CacheDefinitionUri
         {
-            get;
-            internal set;
-        }
-        internal Uri CacheRecordUri
-        {
-            get;
-            set;
-        }
-        internal Packaging.ZipPackageRelationship Relationship
-        {
-            get;
-            set;
-        }
-        internal Packaging.ZipPackageRelationship RecordRelationship
-        {
-            get;
-            set;
-        }
-        internal string RecordRelationshipID 
-        {
             get
             {
-                return GetXmlNodeString("@r:id");
+                return _cacheReference.CacheDefinitionUri;
             }
-            set
+        }
+        internal ZipPackageRelationship Relationship 
+        { 
+            get
             {
-                SetXmlNodeString("@r:id", value);
+                return _cacheReference.Relationship;
             }
         }
         /// <summary>
-        /// Referece to the PivoTable object
+        /// Referece to the PivotTable object
         /// </summary>
         public ExcelPivotTable PivotTable
         {
@@ -137,7 +122,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (_sourceRange == null)
                 {
-                    if (CacheSource == eSourceType.Worksheet)
+                    if (_cacheReference.CacheSource == eSourceType.Worksheet)
                     {
                         var ws = PivotTable.WorkSheet.Workbook.Worksheets[GetXmlNodeString(_sourceWorksheetPath)];
                         if (ws == null) //Not worksheet, check name or table name
@@ -191,10 +176,26 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     throw (new ArgumentException("Can not change the number of columns(fields) in the SourceRange"));
                 }
-
-                SetXmlNodeString(_sourceWorksheetPath, value.Worksheet.Name);
-                SetXmlNodeString(_sourceAddressPath, value.FirstAddress);
-                _sourceRange = value;
+                if (value.FullAddress == SourceRange.FullAddress) return; //Same
+                if(_wb._pivotTableCaches.TryGetValue(value.FullAddress, out PivotTableCacheInternal cache))
+                {
+                    _cacheReference._pivotTables.Remove(PivotTable);
+                    cache._pivotTables.Add(PivotTable);
+                    _cacheReference = cache;
+                }
+                else if(_cacheReference._pivotTables.Count==1)
+                {
+                    SetXmlNodeString(_sourceWorksheetPath, value.Worksheet.Name);
+                    SetXmlNodeString(_sourceAddressPath, value.FirstAddress);
+                    _sourceRange = value;
+                }
+                else
+                {
+                    _cacheReference._pivotTables.Remove(PivotTable);
+                    var xml = _cacheReference.CacheDefinitionXml;
+                    _cacheReference = new PivotTableCacheInternal(NameSpaceManager);
+                    _cacheReference.InitNew(PivotTable, value, _wb._nextPivotTableID++, xml);                    
+                }
             }
         }
 
@@ -222,61 +223,8 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                var s=GetXmlNodeString("d:cacheSource/@type");
-                if (s == "")
-                {
-                    return eSourceType.Worksheet;
-                }
-                else
-                {
-                    return (eSourceType)Enum.Parse(typeof(eSourceType), s, true);
-                }
+                return _cacheReference.CacheSource;
             }
-        }
-        //private ExcelPivotTableFieldCollectionBase<ExcelPivotTableCacheField> _fields = null;
-        //public ExcelPivotTableFieldCollectionBase<ExcelPivotTableCacheField> Fields
-        //{ 
-        //    get
-        //    {
-        //        if(_fields==null)
-        //        {
-        //            _fields = new ExcelPivotTableFieldCollectionBase<ExcelPivotTableCacheField>(PivotTable);
-        //            foreach(XmlNode n in GetNodes("d:cacheFields/d:cacheField"))
-        //            {
-        //                _fields.AddInternal(new ExcelPivotTableCacheField(n));
-        //            }
-        //        }
-        //        return _fields;
-        //    }
-        //}
-
-        private string GetStartXml(ExcelRangeBase sourceAddress)
-        {
-            string xml="<pivotCacheDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"\" refreshOnLoad=\"1\" refreshedBy=\"SomeUser\" refreshedDate=\"40504.582403125001\" createdVersion=\"1\" refreshedVersion=\"3\" recordCount=\"5\" upgradeOnRefresh=\"1\">";
-
-            xml += "<cacheSource type=\"worksheet\">";
-            xml += string.Format("<worksheetSource ref=\"{0}\" sheet=\"{1}\" /> ", sourceAddress.Address, sourceAddress.WorkSheetName);
-            xml += "</cacheSource>";
-            xml += string.Format("<cacheFields count=\"{0}\">", sourceAddress._toCol - sourceAddress._fromCol + 1);
-            var sourceWorksheet = PivotTable.WorkSheet.Workbook.Worksheets[sourceAddress.WorkSheetName];
-            for (int col = sourceAddress._fromCol; col <= sourceAddress._toCol; col++)
-            {
-                var name = sourceWorksheet?.GetValueInner(sourceAddress._fromRow, col);
-                if (name==null || name.ToString()=="")
-                {
-                    xml += string.Format("<cacheField name=\"Column{0}\" numFmtId=\"0\">", col - sourceAddress._fromCol + 1);
-                }
-                else
-                {
-                    xml += string.Format("<cacheField name=\"{0}\" numFmtId=\"0\">", SecurityElement.Escape(name.ToString()));
-                }
-                xml += "<sharedItems containsBlank=\"1\" /> ";
-                xml += "</cacheField>";
-            }
-            xml += "</cacheFields>";
-            xml += "</pivotCacheDefinition>";
-
-            return xml;
         }
     }
 }

@@ -28,6 +28,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Table;
 using System.Linq;
+using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml
 {
@@ -164,6 +165,7 @@ namespace OfficeOpenXml
         internal FormulaParser _formulaParser = null;
 	    internal FormulaParserManager _parserManager;
         internal CellStore<List<Token>> _formulaTokens;
+		internal Dictionary<string, PivotTableCacheInternal> _pivotTableCaches = new Dictionary<string, PivotTableCacheInternal>();
 		/// <summary>
 		/// Read shared strings to list
 		/// </summary>

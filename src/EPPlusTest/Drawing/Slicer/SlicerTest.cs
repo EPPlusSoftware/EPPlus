@@ -156,7 +156,7 @@ namespace EPPlusTest.Drawing.Slicer
             LoadTestdata(ws);
             var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
             var slicer = ws.Drawings.AddPivotTableSlicer(tbl.Fields[0]);
-            tbl.Fields[0].CreateItems();
+            tbl.Fields[0].RefreshItems();
             slicer.Style = eSlicerStyle.Dark1;
             slicer.SetPosition(1, 0, 5, 0);
             slicer.SetSize(200, 600);
