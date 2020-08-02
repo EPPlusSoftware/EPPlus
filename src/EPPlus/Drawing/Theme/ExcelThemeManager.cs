@@ -81,8 +81,8 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 return;
             }
-            _wb._package.Package.DeleteRelationship(_theme.RelationshipId);
-            _wb._package.Package.DeletePart(_theme.ThemeUri);
+            _wb._package.ZipPackage.DeleteRelationship(_theme.RelationshipId);
+            _wb._package.ZipPackage.DeletePart(_theme.ThemeUri);
             _theme = null;
         }
         /// <summary>
@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Drawing.Theme
             if (CurrentTheme == null)
             {
                 var uri = new Uri("/xl/theme/theme1.xml", UriKind.Relative);
-                var part = _wb._package.Package.CreatePart(uri, ExcelPackage.schemaTheme);
+                var part = _wb._package.ZipPackage.CreatePart(uri, ExcelPackage.schemaTheme);
                 themeXml.Save(part.GetStream());
                 var rel = _wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaThemeRelationships);
                 _theme = new ExcelTheme(_wb, rel);
@@ -138,7 +138,7 @@ namespace OfficeOpenXml.Drawing.Theme
                     {   
                         var partToCopy = p.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
                         var uri = UriHelper.ResolvePartUri(_theme.ThemeUri, rel.TargetUri);
-                        var part = _wb._package.Package.CreatePart(uri, partToCopy.ContentType);
+                        var part = _wb._package.ZipPackage.CreatePart(uri, partToCopy.ContentType);
                         var stream = part.GetStream();
                         var b = partToCopy.GetStream().ToArray();
                         stream.Write(b, 0, b.Length);

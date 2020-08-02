@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Table
         ExcelWorksheet _ws;        
         internal ExcelTableCollection(ExcelWorksheet ws)
         {
-            var pck = ws._package.Package;
+            var pck = ws._package.ZipPackage;
             _ws = ws;
             foreach(XmlElement node in ws.WorksheetXml.SelectNodes("//d:tableParts/d:tablePart", ws.NameSpaceManager))
             {

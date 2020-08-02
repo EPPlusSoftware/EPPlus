@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                var pck = _worksheet._package.Package;
+                var pck = _worksheet._package.ZipPackage;
                 if (pck.PartExists(ImageUri))
                 {
                     var part = pck.GetPart(ImageUri);

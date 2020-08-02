@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             else
             {
-                Part=pck.Package.GetPart(uri);
+                Part=pck.ZipPackage.GetPart(uri);
                 XmlHelper.LoadXmlSafe(VmlDrawingXml, Part.GetStream()); 
             }
         }

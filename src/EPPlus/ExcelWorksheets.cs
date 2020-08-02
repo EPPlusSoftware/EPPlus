@@ -141,13 +141,13 @@ namespace OfficeOpenXml
                         throw (new InvalidOperationException(ERR_DUP_WORKSHEET + " : " + Name));
                 }
                 GetSheetURI(ref Name, out int sheetID, out Uri uriWorksheet, isChart);
-                Packaging.ZipPackagePart worksheetPart = _pck.Package.CreatePart(uriWorksheet, isChart ? CHARTSHEET_CONTENTTYPE : WORKSHEET_CONTENTTYPE, _pck.Compression);
+                Packaging.ZipPackagePart worksheetPart = _pck.ZipPackage.CreatePart(uriWorksheet, isChart ? CHARTSHEET_CONTENTTYPE : WORKSHEET_CONTENTTYPE, _pck.Compression);
 
                 //Create the new, empty worksheet and save it to the package
                 StreamWriter streamWorksheet = new StreamWriter(worksheetPart.GetStream(FileMode.Create, FileAccess.Write));
                 XmlDocument worksheetXml = CreateNewWorksheet(isChart);
                 worksheetXml.Save(streamWorksheet);
-                _pck.Package.Flush();
+                _pck.ZipPackage.Flush();
 
                 string rel = CreateWorkbookRel(Name, sheetID, uriWorksheet, isChart);
                 
@@ -196,12 +196,12 @@ namespace OfficeOpenXml
                 GetSheetURI(ref Name, out sheetID, out uriWorksheet, false);
 
                 //Create a copy of the worksheet XML
-                Packaging.ZipPackagePart worksheetPart = _pck.Package.CreatePart(uriWorksheet, WORKSHEET_CONTENTTYPE, _pck.Compression);
+                Packaging.ZipPackagePart worksheetPart = _pck.ZipPackage.CreatePart(uriWorksheet, WORKSHEET_CONTENTTYPE, _pck.Compression);
                 StreamWriter streamWorksheet = new StreamWriter(worksheetPart.GetStream(FileMode.Create, FileAccess.Write));
                 XmlDocument worksheetXml = new XmlDocument();
                 worksheetXml.LoadXml(Copy.WorksheetXml.OuterXml);
                 worksheetXml.Save(streamWorksheet);
-                _pck.Package.Flush();
+                _pck.ZipPackage.Flush();
 
 
                 //Create a relation to the workbook
@@ -373,10 +373,10 @@ namespace OfficeOpenXml
                 xml = xmlDoc.OuterXml;
 
                 //var uriTbl = new Uri(string.Format("/xl/tables/table{0}.xml", Id), UriKind.Relative);
-                var uriTbl = GetNewUri(_pck.Package, "/xl/tables/table{0}.xml", ref Id);
+                var uriTbl = GetNewUri(_pck.ZipPackage, "/xl/tables/table{0}.xml", ref Id);
                 if (_pck.Workbook._nextTableID < Id) _pck.Workbook._nextTableID = Id;
 
-                var part = _pck.Package.CreatePart(uriTbl, "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml", _pck.Compression);
+                var part = _pck.ZipPackage.CreatePart(uriTbl, "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml", _pck.Compression);
                 StreamWriter streamTbl = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 streamTbl.Write(xml);
                 //streamTbl.Close();
@@ -447,16 +447,16 @@ namespace OfficeOpenXml
                 xml = xmlDoc.OuterXml;
 
                 int Id = _pck.Workbook._nextPivotTableID++;
-                var uriTbl = GetNewUri(_pck.Package, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
+                var uriTbl = GetNewUri(_pck.ZipPackage, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
                 if (_pck.Workbook._nextPivotTableID < Id) _pck.Workbook._nextPivotTableID = Id;
-                var partTbl = _pck.Package.CreatePart(uriTbl, ExcelPackage.schemaPivotTable , _pck.Compression);
+                var partTbl = _pck.ZipPackage.CreatePart(uriTbl, ExcelPackage.schemaPivotTable , _pck.Compression);
                 StreamWriter streamTbl = new StreamWriter(partTbl.GetStream(FileMode.Create, FileAccess.Write));
                 streamTbl.Write(xml);
                 streamTbl.Flush();
 
                 xml = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
-                var uriCd = GetNewUri(_pck.Package, "/xl/pivotCache/pivotcachedefinition{0}.xml", ref Id);
-                var partCd = _pck.Package.CreatePart(uriCd, ExcelPackage.schemaPivotCacheDefinition, _pck.Compression);
+                var uriCd = GetNewUri(_pck.ZipPackage, "/xl/pivotCache/pivotcachedefinition{0}.xml", ref Id);
+                var partCd = _pck.ZipPackage.CreatePart(uriCd, ExcelPackage.schemaPivotCacheDefinition, _pck.Compression);
                 StreamWriter streamCd = new StreamWriter(partCd.GetStream(FileMode.Create, FileAccess.Write));
                 streamCd.Write(xml);
                 streamCd.Flush();
@@ -465,11 +465,11 @@ namespace OfficeOpenXml
 
                 xml = "<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />";
                 var uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", Id), UriKind.Relative);
-                while (_pck.Package.PartExists(uriRec))
+                while (_pck.ZipPackage.PartExists(uriRec))
                 {
                     uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", ++Id), UriKind.Relative);
                 }
-                var partRec = _pck.Package.CreatePart(uriRec, ExcelPackage.schemaPivotCacheRecords, _pck.Compression);
+                var partRec = _pck.ZipPackage.CreatePart(uriRec, ExcelPackage.schemaPivotCacheRecords, _pck.Compression);
                 StreamWriter streamRec = new StreamWriter(partRec.GetStream(FileMode.Create, FileAccess.Write));
                 streamRec.Write(xml);
                 streamRec.Flush();
@@ -497,7 +497,7 @@ namespace OfficeOpenXml
             if (Copy.HeaderFooter.Pictures.Count > 0)
             {
                 Uri source = Copy.HeaderFooter.Pictures.Uri;
-                Uri dest = XmlHelper.GetNewUri(_pck.Package, @"/xl/drawings/vmlDrawing{0}.vml");
+                Uri dest = XmlHelper.GetNewUri(_pck.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml");
                 added.DeleteNode("d:legacyDrawingHF");
 
                 //var part = _pck.Package.CreatePart(dest, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
@@ -653,12 +653,12 @@ namespace OfficeOpenXml
             //First copy the drawing XML
             string xml = Copy.Comments.CommentXml.InnerXml;
             var uriComment = new Uri(string.Format("/xl/comments{0}.xml", workSheet.SheetID), UriKind.Relative);
-            if (_pck.Package.PartExists(uriComment))
+            if (_pck.ZipPackage.PartExists(uriComment))
             {
-                uriComment = XmlHelper.GetNewUri(_pck.Package, "/xl/drawings/vmldrawing{0}.vml");
+                uriComment = XmlHelper.GetNewUri(_pck.ZipPackage, "/xl/drawings/vmldrawing{0}.vml");
             }
 
-            var part = _pck.Package.CreatePart(uriComment, "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", _pck.Compression);
+            var part = _pck.ZipPackage.CreatePart(uriComment, "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", _pck.Compression);
 
             StreamWriter streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
             streamDrawing.Write(xml);
@@ -670,12 +670,12 @@ namespace OfficeOpenXml
             xml = Copy.VmlDrawingsComments.VmlDrawingXml.InnerXml;
 
             var uriVml = new Uri(string.Format("/xl/drawings/vmldrawing{0}.vml", workSheet.SheetID), UriKind.Relative);
-            if (_pck.Package.PartExists(uriVml))
+            if (_pck.ZipPackage.PartExists(uriVml))
             {
-                uriVml = XmlHelper.GetNewUri(_pck.Package, "/xl/drawings/vmldrawing{0}.vml");
+                uriVml = XmlHelper.GetNewUri(_pck.ZipPackage, "/xl/drawings/vmldrawing{0}.vml");
             }
 
-            var vmlPart = _pck.Package.CreatePart(uriVml, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
+            var vmlPart = _pck.ZipPackage.CreatePart(uriVml, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
             StreamWriter streamVml = new StreamWriter(vmlPart.GetStream(FileMode.Create, FileAccess.Write));
             streamVml.Write(xml);
             streamVml.Flush();
@@ -697,7 +697,7 @@ namespace OfficeOpenXml
                 //First copy the drawing XML                
                 string xml = Copy.Drawings.DrawingXml.OuterXml;            
                 var uriDraw=new Uri(string.Format("/xl/drawings/drawing{0}.xml", workSheet.SheetID),  UriKind.Relative);
-                var part= _pck.Package.CreatePart(uriDraw,"application/vnd.openxmlformats-officedocument.drawing+xml", _pck.Compression);
+                var part= _pck.ZipPackage.CreatePart(uriDraw,"application/vnd.openxmlformats-officedocument.drawing+xml", _pck.Compression);
                 StreamWriter streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 streamDrawing.Write(xml);
                 streamDrawing.Flush();
@@ -717,8 +717,8 @@ namespace OfficeOpenXml
                     {
                         xml = chart.ChartXml.InnerXml;
 
-                        var UriChart = XmlHelper.GetNewUri(_pck.Package, "/xl/charts/chart{0}.xml");
-                        var chartPart = _pck.Package.CreatePart(UriChart, "application/vnd.openxmlformats-officedocument.drawingml.chart+xml", _pck.Compression);
+                        var UriChart = XmlHelper.GetNewUri(_pck.ZipPackage, "/xl/charts/chart{0}.xml");
+                        var chartPart = _pck.ZipPackage.CreatePart(UriChart, "application/vnd.openxmlformats-officedocument.drawingml.chart+xml", _pck.Compression);
                         StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
                         streamChart.Write(xml);
                         streamChart.Flush();
@@ -773,7 +773,7 @@ namespace OfficeOpenXml
 		{
 			var xml = origSheet.VmlDrawingsComments.VmlDrawingXml.OuterXml;
 			var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetID), UriKind.Relative);
-			var part = _pck.Package.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
+			var part = _pck.ZipPackage.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
             var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
 			streamDrawing.Write(xml);
             streamDrawing.Flush();
@@ -795,7 +795,7 @@ namespace OfficeOpenXml
         {
             //Create the relationship between the workbook and the new worksheet
             var rel = _pck.Workbook.Part.CreateRelationship(UriHelper.GetRelativeUri(_pck.Workbook.WorkbookUri, uriWorksheet), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/" + (isChart ? "chartsheet" : "worksheet"));
-            _pck.Package.Flush();
+            _pck.ZipPackage.Flush();
 
             //Create the new sheet node
             XmlElement worksheetNode = _pck.Workbook.WorkbookXml.CreateElement("sheet", ExcelPackage.schemaMain);
@@ -827,7 +827,7 @@ namespace OfficeOpenXml
                 }
 
                 uriId++;
-            } while (_pck.Package.PartExists(uriWorksheet));
+            } while (_pck.ZipPackage.PartExists(uriWorksheet));
         }
 
         internal string ValidateFixSheetName(string Name)
@@ -984,14 +984,14 @@ namespace OfficeOpenXml
                 if (rel.RelationshipType != ExcelPackage.schemaImage && rel.TargetMode==Packaging.TargetMode.Internal)
                 {
                     var relUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                    if (_pck.Package.PartExists(relUri))
+                    if (_pck.ZipPackage.PartExists(relUri))
                     {
-                        DeleteRelationsAndParts(_pck.Package.GetPart(relUri));
+                        DeleteRelationsAndParts(_pck.ZipPackage.GetPart(relUri));
                     }
                 }
                 part.DeleteRelationship(rel.Id);
             }            
-            _pck.Package.DeletePart(part.Uri);
+            _pck.ZipPackage.DeletePart(part.Uri);
         }
 
 		/// <summary>

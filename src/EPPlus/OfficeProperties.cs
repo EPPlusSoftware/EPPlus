@@ -104,7 +104,7 @@ namespace OfficeOpenXml
         private XmlDocument GetXmlDocument(string startXml, Uri uri, string contentType, string relationship)
         {
             XmlDocument xmlDoc;
-            if (_package.Package.PartExists(uri))
+            if (_package.ZipPackage.PartExists(uri))
                 xmlDoc = _package.GetXmlFromUri(uri);
             else
             {
@@ -112,17 +112,17 @@ namespace OfficeOpenXml
                 xmlDoc.LoadXml(startXml);
 
                 // Create a the part and add to the package
-                Packaging.ZipPackagePart part = _package.Package.CreatePart(uri, contentType);
+                Packaging.ZipPackagePart part = _package.ZipPackage.CreatePart(uri, contentType);
 
                 // Save it to the package
                 StreamWriter stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 xmlDoc.Save(stream);
                 //stream.Close();
-                _package.Package.Flush();
+                _package.ZipPackage.Flush();
 
                 // create the relationship between the workbook and the new shared strings part
-                _package.Package.CreateRelationship(UriHelper.GetRelativeUri(new Uri("/xl", UriKind.Relative), uri), Packaging.TargetMode.Internal, relationship);
-                _package.Package.Flush();
+                _package.ZipPackage.CreateRelationship(UriHelper.GetRelativeUri(new Uri("/xl", UriKind.Relative), uri), Packaging.TargetMode.Internal, relationship);
+                _package.ZipPackage.Flush();
             }
             return xmlDoc;
         }

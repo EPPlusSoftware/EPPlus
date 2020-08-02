@@ -47,7 +47,7 @@ namespace OfficeOpenXml
             foreach(var commentPart in commentRels)
             {
                 Uri = UriHelper.ResolvePartUri(commentPart.SourceUri, commentPart.TargetUri);
-                Part = pck.Package.GetPart(Uri);
+                Part = pck.ZipPackage.GetPart(Uri);
                 XmlHelper.LoadXmlSafe(CommentXml, Part.GetStream()); 
                 RelId = commentPart.Id;
                 isLoaded=true;

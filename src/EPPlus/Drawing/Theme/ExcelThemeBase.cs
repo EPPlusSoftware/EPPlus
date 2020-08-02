@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing.Theme
             : base(nsm, null)
         {
             ThemeUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-            Part = package.Package.GetPart(ThemeUri);
+            Part = package.ZipPackage.GetPart(ThemeUri);
             RelationshipId = rel.Id;
             ThemeXml = new XmlDocument();
             LoadXmlSafe(ThemeXml, Part.GetStream());

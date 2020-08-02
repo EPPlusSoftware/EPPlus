@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.ThreadedComments;
 
 namespace OfficeOpenXml
 {
@@ -93,7 +94,7 @@ namespace OfficeOpenXml
 
 		private void SetUris()
 		{
-			foreach(var rel in _package.Package.GetRelationships())
+			foreach(var rel in _package.ZipPackage.GetRelationships())
 			{
 				if (rel.RelationshipType == ExcelPackage.schemaRelationships+ "/officeDocument")
 				{
@@ -110,13 +111,17 @@ namespace OfficeOpenXml
 			{
 				foreach (var rel in Part.GetRelationships())
 				{
-					if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/sharedStrings")
+					switch(rel.RelationshipType)
 					{
-						SharedStringsUri = UriHelper.ResolvePartUri(WorkbookUri, rel.TargetUri);
-					}
-					else if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/styles")
-					{
-						StylesUri = UriHelper.ResolvePartUri(WorkbookUri, rel.TargetUri);
+						case ExcelPackage.schemaRelationships + "/sharedStrings":
+							SharedStringsUri = UriHelper.ResolvePartUri(WorkbookUri, rel.TargetUri);
+							break;
+						case ExcelPackage.schemaRelationships + "/styles":
+							StylesUri = UriHelper.ResolvePartUri(WorkbookUri, rel.TargetUri);
+							break;
+						case ExcelPackage.schemaPersonsRelationShips:
+							PersonsUri = UriHelper.ResolvePartUri(WorkbookUri, rel.TargetUri);
+							break;
 					}
 				}
 			}
@@ -125,6 +130,8 @@ namespace OfficeOpenXml
 				SharedStringsUri = new Uri("/xl/sharedStrings.xml", UriKind.Relative);
 			if (StylesUri == null)
 				StylesUri = new Uri("/xl/styles.xml", UriKind.Relative);
+			if (PersonsUri == null)
+				PersonsUri = new Uri("/xl/persons/person.xml", UriKind.Relative);
 
 		}
 		#endregion
@@ -137,6 +144,7 @@ namespace OfficeOpenXml
         internal int _nextPivotTableID = int.MinValue;
 		internal XmlNamespaceManager _namespaceManager;
         internal FormulaParser _formulaParser = null;
+		internal ThreadedCommentPersonCollection _threadedCommentPersons = null;
 	    internal FormulaParserManager _parserManager;
         internal CellStore<List<Token>> _formulaTokens;
 		/// <summary>
@@ -144,7 +152,7 @@ namespace OfficeOpenXml
 		/// </summary>
 		private void GetSharedStrings()
 		{
-			if (_package.Package.PartExists(SharedStringsUri))
+			if (_package.ZipPackage.PartExists(SharedStringsUri))
 			{
 				var xml = _package.GetXmlFromUri(SharedStringsUri);
 				XmlNodeList nl = xml.SelectNodes("//d:sst/d:si", NameSpaceManager);
@@ -173,7 +181,7 @@ namespace OfficeOpenXml
                         break;
                     }
                 }                
-                _package.Package.DeletePart(SharedStringsUri); //Remove the part, it is recreated when saved.
+                _package.ZipPackage.DeletePart(SharedStringsUri); //Remove the part, it is recreated when saved.
 			}
 		}
 		internal void GetDefinedNames()
@@ -403,6 +411,21 @@ namespace OfficeOpenXml
 	            return _parserManager;
 	        }
 	    }
+
+		/// <summary>
+		/// Represents a collection of <see cref="ThreadedCommentPerson"/>s in the workbook.
+		/// </summary>
+		public ThreadedCommentPersonCollection ThreadedCommentPersons
+		{
+			get
+			{
+				if(_threadedCommentPersons == null)
+				{
+					_threadedCommentPersons = new ThreadedCommentPersonCollection(this);
+				}
+				return _threadedCommentPersons;
+			}
+		}
         /// <summary>
 		/// Max font width for the workbook
         /// <remarks>This method uses GDI. If you use Azure or another environment that does not support GDI, you have to set this value manually if you don't use the standard Calibri font</remarks>
@@ -525,7 +548,7 @@ namespace OfficeOpenXml
             {
                 if (_vba == null)
                 {
-                    if(_package.Package.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+                    if(_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
                     {
                         _vba = new ExcelVbaProject(this);
                     }
@@ -550,7 +573,7 @@ namespace OfficeOpenXml
 		/// </summary>
 		public void CreateVBAProject()
         {
-            if (_vba != null || _package.Package.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+            if (_vba != null || _package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
             {
                 throw (new InvalidOperationException("VBA project already exists."));
             }
@@ -571,9 +594,14 @@ namespace OfficeOpenXml
 		/// </summary>
 		internal Uri SharedStringsUri { get; private set; }
 		/// <summary>
+		/// URI to the person elements inside the package
+		/// </summary>
+		internal Uri PersonsUri { get; private set; }
+
+		/// <summary>
 		/// Returns a reference to the workbook's part within the package
 		/// </summary>
-		internal Packaging.ZipPackagePart Part { get { return (_package.Package.GetPart(WorkbookUri)); } }
+		internal Packaging.ZipPackagePart Part { get { return (_package.ZipPackage.GetPart(WorkbookUri)); } }
 		
 		#region WorkbookXml
 		private XmlDocument _workbookXml;
@@ -690,12 +718,12 @@ namespace OfficeOpenXml
 		/// </summary>
 		private void CreateWorkbookXml(XmlNamespaceManager namespaceManager)
 		{
-			if (_package.Package.PartExists(WorkbookUri))
+			if (_package.ZipPackage.PartExists(WorkbookUri))
 				_workbookXml = _package.GetXmlFromUri(WorkbookUri);
 			else
 			{
 				// create a new workbook part and add to the package
-				Packaging.ZipPackagePart partWorkbook = _package.Package.CreatePart(WorkbookUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", _package.Compression);
+				Packaging.ZipPackagePart partWorkbook = _package.ZipPackage.CreatePart(WorkbookUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", _package.Compression);
 
 				// create the workbook
 				_workbookXml = new XmlDocument(namespaceManager.NameTable);                
@@ -719,7 +747,7 @@ namespace OfficeOpenXml
 				StreamWriter stream = new StreamWriter(partWorkbook.GetStream(FileMode.Create, FileAccess.Write));
 				_workbookXml.Save(stream);
 				//stream.Close();
-				_package.Package.Flush();
+				_package.ZipPackage.Flush();
 			}
 		}
 		#endregion
@@ -734,12 +762,12 @@ namespace OfficeOpenXml
 			{
 				if (_stylesXml == null)
 				{
-					if (_package.Package.PartExists(StylesUri))
+					if (_package.ZipPackage.PartExists(StylesUri))
 						_stylesXml = _package.GetXmlFromUri(StylesUri);
 					else
 					{
 						// create a new styles part and add to the package
-						Packaging.ZipPackagePart part = _package.Package.CreatePart(StylesUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", _package.Compression);
+						Packaging.ZipPackagePart part = _package.ZipPackage.CreatePart(StylesUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", _package.Compression);
 						// create the style sheet
 
 						StringBuilder xml = new StringBuilder("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
@@ -761,11 +789,11 @@ namespace OfficeOpenXml
 
 						_stylesXml.Save(stream);
 						//stream.Close();
-						_package.Package.Flush();
+						_package.ZipPackage.Flush();
 
 						// create the relationship between the workbook and the new shared strings part
 						_package.Workbook.Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, StylesUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/styles");
-						_package.Package.Flush();
+						_package.ZipPackage.Flush();
 					}
 				}
 				return (_stylesXml);
@@ -919,7 +947,7 @@ namespace OfficeOpenXml
 
 			DeleteCalcChain();
 
-            if (_vba == null && !_package.Package.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+            if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
             {
                 if (Part.ContentType != ExcelPackage.contentTypeWorkbookDefault)
                 {
@@ -955,6 +983,19 @@ namespace OfficeOpenXml
             Styles.UpdateXml();
             _package.SavePart(StylesUri, this.StylesXml);
 
+			// save persons
+			if(_threadedCommentPersons != null)
+			{
+				if(_threadedCommentPersons.Count == 0)
+				{
+					_package.ZipPackage.DeletePart(PersonsUri);
+				}
+				else
+				{
+					_package.SavePart(PersonsUri, _threadedCommentPersons.PersonsXml);
+				}
+			}
+
 			// save all the open worksheets
 			var isProtected = Protection.LockWindows || Protection.LockStructure;
 			foreach (var worksheet in Worksheets)
@@ -969,13 +1010,13 @@ namespace OfficeOpenXml
 
             // Issue 15252: save SharedStrings only once
             Packaging.ZipPackagePart part;
-            if (_package.Package.PartExists(SharedStringsUri))
+            if (_package.ZipPackage.PartExists(SharedStringsUri))
             {
-                part = _package.Package.GetPart(SharedStringsUri);
+                part = _package.ZipPackage.GetPart(SharedStringsUri);
             }
             else
             {
-                part = _package.Package.CreatePart(SharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", _package.Compression);
+                part = _package.ZipPackage.CreatePart(SharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", _package.Compression);
                 Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
             }
 
@@ -996,7 +1037,7 @@ namespace OfficeOpenXml
 		{
 			//Remove the calc chain if it exists.
 			Uri uriCalcChain = new Uri("/xl/calcChain.xml", UriKind.Relative);
-			if (_package.Package.PartExists(uriCalcChain))
+			if (_package.ZipPackage.PartExists(uriCalcChain))
 			{
 				Uri calcChain = new Uri("calcChain.xml", UriKind.Relative);
 				foreach (var relationship in _package.Workbook.Part.GetRelationships())
@@ -1008,7 +1049,7 @@ namespace OfficeOpenXml
 					}
 				}
 				// delete the calcChain part
-				_package.Package.DeletePart(uriCalcChain);
+				_package.ZipPackage.DeletePart(uriCalcChain);
 			}
 		}
 
@@ -1248,7 +1289,7 @@ namespace OfficeOpenXml
 				{
 					string rID = elem.GetAttribute("r:id");
 					var rel = Part.GetRelationship(rID);
-					var part = _package.Package.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
+					var part = _package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
 					XmlDocument xmlExtRef = new XmlDocument();
                     LoadXmlSafe(xmlExtRef, part.GetStream()); 
 

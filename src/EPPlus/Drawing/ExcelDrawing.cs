@@ -388,7 +388,7 @@ namespace OfficeOpenXml.Drawing
                     DeleteNode(_hyperLinkPath);
                     if (HypRel != null)
                     {
-                        _drawings._package.Package.DeletePart(UriHelper.ResolvePartUri(HypRel.SourceUri, HypRel.TargetUri));
+                        _drawings._package.ZipPackage.DeletePart(UriHelper.ResolvePartUri(HypRel.SourceUri, HypRel.TargetUri));
                     }
                 }
 
