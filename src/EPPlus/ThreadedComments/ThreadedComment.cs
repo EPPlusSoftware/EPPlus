@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -27,6 +28,7 @@ namespace OfficeOpenXml.ThreadedComments
         {
             SchemaNodeOrder = new string[] { "text", "mentions" };
             _workbook = workbook;
+            Id = NewId();
         }
 
         private readonly ExcelWorkbook _workbook;
@@ -35,6 +37,18 @@ namespace OfficeOpenXml.ThreadedComments
         {
             var guid = Guid.NewGuid();
             return "{" + guid.ToString().ToUpper() + "}";
+        }
+
+        /// <summary>
+        /// Indicates whether the Text contains mentions. If so the
+        /// Mentions property will contain data about those mentions.
+        /// </summary>
+        public bool ContainsMentions
+        {
+            get
+            {
+                return Mentions != null && Mentions.Any();
+            }
         }
 
         /// <summary>
@@ -68,7 +82,7 @@ namespace OfficeOpenXml.ThreadedComments
             }
             set
             {
-                SetXmlNodeString("@dT", value.ToString("yyyy-MM-ddTHH:mm:ss"));
+                SetXmlNodeString("@dT", value.ToString("yyyy-MM-ddTHH:mm:ss.ff"));
             }
         }
 

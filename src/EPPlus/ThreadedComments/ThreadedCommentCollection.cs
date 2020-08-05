@@ -19,23 +19,18 @@ using System.Xml;
 
 namespace OfficeOpenXml.ThreadedComments
 {
-    public class ThreadedCommentCollection : IEnumerable<ThreadedComment>
+    public class ThreadedCommentCollection : XmlHelper, IEnumerable<ThreadedComment>
     {
-        internal ThreadedCommentCollection(ExcelWorksheet worksheet, XmlDocument commentsXml)
+        internal ThreadedCommentCollection(ExcelWorksheet worksheet, XmlNode topNode)
+            : base(worksheet.NameSpaceManager, topNode)
         {
             _package = worksheet._package;
-            CommentXml = commentsXml;
-            CommentXml.PreserveWhitespace = false;
-            NameSpaceManager = worksheet.Workbook.NameSpaceManager;
             Worksheet = worksheet;
-            AddCommentsFromXml();
         }
 
         private readonly ExcelPackage _package;
-        public XmlDocument CommentXml { get; set; }
         internal Uri Uri { get; set; }
         internal string RelId { get; set; }
-        internal XmlNamespaceManager NameSpaceManager { get; set; }
         internal Packaging.ZipPackagePart Part
         {
             get;
@@ -54,16 +49,15 @@ namespace OfficeOpenXml.ThreadedComments
             set;
         }
 
-        private void AddCommentsFromXml()
+        public ThreadedComment this[int index]
         {
-            //var lst = new List<IRangeID>();
-            foreach (XmlElement node in CommentXml.SelectNodes("tc:ThreadedComments/tc:threadedComment", NameSpaceManager))
+            get
             {
-                var comment = new ThreadedComment(node, NameSpaceManager, Worksheet.Workbook);
-                _commentsIndex[comment.Id] = comment;
-                _commentList.Add(comment);
+                return _commentList[index];
             }
         }
+
+
 
         public IEnumerator<ThreadedComment> GetEnumerator()
         {
@@ -78,6 +72,15 @@ namespace OfficeOpenXml.ThreadedComments
         public int Count
         {
             get { return _commentList.Count; }   
+        }
+
+        internal void Add(ThreadedComment comment)
+        {
+            _commentList.Add(comment);
+            if(TopNode.SelectSingleNode("tc:threadedComment[@id='" + comment.Id + "']", NameSpaceManager) == null)
+            {
+                TopNode.AppendChild(comment.TopNode);
+            }
         }
     }
 }

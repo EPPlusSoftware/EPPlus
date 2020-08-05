@@ -18,8 +18,20 @@ namespace EPPlusTest.ThreadedComments
             using(var package = OpenTemplatePackage("comments.xlsx"))
             {
                 var persons = package.Workbook.ThreadedCommentPersons;
-                var p = persons.CreateAndAddNewPerson("Jan Källman", "Jan Källman", IdentityProvider.NoProvider);
+                var p = persons.Add("Jan Källman", "Jan Källman", IdentityProvider.NoProvider);
                 SaveWorkbook("commentsResult.xlsx", package);
+            }
+        }
+
+        [TestMethod]
+        public void AddPersonToWorkbook()
+        {
+            using (var package = OpenPackage("commentsWithNewPerson.xlsx"))
+            {
+                package.Workbook.Worksheets.Add("test");
+                var persons = package.Workbook.ThreadedCommentPersons;
+                var p = persons.Add("Jan Källman", "Jan Källman", IdentityProvider.NoProvider);
+                package.Save();
             }
         }
     }

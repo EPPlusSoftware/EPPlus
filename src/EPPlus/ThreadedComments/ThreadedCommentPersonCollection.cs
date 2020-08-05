@@ -43,7 +43,7 @@ namespace OfficeOpenXml.ThreadedComments
             else
             {
                 PersonsXml = new XmlDocument();
-                PersonsXml.Load("<personList xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"/>");
+                PersonsXml.LoadXml("<personList xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"/>");
             }
         }
 
@@ -114,9 +114,9 @@ namespace OfficeOpenXml.ThreadedComments
         /// The userId will be the same as the <paramref name="displayName"/> and identityProvider will be set to <see cref="IdentityProvider.NoProvider"/>
         /// </summary>
         /// <param name="displayName">The display name of the added <see cref="ThreadedCommentPerson"/></param>
-        public ThreadedCommentPerson CreateAndAddNewPerson(string displayName)
+        public ThreadedCommentPerson Add(string displayName)
         {
-            return CreateAndAddNewPerson(displayName, displayName, IdentityProvider.NoProvider);
+            return Add(displayName, displayName, IdentityProvider.NoProvider);
         }
 
         /// <summary>
@@ -126,9 +126,9 @@ namespace OfficeOpenXml.ThreadedComments
         /// <param name="userId">A string representing the userId of the <paramref name="identityProvider"/></param>
         /// <param name="identityProvider">The <see cref="IdentityProvider"/> from which the <see cref="ThreadedCommentPerson"/> originates</param>
         /// <returns>The added <see cref="ThreadedCommentPerson"/></returns>
-        public ThreadedCommentPerson CreateAndAddNewPerson(string displayName, string userId, IdentityProvider identityProvider)
+        public ThreadedCommentPerson Add(string displayName, string userId, IdentityProvider identityProvider)
         {
-            return CreateAndAddNewPerson(displayName, userId, identityProvider, ThreadedCommentPerson.NewId());
+            return Add(displayName, userId, identityProvider, ThreadedCommentPerson.NewId());
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace OfficeOpenXml.ThreadedComments
         /// <param name="identityProvider">The <see cref="IdentityProvider"/> from which the <see cref="ThreadedCommentPerson"/> originates</param>
         /// <param name="id">Id of the <see cref="ThreadedCommentPerson"/></param>
         /// <returns>The added <see cref="ThreadedCommentPerson"/></returns>
-        public ThreadedCommentPerson CreateAndAddNewPerson(string displayName, string userId, IdentityProvider identityProvider, string id)
+        public ThreadedCommentPerson Add(string displayName, string userId, IdentityProvider identityProvider, string id)
         {
             var personsNode = PersonsXml.CreateElement("person", ExcelPackage.schemaThreadedComments);
             PersonsXml.DocumentElement.AppendChild(personsNode);
@@ -162,7 +162,7 @@ namespace OfficeOpenXml.ThreadedComments
             return _personList.GetEnumerator();
         }
 
-        public void Add(ThreadedCommentPerson person)
+        internal void Add(ThreadedCommentPerson person)
         {
             _personList.Add(person);
         }

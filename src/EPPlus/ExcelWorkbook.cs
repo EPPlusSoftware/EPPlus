@@ -992,9 +992,16 @@ namespace OfficeOpenXml
 				}
 				else
 				{
+					if(!_package.ZipPackage.PartExists(PersonsUri))
+					{
+						_package.ZipPackage.CreatePart(PersonsUri, "application/vnd.ms-excel.person+xml");
+						Part.CreateRelationship(PersonsUri, Packaging.TargetMode.Internal, ExcelPackage.schemaPersonsRelationShips);
+					}
 					_package.SavePart(PersonsUri, _threadedCommentPersons.PersonsXml);
 				}
 			}
+
+			// save threaded comments
 
 			// save all the open worksheets
 			var isProtected = Protection.LockWindows || Protection.LockStructure;

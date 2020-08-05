@@ -967,6 +967,20 @@ namespace OfficeOpenXml
             }
         }
 
+        private Uri GetThreadedCommentUri()
+        {
+            var index = 1;
+            var uri = new Uri("/xl/threadedComments/threadedComment" + index + ".xml", UriKind.Relative);
+            uri = UriHelper.ResolvePartUri(Workbook.WorkbookUri, uri);
+            while (Part.Package.PartExists(uri))
+            {
+                uri = new Uri("/xl/threadedComments/threadedComment" + (++index) + ".xml", UriKind.Relative);
+                uri = UriHelper.ResolvePartUri(Workbook.WorkbookUri, uri);
+            }
+                
+            return uri;
+        }
+
 
         private void CreateVmlCollection()
         {
@@ -2213,61 +2227,79 @@ namespace OfficeOpenXml
 #region Worksheet Save
         internal void Save()
         {
-                DeletePrinterSettings();
+            DeletePrinterSettings();
 
-                if (_worksheetXml != null)
+            if (_worksheetXml != null)
+            {
+
+                if (!(this is ExcelChartsheet))
                 {
+                    // save the header & footer (if defined)
+                    if (_headerFooter != null)
+                        HeaderFooter.Save();
 
-                    if (!(this is ExcelChartsheet))
+                    var d = Dimension;
+                    if (d == null)
                     {
-                        // save the header & footer (if defined)
-                        if (_headerFooter != null)
-                            HeaderFooter.Save();
-
-                        var d = Dimension;
-                        if (d == null)
-                        {
-                            this.DeleteAllNode("d:dimension/@ref");
-                        }
-                        else
-                        {
-                            this.SetXmlNodeString("d:dimension/@ref", d.Address);
-                        }
-
-
-                        if (Drawings.Count == 0)
-                        {
-                            //Remove node if no drawings exists.
-                            DeleteNode("d:drawing");
-                        }
-
-                        SaveComments();
-                        HeaderFooter.SaveHeaderFooterImages();
-                        SaveTables();
-                        SavePivotTables();
-                    }
-                }
-
-                if (Drawings.UriDrawing!=null)
-                {
-                    if (Drawings.Count == 0)
-                    {                                            
-                        Part.DeleteRelationship(Drawings._drawingRelation.Id);
-                        _package.ZipPackage.DeletePart(Drawings.UriDrawing);                    
+                        this.DeleteAllNode("d:dimension/@ref");
                     }
                     else
                     {
-                        foreach (ExcelDrawing d in Drawings)
+                        this.SetXmlNodeString("d:dimension/@ref", d.Address);
+                    }
+
+
+                    if (Drawings.Count == 0)
+                    {
+                        //Remove node if no drawings exists.
+                        DeleteNode("d:drawing");
+                    }
+
+                    SaveComments();
+                    HeaderFooter.SaveHeaderFooterImages();
+                    SaveTables();
+                    SavePivotTables();
+                }
+            }
+
+            if (Drawings.UriDrawing!=null)
+            {
+                if (Drawings.Count == 0)
+                {                                            
+                    Part.DeleteRelationship(Drawings._drawingRelation.Id);
+                    _package.ZipPackage.DeletePart(Drawings.UriDrawing);                    
+                }
+                else
+                {
+                    foreach (ExcelDrawing d in Drawings)
+                    {
+                        d.AdjustPositionAndSize();
+                        if (d is ExcelChart)
                         {
-                            d.AdjustPositionAndSize();
-                            if (d is ExcelChart)
-                            {
-                                ExcelChart c = (ExcelChart)d;
-                                c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
-                            }
+                            ExcelChart c = (ExcelChart)d;
+                            c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
                         }
-                        Packaging.ZipPackagePart partPack = Drawings.Part;
-                        Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
+                    }
+                    Packaging.ZipPackagePart partPack = Drawings.Part;
+                    Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
+                }
+            }
+
+            if (ThreadedComments != null && ThreadedComments.Threads != null)
+            {
+                var tcUri = GetThreadedCommentUri();
+                if (ThreadedComments.Threads.Count() == 0)
+                {
+                    _package.ZipPackage.DeletePart(tcUri);
+                }
+                else
+                {
+                    if (!_package.ZipPackage.PartExists(tcUri))
+                    {
+                        _package.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml");
+                        Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
+                    }
+                    _package.SavePart(tcUri, ThreadedComments.CommentsXml);
                 }
             }
         }
