@@ -61,15 +61,29 @@ namespace EPPlusTest.ThreadedComments
                 var sheet1 = package.Workbook.Worksheets.Add("test 1");
                 var sheet2 = package.Workbook.Worksheets.Add("test 2");
 
-                sheet1.Cells["A1"].Value = 0;
-                sheet2.Cells["B1"].Value = 0;
-
-                sheet1.ThreadedComments.Add("A1").AddComment("A1", person1.Id, "Hello");
-                sheet1.ThreadedComments["A1"].AddComment("A1", person2.Id, "Hello there");
-                sheet2.ThreadedComments.Add("B1").AddComment("B1", person1.Id, "Hello again");
+                sheet1.ThreadedComments.Add("A1").AddComment(person1.Id, "Hello");
+                sheet1.ThreadedComments["A1"].AddComment(person2.Id, "Hello there");
+                sheet2.ThreadedComments.Add("B1").AddComment(person1.Id, "Hello again");
 
                 package.Save();
             }
         }
+
+        //[TestMethod]
+        //public void LegacyComments()
+        //{
+        //    using (var package = OpenPackage("LegacyComments.xlsx", true))
+        //    {
+        //        //var person1 = package.Workbook.ThreadedCommentPersons.Add("Mats Alm");
+        //        //var person2 = package.Workbook.ThreadedCommentPersons.Add("Jan Källman");
+        //        var sheet1 = package.Workbook.Worksheets.Add("test 1");
+        //        var sheet2 = package.Workbook.Worksheets.Add("test 2");
+
+        //        sheet1.Cells["A1"].AddComment("testing", "Mats");
+        //        sheet2.Cells["B1"].AddComment("testing testing", "Mats igen");
+
+        //        package.Save();
+        //    }
+        //}
     }
 }

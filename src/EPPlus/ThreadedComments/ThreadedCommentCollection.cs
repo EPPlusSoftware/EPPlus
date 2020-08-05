@@ -19,6 +19,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.ThreadedComments
 {
+    /// <summary>
+    /// This class represents an enumerable of <see cref="ThreadedComment"/>s.
+    /// </summary>
     public class ThreadedCommentCollection : XmlHelper, IEnumerable<ThreadedComment>
     {
         internal ThreadedCommentCollection(ExcelWorksheet worksheet, XmlNode topNode)
@@ -49,11 +52,35 @@ namespace OfficeOpenXml.ThreadedComments
             set;
         }
 
+        /// <summary>
+        /// Returns a <see cref="ThreadedComment"/> by its index
+        /// </summary>
+        /// <param name="index">Index in this collection</param>
+        /// <returns>The <see cref="ThreadedComment"/> at the requested <paramref name="index"/></returns>
+        /// <exception cref="ArgumentOutOfRangeException">If the <paramref name="index"/> falls out of range</exception>
         public ThreadedComment this[int index]
         {
             get
             {
                 return _commentList[index];
+            }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ThreadedComment"/> by its <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">Id of the requested <see cref="ThreadedComment"/></param>
+        /// <returns>The requested <see cref="ThreadedComment"/></returns>
+        /// <exception cref="ArgumentException">If the requested <paramref name="id"/> was not present.</exception>
+        public ThreadedComment this[string id]
+        {
+            get
+            {
+                if(!_commentsIndex.ContainsKey(id))
+                {
+                    throw new ArgumentException("Id " + id + " was not present in the comments.");
+                }
+                return _commentsIndex[id];
             }
         }
 
@@ -69,9 +96,21 @@ namespace OfficeOpenXml.ThreadedComments
             return _commentList.GetEnumerator();
         }
 
+        /// <summary>
+        /// Number of <see cref="ThreadedComment"/>s
+        /// </summary>
         public int Count
         {
             get { return _commentList.Count; }   
+        }
+
+        private void RebuildIndex()
+        {
+            _commentsIndex.Clear();
+            foreach(var comment in _commentList)
+            {
+                _commentsIndex[comment.Id] = comment;
+            }
         }
 
         internal void Add(ThreadedComment comment)
@@ -81,6 +120,19 @@ namespace OfficeOpenXml.ThreadedComments
             {
                 TopNode.AppendChild(comment.TopNode);
             }
+            RebuildIndex();
+        }
+
+        internal bool Remove(ThreadedComment comment)
+        {
+            _commentList.Remove(comment);
+            if (TopNode.SelectSingleNode("tc:threadedComment[@id='" + comment.Id + "']", NameSpaceManager) != null)
+            {
+                TopNode.RemoveChild(comment.TopNode);
+                return true;
+            }
+            RebuildIndex();
+            return false;
         }
     }
 }

@@ -2288,11 +2288,11 @@ namespace OfficeOpenXml
             if (ThreadedComments != null && ThreadedComments.Threads != null)
             {
                 var tcUri = GetThreadedCommentUri();
-                if (ThreadedComments.Threads.Count() == 0)
+                if (ThreadedComments.Threads.Count() == 0 && _package.ZipPackage.PartExists(tcUri))
                 {
                     _package.ZipPackage.DeletePart(tcUri);
                 }
-                else
+                else if(ThreadedComments.Threads.Count() > 0)
                 {
                     if (!_package.ZipPackage.PartExists(tcUri))
                     {

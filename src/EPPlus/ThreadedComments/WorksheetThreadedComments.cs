@@ -20,6 +20,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.ThreadedComments
 {
+    /// <summary>
+    /// Accessor for <see cref="ThreadedComment"/>s on a <see cref="ExcelWorksheet"/>
+    /// </summary>
     public class WorksheetThreadedComments
     {
         public WorksheetThreadedComments(ThreadedCommentPersonCollection persons, ExcelWorksheet worksheet)
@@ -40,6 +43,9 @@ namespace OfficeOpenXml.ThreadedComments
             private set;
         }
 
+        /// <summary>
+        /// An enumerable of the existing <see cref="ThreadedCommentThread"/>s on the <see cref="ExcelWorksheet">worksheet</see>
+        /// </summary>
         public IEnumerable<ThreadedCommentThread> Threads
         {
             get
@@ -48,11 +54,17 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
+        /// <summary>
+        /// Number of <see cref="ThreadedCommentThread"/>s on the <see cref="ExcelWorksheet">worksheet</see> 
+        /// </summary>
         public int Count
         {
             get { return _threads.Count; }
         }
 
+        /// <summary>
+        /// The raw xml for the threaded comments
+        /// </summary>
         public XmlDocument CommentsXml
         {
             get; private set;
@@ -74,14 +86,15 @@ namespace OfficeOpenXml.ThreadedComments
 
         private void AddCommentsFromXml()
         {
-            //var lst = new List<IRangeID>();
             foreach (XmlElement node in CommentsXml.SelectNodes("tc:ThreadedComments/tc:threadedComment", _worksheet.NameSpaceManager))
             {
                 var comment = new ThreadedComment(node, _worksheet.NameSpaceManager, _worksheet.Workbook);
                 var cellAddress = comment.CellAddress.ToUpperInvariant();
                 if(!_threads.ContainsKey(cellAddress))
                 {
-                    _threads[cellAddress] = new ThreadedCommentThread(CommentsXml, _worksheet);
+                    var thread = new ThreadedCommentThread(new ExcelCellAddress(comment.CellAddress), CommentsXml, _worksheet);
+                    comment.Thread = thread;
+                    _threads[cellAddress] = thread;
                 }
                 _threads[cellAddress].AddComment(comment);
             }
@@ -105,15 +118,25 @@ namespace OfficeOpenXml.ThreadedComments
         public ThreadedCommentThread Add(string cellAddress)
         {
             ValidateCellAddress(cellAddress);
-            if (_threads.ContainsKey(cellAddress.ToUpperInvariant()))
+            return Add(new ExcelCellAddress(cellAddress));
+        }
+
+        public ThreadedCommentThread Add(ExcelCellAddress cellAddress)
+        {
+            Require.Argument(cellAddress).IsNotNull("cellAddress");
+            if (_threads.ContainsKey(cellAddress.Address.ToUpperInvariant()))
             {
-                throw new ArgumentException("There is an existing comment thread in cell" + cellAddress);
+                throw new ArgumentException("There is an existing threaded comment thread in cell" + cellAddress);
+            }
+            if (_worksheet.Comments[cellAddress] != null)
+            {
+                throw new InvalidOperationException("There is an existing legacy comment/Note in this cell (" + cellAddress + "). See the Worksheet.Comments property. Legacy comments and threaded comments cannot reside in the same cell.");
             }
             CommentsXml = new XmlDocument();
             CommentsXml.PreserveWhitespace = true;
             CommentsXml.LoadXml("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><ThreadedComments xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"/>");
-            var thread = new ThreadedCommentThread(CommentsXml, _worksheet);
-            _threads[cellAddress.ToUpperInvariant()] = thread;
+            var thread = new ThreadedCommentThread(cellAddress, CommentsXml, _worksheet);
+            _threads[cellAddress.Address.ToUpperInvariant()] = thread;
             return thread;
         }
 
@@ -128,6 +151,20 @@ namespace OfficeOpenXml.ThreadedComments
             {
                 ValidateCellAddress(cellAddress);
                 if (_threads.ContainsKey(cellAddress.ToUpperInvariant())) return _threads[cellAddress.ToUpperInvariant()];
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ThreadedCommentThread"/> for the requested <paramref name="cellAddress"/>.
+        /// </summary>
+        /// <param name="cellAddress">The requested cell address in A1 format</param>
+        /// <returns>An existing <see cref="ThreadedCommentThread"/> or null if no thread exists</returns>
+        public ThreadedCommentThread this[ExcelCellAddress cellAddress]
+        {
+            get
+            {
+                if (_threads.ContainsKey(cellAddress.Address.ToUpperInvariant())) return _threads[cellAddress.Address.ToUpperInvariant()];
                 return null;
             }
         }

@@ -24,14 +24,29 @@ namespace OfficeOpenXml.ThreadedComments
     public class ThreadedComment : XmlHelper
     {
         internal ThreadedComment(XmlNode topNode, XmlNamespaceManager namespaceManager, ExcelWorkbook workbook)
+            : this(topNode, namespaceManager, workbook, null)
+        {
+        }
+
+        internal ThreadedComment(XmlNode topNode, XmlNamespaceManager namespaceManager, ExcelWorkbook workbook, ThreadedCommentThread thread)
             : base(namespaceManager, topNode)
         {
             SchemaNodeOrder = new string[] { "text", "mentions" };
             _workbook = workbook;
+            _thread = thread;
             Id = NewId();
         }
 
         private readonly ExcelWorkbook _workbook;
+        private ThreadedCommentThread _thread;
+        internal ThreadedCommentThread Thread
+        {
+            set
+            {
+                if (value == null) throw new ArgumentNullException("Thread");
+                _thread = value;
+            }
+        }
 
         internal static string NewId()
         {
@@ -95,7 +110,7 @@ namespace OfficeOpenXml.ThreadedComments
             {
                 return GetXmlNodeString("@id");
             }
-            set
+            internal set
             {
                 SetXmlNodeString("@id", value);
             }
@@ -113,6 +128,7 @@ namespace OfficeOpenXml.ThreadedComments
             set
             {
                 SetXmlNodeString("@personId", value);
+                _thread.OnCommentThreadChanged();
             }
         }
 
@@ -139,6 +155,7 @@ namespace OfficeOpenXml.ThreadedComments
             set
             {
                 SetXmlNodeString("@parentId", value);
+                _thread.OnCommentThreadChanged();
             }
         }
 
@@ -154,6 +171,7 @@ namespace OfficeOpenXml.ThreadedComments
             set
             {
                 SetXmlNodeString("tc:text", value);
+                _thread.OnCommentThreadChanged();
             }
         }
 
