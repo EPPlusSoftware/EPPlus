@@ -143,7 +143,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// 
+        /// Id of the first comment in the thread
         /// </summary>
         public string ParentId
         {
@@ -158,8 +158,37 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
+        internal bool? Done
+        {
+            get
+            {
+                var val = GetXmlNodeString("@done");
+                if(string.IsNullOrEmpty(val))
+                {
+                    return null;
+                }
+                if (val == "1") return true;
+                return false;
+            }
+            set
+            {
+                if(value.HasValue && value.Value)
+                {
+                    SetXmlNodeInt("@done", 1);
+                }
+                else if(value.HasValue && !value.Value)
+                {
+                    SetXmlNodeInt("@done", 0);
+                }
+                else
+                {
+                    SetXmlNodeInt("@done", null);
+                }
+            }
+        }
+
         /// <summary>
-        /// Text of the comment
+        /// Text of the comment. To edit the text on an existing comment, use the EditText function.
         /// </summary>
         public string Text
         {
@@ -167,11 +196,34 @@ namespace OfficeOpenXml.ThreadedComments
             {
                 return GetXmlNodeString("tc:text");
             }
-            set
+            internal set
             {
                 SetXmlNodeString("tc:text", value);
                 _thread.OnCommentThreadChanged();
             }
+        }
+
+        /// <summary>
+        /// Edit the Text of an existing comment
+        /// </summary>
+        /// <param name="newText"></param>
+        public void EditText(string newText)
+        {
+            Mentions.Clear();
+            Text = newText;
+            _thread.OnCommentThreadChanged();
+        }
+
+        /// <summary>
+        /// Edit the Text of an existing comment with mentions
+        /// </summary>
+        /// <param name="newTextWithFormats">A string with format placeholders - same as in string.Format. Index in these should correspond to an index in the <paramref name="personsToMention"/> array.</param>
+        /// <param name="personsToMention">A params array of <see cref="ThreadedCommentPerson"/>. Their DisplayName property will be used to replace the format placeholders.</param>
+        public void EditText(string newTextWithFormats, params ThreadedCommentPerson[] personsToMention)
+        {
+            Mentions.Clear();
+            MentionsHelper.InsertMentions(this, newTextWithFormats, personsToMention);
+            _thread.OnCommentThreadChanged();
         }
 
         private ThreadedCommentMentionCollection _mentions;

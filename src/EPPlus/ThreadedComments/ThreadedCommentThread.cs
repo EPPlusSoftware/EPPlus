@@ -140,32 +140,7 @@ namespace OfficeOpenXml.ThreadedComments
             ReplicateThreadToLegacyComment();
         }
 
-        private void InsertMentions(ThreadedComment comment, params ThreadedCommentPerson[] personsToMention)
-        {
-            var str = comment.Text;
-            var isMentioned = new Dictionary<string, bool>();
-            for (var index = 0; index < personsToMention.Length; index++)
-            {
-                var person = personsToMention[index];
-                var format = "{" + index + "}";
-                while (str.IndexOf(format) > -1)
-                {
-                    var placeHolderPos = str.IndexOf("{" + index + "}");
-                    var regex = new Regex(@"\{" + index + @"\}");
-                    str = regex.Replace(str, "@" + person.DisplayName, 1);
-
-                    // Excel seems to only support one mention per person, so we
-                    // add a mention object only for the first occurance per person...
-                    if(!isMentioned.ContainsKey(person.Id))
-                    {
-                        comment.Mentions.AddMention(person, placeHolderPos);
-                        isMentioned[person.Id] = true;
-                    }
-                }
-            }
-            comment.Mentions.SortAndAddMentionsToXml();
-            comment.Text = str;
-        }
+       
 
         /// <summary>
         /// Adds a <see cref="ThreadedComment"/> with mentions in the text to the thread.
@@ -177,7 +152,7 @@ namespace OfficeOpenXml.ThreadedComments
         public ThreadedComment AddComment(string personId, string textWithFormats, params ThreadedCommentPerson[] personsToMention)
         {
             var comment = AddComment(personId, textWithFormats, true);
-            InsertMentions(comment, personsToMention);
+            MentionsHelper.InsertMentions(comment, textWithFormats, personsToMention);
             return comment;
         }
 
@@ -194,6 +169,42 @@ namespace OfficeOpenXml.ThreadedComments
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Closes the thread, only the author can re-open it.
+        /// </summary>
+        public void ResolveThread()
+        {
+            if (!Comments.Any()) throw new InvalidOperationException("Cannot resolve an empty thread (it has not comments)");
+            Comments.First().Done = true;
+        }
+
+        /// <summary>
+        /// Re-opens a resolved thread.
+        /// </summary>
+        public void ReopenThread()
+        {
+            if (!Comments.Any()) throw new InvalidOperationException("Cannot re-open an empty thread (it has not comments)");
+            Comments.First().Done = null;
+        }
+
+        /// <summary>
+        /// Deletes all <see cref="ThreadedComment"/>s in the thread and the legacy <see cref="ExcelComment"/> in the cell.
+        /// </summary>
+        public void DeleteThread()
+        {
+            Comments.Clear();
+            if(Worksheet.Comments[CellAddress] != null)
+            {
+                var comment = Worksheet.Comments[CellAddress];
+                Worksheet.Comments.Remove(comment);
+            }
+        }
+
+        public override string ToString()
+        {
+            return "Count = " + Comments.Count;
         }
     }
 }

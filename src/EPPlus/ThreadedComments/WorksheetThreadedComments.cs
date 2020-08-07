@@ -171,5 +171,10 @@ namespace OfficeOpenXml.ThreadedComments
                 return null;
             }
         }
+
+        public override string ToString()
+        {
+            return "Count = " + _threads.Count;
+        }
     }
 }

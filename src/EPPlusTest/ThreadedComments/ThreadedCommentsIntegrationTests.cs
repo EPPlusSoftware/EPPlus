@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.ThreadedComments;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,12 @@ namespace EPPlusTest.ThreadedComments
 
                 sheet1.ThreadedComments.Add("A1").AddComment(person1.Id, "Hello");
                 sheet1.ThreadedComments["A1"].AddComment(person2.Id, "Hello there");
+                sheet1.ThreadedComments["A1"].Comments.Last().EditText("Hello there {0}", person1);
+                sheet1.ThreadedComments["A1"].ResolveThread();
+                sheet1.ThreadedComments["A1"].ReopenThread();
                 sheet2.ThreadedComments.Add("B1").AddComment(person1.Id, "Hello again");
+                sheet2.ThreadedComments[new ExcelCellAddress("B1")].AddComment(person2.Id, "Hello {0}!", person1);
+                sheet2.ThreadedComments["B1"].DeleteThread();
 
                 package.Save();
             }

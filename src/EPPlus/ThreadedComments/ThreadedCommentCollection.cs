@@ -14,6 +14,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -133,6 +134,23 @@ namespace OfficeOpenXml.ThreadedComments
             }
             RebuildIndex();
             return false;
+        }
+
+        /// <summary>
+        /// Removes all <see cref="ThreadedComment"/>s in the collection
+        /// </summary>
+        internal void Clear()
+        {
+            foreach(var node in _commentList.Select(x => x.TopNode))
+            {
+                TopNode.RemoveChild(node);
+            }
+            _commentList.Clear();
+        }
+
+        public override string ToString()
+        {
+            return "Count = " + _commentList.Count;
         }
     }
 }

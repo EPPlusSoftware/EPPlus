@@ -54,7 +54,8 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// See https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/6274371e-7c5c-46e3-b661-cbeb4abfe968
+        /// See the documentation of the members of the <see cref="IdentityProvider"/> enum and
+        /// Microsofts documentation at https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/6274371e-7c5c-46e3-b661-cbeb4abfe968
         /// </summary>
         public string UserId
         {
@@ -63,7 +64,8 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// See https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/6274371e-7c5c-46e3-b661-cbeb4abfe968
+        /// See the documentation of the members of the <see cref="IdentityProvider"/> enum and
+        /// Microsofts documentation at https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/6274371e-7c5c-46e3-b661-cbeb4abfe968
         /// </summary>
         public IdentityProvider ProviderId
         {

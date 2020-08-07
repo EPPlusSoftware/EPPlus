@@ -20,6 +20,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.ThreadedComments
 {
+    /// <summary>
+    /// Represents a collection of <see cref="ThreadedCommentPerson"/>s in a workbook.
+    /// </summary>
     public class ThreadedCommentPersonCollection : IEnumerable<ThreadedCommentPerson>
     {
         /// <summary>
@@ -188,6 +191,11 @@ namespace OfficeOpenXml.ThreadedComments
         {
             PersonsXml.DocumentElement.RemoveAll();
             _personList.Clear();
+        }
+
+        public override string ToString()
+        {
+            return "Count = " + _personList.Count;
         }
     }
 }

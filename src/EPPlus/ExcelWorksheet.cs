@@ -2302,7 +2302,7 @@ namespace OfficeOpenXml
 
             if (ThreadedComments != null && ThreadedComments.Threads != null)
             {
-                if (ThreadedComments.Threads.Count() == 0 && _package.ZipPackage.PartExists(ThreadedCommentsUri))
+                if (!ThreadedComments.Threads.Any(x => x.Comments.Count > 0) && _package.ZipPackage.PartExists(ThreadedCommentsUri))
                 {
                     _package.ZipPackage.DeletePart(ThreadedCommentsUri);
                 }
