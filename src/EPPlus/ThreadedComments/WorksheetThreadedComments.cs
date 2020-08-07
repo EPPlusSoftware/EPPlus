@@ -132,9 +132,12 @@ namespace OfficeOpenXml.ThreadedComments
             {
                 throw new InvalidOperationException("There is an existing legacy comment/Note in this cell (" + cellAddress + "). See the Worksheet.Comments property. Legacy comments and threaded comments cannot reside in the same cell.");
             }
-            CommentsXml = new XmlDocument();
-            CommentsXml.PreserveWhitespace = true;
-            CommentsXml.LoadXml("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><ThreadedComments xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"/>");
+            if(CommentsXml == null)
+            {
+                CommentsXml = new XmlDocument();
+                CommentsXml.PreserveWhitespace = true;
+                CommentsXml.LoadXml("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><ThreadedComments xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"/>");
+            }
             var thread = new ThreadedCommentThread(cellAddress, CommentsXml, _worksheet);
             _threads[cellAddress.Address.ToUpperInvariant()] = thread;
             return thread;

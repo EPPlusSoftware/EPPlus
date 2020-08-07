@@ -44,5 +44,23 @@ namespace OfficeOpenXml.ThreadedComments
         {
             return _mentionList.GetEnumerator();
         }
+
+        internal void AddMention(ThreadedCommentPerson person, int textPosition)
+        {
+            var elem = TopNode.OwnerDocument.CreateElement("mention", ExcelPackage.schemaThreadedComments);
+            var mention = new ThreadedCommentMention(NameSpaceManager, elem);
+            mention.MentionId = ThreadedCommentMention.NewId();
+            mention.StartIndex = textPosition;
+            mention.Length = person.DisplayName.Length + 1;
+            mention.MentionPersonId = person.Id;
+            _mentionList.Add(mention);
+        }
+
+        internal void SortAndAddMentionsToXml()
+        {
+            _mentionList.Sort((x, y) => x.StartIndex.CompareTo(y.StartIndex));
+            TopNode.RemoveAll();
+            _mentionList.ForEach(x => TopNode.AppendChild(x.TopNode));
+        }
     }
 }

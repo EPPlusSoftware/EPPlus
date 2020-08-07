@@ -31,6 +31,12 @@ namespace OfficeOpenXml.ThreadedComments
         {
         }
 
+        internal static string NewId()
+        {
+            var guid = Guid.NewGuid();
+            return "{" + guid.ToString().ToUpper() + "}";
+        }
+
         /// <summary>
         /// Index in the <see cref="ThreadedComment"/>s text where the mention starts
         /// </summary>

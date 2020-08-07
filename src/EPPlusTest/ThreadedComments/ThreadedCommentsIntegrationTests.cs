@@ -52,6 +52,23 @@ namespace EPPlusTest.ThreadedComments
         }
 
         [TestMethod]
+        public void NewCommentsWithMentions()
+        {
+            using (var package = OpenTemplatePackage("comment_mentions.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.First();
+
+                var author = sheet.ThreadedComments.Persons.First();
+                var matsAlm = sheet.ThreadedComments.Persons[1];
+                var janKallman = sheet.ThreadedComments.Persons[2];
+
+                sheet.ThreadedComments.Add("A2").AddComment(author.Id, "Some mentions: {0} and {1}. And {0} again.", matsAlm, janKallman);
+
+                SaveWorkbook("NewCommentMentions.xlsx", package);
+            }
+        }
+
+        [TestMethod]
         public void CreateNewWorkbook()
         {
             using (var package = OpenPackage("NewCommentsWb.xlsx", true))

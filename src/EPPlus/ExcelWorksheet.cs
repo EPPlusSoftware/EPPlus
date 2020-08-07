@@ -967,6 +967,21 @@ namespace OfficeOpenXml
             }
         }
 
+        internal Uri ThreadedCommentsUri
+        {
+            get
+            {
+                var rel = Part.GetRelationshipsByType(ExcelPackage.schemaThreadedComment);
+                if (rel != null && rel.Any())
+                {
+                    var uri = rel.First().TargetUri.OriginalString.Split('/').Last();
+                    uri = "/xl/threadedComments/" + uri;
+                    return new Uri(uri, UriKind.Relative);
+                }
+                return GetThreadedCommentUri();
+            }
+        }
+
         private Uri GetThreadedCommentUri()
         {
             var index = 1;
@@ -2287,19 +2302,19 @@ namespace OfficeOpenXml
 
             if (ThreadedComments != null && ThreadedComments.Threads != null)
             {
-                var tcUri = GetThreadedCommentUri();
-                if (ThreadedComments.Threads.Count() == 0 && _package.ZipPackage.PartExists(tcUri))
+                if (ThreadedComments.Threads.Count() == 0 && _package.ZipPackage.PartExists(ThreadedCommentsUri))
                 {
-                    _package.ZipPackage.DeletePart(tcUri);
+                    _package.ZipPackage.DeletePart(ThreadedCommentsUri);
                 }
                 else if(ThreadedComments.Threads.Count() > 0)
                 {
-                    if (!_package.ZipPackage.PartExists(tcUri))
+                    if (!_package.ZipPackage.PartExists(ThreadedCommentsUri))
                     {
+                        var tcUri = ThreadedCommentsUri;
                         _package.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml");
                         Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
                     }
-                    _package.SavePart(tcUri, ThreadedComments.CommentsXml);
+                    _package.SavePart(ThreadedCommentsUri, ThreadedComments.CommentsXml);
                 }
             }
         }

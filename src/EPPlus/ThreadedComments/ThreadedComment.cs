@@ -34,7 +34,6 @@ namespace OfficeOpenXml.ThreadedComments
             SchemaNodeOrder = new string[] { "text", "mentions" };
             _workbook = workbook;
             _thread = thread;
-            Id = NewId();
         }
 
         private readonly ExcelWorkbook _workbook;
@@ -175,6 +174,8 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
+        private ThreadedCommentMentionCollection _mentions;
+
         /// <summary>
         /// Mentions in this comment. Will return null if no mentions exists.
         /// </summary>
@@ -182,12 +183,19 @@ namespace OfficeOpenXml.ThreadedComments
         {
             get
             {
-                var mentionsNode = TopNode.SelectSingleNode("tc:mentions", NameSpaceManager);
-                if(mentionsNode != null)
+                if(_mentions == null)
                 {
-                    return new ThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
+                    var mentionsNode = TopNode.SelectSingleNode("tc:mentions", NameSpaceManager);
+                    if (mentionsNode != null)
+                    {
+                        _mentions = new ThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
+                    }
+                    mentionsNode = TopNode.OwnerDocument.CreateElement("mentions", ExcelPackage.schemaThreadedComments);
+                    TopNode.AppendChild(mentionsNode);
+                    _mentions = new ThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
                 }
-                return null;
+                
+                return _mentions;
             }
         }
     }

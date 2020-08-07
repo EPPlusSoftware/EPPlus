@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace OfficeOpenXml.ThreadedComments
@@ -58,6 +59,7 @@ namespace OfficeOpenXml.ThreadedComments
         private void ReplicateThreadToLegacyComment()
         {
             var tc = Comments as IEnumerable<ThreadedComment>;
+            if (!tc.Any()) return;
             var tcIndex = 0;
             var commentText = new StringBuilder();
             var authorId = "tc=" + tc.First().Id;
@@ -102,26 +104,33 @@ namespace OfficeOpenXml.ThreadedComments
         /// <param name="text">Text of the comment</param>
         public ThreadedComment AddComment(string personId, string text)
         {
+            return AddComment(personId, text, true);
+        }
+
+        internal ThreadedComment AddComment(string personId, string text, bool replicateLegacyComment)
+        {
             Require.That(text).Named("text").IsNotNullOrEmpty();
             Require.That(personId).Named("personId").IsNotNullOrEmpty();
             var parentId = string.Empty;
-            if(Comments.Any())
+            if (Comments.Any())
             {
                 parentId = Comments.First().Id;
             }
             var xmlNode = CommentsXml.CreateElement("threadedComment", ExcelPackage.schemaThreadedComments);
             CommentsXml.SelectSingleNode("tc:ThreadedComments", Worksheet.NameSpaceManager).AppendChild(xmlNode);
             var newComment = new ThreadedComment(xmlNode, Worksheet.NameSpaceManager, Worksheet.Workbook, this);
+            newComment.Id = ThreadedComment.NewId();
             newComment.CellAddress = CellAddress.Address;
             newComment.Text = text;
             newComment.PersonId = personId;
             newComment.DateCreated = DateTime.Now;
-            if(!string.IsNullOrEmpty(parentId))
+            if (!string.IsNullOrEmpty(parentId))
             {
                 newComment.ParentId = parentId;
             }
             Comments.Add(newComment);
-            ReplicateThreadToLegacyComment();
+            if(replicateLegacyComment)
+                ReplicateThreadToLegacyComment();
             return newComment;
         }
 
@@ -129,6 +138,47 @@ namespace OfficeOpenXml.ThreadedComments
         {
             Comments.Add(comment);
             ReplicateThreadToLegacyComment();
+        }
+
+        private void InsertMentions(ThreadedComment comment, params ThreadedCommentPerson[] personsToMention)
+        {
+            var str = comment.Text;
+            var isMentioned = new Dictionary<string, bool>();
+            for (var index = 0; index < personsToMention.Length; index++)
+            {
+                var person = personsToMention[index];
+                var format = "{" + index + "}";
+                while (str.IndexOf(format) > -1)
+                {
+                    var placeHolderPos = str.IndexOf("{" + index + "}");
+                    var regex = new Regex(@"\{" + index + @"\}");
+                    str = regex.Replace(str, "@" + person.DisplayName, 1);
+
+                    // Excel seems to only support one mention per person, so we
+                    // add a mention object only for the first occurance per person...
+                    if(!isMentioned.ContainsKey(person.Id))
+                    {
+                        comment.Mentions.AddMention(person, placeHolderPos);
+                        isMentioned[person.Id] = true;
+                    }
+                }
+            }
+            comment.Mentions.SortAndAddMentionsToXml();
+            comment.Text = str;
+        }
+
+        /// <summary>
+        /// Adds a <see cref="ThreadedComment"/> with mentions in the text to the thread.
+        /// </summary>
+        /// <param name="personId">Id of the <see cref="ThreadedCommentPerson">autor</see></param>
+        /// <param name="textWithFormats">A string with format placeholders - same as in string.Format. Index in these should correspond to an index in the <paramref name="personsToMention"/> array.</param>
+        /// <param name="personsToMention">A params array of <see cref="ThreadedCommentPerson"/>. Their DisplayName property will be used to replace the format placeholders.</param>
+        /// <returns>The added <see cref="ThreadedComment"/></returns>
+        public ThreadedComment AddComment(string personId, string textWithFormats, params ThreadedCommentPerson[] personsToMention)
+        {
+            var comment = AddComment(personId, textWithFormats, true);
+            InsertMentions(comment, personsToMention);
+            return comment;
         }
 
         /// <summary>
