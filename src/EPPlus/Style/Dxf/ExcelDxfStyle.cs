@@ -103,13 +103,10 @@ namespace OfficeOpenXml.Style.Dxf
             ExcelDxfColor ret = new ExcelDxfColor(_styles);
             ret.Theme = (eThemeSchemeColor?)helper.GetXmlNodeIntNull(path + "/@theme");
             ret.Index = helper.GetXmlNodeIntNull(path + "/@indexed");
-            string rgb=helper.GetXmlNodeString(path + "/@rgb");
-            if(rgb!="")
+            string rgb = helper.GetXmlNodeString(path + "/@rgb");
+            if(rgb != "")
             {
-                ret.Color = Color.FromArgb( int.Parse(rgb.Substring(0, 2), System.Globalization.NumberStyles.AllowHexSpecifier),
-                                            int.Parse(rgb.Substring(2, 2), System.Globalization.NumberStyles.AllowHexSpecifier),
-                                            int.Parse(rgb.Substring(4, 2), System.Globalization.NumberStyles.AllowHexSpecifier),
-                                            int.Parse(rgb.Substring(6, 2), System.Globalization.NumberStyles.AllowHexSpecifier));
+                ret.Color = Color.FromArgb(int.Parse(rgb.Replace("#", ""), NumberStyles.HexNumber));
             }
             ret.Auto = helper.GetXmlNodeBoolNullable(path + "/@auto");
             ret.Tint = helper.GetXmlNodeDoubleNull(path + "/@tint");
