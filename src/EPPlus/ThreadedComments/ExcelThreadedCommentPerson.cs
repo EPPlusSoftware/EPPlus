@@ -21,7 +21,7 @@ namespace OfficeOpenXml.ThreadedComments
     /// A person in the context of ThreadedComments.
     /// Might refer to an <see cref="IdentityProvider"/>, see property ProviderId.
     /// </summary>
-    public class ThreadedCommentPerson : XmlHelper, IEqualityComparer<ThreadedCommentPerson>
+    public class ExcelThreadedCommentPerson : XmlHelper, IEqualityComparer<ExcelThreadedCommentPerson>
     {
         internal static string NewId()
         {
@@ -29,7 +29,7 @@ namespace OfficeOpenXml.ThreadedComments
             return "{" + guid.ToString().ToUpper() + "}";
         }
 
-        internal ThreadedCommentPerson(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        internal ExcelThreadedCommentPerson(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
             TopNode = topNode;
             SchemaNodeOrder = new string[] { "displayName", "id", "userId", "providerId" };
@@ -111,7 +111,7 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
-        public bool Equals(ThreadedCommentPerson x, ThreadedCommentPerson y)
+        public bool Equals(ExcelThreadedCommentPerson x, ExcelThreadedCommentPerson y)
         {
             if (x == null && y == null) return true;
             if (x == null ^ y == null) return false;
@@ -119,7 +119,7 @@ namespace OfficeOpenXml.ThreadedComments
             return false;
         }
 
-        public int GetHashCode(ThreadedCommentPerson obj)
+        public int GetHashCode(ExcelThreadedCommentPerson obj)
         {
             return obj.GetHashCode();
         }

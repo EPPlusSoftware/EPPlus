@@ -139,6 +139,18 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
+        /// Indexer for the comments collection
+        /// </summary>
+        /// <param name="cellAddress">The cell address</param>
+        /// <returns>The comment</returns>
+        public ExcelComment this[string cellAddress]
+        {
+            get
+            {
+                return this[new ExcelCellAddress(cellAddress)];
+            }
+        }
+        /// <summary>
         /// Adds a comment to the top left cell of the range
         /// </summary>
         /// <param name="cell">The cell</param>

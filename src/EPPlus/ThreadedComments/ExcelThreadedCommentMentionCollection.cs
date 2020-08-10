@@ -19,31 +19,31 @@ using System.Xml;
 namespace OfficeOpenXml.ThreadedComments
 {
     /// <summary>
-    /// A collection of <see cref="ThreadedCommentMention">mentions</see> that occors in a <see cref="ThreadedComment"/>
+    /// A collection of <see cref="ExcelThreadedCommentMention">mentions</see> that occors in a <see cref="ExcelThreadedComment"/>
     /// </summary>
-    public sealed class ThreadedCommentMentionCollection : XmlHelper, IEnumerable<ThreadedCommentMention>
+    public sealed class ExcelThreadedCommentMentionCollection : XmlHelper, IEnumerable<ExcelThreadedCommentMention>
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="nameSpaceManager">The Namespacemangager of the package</param>
         /// <param name="topNode">The <see cref="XmlNode"/> representing the parent element of the collection</param>
-        internal ThreadedCommentMentionCollection(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        internal ExcelThreadedCommentMentionCollection(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
             LoadMentions();
         }
 
-        private readonly List<ThreadedCommentMention> _mentionList = new List<ThreadedCommentMention>();
+        private readonly List<ExcelThreadedCommentMention> _mentionList = new List<ExcelThreadedCommentMention>();
 
         private void LoadMentions()
         {
             foreach(var mentionNode in TopNode.ChildNodes)
             {
-                _mentionList.Add(new ThreadedCommentMention(NameSpaceManager, (XmlNode)mentionNode));
+                _mentionList.Add(new ExcelThreadedCommentMention(NameSpaceManager, (XmlNode)mentionNode));
             }
         }
 
-        public IEnumerator<ThreadedCommentMention> GetEnumerator()
+        public IEnumerator<ExcelThreadedCommentMention> GetEnumerator()
         {
             return _mentionList.GetEnumerator();
         }
@@ -56,13 +56,13 @@ namespace OfficeOpenXml.ThreadedComments
         /// <summary>
         /// Adds a mention
         /// </summary>
-        /// <param name="person">The <see cref="ThreadedCommentPerson"/> to mention</param>
+        /// <param name="person">The <see cref="ExcelThreadedCommentPerson"/> to mention</param>
         /// <param name="textPosition">Index of the first character of the mention in the text</param>
-        internal void AddMention(ThreadedCommentPerson person, int textPosition)
+        internal void AddMention(ExcelThreadedCommentPerson person, int textPosition)
         {
             var elem = TopNode.OwnerDocument.CreateElement("mention", ExcelPackage.schemaThreadedComments);
-            var mention = new ThreadedCommentMention(NameSpaceManager, elem);
-            mention.MentionId = ThreadedCommentMention.NewId();
+            var mention = new ExcelThreadedCommentMention(NameSpaceManager, elem);
+            mention.MentionId = ExcelThreadedCommentMention.NewId();
             mention.StartIndex = textPosition;
             // + 1 to include the @ prefix...
             mention.Length = person.DisplayName.Length + 1;

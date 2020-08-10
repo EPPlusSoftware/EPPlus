@@ -40,6 +40,7 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.ThreadedComments;
 
 namespace OfficeOpenXml
 {
@@ -216,6 +217,8 @@ namespace OfficeOpenXml
         private static _setValue _setIsRichTextDelegate = Set_IsRichText;
         private static _setValue _setExistsCommentDelegate = Exists_Comment;
         private static _setValue _setCommentDelegate = Set_Comment;
+        private static _setValue _setExistsThreadedCommentDelegate = Exists_ThreadedComment;
+        private static _setValue _setThreadedCommentDelegate = Set_ThreadedComment;
 
         private static void Set_StyleID(ExcelRangeBase range, object value, int row, int col)
         {
@@ -326,6 +329,7 @@ namespace OfficeOpenXml
         }
         private static void Exists_Comment(ExcelRangeBase range, object value, int row, int col)
         {
+            Exists_ThreadedComment(range, value, row, col);
             if (range._worksheet._commentsStore.Exists(row, col))
             {
                 throw (new InvalidOperationException(string.Format("Cell {0} already contain a comment.", new ExcelCellAddress(row, col).Address)));
@@ -337,6 +341,19 @@ namespace OfficeOpenXml
             string[] v = (string[])value;
             range._worksheet.Comments.Add(new ExcelRangeBase(range._worksheet, GetAddress(row, col)), v[0], v[1]);
         }
+        private static void Exists_ThreadedComment(ExcelRangeBase range, object value, int row, int col)
+        {
+            if (range._worksheet._threadedCommentsStore.Exists(row, col))
+            {
+                throw (new InvalidOperationException(string.Format("Cell {0} already contain a threaded comment.", new ExcelCellAddress(row, col).Address)));
+            }
+
+        }
+        private static void Set_ThreadedComment(ExcelRangeBase range, object value, int row, int col)
+        {
+            range._worksheet.ThreadedComments.Add(GetAddress(row, col));
+        }
+
         #endregion
         private void SetToSelectedRange()
         {
@@ -1352,7 +1369,7 @@ namespace OfficeOpenXml
             return rtc;
         }
         /// <summary>
-        /// returns the comment object of the first cell in the range
+        /// Returns the comment object of the first cell in the range
         /// </summary>
         public ExcelComment Comment
         {
@@ -1365,6 +1382,25 @@ namespace OfficeOpenXml
                     if (_worksheet._commentsStore.Exists(_fromRow, _fromCol, ref i))
                     {
                         return _worksheet._comments[i] as ExcelComment;
+                    }
+                }
+                return null;
+            }
+        }
+        /// <summary>
+        /// Returns the threaded comment object of the first cell in the range
+        /// </summary>
+        public ExcelThreadedCommentThread ThreadedComment
+        {
+            get
+            {
+                IsRangeValid("threaded comments");
+                var i = -1;
+                if (_worksheet.ThreadedComments.Count > 0)
+                {
+                    if (_worksheet._threadedCommentsStore.Exists(_fromRow, _fromCol, ref i))
+                    {
+                        return _worksheet._threadedComments._threads[i];
                     }
                 }
                 return null;
@@ -1873,6 +1909,20 @@ namespace OfficeOpenXml
             _changePropMethod(this, _setCommentDelegate, new string[] { Text, Author });
 
             return _worksheet.Comments[new ExcelCellAddress(_fromRow, _fromCol)];
+        }
+        /// <summary>
+        /// Adds a new threaded comment for the range.
+        /// If this range contains more than one cell, the top left comment is returned by the method.
+        /// </summary>
+        /// <returns>A reference comment of the top left cell</returns>
+        public ExcelThreadedCommentThread AddThreadedComment()
+        {
+            //Check if any comments exists in the range and throw an exception
+            _changePropMethod(this, _setExistsThreadedCommentDelegate, null);
+            //Create the comments
+            _changePropMethod(this, _setThreadedCommentDelegate, new string[0]);
+
+            return _worksheet.ThreadedComments[new ExcelCellAddress(_fromRow, _fromCol)];
         }
 
         /// <summary>

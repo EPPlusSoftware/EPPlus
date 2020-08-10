@@ -21,24 +21,24 @@ using System.Xml;
 namespace OfficeOpenXml.ThreadedComments
 {
     /// <summary>
-    /// Represents a thread of <see cref="ThreadedComment"/>s in a cell on a worksheet. Contains functionality to add and modify these comments.
+    /// Represents a thread of <see cref="ExcelThreadedComment"/>s in a cell on a worksheet. Contains functionality to add and modify these comments.
     /// </summary>
-    public class ThreadedCommentThread
+    public class ExcelThreadedCommentThread
     {
-        public ThreadedCommentThread(ExcelCellAddress cellAddress, XmlDocument commentsXml, ExcelWorksheet worksheet)
+        public ExcelThreadedCommentThread(ExcelCellAddress cellAddress, XmlDocument commentsXml, ExcelWorksheet worksheet)
         {
             CellAddress = cellAddress;
-            CommentsXml = commentsXml;
+            ThreadedCommentsXml = commentsXml;
             Worksheet = worksheet;
-            Comments = new ThreadedCommentCollection(worksheet, commentsXml.SelectSingleNode("tc:ThreadedComments", worksheet.NameSpaceManager));
+            Comments = new ExcelThreadedCommentCollection(worksheet, commentsXml.SelectSingleNode("tc:ThreadedComments", worksheet.NameSpaceManager));
         }
 
         /// <summary>
         /// The address of the cell of the comment thread
         /// </summary>
-        public ExcelCellAddress CellAddress { get; private set; }
+        public ExcelCellAddress CellAddress { get; internal set; }
 
-        public ThreadedCommentCollection Comments { get; private set; }
+        public ExcelThreadedCommentCollection Comments { get; private set; }
 
         /// <summary>
         /// The worksheet where this comment thread resides
@@ -51,14 +51,14 @@ namespace OfficeOpenXml.ThreadedComments
         /// <summary>
         /// The raw xml representing this comment thread.
         /// </summary>
-        public XmlDocument CommentsXml
+        public XmlDocument ThreadedCommentsXml
         {
             get; private set;
         }
 
         private void ReplicateThreadToLegacyComment()
         {
-            var tc = Comments as IEnumerable<ThreadedComment>;
+            var tc = Comments as IEnumerable<ExcelThreadedComment>;
             if (!tc.Any()) return;
             var tcIndex = 0;
             var commentText = new StringBuilder();
@@ -98,16 +98,16 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Adds a <see cref="ThreadedComment"/> to the thread
+        /// Adds a <see cref="ExcelThreadedComment"/> to the thread
         /// </summary>
-        /// <param name="personId">Id of the author, see <see cref="ThreadedCommentPerson"/></param>
+        /// <param name="personId">Id of the author, see <see cref="ExcelThreadedCommentPerson"/></param>
         /// <param name="text">Text of the comment</param>
-        public ThreadedComment AddComment(string personId, string text)
+        public ExcelThreadedComment AddComment(string personId, string text)
         {
             return AddComment(personId, text, true);
         }
 
-        internal ThreadedComment AddComment(string personId, string text, bool replicateLegacyComment)
+        internal ExcelThreadedComment AddComment(string personId, string text, bool replicateLegacyComment)
         {
             Require.That(text).Named("text").IsNotNullOrEmpty();
             Require.That(personId).Named("personId").IsNotNullOrEmpty();
@@ -116,11 +116,11 @@ namespace OfficeOpenXml.ThreadedComments
             {
                 parentId = Comments.First().Id;
             }
-            var xmlNode = CommentsXml.CreateElement("threadedComment", ExcelPackage.schemaThreadedComments);
-            CommentsXml.SelectSingleNode("tc:ThreadedComments", Worksheet.NameSpaceManager).AppendChild(xmlNode);
-            var newComment = new ThreadedComment(xmlNode, Worksheet.NameSpaceManager, Worksheet.Workbook, this);
-            newComment.Id = ThreadedComment.NewId();
-            newComment.CellAddress = CellAddress.Address;
+            var xmlNode = ThreadedCommentsXml.CreateElement("threadedComment", ExcelPackage.schemaThreadedComments);
+            ThreadedCommentsXml.SelectSingleNode("tc:ThreadedComments", Worksheet.NameSpaceManager).AppendChild(xmlNode);
+            var newComment = new ExcelThreadedComment(xmlNode, Worksheet.NameSpaceManager, Worksheet.Workbook, this);
+            newComment.Id = ExcelThreadedComment.NewId();
+            newComment.CellAddress = new ExcelCellAddress(CellAddress.Address);
             newComment.Text = text;
             newComment.PersonId = personId;
             newComment.DateCreated = DateTime.Now;
@@ -134,7 +134,7 @@ namespace OfficeOpenXml.ThreadedComments
             return newComment;
         }
 
-        internal void AddComment(ThreadedComment comment)
+        internal void AddComment(ExcelThreadedComment comment)
         {
             Comments.Add(comment);
             ReplicateThreadToLegacyComment();
@@ -143,13 +143,13 @@ namespace OfficeOpenXml.ThreadedComments
        
 
         /// <summary>
-        /// Adds a <see cref="ThreadedComment"/> with mentions in the text to the thread.
+        /// Adds a <see cref="ExcelThreadedComment"/> with mentions in the text to the thread.
         /// </summary>
-        /// <param name="personId">Id of the <see cref="ThreadedCommentPerson">autor</see></param>
+        /// <param name="personId">Id of the <see cref="ExcelThreadedCommentPerson">autor</see></param>
         /// <param name="textWithFormats">A string with format placeholders - same as in string.Format. Index in these should correspond to an index in the <paramref name="personsToMention"/> array.</param>
-        /// <param name="personsToMention">A params array of <see cref="ThreadedCommentPerson"/>. Their DisplayName property will be used to replace the format placeholders.</param>
-        /// <returns>The added <see cref="ThreadedComment"/></returns>
-        public ThreadedComment AddComment(string personId, string textWithFormats, params ThreadedCommentPerson[] personsToMention)
+        /// <param name="personsToMention">A params array of <see cref="ExcelThreadedCommentPerson"/>. Their DisplayName property will be used to replace the format placeholders.</param>
+        /// <returns>The added <see cref="ExcelThreadedComment"/></returns>
+        public ExcelThreadedComment AddComment(string personId, string textWithFormats, params ExcelThreadedCommentPerson[] personsToMention)
         {
             var comment = AddComment(personId, textWithFormats, true);
             MentionsHelper.InsertMentions(comment, textWithFormats, personsToMention);
@@ -157,11 +157,11 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Removes a <see cref="ThreadedComment"/> from the thread.
+        /// Removes a <see cref="ExcelThreadedComment"/> from the thread.
         /// </summary>
         /// <param name="comment">The comment to remove</param>
         /// <returns>true if the comment was removed, otherwise false</returns>
-        public bool Remove(ThreadedComment comment)
+        public bool Remove(ExcelThreadedComment comment)
         {
             if(Comments.Remove(comment))
             {
@@ -190,7 +190,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Deletes all <see cref="ThreadedComment"/>s in the thread and the legacy <see cref="ExcelComment"/> in the cell.
+        /// Deletes all <see cref="ExcelThreadedComment"/>s in the thread and the legacy <see cref="ExcelComment"/> in the cell.
         /// </summary>
         public void DeleteThread()
         {

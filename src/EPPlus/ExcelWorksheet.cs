@@ -42,24 +42,6 @@ using OfficeOpenXml.ThreadedComments;
 
 namespace OfficeOpenXml
 {
-  /// <summary>
-  /// Worksheet hidden enumeration
-  /// </summary>
-  public enum eWorkSheetHidden
-    {
-        /// <summary>
-        /// The worksheet is visible
-        /// </summary>
-        Visible,
-        /// <summary>
-        /// The worksheet is hidden but can be shown by the user via the user interface
-        /// </summary>
-        Hidden,
-        /// <summary>
-        /// The worksheet is hidden and cannot be shown by the user via the user interface
-        /// </summary>
-        VeryHidden
-    }
     [Flags]
     internal enum CellFlags
     {
@@ -399,6 +381,7 @@ namespace OfficeOpenXml
 
         internal CellStore<Uri> _hyperLinks;
         internal CellStore<int> _commentsStore;
+        internal CellStore<int> _threadedCommentsStore;
 
         internal Dictionary<int, Formulas> _sharedFormulas = new Dictionary<int, Formulas>();
         internal int _minCol = ExcelPackage.MaxColumns;
@@ -448,6 +431,7 @@ namespace OfficeOpenXml
             _formulas = new CellStore<object>();
             _flags = new FlagCellStore();
             _commentsStore = new CellStore<int>();
+            _threadedCommentsStore = new CellStore<int>();
             _hyperLinks = new CellStore<Uri>();
 
             _names = new ExcelNamedRangeCollection(Workbook, this);
@@ -952,16 +936,16 @@ namespace OfficeOpenXml
             }
         }
 
-        internal WorksheetThreadedComments _threadedComments = null;
+        internal ExcelWorksheetThreadedComments _threadedComments = null;
 
-        public WorksheetThreadedComments ThreadedComments
+        public ExcelWorksheetThreadedComments ThreadedComments
         {
             get
             {
                 CheckSheetType();
                 if(_threadedComments == null)
                 {
-                    _threadedComments = new WorksheetThreadedComments(Workbook.ThreadedCommentPersons, this);
+                    _threadedComments = new ExcelWorksheetThreadedComments(Workbook.ThreadedCommentPersons, this);
                 }
                 return _threadedComments;
             }
@@ -2271,18 +2255,19 @@ namespace OfficeOpenXml
                     }
 
                     SaveComments();
+                    SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
                     SavePivotTables();
                 }
             }
 
-            if (Drawings.UriDrawing!=null)
+            if (Drawings.UriDrawing != null)
             {
                 if (Drawings.Count == 0)
-                {                                            
+                {
                     Part.DeleteRelationship(Drawings._drawingRelation.Id);
-                    _package.ZipPackage.DeletePart(Drawings.UriDrawing);                    
+                    _package.ZipPackage.DeletePart(Drawings.UriDrawing);
                 }
                 else
                 {
@@ -2299,14 +2284,17 @@ namespace OfficeOpenXml
                     Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
                 }
             }
+        }
 
+        private void SaveThreadedComments()
+        {
             if (ThreadedComments != null && ThreadedComments.Threads != null)
             {
                 if (!ThreadedComments.Threads.Any(x => x.Comments.Count > 0) && _package.ZipPackage.PartExists(ThreadedCommentsUri))
                 {
                     _package.ZipPackage.DeletePart(ThreadedCommentsUri);
                 }
-                else if(ThreadedComments.Threads.Count() > 0)
+                else if (ThreadedComments.Threads.Count() > 0)
                 {
                     if (!_package.ZipPackage.PartExists(ThreadedCommentsUri))
                     {
@@ -2314,10 +2302,11 @@ namespace OfficeOpenXml
                         _package.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml");
                         Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
                     }
-                    _package.SavePart(ThreadedCommentsUri, ThreadedComments.CommentsXml);
+                    _package.SavePart(ThreadedCommentsUri, ThreadedComments.ThreadedCommentsXml);
                 }
             }
         }
+
         internal void SaveHandler(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
         {
                     //Init Zip

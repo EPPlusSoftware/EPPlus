@@ -17,7 +17,7 @@ using System.Text;
 namespace OfficeOpenXml.ThreadedComments
 {
     /// <summary>
-    /// This enum defines the Identity providers for <see cref="ThreadedCommentPerson"/>
+    /// This enum defines the Identity providers for <see cref="ExcelThreadedCommentPerson"/>
     /// as described here: https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/6274371e-7c5c-46e3-b661-cbeb4abfe968
     /// </summary>
     public enum IdentityProvider

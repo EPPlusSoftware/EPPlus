@@ -24,8 +24,8 @@ namespace OfficeOpenXml.ThreadedComments
         /// </summary>
         /// <param name="comment"></param>
         /// <param name="textWithFormats">A string with format placeholders with indexes, simlar to string.Format</param>
-        /// <param name="personsToMention"><see cref="ThreadedCommentPerson"/>s to mention</param>
-        internal static void InsertMentions(ThreadedComment comment, string textWithFormats, params ThreadedCommentPerson[] personsToMention)
+        /// <param name="personsToMention"><see cref="ExcelThreadedCommentPerson"/>s to mention</param>
+        internal static void InsertMentions(ExcelThreadedComment comment, string textWithFormats, params ExcelThreadedCommentPerson[] personsToMention)
         {
             var str = textWithFormats;
             var isMentioned = new Dictionary<string, bool>();

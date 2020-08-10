@@ -194,6 +194,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._formulas.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._flags.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._commentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._threadedCommentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._vmlDrawings?._drawings.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._hyperLinks.Delete(rowFrom, columnFrom, rows, columns, true);
 
@@ -202,6 +203,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 ws._names.Delete(rowFrom, columnFrom, rows, columns);
                 ws.Workbook.Names.Delete(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws);
                 ws.Comments.Delete(rowFrom, columnFrom, rows, columns);
+                ws.ThreadedComments.Delete(rowFrom, columnFrom, rows, columns);
 
                 if (rowFrom == 0 && rows >= ExcelPackage.MaxRows) //Delete full column
                 {
@@ -211,6 +213,7 @@ namespace OfficeOpenXml.Core.Worksheet
             else
             {
                 ws.Comments.Delete(rowFrom, columnFrom, rows, 0, 0, columnTo);
+                ws.ThreadedComments.Delete(rowFrom, columnFrom, rows, 0, 0, columnTo);
                 ws._names.Delete(rowFrom, columnFrom, rows, 0, columnFrom, columnTo);
                 ws.Workbook.Names.Delete(rowFrom, columnFrom, rows, 0, n => n.Worksheet == ws, columnFrom, columnTo);
             }
@@ -222,10 +225,12 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._formulas.DeleteShiftLeft(fromAddress);
             ws._flags.DeleteShiftLeft(fromAddress);
             ws._commentsStore.DeleteShiftLeft(fromAddress);
+            ws._threadedCommentsStore.DeleteShiftLeft(fromAddress);
             ws._vmlDrawings?._drawings.DeleteShiftLeft(fromAddress);
             ws._hyperLinks.DeleteShiftLeft(fromAddress);
 
-            ws.Comments.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns);
+            ws.Comments.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
+            ws.ThreadedComments.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
             ws._names.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
             ws.Workbook.Names.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, n => n.Worksheet == ws, fromAddress._fromRow, fromAddress._toRow);
         }

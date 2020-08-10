@@ -144,7 +144,7 @@ namespace OfficeOpenXml
         internal int _nextPivotTableID = int.MinValue;
 		internal XmlNamespaceManager _namespaceManager;
         internal FormulaParser _formulaParser = null;
-		internal ThreadedCommentPersonCollection _threadedCommentPersons = null;
+		internal ExcelThreadedCommentPersonCollection _threadedCommentPersons = null;
 	    internal FormulaParserManager _parserManager;
         internal CellStore<List<Token>> _formulaTokens;
 		/// <summary>
@@ -413,15 +413,15 @@ namespace OfficeOpenXml
 	    }
 
 		/// <summary>
-		/// Represents a collection of <see cref="ThreadedCommentPerson"/>s in the workbook.
+		/// Represents a collection of <see cref="ExcelThreadedCommentPerson"/>s in the workbook.
 		/// </summary>
-		public ThreadedCommentPersonCollection ThreadedCommentPersons
+		public ExcelThreadedCommentPersonCollection ThreadedCommentPersons
 		{
 			get
 			{
 				if(_threadedCommentPersons == null)
 				{
-					_threadedCommentPersons = new ThreadedCommentPersonCollection(this);
+					_threadedCommentPersons = new ExcelThreadedCommentPersonCollection(this);
 				}
 				return _threadedCommentPersons;
 			}
@@ -984,23 +984,7 @@ namespace OfficeOpenXml
             _package.SavePart(StylesUri, this.StylesXml);
 
 			// save persons
-			if(_threadedCommentPersons != null)
-			{
-				if(_threadedCommentPersons.Count == 0)
-				{
-					_package.ZipPackage.DeletePart(PersonsUri);
-				}
-				else
-				{
-					if(!_package.ZipPackage.PartExists(PersonsUri))
-					{
-						_package.ZipPackage.CreatePart(PersonsUri, "application/vnd.ms-excel.person+xml");
-						Part.CreateRelationship(PersonsUri, Packaging.TargetMode.Internal, ExcelPackage.schemaPersonsRelationShips);
-					}
-					_package.SavePart(PersonsUri, _threadedCommentPersons.PersonsXml);
-				}
-			}
-
+			_threadedCommentPersons?.Save(_package, Part, PersonsUri);
 			// save threaded comments
 
 			// save all the open worksheets

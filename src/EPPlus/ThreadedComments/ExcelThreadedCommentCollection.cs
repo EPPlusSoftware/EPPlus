@@ -21,11 +21,11 @@ using System.Xml;
 namespace OfficeOpenXml.ThreadedComments
 {
     /// <summary>
-    /// This class represents an enumerable of <see cref="ThreadedComment"/>s.
+    /// This class represents an enumerable of <see cref="ExcelThreadedComment"/>s.
     /// </summary>
-    public class ThreadedCommentCollection : XmlHelper, IEnumerable<ThreadedComment>
+    public class ExcelThreadedCommentCollection : XmlHelper, IEnumerable<ExcelThreadedComment>
     {
-        internal ThreadedCommentCollection(ExcelWorksheet worksheet, XmlNode topNode)
+        internal ExcelThreadedCommentCollection(ExcelWorksheet worksheet, XmlNode topNode)
             : base(worksheet.NameSpaceManager, topNode)
         {
             _package = worksheet._package;
@@ -41,8 +41,8 @@ namespace OfficeOpenXml.ThreadedComments
             set;
         }
 
-        private readonly Dictionary<string, ThreadedComment> _commentsIndex = new Dictionary<string, ThreadedComment>();
-        private readonly List<ThreadedComment> _commentList = new List<ThreadedComment>();
+        private readonly Dictionary<string, ExcelThreadedComment> _commentsIndex = new Dictionary<string, ExcelThreadedComment>();
+        private readonly List<ExcelThreadedComment> _commentList = new List<ExcelThreadedComment>();
 
         /// <summary>
         /// A reference to the worksheet object
@@ -54,12 +54,12 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Returns a <see cref="ThreadedComment"/> by its index
+        /// Returns a <see cref="ExcelThreadedComment"/> by its index
         /// </summary>
         /// <param name="index">Index in this collection</param>
-        /// <returns>The <see cref="ThreadedComment"/> at the requested <paramref name="index"/></returns>
+        /// <returns>The <see cref="ExcelThreadedComment"/> at the requested <paramref name="index"/></returns>
         /// <exception cref="ArgumentOutOfRangeException">If the <paramref name="index"/> falls out of range</exception>
-        public ThreadedComment this[int index]
+        public ExcelThreadedComment this[int index]
         {
             get
             {
@@ -68,12 +68,12 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Returns a <see cref="ThreadedComment"/> by its <paramref name="id"/>
+        /// Returns a <see cref="ExcelThreadedComment"/> by its <paramref name="id"/>
         /// </summary>
-        /// <param name="id">Id of the requested <see cref="ThreadedComment"/></param>
-        /// <returns>The requested <see cref="ThreadedComment"/></returns>
+        /// <param name="id">Id of the requested <see cref="ExcelThreadedComment"/></param>
+        /// <returns>The requested <see cref="ExcelThreadedComment"/></returns>
         /// <exception cref="ArgumentException">If the requested <paramref name="id"/> was not present.</exception>
-        public ThreadedComment this[string id]
+        public ExcelThreadedComment this[string id]
         {
             get
             {
@@ -87,7 +87,7 @@ namespace OfficeOpenXml.ThreadedComments
 
 
 
-        public IEnumerator<ThreadedComment> GetEnumerator()
+        public IEnumerator<ExcelThreadedComment> GetEnumerator()
         {
             return _commentList.GetEnumerator();
         }
@@ -98,7 +98,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Number of <see cref="ThreadedComment"/>s
+        /// Number of <see cref="ExcelThreadedComment"/>s
         /// </summary>
         public int Count
         {
@@ -114,7 +114,7 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
-        internal void Add(ThreadedComment comment)
+        internal void Add(ExcelThreadedComment comment)
         {
             _commentList.Add(comment);
             if(TopNode.SelectSingleNode("tc:threadedComment[@id='" + comment.Id + "']", NameSpaceManager) == null)
@@ -124,7 +124,7 @@ namespace OfficeOpenXml.ThreadedComments
             RebuildIndex();
         }
 
-        internal bool Remove(ThreadedComment comment)
+        internal bool Remove(ExcelThreadedComment comment)
         {
             _commentList.Remove(comment);
             if (TopNode.SelectSingleNode("tc:threadedComment[@id='" + comment.Id + "']", NameSpaceManager) != null)
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Removes all <see cref="ThreadedComment"/>s in the collection
+        /// Removes all <see cref="ExcelThreadedComment"/>s in the collection
         /// </summary>
         internal void Clear()
         {

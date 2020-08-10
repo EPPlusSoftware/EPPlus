@@ -21,14 +21,14 @@ namespace OfficeOpenXml.ThreadedComments
     /// <summary>
     /// Represents a comment in a thread of ThreadedComments
     /// </summary>
-    public class ThreadedComment : XmlHelper
+    public class ExcelThreadedComment : XmlHelper
     {
-        internal ThreadedComment(XmlNode topNode, XmlNamespaceManager namespaceManager, ExcelWorkbook workbook)
+        internal ExcelThreadedComment(XmlNode topNode, XmlNamespaceManager namespaceManager, ExcelWorkbook workbook)
             : this(topNode, namespaceManager, workbook, null)
         {
         }
 
-        internal ThreadedComment(XmlNode topNode, XmlNamespaceManager namespaceManager, ExcelWorkbook workbook, ThreadedCommentThread thread)
+        internal ExcelThreadedComment(XmlNode topNode, XmlNamespaceManager namespaceManager, ExcelWorkbook workbook, ExcelThreadedCommentThread thread)
             : base(namespaceManager, topNode)
         {
             SchemaNodeOrder = new string[] { "text", "mentions" };
@@ -37,8 +37,8 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         private readonly ExcelWorkbook _workbook;
-        private ThreadedCommentThread _thread;
-        internal ThreadedCommentThread Thread
+        private ExcelThreadedCommentThread _thread;
+        internal ExcelThreadedCommentThread Thread
         {
             set
             {
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.ThreadedComments
         /// <summary>
         /// Address of the cell in the A1 format
         /// </summary>
-        public string CellAddress
+        internal string Ref
         {
             get
             {
@@ -79,7 +79,26 @@ namespace OfficeOpenXml.ThreadedComments
                 SetXmlNodeString("@ref", value);
             }
         }
-
+        private ExcelCellAddress _cellAddress=null;
+        /// <summary>
+        /// The location of the threaded comment
+        /// </summary>
+        public ExcelCellAddress CellAddress
+        {
+            get
+            {
+                if(_cellAddress==null)
+                {
+                    _cellAddress = new ExcelCellAddress(Ref);
+                }
+                return _cellAddress;
+            }
+            internal set
+            {
+                _cellAddress = value;
+                Ref = CellAddress.Address;
+            }
+        }
         /// <summary>
         /// Timestamp for when the comment was created
         /// </summary>
@@ -116,7 +135,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Id of the <see cref="ThreadedCommentPerson"/> who wrote the comment
+        /// Id of the <see cref="ExcelThreadedCommentPerson"/> who wrote the comment
         /// </summary>
         public string PersonId
         {
@@ -134,7 +153,7 @@ namespace OfficeOpenXml.ThreadedComments
         /// <summary>
         /// Author of the comment
         /// </summary>
-        public ThreadedCommentPerson Author
+        public ExcelThreadedCommentPerson Author
         {
             get
             {
@@ -218,20 +237,20 @@ namespace OfficeOpenXml.ThreadedComments
         /// Edit the Text of an existing comment with mentions
         /// </summary>
         /// <param name="newTextWithFormats">A string with format placeholders - same as in string.Format. Index in these should correspond to an index in the <paramref name="personsToMention"/> array.</param>
-        /// <param name="personsToMention">A params array of <see cref="ThreadedCommentPerson"/>. Their DisplayName property will be used to replace the format placeholders.</param>
-        public void EditText(string newTextWithFormats, params ThreadedCommentPerson[] personsToMention)
+        /// <param name="personsToMention">A params array of <see cref="ExcelThreadedCommentPerson"/>. Their DisplayName property will be used to replace the format placeholders.</param>
+        public void EditText(string newTextWithFormats, params ExcelThreadedCommentPerson[] personsToMention)
         {
             Mentions.Clear();
             MentionsHelper.InsertMentions(this, newTextWithFormats, personsToMention);
             _thread.OnCommentThreadChanged();
         }
 
-        private ThreadedCommentMentionCollection _mentions;
+        private ExcelThreadedCommentMentionCollection _mentions;
 
         /// <summary>
         /// Mentions in this comment. Will return null if no mentions exists.
         /// </summary>
-        public ThreadedCommentMentionCollection Mentions
+        public ExcelThreadedCommentMentionCollection Mentions
         {
             get
             {
@@ -240,11 +259,11 @@ namespace OfficeOpenXml.ThreadedComments
                     var mentionsNode = TopNode.SelectSingleNode("tc:mentions", NameSpaceManager);
                     if (mentionsNode != null)
                     {
-                        _mentions = new ThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
+                        _mentions = new ExcelThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
                     }
                     mentionsNode = TopNode.OwnerDocument.CreateElement("mentions", ExcelPackage.schemaThreadedComments);
                     TopNode.AppendChild(mentionsNode);
-                    _mentions = new ThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
+                    _mentions = new ExcelThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
                 }
                 
                 return _mentions;

@@ -21,15 +21,15 @@ using System.Xml;
 namespace OfficeOpenXml.ThreadedComments
 {
     /// <summary>
-    /// Represents a collection of <see cref="ThreadedCommentPerson"/>s in a workbook.
+    /// Represents a collection of <see cref="ExcelThreadedCommentPerson"/>s in a workbook.
     /// </summary>
-    public class ThreadedCommentPersonCollection : IEnumerable<ThreadedCommentPerson>
+    public class ExcelThreadedCommentPersonCollection : IEnumerable<ExcelThreadedCommentPerson>
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="workbook">The <paramref name="workbook"/> where the <see cref="ThreadedCommentPerson"/> occurs</param>
-        public ThreadedCommentPersonCollection(ExcelWorkbook workbook)
+        /// <param name="workbook">The <paramref name="workbook"/> where the <see cref="ExcelThreadedCommentPerson"/> occurs</param>
+        public ExcelThreadedCommentPersonCollection(ExcelWorkbook workbook)
         {
             _workbook = workbook;
             if(workbook._package.ZipPackage.PartExists(workbook.PersonsUri))
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.ThreadedComments
                 var listNode = PersonsXml.DocumentElement;
                 foreach(var personNode in listNode.ChildNodes)
                 {
-                    var person = new ThreadedCommentPerson(workbook.NameSpaceManager, (XmlNode)personNode);
+                    var person = new ExcelThreadedCommentPerson(workbook.NameSpaceManager, (XmlNode)personNode);
                     _personList.Add(person);
                 }
             }
@@ -51,12 +51,12 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         private readonly ExcelWorkbook _workbook;
-        private readonly List<ThreadedCommentPerson> _personList = new List<ThreadedCommentPerson>();
+        private readonly List<ExcelThreadedCommentPerson> _personList = new List<ExcelThreadedCommentPerson>();
 
         public XmlDocument PersonsXml { get; private set; }
 
         /// <summary>
-        /// Number of <see cref="ThreadedCommentPerson"/>s in the collection
+        /// Number of <see cref="ExcelThreadedCommentPerson"/>s in the collection
         /// </summary>
         public int Count 
         { 
@@ -67,11 +67,11 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Returns the <see cref="ThreadedCommentPerson"/> by its index
+        /// Returns the <see cref="ExcelThreadedCommentPerson"/> by its index
         /// </summary>
         /// <param name="index">The requested index</param>
-        /// <returns>The <see cref="ThreadedCommentPerson"/> at the requested index</returns>
-        public ThreadedCommentPerson this[int index]
+        /// <returns>The <see cref="ExcelThreadedCommentPerson"/> at the requested index</returns>
+        public ExcelThreadedCommentPerson this[int index]
         {
             get
             {
@@ -80,11 +80,11 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Returns a <see cref="ThreadedCommentPerson"/> by its id
+        /// Returns a <see cref="ExcelThreadedCommentPerson"/> by its id
         /// </summary>
         /// <param name="id">The Id of the Person</param>
-        /// <returns>A <see cref="ThreadedCommentPerson"/> with the requested <paramref name="id"/> or null</returns>
-        public ThreadedCommentPerson this[string id]
+        /// <returns>A <see cref="ExcelThreadedCommentPerson"/> with the requested <paramref name="id"/> or null</returns>
+        public ExcelThreadedCommentPerson this[string id]
         {
             get
             {
@@ -93,60 +93,60 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Finds a <see cref="ThreadedCommentPerson"/> that <paramref name="match"/> a certain criteria
+        /// Finds a <see cref="ExcelThreadedCommentPerson"/> that <paramref name="match"/> a certain criteria
         /// </summary>
         /// <param name="match">The criterias</param>
-        /// <returns>A matching <see cref="ThreadedCommentPerson"/></returns>
-        public ThreadedCommentPerson Find(Predicate<ThreadedCommentPerson> match)
+        /// <returns>A matching <see cref="ExcelThreadedCommentPerson"/></returns>
+        public ExcelThreadedCommentPerson Find(Predicate<ExcelThreadedCommentPerson> match)
         {
             return _personList.Find(match);
         }
 
         /// <summary>
-        /// Finds a number of <see cref="ThreadedCommentPerson"/>'s that matches a certain criteria.
+        /// Finds a number of <see cref="ExcelThreadedCommentPerson"/>'s that matches a certain criteria.
         /// </summary>
         /// <param name="match">The criterias</param>
-        /// <returns>An enumerable of matching <see cref="ThreadedCommentPerson"/>'s</returns>
-        public IEnumerable<ThreadedCommentPerson> FindAll(Predicate<ThreadedCommentPerson> match)
+        /// <returns>An enumerable of matching <see cref="ExcelThreadedCommentPerson"/>'s</returns>
+        public IEnumerable<ExcelThreadedCommentPerson> FindAll(Predicate<ExcelThreadedCommentPerson> match)
         {
             return _personList.FindAll(match);
         }
 
         /// <summary>
-        /// Creates and adds a new <see cref="ThreadedCommentPerson"/> to the workbooks list of persons. A unique Id for the person will be generated and set.
+        /// Creates and adds a new <see cref="ExcelThreadedCommentPerson"/> to the workbooks list of persons. A unique Id for the person will be generated and set.
         /// The userId will be the same as the <paramref name="displayName"/> and identityProvider will be set to <see cref="IdentityProvider.NoProvider"/>
         /// </summary>
-        /// <param name="displayName">The display name of the added <see cref="ThreadedCommentPerson"/></param>
-        public ThreadedCommentPerson Add(string displayName)
+        /// <param name="displayName">The display name of the added <see cref="ExcelThreadedCommentPerson"/></param>
+        public ExcelThreadedCommentPerson Add(string displayName)
         {
             return Add(displayName, displayName, IdentityProvider.NoProvider);
         }
 
         /// <summary>
-        /// Creates and adds a new <see cref="ThreadedCommentPerson"/> to the workbooks list of persons. A unique Id for the person will be generated and set.
+        /// Creates and adds a new <see cref="ExcelThreadedCommentPerson"/> to the workbooks list of persons. A unique Id for the person will be generated and set.
         /// </summary>
-        /// <param name="displayName">The display name of the added <see cref="ThreadedCommentPerson"/></param>
+        /// <param name="displayName">The display name of the added <see cref="ExcelThreadedCommentPerson"/></param>
         /// <param name="userId">A string representing the userId of the <paramref name="identityProvider"/></param>
-        /// <param name="identityProvider">The <see cref="IdentityProvider"/> from which the <see cref="ThreadedCommentPerson"/> originates</param>
-        /// <returns>The added <see cref="ThreadedCommentPerson"/></returns>
-        public ThreadedCommentPerson Add(string displayName, string userId, IdentityProvider identityProvider)
+        /// <param name="identityProvider">The <see cref="IdentityProvider"/> from which the <see cref="ExcelThreadedCommentPerson"/> originates</param>
+        /// <returns>The added <see cref="ExcelThreadedCommentPerson"/></returns>
+        public ExcelThreadedCommentPerson Add(string displayName, string userId, IdentityProvider identityProvider)
         {
-            return Add(displayName, userId, identityProvider, ThreadedCommentPerson.NewId());
+            return Add(displayName, userId, identityProvider, ExcelThreadedCommentPerson.NewId());
         }
 
         /// <summary>
-        /// Creates and adds a new <see cref="ThreadedCommentPerson"/> to the workbooks list of persons
+        /// Creates and adds a new <see cref="ExcelThreadedCommentPerson"/> to the workbooks list of persons
         /// </summary>
-        /// <param name="displayName">The display name of the added <see cref="ThreadedCommentPerson"/></param>
+        /// <param name="displayName">The display name of the added <see cref="ExcelThreadedCommentPerson"/></param>
         /// <param name="userId">A string representing the userId of the <paramref name="identityProvider"/></param>
-        /// <param name="identityProvider">The <see cref="IdentityProvider"/> from which the <see cref="ThreadedCommentPerson"/> originates</param>
-        /// <param name="id">Id of the <see cref="ThreadedCommentPerson"/></param>
-        /// <returns>The added <see cref="ThreadedCommentPerson"/></returns>
-        public ThreadedCommentPerson Add(string displayName, string userId, IdentityProvider identityProvider, string id)
+        /// <param name="identityProvider">The <see cref="IdentityProvider"/> from which the <see cref="ExcelThreadedCommentPerson"/> originates</param>
+        /// <param name="id">Id of the <see cref="ExcelThreadedCommentPerson"/></param>
+        /// <returns>The added <see cref="ExcelThreadedCommentPerson"/></returns>
+        public ExcelThreadedCommentPerson Add(string displayName, string userId, IdentityProvider identityProvider, string id)
         {
             var personsNode = PersonsXml.CreateElement("person", ExcelPackage.schemaThreadedComments);
             PersonsXml.DocumentElement.AppendChild(personsNode);
-            var p = new ThreadedCommentPerson(_workbook.NameSpaceManager, personsNode);
+            var p = new ExcelThreadedCommentPerson(_workbook.NameSpaceManager, personsNode);
             p.DisplayName = displayName;
             p.Id = id;
             p.UserId = userId;
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.ThreadedComments
             return p;
         }
 
-        public IEnumerator<ThreadedCommentPerson> GetEnumerator()
+        public IEnumerator<ExcelThreadedCommentPerson> GetEnumerator()
         {
             return _personList.GetEnumerator();
         }
@@ -165,16 +165,16 @@ namespace OfficeOpenXml.ThreadedComments
             return _personList.GetEnumerator();
         }
 
-        internal void Add(ThreadedCommentPerson person)
+        internal void Add(ExcelThreadedCommentPerson person)
         {
             _personList.Add(person);
         }
 
         /// <summary>
-        /// Removes a <see cref="ThreadedCommentPerson"/> from the collection
+        /// Removes a <see cref="ExcelThreadedCommentPerson"/> from the collection
         /// </summary>
         /// <param name="person"></param>
-        public void Remove(ThreadedCommentPerson person)
+        public void Remove(ExcelThreadedCommentPerson person)
         {
             var node = PersonsXml.DocumentElement.SelectSingleNode("/person[id='" + person.Id + "']");
             if(node != null)
@@ -196,6 +196,23 @@ namespace OfficeOpenXml.ThreadedComments
         public override string ToString()
         {
             return "Count = " + _personList.Count;
+        }
+
+        internal void Save(ExcelPackage package, ZipPackagePart WorkbookPart, Uri personsUri)
+        {
+            if (Count == 0)
+            {
+                if (package.ZipPackage.PartExists(personsUri)) package.ZipPackage.DeletePart(personsUri);
+            }
+            else
+            {
+                if (!package.ZipPackage.PartExists(personsUri))
+                {
+                    var p=package.ZipPackage.CreatePart(personsUri, "application/vnd.ms-excel.person+xml");
+                    WorkbookPart.CreateRelationship(personsUri, Packaging.TargetMode.Internal, ExcelPackage.schemaPersonsRelationShips);
+                }
+                package.SavePart(personsUri, PersonsXml);
+            }
         }
     }
 }

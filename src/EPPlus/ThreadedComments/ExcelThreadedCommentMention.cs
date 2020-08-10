@@ -18,16 +18,16 @@ using System.Xml;
 namespace OfficeOpenXml.ThreadedComments
 {
     /// <summary>
-    /// This class represents a mention of a person in a <see cref="ThreadedComment"/>
+    /// This class represents a mention of a person in a <see cref="ExcelThreadedComment"/>
     /// </summary>
-    public class ThreadedCommentMention : XmlHelper
+    public class ExcelThreadedCommentMention : XmlHelper
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="nameSpaceManager">Namespace manager of the <see cref="ExcelPackage"/></param>
         /// <param name="topNode">An <see cref="XmlNode"/> representing the mention</param>
-        public ThreadedCommentMention(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        public ExcelThreadedCommentMention(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
         }
 
@@ -38,7 +38,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Index in the <see cref="ThreadedComment"/>s text where the mention starts
+        /// Index in the <see cref="ExcelThreadedComment"/>s text where the mention starts
         /// </summary>
         public int StartIndex
         {
@@ -65,7 +65,7 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
-        /// Id of the <see cref="ThreadedCommentPerson"/> mentioned
+        /// Id of the <see cref="ExcelThreadedCommentPerson"/> mentioned
         /// </summary>
         public string MentionPersonId
         {

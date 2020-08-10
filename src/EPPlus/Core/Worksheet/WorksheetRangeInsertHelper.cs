@@ -752,6 +752,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._values.Insert(rowFrom, columnFrom, rows, columns);
             ws._formulas.Insert(rowFrom, columnFrom, rows, columns);
             ws._commentsStore.Insert(rowFrom, columnFrom, rows, columns);
+            ws._threadedCommentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
             ws._flags.Insert(rowFrom, columnFrom, rows, columns);
             ws._vmlDrawings?._drawings.Insert(rowFrom, columnFrom, rows, columns);
@@ -759,12 +760,14 @@ namespace OfficeOpenXml.Core.Worksheet
             if(rows==0||columns==0)
             {
                 ws.Comments.Insert(rowFrom, columnFrom, rows, columns);
+                ws.ThreadedComments.Insert(rowFrom, columnFrom, rows, columns);
                 ws._names.Insert(rowFrom, columnFrom, rows, columns, 0, columnTo);
                 ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, columns, n => n.Worksheet == ws, 0, columnTo);
             }
             else
             {
                 ws.Comments.Insert(rowFrom, columnFrom, rows, 0, 0, columnTo);
+                ws.ThreadedComments.Insert(rowFrom, columnFrom, rows, 0, 0, columnTo);
                 ws._names.Insert(rowFrom, columnFrom, rows, 0, columnFrom, columnTo);
                 ws.Workbook.Names.Insert(rowFrom, columnFrom, rows, 0, n => n.Worksheet == ws, columnFrom, columnTo);
             }
@@ -774,11 +777,13 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._values.InsertShiftRight(fromAddress);
             ws._formulas.InsertShiftRight(fromAddress);
             ws._commentsStore.InsertShiftRight(fromAddress);
+            ws._threadedCommentsStore.InsertShiftRight(fromAddress);
             ws._hyperLinks.InsertShiftRight(fromAddress);
             ws._flags.InsertShiftRight(fromAddress);
             ws._vmlDrawings?._drawings.InsertShiftRight(fromAddress);
 
-            ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns);
+            ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
+            ws.ThreadedComments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
             ws._names.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
             ws.Workbook.Names.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, n => n.Worksheet == ws, fromAddress._fromRow, fromAddress._toRow);
         }

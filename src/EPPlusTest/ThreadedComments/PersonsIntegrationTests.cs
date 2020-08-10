@@ -26,7 +26,7 @@ namespace EPPlusTest.ThreadedComments
         [TestMethod]
         public void AddPersonToWorkbook()
         {
-            using (var package = OpenPackage("commentsWithNewPerson.xlsx"))
+            using (var package = OpenPackage("commentsWithNewPerson.xlsx", true))
             {
                 package.Workbook.Worksheets.Add("test");
                 var persons = package.Workbook.ThreadedCommentPersons;
