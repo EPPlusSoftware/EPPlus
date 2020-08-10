@@ -101,6 +101,38 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldIncludeHeaders()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3},
+                new Aclass(){ Id = "456", Name = "Item 2", Number = 6}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, true);
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldIncludeHeadersAndTableStyle()
+        {
+            var items = new List<Aclass>()
+            {
+                new Aclass(){ Id = "123", Name = "Item 1", Number = 3},
+                new Aclass(){ Id = "456", Name = "Item 2", Number = 6}
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1);
+                Assert.AreEqual("Id", sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void ShouldUseAclassProperties()
         {
             var items = new List<Aclass>()

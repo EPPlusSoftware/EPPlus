@@ -88,11 +88,11 @@ namespace EPPlusTest.LoadFunctions
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
-var r = sheet.Cells["A1"].LoadFromDictionaries(_items, c =>
-    {
-        c.PrintHeaders = true;
-        c.HeaderParsingType = HeaderParsingTypes.CamelCaseToSpace;
-    });
+                var r = sheet.Cells["A1"].LoadFromDictionaries(_items, c =>
+                    {
+                        c.PrintHeaders = true;
+                        c.HeaderParsingType = HeaderParsingTypes.CamelCaseToSpace;
+                    });
 
                 Assert.AreEqual("First Name", sheet.Cells["C1"].Value);
             }

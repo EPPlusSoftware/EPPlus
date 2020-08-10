@@ -75,11 +75,11 @@ namespace OfficeOpenXml
         /// </summary>
         public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         /// <summary>
-        /// Number of lines skiped in the begining of the file. Default 0.
+        /// Number of lines skipped in the begining of the file. Default 0.
         /// </summary>
         public int SkipLinesBeginning { get; set; } = 0;
         /// <summary>
-        /// Number of lines skiped at the end of the file. Default 0.
+        /// Number of lines skipped at the end of the file. Default 0.
         /// </summary>
         public int SkipLinesEnd { get; set; } = 0;
         /// <summary>
@@ -166,7 +166,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Use the cells Text property with the applied culture.
         /// This only applies to columns with no format set in the Formats collection.
-        /// If SkipLinesBeginning is larger than zero, headers will still be reed from the first row in the range.
+        /// If SkipLinesBeginning is larger than zero, headers will still be read from the first row in the range.
         /// If a TextQualifier is set, non numeric and date columns will be wrapped with the TextQualifier
         /// </summary>
         public bool UseCellFormat { get; set; } = true;
