@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/08/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -21,21 +21,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
-        EPPlusVersion = "5.0",
-        Description = "Returns the largest numeric value that meets one or more criteria in a range of values",
+        EPPlusVersion = "5.2",
+        Description = "Returns the smallest numeric value that meets one or more criteria in a range of values.",
         IntroducedInExcelVersion = "2019")]
-    internal class Ifs : ExcelFunction
+    internal class MinIfs : IfsWithMultipleMatchesBase
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var crf = new CompileResultFactory();
-            var maxArgs = arguments.Count() < (127 * 2) ? arguments.Count() : 127 * 2; 
-            for(var x = 0; x < maxArgs; x += 2)
-            {
-                if (System.Math.Round(ArgToDecimal(arguments, x), 15) != 0d) return crf.Create(arguments.ElementAt(x + 1).Value);
-            }
-            return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+            var matches = GetMatches("MINIFS", arguments, out CompileResult errorResult);
+            if (errorResult != null)
+                return errorResult;
+            if (matches.Count() == 0) return CreateResult(eErrorType.NA);
+            return CreateResult(matches.Min(), DataType.Decimal);
         }
     }
 }
