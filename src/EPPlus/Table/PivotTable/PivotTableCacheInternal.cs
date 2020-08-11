@@ -10,11 +10,86 @@ namespace OfficeOpenXml.Table.PivotTable
     internal class PivotTableCacheInternal : XmlHelper
     {
         internal List<ExcelPivotTable> _pivotTables=new List<ExcelPivotTable>();
-
-        public PivotTableCacheInternal(XmlNamespaceManager nsm) : base(nsm)
+        private readonly ExcelWorkbook _wb;
+        public PivotTableCacheInternal(XmlNamespaceManager nsm, ExcelWorkbook wb) : base(nsm)
         {
-
+            _wb = wb;
         }
+        const string _sourceWorksheetPath = "d:cacheSource/d:worksheetSource/@sheet";
+        internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
+        internal const string _sourceAddressPath = "d:cacheSource/d:worksheetSource/@ref";
+
+        internal ExcelRangeBase _sourceRange = null;
+        internal ExcelRangeBase SourceRange 
+        { 
+            get
+            {
+                if (_sourceRange == null)
+                {
+                    if (CacheSource == eSourceType.Worksheet)
+                    {
+                        var ws = _wb.Worksheets[GetXmlNodeString(_sourceWorksheetPath)];
+                        if (ws == null) //Not worksheet, check name or table name
+                        {
+                            var name = GetXmlNodeString(_sourceNamePath);
+                            foreach (var n in _wb.Names)
+                            {
+                                if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    _sourceRange = n;
+                                    return _sourceRange;
+                                }
+                            }
+                            foreach (var w in _wb.Worksheets)
+                            {
+                                _sourceRange = GetRangeByName(w, name);
+                                if (_sourceRange != null) break;
+                            }
+                        }
+                        else
+                        {
+                            var address = GetXmlNodeString(_sourceAddressPath);
+                            if (string.IsNullOrEmpty(address))
+                            {
+                                var name = GetXmlNodeString(_sourceNamePath);
+                                _sourceRange = GetRangeByName(ws, name);
+                            }
+                            else
+                            {
+                                _sourceRange = ws.Cells[address];
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw (new ArgumentException("The cache source is not a worksheet"));
+                    }
+                }
+                return _sourceRange;
+            }
+            set
+            {
+                _sourceRange = value;
+            }
+        }
+        private ExcelRangeBase GetRangeByName(ExcelWorksheet w, string name)
+        {
+            if (w is ExcelChartsheet) return null;
+            if (w.Tables._tableNames.ContainsKey(name))
+            {
+                return w.Cells[w.Tables[name].Address.Address];
+            }
+            foreach (var n in w.Names)
+            {
+                if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return n;
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Reference to the internal package part
         /// </summary>
@@ -140,5 +215,16 @@ namespace OfficeOpenXml.Table.PivotTable
 
             return xml;
         }
+        internal void SetSourceName(string name)
+        {
+            DeleteNode(_sourceAddressPath); //Remove any address if previously set.
+            SetXmlNodeString(_sourceNamePath, name);
+        }
+        internal void SetSourceAddress(string address)
+        {
+            DeleteNode(_sourceNamePath); //Remove any name or table if previously set.
+            SetXmlNodeString(_sourceAddressPath, address);
+        }
+
     }
 }

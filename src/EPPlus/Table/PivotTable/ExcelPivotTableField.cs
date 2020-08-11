@@ -1061,8 +1061,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 if(hs.Contains(i.Value))
                 {
                     hs.Remove(i.Value);
-                }
-                
+                }                
             }
             Items.Clear();
             foreach(var c in hs)

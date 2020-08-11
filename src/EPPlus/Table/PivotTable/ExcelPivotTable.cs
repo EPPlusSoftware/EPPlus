@@ -156,13 +156,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 Fields.AddInternal(fld);
             }
 
-            ////Add fields.
-            //index = 0;
-            //foreach (XmlElement fieldElem in _cacheDefinition.TopNode.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
-            //{
-            //    var fld = Fields[index++];
-            //    fld.SetCacheFieldNode(fieldElem);
-            //}
+            //Add fields.
+            index = 0;
+            foreach (XmlElement fieldElem in _cacheDefinition.CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
+            {
+                var fld = Fields[index++];
+                fld.SetCacheFieldNode(fieldElem);
+            }
         }
         private string GetStartXml(string name, int id, ExcelAddressBase address, ExcelAddressBase sourceAddress)
         {

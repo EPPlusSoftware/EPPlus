@@ -12,8 +12,10 @@
  *************************************************************************************************/
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table.PivotTable;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
@@ -49,16 +51,20 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         }
 
-        internal void Init(ExcelWorkbook wb, ExcelPivotTableField field)
+        internal void Init(ExcelWorkbook wb, string name)
         {
             CreatePart(wb);
-            SlicerCacheXml.DocumentElement.InnerXml = $"";
+            SlicerCacheXml.DocumentElement.InnerXml = GetStartXml(name);
             TopNode = SlicerCacheXml.DocumentElement;
-            Name = "Slicer_" + field.Name;
-            SourceName = field.Name;
+            Name = "Slicer_" + name;
+            SourceName = name;
             wb.Names.AddFormula(Name, "#N/A");
 
             CreateWorkbookReference(wb, "{BBE1A952-AA13-448e-AADC-164F8A28A991}");
+        }
+        private string GetStartXml(string name)
+        {
+            return $"<slicerCacheDefinition sourceName=\"{name}\" xr10:uid=\"{{{(Guid.NewGuid())}}}\" name=\"Slicer_{name}\" xmlns:xr10=\"http://schemas.microsoft.com/office/spreadsheetml/2016/revision10\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" mc:Ignorable=\"x xr10\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"><pivotTables/><data/></slicerCacheDefinition>";
         }
 
         /// <summary>

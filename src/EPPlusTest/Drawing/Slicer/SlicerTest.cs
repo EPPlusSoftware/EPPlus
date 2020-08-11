@@ -160,7 +160,6 @@ namespace EPPlusTest.Drawing.Slicer
             slicer.Style = eSlicerStyle.Dark1;
             slicer.SetPosition(1, 0, 5, 0);
             slicer.SetSize(200, 600);
-
         }
 
     }
