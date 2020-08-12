@@ -31,7 +31,13 @@ namespace EPPlusTest.Table.PivotTable
         {
             var ws = _pck.Workbook.Worksheets.Add("PivotSameCache");
             var p1 = ws.PivotTables.Add(ws.Cells["A1"], _pck.Workbook.Worksheets[0].Tables[0].Range, "Pivot1");
+            p1.RowFields.Add(p1.Fields[0]);
+            p1.DataFields.Add(p1.Fields[3]);
             var p2 = ws.PivotTables.Add(ws.Cells["K1"], _pck.Workbook.Worksheets[0].Tables[0].Range, "Pivot2");
+            p2.ColumnFields.Add(p2.Fields[1]);
+            p2.DataFields.Add(p2.Fields[4]);
+
+            Assert.AreEqual(5, p1.CacheDefinition._cacheReference.Fields.Count);
 
             Assert.AreEqual(1, _pck.Workbook._pivotTableCaches.Count);
         }

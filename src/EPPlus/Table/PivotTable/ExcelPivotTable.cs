@@ -19,6 +19,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging;
 using System.Linq;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -177,6 +178,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             xml += "</pivotFields>";
             xml += "<pivotTableStyleInfo name=\"PivotStyleMedium9\" showRowHeaders=\"1\" showColHeaders=\"1\" showRowStripes=\"0\" showColStripes=\"0\" showLastColumn=\"1\" />";
+            xml += $"<extLst><ext xmlns:xpdl=\"http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout\" uri=\"{ExtLstUris.PivotTableDefinition16Uri }\"><xpdl:pivotTableDefinition16/></ext></extLst>";
             xml += "</pivotTableDefinition>";
             return xml;
         }

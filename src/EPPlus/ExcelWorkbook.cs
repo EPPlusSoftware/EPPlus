@@ -160,7 +160,16 @@ namespace OfficeOpenXml
 		internal ExcelNamedRangeCollection _names;
 		internal int _nextDrawingID = 2;
 		internal int _nextTableID = int.MinValue;
-        internal int _nextPivotTableID = int.MinValue;
+		internal int _nextPivotCacheId=1;
+        internal int GetNewPivotCacheId()
+        {
+			return _nextPivotCacheId++;
+		}
+		internal void SetNewPivotCacheId(int value)
+        {
+			if(value >= _nextPivotCacheId) _nextPivotCacheId = value+1;
+        }
+		internal int _nextPivotTableID = int.MinValue;
 		internal XmlNamespaceManager _namespaceManager;
         internal FormulaParser _formulaParser = null;
 	    internal FormulaParserManager _parserManager;

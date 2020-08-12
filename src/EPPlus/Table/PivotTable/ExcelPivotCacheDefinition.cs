@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotCacheDefinition
     {
         ExcelWorkbook _wb;
-        private PivotTableCacheInternal _cacheReference;
+        internal PivotTableCacheInternal _cacheReference;
         XmlNamespaceManager _nsm;
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable)
         {

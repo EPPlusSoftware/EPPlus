@@ -2660,30 +2660,41 @@ namespace OfficeOpenXml
                     var fields =
                         cache.CacheDefinitionXml.SelectNodes(
                             "d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
-                    int ix = 0;
                     if (fields != null)
                     {
-                        var flds = new HashSet<string>();
-                        foreach (XmlElement node in fields)
-                        {
-                            if (ix >= cache.SourceRange.Columns) break;
-                            var fldName = node.GetAttribute("name");                        //Fixes issue 15295 dup name error
-                            if (string.IsNullOrEmpty(fldName))
-                            {
-                                fldName = (t == null
-                                    ? cache.SourceRange.Offset(0, ix++, 1, 1).Value.ToString()
-                                    : t.Columns[ix++].Name);
-                            }
-                            if (flds.Contains(fldName))
-                            {
-                                fldName = GetNewName(flds, fldName);
-                            }
-                            flds.Add(fldName);
-                            node.SetAttribute("name", fldName);
-                        }
+                        FixFieldNames(cache, t, fields);
+                        //cache.GenerateFieldSharedItems();
                     }
+                    cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
                 }
             }
+        }
+
+        private void FixFieldNames(PivotTableCacheInternal cache, ExcelTable t, XmlNodeList fields)
+        {
+            int ix = 0;
+            var flds = new HashSet<string>();
+            cache.RefreshFields();
+            foreach (XmlElement node in fields)
+            {
+                if (ix >= cache.SourceRange.Columns) break;
+                var fldName = node.GetAttribute("name");                        //Fixes issue 15295 dup name error
+                if (string.IsNullOrEmpty(fldName))
+                {
+                    fldName = (t == null
+                        ? cache.SourceRange.Offset(0, ix, 1, 1).Value.ToString()
+                        : t.Columns[ix].Name);
+                }
+                if (flds.Contains(fldName))
+                {
+                    fldName = GetNewName(flds, fldName);
+                }
+                flds.Add(fldName);
+                node.SetAttribute("name", fldName);
+                cache.Fields[ix].WriteSharedItems(node, NameSpaceManager);
+                ix++;
+            }
+
         }
 
         private string GetNewName(HashSet<string> flds, string fldName)

@@ -853,7 +853,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _items;
             }
         }
-
+        public ExcelPivotTableCacheField Cache
+        {
+            get
+            {
+                return _table.CacheDefinition._cacheReference.Fields[Index];
+            }
+        }
         public ExcelPivotTableSlicer Slicer { get; internal set; }
 
         /// <summary>

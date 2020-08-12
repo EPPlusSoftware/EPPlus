@@ -33,13 +33,16 @@ namespace OfficeOpenXml.Utils
         }
         internal static bool IsNumericOrDate(object candidate)
         {
-            if (candidate == null) return false;
-            return (TypeCompat.IsPrimitive(candidate) || candidate is double || candidate is decimal || candidate is DateTime || candidate is TimeSpan || candidate is long);
+            if (IsNumeric(candidate)) return true;
+            var t = candidate.GetType();
+            return t == typeof(DateTime) || t == typeof(TimeSpan);
         }
         internal static bool IsNumeric(object candidate)
         {
             if (candidate == null) return false;
-            return (TypeCompat.IsPrimitive(candidate) || candidate is double || candidate is decimal || candidate is long);
+            if (TypeCompat.IsPrimitive(candidate)) return true;
+            var t = candidate.GetType();
+            return (t == typeof(double) || t == typeof(decimal) || t == typeof(DateTime) || t == typeof(TimeSpan) || t == typeof(long));
         }
         /// <summary>
         /// Tries to parse a double from the specified <paramref name="candidateString"/> which is expected to be a string value.

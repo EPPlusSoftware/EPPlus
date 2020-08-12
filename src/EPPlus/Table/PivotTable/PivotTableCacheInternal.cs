@@ -1,6 +1,8 @@
-﻿using OfficeOpenXml.Utils;
+﻿using OfficeOpenXml.Constants;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security;
 using System.Text;
 using System.Xml;
@@ -136,6 +138,42 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("@r:id", value);
             }
         }
+        List<ExcelPivotTableCacheField> _fields=null;
+        internal List<ExcelPivotTableCacheField> Fields
+        {
+            get
+            {
+                if(_fields == null)
+                {
+                    RefreshFields();
+                }
+                return _fields;
+            }
+        }
+
+        internal void RefreshFields()
+        {
+            _fields = new List<ExcelPivotTableCacheField>();
+            var r = SourceRange;
+            for (int col = r._fromCol; col <= r._toCol; col++)
+            {
+                var field = new ExcelPivotTableCacheField();
+                var ws = r.Worksheet;
+                field.Name= ws.GetValue(r._fromRow, col).ToString();
+                var hs = new HashSet<object>();
+                for (int row = r._fromRow + 1; row <= r._toRow; row++)
+                {
+                    var o = ws.GetValue(row, col);
+                    if (!hs.Contains(o))
+                    {
+                        hs.Add(o);
+                    }
+                    field.SharedItems = hs.ToList();
+                }
+                _fields.Add(field);
+            }
+        }
+
         internal eSourceType CacheSource
         {
             get
@@ -169,12 +207,20 @@ namespace OfficeOpenXml.Table.PivotTable
             else
             {
                 CacheDefinitionXml = xml;
-
             }
+
             CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref tblId);
             Part = pck.CreatePart(CacheDefinitionUri, ExcelPackage.schemaPivotCacheDefinition);
             TopNode = CacheDefinitionXml.DocumentElement;
 
+            if(xml == null)
+            {
+                CacheId = _wb.GetNewPivotCacheId();
+            }
+            else
+            {
+                _wb.SetNewPivotCacheId(CacheId);
+            }
             //CacheRecord. Create an empty one.
             CacheRecordUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref tblId);
             var cacheRecord = new XmlDocument();
@@ -211,6 +257,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 xml += "</cacheField>";
             }
             xml += "</cacheFields>";
+            xml += $"<extLst><ext xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" uri=\"{ExtLstUris.PivotCacheDefinitionUri}\"><x14:pivotCacheDefinition pivotCacheId=\"0\"/></ext></extLst>";
             xml += "</pivotCacheDefinition>";
 
             return xml;
@@ -225,6 +272,16 @@ namespace OfficeOpenXml.Table.PivotTable
             DeleteNode(_sourceNamePath); //Remove any name or table if previously set.
             SetXmlNodeString(_sourceAddressPath, address);
         }
-
+        internal int CacheId
+        {
+            get
+            {
+                return GetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId");
+            }
+            set
+            {
+                SetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId", value);
+            }
+        }
     }
 }
