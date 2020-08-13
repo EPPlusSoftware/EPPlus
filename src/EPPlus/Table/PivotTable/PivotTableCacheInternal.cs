@@ -193,8 +193,9 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             LoadXmlSafe(CacheDefinitionXml, Part.GetStream());
             TopNode = CacheDefinitionXml.DocumentElement;
+            _wb.SetNewPivotCacheId(CacheId);
         }
-        internal void InitNew(ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, int tblId, XmlDocument xml)
+        internal void InitNew(ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, string xml)
         {
             var pck = pivotTable.WorkSheet._package.Package;
 
@@ -203,26 +204,26 @@ namespace OfficeOpenXml.Table.PivotTable
             if(xml==null)
             {
                 LoadXmlSafe(CacheDefinitionXml, GetStartXml(sourceWorksheet, sourceAddress), Encoding.UTF8);
+                TopNode = CacheDefinitionXml.DocumentElement;
             }
             else
             {
-                CacheDefinitionXml = xml;
+                CacheDefinitionXml = new XmlDocument();
+                CacheDefinitionXml.LoadXml(xml);
+                TopNode = CacheDefinitionXml.DocumentElement;
+                SetXmlNodeString(_sourceWorksheetPath, sourceAddress.WorkSheetName);
+                SetXmlNodeString(_sourceAddressPath, sourceAddress.Address);
             }
 
-            CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref tblId);
+            CacheId = _wb.GetNewPivotCacheId();
+
+            var c = CacheId;
+            CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref c);
             Part = pck.CreatePart(CacheDefinitionUri, ExcelPackage.schemaPivotCacheDefinition);
-            TopNode = CacheDefinitionXml.DocumentElement;
 
-            if(xml == null)
-            {
-                CacheId = _wb.GetNewPivotCacheId();
-            }
-            else
-            {
-                _wb.SetNewPivotCacheId(CacheId);
-            }
+
             //CacheRecord. Create an empty one.
-            CacheRecordUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref tblId);
+            CacheRecordUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref c);
             var cacheRecord = new XmlDocument();
             cacheRecord.LoadXml("<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />");
             var recPart = pck.CreatePart(CacheRecordUri, ExcelPackage.schemaPivotCacheRecords);
@@ -282,6 +283,13 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 SetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId", value);
             }
+        }
+
+        internal void Delete()
+        {
+            _wb.RemovePivotTableCache(CacheId);
+            Part.Package.DeletePart(CacheDefinitionUri);
+            Part.Package.DeletePart(CacheRecordUri);
         }
     }
 }

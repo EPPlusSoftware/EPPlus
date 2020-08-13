@@ -51,11 +51,11 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             PivotTable = pivotTable;
         }
-        internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, int tblId)             
+        internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress)
         {
             PivotTable = pivotTable;
             _wb = PivotTable.WorkSheet.Workbook;
-            _nsm=nsm;
+            _nsm = nsm;
             if (_wb._pivotTableCaches.TryGetValue(sourceAddress.FullAddress, out _cacheReference))
             {
                 _cacheReference._pivotTables.Add(pivotTable);
@@ -63,9 +63,11 @@ namespace OfficeOpenXml.Table.PivotTable
             else
             {
                 _cacheReference = new PivotTableCacheInternal(nsm, _wb);
-                _cacheReference.InitNew(pivotTable, sourceAddress, tblId, null);
+                _cacheReference.InitNew(pivotTable, sourceAddress, null);
                 _wb._pivotTableCaches.Add(sourceAddress.FullAddress, _cacheReference);
+                _wb.AddPivotTableCache(_cacheReference.CacheId.ToString(), _cacheReference.CacheDefinitionUri);
             }
+            var rel = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
         }
         internal Packaging.ZipPackagePart Part
         {
@@ -141,6 +143,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     _cacheReference._pivotTables.Remove(PivotTable);
                     cache._pivotTables.Add(PivotTable);
                     _cacheReference = cache;
+                    PivotTable.CacheId = _cacheReference.CacheId;
                 }
                 else if (_cacheReference._pivotTables.Count == 1)
                 {
@@ -153,7 +156,10 @@ namespace OfficeOpenXml.Table.PivotTable
                     _cacheReference._pivotTables.Remove(PivotTable);
                     var xml = _cacheReference.CacheDefinitionXml;
                     _cacheReference = new PivotTableCacheInternal(_nsm, _wb);
-                    _cacheReference.InitNew(PivotTable, value, _wb._nextPivotTableID++, xml);
+                    _cacheReference.InitNew(PivotTable, value, xml.InnerXml);
+                    PivotTable.CacheId = _cacheReference.CacheId;
+                    _wb.AddPivotTableCache(_cacheReference.CacheId.ToString(), _cacheReference.CacheDefinitionUri);
+                    _wb._pivotTableCaches.Add(value.FullAddress, _cacheReference);
                 }
             }
         }

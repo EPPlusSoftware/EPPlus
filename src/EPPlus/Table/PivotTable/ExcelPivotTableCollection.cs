@@ -47,9 +47,9 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _pivotTables.Add(tbl);
             _pivotTableNames.Add(tbl.Name, _pivotTables.Count - 1);
-            if (tbl.CacheID >= _ws.Workbook._nextPivotTableID)
+            if (tbl.CacheId >= _ws.Workbook._nextPivotTableID)
             {
-                _ws.Workbook._nextPivotTableID = tbl.CacheID + 1;
+                _ws.Workbook._nextPivotTableID = tbl.CacheId + 1;
             }
             return tbl;
         }

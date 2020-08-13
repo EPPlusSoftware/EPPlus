@@ -438,8 +438,8 @@ namespace OfficeOpenXml
                 //TODO: Fix save pivottable here
                 xmlDoc.LoadXml(xml);
                 xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@name", tbl.NameSpaceManager).Value = name;
-                var cacheId = tbl.CacheID;
-                if (!added.Workbook.ExistsPivotCache(tbl.CacheID, ref cacheId))
+                var cacheId = tbl.CacheId;
+                if (!added.Workbook.ExistsPivotCache(tbl.CacheId, ref cacheId))
                 {
                     xmlDoc.SelectSingleNode("//d:pivotTableDefinition/@cacheId", tbl.NameSpaceManager).Value = cacheId.ToString();
 
@@ -454,30 +454,30 @@ namespace OfficeOpenXml
                 streamTbl.Write(xml);
                 streamTbl.Flush();
 
-                xml = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
-                var uriCd = GetNewUri(_pck.Package, "/xl/pivotCache/pivotcachedefinition{0}.xml", ref Id);
-                var partCd = _pck.Package.CreatePart(uriCd, ExcelPackage.schemaPivotCacheDefinition, _pck.Compression);
-                StreamWriter streamCd = new StreamWriter(partCd.GetStream(FileMode.Create, FileAccess.Write));
-                streamCd.Write(xml);
-                streamCd.Flush();
+                //xml = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
+                //var uriCd = GetNewUri(_pck.Package, "/xl/pivotCache/pivotcachedefinition{0}.xml", ref Id);
+                //var partCd = _pck.Package.CreatePart(uriCd, ExcelPackage.schemaPivotCacheDefinition, _pck.Compression);
+                //StreamWriter streamCd = new StreamWriter(partCd.GetStream(FileMode.Create, FileAccess.Write));
+                //streamCd.Write(xml);
+                //streamCd.Flush();
 
-                added.Workbook.AddPivotTable(cacheId.ToString(), uriCd); 
+                //added.Workbook.AddPivotTable(cacheId.ToString(), uriCd); 
 
-                xml = "<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />";
-                var uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", Id), UriKind.Relative);
-                while (_pck.Package.PartExists(uriRec))
-                {
-                    uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", ++Id), UriKind.Relative);
-                }
-                var partRec = _pck.Package.CreatePart(uriRec, ExcelPackage.schemaPivotCacheRecords, _pck.Compression);
-                StreamWriter streamRec = new StreamWriter(partRec.GetStream(FileMode.Create, FileAccess.Write));
-                streamRec.Write(xml);
-                streamRec.Flush();
+                //xml = "<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />";
+                //var uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", Id), UriKind.Relative);
+                //while (_pck.Package.PartExists(uriRec))
+                //{
+                //    uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", ++Id), UriKind.Relative);
+                //}
+                //var partRec = _pck.Package.CreatePart(uriRec, ExcelPackage.schemaPivotCacheRecords, _pck.Compression);
+                //StreamWriter streamRec = new StreamWriter(partRec.GetStream(FileMode.Create, FileAccess.Write));
+                //streamRec.Write(xml);
+                //streamRec.Flush();
 
                 //create the relationship and add the ID to the worksheet xml.
                 added.Part.CreateRelationship(UriHelper.ResolvePartUri(added.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotTable");
-                partTbl.CreateRelationship(UriHelper.ResolvePartUri(tbl.Relationship.SourceUri, uriCd), tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
-                partCd.CreateRelationship(UriHelper.ResolvePartUri(uriCd, uriRec), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
+                partTbl.CreateRelationship(tbl._cacheDefinition.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
+                //partCd.CreateRelationship(tbl._cacheDefinition._cacheReference.CacheRecordUri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
 
             }
             added._pivotTables = null;   //Reset collection so it's reloaded when accessing the collection next time.

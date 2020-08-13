@@ -675,13 +675,13 @@ namespace OfficeOpenXml
                 if (ws is ExcelChartsheet) continue;
                 foreach (var pt in ws.PivotTables)
                 {
-                    if(pt.CacheID==cacheID)
+                    if(pt.CacheId==cacheID)
                     {
                         ret=false;
                     }
-                    if(pt.CacheID>=newID)
+                    if(pt.CacheId>=newID)
                     {
-                        newID = pt.CacheID+1;
+                        newID = pt.CacheId+1;
                     }
                 }
             }
@@ -990,6 +990,8 @@ namespace OfficeOpenXml
             // save the style sheet
             Styles.UpdateXml();
             _package.SavePart(StylesUri, this.StylesXml);
+			
+			SavePivotTableCaches();
 
 			// save all the open worksheets
 			var isProtected = Protection.LockWindows || Protection.LockStructure;
@@ -1028,6 +1030,89 @@ namespace OfficeOpenXml
             }
 
 		}
+
+        private void SavePivotTableCaches()
+        {
+			foreach (var cache in _pivotTableCaches.Values)
+			{
+				if (cache._pivotTables.Count == 0)
+				{
+					cache.Delete();
+				}
+				//Rewrite the pivottable address again if any rows or columns have been inserted or deleted
+				var r = cache.SourceRange;
+				if (r != null)  //Source does not exist
+				{
+					ExcelTable t = null;
+					if (r.IsName)
+					{
+						//Named range, set name
+						cache.SetSourceName(((ExcelNamedRange)cache.SourceRange).Name);
+					}
+					else
+					{
+						var ws = Worksheets[cache.SourceRange.WorkSheetName];
+						t = ws.Tables.GetFromRange(cache.SourceRange);
+						if (t == null)
+						{
+							//Address
+							cache.SetSourceAddress(cache.SourceRange.Address);
+						}
+						else
+						{
+							//Table, set name
+							cache.SetSourceName(t.Name);
+						}
+					}
+
+					var fields =
+						cache.CacheDefinitionXml.SelectNodes(
+							"d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
+					if (fields != null)
+					{
+						FixFieldNames(cache, t, fields);
+						//cache.GenerateFieldSharedItems();
+					}
+					cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
+				}
+			}
+		}
+		private void FixFieldNames(PivotTableCacheInternal cache, ExcelTable t, XmlNodeList fields)
+		{
+			int ix = 0;
+			var flds = new HashSet<string>();
+			cache.RefreshFields();
+			foreach (XmlElement node in fields)
+			{
+				if (ix >= cache.SourceRange.Columns) break;
+				var fldName = node.GetAttribute("name");                        //Fixes issue 15295 dup name error
+				if (string.IsNullOrEmpty(fldName))
+				{
+					fldName = (t == null
+						? cache.SourceRange.Offset(0, ix, 1, 1).Value.ToString()
+						: t.Columns[ix].Name);
+				}
+				if (flds.Contains(fldName))
+				{
+					fldName = GetNewName(flds, fldName);
+				}
+				flds.Add(fldName);
+				node.SetAttribute("name", fldName);
+				cache.Fields[ix].WriteSharedItems(node, NameSpaceManager);
+				ix++;
+			}
+
+		}
+		private string GetNewName(HashSet<string> flds, string fldName)
+		{
+			int ix = 2;
+			while (flds.Contains(fldName + ix.ToString(CultureInfo.InvariantCulture)))
+			{
+				ix++;
+			}
+			return fldName + ix.ToString(CultureInfo.InvariantCulture);
+		}
+
 		private void DeleteCalcChain()
 		{
 			//Remove the calc chain if it exists.
@@ -1261,7 +1346,7 @@ namespace OfficeOpenXml
 			}
 			return false;
 		}
-		internal void AddPivotTable(string cacheID, Uri defUri)
+		internal void AddPivotTableCache(string cacheID, Uri defUri)
 		{
 			CreateNode("d:pivotCaches");
 
@@ -1272,6 +1357,13 @@ namespace OfficeOpenXml
 
 			var pivotCaches = WorkbookXml.SelectSingleNode("//d:pivotCaches", NameSpaceManager);
 			pivotCaches.AppendChild(item);
+		}
+		internal void RemovePivotTableCache(int cacheId)
+		{
+			string path = $"d:pivotCaches/d:pivotCache[@cacheId={cacheId}]";
+			var relId = GetXmlNodeString(path + "/@r:id");
+			DeleteNode(path,true);
+			Part.DeleteRelationship(relId);
 		}
 		internal List<string> _externalReferences = new List<string>();
         //internal bool _isCalculated=false;
@@ -1350,9 +1442,9 @@ namespace OfficeOpenXml
                     }
                     foreach (var pt in ws.PivotTables)
                     {
-                        if (pt.CacheID >= _nextPivotTableID)
+                        if (pt.CacheId >= _nextPivotTableID)
                         {
-                            _nextPivotTableID = pt.CacheID + 1;
+                            _nextPivotTableID = pt.CacheId + 1;
                         }
                     }
                 }
