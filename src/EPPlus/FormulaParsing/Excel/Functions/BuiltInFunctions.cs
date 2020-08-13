@@ -183,6 +183,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             // Logical
             Functions["if"] = new If();
             Functions["ifs"] = new Ifs();
+            Functions["maxifs"] = new MaxIfs();
+            Functions["minifs"] = new MinIfs();
             Functions["iferror"] = new IfError();
             Functions["ifna"] = new IfNa();
             Functions["not"] = new Not();
