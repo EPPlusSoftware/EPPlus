@@ -389,13 +389,16 @@ namespace OfficeOpenXml.Table.PivotTable
                     rowsNode = TopNode.SelectSingleNode("../../d:rowFields", NameSpaceManager);
 
                     AppendField(rowsNode, Index, "field", "x");
-                    if (BaseIndex == Index)
+                    if (Grouping == null)
                     {
-                        TopNode.InnerXml = "<items count=\"1\"><item t=\"default\" /></items>";
-                    }
-                    else
-                    {
-                        TopNode.InnerXml = "<items count=\"0\"></items>";
+                        if (BaseIndex == Index)
+                        {
+                            TopNode.InnerXml = "<items count=\"1\"><item t=\"default\" /></items>";
+                        }
+                        else
+                        {
+                            TopNode.InnerXml = "<items count=\"0\"></items>";
+                        }
                     }
                 }
                 else

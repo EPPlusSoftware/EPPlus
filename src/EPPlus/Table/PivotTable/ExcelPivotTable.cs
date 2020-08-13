@@ -164,18 +164,37 @@ namespace OfficeOpenXml.Table.PivotTable
                 if (Fields.Count<=index && _cacheDefinition._cacheReference._pivotTables.Count>1)
                 {
                     var newField = PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
-                    newField.InnerXml = _cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode.InnerXml;
                     pivotFieldNode.AppendChild(newField);
-                    fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index++);
+                    CopyElement((XmlElement)_cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode, newField);
+                    fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index);
                     Fields.AddInternal(fld);
                 }
                 else
                 {
-                    fld = Fields[index++];
+                    fld = Fields[index];
+                    if(_cacheDefinition._cacheReference._pivotTables.Count > 1)
+                    {
+                        if(_cacheDefinition._cacheReference._pivotTables[0].Fields[index].Grouping!=null)
+                        {
+                            var nd = _cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode;
+                            CopyElement((XmlElement)nd, (XmlElement)fld.TopNode);
+                        }
+                    }
                 }
                 fld.SetCacheFieldNode(fieldElem);
+                index++;
             }
         }
+
+        private void CopyElement(XmlElement fromElement, XmlElement toElement)
+        {
+            toElement.InnerXml = fromElement.InnerXml;
+            foreach (XmlAttribute a in fromElement.Attributes)
+            {
+                toElement.SetAttribute(a.Name, a.Value);
+            }
+        }
+
         private string GetStartXml(string name, ExcelAddressBase address, ExcelAddressBase sourceAddress)
         {
             string xml = string.Format("<pivotTableDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" name=\"{0}\" dataOnRows=\"1\" applyNumberFormats=\"0\" applyBorderFormats=\"0\" applyFontFormats=\"0\" applyPatternFormats=\"0\" applyAlignmentFormats=\"0\" applyWidthHeightFormats=\"1\" dataCaption=\"Data\"  createdVersion=\"4\" showMemberPropertyTips=\"0\" useAutoFormatting=\"1\" itemPrintTitles=\"1\" indent=\"0\" compact=\"0\" compactData=\"0\" gridDropZones=\"1\">", 

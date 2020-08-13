@@ -51,7 +51,6 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void WriteSharedItems(XmlElement fieldNode, XmlNamespaceManager nsm)
         {
             var shNode = (XmlElement)fieldNode.SelectSingleNode("d:sharedItems", nsm);
-            shNode.RemoveAll();
 
             var flags = GetFlags();
 
@@ -61,15 +60,40 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else if (!HasOneValueOnly(flags) && flags!=(DataTypeFlags.Int| DataTypeFlags.Number) && SharedItems.Count>1)
             {
-                shNode.SetAttribute("containsSemiMixedTypes", "1");
+                shNode.SetAttribute("containsMixedTypes", "1");
                 if ((flags & DataTypeFlags.Empty) == DataTypeFlags.Empty)
                 {
                     shNode.SetAttribute("containsBlank", "1");
                 }
                 if ((flags & DataTypeFlags.DateTime) == DataTypeFlags.Empty)
                 {
-                    shNode.SetAttribute("containsDate", "1");                    
+                    shNode.SetAttribute("containsDate", "1");
+                    shNode.SetAttribute("containsNonDate", "1");
                 }
+            }
+            else
+            {
+                SetFlags(shNode, flags);
+            }
+        }
+
+        private void SetFlags(XmlElement shNode, DataTypeFlags flags)
+        {
+            if((flags & DataTypeFlags.DateTime) == DataTypeFlags.DateTime)
+            {
+                shNode.SetAttribute("containsDate", "1");
+            }
+            if ((flags & DataTypeFlags.Number) == DataTypeFlags.Number)
+            {
+                shNode.SetAttribute("containsNumber", "1");
+            }
+            if ((flags & DataTypeFlags.Int) == DataTypeFlags.Int)
+            {
+                shNode.SetAttribute("containsInteger", "1");
+            }
+            if ((flags & DataTypeFlags.Empty) == DataTypeFlags.Empty)
+            {
+                shNode.SetAttribute("containsBlank", "1");
             }
         }
 
@@ -87,6 +111,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void AppendSharedItems(XmlElement shNode)
         {
+            shNode.RemoveAll();
             foreach (var si in SharedItems)
             {
                 if (si == null)
@@ -170,7 +195,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         case TypeCode.Int16:
                         case TypeCode.Int32:
                         case TypeCode.Int64:
-                            flags |= DataTypeFlags.Int;
+                            flags |= (DataTypeFlags.Number|DataTypeFlags.Int);
                             break;
                         case TypeCode.Decimal:
                         case TypeCode.Double:
