@@ -181,6 +181,18 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
         /// <summary>
+        /// If true the thread is resolved, i.e. closed for edits or further comments.
+        /// </summary>
+        public bool IsResolved
+        {
+            get
+            {
+                if (!Comments.Any()) return false;
+                return Comments.First().Done ?? false;
+            }
+        }
+
+        /// <summary>
         /// Re-opens a resolved thread.
         /// </summary>
         public void ReopenThread()
