@@ -80,6 +80,22 @@ namespace OfficeOpenXml
         {
             return GetUniqueName(name, _tableSlicerNames);
         }
+
+        internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
+        {
+			if (_package.Compatibility.SharePivotTableCacheForSameRange)
+			{
+				if(_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
+				{
+					cacheReference=cacheInfo.PivotCaches[0];
+					return true;
+				}
+			}
+			cacheReference = null;
+			return false;
+
+		}
+
 		internal string GetPivotTableSlicerName(string name)
 		{
 			return GetUniqueName(name, _pivotTableSlicerNames);
@@ -174,7 +190,12 @@ namespace OfficeOpenXml
         internal FormulaParser _formulaParser = null;
 	    internal FormulaParserManager _parserManager;
         internal CellStore<List<Token>> _formulaTokens;
-		internal Dictionary<string, PivotTableCacheInternal> _pivotTableCaches = new Dictionary<string, PivotTableCacheInternal>();
+		internal class PivotTableCacheRangeInfo
+        {
+            public string Address { get; set; }
+            public List<PivotTableCacheInternal> PivotCaches { get; set; }
+        }
+		internal Dictionary<string, PivotTableCacheRangeInfo> _pivotTableCaches = new Dictionary<string, PivotTableCacheRangeInfo>();
 		/// <summary>
 		/// Read shared strings to list
 		/// </summary>
@@ -1033,47 +1054,50 @@ namespace OfficeOpenXml
 
         private void SavePivotTableCaches()
         {
-			foreach (var cache in _pivotTableCaches.Values)
+			foreach (var info in _pivotTableCaches.Values)
 			{
-				if (cache._pivotTables.Count == 0)
+				foreach (var cache in info.PivotCaches)
 				{
-					cache.Delete();
-				}
-				//Rewrite the pivottable address again if any rows or columns have been inserted or deleted
-				var r = cache.SourceRange;
-				if (r != null)  //Source does not exist
-				{
-					ExcelTable t = null;
-					if (r.IsName)
+					if (cache._pivotTables.Count == 0)
 					{
-						//Named range, set name
-						cache.SetSourceName(((ExcelNamedRange)cache.SourceRange).Name);
+						cache.Delete();
 					}
-					else
+					//Rewrite the pivottable address again if any rows or columns have been inserted or deleted
+					var r = cache.SourceRange;
+					if (r != null)  //Source does not exist
 					{
-						var ws = Worksheets[cache.SourceRange.WorkSheetName];
-						t = ws.Tables.GetFromRange(cache.SourceRange);
-						if (t == null)
+						ExcelTable t = null;
+						if (r.IsName)
 						{
-							//Address
-							cache.SetSourceAddress(cache.SourceRange.Address);
+							//Named range, set name
+							cache.SetSourceName(((ExcelNamedRange)cache.SourceRange).Name);
 						}
 						else
 						{
-							//Table, set name
-							cache.SetSourceName(t.Name);
+							var ws = Worksheets[cache.SourceRange.WorkSheetName];
+							t = ws.Tables.GetFromRange(cache.SourceRange);
+							if (t == null)
+							{
+								//Address
+								cache.SetSourceAddress(cache.SourceRange.Address);
+							}
+							else
+							{
+								//Table, set name
+								cache.SetSourceName(t.Name);
+							}
 						}
-					}
 
-					var fields =
-						cache.CacheDefinitionXml.SelectNodes(
-							"d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
-					if (fields != null)
-					{
-						FixFieldNames(cache, t, fields);
-						//cache.GenerateFieldSharedItems();
+						var fields =
+							cache.CacheDefinitionXml.SelectNodes(
+								"d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
+						if (fields != null)
+						{
+							FixFieldNames(cache, t, fields);
+							//cache.GenerateFieldSharedItems();
+						}
+						cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
 					}
-					cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
 				}
 			}
 		}
@@ -1346,17 +1370,30 @@ namespace OfficeOpenXml
 			}
 			return false;
 		}
-		internal void AddPivotTableCache(string cacheID, Uri defUri)
-		{
+		internal void AddPivotTableCache(PivotTableCacheInternal cacheReference)
+		{			 
 			CreateNode("d:pivotCaches");
 
 			XmlElement item = WorkbookXml.CreateElement("pivotCache", ExcelPackage.schemaMain);
-			item.SetAttribute("cacheId", cacheID);
-			var rel = Part.CreateRelationship(UriHelper.ResolvePartUri(WorkbookUri, defUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
+			item.SetAttribute("cacheId", cacheReference.CacheId.ToString());
+			var rel = Part.CreateRelationship(UriHelper.ResolvePartUri(WorkbookUri, cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
 			item.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
 
 			var pivotCaches = WorkbookXml.SelectSingleNode("//d:pivotCaches", NameSpaceManager);
 			pivotCaches.AppendChild(item);
+
+			if(_pivotTableCaches.TryGetValue(cacheReference.SourceRange.FullAddress, out PivotTableCacheRangeInfo cacheInfo))
+			{
+				cacheInfo.PivotCaches.Add(cacheReference);
+			}
+			else
+            {
+				_pivotTableCaches.Add(cacheReference.SourceRange.FullAddress, new PivotTableCacheRangeInfo()
+				{
+					Address = cacheReference.SourceRange.FullAddress,
+					PivotCaches=new List<PivotTableCacheInternal>() { cacheReference }
+				});
+			}
 		}
 		internal void RemovePivotTableCache(int cacheId)
 		{

@@ -31,32 +31,36 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable)
         {
             var cacheDefinitionUri = pivotTable.GetCacheUriFromRel();
-            _wb = PivotTable.WorkSheet.Workbook;
+            PivotTable = pivotTable;
+            _wb = pivotTable.WorkSheet.Workbook;
             _nsm = nsm;
-            var c = _wb._pivotTableCaches.Values.FirstOrDefault(x => x.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString);
+            var c = _wb._pivotTableCaches.Values.FirstOrDefault(x => x.PivotCaches.Exists(y=>y.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString));
             if (c == null)
             {
                 var pck = pivotTable.WorkSheet._package.Package;
                 _cacheReference = new PivotTableCacheInternal(nsm, _wb)
                 {
                     Part = pck.GetPart(cacheDefinitionUri),
-                    CacheDefinitionUri = CacheDefinitionUri,
+                    CacheDefinitionUri = cacheDefinitionUri,
                     CacheDefinitionXml = new XmlDocument(),
                 };
                 _cacheReference.Init();
+                if (!_wb._pivotTableCaches.ContainsKey(_cacheReference.SourceRange.FullAddress))
+                {
+                    _wb.AddPivotTableCache(_cacheReference);
+                }
             }
             else
             {
-                _cacheReference = c;
+                _cacheReference = c.PivotCaches.FirstOrDefault(x => x.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString);
             }
-            PivotTable = pivotTable;
         }
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress)
         {
             PivotTable = pivotTable;
             _wb = PivotTable.WorkSheet.Workbook;
             _nsm = nsm;
-            if (_wb._pivotTableCaches.TryGetValue(sourceAddress.FullAddress, out _cacheReference))
+            if (_wb.GetPivotCacheFromAddress(sourceAddress.FullAddress, out _cacheReference))
             {
                 _cacheReference._pivotTables.Add(pivotTable);
             }
@@ -64,8 +68,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 _cacheReference = new PivotTableCacheInternal(nsm, _wb);
                 _cacheReference.InitNew(pivotTable, sourceAddress, null);
-                _wb._pivotTableCaches.Add(sourceAddress.FullAddress, _cacheReference);
-                _wb.AddPivotTableCache(_cacheReference.CacheId.ToString(), _cacheReference.CacheDefinitionUri);
+                _wb.AddPivotTableCache(_cacheReference);
             }
             var rel = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
         }
@@ -138,7 +141,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     throw (new ArgumentException("Can not change the number of columns(fields) in the SourceRange"));
                 }
                 if (value.FullAddress == SourceRange.FullAddress) return; //Same
-                if (_wb._pivotTableCaches.TryGetValue(value.FullAddress, out PivotTableCacheInternal cache))
+                if (_wb.GetPivotCacheFromAddress(value.FullAddress, out PivotTableCacheInternal cache))
                 {
                     _cacheReference._pivotTables.Remove(PivotTable);
                     cache._pivotTables.Add(PivotTable);
@@ -158,8 +161,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     _cacheReference = new PivotTableCacheInternal(_nsm, _wb);
                     _cacheReference.InitNew(PivotTable, value, xml.InnerXml);
                     PivotTable.CacheId = _cacheReference.CacheId;
-                    _wb.AddPivotTableCache(_cacheReference.CacheId.ToString(), _cacheReference.CacheDefinitionUri);
-                    _wb._pivotTableCaches.Add(value.FullAddress, _cacheReference);
+                    _wb.AddPivotTableCache(_cacheReference);
                 }
             }
         }

@@ -419,15 +419,24 @@ namespace OfficeOpenXml
                 .AddJsonFile("appsettings.json", true,false);            
             var c = build.Build();
 
-            var v = c["EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based"];
+            var isWorksheets1Based = c["EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based"];
+            var sharePivotTableCacheForSameRange = c["EPPlus:ExcelPackage:Compatibility:SharePivotTableCacheForSameRange"];
 #else
-            var v = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based"];
+            var isWorksheets1Based = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based"];
+            var sharePivotTableCacheForSameRange = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.SharePivotTableCacheForSameRange"];
 #endif
-            if (v != null)
+            if (isWorksheets1Based != null)
             {
-                if(Boolean.TryParse(v.ToLowerInvariant(), out bool value))
+                if(Boolean.TryParse(isWorksheets1Based.ToLowerInvariant(), out bool value))
                 {
                     Compatibility.IsWorksheets1Based = value;
+                }
+            }
+            if (sharePivotTableCacheForSameRange != null)
+            {
+                if (Boolean.TryParse(sharePivotTableCacheForSameRange.ToLowerInvariant(), out bool value))
+                {
+                    Compatibility.SharePivotTableCacheForSameRange = value;
                 }
             }
         }

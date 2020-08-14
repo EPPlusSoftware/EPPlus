@@ -286,11 +286,11 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
             pt.DataOnRows = true;
-
+            _pck.Compatibility.SharePivotTableCacheForSameRange = false;
             pt = ws.PivotTables.Add(ws.Cells["H3"], wsData.Cells["K1:O11"], "Pivottable10");
             pt.RowFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[4]);
-            //pt.Fields[4].AddDateGrouping(7, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
+            pt.Fields[4].AddDateGrouping(7, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
             pt.RowHeaderCaption = "Veckor";
             pt.GrandTotalCaption = "Totalt";
 
@@ -302,6 +302,8 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
             pt.DataOnRows = true;
+
+            _pck.Compatibility.SharePivotTableCacheForSameRange = true;
         }
         [TestMethod]
         public void Pivot_GroupNumber()

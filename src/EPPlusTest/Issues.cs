@@ -281,6 +281,7 @@ namespace EPPlusTest
 
             using (var p = OpenPackage("pivottable.xlsx", true))
             {
+                p.Compatibility.SharePivotTableCacheForSameRange = false;
                 LoadData(p);
                 BuildPivotTable1(p);
                 BuildPivotTable2(p);

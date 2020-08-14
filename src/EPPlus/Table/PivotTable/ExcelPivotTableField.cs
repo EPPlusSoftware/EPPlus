@@ -303,7 +303,7 @@ namespace OfficeOpenXml.Table.PivotTable
                      // for no subtotals, set defaultSubtotal to off
                      SetXmlNodeBool("@defaultSubtotal", false);
                      TopNode.InnerXml = "<items count=\"1\"><item x=\"0\"/></items>";
-                     _cacheFieldHelper.TopNode.InnerXml= "<sharedItems count=\"1\"><s v=\"\"/></sharedItems>";
+                     _cacheFieldHelper.TopNode.InnerXml= "<sharedItems count=\"1\"><m/></sharedItems>";
                  }
                  else
                  {

@@ -209,8 +209,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var pck = _ws._package.Package;
 
-            pck.DeletePart(PivotTable.CacheDefinition.Part.Uri);
-            pck.DeleteRelationship(PivotTable.CacheDefinition.Relationship.Id);
+            PivotTable.CacheDefinition._cacheReference._pivotTables.Remove(PivotTable);
             pck.DeletePart(PivotTable.Part.Uri);
             pck.DeleteRelationship(PivotTable.Relationship.Id);
 
