@@ -61,6 +61,7 @@ namespace OfficeOpenXml.ThreadedComments
         internal void AddMention(ExcelThreadedCommentPerson person, int textPosition)
         {
             var elem = TopNode.OwnerDocument.CreateElement("mention", ExcelPackage.schemaThreadedComments);
+            TopNode.AppendChild(elem);
             var mention = new ExcelThreadedCommentMention(NameSpaceManager, elem);
             mention.MentionId = ExcelThreadedCommentMention.NewId();
             mention.StartIndex = textPosition;

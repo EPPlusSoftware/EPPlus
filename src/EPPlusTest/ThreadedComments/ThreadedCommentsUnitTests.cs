@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,17 +85,18 @@ namespace EPPlusTest.ThreadedComments
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 var person = sheet.ThreadedComments.Persons.Add("John Doe");
-                var person2 = sheet.ThreadedComments.Persons.Add("John Does brother");
+                var person2 = sheet.ThreadedComments.Persons.Add("Jane Doe");
                 var thread = sheet.Cells["A1"].AddThreadedComment();
                 var c1 = thread.AddComment(person2.Id, "Hello");
-                var c2 = thread.AddComment(person.Id, "Hello {0}", person2);
+                var c2 = thread.AddComment(person.Id, "Hello {0}, how are you?", person2);
                 
                 Assert.AreEqual(2, thread.Comments.Count);
-                Assert.AreEqual("Hello @John Does brother", c2.Text);
+                Assert.AreEqual("Hello @Jane Doe, how are you?", c2.Text);
                 Assert.AreEqual(1, c2.Mentions.Count());
 
                 c2.EditText("Hello");
                 Assert.AreEqual(0, c2.Mentions.Count());
+                package.SaveAs(new FileInfo("c:\\Temp\\JohnDoe.xlsx"));
             }
         }
     }

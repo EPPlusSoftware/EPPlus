@@ -10,9 +10,6 @@
  *************************************************************************************************
   07/29/2020         EPPlus Software AB       Threaded comments
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OfficeOpenXml.ThreadedComments
 {
