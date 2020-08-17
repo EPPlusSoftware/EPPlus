@@ -96,7 +96,7 @@ namespace EPPlusTest.ThreadedComments
 
                 c2.EditText("Hello");
                 Assert.AreEqual(0, c2.Mentions.Count());
-                package.SaveAs(new FileInfo("c:\\Temp\\JohnDoe.xlsx"));
+                //package.SaveAs(new FileInfo("c:\\Temp\\JohnDoe.xlsx"));
             }
         }
     }
