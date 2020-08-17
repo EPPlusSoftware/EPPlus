@@ -2604,6 +2604,11 @@ namespace OfficeOpenXml
 
                 pt.SetXmlNodeString("d:location/@ref", pt.Address.Address);
 
+                foreach(var field in pt.Fields)
+                {
+                    field.SaveToXml();
+                }
+
                 foreach (var df in pt.DataFields)
                 {
                     if (string.IsNullOrEmpty(df.Name))

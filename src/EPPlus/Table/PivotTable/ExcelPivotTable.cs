@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     var newField = PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
                     pivotFieldNode.AppendChild(newField);
-                    CopyElement((XmlElement)_cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode, newField);
+                    CopyElement((XmlElement)_cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode, newField, new string[]{ "axis"});
                     fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index);
                     Fields.AddInternal(fld);
                 }
@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         if(_cacheDefinition._cacheReference._pivotTables[0].Fields[index].Grouping!=null)
                         {
                             var nd = _cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode;
-                            CopyElement((XmlElement)nd, (XmlElement)fld.TopNode);
+                            CopyElement((XmlElement)nd, (XmlElement)fld.TopNode, new string[] { "axis" });
                         }
                     }
                 }
@@ -186,12 +186,15 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        private void CopyElement(XmlElement fromElement, XmlElement toElement)
+        private void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute)
         {
             toElement.InnerXml = fromElement.InnerXml;
             foreach (XmlAttribute a in fromElement.Attributes)
             {
-                toElement.SetAttribute(a.Name, a.Value);
+                if (ignoreAttribute.Contains(a.Name))
+                {
+                    toElement.SetAttribute(a.Name, a.Value);
+                }
             }
         }
 

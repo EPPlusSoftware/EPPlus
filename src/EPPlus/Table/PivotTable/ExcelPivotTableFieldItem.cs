@@ -10,6 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,8 +59,8 @@ namespace OfficeOpenXml.Table.PivotTable
                     case "sd":
                         HideDetails = XmlHelper.GetBoolFromString(a.Value);
                         break;
-                    case "t":
-                        Type = a.Value;
+                    case "t":                        
+                        Type = a.Value.ToEnum(eItemType.Data);
                         break;
                     case "x":
                         X = int.Parse(a.Value);
@@ -66,17 +69,51 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         public string Text { get; set; }
-        public object Value { get; set; }
+        public object Value { get; internal set; }
         public bool Hidden { get; set; }
-        internal bool HideDetails{ get; set; }
+        internal bool HideDetails { get; set; } = true;
         internal bool C { get; set; }
         internal bool D { get; set; }
-        internal bool E { get; set; }
+        internal bool E { get; set; } = true;
         internal bool F { get; set; }
         internal bool M { get; set; }
         internal bool S { get; set; }
         internal int X { get; set; } = -1;
-        internal string Type { get; set; }
+        internal eItemType Type { get; set; }
+
+        internal void GetXmlString(StringBuilder sb)
+        {
+            sb.Append("<item");
+            if(X>-1)
+            {
+                sb.AppendFormat(" x={0}", X);
+            }
+            if(Type!=eItemType.Data)
+            {
+                sb.AppendFormat(" T={0}", Type.ToEnumString());
+            }
+            if(!string.IsNullOrEmpty(Text))
+            {
+                sb.AppendFormat(" x=\"{0}\"", Text);
+            }
+            AddBool(sb,"h", Hidden);
+            AddBool(sb, "sd", HideDetails, true);
+            AddBool(sb, "c", C);
+            AddBool(sb, "d", D);
+            AddBool(sb, "e", E, true);
+            AddBool(sb, "f", F);
+            AddBool(sb, "m", M);
+            AddBool(sb, "s", S);
+            sb.Append("/>");
+        }
+
+        private void AddBool(StringBuilder sb, string attrName, bool b, bool defaultValue=false)
+        {
+            if(b != defaultValue)
+            {
+                sb.AppendFormat(" {0}={1}",attrName, b?"1":"0");
+            }
+        }
     }
     /// <summary>
     /// A field Item. Used for grouping
