@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var c = _wb._pivotTableCaches.Values.FirstOrDefault(x => x.PivotCaches.Exists(y=>y.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString));
             if (c == null)
             {
-                var pck = pivotTable.WorkSheet._package.Package;
+            var pck = pivotTable.WorkSheet._package.ZipPackage;
                 _cacheReference = new PivotTableCacheInternal(nsm, _wb)
                 {
                     Part = pck.GetPart(cacheDefinitionUri),

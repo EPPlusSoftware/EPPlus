@@ -139,13 +139,14 @@ namespace OfficeOpenXml.Style.XmlAccess
         }
         int _indexed;
         /// <summary>
-        /// Indexed color value
+        /// Indexed color value.
+        /// Returns int.MinValue if indexed colors are not used.
         /// </summary>
         public int Indexed
         {
             get
             {
-                return (_indexed == int.MinValue ? 0 : _indexed);
+                return _indexed;
             }
             set
             {

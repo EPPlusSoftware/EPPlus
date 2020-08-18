@@ -157,7 +157,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var r = SourceRange;
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
-                var field = new ExcelPivotTableCacheField();
+                var field = new ExcelPivotTableCacheField(this, col- r._fromCol);
                 var ws = r.Worksheet;
                 field.Name= ws.GetValue(r._fromRow, col).ToString();
                 var hs = new HashSet<object>();
@@ -197,7 +197,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         internal void InitNew(ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, string xml)
         {
-            var pck = pivotTable.WorkSheet._package.Package;
+            var pck = pivotTable.WorkSheet._package.ZipPackage;
 
             CacheDefinitionXml = new XmlDocument();
             var sourceWorksheet = pivotTable.WorkSheet.Workbook.Worksheets[sourceAddress.WorkSheetName];

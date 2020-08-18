@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>
     {
         internal ExcelPivotTableFieldCollection(ExcelPivotTable table, string topNode) :
-            base(table)
+            base(table, 0)
         {
 
         }

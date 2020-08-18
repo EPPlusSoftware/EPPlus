@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         internal ExcelPivotTableCollection(ExcelWorksheet ws)
         {
-            var pck = ws._package.Package;
+            var pck = ws._package.ZipPackage;
             _ws = ws;            
             foreach(var rel in ws.Part.GetRelationships())
             {
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         public void Delete(ExcelPivotTable PivotTable, bool ClearRange = false)
         {
-            var pck = _ws._package.Package;
+            var pck = _ws._package.ZipPackage;
 
             PivotTable.CacheDefinition._cacheReference._pivotTables.Remove(PivotTable);
             pck.DeletePart(PivotTable.Part.Uri);

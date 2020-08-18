@@ -32,7 +32,7 @@ namespace OfficeOpenXml.VBA
         internal ExcelVbaProject(ExcelWorkbook wb)
         {
             _wb = wb;
-            _pck = _wb._package.Package;
+            _pck = _wb._package.ZipPackage;
             References = new ExcelVbaReferenceCollection();
             Modules = new ExcelVbaModuleCollection(this);
             var rel = _wb.Part.GetRelationshipsByType(schemaRelVba).FirstOrDefault();

@@ -31,9 +31,12 @@ namespace OfficeOpenXml.Table.PivotTable
             Boolean = 0x20,
             Error = 0x30
         }
-        public ExcelPivotTableCacheField()
+        private PivotTableCacheInternal _cache;
+        private int _index;
+        internal ExcelPivotTableCacheField(PivotTableCacheInternal cache, int index)
         {
-
+            _cache = cache;
+            _index = index;
         }
         public string Name
         {
@@ -45,6 +48,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         } = new List<object>();
+        internal Dictionary<object, int> _cacheLookup=null;
         public ExcelPivotTableFieldNumericGroup NumericGroup { get; set; }
         public ExcelPivotTableFieldDateGroup DateGroup { get; set; }
 
@@ -54,26 +58,45 @@ namespace OfficeOpenXml.Table.PivotTable
 
             var flags = GetFlags();
 
-            if (flags == DataTypeFlags.String) //Strings only 
+            _cacheLookup = new Dictionary<object, int>();
+            if (IsRowColumnOrPage) //Strings only 
             {
                 AppendSharedItems(shNode);
             }
-            else if (!HasOneValueOnly(flags) && flags!=(DataTypeFlags.Int| DataTypeFlags.Number) && SharedItems.Count>1)
+            if (!HasOneValueOnly(flags) && flags!=(DataTypeFlags.Int| DataTypeFlags.Number) && SharedItems.Count>1)
             {
-                shNode.SetAttribute("containsMixedTypes", "1");
-                if ((flags & DataTypeFlags.Empty) == DataTypeFlags.Empty)
+                if ((flags & DataTypeFlags.String) == DataTypeFlags.String)
                 {
-                    shNode.SetAttribute("containsBlank", "1");
+                    shNode.SetAttribute("containsSemiMixedTypes", "1");
                 }
-                if ((flags & DataTypeFlags.DateTime) == DataTypeFlags.Empty)
+                else
                 {
-                    shNode.SetAttribute("containsDate", "1");
-                    shNode.SetAttribute("containsNonDate", "1");
+                    shNode.SetAttribute("containsMixedTypes", "1");
                 }
+                SetFlags(shNode, flags);
             }
             else
             {
+                shNode.SetAttribute("containsSemiMixedTypes", "0");
                 SetFlags(shNode, flags);
+            }
+        }
+
+        internal bool IsRowColumnOrPage
+        {
+            get
+            {
+                foreach(var pt in _cache._pivotTables)
+                {
+                    var axis = pt.Fields[_index].Axis;
+                    if (axis == ePivotFieldAxis.Column || 
+                        axis == ePivotFieldAxis.Row ||
+                        axis == ePivotFieldAxis.Page)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
@@ -95,6 +118,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 shNode.SetAttribute("containsBlank", "1");
             }
+            shNode.SetAttribute("containsString", (flags & DataTypeFlags.Empty) == DataTypeFlags.String ? "1" : "0");
         }
 
         private bool HasOneValueOnly(DataTypeFlags flags)
@@ -112,8 +136,10 @@ namespace OfficeOpenXml.Table.PivotTable
         private void AppendSharedItems(XmlElement shNode)
         {
             shNode.RemoveAll();
+            int index = 0;
             foreach (var si in SharedItems)
             {
+                _cacheLookup.Add(si, index++);
                 if (si == null)
                 {
                     AppendItem(shNode, "m", null);

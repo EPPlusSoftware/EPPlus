@@ -212,6 +212,7 @@ namespace OfficeOpenXml.Core
             Destination._worksheet._hyperLinks.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
             Destination._worksheet._flags.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
             Destination._worksheet._commentsStore.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
+            Destination._worksheet._threadedCommentsStore.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
         }
 
         private static Dictionary<int, ExcelAddress> GetCopiedMergedCells(ExcelRangeBase sourceRange, ExcelRangeBase Destination)

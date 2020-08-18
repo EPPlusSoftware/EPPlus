@@ -143,7 +143,7 @@ namespace OfficeOpenXml
             }
 
             string contentType = PictureStore.GetContentType(PictureFile.Extension);
-            var uriPic = XmlHelper.GetNewUri(_ws._package.Package, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length-PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
+            var uriPic = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length-PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
 #if (Core)
             var imgBytes=ImageCompat.GetImageAsByteArray(Picture);
 #else
@@ -514,18 +514,18 @@ namespace OfficeOpenXml
                     if (_vmlDrawingsHF.Uri != null)
                     {
                         _ws.Part.DeleteRelationship(_vmlDrawingsHF.RelId);
-                        _ws._package.Package.DeletePart(_vmlDrawingsHF.Uri);
+                        _ws._package.ZipPackage.DeletePart(_vmlDrawingsHF.Uri);
                     }
                 }
                 else
                 {
                     if (_vmlDrawingsHF.Uri == null)
                     {
-                        _vmlDrawingsHF.Uri = XmlHelper.GetNewUri(_ws._package.Package, @"/xl/drawings/vmlDrawing{0}.vml");
+                        _vmlDrawingsHF.Uri = XmlHelper.GetNewUri(_ws._package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml");
                     }
                     if (_vmlDrawingsHF.Part == null)
                     {
-                        _vmlDrawingsHF.Part = _ws._package.Package.CreatePart(_vmlDrawingsHF.Uri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _ws._package.Compression);
+                        _vmlDrawingsHF.Part = _ws._package.ZipPackage.CreatePart(_vmlDrawingsHF.Uri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _ws._package.Compression);
                         var rel = _ws.Part.CreateRelationship(UriHelper.GetRelativeUri(_ws.WorksheetUri, _vmlDrawingsHF.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
                         _ws.SetHFLegacyDrawingRel(rel.Id);
                         _vmlDrawingsHF.RelId = rel.Id;

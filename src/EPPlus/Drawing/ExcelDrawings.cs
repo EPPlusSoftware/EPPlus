@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Drawing
                 _drawingRelation = sheet.Part.GetRelationship(node.Attributes["r:id"].Value);
                 _uriDrawing = UriHelper.ResolvePartUri(sheet.WorksheetUri, _drawingRelation.TargetUri);
 
-                _part = xlPackage.Package.GetPart(_uriDrawing);
+                _part = xlPackage.ZipPackage.GetPart(_uriDrawing);
                 XmlHelper.LoadXmlSafe(_drawingsXml, _part.GetStream());
 
                 AddDrawings();
@@ -1214,7 +1214,7 @@ namespace OfficeOpenXml.Drawing
             if (DrawingXml.DocumentElement == null)
             {
                 DrawingXml.LoadXml(string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><xdr:wsDr xmlns:xdr=\"{0}\" xmlns:a=\"{1}\" />", ExcelPackage.schemaSheetDrawings, ExcelPackage.schemaDrawings));
-                Packaging.ZipPackage package = Worksheet._package.Package;
+                Packaging.ZipPackage package = Worksheet._package.ZipPackage;
 
                 //Check for existing part, issue #100
                 var id = Worksheet.SheetID;

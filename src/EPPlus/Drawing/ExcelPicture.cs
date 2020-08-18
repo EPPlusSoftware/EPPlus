@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing
         {
             CreatePicNode(node);
 
-            var package = drawings.Worksheet._package.Package;
+            var package = drawings.Worksheet._package.ZipPackage;
             //Get the picture if it exists or save it if not.
             _image = image;
             Hyperlink = hyperlink;
@@ -113,7 +113,7 @@ namespace OfficeOpenXml.Drawing
         }
         private void SaveImageToPackage(ePictureType type, byte[] img)
         {
-            var package = _drawings.Worksheet._package.Package;
+            var package = _drawings.Worksheet._package.ZipPackage;
             ContentType = PictureStore.GetContentType(type.ToString());
             IPictureContainer container = this;
             container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());

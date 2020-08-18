@@ -47,7 +47,7 @@ namespace OfficeOpenXml
             foreach(var commentPart in commentRels)
             {
                 Uri = UriHelper.ResolvePartUri(commentPart.SourceUri, commentPart.TargetUri);
-                Part = pck.Package.GetPart(Uri);
+                Part = pck.ZipPackage.GetPart(Uri);
                 XmlHelper.LoadXmlSafe(CommentXml, Part.GetStream()); 
                 RelId = commentPart.Id;
                 isLoaded=true;
@@ -136,6 +136,18 @@ namespace OfficeOpenXml
                     return null;
                 }
                 
+            }
+        }
+        /// <summary>
+        /// Indexer for the comments collection
+        /// </summary>
+        /// <param name="cellAddress">The cell address</param>
+        /// <returns>The comment</returns>
+        public ExcelComment this[string cellAddress]
+        {
+            get
+            {
+                return this[new ExcelCellAddress(cellAddress)];
             }
         }
         /// <summary>

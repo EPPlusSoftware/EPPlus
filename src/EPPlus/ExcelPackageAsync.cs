@@ -117,7 +117,7 @@ namespace OfficeOpenXml
 
                 try
                 {
-                    _package = new Packaging.ZipPackage(ms);
+                    _zipPackage = new Packaging.ZipPackage(ms);
                 }
                 catch (Exception ex)
                 {
@@ -167,7 +167,7 @@ namespace OfficeOpenXml
                     if (Encryption.IsEncrypted)
                     {
                         var ms = new MemoryStream();
-                        _package.Save(ms);
+                        _zipPackage.Save(ms);
                         var file = ms.ToArray();
                         var eph = new EncryptedPackageHandler();
                         var msEnc = eph.EncryptPackage(file, Encryption);
@@ -175,10 +175,10 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        _package.Save(_stream);
+                        _zipPackage.Save(_stream);
                     }
                     await _stream.FlushAsync(cancellationToken);
-                    _package.Close();
+                    _zipPackage.Close();
                 }
                 else
                 {
@@ -194,8 +194,8 @@ namespace OfficeOpenXml
                         }
                     }
 
-                    _package.Save(_stream);
-                    _package.Close();
+                    _zipPackage.Save(_stream);
+                    _zipPackage.Close();
                     if (Stream is MemoryStream stream)
                     {
 #if NETSTANDARD2_1
@@ -361,7 +361,7 @@ namespace OfficeOpenXml
             if (save)
             {
                 Workbook.Save();
-                _package.Close();
+                _zipPackage.Close();
                 if (_stream is MemoryStream && _stream.Length > 0)
                 {
                     _stream.Close();
@@ -372,7 +372,7 @@ namespace OfficeOpenXml
 #endif
                     _stream = new MemoryStream();
                 }
-                _package.Save(_stream);
+                _zipPackage.Save(_stream);
             }
             var byRet = new byte[Stream.Length];
             var pos = Stream.Position;
@@ -462,7 +462,7 @@ namespace OfficeOpenXml
                 }
                 try
                 {
-                    _package = new Packaging.ZipPackage(ms);
+                    _zipPackage = new Packaging.ZipPackage(ms);
                 }
                 catch (Exception ex)
                 {
@@ -476,7 +476,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                _package = new Packaging.ZipPackage(ms);
+                _zipPackage = new Packaging.ZipPackage(ms);
                 CreateBlankWb();
             }
         }

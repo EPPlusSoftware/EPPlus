@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         internal string _topNode;
         internal ExcelPivotTableRowColumnFieldCollection(ExcelPivotTable table, string topNode) :
-            base(table)
+            base(table, 0)
 	    {
             _topNode=topNode;
 	    }

@@ -64,12 +64,12 @@ namespace OfficeOpenXml.Drawing
                     Packaging.ZipPackagePart imagePart;
                     if (uri == null)
                     {
-                        uri = GetNewUri(_pck.Package, "/xl/media/image{0}.jpg");
-                        imagePart = _pck.Package.CreatePart(uri, "image/jpeg", CompressionLevel.None, "jpg");
+                        uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}.jpg");
+                        imagePart = _pck.ZipPackage.CreatePart(uri, "image/jpeg", CompressionLevel.None, "jpg");
                     }
                     else
                     {
-                        imagePart = _pck.Package.CreatePart(uri, contentType, CompressionLevel.None, GetExtension(uri));
+                        imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, GetExtension(uri));
                     }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
@@ -119,7 +119,7 @@ namespace OfficeOpenXml.Drawing
                     ii.RefCount--;
                     if (ii.RefCount == 0)
                     {
-                        _pck.Package.DeletePart(ii.Uri);
+                        _pck.ZipPackage.DeletePart(ii.Uri);
                         _images.Remove(hash);
                     }
                 }

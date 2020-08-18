@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableDataFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableDataField>
     {
         internal ExcelPivotTableDataFieldCollection(ExcelPivotTable table) :
-            base(table)
+            base(table, 0)
         {
 
         }

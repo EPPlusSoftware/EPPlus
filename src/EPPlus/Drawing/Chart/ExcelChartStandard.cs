@@ -166,7 +166,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 graphFrame.InnerXml = string.Format("<xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"Chart 1\" /><xdr:cNvGraphicFramePr /></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\" /> <a:ext cx=\"0\" cy=\"0\" /></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\" />   </a:graphicData>  </a:graphic>", _id);
                 TopNode.AppendChild(TopNode.OwnerDocument.CreateElement("clientData", ExcelPackage.schemaSheetDrawings));
 
-                var package = drawings.Worksheet._package.Package;
+                var package = drawings.Worksheet._package.ZipPackage;
                 UriChart = GetNewUri(package, "/xl/charts/chart{0}.xml");
 
                 if (chartXml == null)
@@ -850,7 +850,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Border rounded corners
         /// </summary>
-        public bool RoundedCorners
+        public override bool RoundedCorners
         {
             get
             {
@@ -865,7 +865,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Show data in hidden rows and columns
         /// </summary>
-        public bool ShowHiddenData
+        public override bool ShowHiddenData
         {
             get
             {
@@ -882,7 +882,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Specifies the possible ways to display blanks
         /// </summary>
-        public eDisplayBlanksAs DisplayBlanksAs
+        public override eDisplayBlanksAs DisplayBlanksAs
         {
             get
             {
@@ -905,7 +905,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Specifies data labels over the maximum of the chart shall be shown
         /// </summary>
-        public bool ShowDataLabelsOverMaximum
+        public override bool ShowDataLabelsOverMaximum
         {
             get
             {

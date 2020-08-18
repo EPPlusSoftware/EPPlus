@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 throw new InvalidOperationException("The chart must have a style. Please set the charts Style property to a value different than None or Call LoadStyleXml with the fallBackStyle parameter");
             }
 
-            var p = _chart.WorkSheet.Workbook._package.Package;
+            var p = _chart.WorkSheet.Workbook._package.ZipPackage;
             var id = CreateStylePart(p);
             StyleXml = new XmlDocument();
             StyleXml.LoadXml(GetStartStyleXml(id));
@@ -337,7 +337,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
 
             if (StylePart == null)
             {
-                CreateStylePart(_chart.WorkSheet.Workbook._package.Package);
+                CreateStylePart(_chart.WorkSheet.Workbook._package.ZipPackage);
             }
 
             StyleXml = styleXml;
@@ -362,7 +362,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         /// <param name="themePart">The theme part</param>
         internal void LoadThemeOverrideXml(ZipPackagePart themePart)
         {
-            var rel = CreateThemeOverridePart(_chart.WorkSheet.Workbook._package.Package, themePart);
+            var rel = CreateThemeOverridePart(_chart.WorkSheet.Workbook._package.ZipPackage, themePart);
             ThemeOverride = new ExcelThemeOverride(_chart, rel);
         }
         /// <summary>
@@ -468,7 +468,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
 
             if (ColorsPart == null)
             {
-                CreateColorPart(_chart.WorkSheet.Workbook._package.Package);
+                CreateColorPart(_chart.WorkSheet.Workbook._package.ZipPackage);
             }
 
             ColorsXml = colorXml;
@@ -1100,14 +1100,14 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 if (rel.RelationshipType == ExcelPackage.schemaChartStyleRelationships)
                 {
                     StyleUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                    StylePart = p.Package.GetPart(StyleUri);
+                    StylePart = p.ZipPackage.GetPart(StyleUri);
                     StyleXml = new XmlDocument();
                     LoadXmlSafe(StyleXml, StylePart.GetStream());
                 }
                 else if (rel.RelationshipType == ExcelPackage.schemaChartColorStyleRelationships)
                 {
                     ColorsUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                    ColorsPart = p.Package.GetPart(ColorsUri);
+                    ColorsPart = p.ZipPackage.GetPart(ColorsUri);
                     ColorsXml = new XmlDocument();
                     LoadXmlSafe(ColorsXml, ColorsPart.GetStream());
                 }

@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         protected internal ExcelWorkbook CreatePart(ExcelWorkbook wb)
         {
-            var p = wb._package.Package;
+            var p = wb._package.ZipPackage;
             Uri = GetNewUri(p, "/xl/slicerCaches/slicerCache{0}.xml");
             Part = p.CreatePart(Uri, "application/vnd.ms-excel.slicerCache+xml");
             CacheRel = wb.Part.CreateRelationship(UriHelper.GetRelativeUri(wb.WorkbookUri, Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicerCache);

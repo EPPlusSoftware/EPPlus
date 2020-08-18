@@ -20,6 +20,7 @@ using System.Linq;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing;
 using System.Text;
+using System.Collections;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -848,10 +849,16 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (_items == null)
                 {
-                    _items = new ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>(_table);
+                    _items = new ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>(_table, Index);
+                    var sh = _table.CacheDefinition._cacheReference.Fields[Index].SharedItems;
                     foreach (XmlElement node in TopNode.SelectNodes("d:items//d:item", NameSpaceManager))
                     {
-                        _items.AddInternal(new ExcelPivotTableFieldItem(node));
+                        var item = new ExcelPivotTableFieldItem(node);
+                        if(item.X>=0)
+                        {
+                            item.Value = sh[item.X];
+                        }
+                        _items.AddInternal(item);
                     }
                 }
                 return _items;
@@ -1050,44 +1057,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 return this;
             }
         }
-        public void RefreshItems()
-        {
-            var ws = _table.CacheDefinition.SourceRange.Worksheet;
-            var column = _table.CacheDefinition.SourceRange._fromRow + Index;
-            var toRow = _table.CacheDefinition.SourceRange._toRow;
-            var hs = new HashSet<object>();
-            for (int row = _table.CacheDefinition.SourceRange._fromRow + 1; row <= toRow; row++)
-            {
-                var o = ws.GetValue(row, column);
-                if (!hs.Contains(o))
-                {
-                    hs.Add(o);
-                }
-            }
-
-            ////A pivot table cashe can reference multiple Pivot tables, so we need to update them all
-            //var existingItems = new Dictionary<string, ExcelPivotTableFieldItem>();
-            //foreach (var pt in _table._cacheDefinition._cacheReference._pivotTables)
-            //{
-            //    var list = pt.Fields[Index].Items._list;
-            //    for (var ix = 0; ix < list.Count;ix++)
-            //    {
-            //        if (!hs.Contains(list[ix].Value))
-            //        {
-            //            list.RemoveAt(ix);
-            //            ix--;
-            //        }
-            //        else
-            //        {
-            //            existingItems.Add(list[ix], .Value)
-            //        }
-            //    }
-            //}
-            //foreach (var c in hs)
-            //{                
-            //    Items.AddInternal(new ExcelPivotTableFieldItem() { Value = c });
-            //}
-        }
         private void AddCacheField(ExcelPivotTableField field, DateTime startDate, DateTime endDate, int interval)
         {
             //Add Cache definition field.
@@ -1106,13 +1075,30 @@ namespace OfficeOpenXml.Table.PivotTable
             var sb = new StringBuilder();
             if (Axis != ePivotFieldAxis.Values)
             {
-                foreach (var item in Items)
+                var cacheLookup = _table.CacheDefinition._cacheReference.Fields[Index]._cacheLookup;
+                if(cacheLookup.Count==0)
                 {
-                    item.GetXmlString(sb);
+                    DeleteNode("d:items");       //Creates or return the existing node
                 }
-                var node = (XmlElement)CreateNode("d:items");       //Creates or return the existing node
-                node.InnerXml = sb.ToString();
-                node.SetAttribute("count", Items.Count.ToString());
+                else
+                {
+                    Items.Refresh();
+                    foreach (var item in Items)
+                    {
+                        if(item.Type==eItemType.Data && cacheLookup.TryGetValue(item.Value, out int x))
+                        {
+                            item.X = cacheLookup[item.Value];
+                        }
+                        else
+                        {
+                            item.X = -1;
+                        }
+                        item.GetXmlString(sb);
+                    }
+                    var node = (XmlElement)CreateNode("d:items");       //Creates or return the existing node
+                    node.InnerXml = sb.ToString();
+                    node.SetAttribute("count", Items.Count.ToString());
+                }
             }
             return sb.ToString();
         }

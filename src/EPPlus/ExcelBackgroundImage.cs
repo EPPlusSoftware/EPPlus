@@ -98,7 +98,7 @@ namespace OfficeOpenXml
             }
 
             string contentType = PictureStore.GetContentType(PictureFile.Extension);
-            var imageURI = XmlHelper.GetNewUri(_workSheet._package.Package, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length - PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
+            var imageURI = XmlHelper.GetNewUri(_workSheet._package.ZipPackage, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length - PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
 
             var ii = _workSheet.Workbook._package.PictureStore.AddImage(fileBytes, imageURI, contentType);
 
