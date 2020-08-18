@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             XmlElement graphFrame = TopNode.OwnerDocument.CreateElement("mc","AlternateContent", ExcelPackage.schemaMarkupCompatibility);
             graphFrame.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
             TopNode.AppendChild(graphFrame);
-            graphFrame.InnerXml = string.Format("<mc:Choice xmlns:cx1=\"{1}\" Requires=\"cx1\"><xdr:graphicFrame macro=\"\"><xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"\"><a:extLst><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\" id=\"{{9FE3C5B3-14FE-44E2-AB27-50960A44C7C4}}\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.microsoft.com/office/drawing/2014/chartex\"><cx:chart xmlns:cx=\"http://schemas.microsoft.com/office/drawing/2014/chartex\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/></a:graphicData></a:graphic></xdr:graphicFrame></mc:Choice><mc:Fallback><xdr:sp macro=\"\" textlink=\"\"><xdr:nvSpPr><xdr:cNvPr id=\"{0}\" name=\"\"/><xdr:cNvSpPr><a:spLocks noTextEdit=\"1\"/></xdr:cNvSpPr></xdr:nvSpPr><xdr:spPr><a:xfrm><a:off x=\"3609974\" y=\"938212\"/><a:ext cx=\"5762625\" cy=\"2743200\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom><a:solidFill><a:prstClr val=\"white\"/></a:solidFill><a:ln w=\"1\"><a:solidFill><a:prstClr val=\"green\"/></a:solidFill></a:ln></xdr:spPr><xdr:txBody><a:bodyPr vertOverflow=\"clip\" horzOverflow=\"clip\"/><a:lstStyle/><a:p><a:r><a:rPr lang=\"en-US\" sz=\"1100\"/><a:t>This chart isn't available in your version of Excel. Editing this shape or saving this workbook into a different file format will permanently break the chart.</a:t></a:r></a:p></xdr:txBody></xdr:sp></mc:Fallback>", _id, arg1: GetChartExNameSpace(type??eChartType.Sunburst));
+            graphFrame.InnerXml = string.Format("<mc:Choice xmlns:cx1=\"{1}\" Requires=\"cx1\"><xdr:graphicFrame macro=\"\"><xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"\"><a:extLst><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\" id=\"{{9FE3C5B3-14FE-44E2-AB27-50960A44C7C4}}\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.microsoft.com/office/drawing/2014/chartex\"><cx:chart xmlns:cx=\"http://schemas.microsoft.com/office/drawing/2014/chartex\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/></a:graphicData></a:graphic></xdr:graphicFrame></mc:Choice><mc:Fallback><xdr:sp macro=\"\" textlink=\"\"><xdr:nvSpPr><xdr:cNvPr id=\"{0}\" name=\"\"/><xdr:cNvSpPr><a:spLocks noTextEdit=\"1\"/></xdr:cNvSpPr></xdr:nvSpPr><xdr:spPr><a:xfrm><a:off x=\"3609974\" y=\"938212\"/><a:ext cx=\"5762625\" cy=\"2743200\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom><a:solidFill><a:prstClr val=\"white\"/></a:solidFill><a:ln w=\"1\"><a:solidFill><a:prstClr val=\"green\"/></a:solidFill></a:ln></xdr:spPr><xdr:txBody><a:bodyPr vertOverflow=\"clip\" horzOverflow=\"clip\"/><a:lstStyle/><a:p><a:r><a:rPr lang=\"en-US\" sz=\"1100\"/><a:t>This chart isn't available in your version of Excel. Editing this shape or saving this workbook into a different file format will permanently break the chart.</a:t></a:r></a:p></xdr:txBody></xdr:sp></mc:Fallback>", _id,GetChartExNameSpace(type??eChartType.Sunburst));
             TopNode.AppendChild(TopNode.OwnerDocument.CreateElement("clientData", ExcelPackage.schemaSheetDrawings));
 
             var package = drawings.Worksheet._package.ZipPackage;
@@ -396,11 +396,76 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
+        /// <summary>
+        /// If the chart has legend or not
+        /// </summary>
         public override bool HasLegend
         {
             get
             {
                 return _chartXmlHelper.ExistNode("cx:chart/cx:legend");
+            }
+        }
+        /// <summary>
+        /// This property does not apply to extended charts.
+        /// This property will always return eDisplayBlanksAs.Zero.
+        /// Setting this property on an extended chart will result in an InvalidOperationException
+        /// </summary>
+        public override eDisplayBlanksAs DisplayBlanksAs 
+        {
+            get
+            {
+                return eDisplayBlanksAs.Zero;
+            }
+            set
+            {
+                throw new InvalidOperationException("DisplayBlanksAs do not apply to Extended charts");
+            }
+        }
+        /// <summary>
+        /// This property does not apply to extended charts.
+        /// Setting this property on an extended chart will result in an InvalidOperationException
+        /// </summary>
+        public override bool RoundedCorners 
+        {
+            get
+            {
+                
+                return false;
+            }
+            set
+            {
+                throw new InvalidOperationException("RoundedCorners do not apply to Extended charts");
+            }
+        }
+        /// <summary>
+        /// This property does not apply to extended charts.
+        /// Setting this property on an extended chart will result in an InvalidOperationException
+        /// </summary>
+        public override bool ShowDataLabelsOverMaximum 
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+                throw new InvalidOperationException("ShowHiddenData do not apply to Extended charts");
+            }
+        }
+        /// <summary>
+        /// This property does not apply to extended charts.
+        /// Setting this property on an extended chart will result in an InvalidOperationException
+        /// </summary>
+        public override bool ShowHiddenData 
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+                throw new InvalidOperationException("ShowHiddenData do not apply to Extended charts");
             }
         }
     }

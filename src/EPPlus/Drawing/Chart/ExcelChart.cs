@@ -674,6 +674,38 @@ namespace OfficeOpenXml.Drawing.Chart
             base.DeleteMe();
         }
         /// <summary>
+        /// Border rounded corners
+        /// </summary>
+        public abstract bool RoundedCorners
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Show data in hidden rows and columns
+        /// </summary>
+        public abstract bool ShowHiddenData
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Specifies the possible ways to display blanks
+        /// </summary>
+        public abstract eDisplayBlanksAs DisplayBlanksAs
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Specifies data labels over the maximum of the chart shall be shown
+        /// </summary>
+        public abstract bool ShowDataLabelsOverMaximum
+        {
+            get;
+            set;
+        }
+        /// <summary>
         /// 3D-settings
         /// </summary>
         public ExcelView3D View3D

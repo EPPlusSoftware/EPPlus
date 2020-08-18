@@ -850,7 +850,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Border rounded corners
         /// </summary>
-        public bool RoundedCorners
+        public override bool RoundedCorners
         {
             get
             {
@@ -865,7 +865,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Show data in hidden rows and columns
         /// </summary>
-        public bool ShowHiddenData
+        public override bool ShowHiddenData
         {
             get
             {
@@ -882,7 +882,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Specifies the possible ways to display blanks
         /// </summary>
-        public eDisplayBlanksAs DisplayBlanksAs
+        public override eDisplayBlanksAs DisplayBlanksAs
         {
             get
             {
@@ -905,7 +905,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Specifies data labels over the maximum of the chart shall be shown
         /// </summary>
-        public bool ShowDataLabelsOverMaximum
+        public override bool ShowDataLabelsOverMaximum
         {
             get
             {
