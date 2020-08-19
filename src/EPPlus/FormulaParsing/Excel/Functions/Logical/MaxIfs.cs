@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
-        EPPlusVersion = "5.2",
+        EPPlusVersion = "5.3",
         Description = "Tests a user-defined condition and returns one result if the condition is TRUE, and another result if the condition is FALSE",
         IntroducedInExcelVersion = "2019")]
     internal class MaxIfs : IfsWithMultipleMatchesBase
