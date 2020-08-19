@@ -1,5 +1,16 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.3.0
+### Features
+* Support for threaded comments with mentions. See https://github.com/EPPlusSoftware/EPPlus/wiki/Threaded-comments
+* Support for two new functions :
+      * MINIFS
+      * MAXIFS
+### Fixed issues
+      * Removed extra comman added to the end of the header row in the ExcelRange.ToText method.
+      * Abstract class ExcelChart missed the methods DisplayBlankAs, RoundedCorners, ShowDataLabelsOverMaximum, ShowHiddenData after the version 5.2 update. Methods have been moved back again.
+      * ExcelColorXml.Indexed returned 0 if was not set, causing the LookupColor method to return an incorrect color.
+
 ## Version 5.2.1
 ### Features
       * New method ExcelRange.LoadFromDictionary. 
