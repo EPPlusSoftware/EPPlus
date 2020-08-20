@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
         EPPlusVersion = "4",
-        Description = "Tests a user-defined condition and returns one result if the condition is TRUE, and another result if the condition is FALSE",
+        Description = "Tests if an expression returns the #N/A error and if so, returns an alternative specified value; Otherwise the function returns the value of the supplied expression. ",
         IntroducedInExcelVersion = "2019")]
     internal class IfNa : ExcelFunction
     {

@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
-        EPPlusVersion = "5.2",
+        EPPlusVersion = "5.3",
         Description = "Returns the smallest numeric value that meets one or more criteria in a range of values.",
         IntroducedInExcelVersion = "2019")]
     internal class MinIfs : IfsWithMultipleMatchesBase

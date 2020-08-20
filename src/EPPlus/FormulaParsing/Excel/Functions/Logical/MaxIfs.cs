@@ -22,8 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
-        EPPlusVersion = "5.2",
-        Description = "Tests a user-defined condition and returns one result if the condition is TRUE, and another result if the condition is FALSE",
+        EPPlusVersion = "5.3",
+        Description = "Returns the largest numeric value that meets one or more criteria in a range of values.",
         IntroducedInExcelVersion = "2019")]
     internal class MaxIfs : IfsWithMultipleMatchesBase
     {

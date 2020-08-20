@@ -1,17 +1,28 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.3.0
+### Features
+* Support for threaded comments with mentions. See https://github.com/EPPlusSoftware/EPPlus/wiki/Threaded-comments
+* Support for two new functions:
+    * MINIFS
+    * MAXIFS
+### Fixed issues
+* Removed the extra comman added to the end of the header row in the ExcelRange.ToText method.
+* The abstract class ExcelChart missed the properties DisplayBlankAs, RoundedCorners, ShowDataLabelsOverMaximum, ShowHiddenData after the version 5.2 update. The properties have been moved back again.
+* ExcelColorXml.Indexed returned 0 if was not set, causing the LookupColor method to return an incorrect color.
+
 ## Version 5.2.1
 ### Features
-      * New method ExcelRange.LoadFromDictionary. 
-      * Support for Dynamics in ExcelRange.LoadFromCollection (ExpandoObject).
-      * New Lambda config parameter to ExcelRange.LoadFromCollection with new options for header parsing (for example: UnderscoreToSpace, CamelCaseToSpace)
-      * Zip64 support in packaging to enable larger packages.
+* New method ExcelRange.LoadFromDictionary. 
+* Support for Dynamics in ExcelRange.LoadFromCollection (ExpandoObject).
+* New Lambda config parameter to ExcelRange.LoadFromCollection with new options for header parsing (for example: UnderscoreToSpace, CamelCaseToSpace)
+* Zip64 support in packaging to enable larger packages.
 ### Fixed issues
-      * Wildcards in MATCH function not working
-      * Performance issue in ExpressionEvaluator.GetNonAlphanumericStar
-      * Using the sheet name to reference the entire worksheet did not work in formulas.
-      * GetAsByteArray corrupted the package if ExcelPackage.Save was called before.
-      * Parsing issue in the Value function
+* Wildcards in MATCH function not working
+* Performance issue in ExpressionEvaluator.GetNonAlphanumericStar
+* Using the sheet name to reference the entire worksheet did not work in formulas.
+* GetAsByteArray corrupted the package if ExcelPackage.Save was called before.
+* Parsing issue in the Value function
 
 ## Version 5.2.0
 ### Features

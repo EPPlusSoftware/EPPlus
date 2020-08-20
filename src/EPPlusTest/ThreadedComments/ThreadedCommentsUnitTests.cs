@@ -40,6 +40,32 @@ namespace EPPlusTest.ThreadedComments
                 Assert.AreEqual(1, sheet.Cells["A1"].ThreadedComment.Comments.Count);
             }
         }
+
+        [TestMethod]
+        public void ShouldRemoveThread()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var person = sheet.ThreadedComments.Persons.Add("John Doe");
+                var thread = sheet.Cells["A1"].AddThreadedComment();
+                thread.AddComment(person.Id, "Hello");
+
+                Assert.AreEqual(1, sheet.ThreadedComments.Count);
+                Assert.AreEqual(1, sheet.Cells["A1"].ThreadedComment.Comments.Count);
+                Assert.IsNotNull(sheet.Cells["A1"].Comment);
+
+                sheet.ThreadedComments.Remove(thread);
+
+                package.Save();
+
+                Assert.IsNull(sheet.ThreadedComments["A1"]);
+                Assert.IsNull(sheet.Comments["A1"]);
+                Assert.IsNull(sheet.Cells["A1"].ThreadedComment);
+                Assert.AreEqual(0, sheet.ThreadedComments.Count);
+            }
+        }
+
         [TestMethod]
         public void ShouldRemoveOneComment()
         {
