@@ -153,25 +153,44 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void RefreshFields()
         {
-            _fields = new List<ExcelPivotTableCacheField>();
+            var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
-                var field = new ExcelPivotTableCacheField(this, col- r._fromCol);
-                var ws = r.Worksheet;
-                field.Name= ws.GetValue(r._fromRow, col).ToString();
-                var hs = new HashSet<object>();
-                for (int row = r._fromRow + 1; row <= r._toRow; row++)
+                if (_fields!=null && col < _fields.Count && _fields[col].Grouping != null)
                 {
-                    var o = ws.GetValue(row, col);
-                    if (!hs.Contains(o))
-                    {
-                        hs.Add(o);
-                    }
-                    field.SharedItems = hs.ToList();
+                    fields.Add(_fields[col]);
                 }
-                _fields.Add(field);
+                else
+                {
+                    var ix = col - r._fromCol;
+                    var ws = r.Worksheet;
+                    var name = ws.GetValue(r._fromRow, col).ToString();
+                    ExcelPivotTableCacheField field;
+                    if (_fields==null || _fields?.Count>=ix)
+                    {
+                        field = CreateField(name, ix);
+                    }
+                    else
+                    {
+                        field=_fields[ix];
+                        field.SharedItems.Clear();
+                    }
+                    field.Name = name;
+                    var hs = new HashSet<object>();
+                    for (int row = r._fromRow + 1; row <= r._toRow; row++)
+                    {
+                        var o = ws.GetValue(row, col);
+                        if (!hs.Contains(o))
+                        {
+                            hs.Add(o);
+                        }
+                        field.SharedItems = hs.ToList();
+                    }
+                    fields.Add(field);
+                }
             }
+            _fields = fields;
         }
 
         internal eSourceType CacheSource
@@ -290,6 +309,31 @@ namespace OfficeOpenXml.Table.PivotTable
             _wb.RemovePivotTableCache(CacheId);
             Part.Package.DeletePart(CacheDefinitionUri);
             Part.Package.DeletePart(CacheRecordUri);
+        }
+        internal ExcelPivotTableCacheField AddDateGroupField(ExcelPivotTableField field, DateTime startDate, DateTime endDate, int interval)
+        {
+            ExcelPivotTableCacheField cacheField = CreateField(field.DateGrouping.ToString(), field.Index, "0");
+            cacheField.SetDateGroup(field, startDate, endDate, interval);
+
+            cacheField.Grouping = field.Grouping;
+            Fields.Add(cacheField);
+            return cacheField;
+        }
+
+        private ExcelPivotTableCacheField CreateField(string name, int index, string databaseField=null)
+        {
+            //Add Cache definition field.
+            var cacheTopNode = CacheDefinitionXml.SelectSingleNode("//d:cacheFields", NameSpaceManager);
+            var cacheFieldNode = CacheDefinitionXml.CreateElement("cacheField", ExcelPackage.schemaMain);
+
+            cacheFieldNode.SetAttribute("name", name);
+            if (string.IsNullOrEmpty(databaseField) == false)
+            {
+                cacheFieldNode.SetAttribute("databaseField", databaseField);
+            }
+            cacheTopNode.AppendChild(cacheFieldNode);
+
+            return new ExcelPivotTableCacheField(NameSpaceManager, cacheFieldNode, this, index);
         }
     }
 }

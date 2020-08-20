@@ -152,38 +152,40 @@ namespace OfficeOpenXml.Table.PivotTable
             //Add fields.            
             foreach (XmlElement fieldElem in pivotFieldNode.SelectNodes("d:pivotField", NameSpaceManager))
             {
-                var fld = new ExcelPivotTableField(NameSpaceManager, fieldElem, this, index, index++);
+                var fld = new ExcelPivotTableField(NameSpaceManager, fieldElem, this, index, index);
+                fld._cacheField = _cacheDefinition._cacheReference.Fields[index++];
                 Fields.AddInternal(fld);
             }
 
-            //Add fields.
-            index = 0;
-            foreach (XmlElement fieldElem in _cacheDefinition.CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
-            {
-                ExcelPivotTableField fld;
-                if (Fields.Count<=index && _cacheDefinition._cacheReference._pivotTables.Count>1)
-                {
-                    var newField = PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
-                    pivotFieldNode.AppendChild(newField);
-                    CopyElement((XmlElement)_cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode, newField, new string[]{ "axis"});
-                    fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index);
-                    Fields.AddInternal(fld);
-                }
-                else
-                {
-                    fld = Fields[index];
-                    if(_cacheDefinition._cacheReference._pivotTables.Count > 1)
-                    {
-                        if(_cacheDefinition._cacheReference._pivotTables[0].Fields[index].Grouping!=null)
-                        {
-                            var nd = _cacheDefinition._cacheReference._pivotTables[0].Fields[index].TopNode;
-                            CopyElement((XmlElement)nd, (XmlElement)fld.TopNode, new string[] { "axis" });
-                        }
-                    }
-                }
-                fld.SetCacheFieldNode(fieldElem);
-                index++;
-            }
+            ////Add fields.
+            //var cacheRef = _cacheDefinition._cacheReference;
+            //index = 0;
+            //foreach (XmlElement fieldElem in cacheRef.CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
+            //{
+            //    ExcelPivotTableField fld;
+            //    if (Fields.Count<=index && cacheRef._pivotTables.Count>1)
+            //    {
+            //        var newField = PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
+            //        pivotFieldNode.AppendChild(newField);
+            //        CopyElement((XmlElement)cacheRef._pivotTables[0].Fields[index].TopNode, newField, new string[]{ "axis"});
+            //        fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index);
+            //        Fields.AddInternal(fld);
+            //    }
+            //    else
+            //    {
+            //        fld = Fields[index];
+            //        if(cacheRef._pivotTables.Count > 1)
+            //        {
+            //            if(cacheRef._pivotTables[0].Fields[index].Grouping!=null)
+            //            {
+            //                var nd = cacheRef._pivotTables[0].Fields[index].TopNode;
+            //                CopyElement((XmlElement)nd, (XmlElement)fld.TopNode, new string[] { "axis" });
+            //            }
+            //        }
+            //    }
+                                
+            //    index++;
+            //}
         }
 
         private void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute)

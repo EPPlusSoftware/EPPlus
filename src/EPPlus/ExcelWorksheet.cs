@@ -2265,7 +2265,7 @@ namespace OfficeOpenXml
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
                     SavePivotTables();
-                        SaveSlicers();
+                    SaveSlicers();
                 }
             }
 
@@ -3456,8 +3456,8 @@ namespace OfficeOpenXml
                 CheckSheetType();
                 if (_pivotTables == null)
                 {
-                    if (Workbook._nextPivotTableID == int.MinValue) Workbook.ReadAllTables();
                     _pivotTables = new ExcelPivotTableCollection(this);
+                    if (Workbook._nextPivotTableID == int.MinValue) Workbook.ReadAllTables();
                 }
                 return _pivotTables;
             }

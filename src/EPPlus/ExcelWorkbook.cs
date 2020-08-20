@@ -1096,7 +1096,7 @@ namespace OfficeOpenXml
 					}
 					//Rewrite the pivottable address again if any rows or columns have been inserted or deleted
 					var r = cache.SourceRange;
-					if (r != null)  //Source does not exist
+					if (r != null)				//Source does not exist
 					{
 						ExcelTable t = null;
 						if (r.IsName)
@@ -1136,7 +1136,6 @@ namespace OfficeOpenXml
 		{
 			int ix = 0;
 			var flds = new HashSet<string>();
-			cache.RefreshFields();
 			foreach (XmlElement node in fields)
 			{
 				if (ix >= cache.SourceRange.Columns) break;
@@ -1153,7 +1152,10 @@ namespace OfficeOpenXml
 				}
 				flds.Add(fldName);
 				node.SetAttribute("name", fldName);
-				cache.Fields[ix].WriteSharedItems(node, NameSpaceManager);
+				if (cache.Fields[ix].Grouping == null)
+				{
+					cache.Fields[ix].WriteSharedItems(node, NameSpaceManager);
+				}
 				ix++;
 			}
 

@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public void Refresh()
         {
             var ws = _table.CacheDefinition.SourceRange.Worksheet;
-            var column = _table.CacheDefinition.SourceRange._fromRow + _index;
+            var column = _table.CacheDefinition.SourceRange._fromCol + _index;
             var toRow = _table.CacheDefinition.SourceRange._toRow;
             var hs = new HashSet
                 <object>();
@@ -121,7 +121,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 foreach (var c in hs)
                 {
-                    if (!existingItems.Contains(c.ToString()))
+                    if (!existingItems.Contains((c??"").ToString()))
                     {
                         list.Insert(list.Count - nullItems, new ExcelPivotTableFieldItem() { Value = c });
                     }
