@@ -31,6 +31,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Text;
 using System.Threading;
@@ -46,7 +47,7 @@ namespace EPPlusTest.Core.Range
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("Range_ToText.xlsx");
+            _pck = OpenPackage("Range_ToText.xlsx", true);
             _ws = _pck.Workbook.Worksheets.Add("ToTextData");
             var noItems = 100;
             LoadTestdata(_ws, noItems);
@@ -494,6 +495,28 @@ namespace EPPlusTest.Core.Range
             Assert.IsTrue(text.StartsWith(fmt.Header + fmt.EOL));
             Assert.IsTrue(text.EndsWith(fmt.EOL + fmt.Footer));
         }
+        [TestMethod]
+        public void ToTextHandleRichTextCells()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RichText");
+                //Setup
+                ws.Cells["A1"].RichText.Add("RichText 1");
+                var rt = ws.Cells["A2"].RichText;
+                rt.Add("Rich");
+                var rtPart = rt.Add("Text");
+                rtPart.Color = Color.Red;
+                rt.Add(" 2");
+                var text = ws.Cells["A1:A2"].ToText();
+
+                //Assert
+                Assert.AreEqual("RichText 1\r\nRichText 2", text);
+                Assert.AreEqual(3, ws.Cells["A2"].RichText.Count);
+                Assert.AreEqual(Color.Red.ToArgb(), ws.Cells["A2"].RichText[1].Color.ToArgb());
+            }
+        }
+
         #endregion
     }
 }
