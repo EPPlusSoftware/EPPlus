@@ -10,11 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Xml;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -229,7 +231,8 @@ namespace OfficeOpenXml
 
         private string GetText(ExcelOutputTextFormat Format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
         {
-            var v = _worksheet.GetCoreValueInner(row, col);
+            var v=GetCellStoreValue(row, col);
+
             var ix = col - _fromCol;
             isText = false;
             string fmt;
@@ -306,13 +309,26 @@ namespace OfficeOpenXml
             return t;
         }
 
+        private Core.CellStore.ExcelValue GetCellStoreValue(int row, int col)
+        {
+            var v = _worksheet.GetCoreValueInner(row, col);
+            if (_worksheet._flags.GetFlagValue(row, col, CellFlags.RichText))
+            {
+                var xml = new XmlDocument();
+                XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v._value.ToString() + "</d:si>", Encoding.UTF8);
+                var rt = new ExcelRichTextCollection(_worksheet.NameSpaceManager, xml.SelectSingleNode("d:si", _worksheet.NameSpaceManager), this);
+                v._value = rt.Text;
+            }
+            return v;
+        }
+
         private string WriteHeaderRow(ExcelOutputTextFormat Format, bool hasTextQ, int row, CultureInfo ci)
         {
             var sb = new StringBuilder();
             for (int col = _fromCol; col <= _toCol; col++)
             {
                 if (hasTextQ) sb.Append(Format.TextQualifier);
-                var v = _worksheet.GetCoreValueInner(row, col);
+                var v = GetCellStoreValue(row, col);
                 sb.Append(ValueToTextHandler.GetFormattedText(v._value, _workbook, v._styleId, false, ci));
                 if (hasTextQ) sb.Append(Format.TextQualifier);
                 if(col < _toCol)
