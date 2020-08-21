@@ -1134,6 +1134,7 @@ namespace OfficeOpenXml
 		}
 		private void FixFieldNamesAndUpdateSharedItems(PivotTableCacheInternal cache, ExcelTable t, XmlNodeList fields)
 		{
+			cache.RefreshFields();
 			int ix = 0;
 			var flds = new HashSet<string>();
 			foreach (XmlElement node in fields)

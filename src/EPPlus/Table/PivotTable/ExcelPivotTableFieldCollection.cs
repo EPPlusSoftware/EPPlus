@@ -74,5 +74,27 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return null;
         }
+
+        internal ExcelPivotTableField AddDateGroupField(eDateGroupBy groupBy, int index)
+        {
+            //Pivot field
+            var topNode = _table.PivotTableXml.SelectSingleNode("//d:pivotFields", _table.NameSpaceManager);
+            var fieldNode = _table.PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
+            fieldNode.SetAttribute("compact", "0");
+            fieldNode.SetAttribute("outline", "0");
+            fieldNode.SetAttribute("showAll", "0");
+            fieldNode.SetAttribute("defaultSubtotal", "0");
+            topNode.AppendChild(fieldNode);
+
+            var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
+            field.DateGrouping = groupBy;
+            _list.Add(field);
+            return field;
+        }
+
+        internal void AddDateGroupField(eDateGroupBy dateGrouping, object baseIndex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

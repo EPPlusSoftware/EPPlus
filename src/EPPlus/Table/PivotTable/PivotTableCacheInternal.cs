@@ -145,9 +145,44 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if(_fields == null)
                 {
-                    RefreshFields();
+                    LoadFields();
+                    //RefreshFields();
                 }
                 return _fields;
+            }
+        }
+
+        private void LoadFields()
+        {
+            //Add fields.
+            var index = 0;
+            _fields = new List<ExcelPivotTableCacheField>();
+            foreach (XmlNode node in CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
+            {
+                _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index));
+                
+                //if (Fields.Count <= index && cacheRef._pivotTables.Count > 1)
+                //{
+                //    var newField = PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
+                //    pivotFieldNode.AppendChild(newField);
+                //    CopyElement((XmlElement)cacheRef._pivotTables[0].Fields[index].TopNode, newField, new string[] { "axis" });
+                //    fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index);
+                //    Fields.AddInternal(fld);
+                //}
+                //else
+                //{
+                //    fld = Fields[index];
+                //    if (cacheRef._pivotTables.Count > 1)
+                //    {
+                //        if (cacheRef._pivotTables[0].Fields[index].Grouping != null)
+                //        {
+                //            var nd = cacheRef._pivotTables[0].Fields[index].TopNode;
+                //            CopyElement((XmlElement)nd, (XmlElement)fld.TopNode, new string[] { "axis" });
+                //        }
+                //    }
+                //}
+
+                index++;
             }
         }
 
@@ -167,7 +202,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var ws = r.Worksheet;
                     var name = ws.GetValue(r._fromRow, col).ToString();
                     ExcelPivotTableCacheField field;
-                    if (_fields==null || _fields?.Count>=ix)
+                    if (_fields==null || ix>=_fields?.Count)
                     {
                         field = CreateField(name, ix);
                     }
@@ -189,6 +224,10 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     fields.Add(field);
                 }
+            }
+            for(int i=fields.Count;i<_fields.Count;i++)
+            {
+                fields.Add(_fields[i]);
             }
             _fields = fields;
         }
@@ -315,7 +354,6 @@ namespace OfficeOpenXml.Table.PivotTable
             ExcelPivotTableCacheField cacheField = CreateField(field.DateGrouping.ToString(), field.Index, "0");
             cacheField.SetDateGroup(field, startDate, endDate, interval);
 
-            cacheField.Grouping = field.Grouping;
             Fields.Add(cacheField);
             return cacheField;
         }

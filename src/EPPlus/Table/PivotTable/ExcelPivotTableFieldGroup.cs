@@ -24,5 +24,19 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             
         }
+        public int? BaseIndex
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@base");
+            }
+        }
+        public int? ParentIndex
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@par");
+            }
+        }
     }
 }

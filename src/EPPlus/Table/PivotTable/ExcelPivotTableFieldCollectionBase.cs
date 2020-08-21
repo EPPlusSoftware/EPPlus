@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
 
-            //A pivot table cashe can reference multiple Pivot tables, so we need to update them all
+            //A pivot table cache can reference multiple Pivot tables, so we need to update them all
             foreach (var pt in _table._cacheDefinition._cacheReference._pivotTables)
             {
                 var existingItems = new HashSet<string>();
