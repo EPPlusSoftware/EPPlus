@@ -100,10 +100,12 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else
             {
-                //if ((flags & DataTypeFlags.String) != DataTypeFlags.String)
-                //{
-                //    shNode.SetAttribute("containsSemiMixedTypes", "0");
-                //}
+                if ((flags & DataTypeFlags.String) != DataTypeFlags.String &&
+                    (flags & DataTypeFlags.Empty) != DataTypeFlags.Empty)
+                {
+                    shNode.SetAttribute("containsSemiMixedTypes", "0");
+                    shNode.SetAttribute("containsString", "0");
+                }
                 SetFlags(shNode, flags);
             }
         }
@@ -386,7 +388,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 if(updateCacheLookup)
                 {
-                    _cacheLookup.Add(items[items.Count], items.Count - 1);
+                    _cacheLookup.Add(items[items.Count-1]??"", items.Count - 1);
                 }
             }
         }

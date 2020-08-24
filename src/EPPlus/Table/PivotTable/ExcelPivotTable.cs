@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Table.PivotTable
             TopNode = PivotTableXml.DocumentElement;
             Address = new ExcelAddressBase(GetXmlNodeString("d:location/@ref"));
 
-            _cacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this);
+            CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this);
             LoadFields();
 
             //Add row fields.
@@ -110,37 +110,62 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         /// <param name="sheet">The worksheet</param>
         /// <param name="address">the address of the pivottable</param>
+        /// <param name="pivotTableCache">The pivot table cache</param>
+        /// <param name="name"></param>
+        /// <param name="tblId"></param>
+        internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, PivotTableCacheInternal pivotTableCache, string name, int tblId) :
+            base(sheet.NameSpaceManager)
+        {
+            CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId);
+
+            CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, pivotTableCache);
+            CacheId = pivotTableCache.CacheId;
+
+            LoadFields();
+        }
+        /// <summary>
+        /// Add a new pivottable
+        /// </summary>
+        /// <param name="sheet">The worksheet</param>
+        /// <param name="address">the address of the pivottable</param>
         /// <param name="sourceAddress">The address of the Source data</param>
         /// <param name="name"></param>
         /// <param name="tblId"></param>
         internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address,ExcelRangeBase sourceAddress, string name, int tblId) : 
-            base(sheet.NameSpaceManager)
-	    {
+        base(sheet.NameSpaceManager)
+        {
+            CreatePivotTable(sheet, address, sourceAddress._toCol - sourceAddress._fromCol + 1, name, tblId);
+
+            CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, sourceAddress);
+            CacheId = CacheDefinition._cacheReference.CacheId;
+
+            LoadFields();
+        }
+
+        private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId)
+        {
             WorkSheet = sheet;
             Address = address;
             var pck = sheet._package.ZipPackage;
 
             PivotTableXml = new XmlDocument();
-            LoadXmlSafe(PivotTableXml, GetStartXml(name, address, sourceAddress), Encoding.UTF8);
+            LoadXmlSafe(PivotTableXml, GetStartXml(name, address, fields), Encoding.UTF8);
             TopNode = PivotTableXml.DocumentElement;
-            PivotTableUri =  GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
+            PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
             init();
 
             Part = pck.CreatePart(PivotTableUri, ExcelPackage.schemaPivotTable);
             PivotTableXml.Save(Part.GetStream());
-            
+
             //Worksheet-Pivottable relationship
             Relationship = sheet.Part.CreateRelationship(UriHelper.ResolvePartUri(sheet.WorksheetUri, PivotTableUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotTable");
 
-            _cacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, sourceAddress);
-            CacheId = _cacheDefinition._cacheReference.CacheId;
-            LoadFields();
-
-            using (var r=sheet.Cells[address.Address])
+            using (var r = sheet.Cells[address.Address])
             {
                 r.Clear();
             }
         }
+
         private void init()
         {
             SchemaNodeOrder = new string[] { "location", "pivotFields", "rowFields", "rowItems", "colFields", "colItems", "pageFields", "pageItems", "dataFields", "dataItems", "formats", "pivotTableStyleInfo" };
@@ -153,7 +178,7 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (XmlElement fieldElem in pivotFieldNode.SelectNodes("d:pivotField", NameSpaceManager))
             {
                 var fld = new ExcelPivotTableField(NameSpaceManager, fieldElem, this, index, index);
-                fld._cacheField = _cacheDefinition._cacheReference.Fields[index++];
+                fld._cacheField = CacheDefinition._cacheReference.Fields[index++];
                 Fields.AddInternal(fld);
             }
 
@@ -200,14 +225,14 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        private string GetStartXml(string name, ExcelAddressBase address, ExcelAddressBase sourceAddress)
+        private string GetStartXml(string name, ExcelAddressBase address, int fields)
         {
             string xml = string.Format("<pivotTableDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" name=\"{0}\" dataOnRows=\"1\" applyNumberFormats=\"0\" applyBorderFormats=\"0\" applyFontFormats=\"0\" applyPatternFormats=\"0\" applyAlignmentFormats=\"0\" applyWidthHeightFormats=\"1\" dataCaption=\"Data\"  createdVersion=\"4\" showMemberPropertyTips=\"0\" useAutoFormatting=\"1\" itemPrintTitles=\"1\" indent=\"0\" compact=\"0\" compactData=\"0\" gridDropZones=\"1\">", 
                 ConvertUtil.ExcelEscapeString(name));
 
             xml += string.Format("<location ref=\"{0}\" firstHeaderRow=\"1\" firstDataRow=\"1\" firstDataCol=\"1\" /> ", address.FirstAddress);
-            xml += string.Format("<pivotFields count=\"{0}\">", sourceAddress._toCol-sourceAddress._fromCol+1);
-            for (int col = sourceAddress._fromCol; col <= sourceAddress._toCol; col++)
+            xml += string.Format("<pivotFields count=\"{0}\">", fields);
+            for (int col = 0; col < fields; col++)
             {
                 xml += "<pivotField showAll=\"0\" />"; //compact=\"0\" outline=\"0\" subtotalTop=\"0\" includeNewItemsInFilter=\"1\"     
             }
@@ -268,20 +293,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString(DISPLAY_NAME_PATH, cleanDisplayName(value));
             }
         }        
-        internal ExcelPivotCacheDefinition _cacheDefinition = null;
         /// <summary>
         /// Reference to the pivot table cache definition object
         /// </summary>
         public ExcelPivotCacheDefinition CacheDefinition
         {
-            get
-            {
-                if (_cacheDefinition == null)
-                {
-                    _cacheDefinition = new ExcelPivotCacheDefinition(NameSpaceManager, this, null);
-                }
-                return _cacheDefinition;
-            }
+            get;
+            private set;
         }
         private string cleanDisplayName(string name)
         {

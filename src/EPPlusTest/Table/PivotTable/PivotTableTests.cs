@@ -286,24 +286,23 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
             pt.DataOnRows = true;
-            //_pck.Compatibility.SharePivotTableCacheForSameRange = false;
-            //pt = ws.PivotTables.Add(ws.Cells["H3"], wsData.Cells["K1:O11"], "Pivottable10");
-            //pt.RowFields.Add(pt.Fields[1]);
-            //pt.RowFields.Add(pt.Fields[4]);
-            //pt.Fields[4].AddDateGrouping(7, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
-            //pt.RowHeaderCaption = "Veckor";
-            //pt.GrandTotalCaption = "Totalt";
 
-            //pt = ws.PivotTables.Add(ws.Cells["A60"], wsData.Cells["K1:O11"], "Pivottable11");
-            //pt.RowFields.Add(pt.Fields["Category"]);
-            //pt.RowFields.Add(pt.Fields["Item"]);
-            //pt.RowFields.Add(pt.Fields[4]);
+            pt = ws.PivotTables.Add(ws.Cells["H3"], wsData.Cells["K1:O11"], "Pivottable10");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[4]);
+            pt.Fields[4].AddDateGrouping(7, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
+            pt.RowHeaderCaption = "Veckor";
+            pt.GrandTotalCaption = "Totalt";
 
-            //pt.DataFields.Add(pt.Fields[3]);
-            //pt.DataFields.Add(pt.Fields[2]);
-            //pt.DataOnRows = true;
+            pt = ws.PivotTables.Add(ws.Cells["A60"], wsData.Cells["K1:O11"], "Pivottable11");
+            pt.RowFields.Add(pt.Fields["Category"]);
+            pt.RowFields.Add(pt.Fields["Item"]);
+            pt.RowFields.Add(pt.Fields[4]);
 
-            //_pck.Compatibility.SharePivotTableCacheForSameRange = true;
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.DataFields.Add(pt.Fields[2]);
+            pt.DataOnRows = true;
+
         }
         [TestMethod]
         public void Pivot_GroupNumber()
@@ -358,7 +357,14 @@ namespace EPPlusTest.Table.PivotTable
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[0]);
             var pf1 = pt.PageFields.Add(pt.Fields[2]);
+            pf1.Items.Refresh();
+            pf1.Items[1].Hidden = true;
+            pf1.Items[8].Hidden = true;
+
+
             var pf2 = pt.PageFields.Add(pt.Fields[4]);
+            pf2.Items.Refresh();
+            pf2.Items[1].Hidden = true;
             pf1.MultipleItemSelectionAllowed = true;
             pf2.MultipleItemSelectionAllowed = true;
             pt.DataFields.Add(pt.Fields[3]);
@@ -381,7 +387,9 @@ namespace EPPlusTest.Table.PivotTable
             var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:O11"], "Pivottable12");
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[0]);
-            pt.DataFields.Add(pt.Fields[3]);
+            var df=pt.DataFields.Add(pt.Fields[3]);
+            pt.Fields[3].Items.Refresh();
+            pt.Fields[3].Items[0].Hidden = true;
             pt.DataOnRows = true;
             pt.ColumnHeaderCaption = "Column Caption";
             pt.RowHeaderCaption = "Row Caption";

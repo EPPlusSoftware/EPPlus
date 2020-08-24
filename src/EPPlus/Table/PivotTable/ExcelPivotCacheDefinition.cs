@@ -60,18 +60,32 @@ namespace OfficeOpenXml.Table.PivotTable
             PivotTable = pivotTable;
             _wb = PivotTable.WorkSheet.Workbook;
             _nsm = nsm;
-            if (_wb.GetPivotCacheFromAddress(sourceAddress.FullAddress, out _cacheReference))
-            {
-                _cacheReference._pivotTables.Add(pivotTable);
-            }
-            else
-            {
-                _cacheReference = new PivotTableCacheInternal(nsm, _wb);
-                _cacheReference.InitNew(pivotTable, sourceAddress, null);
-                _wb.AddPivotTableCache(_cacheReference);
-            }
+            _cacheReference = new PivotTableCacheInternal(nsm, _wb);
+            _cacheReference.InitNew(pivotTable, sourceAddress, null);
+            _wb.AddPivotTableCache(_cacheReference);
             var rel = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
         }
+        internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, PivotTableCacheInternal cache)
+        {
+            PivotTable = pivotTable;
+            _wb = PivotTable.WorkSheet.Workbook;
+            _nsm = nsm;
+            if(cache._wb !=_wb)
+            {
+                throw (new InvalidOperationException("The pivot table and the cache must be in the same workbook."));
+            }
+                
+            _cacheReference = cache;
+            _cacheReference._pivotTables.Add(pivotTable);
+
+            var rel = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
+        }
+
+        internal void Refresh()
+        {
+            _cacheReference.RefreshFields();
+        }
+
         internal Packaging.ZipPackagePart Part
         {
             get;

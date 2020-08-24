@@ -110,7 +110,17 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return Add(Range, Source.Range, Name);
         }
-
+        /// <summary>
+        /// Create a pivottable on the supplied range
+        /// </summary>
+        /// <param name="Range">The range address including header and total row</param>
+        /// <param name="PivotCacheDefinition">A pivot table cache shared with another pivot table</param>
+        /// <param name="Name">The name of the pivottable. Must be unique </param>
+        /// <returns>The pivottable object</returns>
+        public ExcelPivotTable Add(ExcelAddressBase Range, ExcelPivotCacheDefinition PivotCacheDefinition, string Name)
+        {
+            return Add(new ExcelPivotTable(_ws, Range, PivotCacheDefinition._cacheReference, Name, _ws.Workbook._nextPivotTableID++));
+        }
         internal string GetNewTableName()
         {
             string name = "Pivottable1";

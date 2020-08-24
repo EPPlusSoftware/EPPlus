@@ -437,13 +437,6 @@ namespace OfficeOpenXml
                     Compatibility.IsWorksheets1Based = value;
                 }
             }
-            if (sharePivotTableCacheForSameRange != null)
-            {
-                if (Boolean.TryParse(sharePivotTableCacheForSameRange.ToLowerInvariant(), out bool value))
-                {
-                    Compatibility.SharePivotTableCacheForSameRange = value;
-                }
-            }
         }
         /// <summary>
         /// Create a new file from a template

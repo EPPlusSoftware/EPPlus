@@ -95,7 +95,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             //A pivot table cache can reference multiple Pivot tables, so we need to update them all
-            foreach (var pt in _table._cacheDefinition._cacheReference._pivotTables)
+            foreach (var pt in _table.CacheDefinition._cacheReference._pivotTables)
             {
                 var existingItems = new HashSet<string>();
                 var list = pt.Fields[_index].Items._list;
@@ -125,6 +125,10 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         list.Insert(list.Count - nullItems, new ExcelPivotTableFieldItem() { Value = c });
                     }
+                }
+                if(nullItems==0 && list.Count >0 && pt.Fields[_index].GetXmlNodeBool("@defaultSubtotal",true)==true)
+                {
+                    list.Add(new ExcelPivotTableFieldItem() { Type=eItemType.Default, X=-1 });
                 }
             }
         }

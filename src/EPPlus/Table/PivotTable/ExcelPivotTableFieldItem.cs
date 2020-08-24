@@ -91,6 +91,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
+                if (Type != eItemType.Data) throw (new InvalidOperationException("Hidden can only be set for items of type Data"));
                 flags |= eBoolFlags.Hidden;
             }
         }

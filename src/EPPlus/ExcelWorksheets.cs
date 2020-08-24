@@ -476,7 +476,7 @@ namespace OfficeOpenXml
 
                 //create the relationship and add the ID to the worksheet xml.
                 added.Part.CreateRelationship(UriHelper.ResolvePartUri(added.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotTable");
-                partTbl.CreateRelationship(tbl._cacheDefinition.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
+                partTbl.CreateRelationship(tbl.CacheDefinition.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
                 //partCd.CreateRelationship(tbl._cacheDefinition._cacheReference.CacheRecordUri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
 
             }

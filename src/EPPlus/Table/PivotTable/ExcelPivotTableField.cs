@@ -822,7 +822,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal string SaveToXml()
         {
             var sb = new StringBuilder();
-            if (Axis != ePivotFieldAxis.Values && _table.CacheDefinition._cacheReference.Fields[Index].Grouping==null)
+            if (_table.CacheDefinition._cacheReference.Fields[Index].Grouping==null)
             {
                 var cacheLookup = _table.CacheDefinition._cacheReference.Fields[Index]._cacheLookup;
                 if (cacheLookup == null) return "";

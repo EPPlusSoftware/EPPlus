@@ -74,14 +74,5 @@ namespace OfficeOpenXml.Compatibility
                 }
             }
         }
-        /// <summary>
-        /// If pivot tables should share the same cashe if the same source range is used. 
-        /// This behavior was added in EPPlus 5.4. Default is true. If false each table will have it's own pivot table cache.
-        /// </summary>
-        public bool SharePivotTableCacheForSameRange
-        {
-            get;
-            set;
-        } = true;
    }
 }

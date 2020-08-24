@@ -84,13 +84,10 @@ namespace OfficeOpenXml
 
         internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
         {
-			if (_package.Compatibility.SharePivotTableCacheForSameRange)
+			if(_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
 			{
-				if(_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
-				{
-					cacheReference=cacheInfo.PivotCaches[0];
-					return true;
-				}
+				cacheReference=cacheInfo.PivotCaches[0];
+				return true;
 			}
 			cacheReference = null;
 			return false;

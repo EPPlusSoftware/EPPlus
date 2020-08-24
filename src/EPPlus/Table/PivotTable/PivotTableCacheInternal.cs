@@ -12,7 +12,7 @@ namespace OfficeOpenXml.Table.PivotTable
     internal class PivotTableCacheInternal : XmlHelper
     {
         internal List<ExcelPivotTable> _pivotTables=new List<ExcelPivotTable>();
-        private readonly ExcelWorkbook _wb;
+        internal readonly ExcelWorkbook _wb;
         public PivotTableCacheInternal(XmlNamespaceManager nsm, ExcelWorkbook wb) : base(nsm)
         {
             _wb = wb;
@@ -231,7 +231,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             _fields = fields;
         }
-
         internal eSourceType CacheSource
         {
             get
