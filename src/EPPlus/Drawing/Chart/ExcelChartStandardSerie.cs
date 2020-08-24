@@ -39,13 +39,8 @@ namespace OfficeOpenXml.Drawing.Chart
            _isPivot = isPivot;
            SchemaNodeOrder = new string[] { "idx", "order", "tx", "spPr", "marker", "invertIfNegative", "pictureOptions", "explosion", "dPt", "dLbls", "trendline","errBars", "cat", "val", "xVal", "yVal", "smooth","shape", "bubbleSize", "bubble3D", "numRef", "numLit", "strRef", "strLit", "formatCode", "ptCount", "pt" };
 
-           if (_chart.ChartType == eChartType.XYScatter ||
-               _chart.ChartType == eChartType.XYScatterLines ||
-               _chart.ChartType == eChartType.XYScatterLinesNoMarkers ||
-               _chart.ChartType == eChartType.XYScatterSmooth ||
-               _chart.ChartType == eChartType.XYScatterSmoothNoMarkers ||
-               _chart.ChartType == eChartType.Bubble ||
-               _chart.ChartType == eChartType.Bubble3DEffect)
+           if (_chart.ChartNode.LocalName=="scatterChart" ||
+               _chart.ChartNode.LocalName.StartsWith("bubble"))
            {
                _seriesTopPath = "c:yVal";
                _xSeriesTopPath = "c:xVal";

@@ -62,7 +62,7 @@ namespace EPPlusTest
             var fileName = _pck.File.FullName;
 
             SaveAndCleanup(_pck);
-            File.Copy(fileName, dirName + "\\DrawingRead.xlsx", true);
+            if(File.Exists(fileName)) File.Copy(fileName, dirName + "\\DrawingRead.xlsx", true);
         }
         [TestMethod]
         public void ReadDrawing()
@@ -708,10 +708,15 @@ namespace EPPlusTest
                 if(ws==null) Assert.Inconclusive("Shapes worksheet is missing");
 
                 var wsShapes = pck.Workbook.Worksheets.Add("Copy Shapes", ws);
+                Assert.AreEqual(187, wsShapes.Drawings.Count);
 
                 ws = pck.Workbook.Worksheets["Scatter"];
                 if (ws == null) Assert.Inconclusive("Scatter worksheet is missing");
                 var wsScatterChart = pck.Workbook.Worksheets.Add("Copy Scatter", ws);
+                Assert.AreEqual(2, wsScatterChart.Drawings.Count);
+                var chart1 = wsScatterChart.Drawings[0].As.Chart.ScatterChart;
+                Assert.AreEqual(1, chart1.Series.Count);
+                Assert.AreEqual("'Copy Scatter'!V19:V24", chart1.Series[0].Series);
 
                 ws = pck.Workbook.Worksheets["Picture"];
                 if (ws == null) Assert.Inconclusive("Picture worksheet is missing");
