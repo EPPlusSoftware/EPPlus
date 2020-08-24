@@ -51,8 +51,6 @@ namespace OfficeOpenXml.Drawing.Chart
             CreateNewChart(drawings, topChart, chartXml, type);
 
             Init(drawings, _chartNode);
-            InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
-            if (PivotTableSource != null) SetPivotSource(PivotTableSource);
 
             if (chartXml == null)
             {
@@ -62,6 +60,10 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 ChartType = GetChartType(_chartNode.LocalName);
             }
+
+            InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
+            if (PivotTableSource != null) SetPivotSource(PivotTableSource);
+
 
             if (topChart == null)
                 LoadAxis();

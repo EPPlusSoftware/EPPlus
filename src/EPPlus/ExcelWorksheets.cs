@@ -766,6 +766,23 @@ namespace OfficeOpenXml
                     c._height = draw._height;
                     c._width = draw._width;
                 }
+                if(c is ExcelChart chart)
+                {
+                    for(int j=0;i<chart.Series.Count;i++)
+                    {
+                        var s = chart.Series[j];
+                        var a = new ExcelAddressBase(s.Series);
+                        if (a.WorkSheetName.Equals(Copy.Name))
+                        {
+                            s.Series = ExcelAddressBase.GetFullAddress(workSheet.Name, a.LocalAddress);
+                        }
+                        a = new ExcelAddressBase(s.XSeries);
+                        if (a.WorkSheetName.Equals(Copy.Name))
+                        {
+                            s.XSeries = ExcelAddressBase.GetFullAddress(workSheet.Name, a.LocalAddress);
+                        }
+                    }
+                }
             }            
         }
 

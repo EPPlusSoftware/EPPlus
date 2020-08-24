@@ -1312,6 +1312,20 @@ namespace OfficeOpenXml
                 return (_fromRow == _toRow && _fromCol == _toCol);
             }
         }
+
+        public string LocalAddress 
+        { 
+            get
+            {
+                var ix = _address.LastIndexOf('!');
+                if (ix>=0)
+                {
+                    return _address.Substring(ix + 1);
+                }
+                return _address;
+            }
+        }
+
         internal static String GetWorkbookPart(string address)
         {
             var ix = 0;
