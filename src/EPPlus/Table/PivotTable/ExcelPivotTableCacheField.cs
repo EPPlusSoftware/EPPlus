@@ -11,10 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -33,13 +35,13 @@ namespace OfficeOpenXml.Table.PivotTable
             Error = 0x30
         }
         private PivotTableCacheInternal _cache;
-        private int _index;
         internal ExcelPivotTableCacheField(XmlNamespaceManager nsm, XmlNode topNode,  PivotTableCacheInternal cache, int index) : base(nsm, topNode)
         {
             _cache = cache;
-            _index = index;
+            Index = index;
             SetCacheFieldNode();
         }
+        public int Index { get; set; }
         public string Name
         {
             get
@@ -70,7 +72,7 @@ namespace OfficeOpenXml.Table.PivotTable
         } = new List<object>();
 
         internal Dictionary<object, int> _cacheLookup=null;
-
+        public ExcelPivotTableSlicer Slicer { get; internal set; }
         public eDateGroupBy DateGrouping { get; private set; }
         public ExcelPivotTableFieldGroup Grouping { get; set; }
 
@@ -115,9 +117,9 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 foreach(var pt in _cache._pivotTables)
                 {
-                    if (_index < pt.Fields.Count)
+                    if (Index < pt.Fields.Count)
                     {
-                        var axis = pt.Fields[_index].Axis;
+                        var axis = pt.Fields[Index].Axis;
                         if (axis == ePivotFieldAxis.Column ||
                             axis == ePivotFieldAxis.Row ||
                             axis == ePivotFieldAxis.Page)
@@ -577,5 +579,65 @@ namespace OfficeOpenXml.Table.PivotTable
 
 
         #endregion
+        internal void Refresh()
+        {
+            var range = _cache.SourceRange;
+            var column = range._fromCol + Index;
+            var toRow = range._toRow;
+            var hs = new HashSet<object>();
+            var ws = range.Worksheet;
+            //Get unique values.
+            for (int row = range._fromRow + 1; row <= toRow; row++)
+            {
+                var o = ws.GetValue(row, column);
+                if (!hs.Contains(o))
+                {
+                    hs.Add(o);
+                }
+            }
+            //A pivot table cache can reference multiple Pivot tables, so we need to update them all
+            foreach (var pt in _cache._pivotTables)
+            {
+                var existingItems = new HashSet<string>();
+                var list = pt.Fields[Index].Items._list;
+                var nullItems = 0;
+                for (var ix = 0; ix < list.Count; ix++)
+                {
+                    if (list[ix].Value != null)
+                    {
+                        if (!hs.Contains(list[ix].Value))
+                        {
+                            list.RemoveAt(ix);
+                            ix--;
+                        }
+                        else
+                        {
+                            existingItems.Add(list[ix].Value.ToString());
+                        }
+                    }
+                    else
+                    {
+                        nullItems++;
+                    }
+                }
+                foreach (var c in hs)
+                {
+                    if (!existingItems.Contains((c ?? "").ToString()))
+                    {
+                        list.Insert(list.Count - nullItems, new ExcelPivotTableFieldItem() { Value = c });
+                    }
+                }
+                if (nullItems == 0 && list.Count > 0 && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
+                {
+                    list.Add(new ExcelPivotTableFieldItem() { Type = eItemType.Default, X = -1 });
+                }
+            }
+            SharedItems = hs.ToList();
+            if (Slicer != null)
+            {
+
+            }
+        }
+
     }
 }

@@ -77,11 +77,20 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             wb.Names.AddFormula(Name, "#N/A");
 
-            var slNode = wb.GetExtLstSubNode(uriGuid, "x15:slicerCaches");
+            string prefix;
+            if(GetType()==typeof(ExcelPivotTableSlicerCache))
+            {
+                prefix = "x14";
+            }
+            else
+            {
+                prefix = "x15";
+            }
+            var slNode = wb.GetExtLstSubNode(uriGuid, prefix+":slicerCaches");
             if (slNode == null)
             {
                 wb.CreateNode("d:extLst/d:ext", false, true);
-                slNode = wb.CreateNode("d:extLst/d:ext/x15:slicerCaches", false, true);
+                slNode = wb.CreateNode($"d:extLst/d:ext/{prefix}:slicerCaches", false, true);
                 ((XmlElement)slNode.ParentNode).SetAttribute("uri", uriGuid);
             }
             var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);

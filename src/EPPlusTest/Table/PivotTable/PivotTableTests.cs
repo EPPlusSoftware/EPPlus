@@ -388,8 +388,6 @@ namespace EPPlusTest.Table.PivotTable
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[0]);
             var df=pt.DataFields.Add(pt.Fields[3]);
-            pt.Fields[3].Items.Refresh();
-            pt.Fields[3].Items[0].Hidden = true;
             pt.DataOnRows = true;
             pt.ColumnHeaderCaption = "Column Caption";
             pt.RowHeaderCaption = "Row Caption";

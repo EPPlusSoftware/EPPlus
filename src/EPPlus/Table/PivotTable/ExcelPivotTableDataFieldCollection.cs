@@ -20,10 +20,12 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotTableDataFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableDataField>
     {
-        internal ExcelPivotTableDataFieldCollection(ExcelPivotTable table) :
-            base(table, 0)
-        {
+        private readonly ExcelPivotTable _table;
 
+        internal ExcelPivotTableDataFieldCollection(ExcelPivotTable table) :
+            base()
+        {
+            _table = table;
         }
         /// <summary>
         /// Add a new datafield

@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  06/26/2020         EPPlus Software AB       EPPlus 5.3
+  06/26/2020         EPPlus Software AB       EPPlus 5.4
  ******0*******************************************************************************************/
 using OfficeOpenXml.Table.PivotTable;
 using System;
@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Slicer
     public class ExcelPivotTableSlicer : ExcelSlicer<ExcelPivotTableSlicerCache>
     {
         ExcelSlicerXmlSource _xmlSource;
-        ExcelPivotTableField _field;
+        internal ExcelPivotTableField _field;
         internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelPivotTableField field, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
             _ws = drawings.Worksheet;
@@ -29,13 +29,21 @@ namespace OfficeOpenXml.Drawing.Slicer
             var name = drawings.Worksheet.Workbook.GetPivotTableSlicerName(field.Name);
             CreateDrawing(name);
 
+            SlicerName = field.Name;
             Caption = field.Name;
             RowHeight = 19;
             CacheName = "Slicer_" + name.Replace(" ", "_");
 
             var cache = new ExcelPivotTableSlicerCache(NameSpaceManager);
-            cache.Init(drawings.Worksheet.Workbook, name);
+            _field.Cache.Slicer = this;
+            cache.Init(drawings.Worksheet.Workbook, name, this);
             _cache = cache;
+
+            //If items has not been init, refresh!
+            if(field._items==null)
+            {
+                field.Items.Refresh();
+            }
         }
         internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
@@ -43,17 +51,6 @@ namespace OfficeOpenXml.Drawing.Slicer
             var slicerNode = _ws.SlicerXmlSources.GetSource(Name, eSlicerSourceType.PivotTable, out _xmlSource);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
         }
-        /// <summary>
-        /// A collection of pivot tables that the slicer is applied on.
-        /// The pivot tables must have the same cache source.
-        /// </summary>
-        public ExcelSlicerPivotTableCollection PivotTables
-        {
-            get;
-        } = new ExcelSlicerPivotTableCollection();
-
-
-
         private void CreateDrawing(string name)
         {
             XmlElement graphFrame = TopNode.OwnerDocument.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);

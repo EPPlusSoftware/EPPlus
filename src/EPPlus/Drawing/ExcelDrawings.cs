@@ -1131,18 +1131,11 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-            if (Field.Slicer != null)
+            if (Field.Cache.Slicer != null)
             {
-                throw new InvalidOperationException("A slice already attached to this column");
+                throw new InvalidOperationException("A slicer is already attached to this column");
             }
-            //if (_drawingNames.ContainsKey(Field.Name))
-            //{
-            //    throw new Exception("Name already exists in the drawings collection");
-            //}
-            //if (TableColumn.Table.AutoFilter.Columns[TableColumn.Id] == null)
-            //{
-            //    TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
-            //}
+
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)
             {

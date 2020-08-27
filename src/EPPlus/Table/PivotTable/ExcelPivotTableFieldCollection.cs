@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.ComponentModel;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -19,10 +20,11 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotTableFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>
     {
-        internal ExcelPivotTableFieldCollection(ExcelPivotTable table, string topNode) :
-            base(table, 0)
+        private readonly ExcelPivotTable _table;
+        internal ExcelPivotTableFieldCollection(ExcelPivotTable table) :
+            base()
         {
-
+            _table = table;
         }
         /// <summary>
         /// Indexer by name

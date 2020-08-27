@@ -15,19 +15,31 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
+    {
+        private readonly ExcelPivotTableCacheField _cache;
+        public ExcelPivotTableFieldItemsCollection(ExcelPivotTableField _field) : base()
+        {
+            _cache = _field.Cache;
+        }
+        /// <summary>
+        /// Refreshes the data of the cache field
+        /// </summary>
+        public void Refresh()
+        {
+            _cache.Refresh();
+            
+        }
+    }
     /// <summary>
     /// Base collection class for pivottable fields
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExcelPivotTableFieldCollectionBase<T> : IEnumerable<T>
+    public abstract class ExcelPivotTableFieldCollectionBase<T> : IEnumerable<T>
     {
-        internal ExcelPivotTable _table;
-        private readonly int _index;
         internal List<T> _list = new List<T>();
-        internal ExcelPivotTableFieldCollectionBase(ExcelPivotTable table, int index)
+        internal ExcelPivotTableFieldCollectionBase()
         {
-            _table = table;
-            _index = index;
         }
         /// <summary>
         /// Gets the enumerator of the collection
@@ -74,62 +86,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     throw (new ArgumentOutOfRangeException("Index out of range"));
                 }
                 return _list[Index];
-            }
-        }
-
-        public void Refresh()
-        {
-            var ws = _table.CacheDefinition.SourceRange.Worksheet;
-            var column = _table.CacheDefinition.SourceRange._fromCol + _index;
-            var toRow = _table.CacheDefinition.SourceRange._toRow;
-            var hs = new HashSet
-                <object>();
-            //Get unique values.
-            for (int row = _table.CacheDefinition.SourceRange._fromRow + 1; row <= toRow; row++)
-            {
-                var o = ws.GetValue(row, column);
-                if (!hs.Contains(o))
-                {
-                    hs.Add(o);
-                }
-            }
-
-            //A pivot table cache can reference multiple Pivot tables, so we need to update them all
-            foreach (var pt in _table.CacheDefinition._cacheReference._pivotTables)
-            {
-                var existingItems = new HashSet<string>();
-                var list = pt.Fields[_index].Items._list;
-                var nullItems = 0;
-                for (var ix = 0; ix < list.Count; ix++)
-                {
-                    if (list[ix].Value != null)
-                    {
-                        if (!hs.Contains(list[ix].Value))
-                        {
-                            list.RemoveAt(ix);
-                            ix--;
-                        }
-                        else
-                        {
-                            existingItems.Add(list[ix].Value.ToString());
-                        }
-                    }
-                    else
-                    {
-                        nullItems++;
-                    }
-                }
-                foreach (var c in hs)
-                {
-                    if (!existingItems.Contains((c??"").ToString()))
-                    {
-                        list.Insert(list.Count - nullItems, new ExcelPivotTableFieldItem() { Value = c });
-                    }
-                }
-                if(nullItems==0 && list.Count >0 && pt.Fields[_index].GetXmlNodeBool("@defaultSubtotal",true)==true)
-                {
-                    list.Add(new ExcelPivotTableFieldItem() { Type=eItemType.Default, X=-1 });
-                }
             }
         }
     }

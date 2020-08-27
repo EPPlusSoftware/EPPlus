@@ -2286,14 +2286,15 @@ namespace OfficeOpenXml
                             ExcelChart c = (ExcelChart)d;
                             c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
                         }
-                            else if(d is ExcelSlicer<ExcelTableSlicerCache> s)
-                            {
-                                s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-                            }
-                            else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
-                            {
-                                p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-                            }
+                        else if(d is ExcelSlicer<ExcelTableSlicerCache> s)
+                        {
+                            s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+                        }
+                        else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
+                        {
+                            p.Cache.UpdateItemsXml();
+                            p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+                        }
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
                     Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));

@@ -559,17 +559,17 @@ namespace OfficeOpenXml.Table.PivotTable
             return newElement;
         }
         #endregion
-        internal ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem> _items = null;
+        internal ExcelPivotTableFieldItemsCollection _items = null;
         /// <summary>
         /// Pivottable field Items. Used for grouping.
         /// </summary>
-        public ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem> Items
+        public ExcelPivotTableFieldItemsCollection Items
         {
             get
             {
                 if (_items == null)
                 {
-                    _items = new ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>(_table, Index);
+                    _items = new ExcelPivotTableFieldItemsCollection(this);
                     if (_grouping == null)
                     {
                         var sh = _table.CacheDefinition._cacheReference.Fields[Index].SharedItems;
@@ -594,8 +594,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _table.CacheDefinition._cacheReference.Fields[Index];
             }
         }
-        public ExcelPivotTableSlicer Slicer { get; internal set; }
-
         /// <summary>
         /// Add numberic grouping to the field
         /// </summary>

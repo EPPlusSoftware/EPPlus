@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/01/2020         EPPlus Software AB       EPPlus 5.3
+  07/01/2020         EPPlus Software AB       EPPlus 5.4
  *************************************************************************************************/
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table.PivotTable;
@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
@@ -34,6 +35,10 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal void Add(ExcelPivotTable table)
         {
+            if(_list.Count > 0 && _list[0].CacheId != table.CacheId)
+            {
+                throw (new InvalidOperationException("Multiple Pivot tables added to a slicer must refer to the same cache."));
+            }
             _list.Add(table);
         }
         public int Count
@@ -51,16 +56,19 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         }
 
-        internal void Init(ExcelWorkbook wb, string name)
+        internal ExcelPivotTableSlicer _slicer;
+        internal void Init(ExcelWorkbook wb, string name, ExcelPivotTableSlicer slicer)
         {
             CreatePart(wb);
-            SlicerCacheXml.DocumentElement.InnerXml = GetStartXml(name);
             TopNode = SlicerCacheXml.DocumentElement;
             Name = "Slicer_" + name;
             SourceName = name;
+            _slicer = slicer;
             wb.Names.AddFormula(Name, "#N/A");
-
+            PivotTables.Add(slicer._field._table);
             CreateWorkbookReference(wb, "{BBE1A952-AA13-448e-AADC-164F8A28A991}");
+
+            Data.Refresh();
         }
         private string GetStartXml(string name)
         {
@@ -104,10 +112,22 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 if(_data==null)
                 {
-                    _data = new ExcelPivotTableSlicerCacheData(NameSpaceManager, TopNode);
+                    _data = new ExcelPivotTableSlicerCacheData(NameSpaceManager, TopNode, _slicer);
                 }
                 return _data;
             }
+        }
+
+        internal void UpdateItemsXml()
+        {
+           var sb = new StringBuilder();
+            foreach(var pt in PivotTables)
+            {
+                sb.Append($"<pivotTable name=\"{pt.Name}\" tabId=\"{_slicer._field.Index}\"/>");
+            }
+            var ptNode = CreateNode("x14:pivotTables");
+            ptNode.InnerXml = sb.ToString();
+            Data.UpdateItemsXml();
         }
     }
 }

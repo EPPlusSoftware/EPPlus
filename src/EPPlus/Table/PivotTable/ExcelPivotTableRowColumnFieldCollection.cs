@@ -20,9 +20,11 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableRowColumnFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>
     {
         internal string _topNode;
+        private readonly ExcelPivotTable _table;
         internal ExcelPivotTableRowColumnFieldCollection(ExcelPivotTable table, string topNode) :
-            base(table, 0)
+            base()
 	    {
+            _table = table;
             _topNode=topNode;
 	    }
 

@@ -14,7 +14,7 @@ namespace OfficeOpenXml.Constants
         internal const string PivotTableDefinition16Uri = "{747A6164-185A-40DC-8AA5-F01512510D54}";
 
         //Pivot Table Cache Defintion
-        internal const string PivotCacheDefinitionUri = "{725AE2AE-9491-48BE-B2B4-4EB974FC3084}";
+        internal const string PivotCacheDefinitionUri = "{725AE2AE-9491-48be-B2B4-4EB974FC3084}";           //Excel require lower case on 48be???
         internal const string TimelinePivotCacheDefinitionUri = "{5DA0FC9A-693D-419c-AD59-312A39285967}";
         internal const string PivotCacheIdVersionUri = "{ABF5C744-AB39-4b91-8756-CFA1BBC848D5}";
 

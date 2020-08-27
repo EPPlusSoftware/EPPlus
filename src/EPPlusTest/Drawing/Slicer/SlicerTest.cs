@@ -159,13 +159,14 @@ namespace EPPlusTest.Drawing.Slicer
             rf.Items[0].Hidden = true;
             var df=tbl.DataFields.Add(tbl.Fields[3]);
             df.Function = OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum;
-            
-            //var slicer = ws.Drawings.AddPivotTableSlicer(tbl.Fields[0]);
-            //tbl.Fields[0].Items.Refresh();
-            //slicer.Style = eSlicerStyle.Dark1;
-            //slicer.SetPosition(1, 0, 5, 0);
-            //slicer.SetSize(200, 600);
-        }
 
+            var slicer = ws.Drawings.AddPivotTableSlicer(tbl.Fields[1]);
+            slicer.Cache.Data.Items[0].Hidden = true;
+            slicer.Cache.Data.Items[2].Hidden = true;
+            slicer.Cache.Data.Items[4].Hidden = true;
+            slicer.Style = eSlicerStyle.Light5;
+            slicer.SetPosition(1, 0, 10, 0);
+            slicer.SetSize(200, 600);
+        }
     }
 }

@@ -10,8 +10,11 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.Extentions;
+using System;
 using System.Security.Principal;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
@@ -19,8 +22,11 @@ namespace OfficeOpenXml.Drawing.Slicer
     public class ExcelPivotTableSlicerCacheData : XmlHelper
     {
         const string _topPath = "x14:data/x14:tabular";
-        internal ExcelPivotTableSlicerCacheData(XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
+        private readonly ExcelPivotTableSlicer _slicer;
+        internal ExcelPivotTableSlicerCacheData(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTableSlicer slicer) : base(nsm, topNode)
         {
+            SchemaNodeOrder = new string[] { "pivotTables", "data" };
+            _slicer = slicer;
         }
         const string _crossFilterPath = _topPath + "/@crossFilter";
         /// <summary>
@@ -61,6 +67,22 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         const string _customListSortPath = _topPath + "/@customList";
+
+        internal void Refresh()
+        {
+            //Items.Clear();
+            //var tbls = _field._table.CacheDefinition._cacheReference._pivotTables;
+            //foreach (var item in _field.Items)
+            //{
+            //    var items=new pivotTableItems[]
+            //    foreach (var pt in tbls)
+            //    {
+
+            //    }
+            //    Items.AddInternal(new ExcelPivotTableSlicerItem())
+            //}
+        }
+
         /// <summary>
         /// If custom lists are used when sorting the items
         /// </summary>
@@ -90,6 +112,38 @@ namespace OfficeOpenXml.Drawing.Slicer
                 SetXmlNodeBool(_showMissingPath, value, true);
             }
         }
+        private ExcelPivotTableSlicerItemCollection _items =null;
+        public ExcelPivotTableSlicerItemCollection Items
+        {
+            get
+            {
+                if(_items==null)
+                {
+                    _items = new ExcelPivotTableSlicerItemCollection(_slicer);
+                }
+                return _items;
+            }
+        }
 
+        internal void UpdateItemsXml()
+        {
+            var sb = new StringBuilder();
+            int x = 0;
+            foreach (var item in _slicer._field.Items)
+            {
+                if (item.Type == eItemType.Data)
+                {
+                    if (item.Hidden)
+                        sb.Append($"<i x=\"{x++}\" />");
+                    else
+                        sb.Append($"<i x=\"{x++}\" s=\"1\"/>");
+                }
+            }
+
+            SetXmlNodeInt(_topPath + "/@pivotCacheId", _slicer._field._table.CacheId);
+            var dataNode = (XmlElement)CreateNode(_topPath+"/x14:items");
+            dataNode.SetAttribute("count", x.ToString());
+            dataNode.InnerXml = sb.ToString();
+        }
     }
 }
