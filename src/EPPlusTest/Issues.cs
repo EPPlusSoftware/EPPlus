@@ -1263,7 +1263,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue108()
         {
-            using(var p = OpenTemplatePackage("Test.xlsx"))
+            using (var p = OpenTemplatePackage("Test.xlsx"))
             {
                 Assert.AreEqual(3, ((ExcelShape)p.Workbook.Worksheets[0].Drawings[0]).RichText.Count);
                 SaveWorkbook("Issue108.xlsx", p);
@@ -1282,7 +1282,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue121()
         {
-            using (var p=OpenTemplatePackage("Deployment aftaler.xlsx"))
+            using (var p = OpenTemplatePackage("Deployment aftaler.xlsx"))
             {
                 var sheet = p.Workbook.Worksheets[0];
             }
@@ -1319,6 +1319,18 @@ namespace EPPlusTest
                 p.Workbook.Worksheets.Delete(2);
                 p.Workbook.Calculate();
                 SaveWorkbook("null_issue_vba.xlsm", p);
+            }
+        }
+        [TestMethod]
+        public void Issue26()
+        {
+            using (var p = OpenTemplatePackage("Issue26.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+            using (var p = OpenPackage("Issue26.xlsx"))
+            {
+                SaveWorkbook("Issue26-resaved.xlsx", p);
             }
         }
     }

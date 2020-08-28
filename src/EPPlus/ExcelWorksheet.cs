@@ -3161,7 +3161,7 @@ namespace OfficeOpenXml
         {
             if (v != null && v.ToString()!="")
             {
-                return $"<{prefix}v>{ConvertUtil.ExcelEscapeString(ConvertUtil.GetValueForXml(v, Workbook.Date1904))}</{prefix}v>";
+                return $"<{prefix}v>{ConvertUtil.ExcelEncodeString(ConvertUtil.ExcelEscapeString(ConvertUtil.GetValueForXml(v, Workbook.Date1904)))}</{prefix}v>";
             }            
             else
             {
