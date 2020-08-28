@@ -92,7 +92,7 @@ namespace OfficeOpenXml
         private async Task LoadAsync(Stream input, Stream output, string Password, CancellationToken cancellationToken)
         {
             ReleaseResources();
-            if (input.Length == 0) // Template is blank, Construct new
+            if (input.CanSeek && input.Length == 0) // Template is blank, Construct new
             {
                 _stream = output;
                 await ConstructNewFileAsync(Password, cancellationToken).ConfigureAwait(false);
