@@ -93,13 +93,13 @@ namespace EPPlusTest.ThreadedComments
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 var person = sheet.ThreadedComments.Persons.Add("John Doe");
-                var person2 = sheet.ThreadedComments.Persons.Add("John Does brother");
+                var person2 = sheet.ThreadedComments.Persons.Add("Jane Doe");
                 var thread = sheet.Cells["A1"].AddThreadedComment();
                 var c1 = thread.AddComment(person2.Id, "Hello");
                 var c2 = thread.AddComment(person.Id, "Hello {0}", person2);
                 
                 Assert.AreEqual(2, thread.Comments.Count);
-                Assert.AreEqual("Hello @John Does brother", c2.Text);
+                Assert.AreEqual("Hello @Jane Doe", c2.Text);
                 Assert.AreEqual(1, c2.Mentions.Count());
             }
         }

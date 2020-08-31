@@ -97,16 +97,27 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             });
             return functions;
-        } 
+        }
 
         /// <summary>
         /// Parses the supplied <paramref name="formula"/> and returns the result.
         /// </summary>
-        /// <param name="formula"></param>
-        /// <returns></returns>
+        /// <param name="formula">The formula to parse</param>
+        /// <returns>The result of the parsed formula</returns>
         public object Parse(string formula)
         {
             return _parser.Parse(formula);
+        }
+
+        /// <summary>
+        /// Parses the supplied <paramref name="formula"/> and returns the result.
+        /// </summary>
+        /// <param name="formula">The formula to parse</param>
+        /// <param name="address">The full address in the workbook where the <paramref name="formula"/> should be parsed. Example: you might want to parse the formula of a conditional format, then this should be the address of the cell where the conditional format resides.</param>
+        /// <returns>The result of the parsed formula</returns>
+        public object Parse(string formula, string address)
+        {
+            return _parser.Parse(formula, address);
         }
 
         /// <summary>
