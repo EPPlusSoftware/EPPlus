@@ -257,15 +257,14 @@ namespace OfficeOpenXml.ThreadedComments
                 if(_mentions == null)
                 {
                     var mentionsNode = TopNode.SelectSingleNode("tc:mentions", NameSpaceManager);
-                    if (mentionsNode != null)
+                    if (mentionsNode == null)
                     {
-                        _mentions = new ExcelThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
+                        mentionsNode = TopNode.OwnerDocument.CreateElement("mentions", ExcelPackage.schemaThreadedComments);
+                        TopNode.AppendChild(mentionsNode);
                     }
-                    mentionsNode = TopNode.OwnerDocument.CreateElement("mentions", ExcelPackage.schemaThreadedComments);
-                    TopNode.AppendChild(mentionsNode);
                     _mentions = new ExcelThreadedCommentMentionCollection(NameSpaceManager, mentionsNode);
                 }
-                
+
                 return _mentions;
             }
         }

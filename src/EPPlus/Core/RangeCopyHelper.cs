@@ -11,9 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.ThreadedComments;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core
@@ -30,6 +33,7 @@ namespace OfficeOpenXml.Core
             internal int? StyleID { get; set; }
             internal Uri HyperLink { get; set; }
             internal ExcelComment Comment { get; set; }
+            internal ExcelThreadedCommentThread ThreadedComment { get; set; }
             internal Byte Flag { get; set; }
         }
 
@@ -43,7 +47,7 @@ namespace OfficeOpenXml.Core
                 cols = sourceRange._toCol - sourceRange._fromCol + 1;
             ClearDestination(Destination, rows, cols);
 
-            CopyValues(Destination, sourceRange._fromRow, sourceRange._fromCol, copiedValue);
+            CopyValues(Destination, sourceRange, copiedValue);
 
             CopyMergedCells(Destination, copiedMergedCells);
             CopyFullColumn(sourceRange, Destination);
@@ -127,7 +131,7 @@ namespace OfficeOpenXml.Core
 
                 // Will just be null if no comment exists.
                 cell.Comment = worksheet.Cells[cse.Row, cse.Column].Comment;
-
+                cell.ThreadedComment = worksheet.Cells[cse.Row, cse.Column].ThreadedComment;
                 if (worksheet._flags.Exists(row, col, ref flag))
                 {
                     cell.Flag = flag;
@@ -176,29 +180,46 @@ namespace OfficeOpenXml.Core
             return copiedValue;
         }
 
-        private static void CopyValues(ExcelRangeBase Destination, int fromRow, int fromCol, List<CopiedCell> copiedValue)
+        private static void CopyValues(ExcelRangeBase destination, ExcelRangeBase source, List<CopiedCell> copiedValue)
         {
+            int fromRow = source._fromRow;
+            int fromCol = source._fromCol;
             foreach (var cell in copiedValue)
             {
-                Destination._worksheet.SetValueStyleIdInner(cell.Row, cell.Column, cell.Value, cell.StyleID??0);
+                destination._worksheet.SetValueStyleIdInner(cell.Row, cell.Column, cell.Value, cell.StyleID??0);
 
                 if (cell.Formula != null)
                 {
-                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(cell.Formula.ToString(), Destination._fromRow - fromRow, Destination._fromCol - fromCol, 0, 0, Destination.WorkSheetName, Destination.WorkSheetName, true);
-                    Destination._worksheet._formulas.SetValue(cell.Row, cell.Column, cell.Formula);
+                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(cell.Formula.ToString(), destination._fromRow - fromRow, destination._fromCol - fromCol, 0, 0, destination.WorkSheetName, destination.WorkSheetName, true);
+                    destination._worksheet._formulas.SetValue(cell.Row, cell.Column, cell.Formula);
                 }
                 if (cell.HyperLink != null)
                 {
-                    Destination._worksheet._hyperLinks.SetValue(cell.Row, cell.Column, cell.HyperLink);
+                    destination._worksheet._hyperLinks.SetValue(cell.Row, cell.Column, cell.HyperLink);
                 }
 
-                if (cell.Comment != null)
+                if (cell.ThreadedComment != null)
                 {
-                    Destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
+                    var differentPackages = destination._workbook != source._workbook;
+                    var tc = destination.Worksheet.Cells[cell.Row, cell.Column].AddThreadedComment();
+                    foreach (var c in cell.ThreadedComment.Comments)
+                    {
+                        if(differentPackages && destination._workbook.ThreadedCommentPersons[c.PersonId]==null)
+                        {
+                            var p = source._workbook.ThreadedCommentPersons[c.PersonId];
+                            destination._workbook.ThreadedCommentPersons.Add(p.DisplayName, p.UserId, p.ProviderId, p.Id);
+                        }
+                        tc.AddCommentFromXml((XmlElement)c.TopNode);
+                    }
                 }
+                else if (cell.Comment != null)
+                {
+                    destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
+                }
+
                 if (cell.Flag != 0)
                 {
-                    Destination._worksheet._flags.SetValue(cell.Row, cell.Column, cell.Flag);
+                    destination._worksheet._flags.SetValue(cell.Row, cell.Column, cell.Flag);
                 }
             }
         }

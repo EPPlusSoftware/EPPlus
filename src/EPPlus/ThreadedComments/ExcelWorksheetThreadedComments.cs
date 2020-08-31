@@ -94,10 +94,14 @@ namespace OfficeOpenXml.ThreadedComments
                 var comment = new ExcelThreadedComment(node, _worksheet.NameSpaceManager, _worksheet.Workbook);
                 var cellAddress = comment.CellAddress;
                 int i = -1;
-                if(!_worksheet._threadedCommentsStore.Exists(cellAddress.Row, cellAddress.Column, ref i))
+                ExcelThreadedCommentThread thread;
+                if (_worksheet._threadedCommentsStore.Exists(cellAddress.Row, cellAddress.Column, ref i))
                 {
-                    var thread = new ExcelThreadedCommentThread(cellAddress, ThreadedCommentsXml, _worksheet);
-                    comment.Thread = thread;
+                    thread= _threads[_threadsIndex[i]]; 
+                }
+                else
+                {
+                    thread = new ExcelThreadedCommentThread(cellAddress, ThreadedCommentsXml, _worksheet);
                     lock (_worksheet._threadedCommentsStore)
                     {
                         i = _threads.Count;
@@ -106,7 +110,8 @@ namespace OfficeOpenXml.ThreadedComments
                         _threads.Add(thread);
                     }
                 }
-                _threads[i].AddComment(comment);
+                comment.Thread = thread;
+                thread.AddComment(comment);
             }
         }
 
