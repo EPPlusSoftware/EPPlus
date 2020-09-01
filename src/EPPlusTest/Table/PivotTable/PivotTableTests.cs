@@ -279,8 +279,11 @@ namespace EPPlusTest.Table.PivotTable
             pt.Fields[4].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days | eDateGroupBy.Quarters, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
             pt.RowHeaderCaption = "År";
             pt.Fields[4].Name = "Dag";
+            pt.Fields[4].Items[0].Hidden = true;
             pt.Fields[5].Name = "Månad";
+            pt.Fields[5].Items[0].Hidden = true;
             pt.Fields[6].Name = "Kvartal";
+            pt.Fields[6].Items[0].Hidden = true;
             pt.GrandTotalCaption = "Totalt";
 
             pt.DataFields.Add(pt.Fields[3]);
@@ -301,6 +304,7 @@ namespace EPPlusTest.Table.PivotTable
 
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
+
             pt.DataOnRows = true;
 
         }
@@ -314,6 +318,10 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields.Add(pt.Fields[3]);
             pt.RowFields[0].AddNumericGrouping(-3.3, 5.5, 4.0);
             pt.DataFields.Add(pt.Fields[2]);
+            pt.RowFields[0].Items[0].Hidden = true;
+            pt.RowFields[0].Items[1].Hidden = true;
+            pt.RowFields[0].Items[2].Hidden = true;
+            pt.RowFields[0].Items[3].Hidden = true;
             pt.DataOnRows = false;
             pt.TableStyle = OfficeOpenXml.Table.TableStyles.Medium14;
         }

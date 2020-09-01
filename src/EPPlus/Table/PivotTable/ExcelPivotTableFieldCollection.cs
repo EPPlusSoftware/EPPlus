@@ -87,6 +87,7 @@ namespace OfficeOpenXml.Table.PivotTable
             fieldNode.SetAttribute("showAll", "0");
             fieldNode.SetAttribute("defaultSubtotal", "0");
             topNode.AppendChild(fieldNode);
+            fieldNode.InnerXml = "<items/>";
 
             var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
             field.DateGrouping = groupBy;

@@ -443,8 +443,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 baseIndex, start.ToString(CultureInfo.InvariantCulture), end.ToString(CultureInfo.InvariantCulture), interval.ToString(CultureInfo.InvariantCulture));
 
             int items = AddNumericGroupItems(group, start, end, interval);
-            //AddFieldItems(items);
-
             Grouping = group;
             return group;
         }
@@ -460,41 +458,43 @@ namespace OfficeOpenXml.Table.PivotTable
                 throw (new Exception("Then End number must be larger than the Start number"));
             }
 
-            XmlElement groupItems = group.TopNode.SelectSingleNode("d:fieldGroup/d:groupItems", group.NameSpaceManager) as XmlElement;
+            XmlElement groupItemsNode = group.TopNode.SelectSingleNode("d:fieldGroup/d:groupItems", group.NameSpaceManager) as XmlElement;
             int items = 2;
             //First date
             double index = start;
             double nextIndex = start + interval;
             GroupItems.Clear();
-            AddGroupItem(groupItems, "<" + start.ToString(CultureInfo.InvariantCulture));
+            AddGroupItem(groupItemsNode, "<" + start.ToString(CultureInfo.CurrentCulture));
 
             while (index < end)
             {
-                AddGroupItem(groupItems, string.Format("{0}-{1}", index.ToString(CultureInfo.InvariantCulture), nextIndex.ToString(CultureInfo.InvariantCulture)));
+                AddGroupItem(groupItemsNode, string.Format("{0}-{1}", index.ToString(CultureInfo.CurrentCulture), nextIndex.ToString(CultureInfo.CurrentCulture)));
                 index = nextIndex;
                 nextIndex += interval;
                 items++;
             }
-            AddGroupItem(groupItems, ">" + nextIndex.ToString(CultureInfo.InvariantCulture));
+            AddGroupItem(groupItemsNode, ">" + index.ToString(CultureInfo.CurrentCulture));
+
+            UpdateCacheLookupFromGroupItems();
             return items;
         }
         private int AddDateGroupItems(ExcelPivotTableFieldGroup group, eDateGroupBy GroupBy, DateTime StartDate, DateTime EndDate, int interval)
         {
-            XmlElement groupItems = group.TopNode.SelectSingleNode("d:fieldGroup/d:groupItems", group.NameSpaceManager) as XmlElement;
+            XmlElement groupItemsNode = group.TopNode.SelectSingleNode("d:fieldGroup/d:groupItems", group.NameSpaceManager) as XmlElement;
             int items = 2;
             GroupItems.Clear();
             //First date
-            AddGroupItem(groupItems, "<" + StartDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
+            AddGroupItem(groupItemsNode, "<" + StartDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
 
             switch (GroupBy)
             {
                 case eDateGroupBy.Seconds:
                 case eDateGroupBy.Minutes:
-                    AddTimeSerie(60, groupItems);
+                    AddTimeSerie(60, groupItemsNode);
                     items += 60;
                     break;
                 case eDateGroupBy.Hours:
-                    AddTimeSerie(24, groupItems);
+                    AddTimeSerie(24, groupItemsNode);
                     items += 24;
                     break;
                 case eDateGroupBy.Days:
@@ -503,7 +503,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         DateTime dt = new DateTime(2008, 1, 1); //pick a year with 366 days
                         while (dt.Year == 2008)
                         {
-                            AddGroupItem(groupItems, dt.ToString("dd-MMM"));
+                            AddGroupItem(groupItemsNode, dt.ToString("dd-MMM"));
                             dt = dt.AddDays(1);
                         }
                         items += 366;
@@ -514,32 +514,32 @@ namespace OfficeOpenXml.Table.PivotTable
                         items = 0;
                         while (dt < EndDate)
                         {
-                            AddGroupItem(groupItems, dt.ToString("dd-MMM"));
+                            AddGroupItem(groupItemsNode, dt.ToString("dd-MMM"));
                             dt = dt.AddDays(interval);
                             items++;
                         }
                     }
                     break;
                 case eDateGroupBy.Months:
-                    AddGroupItem(groupItems, "jan");
-                    AddGroupItem(groupItems, "feb");
-                    AddGroupItem(groupItems, "mar");
-                    AddGroupItem(groupItems, "apr");
-                    AddGroupItem(groupItems, "may");
-                    AddGroupItem(groupItems, "jun");
-                    AddGroupItem(groupItems, "jul");
-                    AddGroupItem(groupItems, "aug");
-                    AddGroupItem(groupItems, "sep");
-                    AddGroupItem(groupItems, "oct");
-                    AddGroupItem(groupItems, "nov");
-                    AddGroupItem(groupItems, "dec");
+                    AddGroupItem(groupItemsNode, "jan");
+                    AddGroupItem(groupItemsNode, "feb");
+                    AddGroupItem(groupItemsNode, "mar");
+                    AddGroupItem(groupItemsNode, "apr");
+                    AddGroupItem(groupItemsNode, "may");
+                    AddGroupItem(groupItemsNode, "jun");
+                    AddGroupItem(groupItemsNode, "jul");
+                    AddGroupItem(groupItemsNode, "aug");
+                    AddGroupItem(groupItemsNode, "sep");
+                    AddGroupItem(groupItemsNode, "oct");
+                    AddGroupItem(groupItemsNode, "nov");
+                    AddGroupItem(groupItemsNode, "dec");
                     items += 12;
                     break;
                 case eDateGroupBy.Quarters:
-                    AddGroupItem(groupItems, "Qtr1");
-                    AddGroupItem(groupItems, "Qtr2");
-                    AddGroupItem(groupItems, "Qtr3");
-                    AddGroupItem(groupItems, "Qtr4");
+                    AddGroupItem(groupItemsNode, "Qtr1");
+                    AddGroupItem(groupItemsNode, "Qtr2");
+                    AddGroupItem(groupItemsNode, "Qtr3");
+                    AddGroupItem(groupItemsNode, "Qtr4");
                     items += 4;
                     break;
                 case eDateGroupBy.Years:
@@ -547,7 +547,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         for (int year = StartDate.Year; year <= EndDate.Year; year++)
                         {
-                            AddGroupItem(groupItems, year.ToString());
+                            AddGroupItem(groupItemsNode, year.ToString());
                         }
                         items += EndDate.Year - StartDate.Year + 1;
                     }
@@ -557,8 +557,20 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             //Lastdate
-            AddGroupItem(groupItems, ">" + EndDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));            
+            AddGroupItem(groupItemsNode, ">" + EndDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
+            
+            UpdateCacheLookupFromGroupItems();
+
             return items;
+        }
+
+        private void UpdateCacheLookupFromGroupItems()
+        {
+            _cacheLookup = new Dictionary<object, int>();
+            for (int i = 0; i < GroupItems.Count; i++)
+            {
+                _cacheLookup.Add(GroupItems[i], i);
+            }
         }
 
         private void AddTimeSerie(int count, XmlElement groupItems)
@@ -581,6 +593,7 @@ namespace OfficeOpenXml.Table.PivotTable
         #endregion
         internal void Refresh()
         {
+            if (Grouping != null) return;
             var range = _cache.SourceRange;
             var column = range._fromCol + Index;
             var toRow = range._toRow;
