@@ -214,6 +214,38 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
+        internal void AddCommentFromXml(XmlElement copyFromElement)
+        {
+            var xmlNode = ThreadedCommentsXml.CreateElement("threadedComment", ExcelPackage.schemaThreadedComments);
+            ThreadedCommentsXml.SelectSingleNode("tc:ThreadedComments", Worksheet.NameSpaceManager).AppendChild(xmlNode);
+            foreach(XmlAttribute attr in copyFromElement.Attributes)
+            {
+                if(attr.LocalName=="ref")
+                {
+                    xmlNode.SetAttribute("ref", CellAddress.Address);
+                }
+                else if(attr.LocalName == "id")
+                {
+                    xmlNode.SetAttribute("id", ExcelThreadedComment.NewId());
+                }
+                else
+                {
+                    xmlNode.SetAttribute(attr.LocalName, attr.Value);
+                }
+            }
+            xmlNode.InnerXml = copyFromElement.InnerXml;
+            var tc = new ExcelThreadedComment(xmlNode, Worksheet.NameSpaceManager, Worksheet.Workbook, this);
+            if(Comments.Count>0)
+            {
+                tc.ParentId = Comments[0].Id;
+            }
+            foreach(var m in tc.Mentions)
+            {
+                m.MentionId = ExcelThreadedComment.NewId();
+            }
+            AddComment(tc);
+        }
+
         public override string ToString()
         {
             return "Count = " + Comments.Count;

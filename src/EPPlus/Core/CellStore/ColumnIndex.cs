@@ -157,6 +157,7 @@ internal class ColumnIndex : IndexBase, IDisposable
     internal int PageCount;
     public void Dispose()
     {
+        if (_pages == null) return;
         for (int p = 0; p < PageCount; p++)
         {
             (_pages[p] as IDisposable)?.Dispose();

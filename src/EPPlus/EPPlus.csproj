@@ -202,10 +202,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="readme.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
     <None Include="license.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

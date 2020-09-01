@@ -1486,7 +1486,7 @@ namespace OfficeOpenXml
                     string t = xr.GetAttribute("t");
                     if (t == null)
                     {
-                        _formulas.SetValue(address._fromRow, address._fromCol, xr.ReadElementContentAsString());
+                        _formulas.SetValue(address._fromRow, address._fromCol, ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString()));
                         SetValueInner(address._fromRow, address._fromCol, null);
                         //formulaList.Add(cell);
                     }
@@ -2936,11 +2936,11 @@ namespace OfficeOpenXml
                             {
                                 if (f.IsArray)
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{f.Address}\" t=\"array\">{ConvertUtil.ExcelEscapeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{f.Address}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
                                 else
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\">{ConvertUtil.ExcelEscapeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
 
                             }
@@ -2958,19 +2958,19 @@ namespace OfficeOpenXml
                             // We can also have a single cell array formula
                             if (f.IsArray)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\">{ConvertUtil.ExcelEscapeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
                             }
                             else
                             {
                                 cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{GetCellType(v, true)}>");
-                                cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                     }
                     else if (formula != null && formula.ToString() != "")
                     {
                         cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}>");
-                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeString(formula.ToString())}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(formula.ToString())}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                     }
                     else
                     {
@@ -3120,7 +3120,7 @@ namespace OfficeOpenXml
         {
             if (v != null && v.ToString()!="")
             {
-                return $"<{prefix}v>{ConvertUtil.ExcelEscapeString(ConvertUtil.GetValueForXml(v, Workbook.Date1904))}</{prefix}v>";
+                return $"<{prefix}v>{ConvertUtil.ExcelEscapeAndEncodeString(ConvertUtil.GetValueForXml(v, Workbook.Date1904))}</{prefix}v>";
             }            
             else
             {

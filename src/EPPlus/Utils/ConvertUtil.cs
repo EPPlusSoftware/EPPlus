@@ -262,6 +262,10 @@ namespace OfficeOpenXml.Utils
             }
 
         }
+        internal static string ExcelEscapeAndEncodeString(string t)
+        {
+            return ExcelEncodeString(ExcelEscapeString(t));
+        }
         /// <summary>
         /// Return true if preserve space attribute is set.
         /// </summary>

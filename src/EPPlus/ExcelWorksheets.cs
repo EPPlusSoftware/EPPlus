@@ -27,6 +27,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using static OfficeOpenXml.Drawing.PictureStore;
+using OfficeOpenXml.ThreadedComments;
 
 namespace OfficeOpenXml
 {
@@ -209,7 +210,11 @@ namespace OfficeOpenXml
                 ExcelWorksheet added = new ExcelWorksheet(_namespaceManager, _pck, relID, uriWorksheet, Name, sheetID, _worksheets.Count + _pck._worksheetAdd, eWorkSheetHidden.Visible);
 
                 //Copy comments
-                if (Copy.Comments.Count > 0)
+                if(Copy.ThreadedComments.Count>0)
+                {
+                    CopyThreadedComments(Copy, added);
+                }
+                else if (Copy.Comments.Count > 0)
                 {
                     CopyComment(Copy, added);
                 }
@@ -648,6 +653,50 @@ namespace OfficeOpenXml
             return valueCore._styleId;
         }
 
+        private void CopyThreadedComments(ExcelWorksheet copy, ExcelWorksheet workSheet)
+        {
+            //Copy the underlaying legacy comments.
+            CopyComment(copy, workSheet);
+
+            //First copy the drawing XML
+            string xml = copy.ThreadedComments.ThreadedCommentsXml.InnerXml;
+            var ix = workSheet.SheetID;
+            var tcUri = UriHelper.ResolvePartUri(workSheet.WorksheetUri, GetNewUri(_pck.ZipPackage, "/xl/threadedComments/threadedcomment{0}.xml", ref ix));
+
+            var part = _pck.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml", _pck.Compression);
+
+            StreamWriter streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
+            streamDrawing.Write(xml);
+            streamDrawing.Flush();
+
+            //Add the relationship ID to the worksheet xml.
+            workSheet.Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
+
+            foreach(var t in workSheet.ThreadedComments._threads)
+            {
+                for(int i=0;i<t.Comments.Count;i++)
+                {
+                    t.Comments[i].Id = ExcelThreadedComment.NewId();
+                    if(i==0)
+                    {
+                        workSheet.Comments[t.CellAddress].Author="tc="+t.Comments[i].Id;
+                    }
+                    else
+                    {
+                        t.Comments[i].ParentId = t.Comments[0].Id;
+                    }
+                }
+            }
+
+            if(copy.Workbook!=workSheet.Workbook) //Different package. Copy all persons from source package.
+            {
+                var wbDest = workSheet.Workbook;
+                foreach (var p in copy.Workbook.ThreadedCommentPersons)
+                {
+                    wbDest.ThreadedCommentPersons.Add(p.DisplayName, p.UserId, p.ProviderId, p.Id);
+                }
+            }
+        }
         private void CopyComment(ExcelWorksheet Copy, ExcelWorksheet workSheet)
         {            
             //First copy the drawing XML
@@ -655,7 +704,7 @@ namespace OfficeOpenXml
             var uriComment = new Uri(string.Format("/xl/comments{0}.xml", workSheet.SheetID), UriKind.Relative);
             if (_pck.ZipPackage.PartExists(uriComment))
             {
-                uriComment = XmlHelper.GetNewUri(_pck.ZipPackage, "/xl/drawings/vmldrawing{0}.vml");
+                uriComment = XmlHelper.GetNewUri(_pck.ZipPackage, "/xl/comments{0}.xml");
             }
 
             var part = _pck.ZipPackage.CreatePart(uriComment, "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", _pck.Compression);

@@ -28,9 +28,11 @@
  *******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -84,5 +86,69 @@ namespace EPPlusTest.FormulaParsing
                 }
             }
         }
+
+        [TestMethod]
+        public void ShouldParse()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A3"].Value = 2;
+                var res = package.Workbook.FormulaParser.Parse("1+A3", "test!A3");
+                Assert.AreEqual(3d, res);
+                Assert.AreEqual(2, sheet.Cells["A3"].Value);
+
+            }
+        }
+        
+        //[TestMethod]
+        //public void ShouldFindAndParseCondFormat()
+        //{
+        //    var file = new FileInfo("c:\\Temp\\cf.xlsx");
+        //    using (var package = new ExcelPackage(file))
+        //    {
+        //        var sheet = package.Workbook.Worksheets.First();
+
+        //        // conditional formatting can only be read on sheet level
+        //        // read them into a dictionary with full cell address as key
+        //        var cfCells = new Dictionary<string, List<IExcelConditionalFormattingRule>>();
+        //        foreach(var cf in sheet.ConditionalFormatting)
+        //        {
+        //            // if address is a single cell
+        //            if(cf.Address.IsSingleCell)
+        //            {
+        //                if (!cfCells.ContainsKey(cf.Address.FullAddress)) cfCells[cf.Address.FullAddress] = new List<IExcelConditionalFormattingRule>();
+        //                cfCells[cf.Address.FullAddress].Add(cf);
+        //            }
+        //            else
+        //            {
+        //                // if the address is a range with muliple cells
+        //                for(var col = cf.Address.Start.Column; col <= cf.Address.End.Column; col++)
+        //                {
+        //                    for(var row = cf.Address.Start.Row; row <= cf.Address.End.Row; row++)
+        //                    {
+        //                        var adr = new ExcelAddress(row, col, row, col);
+        //                        if (!cfCells.ContainsKey(adr.FullAddress)) cfCells[adr.FullAddress] = new List<IExcelConditionalFormattingRule>();
+        //                        cfCells[adr.FullAddress].Add(cf);
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        // now check conditional formats for B2
+        //        var parser = new FormulaParser(new EpplusExcelDataProvider(package));
+        //        var cellAddress = new ExcelAddress(sheet.Name, "B2");
+        //        var cellFormats = cfCells[cellAddress.Address];
+        //        foreach(var cf in cellFormats)
+        //        {
+        //            var expression = cf as IExcelConditionalFormattingExpression;
+        //            if(expression != null)
+        //            {
+        //                // evaluate the result of the conditional formats formula
+        //                var result = parser.Parse(expression.Formula, cellAddress.FullAddress);
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

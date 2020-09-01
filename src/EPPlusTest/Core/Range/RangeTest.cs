@@ -29,6 +29,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ using System.Text;
 namespace EPPlusTest.Core.Range
 {
     [TestClass]
-    public class RangeTest
+    public class RangeTest : TestBase
     {
         [TestMethod]
         public void ArrayToCellString()
@@ -141,7 +142,7 @@ namespace EPPlusTest.Core.Range
                 var ws = p.Workbook.Worksheets.Add("LoadFromCollection");
 
                 var range = ws.Cells["A1"].LoadFromCollection(new List<object>() { 1, "s", null });
-                Assert.AreEqual("A1:A3",range.Address);
+                Assert.AreEqual("A1:A3", range.Address);
                 Assert.AreEqual("A1:A3", range.Address);
 
                 range = ws.Cells["B1"].LoadFromCollection(new List<dynamic>() { 1, "s", null });
@@ -149,6 +150,30 @@ namespace EPPlusTest.Core.Range
 
                 range = ws.Cells["C1"].LoadFromCollection(new List<dynamic>() { new TestDTO { Name = "Test" } });
                 Assert.AreEqual("C1", range.Address);
+            }
+        }
+        [TestMethod]
+        public void EncodingCharInFormulaAndValue()
+        {
+            var textA1 = "\"Hello\vA1\" & \"!\t\nNewLine\"";
+            var textB1 = "\"Hello\vB1\" & \"!\t\nNewLine\"";
+            using (var p=OpenPackage("EncodeFormula.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Encoding");
+                ws.SetFormula(1, 1, textA1);
+                ws.Cells[1, 2].Formula = textB1;
+                ws.Calculate();
+
+                Assert.AreEqual(textA1, ws.Cells["A1"].Formula);
+                Assert.AreEqual(textB1, ws.GetFormula(1, 2));
+
+                p.Save();
+                using(var p2=new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets["Encoding"];
+                    Assert.AreEqual(textA1, ws.Cells["A1"].Formula);
+                    Assert.AreEqual(textB1, ws.GetFormula(1, 2));
+                }
             }
         }
     }
