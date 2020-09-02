@@ -20,6 +20,8 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging;
 using System.Linq;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Filter;
+using EPPlusTest.Table.PivotTable.Filter;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -181,36 +183,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 fld._cacheField = CacheDefinition._cacheReference.Fields[index++];
                 Fields.AddInternal(fld);
             }
-
-            ////Add fields.
-            //var cacheRef = _cacheDefinition._cacheReference;
-            //index = 0;
-            //foreach (XmlElement fieldElem in cacheRef.CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
-            //{
-            //    ExcelPivotTableField fld;
-            //    if (Fields.Count<=index && cacheRef._pivotTables.Count>1)
-            //    {
-            //        var newField = PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
-            //        pivotFieldNode.AppendChild(newField);
-            //        CopyElement((XmlElement)cacheRef._pivotTables[0].Fields[index].TopNode, newField, new string[]{ "axis"});
-            //        fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index);
-            //        Fields.AddInternal(fld);
-            //    }
-            //    else
-            //    {
-            //        fld = Fields[index];
-            //        if(cacheRef._pivotTables.Count > 1)
-            //        {
-            //            if(cacheRef._pivotTables[0].Fields[index].Grouping!=null)
-            //            {
-            //                var nd = cacheRef._pivotTables[0].Fields[index].TopNode;
-            //                CopyElement((XmlElement)nd, (XmlElement)fld.TopNode, new string[] { "axis" });
-            //            }
-            //        }
-            //    }
-                                
-            //    index++;
-            //}
         }
 
         private void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute)
@@ -788,6 +760,18 @@ namespace OfficeOpenXml.Table.PivotTable
             set
             {
                 SetXmlNodeString("@missingCaption", value);                
+            }
+        }
+        ExcelPivotTableFilterCollection _filters=null;
+        public ExcelPivotTableFilterCollection Filters
+        {
+            get
+            {
+                if(_filters==null)
+                {
+                    _filters = new ExcelPivotTableFilterCollection(this);
+                }
+                return _filters;
             }
         }
         const string FIRSTHEADERROW_PATH="d:location/@firstHeaderRow";
