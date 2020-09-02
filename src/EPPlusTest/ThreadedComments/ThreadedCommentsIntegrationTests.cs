@@ -86,7 +86,8 @@ namespace EPPlusTest.ThreadedComments
                 sheet1.ThreadedComments["A1"].ReopenThread();
                 sheet2.ThreadedComments.Add("B1").AddComment(person1.Id, "Hello again");
                 sheet2.ThreadedComments[new ExcelCellAddress("B1")].AddComment(person2.Id, "Hello {0}!", person1);
-                sheet2.ThreadedComments["B1"].DeleteThread();
+                sheet2.ThreadedComments["B1"].Remove(sheet2.ThreadedComments["B1"].Comments[0]);
+                sheet2.ThreadedComments["B1"].Remove(sheet2.ThreadedComments["B1"].Comments[0]);
 
                 package.Save();
             }

@@ -227,8 +227,13 @@ namespace OfficeOpenXml.ThreadedComments
 
             if (threadedComment == c)
             {
-                _worksheet.Comments.Remove(_worksheet.Comments[threadedComment.CellAddress]); //Remove the underlaying comment.
-                threadedComment.Comments.TopNode.ParentNode.RemoveChild(threadedComment.Comments.TopNode); //Remove VML
+                var address = threadedComment.CellAddress;
+                _worksheet.Comments.Remove(_worksheet.Comments[address]); //Remove the underlaying comment.
+                var nodes = threadedComment.Comments.Select(x => x.TopNode);
+                foreach(var node in nodes)
+                {
+                    node.ParentNode.RemoveChild(node); //Remove xml node
+                }
                 _worksheet._threadedCommentsStore.Delete(threadedComment.CellAddress.Row, threadedComment.CellAddress.Column, 1, 1, false);
                 _threads[i] = null;
                 _threadsIndex.Remove(i);
