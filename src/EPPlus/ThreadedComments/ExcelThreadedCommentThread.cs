@@ -86,6 +86,7 @@ namespace OfficeOpenXml.ThreadedComments
             else
             {
                 comment.Text = commentText.ToString();
+                comment.Author = authorId;
             }
         }
 

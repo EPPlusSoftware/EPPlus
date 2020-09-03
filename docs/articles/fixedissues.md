@@ -1,5 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.3.1
+### Features
+* Added support for copying threaded comments 
+* Add FormulaParserManager.Parse method.
+### Fixed issues
+* Formulas and formula values did not encode characters below 0x1F correctly
+* ExcelPackage.LoadAsync did not work with non seekable streams
+* A chart that reference within its own worksheet will now change the worksheet in the series addresses for any copy made with the Worksheets.Add method
+* ExcelRange.ToText method did not work correctly with rich text cells.
+
 ## Version 5.3.0
 ### Features
 * Support for threaded comments with mentions. See https://github.com/EPPlusSoftware/EPPlus/wiki/Threaded-comments

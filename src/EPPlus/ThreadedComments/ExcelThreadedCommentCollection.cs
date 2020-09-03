@@ -126,13 +126,28 @@ namespace OfficeOpenXml.ThreadedComments
 
         internal bool Remove(ExcelThreadedComment comment)
         {
+            var index = _commentList.IndexOf(comment);
             _commentList.Remove(comment);
-            if (TopNode.SelectSingleNode("tc:threadedComment[@id='" + comment.Id + "']", NameSpaceManager) != null)
+            var commentNode = TopNode.SelectSingleNode("tc:threadedComment[@id='" + comment.Id + "']", NameSpaceManager);
+            if (commentNode != null)
             {
-                TopNode.RemoveChild(comment.TopNode);
+                TopNode.RemoveChild(commentNode);
+
+                //Reset the parentid to the first item in the list if we remove the first comment
+                if (index == 0 && _commentList.Count > 0)
+                {
+                    ((XmlElement)_commentList[0].TopNode).RemoveAttribute("parentId");
+                    for (int i = 1; i < _commentList.Count; i++)
+                    {
+                        _commentList[i].ParentId = _commentList[0].Id;
+                    }
+                }
+
+                RebuildIndex();
+
                 return true;
             }
-            RebuildIndex();
+           
             return false;
         }
 
