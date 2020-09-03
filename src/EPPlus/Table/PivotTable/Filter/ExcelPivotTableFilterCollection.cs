@@ -10,6 +10,8 @@
  *************************************************************************************************
   09/02/2020         EPPlus Software AB       EPPlus 5.4
  *************************************************************************************************/
+using OfficeOpenXml;
+using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections;
@@ -19,14 +21,38 @@ using System.Xml;
 
 namespace EPPlusTest.Table.PivotTable.Filter
 {
-    public class ExcelPivotTableFilterCollection : IEnumerable<ExcelPivotTableFilter>
+    public class ExcelPivotTableFieldFilterCollection : ExcelPivotTableFilterBaseCollection
     {
-        private readonly ExcelPivotTable _table;
-        internal ExcelPivotTableFilterCollection(ExcelPivotTable table)
+        internal ExcelPivotTableFieldFilterCollection(ExcelPivotTableField field) : base(field)
+        {
+        }
+
+        public ExcelPivotTableFilter AddLabelFilter(ePivotTableFilterType type)
+        {
+            var topNode = base.GetOrCreateFiltersNode();
+            var filterNode = topNode.OwnerDocument.CreateElement("filter", ExcelPackage.schemaMain);
+            topNode.AppendChild(filterNode);
+            var filter = new ExcelPivotTableFilter(_field.NameSpaceManager, filterNode);
+            _filters.Add(filter);
+            return filter;
+        }
+    }
+    public class ExcelPivotTableFilterCollection : ExcelPivotTableFilterBaseCollection
+    {
+        internal ExcelPivotTableFilterCollection(ExcelPivotTable table) : base(table)
+        {
+        }
+    }
+    public abstract class ExcelPivotTableFilterBaseCollection : IEnumerable<ExcelPivotTableFilter>
+    {
+        protected internal List<ExcelPivotTableFilter> _filters = new List<ExcelPivotTableFilter>();
+        protected internal readonly ExcelPivotTable _table;
+        protected internal readonly ExcelPivotTableField _field;
+        internal ExcelPivotTableFilterBaseCollection(ExcelPivotTable table)
         {
             _table = table;
             var filtersNode = _table.GetNode("d:filters");
-            if(filtersNode!=null)
+            if (filtersNode != null)
             {
                 foreach (XmlNode node in filtersNode.ChildNodes)
                 {
@@ -34,7 +60,19 @@ namespace EPPlusTest.Table.PivotTable.Filter
                 }
             }
         }
-        private List<ExcelPivotTableFilter> _filters=new List<ExcelPivotTableFilter>();
+        internal ExcelPivotTableFilterBaseCollection(ExcelPivotTableField field)
+        {            
+            _field = field;
+            _table = field._table;
+
+            foreach(var filter in _table.Filters)
+            {
+                if(filter.Fld==field.Index)
+                {
+                    _filters.Add(filter);
+                }
+            }
+        }
         public IEnumerator<ExcelPivotTableFilter> GetEnumerator()
         {
             return _filters.GetEnumerator();
@@ -44,6 +82,12 @@ namespace EPPlusTest.Table.PivotTable.Filter
         {
             return _filters.GetEnumerator();
         }
+
+        internal XmlNode GetOrCreateFiltersNode()
+        {
+            return _table.CreateNode("d:filters");
+        }
+
         public int Count 
         { 
             get

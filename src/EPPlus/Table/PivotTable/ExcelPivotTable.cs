@@ -239,7 +239,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         const string NAME_PATH = "@name";
         const string DISPLAY_NAME_PATH = "@displayName";
-        /// <summaryvar p1=
+        /// <summary>
         /// Name of the pivottable object in Excel
         /// </summary>
         public string Name

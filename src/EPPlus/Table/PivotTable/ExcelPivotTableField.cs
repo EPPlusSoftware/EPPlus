@@ -21,6 +21,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing;
 using System.Text;
 using System.Collections;
+using EPPlusTest.Table.PivotTable.Filter;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -859,6 +860,18 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             return sb.ToString();
+        }
+        ExcelPivotTableFieldFilterCollection _filters = null;
+        public ExcelPivotTableFieldFilterCollection Filters
+        {
+            get
+            {
+                if (_filters == null)
+                {
+                    _filters = new ExcelPivotTableFieldFilterCollection(this);
+                }
+                return _filters;
+            }
         }
     }
 }
