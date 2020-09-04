@@ -108,131 +108,131 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// A date filter - Last Month
         /// </summary>
-        LastMonth = 108,
+        LastMonth = 200,
         /// <summary>
         /// A date filter - Last Quarter
         /// </summary>
-        LastQuarter = 200,
+        LastQuarter = 201,
         /// <summary>
         /// A date filter - Last Week
         /// </summary>
-        LastWeek = 201,
+        LastWeek = 202,
         /// <summary>
         /// A date filter - Last Year
         /// </summary>
-        LastYear = 202,
+        LastYear = 203,
         /// <summary>
         /// A date filter - Januari
         /// </summary>
-        M1 = 203,
+        M1 = 204,
         /// <summary>
         /// A date filter - Februari
         /// </summary>
-        M2 = 204,
+        M2 = 205,
         /// <summary>
         /// A date filter - March
         /// </summary>
-        M3 = 205,
+        M3 = 206,
         /// <summary>
         /// A date filter - April
         /// </summary>
-        M4 = 206,
+        M4 = 207,
         /// <summary>
         /// A date filter - May
         /// </summary>
-        M5 = 207,
+        M5 = 208,
         /// <summary>
         /// A date filter - June
         /// </summary>
-        M6 = 208,
+        M6 = 209,
         /// <summary>
         /// A date filter - July
         /// </summary>
-        M7 = 209,
+        M7 = 210,
         /// <summary>
         /// A date filter - August
         /// </summary>
-        M8 = 210,
+        M8 = 211,
         /// <summary>
         /// A date filter - September
         /// </summary>
-        M9 = 211,
+        M9 = 212,
         /// <summary>
         /// A date filter - October
         /// </summary>
-        M10 = 212,
+        M10 = 213,
         /// <summary>
         /// A date filter - November
         /// </summary>
-        M11 = 213,
+        M11 = 214,
         /// <summary>
         /// A date filter - December
         /// </summary>
-        M12 = 214,
+        M12 = 215,
         /// <summary>
         /// A date filter - Next Month
         /// </summary>
-        NextMonth = 215,
+        NextMonth = 216,
         /// <summary>
         /// A date filter - Next Quarter
         /// </summary>
-        NextQuarter = 216,
+        NextQuarter = 217,
         /// <summary>
         /// A date filter - Next Week
         /// </summary>
-        NextWeek = 217,
+        NextWeek = 218,
         /// <summary>
         /// A date filter - Next Year
         /// </summary>
-        NextYear = 218,
+        NextYear = 219,
         /// <summary>
         /// A date filter - The First Quarter
         /// </summary>
-        Q1 = 219,
+        Q1 = 220,
         /// <summary>
         /// A date filter - The Second Quarter
         /// </summary>
-        Q2 = 220,
+        Q2 = 221,
         /// <summary>
         /// A date filter - The Third Quarter
         /// </summary>
-        Q3 = 221,
+        Q3 = 222,
         /// <summary>
         /// A date filter - The Forth Quarter
         /// </summary>
-        Q4 = 222,
+        Q4 = 223,
         /// <summary>
         /// A date filter - This Month
         /// </summary>
-        ThisMonth = 223,
+        ThisMonth = 224,
         /// <summary>
         /// A date filter - This Quarter
         /// </summary>
-        ThisQuarter = 224,
+        ThisQuarter = 225,
         /// <summary>
         /// A date filter - This Week
         /// </summary>
-        ThisWeek = 225,
+        ThisWeek = 226,
         /// <summary>
         /// A date filter - This Year
         /// </summary>
-        ThisYear = 226,
+        ThisYear = 227,
         /// <summary>
         /// A date filter - Today
         /// </summary>
-        Today = 227,
+        Today = 228,
         /// <summary>
         /// A date filter - Tomorrow
         /// </summary>
-        Tomorrow = 228,
+        Tomorrow = 229,
         /// <summary>
         /// A date filter - Year to date
         /// </summary>
-        YearToDate = 229,
+        YearToDate = 230,
         /// <summary>
         /// A date filter - Yesterday
         /// </summary>
-        Yesterday = 230,
+        Yesterday = 231,
         /// <summary>
         /// Indicates that the filter is unknown
         /// </summary>
@@ -277,5 +277,230 @@ namespace OfficeOpenXml.Table.PivotTable
         /// A numeric or string filter - Not Equal
         /// </summary>
         ValueNotEqual = 308
+    }
+    public enum ePivotTableCaptionFilterType
+    {
+        /// <summary>
+        /// A caption filter - Begins With
+        /// </summary>
+        CaptionBeginsWith = ePivotTableFilterType.CaptionBeginsWith,
+        /// <summary>
+        /// A caption filter - Between
+        /// </summary>
+        CaptionBetween = ePivotTableFilterType.CaptionBetween,
+        /// <summary>
+        /// A caption filter - Contains
+        /// </summary>
+        CaptionContains = ePivotTableFilterType.CaptionContains,
+        /// <summary>
+        /// A caption filter - Ends With
+        /// </summary>
+        CaptionEndsWith = ePivotTableFilterType.CaptionEndsWith,
+        /// <summary>
+        /// A caption filter - Equal
+        /// </summary>
+        CaptionEqual = ePivotTableFilterType.CaptionEqual,
+        /// <summary>
+        /// A caption filter - Greater Than
+        /// </summary>
+        CaptionGreaterThan = ePivotTableFilterType.CaptionGreaterThan,
+        /// <summary>
+        /// A caption filter - Greater Than Or Equal
+        /// </summary>
+        CaptionGreaterThanOrEqual = ePivotTableFilterType.CaptionGreaterThanOrEqual,
+        /// <summary>
+        /// A caption filter - Less Than
+        /// </summary>
+        CaptionLessThan = ePivotTableFilterType.CaptionLessThan,
+        /// <summary>
+        /// A caption filter - Less Than Or Equal
+        /// </summary>
+        CaptionLessThanOrEqual = ePivotTableFilterType.CaptionLessThanOrEqual,
+        /// <summary>
+        /// A caption filter - Not Begins With
+        /// </summary>
+        CaptionNotBeginsWith = ePivotTableFilterType.CaptionNotBeginsWith,
+        /// <summary>
+        /// A caption filter - Not Between
+        /// </summary>
+        CaptionNotBetween = ePivotTableFilterType.CaptionNotBetween,
+        /// <summary>
+        /// A caption filter - Not Contains
+        /// </summary>
+        CaptionNotContains = ePivotTableFilterType.CaptionNotContains,
+        /// <summary>
+        /// A caption filter - Not Ends With
+        /// </summary>
+        CaptionNotEndsWith = ePivotTableFilterType.CaptionNotEndsWith,
+        /// <summary>
+        /// A caption filter - Not Equal
+        /// </summary>
+        CaptionNotEqual = ePivotTableFilterType.CaptionNotEqual,
+    }
+    public enum ePivotTableDateValueFilterType
+    {
+        /// <summary>
+        /// A date filter - Between
+        /// </summary>
+        DateBetween = ePivotTableFilterType.DateBetween,
+        /// <summary>
+        /// A date filter - Equal
+        /// </summary>
+        DateEqual = ePivotTableFilterType.DateEqual,
+        /// <summary>
+        /// A date filter - Newer Than
+        /// </summary>
+        DateNewerThan = ePivotTableFilterType.DateNewerThan,
+        /// <summary>
+        /// A date filter - Newer Than Or Equal
+        /// </summary>
+        DateNewerThanOrEqual = ePivotTableFilterType.DateNewerThanOrEqual,
+        /// <summary>
+        /// A date filter - Not Between
+        /// </summary>
+        DateNotBetween = ePivotTableFilterType.DateNotBetween,
+        /// <summary>
+        /// A date filter - Not Equal
+        /// </summary>
+        DateNotEqual = ePivotTableFilterType.DateNotEqual,
+        /// <summary>
+        /// A date filter - Older Than
+        /// </summary>
+        DateOlderThan = ePivotTableFilterType.DateOlderThan,
+        /// <summary>
+        /// A date filter - Older Than Or Equal
+        /// </summary>
+        DateOlderThanOrEqual = ePivotTableFilterType.DateOlderThanOrEqual,
+    }
+    public enum ePivotTableDatePeriodFilterType
+    {
+        /// <summary>
+        /// A date filter - Last Month
+        /// </summary>
+        LastMonth = ePivotTableFilterType.LastMonth,
+        /// <summary>
+        /// A date filter - Last Quarter
+        /// </summary>
+        LastQuarter = 201,
+        /// <summary>
+        /// A date filter - Last Week
+        /// </summary>
+        LastWeek = 202,
+        /// <summary>
+        /// A date filter - Last Year
+        /// </summary>
+        LastYear = 203,
+        /// <summary>
+        /// A date filter - Januari
+        /// </summary>
+        M1 = 204,
+        /// <summary>
+        /// A date filter - Februari
+        /// </summary>
+        M2 = 205,
+        /// <summary>
+        /// A date filter - March
+        /// </summary>
+        M3 = 206,
+        /// <summary>
+        /// A date filter - April
+        /// </summary>
+        M4 = 207,
+        /// <summary>
+        /// A date filter - May
+        /// </summary>
+        M5 = 208,
+        /// <summary>
+        /// A date filter - June
+        /// </summary>
+        M6 = 209,
+        /// <summary>
+        /// A date filter - July
+        /// </summary>
+        M7 = 210,
+        /// <summary>
+        /// A date filter - August
+        /// </summary>
+        M8 = 211,
+        /// <summary>
+        /// A date filter - September
+        /// </summary>
+        M9 = 212,
+        /// <summary>
+        /// A date filter - October
+        /// </summary>
+        M10 = 213,
+        /// <summary>
+        /// A date filter - November
+        /// </summary>
+        M11 = 214,
+        /// <summary>
+        /// A date filter - December
+        /// </summary>
+        M12 = 215,
+        /// <summary>
+        /// A date filter - Next Month
+        /// </summary>
+        NextMonth = 216,
+        /// <summary>
+        /// A date filter - Next Quarter
+        /// </summary>
+        NextQuarter = 217,
+        /// <summary>
+        /// A date filter - Next Week
+        /// </summary>
+        NextWeek = 218,
+        /// <summary>
+        /// A date filter - Next Year
+        /// </summary>
+        NextYear = 219,
+        /// <summary>
+        /// A date filter - The First Quarter
+        /// </summary>
+        Q1 = 220,
+        /// <summary>
+        /// A date filter - The Second Quarter
+        /// </summary>
+        Q2 = 221,
+        /// <summary>
+        /// A date filter - The Third Quarter
+        /// </summary>
+        Q3 = 222,
+        /// <summary>
+        /// A date filter - The Forth Quarter
+        /// </summary>
+        Q4 = 223,
+        /// <summary>
+        /// A date filter - This Month
+        /// </summary>
+        ThisMonth = 224,
+        /// <summary>
+        /// A date filter - This Quarter
+        /// </summary>
+        ThisQuarter = 225,
+        /// <summary>
+        /// A date filter - This Week
+        /// </summary>
+        ThisWeek = 226,
+        /// <summary>
+        /// A date filter - This Year
+        /// </summary>
+        ThisYear = 227,
+        /// <summary>
+        /// A date filter - Today
+        /// </summary>
+        Today = 228,
+        /// <summary>
+        /// A date filter - Tomorrow
+        /// </summary>
+        Tomorrow = 229,
+        /// <summary>
+        /// A date filter - Year to date
+        /// </summary>
+        YearToDate = 230,
+        /// <summary>
+        /// A date filter - Yesterday
+        /// </summary>
+        Yesterday = 231
     }
 }

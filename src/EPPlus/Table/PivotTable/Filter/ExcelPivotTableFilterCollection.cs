@@ -27,12 +27,73 @@ namespace EPPlusTest.Table.PivotTable.Filter
         {
         }
 
-        public ExcelPivotTableFilter AddLabelFilter(ePivotTableFilterType type)
+        public ExcelPivotTableFilter AddCaptionFilter(ePivotTableCaptionFilterType type, string value1, string value2=null)
+        {
+            ExcelPivotTableFilter filter = CreateFilter();
+            filter.Type = (ePivotTableFilterType)type;
+
+            filter.StringValue1 = value1;
+            filter.Value1 = value1;
+            filter.Value2 = value2;
+            if (!string.IsNullOrEmpty(value2))
+            {
+                filter.StringValue2 = value2;
+            }
+
+            switch (type)
+            {
+                case ePivotTableCaptionFilterType.CaptionEqual:
+                    filter.CreateValueFilter();
+                    break;
+                default:
+                    filter.CreateCaptionCustomFilter(type);
+                    break;
+            }
+
+            filter.Filter.Save();
+            _filters.Add(filter);
+            return filter;
+        }
+
+        private ExcelPivotTableFilter CreateFilter()
         {
             var topNode = base.GetOrCreateFiltersNode();
             var filterNode = topNode.OwnerDocument.CreateElement("filter", ExcelPackage.schemaMain);
             topNode.AppendChild(filterNode);
-            var filter = new ExcelPivotTableFilter(_field.NameSpaceManager, filterNode);
+            var filter = new ExcelPivotTableFilter(_field.NameSpaceManager, filterNode, _table.WorkSheet.Workbook.Date1904);
+            filter.EvalOrder = -1;
+            filter.Fld = _field.Index;
+            filter.Id = _filters.Count;
+            return filter;
+        }
+
+        public ExcelPivotTableFilter AddDateValueFilter(ePivotTableDateValueFilterType type, DateTime value1, DateTime? value2 = null)
+        {
+            if(value2.HasValue==false &&
+               (type == ePivotTableDateValueFilterType.DateBetween || 
+               type == ePivotTableDateValueFilterType.DateNotBetween))
+            {
+                throw new ArgumentNullException("value2", "Between filters require two values");
+            }
+            ExcelPivotTableFilter filter = CreateFilter();
+            filter.Type = (ePivotTableFilterType)type;
+            filter.Value1 = value1;
+            filter.Value2 = value2;
+            filter.CreateDateCustomFilter(type);
+
+            filter.Filter.Save();
+            _filters.Add(filter);
+            return filter;
+        }
+
+        internal ExcelPivotTableFilter AddDatePeriodFilter(ePivotTableDatePeriodFilterType type)
+        {
+            ExcelPivotTableFilter filter = CreateFilter();
+            filter.Type = (ePivotTableFilterType)type;
+
+            filter.CreateDateDynamicFilter(type);
+
+            filter.Filter.Save();
             _filters.Add(filter);
             return filter;
         }
@@ -56,7 +117,7 @@ namespace EPPlusTest.Table.PivotTable.Filter
             {
                 foreach (XmlNode node in filtersNode.ChildNodes)
                 {
-                    _filters.Add(new ExcelPivotTableFilter(_table.NameSpaceManager, node));
+                    _filters.Add(new ExcelPivotTableFilter(_table.NameSpaceManager, node, _table.WorkSheet.Workbook.Date1904));
                 }
             }
         }
