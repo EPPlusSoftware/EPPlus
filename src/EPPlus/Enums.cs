@@ -183,6 +183,6 @@ namespace OfficeOpenXml
         /// <summary>
         /// You have a commercial license purchased at https://epplussoftware.com/licenseoverview
         /// </summary>
-        Commercial = 0
+        Commercial = 1
     }
 }
