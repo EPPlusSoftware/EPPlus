@@ -121,7 +121,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         private ExcelColorTransformCollection GetLinearVariation(int colorIndex, int numberOfItems, bool isReversed)
         {
             var ret = new ExcelColorTransformCollection();
-            if (numberOfItems <= 0) return ret;
+            if (numberOfItems <= 1) return ret;
             var split = (numberOfItems - 1) / 2D;
             if (colorIndex == split)
             {                
