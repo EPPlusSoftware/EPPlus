@@ -117,7 +117,6 @@ namespace EPPlusTest
                 s.Cells["A1:A2"].Formula = ""; // or null, or non-empty whitespace, with same result
                 ep.Save();
             }
-
         }
         [TestMethod]
         public void Issue15113()
@@ -1331,6 +1330,14 @@ namespace EPPlusTest
             {
                 SaveWorkbook("Issue26-resaved.xlsx", p);
             }
+        }
+        [TestMethod]
+        public void Issue180()
+        {
+            var p1 = OpenTemplatePackage("Issue180-1.xlsm");
+            var p2 = OpenTemplatePackage("Issue180-2.xlsm");
+            p2.Workbook.Worksheets.Add(p1.Workbook.Worksheets[0].Name, p1.Workbook.Worksheets[0]);
+            p2.SaveAs(new FileInfo("c:\\epplustest\\t.xlsm"));
         }
     }
 }
