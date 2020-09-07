@@ -238,45 +238,49 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         Unknown = -1,
         /// <summary>
-        /// A numeric filter - Sum
-        /// </summary>
-        Sum = 300,
-        /// <summary>
-        /// A numeric filter - Percent
-        /// </summary>
-        Percent = 301,
-        /// <summary>
         /// A numeric or string filter - Value Between
         /// </summary>
-        ValueBetween = 302,
+        ValueBetween = 300,
         /// <summary>
         /// A numeric or string filter - Equal
         /// </summary>
-        ValueEqual = 303,
+        ValueEqual = 301,
         /// <summary>
         /// A numeric or string filter - GreaterThan
         /// </summary>
-        ValueGreaterThan = 304,
+        ValueGreaterThan = 302,
         /// <summary>
         /// A numeric or string filter - Greater Than Or Equal
         /// </summary>
-        ValueGreaterThanOrEqual = 305,
+        ValueGreaterThanOrEqual = 303,
         /// <summary>
         /// A numeric or string filter - Less Than 
         /// </summary>
-        ValueLessThan = 306,
+        ValueLessThan = 304,
         /// <summary>
         /// A numeric or string filter - Less Than Or Equal
         /// </summary>
-        ValueLessThanOrEqual = 307,
+        ValueLessThanOrEqual = 305,
         /// <summary>
         /// A numeric or string filter - Not Between
         /// </summary>
-        ValueNotBetween = 308,
+        ValueNotBetween = 306,
         /// <summary>
         /// A numeric or string filter - Not Equal
         /// </summary>
-        ValueNotEqual = 308
+        ValueNotEqual = 307,
+        /// <summary>
+        /// A top/bottom filter - Count
+        /// </summary>
+        Count = 400,
+        /// <summary>
+        /// A top/bottom filter - Sum
+        /// </summary>
+        Sum = 401,
+        /// <summary>
+        /// A top/bottom filter - Percent
+        /// </summary>
+        Percent = 402,
     }
     public enum ePivotTableCaptionFilterType
     {
@@ -381,126 +385,176 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// A date filter - Last Quarter
         /// </summary>
-        LastQuarter = 201,
+        LastQuarter = ePivotTableFilterType.LastQuarter,
         /// <summary>
         /// A date filter - Last Week
         /// </summary>
-        LastWeek = 202,
+        LastWeek = ePivotTableFilterType.LastWeek,
         /// <summary>
         /// A date filter - Last Year
         /// </summary>
-        LastYear = 203,
+        LastYear = ePivotTableFilterType.LastYear,
         /// <summary>
         /// A date filter - Januari
         /// </summary>
-        M1 = 204,
+        M1 = ePivotTableFilterType.M1,
         /// <summary>
         /// A date filter - Februari
         /// </summary>
-        M2 = 205,
+        M2 = ePivotTableFilterType.M2,
         /// <summary>
         /// A date filter - March
         /// </summary>
-        M3 = 206,
+        M3 = ePivotTableFilterType.M3,
         /// <summary>
         /// A date filter - April
         /// </summary>
-        M4 = 207,
+        M4 = ePivotTableFilterType.M4,
         /// <summary>
         /// A date filter - May
         /// </summary>
-        M5 = 208,
+        M5 = ePivotTableFilterType.M5,
         /// <summary>
         /// A date filter - June
         /// </summary>
-        M6 = 209,
+        M6 = ePivotTableFilterType.M6,
         /// <summary>
         /// A date filter - July
         /// </summary>
-        M7 = 210,
+        M7 = ePivotTableFilterType.M7,
         /// <summary>
         /// A date filter - August
         /// </summary>
-        M8 = 211,
+        M8 = ePivotTableFilterType.M8,
         /// <summary>
         /// A date filter - September
         /// </summary>
-        M9 = 212,
+        M9 = ePivotTableFilterType.M9,
         /// <summary>
         /// A date filter - October
         /// </summary>
-        M10 = 213,
+        M10 = ePivotTableFilterType.M10,
         /// <summary>
         /// A date filter - November
         /// </summary>
-        M11 = 214,
+        M11 = ePivotTableFilterType.M11,
         /// <summary>
         /// A date filter - December
         /// </summary>
-        M12 = 215,
+        M12 = ePivotTableFilterType.M12,
         /// <summary>
         /// A date filter - Next Month
         /// </summary>
-        NextMonth = 216,
+        NextMonth = ePivotTableFilterType.NextMonth,
         /// <summary>
         /// A date filter - Next Quarter
         /// </summary>
-        NextQuarter = 217,
+        NextQuarter = ePivotTableFilterType.NextQuarter,
         /// <summary>
         /// A date filter - Next Week
         /// </summary>
-        NextWeek = 218,
+        NextWeek = ePivotTableFilterType.NextWeek,
         /// <summary>
         /// A date filter - Next Year
         /// </summary>
-        NextYear = 219,
+        NextYear = ePivotTableFilterType.NextYear,
         /// <summary>
         /// A date filter - The First Quarter
         /// </summary>
-        Q1 = 220,
+        Q1 = ePivotTableFilterType.Q1,
         /// <summary>
         /// A date filter - The Second Quarter
         /// </summary>
-        Q2 = 221,
+        Q2 = ePivotTableFilterType.Q2,
         /// <summary>
         /// A date filter - The Third Quarter
         /// </summary>
-        Q3 = 222,
+        Q3 = ePivotTableFilterType.Q3,
         /// <summary>
         /// A date filter - The Forth Quarter
         /// </summary>
-        Q4 = 223,
+        Q4 = ePivotTableFilterType.Q4,
         /// <summary>
         /// A date filter - This Month
         /// </summary>
-        ThisMonth = 224,
+        ThisMonth = ePivotTableFilterType.ThisMonth,
         /// <summary>
         /// A date filter - This Quarter
         /// </summary>
-        ThisQuarter = 225,
+        ThisQuarter = ePivotTableFilterType.ThisQuarter,
         /// <summary>
         /// A date filter - This Week
         /// </summary>
-        ThisWeek = 226,
+        ThisWeek = ePivotTableFilterType.ThisWeek,
         /// <summary>
         /// A date filter - This Year
         /// </summary>
-        ThisYear = 227,
+        ThisYear = ePivotTableFilterType.ThisYear,
         /// <summary>
         /// A date filter - Today
         /// </summary>
-        Today = 228,
+        Today = ePivotTableFilterType.Today,
         /// <summary>
         /// A date filter - Tomorrow
         /// </summary>
-        Tomorrow = 229,
+        Tomorrow = ePivotTableFilterType.Tomorrow,
         /// <summary>
         /// A date filter - Year to date
         /// </summary>
-        YearToDate = 230,
+        YearToDate = ePivotTableFilterType.YearToDate,
         /// <summary>
         /// A date filter - Yesterday
         /// </summary>
-        Yesterday = 231
+        Yesterday = ePivotTableFilterType.Yesterday
+    }
+    public enum ePivotTableValueFilterType
+    {
+        /// <summary>
+        /// A numeric or string filter - Value Between
+        /// </summary>
+        ValueBetween = ePivotTableFilterType.ValueBetween,
+        /// <summary>
+        /// A numeric or string filter - Equal
+        /// </summary>
+        ValueEqual = ePivotTableFilterType.ValueEqual,
+        /// <summary>
+        /// A numeric or string filter - GreaterThan
+        /// </summary>
+        ValueGreaterThan = ePivotTableFilterType.ValueGreaterThan,
+        /// <summary>
+        /// A numeric or string filter - Greater Than Or Equal
+        /// </summary>
+        ValueGreaterThanOrEqual = ePivotTableFilterType.ValueGreaterThanOrEqual,
+        /// <summary>
+        /// A numeric or string filter - Less Than 
+        /// </summary>
+        ValueLessThan = ePivotTableFilterType.ValueLessThan,
+        /// <summary>
+        /// A numeric or string filter - Less Than Or Equal
+        /// </summary>
+        ValueLessThanOrEqual = ePivotTableFilterType.ValueLessThanOrEqual,
+        /// <summary>
+        /// A numeric or string filter - Not Between
+        /// </summary>
+        ValueNotBetween = ePivotTableFilterType.ValueNotBetween,
+        /// <summary>
+        /// A numeric or string filter - Not Equal
+        /// </summary>
+        ValueNotEqual = ePivotTableFilterType.ValueNotEqual
+    }
+    public enum ePivotTableTop10FilterType
+    {
+        /// <summary>
+        /// A top/bottom filter - Count
+        /// </summary>
+        Count = ePivotTableFilterType.Count,
+        /// <summary>
+        /// A top/bottom filter - Sum
+        /// </summary>
+        Sum = ePivotTableFilterType.Sum,
+        /// <summary>
+        /// A top/bottom filter - Percent
+        /// </summary>
+        Percent = ePivotTableFilterType.Percent
     }
 }

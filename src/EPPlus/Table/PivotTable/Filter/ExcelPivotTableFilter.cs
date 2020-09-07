@@ -16,6 +16,7 @@ using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
 using System;
+using System.Globalization;
 using System.Xml;
 
 namespace EPPlusTest.Table.PivotTable.Filter
@@ -222,6 +223,19 @@ namespace EPPlusTest.Table.PivotTable.Filter
             _filter = df;
         }
 
+        internal void CreateTop10Filter(ePivotTableTop10FilterType type, bool isTop, double value)
+        {
+            _filterColumnNode.InnerXml = "<top10 />";
+            var tf = new ExcelTop10FilterColumn(NameSpaceManager, _filterColumnNode);
+
+            tf.Percent = (type == ePivotTableTop10FilterType.Percent);
+            tf.Top = isTop;
+            tf.Value = value;
+            tf.FilterValue = value;
+            
+            _filter = tf;
+        }
+
         internal void CreateCaptionCustomFilter(ePivotTableCaptionFilterType type)
         {
             _filterColumnNode.InnerXml = "<customFilters/>";
@@ -286,7 +300,64 @@ namespace EPPlusTest.Table.PivotTable.Filter
 
             _filter = cf;
         }
+        internal void CreateValueCustomFilter(ePivotTableValueFilterType type)
+        {
+            _filterColumnNode.InnerXml = "<customFilters/>";
+            var cf = new ExcelCustomFilterColumn(NameSpaceManager, _filterColumnNode);
 
+            eFilterOperator t;
+            string v1 = GetFilterValueAsString(Value1);
+            switch (type)
+            {
+                case ePivotTableValueFilterType.ValueNotEqual:
+                    t = eFilterOperator.NotEqual;
+                    break;
+                case ePivotTableValueFilterType.ValueGreaterThan:
+                    t = eFilterOperator.GreaterThan;
+                    break;
+                case ePivotTableValueFilterType.ValueGreaterThanOrEqual:
+                case ePivotTableValueFilterType.ValueBetween:
+                    t = eFilterOperator.GreaterThanOrEqual;
+                    break;
+                case ePivotTableValueFilterType.ValueLessThan:
+                    t = eFilterOperator.LessThan;
+                    break;
+                case ePivotTableValueFilterType.ValueLessThanOrEqual:
+                case ePivotTableValueFilterType.ValueNotBetween:
+                    t = eFilterOperator.LessThanOrEqual;
+                    break;
+                default:
+                    t = eFilterOperator.Equal;
+                    break;
+            }
+
+            var item1 = new ExcelFilterCustomItem(v1, t);
+            cf.Filters.Add(item1);
+
+            if (type == ePivotTableValueFilterType.ValueBetween)
+            {
+                cf.And = true;
+                cf.Filters.Add(new ExcelFilterCustomItem(GetFilterValueAsString(Value2), eFilterOperator.LessThanOrEqual));
+            }
+            else if (type == ePivotTableValueFilterType.ValueNotBetween)
+            {
+                cf.And = false;
+                cf.Filters.Add(new ExcelFilterCustomItem(GetFilterValueAsString(Value2), eFilterOperator.GreaterThan));
+            }
+            _filter = cf;
+        }
+
+        private string GetFilterValueAsString(object v)
+        {
+            if (ConvertUtil.IsNumericOrDate(v))
+            {
+                return ConvertUtil.GetValueDouble(v).ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                return v.ToString();
+            }
+        }
         internal void CreateValueFilter()
         {
             _filterColumnNode.InnerXml = "<filters/>";
@@ -304,7 +375,7 @@ namespace EPPlusTest.Table.PivotTable.Filter
             internal set
             {
                 var s = value.ToEnumString();
-                if (s.Length <= 3) s = s.ToUpper();  //For M1 - M12 and Q1 - Q4
+                if (s.Length <= 3 && (s[0]=='m' || s[0] == 'q')) s = s.ToUpper();  //For M1 - M12 and Q1 - Q4
                 SetXmlNodeString("@type", s);
             }
         }

@@ -2675,6 +2675,7 @@ namespace OfficeOpenXml
                         {
                             name = df.Function.ToString() + " of " + df.Field.Name; //Name must be set or Excel will crash on rename.
                         }
+
                         //Make sure name is unique
                         var newName = name;
                         var i = 2;

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Xml;
+using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -188,6 +189,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("@subtotal", v);
             }
         }
+
         /////Since we have no items, Excel will crash when we use showDataAs options that require baseItem's
         //public eShowDataAs ShowDataAs
         //{
