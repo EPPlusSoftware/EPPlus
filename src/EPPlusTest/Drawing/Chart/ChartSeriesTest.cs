@@ -91,6 +91,24 @@ namespace EPPlusTest.Drawing.Chart
             Assert.IsNotNull(chart.YAxis);
 
         }
-        #endregion
+
+        [TestMethod]
+        public void AddColumnChartSingleSerieWithSecondSerieWithCategoryWithLinear()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ColumnWithinLinear");
+            LoadHierarkiTestData(ws);
+            var chart = ws.Drawings.AddBarChart("Bar1", eBarChartType.Column3D);
+
+            //Change chart colorMethod from Cylce to WithinLinear
+            chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyleMultiSeries.Column3dChartStyle1,
+                OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette1);
+            chart.StyleManager.ColorsManager.Method = OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinear;
+
+            //make series only have range of 1 so that the serie2(index=1) is the same as the number of cells in the range
+            //which causes System.ArgumentException: Negative percentage not allowed
+            var serie1 = chart.Series.Add(ws.Cells["D2"]);
+            var serie2 = chart.Series.Add(ws.Cells["D2"], ws.Cells["C2"]);
+        }
+            #endregion
     }
 }

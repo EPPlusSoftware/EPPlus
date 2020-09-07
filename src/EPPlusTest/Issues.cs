@@ -1301,7 +1301,6 @@ namespace EPPlusTest
 
             }
         }
-
         [TestMethod]
         public void Issue17()
         {
