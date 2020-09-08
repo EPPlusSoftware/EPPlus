@@ -149,8 +149,21 @@ namespace EPPlusTest
 
             Assert.AreEqual("NEW1", workbook.Worksheets.Last().Name);
         }
+		[TestMethod]
+		public void ShouldHandleResizeOfIndexWhenExceed8Items()
+		{
+			using (var p = new ExcelPackage())
+			{
+				ExcelWorksheet wsStart = p.Workbook.Worksheets.Add($"Copy");
+				for (int i = 0; i < 7; i++)
+				{
+					ExcelWorksheet wsNew = p.Workbook.Worksheets.Add($"Sheet{i}");
+					p.Workbook.Worksheets.MoveBefore(wsStart.Name, wsNew.Name);
+				}
+			}
+		}
 
-        private static void CompareOrderOfWorksheetsAfterSaving(ExcelPackage editedPackage)
+		private static void CompareOrderOfWorksheetsAfterSaving(ExcelPackage editedPackage)
 		{
 			var packageStream = new MemoryStream();
 			editedPackage.SaveAs(packageStream);

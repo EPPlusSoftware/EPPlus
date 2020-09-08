@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Core
                 throw (new ArgumentException("Key already exists"));
             }
             pos = ~pos;
-            if (pos >= _index[0].Length)
+            if (pos >= _index[0].Length - 1)
             {
                 Array.Resize(ref _index[0], _index[0].Length << 1);
                 Array.Resize(ref _index[1], _index[1].Length << 1);
