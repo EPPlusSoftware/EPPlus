@@ -56,7 +56,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetRowID(_worksheet.SheetID, Row);
+                return GetRowID(_worksheet.SheetId, Row);
             }
         }
 		#region ExcelRow Constructor

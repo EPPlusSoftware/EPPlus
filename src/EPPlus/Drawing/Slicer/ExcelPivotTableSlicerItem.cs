@@ -44,7 +44,9 @@ namespace OfficeOpenXml.Drawing.Slicer
                 }
                 foreach (var pt in _slicer.Cache.PivotTables)
                 {
-                    pt.Fields[_slicer._field.Index].Items[_index].Hidden = value;
+                    var fld = pt.Fields[_slicer._field.Index];
+                    if (_index <= fld.Items.Count || fld.Items[_index].Type != Table.PivotTable.eItemType.Data) continue;
+                    fld.Items[_index].Hidden = value;
                 }
             }
         }

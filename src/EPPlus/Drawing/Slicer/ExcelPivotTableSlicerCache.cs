@@ -23,6 +23,11 @@ namespace OfficeOpenXml.Drawing.Slicer
 {
     public class ExcelSlicerPivotTableCollection : IEnumerable<ExcelPivotTable>
     {
+        ExcelPivotTableSlicerCache _slicerCache;
+        public ExcelSlicerPivotTableCollection(ExcelPivotTableSlicerCache slicerCache)
+        {
+            _slicerCache = slicerCache;
+        }
         List<ExcelPivotTable> _list=new List<ExcelPivotTable>();
         public IEnumerator<ExcelPivotTable> GetEnumerator()
         {
@@ -40,6 +45,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 throw (new InvalidOperationException("Multiple Pivot tables added to a slicer must refer to the same cache."));
             }
             _list.Add(table);
+            _slicerCache.UpdateItemsXml();
         }
         public int Count
         {
@@ -53,7 +59,7 @@ namespace OfficeOpenXml.Drawing.Slicer
     {
         internal ExcelPivotTableSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
-
+            PivotTables = new ExcelSlicerPivotTableCollection(this);
         }
 
         internal ExcelPivotTableSlicer _slicer;
@@ -104,7 +110,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 return eSlicerSourceType.PivotTable;
             }   
         }
-        public ExcelSlicerPivotTableCollection PivotTables { get; } = new ExcelSlicerPivotTableCollection();
+        public ExcelSlicerPivotTableCollection PivotTables { get; }
         ExcelPivotTableSlicerCacheData _data=null;
         public ExcelPivotTableSlicerCacheData Data 
         { 
@@ -118,12 +124,12 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
 
-        internal void UpdateItemsXml()
+        protected internal void UpdateItemsXml()
         {
            var sb = new StringBuilder();
             foreach(var pt in PivotTables)
             {
-                sb.Append($"<pivotTable name=\"{pt.Name}\" tabId=\"{_slicer._field.Index}\"/>");
+                sb.Append($"<pivotTable name=\"{pt.Name}\" tabId=\"{pt.WorkSheet.SheetId}\"/>");
             }
             var ptNode = CreateNode("x14:pivotTables");
             ptNode.InnerXml = sb.ToString();

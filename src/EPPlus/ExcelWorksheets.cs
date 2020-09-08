@@ -660,7 +660,7 @@ namespace OfficeOpenXml
 
             //First copy the drawing XML
             string xml = copy.ThreadedComments.ThreadedCommentsXml.InnerXml;
-            var ix = workSheet.SheetID;
+            var ix = workSheet.SheetId;
             var tcUri = UriHelper.ResolvePartUri(workSheet.WorksheetUri, GetNewUri(_pck.ZipPackage, "/xl/threadedComments/threadedcomment{0}.xml", ref ix));
 
             var part = _pck.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml", _pck.Compression);
@@ -701,7 +701,7 @@ namespace OfficeOpenXml
         {            
             //First copy the drawing XML
             string xml = Copy.Comments.CommentXml.InnerXml;
-            var uriComment = new Uri(string.Format("/xl/comments{0}.xml", workSheet.SheetID), UriKind.Relative);
+            var uriComment = new Uri(string.Format("/xl/comments{0}.xml", workSheet.SheetId), UriKind.Relative);
             if (_pck.ZipPackage.PartExists(uriComment))
             {
                 uriComment = XmlHelper.GetNewUri(_pck.ZipPackage, "/xl/comments{0}.xml");
@@ -718,7 +718,7 @@ namespace OfficeOpenXml
 
             xml = Copy.VmlDrawingsComments.VmlDrawingXml.InnerXml;
 
-            var uriVml = new Uri(string.Format("/xl/drawings/vmldrawing{0}.vml", workSheet.SheetID), UriKind.Relative);
+            var uriVml = new Uri(string.Format("/xl/drawings/vmldrawing{0}.vml", workSheet.SheetId), UriKind.Relative);
             if (_pck.ZipPackage.PartExists(uriVml))
             {
                 uriVml = XmlHelper.GetNewUri(_pck.ZipPackage, "/xl/drawings/vmldrawing{0}.vml");
@@ -745,7 +745,7 @@ namespace OfficeOpenXml
         {            
                 //First copy the drawing XML                
                 string xml = Copy.Drawings.DrawingXml.OuterXml;            
-                var uriDraw=new Uri(string.Format("/xl/drawings/drawing{0}.xml", workSheet.SheetID),  UriKind.Relative);
+                var uriDraw=new Uri(string.Format("/xl/drawings/drawing{0}.xml", workSheet.SheetId),  UriKind.Relative);
                 var part= _pck.ZipPackage.CreatePart(uriDraw,"application/vnd.openxmlformats-officedocument.drawing+xml", _pck.Compression);
                 StreamWriter streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
                 streamDrawing.Write(xml);
@@ -838,7 +838,7 @@ namespace OfficeOpenXml
         private void CopyVmlDrawing(ExcelWorksheet origSheet, ExcelWorksheet newSheet)
 		{
 			var xml = origSheet.VmlDrawingsComments.VmlDrawingXml.OuterXml;
-			var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetID), UriKind.Relative);
+			var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetId), UriKind.Relative);
 			var part = _pck.ZipPackage.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
             var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
 			streamDrawing.Write(xml);
@@ -876,7 +876,7 @@ namespace OfficeOpenXml
         private void GetSheetURI(ref string Name, out int sheetID, out Uri uriWorksheet, bool isChart)
         {
             Name = ValidateFixSheetName(Name);
-            sheetID = this.Any() ? this.Max(ws => ws.SheetID) + 1 : 1;
+            sheetID = this.Any() ? this.Max(ws => ws.SheetId) + 1 : 1;
             var uriId = sheetID;
 
 
@@ -1011,13 +1011,13 @@ namespace OfficeOpenXml
 
 
             //Delete the worksheet part and relation from the package 
-			_pck.Workbook.Part.DeleteRelationship(worksheet.RelationshipID);
+			_pck.Workbook.Part.DeleteRelationship(worksheet.RelationshipId);
 
             //Delete worksheet from the workbook XML
 			XmlNode sheetsNode = _pck.Workbook.WorkbookXml.SelectSingleNode("//d:workbook/d:sheets", _namespaceManager);
 			if (sheetsNode != null)
 			{
-				XmlNode sheetNode = sheetsNode.SelectSingleNode(string.Format("./d:sheet[@sheetId={0}]", worksheet.SheetID), _namespaceManager);
+				XmlNode sheetNode = sheetsNode.SelectSingleNode(string.Format("./d:sheet[@sheetId={0}]", worksheet.SheetId), _namespaceManager);
 				if (sheetNode != null)
 				{
 					sheetsNode.RemoveChild(sheetNode);
@@ -1035,7 +1035,7 @@ namespace OfficeOpenXml
             {
                 _pck.Workbook.View.ActiveTab = _pck.Workbook.View.ActiveTab-1;
             }
-            if (_pck.Workbook.View.ActiveTab == worksheet.SheetID)
+            if (_pck.Workbook.View.ActiveTab == worksheet.SheetId)
             {
                 _pck.Workbook.Worksheets[_pck._worksheetAdd].View.TabSelected = true;
             }
@@ -1165,7 +1165,7 @@ namespace OfficeOpenXml
         {
             foreach (ExcelWorksheet ws in this)
             {
-                if (ws.SheetID == localSheetID)
+                if (ws.SheetId == localSheetID)
                 {
                     return ws;
                 }

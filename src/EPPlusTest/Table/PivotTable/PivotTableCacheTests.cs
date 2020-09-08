@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,31 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(5, p1.CacheDefinition._cacheReference.Fields.Count);
 
             p2.CacheDefinition.SourceRange = _pck.Workbook.Worksheets[1].Tables[0].Range;
+        }
+
+        [TestMethod]
+        public void ValidateSameCacheDateGrouping()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotSameCacheDateGroup");
+            var p1 = ws.PivotTables.Add(ws.Cells["A1"], _pck.Workbook.Worksheets[0].Tables[0].Range, "Pivot1");
+            p1.RowFields.Add(p1.Fields[0]);
+            p1.DataFields.Add(p1.Fields[3]);
+            var p2 = ws.PivotTables.Add(ws.Cells["K1"], p1.CacheDefinition, "Pivot2");
+            p2.DataFields.Add(p2.Fields[3]);
+            p2.RowFields.Add(p2.Fields[4]);
+            p2.Fields[4].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days);
+
+            Assert.AreEqual(7, p1.CacheDefinition._cacheReference.Fields.Count);
+            Assert.AreEqual(p1.CacheDefinition._cacheReference, p2.CacheDefinition._cacheReference);
+
+            var slicer = ws.Drawings.AddPivotTableSlicer(p1.Fields[0]);
+            slicer.Cache.PivotTables.Add(p2);
+            slicer.Cache.Data.Refresh();
+            slicer.Cache.Data.Items[0].Hidden = true;
+            slicer.Cache.Data.Items[1].Hidden = true;
+            slicer.Style = eSlicerStyle.Light5;
+            slicer.SetPosition(1, 0, 15, 0);
+            slicer.SetSize(200, 600);
         }
     }
 }

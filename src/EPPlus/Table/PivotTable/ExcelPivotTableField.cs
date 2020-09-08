@@ -710,13 +710,12 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if(field.Index >= pt.Fields.Count)
                     {
-                        //TODO:Multiple pivottables with same cache: Add field
-                        pt.Fields.AddDateGroupField(f.DateGrouping, f.Grouping.BaseIndex);
+                        pt.Fields.AddDateGroupField(f.DateGrouping, (int)f.Grouping.BaseIndex);
                     }
-                    else
-                    {
+                    //else
+                    //{
                         pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
-                    }
+                    //}
                 }
             }
         }
@@ -724,7 +723,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void UpdateGroupItems(ExcelPivotTableCacheField cacheField, bool addTypeDefault)
         {
             //XmlElement prevNode = null;
-            XmlElement itemsNode = TopNode.SelectSingleNode("d:items", NameSpaceManager) as XmlElement;
+            XmlElement itemsNode = CreateNode("d:items") as XmlElement;
             _items = new ExcelPivotTableFieldItemsCollection(this);
             itemsNode.RemoveAll();
             for (int x = 0; x < cacheField.GroupItems.Count; x++)

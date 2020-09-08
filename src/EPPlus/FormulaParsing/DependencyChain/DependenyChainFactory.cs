@@ -87,10 +87,10 @@ namespace OfficeOpenXml.FormulaParsing
         private static void GetChain(DependencyChain depChain, ILexer lexer, ExcelNamedRange name, ExcelCalculationOption options)
         {
             var ws = name.Worksheet;
-            var id = ExcelCellBase.GetCellID(ws==null?0:ws.SheetID, name.Index, 0);
+            var id = ExcelCellBase.GetCellID(ws==null?0:ws.SheetId, name.Index, 0);
             if (!depChain.index.ContainsKey(id))
             {
-                var f = new FormulaCell() { SheetID = ws == null ? 0 : ws.SheetID, Row = name.Index, Column = 0, Formula=name.NameFormula };
+                var f = new FormulaCell() { SheetID = ws == null ? 0 : ws.SheetId, Row = name.Index, Column = 0, Formula=name.NameFormula };
                 if (!string.IsNullOrEmpty(f.Formula))
                 {
                     f.Tokens = lexer.Tokenize(f.Formula, (ws==null ? null : ws.Name)).ToList();
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static void GetChain(DependencyChain depChain, ILexer lexer, ExcelWorksheet ws, string formula, ExcelCalculationOption options)
         {
-            var f = new FormulaCell() { SheetID = ws.SheetID, Row = -1, Column = -1 };
+            var f = new FormulaCell() { SheetID = ws.SheetId, Row = -1, Column = -1 };
             f.Formula = formula;
             if (!string.IsNullOrEmpty(f.Formula))
             {
@@ -126,10 +126,10 @@ namespace OfficeOpenXml.FormulaParsing
             while (fs.Next())
             {
                 if (fs.Value == null || fs.Value.ToString().Trim() == "") continue;
-                var id = ExcelCellBase.GetCellID(ws.SheetID, fs.Row, fs.Column);
+                var id = ExcelCellBase.GetCellID(ws.SheetId, fs.Row, fs.Column);
                 if (!depChain.index.ContainsKey(id))
                 {
-                    var f = new FormulaCell() { SheetID = ws.SheetID, Row = fs.Row, Column = fs.Column };
+                    var f = new FormulaCell() { SheetID = ws.SheetId, Row = fs.Row, Column = fs.Column };
                     if (fs.Value is int)
                     {
                         f.Formula = ws._sharedFormulas[(int)fs.Value].GetFormula(fs.Row, fs.Column, ws.Name);
@@ -190,7 +190,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 f.ws = ws;
                             }
-                            else if (f.ws.SheetID != f.SheetID)
+                            else if (f.ws.SheetId != f.SheetID)
                             {
                                 f.ws = wb.Worksheets.GetBySheetID(f.SheetID);
                             }
@@ -308,10 +308,10 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 var v = f.iterator.Value;
                 if (v == null || v.ToString().Trim() == "") continue;
-                var id = ExcelAddressBase.GetCellID(f.ws.SheetID, f.iterator.Row, f.iterator.Column);
+                var id = ExcelAddressBase.GetCellID(f.ws.SheetId, f.iterator.Row, f.iterator.Column);
                 if (!depChain.index.ContainsKey(id))
                 {
-                    var rf = new FormulaCell() { SheetID = f.ws.SheetID, Row = f.iterator.Row, Column = f.iterator.Column };
+                    var rf = new FormulaCell() { SheetID = f.ws.SheetId, Row = f.iterator.Row, Column = f.iterator.Column };
                     if (f.iterator.Value is int)
                     {
                         rf.Formula = f.ws._sharedFormulas[(int)v].GetFormula(f.iterator.Row, f.iterator.Column, ws.Name);
@@ -338,8 +338,8 @@ namespace OfficeOpenXml.FormulaParsing
                             //Check for circular references
                             foreach (var par in stack)
                             {
-                                if (ExcelAddressBase.GetCellID(par.ws.SheetID, par.iterator.Row, par.iterator.Column) == id ||
-                                    ExcelAddressBase.GetCellID(par.ws.SheetID, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
+                                if (ExcelAddressBase.GetCellID(par.ws.SheetId, par.iterator.Row, par.iterator.Column) == id ||
+                                    ExcelAddressBase.GetCellID(par.ws.SheetId, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
                                     if (options.AllowCircularReferences == false)
                                     {

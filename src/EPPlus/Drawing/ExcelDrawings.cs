@@ -1210,7 +1210,7 @@ namespace OfficeOpenXml.Drawing
                 Packaging.ZipPackage package = Worksheet._package.ZipPackage;
 
                 //Check for existing part, issue #100
-                var id = Worksheet.SheetID;
+                var id = Worksheet.SheetId;
                 do
                 {
                     _uriDrawing = new Uri(string.Format("/xl/drawings/drawing{0}.xml", id++), UriKind.Relative);

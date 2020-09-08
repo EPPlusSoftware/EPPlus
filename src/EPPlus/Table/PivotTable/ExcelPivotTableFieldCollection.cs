@@ -94,10 +94,5 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(field);
             return field;
         }
-
-        internal void AddDateGroupField(eDateGroupBy dateGrouping, object baseIndex)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

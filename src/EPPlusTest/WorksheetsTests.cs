@@ -32,6 +32,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System.Reflection;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 
 namespace EPPlusTest
 {
@@ -149,8 +150,7 @@ namespace EPPlusTest
 
             Assert.AreEqual("NEW1", workbook.Worksheets.Last().Name);
         }
-
-        private static void CompareOrderOfWorksheetsAfterSaving(ExcelPackage editedPackage)
+		private static void CompareOrderOfWorksheetsAfterSaving(ExcelPackage editedPackage)
 		{
 			var packageStream = new MemoryStream();
 			editedPackage.SaveAs(packageStream);

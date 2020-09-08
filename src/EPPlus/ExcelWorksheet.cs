@@ -454,11 +454,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// The ID for the worksheet's relationship with the workbook in the package
         /// </summary>
-        internal string RelationshipID { get { return (_relationshipID); } }
+        internal string RelationshipId { get { return (_relationshipID); } }
         /// <summary>
         /// The unique identifier for the worksheet.
         /// </summary>
-        internal int SheetID { get { return (_sheetID); } }
+        internal int SheetId { get { return (_sheetID); } }
 
         internal static bool NameNeedsApostrophes(string ws)
         {
@@ -2444,7 +2444,7 @@ namespace OfficeOpenXml
                 {
                     if (_comments.Uri == null)
                     {
-                        var id = SheetID;
+                        var id = SheetId;
                         _comments.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/comments{0}.xml", ref id); //Issue 236-Part already exists fix
                     }
                     if(_comments.Part==null)
@@ -2470,7 +2470,7 @@ namespace OfficeOpenXml
                 {
                     if (_vmlDrawings.Uri == null)
                     {
-                        var id = SheetID;
+                        var id = SheetId;
                         _vmlDrawings.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
                     }
                     if (_vmlDrawings.Part == null)
@@ -3725,7 +3725,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public bool Equals(ExcelWorksheet x, ExcelWorksheet y)
         {
-            return x.Name == y.Name && x.SheetID == y.SheetID && x.WorksheetXml.OuterXml == y.WorksheetXml.OuterXml;
+            return x.Name == y.Name && x.SheetId == y.SheetId && x.WorksheetXml.OuterXml == y.WorksheetXml.OuterXml;
         }
         /// <summary>
         /// Returns a hashcode generated from the WorksheetXml

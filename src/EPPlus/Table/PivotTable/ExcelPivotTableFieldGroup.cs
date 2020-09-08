@@ -28,14 +28,14 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeIntNull("@base");
+                return GetXmlNodeIntNull("d:fieldGroup/@base");
             }
         }
         public int? ParentIndex
         {
             get
             {
-                return GetXmlNodeIntNull("@par");
+                return GetXmlNodeIntNull("d:fieldGroup/@par");
             }
         }
     }
