@@ -181,6 +181,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 var fld = new ExcelPivotTableField(NameSpaceManager, fieldElem, this, index, index);
                 fld._cacheField = CacheDefinition._cacheReference.Fields[index++];
+                fld.LoadItems();
                 Fields.AddInternal(fld);
             }
         }

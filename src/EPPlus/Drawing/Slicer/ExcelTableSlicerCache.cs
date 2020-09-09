@@ -74,18 +74,11 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get
             {
-                return GetXmlNodeString(_sortOrderPath).ToEnum(eSortOrder.None);
+                return GetXmlNodeString(_sortOrderPath).ToEnum(eSortOrder.Ascending);
             }
             set
             {
-                if(value==eSortOrder.None)
-                {
-                    DeleteNode(_sortOrderPath);
-                }
-                else
-                {
-                    SetXmlNodeString(_sortOrderPath, value.ToEnumString());
-                }
+                SetXmlNodeString(_sortOrderPath, value.ToEnumString());
             }
         }
         const string _crossFilterPath = _topPath + "/@crossFilter";

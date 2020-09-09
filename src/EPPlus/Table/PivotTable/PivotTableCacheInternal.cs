@@ -159,30 +159,7 @@ namespace OfficeOpenXml.Table.PivotTable
             _fields = new List<ExcelPivotTableCacheField>();
             foreach (XmlNode node in CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
             {
-                _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index));
-                
-                //if (Fields.Count <= index && cacheRef._pivotTables.Count > 1)
-                //{
-                //    var newField = PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
-                //    pivotFieldNode.AppendChild(newField);
-                //    CopyElement((XmlElement)cacheRef._pivotTables[0].Fields[index].TopNode, newField, new string[] { "axis" });
-                //    fld = new ExcelPivotTableField(NameSpaceManager, newField, this, index, index);
-                //    Fields.AddInternal(fld);
-                //}
-                //else
-                //{
-                //    fld = Fields[index];
-                //    if (cacheRef._pivotTables.Count > 1)
-                //    {
-                //        if (cacheRef._pivotTables[0].Fields[index].Grouping != null)
-                //        {
-                //            var nd = cacheRef._pivotTables[0].Fields[index].TopNode;
-                //            CopyElement((XmlElement)nd, (XmlElement)fld.TopNode, new string[] { "axis" });
-                //        }
-                //    }
-                //}
-
-                index++;
+                _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index++));
             }
         }
 
@@ -230,7 +207,22 @@ namespace OfficeOpenXml.Table.PivotTable
                 fields.Add(_fields[i]);
             }
             _fields = fields;
+
+
+             RefreshPivotTableItems();
         }
+
+        private void RefreshPivotTableItems()
+        {
+            foreach(var pt in _pivotTables)
+            {
+                foreach(var fld in pt.Fields)
+                {
+                    fld.Items.Refresh();
+                }
+            }
+        }
+
         internal eSourceType CacheSource
         {
             get

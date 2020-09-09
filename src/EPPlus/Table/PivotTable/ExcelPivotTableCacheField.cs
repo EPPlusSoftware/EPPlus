@@ -648,7 +648,7 @@ namespace OfficeOpenXml.Table.PivotTable
             SharedItems = hs.ToList();
             if (Slicer != null)
             {
-
+                Slicer.Cache.Data.Items.Refresh();
             }
         }
 

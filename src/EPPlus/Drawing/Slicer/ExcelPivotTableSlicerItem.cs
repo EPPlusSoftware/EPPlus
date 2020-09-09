@@ -38,14 +38,14 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             set
             {
-                if (_index >= _slicer._field.Items.Count)
+                if (_index >= _slicer.Cache.Data.Items.Count)
                 {
                     throw (new IndexOutOfRangeException());
                 }
                 foreach (var pt in _slicer.Cache.PivotTables)
                 {
                     var fld = pt.Fields[_slicer._field.Index];
-                    if (_index <= fld.Items.Count || fld.Items[_index].Type != Table.PivotTable.eItemType.Data) continue;
+                    if (_index >= fld.Items.Count || fld.Items[_index].Type != Table.PivotTable.eItemType.Data) continue;
                     fld.Items[_index].Hidden = value;
                 }
             }

@@ -22,6 +22,7 @@ using OfficeOpenXml.Drawing;
 using System.Text;
 using System.Collections;
 using EPPlusTest.Table.PivotTable.Filter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -521,8 +522,10 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         internal eDateGroupBy DateGrouping
         {
-            get;
-            set;
+            get
+            {
+                return Cache.DateGrouping;
+            }
         }
         /// <summary>
         /// Grouping settings. 
@@ -531,7 +534,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public ExcelPivotTableFieldGroup Grouping
         {
             get
-            {
+            {                
                 return Cache.Grouping;
             }
         }
@@ -569,30 +572,36 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (_items == null)
                 {
-                    _items = new ExcelPivotTableFieldItemsCollection(this);
-                    List<object> cacheItems;
-                    if (Cache.Grouping == null)
-                    {
-                        cacheItems = Cache.SharedItems;
-                    }
-                    else
-                    {
-                        cacheItems = Cache.GroupItems;
-                    }
-
-                    foreach (XmlElement node in TopNode.SelectNodes("d:items//d:item", NameSpaceManager))
-                    {
-                        var item = new ExcelPivotTableFieldItem(node);
-                        if (item.X >= 0)
-                        {
-                            item.Value = cacheItems[item.X];
-                        }
-                        _items.AddInternal(item);
-                    }
+                    LoadItems();
                 }
                 return _items;
             }
         }
+
+        internal void LoadItems()
+        {
+            _items = new ExcelPivotTableFieldItemsCollection(this);
+            List<object> cacheItems;
+            if (Cache.Grouping == null)
+            {
+                cacheItems = Cache.SharedItems;
+            }
+            else
+            {
+                cacheItems = Cache.GroupItems;
+            }
+
+            foreach (XmlElement node in TopNode.SelectNodes("d:items//d:item", NameSpaceManager))
+            {
+                var item = new ExcelPivotTableFieldItem(node);
+                if (item.X >= 0)
+                {
+                    item.Value = cacheItems[item.X];
+                }
+                _items.AddInternal(item);
+            }
+        }
+
         public ExcelPivotTableCacheField Cache
         {
             get
@@ -712,10 +721,8 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         pt.Fields.AddDateGroupField(f.DateGrouping, (int)f.Grouping.BaseIndex);
                     }
-                    //else
-                    //{
-                        pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
-                    //}
+
+                    pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
                 }
             }
         }

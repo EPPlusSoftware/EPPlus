@@ -91,15 +91,6 @@ namespace EPPlusTest.Table.PivotTable
 
             Assert.AreEqual(7, p1.CacheDefinition._cacheReference.Fields.Count);
             Assert.AreEqual(p1.CacheDefinition._cacheReference, p2.CacheDefinition._cacheReference);
-
-            var slicer = ws.Drawings.AddPivotTableSlicer(p1.Fields[0]);
-            slicer.Cache.PivotTables.Add(p2);
-            slicer.Cache.Data.Refresh();
-            slicer.Cache.Data.Items[0].Hidden = true;
-            slicer.Cache.Data.Items[1].Hidden = true;
-            slicer.Style = eSlicerStyle.Light5;
-            slicer.SetPosition(1, 0, 15, 0);
-            slicer.SetSize(200, 600);
         }
     }
 }

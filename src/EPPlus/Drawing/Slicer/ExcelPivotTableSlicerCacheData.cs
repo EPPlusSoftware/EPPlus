@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get
             {
-                return GetXmlNodeString(_crossFilterPath).ToEnum(eCrossFilter.None);
+                return GetXmlNodeString(_crossFilterPath).ToEnum(eCrossFilter.ShowItemsWithDataAtTop);
             }
             set
             {
@@ -52,36 +52,14 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get
             {
-                return GetXmlNodeString(_sortOrderPath).ToEnum(eSortOrder.None);
+                return GetXmlNodeString(_sortOrderPath).ToEnum(eSortOrder.Ascending);
             }
             set
             {
-                if (value == eSortOrder.None)
-                {
-                    DeleteNode(_sortOrderPath);
-                }
-                else
-                {
-                    SetXmlNodeString(_sortOrderPath, value.ToEnumString());
-                }
+                SetXmlNodeString(_sortOrderPath, value.ToEnumString());
             }
         }
         const string _customListSortPath = _topPath + "/@customList";
-
-        internal void Refresh()
-        {
-            //Items.Clear();
-            //var tbls = _field._table.CacheDefinition._cacheReference._pivotTables;
-            //foreach (var item in _field.Items)
-            //{
-            //    var items=new pivotTableItems[]
-            //    foreach (var pt in tbls)
-            //    {
-
-            //    }
-            //    Items.AddInternal(new ExcelPivotTableSlicerItem())
-            //}
-        }
 
         /// <summary>
         /// If custom lists are used when sorting the items
@@ -113,6 +91,11 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
         private ExcelPivotTableSlicerItemCollection _items =null;
+        /// <summary>
+        /// The items of the slicer. 
+        /// Note that the sort order of this collection is the same as the pivot table field items, not the sortorder of the slicer.
+        /// Showing/hiding items are reflects to the pivot table(s) field items collection.
+        /// </summary>
         public ExcelPivotTableSlicerItemCollection Items
         {
             get

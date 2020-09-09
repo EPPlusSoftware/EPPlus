@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             PivotTables.Add(slicer._field._table);
             CreateWorkbookReference(wb, "{BBE1A952-AA13-448e-AADC-164F8A28A991}");
 
-            Data.Refresh();
+            Data.Items.Refresh();
         }
         private string GetStartXml(string name)
         {

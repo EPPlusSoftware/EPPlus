@@ -28,7 +28,6 @@ namespace OfficeOpenXml.Table.PivotTable
         public void Refresh()
         {
             _cache.Refresh();
-            
         }
     }
     /// <summary>

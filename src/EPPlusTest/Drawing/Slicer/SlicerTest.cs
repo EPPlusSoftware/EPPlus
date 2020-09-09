@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Filter;
+using OfficeOpenXml.Table.PivotTable;
 using System.IO;
 
 namespace EPPlusTest.Drawing.Slicer
@@ -167,6 +168,81 @@ namespace EPPlusTest.Drawing.Slicer
             slicer.Style = eSlicerStyle.Light5;
             slicer.SetPosition(1, 0, 10, 0);
             slicer.SetSize(200, 600);
+        }
+        [TestMethod]
+        public void AddPivotTableSlicerToTwoPivotTables()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SlicerPivotSameCacheDateGroup");
+            LoadTestdata(ws);
+            var p1 = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "Pivot1");
+            p1.RowFields.Add(p1.Fields[0]);
+            
+            p1.DataFields.Add(p1.Fields[3]);            
+            var p2 = ws.PivotTables.Add(ws.Cells["K1"], p1.CacheDefinition, "Pivot2");
+            p2.DataFields.Add(p2.Fields[1]);
+            p2.RowFields.Add(p2.Fields[3]);
+            //p2.Fields[4].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days);
+
+            var slicer = ws.Drawings.AddPivotTableSlicer(p1.Fields[0]);
+            slicer.Cache.PivotTables.Add(p2);
+            p2.CacheDefinition.Refresh();
+            slicer.Cache.Data.Items[0].Hidden = true;
+            slicer.Cache.Data.Items[1].Hidden = true;
+            slicer.Cache.Data.SortOrder = eSortOrder.Descending;
+            slicer.Style = eSlicerStyle.Light5;
+            slicer.SetPosition(1, 0, 15, 0);
+            slicer.SetSize(200, 600);
+
+            Assert.AreEqual(slicer.Cache.Data.SortOrder, eSortOrder.Descending);
+            Assert.AreEqual(slicer.Style, eSlicerStyle.Light5);
+            Assert.IsTrue(slicer.Cache.Data.Items[0].Hidden);
+            Assert.IsTrue(slicer.Cache.Data.Items[1].Hidden);
+
+            Assert.AreEqual(100, p1.Fields[0].Items.Count);
+            Assert.IsTrue(p1.Fields[0].Items[0].Hidden);
+            Assert.IsTrue(p1.Fields[0].Items[1].Hidden);
+
+            Assert.AreEqual(100, p2.Fields[0].Items.Count);
+            Assert.IsTrue(p2.Fields[0].Items[0].Hidden);
+            Assert.IsTrue(p2.Fields[0].Items[1].Hidden);
+        }
+        [TestMethod]
+        public void AddPivotTableSlicerToTwoPivotTablesWithDateGrouping()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SlicerPivotSameCacheDateGroup");
+            LoadTestdata(ws);
+            var p1 = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "Pivot1");
+            p1.RowFields.Add(p1.Fields[0]);
+
+            p1.DataFields.Add(p1.Fields[3]);
+            var p2 = ws.PivotTables.Add(ws.Cells["K1"], p1.CacheDefinition, "Pivot2");
+            p2.DataFields.Add(p2.Fields[1]);
+            p2.RowFields.Add(p2.Fields[3]);
+
+            p1.Fields[0].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days);
+
+            //var slicer = ws.Drawings.AddPivotTableSlicer(p1.Fields[5]);
+            //slicer.Cache.PivotTables.Add(p2);
+            //p2.CacheDefinition.Refresh();
+            //slicer.Cache.Data.Items[0].Hidden = true;
+            //slicer.Cache.Data.Items[1].Hidden = true;
+            //slicer.Cache.Data.SortOrder = eSortOrder.Descending;
+            //slicer.Style = eSlicerStyle.Light5;
+            //slicer.SetPosition(1, 0, 15, 0);
+            //slicer.SetSize(200, 600);
+
+            //Assert.AreEqual(slicer.Cache.Data.SortOrder, eSortOrder.Descending);
+            //Assert.AreEqual(slicer.Style, eSlicerStyle.Light5);
+            //Assert.IsTrue(slicer.Cache.Data.Items[0].Hidden);
+            //Assert.IsTrue(slicer.Cache.Data.Items[1].Hidden);
+
+            //Assert.AreEqual(100, p1.Fields[0].Items.Count);
+            //Assert.IsTrue(p1.Fields[0].Items[0].Hidden);
+            //Assert.IsTrue(p1.Fields[0].Items[1].Hidden);
+
+            //Assert.AreEqual(100, p2.Fields[0].Items.Count);
+            //Assert.IsTrue(p2.Fields[0].Items[0].Hidden);
+            //Assert.IsTrue(p2.Fields[0].Items[1].Hidden);
         }
     }
 }

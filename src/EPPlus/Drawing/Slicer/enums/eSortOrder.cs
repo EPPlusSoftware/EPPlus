@@ -18,11 +18,7 @@ namespace OfficeOpenXml
     public enum eSortOrder
     {
         /// <summary>
-        /// No sorting
-        /// </summary>
-        None,
-        /// <summary>
-        /// Sort ascending
+        /// Sort ascending, default
         /// </summary>
         Ascending,
         /// <summary>
