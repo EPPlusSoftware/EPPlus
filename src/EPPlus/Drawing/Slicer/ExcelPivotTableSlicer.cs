@@ -26,11 +26,11 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             _ws = drawings.Worksheet;
             _field = field;
-            var name = drawings.Worksheet.Workbook.GetPivotTableSlicerName(field.Name);
+            var name = drawings.Worksheet.Workbook.GetPivotTableSlicerName(field.Cache.Name);
             CreateDrawing(name);
 
-            SlicerName = field.Name;
-            Caption = field.Name;
+            SlicerName = field.Cache.Name;
+            Caption = field.Cache.Name;
             RowHeight = 19;
             CacheName = "Slicer_" + name.Replace(" ", "_");
 

@@ -77,7 +77,7 @@ namespace OfficeOpenXml.Table.PivotTable
             return null;
         }
 
-        internal ExcelPivotTableField AddDateGroupField(eDateGroupBy groupBy, int index)
+        internal ExcelPivotTableField AddDateGroupField(int index)
         {
             //Pivot field
             var topNode = _table.PivotTableXml.SelectSingleNode("//d:pivotFields", _table.NameSpaceManager);
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Table.PivotTable
             fieldNode.InnerXml = "<items/>";
 
             var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
-            field.DateGrouping = groupBy;
+            
             _list.Add(field);
             return field;
         }

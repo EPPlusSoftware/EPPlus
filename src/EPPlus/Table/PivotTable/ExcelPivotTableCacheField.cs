@@ -395,7 +395,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         #region Grouping
-        internal ExcelPivotTableFieldDateGroup SetDateGroup(ExcelPivotTableField field, DateTime StartDate, DateTime EndDate, int interval)
+        internal ExcelPivotTableFieldDateGroup SetDateGroup(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime StartDate, DateTime EndDate, int interval)
         {
             ExcelPivotTableFieldDateGroup group;
             group = new ExcelPivotTableFieldDateGroup(NameSpaceManager, TopNode);
@@ -403,7 +403,7 @@ namespace OfficeOpenXml.Table.PivotTable
             SetXmlNodeBool("d:sharedItems/@containsNonDate", false);
             SetXmlNodeBool("d:sharedItems/@containsSemiMixedTypes", false);
 
-            group.TopNode.InnerXml += string.Format("<fieldGroup base=\"{0}\"><rangePr groupBy=\"{1}\" /><groupItems /></fieldGroup>", field.BaseIndex, field.DateGrouping.ToString().ToLower(CultureInfo.InvariantCulture));
+            group.TopNode.InnerXml += string.Format("<fieldGroup base=\"{0}\"><rangePr groupBy=\"{1}\" /><groupItems /></fieldGroup>", field.BaseIndex, groupBy.ToString().ToLower(CultureInfo.InvariantCulture));
 
             if (StartDate.Year < 1900)
             {
@@ -425,9 +425,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("d:fieldGroup/d:rangePr/@autoEnd", "0");
             }
 
-            int items = AddDateGroupItems(group, field.DateGrouping, StartDate, EndDate, interval);
+            int items = AddDateGroupItems(group, groupBy, StartDate, EndDate, interval);
 
             Grouping = group;
+            DateGrouping = groupBy;
             return group;
         }
         internal ExcelPivotTableFieldNumericGroup SetNumericGroup(int baseIndex, double start, double end, double interval)

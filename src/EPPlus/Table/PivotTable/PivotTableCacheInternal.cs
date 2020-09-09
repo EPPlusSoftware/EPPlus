@@ -169,13 +169,13 @@ namespace OfficeOpenXml.Table.PivotTable
             var r = SourceRange;
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
+                var ix = col - r._fromCol;
                 if (_fields!=null && col < _fields.Count && _fields[col].Grouping != null)
                 {
-                    fields.Add(_fields[col]);
+                    fields.Add(_fields[ix]);
                 }
                 else
                 {
-                    var ix = col - r._fromCol;
                     var ws = r.Worksheet;
                     var name = ws.GetValue(r._fromRow, col).ToString();
                     ExcelPivotTableCacheField field;
@@ -197,8 +197,8 @@ namespace OfficeOpenXml.Table.PivotTable
                         {
                             hs.Add(o);
                         }
-                        field.SharedItems = hs.ToList();
                     }
+                    field.SharedItems = hs.ToList();
                     fields.Add(field);
                 }
             }
@@ -340,10 +340,10 @@ namespace OfficeOpenXml.Table.PivotTable
             Part.Package.DeletePart(CacheDefinitionUri);
             Part.Package.DeletePart(CacheRecordUri);
         }
-        internal ExcelPivotTableCacheField AddDateGroupField(ExcelPivotTableField field, DateTime startDate, DateTime endDate, int interval)
+        internal ExcelPivotTableCacheField AddDateGroupField(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime startDate, DateTime endDate, int interval)
         {
-            ExcelPivotTableCacheField cacheField = CreateField(field.DateGrouping.ToString(), field.Index, "0");
-            cacheField.SetDateGroup(field, startDate, endDate, interval);
+            ExcelPivotTableCacheField cacheField = CreateField(groupBy.ToString(), field.Index, "0");
+            cacheField.SetDateGroup(field, groupBy, startDate, endDate, interval);
 
             Fields.Add(cacheField);
             return cacheField;
