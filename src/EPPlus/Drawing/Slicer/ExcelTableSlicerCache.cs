@@ -38,16 +38,16 @@ namespace OfficeOpenXml.Drawing.Slicer
             var tbl = wb.GetTable(TableId);                
             TableColumn = tbl?.Columns.FirstOrDefault(x => x.Id == ColumnId);
         }
-        internal void Init(ExcelTableColumn column)
+        internal void Init(ExcelTableColumn column, string cacheName)
         {
             var wb = column.Table.WorkSheet.Workbook;
             CreatePart(wb);
             SlicerCacheXml.DocumentElement.InnerXml = $"<extLst><x:ext uri=\"{ExtLstUris.TableSlicerCacheUri}\" xmlns:x15=\"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main\"><x15:tableSlicerCache tableId=\"{column.Table.Id}\" column=\"{column.Id}\"/></x:ext></extLst>";
             TopNode = SlicerCacheXml.DocumentElement;
-            Name = "Slicer_" + column.Name;
+            Name = cacheName;
             SourceName = column.Name;
 
-            CreateWorkbookReference(wb, "{46BE6895-7355-4a93-B00E-2C351335B9C9}");
+            CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerTableUri);
         }
 
         public override eSlicerSourceType SourceType 

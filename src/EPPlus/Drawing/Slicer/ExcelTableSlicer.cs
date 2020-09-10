@@ -10,6 +10,7 @@
  *************************************************************************************************
   06/26/2020         EPPlus Software AB       EPPlus 5.3
  ******0*******************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table;
 using System;
@@ -35,7 +36,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             TableColumn = column;
             column.Slicer = this;
-            var name = drawings.Worksheet.Workbook.GetTableSlicerName(column.Name);
+            var name = drawings.Worksheet.Workbook.GetSlicerName(column.Name);
             CreateDrawing(name);
             SlicerName = name;
 
@@ -44,7 +45,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             CacheName = "Slicer_" + name.Replace(" ", "_");
 
             var cache = new ExcelTableSlicerCache(NameSpaceManager);
-            cache.Init(column);
+            cache.Init(column, CacheName);
             _cache = cache;            
         }
         internal override void DeleteMe()
@@ -81,14 +82,11 @@ namespace OfficeOpenXml.Drawing.Slicer
             _xmlSource.XmlDocument.DocumentElement.AppendChild(node);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, node);
 
-            var slNode = _ws.GetExtLstSubNode("{3A4CF648-6AED-40f4-86FF-DC5316D8AED3}", "x14:slicerList");
-            if (slNode == null)
+            var extNode = _ws.GetOrCreateExtLstSubNode(ExtLstUris.WorksheetSlicerTableUri, "x14");
+            if (extNode.InnerXml=="")
             {
-                _ws.CreateNode("d:extLst/d:ext", false, true);
-                slNode = _ws.CreateNode("d:extLst/d:ext/x14:slicerList", false, true);
-                ((XmlElement)slNode.ParentNode).SetAttribute("uri", "{3A4CF648-6AED-40f4-86FF-DC5316D8AED3}");
-
-                var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);
+                extNode.InnerXml = "<x14:slicerList/>";
+                var xh = XmlHelperFactory.Create(NameSpaceManager, extNode.FirstChild);
                 var element = (XmlElement)xh.CreateNode("x14:slicer", false, true);
                 element.SetAttribute("id", ExcelPackage.schemaRelationships, _xmlSource.Rel.Id);
             }
@@ -121,11 +119,11 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         internal override bool CheckSlicerNameIsUnique(string name)
         {
-            if (_drawings.Worksheet.Workbook._tableSlicerNames.Contains(name))
+            if (_drawings.Worksheet.Workbook._slicerNames.Contains(name))
             {
                 return false;
             }
-            _drawings.Worksheet.Workbook._tableSlicerNames.Add(name);
+            _drawings.Worksheet.Workbook._slicerNames.Add(name);
             return true;
         }
 }

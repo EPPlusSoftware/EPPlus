@@ -74,13 +74,9 @@ namespace OfficeOpenXml
 		private OfficeProperties _properties;
 
 		private ExcelStyles _styles;
-		internal HashSet<string> _tableSlicerNames = new HashSet<string>();
-		internal HashSet<string> _pivotTableSlicerNames = new HashSet<string>();
+		//internal HashSet<string> _tableSlicerNames = new HashSet<string>();
+		internal HashSet<string> _slicerNames = new HashSet<string>();
 
-        internal string GetTableSlicerName(string name)
-        {
-            return GetUniqueName(name, _tableSlicerNames);
-        }
 
         internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
         {
@@ -94,9 +90,9 @@ namespace OfficeOpenXml
 
 		}
 
-		internal string GetPivotTableSlicerName(string name)
+		internal string GetSlicerName(string name)
 		{
-			return GetUniqueName(name, _pivotTableSlicerNames);
+			return GetUniqueName(name, _slicerNames);
 		}
 
 		private string GetUniqueName(string name, HashSet<string> hs)
@@ -105,7 +101,7 @@ namespace OfficeOpenXml
             var ix = 1;
             while (hs.Contains(n))
             {
-                n = name + $"{ix}";
+                n = name + $"{ix++}";
             }
             return n;
         }

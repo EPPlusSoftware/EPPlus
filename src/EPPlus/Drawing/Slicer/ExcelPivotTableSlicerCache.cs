@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.4
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table.PivotTable;
 using System;
@@ -68,11 +69,11 @@ namespace OfficeOpenXml.Drawing.Slicer
             CreatePart(wb);
             TopNode = SlicerCacheXml.DocumentElement;
             Name = "Slicer_" + name;
-            SourceName = name;
+            SourceName = slicer._field.Cache.Name;
             _slicer = slicer;
             wb.Names.AddFormula(Name, "#N/A");
             PivotTables.Add(slicer._field._table);
-            CreateWorkbookReference(wb, "{BBE1A952-AA13-448e-AADC-164F8A28A991}");
+            CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerPivotTableUri);
 
             Data.Items.Refresh();
         }

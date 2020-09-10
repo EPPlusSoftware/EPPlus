@@ -619,7 +619,8 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             ValidateGrouping();
             _cacheField.SetNumericGroup(BaseIndex, Start, End, Interval);
-            UpdateGroupItems(_cacheField, true);            
+            UpdateGroupItems(_cacheField, true);
+            UpdatePivotTableGroupItems(this, _table.CacheDefinition._cacheReference, true);
         }
         /// <summary>
         /// Add a date grouping on this field.
@@ -721,6 +722,10 @@ namespace OfficeOpenXml.Table.PivotTable
                         pt.Fields.AddDateGroupField((int)f.Grouping.BaseIndex);
                     }
 
+                    pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
+                }
+                else
+                {
                     pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
                 }
             }

@@ -236,11 +236,11 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.IsTrue(slicer.Cache.Data.Items[0].Hidden);
             Assert.IsTrue(slicer.Cache.Data.Items[1].Hidden);
 
-            Assert.AreEqual(100, p1.Fields[0].Items.Count);
+            Assert.AreEqual(369, p1.Fields[0].Items.Count);
             Assert.IsTrue(p1.Fields[0].Items[0].Hidden);
             Assert.IsTrue(p1.Fields[0].Items[1].Hidden);
 
-            Assert.AreEqual(100, p2.Fields[0].Items.Count);
+            Assert.AreEqual(369, p2.Fields[0].Items.Count);
             Assert.IsTrue(p2.Fields[0].Items[0].Hidden);
             Assert.IsTrue(p2.Fields[0].Items[1].Hidden);
         }
@@ -250,15 +250,15 @@ namespace EPPlusTest.Drawing.Slicer
             var ws = _pck.Workbook.Worksheets.Add("SlicerPivotSameCacheNumberGroup");
             LoadTestdata(ws);
             var p1 = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "Pivot1");
-            p1.RowFields.Add(p1.Fields[0]);
+            p1.RowFields.Add(p1.Fields[1]);
 
             p1.DataFields.Add(p1.Fields[3]);
             var p2 = ws.PivotTables.Add(ws.Cells["K1"], p1.CacheDefinition, "Pivot2");
             p2.DataFields.Add(p2.Fields[1]);
             p2.RowFields.Add(p2.Fields[3]);
 
-            p1.Fields[0].AddNumericGrouping(0, 100, 5);
-            var slicer = ws.Drawings.AddPivotTableSlicer(p1.Fields[0]);
+            p1.Fields[1].AddNumericGrouping(0, 100, 5);
+            var slicer = ws.Drawings.AddPivotTableSlicer(p1.Fields[1]);
             slicer.Cache.PivotTables.Add(p2);
             p2.CacheDefinition.Refresh();
             slicer.Cache.Data.Items[0].Hidden = true;

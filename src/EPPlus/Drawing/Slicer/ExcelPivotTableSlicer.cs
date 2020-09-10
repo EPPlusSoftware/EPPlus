@@ -10,6 +10,7 @@
  *************************************************************************************************
   06/26/2020         EPPlus Software AB       EPPlus 5.4
  ******0*******************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.IO;
@@ -26,11 +27,11 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             _ws = drawings.Worksheet;
             _field = field;
-            var name = drawings.Worksheet.Workbook.GetPivotTableSlicerName(field.Cache.Name);
+            var name = drawings.Worksheet.Workbook.GetSlicerName(field.Cache.Name);
             CreateDrawing(name);
 
-            SlicerName = field.Cache.Name;
-            Caption = field.Cache.Name;
+            SlicerName = name;
+            Caption = name;
             RowHeight = 19;
             CacheName = "Slicer_" + name.Replace(" ", "_");
 
@@ -68,12 +69,12 @@ namespace OfficeOpenXml.Drawing.Slicer
             _xmlSource.XmlDocument.DocumentElement.AppendChild(node);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, node);
 
-            var slNode = _ws.GetExtLstSubNode("{A8765BA9-456A-4dab-B4F3-ACF838C121DE}", "x14:slicerList");
-            if (slNode == null)
+            var extNode = _ws.GetOrCreateExtLstSubNode(ExtLstUris.WorksheetSlicerPivotTableUri, "x14");
+            
+            if(extNode.InnerXml=="")
             {
-                _ws.CreateNode("d:extLst/d:ext", false, true);
-                slNode = _ws.CreateNode("d:extLst/d:ext/x14:slicerList", false, true);
-                ((XmlElement)slNode.ParentNode).SetAttribute("uri", "{A8765BA9-456A-4dab-B4F3-ACF838C121DE}");
+                extNode.InnerXml = "<x14:slicerList/>";
+                var slNode = extNode.FirstChild;
 
                 var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);
                 var element = (XmlElement)xh.CreateNode("x14:slicer", false, true);
@@ -85,11 +86,11 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         internal override bool CheckSlicerNameIsUnique(string name)
         {
-            if (_drawings.Worksheet.Workbook._pivotTableSlicerNames.Contains(name))
+            if (_drawings.Worksheet.Workbook._slicerNames.Contains(name))
             {
                 return false;
             }
-            _drawings.Worksheet.Workbook._pivotTableSlicerNames.Add(name);
+            _drawings.Worksheet.Workbook._slicerNames.Add(name);
             return true;
         }
     }

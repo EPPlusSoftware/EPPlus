@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -86,13 +87,12 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 prefix = "x15";
             }
-            var slNode = wb.GetExtLstSubNode(uriGuid, prefix+":slicerCaches");
-            if (slNode == null)
+            var extNode = wb.GetOrCreateExtLstSubNode(uriGuid, prefix, new string[] { ExtLstUris.WorkbookSlicerPivotTableUri, ExtLstUris.WorkbookSlicerTableUri });
+            if (extNode.InnerXml=="")
             {
-                wb.CreateNode("d:extLst/d:ext", false, true);
-                slNode = wb.CreateNode($"d:extLst/d:ext/{prefix}:slicerCaches", false, true);
-                ((XmlElement)slNode.ParentNode).SetAttribute("uri", uriGuid);
+                extNode.InnerXml = $"<{prefix}:slicerCaches />";
             }
+            var slNode = extNode.FirstChild;
             var xh = XmlHelperFactory.Create(NameSpaceManager, slNode);
             var element = (XmlElement)xh.CreateNode("x14:slicerCache", false, true);
             element.SetAttribute("id", ExcelPackage.schemaRelationships, CacheRel.Id);

@@ -20,6 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml
 {
@@ -45,21 +46,11 @@ namespace OfficeOpenXml
         //internal bool ChangedFlag;
         internal XmlNamespaceManager NameSpaceManager { get; set; }
         internal XmlNode TopNode { get; set; }
-        string[] _schemaNodeOrder = null;
+
         /// <summary>
         /// Schema order list
         /// </summary>
-        internal string[] SchemaNodeOrder
-        {
-            get
-            {
-                return _schemaNodeOrder;
-            }
-            set
-            {
-                _schemaNodeOrder = value;
-            }
-        }
+        internal string[] SchemaNodeOrder { get; set; } = null;
         /// <summary>
         /// Adds a new array to the end of SchemaNodeOrder
         /// </summary>
@@ -192,7 +183,7 @@ namespace OfficeOpenXml
                         return subNode;
                     }
                 }
-                else if (_schemaNodeOrder != null && subPath != "..")  //Parent node, node order should not change. Parent node (..) is only supported in the start of the xpath
+                else if (SchemaNodeOrder != null && subPath != "..")  //Parent node, node order should not change. Parent node (..) is only supported in the start of the xpath
                 {
                     var ix = GetNodePos(subNode.LocalName, lastUsedOrderIndex);
                     if (ix >= 0)
@@ -603,9 +594,9 @@ namespace OfficeOpenXml
             {
                 nodeName = nodeName.Substring(ix + 1, nodeName.Length - (ix + 1));
             }
-            for (int i = startIndex; i < _schemaNodeOrder.Length; i++)
+            for (int i = startIndex; i < SchemaNodeOrder.Length; i++)
             {
-                if (nodeName == _schemaNodeOrder[i])
+                if (nodeName == SchemaNodeOrder[i])
                 {
                     return i;
                 }
@@ -1142,16 +1133,50 @@ namespace OfficeOpenXml
 
             }
         }
-        internal XmlNode GetExtLstSubNode(string uriGuid, string subNodePath)
+
+        internal XmlNode GetOrCreateExtLstSubNode(string uriGuid, string prefix, string[] uriOrder=null)
         {
             foreach(XmlElement node in GetNodes("d:extLst/d:ext"))
             {
                 if(node.Attributes["uri"].Value.Equals(uriGuid, StringComparison.OrdinalIgnoreCase))
                 {
-                    return node.SelectSingleNode(subNodePath, NameSpaceManager);
+                    return node;
                 }
             }
-            return null;
+            var extLst = (XmlElement)CreateNode("d:extLst");
+            XmlElement prependChild = null;
+            if (uriOrder != null)
+            {
+                foreach (var child in extLst.ChildNodes)
+                {
+                    if (child is XmlElement e)
+                    {
+                        var uo1 = Array.IndexOf(uriOrder, e.GetAttribute("uri"));
+                        var uo2 = Array.IndexOf(uriOrder, uriGuid);
+                        if (uo1 > uo2)
+                        {
+                            prependChild = e;
+                        }
+                    }
+                }
+            }
+            var newExt = TopNode.OwnerDocument.CreateElement("ext", ExcelPackage.schemaMain);
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                newExt.SetAttribute($"xmlns:{prefix}", NameSpaceManager.LookupNamespace(prefix));
+            }
+
+            newExt.SetAttribute("uri", uriGuid);
+            if(prependChild==null)
+            {
+                extLst.AppendChild(newExt);
+            }
+            else
+            {
+                extLst.InsertBefore(newExt, prependChild);
+            }
+
+            return newExt;
         }
     }
 }
