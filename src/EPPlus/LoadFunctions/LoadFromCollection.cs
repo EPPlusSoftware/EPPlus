@@ -50,7 +50,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly MemberInfo[] _members;
         private readonly HeaderParsingTypes _headerParsingType;
         private readonly IEnumerable<T> _items;
-        private readonly bool _isSameType;
+        private readonly bool _isSameType = true;
 
         protected override int GetNumberOfColumns()
         {
