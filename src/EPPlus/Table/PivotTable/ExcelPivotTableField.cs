@@ -23,6 +23,7 @@ using System.Text;
 using System.Collections;
 using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.Core;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -581,7 +582,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void LoadItems()
         {
             _items = new ExcelPivotTableFieldItemsCollection(this);
-            List<object> cacheItems;
+            EPPlusReadOnlyList<object> cacheItems;
             if (Cache.Grouping == null)
             {
                 cacheItems = Cache.SharedItems;

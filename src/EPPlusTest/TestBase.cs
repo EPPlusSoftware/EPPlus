@@ -167,18 +167,22 @@ namespace EPPlusTest
             var t = new FileInfo(_testInputPath  + name);
             if (t.Exists)
             {
-                var _file = new FileInfo(_worksheetPath + name);
-                return new ExcelPackage(_file, t);
+                var file = new FileInfo(_worksheetPath + name);
+                return new ExcelPackage(file, t);
             }
             else
             {
                 t = new FileInfo(_testInputPathOptional + name);
                 if (t.Exists)
                 {
-                    var _file = new FileInfo(_worksheetPath + name);
-                    return new ExcelPackage(_file, t);  
+                    var file = new FileInfo(_worksheetPath + name);
+                    return new ExcelPackage(file, t);  
                 }
-
+                t = new FileInfo(_worksheetPath + name);
+                if (t.Exists)
+                {
+                    return new ExcelPackage(t);
+                }
                 Assert.Inconclusive($"Template {name} does not exist in path {_testInputPath}");
             }
             return null;

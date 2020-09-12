@@ -198,7 +198,7 @@ namespace OfficeOpenXml.Table.PivotTable
                             hs.Add(o);
                         }
                     }
-                    field.SharedItems = hs.ToList();
+                    field.SharedItems._list = hs.ToList();
                     fields.Add(field);
                 }
             }

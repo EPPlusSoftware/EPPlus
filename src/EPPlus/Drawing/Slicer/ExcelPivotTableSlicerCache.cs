@@ -39,6 +39,14 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             return _list.GetEnumerator();
         }
+        public ExcelPivotTable this[int index]
+        {
+            get
+            {
+                return _list[index];
+            }
+        }
+
         internal void Add(ExcelPivotTable table)
         {
             if(_list.Count > 0 && _list[0].CacheId != table.CacheId)
@@ -77,18 +85,13 @@ namespace OfficeOpenXml.Drawing.Slicer
 
             Data.Items.Refresh();
         }
-        private string GetStartXml(string name)
-        {
-            return $"<slicerCacheDefinition sourceName=\"{name}\" xr10:uid=\"{{{(Guid.NewGuid())}}}\" name=\"Slicer_{name}\" xmlns:xr10=\"http://schemas.microsoft.com/office/spreadsheetml/2016/revision10\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" mc:Ignorable=\"x xr10\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"><pivotTables/><data/></slicerCacheDefinition>";
-        }
-
         /// <summary>
         /// Init must be called before accessing any properties as it sets several properties.
         /// </summary>
         /// <param name="wb"></param>
         internal override void Init(ExcelWorkbook wb)
-        {            
-            foreach(XmlElement ptElement in GetNodes("x14:pivotTables/x14:pivotTable"))
+        {
+            foreach (XmlElement ptElement in GetNodes("x14:pivotTables/x14:pivotTable"))
             {
                 var name = ptElement.GetAttribute("name");
                 var tabId = ptElement.GetAttribute("tabId");
@@ -104,6 +107,12 @@ namespace OfficeOpenXml.Drawing.Slicer
                 }
             }
         }
+        internal void Init(ExcelWorkbook wb, ExcelPivotTableSlicer slicer)
+        {
+            _slicer = slicer;
+            Init(wb);
+            _slicer._field = PivotTables[0].Fields[SourceName];
+        }
         public override eSlicerSourceType SourceType
         {
             get
@@ -112,14 +121,14 @@ namespace OfficeOpenXml.Drawing.Slicer
             }   
         }
         public ExcelSlicerPivotTableCollection PivotTables { get; }
-        ExcelPivotTableSlicerCacheData _data=null;
-        public ExcelPivotTableSlicerCacheData Data 
+        ExcelPivotTableSlicerCacheTabularData _data=null;
+        public ExcelPivotTableSlicerCacheTabularData Data 
         { 
             get
             {
                 if(_data==null)
                 {
-                    _data = new ExcelPivotTableSlicerCacheData(NameSpaceManager, TopNode, _slicer);
+                    _data = new ExcelPivotTableSlicerCacheTabularData(NameSpaceManager, TopNode, _slicer);
                 }
                 return _data;
             }

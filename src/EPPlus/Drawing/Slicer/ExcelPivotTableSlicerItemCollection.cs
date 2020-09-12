@@ -71,7 +71,11 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             get
             {
-                return _items.Where(x => x.Value == value).FirstOrDefault();
+                if(_slicer._field.Cache._cacheLookup.TryGetValue(value, out int ix))
+                {
+                    return _items[ix];
+                }
+                return null;
             }
         }
     }

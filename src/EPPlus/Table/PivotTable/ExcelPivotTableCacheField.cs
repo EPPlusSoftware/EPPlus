@@ -11,6 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Utils;
 using System;
@@ -56,23 +59,47 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// A list of unique items for the field 
         /// </summary>
-        public List<object> SharedItems
+        public EPPlusReadOnlyList<object> SharedItems
         {
             get;
-            set;
-        } = new List<object>();
+        } = new EPPlusReadOnlyList<object>();
         /// <summary>
         /// A list of group items, if the field has grouping.
         /// <seealso cref="Grouping"/>
         /// </summary>
-        public List<object> GroupItems
+        public EPPlusReadOnlyList<object> GroupItems
         {
             get;
             set;
-        } = new List<object>();
+        } = new EPPlusReadOnlyList<object>();
 
         internal Dictionary<object, int> _cacheLookup=null;
-        public ExcelPivotTableSlicer Slicer { get; internal set; }
+        ExcelPivotTableSlicer _slicer=null;
+        public ExcelPivotTableSlicer Slicer 
+        { 
+            get
+            {
+                if (_slicer==null && _cache._wb.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
+                {
+                    foreach(var ws in _cache._wb.Worksheets)
+                    {
+                        foreach(var d in ws.Drawings)
+                        {
+                            if(d is ExcelPivotTableSlicer s && s.Cache.Data.PivotCacheId==_cache.CacheId && s.Cache.SourceName == Name)
+                            {
+                                _slicer = s;
+                                return _slicer;
+                            }
+                        }
+                    }
+                }
+                return _slicer;
+            }
+            internal set
+            {
+                _slicer = value;
+            }
+        }
         public eDateGroupBy DateGrouping { get; private set; }
         public ExcelPivotTableFieldGroup Grouping { get; set; }
 
@@ -88,7 +115,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 AppendSharedItems(shNode);
             }
-            if (!HasOneValueOnly(flags) && flags!=(DataTypeFlags.Int| DataTypeFlags.Number) && SharedItems.Count>1)
+            if (!HasOneValueOnly(flags) && flags!=(DataTypeFlags.Int| DataTypeFlags.Number) && SharedItems.Count > 1)
             {
                 if ((flags & DataTypeFlags.String) == DataTypeFlags.String)
                 {
@@ -327,7 +354,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         }
 
-        private void AddItems(List<Object> items, XmlNode itemsNode, bool updateCacheLookup)
+        private void AddItems(EPPlusReadOnlyList<Object> items, XmlNode itemsNode, bool updateCacheLookup)
         {
             if (updateCacheLookup)
             {
@@ -646,7 +673,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     list.Add(new ExcelPivotTableFieldItem() { Type = eItemType.Default, X = -1 });
                 }
             }
-            SharedItems = hs.ToList();
+            SharedItems._list = hs.ToList();
             if (Slicer != null)
             {
                 Slicer.Cache.Data.Items.Refresh();
