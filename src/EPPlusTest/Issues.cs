@@ -1332,5 +1332,13 @@ namespace EPPlusTest
                 SaveWorkbook("Issue26-resaved.xlsx", p);
             }
         }
+        [TestMethod]
+        public void Issue34()
+        {            
+            using (var p = OpenTemplatePackage("Issue34.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
