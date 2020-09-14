@@ -1,5 +1,13 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.3.2
+### Fixed issues
+* Workbook got corrupt on copy if a worksheet VBA Code module was null.
+* Setting chart series color settings to WithinLinear caused an exception in some cases.
+* LoadFromCollection did not load all members as in previous version when suppling binding flags and MemberInfo's.
+* If first worksheet(s) are hidden in the worksheet collection, print preview crashed in Excel.
+* Worksheet Move methods failed with a crash in some cases.
+
 ## Version 5.3.1
 ### Features
 * Added support for copying threaded comments 
