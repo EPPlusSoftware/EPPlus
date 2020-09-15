@@ -142,11 +142,13 @@ namespace EPPlusTest.Drawing.Slicer
             slicer.FilterValues.Add("61");
             slicer.FilterValues.Add("102");
             slicer.StartItem = 50;
+            slicer.ShowCaption = false;
             slicer.SetPosition(1, 0, 5, 0);
             slicer.SetSize(200, 600);
 
             Assert.AreEqual(50, slicer.StartItem);
             Assert.AreEqual(eSlicerStyle.Dark1, slicer.Style);
+            Assert.IsFalse(slicer.ShowCaption);
         }
         [TestMethod]
         public void AddPivotTableSlicer()

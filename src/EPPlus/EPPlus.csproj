@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.3.1.0</AssemblyVersion>
-    <FileVersion>5.3.1.0</FileVersion>
-    <Version>5.3.1</Version>
+    <AssemblyVersion>5.3.2.0</AssemblyVersion>
+    <FileVersion>5.3.2.0</FileVersion>
+    <Version>5.3.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,12 +18,15 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-      EPPlus 5.3.1
+      EPPlus 5.3.2
       IMPORTAT NOTICE!
       From version 5 EPPlus changes the licence model using a dual license, Polyform Non Commercial / Commercial license.
       EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
       Commercial licenses can be purchased from https://epplussoftware.com
       This applies to EPPlus version 5 and later. Previous versions are still licensed LGPL.
+
+      ## Version 5.3.2
+      * Bug fixes
 
       ## Version 5.3.1
       ### New features in version Features
@@ -78,6 +81,7 @@
       A list of fixed issues can be found here https://epplussoftware.com/docs/5.3/articles/fixedissues.html
 
       Version history
+      5.3.2 20200914 Bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.3.1 20200902 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.3.0 20200819 Support for threaded comment with mentions. Minor feature and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.2.1 20200722 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues

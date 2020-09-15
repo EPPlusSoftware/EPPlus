@@ -21,6 +21,7 @@ using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml
 {
@@ -619,7 +620,7 @@ namespace OfficeOpenXml
         internal int NamedStylePropertyChange(StyleBase sender, Style.StyleChangeEventArgs e)
         {
 
-            int index = NamedStyles.FindIndexByID(e.Address);
+            int index = NamedStyles.FindIndexById(e.Address);
             if (index >= 0)
             {
                 int newId = CellStyleXfs[NamedStyles[index].StyleXfId].GetNewID(CellStyleXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
@@ -761,14 +762,31 @@ namespace OfficeOpenXml
             int normalIx = NamedStyles.FindIndexByBuildInId(0);
             if(normalIx<0)
             {
-                normalIx = NamedStyles.FindIndexByID("normal");
+                normalIx = NamedStyles.FindIndexById("normal");
             }
             if (NamedStyles.Count > 0 && normalIx>=0 && NamedStyles[normalIx].Style.Numberformat.NumFmtID >= 164)
             {
-                ExcelNumberFormatXml nf = NumberFormats[NumberFormats.FindIndexByID(NamedStyles[normalIx].Style.Numberformat.Id)];
+                ExcelNumberFormatXml nf = NumberFormats[NumberFormats.FindIndexById(NamedStyles[normalIx].Style.Numberformat.Id)];
                 nfNode.AppendChild(nf.CreateXmlNode(_styleXml.CreateElement("numFmt", ExcelPackage.schemaMain)));
                 nf.newID = count++;
             }
+
+            //Add pivot Table formatting.
+            foreach (var ws in _wb.Worksheets)
+            {
+                if (!(ws is ExcelChartsheet))
+                {
+                    foreach (var pt in ws.PivotTables)
+                    {
+                        foreach (var f in pt.Fields)
+                        {
+                            f.NumberFormatId = SetNumFormatId(f.NumberFormat);
+                            f.Cache.NumberFormatId = SetNumFormatId(f.Cache.NumberFormat);
+                        }
+                    }
+                }
+            }
+
             foreach (ExcelNumberFormatXml nf in NumberFormats)
             {
                 if(!nf.BuildIn /*&& nf.newID<0*/) //Buildin formats are not updated.
@@ -778,6 +796,7 @@ namespace OfficeOpenXml
                     count++;
                 }
             }
+            
             (nfNode as XmlElement).SetAttribute("count", count.ToString());
 
             //Font
@@ -903,7 +922,7 @@ namespace OfficeOpenXml
                 {
                     if (cf.Style.HasValue)
                     {
-                        int ix = Dxfs.FindIndexByID(cf.Style.Id);
+                        int ix = Dxfs.FindIndexById(cf.Style.Id);
                         if (ix < 0)
                         {
                             ((ExcelConditionalFormattingRule)cf).DxfId = Dxfs.Count;
@@ -922,6 +941,33 @@ namespace OfficeOpenXml
             if (dxfsNode != null) (dxfsNode as XmlElement).SetAttribute("count", Dxfs.Count.ToString());
         }
 
+        private int? SetNumFormatId(string format)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                return null;
+            }
+            else
+            {
+                ExcelNumberFormatXml nf = null;
+                if (NumberFormats.FindById(format, ref nf))
+                {
+                    return nf.NumFmtId;
+                }
+                else
+                {
+                    var id = NumberFormats.NextId++;
+                    var item = new ExcelNumberFormatXml(NameSpaceManager, false) 
+                    { 
+                        Format = format,
+                        NumFmtId = id
+                    };
+                    NumberFormats.Add(format, item);
+                    return id;
+                }
+            }
+        }
+
         private void AddNamedStyle(int id, XmlNode styleXfsNode,XmlNode cellXfsNode, ExcelNamedStyleXml style)
         {
             var styleXfs = CellStyleXfs[style.StyleXfId];
@@ -929,7 +975,7 @@ namespace OfficeOpenXml
             styleXfs.newID = id;
             styleXfs.XfId = style.StyleXfId;
 
-            var ix = CellXfs.FindIndexByID(styleXfs.Id);
+            var ix = CellXfs.FindIndexById(styleXfs.Id);
             if (ix < 0)
             {
                 cellXfsNode.AppendChild(styleXfs.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
@@ -990,7 +1036,7 @@ namespace OfficeOpenXml
         }
         internal int GetStyleIdFromName(string Name)
         {
-            int i = NamedStyles.FindIndexByID(Name);
+            int i = NamedStyles.FindIndexById(Name);
             if (i >= 0)
             {
                 int id = NamedStyles[i].XfId;
@@ -999,7 +1045,7 @@ namespace OfficeOpenXml
                     int styleXfId=NamedStyles[i].StyleXfId;
                     ExcelXfs newStyle = CellStyleXfs[styleXfId].Copy();
                     newStyle.XfId = styleXfId;
-                    id = CellXfs.FindIndexByID(newStyle.Id);
+                    id = CellXfs.FindIndexById(newStyle.Id);
                     if (id < 0)
                     {
                         id = CellXfs.Add(newStyle.Id, newStyle);
@@ -1087,7 +1133,7 @@ namespace OfficeOpenXml
                     //rake36: Don't add another format if it's blank
                     if (!String.IsNullOrEmpty(format))
                     {
-                        int ix = NumberFormats.FindIndexByID(format);
+                        int ix = NumberFormats.FindIndexById(format);
                         if (ix < 0)
                         {
                             var item = new ExcelNumberFormatXml(NameSpaceManager) { Format = format, NumFmtId = NumberFormats.NextId++ };
@@ -1106,7 +1152,7 @@ namespace OfficeOpenXml
                 //Font
                 if (xfs.FontId > -1)
                 {
-                    int ix = Fonts.FindIndexByID(xfs.Font.Id);
+                    int ix = Fonts.FindIndexById(xfs.Font.Id);
                     if (ix < 0)
                     {
                         ExcelFontXml item = style.Fonts[xfs.FontId].Copy();
@@ -1118,7 +1164,7 @@ namespace OfficeOpenXml
                 //Border
                 if (xfs.BorderId > -1)
                 {
-                    int ix = Borders.FindIndexByID(xfs.Border.Id);
+                    int ix = Borders.FindIndexById(xfs.Border.Id);
                     if (ix < 0)
                     {
                         ExcelBorderXml item = style.Borders[xfs.BorderId].Copy();
@@ -1130,7 +1176,7 @@ namespace OfficeOpenXml
                 //Fill
                 if (xfs.FillId > -1)
                 {
-                    int ix = Fills.FindIndexByID(xfs.Fill.Id);
+                    int ix = Fills.FindIndexById(xfs.Fill.Id);
                     if (ix < 0)
                     {
                         var item = style.Fills[xfs.FillId].Copy();
@@ -1143,7 +1189,7 @@ namespace OfficeOpenXml
                 if (xfs.XfId > 0)
                 {
                     var id = style.CellStyleXfs[xfs.XfId].Id;
-                    var newId = CellStyleXfs.FindIndexByID(id);
+                    var newId = CellStyleXfs.FindIndexById(id);
                     if (newId >= 0)
                     {
                         newXfs.XfId = newId;
@@ -1156,7 +1202,7 @@ namespace OfficeOpenXml
                             var st = nsFind[xfs.XfId];
                             if (NamedStyles.ExistsKey(st.Name))
                             {
-                                newXfs.XfId = NamedStyles.FindIndexByID(st.Name);
+                                newXfs.XfId = NamedStyles.FindIndexById(st.Name);
                             }
                             else
                             {
@@ -1180,7 +1226,7 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        index = CellXfs.FindIndexByID(newXfs.Id);
+                        index = CellXfs.FindIndexById(newXfs.Id);
                         if (index < 0)
                         {
                             index = CellXfs.Add(newXfs.Id, newXfs);
@@ -1193,7 +1239,7 @@ namespace OfficeOpenXml
         internal int CloneDxfStyle(ExcelStyles style, int styleID)
         {
             var copy = style.Dxfs[styleID];
-            var ix = Dxfs.FindIndexByID(copy.Id);
+            var ix = Dxfs.FindIndexById(copy.Id);
             if(ix<0)
             {
                 var parent = GetNode(dxfsPath);

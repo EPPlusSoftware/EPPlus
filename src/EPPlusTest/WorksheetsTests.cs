@@ -163,6 +163,22 @@ namespace EPPlusTest
 				}
 			}
 		}
+		[TestMethod]
+		public void MoveBeforeByName8Worksheets()
+		{
+			workbook.Worksheets.Add("NEW2");
+			workbook.Worksheets.Add("NEW3");
+			workbook.Worksheets.Add("NEW4");
+			workbook.Worksheets.Add("NEW5");
+			workbook.Worksheets.Add("NEW6");
+			workbook.Worksheets.Add("NEW7");
+			workbook.Worksheets.Add("NEW8");
+
+			workbook.Worksheets.MoveBefore("NEW8", "NEW1");
+			Assert.AreEqual("NEW7", workbook.Worksheets.Last().Name);
+			Assert.AreEqual("NEW8", workbook.Worksheets.First().Name);
+			Assert.AreEqual("NEW1", workbook.Worksheets[1].Name);
+		}
 		private static void CompareOrderOfWorksheetsAfterSaving(ExcelPackage editedPackage)
 		{
 			var packageStream = new MemoryStream();

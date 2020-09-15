@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -31,7 +32,13 @@ namespace OfficeOpenXml.Drawing.Slicer
             _ws = drawings.Worksheet;
             var slicerNode = _ws.SlicerXmlSources.GetSource(Name, eSlicerSourceType.Table, out _xmlSource);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
+            
+            _ws.Workbook.SlicerCaches.TryGetValue(CacheName, out ExcelSlicerCache cache);
+            _cache = (ExcelTableSlicerCache)cache;
+
+            TableColumn = GetTableColumn();
         }
+
         internal ExcelTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelTableColumn column) : base(drawings, node)
         {
             TableColumn = column;
@@ -48,6 +55,21 @@ namespace OfficeOpenXml.Drawing.Slicer
             cache.Init(column, CacheName);
             _cache = cache;            
         }
+        private ExcelTableColumn GetTableColumn()
+        {
+            foreach (var ws in _drawings.Worksheet.Workbook.Worksheets)
+            {
+                foreach (var t in ws.Tables)
+                {
+                    if (t.Id == Cache.TableId)
+                    {
+                        return t.Columns.Where(x => x.Id == Cache.ColumnId).Single();
+                    }
+                }
+            }
+            return null;
+        }
+
         internal override void DeleteMe()
         {
             try

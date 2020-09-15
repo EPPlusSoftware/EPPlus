@@ -198,6 +198,21 @@ namespace OfficeOpenXml
                 SetXmlNodeString(ACTIVETAB_PATH, value.ToString(CultureInfo.InvariantCulture));
             }
         }
+        const string FirstSheet_PATH = "d:bookViews/d:workbookView/@firstSheet";
+        /// <summary>
+        /// The first visible worksheet in the worksheets collection. 
+        /// </summary>
+        internal int? FirstSheet
+        {
+            get
+            {
+                return GetXmlNodeIntNull(FirstSheet_PATH);
+            }
+            set
+            {
+                SetXmlNodeInt(FirstSheet_PATH, value);
+            }
+        }
 
     }
 }

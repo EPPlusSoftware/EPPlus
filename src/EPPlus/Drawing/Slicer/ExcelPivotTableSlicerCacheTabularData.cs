@@ -122,7 +122,6 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         internal void UpdateItemsXml()
         {
-            if (_slicer == null) return;
             var sb = new StringBuilder();
             int x = 0;
             foreach (var item in _slicer._field.Items)

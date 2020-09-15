@@ -484,7 +484,7 @@ namespace OfficeOpenXml
 		{
 			get
 			{
-				var ix = Styles.NamedStyles.FindIndexByID("Normal");
+				var ix = Styles.NamedStyles.FindIndexById("Normal");
 				if (ix >= 0)
 				{
 					var font = Styles.NamedStyles[ix].Style.Font;
@@ -1017,6 +1017,10 @@ namespace OfficeOpenXml
 			// save the workbook
 			if (_workbookXml != null)
 			{
+				if(Worksheets[_package._worksheetAdd].Hidden!=eWorkSheetHidden.Visible)
+				{
+					View.FirstSheet = Worksheets.GetFirstVisibleSheetIndex();
+				}
 				_package.SavePart(WorkbookUri, _workbookXml);
 			}
 

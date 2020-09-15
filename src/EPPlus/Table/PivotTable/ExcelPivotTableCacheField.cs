@@ -43,6 +43,15 @@ namespace OfficeOpenXml.Table.PivotTable
             _cache = cache;
             Index = index;
             SetCacheFieldNode();
+            if (NumberFormatId.HasValue)
+            {
+                var styles = cache._wb.Styles;
+                var ix = styles.NumberFormats.FindIndexById(NumberFormatId.Value.ToString(CultureInfo.InvariantCulture));
+                if (ix >= 0)
+                {
+                    NumberFormat = styles.NumberFormats[ix].Format;
+                }
+            }
         }
         public int Index { get; set; }
         public string Name
@@ -72,10 +81,9 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         } = new EPPlusReadOnlyList<object>();
-
         internal Dictionary<object, int> _cacheLookup=null;
         ExcelPivotTableSlicer _slicer=null;
-        public ExcelPivotTableSlicer Slicer 
+        internal ExcelPivotTableSlicer Slicer 
         { 
             get
             {
@@ -95,14 +103,25 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 return _slicer;
             }
-            internal set
+            set
             {
                 _slicer = value;
             }
         }
         public eDateGroupBy DateGrouping { get; private set; }
         public ExcelPivotTableFieldGroup Grouping { get; set; }
-
+        public string NumberFormat { get; set; }
+        internal int? NumberFormatId
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@numFmtId");
+            }
+            set
+            {
+                SetXmlNodeInt("@numFmtId", value);
+            }
+        }
         internal void WriteSharedItems(XmlElement fieldNode, XmlNamespaceManager nsm)
         {
             var shNode = (XmlElement)fieldNode.SelectSingleNode("d:sharedItems", nsm);

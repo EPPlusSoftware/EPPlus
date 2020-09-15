@@ -39,7 +39,16 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             Index = index;
             BaseIndex = baseIndex;
-            _table = table;            
+            _table = table;
+            if(NumberFormatId.HasValue)
+            {
+                var styles = table.WorkSheet.Workbook.Styles;
+                var ix = styles.NumberFormats.FindIndexById(NumberFormatId.Value.ToString(CultureInfo.InvariantCulture));
+                if(ix>=0)
+                {
+                    NumberFormat = styles.NumberFormats[ix].Format;
+                }
+            }
         }
         /// <summary>
         /// The index of the pivot table field
@@ -539,6 +548,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 return Cache.Grouping;
             }
         }
+        /// <summary>
+        /// The numberformat to use for the column
+        /// </summary>
+        public string NumberFormat { get; set; }
         #region Private & internal Methods
         internal XmlElement AppendField(XmlNode rowsNode, int index, string fieldNodeText, string indexAttrText)
         {
@@ -622,6 +635,25 @@ namespace OfficeOpenXml.Table.PivotTable
             _cacheField.SetNumericGroup(BaseIndex, Start, End, Interval);
             UpdateGroupItems(_cacheField, true);
             UpdatePivotTableGroupItems(this, _table.CacheDefinition._cacheReference, true);
+        }
+        /// <summary>
+        /// Will add a slicer to the pivot table field
+        /// </summary>
+        /// <returns>The <see cref="ExcelPivotTableSlicer">Slicer</see>/></returns>
+        public ExcelPivotTableSlicer AddSlicer()
+        {
+            Cache.Slicer = _table.WorkSheet.Drawings.AddPivotTableSlicer(this);
+            return Cache.Slicer;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ExcelPivotTableSlicer Slicer
+        {
+            get
+            {
+                return Cache.Slicer;
+            }
         }
         /// <summary>
         /// Add a date grouping on this field.
@@ -864,6 +896,18 @@ namespace OfficeOpenXml.Table.PivotTable
                     _filters = new ExcelPivotTableFieldFilterCollection(this);
                 }
                 return _filters;
+            }
+        }
+
+        internal int? NumberFormatId 
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@numFmtId");
+            }
+            set
+            {
+                SetXmlNodeInt("@numFmtId", value);
             }
         }
     }

@@ -741,6 +741,19 @@ namespace OfficeOpenXml
 
             e.SetAttribute("id", ExcelPackage.schemaRelationships, newVmlRel.Id);
         }
+
+        internal int? GetFirstVisibleSheetIndex()
+        {
+            for(int i = 0;i<_worksheets.Count;i++)
+            {
+                if(_worksheets[i].Hidden==eWorkSheetHidden.Visible)
+                {
+                    return i;
+                }
+            }
+            throw new InvalidOperationException("The worksheets collection must have at least one visible woreksheet");
+        }
+
         private void CopyDrawing(ExcelWorksheet Copy, ExcelWorksheet workSheet/*, PackageRelationship r*/)
         {            
                 //First copy the drawing XML                

@@ -48,6 +48,13 @@ namespace OfficeOpenXml.Filter
         {
             return _list.GetEnumerator();
         }
+        public T this[int index]
+        {
+            get
+            {
+                return _list[index];
+            }
+        }
         /// <summary>
         /// Number of items in the collection
         /// </summary>

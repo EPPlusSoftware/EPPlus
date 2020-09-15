@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Constants;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,20 @@ namespace OfficeOpenXml.Table.PivotTable
         const string _sourceWorksheetPath = "d:cacheSource/d:worksheetSource/@sheet";
         internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
         internal const string _sourceAddressPath = "d:cacheSource/d:worksheetSource/@ref";
-
+        internal string Ref
+        {
+            get
+            {
+                return GetXmlNodeString(_sourceAddressPath);
+            }
+        }
+        internal string SourceName
+        {
+            get
+            {
+                return GetXmlNodeString(_sourceNamePath);
+            }
+        }
         internal ExcelRangeBase _sourceRange = null;
         internal ExcelRangeBase SourceRange 
         { 
@@ -50,16 +64,15 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                         else
                         {
-                            var address = GetXmlNodeString(_sourceAddressPath);
+                            var address = Ref;
                             if (string.IsNullOrEmpty(address))
                             {
-                                var name = GetXmlNodeString(_sourceNamePath);
+                                var name = SourceName;
                                 _sourceRange = GetRangeByName(ws, name);
                             }
                             else
                             {
                                 _sourceRange = ws.Cells[address];
-
                             }
                         }
                     }
@@ -242,6 +255,13 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             LoadXmlSafe(CacheDefinitionXml, Part.GetStream());
             TopNode = CacheDefinitionXml.DocumentElement;
+
+            ZipPackageRelationship rel = Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheRecords").FirstOrDefault();
+            if (rel != null)
+            {
+                CacheRecordUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+            }
+
             _wb.SetNewPivotCacheId(CacheId);
         }
         internal void InitNew(ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, string xml)

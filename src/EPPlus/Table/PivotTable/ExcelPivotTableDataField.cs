@@ -140,7 +140,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var styles = Field._table.WorkSheet.Workbook.Styles;
 
                 ExcelNumberFormatXml nf = null;
-                if (!styles.NumberFormats.FindByID(value, ref nf))
+                if (!styles.NumberFormats.FindById(value, ref nf))
                 {
                     nf = new ExcelNumberFormatXml(NameSpaceManager) { Format = value, NumFmtId = styles.NumberFormats.NextId++ };
                     styles.NumberFormats.Add(value, nf);

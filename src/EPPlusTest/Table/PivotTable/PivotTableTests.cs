@@ -423,7 +423,23 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(1, pt.DataFields.Count);
 
         }
+        [TestMethod]
+        public void RowsDataOnRow_WithNumberFormat()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("PivotTable with numberformat");
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["K1:N11"], "Pivottable2");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[0]);
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.DataFields.Add(pt.Fields[2]);
 
+            pt.Fields[3].NumberFormat = "#,##0";
+            pt.Fields[3].Cache.NumberFormat = "#,##0.000";
+            ws.Workbook.Styles.UpdateXml();
 
+            Assert.AreEqual(3, pt.Fields[3].NumberFormatId);
+            Assert.AreEqual(165, pt.Fields[3].Cache.NumberFormatId);
+        }
     }
 }

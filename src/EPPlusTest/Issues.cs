@@ -1339,5 +1339,13 @@ namespace EPPlusTest
             p2.Workbook.Worksheets.Add(p1.Workbook.Worksheets[0].Name, p1.Workbook.Worksheets[0]);
             p2.SaveAs(new FileInfo("c:\\epplustest\\t.xlsm"));
         }
+        [TestMethod]
+        public void Issue34()
+        {            
+            using (var p = OpenTemplatePackage("Issue34.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

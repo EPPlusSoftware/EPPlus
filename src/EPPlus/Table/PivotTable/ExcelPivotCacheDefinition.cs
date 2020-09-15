@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     CacheDefinitionXml = new XmlDocument(),
                 };
                 _cacheReference.Init();
-                if (!_wb._pivotTableCaches.ContainsKey(_cacheReference.SourceRange.FullAddress))
+                if (_cacheReference.SourceRange!=null && !_wb._pivotTableCaches.ContainsKey(_cacheReference.SourceRange.FullAddress))   //SourceRange can be null if the source does not exist or if it is unsupported.
                 {
                     _wb.AddPivotTableCache(_cacheReference);
                 }

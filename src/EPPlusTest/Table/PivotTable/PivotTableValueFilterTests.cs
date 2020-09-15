@@ -198,7 +198,6 @@ namespace EPPlusTest.Table.PivotTable
 
             pt.Fields[4].Filters.AddTop10Filter(ePivotTableTop10FilterType.Sum, df, 25, false);
             ws.Cells["B4:D4"].Merge = true;
-            ws.Cells["B4"].Clear();
         }
     }
 }

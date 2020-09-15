@@ -16,54 +16,13 @@ using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
-    public class ExcelSlicerPivotTableCollection : IEnumerable<ExcelPivotTable>
-    {
-        ExcelPivotTableSlicerCache _slicerCache;
-        public ExcelSlicerPivotTableCollection(ExcelPivotTableSlicerCache slicerCache)
-        {
-            _slicerCache = slicerCache;
-        }
-        List<ExcelPivotTable> _list=new List<ExcelPivotTable>();
-        public IEnumerator<ExcelPivotTable> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
-        public ExcelPivotTable this[int index]
-        {
-            get
-            {
-                return _list[index];
-            }
-        }
-
-        internal void Add(ExcelPivotTable table)
-        {
-            if(_list.Count > 0 && _list[0].CacheId != table.CacheId)
-            {
-                throw (new InvalidOperationException("Multiple Pivot tables added to a slicer must refer to the same cache."));
-            }
-            _list.Add(table);
-            _slicerCache.UpdateItemsXml();
-        }
-        public int Count
-        {
-            get
-            {
-                return _list.Count;
-            }
-        }
-    }
     public class ExcelPivotTableSlicerCache : ExcelSlicerCache
     {
         internal ExcelPivotTableSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
@@ -109,9 +68,9 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal void Init(ExcelWorkbook wb, ExcelPivotTableSlicer slicer)
         {
-            _slicer = slicer;
+            _slicer = slicer;            
+            _slicer._field = PivotTables[0].Fields.Where(x=>x.Cache.Name==SourceName).FirstOrDefault();
             Init(wb);
-            _slicer._field = PivotTables[0].Fields[SourceName];
         }
         public override eSlicerSourceType SourceType
         {
@@ -143,7 +102,10 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             var ptNode = CreateNode("x14:pivotTables");
             ptNode.InnerXml = sb.ToString();
-            Data.UpdateItemsXml();
+            if (_slicer != null) //Make sure the slicer has been initialized
+            {
+                Data.UpdateItemsXml();
+            }
         }
     }
 }
