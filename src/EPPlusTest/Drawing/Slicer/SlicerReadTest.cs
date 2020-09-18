@@ -14,7 +14,7 @@ namespace EPPlusTest.Drawing.Slicer
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenTemplatePackage("SlicerRead.xlsx");
+            _pck = OpenPackage("SlicerRead.xlsx");
         }
         [ClassCleanup]
         public static void Cleanup()
