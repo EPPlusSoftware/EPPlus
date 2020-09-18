@@ -99,6 +99,11 @@ namespace OfficeOpenXml
                 xs.XmlDocument.Save(stream);                
             }
         }
+        internal void Remove(ExcelSlicerXmlSource source)
+        {
+            _list.Remove(source);
+            _part.Package.DeletePart(source.Uri);
+        }
     }
 
     internal class ExcelSlicerXmlSource : ExcelXmlSource

@@ -3861,6 +3861,23 @@ namespace OfficeOpenXml
             styleId = _values.GetValue(row, col)._styleId;
             return (styleId != 0);
         }
+        internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
+        {
+            var node = GetNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{xmlSource.Rel.Id}']");
+            if (node != null)
+            {
+                if (node.ParentNode.ChildNodes.Count > 1)
+                {
+                    node.ParentNode.RemoveChild(node);
+                }
+                else
+                {
+                    //Remove the entire ext element.
+                    node.ParentNode.ParentNode.ParentNode.RemoveChild(node.ParentNode.ParentNode);
+                }
+            }
+            SlicerXmlSources.Remove(xmlSource);
+        }
         #endregion
     }  // END class Worksheet
 }

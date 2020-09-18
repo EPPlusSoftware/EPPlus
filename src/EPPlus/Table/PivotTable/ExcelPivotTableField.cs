@@ -869,9 +869,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 Items.Refresh();
                 foreach (var item in Items)
                 {
-                    if(item.Type==eItemType.Data && cacheLookup.TryGetValue(item.Value??"", out int x))
+                    var v = item.Value ?? "";
+                    if (item.Type==eItemType.Data && cacheLookup.TryGetValue(v, out int x))
                     {
-                        item.X = cacheLookup[item.Value??""];
+                        item.X = cacheLookup[v];
                     }
                     else
                     {

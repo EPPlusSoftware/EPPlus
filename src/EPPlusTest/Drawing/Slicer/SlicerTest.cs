@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table.PivotTable;
@@ -24,49 +25,8 @@ namespace EPPlusTest.Drawing.Slicer
 
             SaveAndCleanup(_pck);
 
-            File.Copy(fileName, dirName + "\\SlicerRead.xlsx", true);
+            if(File.Exists(fileName)) File.Copy(fileName, dirName + "\\SlicerRead.xlsx", true);
         }
-        //[TestMethod]
-        //public void ReadSlicer()
-        //{
-        //    using (var p = OpenTemplatePackage("Slicer.xlsx"))
-        //    {
-        //        var ws = p.Workbook.Worksheets[0];
-        //        Assert.AreEqual(2, ws.Drawings.Count);
-        //        Assert.IsInstanceOfType(ws.Drawings[0], typeof(ExcelTableSlicer));
-        //        Assert.AreEqual(1, ws.SlicerXmlSources._list.Count);
-
-        //        var tableSlicer = ws.Drawings[0].As.Slicer.TableSlicer;
-        //        Assert.AreEqual(eSlicerStyle.None, tableSlicer.Style);
-        //        Assert.AreEqual("Company Name", tableSlicer.Caption);
-        //        Assert.AreEqual("Company Name", tableSlicer.Name);
-        //        Assert.AreEqual("Slicer_CompanyName", tableSlicer.CacheName);
-        //        Assert.AreEqual(0, tableSlicer.StartItem);
-        //        Assert.AreEqual(19, tableSlicer.RowHeight);
-        //        Assert.AreEqual(1, tableSlicer.ColumnCount);
-        //        Assert.IsNotNull(tableSlicer.Cache);
-        //        Assert.AreEqual(1, tableSlicer.Cache.TableId);
-        //        Assert.AreEqual(1, tableSlicer.Cache.ColumnId);
-        //        Assert.IsNotNull(tableSlicer.Cache.TableColumn);
-
-        //        ws = p.Workbook.Worksheets[1];
-        //        Assert.AreEqual(3, ws.Drawings.Count);
-        //        Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelPivotTableSlicer));
-        //        Assert.IsInstanceOfType(ws.Drawings[2], typeof(ExcelPivotTableSlicer));
-        //        Assert.IsInstanceOfType(ws.Drawings[3], typeof(ExcelTableSlicer));
-        //        Assert.AreEqual(2, ws.SlicerXmlSources._list.Count);
-
-        //        var pivotTableslicer = ws.Drawings[1].As.Slicer.PivotTableSlicer;
-        //        Assert.AreEqual(eSlicerStyle.None, pivotTableslicer.Style);
-        //        Assert.AreEqual("CompanyName", pivotTableslicer.Caption);
-        //        Assert.AreEqual("CompanyName 1", pivotTableslicer.Name);
-        //        Assert.AreEqual("Slicer_CompanyName1", pivotTableslicer.CacheName);
-        //        Assert.AreEqual(0, pivotTableslicer.StartItem);
-        //        Assert.AreEqual(19, pivotTableslicer.RowHeight);
-        //        Assert.AreEqual(1, pivotTableslicer.ColumnCount);
-        //        Assert.AreEqual(1, pivotTableslicer.Cache.PivotTables.Count);
-        //    }
-        //}
         [TestMethod]
         public void ReadSlicerPivot()
         {
@@ -269,6 +229,74 @@ namespace EPPlusTest.Drawing.Slicer
             slicer.Style = eSlicerStyle.Light5;
             slicer.SetPosition(1, 0, 15, 0);
             slicer.SetSize(200, 600);
+        }
+
+        [TestMethod]
+        public void RemovePivotTableSlicerIfLast()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("RemovedPivotTableSlicerLast");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            rf.Items.Refresh();
+            rf.Items[0].Hidden = true;
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum;
+
+            var slicer = ws.Drawings.AddPivotTableSlicer(tbl.Fields[1]);
+            Assert.AreEqual(slicer, tbl.Fields[1].Slicer);
+
+            ws.Drawings.Remove(slicer);
+            Assert.IsNull(tbl.Fields[1].Slicer);
+        }
+        [TestMethod]
+        public void RemoveOnePivotTableSlicerNotLast()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("RemovedPivotTableSlicerNotLast");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            rf.Items.Refresh();
+            rf.Items[0].Hidden = true;
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum;
+
+            var slicer1 = ws.Drawings.AddPivotTableSlicer(tbl.Fields[1]);
+            var slicer2 = ws.Drawings.AddPivotTableSlicer(tbl.Fields[2]);
+            Assert.AreEqual(slicer1, tbl.Fields[1].Slicer);
+            Assert.AreEqual(slicer2, tbl.Fields[2].Slicer);
+
+            ws.Drawings.Remove(slicer1);
+            Assert.IsNull(tbl.Fields[1].Slicer);
+            Assert.IsNotNull(tbl.Fields[2].Slicer);
+        }
+        [TestMethod]
+        public void RemoveTableSlicerStringIfLast()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableSlicerRemoveLast");
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table3");
+            var slicer = ws.Drawings.AddTableSlicer(tbl.Columns[1]);
+
+            ws.Drawings.Remove(slicer);
+            Assert.IsNull(tbl.Columns[1].Slicer);
+        }
+        [TestMethod]
+        public void RemoveTableSlicerStringIfNotLast()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableSlicerRemoveNotLast");
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table4");
+            var slicer1 = ws.Drawings.AddTableSlicer(tbl.Columns[1]);
+            var slicer2 = ws.Drawings.AddTableSlicer(tbl.Columns[2]);
+
+            ws.Drawings.Remove(slicer1);
+            Assert.IsNull(tbl.Columns[1].Slicer);
+            Assert.IsNotNull(tbl.Columns[2].Slicer);
         }
     }
 }

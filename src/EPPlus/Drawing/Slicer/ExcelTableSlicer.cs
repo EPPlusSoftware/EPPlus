@@ -26,7 +26,6 @@ namespace OfficeOpenXml.Drawing.Slicer
 
     public class ExcelTableSlicer : ExcelSlicer<ExcelTableSlicerCache>
     {
-        ExcelSlicerXmlSource _xmlSource;
         internal ExcelTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
             _ws = drawings.Worksheet;
@@ -74,8 +73,6 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             try
             {
-                _xmlSource.Part.Package.DeletePart(_xmlSource.Uri);
-                _xmlSource.Part.Package.DeletePart(Cache.Uri);
                 TableColumn.Slicer = null;
             }
             catch (Exception ex)

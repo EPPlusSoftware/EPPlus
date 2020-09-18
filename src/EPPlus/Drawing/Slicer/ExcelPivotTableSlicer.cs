@@ -21,7 +21,6 @@ namespace OfficeOpenXml.Drawing.Slicer
 {
     public class ExcelPivotTableSlicer : ExcelSlicer<ExcelPivotTableSlicerCache>
     {
-        ExcelSlicerXmlSource _xmlSource;
         internal ExcelPivotTableField _field;
         internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelPivotTableField field, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
@@ -96,6 +95,11 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             _drawings.Worksheet.Workbook._slicerNames.Add(name);
             return true;
+        }
+        internal override void DeleteMe()
+        {
+            _field.Cache.Slicer = null;
+            base.DeleteMe();
         }
     }
 }

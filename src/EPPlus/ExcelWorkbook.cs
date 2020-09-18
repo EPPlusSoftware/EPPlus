@@ -339,6 +339,31 @@ namespace OfficeOpenXml
 			}
 		}
 
+		internal void RemoveSlicerCacheReference(string relId, eSlicerSourceType sourceType)
+		{
+			string path;
+			if (sourceType==eSlicerSourceType.PivotTable)
+			{
+				path = $"d:extLst/d:ext/x14:slicerCaches/x14:slicerCache[@r:id='{relId}']";
+			}
+			else
+			{
+				path = $"d:extLst/d:ext/x15:slicerCaches/x14:slicerCache[@r:id='{relId}']";
+			}
+			var node = GetNode(path);
+			if (node != null)
+			{
+				if (node.ParentNode.ChildNodes.Count > 1)
+				{
+					node.ParentNode.RemoveChild(node);
+				}
+				else
+				{
+					node.ParentNode.ParentNode.ParentNode.RemoveChild(node.ParentNode.ParentNode);
+				}
+			}		
+		}
+
 		internal ExcelRangeBase GetRange(ExcelWorksheet ws, string function)
 		{
 			switch (ExcelAddressBase.IsValid(function))

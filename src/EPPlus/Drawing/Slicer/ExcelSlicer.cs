@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Drawing.Slicer
      */
     public abstract class ExcelSlicer<T> : ExcelDrawing where T : ExcelSlicerCache
     {
+        internal ExcelSlicerXmlSource _xmlSource;
         internal ExcelWorksheet _ws;
         protected XmlHelper _slicerXmlHelper;
         internal ExcelSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null) :
@@ -240,5 +241,24 @@ namespace OfficeOpenXml.Drawing.Slicer
                 return _cache as T;
             }
         }
+        internal override void DeleteMe()
+        {
+            if (_slicerXmlHelper.TopNode.ParentNode.ChildNodes.Count == 1)
+            {
+                _ws.RemoveSlicerReference(_xmlSource);
+                _xmlSource = null;
+            }
+
+            _slicerXmlHelper.TopNode.ParentNode.RemoveChild(_slicerXmlHelper.TopNode);
+
+            _ws.Workbook.RemoveSlicerCacheReference(Cache.CacheRel.Id, Cache.SourceType);
+            _ws.Workbook.Names.Remove(Name);
+            if (Cache.Part.Package.PartExists(Cache.Uri))
+            {
+                _drawings.Worksheet.Workbook._package.ZipPackage.DeletePart(Cache.Uri);
+            }
+            base.DeleteMe();
+        }
+
     }
 }

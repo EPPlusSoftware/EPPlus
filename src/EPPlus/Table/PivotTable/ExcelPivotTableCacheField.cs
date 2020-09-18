@@ -129,8 +129,8 @@ namespace OfficeOpenXml.Table.PivotTable
 
             var flags = GetFlags();
 
-            _cacheLookup = new Dictionary<object, int>();
-            if (IsRowColumnOrPage)
+            _cacheLookup = new Dictionary<object, int>(new CacheComparer());
+            if (IsRowColumnOrPage || Slicer!=null)
             {
                 AppendSharedItems(shNode);
             }
@@ -229,12 +229,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     _cacheLookup.Add(si, index++);
                     var t = si.GetType();
-                    switch (Type.GetTypeCode(t))
+                    var tc = Type.GetTypeCode(t);
+
+                    switch (tc)
                     {
-                        case TypeCode.String:
-                        case TypeCode.Char:
-                            AppendItem(shNode, "s", si.ToString());
-                            break;
                         case TypeCode.Byte:
                         case TypeCode.SByte:
                         case TypeCode.UInt16:
@@ -272,7 +270,6 @@ namespace OfficeOpenXml.Table.PivotTable
                             }
                             break;
                     }
-
                 }
             }
         }
@@ -377,7 +374,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             if (updateCacheLookup)
             {
-                _cacheLookup = new Dictionary<object, int>();
+                _cacheLookup = new Dictionary<object, int>(new CacheComparer());
             }
 
             foreach (XmlElement c in itemsNode.ChildNodes)
@@ -613,10 +610,10 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void UpdateCacheLookupFromGroupItems()
         {
-            _cacheLookup = new Dictionary<object, int>();
+            _cacheLookup = new Dictionary<object, int>(new CacheComparer());
             for (int i = 0; i < GroupItems.Count; i++)
             {
-                _cacheLookup.Add(GroupItems[i], i);
+                _cacheLookup.Add(GroupItems[i]??"", i);
             }
         }
 
@@ -699,5 +696,35 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
+    }
+
+    internal class CacheComparer : IEqualityComparer<object>
+    {
+        public new bool Equals(object x, object y)
+        {
+            x = GetCaseInsensitiveValue(x);
+            y = GetCaseInsensitiveValue(y);
+
+            return x.Equals(y);
+        }
+
+        private static object GetCaseInsensitiveValue(object x)
+        {
+            if (x is string sx)
+            {
+                x = sx.ToLower();
+            }
+            else if (x is char cx)
+            {
+                x = char.ToLower(cx);
+            }
+
+            return x;
+        }
+
+        public int GetHashCode(object obj)
+        {
+            return GetCaseInsensitiveValue(obj).GetHashCode();
+        }
     }
 }
