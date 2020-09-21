@@ -101,10 +101,13 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 if(!CheckSlicerNameIsUnique(value))
                 {
-                    throw new InvalidOperationException("Slicer Name is not unique");
+                    if (Name != value)
+                    {
+                        throw new InvalidOperationException("Slicer Name is not unique");
+                    }
                 }
+                if (Name != value) Name=value;
                 _slicerXmlHelper.SetXmlNodeString("@name", value);
-                Name = value;
             }
         }
 

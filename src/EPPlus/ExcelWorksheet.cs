@@ -438,8 +438,7 @@ namespace OfficeOpenXml
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             CreateXml();
-            TopNode = _worksheetXml.DocumentElement;
-            SlicerXmlSources = new ExcelSlicerXmlSources(ns, TopNode, Part);
+            TopNode = _worksheetXml.DocumentElement;            
         }
 
         #endregion
@@ -1767,9 +1766,17 @@ namespace OfficeOpenXml
         #endregion
 
         #endregion // END Worksheet Public Properties
+        ExcelSlicerXmlSources _slicerXmlSources = null;
         internal ExcelSlicerXmlSources SlicerXmlSources
         {
-            get;
+            get
+            {
+                if(_slicerXmlSources==null)
+                {
+                    _slicerXmlSources=new ExcelSlicerXmlSources(NameSpaceManager, TopNode, Part);
+                }
+                return _slicerXmlSources;
+            }
         }
 
         #region Worksheet Public Methods

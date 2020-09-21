@@ -17,6 +17,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
 using System;
+using System.IO;
 using System.Linq;
 using System.Xml;
 
@@ -37,6 +38,8 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             var tbl = wb.GetTable(TableId);                
             TableColumn = tbl?.Columns.FirstOrDefault(x => x.Id == ColumnId);
+            SlicerCacheXml = new XmlDocument();
+            LoadXmlSafe(SlicerCacheXml, Part.GetStream());
         }
         internal void Init(ExcelTableColumn column, string cacheName)
         {
@@ -46,7 +49,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             TopNode = SlicerCacheXml.DocumentElement;
             Name = cacheName;
             SourceName = column.Name;
-
+            SlicerCacheXml.Save(Part.GetStream(FileMode.Create, FileAccess.Write));
             CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerTableUri);
         }
 

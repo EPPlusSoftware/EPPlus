@@ -115,6 +115,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         public ExcelTableColumn TableColumn
         {
             get;
+            internal set;
         }
         /// <summary>
         /// The value filters for the slicer. This is the same filter as the filter for the table.
@@ -145,6 +146,15 @@ namespace OfficeOpenXml.Drawing.Slicer
             _drawings.Worksheet.Workbook._slicerNames.Add(name);
             return true;
         }
-}
+
+        internal void CreateNewCache()
+        {
+            var cacheXml = Cache.SlicerCacheXml.OuterXml;
+            var cache=new ExcelTableSlicerCache(_slicerXmlHelper.NameSpaceManager);
+            cache.Init(Cache.TableColumn, "Slicer_"+SlicerName);
+            _cache = cache;
+            CacheName = cache.Name;
+        }
+    }
 }
 

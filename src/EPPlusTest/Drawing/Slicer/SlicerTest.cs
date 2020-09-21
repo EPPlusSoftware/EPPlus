@@ -28,23 +28,6 @@ namespace EPPlusTest.Drawing.Slicer
             if(File.Exists(fileName)) File.Copy(fileName, dirName + "\\SlicerRead.xlsx", true);
         }
         [TestMethod]
-        public void ReadSlicerPivot()
-        {
-            using (var p = OpenTemplatePackage("SlicerPivot.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[1];
-                Assert.AreEqual(2, ws.Drawings.Count);
-                Assert.IsInstanceOfType(ws.Drawings[1], typeof(ExcelPivotTableSlicer));
-                Assert.AreEqual(1, ws.SlicerXmlSources._list.Count);
-
-                Assert.AreEqual(22, ws.PivotTables[0].Fields[0].Items.Count);
-                Assert.AreEqual(6, ws.PivotTables[0].Fields[1].Items.Count);
-                Assert.AreEqual(22, ws.PivotTables[0].Fields[2].Items.Count);
-                Assert.AreEqual(13, ws.PivotTables[0].Fields[3].Items.Count);
-            }
-        }
-
-        [TestMethod]
         public void AddTableSlicerDate()
         {
             var ws = _pck.Workbook.Worksheets.Add("TableSlicerDate");

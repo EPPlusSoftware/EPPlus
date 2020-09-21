@@ -39,10 +39,10 @@ namespace OfficeOpenXml.Drawing.Slicer
             SourceName = slicer._field.Cache.Name;
             _slicer = slicer;
             wb.Names.AddFormula(Name, "#N/A");
-            PivotTables.Add(slicer._field._table);
-            CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerPivotTableUri);
-
+            PivotTables.Add(slicer._field._table);           
             Data.Items.Refresh();
+            SlicerCacheXml.Save(Part.GetStream());
+            CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerPivotTableUri);
         }
         /// <summary>
         /// Init must be called before accessing any properties as it sets several properties.

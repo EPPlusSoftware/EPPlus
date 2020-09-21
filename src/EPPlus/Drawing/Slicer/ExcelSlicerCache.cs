@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal ExcelSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
         }
-        protected internal ExcelWorkbook CreatePart(ExcelWorkbook wb)
+        protected internal void CreatePart(ExcelWorkbook wb)
         {
             var p = wb._package.ZipPackage;
             Uri = GetNewUri(p, "/xl/slicerCaches/slicerCache{0}.xml");
@@ -34,8 +34,6 @@ namespace OfficeOpenXml.Drawing.Slicer
             CacheRel = wb.Part.CreateRelationship(UriHelper.GetRelativeUri(wb.WorkbookUri, Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicerCache);
             SlicerCacheXml = new XmlDocument();
             SlicerCacheXml.LoadXml(GetStartXml());
-
-            return wb;
         }
         internal ZipPackageRelationship CacheRel{ get; set; }
         internal ZipPackagePart Part { get; set; }
@@ -77,6 +75,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal protected void CreateWorkbookReference(ExcelWorkbook wb, string uriGuid)
         {
             wb.Names.AddFormula(Name, "#N/A");
+            if(!wb.SlicerCaches.ContainsKey(Name)) wb.SlicerCaches.Add(Name, this);
 
             string prefix;
             if(GetType()==typeof(ExcelPivotTableSlicerCache))

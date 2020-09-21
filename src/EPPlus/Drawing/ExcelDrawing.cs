@@ -229,6 +229,11 @@ namespace OfficeOpenXml.Drawing
                 {
                     if (_nvPrPath == "") throw new NotImplementedException();
                     SetXmlNodeString(_nvPrPath + "/@name", value);
+                    if (this is ExcelSlicer<ExcelTableSlicerCache> s)
+                    {
+                        SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
+                        s.SlicerName = value;
+                    }
                 }
                 catch
                 {

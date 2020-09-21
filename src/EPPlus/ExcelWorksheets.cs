@@ -26,8 +26,9 @@ using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using static OfficeOpenXml.Drawing.PictureStore;
 using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Drawing.Slicer;
+using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -199,16 +200,18 @@ namespace OfficeOpenXml
                 //Create a copy of the worksheet XML
                 Packaging.ZipPackagePart worksheetPart = _pck.ZipPackage.CreatePart(uriWorksheet, WORKSHEET_CONTENTTYPE, _pck.Compression);
                 StreamWriter streamWorksheet = new StreamWriter(worksheetPart.GetStream(FileMode.Create, FileAccess.Write));
+                
                 XmlDocument worksheetXml = new XmlDocument();
                 worksheetXml.LoadXml(Copy.WorksheetXml.OuterXml);
                 worksheetXml.Save(streamWorksheet);
                 _pck.ZipPackage.Flush();
 
-
                 //Create a relation to the workbook
                 string relID = CreateWorkbookRel(Name, sheetID, uriWorksheet, false);
+                
                 ExcelWorksheet added = new ExcelWorksheet(_namespaceManager, _pck, relID, uriWorksheet, Name, sheetID, _worksheets.Count + _pck._worksheetAdd, eWorkSheetHidden.Visible);
 
+                
                 //Copy comments
                 if(Copy.ThreadedComments.Count>0)
                 {
@@ -229,6 +232,7 @@ namespace OfficeOpenXml
                 //Copy all relationships 
                 if (Copy.HasDrawingRelationship)
                 {
+                    CopySlicers(Copy, added);
                     CopyDrawing(Copy, added);
                 }
                 if (Copy.Tables.Count > 0)
@@ -270,6 +274,25 @@ namespace OfficeOpenXml
                     }
                 }
                 return added;
+            }
+        }
+
+        private void CopySlicers(ExcelWorksheet copy, ExcelWorksheet added)
+        {
+            foreach (var source in copy.SlicerXmlSources._list)
+            {
+                var id = added.SheetId;
+                var uri = GetNewUri(added.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
+                var part = added.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", added.Part.Package.Compression);
+                var rel = added.Part.CreateRelationship(uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationshipsSlicer);
+                var xml = new XmlDocument();
+                xml.LoadXml(source.XmlDocument.OuterXml);
+                var stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
+                xml.Save(stream);
+
+                //Now create the new relationship between the worksheet and the slicer.
+                var relNode = (XmlElement)(added.WorksheetXml.DocumentElement.SelectSingleNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{source.Rel.Id}']", NameSpaceManager));
+                relNode.Attributes["r:id"].Value = rel.Id;
             }
         }
         /// <summary>
@@ -408,6 +431,27 @@ namespace OfficeOpenXml
                     relAtt = added.WorksheetXml.SelectSingleNode(string.Format("//d:tableParts/d:tablePart/@r:id[.='{0}']", tbl.RelationshipID), tbl.NameSpaceManager) as XmlAttribute;
                     relAtt.Value = rel.Id;
                 }
+                
+                //Copy table slicers
+                foreach(var col in tbl.Columns)
+                {
+                    if(col.Slicer!=null)
+                    {
+                        var newCol = added.Tables[name].Columns[col.Position];
+                        foreach(var d in added.Drawings)
+                        {
+                            if(d is ExcelTableSlicer slicer)
+                            {
+                                if(slicer.TableColumn.Name==col.Name && slicer.TableColumn.Table.Id==col.Table.Id)
+                                {
+                                    slicer.Cache.TableId = newCol.Table.Id;
+                                    slicer.TableColumn = newCol;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         private void CopyPivotTable(ExcelWorksheet Copy, ExcelWorksheet added)
@@ -459,31 +503,18 @@ namespace OfficeOpenXml
                 streamTbl.Write(xml);
                 streamTbl.Flush();
 
-                //xml = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
-                //var uriCd = GetNewUri(_pck.Package, "/xl/pivotCache/pivotcachedefinition{0}.xml", ref Id);
-                //var partCd = _pck.Package.CreatePart(uriCd, ExcelPackage.schemaPivotCacheDefinition, _pck.Compression);
-                //StreamWriter streamCd = new StreamWriter(partCd.GetStream(FileMode.Create, FileAccess.Write));
-                //streamCd.Write(xml);
-                //streamCd.Flush();
-
-                //added.Workbook.AddPivotTable(cacheId.ToString(), uriCd); 
-
-                //xml = "<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />";
-                //var uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", Id), UriKind.Relative);
-                //while (_pck.Package.PartExists(uriRec))
-                //{
-                //    uriRec = new Uri(string.Format("/xl/pivotCache/pivotCacheRecords{0}.xml", ++Id), UriKind.Relative);
-                //}
-                //var partRec = _pck.Package.CreatePart(uriRec, ExcelPackage.schemaPivotCacheRecords, _pck.Compression);
-                //StreamWriter streamRec = new StreamWriter(partRec.GetStream(FileMode.Create, FileAccess.Write));
-                //streamRec.Write(xml);
-                //streamRec.Flush();
-
                 //create the relationship and add the ID to the worksheet xml.
                 added.Part.CreateRelationship(UriHelper.ResolvePartUri(added.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotTable");
                 partTbl.CreateRelationship(tbl.CacheDefinition.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
-                //partCd.CreateRelationship(tbl._cacheDefinition._cacheReference.CacheRecordUri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
 
+                //Copy pivot table slicers
+                foreach (var f in tbl.Fields)
+                {
+                    if (f.Slicer != null)
+                    {
+                        f.Slicer.Cache.PivotTables.Add(tbl);
+                    }
+                }
             }
             added._pivotTables = null;   //Reset collection so it's reloaded when accessing the collection next time.
         }
@@ -770,7 +801,6 @@ namespace OfficeOpenXml
                 var drawRelation = workSheet.Part.CreateRelationship(UriHelper.GetRelativeUri(workSheet.WorksheetUri,uriDraw), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/drawing");
                 XmlElement e = workSheet.WorksheetXml.SelectSingleNode("//d:drawing", _namespaceManager) as XmlElement;
                 e.SetAttribute("id",ExcelPackage.schemaRelationships, drawRelation.Id);
-
                 for(int i=0;i<Copy.Drawings.Count;i++)
                 {
                     ExcelDrawing draw = Copy.Drawings[i];
@@ -809,6 +839,15 @@ namespace OfficeOpenXml
                         {
                             relAtt.Value = rel.Id;
                         }
+                    }
+                    else if (draw is ExcelTableSlicer slicer)
+                    {
+                        var name = _pck.Workbook.GetSlicerName(slicer.Name);
+                        var newSlicer = workSheet.Drawings[i] as ExcelTableSlicer;
+                        newSlicer.Name = name;
+                        newSlicer.SlicerName = name;
+                        //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
+                        newSlicer.CreateNewCache();
                     }
                 }
                 //rewrite the drawing xml with the new relID's
