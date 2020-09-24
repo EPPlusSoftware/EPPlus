@@ -80,7 +80,7 @@ namespace EPPlusTest.Drawing.Slicer
             var df=tbl.DataFields[0];
             Assert.AreEqual(DataFieldFunctions.Sum, df.Function);
 
-            var slicer = tbl.Fields[1].Cache.Slicer;
+            var slicer = tbl.Fields[1].Slicer;
             
             Assert.IsTrue(slicer.Cache.Data.Items[0].Hidden);
             Assert.IsTrue(slicer.Cache.Data.Items[2].Hidden);
@@ -98,10 +98,10 @@ namespace EPPlusTest.Drawing.Slicer
 
             Assert.AreEqual(1, p1.RowFields.Count);
             Assert.AreEqual(1, p1.DataFields.Count);            
-            Assert.IsNotNull(p1.Fields[0].Cache.Slicer);
-            Assert.AreEqual(99, p1.Fields[0].Cache.Slicer.Cache.Data.Items.Count);
+            Assert.IsNotNull(p1.Fields[0].Slicer);
+            Assert.AreEqual(99, p1.Fields[0].Slicer.Cache.Data.Items.Count);
 
-            var slicer = p1.Fields[0].Cache.Slicer;
+            var slicer = p1.Fields[0].Slicer;
             Assert.IsTrue(slicer.Cache.Data.Items[0].Hidden);
             Assert.IsTrue(slicer.Cache.Data.Items[1].Hidden);
 
@@ -131,8 +131,8 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.AreEqual(1, p2.DataFields.Count);
 
             Assert.AreEqual("Days", p1.Fields[0].Name);
-            var slicer = p1.Fields[0].Cache.Slicer;
-            Assert.AreEqual(p2.Fields[0].Cache.Slicer, slicer);
+            var slicer = p1.Fields[0].Slicer;
+            Assert.AreEqual(p2.Fields[0].Slicer, slicer);
 
             Assert.AreEqual(slicer.Cache.Data.SortOrder, eSortOrder.Ascending);
             Assert.AreEqual(slicer.Style, eSlicerStyle.Light4);
@@ -160,8 +160,8 @@ namespace EPPlusTest.Drawing.Slicer
             Assert.AreEqual(1, p2.DataFields.Count);
 
             Assert.IsInstanceOfType(p1.Fields[1].Grouping, typeof(ExcelPivotTableFieldNumericGroup));
-            var slicer = p1.Fields[1].Cache.Slicer;
-            Assert.AreEqual(p2.Fields[1].Cache.Slicer, slicer);
+            var slicer = p1.Fields[1].Slicer;
+            Assert.AreEqual(p2.Fields[1].Slicer, slicer);
             Assert.IsTrue(slicer.Cache.Data.Items[0].Hidden);
             Assert.IsTrue(slicer.Cache.Data.Items[1].Hidden);
             Assert.AreEqual(eSortOrder.Descending, slicer.Cache.Data.SortOrder);

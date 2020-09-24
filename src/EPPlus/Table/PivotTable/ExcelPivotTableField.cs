@@ -24,6 +24,7 @@ using System.Collections;
 using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -642,17 +643,38 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The <see cref="ExcelPivotTableSlicer">Slicer</see>/></returns>
         public ExcelPivotTableSlicer AddSlicer()
         {
-            Cache.Slicer = _table.WorkSheet.Drawings.AddPivotTableSlicer(this);
-            return Cache.Slicer;
+            if (_slicer != null) throw new InvalidOperationException("");
+            _slicer = _table.WorkSheet.Drawings.AddPivotTableSlicer(this);
+            return _slicer;
         }
+        ExcelPivotTableSlicer _slicer = null;
         /// <summary>
-        /// 
+        /// A slicer attached to the pivot table field.
+        /// If the field has multiple slicers attached, the first slicer will be returned.
         /// </summary>
         public ExcelPivotTableSlicer Slicer
         {
-            get
+            get 
             {
-                return Cache.Slicer;
+                if (_slicer == null && _table.WorkSheet.Workbook.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
+                {
+                    foreach (var ws in _table.WorkSheet.Workbook.Worksheets)
+                    {
+                        foreach (var d in ws.Drawings)
+                        {
+                            if (d is ExcelPivotTableSlicer s && s.Cache.PivotTables.Contains(_table) && Index==s._field.Index)
+                            {
+                                _slicer = s;
+                                return _slicer;
+                            }
+                        }
+                    }
+                }
+                return _slicer;
+            }
+            internal set
+            {
+                _slicer = value;
             }
         }
         /// <summary>

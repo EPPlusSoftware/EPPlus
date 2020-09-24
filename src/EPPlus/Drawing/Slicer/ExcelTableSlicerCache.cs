@@ -43,6 +43,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal void Init(ExcelTableColumn column, string cacheName)
         {
+            TableColumn = column;
             var wb = column.Table.WorkSheet.Workbook;
             CreatePart(wb);
             SlicerCacheXml.DocumentElement.InnerXml = $"<extLst><x:ext uri=\"{ExtLstUris.TableSlicerCacheUri}\" xmlns:x15=\"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main\"><x15:tableSlicerCache tableId=\"{column.Table.Id}\" column=\"{column.Id}\"/></x:ext></extLst>";

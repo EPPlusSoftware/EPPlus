@@ -98,15 +98,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-
-        internal Uri GetCacheUriFromRel()
-        {
-            ZipPackageRelationship rel = Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheDefinition").FirstOrDefault();
-            if(rel!=null)                
-                return UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-            return null;
-        }
-
         /// <summary>
         /// Add a new pivottable
         /// </summary>

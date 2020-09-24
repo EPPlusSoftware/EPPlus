@@ -32,15 +32,42 @@ namespace OfficeOpenXml.Drawing.Slicer
             SlicerName = name;
             Caption = name;
             RowHeight = 19;
-            CacheName = "Slicer_" + name.Replace(" ", "_");
+            if(field.Slicer==null)
+            {
+                CacheName = "Slicer_" + name.Replace(" ", "_");
 
-            var cache = new ExcelPivotTableSlicerCache(NameSpaceManager);
-            _field.Cache.Slicer = this;
-            cache.Init(drawings.Worksheet.Workbook, name, this);
+                var cache = new ExcelPivotTableSlicerCache(NameSpaceManager);
+                if (_field.Slicer == null) _field.Slicer = this;
+                cache.Init(drawings.Worksheet.Workbook, name, this);
+                _cache = cache;
+            }
+            else
+            {
+                CacheName = field.Slicer.Cache.Name;
+                _cache = field.Slicer.Cache;
+            }
+
+            //If items has not been init, refresh!
+            if (field._items==null)
+            {
+                field.Items.Refresh();
+            }
+        }
+        internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelPivotTableField field, ExcelPivotTableSlicerCache cache, ExcelGroupShape parent = null) : base(drawings, node, parent)
+        {
+            _ws = drawings.Worksheet;
+            _field = field;
+            var name = drawings.Worksheet.Workbook.GetSlicerName(Cache.Name);
+            CreateDrawing(name);
+
+            SlicerName = name;
+            Caption = name;
+            RowHeight = 19;
+            CacheName = Cache.Name;
             _cache = cache;
 
             //If items has not been init, refresh!
-            if(field._items==null)
+            if (field._items == null)
             {
                 field.Items.Refresh();
             }
@@ -98,8 +125,16 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal override void DeleteMe()
         {
-            _field.Cache.Slicer = null;
+            _field.Slicer = null;
             base.DeleteMe();
+        }
+
+        internal void CreateNewCache()
+        {
+            var cache = new ExcelPivotTableSlicerCache(_slicerXmlHelper.NameSpaceManager);
+            cache.Init(_ws.Workbook, SlicerName, this);
+            _cache = cache;
+            CacheName = cache.Name;
         }
     }
 }

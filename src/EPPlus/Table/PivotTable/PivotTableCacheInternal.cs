@@ -130,11 +130,6 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         }
-        internal Packaging.ZipPackageRelationship Relationship
-        {
-            get;
-            set;
-        }
         internal Packaging.ZipPackageRelationship RecordRelationship
         {
             get;

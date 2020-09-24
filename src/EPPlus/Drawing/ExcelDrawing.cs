@@ -229,10 +229,15 @@ namespace OfficeOpenXml.Drawing
                 {
                     if (_nvPrPath == "") throw new NotImplementedException();
                     SetXmlNodeString(_nvPrPath + "/@name", value);
-                    if (this is ExcelSlicer<ExcelTableSlicerCache> s)
+                    if (this is ExcelSlicer<ExcelTableSlicerCache> ts)
                     {
                         SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
-                        s.SlicerName = value;
+                        ts.SlicerName = value;
+                    }
+                    else if (this is ExcelSlicer<ExcelPivotTableSlicerCache> pts)
+                    {
+                        SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
+                        pts.SlicerName = value;
                     }
                 }
                 catch

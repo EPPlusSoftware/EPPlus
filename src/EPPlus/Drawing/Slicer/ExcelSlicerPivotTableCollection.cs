@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             _slicerCache = slicerCache;
         }
-        List<ExcelPivotTable> _list=new List<ExcelPivotTable>();
+        internal List<ExcelPivotTable> _list=new List<ExcelPivotTable>();
         public IEnumerator<ExcelPivotTable> GetEnumerator()
         {
             return _list.GetEnumerator();

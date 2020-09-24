@@ -1099,15 +1099,15 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-            if(TableColumn.Slicer!=null)
-            {
-                throw new InvalidOperationException("A slice is already attached to this column");
-            }
+            //if(TableColumn.Slicer!=null)
+            //{
+            //    throw new InvalidOperationException("A slice is already attached to this column");
+            //}
             //if (_drawingNames.ContainsKey(TableColumn.Name))
             //{
             //    throw new Exception("Name already exists in the drawings collection");
             //}
-            if(TableColumn.Table.AutoFilter.Columns[TableColumn.Id]==null)
+            if(TableColumn.Table.AutoFilter.Columns[TableColumn.Position] ==null)
             {
                 TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
             }
@@ -1132,15 +1132,11 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-            if (Field.Cache.Slicer != null)
-            {
-                throw new InvalidOperationException("A slicer is already attached to this column");
-            }
 
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)
             {
-                EditAs = eEditAs.Absolute,
+                EditAs = eEditAs.Absolute
             };
             _drawings.Add(slicer);
             _drawingNames.Add(slicer.Name, _drawings.Count - 1);

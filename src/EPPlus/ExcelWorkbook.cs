@@ -1093,7 +1093,6 @@ namespace OfficeOpenXml
 			}
 
 			part.SaveHandler = SaveSharedStringHandler;
-			//UpdateSharedStringsXml();
 
 			// Data validation
 			ValidateDataValidations();

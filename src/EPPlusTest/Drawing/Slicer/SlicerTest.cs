@@ -25,7 +25,7 @@ namespace EPPlusTest.Drawing.Slicer
 
             SaveAndCleanup(_pck);
 
-            if(File.Exists(fileName)) File.Copy(fileName, dirName + "\\SlicerRead.xlsx", true);
+            if (File.Exists(fileName)) File.Copy(fileName, dirName + "\\SlicerRead.xlsx", true);
         }
         [TestMethod]
         public void AddTableSlicerDate()
@@ -56,7 +56,7 @@ namespace EPPlusTest.Drawing.Slicer
             slicer2.ColumnCount = 3;
             slicer2.Cache.CrossFilter = eCrossFilter.None;
             slicer2.Cache.SortOrder = eSortOrder.Descending;
-            slicer2.Cache.CustomListSort=false;
+            slicer2.Cache.CustomListSort = false;
 
             slicer2.SetPosition(1, 0, 9, 0);
             slicer2.SetSize(200, 600);
@@ -100,10 +100,10 @@ namespace EPPlusTest.Drawing.Slicer
 
             LoadTestdata(ws);
             var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
-            var rf=tbl.RowFields.Add(tbl.Fields[1]);
-            rf.Items.Refresh(); 
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            rf.Items.Refresh();
             rf.Items[0].Hidden = true;
-            var df=tbl.DataFields.Add(tbl.Fields[3]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
             df.Function = OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum;
 
             var slicer = ws.Drawings.AddPivotTableSlicer(tbl.Fields[1]);
@@ -121,8 +121,8 @@ namespace EPPlusTest.Drawing.Slicer
             LoadTestdata(ws);
             var p1 = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "Pivot1");
             p1.RowFields.Add(p1.Fields[0]);
-            
-            p1.DataFields.Add(p1.Fields[3]);            
+
+            p1.DataFields.Add(p1.Fields[3]);
             var p2 = ws.PivotTables.Add(ws.Cells["K1"], p1.CacheDefinition, "Pivot2");
             p2.DataFields.Add(p2.Fields[1]);
             p2.RowFields.Add(p2.Fields[3]);
@@ -280,6 +280,44 @@ namespace EPPlusTest.Drawing.Slicer
             ws.Drawings.Remove(slicer1);
             Assert.IsNull(tbl.Columns[1].Slicer);
             Assert.IsNotNull(tbl.Columns[2].Slicer);
+        }
+        [TestMethod]
+        public void AddTwoTableSlicersToSameColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableSlicerTwoOnSameColumn");
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table5");
+            var slicer1 = ws.Drawings.AddTableSlicer(tbl.Columns[2]);
+            var slicer2 = ws.Drawings.AddTableSlicer(tbl.Columns[2]);
+            slicer1.SetPosition(0, 0, 5, 0);
+            slicer2.SetPosition(11, 0, 5, 0);
+            slicer1.FilterValues.Add("Value 12");
+            slicer1.FilterValues.Add("value 10");
+            slicer2.FilterValues.Add("value 15");
+            slicer2.StartItem = 2;
+            Assert.AreEqual(2, ws.Drawings.Count);
+            Assert.IsNull(tbl.Columns[1].Slicer);
+            Assert.AreEqual(slicer1, tbl.Columns[2].Slicer);
+        }
+        [TestMethod]
+        public void AddTwoPivotTableSlicersToSameField()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PTSlicerTwoOnSameField");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            rf.Items.Refresh();
+            rf.Items[0].Hidden = true;
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum;
+
+            var slicer1 = ws.Drawings.AddPivotTableSlicer(tbl.Fields[2]);
+            var slicer2 = ws.Drawings.AddPivotTableSlicer(tbl.Fields[2]);
+            slicer1.SetPosition(0, 0, 5, 0);
+            slicer2.SetPosition(11, 0, 5, 0);
+            Assert.AreEqual(slicer1, tbl.Fields[2].Slicer);
         }
     }
 }

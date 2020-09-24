@@ -24,7 +24,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
-    public class ExcelPivotTableCacheField  : XmlHelper
+    public class ExcelPivotTableCacheField : XmlHelper
     {
         [Flags]
         private enum DataTypeFlags
@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Table.PivotTable
             Error = 0x30
         }
         private PivotTableCacheInternal _cache;
-        internal ExcelPivotTableCacheField(XmlNamespaceManager nsm, XmlNode topNode,  PivotTableCacheInternal cache, int index) : base(nsm, topNode)
+        internal ExcelPivotTableCacheField(XmlNamespaceManager nsm, XmlNode topNode, PivotTableCacheInternal cache, int index) : base(nsm, topNode)
         {
             _cache = cache;
             Index = index;
@@ -81,33 +81,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         } = new EPPlusReadOnlyList<object>();
-        internal Dictionary<object, int> _cacheLookup=null;
-        ExcelPivotTableSlicer _slicer=null;
-        internal ExcelPivotTableSlicer Slicer 
-        { 
-            get
-            {
-                if (_slicer==null && _cache._wb.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
-                {
-                    foreach(var ws in _cache._wb.Worksheets)
-                    {
-                        foreach(var d in ws.Drawings)
-                        {
-                            if(d is ExcelPivotTableSlicer s && s.Cache.Data.PivotCacheId==_cache.CacheId && s.Cache.SourceName == Name)
-                            {
-                                _slicer = s;
-                                return _slicer;
-                            }
-                        }
-                    }
-                }
-                return _slicer;
-            }
-            set
-            {
-                _slicer = value;
-            }
-        }
+        internal Dictionary<object, int> _cacheLookup = null;
         public eDateGroupBy DateGrouping { get; private set; }
         public ExcelPivotTableFieldGroup Grouping { get; set; }
         public string NumberFormat { get; set; }
@@ -130,11 +104,11 @@ namespace OfficeOpenXml.Table.PivotTable
             var flags = GetFlags();
 
             _cacheLookup = new Dictionary<object, int>(new CacheComparer());
-            if (IsRowColumnOrPage || Slicer!=null)
+            if (IsRowColumnOrPage || HasSlicer)
             {
                 AppendSharedItems(shNode);
             }
-            if (!HasOneValueOnly(flags) && flags!=(DataTypeFlags.Int| DataTypeFlags.Number) && SharedItems.Count > 1)
+            if (!HasOneValueOnly(flags) && flags != (DataTypeFlags.Int | DataTypeFlags.Number) && SharedItems.Count > 1)
             {
                 if ((flags & DataTypeFlags.String) == DataTypeFlags.String)
                 {
@@ -161,7 +135,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                foreach(var pt in _cache._pivotTables)
+                foreach (var pt in _cache._pivotTables)
                 {
                     if (Index < pt.Fields.Count)
                     {
@@ -181,6 +155,33 @@ namespace OfficeOpenXml.Table.PivotTable
                 return false;
             }
         }
+
+        internal bool HasSlicer
+        {
+            get
+            {
+                foreach (var pt in _cache._pivotTables)
+                {
+                    if (pt.Fields[Index].Slicer != null)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        internal void UpdateSlicers()
+        {
+            foreach (var pt in _cache._pivotTables)
+            {
+                var s = pt.Fields[Index].Slicer;
+                if (s != null)
+                {
+                    s.Cache.Data.Items.Refresh();
+                }
+            }
+        }
+
 
         private void SetFlags(XmlElement shNode, DataTypeFlags flags)
         {
@@ -690,9 +691,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             SharedItems._list = hs.ToList();
-            if (Slicer != null)
+            if (HasSlicer)
             {
-                Slicer.Cache.Data.Items.Refresh();
+                UpdateSlicers();
             }
         }
 

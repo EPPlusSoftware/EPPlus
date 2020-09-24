@@ -183,6 +183,10 @@ namespace OfficeOpenXml.Table
   		const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
 
         ExcelTableSlicer _slicer = null;
+        /// <summary>
+        /// Returns the slicer attached to a column.
+        /// If the column has multiple slicers, the first is returned.
+        /// </summary>
         public ExcelTableSlicer Slicer 
         {
             get

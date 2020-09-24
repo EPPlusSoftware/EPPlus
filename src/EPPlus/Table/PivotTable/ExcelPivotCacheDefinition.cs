@@ -30,7 +30,8 @@ namespace OfficeOpenXml.Table.PivotTable
         XmlNamespaceManager _nsm;
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable)
         {
-            var cacheDefinitionUri = pivotTable.GetCacheUriFromRel();
+            Relationship = pivotTable.Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheDefinition").FirstOrDefault();
+            var cacheDefinitionUri = UriHelper.ResolvePartUri(Relationship.SourceUri, Relationship.TargetUri); ;
             PivotTable = pivotTable;
             _wb = pivotTable.WorkSheet.Workbook;
             _nsm = nsm;
@@ -63,7 +64,7 @@ namespace OfficeOpenXml.Table.PivotTable
             _cacheReference = new PivotTableCacheInternal(nsm, _wb);
             _cacheReference.InitNew(pivotTable, sourceAddress, null);
             _wb.AddPivotTableCache(_cacheReference);
-            var rel = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
+            Relationship = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
         }
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, PivotTableCacheInternal cache)
         {
@@ -113,10 +114,8 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         internal ZipPackageRelationship Relationship
         {
-            get
-            {
-                return _cacheReference.Relationship;
-            }
+            get;
+            set;
         }
         /// <summary>
         /// Referece to the PivotTable object
