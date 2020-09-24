@@ -160,6 +160,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     cache._pivotTables.Add(PivotTable);
                     _cacheReference = cache;
                     PivotTable.CacheId = _cacheReference.CacheId;
+                    Relationship.TargetUri = cache.CacheDefinitionUri;
                 }
                 else if (_cacheReference._pivotTables.Count == 1)
                 {
@@ -175,6 +176,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     _cacheReference.InitNew(PivotTable, value, xml.InnerXml);
                     PivotTable.CacheId = _cacheReference.CacheId;
                     _wb.AddPivotTableCache(_cacheReference);
+                    Relationship.TargetUri = _cacheReference.CacheDefinitionUri;
                 }
             }
         }
