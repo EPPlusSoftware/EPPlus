@@ -441,5 +441,79 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(3, pt.Fields[3].NumberFormatId);
             Assert.AreEqual(165, pt.Fields[3].Cache.NumberFormatId);
         }
+        [TestMethod]
+        public void AddCalculatedField()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CalculatedField");
+
+            LoadTestdata(ws);
+            var formula = "NumValue*2";
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            tbl.Fields.AddCalculatedField("NumValueX2", formula);
+
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df1 = tbl.DataFields.Add(tbl.Fields[3]);
+            var df2 = tbl.DataFields.Add(tbl.Fields[4]);
+            df1.Function = DataFieldFunctions.Sum;
+            df2.Function = DataFieldFunctions.Sum;
+            tbl.DataOnRows = false;
+
+            Assert.AreEqual("NumValue*2", tbl.Fields[4].Cache.Formula);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldToColumns()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var formula = "NumValue*2";
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", formula);
+                var rf = tbl.ColumnFields.Add(tbl.Fields[4]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldToRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var formula = "NumValue*2";
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", formula);
+                var rf = tbl.RowFields.Add(tbl.Fields[4]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldToPage()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var formula = "NumValue*2";
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", formula);
+                var rf = tbl.PageFields.Add(tbl.Fields[4]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldWithBlankFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", "");
+            }
+        }
+
     }
 }

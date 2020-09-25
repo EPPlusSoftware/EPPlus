@@ -21,6 +21,7 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         internal string _topNode;
         private readonly ExcelPivotTable _table;
+
         internal ExcelPivotTableRowColumnFieldCollection(ExcelPivotTable table, string topNode) :
             base()
 	    {
@@ -39,6 +40,22 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 throw (new ArgumentNullException("Field","Pivot Table Field can't be null"));
             }
+            if((_topNode=="colFields" && Field.DragToCol==false))
+            {
+                throw (new ArgumentException("Field", "This field is not allowed as a column field."));
+            }
+
+            if ((_topNode == "rowFields" && Field.DragToRow == false))
+            {
+                throw (new ArgumentException("Field", "This field is not allowed as a row field."));
+            }
+
+            if ((_topNode == "pageFields" && Field.DragToPage == false))
+            {
+                throw (new ArgumentException("Field", "This field is not allowed as a Page field."));
+            }
+
+
             SetFlag(Field, true);
             _list.Add(Field);
             return Field;

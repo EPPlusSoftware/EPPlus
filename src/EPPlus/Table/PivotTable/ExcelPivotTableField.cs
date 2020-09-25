@@ -596,6 +596,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void LoadItems()
         {
             _items = new ExcelPivotTableFieldItemsCollection(this);
+            if (Cache.DatabaseField == false) return;
             EPPlusReadOnlyList<object> cacheItems;
             if (Cache.Grouping == null)
             {
@@ -780,7 +781,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
                 }
                 else
-                {
+                { 
                     pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
                 }
             }
@@ -809,6 +810,10 @@ namespace OfficeOpenXml.Table.PivotTable
             if (groupInterval > 1 && groupBy != eDateGroupBy.Days)
             {
                 throw (new ArgumentException("Group interval is can only be used when groupBy is Days"));
+            }
+            if(Cache.DatabaseField==false)
+            {
+                throw new InvalidOperationException("The field for grouping can not be a calculated field.");
             }
             ValidateGrouping();
 
@@ -865,6 +870,11 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void ValidateGrouping()
         {
+            if (Cache.DatabaseField == false)
+            {
+                throw new InvalidOperationException("The field for grouping can not be a calculated field.");
+            }
+
             if (!(IsColumnField || IsRowField))
             {
                 throw (new Exception("Field must be a row or column field"));
@@ -931,6 +941,37 @@ namespace OfficeOpenXml.Table.PivotTable
             set
             {
                 SetXmlNodeInt("@numFmtId", value);
+            }
+        }
+
+        /// <summary>
+        /// Allow as column field?
+        /// </summary>
+        internal bool DragToCol 
+        { 
+            get
+            {
+                return GetXmlNodeBool("@dragToCol", true);
+            }
+        }
+        /// <summary>
+        /// Allow as page row?
+        /// </summary>
+        internal bool DragToRow
+        {
+            get
+            {
+                return GetXmlNodeBool("@dragToRow", true);
+            }
+        }
+        /// <summary>
+        /// Allow as page field?
+        /// </summary>
+        internal bool DragToPage
+        {
+            get
+            {
+                return GetXmlNodeBool("@dragToPage", true);
             }
         }
     }

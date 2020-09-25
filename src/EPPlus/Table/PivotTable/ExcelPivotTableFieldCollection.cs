@@ -83,6 +83,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             //Pivot field
             XmlElement fieldNode = CreateFieldNode(_table);
+            fieldNode.InnerXml = "<items/>";
 
             var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
 
@@ -99,20 +100,25 @@ namespace OfficeOpenXml.Table.PivotTable
             fieldNode.SetAttribute("showAll", "0");
             fieldNode.SetAttribute("defaultSubtotal", "0");
             topNode.AppendChild(fieldNode);
-            fieldNode.InnerXml = "<items/>";
             return fieldNode;
         }
 
         /// <summary>
-        /// Adds a calcuelated field to the underlaying pivot table cache. 
+        /// Adds a calculated field to the underlaying pivot table cache. 
         /// </summary>
         /// <param name="name">The unique name of the field</param>
-        /// <param name="formula">The formula for the calculated field. Note: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. You can use constants and refer to data from the PivotTable, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names asarguments, and you can not use array functions.</param>
-        /// <returns></returns>
-        public ExcelPivotTableField AddFormulaField(string name, string formula)
-        {
+        /// <param name="formula">The formula for the calculated field. 
+        /// Note: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. You can use constants and refer to data from the PivotTable, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names asarguments, and you can not use array functions.
+        /// <seealso cref="ExcelPivotTableCacheField.Formula"/></param>
+        /// <returns>The new calculated field</returns>
+        public ExcelPivotTableField AddCalculatedField(string name, string formula)
+        {            
+            if (string.IsNullOrEmpty(formula) || formula.Trim()=="")
+            {
+                throw (new ArgumentException("The formula can't be blank","formula"));
+            }
             var cache = _table.CacheDefinition._cacheReference;
-            var fld = cache.AddFormula(name, formula);
+            var cacheField = cache.AddFormula(name, formula);
 
             foreach (var pt in cache._pivotTables)
             {
@@ -120,9 +126,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 fieldNode.SetAttribute("dragToPage", "0");
                 fieldNode.SetAttribute("dragToCol", "0");
                 fieldNode.SetAttribute("dragToRow", "0");
-                pt.Fields.AddInternal(new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, pt, fld.Index, 0));
+                var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, pt, cacheField.Index, 0);
+                field._cacheField = cacheField;
+                pt.Fields.AddInternal(field);
             }
-            return _table.Fields[fld.Index];
+            return _table.Fields[cacheField.Index];
         }
     }
 }

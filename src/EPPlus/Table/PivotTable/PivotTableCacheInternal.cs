@@ -367,6 +367,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             ExcelPivotTableCacheField cacheField = CreateField(name, _fields.Count, false);
             cacheField.Formula = formula;
+            Fields.Add(cacheField);
             return cacheField;
         }
 
@@ -375,7 +376,7 @@ namespace OfficeOpenXml.Table.PivotTable
             //Add Cache definition field.
             var cacheTopNode = CacheDefinitionXml.SelectSingleNode("//d:cacheFields", NameSpaceManager);
             var cacheFieldNode = CacheDefinitionXml.CreateElement("cacheField", ExcelPackage.schemaMain);
-
+            
             cacheFieldNode.SetAttribute("name", name);
             if (databaseField == false)
             {

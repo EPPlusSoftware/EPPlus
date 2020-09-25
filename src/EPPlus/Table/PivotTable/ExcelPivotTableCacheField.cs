@@ -164,10 +164,11 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                if(!DatabaseField)
+                if(DatabaseField)
                 {
                     throw new InvalidOperationException("Can't set a formula to a database field");
                 }
+                SetXmlNodeString("@formula", value);
             }
         }
         internal bool DatabaseField
