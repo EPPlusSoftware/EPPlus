@@ -2673,6 +2673,7 @@ namespace OfficeOpenXml
                 {
                     if (string.IsNullOrEmpty(df.Name))
                     {
+
                         string name;
                         if (df.Function == DataFieldFunctions.None)
                         {

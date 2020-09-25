@@ -664,7 +664,7 @@ namespace OfficeOpenXml.Table.PivotTable
         #endregion
         internal void Refresh()
         {
-            if (Grouping != null) return;
+            if (Grouping != null || DatabaseField==false) return;
             var range = _cache.SourceRange;
             var column = range._fromCol + Index;
             var toRow = range._toRow;
@@ -684,34 +684,26 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 var existingItems = new HashSet<string>();
                 var list = pt.Fields[Index].Items._list;
-                var nullItems = 0;
                 for (var ix = 0; ix < list.Count; ix++)
                 {
-                    if (list[ix].Value != null)
+                    if (!hs.Contains(list[ix].Value??""))
                     {
-                        if (!hs.Contains(list[ix].Value))
-                        {
-                            list.RemoveAt(ix);
-                            ix--;
-                        }
-                        else
-                        {
-                            existingItems.Add(list[ix].Value.ToString());
-                        }
+                        list.RemoveAt(ix);
+                        ix--;
                     }
                     else
                     {
-                        nullItems++;
+                        existingItems.Add(list[ix].Value.ToString());
                     }
                 }
                 foreach (var c in hs)
                 {
                     if (!existingItems.Contains((c ?? "").ToString()))
                     {
-                        list.Insert(list.Count - nullItems, new ExcelPivotTableFieldItem() { Value = c });
+                        list.Insert(list.Count, new ExcelPivotTableFieldItem() { Value = c });
                     }
                 }
-                if (nullItems == 0 && list.Count > 0 && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
+                if (list.Count > 0 && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
                 {
                     list.Add(new ExcelPivotTableFieldItem() { Type = eItemType.Default, X = -1 });
                 }

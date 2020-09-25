@@ -898,7 +898,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else
             {
-                Items.Refresh();
                 foreach (var item in Items)
                 {
                     var v = item.Value ?? "";
