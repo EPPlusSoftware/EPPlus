@@ -1417,7 +1417,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Address including sheetname
+        /// Address including sheet name
         /// </summary>
         public new string FullAddress
         {

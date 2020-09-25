@@ -74,5 +74,5 @@ namespace OfficeOpenXml.Compatibility
                 }
             }
         }
-    }
+   }
 }

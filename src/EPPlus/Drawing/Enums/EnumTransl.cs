@@ -307,6 +307,24 @@ namespace OfficeOpenXml.Drawing
                     return "percentage";
             }
         }
+        internal static eSlicerStyle TranslateSlicerStyle(this string value)
+        {
+            if(string.IsNullOrEmpty(value.Trim()))
+            {
+                return eSlicerStyle.None;
+            }
+            else if(value.StartsWith("SlicerStyle", StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    return (eSlicerStyle)Enum.Parse(typeof(eSlicerStyle), value.Substring(11));
+                }
+                catch
+                {
 
+                }
+            }
+            return eSlicerStyle.Custom;
+        }
     }
 }

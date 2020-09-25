@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Table
 
             TableXml = new XmlDocument();
             LoadXmlSafe(TableXml, Part.GetStream());
-            init();
+            Init();
             Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
             _tableStyle = GetTableStyle(StyleName);
         }
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Table
             LoadXmlSafe(TableXml, GetStartXml(name, tblId), Encoding.UTF8); 
             TopNode = TableXml.DocumentElement;
 
-            init();
+            Init();
 
             //If the table is just one row we can not have a header.
             if (address._fromRow == address._toRow)
@@ -66,11 +66,12 @@ namespace OfficeOpenXml.Table
             }
         }
 
-        private void init()
+        private void Init()
         {
             TopNode = TableXml.DocumentElement;
             SchemaNodeOrder = new string[] { "autoFilter", "tableColumns", "tableStyleInfo" };
         }
+
         private string GetStartXml(string name, int tblId)
         {
             name = ConvertUtil.ExcelEscapeString(name);
@@ -543,7 +544,7 @@ namespace OfficeOpenXml.Table
             }
             set
             {
-                if (WorkSheet.Workbook.Styles.NamedStyles.FindIndexByID(value) < 0)
+                if (WorkSheet.Workbook.Styles.NamedStyles.FindIndexById(value) < 0)
                 {
                     throw (new Exception(string.Format("Named style {0} does not exist.", value)));
                 }
@@ -567,7 +568,7 @@ namespace OfficeOpenXml.Table
             }
             set
             {
-                if (WorkSheet.Workbook.Styles.NamedStyles.FindIndexByID(value) < 0)
+                if (WorkSheet.Workbook.Styles.NamedStyles.FindIndexById(value) < 0)
                 {
                     throw (new Exception(string.Format("Named style {0} does not exist.", value)));
                 }
@@ -594,7 +595,7 @@ namespace OfficeOpenXml.Table
             }
             set
             {
-                if (WorkSheet.Workbook.Styles.NamedStyles.FindIndexByID(value) < 0)
+                if (WorkSheet.Workbook.Styles.NamedStyles.FindIndexById(value) < 0)
                 {
                     throw (new Exception(string.Format("Named style {0} does not exist.", value)));
                 }

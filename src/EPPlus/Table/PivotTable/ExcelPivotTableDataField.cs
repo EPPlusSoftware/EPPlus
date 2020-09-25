@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Xml;
+using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -139,7 +140,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var styles = Field._table.WorkSheet.Workbook.Styles;
 
                 ExcelNumberFormatXml nf = null;
-                if (!styles.NumberFormats.FindByID(value, ref nf))
+                if (!styles.NumberFormats.FindById(value, ref nf))
                 {
                     nf = new ExcelNumberFormatXml(NameSpaceManager) { Format = value, NumFmtId = styles.NumberFormats.NextId++ };
                     styles.NumberFormats.Add(value, nf);
@@ -188,6 +189,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("@subtotal", v);
             }
         }
+
         /////Since we have no items, Excel will crash when we use showDataAs options that require baseItem's
         //public eShowDataAs ShowDataAs
         //{

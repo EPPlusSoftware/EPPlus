@@ -38,6 +38,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
 
 namespace OfficeOpenXml
@@ -437,7 +438,7 @@ namespace OfficeOpenXml
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             CreateXml();
-            TopNode = _worksheetXml.DocumentElement;
+            TopNode = _worksheetXml.DocumentElement;            
         }
 
         #endregion
@@ -452,11 +453,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// The ID for the worksheet's relationship with the workbook in the package
         /// </summary>
-        internal string RelationshipID { get { return (_relationshipID); } }
+        internal string RelationshipId { get { return (_relationshipID); } }
         /// <summary>
         /// The unique identifier for the worksheet.
         /// </summary>
-        internal int SheetID { get { return (_sheetID); } }
+        internal int SheetId { get { return (_sheetID); } }
 
         internal static bool NameNeedsApostrophes(string ws)
         {
@@ -719,7 +720,7 @@ namespace OfficeOpenXml
 
         private double GetRowHeightFromNormalStyle()
         {
-            var ix = Workbook.Styles.NamedStyles.FindIndexByID("Normal");
+            var ix = Workbook.Styles.NamedStyles.FindIndexById("Normal");
             if (ix >= 0)
             {
                 var f = Workbook.Styles.NamedStyles[ix].Style.Font;
@@ -1762,11 +1763,23 @@ namespace OfficeOpenXml
                 return ps;
             }
         }
-#endregion
+        #endregion
 
-#endregion // END Worksheet Public Properties
+        #endregion // END Worksheet Public Properties
+        ExcelSlicerXmlSources _slicerXmlSources = null;
+        internal ExcelSlicerXmlSources SlicerXmlSources
+        {
+            get
+            {
+                if(_slicerXmlSources==null)
+                {
+                    _slicerXmlSources=new ExcelSlicerXmlSources(NameSpaceManager, TopNode, Part);
+                }
+                return _slicerXmlSources;
+            }
+        }
 
-#region Worksheet Public Methods
+        #region Worksheet Public Methods
 
         ///// <summary>
         ///// Provides access to an individual cell within the worksheet.
@@ -2259,6 +2272,7 @@ namespace OfficeOpenXml
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
                     SavePivotTables();
+                    SaveSlicers();
                 }
             }
 
@@ -2279,6 +2293,15 @@ namespace OfficeOpenXml
                             ExcelChart c = (ExcelChart)d;
                             c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
                         }
+                        else if(d is ExcelSlicer<ExcelTableSlicerCache> s)
+                        {
+                            s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+                        }
+                        else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
+                        {
+                            p.Cache.UpdateItemsXml();
+                            p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+                        }
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
                     Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
@@ -2286,6 +2309,10 @@ namespace OfficeOpenXml
             }
         }
 
+        private void SaveSlicers()
+        {
+            SlicerXmlSources.Save();
+        }
         private void SaveThreadedComments()
         {
             if (ThreadedComments != null && ThreadedComments.Threads != null)
@@ -2424,7 +2451,7 @@ namespace OfficeOpenXml
                 {
                     if (_comments.Uri == null)
                     {
-                        var id = SheetID;
+                        var id = SheetId;
                         _comments.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/comments{0}.xml", ref id); //Issue 236-Part already exists fix
                     }
                     if(_comments.Part==null)
@@ -2450,7 +2477,7 @@ namespace OfficeOpenXml
                 {
                     if (_vmlDrawings.Uri == null)
                     {
-                        var id = SheetID;
+                        var id = SheetId;
                         _vmlDrawings.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
                     }
                     if (_vmlDrawings.Part == null)
@@ -2635,99 +2662,40 @@ namespace OfficeOpenXml
                     }
                 }
 
-                //Rewrite the pivottable address again if any rows or columns have been inserted or deleted
                 pt.SetXmlNodeString("d:location/@ref", pt.Address.Address);
-                var r = pt.CacheDefinition.SourceRange;
-                if (r != null)  //Source does not exist
+
+                foreach(var field in pt.Fields)
                 {
-                    ExcelTable t = null;
-                    if (pt.CacheDefinition.SourceRange.IsName)
+                    field.SaveToXml();
+                }
+
+                foreach (var df in pt.DataFields)
+                {
+                    if (string.IsNullOrEmpty(df.Name))
                     {
-                        //Named range, set name
-                        pt.CacheDefinition.DeleteNode(ExcelPivotCacheDefinition._sourceAddressPath); //Remove any address if previously set.
-                        pt.CacheDefinition.SetXmlNodeString(ExcelPivotCacheDefinition._sourceNamePath, ((ExcelNamedRange)pt.CacheDefinition.SourceRange).Name);
-                    }
-                    else
-                    {
-                        var ws = Workbook.Worksheets[pt.CacheDefinition.SourceRange.WorkSheetName];
-                        t = ws.Tables.GetFromRange(pt.CacheDefinition.SourceRange);
-                        if (t == null)
+
+                        string name;
+                        if (df.Function == DataFieldFunctions.None)
                         {
-                            //Address
-                            pt.CacheDefinition.DeleteNode(ExcelPivotCacheDefinition._sourceNamePath); //Remove any name or table if previously set.
-                            pt.CacheDefinition.SetXmlNodeString(ExcelPivotCacheDefinition._sourceAddressPath, pt.CacheDefinition.SourceRange.Address);
+                            name = df.Field.Name; //Name must be set or Excel will crash on rename.                                
                         }
                         else
                         {
-                            //Table, set name
-                            pt.CacheDefinition.DeleteNode(ExcelPivotCacheDefinition._sourceAddressPath); //Remove any address if previously set.
-                            pt.CacheDefinition.SetXmlNodeString(ExcelPivotCacheDefinition._sourceNamePath, t.Name);
+                            name = df.Function.ToString() + " of " + df.Field.Name; //Name must be set or Excel will crash on rename.
                         }
-                    }
 
-
-                    var fields =
-                        pt.CacheDefinition.CacheDefinitionXml.SelectNodes(
-                            "d:pivotCacheDefinition/d:cacheFields/d:cacheField", NameSpaceManager);
-                    int ix = 0;
-                    if (fields != null)
-                    {
-                        var flds = new HashSet<string>();
-                        foreach (XmlElement node in fields)
+                        //Make sure name is unique
+                        var newName = name;
+                        var i = 2;
+                        while (pt.DataFields.ExistsDfName(newName, df))
                         {
-                            if (ix >= pt.CacheDefinition.SourceRange.Columns) break;
-                            var fldName = node.GetAttribute("name");                        //Fixes issue 15295 dup name error
-                            if (string.IsNullOrEmpty(fldName))
-                            {
-                                fldName = (t == null
-                                    ? pt.CacheDefinition.SourceRange.Offset(0, ix++, 1, 1).Value.ToString()
-                                    : t.Columns[ix++].Name);
-                            }
-                            if (flds.Contains(fldName))
-                            {
-                                fldName = GetNewName(flds, fldName);
-                            }
-                            flds.Add(fldName);
-                            node.SetAttribute("name", fldName);
+                            newName = name + (i++).ToString(CultureInfo.InvariantCulture);
                         }
-                        foreach (var df in pt.DataFields)
-                        {
-                            if (string.IsNullOrEmpty(df.Name))
-                            {
-                                string name;
-                                if (df.Function == DataFieldFunctions.None)
-                                {
-                                    name = df.Field.Name; //Name must be set or Excel will crash on rename.                                
-                                }
-                                else
-                                {
-                                    name = df.Function.ToString() + " of " + df.Field.Name; //Name must be set or Excel will crash on rename.
-                                }
-                                //Make sure name is unique
-                                var newName = name;
-                                var i = 2;
-                                while (pt.DataFields.ExistsDfName(newName, df))
-                                {
-                                    newName = name + (i++).ToString(CultureInfo.InvariantCulture);
-                                }
-                                df.Name = newName;
-                            }
-                        }
+                        df.Name = newName;
                     }
                 }
                 pt.PivotTableXml.Save(pt.Part.GetStream(FileMode.Create));
-                pt.CacheDefinition.CacheDefinitionXml.Save(pt.CacheDefinition.Part.GetStream(FileMode.Create));
             }
-        }
-
-        private string GetNewName(HashSet<string> flds, string fldName)
-        {
-            int ix = 2;
-            while (flds.Contains(fldName + ix.ToString(CultureInfo.InvariantCulture)))
-            {
-                ix++;
-            }
-            return fldName + ix.ToString(CultureInfo.InvariantCulture);
         }
 
         private static string GetTotalFunction(ExcelTableColumn col, string funcNum)
@@ -3498,8 +3466,8 @@ namespace OfficeOpenXml
                 CheckSheetType();
                 if (_pivotTables == null)
                 {
-                    if (Workbook._nextPivotTableID == int.MinValue) Workbook.ReadAllTables();
                     _pivotTables = new ExcelPivotTableCollection(this);
+                    if (Workbook._nextPivotTableID == int.MinValue) Workbook.ReadAllTables();
                 }
                 return _pivotTables;
             }
@@ -3585,10 +3553,10 @@ namespace OfficeOpenXml
 		internal int GetStyleID(string StyleName)
 		{
 			ExcelNamedStyleXml namedStyle=null;
-            Workbook.Styles.NamedStyles.FindByID(StyleName, ref namedStyle);
+            Workbook.Styles.NamedStyles.FindById(StyleName, ref namedStyle);
             if (namedStyle.XfId == int.MinValue)
             {
-                namedStyle.XfId=Workbook.Styles.CellXfs.FindIndexByID(namedStyle.Style.Id);
+                namedStyle.XfId=Workbook.Styles.CellXfs.FindIndexById(namedStyle.Style.Id);
             }
             return namedStyle.XfId;
 		}
@@ -3765,7 +3733,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public bool Equals(ExcelWorksheet x, ExcelWorksheet y)
         {
-            return x.Name == y.Name && x.SheetID == y.SheetID && x.WorksheetXml.OuterXml == y.WorksheetXml.OuterXml;
+            return x.Name == y.Name && x.SheetId == y.SheetId && x.WorksheetXml.OuterXml == y.WorksheetXml.OuterXml;
         }
         /// <summary>
         /// Returns a hashcode generated from the WorksheetXml
@@ -3901,6 +3869,23 @@ namespace OfficeOpenXml
             styleId = _values.GetValue(row, col)._styleId;
             return (styleId != 0);
         }
-#endregion
+        internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
+        {
+            var node = GetNode($"d:extLst/d:ext/x14:slicerList/x14:slicer[@r:id='{xmlSource.Rel.Id}']");
+            if (node != null)
+            {
+                if (node.ParentNode.ChildNodes.Count > 1)
+                {
+                    node.ParentNode.RemoveChild(node);
+                }
+                else
+                {
+                    //Remove the entire ext element.
+                    node.ParentNode.ParentNode.ParentNode.RemoveChild(node.ParentNode.ParentNode);
+                }
+            }
+            SlicerXmlSources.Remove(xmlSource);
+        }
+        #endregion
     }  // END class Worksheet
 }

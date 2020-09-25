@@ -15,17 +15,30 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
+    {
+        private readonly ExcelPivotTableCacheField _cache;
+        public ExcelPivotTableFieldItemsCollection(ExcelPivotTableField _field) : base()
+        {
+            _cache = _field.Cache;
+        }
+        /// <summary>
+        /// Refreshes the data of the cache field
+        /// </summary>
+        public void Refresh()
+        {
+            _cache.Refresh();
+        }
+    }
     /// <summary>
     /// Base collection class for pivottable fields
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExcelPivotTableFieldCollectionBase<T> : IEnumerable<T>
+    public abstract class ExcelPivotTableFieldCollectionBase<T> : IEnumerable<T>
     {
-        internal ExcelPivotTable _table;
         internal List<T> _list = new List<T>();
-        internal ExcelPivotTableFieldCollectionBase(ExcelPivotTable table)
+        internal ExcelPivotTableFieldCollectionBase()
         {
-            _table = table;
         }
         /// <summary>
         /// Gets the enumerator of the collection

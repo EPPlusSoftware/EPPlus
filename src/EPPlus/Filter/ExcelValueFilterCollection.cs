@@ -56,5 +56,28 @@ namespace OfficeOpenXml.Filter
             _list.Add(v);
             return v;
         }
+        /// <summary>
+        /// Clears the collection
+        /// </summary>
+        public void Clear()
+        {
+            _list.Clear();
+        }
+        /// <summary>
+        /// Remove the item at the specified index from the list
+        /// </summary>
+        /// <param name="index">The index in the list</param>
+        public void RemoveAt(int index)
+        {
+            _list.RemoveAt(index);
+        }
+        /// <summary>
+        /// Remove the item from the list
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        public void Remove(ExcelFilterItem item)
+        {
+            _list.Remove(item);
+        }
     }
 }

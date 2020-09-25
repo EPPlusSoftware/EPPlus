@@ -113,8 +113,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
         }
         internal string GetNewID(int NumFmtId, string Format)
-        {
-            
+        {            
             if (NumFmtId < 0)
             {
                 NumFmtId = ExcelNumberFormat.GetFromBuildIdFromFormat(Format);                

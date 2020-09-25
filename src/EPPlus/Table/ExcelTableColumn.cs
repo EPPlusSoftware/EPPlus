@@ -13,6 +13,8 @@
 using System;
 using System.Globalization;
 using System.Xml;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Table
@@ -162,7 +164,7 @@ namespace OfficeOpenXml.Table
             }
             set
             {
-                if(_tbl.WorkSheet.Workbook.Styles.NamedStyles.FindIndexByID(value)<0)
+                if(_tbl.WorkSheet.Workbook.Styles.NamedStyles.FindIndexById(value)<0)
                 {
                     throw(new Exception(string.Format("Named style {0} does not exist.",value)));
                 }
@@ -179,14 +181,53 @@ namespace OfficeOpenXml.Table
             }
         }
   		const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
- 		/// <summary>
- 		/// Sets a calculated column Formula.
- 		/// Be carefull with this property since it is not validated. 
- 		/// <example>
- 		/// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);
- 		/// </example>
- 		/// </summary>
- 		public string CalculatedColumnFormula
+
+        ExcelTableSlicer _slicer = null;
+        /// <summary>
+        /// Returns the slicer attached to a column.
+        /// If the column has multiple slicers, the first is returned.
+        /// </summary>
+        public ExcelTableSlicer Slicer 
+        {
+            get
+            {
+                if (_slicer == null)
+                {
+                    var wb = _tbl.WorkSheet.Workbook;
+                    if (wb.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerTableUri}']"))
+                    {
+                        foreach (var ws in wb.Worksheets)
+                        {
+                            foreach (var d in ws.Drawings)
+                            {
+                                if (d is ExcelTableSlicer s && s.TableColumn == this)
+                                {
+                                    _slicer = s;
+                                    return _slicer;
+                                }
+                            }
+                        }
+                    }
+                }
+                return _slicer;
+            }
+            internal set
+            {
+                _slicer = value;
+            }
+        }
+        public void AddSlicer()
+        {            
+            _tbl.WorkSheet.Drawings.AddTableSlicer(this);
+        }
+        /// <summary>
+        /// Sets a calculated column Formula.
+        /// Be carefull with this property since it is not validated. 
+        /// <example>
+        /// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);
+        /// </example>
+        /// </summary>
+        public string CalculatedColumnFormula
  		{
  			get
  			{
@@ -200,7 +241,13 @@ namespace OfficeOpenXml.Table
                 SetTableFormula();
  			}
  		}
-
+        public ExcelTable Table
+        {
+            get
+            {
+                return _tbl;
+            }
+        }
         private void SetTableFormula()
         {
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;

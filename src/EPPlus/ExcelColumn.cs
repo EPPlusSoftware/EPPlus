@@ -81,7 +81,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return ExcelColumn.GetColumnID(_worksheet.SheetID, ColumnMin);
+                return ExcelColumn.GetColumnID(_worksheet.SheetId, ColumnMin);
             }
         }
 		#region ExcelColumn Hidden

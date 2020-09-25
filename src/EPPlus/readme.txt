@@ -26,7 +26,7 @@ ExcelPackage.LicenseContext = LicenseContext.Commercial;
 // If you use EPPlus in a noncommercial context
 // according to the Polyform Noncommercial license:
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
+    
 using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
 {
 

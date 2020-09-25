@@ -98,7 +98,7 @@ namespace OfficeOpenXml
         /// <param name="key">the key to be found</param>
         /// <param name="obj">The found object.</param>
         /// <returns>True if found</returns>
-        internal bool FindByID(string key, ref T obj)
+        internal bool FindById(string key, ref T obj)
         {
             if (_dic.ContainsKey(key))
             {
@@ -115,7 +115,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        internal int FindIndexByID(string key)
+        internal int FindIndexById(string key)
         {
             if (_dic.ContainsKey(key))
             {
@@ -132,7 +132,7 @@ namespace OfficeOpenXml
             {
                 if (_list[i] is ExcelNamedStyleXml ns)
                 {
-                    if (ns.BuildInId == 0)
+                    if (ns.BuildInId == id)
                     {
                         return i;
                     }

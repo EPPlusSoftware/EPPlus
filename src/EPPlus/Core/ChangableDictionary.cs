@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Core
                 _index[0][i] += add;
             }
         }
-
+        
         internal int Count { get { return _count; } }
 
         public void Add(int key, T value)

@@ -1,0 +1,517 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  09/02/2020         EPPlus Software AB       EPPlus 5.4
+ *************************************************************************************************/
+using OfficeOpenXml;
+using OfficeOpenXml.Filter;
+using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extentions;
+using System;
+using System.Globalization;
+using System.Xml;
+
+namespace EPPlusTest.Table.PivotTable.Filter
+{
+    public class ExcelPivotTableFilter : XmlHelper
+    {
+        XmlNode _filterColumnNode;
+        bool _date1904;
+        internal ExcelPivotTableFilter(XmlNamespaceManager nsm, XmlNode topNode, bool date1904) : base(nsm, topNode)
+        {
+            if (topNode.InnerXml == "")
+            {
+                topNode.InnerXml = "<autoFilter ref=\"A1\"><filterColumn colId=\"0\"></filterColumn></autoFilter>";
+            }
+            _filterColumnNode = GetNode("d:autoFilter/d:filterColumn");
+            _date1904 = date1904;
+        } 
+        public int Id
+        {
+            get
+            {
+                return GetXmlNodeInt("@id");
+            }
+            internal set
+            {
+                SetXmlNodeInt("@id", value);
+            }
+        }
+        public string Name
+        {
+            get
+            {
+                return GetXmlNodeString("@name");
+            }
+            set
+            {
+                SetXmlNodeString("@name", value, true);
+            }
+        }
+        public string Description
+        {
+            get
+            {
+                return GetXmlNodeString("@description");
+            }
+            set
+            {
+                SetXmlNodeString("@description", value, true);
+            }
+        }
+        internal void CreateDateCustomFilter(ePivotTableDateValueFilterType type)
+        {
+            _filterColumnNode.InnerXml = "<customFilters/>";
+            var cf = new ExcelCustomFilterColumn(NameSpaceManager, _filterColumnNode);
+
+            eFilterOperator t;
+            var v = ConvertUtil.GetValueForXml(Value1, _date1904);
+            switch (type)
+            {
+                case ePivotTableDateValueFilterType.DateNotEqual:
+                    t = eFilterOperator.NotEqual;
+                    break;
+                case ePivotTableDateValueFilterType.DateNewerThan:
+                case ePivotTableDateValueFilterType.DateBetween:
+                    t = eFilterOperator.GreaterThan;
+                    break;
+                case ePivotTableDateValueFilterType.DateNewerThanOrEqual:
+                    t = eFilterOperator.GreaterThanOrEqual;
+                    break;
+                case ePivotTableDateValueFilterType.DateOlderThan:
+                case ePivotTableDateValueFilterType.DateNotBetween:
+                    t = eFilterOperator.LessThan;
+                    break;
+                case ePivotTableDateValueFilterType.DateOlderThanOrEqual:
+                    t = eFilterOperator.LessThanOrEqual;
+                    break;
+                default:
+                    t = eFilterOperator.Equal;
+                    break;
+            }
+
+            var item1 = new ExcelFilterCustomItem(v, t);
+            cf.Filters.Add(item1);
+
+            if (type == ePivotTableDateValueFilterType.DateBetween)
+            {
+                cf.And = true;
+                cf.Filters.Add(new ExcelFilterCustomItem(ConvertUtil.GetValueForXml(Value2, _date1904), eFilterOperator.LessThanOrEqual));
+            }
+            else if (type == ePivotTableDateValueFilterType.DateNotBetween)
+            {
+                cf.And = false;
+                cf.Filters.Add(new ExcelFilterCustomItem(ConvertUtil.GetValueForXml(Value2, _date1904), eFilterOperator.GreaterThan));
+            }
+            _filter = cf;
+        }
+
+        internal void CreateDateDynamicFilter(ePivotTableDatePeriodFilterType type)
+        {
+            _filterColumnNode.InnerXml = "<dynamicFilter />";
+            var df = new ExcelDynamicFilterColumn(NameSpaceManager, _filterColumnNode);
+            switch(type)
+            {
+                case ePivotTableDatePeriodFilterType.LastMonth:
+                    df.Type = eDynamicFilterType.LastMonth;
+                    break;
+                case ePivotTableDatePeriodFilterType.LastQuarter:
+                    df.Type = eDynamicFilterType.LastQuarter;
+                    break;
+                case ePivotTableDatePeriodFilterType.LastWeek:
+                    df.Type = eDynamicFilterType.LastWeek;
+                    break;
+                case ePivotTableDatePeriodFilterType.LastYear:
+                    df.Type = eDynamicFilterType.LastYear;
+                    break;
+                case ePivotTableDatePeriodFilterType.M1:
+                    df.Type = eDynamicFilterType.M1;
+                    break;
+                case ePivotTableDatePeriodFilterType.M2:
+                    df.Type = eDynamicFilterType.M2;
+                    break;
+                case ePivotTableDatePeriodFilterType.M3:
+                    df.Type = eDynamicFilterType.M3;
+                    break;
+                case ePivotTableDatePeriodFilterType.M4:
+                    df.Type = eDynamicFilterType.M4;
+                    break;
+                case ePivotTableDatePeriodFilterType.M5:
+                    df.Type = eDynamicFilterType.M5;
+                    break;
+                case ePivotTableDatePeriodFilterType.M6:
+                    df.Type = eDynamicFilterType.M6;
+                    break;
+                case ePivotTableDatePeriodFilterType.M7:
+                    df.Type = eDynamicFilterType.M7;
+                    break;
+                case ePivotTableDatePeriodFilterType.M8:
+                    df.Type = eDynamicFilterType.M8;
+                    break;
+                case ePivotTableDatePeriodFilterType.M9:
+                    df.Type = eDynamicFilterType.M9;
+                    break;
+                case ePivotTableDatePeriodFilterType.M10:
+                    df.Type = eDynamicFilterType.M10;
+                    break;
+                case ePivotTableDatePeriodFilterType.M11:
+                    df.Type = eDynamicFilterType.M11;
+                    break;
+                case ePivotTableDatePeriodFilterType.M12:
+                    df.Type = eDynamicFilterType.M12;
+                    break;
+                case ePivotTableDatePeriodFilterType.NextMonth:
+                    df.Type = eDynamicFilterType.NextMonth;
+                    break;
+                case ePivotTableDatePeriodFilterType.NextQuarter:
+                    df.Type = eDynamicFilterType.NextQuarter;
+                    break;
+                case ePivotTableDatePeriodFilterType.NextWeek:
+                    df.Type = eDynamicFilterType.NextWeek;
+                    break;
+                case ePivotTableDatePeriodFilterType.NextYear:
+                    df.Type = eDynamicFilterType.NextYear;
+                    break;
+                case ePivotTableDatePeriodFilterType.Q1:
+                    df.Type = eDynamicFilterType.Q1;
+                    break;
+                case ePivotTableDatePeriodFilterType.Q2:
+                    df.Type = eDynamicFilterType.Q2;
+                    break;
+                case ePivotTableDatePeriodFilterType.Q3:
+                    df.Type = eDynamicFilterType.Q3;
+                    break;
+                case ePivotTableDatePeriodFilterType.Q4:
+                    df.Type = eDynamicFilterType.Q4;
+                    break;
+                case ePivotTableDatePeriodFilterType.ThisMonth:
+                    df.Type = eDynamicFilterType.ThisMonth;
+                    break;
+                case ePivotTableDatePeriodFilterType.ThisQuarter:
+                    df.Type = eDynamicFilterType.ThisQuarter;
+                    break;
+                case ePivotTableDatePeriodFilterType.ThisWeek:
+                    df.Type = eDynamicFilterType.ThisWeek;
+                    break;
+                case ePivotTableDatePeriodFilterType.ThisYear:
+                    df.Type = eDynamicFilterType.ThisYear;
+                    break;
+                case ePivotTableDatePeriodFilterType.Yesterday:
+                    df.Type = eDynamicFilterType.Yesterday;
+                    break;
+                case ePivotTableDatePeriodFilterType.Today:
+                    df.Type = eDynamicFilterType.Today;
+                    break;
+                case ePivotTableDatePeriodFilterType.Tomorrow:
+                    df.Type = eDynamicFilterType.Tomorrow;
+                    break;
+                case ePivotTableDatePeriodFilterType.YearToDate:
+                    df.Type = eDynamicFilterType.YearToDate;
+                    break;
+                default:
+                    throw new Exception($"Unsupported Pivottable filter type {type}");
+            }
+            
+            _filter = df;
+        }
+
+        internal void CreateTop10Filter(ePivotTableTop10FilterType type, bool isTop, double value)
+        {
+            _filterColumnNode.InnerXml = "<top10 />";
+            var tf = new ExcelTop10FilterColumn(NameSpaceManager, _filterColumnNode);
+
+            tf.Percent = (type == ePivotTableTop10FilterType.Percent);
+            tf.Top = isTop;
+            tf.Value = value;
+            tf.FilterValue = value;
+            
+            _filter = tf;
+        }
+
+        internal void CreateCaptionCustomFilter(ePivotTableCaptionFilterType type)
+        {
+            _filterColumnNode.InnerXml = "<customFilters/>";
+            var cf = new ExcelCustomFilterColumn(NameSpaceManager, _filterColumnNode);
+
+            eFilterOperator t;
+            var v = StringValue1;
+            switch(type)
+            {
+                case ePivotTableCaptionFilterType.CaptionNotBeginsWith:
+                case ePivotTableCaptionFilterType.CaptionNotContains:
+                case ePivotTableCaptionFilterType.CaptionNotEndsWith:
+                case ePivotTableCaptionFilterType.CaptionNotEqual:
+                    t = eFilterOperator.NotEqual;
+                    break;
+                case ePivotTableCaptionFilterType.CaptionGreaterThan:
+                    t = eFilterOperator.GreaterThan;
+                    break;
+                case ePivotTableCaptionFilterType.CaptionGreaterThanOrEqual:
+                case ePivotTableCaptionFilterType.CaptionBetween:
+                    t = eFilterOperator.GreaterThanOrEqual;
+                    break;
+                case ePivotTableCaptionFilterType.CaptionLessThan:
+                case ePivotTableCaptionFilterType.CaptionNotBetween:
+                    t = eFilterOperator.LessThan;
+                    break;
+                case ePivotTableCaptionFilterType.CaptionLessThanOrEqual:
+                    t = eFilterOperator.LessThanOrEqual;
+                    break;
+                default:
+                    t = eFilterOperator.Equal;
+                    break;
+            }
+            switch (type)
+            {
+                case ePivotTableCaptionFilterType.CaptionBeginsWith:
+                case ePivotTableCaptionFilterType.CaptionNotBeginsWith:
+                    v += "*";
+                    break;
+                case ePivotTableCaptionFilterType.CaptionContains:
+                case ePivotTableCaptionFilterType.CaptionNotContains:
+                    v = $"*{v}*";
+                    break;
+                case ePivotTableCaptionFilterType.CaptionEndsWith:
+                case ePivotTableCaptionFilterType.CaptionNotEndsWith:
+                    v = $"*{v}";
+                    break;
+            }
+            var item1 = new ExcelFilterCustomItem(v, t);
+            cf.Filters.Add(item1);
+
+            if(type==ePivotTableCaptionFilterType.CaptionBetween)
+            {
+                cf.And = true;
+                cf.Filters.Add(new ExcelFilterCustomItem(StringValue2, eFilterOperator.LessThanOrEqual));
+            }
+            else if (type == ePivotTableCaptionFilterType.CaptionNotBetween)
+            {
+                cf.And = false;
+                cf.Filters.Add(new ExcelFilterCustomItem(StringValue2, eFilterOperator.GreaterThan));
+            }
+
+            _filter = cf;
+        }
+        internal void CreateValueCustomFilter(ePivotTableValueFilterType type)
+        {
+            _filterColumnNode.InnerXml = "<customFilters/>";
+            var cf = new ExcelCustomFilterColumn(NameSpaceManager, _filterColumnNode);
+
+            eFilterOperator t;
+            string v1 = GetFilterValueAsString(Value1);
+            switch (type)
+            {
+                case ePivotTableValueFilterType.ValueNotEqual:
+                    t = eFilterOperator.NotEqual;
+                    break;
+                case ePivotTableValueFilterType.ValueGreaterThan:
+                    t = eFilterOperator.GreaterThan;
+                    break;
+                case ePivotTableValueFilterType.ValueGreaterThanOrEqual:
+                case ePivotTableValueFilterType.ValueBetween:
+                    t = eFilterOperator.GreaterThanOrEqual;
+                    break;
+                case ePivotTableValueFilterType.ValueLessThan:
+                    t = eFilterOperator.LessThan;
+                    break;
+                case ePivotTableValueFilterType.ValueLessThanOrEqual:
+                case ePivotTableValueFilterType.ValueNotBetween:
+                    t = eFilterOperator.LessThanOrEqual;
+                    break;
+                default:
+                    t = eFilterOperator.Equal;
+                    break;
+            }
+
+            var item1 = new ExcelFilterCustomItem(v1, t);
+            cf.Filters.Add(item1);
+
+            if (type == ePivotTableValueFilterType.ValueBetween)
+            {
+                cf.And = true;
+                cf.Filters.Add(new ExcelFilterCustomItem(GetFilterValueAsString(Value2), eFilterOperator.LessThanOrEqual));
+            }
+            else if (type == ePivotTableValueFilterType.ValueNotBetween)
+            {
+                cf.And = false;
+                cf.Filters.Add(new ExcelFilterCustomItem(GetFilterValueAsString(Value2), eFilterOperator.GreaterThan));
+            }
+            _filter = cf;
+        }
+
+        private string GetFilterValueAsString(object v)
+        {
+            if (ConvertUtil.IsNumericOrDate(v))
+            {
+                return ConvertUtil.GetValueDouble(v).ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                return v.ToString();
+            }
+        }
+        internal void CreateValueFilter()
+        {
+            _filterColumnNode.InnerXml = "<filters/>";
+            var f = new ExcelValueFilterColumn(NameSpaceManager, _filterColumnNode);
+            f.Filters.Add(StringValue1);
+            _filter = f;
+        }
+
+        public ePivotTableFilterType Type
+        {
+            get
+            {
+                return GetXmlNodeString("@type").ToEnum(ePivotTableFilterType.Unknown);
+            }
+            internal set
+            {
+                var s = value.ToEnumString();
+                if (s.Length <= 3 && (s[0]=='m' || s[0] == 'q')) s = s.ToUpper();  //For M1 - M12 and Q1 - Q4
+                SetXmlNodeString("@type", s);
+            }
+        }
+        public int EvalOrder
+        {
+            get
+            {
+                return GetXmlNodeInt("@evalOrder");
+            }
+            internal set
+            {
+                SetXmlNodeInt("@evalOrder", value);
+            }
+        }
+        internal int Fld
+        {
+            get
+            {
+                return GetXmlNodeInt("@fld");
+            }
+            set
+            {
+                SetXmlNodeInt("@fld", value);
+            }
+        }
+        internal int MeasureFldIndex
+        {
+            get
+            {
+                return GetXmlNodeInt("@iMeasureFld");
+            }
+            set
+            {
+                SetXmlNodeInt("@iMeasureFld", value);
+            }
+        }
+        internal int MeasureHierIndex
+        {
+            get
+            {
+                return GetXmlNodeInt("@iMeasureHier");
+            }
+            set
+            {
+                SetXmlNodeInt("@iMeasureHier", value);
+            }
+        }
+        internal int MemberPropertyFldIndex
+        {
+            get
+            {
+                return GetXmlNodeInt("@mpFld");
+            }
+            set
+            {
+                SetXmlNodeInt("@mpFld", value);
+            }
+        }
+        public object Value1
+        {
+            get;
+            set;
+        }
+        public object Value2
+        {
+            get;
+            set;
+        }
+        internal string StringValue1
+        {
+            get
+            {
+                return GetXmlNodeString("@stringValue1");
+            }
+            set
+            {
+                SetXmlNodeString("@stringValue1", value, true);
+            }
+        }
+        internal string StringValue2
+        {
+            get
+            {
+                return GetXmlNodeString("@stringValue2");
+            }
+            set
+            {
+                SetXmlNodeString("@stringValue2", value, true);
+            }
+        }
+        ExcelFilterColumn _filter = null;
+        internal ExcelFilterColumn Filter
+        {
+            get
+            {
+                if (_filter == null)
+                {
+                    var filterNode = GetNode("d:autoFilter/d:filterColumn");
+                    if (filterNode != null)
+                    {
+                        switch (filterNode.LocalName)
+                        {
+                            case "customFilters":
+                                _filter = new ExcelCustomFilterColumn(NameSpaceManager, filterNode);
+                                break;
+                            case "top10":
+                                _filter = new ExcelTop10FilterColumn(NameSpaceManager, filterNode);
+                                break;
+                            case "filters":
+                                _filter = new ExcelValueFilterColumn(NameSpaceManager, filterNode);
+                                break;
+                            case "dynamicFilter":
+                                _filter = new ExcelDynamicFilterColumn(NameSpaceManager, filterNode);
+                                break;
+                            case "colorFilter":
+                                _filter = new ExcelColorFilterColumn(NameSpaceManager, filterNode);
+                                break;
+                            case "iconFilter":
+                                _filter = new ExcelIconFilterColumn(NameSpaceManager, filterNode);
+                                break;
+                            default:
+                                _filter = null;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid xml in pivot table. Missing Filter column");
+                    }
+                }
+                return _filter;
+            }
+            set
+            {
+                _filter = value;
+            }
+        }
+    }
+}

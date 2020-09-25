@@ -34,12 +34,16 @@ namespace OfficeOpenXml.Utils
         internal static bool IsNumericOrDate(object candidate)
         {
             if (candidate == null) return false;
-            return (TypeCompat.IsPrimitive(candidate) || candidate is double || candidate is decimal || candidate is DateTime || candidate is TimeSpan || candidate is long);
+            if (TypeCompat.IsPrimitive(candidate)) return true;
+            var t = candidate.GetType();
+            return (t == typeof(double) || t == typeof(decimal) || t == typeof(long) || t == typeof(DateTime) || t == typeof(TimeSpan));
         }
         internal static bool IsNumeric(object candidate)
         {
             if (candidate == null) return false;
-            return (TypeCompat.IsPrimitive(candidate) || candidate is double || candidate is decimal || candidate is long);
+            if (TypeCompat.IsPrimitive(candidate)) return true;
+            var t = candidate.GetType();
+            return (t == typeof(double) || t == typeof(decimal) || t == typeof(long));
         }
         /// <summary>
         /// Tries to parse a double from the specified <paramref name="candidateString"/> which is expected to be a string value.
@@ -65,8 +69,23 @@ namespace OfficeOpenXml.Utils
         /// <returns>True if <paramref name="candidateString"/> could be parsed </returns>
         internal static bool TryParseBooleanString(string candidateString, out bool result)
 		{
-			if (!string.IsNullOrEmpty(candidateString))
-				return bool.TryParse(candidateString, out result);
+            if (!string.IsNullOrEmpty(candidateString))
+            {
+                if(candidateString == "-1"  || candidateString == "1")
+                {
+                    result = true;
+                    return true;
+                }
+                else if (candidateString == "0")
+                {
+                    result = false;
+                    return true;
+                }
+                else
+                {
+                    return bool.TryParse(candidateString, out result);
+                }
+            }
 			result = false;
 			return false;
 		}

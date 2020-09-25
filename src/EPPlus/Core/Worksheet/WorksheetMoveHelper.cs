@@ -59,8 +59,8 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void MoveTargetXml(ExcelWorksheets worksheets, ExcelWorksheet sourceWs, ExcelWorksheet targetWs, bool before)
         {
-            var sourceNode = worksheets.TopNode.SelectSingleNode($"d:sheet[@sheetId = '{sourceWs.SheetID}']", worksheets.NameSpaceManager);
-            var targetNode = worksheets.TopNode.SelectSingleNode($"d:sheet[@sheetId = '{targetWs.SheetID}']", worksheets.NameSpaceManager);
+            var sourceNode = worksheets.TopNode.SelectSingleNode($"d:sheet[@sheetId = '{sourceWs.SheetId}']", worksheets.NameSpaceManager);
+            var targetNode = worksheets.TopNode.SelectSingleNode($"d:sheet[@sheetId = '{targetWs.SheetId}']", worksheets.NameSpaceManager);
             if (sourceNode == null || targetNode == null)
             {
                 throw new InvalidOperationException("Invalid Workbook Xml. Can't find worksheet in workbook list.");

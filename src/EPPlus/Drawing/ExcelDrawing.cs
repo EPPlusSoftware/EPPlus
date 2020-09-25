@@ -19,6 +19,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -228,6 +229,16 @@ namespace OfficeOpenXml.Drawing
                 {
                     if (_nvPrPath == "") throw new NotImplementedException();
                     SetXmlNodeString(_nvPrPath + "/@name", value);
+                    if (this is ExcelSlicer<ExcelTableSlicerCache> ts)
+                    {
+                        SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
+                        ts.SlicerName = value;
+                    }
+                    else if (this is ExcelSlicer<ExcelPivotTableSlicerCache> pts)
+                    {
+                        SetXmlNodeString(_nvPrPath + "/../../a:graphic/a:graphicData/sle:slicer/@name", value);
+                        pts.SlicerName = value;
+                    }
                 }
                 catch
                 {
@@ -435,34 +446,53 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The Drawing object</returns>
         internal static ExcelDrawing GetDrawing(ExcelDrawings drawings, XmlNode node)
         {
-            if (node.SelectSingleNode("xdr:sp", drawings.NameSpaceManager) != null)
+            if (node.ChildNodes.Count < 3) return null; //Invalid formatted anchor node, ignore
+            XmlElement drawNode = (XmlElement)node.ChildNodes[2];
+            switch (drawNode.LocalName)
             {
-                return new ExcelShape(drawings, node);
-            }            
-            else if (node.SelectSingleNode("xdr:pic", drawings.NameSpaceManager) != null)
-            {
-                return new ExcelPicture(drawings, node);
+                case "sp":
+                    return new ExcelShape(drawings, node);
+                case "pic":
+                    return new ExcelPicture(drawings, node);
+                case "graphicFrame":
+                    return ExcelChart.GetChart(drawings, node);
+                case "grpSp":
+                    return new ExcelGroupShape(drawings, node);
+                case "cxnSp":
+                    return new ExcelConnectionShape(drawings, node);
+                case "contentPart":
+                    //Not handled yet, return as standard drawing below
+                    break;
+                case "AlternateContent":                    
+                    XmlElement choice = drawNode.FirstChild as XmlElement;
+                    if(choice!=null && choice.LocalName=="Choice")
+                    {
+                        var req = choice.GetAttribute("Requires");  //NOTE:Can be space sparated. Might have to implement functinality for this.
+                        var ns = drawNode.GetAttribute($"xmlns:{req}");
+                        if(ns=="")
+                        {
+                            ns = choice.GetAttribute($"xmlns:{req}");
+                        }
+                        switch (ns)
+                        {
+                            case ExcelPackage.schemaChartEx2015_9_8:
+                            case ExcelPackage.schemaChartEx2015_10_21:
+                            case ExcelPackage.schemaChartEx2016_5_10:
+                                return ExcelChart.GetChartEx(drawings, node);
+                            case ExcelPackage.schemaSlicer:
+                                return new ExcelTableSlicer(drawings, node);
+                            case ExcelPackage.schemaDrawings2010:
+                                if (choice.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/@uri", drawings.NameSpaceManager)?.Value == ExcelPackage.schemaSlicer2010)
+                                {
+                                    return new ExcelPivotTableSlicer(drawings, node);
+                                }
+                                break;
+
+                        }
+                    }
+                    break;
             }
-            else if (node.SelectSingleNode("xdr:graphicFrame", drawings.NameSpaceManager) != null)
-            {
-                return ExcelChart.GetChart(drawings, node);
-            }
-            else if (node.SelectSingleNode("xdr:grpSp", drawings.NameSpaceManager) != null)
-            {
-                return new ExcelGroupShape(drawings, node);
-            }
-            else if (node.SelectSingleNode("xdr:cxnSp", drawings.NameSpaceManager) != null)
-            {
-                return new ExcelConnectionShape(drawings, node);
-            }
-            else if(node.SelectNodes("mc:AlternateContent", drawings.NameSpaceManager) !=null)
-            {
-                return ExcelChart.GetChartEx(drawings, node);
-            }
-            else
-            {
-                return new ExcelDrawing(drawings, node, "","");
-            }
+            return new ExcelDrawing(drawings, node, "","");
         }
         internal int Id
         {
@@ -571,7 +601,11 @@ namespace OfficeOpenXml.Drawing
             if (ws.ExistsValueInner(row, 0, ref o) && o != null)   //Check that the row exists
             {
                 var internalRow = (RowInternal)o;
-                if (internalRow.Height >= 0 && internalRow.CustomHeight)
+                if(internalRow.Hidden)
+                {
+                    return 0;
+                }
+                else if (internalRow.Height >= 0 && internalRow.CustomHeight)
                 {
                     return internalRow.Height;
                 }
@@ -994,7 +1028,7 @@ namespace OfficeOpenXml.Drawing
         public void AdjustPositionAndSize()
         {
             if (_drawings.Worksheet.Workbook._package.DoAdjustDrawings == false) return;
-            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
+            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = false;
             if (EditAs==eEditAs.Absolute)
             {
                 SetPixelLeft(_left);
@@ -1005,7 +1039,7 @@ namespace OfficeOpenXml.Drawing
                 SetPixelHeight(_height);
                 SetPixelWidth(_width);
             }
-            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = false;
+            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
         }
         string IPictureContainer.ImageHash { get; set; }
         Uri IPictureContainer.UriPic { get; set; }

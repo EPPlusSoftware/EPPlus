@@ -19,6 +19,8 @@ using OfficeOpenXml.Style;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml
 {
@@ -44,21 +46,11 @@ namespace OfficeOpenXml
         //internal bool ChangedFlag;
         internal XmlNamespaceManager NameSpaceManager { get; set; }
         internal XmlNode TopNode { get; set; }
-        string[] _schemaNodeOrder = null;
+
         /// <summary>
         /// Schema order list
         /// </summary>
-        internal string[] SchemaNodeOrder
-        {
-            get
-            {
-                return _schemaNodeOrder;
-            }
-            set
-            {
-                _schemaNodeOrder = value;
-            }
-        }
+        internal string[] SchemaNodeOrder { get; set; } = null;
         /// <summary>
         /// Adds a new array to the end of SchemaNodeOrder
         /// </summary>
@@ -191,7 +183,7 @@ namespace OfficeOpenXml
                         return subNode;
                     }
                 }
-                else if (_schemaNodeOrder != null && subPath != "..")  //Parent node, node order should not change. Parent node (..) is only supported in the start of the xpath
+                else if (SchemaNodeOrder != null && subPath != "..")  //Parent node, node order should not change. Parent node (..) is only supported in the start of the xpath
                 {
                     var ix = GetNodePos(subNode.LocalName, lastUsedOrderIndex);
                     if (ix >= 0)
@@ -602,9 +594,9 @@ namespace OfficeOpenXml
             {
                 nodeName = nodeName.Substring(ix + 1, nodeName.Length - (ix + 1));
             }
-            for (int i = startIndex; i < _schemaNodeOrder.Length; i++)
+            for (int i = startIndex; i < SchemaNodeOrder.Length; i++)
             {
-                if (nodeName == _schemaNodeOrder[i])
+                if (nodeName == SchemaNodeOrder[i])
                 {
                     return i;
                 }
@@ -678,7 +670,7 @@ namespace OfficeOpenXml
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }
-        internal void SetXmlNodeInt(string path, int? d, CultureInfo ci = null)
+        internal void SetXmlNodeInt(string path, int? d, CultureInfo ci = null, bool allowNegative = true)
         {
             if (d == null)
             {
@@ -686,6 +678,10 @@ namespace OfficeOpenXml
             }   
             else
             {
+                if(allowNegative==false && d.Value<0)
+                {
+                    throw new ArgumentException("Negative value not permitted");
+                }
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }
@@ -857,12 +853,12 @@ namespace OfficeOpenXml
                 return false;
             }
         }
-        protected static bool GetBoolFromString(string s)
+        internal static bool GetBoolFromString(string s)
         {
             return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
         }
 
-        internal int GetXmlNodeInt(string path)
+        internal int GetXmlNodeInt(string path, int defaultValue=int.MinValue)
         {
             int i;
             if (int.TryParse(GetXmlNodeString(path), NumberStyles.Number, CultureInfo.InvariantCulture, out i))
@@ -871,7 +867,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return int.MinValue;
+                return defaultValue;
             }
         }
         internal double GetXmlNodeAngel(string path, double defaultValue = 0)
@@ -1136,6 +1132,51 @@ namespace OfficeOpenXml
                     node.InnerXml = "<a:noFill/><a:effectLst/><a:sp3d/>";
 
             }
+        }
+
+        internal XmlNode GetOrCreateExtLstSubNode(string uriGuid, string prefix, string[] uriOrder=null)
+        {
+            foreach(XmlElement node in GetNodes("d:extLst/d:ext"))
+            {
+                if(node.Attributes["uri"].Value.Equals(uriGuid, StringComparison.OrdinalIgnoreCase))
+                {
+                    return node;
+                }
+            }
+            var extLst = (XmlElement)CreateNode("d:extLst");
+            XmlElement prependChild = null;
+            if (uriOrder != null)
+            {
+                foreach (var child in extLst.ChildNodes)
+                {
+                    if (child is XmlElement e)
+                    {
+                        var uo1 = Array.IndexOf(uriOrder, e.GetAttribute("uri"));
+                        var uo2 = Array.IndexOf(uriOrder, uriGuid);
+                        if (uo1 > uo2)
+                        {
+                            prependChild = e;
+                        }
+                    }
+                }
+            }
+            var newExt = TopNode.OwnerDocument.CreateElement("ext", ExcelPackage.schemaMain);
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                newExt.SetAttribute($"xmlns:{prefix}", NameSpaceManager.LookupNamespace(prefix));
+            }
+
+            newExt.SetAttribute("uri", uriGuid);
+            if(prependChild==null)
+            {
+                extLst.AppendChild(newExt);
+            }
+            else
+            {
+                extLst.InsertBefore(newExt, prependChild);
+            }
+
+            return newExt;
         }
     }
 }

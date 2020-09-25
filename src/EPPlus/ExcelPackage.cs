@@ -130,7 +130,7 @@ namespace OfficeOpenXml
     ///
     ///       return newFile.FullName;
     /// </code>
-    /// More samples can be found at  <a href="https://github.com/JanKallman/EPPlus/">https://github.com/JanKallman/EPPlus/</a>
+    /// More samples can be found at  <a href="https://github.com/EPPlusSoftware/EPPlus/">https://github.com/EPPlusSoftware/EPPlus/</a>
     /// </example>
     /// </remarks>
 	public sealed partial class ExcelPackage : IDisposable
@@ -194,6 +194,7 @@ namespace OfficeOpenXml
         internal const string schemaVt = @"http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes";
         
         internal const string schemaMainX14 = "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main";
+        internal const string schemaMainX15 = "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main";
         internal const string schemaMainXm = "http://schemas.microsoft.com/office/excel/2006/main";
         internal const string schemaXr = "http://schemas.microsoft.com/office/spreadsheetml/2014/revision";
         internal const string schemaXr2 = "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2";
@@ -216,9 +217,15 @@ namespace OfficeOpenXml
         internal const string schemaChartExMain = "http://schemas.microsoft.com/office/drawing/2014/chartex";
         internal const string schemaChartEx2015_9_8 = "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex";
         internal const string schemaChartEx2015_10_21 = "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex";
+        internal const string schemaChartEx2016_5_10 = "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex";
         internal const string schemaChartExRelationships = "http://schemas.microsoft.com/office/2014/relationships/chartEx";
         internal const string contentTypeChartEx = "application/vnd.ms-office.chartex+xml";
 
+        internal const string schemaSlicer = "http://schemas.microsoft.com/office/drawing/2012/slicer";
+        internal const string schemaDrawings2010 = "http://schemas.microsoft.com/office/drawing/2010/main";
+        internal const string schemaSlicer2010 = "http://schemas.microsoft.com/office/drawing/2010/slicer";
+        internal const string schemaRelationshipsSlicer = "http://schemas.microsoft.com/office/2007/relationships/slicer";
+        internal const string schemaRelationshipsSlicerCache = "http://schemas.microsoft.com/office/2007/relationships/slicerCache";
         //Threaded comments
         internal const string schemaThreadedComments = "http://schemas.microsoft.com/office/spreadsheetml/2018/threadedcomments";
         internal const string schemaThreadedComment = "http://schemas.microsoft.com/office/2017/10/relationships/threadedComment";
@@ -417,13 +424,15 @@ namespace OfficeOpenXml
                 .AddJsonFile("appsettings.json", true,false);            
             var c = build.Build();
 
-            var v = c["EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based"];
+            var isWorksheets1Based = c["EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based"];
+            var sharePivotTableCacheForSameRange = c["EPPlus:ExcelPackage:Compatibility:SharePivotTableCacheForSameRange"];
 #else
-            var v = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based"];
+            var isWorksheets1Based = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based"];
+            var sharePivotTableCacheForSameRange = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.SharePivotTableCacheForSameRange"];
 #endif
-            if (v != null)
+            if (isWorksheets1Based != null)
             {
-                if(Boolean.TryParse(v.ToLowerInvariant(), out bool value))
+                if(Boolean.TryParse(isWorksheets1Based.ToLowerInvariant(), out bool value))
                 {
                     Compatibility.IsWorksheets1Based = value;
                 }
@@ -713,6 +722,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("dcmitype", schemaDcmiType);
             ns.AddNamespace("xsi", schemaXsi);
             ns.AddNamespace("x14", schemaMainX14);
+            ns.AddNamespace("x15", schemaMainX15);
             ns.AddNamespace("xm", schemaMainXm);
             ns.AddNamespace("xr", schemaXr);
             ns.AddNamespace("xr2", schemaXr2);

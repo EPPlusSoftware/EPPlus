@@ -24,6 +24,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq.Expressions;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Filter;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -87,6 +90,7 @@ namespace OfficeOpenXml.Drawing
                 AddDrawings();
             }
         }
+
         internal ExcelWorksheet Worksheet { get; set; }
         
         /// <summary>
@@ -138,6 +142,7 @@ namespace OfficeOpenXml.Drawing
         {
             NameTable nt = new NameTable();
             NameSpaceManager = new XmlNamespaceManager(nt);
+            NameSpaceManager.AddNamespace("d", ExcelPackage.schemaMain);
             NameSpaceManager.AddNamespace("a", ExcelPackage.schemaDrawings);
             NameSpaceManager.AddNamespace("xdr", ExcelPackage.schemaSheetDrawings);
             NameSpaceManager.AddNamespace("c", ExcelPackage.schemaChart);
@@ -149,7 +154,10 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("cx", ExcelPackage.schemaChartExMain); 
             NameSpaceManager.AddNamespace("cx1", ExcelPackage.schemaChartEx2015_9_8);
             NameSpaceManager.AddNamespace("cx2", ExcelPackage.schemaChartEx2015_10_21);
-
+            NameSpaceManager.AddNamespace("x14", ExcelPackage.schemaMainX14);
+            NameSpaceManager.AddNamespace("x15", ExcelPackage.schemaMainX15);                
+            NameSpaceManager.AddNamespace("sle", ExcelPackage.schemaSlicer2010);
+            NameSpaceManager.AddNamespace("sle15", ExcelPackage.schemaSlicer);
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion
@@ -1079,6 +1087,63 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawings.Count - 1);
             return shape;
         }
+        #region Add Slicers
+        /// <summary>
+        /// Adds a slicer to a table column
+        /// </summary>
+        /// <param name="TableColumn">The table column</param>
+        /// <returns>The slicer drawing</returns>
+        internal ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
+        {
+            if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
+            {
+                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
+            }
+            //if(TableColumn.Slicer!=null)
+            //{
+            //    throw new InvalidOperationException("A slice is already attached to this column");
+            //}
+            //if (_drawingNames.ContainsKey(TableColumn.Name))
+            //{
+            //    throw new Exception("Name already exists in the drawings collection");
+            //}
+            if(TableColumn.Table.AutoFilter.Columns[TableColumn.Position] ==null)
+            {
+                TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
+            }
+            XmlElement drawNode = CreateDrawingXml();
+            var slicer = new ExcelTableSlicer(this, drawNode, TableColumn)
+            {
+                EditAs = eEditAs.Absolute,
+            };
+            _drawings.Add(slicer);
+            _drawingNames.Add(slicer.Name, _drawings.Count - 1);
+            
+            return slicer;
+        }
+        /// <summary>
+        /// Adds a slicer to a pivot table field
+        /// </summary>
+        /// <param name="Field">The pivot table field</param>
+        /// <returns>The slicer drawing</returns>
+        internal ExcelPivotTableSlicer AddPivotTableSlicer(ExcelPivotTableField Field)
+        {
+            if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
+            {
+                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
+            }
+
+            XmlElement drawNode = CreateDrawingXml();
+            var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)
+            {
+                EditAs = eEditAs.Absolute
+            };
+            _drawings.Add(slicer);
+            _drawingNames.Add(slicer.Name, _drawings.Count - 1);
+
+            return slicer;
+        }
+        #endregion
         ///// <summary>
         ///// Adds a line connectin two shapes
         ///// </summary>
@@ -1142,7 +1207,7 @@ namespace OfficeOpenXml.Drawing
                 Packaging.ZipPackage package = Worksheet._package.ZipPackage;
 
                 //Check for existing part, issue #100
-                var id = Worksheet.SheetID;
+                var id = Worksheet.SheetId;
                 do
                 {
                     _uriDrawing = new Uri(string.Format("/xl/drawings/drawing{0}.xml", id++), UriKind.Relative);

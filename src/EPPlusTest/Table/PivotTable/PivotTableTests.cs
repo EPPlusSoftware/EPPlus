@@ -45,80 +45,9 @@ namespace EPPlusTest.Table.PivotTable
         {
             InitBase();
             _pck = OpenPackage("PivotTable.xlsx", true);
-            CreateDataSheet();
-        }
-
-        private static void CreateDataSheet()
-        {
             var ws = _pck.Workbook.Worksheets.Add("Data");
-            ws.Cells["K1"].Value = "Item";
-            ws.Cells["L1"].Value = "Category";
-            ws.Cells["M1"].Value = "Stock";
-            ws.Cells["N1"].Value = "Price";
-            ws.Cells["O1"].Value = "Date for grouping";
-
-            ws.Cells["K2"].Value = "Crowbar";
-            ws.Cells["L2"].Value = "Hardware";
-            ws.Cells["M2"].Value = 12;
-            ws.Cells["N2"].Value = 85.2;
-            ws.Cells["O2"].Value = new DateTime(2010, 1, 31);
-
-            ws.Cells["K3"].Value = "Crowbar";
-            ws.Cells["L3"].Value = "Hardware";
-            ws.Cells["M3"].Value = 15;
-            ws.Cells["N3"].Value = 12.2;
-            ws.Cells["O3"].Value = new DateTime(2010, 2, 28);
-
-            ws.Cells["K4"].Value = "Hammer";
-            ws.Cells["L4"].Value = "Hardware";
-            ws.Cells["M4"].Value = 550;
-            ws.Cells["N4"].Value = 72.7;
-            ws.Cells["O4"].Value = new DateTime(2010, 3, 31);
-
-            ws.Cells["K5"].Value = "Hammer";
-            ws.Cells["L5"].Value = "Hardware";
-            ws.Cells["M5"].Value = 120;
-            ws.Cells["N5"].Value = 11.3;
-            ws.Cells["O5"].Value = new DateTime(2010, 4, 30);
-
-            ws.Cells["K6"].Value = "Crowbar";
-            ws.Cells["L6"].Value = "Hardware";
-            ws.Cells["M6"].Value = 120;
-            ws.Cells["N6"].Value = 173.2;
-            ws.Cells["O6"].Value = new DateTime(2010, 5, 31);
-
-            ws.Cells["K7"].Value = "Hammer";
-            ws.Cells["L7"].Value = "Hardware";
-            ws.Cells["M7"].Value = 1;
-            ws.Cells["N7"].Value = 4.2;
-            ws.Cells["O7"].Value = new DateTime(2010, 6, 30);
-
-            ws.Cells["K8"].Value = "Saw";
-            ws.Cells["L8"].Value = "Hardware";
-            ws.Cells["M8"].Value = 4;
-            ws.Cells["N8"].Value = 33.12;
-            ws.Cells["O8"].Value = new DateTime(2010, 6, 28);
-
-            ws.Cells["K9"].Value = "Screwdriver";
-            ws.Cells["L9"].Value = "Hardware";
-            ws.Cells["M9"].Value = 1200;
-            ws.Cells["N9"].Value = 45.2;
-            ws.Cells["O9"].Value = new DateTime(2010, 8, 31);
-
-            ws.Cells["K10"].Value = "Apple";
-            ws.Cells["L10"].Value = "Groceries";
-            ws.Cells["M10"].Value = 807;
-            ws.Cells["N10"].Value = 1.2;
-            ws.Cells["O10"].Value = new DateTime(2010, 9, 30);
-
-            ws.Cells["K11"].Value = "Butter";
-            ws.Cells["L11"].Value = "Groceries";
-            ws.Cells["M11"].Value = 52;
-            ws.Cells["N11"].Value = 7.2;
-            ws.Cells["O11"].Value = new DateTime(2010, 10, 31);
-            ws.Cells["O2:O11"].Style.Numberformat.Format = "yyyy-MM-dd";
+            LoadItemData(ws);
         }
-
         [ClassCleanup]
         public static void Cleanup()
         {
@@ -350,8 +279,11 @@ namespace EPPlusTest.Table.PivotTable
             pt.Fields[4].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days | eDateGroupBy.Quarters, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
             pt.RowHeaderCaption = "År";
             pt.Fields[4].Name = "Dag";
+            pt.Fields[4].Items[0].Hidden = true;
             pt.Fields[5].Name = "Månad";
+            pt.Fields[5].Items[0].Hidden = true;
             pt.Fields[6].Name = "Kvartal";
+            pt.Fields[6].Items[0].Hidden = true;
             pt.GrandTotalCaption = "Totalt";
 
             pt.DataFields.Add(pt.Fields[3]);
@@ -368,11 +300,13 @@ namespace EPPlusTest.Table.PivotTable
             pt = ws.PivotTables.Add(ws.Cells["A60"], wsData.Cells["K1:O11"], "Pivottable11");
             pt.RowFields.Add(pt.Fields["Category"]);
             pt.RowFields.Add(pt.Fields["Item"]);
-            pt.RowFields.Add(pt.Fields["Date for grouping"]);
+            pt.RowFields.Add(pt.Fields[4]);
 
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
+
             pt.DataOnRows = true;
+
         }
         [TestMethod]
         public void Pivot_GroupNumber()
@@ -384,6 +318,10 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields.Add(pt.Fields[3]);
             pt.RowFields[0].AddNumericGrouping(-3.3, 5.5, 4.0);
             pt.DataFields.Add(pt.Fields[2]);
+            pt.RowFields[0].Items[0].Hidden = true;
+            pt.RowFields[0].Items[1].Hidden = true;
+            pt.RowFields[0].Items[2].Hidden = true;
+            pt.RowFields[0].Items[3].Hidden = true;
             pt.DataOnRows = false;
             pt.TableStyle = OfficeOpenXml.Table.TableStyles.Medium14;
         }
@@ -427,7 +365,14 @@ namespace EPPlusTest.Table.PivotTable
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[0]);
             var pf1 = pt.PageFields.Add(pt.Fields[2]);
+            pf1.Items.Refresh();
+            pf1.Items[1].Hidden = true;
+            pf1.Items[8].Hidden = true;
+
+
             var pf2 = pt.PageFields.Add(pt.Fields[4]);
+            pf2.Items.Refresh();
+            pf2.Items[1].Hidden = true;
             pf1.MultipleItemSelectionAllowed = true;
             pf2.MultipleItemSelectionAllowed = true;
             pt.DataFields.Add(pt.Fields[3]);
@@ -450,7 +395,7 @@ namespace EPPlusTest.Table.PivotTable
             var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:O11"], "Pivottable12");
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[0]);
-            pt.DataFields.Add(pt.Fields[3]);
+            var df=pt.DataFields.Add(pt.Fields[3]);
             pt.DataOnRows = true;
             pt.ColumnHeaderCaption = "Column Caption";
             pt.RowHeaderCaption = "Row Caption";
@@ -478,7 +423,97 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(1, pt.DataFields.Count);
 
         }
+        [TestMethod]
+        public void RowsDataOnRow_WithNumberFormat()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("PivotTable with numberformat");
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["K1:N11"], "Pivottable2");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[0]);
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.DataFields.Add(pt.Fields[2]);
 
+            pt.Fields[3].NumberFormat = "#,##0";
+            pt.Fields[3].Cache.NumberFormat = "#,##0.000";
+            ws.Workbook.Styles.UpdateXml();
+
+            Assert.AreEqual(3, pt.Fields[3].NumberFormatId);
+            Assert.AreEqual(165, pt.Fields[3].Cache.NumberFormatId);
+        }
+        [TestMethod]
+        public void AddCalculatedField()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CalculatedField");
+
+            LoadTestdata(ws);
+            var formula = "NumValue*2";
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            tbl.Fields.AddCalculatedField("NumValueX2", formula);
+
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df1 = tbl.DataFields.Add(tbl.Fields[3]);
+            var df2 = tbl.DataFields.Add(tbl.Fields[4]);
+            df1.Function = DataFieldFunctions.Sum;
+            df2.Function = DataFieldFunctions.Sum;
+            tbl.DataOnRows = false;
+
+            Assert.AreEqual("NumValue*2", tbl.Fields[4].Cache.Formula);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldToColumns()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var formula = "NumValue*2";
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", formula);
+                var rf = tbl.ColumnFields.Add(tbl.Fields[4]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldToRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var formula = "NumValue*2";
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", formula);
+                var rf = tbl.RowFields.Add(tbl.Fields[4]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldToPage()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var formula = "NumValue*2";
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", formula);
+                var rf = tbl.PageFields.Add(tbl.Fields[4]);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ShouldThrowExceptionOnAddingCalculatedFieldWithBlankFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("RowArgExcep");
+                LoadTestdata(ws);
+                var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+                tbl.Fields.AddCalculatedField("NumValueX2", "");
+            }
+        }
 
     }
 }

@@ -24,7 +24,11 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         List<ExcelPivotTable> _pivotTables = new List<ExcelPivotTable>();
         internal Dictionary<string, int> _pivotTableNames = new Dictionary<string, int>();
-        ExcelWorksheet _ws;        
+        ExcelWorksheet _ws;
+        
+        internal ExcelPivotTableCollection()
+        {
+        }
         internal ExcelPivotTableCollection(ExcelWorksheet ws)
         {
             var pck = ws._package.ZipPackage;
@@ -39,13 +43,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        private ExcelPivotTable Add(ExcelPivotTable tbl)
+        internal ExcelPivotTable Add(ExcelPivotTable tbl)
         {
             _pivotTables.Add(tbl);
             _pivotTableNames.Add(tbl.Name, _pivotTables.Count - 1);
-            if (tbl.CacheID >= _ws.Workbook._nextPivotTableID)
+            if (tbl.CacheId >= _ws.Workbook._nextPivotTableID)
             {
-                _ws.Workbook._nextPivotTableID = tbl.CacheID + 1;
+                _ws.Workbook._nextPivotTableID = tbl.CacheId + 1;
             }
             return tbl;
         }
@@ -106,7 +110,17 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return Add(Range, Source.Range, Name);
         }
-
+        /// <summary>
+        /// Create a pivottable on the supplied range
+        /// </summary>
+        /// <param name="Range">The range address including header and total row</param>
+        /// <param name="PivotCacheDefinition">A pivot table cache shared with another pivot table</param>
+        /// <param name="Name">The name of the pivottable. Must be unique </param>
+        /// <returns>The pivottable object</returns>
+        public ExcelPivotTable Add(ExcelAddressBase Range, ExcelPivotCacheDefinition PivotCacheDefinition, string Name)
+        {
+            return Add(new ExcelPivotTable(_ws, Range, PivotCacheDefinition._cacheReference, Name, _ws.Workbook._nextPivotTableID++));
+        }
         internal string GetNewTableName()
         {
             string name = "Pivottable1";
@@ -205,8 +219,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var pck = _ws._package.ZipPackage;
 
-            pck.DeletePart(PivotTable.CacheDefinition.Part.Uri);
-            pck.DeleteRelationship(PivotTable.CacheDefinition.Relationship.Id);
+            PivotTable.CacheDefinition._cacheReference._pivotTables.Remove(PivotTable);
             pck.DeletePart(PivotTable.Part.Uri);
             pck.DeleteRelationship(PivotTable.Relationship.Id);
 
