@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -80,19 +82,47 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTableField AddDateGroupField(int index)
         {
             //Pivot field
-            var topNode = _table.PivotTableXml.SelectSingleNode("//d:pivotFields", _table.NameSpaceManager);
-            var fieldNode = _table.PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
+            XmlElement fieldNode = CreateFieldNode(_table);
+
+            var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
+
+            _list.Add(field);
+            return field;
+        }
+
+        private XmlElement CreateFieldNode(ExcelPivotTable tbl)
+        {
+            var topNode = tbl.PivotTableXml.SelectSingleNode("//d:pivotFields", _table.NameSpaceManager);
+            var fieldNode = tbl.PivotTableXml.CreateElement("pivotField", ExcelPackage.schemaMain);
             fieldNode.SetAttribute("compact", "0");
             fieldNode.SetAttribute("outline", "0");
             fieldNode.SetAttribute("showAll", "0");
             fieldNode.SetAttribute("defaultSubtotal", "0");
             topNode.AppendChild(fieldNode);
             fieldNode.InnerXml = "<items/>";
+            return fieldNode;
+        }
 
-            var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
-            
-            _list.Add(field);
-            return field;
+        /// <summary>
+        /// Adds a calcuelated field to the underlaying pivot table cache. 
+        /// </summary>
+        /// <param name="name">The unique name of the field</param>
+        /// <param name="formula">The formula for the calculated field. Note: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. You can use constants and refer to data from the PivotTable, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names asarguments, and you can not use array functions.</param>
+        /// <returns></returns>
+        public ExcelPivotTableField AddFormulaField(string name, string formula)
+        {
+            var cache = _table.CacheDefinition._cacheReference;
+            var fld = cache.AddFormula(name, formula);
+
+            foreach (var pt in cache._pivotTables)
+            {
+                XmlElement fieldNode = CreateFieldNode(pt);
+                fieldNode.SetAttribute("dragToPage", "0");
+                fieldNode.SetAttribute("dragToCol", "0");
+                fieldNode.SetAttribute("dragToRow", "0");
+                pt.Fields.AddInternal(new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, pt, fld.Index, 0));
+            }
+            return _table.Fields[fld.Index];
         }
     }
 }

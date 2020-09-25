@@ -357,23 +357,29 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         internal ExcelPivotTableCacheField AddDateGroupField(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime startDate, DateTime endDate, int interval)
         {
-            ExcelPivotTableCacheField cacheField = CreateField(groupBy.ToString(), field.Index, "0");
+            ExcelPivotTableCacheField cacheField = CreateField(groupBy.ToString(), field.Index, false);
             cacheField.SetDateGroup(field, groupBy, startDate, endDate, interval);
 
             Fields.Add(cacheField);
             return cacheField;
         }
+        internal ExcelPivotTableCacheField AddFormula(string name, string formula)
+        {
+            ExcelPivotTableCacheField cacheField = CreateField(name, _fields.Count, false);
+            cacheField.Formula = formula;
+            return cacheField;
+        }
 
-        private ExcelPivotTableCacheField CreateField(string name, int index, string databaseField=null)
+        private ExcelPivotTableCacheField CreateField(string name, int index, bool databaseField=true)
         {
             //Add Cache definition field.
             var cacheTopNode = CacheDefinitionXml.SelectSingleNode("//d:cacheFields", NameSpaceManager);
             var cacheFieldNode = CacheDefinitionXml.CreateElement("cacheField", ExcelPackage.schemaMain);
 
             cacheFieldNode.SetAttribute("name", name);
-            if (string.IsNullOrEmpty(databaseField) == false)
+            if (databaseField == false)
             {
-                cacheFieldNode.SetAttribute("databaseField", databaseField);
+                cacheFieldNode.SetAttribute("databaseField", "0");
             }
             cacheTopNode.AppendChild(cacheFieldNode);
 

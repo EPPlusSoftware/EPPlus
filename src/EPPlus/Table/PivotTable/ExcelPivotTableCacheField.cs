@@ -15,6 +15,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -155,7 +156,31 @@ namespace OfficeOpenXml.Table.PivotTable
                 return false;
             }
         }
-
+        public string Formula
+        {
+            get
+            {
+                return GetXmlNodeString("@formula");
+            }
+            set
+            {
+                if(!DatabaseField)
+                {
+                    throw new InvalidOperationException("Can't set a formula to a database field");
+                }
+            }
+        }
+        internal bool DatabaseField
+        {
+            get
+            {
+                return GetXmlNodeBool("@databaseField", true);
+            }
+            set
+            {
+                SetXmlNodeBool("@databaseField", value, true);
+            }
+        }
         internal bool HasSlicer
         {
             get

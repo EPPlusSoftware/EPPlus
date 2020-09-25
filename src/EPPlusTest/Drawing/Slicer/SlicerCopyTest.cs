@@ -26,7 +26,6 @@ namespace EPPlusTest.Drawing.Slicer
 
             SaveAndCleanup(_pck);
         }
-
         [TestMethod]
         public void CopyTableSlicer()
         {
@@ -47,7 +46,7 @@ namespace EPPlusTest.Drawing.Slicer
             var ws = _pck.Workbook.Worksheets.Add("PivotTableSlicerSource");
 
             LoadTestdata(ws);
-            var pt = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "Table2");
+            var pt = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "Table3");
             pt.RowFields.Add(pt.Fields[1]);
             pt.DataFields.Add(pt.Fields[3]);
             var slicer = ws.Drawings.AddPivotTableSlicer(pt.Fields[3]);
