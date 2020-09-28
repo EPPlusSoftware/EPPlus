@@ -113,10 +113,6 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The new calculated field</returns>
         public ExcelPivotTableField AddCalculatedField(string name, string formula)
         {            
-            if (string.IsNullOrEmpty(formula) || formula.Trim()=="")
-            {
-                throw (new ArgumentException("The formula can't be blank","formula"));
-            }
             var cache = _table.CacheDefinition._cacheReference;
             var cacheField = cache.AddFormula(name, formula);
 

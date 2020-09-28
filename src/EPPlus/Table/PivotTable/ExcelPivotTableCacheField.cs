@@ -185,6 +185,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     throw new InvalidOperationException("Can't set a formula to a database field");
                 }
+                if (string.IsNullOrEmpty(value) || value.Trim() == "")
+                {
+                    throw (new ArgumentException("The formula can't be blank", "formula"));
+                }
                 SetXmlNodeString("@formula", value);
             }
         }

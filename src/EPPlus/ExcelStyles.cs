@@ -22,6 +22,7 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml
 {
@@ -780,8 +781,15 @@ namespace OfficeOpenXml
                     {
                         foreach (var f in pt.Fields)
                         {
-                            f.NumFmtId = SetNumFormatId(f.Format);
-                            f.Cache.NumFmtId = SetNumFormatId(f.Cache.Format);
+                            f.NumFmtId = GetNumFormatId(f.Format);
+                            f.Cache.NumFmtId = GetNumFormatId(f.Cache.Format);
+                        }
+                        foreach (var df in pt.DataFields)
+                        {
+                            if(df.NumFmtId<0 && df.Field.NumFmtId.HasValue)
+                            {
+                                df.NumFmtId = df.Field.NumFmtId.Value;
+                            }
                         }
                     }
                 }
@@ -941,7 +949,7 @@ namespace OfficeOpenXml
             if (dxfsNode != null) (dxfsNode as XmlElement).SetAttribute("count", Dxfs.Count.ToString());
         }
 
-        private int? SetNumFormatId(string format)
+        private int? GetNumFormatId(string format)
         {
             if (string.IsNullOrEmpty(format))
             {
