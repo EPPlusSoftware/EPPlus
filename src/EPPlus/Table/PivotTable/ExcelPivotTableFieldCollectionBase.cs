@@ -18,9 +18,68 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         private readonly ExcelPivotTableCacheField _cache;
-        public ExcelPivotTableFieldItemsCollection(ExcelPivotTableField _field) : base()
+        internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
-            _cache = _field.Cache;
+            _cache = field.Cache;
+        }
+        public bool Contains(object value)
+        {
+            return _cache._cacheLookup.ContainsKey(value);
+        }
+        /// <summary>
+        /// Get the item with the value supplied. If the value don't not exist, null is returned
+        /// </summary>
+        /// <param name="value">The value</param>
+        /// <returns>The pivot table field</returns>
+        public ExcelPivotTableFieldItem GetByValue(object value)
+        {
+            if(_cache._cacheLookup.TryGetValue(value, out int ix))
+            {
+                return _list[ix];
+            }
+            return null;
+        }
+        /// <summary>
+        /// Get the index of the item with the value supplied. If the value don't not exist, -1 is returned
+        /// </summary>
+        /// <param name="value">The value</param>
+        /// <returns>The index of the item</returns>
+        public int GetIndexByValue(object value)
+        {
+            if (_cache._cacheLookup.TryGetValue(value, out int ix))
+            {
+                return ix;
+            }
+            return -1;
+        }
+        /// <summary>
+        /// Set Hidden to false for all items in the collection
+        /// </summary>
+        public void ShowAll()
+        {
+            foreach(var item in _list)
+            {
+                item.Hidden = false;
+            }
+        }
+        /// <summary>
+        /// Hide all items except the item at the supplied index
+        /// </summary>
+        public void SelectSingleItem(int index)
+        {
+            if(index <0 || index >= _list.Count)
+            {
+                throw new ArgumentOutOfRangeException("index", "Index is out of range");
+            }
+
+            foreach (var item in _list)
+            {
+                if (item.Type == eItemType.Data)
+                {
+                    item.Hidden = true;
+                }
+            }
+            _list[index].Hidden=false;
         }
         /// <summary>
         /// Refreshes the data of the cache field
@@ -76,7 +135,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         /// <param name="Index">The index</param>
         /// <returns>The pivot table field</returns>
-        public T this[int Index]
+        public virtual T this[int Index]
         {
             get
             {

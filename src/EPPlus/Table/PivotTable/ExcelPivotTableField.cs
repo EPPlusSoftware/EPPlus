@@ -41,13 +41,13 @@ namespace OfficeOpenXml.Table.PivotTable
             Index = index;
             BaseIndex = baseIndex;
             _table = table;
-            if(NumberFormatId.HasValue)
+            if(NumFmtId.HasValue)
             {
                 var styles = table.WorkSheet.Workbook.Styles;
-                var ix = styles.NumberFormats.FindIndexById(NumberFormatId.Value.ToString(CultureInfo.InvariantCulture));
+                var ix = styles.NumberFormats.FindIndexById(NumFmtId.Value.ToString(CultureInfo.InvariantCulture));
                 if(ix>=0)
                 {
-                    NumberFormat = styles.NumberFormats[ix].Format;
+                    Format = styles.NumberFormats[ix].Format;
                 }
             }
         }
@@ -552,7 +552,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The numberformat to use for the column
         /// </summary>
-        public string NumberFormat { get; set; }
+        public string Format { get; set; }
         #region Private & internal Methods
         internal XmlElement AppendField(XmlNode rowsNode, int index, string fieldNodeText, string indexAttrText)
         {
@@ -896,7 +896,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 DeleteNode("d:items");       //Creates or return the existing node
             }
-            else
+            else if (Items.Count > 0)
             {
                 foreach (var item in Items)
                 {
@@ -911,6 +911,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     item.GetXmlString(sb);
                 }
+
                 var node = (XmlElement)CreateNode("d:items");       //Creates or return the existing node
                 node.InnerXml = sb.ToString();
                 node.SetAttribute("count", Items.Count.ToString());
@@ -931,7 +932,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        internal int? NumberFormatId 
+        internal int? NumFmtId 
         {
             get
             {

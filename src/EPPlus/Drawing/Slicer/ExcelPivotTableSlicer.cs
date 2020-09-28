@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             CreateDrawing(name);
 
             SlicerName = name;
-            Caption = name;
+            Caption = field.Name;
             RowHeight = 19;
             if(field.Slicer==null)
             {

@@ -434,12 +434,12 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[3]);
             pt.DataFields.Add(pt.Fields[2]);
 
-            pt.Fields[3].NumberFormat = "#,##0";
-            pt.Fields[3].Cache.NumberFormat = "#,##0.000";
+            pt.Fields[3].Format = "#,##0";
+            pt.Fields[3].Cache.Format = "#,##0.000";
             ws.Workbook.Styles.UpdateXml();
 
-            Assert.AreEqual(3, pt.Fields[3].NumberFormatId);
-            Assert.AreEqual(165, pt.Fields[3].Cache.NumberFormatId);
+            Assert.AreEqual(3, pt.Fields[3].NumFmtId);
+            Assert.AreEqual(165, pt.Fields[3].Cache.NumFmtId);
         }
         [TestMethod]
         public void AddCalculatedField()

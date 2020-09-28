@@ -21,6 +21,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// A pivot table field Item. Used for grouping.
+    /// </summary>
     public class ExcelPivotTableFieldItem
     {
         [Flags]
@@ -81,8 +84,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+        /// <summary>
+        /// The custom text of the item. Unique values only
+        /// </summary>
         public string Text { get; set; }
+        /// <summary>
+        /// The value of the item
+        /// </summary>
         public object Value { get; internal set; }
+        /// <summary>
+        /// True if the items is hidden
+        /// </summary>
         public bool Hidden 
         { 
             get
@@ -92,9 +104,10 @@ namespace OfficeOpenXml.Table.PivotTable
             set
             {
                 if (Type != eItemType.Data) throw (new InvalidOperationException("Hidden can only be set for items of type Data"));
-                flags |= eBoolFlags.Hidden;
+                SetFlag(eBoolFlags.Hidden, value);
             }
         }
+
         internal bool SD
         {
             get
@@ -103,7 +116,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                flags |= eBoolFlags.SD;
+                SetFlag(eBoolFlags.SD, value);
             }
         }
         internal bool C
@@ -114,7 +127,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                flags |= eBoolFlags.C;
+                SetFlag(eBoolFlags.C, value);
             }
         }
         internal bool D
@@ -125,7 +138,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                flags |= eBoolFlags.D;
+                SetFlag(eBoolFlags.D, value);
             }
         }
         internal bool E
@@ -136,7 +149,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                flags |= eBoolFlags.E;
+                SetFlag(eBoolFlags.E, value);
             }
         }
         internal bool F
@@ -147,7 +160,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                flags |= eBoolFlags.F;
+                SetFlag(eBoolFlags.F, value);
             }
         }
         internal bool M
@@ -158,7 +171,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                flags |= eBoolFlags.M;
+                SetFlag(eBoolFlags.M, value);
             }
         }
         internal bool S
@@ -169,7 +182,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                flags |= eBoolFlags.S;
+                SetFlag(eBoolFlags.S, value);
             }
         }
         internal int X { get; set; } = -1;
@@ -188,7 +201,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             if(!string.IsNullOrEmpty(Text))
             {
-                sb.AppendFormat(" x=\"{0}\"", Text);
+                sb.AppendFormat(" n=\"{0}\"", OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(Text));
             }
             AddBool(sb,"h", Hidden);
             AddBool(sb, "sd", SD, true);
@@ -208,79 +221,16 @@ namespace OfficeOpenXml.Table.PivotTable
                 sb.AppendFormat(" {0}=\"{1}\"",attrName, b?"1":"0");
             }
         }
+        private void SetFlag(eBoolFlags flag, bool value)
+        {
+            if(value)
+            {
+                flags |= flag;
+            }
+            else
+            {
+                flags &= ~flag;
+            }
+        }
     }
-    /// <summary>
-    /// A field Item. Used for grouping
-    /// </summary>
-    //public class ExcelPivotTableFieldItem : XmlHelper
-    //{
-    //ExcelPivotTableField _field;
-    //internal ExcelPivotTableFieldItem(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTableField field) :
-    //    base(ns, topNode)
-    //{
-    //   _field = field;
-    //}
-    ///// <summary>
-    ///// The text. Unique values only
-    ///// </summary>
-    //public string Text
-    //{
-    //    get
-    //    {
-    //        return GetXmlNodeString("@n");
-    //    }
-    //    set
-    //    {
-    //        if(string.IsNullOrEmpty(value))
-    //        {
-    //            DeleteNode("@n");
-    //            return;
-    //        }
-    //        foreach (var item in _field.Items)
-    //        {
-    //            if (item.Text == value)
-    //            {
-    //                throw(new ArgumentException("Duplicate Text"));
-    //            }
-    //        }
-    //        SetXmlNodeString("@n", value);
-    //    }
-    //}
-    //internal int X
-    //{
-    //    get
-    //    {
-    //        return GetXmlNodeInt("@x"); 
-    //    }
-    //}
-    //internal string T
-    //{
-    //    get
-    //    {
-    //        return GetXmlNodeString("@t");
-    //    }
-    //}
-    //public bool HideDetails 
-    //{
-    //    get
-    //    {
-    //        return GetXmlNodeBool("@sd");
-    //    }
-    //    set
-    //    {
-    //        SetXmlNodeBool("@sd", value, false);
-    //    }
-    //}
-    //internal bool Hidden
-    //{
-    //    get
-    //    {
-    //        return GetXmlNodeBool("@h");
-    //    }
-    //    set
-    //    {
-    //        SetXmlNodeBool("@h", value, false);
-    //    }
-    //}
-    //}
 }

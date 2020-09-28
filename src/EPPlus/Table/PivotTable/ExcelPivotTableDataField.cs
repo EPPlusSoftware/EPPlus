@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// Number format for the data column
+        /// The number format for the data field
         /// </summary>
         public string Format
         {

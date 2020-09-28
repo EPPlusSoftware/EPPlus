@@ -780,8 +780,8 @@ namespace OfficeOpenXml
                     {
                         foreach (var f in pt.Fields)
                         {
-                            f.NumberFormatId = SetNumFormatId(f.NumberFormat);
-                            f.Cache.NumberFormatId = SetNumFormatId(f.Cache.NumberFormat);
+                            f.NumFmtId = SetNumFormatId(f.Format);
+                            f.Cache.NumFmtId = SetNumFormatId(f.Cache.Format);
                         }
                     }
                 }

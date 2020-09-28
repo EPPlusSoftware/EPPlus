@@ -1099,14 +1099,7 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-            //if(TableColumn.Slicer!=null)
-            //{
-            //    throw new InvalidOperationException("A slice is already attached to this column");
-            //}
-            //if (_drawingNames.ContainsKey(TableColumn.Name))
-            //{
-            //    throw new Exception("Name already exists in the drawings collection");
-            //}
+
             if(TableColumn.Table.AutoFilter.Columns[TableColumn.Position] ==null)
             {
                 TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
@@ -1114,8 +1107,12 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelTableSlicer(this, drawNode, TableColumn)
             {
-                EditAs = eEditAs.Absolute,
+                EditAs = eEditAs.OneCell,
             };
+            slicer.To.Row = 13;
+            slicer.To.RowOff = 19050;   //2 pixels
+            slicer.To.Column = 3;
+
             _drawings.Add(slicer);
             _drawingNames.Add(slicer.Name, _drawings.Count - 1);
             
@@ -1136,8 +1133,12 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)
             {
-                EditAs = eEditAs.Absolute
+                EditAs = eEditAs.OneCell,
             };
+            slicer.To.Row = 13;
+            slicer.To.RowOff = 19050;   //2 pixels
+            slicer.To.Column = 3;
+
             _drawings.Add(slicer);
             _drawingNames.Add(slicer.Name, _drawings.Count - 1);
 
@@ -1237,7 +1238,7 @@ namespace OfficeOpenXml.Drawing
             {
                 //Add from position Element;
                 XmlElement fromNode = _drawingsXml.CreateElement("xdr", "from", ExcelPackage.schemaSheetDrawings);
-                drawNode.AppendChild(fromNode);
+                drawNode.AppendChild(fromNode);                
                 fromNode.InnerXml = "<xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff>";
             }
             else

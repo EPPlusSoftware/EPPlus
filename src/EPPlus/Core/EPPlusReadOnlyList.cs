@@ -5,6 +5,10 @@ using System.Text;
 
 namespace OfficeOpenXml.Core
 {
+    /// <summary>
+    /// A readonly collection of a generic type
+    /// </summary>
+    /// <typeparam name="T">The generic type</typeparam>
     public class EPPlusReadOnlyList<T> : IEnumerable<T>
     {
         internal List<T> _list=new List<T>();
@@ -24,17 +28,18 @@ namespace OfficeOpenXml.Core
                 return _list[index];
             }
         }
-        public T this[T value]
+        public T GetByValue(T value)
         {
-            get
+            var ix=_list.IndexOf(value);
+            if(ix<0)
             {
-                var ix=_list.IndexOf(value);
-                if(ix<0)
-                {
-                    return _list[ix];
-                }
-                return default;
+                return _list[ix];
             }
+            return default;
+        }
+        public int GetIndexByValue(T value)
+        {
+            return _list.IndexOf(value);
         }
         public int Count
         {

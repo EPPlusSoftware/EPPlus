@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -44,13 +45,13 @@ namespace OfficeOpenXml.Table.PivotTable
             _cache = cache;
             Index = index;
             SetCacheFieldNode();
-            if (NumberFormatId.HasValue)
+            if (NumFmtId.HasValue)
             {
                 var styles = cache._wb.Styles;
-                var ix = styles.NumberFormats.FindIndexById(NumberFormatId.Value.ToString(CultureInfo.InvariantCulture));
+                var ix = styles.NumberFormats.FindIndexById(NumFmtId.Value.ToString(CultureInfo.InvariantCulture));
                 if (ix >= 0)
                 {
-                    NumberFormat = styles.NumberFormats[ix].Format;
+                    Format = styles.NumberFormats[ix].Format;
                 }
             }
         }
@@ -83,10 +84,19 @@ namespace OfficeOpenXml.Table.PivotTable
             set;
         } = new EPPlusReadOnlyList<object>();
         internal Dictionary<object, int> _cacheLookup = null;
+        /// <summary>
+        /// The type of date grouping
+        /// </summary>
         public eDateGroupBy DateGrouping { get; private set; }
+        /// <summary>
+        /// Grouping proprerties, if the field has grouping
+        /// </summary>
         public ExcelPivotTableFieldGroup Grouping { get; set; }
-        public string NumberFormat { get; set; }
-        internal int? NumberFormatId
+        /// <summary>
+        /// The number format for the field
+        /// </summary>
+        public string Format { get; set; }
+        internal int? NumFmtId
         {
             get
             {
@@ -156,6 +166,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 return false;
             }
         }
+        /// <summary>
+        /// The formula for cache field.
+        /// The formula for the calculated field. 
+        /// Note: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. 
+        /// You can use constants and refer to data from the pivot table, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names as arguments, and you can not use array functions.
+        /// <seealso cref="ExcelPivotTableFieldCollection.AddCalculatedField(string, string)"/>
+        /// </summary>
         public string Formula
         {
             get
@@ -546,7 +563,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             AddGroupItem(groupItemsNode, ">" + index.ToString(CultureInfo.CurrentCulture));
 
-            UpdateCacheLookupFromGroupItems();
+            UpdateCacheLookupFromGroupItems(GroupItems._list);
             return items;
         }
         private int AddDateGroupItems(ExcelPivotTableFieldGroup group, eDateGroupBy GroupBy, DateTime StartDate, DateTime EndDate, int interval)
@@ -630,17 +647,17 @@ namespace OfficeOpenXml.Table.PivotTable
             //Lastdate
             AddGroupItem(groupItemsNode, ">" + EndDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
             
-            UpdateCacheLookupFromGroupItems();
+            UpdateCacheLookupFromGroupItems(GroupItems._list);
 
             return items;
         }
 
-        private void UpdateCacheLookupFromGroupItems()
+        private void UpdateCacheLookupFromGroupItems(List<object> items)
         {
             _cacheLookup = new Dictionary<object, int>(new CacheComparer());
-            for (int i = 0; i < GroupItems.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
-                _cacheLookup.Add(GroupItems[i]??"", i);
+                _cacheLookup.Add(items[i]??"", i);
             }
         }
 
@@ -664,7 +681,39 @@ namespace OfficeOpenXml.Table.PivotTable
         #endregion
         internal void Refresh()
         {
-            if (Grouping != null || DatabaseField==false) return;
+            if (!string.IsNullOrEmpty(Formula)) return;
+            if (Grouping == null)
+            {
+                UpdateSharedItems();
+            }
+            else
+            {
+                UpdateGroupItems();
+            }
+        }
+
+        private void UpdateGroupItems()
+        {
+            foreach (var pt in _cache._pivotTables)
+            {                
+                if ((pt.Fields[Index].IsRowField ||
+                     pt.Fields[Index].IsColumnField ||
+                     pt.Fields[Index].IsPageField))
+                {
+                    if (pt.Fields[Index].Items.Count == 0)
+                    {
+                        pt.Fields[Index].UpdateGroupItems(this, true);
+                    }
+                }
+                else
+                {
+                    pt.Fields[Index].DeleteNode("d:items");
+                }
+            }
+        }
+
+        private void UpdateSharedItems()
+        {
             var range = _cache.SourceRange;
             var column = range._fromCol + Index;
             var toRow = range._toRow;
@@ -686,7 +735,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var list = pt.Fields[Index].Items._list;
                 for (var ix = 0; ix < list.Count; ix++)
                 {
-                    if (!hs.Contains(list[ix].Value??""))
+                    if (!hs.Contains(list[ix].Value ?? ""))
                     {
                         list.RemoveAt(ix);
                         ix--;
@@ -709,12 +758,12 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             SharedItems._list = hs.ToList();
+            UpdateCacheLookupFromGroupItems(SharedItems._list);
             if (HasSlicer)
             {
                 UpdateSlicers();
             }
         }
-
     }
 
     internal class CacheComparer : IEqualityComparer<object>
