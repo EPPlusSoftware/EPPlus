@@ -41,8 +41,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 return _list[index];
             }
         }
-
-        internal void Add(ExcelPivotTable table)
+        public void Add(ExcelPivotTable table)
         {
             if(_list.Count > 0 && _list[0].CacheId != table.CacheId)
             {

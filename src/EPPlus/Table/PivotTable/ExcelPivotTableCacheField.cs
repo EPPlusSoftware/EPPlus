@@ -224,7 +224,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var s = pt.Fields[Index].Slicer;
                 if (s != null)
                 {
-                    s.Cache.Data.Items.Refresh();
+                    s.Cache.Data.Items.RefreshMe();
                 }
             }
         }
@@ -567,7 +567,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             AddGroupItem(groupItemsNode, ">" + index.ToString(CultureInfo.CurrentCulture));
 
-            UpdateCacheLookupFromGroupItems(GroupItems._list);
+            UpdateCacheLookupFromItems(GroupItems._list);
             return items;
         }
         private int AddDateGroupItems(ExcelPivotTableFieldGroup group, eDateGroupBy GroupBy, DateTime StartDate, DateTime EndDate, int interval)
@@ -651,12 +651,12 @@ namespace OfficeOpenXml.Table.PivotTable
             //Lastdate
             AddGroupItem(groupItemsNode, ">" + EndDate.ToString("s", CultureInfo.InvariantCulture).Substring(0, 10));
             
-            UpdateCacheLookupFromGroupItems(GroupItems._list);
+            UpdateCacheLookupFromItems(GroupItems._list);
 
             return items;
         }
 
-        private void UpdateCacheLookupFromGroupItems(List<object> items)
+        private void UpdateCacheLookupFromItems(List<object> items)
         {
             _cacheLookup = new Dictionary<object, int>(new CacheComparer());
             for (int i = 0; i < items.Count; i++)
@@ -702,7 +702,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {                
                 if ((pt.Fields[Index].IsRowField ||
                      pt.Fields[Index].IsColumnField ||
-                     pt.Fields[Index].IsPageField))
+                     pt.Fields[Index].IsPageField || pt.Fields[Index].Cache.HasSlicer) )
                 {
                     if (pt.Fields[Index].Items.Count == 0)
                     {
@@ -762,7 +762,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             SharedItems._list = hs.ToList();
-            UpdateCacheLookupFromGroupItems(SharedItems._list);
+            UpdateCacheLookupFromItems(SharedItems._list);
             if (HasSlicer)
             {
                 UpdateSlicers();

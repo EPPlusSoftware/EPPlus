@@ -1093,8 +1093,12 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="TableColumn">The table column</param>
         /// <returns>The slicer drawing</returns>
-        internal ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
+        public ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
         {
+            if(TableColumn==null)
+            {
+                throw new ArgumentNullException("TableColumn", "Parameter TableColumn can not be null");
+            }
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
@@ -1123,8 +1127,13 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Field">The pivot table field</param>
         /// <returns>The slicer drawing</returns>
-        internal ExcelPivotTableSlicer AddPivotTableSlicer(ExcelPivotTableField Field)
+        public ExcelPivotTableSlicer AddPivotTableSlicer(ExcelPivotTableField Field)
         {
+            if (Field == null)
+            {
+                throw new ArgumentNullException("Field", "Parameter Field can not be null");
+            }
+
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");

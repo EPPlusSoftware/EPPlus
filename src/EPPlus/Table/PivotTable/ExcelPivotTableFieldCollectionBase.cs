@@ -15,6 +15,9 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         private readonly ExcelPivotTableCacheField _cache;
@@ -22,6 +25,11 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _cache = field.Cache;
         }
+        /// <summary>
+        /// It the object exists in the cache
+        /// </summary>
+        /// <param name="value">The object to check for existance</param>
+        /// <returns></returns>
         public bool Contains(object value)
         {
             return _cache._cacheLookup.ContainsKey(value);

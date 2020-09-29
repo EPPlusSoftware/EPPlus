@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections;
@@ -35,14 +36,14 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             CreatePart(wb);
             TopNode = SlicerCacheXml.DocumentElement;
-            Name = "Slicer_" + name;
+            Name = "Slicer_" + ExcelAddressUtil.GetValidName(name);
             SourceName = slicer._field.Cache.Name;
             _slicer = slicer;
             wb.Names.AddFormula(Name, "#N/A");
             PivotTables.Add(slicer._field._table);           
-            Data.Items.Refresh();
             SlicerCacheXml.Save(Part.GetStream());
             CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerPivotTableUri);
+            Data.Items.Refresh();
         }
         /// <summary>
         /// Init must be called before accessing any properties as it sets several properties.

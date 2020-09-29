@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             _slicer = slicer;
             _items = new List<ExcelPivotTableSlicerItem>();
-            Refresh();
+            RefreshMe();
         }
 
         /// <summary>
@@ -27,12 +27,17 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// </summary>
         public void Refresh()
         {
-            var cacheItems = _slicer._field.Cache.Grouping==null ? _slicer._field.Cache.SharedItems : _slicer._field.Cache.GroupItems;
-            if(cacheItems.Count == _items.Count)
+            _slicer._field.Cache.Refresh();
+        }
+
+        internal void RefreshMe()
+        {
+            var cacheItems = _slicer._field.Cache.Grouping == null ? _slicer._field.Cache.SharedItems : _slicer._field.Cache.GroupItems;
+            if (cacheItems.Count == _items.Count)
             {
                 return;
             }
-            else if(cacheItems.Count>_items.Count)
+            else if (cacheItems.Count > _items.Count)
             {
                 for (int i = _items.Count; i < cacheItems.Count; i++)
                 {
@@ -40,8 +45,8 @@ namespace OfficeOpenXml.Drawing.Slicer
                 }
             }
             else
-            {                
-                while(cacheItems.Count<_items.Count)
+            {
+                while (cacheItems.Count < _items.Count)
                 {
                     _items.RemoveAt(_items.Count - 1);
                 }
@@ -83,20 +88,6 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         /// <summary>
         /// Get the item with supplied value.
-        /// If the value is int, please use <see cref="GetByValue"/>
-        /// </summary>
-        /// <param name="value">The value</param>
-        /// <returns>The item matching the supplied value. Returns null if no value matches.</returns>
-        public ExcelPivotTableSlicerItem this[object value]
-        {
-            get
-            {
-                return GetByValue(value);
-            }
-        }
-
-        /// <summary>
-        /// Get the item with supplied value.
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The item matching the supplied value. Returns null if no value matches.</returns>
@@ -107,6 +98,28 @@ namespace OfficeOpenXml.Drawing.Slicer
                 return _items[ix];
             }
             return null;
+        }
+        /// <summary>
+        /// Get the index of the item with supplied value.
+        /// </summary>
+        /// <param name="value">The value</param>
+        /// <returns>The item matching the supplied value. Returns -1 if no value matches.</returns>
+        public int GetIndexByValue(object value)
+        {
+            if (_slicer._field.Cache._cacheLookup.TryGetValue(value ?? "", out int ix))
+            {
+                return ix;
+            }
+            return -1;
+        }
+        /// <summary>
+        /// It the object exists in the cache
+        /// </summary>
+        /// <param name="value">The object to check for existance</param>
+        /// <returns></returns>
+        public bool Contains(object value)
+        {
+            return _slicer._field.Cache._cacheLookup.ContainsKey(value);
         }
     }
 }

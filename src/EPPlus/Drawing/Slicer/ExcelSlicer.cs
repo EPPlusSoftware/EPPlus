@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 return _slicerXmlHelper.GetXmlNodeInt("@columnCount", 1);
             }
-            internal set
+            set
             {
                 _slicerXmlHelper.SetXmlNodeInt("@columnCount", value, null, false);
             }
@@ -164,7 +164,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 return _slicerXmlHelper.GetXmlNodeBool("@lockedPosition", false);
             }
-            internal set
+            set
             {
                 _slicerXmlHelper.SetXmlNodeBool("@lockedPosition", value, false);
             }

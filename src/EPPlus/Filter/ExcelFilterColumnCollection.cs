@@ -82,7 +82,7 @@ namespace OfficeOpenXml.Filter
                 if (c.Position > position)
                 {
                     node = GetColumnNode(position, topNodeName);
-                    return c.TopNode.InsertBefore(node, c.TopNode.ParentNode);
+                    return c.TopNode.ParentNode.InsertBefore(node, c.TopNode);
                 }
             }
             node = GetColumnNode(position, topNodeName);

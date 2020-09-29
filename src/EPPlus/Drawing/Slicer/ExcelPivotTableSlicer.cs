@@ -11,6 +11,7 @@
   06/26/2020         EPPlus Software AB       EPPlus 5.4
  ******0*******************************************************************************************/
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.IO;
@@ -34,7 +35,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             RowHeight = 19;
             if(field.Slicer==null)
             {
-                CacheName = "Slicer_" + name.Replace(" ", "_");
+                CacheName = "Slicer_" + ExcelAddressUtil.GetValidName(name);
 
                 var cache = new ExcelPivotTableSlicerCache(NameSpaceManager);
                 if (_field.Slicer == null) _field.Slicer = this;

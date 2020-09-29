@@ -216,9 +216,9 @@ namespace OfficeOpenXml.Table
                 _slicer = value;
             }
         }
-        public void AddSlicer()
+        public ExcelTableSlicer AddSlicer()
         {            
-            _tbl.WorkSheet.Drawings.AddTableSlicer(this);
+            return _tbl.WorkSheet.Drawings.AddTableSlicer(this);
         }
         /// <summary>
         /// Sets a calculated column Formula.

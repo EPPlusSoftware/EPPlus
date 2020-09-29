@@ -34,6 +34,10 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The new datafield</returns>
         public ExcelPivotTableDataField Add(ExcelPivotTableField field)
         {
+            if(field==null)
+            {
+                throw new ArgumentNullException("field", "Parameter field can not be null");
+            }
             var dataFieldsNode = field.TopNode.SelectSingleNode("../../d:dataFields", field.NameSpaceManager);
             if (dataFieldsNode == null)
             {

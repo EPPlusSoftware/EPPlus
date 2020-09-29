@@ -12,6 +12,7 @@
  ******0*******************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -48,12 +49,14 @@ namespace OfficeOpenXml.Drawing.Slicer
 
             Caption = column.Name;
             RowHeight = 19;
-            CacheName = "Slicer_" + name.Replace(" ", "_");
+            CacheName = "Slicer_" + ExcelAddressUtil.GetValidName(name);
 
             var cache = new ExcelTableSlicerCache(NameSpaceManager);
             cache.Init(column, CacheName);
             _cache = cache;            
         }
+
+
         private ExcelTableColumn GetTableColumn()
         {
             foreach (var ws in _drawings.Worksheet.Workbook.Worksheets)
