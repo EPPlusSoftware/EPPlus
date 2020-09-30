@@ -353,7 +353,11 @@ namespace OfficeOpenXml.Table.PivotTable
                         case TypeCode.Decimal:
                         case TypeCode.Double:
                         case TypeCode.Single:
-                            flags |= DataTypeFlags.Number;
+                            flags |= (DataTypeFlags.Number);
+                            if((flags&DataTypeFlags.Int)!= DataTypeFlags.Int && (Convert.ToDouble(si)%1==0))
+                            {
+                                flags |= DataTypeFlags.Int;
+                            }
                             break;
                         case TypeCode.DateTime:
                             flags |= DataTypeFlags.DateTime;
