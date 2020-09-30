@@ -22,11 +22,11 @@ namespace OfficeOpenXml.Drawing.Slicer
     public class ExcelPivotTableSlicerCacheTabularData : XmlHelper
     {
         const string _topPath = "x14:data/x14:tabular";
-        internal readonly ExcelPivotTableSlicer _slicer;
-        internal ExcelPivotTableSlicerCacheTabularData(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTableSlicer slicer) : base(nsm, topNode)
+        internal readonly ExcelPivotTableSlicerCache _cache;
+        internal ExcelPivotTableSlicerCacheTabularData(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTableSlicerCache cache) : base(nsm, topNode)
         {
             SchemaNodeOrder = new string[] { "pivotTables", "data" };
-            _slicer = slicer;
+            _cache = cache;
         }
         const string _crossFilterPath = _topPath + "/@crossFilter";
         /// <summary>
@@ -102,7 +102,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 if(_items==null)
                 {
-                    _items = new ExcelPivotTableSlicerItemCollection(_slicer);
+                    _items = new ExcelPivotTableSlicerItemCollection(_cache);
                 }
                 return _items;
             }
@@ -124,7 +124,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             var sb = new StringBuilder();
             int x = 0;
-            foreach (var item in _slicer._field.Items)
+            foreach (var item in _cache._field.Items)
             {
                 if (item.Type == eItemType.Data)
                 {
@@ -135,7 +135,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 }
             }
 
-            PivotCacheId =  _slicer._field._table.CacheId;
+            PivotCacheId = _cache._field._table.CacheId;
             var dataNode = (XmlElement)CreateNode(_topPath+"/x14:items");
             dataNode.SetAttribute("count", x.ToString());
             dataNode.InnerXml = sb.ToString();

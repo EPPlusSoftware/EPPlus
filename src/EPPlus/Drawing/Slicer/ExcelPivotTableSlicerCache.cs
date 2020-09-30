@@ -26,23 +26,26 @@ namespace OfficeOpenXml.Drawing.Slicer
 {
     public class ExcelPivotTableSlicerCache : ExcelSlicerCache
     {
+        internal ExcelPivotTableField _field=null;
         internal ExcelPivotTableSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
             PivotTables = new ExcelSlicerPivotTableCollection(this);
         }
 
-        internal ExcelPivotTableSlicer _slicer;
-        internal void Init(ExcelWorkbook wb, string name, ExcelPivotTableSlicer slicer)
+        internal void Init(ExcelWorkbook wb, string name, ExcelPivotTableField field)
         {
+            if(wb._slicerCaches==null) 
+                wb.LoadSlicerCaches();
+
             CreatePart(wb);
             TopNode = SlicerCacheXml.DocumentElement;
             Name = "Slicer_" + ExcelAddressUtil.GetValidName(name);
-            SourceName = slicer._field.Cache.Name;
-            _slicer = slicer;
+            _field = field;
+            SourceName = _field.Cache.Name;
             wb.Names.AddFormula(Name, "#N/A");
-            PivotTables.Add(slicer._field._table);           
-            SlicerCacheXml.Save(Part.GetStream());
+            PivotTables.Add(_field._table);           
             CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerPivotTableUri);
+            SlicerCacheXml.Save(Part.GetStream());
             Data.Items.Refresh();
         }
         /// <summary>
@@ -62,6 +65,11 @@ namespace OfficeOpenXml.Drawing.Slicer
                     var pt = ws?.PivotTables[name];
                     if(pt!=null)
                     {
+                        if (_field == null)
+                        {
+                            _field = pt.Fields.Where(x => x.Cache.Name == SourceName).FirstOrDefault();
+                        }
+
                         PivotTables.Add(pt);
                     }
                 }
@@ -69,8 +77,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal void Init(ExcelWorkbook wb, ExcelPivotTableSlicer slicer)
         {
-            _slicer = slicer;            
-            _slicer._field = PivotTables[0].Fields.Where(x=>x.Cache.Name==SourceName).FirstOrDefault();
+            _field = PivotTables[0].Fields.Where(x=>x.Cache.Name==SourceName).FirstOrDefault();
             Init(wb);
         }
         public override eSlicerSourceType SourceType
@@ -88,7 +95,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 if(_data==null)
                 {
-                    _data = new ExcelPivotTableSlicerCacheTabularData(NameSpaceManager, TopNode, _slicer);
+                    _data = new ExcelPivotTableSlicerCacheTabularData(NameSpaceManager, TopNode, this);
                 }
                 return _data;
             }
@@ -103,10 +110,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
             var ptNode = CreateNode("x14:pivotTables");
             ptNode.InnerXml = sb.ToString();
-            if (_slicer != null) //Make sure the slicer has been initialized
-            {
-                Data.UpdateItemsXml();
-            }
+            Data.UpdateItemsXml();
         }
     }
 }

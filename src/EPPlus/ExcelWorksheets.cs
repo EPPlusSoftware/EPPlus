@@ -876,7 +876,7 @@ namespace OfficeOpenXml
                     newSlicer.Name = name;
                     newSlicer.SlicerName = name;
                     //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
-                    newSlicer.CreateNewCache();
+                    newSlicer.CreateNewCache(ptSlicer.Cache._field);
                 }
 
             }

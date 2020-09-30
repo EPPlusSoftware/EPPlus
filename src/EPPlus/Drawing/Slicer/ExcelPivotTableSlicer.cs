@@ -22,11 +22,11 @@ namespace OfficeOpenXml.Drawing.Slicer
 {
     public class ExcelPivotTableSlicer : ExcelSlicer<ExcelPivotTableSlicerCache>
     {
-        internal ExcelPivotTableField _field;
+        //internal ExcelPivotTableField _field;
         internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelPivotTableField field, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
             _ws = drawings.Worksheet;
-            _field = field;
+            //_field = field;
             var name = drawings.Worksheet.Workbook.GetSlicerName(field.Cache.Name);
             CreateDrawing(name);
 
@@ -38,8 +38,8 @@ namespace OfficeOpenXml.Drawing.Slicer
                 CacheName = "Slicer_" + ExcelAddressUtil.GetValidName(name);
 
                 var cache = new ExcelPivotTableSlicerCache(NameSpaceManager);
-                if (_field.Slicer == null) _field.Slicer = this;
-                cache.Init(drawings.Worksheet.Workbook, name, this);
+                if (field.Slicer == null) field.Slicer = this;
+                cache.Init(drawings.Worksheet.Workbook, name, field);
                 _cache = cache;
             }
             else
@@ -54,10 +54,9 @@ namespace OfficeOpenXml.Drawing.Slicer
                 field.Items.Refresh();
             }
         }
-        internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelPivotTableField field, ExcelPivotTableSlicerCache cache, ExcelGroupShape parent = null) : base(drawings, node, parent)
+        internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelPivotTableSlicerCache cache, ExcelGroupShape parent = null) : base(drawings, node, parent)
         {
             _ws = drawings.Worksheet;
-            _field = field;
             var name = drawings.Worksheet.Workbook.GetSlicerName(Cache.Name);
             CreateDrawing(name);
 
@@ -68,9 +67,9 @@ namespace OfficeOpenXml.Drawing.Slicer
             _cache = cache;
 
             //If items has not been init, refresh!
-            if (field._items == null)
+            if (cache._field._items == null)
             {
-                field.Items.Refresh();
+                cache._field.Items.Refresh();
             }
         }
         internal ExcelPivotTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)
@@ -126,14 +125,14 @@ namespace OfficeOpenXml.Drawing.Slicer
         }
         internal override void DeleteMe()
         {
-            _field.Slicer = null;
+            Cache._field.Slicer = null;
             base.DeleteMe();
         }
 
-        internal void CreateNewCache()
+        internal void CreateNewCache(ExcelPivotTableField field)
         {
             var cache = new ExcelPivotTableSlicerCache(_slicerXmlHelper.NameSpaceManager);
-            cache.Init(_ws.Workbook, SlicerName, this);
+            cache.Init(_ws.Workbook, SlicerName, field);
             _cache = cache;
             CacheName = cache.Name;
         }

@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +14,12 @@ namespace OfficeOpenXml.Drawing.Slicer
     /// </summary>
     public class ExcelPivotTableSlicerItemCollection : IEnumerable<ExcelPivotTableSlicerItem>
     {
-        private readonly ExcelPivotTableSlicer _slicer;
+        //private readonly ExcelPivotTableSlicer _slicer;
+        private readonly ExcelPivotTableSlicerCache _cache;
         private readonly List<ExcelPivotTableSlicerItem> _items;
-        internal ExcelPivotTableSlicerItemCollection(ExcelPivotTableSlicer slicer)
+        internal ExcelPivotTableSlicerItemCollection(ExcelPivotTableSlicerCache cache)
         {
-            _slicer = slicer;
+            _cache = cache;
             _items = new List<ExcelPivotTableSlicerItem>();
             RefreshMe();
         }
@@ -26,13 +28,13 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// Refresh the items from the shared items or the group items.
         /// </summary>
         public void Refresh()
-        {
-            _slicer._field.Cache.Refresh();
+        {            
+            _cache._field.Cache.Refresh();
         }
 
         internal void RefreshMe()
         {
-            var cacheItems = _slicer._field.Cache.Grouping == null ? _slicer._field.Cache.SharedItems : _slicer._field.Cache.GroupItems;
+            var cacheItems = _cache._field.Cache.Grouping == null ? _cache._field.Cache.SharedItems : _cache._field.Cache.GroupItems;
             if (cacheItems.Count == _items.Count)
             {
                 return;
@@ -41,7 +43,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 for (int i = _items.Count; i < cacheItems.Count; i++)
                 {
-                    _items.Add(new ExcelPivotTableSlicerItem(_slicer, i));
+                    _items.Add(new ExcelPivotTableSlicerItem(_cache, i));
                 }
             }
             else
@@ -93,7 +95,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// <returns>The item matching the supplied value. Returns null if no value matches.</returns>
         public ExcelPivotTableSlicerItem GetByValue(object value)
         {
-            if (_slicer._field.Cache._cacheLookup.TryGetValue(value??"", out int ix))
+            if (_cache._field.Cache._cacheLookup.TryGetValue(value??"", out int ix))
             {
                 return _items[ix];
             }
@@ -106,7 +108,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// <returns>The item matching the supplied value. Returns -1 if no value matches.</returns>
         public int GetIndexByValue(object value)
         {
-            if (_slicer._field.Cache._cacheLookup.TryGetValue(value ?? "", out int ix))
+            if (_cache._field.Cache._cacheLookup.TryGetValue(value ?? "", out int ix))
             {
                 return ix;
             }
@@ -119,7 +121,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// <returns></returns>
         public bool Contains(object value)
         {
-            return _slicer._field.Cache._cacheLookup.ContainsKey(value);
+            return _cache._field.Cache._cacheLookup.ContainsKey(value);
         }
     }
 }

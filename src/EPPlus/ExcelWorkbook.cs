@@ -1571,7 +1571,7 @@ namespace OfficeOpenXml
             }
         }
 
-		private void LoadSlicerCaches()
+		internal void LoadSlicerCaches()
 		{
 			_slicerCaches = new Dictionary<string, ExcelSlicerCache>();
 			foreach (var r in Part.GetRelationshipsByType(ExcelPackage.schemaRelationshipsSlicerCache))
