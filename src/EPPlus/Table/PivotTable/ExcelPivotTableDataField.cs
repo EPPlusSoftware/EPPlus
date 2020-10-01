@@ -174,7 +174,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         DeleteNode("@subtotal");
                         return;
                     case DataFieldFunctions.CountNums:
-                        v="CountNums";
+                        v="countNums";
                         break;
                     case DataFieldFunctions.StdDev:
                         v="stdDev";

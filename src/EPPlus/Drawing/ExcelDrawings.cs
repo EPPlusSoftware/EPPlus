@@ -1095,10 +1095,6 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The slicer drawing</returns>
         public ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
         {
-            if(TableColumn==null)
-            {
-                throw new ArgumentNullException("TableColumn", "Parameter TableColumn can not be null");
-            }
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
@@ -1113,9 +1109,7 @@ namespace OfficeOpenXml.Drawing
             {
                 EditAs = eEditAs.OneCell,
             };
-            slicer.To.Row = 13;
-            slicer.To.RowOff = 19050;   //2 pixels
-            slicer.To.Column = 3;
+            slicer.SetSize(192, 260);
 
             _drawings.Add(slicer);
             _drawingNames.Add(slicer.Name, _drawings.Count - 1);
@@ -1127,13 +1121,8 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Field">The pivot table field</param>
         /// <returns>The slicer drawing</returns>
-        public ExcelPivotTableSlicer AddPivotTableSlicer(ExcelPivotTableField Field)
+        internal ExcelPivotTableSlicer AddPivotTableSlicer(ExcelPivotTableField Field)
         {
-            if (Field == null)
-            {
-                throw new ArgumentNullException("Field", "Parameter Field can not be null");
-            }
-
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
@@ -1144,9 +1133,7 @@ namespace OfficeOpenXml.Drawing
             {
                 EditAs = eEditAs.OneCell,
             };
-            slicer.To.Row = 13;
-            slicer.To.RowOff = 19050;   //2 pixels
-            slicer.To.Column = 3;
+            slicer.SetSize(192, 260);
 
             _drawings.Add(slicer);
             _drawingNames.Add(slicer.Name, _drawings.Count - 1);
