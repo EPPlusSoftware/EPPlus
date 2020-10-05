@@ -120,7 +120,15 @@ namespace EPPlusTest.Table.PivotTable.Filter
             _filters.Add(filter);
             return filter;
         }
-        internal ExcelPivotTableFilter AddTop10Filter(ePivotTableTop10FilterType type, ExcelPivotTableDataField dataField, double value, bool isTop = true)
+        /// <summary>
+        /// Adds a top 10 filter to the field
+        /// </summary>
+        /// <param name="type">The top-10 filter type</param>
+        /// <param name="dataField">The datafield within the pivot table</param>
+        /// <param name="value">The top or bottom value to relate to </param>
+        /// <param name="isTop">Top or bottom. true is Top, false is Bottom</param>
+        /// <returns></returns>
+        public ExcelPivotTableFilter AddTop10Filter(ePivotTableTop10FilterType type, ExcelPivotTableDataField dataField, double value, bool isTop = true)
         {
             var dfIx = _table.DataFields._list.IndexOf(dataField);
             if (dfIx < 0)

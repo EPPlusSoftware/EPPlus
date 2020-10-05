@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Drawing
             {
                 _topNode = node;
                 _id = drawings.Worksheet.Workbook._nextDrawingID++;
-                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "nvSpPr", "nvCxnSpPr", "spPr", "style", "clientData" }, _schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "nvSpPr", "nvCxnSpPr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
                 if (_parent == null)
                 {
                     _topPath = topPath;

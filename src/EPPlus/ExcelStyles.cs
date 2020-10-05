@@ -287,7 +287,7 @@ namespace OfficeOpenXml
                                     }
                                     else
                                     {
-                                        colCache.Add(col, new ExcelValue() { _styleId = 0 });
+                                        colCache.Add(col, new ExcelValue() { _styleId = s });
                                     }
                                 }
                                 else
