@@ -3467,7 +3467,7 @@ namespace OfficeOpenXml
                 if (_pivotTables == null)
                 {
                     _pivotTables = new ExcelPivotTableCollection(this);
-                    if (Workbook._nextPivotTableID == int.MinValue) Workbook.ReadAllTables();
+                    if (Workbook._nextPivotTableID == int.MinValue) Workbook.ReadAllPivotTables();
                 }
                 return _pivotTables;
             }

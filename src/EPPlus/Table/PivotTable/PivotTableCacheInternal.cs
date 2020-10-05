@@ -3,6 +3,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -17,6 +18,25 @@ namespace OfficeOpenXml.Table.PivotTable
         public PivotTableCacheInternal(XmlNamespaceManager nsm, ExcelWorkbook wb) : base(nsm)
         {
             _wb = wb;
+        }
+        public PivotTableCacheInternal(ExcelWorkbook wb, Uri uri, int cacheId) : base (wb.NameSpaceManager)
+        {
+            _wb = wb;
+            CacheDefinitionUri = uri;
+            Part = wb._package.ZipPackage.GetPart(uri);
+
+            CacheDefinitionXml = new XmlDocument();
+            LoadXmlSafe(CacheDefinitionXml, Part.GetStream());
+            TopNode = CacheDefinitionXml.DocumentElement;
+            CacheId = cacheId;
+
+            ZipPackageRelationship rel = Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheRecords").FirstOrDefault();
+            if (rel != null)
+            {
+                CacheRecordUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+            }
+
+            _wb.SetNewPivotCacheId(cacheId);
         }
         const string _sourceWorksheetPath = "d:cacheSource/d:worksheetSource/@sheet";
         internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
@@ -246,26 +266,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        internal void Init()
-        {
-            LoadXmlSafe(CacheDefinitionXml, Part.GetStream());
-            TopNode = CacheDefinitionXml.DocumentElement;
-
-            ZipPackageRelationship rel = Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheRecords").FirstOrDefault();
-            if (rel != null)
-            {
-                CacheRecordUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-            }
-
-            _wb.SetNewPivotCacheId(CacheId);
-        }
         internal void InitNew(ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress, string xml)
         {
             var pck = pivotTable.WorkSheet._package.ZipPackage;
 
             CacheDefinitionXml = new XmlDocument();
             var sourceWorksheet = pivotTable.WorkSheet.Workbook.Worksheets[sourceAddress.WorkSheetName];
-            if(xml==null)
+            if (xml == null)
             {
                 LoadXmlSafe(CacheDefinitionXml, GetStartXml(sourceWorksheet, sourceAddress), Encoding.UTF8);
                 TopNode = CacheDefinitionXml.DocumentElement;
@@ -288,10 +295,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             //CacheRecord. Create an empty one.
             CacheRecordUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref c);
-            var cacheRecord = new XmlDocument();
-            cacheRecord.LoadXml("<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />");
-            var recPart = pck.CreatePart(CacheRecordUri, ExcelPackage.schemaPivotCacheRecords);
-            cacheRecord.Save(recPart.GetStream());
+            ResetRecordXml(pck);
 
             RecordRelationship = Part.CreateRelationship(UriHelper.ResolvePartUri(CacheDefinitionUri, CacheRecordUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
             RecordRelationshipID = RecordRelationship.Id;
@@ -299,7 +303,24 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheDefinitionXml.Save(Part.GetStream());
             _pivotTables.Add(pivotTable);
         }
-        private string GetStartXml(ExcelWorksheet sourceWorksheet, ExcelRangeBase sourceAddress)
+
+        internal void ResetRecordXml(ZipPackage pck)
+        {
+            var cacheRecord = new XmlDocument();
+            cacheRecord.LoadXml("<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />");
+            ZipPackagePart recPart;
+            if (pck.PartExists(CacheRecordUri))
+            {
+                recPart = pck.GetPart(CacheRecordUri);
+            }
+            else
+            {
+                recPart = pck.CreatePart(CacheRecordUri, ExcelPackage.schemaPivotCacheRecords); 
+            }
+            cacheRecord.Save(recPart.GetStream(FileMode.Create, FileAccess.Write));
+        }
+
+    private string GetStartXml(ExcelWorksheet sourceWorksheet, ExcelRangeBase sourceAddress)
         {
             string xml = "<pivotCacheDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"\" refreshOnLoad=\"1\" refreshedBy=\"SomeUser\" refreshedDate=\"40504.582403125001\" createdVersion=\"6\" refreshedVersion=\"6\" recordCount=\"5\" upgradeOnRefresh=\"1\">";
 
@@ -337,15 +358,46 @@ namespace OfficeOpenXml.Table.PivotTable
             DeleteNode(_sourceNamePath); //Remove any name or table if previously set.
             SetXmlNodeString(_sourceAddressPath, address);
         }
+        int _cacheId = int.MinValue;
         internal int CacheId
         {
             get
             {
-                return GetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId");
+                if (_cacheId < 0)
+                {
+                    _cacheId = GetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId");
+                    if (_cacheId < 0)
+                    {
+                        _cacheId = _wb.GetPivotCacheId(CacheDefinitionUri);
+                        var node = GetOrCreateExtLstSubNode(ExtLstUris.PivotCacheDefinitionUri, "x14");
+                        node.InnerXml = $"<x14:pivotCacheDefinition pivotCacheId=\"{_cacheId}\"/>";
+                    }
+                }
+                return _cacheId;
             }
             set
             {
-                SetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId", value);
+                var node = GetOrCreateExtLstSubNode(ExtLstUris.PivotCacheDefinitionUri, "x14");
+                if(node.InnerXml=="")
+                {
+                    node.InnerXml = $"<x14:pivotCacheDefinition pivotCacheId=\"{_cacheId}\"/>";
+                }
+                else
+                {
+                    SetXmlNodeInt("d:extLst/d:ext/x14:pivotCacheDefinition/@pivotCacheId", value);
+                }
+            }
+        }
+
+        internal bool RefreshOnLoad 
+        {
+            get
+            {
+                return GetXmlNodeBool("@refreshOnLoad");
+            }
+            set
+            {
+                SetXmlNodeBool("@refreshOnLoad", value);
             }
         }
 
@@ -386,5 +438,6 @@ namespace OfficeOpenXml.Table.PivotTable
 
             return new ExcelPivotTableCacheField(NameSpaceManager, cacheFieldNode, this, index);
         }
+
     }
 }

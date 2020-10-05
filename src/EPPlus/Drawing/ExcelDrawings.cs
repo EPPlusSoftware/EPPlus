@@ -1146,8 +1146,7 @@ namespace OfficeOpenXml.Drawing
             };
             slicer.To.Row = 13;
             slicer.To.RowOff = 19050;   //2 pixels
-            slicer.To.Column = 3;
-
+            slicer.To.Column = 3;            
             _drawings.Add(slicer);
             _drawingNames.Add(slicer.Name, _drawings.Count - 1);
 

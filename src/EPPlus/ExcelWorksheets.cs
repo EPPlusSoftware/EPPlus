@@ -457,6 +457,7 @@ namespace OfficeOpenXml
         }
         private void CopyPivotTable(ExcelWorksheet Copy, ExcelWorksheet added)
         {
+            _pck.Workbook.ReadAllPivotTables();
             string prevName = "";
             var nameMap = new Dictionary<string, string>();
             foreach (var tbl in Copy.PivotTables)

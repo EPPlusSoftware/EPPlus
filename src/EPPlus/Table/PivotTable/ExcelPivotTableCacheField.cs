@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Table.PivotTable
             Boolean = 0x20,
             Error = 0x30
         }
-        private PivotTableCacheInternal _cache;
+        internal PivotTableCacheInternal _cache;
         internal ExcelPivotTableCacheField(XmlNamespaceManager nsm, XmlNode topNode, PivotTableCacheInternal cache, int index) : base(nsm, topNode)
         {
             _cache = cache;
@@ -750,7 +750,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     else
                     {
-                        existingItems.Add(list[ix].Value.ToString());
+                        existingItems.Add((list[ix].Value??"").ToString());
                     }
                 }
                 foreach (var c in hs)

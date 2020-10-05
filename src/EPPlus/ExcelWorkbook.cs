@@ -30,6 +30,7 @@ using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Table;
 using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -127,6 +128,24 @@ namespace OfficeOpenXml
 			GetSharedStrings();
 		}
 
+		/// <summary>
+		/// Load all pivot cache ids and there uri's
+		/// </summary>
+		internal void LoadPivotTableCaches()
+		{
+			var pts = GetNodes("d:pivotCaches/d:pivotCache");
+			if(pts!=null)
+			{
+				foreach(XmlElement pt in pts)
+				{
+					var rid = pt.GetAttribute("r:id");
+					var cacheId = pt.GetAttribute("cacheId");
+					var rel = Part.GetRelationship(rid);
+					_pivotTableIds.Add(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri), int.Parse(cacheId));
+				}
+			}
+		}
+
 		private void SetUris()
 		{
 			foreach (var rel in _package.ZipPackage.GetRelationships())
@@ -197,6 +216,7 @@ namespace OfficeOpenXml
 			public List<PivotTableCacheInternal> PivotCaches { get; set; }
 		}
 		internal Dictionary<string, PivotTableCacheRangeInfo> _pivotTableCaches = new Dictionary<string, PivotTableCacheRangeInfo>();
+		internal Dictionary<Uri, int> _pivotTableIds = new Dictionary<Uri, int>();
 		/// <summary>
 		/// Read shared strings to list
 		/// </summary>
@@ -421,6 +441,18 @@ namespace OfficeOpenXml
 				default:
 					return null;
 			}
+		}
+
+		internal int GetPivotCacheId(Uri cacheDefinitionUri)
+		{
+			foreach (var rel in Part.GetRelationshipsByType(ExcelPackage.schemaRelationships+ "/pivotCacheDefinition"))
+			{
+				if(cacheDefinitionUri == OfficeOpenXml.Utils.UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri))
+				{
+					return GetXmlNodeInt($"d:pivotCaches/d:pivotCache[@r:id='{rel.Id}']/@cacheId");
+				}
+			}
+			return int.MinValue;
 		}
 		#region Worksheets
 		/// <summary>
@@ -1148,7 +1180,9 @@ namespace OfficeOpenXml
 						{
 							FixFieldNamesAndUpdateSharedItems(cache, t, fields);
 						}
+						cache.RefreshOnLoad = true;
 						cache.CacheDefinitionXml.Save(cache.Part.GetStream(FileMode.Create));
+						cache.ResetRecordXml(_package.ZipPackage);
 					}
 				}
 			}
@@ -1425,17 +1459,20 @@ namespace OfficeOpenXml
 			}
 			return false;
 		}
-		internal void AddPivotTableCache(PivotTableCacheInternal cacheReference)
+		internal void AddPivotTableCache(PivotTableCacheInternal cacheReference, bool createWorkbookElement=true)
 		{
-			CreateNode("d:pivotCaches");
+			if (createWorkbookElement)
+			{
+				CreateNode("d:pivotCaches");
 
-			XmlElement item = WorkbookXml.CreateElement("pivotCache", ExcelPackage.schemaMain);
-			item.SetAttribute("cacheId", cacheReference.CacheId.ToString());
-			var rel = Part.CreateRelationship(UriHelper.ResolvePartUri(WorkbookUri, cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
-			item.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
+				XmlElement item = WorkbookXml.CreateElement("pivotCache", ExcelPackage.schemaMain);
+				item.SetAttribute("cacheId", cacheReference.CacheId.ToString());
+				var rel = Part.CreateRelationship(UriHelper.ResolvePartUri(WorkbookUri, cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
+				item.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
 
-			var pivotCaches = WorkbookXml.SelectSingleNode("//d:pivotCaches", NameSpaceManager);
-			pivotCaches.AppendChild(item);
+				var pivotCaches = WorkbookXml.SelectSingleNode("//d:pivotCaches", NameSpaceManager);
+				pivotCaches.AppendChild(item);
+			}
 
 			if (_pivotTableCaches.TryGetValue(cacheReference.SourceRange.FullAddress, out PivotTableCacheRangeInfo cacheInfo))
 			{
@@ -1516,27 +1553,37 @@ namespace OfficeOpenXml
 			}
 		}
 
+		internal void ReadAllPivotTables()
+		{
+			if (_nextPivotTableID > 0) return;
+			_nextPivotTableID = 1;
+			foreach (var ws in Worksheets)
+			{
+				if (!(ws is ExcelChartsheet)) //Chartsheets should be ignored.
+				{
+					foreach (var pt in ws.PivotTables)
+					{
+						if (pt.CacheId >= _nextPivotTableID)
+						{
+							_nextPivotTableID = pt.CacheId + 1;
+						}
+					}
+				}
+			}
+		}
 		internal void ReadAllTables()
 		{
 			if (_nextTableID > 0) return;
 			_nextTableID = 1;
-			_nextPivotTableID = 1;
 			foreach (var ws in Worksheets)
 			{
-				if (!(ws is ExcelChartsheet)) //Fixes 15273. Chartsheets should be ignored.
+				if (!(ws is ExcelChartsheet)) //Chartsheets should be ignored.
 				{
 					foreach (var tbl in ws.Tables)
 					{
 						if (tbl.Id >= _nextTableID)
 						{
 							_nextTableID = tbl.Id + 1;
-						}
-					}
-					foreach (var pt in ws.PivotTables)
-					{
-						if (pt.CacheId >= _nextPivotTableID)
-						{
-							_nextPivotTableID = pt.CacheId + 1;
 						}
 					}
 				}

@@ -685,6 +685,7 @@ namespace OfficeOpenXml
 
                     _workbook.GetExternalReferences();
                     _workbook.GetDefinedNames();
+                    _workbook.LoadPivotTableCaches();
 
                 }
                 return (_workbook);

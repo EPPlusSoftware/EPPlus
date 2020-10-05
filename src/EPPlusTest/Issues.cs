@@ -1300,7 +1300,7 @@ namespace EPPlusTest
 
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void Issue17()
         {
             using (var p = OpenTemplatePackage("Excel Sample Circular Ref break links.xlsx"))
@@ -1347,5 +1347,27 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue38()
+        {
+            using (var p = OpenTemplatePackage("pivottest.xlsx"))
+            {
+                Assert.AreEqual(1, p.Workbook.Worksheets[1].PivotTables.Count);
+                var tbl = p.Workbook.Worksheets[0].Tables[0];
+                var pt = p.Workbook.Worksheets[1].PivotTables[0];
+                Assert.IsNotNull(p.Workbook.Worksheets[1].PivotTables[0].CacheDefinition);
+                var s1 = pt.Fields[0].AddSlicer();
+                s1.SetPosition(0, 500);
+                var s2=pt.Fields["OpenDate"].AddSlicer();
+                pt.Fields["Distance"].Format = "#,##0.00";
+                pt.Fields["Distance"].AddSlicer(); 
+                s2.SetPosition(0, 500+(int)s1._width);
+                tbl.Columns["IsUser"].AddSlicer();
+                pt.Fields["IsUser"].AddSlicer();
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

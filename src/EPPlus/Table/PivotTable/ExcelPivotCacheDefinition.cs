@@ -31,30 +31,30 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable)
         {
             Relationship = pivotTable.Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheDefinition").FirstOrDefault();
-            var cacheDefinitionUri = UriHelper.ResolvePartUri(Relationship.SourceUri, Relationship.TargetUri); ;
+            var cacheDefinitionUri = UriHelper.ResolvePartUri(Relationship.SourceUri, Relationship.TargetUri); 
             PivotTable = pivotTable;
             _wb = pivotTable.WorkSheet.Workbook;
             _nsm = nsm;
             var c = _wb._pivotTableCaches.Values.FirstOrDefault(x => x.PivotCaches.Exists(y=>y.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString));
             if (c == null)
             {
-            var pck = pivotTable.WorkSheet._package.ZipPackage;
-                _cacheReference = new PivotTableCacheInternal(nsm, _wb)
+                var pck = pivotTable.WorkSheet._package.ZipPackage;
+                if (_wb._pivotTableIds.ContainsKey(cacheDefinitionUri))
                 {
-                    Part = pck.GetPart(cacheDefinitionUri),
-                    CacheDefinitionUri = cacheDefinitionUri,
-                    CacheDefinitionXml = new XmlDocument(),
-                };
-                _cacheReference.Init();
-                if (_cacheReference.SourceRange!=null && !_wb._pivotTableCaches.ContainsKey(_cacheReference.SourceRange.FullAddress))   //SourceRange can be null if the source does not exist or if it is unsupported.
+                    var cid = _wb._pivotTableIds[cacheDefinitionUri];
+                    _cacheReference = new PivotTableCacheInternal(_wb, cacheDefinitionUri, cid);
+                    _wb.AddPivotTableCache(_cacheReference, false);
+                }
+                else
                 {
-                    _wb.AddPivotTableCache(_cacheReference);
+                    throw new Exception("Internal error: Pivot table uri does not exist in package.");
                 }
             }
             else
             {
                 _cacheReference = c.PivotCaches.FirstOrDefault(x => x.CacheDefinitionUri.OriginalString == cacheDefinitionUri.OriginalString);
             }
+            _cacheReference._pivotTables.Add(pivotTable);
         }
         internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress)
         {
