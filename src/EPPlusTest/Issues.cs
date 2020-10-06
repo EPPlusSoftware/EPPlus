@@ -1360,8 +1360,8 @@ namespace EPPlusTest
                 s1.SetPosition(0, 500);
                 var s2=pt.Fields["OpenDate"].AddSlicer();
                 pt.Fields["Distance"].Format = "#,##0.00";
-                pt.Fields["Distance"].AddSlicer(); 
-                s2.SetPosition(0, 500+(int)s1._width);
+                pt.Fields["Distance"].AddSlicer();
+                s2.SetPosition(0, 500 + (int)s1._width);
                 tbl.Columns["IsUser"].AddSlicer();
                 pt.Fields["IsUser"].AddSlicer();
 

@@ -119,11 +119,13 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 AppendSharedItems(shNode);
             }
-            if (!HasOneValueOnly(flags) && flags != (DataTypeFlags.Int | DataTypeFlags.Number) && SharedItems.Count > 1)
+            var noTypes = GetNoOfTypes(flags);
+            if (noTypes > 1 && flags != (DataTypeFlags.Int | DataTypeFlags.Number) && SharedItems.Count > 1)
             {
-                if ((flags & DataTypeFlags.String) == DataTypeFlags.String)
+                if ((flags & DataTypeFlags.String) == DataTypeFlags.String ||
+                    (flags & DataTypeFlags.String) == DataTypeFlags.Empty)
                 {
-                    shNode.SetAttribute("containsSemiMixedTypes", "1");
+                    shNode.SetAttribute("containsMixedTypes", "1");
                 }
                 else
                 {
@@ -248,21 +250,25 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 shNode.SetAttribute("containsBlank", "1");
             }
-            shNode.SetAttribute("containsString", (flags & DataTypeFlags.String) == DataTypeFlags.String ? "1" : "0");
-        }
-
-        private bool HasOneValueOnly(DataTypeFlags flags)
-        {
-            foreach(DataTypeFlags v in Enum.GetValues(typeof(DataTypeFlags)))
+            if((flags & DataTypeFlags.String) != DataTypeFlags.String &&
+               (flags & DataTypeFlags.Boolean) != DataTypeFlags.Boolean &&
+               (flags & DataTypeFlags.Error) != DataTypeFlags.Error)
             {
-                if(flags==v)
+                shNode.SetAttribute("containsString", "0");
+            }
+        }
+        private int GetNoOfTypes(DataTypeFlags flags)
+        {
+            int types = 0;
+            foreach (DataTypeFlags v in Enum.GetValues(typeof(DataTypeFlags)))
+            {
+                if (v!=DataTypeFlags.Empty && (flags & v)==v)
                 {
-                    return true;
+                    types++;
                 }
             }
-            return false;
+            return types;
         }
-
         private void AppendSharedItems(XmlElement shNode)
         {
             int index = 0;

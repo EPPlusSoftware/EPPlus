@@ -191,7 +191,7 @@ namespace EPPlusTest.Table.PivotTable.Filter
         internal ExcelPivotTableFilterBaseCollection(ExcelPivotTableField field)
         {            
             _field = field;
-            _table = field._table;
+            _table = field._pivotTable;
 
             foreach(var filter in _table.Filters)
             {

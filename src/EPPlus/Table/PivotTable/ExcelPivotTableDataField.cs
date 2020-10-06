@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                if (Field._table.DataFields.ExistsDfName(value, this))
+                if (Field._pivotTable.DataFields.ExistsDfName(value, this))
                 {
                     throw (new InvalidOperationException("Duplicate datafield name"));
                 }
@@ -126,18 +126,18 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                foreach (var nf in Field._table.WorkSheet.Workbook.Styles.NumberFormats)
+                foreach (var nf in Field._pivotTable.WorkSheet.Workbook.Styles.NumberFormats)
                 {
                     if (nf.NumFmtId == NumFmtId)
                     {
                         return nf.Format;
                     }
                 }
-                return Field._table.WorkSheet.Workbook.Styles.NumberFormats[0].Format;
+                return Field._pivotTable.WorkSheet.Workbook.Styles.NumberFormats[0].Format;
             }
             set
             {
-                var styles = Field._table.WorkSheet.Workbook.Styles;
+                var styles = Field._pivotTable.WorkSheet.Workbook.Styles;
 
                 ExcelNumberFormatXml nf = null;
                 if (!styles.NumberFormats.FindById(value, ref nf))

@@ -113,7 +113,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, pivotTableCache);
             CacheId = pivotTableCache.CacheId;
-
+            
             LoadFields();
         }
         /// <summary>
@@ -1028,6 +1028,16 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 SetXmlNodeInt("@cacheId", value);
             }
+        }
+
+        internal int ChangeCacheId(int oldCacheId)
+        {
+            var newCacheId = WorkSheet.Workbook.GetNewPivotCacheId();
+            CacheId = newCacheId;
+            CacheDefinition._cacheReference.CacheId = newCacheId;
+            WorkSheet.Workbook.SetXmlNodeInt($"d:pivotCaches/d:pivotCache[@cacheId={oldCacheId}]/@cacheId", newCacheId);
+
+            return newCacheId;
         }
 
         #endregion

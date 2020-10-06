@@ -1127,7 +1127,10 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-
+            if(Field._pivotTable.CacheId==0)
+            {
+                Field._pivotTable.ChangeCacheId(0); //Slicers can for some reason not have a cache id of 0.
+            }
             XmlElement drawNode = CreateDrawingXml();
             var slicer = new ExcelPivotTableSlicer(this, drawNode, Field)
             {

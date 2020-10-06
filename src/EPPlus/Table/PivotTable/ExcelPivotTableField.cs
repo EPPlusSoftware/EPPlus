@@ -33,14 +33,14 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotTableField : XmlHelper
     {
-        internal ExcelPivotTable _table;
+        internal ExcelPivotTable _pivotTable;
         internal ExcelPivotTableCacheField _cacheField = null;
         internal ExcelPivotTableField(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTable table, int index, int baseIndex) :
             base(ns, topNode)
         {
             Index = index;
             BaseIndex = baseIndex;
-            _table = table;
+            _pivotTable = table;
             if(NumFmtId.HasValue)
             {
                 var styles = table.WorkSheet.Workbook.Styles;
@@ -400,7 +400,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var rowsNode = TopNode.SelectSingleNode("../../d:rowFields", NameSpaceManager);
                     if (rowsNode == null)
                     {
-                        _table.CreateNode("d:rowFields");
+                        _pivotTable.CreateNode("d:rowFields");
                     }
                     rowsNode = TopNode.SelectSingleNode("../../d:rowFields", NameSpaceManager);
 
@@ -443,7 +443,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var columnsNode = TopNode.SelectSingleNode("../../d:colFields", NameSpaceManager);
                     if (columnsNode == null)
                     {
-                        _table.CreateNode("d:colFields");
+                        _pivotTable.CreateNode("d:colFields");
                     }
                     columnsNode = TopNode.SelectSingleNode("../../d:colFields", NameSpaceManager);
 
@@ -493,7 +493,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var dataFieldsNode = TopNode.SelectSingleNode("../../d:pageFields", NameSpaceManager);
                     if (dataFieldsNode == null)
                     {
-                        _table.CreateNode("d:pageFields");
+                        _pivotTable.CreateNode("d:pageFields");
                         dataFieldsNode = TopNode.SelectSingleNode("../../d:pageFields", NameSpaceManager);
                     }
 
@@ -622,7 +622,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return _table.CacheDefinition._cacheReference.Fields[Index];
+                return _pivotTable.CacheDefinition._cacheReference.Fields[Index];
             }
         }
         /// <summary>
@@ -636,7 +636,7 @@ namespace OfficeOpenXml.Table.PivotTable
             ValidateGrouping();
             _cacheField.SetNumericGroup(BaseIndex, Start, End, Interval);
             UpdateGroupItems(_cacheField, true);
-            UpdatePivotTableGroupItems(this, _table.CacheDefinition._cacheReference, true);
+            UpdatePivotTableGroupItems(this, _pivotTable.CacheDefinition._cacheReference, true);
         }
         /// <summary>
         /// Will add a slicer to the pivot table field
@@ -645,7 +645,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public ExcelPivotTableSlicer AddSlicer()
         {
             if (_slicer != null) throw new InvalidOperationException("");
-            _slicer = _table.WorkSheet.Drawings.AddPivotTableSlicer(this);
+            _slicer = _pivotTable.WorkSheet.Drawings.AddPivotTableSlicer(this);
             return _slicer;
         }
         ExcelPivotTableSlicer _slicer = null;
@@ -657,13 +657,13 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get 
             {
-                if (_slicer == null && _table.WorkSheet.Workbook.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
+                if (_slicer == null && _pivotTable.WorkSheet.Workbook.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
                 {
-                    foreach (var ws in _table.WorkSheet.Workbook.Worksheets)
+                    foreach (var ws in _pivotTable.WorkSheet.Workbook.Worksheets)
                     {
                         foreach (var d in ws.Drawings)
                         {
-                            if (d is ExcelPivotTableSlicer s && s.Cache.PivotTables.Contains(_table) && Index==s.Cache._field.Index)
+                            if (d is ExcelPivotTableSlicer s && s.Cache.PivotTables.Contains(_pivotTable) && Index==s.Cache._field.Index)
                             {
                                 _slicer = s;
                                 return _slicer;
@@ -714,7 +714,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             if (firstField == false)
             {
-                ExcelPivotTableField field = _table.Fields.AddDateGroupField(Index);
+                ExcelPivotTableField field = _pivotTable.Fields.AddDateGroupField(Index);
 
                 XmlNode rowColFields;
                 if (IsRowField)
@@ -731,7 +731,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if (int.TryParse(rowfield.GetAttribute("x"), out int fieldIndex))
                     {
-                        if (_table.Fields[fieldIndex].BaseIndex == BaseIndex)
+                        if (_pivotTable.Fields[fieldIndex].BaseIndex == BaseIndex)
                         {
                             var newElement = rowColFields.OwnerDocument.CreateElement("field", ExcelPackage.schemaMain);
                             newElement.SetAttribute("x", field.Index.ToString());
@@ -742,17 +742,17 @@ namespace OfficeOpenXml.Table.PivotTable
                     index++;
                 }
 
-                var cacheRef = _table.CacheDefinition._cacheReference;
+                var cacheRef = _pivotTable.CacheDefinition._cacheReference;
                 field._cacheField = cacheRef.AddDateGroupField(field, groupBy, startDate, endDate, interval);
                 UpdatePivotTableGroupItems(field, cacheRef, false);
 
                 if (IsRowField)
                 {
-                    _table.RowFields.Insert(field, index);
+                    _pivotTable.RowFields.Insert(field, index);
                 }
                 else
                 {
-                    _table.ColumnFields.Insert(field, index);
+                    _pivotTable.ColumnFields.Insert(field, index);
                 }
 
                 return field;
@@ -762,7 +762,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 firstField = false;
                 Compact = false;
                 _cacheField.SetDateGroup(this, groupBy, startDate, endDate, interval);
-                UpdatePivotTableGroupItems(this, _table.CacheDefinition._cacheReference, true);
+                UpdatePivotTableGroupItems(this, _pivotTable.CacheDefinition._cacheReference, true);
                 return this;
             }
         }
@@ -820,7 +820,7 @@ namespace OfficeOpenXml.Table.PivotTable
             _items = null;
 
             bool firstField = true;
-            var fields = _table.Fields.Count;
+            var fields = _pivotTable.Fields.Count;
             //Seconds
             if ((groupBy & eDateGroupBy.Seconds) == eDateGroupBy.Seconds)
             {
@@ -857,7 +857,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 AddField(eDateGroupBy.Years, startDate, endDate, ref firstField);
             }
 
-            if (fields>_table.Fields.Count) _cacheField.SetXmlNodeString("d:fieldGroup/@par", (_table.Fields.Count-1).ToString());
+            if (fields>_pivotTable.Fields.Count) _cacheField.SetXmlNodeString("d:fieldGroup/@par", (_pivotTable.Fields.Count-1).ToString());
             if (groupInterval != 1)
             {
                 _cacheField.SetXmlNodeString("d:fieldGroup/d:rangePr/@groupInterval", groupInterval.ToString());
@@ -879,7 +879,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 throw (new Exception("Field must be a row or column field"));
             }
-            foreach (var field in _table.Fields)
+            foreach (var field in _pivotTable.Fields)
             {
                 if (field.Grouping != null)
                 {
@@ -890,7 +890,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal string SaveToXml()
         {
             var sb = new StringBuilder();
-            var cacheLookup = _table.CacheDefinition._cacheReference.Fields[Index]._cacheLookup;
+            var cacheLookup = _pivotTable.CacheDefinition._cacheReference.Fields[Index]._cacheLookup;
             if (cacheLookup == null) return "";
             if (cacheLookup.Count==0)
             {
