@@ -24,7 +24,7 @@ using System.Xml;
 namespace OfficeOpenXml.Drawing.Slicer
 {
     /// <summary>
-    /// A slicer cache with a table as source
+    /// Represents a slicer cache with a table as source
     /// </summary>
     public class ExcelTableSlicerCache : ExcelSlicerCache
     {
@@ -54,6 +54,9 @@ namespace OfficeOpenXml.Drawing.Slicer
             CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerTableUri);
         }
 
+        /// <summary>
+        /// The source type for the slicer cache
+        /// </summary>
         public override eSlicerSourceType SourceType 
         {
             get

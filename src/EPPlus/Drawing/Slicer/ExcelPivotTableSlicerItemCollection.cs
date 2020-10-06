@@ -55,12 +55,20 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
 
+        /// <summary>
+        /// Get the enumerator for the collection
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ExcelPivotTableSlicerItem> GetEnumerator()
         {
             Refresh();
             return _items.GetEnumerator();
         }
 
+        /// <summary>
+        /// Get the enumerator for the collection
+        /// </summary>
+        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             Refresh();

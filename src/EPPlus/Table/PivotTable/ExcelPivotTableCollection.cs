@@ -203,7 +203,7 @@ namespace OfficeOpenXml.Table.PivotTable
             Delete(_pivotTables[_pivotTableNames[Name]], ClearRange);
         }
         /// <summary>
-        /// Delete the pivottable at the specified index
+        /// Delete the pivot table at the specified index
         /// </summary>
         /// <param name="Index">The index in the PivotTable collection</param>
         /// <param name="ClearRange">Clear the table range</param>
@@ -215,8 +215,17 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             Delete(_pivotTables[Index], ClearRange);
         }
+        /// <summary>
+        /// Delete the supplied pivot table 
+        /// </summary>
+        /// <param name="PivotTable">The PivotTable to remove from the collection</param>
+        /// <param name="ClearRange">Clear the table range</param>
         public void Delete(ExcelPivotTable PivotTable, bool ClearRange = false)
         {
+            if(!_pivotTables.Contains(PivotTable))
+            {
+                throw new ArgumentException("This pivot table does not exist in the collection");
+            }
             var pck = _ws._package.ZipPackage;
 
             PivotTable.CacheDefinition._cacheReference._pivotTables.Remove(PivotTable);

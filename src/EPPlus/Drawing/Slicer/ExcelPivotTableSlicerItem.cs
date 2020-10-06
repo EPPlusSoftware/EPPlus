@@ -6,16 +6,22 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
+    /// <summary>
+    /// Represents a pivot table slicer item.
+    /// </summary>
     public class ExcelPivotTableSlicerItem
     {
         private ExcelPivotTableSlicerCache _cache;
         private int _index;
 
-        public ExcelPivotTableSlicerItem(ExcelPivotTableSlicerCache cache, int index)
+        internal ExcelPivotTableSlicerItem(ExcelPivotTableSlicerCache cache, int index)
         {
             _cache = cache;
             _index = index;
         }
+        /// <summary>
+        /// The value of the item
+        /// </summary>
         public object Value 
         { 
             get
@@ -27,6 +33,9 @@ namespace OfficeOpenXml.Drawing.Slicer
                 return _cache._field.Items[_index].Value;
             }
         }
+        /// <summary>
+        /// If the value is hidden 
+        /// </summary>
         public bool Hidden 
         { 
             get

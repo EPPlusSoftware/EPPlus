@@ -51,6 +51,7 @@ using System.Text.RegularExpressions;
 using System.IO.Compression;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using System.Security.Cryptography.X509Certificates;
 
 namespace EPPlusTest
 {
@@ -1368,7 +1369,31 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void IssueVBASigning()
+        {
+            using (var p = OpenPackage("vbaSign.xlsm"))
+            {
+                p.Workbook.CreateVBAProject();
+                var ws=p.Workbook.Worksheets.Add("Test");
+                ws.Drawings.AddShape("Drawing1", eShapeStyle.Rect);
+                
+                //Now add some code to update the text of the shape...
+                var sb = new StringBuilder();
 
+                sb.AppendLine("Private Sub Workbook_Open()");
+                sb.AppendLine("    [Test].Shapes(\"Drawing1\").TextEffect.Text = \"This text is set from VBA!\"");
+                sb.AppendLine("End Sub");
+                p.Workbook.CodeModule.Code = sb.ToString();
+
+                //Optionally, Sign the code with your company certificate.
+                X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                p.Workbook.VbaProject.Signature.Certificate = store.Certificates[5];
+
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
-

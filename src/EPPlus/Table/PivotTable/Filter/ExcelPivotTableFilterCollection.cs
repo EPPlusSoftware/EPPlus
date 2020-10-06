@@ -21,6 +21,9 @@ using System.Xml;
 
 namespace EPPlusTest.Table.PivotTable.Filter
 {
+    /// <summary>
+    /// A collection of pivot filters for a pivot table
+    /// </summary>
     public class ExcelPivotTableFieldFilterCollection : ExcelPivotTableFilterBaseCollection
     {
         internal ExcelPivotTableFieldFilterCollection(ExcelPivotTableField field) : base(field)

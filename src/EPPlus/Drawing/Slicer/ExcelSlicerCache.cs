@@ -21,6 +21,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
+    /// <summary>
+    /// Base class for table and pivot table slicer caches
+    /// </summary>
     public abstract class ExcelSlicerCache : XmlHelper
     {
         internal ExcelSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
@@ -38,6 +41,9 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal ZipPackageRelationship CacheRel{ get; set; }
         internal ZipPackagePart Part { get; set; }
         internal Uri Uri { get; set; }
+        /// <summary>
+        /// The slicer cache xml document
+        /// </summary>
         public XmlDocument SlicerCacheXml { get; protected internal set; }
         public string Name
         {
@@ -50,6 +56,9 @@ namespace OfficeOpenXml.Drawing.Slicer
                 SetXmlNodeString("@name",value);
             }
         }
+        /// <summary>
+        /// The name of the source field or column.
+        /// </summary>
         public string SourceName
         {
             get

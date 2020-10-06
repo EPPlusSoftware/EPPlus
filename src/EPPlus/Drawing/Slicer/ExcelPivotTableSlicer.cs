@@ -20,6 +20,10 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
+    /// <summary>
+    /// Represents a pivot table slicer drawing object.
+    /// A pivot table slicer is attached to a pivot table fields item filter.
+    /// </summary>
     public class ExcelPivotTableSlicer : ExcelSlicer<ExcelPivotTableSlicerCache>
     {
         //internal ExcelPivotTableField _field;

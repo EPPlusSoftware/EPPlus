@@ -1,5 +1,24 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.4.0
+### Features
+* Pivot tables filters
+	* Item filters - Filters on individual items in row/column or page fields.
+	* Caption filters (label filters) - Filters for text on row and column fields.
+	* Date, numeric and string filters - Filters using various operators such as Equals, NotBetween, GreaterThan, etc.
+	* Top 10 filters - Filter using top or bottom criterias for percent, count or value.
+	* Dynamic filters - Filter using various date- and average criterias.
+* Add calculated fields to pivot tables.
+* Support for pivot table shared caches via the new overload for PivotTables.Add.
+* Support for pivot table slicers
+* Support for table slicers
+### Minor new features
+* Number format property has been added to pivot fields and pivot cache fields.
+
+### Fixed issues
+* Chart series indexes got corrupt when removing and adding series in some cases.
+* Inheriting cells styling from column to cell did not work correctly in some cases.
+
 ## Version 5.3.2
 ### Fixed issues
 * Workbook got corrupt on copy if a worksheet VBA Code module was null.

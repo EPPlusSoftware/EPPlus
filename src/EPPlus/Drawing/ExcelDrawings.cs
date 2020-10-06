@@ -23,10 +23,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq.Expressions;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.Filter;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -1126,6 +1124,10 @@ namespace OfficeOpenXml.Drawing
             if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
+            }
+            if(!string.IsNullOrEmpty(Field.Cache.Formula))
+            {
+                throw new InvalidOperationException("Can't add a slicer to a calculated field");
             }
             if(Field._pivotTable.CacheId==0)
             {

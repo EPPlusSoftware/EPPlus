@@ -19,6 +19,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
+    /// <summary>
+    /// Tabular data for a pivot table slicer cache.
+    /// </summary>
     public class ExcelPivotTableSlicerCacheTabularData : XmlHelper
     {
         const string _topPath = "x14:data/x14:tabular";
@@ -107,7 +110,9 @@ namespace OfficeOpenXml.Drawing.Slicer
                 return _items;
             }
         }
-
+        /// <summary>
+        /// The pivot table cache id
+        /// </summary>
         public int PivotCacheId 
         { 
             get

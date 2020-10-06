@@ -24,6 +24,9 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             
         }
+        /// <summary>
+        /// The index of the base field for this group field
+        /// </summary>
         public int? BaseIndex
         {
             get
@@ -31,6 +34,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 return GetXmlNodeIntNull("d:fieldGroup/@base");
             }
         }
+        /// <summary>
+        /// The index of the parent field from this group field
+        /// </summary>
         public int? ParentIndex
         {
             get

@@ -11,6 +11,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// Handles the pivot table cache.
+    /// </summary>
     internal class PivotTableCacheInternal : XmlHelper
     {
         internal List<ExcelPivotTable> _pivotTables=new List<ExcelPivotTable>();

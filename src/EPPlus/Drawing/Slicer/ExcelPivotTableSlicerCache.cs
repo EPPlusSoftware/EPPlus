@@ -24,6 +24,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
+    /// <summary>
+    /// Represents a pivot table slicer cache.
+    /// </summary>
     public class ExcelPivotTableSlicerCache : ExcelSlicerCache
     {
         internal ExcelPivotTableField _field=null;

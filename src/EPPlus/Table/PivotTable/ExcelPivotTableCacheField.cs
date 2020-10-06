@@ -26,6 +26,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// A pivot tables cache field
+    /// </summary>
     public class ExcelPivotTableCacheField : XmlHelper
     {
         [Flags]
@@ -55,7 +58,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+        /// <summary>
+        /// The index in the collection of the pivot field
+        /// </summary>
         public int Index { get; set; }
+        /// <summary>
+        /// The name for the field
+        /// </summary>
         public string Name
         {
             get

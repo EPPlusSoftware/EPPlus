@@ -24,7 +24,10 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
-
+    /// <summary>
+    /// Represents a table slicer drawing object.
+    /// A table slicer is attached to a table column value filter.
+    /// </summary>
     public class ExcelTableSlicer : ExcelSlicer<ExcelTableSlicerCache>
     {
         internal ExcelTableSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : base(drawings, node, parent)

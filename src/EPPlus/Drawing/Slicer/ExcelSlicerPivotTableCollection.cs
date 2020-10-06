@@ -17,10 +17,13 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
+    /// <summary>
+    /// A collection of pivot tables attached to a slicer 
+    /// </summary>
     public class ExcelSlicerPivotTableCollection : IEnumerable<ExcelPivotTable>
     {
         ExcelPivotTableSlicerCache _slicerCache;
-        public ExcelSlicerPivotTableCollection(ExcelPivotTableSlicerCache slicerCache)
+        internal ExcelSlicerPivotTableCollection(ExcelPivotTableSlicerCache slicerCache)
         {
             _slicerCache = slicerCache;
         }
@@ -34,22 +37,38 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             return _list.GetEnumerator();
         }
+        /// <summary>
+        /// The indexer for the collection
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns>The pivot table at the specified index</returns>
         public ExcelPivotTable this[int index]
         {
             get
             {
+                if(index < 0 || index >= _list.Count)
+                {
+                    throw new IndexOutOfRangeException("Index for pivot table out of range");
+                }
                 return _list[index];
             }
         }
-        public void Add(ExcelPivotTable table)
+        /// <summary>
+        /// Adds a new pivot table to the collection. All pivot table in this collection must share the same cache.
+        /// </summary>
+        /// <param name="pivotTable">The pivot table to add</param>
+        public void Add(ExcelPivotTable pivotTable)
         {
-            if(_list.Count > 0 && _list[0].CacheId != table.CacheId)
+            if(_list.Count > 0 && _list[0].CacheId != pivotTable.CacheId)
             {
                 throw (new InvalidOperationException("Multiple Pivot tables added to a slicer must refer to the same cache."));
             }
-            _list.Add(table);
+            _list.Add(pivotTable);
             _slicerCache.UpdateItemsXml();
         }
+        /// <summary>
+        /// Number of items in the collection
+        /// </summary>
         public int Count
         {
             get

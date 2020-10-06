@@ -21,6 +21,9 @@ using System.Xml;
 
 namespace EPPlusTest.Table.PivotTable.Filter
 {
+    /// <summary>
+    /// Defines a pivot table filter
+    /// </summary>
     public class ExcelPivotTableFilter : XmlHelper
     {
         XmlNode _filterColumnNode;
@@ -34,6 +37,9 @@ namespace EPPlusTest.Table.PivotTable.Filter
             _filterColumnNode = GetNode("d:autoFilter/d:filterColumn");
             _date1904 = date1904;
         } 
+        /// <summary>
+        /// The id 
+        /// </summary>
         public int Id
         {
             get
@@ -45,6 +51,9 @@ namespace EPPlusTest.Table.PivotTable.Filter
                 SetXmlNodeInt("@id", value);
             }
         }
+        /// <summary>
+        /// The name of the pivot filter
+        /// </summary>
         public string Name
         {
             get
@@ -56,6 +65,9 @@ namespace EPPlusTest.Table.PivotTable.Filter
                 SetXmlNodeString("@name", value, true);
             }
         }
+        /// <summary>
+        /// The description of the pivot filter
+        /// </summary>
         public string Description
         {
             get
@@ -366,6 +378,9 @@ namespace EPPlusTest.Table.PivotTable.Filter
             _filter = f;
         }
 
+        /// <summary>
+        /// The type of pivot filter
+        /// </summary>
         public ePivotTableFilterType Type
         {
             get
@@ -379,6 +394,9 @@ namespace EPPlusTest.Table.PivotTable.Filter
                 SetXmlNodeString("@type", s);
             }
         }
+        /// <summary>
+        /// The evaluation order of the pivot filter
+        /// </summary>
         public int EvalOrder
         {
             get
@@ -434,16 +452,26 @@ namespace EPPlusTest.Table.PivotTable.Filter
                 SetXmlNodeInt("@mpFld", value);
             }
         }
+        /// <summary>
+        /// The value 1 to compare the filter to
+        /// </summary>
         public object Value1
         {
             get;
             set;
         }
+
+        /// <summary>
+        /// The value 2 to compare the filter to
+        /// </summary>
         public object Value2
         {
             get;
             set;
         }
+        /// <summary>
+        /// The string value 1 used by caption filters.
+        /// </summary>
         internal string StringValue1
         {
             get
@@ -455,6 +483,9 @@ namespace EPPlusTest.Table.PivotTable.Filter
                 SetXmlNodeString("@stringValue1", value, true);
             }
         }
+        /// <summary>
+        /// The string value 2 used by caption filters.
+        /// </summary>
         internal string StringValue2
         {
             get
