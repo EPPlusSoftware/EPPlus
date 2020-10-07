@@ -64,7 +64,8 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields.Add(pt.Fields[4]);
             pt.DataFields.Add(pt.Fields[3]);
 
-            pt.Fields[4].Filters.AddValueFilter(ePivotTableValueFilterType.ValueGreaterThan, 0, 12.2);
+            pt.Fields[3].Filters.AddValueFilter(ePivotTableValueFilterType.ValueGreaterThan, 0, 12.2);
+            pt.Fields[4].Filters.AddValueFilter(ePivotTableValueFilterType.ValueLessThan, 0, 500);
         }
         [TestMethod]
         public void AddValueGreaterThanOrEqualFilter()

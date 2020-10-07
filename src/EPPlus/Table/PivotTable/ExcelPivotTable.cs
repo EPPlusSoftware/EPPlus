@@ -1041,5 +1041,17 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         #endregion
+        int _newFilterId = 0;
+        internal int GetNewFilterId()
+        {
+            return _newFilterId++;
+        }
+        internal void SetNewFilterId(int value)
+        {
+            if (value >= _newFilterId)
+            {
+                _newFilterId = value + 1;
+            }
+        }
     }
 }
