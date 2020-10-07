@@ -1369,7 +1369,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void IssueVBASigning()
         {
             using (var p = OpenPackage("vbaSign.xlsm"))
