@@ -53,3 +53,4 @@ Misspelled property `ExcelCalculationOption.AllowCirculareReferences` has been r
 
 ### Pivot tables
 Misspelled property `ColumGrandTotals` has been removed. Please use `ColumnGrandTotals`
+Pivot tables will always have the flag to be refreshed on load set.

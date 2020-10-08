@@ -28,11 +28,11 @@
       ## Version 5.4.0
       ### Features
       * Pivot tables filters
-      * Item filters - Filters on individual items in row/column or page fields.
-      * Caption filters (label filters) - Filters for text on row and column fields.
-      * Date, numeric and string filters - Filters using various operators such as Equals, NotBetween, GreaterThan, etc.
-      * Top 10 filters - Filter using top or bottom criterias for percent, count or value.
-      * Dynamic filters - Filter using various date- and average criterias.
+      *   Item filters - Filters on individual items in row/column or page fields.
+      *   Caption filters (label filters) - Filters for text on row and column fields.
+      *   Date, numeric and string filters - Filters using various operators such as Equals, NotBetween, GreaterThan, etc.
+      *   Top 10 filters - Filters using top or bottom criterias for percent, count or value.
+      *   Dynamic filters - Filters using various date- and average criterias.
       * Add calculated fields to pivot tables.
       * Support for pivot table shared caches via the new overload for PivotTables.Add.
       * Support for pivot table slicers
@@ -70,7 +70,7 @@
       * Waterfall Chart
       * Box &amp; Whisker Chart
       * Region Map Chart.
-      * Support   for 49 new functions in the formula calc engine, mainly finance and engineering.
+      * Support for 49 new functions in the formula calc engine, mainly finance and engineering.
       * Bug fixes
 
       New features in version 5.0 and 5.1:
@@ -96,7 +96,7 @@
       A list of fixed issues can be found here https://epplussoftware.com/docs/5.3/articles/fixedissues.html
 
       Version history
-      5.4.0 20201007 Table- and Pivot Table- Slicers. Pivot Table Filters. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+      5.4.0 20201008 Table- and Pivot Table- Slicers. Pivot Table Filters. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.3.2 20200914 Bug fixes.
       5.3.1 20200902 Minor features and bug fixes.
       5.3.0 20200819 Support for threaded comment with mentions. Minor feature and bug fixes.
