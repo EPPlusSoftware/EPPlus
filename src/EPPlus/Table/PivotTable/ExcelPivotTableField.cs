@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableField : XmlHelper
     {
         internal ExcelPivotTable _pivotTable;
-        internal ExcelPivotTableCacheField _cacheField = null;
+        internal ExcelPivotTableCacheField _cacheField = null;        
         internal ExcelPivotTableField(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTable table, int index, int baseIndex) :
             base(ns, topNode)
         {

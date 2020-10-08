@@ -22,6 +22,7 @@ using System.Linq;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
 using EPPlusTest.Table.PivotTable.Filter;
+using OfficeOpenXml.Packaging.Ionic;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -908,15 +909,26 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         _tableStyle = TableStyles.Custom;
                     }
+                    try
+                    {
+                        _pivotTableStyle = (PivotTableStyles)Enum.Parse(typeof(PivotTableStyles), value.Substring(10, value.Length - 10), true);
+                    }
+                    catch
+                    {
+                        _pivotTableStyle = PivotTableStyles.Custom;
+                    }
+
                 }
                 else if (value == "None")
                 {
                     _tableStyle = TableStyles.None;
+                    _pivotTableStyle = PivotTableStyles.None;
                     value = "";
                 }
                 else
                 {
                     _tableStyle = TableStyles.Custom;
+                    _pivotTableStyle = PivotTableStyles.Custom;
                 }
                 SetXmlNodeString(STYLENAME_PATH, value, true);
             }
@@ -998,8 +1010,9 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         TableStyles _tableStyle = Table.TableStyles.Medium6;
         /// <summary>
-        /// The table style. If this property is custom the style from the StyleName propery is used.
+        /// The table style. If this property is Custom, the style from the StyleName propery is used.
         /// </summary>
+        [Obsolete("Use the PivotTableStyle property for more options")]
         public TableStyles TableStyle
         {
             get
@@ -1011,7 +1024,27 @@ namespace OfficeOpenXml.Table.PivotTable
                 _tableStyle=value;
                 if (value != TableStyles.Custom)
                 {
-                    SetXmlNodeString(STYLENAME_PATH, "PivotStyle" + value.ToString());
+                    StyleName = "PivotStyle" + value.ToString();
+                }
+            }
+        }
+        PivotTableStyles _pivotTableStyle = PivotTableStyles.Medium6;
+        /// <summary>
+        /// The pivot table style. If this property is Custom, the style from the StyleName propery is used.
+        /// </summary>
+        public PivotTableStyles PivotTableStyle
+        {
+            get
+            {
+                return _pivotTableStyle;
+            }
+            set
+            {
+                _pivotTableStyle = value;
+                if (value != PivotTableStyles.Custom)
+                {
+                    //SetXmlNodeString(STYLENAME_PATH, "PivotStyle" + value.ToString());
+                    StyleName = "PivotStyle" + value.ToString();
                 }
             }
         }
@@ -1041,5 +1074,17 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         #endregion
+        int _newFilterId = 0;
+        internal int GetNewFilterId()
+        {
+            return _newFilterId++;
+        }
+        internal void SetNewFilterId(int value)
+        {
+            if (value >= _newFilterId)
+            {
+                _newFilterId = value + 1;
+            }
+        }
     }
 }

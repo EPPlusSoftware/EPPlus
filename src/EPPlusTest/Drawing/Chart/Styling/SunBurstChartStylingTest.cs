@@ -132,7 +132,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
             chart.To.ColumnOff = 0;
             chart.To.Row = row + 18;
             chart.To.RowOff = 0;
-            chart.Series.Add("A2:C17", "D2:D17");
+            chart.Series.Add("D2:D17", "A2:C17");
 
             SetProperties(chart);
 
