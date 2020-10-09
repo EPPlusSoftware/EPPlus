@@ -37,6 +37,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.VBA;
+using OfficeOpenXml.Drawing;
 
 namespace EPPlusTest
 {
@@ -164,5 +165,58 @@ namespace EPPlusTest
                 package.SaveAs(new FileInfo(@"c:\temp\bug\makroepp.xlsm"));
             }
         }
+        [TestMethod, Ignore]
+        public void VBASigning()
+        {
+            using (var p = OpenPackage("vbaSign.xlsm", true))
+            {
+                p.Workbook.CreateVBAProject();
+                var ws = p.Workbook.Worksheets.Add("Test");
+                ws.Drawings.AddShape("Drawing1", eShapeStyle.Rect);
+
+                //Now add some code to update the text of the shape...
+                var sb = new StringBuilder();
+
+                sb.AppendLine("Private Sub Workbook_Open()");
+                sb.AppendLine("    [Test].Shapes(\"Drawing1\").TextEffect.Text = \"This text is set from VBA!\"");
+                sb.AppendLine("End Sub");
+                p.Workbook.CodeModule.Code = sb.ToString();
+
+                //Optionally, Sign the code with your company certificate.
+                X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                p.Workbook.VbaProject.Signature.Certificate = store.Certificates[4];
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod, Ignore]
+        public void VBASigningFromFile()
+        {
+            using (var p = OpenPackage("vbaSignFile.xlsm", true))
+            {
+                p.Workbook.CreateVBAProject();
+                var ws = p.Workbook.Worksheets.Add("Test");
+                ws.Drawings.AddShape("Drawing1", eShapeStyle.Rect);
+
+                //Now add some code to update the text of the shape...
+                var sb = new StringBuilder();
+
+                sb.AppendLine("Private Sub Workbook_Open()");
+                sb.AppendLine("    [Test].Shapes(\"Drawing1\").TextEffect.Text = \"This text is set from VBA!\"");
+                sb.AppendLine("End Sub");
+                p.Workbook.CodeModule.Code = sb.ToString();
+
+                //Optionally, Sign the code with your company certificate.
+
+                // Create a collection object and populate it using the PFX file
+                X509Certificate2Collection collection = new X509Certificate2Collection();
+                collection.Import("c:\\temp\\codecert.pfx", "EPPlus", X509KeyStorageFlags.PersistKeySet);
+
+                p.Workbook.VbaProject.Signature.Certificate = collection[0];
+                
+                SaveAndCleanup(p);
+            }
+            }
     }
 }
