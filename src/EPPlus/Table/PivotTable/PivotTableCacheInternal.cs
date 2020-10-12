@@ -309,9 +309,11 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void ResetRecordXml(ZipPackage pck)
         {
+            if (CacheRecordUri == null) return;
+
             var cacheRecord = new XmlDocument();
-            cacheRecord.LoadXml("<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />");
-            ZipPackagePart recPart;
+            cacheRecord.LoadXml("<pivotCacheRecords xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" count=\"0\" />");            ZipPackagePart recPart;
+
             if (pck.PartExists(CacheRecordUri))
             {
                 recPart = pck.GetPart(CacheRecordUri);
@@ -322,8 +324,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             cacheRecord.Save(recPart.GetStream(FileMode.Create, FileAccess.Write));
         }
-
-    private string GetStartXml(ExcelWorksheet sourceWorksheet, ExcelRangeBase sourceAddress)
+        private string GetStartXml(ExcelWorksheet sourceWorksheet, ExcelRangeBase sourceAddress)
         {
             string xml = "<pivotCacheDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"\" refreshOnLoad=\"1\" refreshedBy=\"SomeUser\" refreshedDate=\"40504.582403125001\" createdVersion=\"6\" refreshedVersion=\"6\" recordCount=\"5\" upgradeOnRefresh=\"1\">";
 

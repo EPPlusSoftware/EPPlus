@@ -1348,6 +1348,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
         [TestMethod]
         public void Issue38()
         {
