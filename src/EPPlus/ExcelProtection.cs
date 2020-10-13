@@ -24,11 +24,11 @@ namespace OfficeOpenXml
     ///<seealso cref="ExcelSheetProtection"/> 
     /// </summary>
     public class ExcelProtection : XmlHelper
-    {
+    {        
         internal ExcelProtection(XmlNamespaceManager ns, XmlNode topNode, ExcelWorkbook wb) :
             base(ns, topNode)
         {
-            SchemaNodeOrder = wb.SchemaNodeOrder;
+            SchemaNodeOrder = wb.SchemaNodeOrder;            
         }
         const string workbookPasswordPath = "d:workbookProtection/@workbookPassword";
         /// <summary>
@@ -37,7 +37,7 @@ namespace OfficeOpenXml
         /// <param name="Password">The password. </param>
         public void SetPassword(string Password)
         {
-            if(string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(Password))
             {
                 DeleteNode(workbookPasswordPath);
             }
@@ -58,7 +58,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                SetXmlNodeBool(lockStructurePath, value,  false);
+                SetXmlNodeBool(lockStructurePath, value, false);
             }
         }
         const string lockWindowsPath = "d:workbookProtection/@lockWindows";
@@ -90,6 +90,18 @@ namespace OfficeOpenXml
             set
             {
                 SetXmlNodeBool(lockRevisionPath, value, false);
+            }
+        }
+        ExcelFileSharing _fileSharing=null;
+        public ExcelFileSharing FileSharing
+        {
+            get
+            {
+                if (_fileSharing == null)
+                {
+                    _fileSharing = new ExcelFileSharing(NameSpaceManager, TopNode, SchemaNodeOrder);
+                }
+                return _fileSharing;
             }
         }
     }

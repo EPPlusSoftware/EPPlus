@@ -89,7 +89,7 @@ namespace OfficeOpenXml.Encryption
         ChainingModeCFB
     }
     /// <summary>
-    /// Hashalgorithm
+    /// Hash algorithm
     /// </summary>
     internal enum eHashAlogorithm
     {

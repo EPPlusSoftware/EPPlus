@@ -132,7 +132,7 @@ namespace OfficeOpenXml.Encryption
 
             //Get the password key.
             var hashProvider = GetHashProvider(encryptionInfo.KeyEncryptors[0]);
-            var baseHash = GetPasswordHash(hashProvider, encr.SaltValue, encryption.Password, encr.SpinCount, encr.HashSize);
+            var baseHash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, encryption.Password, encr.SpinCount, encr.HashSize);
             var hashFinal = GetFinalHash(hashProvider,  BlockKey_KeyValue, baseHash);
             hashFinal = FixHashSize(hashFinal, encr.KeyBits / 8);
 
@@ -542,7 +542,7 @@ namespace OfficeOpenXml.Encryption
                 var hashProvider = GetHashProvider(encr);
                 var hashProviderDataKey = GetHashProvider(encryptionInfo.KeyData);
 
-                var baseHash = GetPasswordHash(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
+                var baseHash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
 
                 //Get the keys for the verifiers and the key value
                 var valInputKey = GetFinalHash(hashProvider, BlockKey_HashInput, baseHash);
@@ -896,7 +896,7 @@ namespace OfficeOpenXml.Encryption
                     throw new NotSupportedException("Hash provider is invalid. Must be SHA1(AlgIDHash == 0x8004)");
                 }
 
-                hash = GetPasswordHash(hashProvider, encryptionInfo.Verifier.Salt, password, 50000, 20);
+                hash = GetPasswordHashSpinPrepending(hashProvider, encryptionInfo.Verifier.Salt, password, 50000, 20);
 
                 // Append "block" (0)
                 Array.Copy(hash, tempHash, hash.Length);
@@ -952,7 +952,7 @@ namespace OfficeOpenXml.Encryption
             try
             {
                 var hashProvider = GetHashProvider(encr);
-                var hash = GetPasswordHash(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
+                var hash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
                 var hashFinal = GetFinalHash(hashProvider, blockKey, hash);
 
                 return FixHashSize(hashFinal, encr.KeyBits / 8);
@@ -971,9 +971,9 @@ namespace OfficeOpenXml.Encryption
             var hashFinal = hashProvider.ComputeHash(tempHash);
             return hashFinal;
         }
-        private byte[] GetPasswordHash(HashAlgorithm hashProvider, byte[] salt, string password, int spinCount, int hashSize)
+        internal static byte[] GetPasswordHashSpinPrepending(HashAlgorithm hashProvider, byte[] salt, string password, int spinCount, int hashSize)
         {
-            byte[] hash = null;
+            byte[] hash;
             byte[] tempHash = new byte[4 + hashSize];    //Iterator + prev. hash
             hash = hashProvider.ComputeHash(CombinePassword(salt, password));
 
@@ -982,6 +982,23 @@ namespace OfficeOpenXml.Encryption
             {
                 Array.Copy(BitConverter.GetBytes(i), tempHash, 4);
                 Array.Copy(hash, 0, tempHash, 4, hash.Length);
+
+                hash = hashProvider.ComputeHash(tempHash);
+            }
+
+            return hash;
+        }
+        internal static byte[] GetPasswordHashSpinAppending(HashAlgorithm hashProvider, byte[] salt, string password, int spinCount, int hashSize)
+        {
+            byte[] hash;
+            byte[] tempHash = new byte[4 + hashSize];    //Iterator + prev. hash
+            hash = hashProvider.ComputeHash(CombinePassword(salt, password));
+
+            //Iterate "spinCount" times, inserting i in first 4 bytes and then the prev. hash in byte 5-24
+            for (int i = 0; i < spinCount; i++)
+            {
+                Array.Copy(hash, tempHash, hash.Length);
+                Array.Copy(BitConverter.GetBytes(i), 0, tempHash, hash.Length, 4);
 
                 hash = hashProvider.ComputeHash(tempHash);
             }
@@ -1009,7 +1026,7 @@ namespace OfficeOpenXml.Encryption
                 return buff;
             }
         }
-        private byte[] CombinePassword(byte[] salt, string password)
+        private static byte[] CombinePassword(byte[] salt, string password)
         {
             if (password == "")
             {
