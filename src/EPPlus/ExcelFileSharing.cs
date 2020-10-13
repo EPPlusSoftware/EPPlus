@@ -18,14 +18,26 @@ using System.Xml;
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// File sharing settings for the workbook.
+    /// </summary>
     public class ExcelFileSharing : XmlHelper
     {
         internal ExcelFileSharing(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder) : base(nameSpaceManager, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
         }
+        /// <summary>
+        /// Set the workbook to readonly for anyone
+        /// </summary>
+        /// <param name="userName">The name of the person enforcing the writeprotection</param>
+        /// <param name="password">The password. Must not be empty.</param>
         public void SetReadOnly(string userName, string password)
         {
+            if(string.IsNullOrEmpty(password.Trim()))
+            {
+                throw new ArgumentOutOfRangeException("password", "Password must not be null or empty");
+            }
             UserName = userName;
             HashAlogorithm = eHashAlogorithm.SHA512;
 
@@ -36,6 +48,13 @@ namespace OfficeOpenXml
             SpinCount = 100000;
 
             HashValue = EncryptedPackageHandler.GetPasswordHashSpinAppending(SHA512.Create(), SaltValue, password, SpinCount, 64);
+        }
+        /// <summary>
+        /// Remove any write protection set on the workbook
+        /// </summary>
+        public void RemoveReadOnly()
+        {
+            DeleteNode("d:fileSharing");
         }
         internal eHashAlogorithm HashAlogorithm
         {
@@ -124,6 +143,9 @@ namespace OfficeOpenXml
                 SetXmlNodeString("d:fileSharing/@hashValue", Convert.ToBase64String(value));
             }
         }
+        /// <summary>
+        /// whether the application alerts the user that the file be marked as read-only
+        /// </summary>
         public bool IsReadOnly
         {
             get
@@ -131,6 +153,9 @@ namespace OfficeOpenXml
                 return ExistNode("d:fileSharing/@hashValue");
             }
         }
+        /// <summary>
+        /// The name of the person enforcing the write protection.
+        /// </summary>
         public string UserName
         {
             get
@@ -142,6 +167,9 @@ namespace OfficeOpenXml
                 SetXmlNodeString("d:fileSharing/@userName", value);
             }
         }
+        /// <summary>
+        /// If opening the workbook in readonly is the recommended by the author.
+        /// </summary>
         public bool ReadOnlyRecommended
         {
             get

@@ -47,7 +47,7 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets.Add("FileSharing");
                 var a1 = ws.Cells["A1"];
                 p.Workbook.Protection.FileSharing.SetReadOnly("Jan Källman", "EPPlus");
-
+                p.Workbook.Protection.FileSharing.ReadOnlyRecommended = true;   
                 SaveAndCleanup(p);
             }
         }
