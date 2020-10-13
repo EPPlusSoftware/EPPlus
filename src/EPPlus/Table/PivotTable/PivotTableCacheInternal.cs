@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         }
-        internal string RecordRelationshipID
+        internal string RecordRelationshipId
         {
             get
             {
@@ -166,7 +166,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                SetXmlNodeString("@r:id", value);
+                SetXmlNodeString("@r:id", value, true);
             }
         }
         List<ExcelPivotTableCacheField> _fields=null;
@@ -295,13 +295,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref c);
             Part = pck.CreatePart(CacheDefinitionUri, ExcelPackage.schemaPivotCacheDefinition);
 
-
-            //CacheRecord. Create an empty one.
-            CacheRecordUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref c);
-            ResetRecordXml(pck);
-
-            RecordRelationship = Part.CreateRelationship(UriHelper.ResolvePartUri(CacheDefinitionUri, CacheRecordUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
-            RecordRelationshipID = RecordRelationship.Id;
+            AddRecordsXml();
 
             CacheDefinitionXml.Save(Part.GetStream());
             _pivotTables.Add(pivotTable);
@@ -403,6 +397,47 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 SetXmlNodeBool("@refreshOnLoad", value);
             }
+        }
+
+        public bool SaveData 
+        { 
+            get
+            {
+                return GetXmlNodeBool("@saveData", true);
+            }
+            set
+            {
+                if (SaveData == value) return;
+                SetXmlNodeBool("@saveData", value);
+                if (value)
+                {
+                    AddRecordsXml();
+                }
+                else
+                {
+                    RemoveRecordsXml();
+                }
+                SetXmlNodeBool("@saveData", value);
+            }
+        }
+
+        private void RemoveRecordsXml()
+        {
+            RecordRelationshipId = null;
+            _wb._package.ZipPackage.DeletePart(CacheRecordUri);
+            CacheRecordUri = null;
+            RecordRelationship = null;
+        }
+
+        private void AddRecordsXml()
+        {
+            int c = CacheId;
+            //CacheRecord. Create an empty one.
+            CacheRecordUri = GetNewUri(_wb._package.ZipPackage, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref c);
+            ResetRecordXml(_wb._package.ZipPackage);
+
+            RecordRelationship = Part.CreateRelationship(UriHelper.ResolvePartUri(CacheDefinitionUri, CacheRecordUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheRecords");
+            RecordRelationshipId = RecordRelationship.Id;
         }
 
         internal void Delete()

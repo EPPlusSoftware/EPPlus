@@ -1370,5 +1370,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue195_PivotTable()
+        {
+            using (var p=OpenTemplatePackage("Issue195.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

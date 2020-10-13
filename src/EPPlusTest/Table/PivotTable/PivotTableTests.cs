@@ -356,6 +356,37 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataOnRows = true;
         }
         [TestMethod]
+        public void Pivot_SaveDataFalse()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-NoRecord");
+
+            wsData.Cells["A1"].Value = "Column1";
+            wsData.Cells["B1"].Value = "Column2";
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["A1:B2"], "Pivottable11");
+            pt.ColumnFields.Add(pt.Fields[1]);
+            var rf = pt.RowFields.Add(pt.Fields[0]);
+            rf.SubTotalFunctions = eSubTotalFunctions.None;
+            pt.DataOnRows = true;
+            pt.CacheDefinition.SaveData = false;
+        }
+        [TestMethod]
+        public void Pivot_SavedDataTrue()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-WithRecord");
+
+            wsData.Cells["A1"].Value = "Column1";
+            wsData.Cells["B1"].Value = "Column2";
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["A1:B2"], "Pivottable11");
+            pt.ColumnFields.Add(pt.Fields[1]);
+            var rf = pt.RowFields.Add(pt.Fields[0]);
+            rf.SubTotalFunctions = eSubTotalFunctions.None;
+            pt.DataOnRows = true;
+            pt.CacheDefinition.SaveData = false;    //Remove the record xml
+            pt.CacheDefinition.SaveData = true;     //Add the record xml
+        }
+        [TestMethod]
         public void Pivot_ManyPageFields()
         {
             var wsData = _pck.Workbook.Worksheets["Data"];
