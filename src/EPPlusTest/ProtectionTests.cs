@@ -46,9 +46,27 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets.Add("FileSharing");
                 var a1 = ws.Cells["A1"];
-                p.Workbook.Protection.FileSharing.SetReadOnly("Jan Källman", "EPPlus");
-                p.Workbook.Protection.FileSharing.ReadOnlyRecommended = true;   
+                p.Workbook.Protection.WriteProtection.SetReadOnly("Jan Källman", "EPPlus");
+                p.Workbook.Protection.WriteProtection.ReadOnlyRecommended = true;
+                Assert.IsTrue(p.Workbook.Protection.WriteProtection.ReadOnlyRecommended);
+                //Assert.IsTrue(p.Workbook.Protection.WriteProtection.IsReadOnly);
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void VerifyRemoveReadonly()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("FileSharing");
+                var a1 = ws.Cells["A1"];
+                p.Workbook.Protection.WriteProtection.SetReadOnly("Jan Källman", "EPPlus");
+                p.Workbook.Protection.WriteProtection.ReadOnlyRecommended = true;
+                Assert.IsTrue(p.Workbook.Protection.WriteProtection.ReadOnlyRecommended);
+                Assert.IsTrue(p.Workbook.Protection.WriteProtection.IsReadOnly);
+                p.Workbook.Protection.WriteProtection.RemoveReadOnly();
+                Assert.IsFalse(p.Workbook.Protection.WriteProtection.IsReadOnly);
+                Assert.IsFalse(p.Workbook.Protection.WriteProtection.ReadOnlyRecommended);
             }
         }
     }

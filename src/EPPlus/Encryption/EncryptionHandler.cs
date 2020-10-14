@@ -247,18 +247,18 @@ namespace OfficeOpenXml.Encryption
             switch (ei.HashAlgorithm)
             {
 #if (!Core)
-                case eHashAlogorithm.RIPEMD160:
+                case eHashAlgorithm.RIPEMD160:
                     return new HMACRIPEMD160(salt);
 #endif                
-                case eHashAlogorithm.MD5:
+                case eHashAlgorithm.MD5:
                     return new HMACMD5(salt);              
-                case eHashAlogorithm.SHA1:
+                case eHashAlgorithm.SHA1:
                     return new HMACSHA1(salt);
-                case eHashAlogorithm.SHA256:
+                case eHashAlgorithm.SHA256:
                     return new HMACSHA256(salt);
-                case eHashAlogorithm.SHA384:
+                case eHashAlgorithm.SHA384:
                     return new HMACSHA384(salt);
-                case eHashAlogorithm.SHA512:
+                case eHashAlgorithm.SHA512:
                     return new HMACSHA512(salt);
                 default:
                     throw(new NotSupportedException(string.Format("Hash method {0} not supported.",ei.HashAlgorithm)));
@@ -606,17 +606,17 @@ namespace OfficeOpenXml.Encryption
         {
             switch (encr.HashAlgorithm)
             {
-                case eHashAlogorithm.MD5:
+                case eHashAlgorithm.MD5:
                     return MD5.Create();
                 //case eHashAlogorithm.RIPEMD160:
                 //    return new RIPEMD160Managed();                    
-                case eHashAlogorithm.SHA1:
+                case eHashAlgorithm.SHA1:
                     return SHA1.Create();
-                case eHashAlogorithm.SHA256:
+                case eHashAlgorithm.SHA256:
                     return SHA256.Create();
-                case eHashAlogorithm.SHA384:
+                case eHashAlgorithm.SHA384:
                     return SHA384.Create();
-                case eHashAlogorithm.SHA512:
+                case eHashAlgorithm.SHA512:
                     return SHA512.Create();
                 default:
                     throw new NotSupportedException(string.Format("Hash provider is unsupported. {0}", encr.HashAlgorithm));
@@ -627,17 +627,17 @@ namespace OfficeOpenXml.Encryption
         {
             switch (encr.HashAlgorithm)
             {
-                case eHashAlogorithm.MD5:
+                case eHashAlgorithm.MD5:
                         return new MD5CryptoServiceProvider();
-                case eHashAlogorithm.RIPEMD160:
+                case eHashAlgorithm.RIPEMD160:
                         return new RIPEMD160Managed();
-                case eHashAlogorithm.SHA1:
+                case eHashAlgorithm.SHA1:
                         return new SHA1CryptoServiceProvider();
-                case eHashAlogorithm.SHA256:
+                case eHashAlgorithm.SHA256:
                         return  new SHA256CryptoServiceProvider();
-                case eHashAlogorithm.SHA384:
+                case eHashAlgorithm.SHA384:
                         return new SHA384CryptoServiceProvider();
-                case eHashAlogorithm.SHA512:
+                case eHashAlgorithm.SHA512:
                         return new SHA512CryptoServiceProvider();
                 default:
                         throw new NotSupportedException(string.Format("Hash provider is unsupported. {0}", encr.HashAlgorithm));

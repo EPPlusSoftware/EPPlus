@@ -21,25 +21,27 @@ namespace OfficeOpenXml
     /// <summary>
     /// File sharing settings for the workbook.
     /// </summary>
-    public class ExcelFileSharing : XmlHelper
+    public class ExcelWriteProtection : XmlHelper
     {
-        internal ExcelFileSharing(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder) : base(nameSpaceManager, topNode)
+        internal ExcelWriteProtection(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string[] schemaNodeOrder) : base(nameSpaceManager, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
         }
         /// <summary>
-        /// Set the workbook to readonly for anyone
+        /// Writes protectes the workbook with a password. 
+        /// EPPlus uses SHA-512 as hash algorithm with a spin count of 100000.
         /// </summary>
-        /// <param name="userName">The name of the person enforcing the writeprotection</param>
+        /// <param name="userName">The name of the person enforcing the write protection</param>
         /// <param name="password">The password. Must not be empty.</param>
         public void SetReadOnly(string userName, string password)
         {
-            if(string.IsNullOrEmpty(password.Trim()))
-            {
-                throw new ArgumentOutOfRangeException("password", "Password must not be null or empty");
-            }
             UserName = userName;
-            HashAlogorithm = eHashAlogorithm.SHA512;
+            if (string.IsNullOrEmpty(password.Trim()))
+            {
+                RemovePasswordAttributes();
+                return;
+            }
+            HashAlgorithm = eHashAlgorithm.SHA512;
 
             var s = new byte[16];
             var rnd = RandomNumberGenerator.Create();
@@ -49,6 +51,14 @@ namespace OfficeOpenXml
 
             HashValue = EncryptedPackageHandler.GetPasswordHashSpinAppending(SHA512.Create(), SaltValue, password, SpinCount, 64);
         }
+
+        private void RemovePasswordAttributes()
+        {
+            var node = (XmlElement)GetNode("d:fileSharing");            
+            node.RemoveAttribute("spinCount");
+            node.RemoveAttribute("saltValue");
+            node.RemoveAttribute("hashValue");
+        }
         /// <summary>
         /// Remove any write protection set on the workbook
         /// </summary>
@@ -56,7 +66,7 @@ namespace OfficeOpenXml
         {
             DeleteNode("d:fileSharing");
         }
-        internal eHashAlogorithm HashAlogorithm
+        internal eHashAlgorithm HashAlgorithm
         {
             get
             {
@@ -68,35 +78,35 @@ namespace OfficeOpenXml
             }
         }
 
-        private string SetHashAlogorithm(eHashAlogorithm value)
+        private string SetHashAlogorithm(eHashAlgorithm value)
         {
             switch(value)
             {
-                case eHashAlogorithm.SHA512:
+                case eHashAlgorithm.SHA512:
                     return "SHA-512";
                 default:
                     throw new NotSupportedException("EPPlus only support SHA 512 hashing for file sharing");
             }
         }
 
-        private eHashAlogorithm GetHashAlogorithm(string v)
+        private eHashAlgorithm GetHashAlogorithm(string v)
         {
             switch (v)
             {
                 case "RIPEMD-128":
-                    return eHashAlogorithm.RIPEMD128;
+                    return eHashAlgorithm.RIPEMD128;
                 case "RIPEMD-160":
-                    return eHashAlogorithm.RIPEMD160;
+                    return eHashAlgorithm.RIPEMD160;
                 case "SHA-1":
-                    return eHashAlogorithm.SHA1;
+                    return eHashAlgorithm.SHA1;
                 case "SHA-256":
-                    return eHashAlogorithm.SHA256;
+                    return eHashAlgorithm.SHA256;
                 case "SHA-384":
-                    return eHashAlogorithm.SHA384;
+                    return eHashAlgorithm.SHA384;
                 case "SHA-512":
-                    return eHashAlogorithm.SHA512;
+                    return eHashAlgorithm.SHA512;
                 default:
-                    return v.ToEnum(eHashAlogorithm.SHA512);
+                    return v.ToEnum(eHashAlgorithm.SHA512);
             }
         }
 
@@ -144,7 +154,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// whether the application alerts the user that the file be marked as read-only
+        /// If the workbook is set to readonly and has a password set.
         /// </summary>
         public bool IsReadOnly
         {
@@ -178,11 +188,6 @@ namespace OfficeOpenXml
             }
             set
             {
-                if(IsReadOnly==false)
-                {
-                    throw new InvalidOperationException("Can only set this property when workbook is readonly.");
-                }
-
                 SetXmlNodeBool("d:fileSharing/@readOnlyRecommended", value);
             }
         }

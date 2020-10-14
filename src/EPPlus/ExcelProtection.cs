@@ -92,16 +92,16 @@ namespace OfficeOpenXml
                 SetXmlNodeBool(lockRevisionPath, value, false);
             }
         }
-        ExcelFileSharing _fileSharing=null;
-        public ExcelFileSharing FileSharing
+        ExcelWriteProtection _writeProtection=null;
+        public ExcelWriteProtection WriteProtection
         {
             get
             {
-                if (_fileSharing == null)
+                if (_writeProtection == null)
                 {
-                    _fileSharing = new ExcelFileSharing(NameSpaceManager, TopNode, SchemaNodeOrder);
+                    _writeProtection = new ExcelWriteProtection(NameSpaceManager, TopNode, SchemaNodeOrder);
                 }
-                return _fileSharing;
+                return _writeProtection;
             }
         }
     }
