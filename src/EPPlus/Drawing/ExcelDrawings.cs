@@ -1289,7 +1289,10 @@ namespace OfficeOpenXml.Drawing
             draw.DeleteMe();
             for (int i = Index + 1; i < _drawings.Count; i++)
             {
-                _drawingNames[_drawings[i].Name]--;
+                if (_drawingNames.ContainsKey(_drawings[i].Name))
+                {
+                    _drawingNames[_drawings[i].Name]--;
+                }
             }
             _drawingNames.Remove(draw.Name);
             _drawings.Remove(draw);

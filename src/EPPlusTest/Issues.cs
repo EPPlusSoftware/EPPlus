@@ -1379,5 +1379,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void DrawingIssue()
+        {
+            using (var p = OpenTemplatePackage("test.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Drawings.Clear();
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
