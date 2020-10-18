@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  10/18/2020         LIFEfreedom			  Use recyclable memory
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
