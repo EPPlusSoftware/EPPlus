@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -63,21 +65,23 @@ namespace OfficeOpenXml.Encryption
         internal string CSPName;            //SHOULD<11> be set to either "Microsoft Enhanced RSA and AES Cryptographic Provider" or "Microsoft Enhanced RSA and AES Cryptographic Provider (Prototype)" as a null-terminated Unicode string.
         internal byte[] WriteBinary()
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
 
-            bw.Write((int)Flags);
-            bw.Write(SizeExtra);
-            bw.Write((int)AlgID);
-            bw.Write((int)AlgIDHash);
-            bw.Write((int)KeySize);
-            bw.Write((int)ProviderType);
-            bw.Write(Reserved1);
-            bw.Write(Reserved2);
-            bw.Write(Encoding.Unicode.GetBytes(CSPName));
+                bw.Write((int)Flags);
+                bw.Write(SizeExtra);
+                bw.Write((int)AlgID);
+                bw.Write((int)AlgIDHash);
+                bw.Write((int)KeySize);
+                bw.Write((int)ProviderType);
+                bw.Write(Reserved1);
+                bw.Write(Reserved2);
+                bw.Write(Encoding.Unicode.GetBytes(CSPName));
 
-            bw.Flush();
-            return ms.ToArray();
+                bw.Flush();
+                return ms.ToArray();
+            }
         }
     }
 }

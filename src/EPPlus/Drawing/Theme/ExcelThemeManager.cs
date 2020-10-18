@@ -9,6 +9,7 @@
   Date               Author                       Change
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  10/18/2020         LIFEfreedom			  Use recyclable memory
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
@@ -95,7 +96,11 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 throw (new FileNotFoundException($"{thmxFile.FullName} does not exist"));
             }
-            Load(new MemoryStream(File.ReadAllBytes(thmxFile.FullName)));
+
+            using (var ms = RecyclableMemory.GetStream(File.ReadAllBytes(thmxFile.FullName)))
+            {
+                Load(ms);
+            }
         }
         /// <summary>
         /// Loads a theme XmlDocument. 

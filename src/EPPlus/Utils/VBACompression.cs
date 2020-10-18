@@ -29,36 +29,38 @@ namespace OfficeOpenXml.Utils
         /// <returns></returns>
         internal static byte[] CompressPart(byte[] part)
         {
-            MemoryStream ms = new MemoryStream(4096);
-            BinaryWriter br = new BinaryWriter(ms);
-            br.Write((byte)1);
-
-            int compStart = 1;
-            int compEnd = 4098;
-            int decompStart = 0;
-            int decompEnd = part.Length < 4096 ? part.Length : 4096;
-
-            while (decompStart < decompEnd && compStart < compEnd)
+            using (var ms = RecyclableMemory.GetStream(4096))
             {
-                byte[] chunk = CompressChunk(part, ref decompStart);
-                ushort header;
-                if (chunk == null || chunk.Length == 0)
+                BinaryWriter br = new BinaryWriter(ms);
+                br.Write((byte)1);
+
+                int compStart = 1;
+                int compEnd = 4098;
+                int decompStart = 0;
+                int decompEnd = part.Length < 4096 ? part.Length : 4096;
+
+                while (decompStart < decompEnd && compStart < compEnd)
                 {
-                    header = 4096 | 0x600;  //B=011 A=0
+                    byte[] chunk = CompressChunk(part, ref decompStart);
+                    ushort header;
+                    if (chunk == null || chunk.Length == 0)
+                    {
+                        header = 4096 | 0x600;  //B=011 A=0
+                    }
+                    else
+                    {
+                        header = (ushort)(((chunk.Length - 1) & 0xFFF));
+                        header |= 0xB000;   //B=011 A=1
+                        br.Write(header);
+                        br.Write(chunk);
+                    }
+                    decompEnd = part.Length < decompStart + 4096 ? part.Length : decompStart + 4096;
                 }
-                else
-                {
-                    header = (ushort)(((chunk.Length - 1) & 0xFFF));
-                    header |= 0xB000;   //B=011 A=1
-                    br.Write(header);
-                    br.Write(chunk);
-                }
-                decompEnd = part.Length < decompStart + 4096 ? part.Length : decompStart + 4096;
+
+
+                br.Flush();
+                return ms.ToArray();
             }
-
-
-            br.Flush();
-            return ms.ToArray();
         }
         private static byte[] CompressChunk(byte[] buffer, ref int startPos)
         {
@@ -152,13 +154,15 @@ namespace OfficeOpenXml.Utils
             {
                 return null;
             }
-            MemoryStream ms = new MemoryStream(4096);
-            int compressPos = startPos + 1;
-            while (compressPos < part.Length - 1)
+            using (var ms = RecyclableMemory.GetStream(4096))
             {
-                DecompressChunk(ms, part, ref compressPos);
+                int compressPos = startPos + 1;
+                while (compressPos < part.Length - 1)
+                {
+                    DecompressChunk(ms, part, ref compressPos);
+                }
+                return ms.ToArray();
             }
-            return ms.ToArray();
         }
         private static void DecompressChunk(MemoryStream ms, byte[] compBuffer, ref int pos)
         {
