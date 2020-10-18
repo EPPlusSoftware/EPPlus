@@ -1182,7 +1182,7 @@ namespace OfficeOpenXml
                 this._stream = output;
                 if (Password != null)
                 {
-                    Stream encrStream = new MemoryStream();
+                    Stream encrStream = RecyclableMemory.GetStream();
                     CopyStream(input, ref encrStream);
                     EncryptedPackageHandler eph = new EncryptedPackageHandler();
                     Encryption.Password = Password;

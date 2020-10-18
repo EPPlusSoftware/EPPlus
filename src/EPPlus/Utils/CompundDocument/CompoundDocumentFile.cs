@@ -40,13 +40,16 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             
         }
-        public CompoundDocumentFile(byte[] file) : this(new MemoryStream(file))
+        public CompoundDocumentFile(byte[] file)
         {
+            using (var ms = RecyclableMemory.GetStream(file))
+            {
+                LoadFromMemoryStream(ms);
+			}
         }
         public CompoundDocumentFile(MemoryStream ms)
         {
-            ms.Seek(0, SeekOrigin.Begin);   //Fixes issue #60
-            Read(new BinaryReader(ms));
+            LoadFromMemoryStream(ms);
         }
         private struct DocWriteInfo
         {
@@ -952,6 +955,12 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 }
                 size += sectorSize;
             }
+        }
+
+        private void LoadFromMemoryStream(MemoryStream ms)
+        {
+            ms.Seek(0, SeekOrigin.Begin);   //Fixes issue #60
+            Read(new BinaryReader(ms));
         }
 
         public void Dispose()
