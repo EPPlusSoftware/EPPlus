@@ -23,6 +23,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
 using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.Packaging.Ionic;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -1046,6 +1047,24 @@ namespace OfficeOpenXml.Table.PivotTable
                     //SetXmlNodeString(STYLENAME_PATH, "PivotStyle" + value.ToString());
                     StyleName = "PivotStyle" + value.ToString();
                 }
+            }
+        }
+        const string _showValuesRowPath = "d:extLst/d:ext[@uri='"+ExtLstUris.PivotTableDefinitionUri+"']/x14:pivotTableDefinition/@hideValuesRow";
+        /// <summary>
+        /// If the pivot tables value row is visible or not. 
+        /// This property only applies when <see cref="GridDropZones"/> is set to false.
+        /// </summary>
+        public bool ShowValuesRow
+        {
+            get
+            {
+                return !GetXmlNodeBool(_showValuesRowPath);
+            }
+            set
+            {
+                var node = GetOrCreateExtLstSubNode(ExtLstUris.PivotTableDefinitionUri, "x14");
+                var xh=XmlHelperFactory.Create(NameSpaceManager, node);
+                xh.SetXmlNodeBool("x14:pivotTableDefinition/@hideValuesRow", !value);
             }
         }
 

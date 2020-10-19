@@ -34,25 +34,15 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Style;
 using System.Data;
 using OfficeOpenXml.Table;
 using System.Collections.Generic;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Drawing.Chart;
 using System.Text;
-using System.Dynamic;
 using System.Globalization;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing;
 using System.Threading;
-using System.Text.RegularExpressions;
-using System.IO.Compression;
-using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
-using System.Security.Cryptography.X509Certificates;
-
 namespace EPPlusTest
 {
     /// <summary>

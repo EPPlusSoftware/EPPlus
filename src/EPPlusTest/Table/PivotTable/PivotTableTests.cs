@@ -488,7 +488,6 @@ namespace EPPlusTest.Table.PivotTable
             df1.Function = DataFieldFunctions.Sum;
             df2.Function = DataFieldFunctions.Sum;
             tbl.DataOnRows = false;
-
             Assert.AreEqual("NumValue*2", tbl.Fields[4].Cache.Formula);
         }
         [TestMethod]
@@ -575,7 +574,27 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(PivotTableStyles.Light28, pt.PivotTableStyle);
             Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
             Assert.AreEqual("PivotStyleLight28", pt.StyleName);
-
         }
+
+        [TestMethod]
+        public void HideValuesRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("HideValuesRow");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = DataFieldFunctions.Sum;
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+            Assert.IsTrue(tbl.ShowValuesRow);
+            tbl.ShowValuesRow = false;
+            Assert.IsFalse(tbl.ShowValuesRow);
+            tbl.ShowValuesRow = true;
+            Assert.IsTrue(tbl.ShowValuesRow);
+            tbl.ShowValuesRow = false;
+        }
+
     }
 }
