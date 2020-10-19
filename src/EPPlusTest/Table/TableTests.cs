@@ -247,5 +247,34 @@ namespace EPPlusTest.Table
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void DeleteTablesFromTemplate()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws=p.Workbook.Worksheets.Add("Tablews1");
+                ws.Tables.Add(new ExcelAddressBase("A1:C3"), "Table1");
+                ws.Tables.Add(new ExcelAddressBase("D1:G7"), "Table2");
+
+                Assert.AreEqual(2, ws.Tables.Count);
+                p.Save();
+
+                using(var p2=new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    Assert.AreEqual(2, ws.Tables.Count);
+                    ws.Tables.Delete(0);
+                    ws.Tables.Delete("Table2");
+
+                    Assert.AreEqual(0, ws.Tables.Count);
+                    p2.Save();
+                    using (var p3 = new ExcelPackage(p2.Stream))
+                    {
+                        Assert.AreEqual(0, p3.Workbook.Worksheets[0].Tables.Count);
+                    }
+                }
+             }
+        }
+
     }
 }

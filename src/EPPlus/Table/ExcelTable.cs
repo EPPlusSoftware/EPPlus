@@ -179,6 +179,19 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeString(DISPLAY_NAME_PATH, ExcelAddressUtil.GetValidName(value));
             }
         }
+
+        internal void DeleteMe()
+        {
+            if (RelationshipID != null)
+            {
+                WorkSheet.DeleteNode($"d:tableParts/d:tablePart[@r:id='{RelationshipID}']");
+            }
+            if (TableUri != null && WorkSheet._package.ZipPackage.PartExists(TableUri))
+            {
+                WorkSheet._package.ZipPackage.DeletePart(TableUri);
+            }
+        }
+
         /// <summary>
         /// The worksheet of the table
         /// </summary>

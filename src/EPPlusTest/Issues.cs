@@ -1261,15 +1261,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue108()
-        {
-            using (var p = OpenTemplatePackage("Test.xlsx"))
-            {
-                Assert.AreEqual(3, ((ExcelShape)p.Workbook.Worksheets[0].Drawings[0]).RichText.Count);
-                SaveWorkbook("Issue108.xlsx", p);
-            }
-        }
-        [TestMethod]
         public void Issue115()
         {
             using (var p = OpenPackage("Issue115.xlsx", true))
@@ -1376,16 +1367,6 @@ namespace EPPlusTest
             using (var p=OpenTemplatePackage("Issue195.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void DrawingIssue()
-        {
-            using (var p = OpenTemplatePackage("test.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                ws.Drawings.Clear();
                 SaveAndCleanup(p);
             }
         }

@@ -142,22 +142,31 @@ namespace OfficeOpenXml.Table
             }
             lock (this)
             {
+                var tIx = _tableNames[Table.Name];
                 _tableNames.Remove(Table.Name);
                 _tables.Remove(Table);
                 foreach (var sheet in Table.WorkSheet.Workbook.Worksheets)
                 {
                     if (sheet is ExcelChartsheet) continue;
-                    foreach (var table in sheet.Tables)
+                    foreach (var t in sheet.Tables)
                     {
-                        if (table.Id > Table.Id) table.Id--;
+                        if (t.Id > Table.Id) t.Id--;
                     }
                     Table.WorkSheet.Workbook._nextTableID--;
                 }
+                foreach(var name in _tableNames.Keys.ToArray())
+                { 
+                    if(_tableNames[name] > tIx)
+                    {
+                        _tableNames[name]--;
+                    }
+                }
+                Table.DeleteMe();
                 if (ClearRange)
                 {
                     var range = _ws.Cells[Table.Address.Address];
                     range.Clear();
-                }
+                }                
             }
 
         }
