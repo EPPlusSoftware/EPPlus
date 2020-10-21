@@ -38,6 +38,7 @@ namespace OfficeOpenXml
         const string CellStyleXfsPath = "d:styleSheet/d:cellStyleXfs";
         const string CellXfsPath = "d:styleSheet/d:cellXfs";
         const string CellStylesPath = "d:styleSheet/d:cellStyles";
+        const string TableStylesPath = "d:styleSheet/d:tableStyles";
         const string dxfsPath = "d:styleSheet/d:dxfs";
 
         //internal Dictionary<int, ExcelXfs> Styles = new Dictionary<int, ExcelXfs>();
@@ -131,6 +132,17 @@ namespace OfficeOpenXml
                 {
                     ExcelNamedStyleXml item = new ExcelNamedStyleXml(_nameSpaceManager, n, this);
                     NamedStyles.Add(item.Name, item);
+                }
+            }
+
+            //tableStyle
+            XmlNode tableStyleNode = _styleXml.SelectSingleNode(TableStylesPath, _nameSpaceManager);
+            if (tableStyleNode != null)
+            {
+                foreach (XmlNode n in tableStyleNode)
+                {
+                    ExcelTableStyleXml item = new ExcelTableStyleXml(_nameSpaceManager, n, this);
+                    TableStyles.Add(item.Name, item);
                 }
             }
 
@@ -668,6 +680,10 @@ namespace OfficeOpenXml
         /// Contain all named styles for that package
         /// </summary>
         public ExcelStyleCollection<ExcelNamedStyleXml> NamedStyles = new ExcelStyleCollection<ExcelNamedStyleXml>();
+        /// <summary>
+        /// Contain all table styles for that package
+        /// </summary>
+        public ExcelStyleCollection<ExcelTableStyleXml> TableStyles = new ExcelStyleCollection<ExcelTableStyleXml>();
         /// <summary>
         /// Contain all differential formatting styles for the package
         /// </summary>
