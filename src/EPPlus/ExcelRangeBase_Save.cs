@@ -17,6 +17,8 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
+using System.Data;
+using OfficeOpenXml.Export.ToDataTable;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -24,7 +26,26 @@ namespace OfficeOpenXml
 {
     public partial class ExcelRangeBase
     {
-#region ToText / SaveToText
+        #region ToDataTable
+
+        public DataTable ToDataTable()
+        {
+            return ToDataTable(ToDataTableOptions.Default);
+        }
+
+        public DataTable ToDataTable(ToDataTableOptions options)
+        {
+            var func = new ToDataTable(options, this);
+            return func.Execute();
+        }
+
+        public DataTable ToDataTable(ToDataTableOptions options, DataTable dataTable)
+        {
+            var func = new ToDataTable(options, this);
+            return func.Execute(dataTable);
+        }
+        #endregion
+        #region ToText / SaveToText
         /// <summary>
         /// Converts a range to text in CSV format.
         /// </summary>
