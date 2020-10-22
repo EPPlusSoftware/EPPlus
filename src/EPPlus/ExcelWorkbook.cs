@@ -186,7 +186,6 @@ namespace OfficeOpenXml
 				StylesUri = new Uri("/xl/styles.xml", UriKind.Relative);
 			if (PersonsUri == null)
 				PersonsUri = new Uri("/xl/persons/person.xml", UriKind.Relative);
-
 		}
 		#endregion
 

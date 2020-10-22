@@ -11,8 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Controls;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 /*
 <mc:AlternateContent xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
@@ -49,10 +51,10 @@ namespace OfficeOpenXml
 {
     internal class ControlsCollectionInternal : XmlHelper, IEnumerable<ControlInternal>
     {
-        internal List<ControlInternal> _list=new List<ControlInternal>();
+        private List<ControlInternal> _list=new List<ControlInternal>();
         internal ControlsCollectionInternal(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
-            var nodes = GetNodes("mc:AlternateContent/mc:Choice/controls/mc:AlternateContent/d:choice/controls");
+            var nodes = GetNodes("mc:AlternateContent/mc:Choice/d:controls/mc:AlternateContent/mc:Choice/d:control");
             foreach(XmlNode node in nodes)
             {
                 _list.Add(new ControlInternal(NameSpaceManager, node));
@@ -67,6 +69,11 @@ namespace OfficeOpenXml
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
+        }
+
+        internal ControlInternal GetControlByShapeId(int shapeId)
+        {
+            return _list.FirstOrDefault(x => x.ShapeId == shapeId);
         }
     }
 }

@@ -729,7 +729,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("xr2", schemaXr2);
             ns.AddNamespace("mc", schemaMarkupCompatibility);
             ns.AddNamespace("tc", schemaThreadedComments);
-            
+            ns.AddNamespace("a14", ExcelPackage.schemaDrawings2010); 
             return ns;
         }
 		

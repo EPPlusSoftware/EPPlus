@@ -904,11 +904,11 @@ namespace OfficeOpenXml
                 return (_worksheetXml);
             }
         }
-        internal ExcelVmlDrawingCommentCollection _vmlDrawings = null;
+        internal ExcelVmlDrawingCollection _vmlDrawings = null;
         /// <summary>
         /// Vml drawings. underlaying object for comments
         /// </summary>
-        internal ExcelVmlDrawingCommentCollection VmlDrawingsComments
+        internal ExcelVmlDrawingCollection VmlDrawings
         {
             get
             {
@@ -987,7 +987,7 @@ namespace OfficeOpenXml
             var relIdNode = _worksheetXml.DocumentElement.SelectSingleNode("d:legacyDrawing/@r:id", NameSpaceManager);
             if (relIdNode == null)
             {
-                _vmlDrawings = new ExcelVmlDrawingCommentCollection(_package, this, null);
+                _vmlDrawings = new ExcelVmlDrawingCollection(_package, this, null);
             }
             else
             {
@@ -996,7 +996,7 @@ namespace OfficeOpenXml
                     var rel = Part.GetRelationship(relIdNode.Value);
                     var vmlUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
 
-                    _vmlDrawings = new ExcelVmlDrawingCommentCollection(_package, this, vmlUri);
+                    _vmlDrawings = new ExcelVmlDrawingCollection(_package, this, vmlUri);
                     _vmlDrawings.RelId = rel.Id;
                 }
             }
@@ -2445,7 +2445,7 @@ namespace OfficeOpenXml
                         Part.DeleteRelationship(_comments.RelId);
                         _package.ZipPackage.DeletePart(_comments.Uri);                        
                     }
-                    RemoveLegacyDrawingRel(VmlDrawingsComments.RelId);
+                    RemoveLegacyDrawingRel(VmlDrawings.RelId);
                 }
                 else
                 {

@@ -18,9 +18,11 @@ using System.Xml;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
@@ -326,7 +328,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Lock drawing
         /// </summary>
-        public bool Locked
+        public virtual bool Locked
         {
             get
             {
@@ -341,7 +343,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Print drawing with sheet
         /// </summary>
-        public bool Print
+        public virtual bool Print
         {
             get
             {
@@ -451,7 +453,16 @@ namespace OfficeOpenXml.Drawing
             switch (drawNode.LocalName)
             {
                 case "sp":
-                    return new ExcelShape(drawings, node);
+                    var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
+                    var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
+                    if(control != null)
+                    {
+                        return ControlFactory.GetControl(drawings, drawNode, control);
+                    }
+                    else
+                    {
+                        return new ExcelShape(drawings, node);
+                    }
                 case "pic":
                     return new ExcelPicture(drawings, node);
                 case "graphicFrame":
@@ -494,6 +505,17 @@ namespace OfficeOpenXml.Drawing
             }
             return new ExcelDrawing(drawings, node, "","");
         }
+
+        private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
+        {
+            var idNode = drawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr/@id", nameSpaceManager);
+            if(idNode!=null)
+            {
+                return int.Parse(idNode.Value);
+            }
+            return -1;
+        }
+
         internal int Id
         {
             get { return _id; }

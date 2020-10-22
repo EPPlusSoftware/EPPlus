@@ -156,6 +156,7 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("x15", ExcelPackage.schemaMainX15);                
             NameSpaceManager.AddNamespace("sle", ExcelPackage.schemaSlicer2010);
             NameSpaceManager.AddNamespace("sle15", ExcelPackage.schemaSlicer);
+            NameSpaceManager.AddNamespace("a14", ExcelPackage.schemaDrawings2010);
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion

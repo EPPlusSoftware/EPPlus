@@ -222,7 +222,7 @@ namespace OfficeOpenXml
                 {
                     CopyComment(Copy, added);
                 }
-                else if (Copy.VmlDrawingsComments.Count > 0)    //Vml drawings are copied as part of the comments. 
+                else if (Copy.VmlDrawings.Count > 0)    //Vml drawings are copied as part of the comments. 
                 {
                     CopyVmlDrawing(Copy, added);
                 }
@@ -768,7 +768,7 @@ namespace OfficeOpenXml
             //Add the relationship ID to the worksheet xml.
             var commentRelation = workSheet.Part.CreateRelationship(UriHelper.GetRelativeUri(workSheet.WorksheetUri, uriComment), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/comments");
 
-            xml = Copy.VmlDrawingsComments.VmlDrawingXml.InnerXml;
+            xml = Copy.VmlDrawings.VmlDrawingXml.InnerXml;
 
             var uriVml = new Uri(string.Format("/xl/drawings/vmldrawing{0}.vml", workSheet.SheetId), UriKind.Relative);
             if (_pck.ZipPackage.PartExists(uriVml))
@@ -920,7 +920,7 @@ namespace OfficeOpenXml
 
         private void CopyVmlDrawing(ExcelWorksheet origSheet, ExcelWorksheet newSheet)
         {
-            var xml = origSheet.VmlDrawingsComments.VmlDrawingXml.OuterXml;
+            var xml = origSheet.VmlDrawings.VmlDrawingXml.OuterXml;
             var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetId), UriKind.Relative);
             var part = _pck.ZipPackage.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _pck.Compression);
             var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));

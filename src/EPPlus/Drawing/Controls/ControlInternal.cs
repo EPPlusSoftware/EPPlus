@@ -51,6 +51,105 @@ namespace OfficeOpenXml.Drawing.Controls
         {
 
         }
+
+        public string RelationshipId 
+        {
+            get
+            {
+                return GetXmlNodeString("@r:id");
+            }
+            set
+            {
+                SetXmlNodeString("@r:id", value);
+            }
+        }
+
+        public string Macro 
+        { 
+            get
+            {
+                return GetXmlNodeString("d:controlPr/@macro");
+            }
+            internal set
+            {
+                SetXmlNodeString("d:controlPr/@macro", value);                
+            }
+        }
+
+        public bool Print
+        {
+            get
+            {
+                return GetXmlNodeBool("d:controlPr/@print", true);
+            }
+            set
+            {
+                SetXmlNodeBool("d:controlPr/@print", value);
+            }
+        }
+
+        public bool Locked
+        {
+            get
+            {
+                return GetXmlNodeBool("d:controlPr/@locked", true);
+            }
+            set
+            {
+                SetXmlNodeBool("d:controlPr/@locked", value);
+            }
+        }
+
+
+
+        public bool AutoPict
+        {
+            get
+            {
+                return GetXmlNodeBool("d:controlPr/@autoPict", true);
+            }
+            set
+            {
+                SetXmlNodeBool("d:controlPr/@autoPict", value);
+            }
+        }
+
+        public bool AutoFill
+        {
+            get
+            {
+                return GetXmlNodeBool("d:controlPr/@autoFill", true);
+            }
+            set
+            {
+                SetXmlNodeBool("d:controlPr/@autoFill", value);
+            }
+        }
+
+        public bool DefaultSize
+        {
+            get
+            {
+                return GetXmlNodeBool("d:controlPr/@defaultSize", true);
+            }
+            set
+            {
+                SetXmlNodeBool("d:controlPr/@defaultSize", value);
+            }
+        }
+
+        public bool Disabled
+        {
+            get
+            {
+                return GetXmlNodeBool("d:controlPr/@disabled", false);
+            }
+            set
+            {
+                SetXmlNodeBool("d:controlPr/@disabled", value);
+            }
+        }
+
         internal string Name 
         { 
             get
@@ -73,6 +172,38 @@ namespace OfficeOpenXml.Drawing.Controls
                 SetXmlNodeInt("@shapeId", value);
             }
         }
-
+        internal string AlternativeText
+        {
+            get
+            {
+                return GetXmlNodeString("d:controlPr/@altText");
+            }
+            set
+            {
+                SetXmlNodeString("d:controlPr/@altText", value);
+            }
+        }
+        public string FormulaRange
+        {
+            get
+            {
+                return GetXmlNodeString("d:controlPr/@fmlaRange");
+            }
+            set
+            {
+                SetXmlNodeString("d:controlPr/@fmlaRange", value);
+            }
+        }
+        public string LinkedCell
+        {
+            get
+            {
+                return GetXmlNodeString("d:controlPr/@linkedCell");
+            }
+            set
+            {
+                SetXmlNodeString("d:controlPr/@linkedCell", value);
+            }
+        }
     }
 }

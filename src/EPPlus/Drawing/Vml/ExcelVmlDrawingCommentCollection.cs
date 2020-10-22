@@ -19,10 +19,12 @@ using OfficeOpenXml.Core.CellStore;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
-    internal class ExcelVmlDrawingCommentCollection : ExcelVmlDrawingBaseCollection, IEnumerable<ExcelVmlDrawingComment>, IEnumerator<ExcelVmlDrawingComment>, IDisposable
+    internal class ExcelVmlDrawingCollection
+        : ExcelVmlDrawingBaseCollection, IEnumerable<ExcelVmlDrawingComment>, IEnumerator<ExcelVmlDrawingComment>, IDisposable
     {
         internal CellStore<ExcelVmlDrawingComment> _drawings;
-        internal ExcelVmlDrawingCommentCollection(ExcelPackage pck, ExcelWorksheet ws, Uri uri) :
+        internal Dictionary<string, ExcelVmlDrawingBase> _drawingsDict = new Dictionary<string, ExcelVmlDrawingBase>();
+        internal ExcelVmlDrawingCollection(ExcelPackage pck, ExcelWorksheet ws, Uri uri) :
             base(pck, ws, uri)
         {
             _drawings = new CellStore<ExcelVmlDrawingComment>();
@@ -35,7 +37,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 AddDrawingsFromXml(ws);
             }
         }
-        ~ExcelVmlDrawingCommentCollection()
+        ~ExcelVmlDrawingCollection()
         {
             _drawings?.Dispose();
             _drawings = null;
@@ -46,24 +48,38 @@ namespace OfficeOpenXml.Drawing.Vml
             //var list = new List<IRangeID>();
             foreach (XmlNode node in nodes)
             {
-                var rowNode = node.SelectSingleNode("x:ClientData/x:Row", NameSpaceManager);
-                var colNode = node.SelectSingleNode("x:ClientData/x:Column", NameSpaceManager);
-                if (rowNode != null && colNode != null)
+                var objectType = node.SelectSingleNode("x:ClientData/@ObjectType", NameSpaceManager)?.Value;
+                ExcelVmlDrawingBase vmlDrawing;
+                switch (objectType)
                 {
-                    var row = int.Parse(rowNode.InnerText) + 1;
-                    var col = int.Parse(colNode.InnerText) + 1;
-                    //list.Add(new ExcelVmlDrawingComment(node, ws.Cells[row, col], NameSpaceManager));
-                    _drawings.SetValue(row, col, new ExcelVmlDrawingComment(node, ws.Cells[row, col], NameSpaceManager));
+                    case "Drop":
+                    case "Button":
+                        vmlDrawing = new ExcelVmlDrawingControl(node, NameSpaceManager);
+                        break;
+                    default:    //Comments
+                        var rowNode = node.SelectSingleNode("x:ClientData/x:Row", NameSpaceManager);
+                        var colNode = node.SelectSingleNode("x:ClientData/x:Column", NameSpaceManager);
+                        int row, col;
+                        if (rowNode != null && colNode != null)
+                        {
+                            row = int.Parse(rowNode.InnerText) + 1;
+                            col = int.Parse(colNode.InnerText) + 1;
+                        }
+                        else
+                        {
+                            row = 1;
+                            col = 1;
+                        }
+                        vmlDrawing = new ExcelVmlDrawingComment(node, ws.Cells[row, col], NameSpaceManager);
+                        _drawings.SetValue(row, col, new ExcelVmlDrawingComment(node, ws.Cells[row, col], NameSpaceManager));
+                        break;
                 }
-                else
-                {
-                    //list.Add(new ExcelVmlDrawingComment(node, ws.Cells[1, 1], NameSpaceManager));
-                    _drawings.SetValue(1, 1, new ExcelVmlDrawingComment(node, ws.Cells[1, 1], NameSpaceManager));
-                }
+                _drawingsDict.Add(vmlDrawing.Id, vmlDrawing);
             }
             //list.Sort(new Comparison<IRangeID>((r1, r2) => (r1.RangeID < r2.RangeID ? -1 : r1.RangeID > r2.RangeID ? 1 : 0)));  //Vml drawings are not sorted. Sort to avoid missmatches.
             //_drawings = new RangeCollection(list);
         }
+
         private string CreateVmlDrawings()
         {
             string vml = string.Format("<xml xmlns:v=\"{0}\" xmlns:o=\"{1}\" xmlns:x=\"{2}\">",
@@ -159,6 +175,18 @@ namespace OfficeOpenXml.Drawing.Vml
             _nextID++;
             return "vml" + _nextID.ToString();
         }
+        internal ExcelVmlDrawingBase this[string id]
+        {
+            get
+            {
+                if(_drawingsDict.ContainsKey(id))
+                {
+                    return _drawingsDict[id];
+                }
+                return null;
+            }
+        }
+
         internal ExcelVmlDrawingBase this[int row, int column]
         {
             get
