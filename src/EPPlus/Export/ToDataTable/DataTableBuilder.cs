@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         internal DataTable Build()
         {
+            var columnNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
             var dataTable = string.IsNullOrEmpty(_options.DataTableName) ? new DataTable() : new DataTable(_options.DataTableName);
             if(!string.IsNullOrEmpty(_options.DataTableNamespace))
             {
@@ -48,18 +49,27 @@ namespace OfficeOpenXml.Export.ToDataTable
                 var row = _range.Start.Row;
                 var name = _options.ColumnNamePrefix + ++columnOrder;
                 var columnIndex = columnOrder - 1;
-                if(_options.FirstRowIsColumnNames)
+                if(_options.Mappings.ContainsMapping(columnIndex))
                 {
-                    name = _sheet.Cells[row, col].Value?.ToString();
+                    name = _options.Mappings.GetByRangeIndex(columnIndex).DataColumnName;
+                }
+                else if (_options.FirstRowIsColumnNames)
+                {                    
+                    name = _sheet.GetValue(row, col)?.ToString();
                     if (name == null) throw new InvalidOperationException(string.Format("First row contains an empty cell at index {0}", col - _range.Start.Column));
                     name = GetColumnName(name);
                 }
-                
+                if(columnNames.Contains(name))
+                {
+                    throw new InvalidOperationException($"Duplicate column name : {name}");
+                }
+                columnNames.Add(name);
                 // find type
-                while (_sheet.Cells[++row, col] == null && row <= _range.End.Row)
+                while (_sheet.GetValue(++row, col) == null && row <= _range.End.Row)
                     ;
-                if (row == _range.End.Row && _sheet.Cells[row, col].Value == null) throw new InvalidOperationException(string.Format("Column with index {0} does not contain any values", col));
-                var type = _sheet.Cells[row, col].Value.GetType();
+                var v = _sheet.GetValue(row, col);
+                if (row == _range.End.Row && v == null) throw new InvalidOperationException(string.Format("Column with index {0} does not contain any values", col));
+                var type = v.GetType();
                 
                 // check mappings
                 if(_options.PredefinedMappingsOnly && !_options.Mappings.ContainsMapping( columnIndex))

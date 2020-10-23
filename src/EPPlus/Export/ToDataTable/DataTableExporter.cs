@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Reflection;
 
 namespace OfficeOpenXml.Export.ToDataTable
 {
@@ -40,24 +41,58 @@ namespace OfficeOpenXml.Export.ToDataTable
         public void Export()
         {
             var row = _options.FirstRowIsColumnNames ? _range.Start.Row + 1 : _range.Start.Row;
-            while(row <= _range.End.Row)
+            while (row <= _range.End.Row)
             {
                 var dataRow = _dataTable.NewRow();
                 foreach (var mapping in _options.Mappings)
                 {
                     var col = mapping.ZeroBasedColumnIndexInRange + _range.Start.Column;
                     var val = _sheet.GetValueInner(row, col);
-                    if(mapping.DataColumnType == typeof(DateTime))
-                    {
-                        dataRow[mapping.DataColumnName] = ConvertUtility.GetValueDate(val);
-                    }
-                    else
-                    {
-                        dataRow[mapping.DataColumnName] = val;
-                    }
+                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, mapping.DataColumnType);
                 }
                 _dataTable.Rows.Add(dataRow);
                 row++;
+            }
+        }
+
+        private object CastToColumnDataType(object val, Type dataColumnType)
+        {
+            if (val.GetType() == dataColumnType)
+            {
+                return val;
+            }
+            else if (val == null)
+            {
+                if (dataColumnType.IsValueType)
+                {
+                    return Activator.CreateInstance(dataColumnType);
+                }
+                return null;
+            }
+            else if (dataColumnType == typeof(DateTime))
+            {
+                return ConvertUtility.GetValueDate(val);
+            }
+            else if (dataColumnType == typeof(double))
+            {
+                return ConvertUtility.GetValueDouble(val);
+            }
+            else
+            {
+                try
+                {
+                    MethodInfo methodInfo = typeof(ConvertUtility).GetMethod(nameof(ConvertUtility.GetTypedCellValue));
+                    MethodInfo genericMethod = methodInfo.MakeGenericMethod(dataColumnType);
+                    return genericMethod.Invoke(null, new object[] { val });
+                }
+                catch
+                {
+                    if (dataColumnType.IsValueType)
+                    {
+                        return Activator.CreateInstance(dataColumnType);
+                    }
+                    return null;
+                }
             }
         }
     }
