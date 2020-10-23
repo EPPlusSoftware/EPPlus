@@ -66,7 +66,10 @@ namespace OfficeOpenXml.Utils.CompundDocument
         }
         internal void Read(byte[] doc) 
         {
-            Read(new MemoryStream(doc));
+            using (var ms = RecyclableMemory.GetStream(doc))
+            {
+                Read(ms);
+            }
         }
         internal void Read(MemoryStream ms)
         {

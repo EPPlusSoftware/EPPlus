@@ -135,7 +135,10 @@ namespace OfficeOpenXml.Drawing
                 container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             }
             container.ImageHash = ii.Hash;
-            _image = Image.FromStream(new MemoryStream(img));
+            using (var ms = RecyclableMemory.GetStream(img))
+            {
+                _image = Image.FromStream(ms);
+            }
             SetPosDefaults(_image);
 
             //Create relationship
