@@ -8,9 +8,10 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
@@ -23,6 +24,35 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         public override eControlType ControlType => eControlType.Label;
-
+        /// <summary>
+        /// The source data cell that the control object's data is linked to.
+        /// </summary>
+        public ExcelAddressBase LinkedCell 
+        {
+            get
+            {
+                var range = _ctrlProp.GetXmlNodeString("@fmlaTxbx");
+                if (ExcelAddressBase.IsValidAddress(range))
+                {
+                    return new ExcelAddressBase(range);
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _ctrlProp.DeleteNode("@fmlaTxbx");
+                }
+                if (value.WorkSheetName.Equals(_drawings.Worksheet.Name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaTxbx", value.Address);
+                }
+                else
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaTxbx", value.FullAddress);
+                }
+            }
+        }
     }
 }

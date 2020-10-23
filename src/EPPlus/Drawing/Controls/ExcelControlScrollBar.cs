@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/21/2020         EPPlus Software AB           Controls 
+    10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
 using System.Xml;
@@ -22,7 +22,20 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
-        public override eControlType ControlType => eControlType.ScrollBar;
-
+        public override eControlType ControlType => eControlType.ScrollBar;        
+        /// <summary>
+        /// Gets or sets if scrollbar is horizontal or vertical
+        /// </summary>
+        public bool Horizontal
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@horiz");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@horiz", value);
+            }
+        }
     }
 }

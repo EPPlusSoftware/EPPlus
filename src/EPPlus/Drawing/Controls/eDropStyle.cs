@@ -8,21 +8,23 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-    10/21/2020         EPPlus Software AB           Controls 
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Packaging;
-using System.Xml;
-
-namespace OfficeOpenXml.Drawing.Controls
+namespace OfficeOpenXml
 {
-    public class ExcelControlGroupBox : ExcelControl
+    public enum eDropStyle
     {
-        internal ExcelControlGroupBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
-        {
-        }
-
-        public override eControlType ControlType => eControlType.GroupBox;
-
+        /// <summary>
+        /// A standard combo box
+        /// </summary>
+        Combo,
+        /// <summary>
+        /// An editable combo box
+        /// </summary>
+        ComboEdit,
+        /// <summary>
+        /// A standard combo box with only the drop-down button visible when the box is not expanded
+        /// </summary>
+        Simple
     }
 }

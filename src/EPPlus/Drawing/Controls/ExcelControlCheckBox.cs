@@ -23,6 +23,19 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         public override eControlType ControlType => eControlType.CheckBox;
-
+        /// <summary>
+        /// Gets or sets if a check box or radio button is selected
+        /// </summary>
+        public bool Checked 
+        { 
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@checked");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@checked", value);
+            }
+        }
     }
 }

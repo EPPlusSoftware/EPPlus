@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/21/2020         EPPlus Software AB           Controls 
+    10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
 using System.Xml;
@@ -23,6 +23,33 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         public override eControlType ControlType => eControlType.RadioButton;
-
+        /// <summary>
+        /// Gets or sets if a check box or radio button is selected
+        /// </summary>
+        public bool Checked
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@checked");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@checked", value);
+            }
+        }
+        /// <summary>
+        /// Gets or sets if the radio button is the first button in a set of radio buttons
+        /// </summary>
+        public bool FirstButton
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@firstButton");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@firstButton", value);
+            }
+        }        
     }
 }
