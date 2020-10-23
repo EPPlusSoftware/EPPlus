@@ -1,32 +1,26 @@
-﻿#if !NET35
-
-using Microsoft.IO;
-
-#endif
-
-using System.IO;
+﻿using System.IO;
 
 namespace OfficeOpenXml.Utils
 {
 	internal static class RecyclableMemory
 	{
 #if !NET35
-		private static RecyclableMemoryStreamManager _memoryManager;
+		private static Microsoft.IO.RecyclableMemoryStreamManager _memoryManager;
 
-		private static RecyclableMemoryStreamManager MemoryManager
+		private static Microsoft.IO.RecyclableMemoryStreamManager MemoryManager
 		{
-			get 
+			get
 			{
 				if (_memoryManager is null)
 				{
-					_memoryManager = new RecyclableMemoryStreamManager();
+					_memoryManager = new Microsoft.IO.RecyclableMemoryStreamManager();
 				}
 
 				return _memoryManager;
 			}
 		}
 
-		public static void SetRecyclableMemoryStreamManager(RecyclableMemoryStreamManager recyclableMemoryStreamManager)
+		public static void SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager recyclableMemoryStreamManager)
 		{
 			_memoryManager = recyclableMemoryStreamManager;
 		}

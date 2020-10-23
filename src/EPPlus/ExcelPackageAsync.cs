@@ -34,10 +34,7 @@ namespace OfficeOpenXml
         public async Task LoadAsync(FileInfo fileInfo, CancellationToken cancellationToken = default)
         {
             var stream = fileInfo.OpenRead();
-            using (var ms = RecyclableMemory.GetStream())
-            {
-                await LoadAsync(stream, ms, null, cancellationToken).ConfigureAwait(false);
-            }
+            await LoadAsync(stream, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -49,10 +46,7 @@ namespace OfficeOpenXml
         public async Task LoadAsync(FileInfo fileInfo, string Password, CancellationToken cancellationToken = default)
         {
             var stream = fileInfo.OpenRead();
-            using (var ms = RecyclableMemory.GetStream())
-            {
-                await LoadAsync(stream, ms, Password, cancellationToken).ConfigureAwait(false);
-            }
+            await LoadAsync(stream, RecyclableMemory.GetStream(), Password, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>

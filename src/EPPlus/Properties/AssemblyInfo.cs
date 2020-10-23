@@ -47,3 +47,7 @@ using System.Security;
     //[assembly: AssemblyFileVersion("5.2.1.0")]
 #endif
 [assembly: AllowPartiallyTrustedCallers]
+
+#if !NET35
+[assembly: SecurityRules(SecurityRuleSet.Level1)]
+#endif
