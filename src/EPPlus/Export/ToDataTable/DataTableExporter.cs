@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Export.ToDataTable
         private readonly ExcelRangeBase _range;
         private readonly ExcelWorksheet _sheet;
         private readonly DataTable _dataTable;
+        private Dictionary<Type, MethodInfo> _convertMethods = new Dictionary<Type, MethodInfo>();
 
         public void Export()
         {
@@ -44,30 +45,54 @@ namespace OfficeOpenXml.Export.ToDataTable
             while (row <= _range.End.Row)
             {
                 var dataRow = _dataTable.NewRow();
+                var ignoreRow = false;
                 foreach (var mapping in _options.Mappings)
                 {
                     var col = mapping.ZeroBasedColumnIndexInRange + _range.Start.Column;
                     var val = _sheet.GetValueInner(row, col);
+                    if(!mapping.AllowNull && val == null)
+                    {
+                        throw new InvalidOperationException($"Value cannot be null, row: {row}, col: {col}");
+                    }
+                    else if(ExcelErrorValue.Values.IsErrorValue(val))
+                    {
+                        if(_options.ExcelErrorParsingStrategy == ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells)
+                        {
+                            val = null;
+                        }
+                        else if(_options.ExcelErrorParsingStrategy == ExcelErrorParsingStrategy.IgnoreRowWithErrors)
+                        {
+                            ignoreRow = true;
+                            continue;
+                        }
+                        else if(_options.ExcelErrorParsingStrategy == ExcelErrorParsingStrategy.ThrowException)
+                        {
+                            throw new InvalidOperationException($"Excel error value {val.ToString()} detected at row: {row}, col: {col}");
+                        }
+                    }
                     dataRow[mapping.DataColumnName] = CastToColumnDataType(val, mapping.DataColumnType);
                 }
-                _dataTable.Rows.Add(dataRow);
+                if(!ignoreRow)
+                {
+                    _dataTable.Rows.Add(dataRow);
+                }
                 row++;
             }
         }
 
         private object CastToColumnDataType(object val, Type dataColumnType)
         {
-            if (val.GetType() == dataColumnType)
-            {
-                return val;
-            }
-            else if (val == null)
+            if (val == null)
             {
                 if (dataColumnType.IsValueType)
                 {
                     return Activator.CreateInstance(dataColumnType);
                 }
                 return null;
+            }
+            if (val.GetType() == dataColumnType)
+            {
+                return val;
             }
             else if (dataColumnType == typeof(DateTime))
             {
@@ -81,9 +106,13 @@ namespace OfficeOpenXml.Export.ToDataTable
             {
                 try
                 {
-                    MethodInfo methodInfo = typeof(ConvertUtility).GetMethod(nameof(ConvertUtility.GetTypedCellValue));
-                    MethodInfo genericMethod = methodInfo.MakeGenericMethod(dataColumnType);
-                    return genericMethod.Invoke(null, new object[] { val });
+                    if(!_convertMethods.ContainsKey(dataColumnType))
+                    {
+                        MethodInfo methodInfo = typeof(ConvertUtility).GetMethod(nameof(ConvertUtility.GetTypedCellValue));
+                        _convertMethods.Add(dataColumnType, methodInfo.MakeGenericMethod(dataColumnType));
+                    }
+                    var getTypedCellValue = _convertMethods[dataColumnType];
+                    return getTypedCellValue.Invoke(null, new object[] { val });
                 }
                 catch
                 {

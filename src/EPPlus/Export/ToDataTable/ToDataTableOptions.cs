@@ -25,18 +25,30 @@ namespace OfficeOpenXml.Export.ToDataTable
     {
         private const string DefaultColPrefix = "column";
         private const string DefaultDataTableName = "dataTable1";
+        private List<string> _primaryKeyFields = new List<string>();
+        private List<int> _primaryKeyIndexes = new List<int>();
         private ToDataTableOptions()
         {
             Mappings = new DataColumnMappingCollection();
             // Default values
-            NameParsingStrategy = NameParsingStrategy.Preserve;
+            ColumnNameParsingStrategy = NameParsingStrategy.Preserve;
             PredefinedMappingsOnly = false;
             FirstRowIsColumnNames = true;
             DataTableName = DefaultDataTableName;
         }
 
+        internal IEnumerable<string> PrimaryKeyNames
+        {
+            get { return _primaryKeyFields; }
+        }
+
+        internal IEnumerable<int> PrimaryKeyIndexes
+        {
+            get { return _primaryKeyIndexes; }
+        }
+
         /// <summary>
-        /// Returns an instance of ToDataTableOptions with default values set. <see cref="NameParsingStrategy"/> is set to <see cref="NameParsingStrategy.Preserve"/>, <see cref="PredefinedMappingsOnly"/> is set to false, <see cref="FirstRowIsColumnNames"/> is set to true
+        /// Returns an instance of ToDataTableOptions with default values set. <see cref="ColumnNameParsingStrategy"/> is set to <see cref="NameParsingStrategy.Preserve"/>, <see cref="PredefinedMappingsOnly"/> is set to false, <see cref="FirstRowIsColumnNames"/> is set to true
         /// </summary>
         public static ToDataTableOptions Default
         {
@@ -55,23 +67,67 @@ namespace OfficeOpenXml.Export.ToDataTable
             return options;
         }
         /// <summary>
-        /// If true, the first row of the range will be used to collect the column names of the <see cref="DataTable"/>. The column names will be set according to the <see cref="NameParsingStrategy"></see> used.
+        /// If true, the first row of the range will be used to collect the column names of the <see cref="DataTable"/>. The column names will be set according to the <see cref="ColumnNameParsingStrategy"></see> used.
         /// </summary>
         public bool FirstRowIsColumnNames { get; set; }
 
         /// <summary>
-        /// <see cref="NameParsingStrategy">NameParsingStrategy</see> to use when parsing the first row of the range to column names
+        /// <see cref="ColumnNameParsingStrategy">NameParsingStrategy</see> to use when parsing the first row of the range to column names
         /// </summary>
-        public NameParsingStrategy NameParsingStrategy { get; set; }
+        public NameParsingStrategy ColumnNameParsingStrategy { get; set; }
+
+        /// <summary>
+        /// Number of rows that will will be skipped from the start (top) of the range. If <see cref="FirstRowIsColumnNames"/> is true, this will be applied after the first row (column names) has been read.
+        /// </summary>
+        public int SkipNumberOfRowsStart { get; set; }
+
+        /// <summary>
+        /// Sets how Excel error values are handled when detected.
+        /// </summary>
+        public ExcelErrorParsingStrategy ExcelErrorParsingStrategy { get; set; }
 
         public DataColumnMappingCollection Mappings { get; private set; }
 
+        /// <summary>
+        /// If true, only columns that are specified in the <see cref="Mappings"></see> collection are included in the DataTable.
+        /// </summary>
         public bool PredefinedMappingsOnly { get; set; }
 
+        /// <summary>
+        /// If no column names are specified, this prefix will be used followed by a number
+        /// </summary>
         public string ColumnNamePrefix { get; set; } = DefaultColPrefix;
 
+        /// <summary>
+        /// Name of the data table
+        /// </summary>
         public string DataTableName { get; set; }
 
+        /// <summary>
+        /// Namespace of the data table
+        /// </summary>
         public string DataTableNamespace { get; set; }
+
+        /// <summary>
+        /// Sets the primary key of the data table. 
+        /// </summary>
+        /// <param name="columnNames">The name or names of one or more column in the <see cref="System.Data.DataTable"/> that constitutes the primary key</param>
+        public void SetPrimaryKey(params string[] columnNames)
+        {
+            _primaryKeyFields.Clear();
+            _primaryKeyFields.AddRange(columnNames);
+            _primaryKeyIndexes.Clear();
+        }
+
+        /// <summary>
+        /// Sets the primary key of the data table. 
+        /// </summary>
+        /// <param name="zeroBasedRangeIndexes">The index or indexes of one or more column in the range that builds up the primary key of the <see cref="System.Data.DataTable"/></param>
+        public void SetPrimaryKey(params int[] zeroBasedRangeIndexes)
+        {
+            _primaryKeyIndexes.Clear();
+            _primaryKeyIndexes.AddRange(zeroBasedRangeIndexes);
+            _primaryKeyFields.Clear();
+        }
     }
 }

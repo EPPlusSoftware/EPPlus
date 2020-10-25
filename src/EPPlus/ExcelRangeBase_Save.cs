@@ -33,6 +33,13 @@ namespace OfficeOpenXml
             return ToDataTable(ToDataTableOptions.Default);
         }
 
+        public DataTable ToDataTable(Action<ToDataTableOptions> configHandler)
+        {
+            var o = ToDataTableOptions.Default;
+            configHandler.Invoke(o);
+            return ToDataTable(o);
+        }
+
         public DataTable ToDataTable(ToDataTableOptions options)
         {
             var func = new ToDataTable(options, this);

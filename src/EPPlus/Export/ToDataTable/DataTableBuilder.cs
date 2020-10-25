@@ -91,12 +91,32 @@ namespace OfficeOpenXml.Export.ToDataTable
                     _options.Mappings.GetByRangeIndex(columnIndex).DataColumnType = type;
                 }
             }
+            HandlePrimaryKeys(dataTable);
             return dataTable;
+        }
+
+        private void HandlePrimaryKeys(DataTable dataTable)
+        {
+            var pk = new DataTablePrimaryKey(_options);
+            if(pk.HasKeys)
+            {
+                var cols = new List<DataColumn>();
+                foreach(var colObj in dataTable.Columns)
+                {
+                    var col = colObj as DataColumn;
+                    if (col == null) continue;
+                    if (pk.ContainsKey(col.ColumnName))
+                    {
+                        cols.Add(col);
+                    }   
+                }
+                dataTable.PrimaryKey = cols.ToArray();
+            }
         }
 
         private string GetColumnName(string name)
         {
-            switch(_options.NameParsingStrategy)
+            switch(_options.ColumnNameParsingStrategy)
             {
                 case NameParsingStrategy.Preserve:
                     return name;
