@@ -37,5 +37,20 @@ namespace OfficeOpenXml.Drawing.Controls
                 _ctrlProp.SetXmlNodeBool("@checked", value);
             }
         }
+        /// <summary>
+        /// Gets or sets whether a checkbox's text is locked.
+        /// </summary>
+        public bool LockedText
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@lockedText");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@lockedText", value);
+            }
+        }
+
     }
 }

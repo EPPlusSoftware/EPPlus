@@ -54,5 +54,20 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets whether a label's text is locked.
+        /// </summary>
+        public bool LockedText
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@lockedText");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@lockedText", value);
+            }
+        }
+
     }
 }

@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The name of the drawing object
         /// </summary>
-        public string Name 
+        public virtual string Name 
         {
             get
             {

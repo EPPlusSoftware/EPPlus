@@ -38,6 +38,21 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         /// <summary>
+        /// Gets or sets whether a radiobutton's text is locked.
+        /// </summary>
+        public bool LockedText
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@lockedText");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@lockedText", value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets if the radio button is the first button in a set of radio buttons
         /// </summary>
         public bool FirstButton

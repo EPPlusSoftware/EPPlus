@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Controls
 
         public override eControlType ControlType => eControlType.DropDown;
         /// <summary>
-        /// Get or sets whether a drop-down object has a color applied to it
+        /// Gets or sets whether a drop-down object has a color applied to it
         /// </summary>
         public bool Colored 
         {

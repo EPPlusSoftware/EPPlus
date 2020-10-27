@@ -11,6 +11,7 @@
     10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
@@ -35,7 +36,47 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 _ctrlProp.SetXmlNodeBool("@horiz", value);
+                _vmlProp.SetXmlNodeBool("x:Horiz", value);
             }
         }
+        /// <summary>
+        /// How much the scrollbar is incremented for each click
+        /// </summary>
+        public int Increment
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeInt("@inc", 1);
+            }
+            set
+            {
+                if(value < 0 || value >3000)
+                {
+                    throw (new ArgumentOutOfRangeException("Increment must be between 0 and 3000"));
+                }
+                _ctrlProp.SetXmlNodeInt("@inc", value);
+                _vmlProp.SetXmlNodeInt("x:Inc", value);
+            }
+        }
+        /// <summary>
+        /// The number of items to move the scroll bar on a page click. Null is default
+        /// </summary>
+        public int? Page
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeIntNull("@page");
+            }
+            set
+            {
+                if (value.HasValue && (value < 0 || value > 3000))
+                {
+                    throw (new ArgumentOutOfRangeException("Page must be between 0 and 3000"));
+                }
+                _ctrlProp.SetXmlNodeInt("@page", value);
+                _vmlProp.SetXmlNodeInt("x:Page", value);
+            }
+        }
+
     }
 }

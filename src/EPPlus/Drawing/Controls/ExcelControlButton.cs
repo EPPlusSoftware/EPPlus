@@ -23,6 +23,20 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         public override eControlType ControlType => eControlType.Button;
+        /// <summary>
+        /// Gets or sets whether a button's text is locked.
+        /// </summary>
+        public bool LockedText
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeBool("@lockedText");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeBool("@lockedText", value);
+            }
+        }
 
     }
 }

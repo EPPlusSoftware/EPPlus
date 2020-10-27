@@ -21,6 +21,7 @@ namespace OfficeOpenXml.Drawing.Controls
     {
         protected ExcelVmlDrawingControl _vml;
         protected XmlHelper _ctrlProp;
+        protected XmlHelper _vmlProp;
         internal ControlInternal _control;
         private ZipPackageRelationship _rel;
 
@@ -29,10 +30,9 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             _control = control;
             _rel = rel;
-            //VmlNode vmlTopNode=GetVmlNode(drawings.Worksheet.VmlDrawingsComments);
             var _vml = drawings.Worksheet.VmlDrawings[LegacySpId];
+            _vmlProp = XmlHelperFactory.Create(NameSpaceManager, _vml.GetNode("x:ClientData"));
             ControlPropertiesXml = ctrlPropXml;
-            //_vml = new ExcelVmlDrawingControl(vmlTopNode, NameSpaceManager);
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
         }
 
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// The name of the control
         /// </summary>
-        public string Name
+        public override string Name
         {
             get
             {
@@ -93,6 +93,7 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 _control.Macro = value;
+                _vmlProp.SetXmlNodeString("x:FmlaMacro", value);
             }
         }
 
@@ -157,6 +158,46 @@ namespace OfficeOpenXml.Drawing.Controls
             get { return _control.Disabled; }
             set { _control.Disabled = value; }
         }
+        /// <summary>
+        /// If the control has 3D effects enabled.
+        /// </summary>
+        public bool ThreeDEffects
+        {
+            get
+            {
+                var b= GetXmlNodeBoolNullable("@noThreeD2");
+                if (b.HasValue == false)
+                {
+                    return GetXmlNodeBool("@noThreeD") == false;
+                }
+                else
+                {
+                    return GetXmlNodeBool("@noThreeD2") == false;
+                }
+            }
+            set
+            {
+                var b = GetXmlNodeBoolNullable("@noThreeD2");
+                if (b.HasValue)
+                {
+                    SetXmlNodeBool("@noThreeD2", value == false);   //can be used for lists and drop-downs.
+                }
+                else
+                {
+                    SetXmlNodeBool("@noThreeD", value == false);
+                }
+                
+                var xmlAttr = (ControlType == eControlType.DropDown || ControlType == eControlType.ListBox) ? "x:NoThreeD2" : "x:NoThreeD";
+                if (value)
+                {
+                    _vmlProp.CreateNode(xmlAttr);
+                }
+                else
+                {
+                    _vmlProp.DeleteNode(xmlAttr);
+                }
+            }
+        }        
     }
 
 }
