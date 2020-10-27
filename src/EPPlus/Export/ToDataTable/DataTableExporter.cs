@@ -42,43 +42,81 @@ namespace OfficeOpenXml.Export.ToDataTable
         public void Export()
         {
             var row = _options.FirstRowIsColumnNames ? _range.Start.Row + 1 : _range.Start.Row;
-            while (row <= _range.End.Row)
+            Validate();
+            row += _options.SkipNumberOfRowsStart;
+            
+            while (row <= (_range.End.Row - _options.SkipNumberOfRowsEnd))
             {
                 var dataRow = _dataTable.NewRow();
                 var ignoreRow = false;
+                var rowIsEmpty = true;
+                var rowErrorMsg = string.Empty;
+                var rowErrorExists = false;
                 foreach (var mapping in _options.Mappings)
                 {
                     var col = mapping.ZeroBasedColumnIndexInRange + _range.Start.Column;
                     var val = _sheet.GetValueInner(row, col);
+                    if (val != null && rowIsEmpty) rowIsEmpty = false;
                     if(!mapping.AllowNull && val == null)
                     {
-                        throw new InvalidOperationException($"Value cannot be null, row: {row}, col: {col}");
+                        rowErrorMsg = $"Value cannot be null, row: {row}, col: {col}";
+                        rowErrorExists = true;
                     }
                     else if(ExcelErrorValue.Values.IsErrorValue(val))
                     {
-                        if(_options.ExcelErrorParsingStrategy == ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells)
+                        switch(_options.ExcelErrorParsingStrategy)
                         {
-                            val = null;
-                        }
-                        else if(_options.ExcelErrorParsingStrategy == ExcelErrorParsingStrategy.IgnoreRowWithErrors)
-                        {
-                            ignoreRow = true;
-                            continue;
-                        }
-                        else if(_options.ExcelErrorParsingStrategy == ExcelErrorParsingStrategy.ThrowException)
-                        {
-                            throw new InvalidOperationException($"Excel error value {val.ToString()} detected at row: {row}, col: {col}");
+                            case ExcelErrorParsingStrategy.IgnoreRowWithErrors:
+                                ignoreRow = true;
+                                continue;
+                            case ExcelErrorParsingStrategy.ThrowException:
+                                throw new InvalidOperationException($"Excel error value {val.ToString()} detected at row: {row}, col: {col}");
+                            default:
+                                val = null;
+                                break;
                         }
                     }
                     dataRow[mapping.DataColumnName] = CastToColumnDataType(val, mapping.DataColumnType);
                 }
-                if(!ignoreRow)
+                if(rowIsEmpty)
                 {
-                    _dataTable.Rows.Add(dataRow);
+                    if(_options.EmptyRowStrategy == EmptyRowsStrategy.StopAtFirst)
+                    {
+                        row++;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(rowErrorExists)
+                    {
+                        throw new InvalidOperationException(rowErrorMsg);
+                    }
+                    if (!ignoreRow)
+                    {
+                        _dataTable.Rows.Add(dataRow);
+                    }
                 }
                 row++;
             }
         }
+
+        private void Validate()
+        {
+            if (_options.SkipNumberOfRowsStart < 0 || _options.SkipNumberOfRowsStart >= _range.End.Row)
+            {
+                throw new IndexOutOfRangeException("SkipNumberOfRowsStart was out of range: " + _options.SkipNumberOfRowsStart);
+            }
+            if (_options.SkipNumberOfRowsEnd < 0 || _options.SkipNumberOfRowsEnd >= _range.End.Row - _range.Start.Row)
+            {
+                throw new IndexOutOfRangeException("SkipNumberOfRowsEnd was out of range: " + _options.SkipNumberOfRowsEnd);
+            }
+            if((_options.SkipNumberOfRowsEnd + _options.SkipNumberOfRowsStart) > _range.End.Row - _range.Start.Row)
+            {
+                throw new ArgumentException("Total number of skipped rows was larger than number of rows in range");
+            }
+        }
+
 
         private object CastToColumnDataType(object val, Type dataColumnType)
         {

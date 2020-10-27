@@ -77,15 +77,29 @@ namespace OfficeOpenXml.Export.ToDataTable
         public NameParsingStrategy ColumnNameParsingStrategy { get; set; }
 
         /// <summary>
-        /// Number of rows that will will be skipped from the start (top) of the range. If <see cref="FirstRowIsColumnNames"/> is true, this will be applied after the first row (column names) has been read.
+        /// Number of rows that will be skipped from the start (top) of the range. If <see cref="FirstRowIsColumnNames"/> is true, this will be applied after the first row (column names) has been read.
         /// </summary>
         public int SkipNumberOfRowsStart { get; set; }
+
+        /// <summary>
+        /// Number of rows that will be skipped from the end (bottom) of the range.
+        /// </summary>
+        public int SkipNumberOfRowsEnd { get; set; }
 
         /// <summary>
         /// Sets how Excel error values are handled when detected.
         /// </summary>
         public ExcelErrorParsingStrategy ExcelErrorParsingStrategy { get; set; }
 
+        /// <summary>
+        /// Sets how empty rows in the range are handled when detected
+        /// </summary>
+        public EmptyRowsStrategy EmptyRowStrategy { get; set; }
+
+        /// <summary>
+        /// Mappings that specifies columns from the range and how these should be mapped to the <see cref="DataTable"/>
+        /// </summary>
+        /// <seealso cref="DataColumnMapping"/>
         public DataColumnMappingCollection Mappings { get; private set; }
 
         /// <summary>

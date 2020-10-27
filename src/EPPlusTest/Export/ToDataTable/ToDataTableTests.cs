@@ -220,6 +220,84 @@ namespace EPPlusTest.Export.ToDataTable
             }
         }
 
+        [TestMethod]
+        public void ToDataTableShouldSkipLinesStart()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var date = DateTime.UtcNow;
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = "Bob";
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B3"].Value = "Rob";
+
+                // Default strategy: Count error as blank cell value
+                var dt = sheet.Cells["A1:B3"].ToDataTable(o => o.SkipNumberOfRowsStart = 1);
+                Assert.AreEqual(1, dt.Rows.Count);
+                Assert.AreEqual(3, dt.Rows[0]["Id"]);
+                Assert.AreEqual("Rob", dt.Rows[0]["Name"]);
+            }
+        }
+        
+        [TestMethod]
+        public void ToDataTableShouldSkipEmptyRows()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var date = DateTime.UtcNow;
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["B3"].Value = "Bob";
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["B4"].Value = "Rob";
+
+                // Default strategy: Count error as blank cell value
+                var dt = sheet.Cells["A1:B4"].ToDataTable(o => o.EmptyRowStrategy = EmptyRowsStrategy.Ignore);
+                Assert.AreEqual(2, dt.Rows.Count);
+                Assert.AreEqual(1, dt.Rows[0]["Id"]);
+                Assert.AreEqual("Rob", dt.Rows[1]["Name"]);
+
+                sheet.Cells.Clear();
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = "Bob";
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["B4"].Value = "Rob";
+
+                dt = sheet.Cells["A1:B4"].ToDataTable(o => o.EmptyRowStrategy = EmptyRowsStrategy.StopAtFirst);
+                Assert.AreEqual(1, dt.Rows.Count);
+                Assert.AreEqual(1, dt.Rows[0]["Id"]);
+            }
+        }
+
+        [TestMethod]
+        public void ToDataTableShouldSkipLinesEnd()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var date = DateTime.UtcNow;
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = "Bob";
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B3"].Value = "Rob";
+
+                // Default strategy: Count error as blank cell value
+                var dt = sheet.Cells["A1:B3"].ToDataTable(o => o.SkipNumberOfRowsEnd = 1);
+                Assert.AreEqual(1, dt.Rows.Count);
+                Assert.AreEqual(1, dt.Rows[0]["Id"]);
+                Assert.AreEqual("Bob", dt.Rows[0]["Name"]);
+            }
+        }
+
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void ToDataTableShouldHandleAllowNulls()
         {
