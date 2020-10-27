@@ -1348,7 +1348,7 @@ namespace EPPlusTest
                 tbl.Columns["IsUser"].AddSlicer();
                 pt.Fields["IsUser"].AddSlicer();
 
-                SaveAndCleanup(p);
+                SaveWorkbook("pivotTable2.xlsx", p);
             }
         }
         [TestMethod]

@@ -145,12 +145,7 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         internal override bool CheckSlicerNameIsUnique(string name)
         {
-            if (_drawings.Worksheet.Workbook._slicerNames.Contains(name))
-            {
-                return false;
-            }
-            _drawings.Worksheet.Workbook._slicerNames.Add(name);
-            return true;
+            return _drawings.Worksheet.Workbook.CheckSlicerNameIsUnique(name);
         }
 
         internal void CreateNewCache()

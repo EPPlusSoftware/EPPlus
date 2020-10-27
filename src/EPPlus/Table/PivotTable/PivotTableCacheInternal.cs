@@ -223,11 +223,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     var hs = new HashSet<object>();
                     for (int row = r._fromRow + 1; row <= r._toRow; row++)
                     {
-                        var o = ws.GetValue(row, col);
-                        if (!hs.Contains(o))
-                        {
-                            hs.Add(o);
-                        }
+                        ExcelPivotTableCacheField.AddSharedItemToHashSet(hs, ws.GetValue(row, col));
                     }
                     field.SharedItems._list = hs.ToList();
                     fields.Add(field);
@@ -242,7 +238,6 @@ namespace OfficeOpenXml.Table.PivotTable
 
              RefreshPivotTableItems();
         }
-
         private void RefreshPivotTableItems()
         {
             foreach(var pt in _pivotTables)
