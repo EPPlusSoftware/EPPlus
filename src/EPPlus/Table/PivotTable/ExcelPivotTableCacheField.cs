@@ -310,7 +310,15 @@ namespace OfficeOpenXml.Table.PivotTable
                             AppendItem(shNode, "n", ConvertUtil.GetValueForXml(si, false));
                             break;
                         case TypeCode.DateTime:
-                            AppendItem(shNode, "d", ((DateTime)si).ToString("s"));
+                            var d = ((DateTime)si);
+                            if (d.Year > 1899)
+                            {
+                                AppendItem(shNode, "d", d.ToString("s"));
+                            }
+                            else
+                            {
+                                AppendItem(shNode, "d", d.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
+                            }
                             break;
                         case TypeCode.Boolean:
                             AppendItem(shNode, "b", ConvertUtil.GetValueForXml(si, false));
@@ -321,7 +329,15 @@ namespace OfficeOpenXml.Table.PivotTable
                         default:
                             if (t == typeof(TimeSpan))
                             {
-                                AppendItem(shNode, "d", ConvertUtil.GetValueForXml(si, false));
+                                d = new DateTime(((TimeSpan)si).Ticks);
+                                if (d.Year > 1899)
+                                {
+                                    AppendItem(shNode, "d", d.ToString("s"));
+                                }
+                                else
+                                {
+                                    AppendItem(shNode, "d", d.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
+                                }
                             }
                             else if (t == typeof(ExcelErrorValue))
                             {
@@ -745,11 +761,7 @@ namespace OfficeOpenXml.Table.PivotTable
             //Get unique values.
             for (int row = range._fromRow + 1; row <= toRow; row++)
             {
-                var o = ws.GetValue(row, column);
-                if (!hs.Contains(o))
-                {
-                    hs.Add(o);
-                }
+                AddSharedItemToHashSet(hs, ws.GetValue(row, column));
             }
             //A pivot table cache can reference multiple Pivot tables, so we need to update them all
             foreach (var pt in _cache._pivotTables)
@@ -787,6 +799,34 @@ namespace OfficeOpenXml.Table.PivotTable
                 UpdateSlicers();
             }
         }
+        internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)
+        {
+            if (o != null)
+            {
+                var t = o.GetType();
+                if (t == typeof(TimeSpan))
+                {
+                    var ticks = ((TimeSpan)o).Ticks + (TimeSpan.TicksPerSecond) / 2;
+                    o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                }
+                if (t == typeof(DateTime))
+                {
+                    var ticks = ((DateTime)o).Ticks;
+                    if ((ticks % TimeSpan.TicksPerSecond) != 0)
+                    {
+                        ticks += TimeSpan.TicksPerSecond / 2;
+                        o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                    }
+                }
+            }
+            if (!hs.Contains(o))
+            {
+                hs.Add(o);
+            }
+
+            return o;
+        }
+
     }
 
     internal class CacheComparer : IEqualityComparer<object>

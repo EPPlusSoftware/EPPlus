@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FakeItEasy.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Table.PivotTable;
@@ -91,6 +92,62 @@ namespace EPPlusTest.Table.PivotTable
 
             Assert.AreEqual(7, p1.CacheDefinition._cacheReference.Fields.Count);
             Assert.AreEqual(p1.CacheDefinition._cacheReference, p2.CacheDefinition._cacheReference);
+        }
+        [TestMethod]
+        public void ValidateTimeSpanHandligInCache()
+        {
+            ExcelWorksheet wsData = _pck.Workbook.Worksheets.Add("Data");
+            wsData.Column(2).Style.Numberformat.Format = "m/d/yyyy";
+            wsData.Column(2).Width = 12;
+            wsData.Column(3).Style.Numberformat.Format = "HH:MM:SS";
+
+            wsData.Cells["A1"].Value = "Text";
+            wsData.Cells["B1"].Value = "Date";
+            wsData.Cells["C1"].Value = "Time";
+
+            wsData.Cells["A2"].Value = "Row1";
+            wsData.Cells["B2"].Value = DateTime.Today;
+            wsData.Cells["C2"].Value = new TimeSpan(500);
+
+            wsData.Cells["A3"].Value = "Row2";
+            wsData.Cells["B3"].Value = DateTime.Today;
+            wsData.Cells["C3"].Value = new TimeSpan(7000000);
+
+            ExcelWorksheet wsPivot = _pck.Workbook.Worksheets.Add("PivotDateAndTimeSpan");
+            var dataRange = wsData.Cells[wsData.Dimension.Address.ToString()];
+            dataRange.AutoFitColumns();
+            var pivotTable = wsPivot.PivotTables.Add(wsPivot.Cells["A3"], dataRange, "Pivotname");
+            pivotTable.MultipleFieldFilters = true;
+            pivotTable.RowGrandTotals = true;
+            pivotTable.ColumnGrandTotals = true;
+            pivotTable.Compact = true;
+            pivotTable.CompactData = true;
+            pivotTable.GridDropZones = false;
+            pivotTable.Outline = false;
+            pivotTable.OutlineData = false;
+            pivotTable.ShowError = true;
+            pivotTable.ErrorCaption = "[error]";
+            pivotTable.ShowHeaders = true;
+            pivotTable.UseAutoFormatting = true;
+            pivotTable.ApplyWidthHeightFormats = true;
+            pivotTable.ShowDrill = true;
+            pivotTable.FirstDataCol = 3;
+            pivotTable.RowHeaderCaption = "Date";
+
+            var dateField = pivotTable.Fields["Date"];
+            pivotTable.RowFields.Add(dateField);
+
+
+
+            var timeField = pivotTable.Fields["Time"];
+            pivotTable.RowFields.Add(timeField);
+            timeField.Cache.Refresh();
+            Assert.AreEqual(2, timeField.Cache.SharedItems.Count);
+            Assert.AreEqual(new DateTime(0), timeField.Cache.SharedItems[0]);
+            Assert.AreEqual(new DateTime(TimeSpan.TicksPerSecond), timeField.Cache.SharedItems[1]);
+
+            var countField = pivotTable.Fields["Text"];
+            pivotTable.ColumnFields.Add(countField);
         }
     }
 }
