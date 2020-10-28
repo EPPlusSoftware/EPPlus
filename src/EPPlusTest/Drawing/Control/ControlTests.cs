@@ -68,30 +68,57 @@ namespace EPPlusTest.Drawing.Control
                 var label = ws.Drawings[2].As.Control.Label;
                 Assert.AreEqual("Label 6", label.Name);
                 Assert.AreEqual("Label 6", label.Text);
+                Assert.IsTrue(label.LockedText);
+
 
                 Assert.IsInstanceOfType(ws.Drawings[3], typeof(ExcelControlListBox));
                 var listBox = ws.Drawings[3].As.Control.ListBox;
-                var range = listBox.InputRange;
-                var linkedCell = listBox.LinkedCell;
+                Assert.AreEqual("$J$4:$K$8", listBox.InputRange.Address);
+                Assert.AreEqual("$A$1:$A$2", listBox.LinkedCell.Address);
+                Assert.AreEqual(0, listBox.SelectedIndex);
+                Assert.AreEqual(eSelectionType.Extended, listBox.SelectionType);
+                Assert.AreEqual(2, listBox.MultiSelection.Length); ;
+                Assert.AreEqual(3, listBox.MultiSelection[0]); ;
+                Assert.AreEqual(2, listBox.MultiSelection[1]); ;
+                Assert.AreEqual("List Box 7", listBox.Name);
+
 
                 Assert.IsInstanceOfType(ws.Drawings[4], typeof(ExcelControlCheckBox));
                 var checkbox = ws.Drawings[4].As.Control.CheckBox;
                 Assert.AreEqual(eControlType.CheckBox, checkbox.ControlType);
+                Assert.AreEqual(eCheckState.Checked, checkbox.Checked);
+                Assert.IsTrue(checkbox.LockedText);
+                Assert.IsFalse(checkbox.ThreeDEffects);
+                Assert.AreEqual("Check Box 9", checkbox.Name);
+                Assert.AreEqual("Check Box 9", checkbox.Text);
 
-                Assert.IsInstanceOfType(ws.Drawings[5], typeof(ExcelControlSpin));
+
+                Assert.IsInstanceOfType(ws.Drawings[5], typeof(ExcelControlSpinButton));
                 var spin = ws.Drawings[5].As.Control.Spin;
-                Assert.AreEqual(eControlType.Spin, spin.ControlType);
+                Assert.AreEqual(eControlType.SpinButton, spin.ControlType);
+                Assert.AreEqual("$K$22", spin.LinkedCell.Address);
+                Assert.AreEqual(3, spin.Increment);
+                Assert.AreEqual(0, spin.MinValue);
+                Assert.AreEqual(30000, spin.MaxValue);
+                Assert.AreEqual(10, spin.Page);
+                Assert.AreEqual(18, spin.Value);
+                Assert.AreEqual("Spinner 10", spin.Name);
 
 
                 Assert.IsInstanceOfType(ws.Drawings[6], typeof(ExcelControlGroupBox));
                 Assert.AreEqual(eControlType.GroupBox, ws.Drawings[6].As.Control.GroupBox.ControlType);
                 var groupBox = ws.Drawings[6].As.Control.GroupBox;
+                Assert.AreEqual("[0]!GroupBox5_Click", groupBox.Macro);
                 Assert.AreEqual("Group Box 5", groupBox.Name);
                 Assert.AreEqual("Group Box 5", groupBox.Text);
 
                 Assert.IsInstanceOfType(ws.Drawings[7], typeof(ExcelControlRadioButton));
                 Assert.AreEqual(eControlType.RadioButton, ws.Drawings[7].As.Control.RadioButton.ControlType);
                 var radioButton = ws.Drawings[7].As.Control.RadioButton;
+                Assert.IsTrue(radioButton.LockedText);
+                Assert.IsTrue(radioButton.FirstButton);
+                Assert.IsTrue(radioButton.Checked);
+                Assert.IsFalse(radioButton.ThreeDEffects);
 
                 Assert.AreEqual("Option Button 11", radioButton.Name);
                 Assert.AreEqual("Option Button 11", radioButton.Text);

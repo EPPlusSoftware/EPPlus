@@ -91,6 +91,41 @@ namespace OfficeOpenXml.Drawing.Controls
                 _vmlProp.SetXmlNodeInt("x:Page", value);
             }
         }
-
+        /// <summary>
+        /// The value when a scrollbar is at it's minimum
+        /// </summary>
+        public int MinValue
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeInt("@min", 0);
+            }
+            set
+            {
+                if (value < 0 || value > 30000)
+                {
+                    throw (new ArgumentOutOfRangeException("MinValue must be between 0 and 3000"));
+                }
+                _ctrlProp.SetXmlNodeInt("@min", value);
+            }
+        }
+        /// <summary>
+        /// The value when a scrollbar is at it's maximum
+        /// </summary>
+        public int MaxValue
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeInt("@max", 30000);
+            }
+            set
+            {
+                if (value < 0 || value > 30000)
+                {
+                    throw (new ArgumentOutOfRangeException("MaxValue must be between 0 and 30000"));
+                }
+                _ctrlProp.SetXmlNodeInt("@max", value);
+            }
+        }
     }
 }

@@ -86,8 +86,12 @@ namespace OfficeOpenXml.Drawing.Controls
                     return new ExcelControlRadioButton(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
                 case eControlType.ScrollBar:
                     return new ExcelControlScrollBar(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
-                case eControlType.Spin:
-                    return new ExcelControlSpin(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                case eControlType.SpinButton:
+                    return new ExcelControlSpinButton(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                case eControlType.EditBox:
+                    return new ExcelControlEditBox(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                case eControlType.Dialog:
+                    return new ExcelControlDialog(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
                 default:
                     throw new NotSupportedException();
             }

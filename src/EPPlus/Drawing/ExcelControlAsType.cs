@@ -72,9 +72,9 @@ namespace OfficeOpenXml.Drawing
             get { return _drawing as ExcelControlScrollBar; }
         }
 
-        public ExcelControlSpin Spin
+        public ExcelControlSpinButton Spin
         {
-            get { return _drawing as ExcelControlSpin; }
+            get { return _drawing as ExcelControlSpinButton; }
         }
     }
 }

@@ -16,14 +16,14 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlSpin : ExcelControl
+    public class ExcelControlSpinButton : ExcelControl
     {
-        internal ExcelControlSpin(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
+        internal ExcelControlSpinButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
         {
         }
 
-        public override eControlType ControlType => eControlType.Spin;
+        public override eControlType ControlType => eControlType.SpinButton;
         /// <summary>
         /// Gets or sets the address to the cell that is linked to the control. 
         /// </summary>
@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return _ctrlProp.GetXmlNodeInt("@min", 1);
+                return _ctrlProp.GetXmlNodeInt("@min", 0);
             }
             set
             {
@@ -81,22 +81,42 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return _ctrlProp.GetXmlNodeInt("@max", 1);
+                return _ctrlProp.GetXmlNodeInt("@max", 30000);
             }
             set
             {
                 if (value < 0 || value > 30000)
                 {
-                    throw (new ArgumentOutOfRangeException("MaxValue must be between 0 and 3000"));
+                    throw (new ArgumentOutOfRangeException("MaxValue must be between 0 and 30000"));
                 }
                 _ctrlProp.SetXmlNodeInt("@max", value);
             }
         }
+        /// <summary>
+        /// The value when a scrollbar is at it's maximum
+        /// </summary>
+        public int Value
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeInt("@val", 0);
+            }
+            set
+            {
+                if (value < 0 || value > 30000)
+                {
+                    throw (new ArgumentOutOfRangeException("Value must be between 0 and 30000"));
+                }
+                _ctrlProp.SetXmlNodeInt("@val", value);
+            }
+        }
+
         //TODO: Implement?
         //public bool JustLastX
         //{
 
         //}
+
         /// <summary>
         /// The number of items to move the scroll bar on a page click. Null is default
         /// </summary>

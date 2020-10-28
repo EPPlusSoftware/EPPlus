@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Controls
         ListBox,
         RadioButton,
         ScrollBar,
-        Spin,
+        SpinButton,
         EditBox,
         Dialog
     }

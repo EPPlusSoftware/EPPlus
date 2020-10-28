@@ -35,11 +35,11 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return _ctrlProp.GetXmlNodeString("@selType").ToEnum(eSelectionType.Single);
+                return _ctrlProp.GetXmlNodeString("@seltype").ToEnum(eSelectionType.Single);
             }
             set
             {
-                _ctrlProp.SetXmlNodeString("selType", value.ToEnumString());
+                _ctrlProp.SetXmlNodeString("@seltype", value.ToEnumString());
                 _vmlProp.SetXmlNodeString("x:SelType", value.ToString());
             }
         }
