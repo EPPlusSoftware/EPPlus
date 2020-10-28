@@ -10,18 +10,24 @@
  *************************************************************************************************
   10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
-using OfficeOpenXml.Packaging;
-using System.Xml;
-
-namespace OfficeOpenXml.Drawing.Controls
+namespace OfficeOpenXml
 {
-    public class ExcelControlButton : ExcelControlWithText
+    /// <summary>
+    /// The state of a check box form control
+    /// </summary>
+    public enum eCheckState
     {
-        internal ExcelControlButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
-        {
-        }
-
-        public override eControlType ControlType => eControlType.Button;
+        /// <summary>
+        /// The checkbox is unchecked
+        /// </summary>
+        Unchecked,
+        /// <summary>
+        /// The checkbox is checked
+        /// </summary>
+        Checked,
+        /// <summary>
+        /// The checkbox is greyed out, neither checked or unchecked
+        /// </summary>
+        Mixed
     }
 }

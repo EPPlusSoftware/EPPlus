@@ -11,11 +11,12 @@
   10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlCheckBox : ExcelControl
+    public class ExcelControlCheckBox : ExcelControlWithText
     {
         internal ExcelControlCheckBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
@@ -26,31 +27,30 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// Gets or sets if a check box or radio button is selected
         /// </summary>
-        public bool Checked 
+        public eCheckState Checked 
         { 
             get
             {
-                return _ctrlProp.GetXmlNodeBool("@checked");
+                return _ctrlProp.GetXmlNodeString("@checked").ToEnum(eCheckState.Unchecked);
             }
             set
             {
-                _ctrlProp.SetXmlNodeBool("@checked", value);
+                _ctrlProp.SetXmlNodeString("@checked", value.ToEnumString());
             }
         }
         /// <summary>
-        /// Gets or sets whether a checkbox's text is locked.
+        /// Gets or sets the address to the cell that is linked to the control. 
         /// </summary>
-        public bool LockedText
+        public ExcelAddressBase LinkedCell
         {
             get
             {
-                return _ctrlProp.GetXmlNodeBool("@lockedText");
+                return LinkedCellBase;
             }
             set
             {
-                _ctrlProp.SetXmlNodeBool("@lockedText", value);
+                LinkedCellBase = value;
             }
         }
-
     }
 }

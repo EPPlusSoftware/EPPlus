@@ -15,7 +15,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlRadioButton : ExcelControl
+    public class ExcelControlRadioButton : ExcelControlWithText
     {
         internal ExcelControlRadioButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
@@ -30,28 +30,39 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return _ctrlProp.GetXmlNodeBool("@checked");
+                return _ctrlProp.GetXmlNodeString("@checked")=="Checked";
             }
             set
             {
-                _ctrlProp.SetXmlNodeBool("@checked", value);
+                _ctrlProp.SetXmlNodeString("@checked", value?"Checked":"Unchecked");
             }
         }
         /// <summary>
-        /// Gets or sets whether a radiobutton's text is locked.
+        /// Gets or sets the address to the cell that is linked to the control. 
         /// </summary>
-        public bool LockedText
+        public ExcelAddressBase LinkedCell
         {
             get
             {
-                return _ctrlProp.GetXmlNodeBool("@lockedText");
+                var v=LinkedGroup;
+                if(v!=null)
+                {
+                    return v;
+                }
+                return LinkedCellBase;
             }
             set
             {
-                _ctrlProp.SetXmlNodeBool("@lockedText", value);
+                if (LinkedGroup == null)
+                {
+                    LinkedCellBase = value;
+                }
+                else
+                {
+                    LinkedGroup = value;
+                }
             }
         }
-
         /// <summary>
         /// Gets or sets if the radio button is the first button in a set of radio buttons
         /// </summary>
@@ -64,6 +75,7 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 _ctrlProp.SetXmlNodeBool("@firstButton", value);
+                _vmlProp.SetBoolNode("x:FirstButton", value);
             }
         }        
     }

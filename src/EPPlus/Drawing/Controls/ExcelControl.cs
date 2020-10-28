@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Linq;
 using System.Xml;
@@ -25,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Controls
         internal ControlInternal _control;
         private ZipPackageRelationship _rel;
 
-        internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) : 
+        internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
             base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _control = control;
@@ -38,7 +40,7 @@ namespace OfficeOpenXml.Drawing.Controls
 
         private XmlNode GetVmlNode(ExcelVmlDrawingCollection vmlDrawings)
         {
-            return vmlDrawings.FirstOrDefault(x=>x.Id==LegacySpId)?.TopNode;            
+            return vmlDrawings.FirstOrDefault(x => x.Id == LegacySpId)?.TopNode;
         }
 
         public XmlDocument ControlPropertiesXml { get; private set; }
@@ -70,8 +72,8 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// Gets or sets the alternative text for the control.
         /// </summary>
-        public string AlternativeText 
-        { 
+        public string AlternativeText
+        {
             get
             {
                 return _control.AlternativeText;
@@ -84,8 +86,8 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// Gets or sets the macro function assigned.
         /// </summary>
-        public string Macro 
-        { 
+        public string Macro
+        {
             get
             {
                 return _control.Macro;
@@ -102,12 +104,12 @@ namespace OfficeOpenXml.Drawing.Controls
         /// </summary>
         public override bool Print
         {
-            get 
-            { 
-                return _control.Print; 
+            get
+            {
+                return _control.Print;
             }
-            set 
-            { 
+            set
+            {
                 _control.Print = value;
                 base.Print = value;
             }
@@ -128,13 +130,18 @@ namespace OfficeOpenXml.Drawing.Controls
                 base.Locked = value;
             }
         }
-
+        /// <summary>
+        /// If the controls fill formatting is provided automatically
+        /// </summary>
         public bool AutoFill
         {
             get { return _control.AutoFill; }
             set { _control.AutoFill = value; }
         }
 
+        /// <summary>
+        /// If the controls size is formatted automatically.
+        /// </summary>
         public bool AutoPict
         {
             get { return _control.AutoPict; }
@@ -165,28 +172,28 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                var b= GetXmlNodeBoolNullable("@noThreeD2");
+                var b = _ctrlProp.GetXmlNodeBoolNullable("@noThreeD2");
                 if (b.HasValue == false)
                 {
-                    return GetXmlNodeBool("@noThreeD") == false;
+                    return _ctrlProp.GetXmlNodeBool("@noThreeD") == false;
                 }
                 else
                 {
-                    return GetXmlNodeBool("@noThreeD2") == false;
+                    return _ctrlProp.GetXmlNodeBool("@noThreeD2") == false;
                 }
             }
             set
             {
-                var b = GetXmlNodeBoolNullable("@noThreeD2");
+                var b = _ctrlProp.GetXmlNodeBoolNullable("@noThreeD2");
                 if (b.HasValue)
                 {
-                    SetXmlNodeBool("@noThreeD2", value == false);   //can be used for lists and drop-downs.
+                    _ctrlProp.SetXmlNodeBool("@noThreeD2", value == false);   //can be used for lists and drop-downs.
                 }
                 else
                 {
-                    SetXmlNodeBool("@noThreeD", value == false);
+                    _ctrlProp.SetXmlNodeBool("@noThreeD", value == false);
                 }
-                
+
                 var xmlAttr = (ControlType == eControlType.DropDown || ControlType == eControlType.ListBox) ? "x:NoThreeD2" : "x:NoThreeD";
                 if (value)
                 {
@@ -197,7 +204,98 @@ namespace OfficeOpenXml.Drawing.Controls
                     _vmlProp.DeleteNode(xmlAttr);
                 }
             }
-        }        
+        }
+        /// <summary>
+        /// Horizontal text alignment. Not used in Excel 2010- , so internal for now
+        /// </summary>
+        internal eHorizontalAlignmentControl HorizontalTextAlignment
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeString("textHAlign").ToEnum(eHorizontalAlignmentControl.Left);
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeString("textHAlign", value.ToEnumString());
+                _vmlProp.SetXmlNodeString("x:TextHAlign",value.ToString());
+            }
+        }
+        /// <summary>
+        /// Vertical text alignment. Not used in Excel 2010-
+        /// </summary>
+        internal eVerticalAlignmentControl VerticalTextAlignment
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeString("textVAlign").ToEnum(eVerticalAlignmentControl.Top);
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeString("textVAlign", value.ToEnumString());
+                _vmlProp.SetXmlNodeString("x:TextVAlign", value.ToString());
+            }
+        }
+        #region Shared Properties
+        internal protected ExcelAddressBase LinkedCellBase
+        {
+            get
+            {
+                var range = _ctrlProp.GetXmlNodeString("@fmlaLink");
+                if (ExcelAddressBase.IsValidAddress(range))
+                {
+                    return new ExcelAddressBase(range);
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _ctrlProp.DeleteNode("@fmlaLink");
+                    _vmlProp.DeleteNode("x:FmlaLink");
+                }
+                if (value.WorkSheetName.Equals(_drawings.Worksheet.Name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaLink", value.Address);
+                    _vmlProp.SetXmlNodeString("x:FmlaLink", value.Address);
+                }
+                else
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaLink", value.FullAddress);
+                    _vmlProp.SetXmlNodeString("x:FmlaLink", value.FullAddress);
+                }
+            }
+        }
+        internal protected ExcelAddressBase LinkedGroup
+        {
+            get
+            {
+                var range = _ctrlProp.GetXmlNodeString("@fmlaGroup");
+                if (ExcelAddressBase.IsValidAddress(range))
+                {
+                    return new ExcelAddressBase(range);
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _ctrlProp.DeleteNode("@fmlaGroup");
+                    _vmlProp.DeleteNode("x:FmlaGroup");
+                }
+                if (value.WorkSheetName.Equals(_drawings.Worksheet.Name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaGroup", value.Address);
+                    _vmlProp.SetXmlNodeString("x:FmlaGroup", value.Address);
+                }
+                else
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaGroup", value.FullAddress);
+                    _vmlProp.SetXmlNodeString("x:FmlaGroup", value.FullAddress);
+                }
+            }
+        }
+        #endregion
     }
-
 }

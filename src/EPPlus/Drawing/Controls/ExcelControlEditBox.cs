@@ -16,7 +16,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlEditBox : ExcelControl
+    public class ExcelControlEditBox : ExcelControlWithText
     {
         internal ExcelControlEditBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
@@ -43,16 +43,24 @@ namespace OfficeOpenXml.Drawing.Controls
                 if (value == null)
                 {
                     _ctrlProp.DeleteNode("@fmlaTxbx");
+                    _vmlProp.DeleteNode("x:FmlaTxbx");
                 }
                 if (value.WorkSheetName.Equals(_drawings.Worksheet.Name, StringComparison.CurrentCultureIgnoreCase))
                 {
                     _ctrlProp.SetXmlNodeString("@fmlaTxbx", value.Address);
+                    _vmlProp.SetXmlNodeString("x:FmlaTxbx", value.Address);
                 }
                 else
                 {
                     _ctrlProp.SetXmlNodeString("@fmlaTxbx", value.FullAddress);
+                    _vmlProp.SetXmlNodeString("x:FmlaTxbx", value.FullAddress);
                 }
             }
         }
+
+        //editVal
+        //multiLine
+        //verticalBar
+        //passwordEdit
     }
 }

@@ -16,7 +16,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlLabel : ExcelControl
+    public class ExcelControlLabel : ExcelControlWithText
     {
         internal ExcelControlLabel(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)

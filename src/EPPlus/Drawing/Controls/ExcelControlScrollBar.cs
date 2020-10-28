@@ -23,7 +23,21 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
-        public override eControlType ControlType => eControlType.ScrollBar;        
+        public override eControlType ControlType => eControlType.ScrollBar;
+        /// <summary>
+        /// Gets or sets the address to the cell that is linked to the control. 
+        /// </summary>
+        public ExcelAddressBase LinkedCell
+        {
+            get
+            {
+                return LinkedCellBase;
+            }
+            set
+            {
+                LinkedCellBase = value;
+            }
+        }
         /// <summary>
         /// Gets or sets if scrollbar is horizontal or vertical
         /// </summary>

@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
@@ -176,11 +177,11 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return GetXmlNodeString("d:controlPr/@altText");
+                return ConvertUtil.ExcelDecodeString(GetXmlNodeString("d:controlPr/@altText"));
             }
             set
             {
-                SetXmlNodeString("d:controlPr/@altText", value);
+                SetXmlNodeString("d:controlPr/@altText", ConvertUtil.ExcelEncodeString(value));
             }
         }
         public string FormulaRange

@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 _ctrlProp.SetXmlNodeBool("@colored", value);
+                _vmlProp.SetXmlNodeBool("x:Colored", value);
             }
         }
         /// <summary>
@@ -50,7 +51,8 @@ namespace OfficeOpenXml.Drawing.Controls
             }
             set
             {
-                _ctrlProp.SetXmlNodeInt("@dropLines", value);
+                _ctrlProp.SetXmlNodeInt("@dropLines", value, null, false);
+                _vmlProp.SetXmlNodeInt("x:DropLines", value);
             }
         }
         /// <summary>
@@ -60,19 +62,32 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                switch(GetXmlNodeString("@dropStyle"))
+                switch(_ctrlProp.GetXmlNodeString("@dropStyle"))
                 {
                     case "comboedit":
-                        return eDropStyle.Combo;
+                        return eDropStyle.ComboEdit;
                     case "simple":
                         return eDropStyle.Simple;
                     default:
-                        return eDropStyle.ComboEdit;
+                        return eDropStyle.Combo;
                 }
             }
             set
             {
-                SetXmlNodeString("@dropStyle", value.ToString().ToLower());
+                _ctrlProp.SetXmlNodeString("@dropStyle", value.ToString().ToLower());
+                _vmlProp.SetXmlNodeString("x:DropStyle", value.ToString());
+            }
+        }
+        public int? MinimumWidth
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeIntNull("@widthMin");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeInt("@widthMin", value,null, false);
+                _ctrlProp.SetXmlNodeInt("x:WidthMin", value);
             }
         }
     }

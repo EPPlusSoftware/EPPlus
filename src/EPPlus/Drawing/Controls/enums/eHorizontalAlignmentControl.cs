@@ -8,20 +8,34 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/21/2020         EPPlus Software AB           Controls 
+    10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
-using OfficeOpenXml.Packaging;
-using System.Xml;
-
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlButton : ExcelControlWithText
+    /// <summary>
+    /// Horizontal alignment for a form control. Unused in Excel 2010, so internal for now.
+    /// </summary>
+    internal enum eHorizontalAlignmentControl
     {
-        internal ExcelControlButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
-        {
-        }
-
-        public override eControlType ControlType => eControlType.Button;
+        /// <summary>
+        /// Left alignment
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Center alignment
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Right alignment
+        /// </summary>
+        Right,
+        /// <summary>
+        /// Justify alignment
+        /// </summary>
+        Justify,
+        /// <summary>
+        /// Distributed alignment
+        /// </summary>
+        Distributed
     }
 }

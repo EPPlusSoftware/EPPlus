@@ -8,20 +8,34 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/21/2020         EPPlus Software AB           Controls 
+    10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
-using OfficeOpenXml.Packaging;
-using System.Xml;
-
-namespace OfficeOpenXml.Drawing.Controls
+namespace OfficeOpenXml
 {
-    public class ExcelControlButton : ExcelControlWithText
+    /// <summary>
+    /// Vertical Alignment for a form control
+    /// </summary>
+    public enum eVerticalAlignmentControl
     {
-        internal ExcelControlButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
-        {
-        }
-
-        public override eControlType ControlType => eControlType.Button;
+        /// <summary>
+        /// Top alignment
+        /// </summary>
+        Top,
+        /// <summary>
+        /// Center alignmet
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Bottom alignment
+        /// </summary>
+        Bottom,
+        /// <summary>
+        /// Justify alignment
+        /// </summary>
+        Justify,
+        /// <summary>
+        /// Distributed alignment
+        /// </summary>
+        Distributed
     }
 }

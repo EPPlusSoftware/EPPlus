@@ -56,90 +56,18 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets the address to the cell that is linked to the control. 
+        /// </summary>
         public ExcelAddressBase LinkedCell
         {
             get
             {
-                var range = _ctrlProp.GetXmlNodeString("@fmlaGroup");
-                if (string.IsNullOrEmpty(range))
-                {
-                    range = _ctrlProp.GetXmlNodeString("@fmlaLink");
-                }
-                if (ExcelAddressBase.IsValidAddress(range))
-                {
-                    return new ExcelAddressBase(range);
-                }
-                return null;
+                return LinkedCellBase;
             }
             set
             {
-                if(value == null)
-                {
-                    _ctrlProp.DeleteNode("@fmlaLink");
-                    _vmlProp.DeleteNode("x:FmlaLink");
-                }
-                if (value.WorkSheetName.Equals(_drawings.Worksheet.Name, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    _ctrlProp.SetXmlNodeString("@fmlaLink", value.Address);
-                    _vmlProp.SetXmlNodeString("x:FmlaLink", value.Address);
-                }
-                else
-                {
-                    _ctrlProp.SetXmlNodeString("@fmlaLink", value.FullAddress);
-                    _vmlProp.SetXmlNodeString("x:FmlaLink", value.FullAddress);
-                }
-            }
-        }
-        /// <summary>
-        /// The type of selection
-        /// </summary>
-        public eSelectionType SelectionType 
-        { 
-            get
-            {
-                return _ctrlProp.GetXmlNodeString("@selType").ToEnum(eSelectionType.Single);
-            }
-            set
-            {
-                _ctrlProp.SetXmlNodeString("selType", value.ToEnumString());
-                _vmlProp.SetXmlNodeString("x:SelType", value.ToString());
-            }
-        }
-        /// <summary>
-        /// If <see cref="SelectionType"/> is Multi or extended this array contains the selected indicies. Index is zero based. 
-        /// </summary>
-        public int[] MultiSelection
-        {
-            get
-            {
-                var s=_ctrlProp.GetXmlNodeString("@multiSel");
-                if(string.IsNullOrEmpty(s))
-                {
-                    return null;
-                }
-                else
-                {
-                    var a = s.Split(',');
-                    try
-                    {
-                        return a.Select(x => int.Parse(x)-1).ToArray();
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                }
-            }
-            set
-            {
-                if(value==null)
-                {
-                    _ctrlProp.DeleteNode("@multiSel");
-                    _vmlProp.DeleteNode("x:MultiSel");
-                }
-                var v = value.Select(x => (x+1).ToString(CultureInfo.InvariantCulture)).Aggregate((x, y) => x + "," + y);
-                _ctrlProp.SetXmlNodeString("selType", v);
-                _vmlProp.SetXmlNodeString("x:MultiSel", v);
+                LinkedCellBase = value;
             }
         }
         /// <summary>
@@ -149,7 +77,7 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return GetXmlNodeInt("@sel", 0) - 1;
+                return _ctrlProp.GetXmlNodeInt("@sel", 0) - 1;
             }
             set
             {

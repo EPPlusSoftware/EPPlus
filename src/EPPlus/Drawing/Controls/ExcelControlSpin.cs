@@ -25,6 +25,20 @@ namespace OfficeOpenXml.Drawing.Controls
 
         public override eControlType ControlType => eControlType.Spin;
         /// <summary>
+        /// Gets or sets the address to the cell that is linked to the control. 
+        /// </summary>
+        public ExcelAddressBase LinkedCell
+        {
+            get
+            {
+                return LinkedCellBase;
+            }
+            set
+            {
+                LinkedCellBase = value;
+            }
+        }
+        /// <summary>
         /// How much the scrollbar is incremented for each click
         /// </summary>
         public int Increment

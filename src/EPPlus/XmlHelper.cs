@@ -61,6 +61,19 @@ namespace OfficeOpenXml
         {
             SchemaNodeOrder = CopyToSchemaNodeOrder(schemaNodeOrder, newItems);
         }
+
+        internal void SetBoolNode(string path, bool value)
+        {
+            if(value)
+            {
+                CreateNode(path);
+            }
+            else
+            {
+                DeleteNode(path);
+            }
+        }
+
         /// <summary>
         /// Adds a new array to the end of SchemaNodeOrder
         /// </summary>
