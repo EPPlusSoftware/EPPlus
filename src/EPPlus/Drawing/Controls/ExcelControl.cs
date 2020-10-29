@@ -47,8 +47,24 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = ControlStartDrawingXml();
-            LegacySpId = Id.ToString(CultureInfo.InvariantCulture);
+            ControlPropertiesXml = new XmlDocument();
+            ControlPropertiesXml.LoadXml(ControlStartControlPrXml());
+            
+            //drawings.Worksheet.VmlDrawings.Add();
         }
+
+        private string ControlStartControlPrXml()
+        {
+            var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><formControlPr xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" {0} />";
+            switch (ControlType)
+            {
+                case eControlType.Button:
+                    return string.Format(xml, "objectType=\"Button\" lockText=\"1\"");
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         private string ControlStartDrawingXml()
         {
             StringBuilder xml = new StringBuilder();
@@ -86,7 +102,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 var extNode= extHelper.GetOrCreateExtLstSubNode(ExtLstUris.LegacyObjectWrapperUri, "a14");
                 if (extNode.InnerXml == "")
                 {
-                    extNode.InnerXml = $"<a14:compatExt>";
+                    extNode.InnerXml = $"<a14:compatExt/>";
                 }
                 ((XmlElement)extNode.FirstChild).SetAttribute("spid", value);
 

@@ -41,7 +41,7 @@ namespace OfficeOpenXml
             }
             if (!cell.Worksheet._vmlDrawings.ContainsKey(cell.Start.Row, cell.Start.Column))
             {
-                cell.Worksheet._vmlDrawings.Add(cell);
+                cell.Worksheet._vmlDrawings.AddComment(cell);
             }
 
             TopNode = cell.Worksheet.VmlDrawings[cell.Start.Row, cell.Start.Column].TopNode;

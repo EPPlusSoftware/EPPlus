@@ -53,7 +53,15 @@ namespace OfficeOpenXml.Drawing.Vml
                 switch (objectType)
                 {
                     case "Drop":
+                    case "List":
                     case "Button":
+                    case "GBox":
+                    case "Label":
+                    case "Checked":
+                    case "Spin":
+                    case "Radio":
+                    case "EditBox":
+                    case "Dialog":
                         vmlDrawing = new ExcelVmlDrawingControl(node, NameSpaceManager);
                         break;
                     default:    //Comments
@@ -99,14 +107,14 @@ namespace OfficeOpenXml.Drawing.Vml
 
             return vml;
         }
-        internal ExcelVmlDrawingComment Add(ExcelRangeBase cell)
+        internal ExcelVmlDrawingComment AddComment(ExcelRangeBase cell)
         {
-            XmlNode node = AddDrawing(cell);
+            XmlNode node = AddCommentDrawing(cell);
             var draw = new ExcelVmlDrawingComment(node, cell, NameSpaceManager);
             _drawings.SetValue(cell._fromRow, cell._fromCol, draw);
             return draw;
         }
-        private XmlNode AddDrawing(ExcelRangeBase cell)
+        private XmlNode AddCommentDrawing(ExcelRangeBase cell)
         {
             int row = cell.Start.Row, col = cell.Start.Column;
             var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
@@ -148,6 +156,14 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = vml;
             return node;
         }
+        internal ExcelVmlDrawingComment AddDrawing(ExcelDrawing draw)
+        {
+            XmlNode node = AddCommentDrawing();
+            var draw = new ExcelVmlDrawingComment(node, cell, NameSpaceManager);
+            _drawings.SetValue(cell._fromRow, cell._fromCol, draw);
+            return draw;
+        }
+
         int _nextID = 0;
         /// <summary>
         /// returns the next drawing id.
