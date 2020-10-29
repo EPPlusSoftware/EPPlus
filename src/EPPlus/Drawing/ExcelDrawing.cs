@@ -1063,6 +1063,14 @@ namespace OfficeOpenXml.Drawing
             }
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
         }
+        internal protected XmlElement CreateShapeNode()
+        {
+            XmlElement shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
+            shapeNode.SetAttribute("macro", "");
+            shapeNode.SetAttribute("textlink", "");
+            TopNode.AppendChild(shapeNode);
+            return shapeNode;
+        }
         string IPictureContainer.ImageHash { get; set; }
         Uri IPictureContainer.UriPic { get; set; }
         Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }

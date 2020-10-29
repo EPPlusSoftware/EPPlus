@@ -10,12 +10,15 @@
  *************************************************************************************************
     10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.Extentions;
 using System;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Controls
 {
@@ -26,6 +29,8 @@ namespace OfficeOpenXml.Drawing.Controls
         protected XmlHelper _vmlProp;
         internal ControlInternal _control;
         private ZipPackageRelationship _rel;
+        private ExcelDrawings drawings;
+        private object drawingNode;
 
         internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
             base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
@@ -36,6 +41,26 @@ namespace OfficeOpenXml.Drawing.Controls
             _vmlProp = XmlHelperFactory.Create(NameSpaceManager, _vml.GetNode("x:ClientData"));
             ControlPropertiesXml = ctrlPropXml;
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
+        }
+
+        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode) : base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
+        {
+            XmlElement spElement = CreateShapeNode();
+            spElement.InnerXml = ControlStartDrawingXml();
+            LegacySpId = Id.ToString(CultureInfo.InvariantCulture);
+        }
+        private string ControlStartDrawingXml()
+        {
+            StringBuilder xml = new StringBuilder();
+            xml.Append($"<xdr:nvSpPr><xdr:cNvPr hidden=\"1\" name=\"\" id=\"{_id}\"><a:extLst><a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\"><a14:compatExt spid=\"_x0000_s{_id}\"/></a:ext><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{00000000-0008-0000-0000-000001040000}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
+            xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom><a:noFill/><a:ln w=\"9525\"><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
+            switch(ControlType)
+            {
+                case eControlType.Button:
+                    xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/><a:lstStyle/><a:p><a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr><a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
+                    break;
+            }
+            return xml.ToString();
         }
 
         private XmlNode GetVmlNode(ExcelVmlDrawingCollection vmlDrawings)
@@ -52,10 +77,18 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return GetXmlNodeString("xdr:sp/xdr:nvSpPr/xdr:cNvPr/a:extLst/a:ext[@uri='{63B3BB69-23CF-44E3-9099-C40C66FF867C}']/a14:compatExt/@spid");
+                return GetXmlNodeString($"xdr:sp/xdr:nvSpPr/xdr:cNvPr/a:extLst/a:ext[@uri='{ExtLstUris.LegacyObjectWrapperUri}']/a14:compatExt/@spid");
             }
             set
             {
+                var node= GetNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr");
+                var extHelper = XmlHelperFactory.Create(NameSpaceManager, node);
+                var extNode= extHelper.GetOrCreateExtLstSubNode(ExtLstUris.LegacyObjectWrapperUri, "a14");
+                if (extNode.InnerXml == "")
+                {
+                    extNode.InnerXml = $"<a14:compatExt>";
+                }
+                ((XmlElement)extNode.FirstChild).SetAttribute("spid", value);
 
             }
         }

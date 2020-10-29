@@ -6,6 +6,9 @@ namespace OfficeOpenXml.Constants
 {
     internal class ExtLstUris
     {
+        //Legacy Object Wrapper
+        internal const string LegacyObjectWrapperUri = "{63B3BB69-23CF-44E3-9099-C40C66FF867C}";
+
         //Pivot Table
         internal const string PivotTableDefinitionUri = "{962EF5D1-5CA2-4c93-8EF4-DBF5C05439D2}";
         internal const string PivotTableDataUri = "{44433962-1CF7-4059-B4EE-95C3D5FFCF73}";

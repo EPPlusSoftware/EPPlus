@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
 using System;
@@ -44,7 +45,8 @@ namespace OfficeOpenXml.Drawing.Controls
             { "GBox", eControlType.GroupBox },
             { "List", eControlType.ListBox },
             { "Radio", eControlType.RadioButton },
-            { "Scroll", eControlType.ScrollBar }
+            { "Scroll", eControlType.ScrollBar },
+            { "Spin", eControlType.SpinButton }
         };
 
         private static eControlType GetControlType(string input)
@@ -96,6 +98,44 @@ namespace OfficeOpenXml.Drawing.Controls
                     throw new NotSupportedException();
             }
             throw new NotImplementedException();
+        }
+
+        internal static ExcelControl CreateControl(eControlType controlType,ExcelDrawings drawings, XmlElement drawNode, string name)
+        {
+            ExcelControl ctrl;
+            switch (controlType)
+            {
+                case eControlType.Button:
+                    ctrl = new ExcelControlButton(drawings, drawNode)
+                    {
+                        Text = name
+                    };                    
+                    break;
+                //case eControlType.DropDown:
+                //    return new ExcelControlDropDown(drawings, drawNode);
+                //case eControlType.GroupBox:
+                //    return new ExcelControlGroupBox(drawings, drawNode);
+                //case eControlType.Label:
+                //    return new ExcelControlLabel(drawings, drawNode);
+                //case eControlType.ListBox:
+                //    return new ExcelControlListBox(drawings, drawNode);
+                //case eControlType.CheckBox:
+                //    return new ExcelControlCheckBox(drawings, drawNode);
+                //case eControlType.RadioButton:
+                //    return new ExcelControlRadioButton(drawings, drawNode);
+                //case eControlType.ScrollBar:
+                //    return new ExcelControlScrollBar(drawings, drawNode);
+                //case eControlType.SpinButton:
+                //    return new ExcelControlSpinButton(drawings, drawNode);
+                //case eControlType.EditBox:
+                //    return new ExcelControlEditBox(drawings, drawNode);
+                //case eControlType.Dialog:
+                //    return new ExcelControlDialog(drawings, drawNode);
+                default:
+                    throw new NotSupportedException();
+            }
+            ctrl.Name = name;
+            return ctrl;
         }
     }
 }

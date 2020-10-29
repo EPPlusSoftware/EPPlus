@@ -17,6 +17,11 @@ namespace OfficeOpenXml.Drawing.Controls
         {
 
         }
+
+        protected ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        {
+        }
+
         /// <summary>
         /// Text inside the shape
         /// </summary>

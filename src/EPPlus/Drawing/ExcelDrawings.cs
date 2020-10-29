@@ -25,6 +25,7 @@ using System.Drawing;
 using System.IO;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Drawing.Controls;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -1200,8 +1201,28 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawings.Count - 1);
             return shape;
         }
+#region Form Controls
+        public ExcelControl AddControl(string Name, eControlType ControlType)
+        {
+            if (Worksheet is ExcelChartsheet && _drawings.Count > 0)
+            {
+                throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
+            }
+            if (_drawingNames.ContainsKey(Name))
+            {
+                throw new Exception("Name already exists in the drawings collection");
+            }
 
-        private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell)
+            XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
+
+            ExcelControl control = ControlFactory.CreateControl(ControlType, this, drawNode, Name);
+
+            _drawings.Add(control);
+            _drawingNames.Add(Name, _drawings.Count - 1);
+            return control;
+        }
+        #endregion
+        private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent=false)
         {
             if (DrawingXml.DocumentElement == null)
             {
@@ -1234,7 +1255,18 @@ namespace OfficeOpenXml.Drawing
 
             var topElementname = $"{topNodeType.ToEnumString()}Anchor";
             drawNode = _drawingsXml.CreateElement("xdr", topElementname, ExcelPackage.schemaSheetDrawings);
-            colNode.AppendChild(drawNode);
+            if (asAlterniveContent)
+            {
+                var acNode = (XmlElement)_drawingsXml.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
+                acNode.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+                acNode.InnerXml = "<mc:Choice Requires=\"a14\" xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\"></mc:Choice><mc:Fallback/>";
+                acNode.FirstChild.AppendChild(drawNode);
+                colNode.AppendChild(acNode);
+            }
+            else
+            {
+                colNode.AppendChild(drawNode);
+            }
             if (topNodeType == eEditAs.OneCell || topNodeType == eEditAs.TwoCell)
             {
                 //Add from position Element;
@@ -1476,5 +1508,6 @@ namespace OfficeOpenXml.Drawing
             }
             return null;
         }
+
     }
 }
