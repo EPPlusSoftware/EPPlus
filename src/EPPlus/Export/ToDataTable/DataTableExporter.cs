@@ -76,7 +76,11 @@ namespace OfficeOpenXml.Export.ToDataTable
                                 break;
                         }
                     }
-                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, mapping.DataColumnType);
+                    if(mapping.TransformCellValue != null)
+                    {
+                        val = mapping.TransformCellValue.Invoke(val);
+                    }
+                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, mapping.ColumnDataType);
                 }
                 if(rowIsEmpty)
                 {

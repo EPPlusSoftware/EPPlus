@@ -4,6 +4,7 @@ using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.LoadFunctions.Params;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,32 @@ namespace EPPlusTest.Export.ToDataTable
                 {
                     o.PredefinedMappingsOnly = true;
                     o.Mappings.Add(1, "Name");
+                });
+                Assert.AreEqual(1, dt.Rows.Count);
+                Assert.AreEqual(1, dt.Columns.Count);
+                Assert.AreEqual(typeof(string), dt.Columns[0].DataType);
+                Assert.AreEqual("John Doe", dt.Rows[0]["Name"]);
+            }
+        }
+
+        [TestMethod]
+        public void ToDataTableShouldReturnDataTable_WithColumnMapping()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = "John Doe";
+
+                var col = new DataColumn();
+                col.ColumnName = "Name";
+                col.DataType = typeof(string);
+                var dt = sheet.Cells["A1:B2"].ToDataTable(o =>
+                {
+                    o.PredefinedMappingsOnly = true;
+                    o.Mappings.Add(1, col);
                 });
                 Assert.AreEqual(1, dt.Rows.Count);
                 Assert.AreEqual(1, dt.Columns.Count);
@@ -130,6 +157,7 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual(date, dt.Rows[0]["Date"]);
             }
         }
+
         [TestMethod]
         public void ToDataTableShouldHandleIntToString()
         {
@@ -148,6 +176,28 @@ namespace EPPlusTest.Export.ToDataTable
                 var dt = sheet.Cells["A1:B2"].ToDataTable(options);
                 Assert.AreEqual(1, dt.Rows.Count);
                 Assert.AreEqual("1", dt.Rows[0]["Id"]);
+                Assert.AreEqual(date, dt.Rows[0]["Date"]);
+            }
+        }
+
+        [TestMethod]
+        public void ToDataTableShouldHandleTransform()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var date = DateTime.UtcNow;
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Date";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = date;
+                var options = ToDataTableOptions.Create(o =>
+                {
+                    o.Mappings.Add(0, "Id", typeof(string), true, c => "Id: " + c.ToString());
+                });
+                var dt = sheet.Cells["A1:B2"].ToDataTable(options);
+                Assert.AreEqual(1, dt.Rows.Count);
+                Assert.AreEqual("Id: 1", dt.Rows[0]["Id"]);
                 Assert.AreEqual(date, dt.Rows[0]["Date"]);
             }
         }

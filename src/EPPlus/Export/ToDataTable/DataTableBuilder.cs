@@ -48,6 +48,7 @@ namespace OfficeOpenXml.Export.ToDataTable
             {
                 var row = _range.Start.Row;
                 var name = _options.ColumnNamePrefix + ++columnOrder;
+                var origName = name;
                 var columnIndex = columnOrder - 1;
                 if(_options.Mappings.ContainsMapping(columnIndex))
                 {
@@ -56,6 +57,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                 else if (_options.FirstRowIsColumnNames)
                 {                    
                     name = _sheet.GetValue(row, col)?.ToString();
+                    origName = name;
                     if (name == null) throw new InvalidOperationException(string.Format("First row contains an empty cell at index {0}", col - _range.Start.Column));
                     name = GetColumnName(name);
                 }
@@ -70,25 +72,39 @@ namespace OfficeOpenXml.Export.ToDataTable
                 var v = _sheet.GetValue(row, col);
                 if (row == _range.End.Row && v == null) throw new InvalidOperationException(string.Format("Column with index {0} does not contain any values", col));
                 var type = v.GetType();
-                
-                // check mappings
-                if(_options.PredefinedMappingsOnly && !_options.Mappings.ContainsMapping( columnIndex))
+
+                // check mapping
+                var mapping = _options.Mappings.GetByRangeIndex(columnIndex);
+                if (_options.PredefinedMappingsOnly && mapping == null)
                 {
                     continue;
                 }
-                else if(_options.Mappings.ContainsMapping(columnIndex) && _options.Mappings.GetByRangeIndex(columnIndex).DataColumnType != null)
+                else if (mapping != null)
                 {
-                    type = _options.Mappings[columnIndex].DataColumnType;
+                    if(mapping.ColumnDataType != null)
+                    {
+                        type = mapping.ColumnDataType;
+                    }
+                    if(mapping.HasDataColumn)
+                    {
+                        dataTable.Columns.Add(mapping.DataColumn);
+                    }
                 }
-                dataTable.Columns.Add(name, type);
-                if(!_options.Mappings.ContainsMapping(columnIndex))
+
+                if(mapping == null || !mapping.HasDataColumn)
+                {
+                    var column = dataTable.Columns.Add(name, type);
+                    column.Caption = origName;
+                }
+
+                if (!_options.Mappings.ContainsMapping(columnIndex))
                 {
                     bool allowNull = !type.IsValueType || (Nullable.GetUnderlyingType(type) != null);
                     _options.Mappings.Add(columnOrder - 1, name, type, allowNull);
                 }
-                else if(_options.Mappings.GetByRangeIndex(columnIndex).DataColumnType == null)
+                else if(_options.Mappings.GetByRangeIndex(columnIndex).ColumnDataType == null)
                 {
-                    _options.Mappings.GetByRangeIndex(columnIndex).DataColumnType = type;
+                    _options.Mappings.GetByRangeIndex(columnIndex).ColumnDataType = type;
                 }
             }
             HandlePrimaryKeys(dataTable);

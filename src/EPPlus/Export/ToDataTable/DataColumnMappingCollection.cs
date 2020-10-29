@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -28,24 +29,57 @@ namespace OfficeOpenXml.Export.ToDataTable
             }
         }
 
-        public void Add(int zeroBasedIndexInRange, string dataColumnName)
+        public void Add(int zeroBasedIndexInRange, DataColumn dataColumn)
         {
-            Add(zeroBasedIndexInRange, dataColumnName, null);
+            Add(zeroBasedIndexInRange, dataColumn, null);
         }
 
-        public void Add(int zeroBasedIndexInRange, string dataColumnName, Type dataColumnType)
+        public void Add(int zeroBasedIndexInRange, DataColumn dataColumn, Func<object, object> transformCellValueFunc)
         {
-            Add(zeroBasedIndexInRange, dataColumnName, dataColumnType, true);
+            var mapping = new DataColumnMapping(dataColumn)
+            {
+                ZeroBasedColumnIndexInRange = zeroBasedIndexInRange,
+                TransformCellValue = transformCellValueFunc
+            };
+            _mappingIndexes[mapping.ZeroBasedColumnIndexInRange] = mapping;
+            Add(mapping);
+            Sort((x, y) => x.ZeroBasedColumnIndexInRange.CompareTo(y.ZeroBasedColumnIndexInRange));
         }
 
-        public void Add(int zeroBasedIndexInRange, string dataColumnName, Type dataColumnType, bool allowNull)
+        public void Add(int zeroBasedIndexInRange, string columnName)
+        {
+            Add(zeroBasedIndexInRange, columnName, null, true, null);
+        }
+
+        public void Add(int zeroBasedIndexInRange, string columnName, bool allowNull)
+        {
+            Add(zeroBasedIndexInRange, columnName, null, allowNull, null);
+        }
+
+        public void Add(int zeroBasedIndexInRange, string columnName, Func<object, object> transformCellValueFunc)
+        {
+            Add(zeroBasedIndexInRange, columnName, null, true, transformCellValueFunc);
+        }
+
+        public void Add(int zeroBasedIndexInRange, string columnName, Type columnDataType)
+        {
+            Add(zeroBasedIndexInRange, columnName, columnDataType, true, null);
+        }
+
+        public void Add(int zeroBasedIndexInRange, string columnName, Type columnDataType, bool allowNull)
+        {
+            Add(zeroBasedIndexInRange, columnName, columnDataType, allowNull, null);
+        }
+
+        public void Add(int zeroBasedIndexInRange, string columnName, Type columnDataType, bool allowNull, Func<object, object> transformCellValueFunc)
         {
             var mapping = new DataColumnMapping
             {
                 ZeroBasedColumnIndexInRange = zeroBasedIndexInRange,
-                DataColumnName = dataColumnName,
-                DataColumnType = dataColumnType,
-                AllowNull = allowNull
+                DataColumnName = columnName,
+                ColumnDataType = columnDataType,
+                AllowNull = allowNull,
+                TransformCellValue = transformCellValueFunc
             };
             mapping.Validate();
             if (this.Any(x => x.ZeroBasedColumnIndexInRange == zeroBasedIndexInRange)) throw new InvalidOperationException("Duplicate index in range: " + zeroBasedIndexInRange);
@@ -56,7 +90,7 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         internal DataColumnMapping GetByRangeIndex(int index)
         {
-            if (!_mappingIndexes.ContainsKey(index)) throw new ArgumentOutOfRangeException("Index");
+            if (!_mappingIndexes.ContainsKey(index)) return null;
             return _mappingIndexes[index];
         }
 

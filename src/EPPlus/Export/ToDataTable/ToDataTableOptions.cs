@@ -32,6 +32,7 @@ namespace OfficeOpenXml.Export.ToDataTable
             Mappings = new DataColumnMappingCollection();
             // Default values
             ColumnNameParsingStrategy = NameParsingStrategy.Preserve;
+            ExcelErrorParsingStrategy = ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells;
             PredefinedMappingsOnly = false;
             FirstRowIsColumnNames = true;
             DataTableName = DefaultDataTableName;
@@ -53,6 +54,16 @@ namespace OfficeOpenXml.Export.ToDataTable
         public static ToDataTableOptions Default
         {
             get { return new ToDataTableOptions(); }    
+        }
+
+        /// <summary>
+        /// Creates an instance of ToDataTableOptions with default values set.
+        /// </summary>
+        /// <returns></returns>
+        /// <seealso cref="Default"/>
+        public static ToDataTableOptions Create()
+        {
+            return new ToDataTableOptions();
         }
 
         /// <summary>
