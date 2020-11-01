@@ -20,6 +20,12 @@ using System.Security;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Core.Worksheet;
+using System.Data;
+using OfficeOpenXml.Export.ToDataTable;
+using System.IO;
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
 
 namespace OfficeOpenXml.Table
 {
@@ -231,6 +237,129 @@ namespace OfficeOpenXml.Table
                 return WorkSheet.Cells[_address._fromRow, _address._fromCol, _address._toRow, _address._toCol];
             }
         }
+
+        #region Export table data
+
+        /// <summary>
+        /// Converts the table range to CSV format
+        /// </summary>
+        /// <returns></returns>
+        /// <seealso cref="ExcelRangeBase.ToText()"/>
+        public string ToText()
+        {
+            return Range.ToText();
+        }
+
+        /// <summary>
+        /// Converts the table range to CSV format
+        /// </summary>
+        /// <param name="format">Parameters/options for conversion to text</param>
+        /// <returns></returns>
+        /// <seealso cref="ExcelRangeBase.ToText(ExcelOutputTextFormat)"/>
+        public string ToText(ExcelOutputTextFormat format)
+        {
+            return Range.ToText(format);
+        }
+
+#if !NET35 && !NET40
+        /// <summary>
+        /// Converts the table range to CSV format
+        /// </summary>
+        /// <returns></returns>
+        /// <seealso cref="ExcelRangeBase.ToTextAsync()"/>
+        public Task<string> ToTextAsync()
+        {
+            return Range.ToTextAsync();
+        }
+
+        /// <summary>
+        /// Converts the table range to CSV format
+        /// </summary>
+        /// <returns></returns>
+        /// <seealso cref="ExcelRangeBase.ToText(ExcelOutputTextFormat)"/>
+        public Task<string> ToTextAsync(ExcelOutputTextFormat format)
+        {
+            return Range.ToTextAsync(format);
+        }
+#endif
+
+        /// <summary>
+        /// Exports the table to a file
+        /// </summary>
+        /// <param name="file">The export file</param>
+        /// <param name="format">Export options</param>
+        /// <seealso cref="ExcelRangeBase.SaveToText(FileInfo, ExcelOutputTextFormat)"></seealso>
+        public void SaveToText(FileInfo file, ExcelOutputTextFormat format)
+        {
+            Range.SaveToText(file, format);
+        }
+
+        /// <summary>
+        /// Exports the table to a <see cref="Stream"/>
+        /// </summary>
+        /// <param name="stream">Data will be exported to this stream</param>
+        /// <param name="format">Export options</param>
+        /// <seealso cref="ExcelRangeBase.SaveToText(Stream, ExcelOutputTextFormat)"></seealso>
+        public void SaveToText(Stream stream, ExcelOutputTextFormat format)
+        {
+            Range.SaveToText(stream, format);
+        }
+#if !NET35 && !NET40
+        /// <summary>
+        /// Exports the table to a <see cref="Stream"/>
+        /// </summary>
+        /// <param name="stream">Data will be exported to this stream</param>
+        /// <param name="format">Export options</param>
+        /// <seealso cref="ExcelRangeBase.SaveToText(Stream, ExcelOutputTextFormat)"></seealso>
+        public async Task SaveToTextAsync(Stream stream, ExcelOutputTextFormat format)
+        {
+            await Range.SaveToTextAsync(stream, format);
+        }
+
+        /// <summary>
+        /// Exports the table to a file
+        /// </summary>
+        /// <param name="file">Data will be exported to this stream</param>
+        /// <param name="format">Export options</param>
+        /// <seealso cref="ExcelRangeBase.SaveToTextAsync(FileInfo, ExcelOutputTextFormat)"/>
+        public async Task SaveToTextAsync(FileInfo file, ExcelOutputTextFormat format)
+        {
+            await Range.SaveToTextAsync(file, format);
+        }
+
+#endif
+
+        /// <summary>
+        /// Exports the table to a <see cref="System.Data.DataTable"/>
+        /// </summary>
+        /// <returns>A <see cref="System.Data.DataTable"/> containing the data in the table range</returns>
+        /// <seealso cref="ExcelRangeBase.ToDataTable()"/>
+        public DataTable ToDataTable()
+        {
+            return Range.ToDataTable();
+        }
+
+        /// <summary>
+        /// Exports the table to a <see cref="System.Data.DataTable"/>
+        /// </summary>
+        /// <returns>A <see cref="System.Data.DataTable"/> containing the data in the table range</returns>
+        /// <seealso cref="ExcelRangeBase.ToDataTable(ToDataTableOptions)"/>
+        public DataTable ToDataTable(ToDataTableOptions options)
+        {
+            return Range.ToDataTable(options);
+        }
+
+        /// <summary>
+        /// Exports the table to a <see cref="System.Data.DataTable"/>
+        /// </summary>
+        /// <returns>A <see cref="System.Data.DataTable"/> containing the data in the table range</returns>
+        /// <seealso cref="ExcelRangeBase.ToDataTable(Action{ToDataTableOptions})"/>
+        public DataTable ToDataTable(Action<ToDataTableOptions> configHandler)
+        {
+            return Range.ToDataTable(configHandler);
+        }
+
+        #endregion
 
         internal ExcelTableColumnCollection _cols = null;
         /// <summary>
