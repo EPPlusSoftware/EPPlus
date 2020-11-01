@@ -41,6 +41,7 @@ namespace OfficeOpenXml.Export.ToDataTable
         public DataTable Execute(DataTable dataTable)
         {
             Require.That(dataTable).IsNotNull();
+            new DataTableMapper(_options, dataTable).Map();
             new DataTableExporter(_options, _range, dataTable).Export();
             return dataTable;
         }

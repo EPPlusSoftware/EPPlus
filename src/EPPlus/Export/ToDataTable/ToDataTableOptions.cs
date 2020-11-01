@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Export.ToDataTable
         /// <summary>
         /// Returns an instance of ToDataTableOptions with default values set. <see cref="ColumnNameParsingStrategy"/> is set to <see cref="NameParsingStrategy.Preserve"/>, <see cref="PredefinedMappingsOnly"/> is set to false, <see cref="FirstRowIsColumnNames"/> is set to true
         /// </summary>
-        public static ToDataTableOptions Default
+        internal static ToDataTableOptions Default
         {
             get { return new ToDataTableOptions(); }    
         }

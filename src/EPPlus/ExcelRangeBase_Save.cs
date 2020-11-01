@@ -46,6 +46,18 @@ namespace OfficeOpenXml
             return func.Execute();
         }
 
+        public DataTable ToDataTable(Action<ToDataTableOptions> configHandler, DataTable dataTable)
+        {
+            var o = ToDataTableOptions.Default;
+            configHandler.Invoke(o);
+            return ToDataTable(o, dataTable);
+        }
+
+        public DataTable ToDataTable(DataTable dataTable)
+        {
+            return ToDataTable(ToDataTableOptions.Default, dataTable);
+        }
+
         public DataTable ToDataTable(ToDataTableOptions options, DataTable dataTable)
         {
             var func = new ToDataTable(options, this);

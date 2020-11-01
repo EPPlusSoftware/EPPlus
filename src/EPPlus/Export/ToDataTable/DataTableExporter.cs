@@ -80,7 +80,12 @@ namespace OfficeOpenXml.Export.ToDataTable
                     {
                         val = mapping.TransformCellValue.Invoke(val);
                     }
-                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, mapping.ColumnDataType);
+                    var type = mapping.ColumnDataType;
+                    if(type == null)
+                    {
+                        type = _dataTable.Columns[mapping.DataColumnName].DataType;
+                    }
+                    dataRow[mapping.DataColumnName] = CastToColumnDataType(val, type);
                 }
                 if(rowIsEmpty)
                 {

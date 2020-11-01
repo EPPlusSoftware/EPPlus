@@ -23,25 +23,32 @@ namespace OfficeOpenXml.Export.ToDataTable
     internal class DataTableBuilder
     {
         public DataTableBuilder(ToDataTableOptions options, ExcelRangeBase range)
+            : this(options, range, null) { }
+        public DataTableBuilder(ToDataTableOptions options, ExcelRangeBase range, DataTable dataTable)
         {
             Require.That(options).IsNotNull();
             Require.That(range).IsNotNull();
             _options = options;
             _range = range;
             _sheet = _range.Worksheet;
+            _dataTable = dataTable;
         }
 
         private readonly ToDataTableOptions _options;
         private readonly ExcelRangeBase _range;
         private readonly ExcelWorksheet _sheet;
+        private DataTable _dataTable;
 
         internal DataTable Build()
         {
             var columnNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
-            var dataTable = string.IsNullOrEmpty(_options.DataTableName) ? new DataTable() : new DataTable(_options.DataTableName);
+            if(_dataTable == null)
+            {
+                _dataTable = string.IsNullOrEmpty(_options.DataTableName) ? new DataTable() : new DataTable(_options.DataTableName);
+            }
             if(!string.IsNullOrEmpty(_options.DataTableNamespace))
             {
-                dataTable.Namespace = _options.DataTableNamespace;
+                _dataTable.Namespace = _options.DataTableNamespace;
             }
             var columnOrder = 0;
             for (var col = _range.Start.Column; col <= _range.End.Column; col++)
@@ -85,15 +92,15 @@ namespace OfficeOpenXml.Export.ToDataTable
                     {
                         type = mapping.ColumnDataType;
                     }
-                    if(mapping.HasDataColumn)
+                    if(mapping.HasDataColumn && _dataTable.Columns[mapping.DataColumnName] == null)
                     {
-                        dataTable.Columns.Add(mapping.DataColumn);
+                        _dataTable.Columns.Add(mapping.DataColumn);
                     }
                 }
 
-                if(mapping == null || !mapping.HasDataColumn)
+                if((mapping == null || !mapping.HasDataColumn) && _dataTable.Columns[name] == null)
                 {
-                    var column = dataTable.Columns.Add(name, type);
+                    var column = _dataTable.Columns.Add(name, type);
                     column.Caption = origName;
                 }
 
@@ -107,8 +114,8 @@ namespace OfficeOpenXml.Export.ToDataTable
                     _options.Mappings.GetByRangeIndex(columnIndex).ColumnDataType = type;
                 }
             }
-            HandlePrimaryKeys(dataTable);
-            return dataTable;
+            HandlePrimaryKeys(_dataTable);
+            return _dataTable;
         }
 
         private void HandlePrimaryKeys(DataTable dataTable)

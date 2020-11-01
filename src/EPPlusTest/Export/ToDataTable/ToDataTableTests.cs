@@ -368,5 +368,41 @@ namespace EPPlusTest.Export.ToDataTable
                 });
             }
         }
+
+        [TestMethod]
+        public void ToDataTableWithExistingTable()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var date = DateTime.UtcNow;
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Id";
+                sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = "Bob";
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B3"].Value = null;
+
+                var table = new DataTable("dt1", "ns1");
+                var col1 = table.Columns.Add("Id_", typeof(int));
+                var col2 = table.Columns.Add("Name_", typeof(string));
+
+                var dt = sheet.Cells["A1:B3"].ToDataTable(o =>
+                {
+                    o.Mappings.Add(0, "Id_");
+                    o.Mappings.Add(1, "Name_");
+                }, table);
+
+                Assert.AreEqual(2, table.Rows.Count);
+
+                table = new DataTable("dt1", "ns1");
+                table.Columns.Add("Id", typeof(int));
+                table.Columns.Add("Name", typeof(string));
+
+                dt = sheet.Cells["A1:B3"].ToDataTable(table);
+
+                Assert.AreEqual(2, table.Rows.Count);
+            }
+        }
     }
 }
