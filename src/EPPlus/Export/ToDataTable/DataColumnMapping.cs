@@ -131,8 +131,18 @@ namespace OfficeOpenXml.Export.ToDataTable
         }
 
         /// <summary>
-        /// A function which allows 
+        /// A function which allows casting of an <see cref="Object"/> before it is written to the <see cref="DataTable"/>
         /// </summary>
+        /// <example>
+        /// <code>
+        /// var options = ToDataTableOptions.Create(o =>
+        /// {
+        ///     // the last argument is a lambda function that will call the read value's ToString method
+        ///     // and this string will be written to the DataTable
+        ///     o.Mappings.Add(0, "Id", typeof(string), true, c => "Id: " + c.ToString());
+        /// });
+        /// </code>
+        /// </example>
         public Func<object, object> TransformCellValue
         {
             get; set;

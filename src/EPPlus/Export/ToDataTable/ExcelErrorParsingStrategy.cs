@@ -16,6 +16,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.ToDataTable
 {
+    /// <summary>
+    /// Defines how cells with errors in the source range should be handled.
+    /// </summary>
     public enum ExcelErrorParsingStrategy
     {
         /// <summary>
