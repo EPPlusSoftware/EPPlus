@@ -10,5 +10,16 @@ namespace OfficeOpenXml.Drawing.Vml
         internal ExcelVmlDrawingControl(XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
         }
+        public string Text 
+        { 
+            get
+            {
+                return GetXmlNodeString("v:textbox/d:div/d:font");
+            }
+            set
+            {
+                SetXmlNodeString("v:textbox/div/font", value);
+            }
+        }
     }
 }

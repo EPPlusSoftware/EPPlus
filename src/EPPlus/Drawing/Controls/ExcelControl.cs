@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Drawing.Controls
             var rel=ws.Part.CreateRelationship(ControlPropertiesUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
 
             //Vml
-            drawings.Worksheet.VmlDrawings.AddControl(this);
+            _vml=drawings.Worksheet.VmlDrawings.AddControl(this);
 
             //Control in worksheet xml
             XmlNode ctrlNode = ws.CreateControlNode();

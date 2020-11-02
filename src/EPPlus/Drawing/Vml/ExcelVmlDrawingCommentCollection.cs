@@ -162,26 +162,26 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl)
         {
-            XmlNode node = AddCommentDrawing(ctrl);
+            XmlNode node = AddControlDrawing(ctrl);
             var draw = new ExcelVmlDrawingControl(node, NameSpaceManager);
             _drawings.Add(draw);
             _drawingsDict.Add(draw.Id, _drawings.Count-1);
             return draw;
         }
-        private XmlNode AddCommentDrawing(ExcelControl ctrl)
+        private XmlNode AddControlDrawing(ExcelControl ctrl)
         {
             var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
             VmlDrawingXml.DocumentElement.AppendChild(node);
 
-            node.SetAttribute("id", GetNewId());
+            node.SetAttribute("o:spid", "_x0000_s"+ctrl.Id);
+            node.SetAttribute("id", "button_x0020_1");
             node.SetAttribute("type", "#_x0000_t201");
-            node.SetAttribute("style", "position:absolute;z-index:1; visibility:hidden");
+            node.SetAttribute("style", "position:absolute;z-index:1;");
             node.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
             node.SetAttribute("strokecolor", "windowText [64]");
             node.SetAttribute("fillcolor", "buttonFace [67]");
             node.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
-            //node.SetAttribute("style", "position:absolute; margin-left:59.25pt;margin-top:1.5pt;width:108pt;height:59.25pt;z-index:1; visibility:hidden"); 
             node.SetAttribute("fillcolor", "#ffffe1");
 
             string vml = "<v:fill o:detectmouseclick=\"t\" color2=\"buttonFace[67]\"/>";

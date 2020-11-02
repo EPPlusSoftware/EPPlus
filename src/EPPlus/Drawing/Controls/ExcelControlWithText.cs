@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Drawing.Controls
             {
                 RichText.Clear();
                 RichText.Text = value;
+                _vml.Text = value;
             }
 
         }
