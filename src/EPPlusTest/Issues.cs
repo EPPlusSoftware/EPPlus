@@ -43,6 +43,8 @@ using System.Text;
 using System.Globalization;
 using OfficeOpenXml.Drawing;
 using System.Threading;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+
 namespace EPPlusTest
 {
     /// <summary>
@@ -1359,6 +1361,18 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets[1];
                 SaveAndCleanup(p);
             }
+        }
+        [TestMethod]
+        public void Issue45()
+        {
+            using (var p=OpenPackage("LinkIssue.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:A2"].Value = 1;
+                ws.Cells["B1:B2"].Formula = $"VLOOKUP($A1,[externalBook.xlsx]Prices!$A:$H, 3, FALSE)";
+                SaveAndCleanup(p);
+            }
+
         }
     }
 }

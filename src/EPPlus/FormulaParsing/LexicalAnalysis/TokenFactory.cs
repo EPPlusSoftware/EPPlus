@@ -134,7 +134,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return new Token(token, TokenType.Enumerable);
             }
             var at = OfficeOpenXml.ExcelAddressBase.IsValid(token, _r1c1);
-            if (at==ExcelAddressBase.AddressType.InternalAddress)
+            if (at==ExcelAddressBase.AddressType.InternalAddress || at == ExcelAddressBase.AddressType.ExternalAddress)
             {
                 return new Token(token, TokenType.ExcelAddress);
             } 

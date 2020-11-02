@@ -1037,7 +1037,7 @@ namespace OfficeOpenXml
                     string wb, ws, intAddress;
                     if (SplitAddress(Address, out wb, out ws, out intAddress))
                     {
-                        if (intAddress.Contains("[")) //Table reference
+                        if (Address.Contains("[")) //Table reference
                         {
                             return string.IsNullOrEmpty(wb) ? AddressType.InternalAddress : AddressType.ExternalAddress;
                         }
