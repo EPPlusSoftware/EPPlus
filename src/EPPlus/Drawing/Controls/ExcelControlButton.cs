@@ -24,8 +24,8 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
-        internal ExcelControlButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
+        internal ExcelControlButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
+            : base(drawings, drawNode, control, part,  controlPropertiesXml, null)
         {
         }
 

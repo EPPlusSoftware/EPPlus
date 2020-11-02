@@ -18,8 +18,8 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlScrollBar : ExcelControl
     {
-        internal ExcelControlScrollBar(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
+        internal ExcelControlScrollBar(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
+            : base(drawings, drawNode, control, part, controlPropertiesXml, null)
         {
         }
 

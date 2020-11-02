@@ -32,6 +32,8 @@ using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Drawing;
+using System.Net.Mime;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml
 {
@@ -1084,16 +1086,16 @@ namespace OfficeOpenXml
 
 			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
 			{
-				if (Part.ContentType != ExcelPackage.contentTypeWorkbookDefault)
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault)
 				{
-					Part.ContentType = ExcelPackage.contentTypeWorkbookDefault;
+					Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
 				}
 			}
 			else
 			{
-				if (Part.ContentType != ExcelPackage.contentTypeWorkbookMacroEnabled)
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
 				{
-					Part.ContentType = ExcelPackage.contentTypeWorkbookMacroEnabled;
+					Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
 				}
 			}
 

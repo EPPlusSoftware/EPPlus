@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Table.PivotTable
             PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
             init();
 
-            Part = pck.CreatePart(PivotTableUri, ExcelPackage.schemaPivotTable);
+            Part = pck.CreatePart(PivotTableUri, ContentTypes.contentTypePivotTable);
             PivotTableXml.Save(Part.GetStream());
 
             //Worksheet-Pivottable relationship

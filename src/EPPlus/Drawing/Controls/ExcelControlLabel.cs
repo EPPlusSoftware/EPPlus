@@ -18,8 +18,8 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlLabel : ExcelControlWithText
     {
-        internal ExcelControlLabel(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
+        internal ExcelControlLabel(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
+            : base(drawings, drawNode, control, part, controlPropertiesXml, null)
         {
         }
 

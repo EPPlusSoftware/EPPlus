@@ -16,18 +16,20 @@ using System.Xml;
 using System.Collections;
 using System.Globalization;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Drawing.Controls;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
     internal class ExcelVmlDrawingCollection
-        : ExcelVmlDrawingBaseCollection, IEnumerable<ExcelVmlDrawingComment>, IEnumerator<ExcelVmlDrawingComment>, IDisposable
+        : ExcelVmlDrawingBaseCollection, IEnumerable<ExcelVmlDrawingBase>, IDisposable
     {
-        internal CellStore<ExcelVmlDrawingComment> _drawings;
-        internal Dictionary<string, ExcelVmlDrawingBase> _drawingsDict = new Dictionary<string, ExcelVmlDrawingBase>();
+        internal CellStore<int> _drawingsCellStore;
+        internal Dictionary<string, int> _drawingsDict = new Dictionary<string, int>();
+        internal List<ExcelVmlDrawingBase> _drawings = new List<ExcelVmlDrawingBase>();
         internal ExcelVmlDrawingCollection(ExcelPackage pck, ExcelWorksheet ws, Uri uri) :
             base(pck, ws, uri)
         {
-            _drawings = new CellStore<ExcelVmlDrawingComment>();
+            _drawingsCellStore = new CellStore<int>();
             if (uri == null)
             {
                 VmlDrawingXml.LoadXml(CreateVmlDrawings());
@@ -39,8 +41,8 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         ~ExcelVmlDrawingCollection()
         {
-            _drawings?.Dispose();
-            _drawings = null;
+            _drawingsCellStore?.Dispose();
+            _drawingsCellStore = null;
         }
         protected void AddDrawingsFromXml(ExcelWorksheet ws)
         {
@@ -79,10 +81,11 @@ namespace OfficeOpenXml.Drawing.Vml
                             col = 1;
                         }
                         vmlDrawing = new ExcelVmlDrawingComment(node, ws.Cells[row, col], NameSpaceManager);
-                        _drawings.SetValue(row, col, new ExcelVmlDrawingComment(node, ws.Cells[row, col], NameSpaceManager));
+                        _drawings.Add(vmlDrawing);
+                        _drawingsCellStore.SetValue(row, col, _drawings.Count-1);
                         break;
                 }
-                _drawingsDict.Add(vmlDrawing.Id, vmlDrawing);
+                _drawingsDict.Add(vmlDrawing.Id, _drawings.Count - 1);
             }
             //list.Sort(new Comparison<IRangeID>((r1, r2) => (r1.RangeID < r2.RangeID ? -1 : r1.RangeID > r2.RangeID ? 1 : 0)));  //Vml drawings are not sorted. Sort to avoid missmatches.
             //_drawings = new RangeCollection(list);
@@ -111,7 +114,8 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             XmlNode node = AddCommentDrawing(cell);
             var draw = new ExcelVmlDrawingComment(node, cell, NameSpaceManager);
-            _drawings.SetValue(cell._fromRow, cell._fromCol, draw);
+            _drawings.Add(draw);
+            _drawingsCellStore.SetValue(cell._fromRow, cell._fromCol, _drawings.Count-1);
             return draw;
         }
         private XmlNode AddCommentDrawing(ExcelRangeBase cell)
@@ -120,10 +124,10 @@ namespace OfficeOpenXml.Drawing.Vml
             var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
             int r = cell._fromRow, c = cell._fromCol;
-            var prev = _drawings.PrevCell(ref r, ref c);
+            var prev = _drawingsCellStore.PrevCell(ref r, ref c);
             if (prev)
-            {
-                var prevDraw = _drawings.GetValue(r, c);
+            {                
+                var prevDraw = _drawings[_drawingsCellStore.GetValue(r, c)];
                 prevDraw.TopNode.ParentNode.InsertBefore(node, prevDraw.TopNode);
             }
             else
@@ -156,12 +160,53 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = vml;
             return node;
         }
-        internal ExcelVmlDrawingComment AddDrawing(ExcelDrawing draw)
+        internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl)
         {
-            XmlNode node = AddCommentDrawing();
-            var draw = new ExcelVmlDrawingComment(node, cell, NameSpaceManager);
-            _drawings.SetValue(cell._fromRow, cell._fromCol, draw);
+            XmlNode node = AddCommentDrawing(ctrl);
+            var draw = new ExcelVmlDrawingControl(node, NameSpaceManager);
+            _drawings.Add(draw);
+            _drawingsDict.Add(draw.Id, _drawings.Count-1);
             return draw;
+        }
+        private XmlNode AddCommentDrawing(ExcelControl ctrl)
+        {
+            var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
+
+            VmlDrawingXml.DocumentElement.AppendChild(node);
+
+            node.SetAttribute("id", GetNewId());
+            node.SetAttribute("type", "#_x0000_t201");
+            node.SetAttribute("style", "position:absolute;z-index:1; visibility:hidden");
+            node.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
+            node.SetAttribute("strokecolor", "windowText [64]");
+            node.SetAttribute("fillcolor", "buttonFace [67]");
+            node.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
+            //node.SetAttribute("style", "position:absolute; margin-left:59.25pt;margin-top:1.5pt;width:108pt;height:59.25pt;z-index:1; visibility:hidden"); 
+            node.SetAttribute("fillcolor", "#ffffe1");
+
+            string vml = "<v:fill o:detectmouseclick=\"t\" color2=\"buttonFace[67]\"/>";
+            vml += "<o:lock v:ext=\"edit\" rotation=\"t\"/>";
+            vml += "<v:textbox style=\"mso-direction-alt:auto\" o:singleclick=\"f\">";
+            if (ctrl is ExcelControlWithText textControl)
+            {
+                vml += $"<div style=\"text-align:center\"><font color=\"#000000\" size=\"220\" face=\"Calibri\">{textControl.Text}</font></div>";
+            }
+            vml += "</v:textbox>";
+            vml += $"<x:ClientData ObjectType=\"{ctrl.ControlTypeString}\">";
+            vml += string.Format("<x:Anchor>{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}</x:Anchor>", 
+                ctrl.From.Column, ctrl.From.ColumnOff, 
+                ctrl.From.Row, ctrl.From.RowOff, 
+                ctrl.To.Column, ctrl.To.ColumnOff, 
+                ctrl.To.Row, ctrl.To.RowOff);
+            vml += "<x:PrintObject>False</x:PrintObject>";
+            vml += "<x:AutoFill>False</x:AutoFill>";
+            vml += "<x:TextHAlign>Center</x:TextHAlign>";
+            vml += "<x:TextVAlign>Center</x:TextVAlign>";
+
+            vml += "</x:ClientData>";
+
+            node.InnerXml = vml;
+            return node;
         }
 
         int _nextID = 0;
@@ -197,7 +242,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 if(_drawingsDict.ContainsKey(id))
                 {
-                    return _drawingsDict[id];
+                    return _drawings[_drawingsDict[id]];
                 }
                 return null;
             }
@@ -207,12 +252,12 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                return _drawings.GetValue(row, column);
+                return _drawings[_drawingsCellStore.GetValue(row, column)];
             }
         }
         internal bool ContainsKey(int row, int column)
         {
-            return _drawings.Exists(row, column);
+            return _drawingsCellStore.Exists(row, column);
         }
         internal int Count
         {
@@ -222,61 +267,60 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         #region "Enumerator"
-        CellStoreEnumerator<ExcelVmlDrawingComment> _enum;
-        public IEnumerator<ExcelVmlDrawingComment> GetEnumerator()
+        //CellStoreEnumerator<ExcelVmlDrawingComment> _enum;
+        public IEnumerator<ExcelVmlDrawingBase> GetEnumerator()
         {
-            Reset();
-            return this;
+            //Reset();
+            return _drawings.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            Reset();
-            return this;
+            //Reset();
+            return _drawings.GetEnumerator();
         }
 
-        /// <summary>
-        /// The current range when enumerating
-        /// </summary>
-        public ExcelVmlDrawingComment Current
-        {
-            get
-            {
-                return _enum.Current;
-            }
-        }
+        ///// <summary>
+        ///// The current range when enumerating
+        ///// </summary>
+        //public ExcelVmlDrawingComment Current
+        //{
+        //    get
+        //    {
+        //        return _enum.Current;
+        //    }
+        //}
 
-        /// <summary>
-        /// The current range when enumerating
-        /// </summary>
-        object IEnumerator.Current
-        {
-            get
-            {
-                return _enum.Current;
-            }
-        }
+        ///// <summary>
+        ///// The current range when enumerating
+        ///// </summary>
+        //object IEnumerator.Current
+        //{
+        //    get
+        //    {
+        //        return _enum.Current;
+        //    }
+        //}
 
-        public bool MoveNext()
-        {
-            return _enum.Next();
-        }
+        //public bool MoveNext()
+        //{
+        //    return _enum.Next();
+        //}
 
-        public void Reset()
-        {
-            if (_enum != null) _enum.Dispose();
-             _enum = new CellStoreEnumerator<ExcelVmlDrawingComment>(_drawings, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
-        }
+        //public void Reset()
+        //{
+        //    if (_enum != null) _enum.Dispose();
+        //     _enum = new CellStoreEnumerator<ExcelVmlDrawingComment>(_drawingsCellStore, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+        //}
         void IDisposable.Dispose()
         {
-            _enum.Dispose();
-            _enum = null;
+            _drawingsCellStore.Dispose();
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        //public void Dispose()
+        //{
+        //    throw new NotImplementedException();
+        //}
         #endregion
     } 
 }
