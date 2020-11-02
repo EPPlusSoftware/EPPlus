@@ -18,12 +18,12 @@ namespace EPPlusTest.Drawing.Control
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("FormControl.xlsm");
+            _pck = OpenPackage("FormControl.xlsx",true);
         }
         [ClassCleanup]
         public static void Cleanup()
         {
-            _pck.Dispose();
+            SaveAndCleanup(_pck);
         }
         [TestMethod]
         public void AddButtonTest()

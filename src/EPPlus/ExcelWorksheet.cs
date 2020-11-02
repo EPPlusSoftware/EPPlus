@@ -415,7 +415,7 @@ namespace OfficeOpenXml
                               eWorkSheetHidden? hide) :
             base(ns, null)
         {
-            SchemaNodeOrder = new string[] { "sheetPr", "tabColor", "outlinePr", "pageSetUpPr", "dimension", "sheetViews", "sheetFormatPr", "cols", "sheetData", "sheetProtection", "protectedRanges", "scenarios", "autoFilter", "sortState", "dataConsolidate", "customSheetViews", "customSheetViews", "mergeCells", "phoneticPr", "conditionalFormatting", "dataValidations", "hyperlinks", "printOptions", "pageMargins", "pageSetup", "headerFooter", "linePrint", "rowBreaks", "colBreaks", "customProperties", "cellWatches", "ignoredErrors", "smartTags", "drawing", "legacyDrawing", "legacyDrawingHF", "picture", "oleObjects", "controls", "webPublishItems", "tableParts", "extLst" };
+            SchemaNodeOrder = new string[] { "sheetPr", "tabColor", "outlinePr", "pageSetUpPr", "dimension", "sheetViews", "sheetFormatPr", "cols", "sheetData", "sheetProtection", "protectedRanges", "scenarios", "autoFilter", "sortState", "dataConsolidate", "customSheetViews", "customSheetViews", "mergeCells", "phoneticPr", "conditionalFormatting", "dataValidations", "hyperlinks", "printOptions", "pageMargins", "pageSetup", "headerFooter", "linePrint", "rowBreaks", "colBreaks", "customProperties", "cellWatches", "ignoredErrors", "smartTags", "drawing", "legacyDrawing", "legacyDrawingHF", "picture", "oleObjects", "controls", "webPublishItems", "tableParts", "AlternateContent", "extLst" };
             _package = excelPackage;
             _relationshipID = relID;
             _worksheetUri = uriWorksheet;
@@ -2268,14 +2268,19 @@ namespace OfficeOpenXml
                     }
 
                     SaveComments();
+                    SaveVmlDrawings();
                     SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
                     SavePivotTables();
                     SaveSlicers();
                 }
+                SaveDrawings();
             }
+        }
 
+        private void SaveDrawings()
+        {
             if (Drawings.UriDrawing != null)
             {
                 if (Drawings.Count == 0)
@@ -2293,7 +2298,7 @@ namespace OfficeOpenXml
                             ExcelChart c = (ExcelChart)d;
                             c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
                         }
-                        else if(d is ExcelSlicer<ExcelTableSlicerCache> s)
+                        else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
                         {
                             s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
                         }
@@ -2301,6 +2306,10 @@ namespace OfficeOpenXml
                         {
                             p.Cache.UpdateItemsXml();
                             p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+                        }
+                        else if (d is OfficeOpenXml.Drawing.Controls.ExcelControl c)
+                        {
+                            c.ControlPropertiesXml.Save(c.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
                         }
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
@@ -2443,7 +2452,7 @@ namespace OfficeOpenXml
                     if (_comments.Uri != null)
                     {
                         Part.DeleteRelationship(_comments.RelId);
-                        _package.ZipPackage.DeletePart(_comments.Uri);                        
+                        _package.ZipPackage.DeletePart(_comments.Uri);
                     }
                     RemoveLegacyDrawingRel(VmlDrawings.RelId);
                 }
@@ -2454,15 +2463,18 @@ namespace OfficeOpenXml
                         var id = SheetId;
                         _comments.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/comments{0}.xml", ref id); //Issue 236-Part already exists fix
                     }
-                    if(_comments.Part==null)
+                    if (_comments.Part == null)
                     {
                         _comments.Part = _package.ZipPackage.CreatePart(_comments.Uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", _package.Compression);
-                        var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _comments.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships+"/comments");
+                        var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _comments.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/comments");
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
             }
+        }
 
+        private void SaveVmlDrawings()
+        {
             if (_vmlDrawings != null)
             {
                 if (_vmlDrawings.Count == 0)
@@ -2491,6 +2503,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+
         /// <summary>
         /// Save all table data
         /// </summary>
@@ -3896,6 +3909,26 @@ namespace OfficeOpenXml
                 }
             }
             SlicerXmlSources.Remove(xmlSource);
+        }
+
+        internal XmlNode CreateControlNode()
+        {
+            XmlElement node = GetNode("mc:AlternateContent/mc:Choice[Requires='x14']") as XmlElement;
+            if(node == null)
+            {
+                node = (XmlElement)CreateNode("mc:AlternateContent/mc:Choice");
+                node.SetAttribute("Requires", "x14");
+                node.InnerXml = "<controls/>";
+                return node.FirstChild;
+            }
+
+            var controlsNode = node.SelectSingleNode("d:controls", NameSpaceManager);
+            if(controlsNode==null)
+            {
+                var f=XmlHelperFactory.Create(NameSpaceManager, node);
+                return f.CreateNode("d:controls");
+            }
+            return controlsNode;
         }
         #endregion
     }  // END class Worksheet

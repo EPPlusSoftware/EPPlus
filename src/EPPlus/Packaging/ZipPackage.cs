@@ -19,6 +19,8 @@ using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using Ionic.Zip;
+using OfficeOpenXml.Constants;
+
 namespace OfficeOpenXml.Packaging
 {
     /// <summary>
@@ -272,7 +274,7 @@ namespace OfficeOpenXml.Packaging
             ZipPackagePart ssPart=null;
             foreach(var part in Parts.Values)
             {
-                if (part.ContentType != ExcelPackage.contentTypeSharedString)
+                if (part.ContentType != ContentTypes.contentTypeSharedString)
                 {
                     part.WriteZip(os);
                 }

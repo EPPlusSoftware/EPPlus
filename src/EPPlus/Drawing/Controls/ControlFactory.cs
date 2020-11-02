@@ -73,27 +73,27 @@ namespace OfficeOpenXml.Drawing.Controls
             switch(controlType)
             {
                 case eControlType.Button:
-                    return new ExcelControlButton(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlButton(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.DropDown:
-                    return new ExcelControlDropDown(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlDropDown(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.GroupBox:
-                    return new ExcelControlGroupBox(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlGroupBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.Label:
-                    return new ExcelControlLabel(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlLabel(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.ListBox:
-                    return new ExcelControlListBox(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlListBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.CheckBox:
-                    return new ExcelControlCheckBox(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlCheckBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.RadioButton:
-                    return new ExcelControlRadioButton(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlRadioButton(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.ScrollBar:
-                    return new ExcelControlScrollBar(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlScrollBar(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.SpinButton:
-                    return new ExcelControlSpinButton(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlSpinButton(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.EditBox:
-                    return new ExcelControlEditBox(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlEditBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 case eControlType.Dialog:
-                    return new ExcelControlDialog(drawings, drawNode.ParentNode, control, rel, controlPropertiesXml);
+                    return new ExcelControlDialog(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
                 default:
                     throw new NotSupportedException();
             }

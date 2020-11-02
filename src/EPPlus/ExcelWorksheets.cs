@@ -30,6 +30,7 @@ using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Slicer;
 using System.Text;
 using System.Runtime.InteropServices.ComTypes;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml
 {
@@ -496,7 +497,7 @@ namespace OfficeOpenXml
                 int Id = _pck.Workbook._nextPivotTableID++;
                 var uriTbl = GetNewUri(_pck.ZipPackage, "/xl/pivotTables/pivotTable{0}.xml", ref Id);
                 if (_pck.Workbook._nextPivotTableID < Id) _pck.Workbook._nextPivotTableID = Id;
-                var partTbl = _pck.ZipPackage.CreatePart(uriTbl, ExcelPackage.schemaPivotTable, _pck.Compression);
+                var partTbl = _pck.ZipPackage.CreatePart(uriTbl, ContentTypes.contentTypePivotTable, _pck.Compression);
                 StreamWriter streamTbl = new StreamWriter(partTbl.GetStream(FileMode.Create, FileAccess.Write));
                 streamTbl.Write(xml);
                 streamTbl.Flush();

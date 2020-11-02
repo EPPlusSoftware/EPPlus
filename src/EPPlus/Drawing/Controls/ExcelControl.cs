@@ -14,6 +14,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Globalization;
@@ -32,25 +33,56 @@ namespace OfficeOpenXml.Drawing.Controls
         private ExcelDrawings drawings;
         private object drawingNode;
 
-        internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
+        internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart ctrlPropPart, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
             base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _control = control;
-            _rel = rel;
             var _vml = drawings.Worksheet.VmlDrawings[LegacySpId];
             _vmlProp = XmlHelperFactory.Create(NameSpaceManager, _vml.GetNode("x:ClientData"));
             ControlPropertiesXml = ctrlPropXml;
+            ControlPropertiesPart = ctrlPropPart;
+            ControlPropertiesUri = ctrlPropPart.Uri;
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
         }
 
         protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode) : base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
         {
+            var ws = drawings.Worksheet;
+
+            //Drawing Xml
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = ControlStartDrawingXml();
+
             ControlPropertiesXml = new XmlDocument();
-            ControlPropertiesXml.LoadXml(ControlStartControlPrXml());
-            
-            //drawings.Worksheet.VmlDrawings.Add();
+            ControlPropertiesXml.LoadXml(ControlStartControlPrXml());            
+            int id= ws.SheetId;
+            ControlPropertiesUri = GetNewUri(ws._package.ZipPackage, "/xl/ctrlProps/ctrlProp{0}.xml",ref id);
+            ControlPropertiesPart = ws._package.ZipPackage.CreatePart(ControlPropertiesUri, ContentTypes.contentTypeControlProperties);
+            var rel=ws.Part.CreateRelationship(ControlPropertiesUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
+
+            //Vml
+            drawings.Worksheet.VmlDrawings.AddControl(this);
+
+            //Control in worksheet xml
+            XmlNode ctrlNode = ws.CreateControlNode();
+            ((XmlElement)ws.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
+            ((XmlElement)ws.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
+            ((XmlElement)ws.TopNode).SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);   //Make sure the namespace exists
+            ctrlNode.InnerXml = GetControlStartWorksheetXml(rel.Id);
+            _control = new ControlInternal(NameSpaceManager, ctrlNode.FirstChild.FirstChild.FirstChild);
+        }
+
+        private string GetControlStartWorksheetXml(string relId)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append($"<mc:AlternateContent><mc:Choice Requires=\"x14\"><control shapeId=\"{Id}\" r:id=\"{relId}\" name=\"\">");
+            sb.Append("<controlPr defaultSize=\"0\" print=\"0\" autoFill=\"0\" autoPict=\"0\">");
+            sb.Append("<anchor moveWithCells=\"1\" sizeWithCells=\"1\">");
+            sb.Append("<from><xdr:col>0</xdr:col><xdr:colOff>38100</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>66675</xdr:rowOff></from>");
+            sb.Append("<to><xdr:col>1</xdr:col><xdr:colOff>295275</xdr:colOff><xdr:row>2</xdr:row><xdr:rowOff>9525</xdr:rowOff></to>");
+            sb.Append("</anchor></controlPr></control></mc:Choice></mc:AlternateContent>");
+            return sb.ToString();
         }
 
         private string ControlStartControlPrXml()
@@ -70,7 +102,7 @@ namespace OfficeOpenXml.Drawing.Controls
             StringBuilder xml = new StringBuilder();
             xml.Append($"<xdr:nvSpPr><xdr:cNvPr hidden=\"1\" name=\"\" id=\"{_id}\"><a:extLst><a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\"><a14:compatExt spid=\"_x0000_s{_id}\"/></a:ext><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{00000000-0008-0000-0000-000001040000}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
             xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom><a:noFill/><a:ln w=\"9525\"><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
-            switch(ControlType)
+            switch (ControlType)
             {
                 case eControlType.Button:
                     xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/><a:lstStyle/><a:p><a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr><a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
@@ -85,9 +117,24 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         public XmlDocument ControlPropertiesXml { get; private set; }
+        internal ZipPackagePart ControlPropertiesPart { get; private set; }
+        internal Uri ControlPropertiesUri { get; private set; }
         public abstract eControlType ControlType
         {
             get;
+        }
+        internal string ControlTypeString
+        {
+            get
+            {
+                switch(ControlType)
+                {
+                    case eControlType.GroupBox:
+                        return "GBox";
+                    default:
+                        return ControlType.ToString();
+                }
+            }
         }
         internal string LegacySpId
         {
@@ -116,6 +163,11 @@ namespace OfficeOpenXml.Drawing.Controls
             get
             {
                 return _control.Name;
+            }
+            set
+            {
+                _control.Name=value;
+                base.Name = value;
             }
         }
         /// <summary>

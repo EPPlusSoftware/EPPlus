@@ -18,6 +18,7 @@ using System.IO;
 using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.Pkcs;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.VBA
 {
@@ -185,7 +186,7 @@ namespace OfficeOpenXml.VBA
                 else
                 {
                     Uri = new Uri("/xl/vbaProjectSignature.bin", UriKind.Relative);
-                    Part = proj._pck.CreatePart(Uri, ExcelPackage.schemaVBASignature);
+                    Part = proj._pck.CreatePart(Uri, ContentTypes.contentTypeVBASignature);
                 }
             }
             if (rel == null)

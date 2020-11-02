@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/15/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -111,7 +112,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
 
             // save it to the package
-            Part = package.CreatePart(UriChart, ExcelPackage.contentTypeChartEx, _drawings._package.Compression);
+            Part = package.CreatePart(UriChart, ContentTypes.contentTypeChartEx, _drawings._package.Compression);
 
             StreamWriter streamChart = new StreamWriter(Part.GetStream(FileMode.Create, FileAccess.Write));
             ChartXml.Save(streamChart);

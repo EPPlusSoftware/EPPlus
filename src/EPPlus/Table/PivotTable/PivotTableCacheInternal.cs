@@ -288,7 +288,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             var c = CacheId;
             CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref c);
-            Part = pck.CreatePart(CacheDefinitionUri, ExcelPackage.schemaPivotCacheDefinition);
+            Part = pck.CreatePart(CacheDefinitionUri, ContentTypes.contentTypePivotCacheDefinition);
 
             AddRecordsXml();
 
@@ -309,7 +309,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else
             {
-                recPart = pck.CreatePart(CacheRecordUri, ExcelPackage.schemaPivotCacheRecords); 
+                recPart = pck.CreatePart(CacheRecordUri, ContentTypes.contentTypePivotCacheRecords); 
             }
             cacheRecord.Save(recPart.GetStream(FileMode.Create, FileAccess.Write));
         }

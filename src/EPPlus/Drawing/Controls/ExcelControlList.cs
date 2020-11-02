@@ -22,8 +22,8 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public abstract class ExcelControlList : ExcelControl
     {
-        internal ExcelControlList(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
+        internal ExcelControlList(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
+            : base(drawings, drawNode, control, part, controlPropertiesXml)
         {
         }
         public ExcelAddressBase InputRange 

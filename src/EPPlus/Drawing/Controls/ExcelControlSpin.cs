@@ -18,8 +18,8 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlSpinButton : ExcelControl
     {
-        internal ExcelControlSpinButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, rel,  controlPropertiesXml, null)
+        internal ExcelControlSpinButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
+            : base(drawings, drawNode, control, part, controlPropertiesXml, null)
         {
         }
 

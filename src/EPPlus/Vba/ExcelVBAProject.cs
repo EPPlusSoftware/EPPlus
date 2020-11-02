@@ -18,6 +18,7 @@ using OfficeOpenXml.Utils;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils.CompundDocument;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.VBA
 {
@@ -571,7 +572,7 @@ namespace OfficeOpenXml.VBA
                 if (Part == null)
                 {
                     Uri = new Uri(PartUri, UriKind.Relative);
-                    Part = _pck.CreatePart(Uri, ExcelPackage.schemaVBA);
+                    Part = _pck.CreatePart(Uri, ContentTypes.contentTypeVBA);
                     var rel = _wb.Part.CreateRelationship(Uri, Packaging.TargetMode.Internal, schemaRelVba);
                 }
                 var st = Part.GetStream(FileMode.Create);

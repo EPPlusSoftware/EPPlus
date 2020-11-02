@@ -12,8 +12,8 @@ namespace OfficeOpenXml.Drawing.Controls
         private string _paragraphPath = "xdr:sp/xdr:txBody/a:p";
         private string _lockTextPath = "xdr:sp/@fLocksText";
 
-        internal ExcelControlWithText(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackageRelationship rel, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) : 
-            base(drawings, drawingNode, control, rel, ctrlPropXml, parent)
+        internal ExcelControlWithText(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart part, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) : 
+            base(drawings, drawingNode, control, part, ctrlPropXml, parent)
         {
 
         }
