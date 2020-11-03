@@ -1383,5 +1383,18 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue201()
+        {
+            using (var p = OpenTemplatePackage("book1.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual("0", ws.Cells["A1"].Text);
+                Assert.AreEqual("-", ws.Cells["A2"].Text);
+                Assert.AreEqual("0", ws.Cells["A3"].Text);
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
