@@ -52,6 +52,7 @@ namespace OfficeOpenXml.Drawing.Controls
             //Drawing Xml
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = ControlStartDrawingXml();
+            CreateClientData();
 
             ControlPropertiesXml = new XmlDocument();
             ControlPropertiesXml.LoadXml(ControlStartControlPrXml());            
@@ -79,8 +80,8 @@ namespace OfficeOpenXml.Drawing.Controls
             sb.Append($"<mc:AlternateContent><mc:Choice Requires=\"x14\"><control shapeId=\"{Id}\" r:id=\"{relId}\" name=\"\">");
             sb.Append("<controlPr defaultSize=\"0\" print=\"0\" autoFill=\"0\" autoPict=\"0\">");
             sb.Append("<anchor moveWithCells=\"1\" sizeWithCells=\"1\">");
-            sb.Append("<from><xdr:col>0</xdr:col><xdr:colOff>38100</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>66675</xdr:rowOff></from>");
-            sb.Append("<to><xdr:col>1</xdr:col><xdr:colOff>295275</xdr:colOff><xdr:row>2</xdr:row><xdr:rowOff>9525</xdr:rowOff></to>");
+            sb.Append($"<from><xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff></from>");
+            sb.Append($"<to><xdr:col>10</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>10</xdr:row><xdr:rowOff>0</xdr:rowOff></to>");
             sb.Append("</anchor></controlPr></control></mc:Choice></mc:AlternateContent>");
             return sb.ToString();
         }

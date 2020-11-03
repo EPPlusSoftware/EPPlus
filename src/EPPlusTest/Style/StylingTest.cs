@@ -155,6 +155,21 @@ namespace EPPlusTest.Style
 
             Assert.AreEqual(2, ws.Cells["A1"].Style.Font.Charset);
         }
+        [TestMethod]
+        public void ValidateNumberFormatDiffExcelVsNet()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.SetValue(1, 1, -0.1);
+                ws.SetValue(2, 1, 0);
+                ws.SetValue(3, 1, 0.1);
+                ws.Cells["A1:A3"].Style.Numberformat.Format = "#,##0;-#,##0;-";
+                Assert.AreEqual("-0", ws.Cells["A1"].Text);
+                Assert.AreEqual("-", ws.Cells["A2"].Text);
+                Assert.AreEqual("0", ws.Cells["A3"].Text);
+            }
+        }
     }
 }
 

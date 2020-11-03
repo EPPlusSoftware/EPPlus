@@ -37,7 +37,6 @@ namespace OfficeOpenXml.Drawing.Controls
                 RichText.Text = value;
                 _vml.Text = value;
             }
-
         }
         ExcelParagraphCollection _richText = null;
 

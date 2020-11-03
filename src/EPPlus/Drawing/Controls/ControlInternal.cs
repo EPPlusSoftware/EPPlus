@@ -205,6 +205,6 @@ namespace OfficeOpenXml.Drawing.Controls
             {
                 SetXmlNodeString("d:controlPr/@linkedCell", value);
             }
-        }
+        }        
     }
 }

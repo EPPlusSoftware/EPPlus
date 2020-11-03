@@ -1071,6 +1071,13 @@ namespace OfficeOpenXml.Drawing
             TopNode.AppendChild(shapeNode);
             return shapeNode;
         }
+        internal protected XmlElement CreateClientData()
+        {
+            XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
+            clientDataNode.SetAttribute("fPrintsWithSheet", "0");
+            TopNode.AppendChild(clientDataNode);
+            return clientDataNode;
+        }
         string IPictureContainer.ImageHash { get; set; }
         Uri IPictureContainer.UriPic { get; set; }
         Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }

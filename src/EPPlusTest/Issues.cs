@@ -1375,15 +1375,26 @@ namespace EPPlusTest
 
         }
         [TestMethod]
-        public void Issue201_PivotTable()
+        public void EmfIssue()
         {
-            using (var p = OpenTemplatePackage("Issue201.xlsx"))
+            using (var p = OpenTemplatePackage("emfIssue.xlsm"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                var val = ws.Cells["A1"].Value;
-                Assert.AreEqual("0", ws.Cells["A1"].Text);
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue201()
+        {
+            using (var p = OpenTemplatePackage("book1.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual("0", ws.Cells["A1"].Text);
+                Assert.AreEqual("-", ws.Cells["A2"].Text);
+                Assert.AreEqual("0", ws.Cells["A3"].Text);
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

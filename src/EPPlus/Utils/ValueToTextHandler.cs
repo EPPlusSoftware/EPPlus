@@ -75,8 +75,8 @@ namespace OfficeOpenXml.Utils
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.Number)
                 {
                     if (string.IsNullOrEmpty(nf.FractionFormat))
-                    {
-                        return d.ToString(format, nf.Culture);
+                    {                        
+                        return FormatNumber(d, format, nf);
                     }
                     else
                     {
@@ -140,6 +140,32 @@ namespace OfficeOpenXml.Utils
             }
             return v.ToString();
         }
+
+        private static string FormatNumber(double d, string format, ExcelNumberFormatXml.ExcelFormatTranslator nf)
+        {
+            var split = format.Split(';');
+            if (split.Length == 3)
+            {
+                if(d>0)
+                {
+                    return d.ToString(split[0], nf.Culture);
+                }
+                else if(d<0)
+                {
+                    if (split[1].StartsWith("-")) split[1]=split[1].Substring(1);
+                    return d.ToString(split[1], nf.Culture);
+                }
+                else
+                {
+                    return d.ToString(split[2], nf.Culture);
+                }
+            }
+            else
+            {
+                return d.ToString(format, nf.Culture);
+            }
+        }
+
         private static string GetDateText(DateTime d, string format, ExcelNumberFormatXml.ExcelFormatTranslator nf)
         {           
             if (nf.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
