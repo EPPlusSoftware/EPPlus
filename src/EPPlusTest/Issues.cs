@@ -1374,5 +1374,14 @@ namespace EPPlusTest
             }
 
         }
+        [TestMethod]
+        public void EmfIssue()
+        {
+            using (var p = OpenTemplatePackage("emfIssue.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

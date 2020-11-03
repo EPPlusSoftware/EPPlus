@@ -55,11 +55,27 @@ namespace OfficeOpenXml.Drawing
                 Part = drawings.Part.Package.GetPart(container.UriPic);
                 var extension = Path.GetExtension(container.UriPic.OriginalString);
                 ContentType = PictureStore.GetContentType(extension);
-                _image = Image.FromStream(Part.GetStream());
 
 #if (Core)
+                try
+                {
+                    _image = Image.FromStream(Part.GetStream());
+                }
+                catch
+                {
+                    if(extension.ToLower()==".emf" || extension.ToLower() == ".wmf") //Not supported in linux environments, so we ignore them and set image to null.
+                    {
+                        _image = null;
+                        return;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 byte[] iby = ImageCompat.GetImageAsByteArray(_image);
 #else
+                _image = Image.FromStream(Part.GetStream());
                 ImageConverter ic =new ImageConverter();
                 var iby=(byte[])ic.ConvertTo(_image, typeof(byte[]));
 #endif
