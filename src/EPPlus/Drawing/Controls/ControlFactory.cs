@@ -119,8 +119,12 @@ namespace OfficeOpenXml.Drawing.Controls
                 //    return new ExcelControlLabel(drawings, drawNode);
                 //case eControlType.ListBox:
                 //    return new ExcelControlListBox(drawings, drawNode);
-                //case eControlType.CheckBox:
-                //    return new ExcelControlCheckBox(drawings, drawNode);
+                case eControlType.CheckBox:
+                    ctrl = new ExcelControlCheckBox(drawings, drawNode)
+                    {
+                        Text = name
+                    };
+                    break;
                 //case eControlType.RadioButton:
                 //    return new ExcelControlRadioButton(drawings, drawNode);
                 //case eControlType.ScrollBar:

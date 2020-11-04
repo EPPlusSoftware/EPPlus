@@ -19,6 +19,7 @@ namespace EPPlusTest.Drawing.Control
         public static void Init(TestContext context)
         {
             _pck = OpenPackage("FormControl.xlsm",true);
+            _pck.Workbook.CreateVBAProject();
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -34,9 +35,21 @@ namespace EPPlusTest.Drawing.Control
             ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 100);
 
-            _pck.Workbook.CreateVBAProject();
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("ButtonCode");
-            codeModule.Code= "Sub Button1_Click()\r\n  MsgBox \"Clicked!!\"\r\nEnd Sub";
+            codeModule.Code= "Sub Button1_Click()\r\n  MsgBox \"Clicked Button!!\"\r\nEnd Sub";
         }
+        [TestMethod]
+        public void AddCheckboxTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("Checkbox");
+            var ctrl = _ws.Drawings.AddControl("Checkbox 1", eControlType.CheckBox);
+            ctrl.Macro = "Checkbox_Click";
+            ctrl.SetPosition(100, 100);
+            ctrl.SetSize(200, 100);
+
+            var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("CheckboxCode");
+            codeModule.Code = "Sub Checkbox_Click()\r\n  MsgBox \"Clicked Checkbox!!\"\r\nEnd Sub";
+        }
+
     }
 }
