@@ -29,7 +29,8 @@ namespace EPPlusTest.Drawing.Control
         public void AddButtonTest()
         {
             _ws = _pck.Workbook.Worksheets.Add("Buttons");
-            _ws.Drawings.AddControl("button 1", eControlType.Button);
+            var ctrl = _ws.Drawings.AddControl("Button 1", eControlType.Button);
+            ctrl.SetPosition(100, 100);
         }
     }
 }

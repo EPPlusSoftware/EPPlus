@@ -398,6 +398,11 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
+
+        internal void SetWorksheetXmlPositions()
+        {
+            
+        }
         #endregion
     }
 }
