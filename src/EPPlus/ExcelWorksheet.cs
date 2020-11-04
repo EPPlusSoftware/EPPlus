@@ -465,10 +465,44 @@ namespace OfficeOpenXml
             {
                 return true;
             }
+            if(StartsWithR1C1(ws))
+            {
+                return true;
+            }
             foreach(var c in ws)
             {
                 if (!(char.IsLetterOrDigit(c) || c=='_' ))
                     return true;
+            }
+            return false;
+        }
+
+        private static bool StartsWithR1C1(string ws)
+        {
+            if (ws[0] == 'c' || ws[0] == 'C' || ws[0] == 'r' || ws[0] == 'R')
+            {
+                int ix = 1;
+                if (ws.StartsWith("rc", StringComparison.OrdinalIgnoreCase)) ix = 2;
+                if (ws.Length > ix && (ws[ix] >= '0' && ws[ix] <= '9'))
+                {
+                    if (ws[ix] == '0')
+                    {
+                        for (int i = ix+1; i < ws.Length; i++)
+                        {
+                            if (ws[i] != '0')
+                            {
+                                if (ws[i] >= '1' && ws[i] <= '9')
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
             }
             return false;
         }

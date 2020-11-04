@@ -152,8 +152,12 @@ namespace OfficeOpenXml.Utils
                 }
                 else if(d<0)
                 {
-                    if (split[1].StartsWith("-")) split[1]=split[1].Substring(1);
-                    return d.ToString(split[1], nf.Culture);
+                    var s=d.ToString(split[1], nf.Culture);
+                    if(s.StartsWith("--") && split[1].StartsWith("-"))
+                    {
+                        return s.Substring(1);
+                    }
+                    return s;
                 }
                 else
                 {
