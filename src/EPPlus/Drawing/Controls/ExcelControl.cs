@@ -29,16 +29,13 @@ namespace OfficeOpenXml.Drawing.Controls
         protected XmlHelper _ctrlProp;
         protected XmlHelper _vmlProp;
         internal ControlInternal _control;
-        private ZipPackageRelationship _rel;
-        private ExcelDrawings drawings;
-        private object drawingNode;
 
         internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart ctrlPropPart, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
             base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _control = control;
-            var _vml = drawings.Worksheet.VmlDrawings[LegacySpId];
-            _vmlProp = XmlHelperFactory.Create(NameSpaceManager, _vml.GetNode("x:ClientData"));
+            _vml = (ExcelVmlDrawingControl)drawings.Worksheet.VmlDrawings[LegacySpId];
+            _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
             ControlPropertiesXml = ctrlPropXml;
             ControlPropertiesPart = ctrlPropPart;
             ControlPropertiesUri = ctrlPropPart.Uri;
@@ -63,6 +60,7 @@ namespace OfficeOpenXml.Drawing.Controls
 
             //Vml
             _vml=drawings.Worksheet.VmlDrawings.AddControl(this);
+            _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
             //Control in worksheet xml
             XmlNode ctrlNode = ws.CreateControlNode();
@@ -199,6 +197,15 @@ namespace OfficeOpenXml.Drawing.Controls
                 _control.Macro = value;
                 _vmlProp.SetXmlNodeString("x:FmlaMacro", value);
             }
+        }
+
+        internal string GetVmlAnchorValue()
+        {
+            return string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}",
+                From.Column, From.ColumnOff,
+                From.Row, From.RowOff,
+                To.Column, To.ColumnOff,
+                To.Row, To.RowOff);
         }
 
         /// <summary>
@@ -398,11 +405,31 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
-
+        public override eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.Control;
+            }
+        }
         internal void SetWorksheetXmlPositions()
         {
+            _control.From.Row = From.Row;
+            _control.From.RowOff = From.RowOff;
+            _control.From.Column = From.Column;
+            _control.From.ColumnOff = From.ColumnOff;
             
+            _control.To.Row = To.Row;
+            _control.To.RowOff = To.RowOff;
+            _control.To.Column = To.Column;
+            _control.To.ColumnOff = To.ColumnOff;
+
+            _control.MoveWithCells = EditAs != eEditAs.Absolute;
+            _control.SizeWithCells = EditAs == eEditAs.TwoCell;
+
+            _vml.Anchor = GetVmlAnchorValue();
         }
+
         #endregion
     }
 }

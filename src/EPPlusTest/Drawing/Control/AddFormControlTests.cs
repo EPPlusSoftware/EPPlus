@@ -18,7 +18,7 @@ namespace EPPlusTest.Drawing.Control
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            _pck = OpenPackage("FormControl.xlsx",true);
+            _pck = OpenPackage("FormControl.xlsm",true);
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -30,7 +30,13 @@ namespace EPPlusTest.Drawing.Control
         {
             _ws = _pck.Workbook.Worksheets.Add("Buttons");
             var ctrl = _ws.Drawings.AddControl("Button 1", eControlType.Button);
+            ctrl.Macro = "Button1_Click";
             ctrl.SetPosition(100, 100);
+            ctrl.SetSize(200, 100);
+
+            _pck.Workbook.CreateVBAProject();
+            var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("ButtonCode");
+            codeModule.Code= "Sub Button1_Click()\r\n  MsgBox \"Clicked!!\"\r\nEnd Sub";
         }
     }
 }

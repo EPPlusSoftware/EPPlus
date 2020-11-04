@@ -40,6 +40,20 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
+        /// The Id of the vml drawing
+        /// </summary>
+        public string SpId
+        {
+            get
+            {
+                return GetXmlNodeString("@o:spid");
+            }
+            set
+            {
+                SetXmlNodeString("@o:spid", value);
+            }
+        }
+        /// <summary>
         /// Alternative text to be displayed instead of a graphic.
         /// </summary>
         public string AlternativeText
@@ -53,6 +67,21 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("@alt", value);
             }
         }
+        /// <summary>
+        /// Anchor coordinates for the drawing
+        /// </summary>
+        internal string Anchor
+        {
+            get
+            {
+                return GetXmlNodeString("x:ClientData/x:Anchor");
+            }
+            set
+            {
+                SetXmlNodeString("x:ClientData/x:Anchor", value);
+            }
+        }
+
         #region "Style Handling methods"
         /// <summary>
         /// Gets a style from the semi-colo separated list with the specifik key

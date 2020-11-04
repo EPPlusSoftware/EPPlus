@@ -2278,6 +2278,7 @@ namespace OfficeOpenXml
             if (_worksheetXml != null)
             {
 
+                SaveDrawings();
                 if (!(this is ExcelChartsheet))
                 {
                     // save the header & footer (if defined)
@@ -2309,7 +2310,6 @@ namespace OfficeOpenXml
                     SavePivotTables();
                     SaveSlicers();
                 }
-                SaveDrawings();
             }
         }
 
@@ -2344,6 +2344,7 @@ namespace OfficeOpenXml
                         else if (d is OfficeOpenXml.Drawing.Controls.ExcelControl c)
                         {
                             c.ControlPropertiesXml.Save(c.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
+                            c.SetWorksheetXmlPositions();
                         }
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;

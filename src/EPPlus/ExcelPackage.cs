@@ -691,9 +691,9 @@ namespace OfficeOpenXml
             NameTable nt = new NameTable();
             var ns = new XmlNamespaceManager(nt);
             ns.AddNamespace(string.Empty, ExcelPackage.schemaMain);
-            ns.AddNamespace("d", ExcelPackage.schemaMain);            
-            ns.AddNamespace("r", ExcelPackage.schemaRelationships);
-            ns.AddNamespace("c", ExcelPackage.schemaChart);
+            ns.AddNamespace("d", schemaMain);            
+            ns.AddNamespace("r", schemaRelationships);
+            ns.AddNamespace("c", schemaChart);
             ns.AddNamespace("vt", schemaVt);
             // extended properties (app.xml)
             ns.AddNamespace("xp", schemaExtended);
@@ -713,7 +713,8 @@ namespace OfficeOpenXml
             ns.AddNamespace("xr2", schemaXr2);
             ns.AddNamespace("mc", schemaMarkupCompatibility);
             ns.AddNamespace("tc", schemaThreadedComments);
-            ns.AddNamespace("a14", ExcelPackage.schemaDrawings2010); 
+            ns.AddNamespace("a14", schemaDrawings2010);
+            ns.AddNamespace("xdr", schemaSheetDrawings);
             return ns;
         }
 		

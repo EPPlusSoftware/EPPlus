@@ -25,6 +25,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A slicer drawing
         /// </summary>
-        Slicer
+        Slicer,
+        /// <summary>
+        /// A form control drawing
+        /// </summary>
+        Control
     }
 }

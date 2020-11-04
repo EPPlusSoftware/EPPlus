@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing
                     _topPath = topPath;
                     _nvPrPath = _topPath + "/" + nvPrPath;
                     _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
-                    CellAnchor = GetAnchoreFromName(node.LocalName);
+                    CellAnchor = GetAnchorFromName(node.LocalName);
                     SetPositionProperties(drawings, node);
                     GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
 
@@ -186,7 +186,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal static eEditAs GetAnchoreFromName(string topElementName)
+        internal static eEditAs GetAnchorFromName(string topElementName)
         {
             switch (topElementName)
             {
@@ -875,6 +875,10 @@ namespace OfficeOpenXml.Drawing
         /// <param name="type">The cell anchor type to change to</param>
         public void ChangeCellAnchor(eEditAs type)
         {
+            if(DrawingType==eDrawingType.Control)
+            {
+                throw new InvalidOperationException("Controls can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
+            }
             GetPositionSize();
             //Save the positions
             var top = _top;

@@ -59,12 +59,13 @@ namespace OfficeOpenXml.Drawing.Vml
                     case "Button":
                     case "GBox":
                     case "Label":
-                    case "Checked":
+                    case "Checkbox":
                     case "Spin":
                     case "Radio":
                     case "EditBox":
                     case "Dialog":
                         vmlDrawing = new ExcelVmlDrawingControl(node, NameSpaceManager);
+                        _drawings.Add(vmlDrawing);
                         break;
                     default:    //Comments
                         var rowNode = node.SelectSingleNode("x:ClientData/x:Row", NameSpaceManager);
@@ -85,7 +86,7 @@ namespace OfficeOpenXml.Drawing.Vml
                         _drawingsCellStore.SetValue(row, col, _drawings.Count-1);
                         break;
                 }
-                _drawingsDict.Add(vmlDrawing.Id, _drawings.Count - 1);
+                _drawingsDict.Add(string.IsNullOrEmpty(vmlDrawing.SpId) ? vmlDrawing.Id : vmlDrawing.SpId, _drawings.Count - 1);
             }
             //list.Sort(new Comparison<IRangeID>((r1, r2) => (r1.RangeID < r2.RangeID ? -1 : r1.RangeID > r2.RangeID ? 1 : 0)));  //Vml drawings are not sorted. Sort to avoid missmatches.
             //_drawings = new RangeCollection(list);
@@ -193,11 +194,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             vml += "</v:textbox>";
             vml += $"<x:ClientData ObjectType=\"{ctrl.ControlTypeString}\">";
-            vml += string.Format("<x:Anchor>{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}</x:Anchor>", 
-                ctrl.From.Column, ctrl.From.ColumnOff, 
-                ctrl.From.Row, ctrl.From.RowOff, 
-                ctrl.To.Column, ctrl.To.ColumnOff, 
-                ctrl.To.Row, ctrl.To.RowOff);
+            vml += string.Format("<x:Anchor>{0}</x:Anchor>", ctrl.GetVmlAnchorValue());
             vml += "<x:PrintObject>False</x:PrintObject>";
             vml += "<x:AutoFill>False</x:AutoFill>";
             vml += "<x:TextHAlign>Center</x:TextHAlign>";

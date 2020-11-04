@@ -205,6 +205,42 @@ namespace OfficeOpenXml.Drawing.Controls
             {
                 SetXmlNodeString("d:controlPr/@linkedCell", value);
             }
-        }        
+        }
+        public ExcelPosition From
+        {
+            get
+            {
+                return new ExcelPosition(NameSpaceManager, GetNode("d:controlPr/d:anchor/d:from"), null);
+            }
+        }
+        public ExcelPosition To
+        {
+            get
+            {
+                return new ExcelPosition(NameSpaceManager, GetNode("d:controlPr/d:anchor/d:to"), null);
+            }
+        }
+        public bool MoveWithCells 
+        { 
+            get
+            {
+                return GetXmlNodeBool("d:anchor/@moveWithCells");
+            }
+            set
+            {
+                SetXmlNodeBool("d:anchor/@moveWithCells", value, false);
+            }
+        }
+        public bool SizeWithCells
+        {
+            get
+            {
+                return GetXmlNodeBool("d:anchor/@sizeWithCells");
+            }
+            set
+            {
+                SetXmlNodeBool("d:anchor/@sizeWithCells", value, false);
+            }
+        }
     }
 }
