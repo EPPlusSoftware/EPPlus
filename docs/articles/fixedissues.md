@@ -1,5 +1,19 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.4.1
+### Minor new features
+* WriteProtection added to Workbook.Protection. Allows to set a workbook to read-only with a password.
+* ToDataTable method added to ExcelRange
+### Fixed issues
+* Worksheet names starting with R1C1 format creates invalid addresses
+* Row array in pages in the cell store caused an index out of bounds exception in rare cases.
+* Setting a shared formula with an external reference causes the workbook to become corrupt in some Excel versions 
+* A Pivot table get corrupt if a TimeSpan is used in a column that needs shared items in the cache.
+* Cell.Text returns an incorrect text when formatted #,##0;#,##0;- and value is rounded to zero.
+* Delete Table With ExcelTableCollection.Delete() did not remove the xml in the package causing the table not to be deleted.
+* Pivot tables with 'Save source data with file' caused an exception.
+* Signing VbaProject under .NET core did not work correcly.
+
 ## Version 5.4.0
 ### Features
 * Pivot tables filters

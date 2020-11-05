@@ -32,11 +32,11 @@ namespace OfficeOpenXml
         /// EPPlus uses SHA-512 as hash algorithm with a spin count of 100000.
         /// </summary>
         /// <param name="userName">The name of the person enforcing the write protection</param>
-        /// <param name="password">The password. Must not be empty.</param>
+        /// <param name="password">The password. Setting the password to null or empty will remove the read-only mode.</param>
         public void SetReadOnly(string userName, string password)
         {
             UserName = userName;
-            if (string.IsNullOrEmpty(password.Trim()))
+            if (string.IsNullOrEmpty(password?.Trim()))
             {
                 RemovePasswordAttributes();
                 return;
@@ -178,7 +178,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// If opening the workbook in readonly is the recommended by the author.
+        /// If the author recommends that you open the workbook in read-only mode.
         /// </summary>
         public bool ReadOnlyRecommended
         {
