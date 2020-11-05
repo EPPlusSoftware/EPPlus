@@ -31,6 +31,8 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using System.Globalization;
+using System.Threading;
 
 namespace EPPlusTest.Style
 {
@@ -154,6 +156,29 @@ namespace EPPlusTest.Style
             ws.Cells["A1"].Style.Font.Charset=2;
 
             Assert.AreEqual(2, ws.Cells["A1"].Style.Font.Charset);
+        }
+        [TestMethod]
+        public void ValidateNumberFormatDiffExcelVsNet()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var prevCi = Thread.CurrentThread.CurrentCulture;
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+                ws.SetValue(1, 1, -0.1);
+                ws.SetValue(2, 1, 0);
+                ws.SetValue(3, 1, 0.1);
+                ws.Cells["A1:A3"].Style.Numberformat.Format = "#,##0;-#,##0;-";
+                Assert.AreEqual("-0", ws.Cells["A1"].Text);
+                Assert.AreEqual("-", ws.Cells["A2"].Text);
+                Assert.AreEqual("0", ws.Cells["A3"].Text);
+
+                ws.Cells["A1:A3"].Style.Numberformat.Format = "#,##0.0;-#,##0.0;-";
+                Assert.AreEqual("-0.1", ws.Cells["A1"].Text);
+                Assert.AreEqual("-", ws.Cells["A2"].Text);
+                Assert.AreEqual("0.1", ws.Cells["A3"].Text);
+                Thread.CurrentThread.CurrentCulture = prevCi;
+            }
         }
     }
 }

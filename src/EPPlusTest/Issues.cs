@@ -43,6 +43,8 @@ using System.Text;
 using System.Globalization;
 using OfficeOpenXml.Drawing;
 using System.Threading;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+
 namespace EPPlusTest
 {
     /// <summary>
@@ -1360,22 +1362,39 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue45()
+        {
+            using (var p=OpenPackage("LinkIssue.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:A2"].Value = 1;
+                ws.Cells["B1:B2"].Formula = $"VLOOKUP($A1,[externalBook.xlsx]Prices!$A:$H, 3, FALSE)";
+                SaveAndCleanup(p);
+            }
 
-        //[TestMethod]
-        //public void Issue44_Round()
-        //{
-        //    using(var package = OpenTemplatePackage("Issue44.xlsx"))
-        //    {
-        //        //var ws = package.Workbook.Worksheets.Add("test");
-        //        var ws = package.Workbook.Worksheets[0];
-        //        //ws.Cells["A1"].Value = 120253.87499999999d;
-        //        ws.Cells["A2"].Formula = "ROUND(A1, 2)";
-        //        ws.Calculate();
-        //        var val = ws.Cells["A2"].Value;
-        //        Assert.AreEqual(120253.87d, val);
+        }
+        [TestMethod]
+        public void EmfIssue()
+        {
+            using (var p = OpenTemplatePackage("emfIssue.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue201()
+        {
+            using (var p = OpenTemplatePackage("book1.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual("0", ws.Cells["A1"].Text);
+                Assert.AreEqual("-", ws.Cells["A2"].Text);
+                Assert.AreEqual("0", ws.Cells["A3"].Text);
+                SaveAndCleanup(p);
+            }
+        }
 
-        //        SaveWorkbook("Issue44.xlsx", package);
-        //    }
-        //}
     }
 }
