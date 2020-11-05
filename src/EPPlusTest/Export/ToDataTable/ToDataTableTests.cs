@@ -370,7 +370,7 @@ namespace EPPlusTest.Export.ToDataTable
         }
 
         [TestMethod]
-        public void ToDataTableWithExistingTable()
+        public void ToDataTableWithExistingTable_UseOnlyDefinedCols()
         {
             using (var package = new ExcelPackage())
             {
@@ -378,30 +378,23 @@ namespace EPPlusTest.Export.ToDataTable
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = "Id";
                 sheet.Cells["B1"].Value = "Name";
+                sheet.Cells["C1"].Value = "Email";
                 sheet.Cells["A2"].Value = 1;
                 sheet.Cells["B2"].Value = "Bob";
+                sheet.Cells["C2"].Value = "Bobs email";
                 sheet.Cells["A3"].Value = 3;
-                sheet.Cells["B3"].Value = null;
+                sheet.Cells["B3"].Value = "Rob";
+                sheet.Cells["C3"].Value = "Robs email";
+
 
                 var table = new DataTable("dt1", "ns1");
-                var col1 = table.Columns.Add("Id_", typeof(int));
-                var col2 = table.Columns.Add("Name_", typeof(string));
-
-                var dt = sheet.Cells["A1:B3"].ToDataTable(o =>
-                {
-                    o.Mappings.Add(0, "Id_");
-                    o.Mappings.Add(1, "Name_");
-                }, table);
-
-                Assert.AreEqual(2, table.Rows.Count);
-
-                table = new DataTable("dt1", "ns1");
                 table.Columns.Add("Id", typeof(int));
-                table.Columns.Add("Name", typeof(string));
+                table.Columns.Add("Email", typeof(string));
 
-                dt = sheet.Cells["A1:B3"].ToDataTable(table);
+                sheet.Cells["A1:C3"].ToDataTable(table);
+                Assert.AreEqual("Bobs email", table.Rows[0]["Email"]);
 
-                Assert.AreEqual(2, table.Rows.Count);
+                
             }
         }
     }

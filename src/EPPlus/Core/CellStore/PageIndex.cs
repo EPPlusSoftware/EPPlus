@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Drawing;
 
 namespace OfficeOpenXml.Core.CellStore
 {
@@ -31,9 +32,14 @@ namespace OfficeOpenXml.Core.CellStore
         {
 
         }
-        public PageIndex(PageIndex pageItem, int start, int size, short index, int offset)
+        public PageIndex(PageIndex pageItem, int start, int size, short index, int offset, int arraySize = -1)
         {
-            Rows = new IndexItem[CellStore<int>.GetSize(size)];
+            if(arraySize<0)
+            {
+                arraySize = CellStore<int>.GetSize(size);
+            }
+
+            Rows = new IndexItem[arraySize];
             Array.Copy(pageItem.Rows, start, Rows, 0, pageItem.RowCount-start);
             RowCount = size;    
             Index = index;
