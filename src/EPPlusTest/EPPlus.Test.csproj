@@ -37,6 +37,10 @@
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Issues.cs.orig" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
