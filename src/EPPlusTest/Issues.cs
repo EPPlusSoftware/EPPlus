@@ -1395,6 +1395,24 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void IssueCellstore()
+        {
+            int START_ROW = 1;
+            int CustomTemplateRowsOffset = 4;
+            int rowCount = 27000;
+            using (var package = OpenTemplatePackage("CellStoreIssue.xlsm"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(START_ROW + 1 + CustomTemplateRowsOffset, rowCount - 1);
 
+                for (int k = 1; k < rowCount; k++)
+                {
+                    worksheet.Cells[(START_ROW + CustomTemplateRowsOffset) + ":" + (START_ROW + CustomTemplateRowsOffset)]
+                        .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
+                }
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

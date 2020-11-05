@@ -1036,7 +1036,7 @@ namespace OfficeOpenXml.Core.CellStore
             }
 
             //var newPage = new PageIndex(page, 0, splitPos);
-            var nextPage = new PageIndex(page, splitPos, page.RowCount - splitPos, (short)(page.Index + 1), page.Offset);
+            var nextPage = new PageIndex(page, splitPos, page.RowCount - splitPos, (short)(page.Index + 1), page.Offset, CellStoreSettings._pageSizeMax);
             page.RowCount = splitPos;
 
             for (int r = 0; r < nextPage.RowCount; r++)
