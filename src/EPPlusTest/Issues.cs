@@ -1360,5 +1360,22 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        //[TestMethod]
+        //public void Issue44_Round()
+        //{
+        //    using(var package = OpenTemplatePackage("Issue44.xlsx"))
+        //    {
+        //        //var ws = package.Workbook.Worksheets.Add("test");
+        //        var ws = package.Workbook.Worksheets[0];
+        //        //ws.Cells["A1"].Value = 120253.87499999999d;
+        //        ws.Cells["A2"].Formula = "ROUND(A1, 2)";
+        //        ws.Calculate();
+        //        var val = ws.Cells["A2"].Value;
+        //        Assert.AreEqual(120253.87d, val);
+
+        //        SaveWorkbook("Issue44.xlsx", package);
+        //    }
+        //}
     }
 }
