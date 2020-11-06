@@ -50,6 +50,18 @@ namespace EPPlusTest.Drawing.Control
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("CheckboxCode");
             codeModule.Code = "Sub Checkbox_Click()\r\n  MsgBox \"Clicked Checkbox!!\"\r\nEnd Sub";
         }
+        [TestMethod]
+        public void AddRadioButtonTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("RadioButton");
+            var ctrl = _ws.Drawings.AddControl("RadioButton 1", eControlType.RadioButton);
+            ctrl.Macro = "RadioButton_Click";
+            ctrl.SetPosition(500, 100);
+            ctrl.SetSize(200, 100);
+
+            var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("RadioButtonCode");
+            codeModule.Code = "Sub RadioButton_Click()\r\n  MsgBox \"Clicked RadioButton!!\"\r\nEnd Sub";
+        }
 
     }
 }

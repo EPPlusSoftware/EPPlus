@@ -21,6 +21,9 @@ namespace OfficeOpenXml.Drawing.Controls
             : base(drawings, drawNode, control, part, controlPropertiesXml, null)
         {
         }
+        public ExcelControlRadioButton(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        {
+        }
 
         public override eControlType ControlType => eControlType.RadioButton;
         /// <summary>

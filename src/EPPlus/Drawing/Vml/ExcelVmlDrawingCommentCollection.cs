@@ -17,6 +17,7 @@ using System.Collections;
 using System.Globalization;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Controls;
+using System.Text;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -171,39 +172,99 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         private XmlNode AddControlDrawing(ExcelControl ctrl)
         {
-            var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
+            var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
-            VmlDrawingXml.DocumentElement.AppendChild(node);
+            VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
 
-            node.SetAttribute("o:spid", "_x0000_s"+ctrl.Id);
-            node.SetAttribute("id", "button_x0020_1");
-            node.SetAttribute("type", "#_x0000_t201");
-            node.SetAttribute("style", "position:absolute;z-index:1;");
-            node.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
-            node.SetAttribute("strokecolor", "windowText [64]");
-            node.SetAttribute("fillcolor", "buttonFace [67]");
-            node.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
-            node.SetAttribute("fillcolor", "#ffffe1");
+            shapeElement.SetAttribute("o:spid", "_x0000_s"+ctrl.Id);
+            shapeElement.SetAttribute("id", "button_x0020_1");
+            shapeElement.SetAttribute("type", "#_x0000_t201");
+            shapeElement.SetAttribute("style", "position:absolute;z-index:1;");
+            shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
+            SetShapeAttributes(ctrl, shapeElement);
 
-            string vml = "<v:fill o:detectmouseclick=\"t\" color2=\"buttonFace[67]\"/>";
-            vml += "<o:lock v:ext=\"edit\" rotation=\"t\"/>";
-            vml += "<v:textbox style=\"mso-direction-alt:auto\" o:singleclick=\"f\">";
+            var vml = new StringBuilder();
+            vml.Append(GetVml(ctrl, shapeElement));
+            vml.Append("<o:lock v:ext=\"edit\" rotation=\"t\"/>");
+            vml.Append("<v:textbox style=\"mso-direction-alt:auto\" o:singleclick=\"f\">");
             if (ctrl is ExcelControlWithText textControl)
             {
-                vml += $"<div style=\"text-align:center\"><font color=\"#000000\" size=\"220\" face=\"Calibri\">{textControl.Text}</font></div>";
+                vml.Append($"<div style=\"text-align:center\"><font color=\"#000000\" size=\"220\" face=\"Calibri\">{textControl.Text}</font></div>");
             }
-            vml += "</v:textbox>";
-            vml += $"<x:ClientData ObjectType=\"{ctrl.ControlTypeString}\">";
-            vml += string.Format("<x:Anchor>{0}</x:Anchor>", ctrl.GetVmlAnchorValue());
-            vml += "<x:PrintObject>False</x:PrintObject>";
-            vml += "<x:AutoFill>False</x:AutoFill>";
-            vml += "<x:TextHAlign>Center</x:TextHAlign>";
-            vml += "<x:TextVAlign>Center</x:TextVAlign>";
+            vml.Append("</v:textbox>");
+            vml.Append($"<x:ClientData ObjectType=\"{ctrl.ControlTypeString}\">");
+            vml.Append(string.Format("<x:Anchor>{0}</x:Anchor>", ctrl.GetVmlAnchorValue()));
+            vml.Append(GetVmlClientData(ctrl, shapeElement));
+            vml.Append("<x:PrintObject>False</x:PrintObject>");
+            vml.Append("<x:AutoFill>False</x:AutoFill>");
+            vml.Append("<x:TextVAlign>Center</x:TextVAlign>");
 
-            vml += "</x:ClientData>";
+            vml.Append("</x:ClientData>");
 
-            node.InnerXml = vml;
-            return node;
+            shapeElement.InnerXml = vml.ToString();
+            return shapeElement;
+        }
+
+        private string GetVmlClientData(ExcelControl ctrl, XmlElement shapeElement)
+        {
+            switch (ctrl.ControlType)
+            {
+                case eControlType.Button:
+                    return "<x:TextHAlign>Center</x:TextHAlign>";
+                case eControlType.CheckBox:
+                    return "<x:SizeWithCells/><x:NoThreeD/>";
+                case eControlType.RadioButton:
+                    return "<x:SizeWithCells/><x:AutoLine>False</x:AutoLine><x:NoThreeD/><x:FirstButton/>";
+                default:
+                    return "";
+            }
+        }
+
+        private string GetVml(ExcelControl ctrl, XmlElement shapeElement)
+        {
+            switch (ctrl.ControlType)
+            {
+                case eControlType.Button:
+                    return "<v:fill o:detectmouseclick=\"t\" color2=\"buttonFace[67]\"/>";
+                case eControlType.CheckBox:
+                    return "<v:path fillok=\"t\" strokeok=\"t\" shadowok=\"t\"/>";
+                default:
+                    return "";
+            }
+        }
+
+        private void SetShapeAttributes(ExcelControl ctrl, XmlElement shapeElement)
+        {
+            switch (ctrl.ControlType)
+            {
+                case eControlType.Button:
+                    shapeElement.SetAttribute("fillcolor", "buttonFace [67]");
+                    shapeElement.SetAttribute("strokecolor", "windowText [64]");
+                    shapeElement.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
+                    break;
+                case eControlType.CheckBox:
+                case eControlType.RadioButton:
+                    shapeElement.SetAttribute("fillcolor", "windows [65]");
+                    shapeElement.SetAttribute("strokecolor", "windowText [64]");
+                    shapeElement.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
+                    shapeElement.SetAttribute("stroked", "f");
+                    shapeElement.SetAttribute("filled", "f");
+                    //style = "position:absolute; margin-left:15pt;margin-top:10.5pt;width:120.75pt;height:23.25pt;z-index:1; mso-wrap-style:tight" type = "#_x0000_t201" >
+                    break; 
+            }
+
+        }
+
+        private string GetFillColor(ExcelControl ctrl)
+        {
+            switch(ctrl.ControlType)
+            {
+                case eControlType.Button:
+                    return "buttonFace [67]";
+                case eControlType.CheckBox:
+                    return "windows [65]";
+            }
+            return "windows [65]";
         }
 
         int _nextID = 0;

@@ -125,8 +125,12 @@ namespace OfficeOpenXml.Drawing.Controls
                         Text = name
                     };
                     break;
-                //case eControlType.RadioButton:
-                //    return new ExcelControlRadioButton(drawings, drawNode);
+                case eControlType.RadioButton:
+                    ctrl = new ExcelControlRadioButton(drawings, drawNode)
+                    {
+                        Text = name
+                    };
+                    break;
                 //case eControlType.ScrollBar:
                 //    return new ExcelControlScrollBar(drawings, drawNode);
                 //case eControlType.SpinButton:

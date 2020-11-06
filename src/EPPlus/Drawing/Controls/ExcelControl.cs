@@ -92,7 +92,9 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.Button:
                     return string.Format(xml, "objectType=\"Button\" lockText=\"1\"");
                 case eControlType.CheckBox:
-                    return string.Format(xml, "objectType=\"CheckBox\" lockText=\"1\"");
+                    return string.Format(xml, "objectType=\"CheckBox\" lockText=\"1\" noThreeD=\"1\"");
+                case eControlType.RadioButton:
+                    return string.Format(xml, "objectType=\"RadioButton\" firstButton=\"1\" lockText=\"1\" noThreeD=\"1\"");
                 default:
                     throw new NotImplementedException();
             }
@@ -102,11 +104,23 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             StringBuilder xml = new StringBuilder();
             xml.Append($"<xdr:nvSpPr><xdr:cNvPr hidden=\"1\" name=\"\" id=\"{_id}\"><a:extLst><a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\"><a14:compatExt spid=\"_x0000_s{_id}\"/></a:ext><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{00000000-0008-0000-0000-000001040000}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
-            xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom><a:noFill/><a:ln w=\"9525\"><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
+            xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>");
+            switch (ControlType)
+            {
+                case eControlType.Button:
+                    xml.Append($"<a:noFill/><a:ln w=\"9525\"><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
+                    break;
+                case eControlType.CheckBox:
+                case eControlType.RadioButton:
+                    xml.Append($"<a:noFill/><a:ln><a:noFill/></a:ln><a:extLst><a:ext uri=\"{{909E8E84-426E-40DD-AFC4-6F175D3DCCD1}}\"><a14:hiddenFill><a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill></a14:hiddenFill></a:ext><a:ext uri=\"{{91240B29-F687-4F45-9708-019B960494DF}}\"><a14:hiddenLine w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a14:hiddenLine></a:ext></a:extLst></xdr:spPr>");
+                    break;
+            }
+            //Textbox
             switch (ControlType)
             {
                 case eControlType.Button:
                 case eControlType.CheckBox:
+                case eControlType.RadioButton:
                     xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/><a:lstStyle/><a:p><a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr><a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
                     break;
             }
@@ -135,6 +149,8 @@ namespace OfficeOpenXml.Drawing.Controls
                         return "GBox";
                     case eControlType.CheckBox:
                         return "Checkbox";
+                    case eControlType.RadioButton:
+                        return "Radio";
                     default:
                         return ControlType.ToString();
                 }
