@@ -1414,5 +1414,27 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void InflateIssue()
+        {
+            using (var p=OpenPackage("inflateStart.xlsx"))
+            {
+                var worksheet = p.Workbook.Worksheets.Add("Test");
+                for (int i = 1; i <= 10; i++)
+                {
+                    worksheet.Cells[1, i].Hyperlink = new Uri("https://epplussoftware.com");
+                    worksheet.Cells[1, i].Value = "Url " + worksheet.Cells[1, i].Address;
+                }
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        p.Save();
+                    }
+                    SaveWorkbook("Inflate.xlsx", p2);
+                }                
+            }
+        }
     }
 }

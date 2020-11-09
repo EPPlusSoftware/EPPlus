@@ -114,12 +114,18 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.DropDown:
                     ctrl = new ExcelControlDropDown(drawings, drawNode);
                     break;
-                //case eControlType.GroupBox:
-                //    return new ExcelControlGroupBox(drawings, drawNode);
-                //case eControlType.Label:
-                //    return new ExcelControlLabel(drawings, drawNode);
-                //case eControlType.ListBox:
-                //    return new ExcelControlListBox(drawings, drawNode);
+                case eControlType.GroupBox:
+                    return new ExcelControlGroupBox(drawings, drawNode)
+                    {
+                        Text = name
+                    };
+                case eControlType.Label:
+                    return new ExcelControlLabel(drawings, drawNode)
+                    {
+                        Text = name
+                    };
+                case eControlType.ListBox:
+                    return new ExcelControlListBox(drawings, drawNode);
                 case eControlType.CheckBox:
                     ctrl = new ExcelControlCheckBox(drawings, drawNode)
                     {
@@ -132,16 +138,16 @@ namespace OfficeOpenXml.Drawing.Controls
                         Text = name
                     };
                     break;
-                //case eControlType.ScrollBar:
-                //    return new ExcelControlScrollBar(drawings, drawNode);
-                //case eControlType.SpinButton:
-                //    return new ExcelControlSpinButton(drawings, drawNode);
+                case eControlType.ScrollBar:
+                    return new ExcelControlScrollBar(drawings, drawNode);
+                case eControlType.SpinButton:
+                    return new ExcelControlSpinButton(drawings, drawNode);
                 //case eControlType.EditBox:
                 //    return new ExcelControlEditBox(drawings, drawNode);
                 //case eControlType.Dialog:
                 //    return new ExcelControlDialog(drawings, drawNode);
                 default:
-                    throw new NotSupportedException();
+                    throw new NotSupportedException("Editboxes and Dialogs controls are not supported");
             }
             ctrl.Name = name;
             return ctrl;

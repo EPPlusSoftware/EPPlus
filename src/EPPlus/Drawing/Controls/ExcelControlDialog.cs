@@ -17,6 +17,9 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlDialog : ExcelControl
     {
+        internal ExcelControlDialog(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        {
+        }
         internal ExcelControlDialog(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, part, controlPropertiesXml, null)
         {

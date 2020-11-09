@@ -82,6 +82,42 @@ namespace EPPlusTest.Drawing.Control
 
             _codeModule.Code += "Sub DropDown_Click()\r\n  MsgBox \"Selected DropDown!!\"\r\nEnd Sub\r\n";
         }
+        [TestMethod]
+        public void AddListBoxTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("ListBox");
+            var ctrl = (ExcelControlList)_ws.Drawings.AddControl("ListBox 1", eControlType.ListBox);
+            ctrl.Macro = "ListBox_Click";
+            ctrl.SetPosition(500, 100);
+            ctrl.SetSize(200, 100);
+            
+            _ws.Cells["A1"].Value = 1;
+            _ws.Cells["A2"].Value = 2;
+            _ws.Cells["A3"].Value = 3;
+            _ws.Cells["A4"].Value = 4;
+
+            _ws.Cells["B1"].Value = 3;
+
+            ctrl.InputRange = _ws.Cells["A1:A8"];
+            ctrl.LinkedCell = _ws.Cells["B1"];
+            
+            _codeModule.Code += "Sub ListBox_Click()\r\n  MsgBox \"Selected ListBox!!\"\r\nEnd Sub\r\n";
+        }
+        [TestMethod]
+        public void AddLabelTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("ListBox");
+            var ctrl = (ExcelControlLabel)_ws.Drawings.AddControl("Label 1", eControlType.Label);
+            ctrl.Macro = "Label_Click";
+            ctrl.SetPosition(500, 100);
+            ctrl.SetSize(200, 100);
+
+            _ws.Cells["B1"].Value = "Linked Label to B1";
+
+            ctrl.LinkedCell = _ws.Cells["B1"];
+
+            _codeModule.Code += "Sub Label_Click()\r\n  MsgBox \"Selected Label!!\"\r\nEnd Sub\r\n";
+        }
 
     }
 }

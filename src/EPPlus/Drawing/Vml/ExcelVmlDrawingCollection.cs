@@ -217,6 +217,12 @@ namespace OfficeOpenXml.Drawing.Vml
                     return "<x:SizeWithCells/><x:AutoLine>False</x:AutoLine><x:NoThreeD/><x:FirstButton/>";
                 case eControlType.DropDown:
                     return "<x:SizeWithCells/><x:AutoLine>False</x:AutoLine><x:Val>0</x:Val><x:Min>0</x:Min><x:Max>0</x:Max><x:Inc>1</x:Inc><x:Page>1</x:Page><x:Dx>22</x:Dx><x:Sel>0</x:Sel><x:NoThreeD2/><x:SelType>Single</x:SelType><x:LCT>Normal</x:LCT><x:DropStyle>Combo</x:DropStyle>   <x:DropLines>8</x:DropLines>";
+                case eControlType.ListBox:
+                    return "<x:SizeWithCells/><x:AutoLine>False</x:AutoLine><x:Val>0</x:Val><x:Min>0</x:Min><x:Max>0</x:Max><x:Inc>1</x:Inc><x:Page>15</x:Page><x:Dx>13</x:Dx><x:Sel>0</x:Sel><x:NoThreeD2/><x:SelType>Single</x:SelType><x:LCT>Normal</x:LCT>";
+                case eControlType.Label:
+                    return "<x:AutoFill>False</x:AutoFill><x:AutoLine>False</x:AutoLine>";
+                case eControlType.ScrollBar:
+                    return "<x:SizeWithCells/><x:Val>0</x:Val><x:Min>0</x:Min><x:Max>100</x:Max><x:Inc>1</x:Inc><x:Page>10</x:Page><x:Dx>22</x:Dx>";
                 default:
                     return "";
             }
@@ -252,21 +258,23 @@ namespace OfficeOpenXml.Drawing.Vml
                     shapeElement.SetAttribute("stroked", "f");
                     shapeElement.SetAttribute("filled", "f");
                     //style = "position:absolute; margin-left:15pt;margin-top:10.5pt;width:120.75pt;height:23.25pt;z-index:1; mso-wrap-style:tight" type = "#_x0000_t201" >
-                    break; 
+                    break;
+                case eControlType.ListBox:
+                case eControlType.DropDown:
+                    shapeElement.SetAttribute("strokecolor", "windowText [64]");
+                    shapeElement.SetAttribute("stroked", "f");
+                    break;
+                case eControlType.ScrollBar:
+                    shapeElement.SetAttribute("strokecolor", "windowText [64]");
+                    break;
+                case eControlType.Label:
+                    shapeElement.SetAttribute("fillcolor", "windows [65]");
+                    shapeElement.SetAttribute("strokecolor", "windowText [64]");
+                    shapeElement.SetAttribute("stroked", "f");
+                    shapeElement.SetAttribute("filled", "f");
+                    break;
             }
 
-        }
-
-        private string GetFillColor(ExcelControl ctrl)
-        {
-            switch(ctrl.ControlType)
-            {
-                case eControlType.Button:
-                    return "buttonFace [67]";
-                case eControlType.CheckBox:
-                    return "windows [65]";
-            }
-            return "windows [65]";
         }
 
         int _nextID = 0;

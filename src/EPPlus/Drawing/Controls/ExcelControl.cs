@@ -19,6 +19,7 @@ using OfficeOpenXml.Utils.Extentions;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Controls
@@ -98,6 +99,12 @@ namespace OfficeOpenXml.Drawing.Controls
                     return string.Format(xml, "objectType=\"RadioButton\" firstButton=\"1\" lockText=\"1\" noThreeD=\"1\"");
                 case eControlType.DropDown:
                     return string.Format(xml, "objectType=\"Drop\" dropStyle=\"combo\" dx=\"22\" noThreeD=\"1\" sel=\"0\" val=\"0\"");
+                case eControlType.ListBox:
+                    return string.Format(xml, "objectType=\"List\" dx=\"22\" noThreeD=\"1\" sel=\"0\" val=\"0\"");
+                case eControlType.Label:
+                    return string.Format(xml, "objectType=\"Label\" lockText=\"1\"");
+                case eControlType.ScrollBar:
+                    return string.Format(xml, "");
                 default:
                     throw new NotImplementedException();
             }
@@ -117,6 +124,9 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.RadioButton:
                     xml.Append($"<a:noFill/><a:ln><a:noFill/></a:ln><a:extLst><a:ext uri=\"{{909E8E84-426E-40DD-AFC4-6F175D3DCCD1}}\"><a14:hiddenFill><a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill></a14:hiddenFill></a:ext><a:ext uri=\"{{91240B29-F687-4F45-9708-019B960494DF}}\"><a14:hiddenLine w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a14:hiddenLine></a:ext></a:extLst>");
                     break;
+                case eControlType.ListBox:
+                    xml.Append("<a:noFill/><a:ln><a:noFill/></a:ln><a:extLst><a:ext uri=\"{{91240B29-F687-4F45-9708-019B960494DF}}\"><a14:hiddenLine w=\"9525\"><a:noFill/><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a14:hiddenLine></a:ext></a:extLst>");
+                    break;
             }
             xml.Append("</xdr:spPr>");
             //Textbox
@@ -125,6 +135,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.Button:
                 case eControlType.CheckBox:
                 case eControlType.RadioButton:
+                case eControlType.Label:
                     xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/><a:lstStyle/><a:p><a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr><a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
                     break;
                 default:
@@ -160,6 +171,12 @@ namespace OfficeOpenXml.Drawing.Controls
                         return "Radio";
                     case eControlType.DropDown:
                         return "Drop";
+                    case eControlType.ListBox:
+                        return "List";
+                    case eControlType.SpinButton:
+                        return "Spin";
+                    case eControlType.ScrollBar:
+                        return "Scroll";
                     default:
                         return ControlType.ToString();
                 }
@@ -232,10 +249,10 @@ namespace OfficeOpenXml.Drawing.Controls
         internal string GetVmlAnchorValue()
         {
             return string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}",
-                From.Column, From.ColumnOff,
-                From.Row, From.RowOff,
-                To.Column, To.ColumnOff,
-                To.Row, To.RowOff);
+                From.Column, From.ColumnOff / EMU_PER_PIXEL,
+                From.Row, From.RowOff / EMU_PER_PIXEL,
+                To.Column, To.ColumnOff / EMU_PER_PIXEL,
+                To.Row, To.RowOff / EMU_PER_PIXEL);
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlCheckBox : ExcelControlWithText
     {
-        public ExcelControlCheckBox(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlCheckBox(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
         {
         }
 

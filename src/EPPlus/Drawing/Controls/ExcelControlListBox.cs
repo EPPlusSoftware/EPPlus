@@ -22,6 +22,9 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlListBox : ExcelControlList
     {
+        internal ExcelControlListBox(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        {
+        }
         internal ExcelControlListBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, part, controlPropertiesXml)
         {
