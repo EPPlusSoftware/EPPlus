@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -274,6 +275,15 @@ namespace EPPlusTest.Core.Range
             //Assert
             Assert.IsTrue(text.StartsWith(fmt.Header + fmt.EOL));
             Assert.IsTrue(text.EndsWith(fmt.EOL + fmt.Footer));
+        }
+        [TestMethod]
+        public void ToText()
+        {
+            using (var fs = new FileStream("c:\\temp\\worksheet.tsv", FileMode.Create, FileAccess.Write))
+            {
+                _ws.Cells[_ws.Dimension.Address].SaveToText(fs, new ExcelOutputTextFormat() { Delimiter = '\t' });
+                fs.Close();
+            }
         }
         #endregion
         #region ToTextAsync

@@ -17,10 +17,7 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlButton : ExcelControlWithText
     {
-        private ExcelDrawings drawings;
-        private XmlElement drawNode;
-
-        public ExcelControlButton(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlButton(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
         {
         }
 

@@ -111,8 +111,9 @@ namespace OfficeOpenXml.Drawing.Controls
                         Text = name
                     };                    
                     break;
-                //case eControlType.DropDown:
-                //    return new ExcelControlDropDown(drawings, drawNode);
+                case eControlType.DropDown:
+                    ctrl = new ExcelControlDropDown(drawings, drawNode);
+                    break;
                 //case eControlType.GroupBox:
                 //    return new ExcelControlGroupBox(drawings, drawNode);
                 //case eControlType.Label:

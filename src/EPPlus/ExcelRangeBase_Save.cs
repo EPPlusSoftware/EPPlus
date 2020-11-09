@@ -96,7 +96,7 @@ namespace OfficeOpenXml
         public void SaveToText(FileInfo file, ExcelOutputTextFormat Format)
         {
             var fileStream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write);
-            SaveToText(file, Format);
+            SaveToText(fileStream, Format);
         }
         /// <summary>
         /// Converts a range to text in CSV format.

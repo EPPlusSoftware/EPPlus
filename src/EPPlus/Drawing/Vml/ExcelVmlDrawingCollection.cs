@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Drawing.Vml
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
 
             shapeElement.SetAttribute("o:spid", "_x0000_s"+ctrl.Id);
-            shapeElement.SetAttribute("id", "button_x0020_1");
+            shapeElement.SetAttribute("id", $"{ctrl.ControlTypeString}_x0020_1");
             shapeElement.SetAttribute("type", "#_x0000_t201");
             shapeElement.SetAttribute("style", "position:absolute;z-index:1;");
             shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
@@ -215,6 +215,8 @@ namespace OfficeOpenXml.Drawing.Vml
                     return "<x:SizeWithCells/><x:NoThreeD/>";
                 case eControlType.RadioButton:
                     return "<x:SizeWithCells/><x:AutoLine>False</x:AutoLine><x:NoThreeD/><x:FirstButton/>";
+                case eControlType.DropDown:
+                    return "<x:SizeWithCells/><x:AutoLine>False</x:AutoLine><x:Val>0</x:Val><x:Min>0</x:Min><x:Max>0</x:Max><x:Inc>1</x:Inc><x:Page>1</x:Page><x:Dx>22</x:Dx><x:Sel>0</x:Sel><x:NoThreeD2/><x:SelType>Single</x:SelType><x:LCT>Normal</x:LCT><x:DropStyle>Combo</x:DropStyle>   <x:DropLines>8</x:DropLines>";
                 default:
                     return "";
             }

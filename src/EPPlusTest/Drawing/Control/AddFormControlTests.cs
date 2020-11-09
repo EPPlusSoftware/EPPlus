@@ -1,12 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using OfficeOpenXml.VBA;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace EPPlusTest.Drawing.Control
 {
@@ -15,11 +12,13 @@ namespace EPPlusTest.Drawing.Control
     {
         static ExcelPackage _pck;
         static ExcelWorksheet _ws;
+        static ExcelVBAModule _codeModule;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
             _pck = OpenPackage("FormControl.xlsm",true);
             _pck.Workbook.CreateVBAProject();
+            _codeModule = _pck.Workbook.VbaProject.Modules.AddModule("ControlEvents");
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -35,8 +34,7 @@ namespace EPPlusTest.Drawing.Control
             ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 100);
 
-            var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("ButtonCode");
-            codeModule.Code= "Sub Button1_Click()\r\n  MsgBox \"Clicked Button!!\"\r\nEnd Sub";
+            _codeModule.Code += "Sub Button1_Click()\r\n  MsgBox \"Clicked Button!!\"\r\nEnd Sub\r\n";
         }
         [TestMethod]
         public void AddCheckboxTest()
@@ -48,7 +46,7 @@ namespace EPPlusTest.Drawing.Control
             ctrl.SetSize(200, 100);
 
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("CheckboxCode");
-            codeModule.Code = "Sub Checkbox_Click()\r\n  MsgBox \"Clicked Checkbox!!\"\r\nEnd Sub";
+            _codeModule.Code += "Sub Checkbox_Click()\r\n  MsgBox \"Clicked Checkbox!!\"\r\nEnd Sub\r\n";
         }
         [TestMethod]
         public void AddRadioButtonTest()
@@ -60,7 +58,29 @@ namespace EPPlusTest.Drawing.Control
             ctrl.SetSize(200, 100);
 
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("RadioButtonCode");
-            codeModule.Code = "Sub RadioButton_Click()\r\n  MsgBox \"Clicked RadioButton!!\"\r\nEnd Sub";
+            _codeModule.Code += "Sub RadioButton_Click()\r\n  MsgBox \"Clicked RadioButton!!\"\r\nEnd Sub\r\n";
+        }
+        [TestMethod]
+        public void AddDropDownTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("DropDown");
+            var ctrl = (ExcelControlDropDown)_ws.Drawings.AddControl("DropDown 1", eControlType.DropDown);
+            ctrl.Macro = "DropDown_Click";
+            ctrl.SetPosition(500, 100);
+            ctrl.SetSize(200, 30);
+
+            _ws.Cells["A1"].Value = 1;
+            _ws.Cells["A2"].Value = 2;
+            _ws.Cells["A3"].Value = 3;
+            _ws.Cells["A4"].Value = 4;
+
+            _ws.Cells["B1"].Value = 3;
+
+            ctrl.InputRange = _ws.Cells["A1:A8"];
+            ctrl.LinkedCell = _ws.Cells["B1"];
+            ctrl.DropLines = 8;
+
+            _codeModule.Code += "Sub DropDown_Click()\r\n  MsgBox \"Selected DropDown!!\"\r\nEnd Sub\r\n";
         }
 
     }

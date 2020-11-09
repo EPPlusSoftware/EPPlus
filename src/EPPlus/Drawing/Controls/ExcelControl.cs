@@ -69,6 +69,7 @@ namespace OfficeOpenXml.Drawing.Controls
             ((XmlElement)ws.TopNode).SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);   //Make sure the namespace exists
             ctrlNode.InnerXml = GetControlStartWorksheetXml(rel.Id);
             _control = new ControlInternal(NameSpaceManager, ctrlNode.FirstChild.FirstChild.FirstChild);
+            _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ControlPropertiesXml.DocumentElement);
         }
 
         private string GetControlStartWorksheetXml(string relId)
@@ -95,6 +96,8 @@ namespace OfficeOpenXml.Drawing.Controls
                     return string.Format(xml, "objectType=\"CheckBox\" lockText=\"1\" noThreeD=\"1\"");
                 case eControlType.RadioButton:
                     return string.Format(xml, "objectType=\"RadioButton\" firstButton=\"1\" lockText=\"1\" noThreeD=\"1\"");
+                case eControlType.DropDown:
+                    return string.Format(xml, "objectType=\"Drop\" dropStyle=\"combo\" dx=\"22\" noThreeD=\"1\" sel=\"0\" val=\"0\"");
                 default:
                     throw new NotImplementedException();
             }
@@ -108,13 +111,14 @@ namespace OfficeOpenXml.Drawing.Controls
             switch (ControlType)
             {
                 case eControlType.Button:
-                    xml.Append($"<a:noFill/><a:ln w=\"9525\"><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
+                    xml.Append($"<a:noFill/><a:ln w=\"9525\"><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln>");
                     break;
                 case eControlType.CheckBox:
                 case eControlType.RadioButton:
-                    xml.Append($"<a:noFill/><a:ln><a:noFill/></a:ln><a:extLst><a:ext uri=\"{{909E8E84-426E-40DD-AFC4-6F175D3DCCD1}}\"><a14:hiddenFill><a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill></a14:hiddenFill></a:ext><a:ext uri=\"{{91240B29-F687-4F45-9708-019B960494DF}}\"><a14:hiddenLine w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a14:hiddenLine></a:ext></a:extLst></xdr:spPr>");
+                    xml.Append($"<a:noFill/><a:ln><a:noFill/></a:ln><a:extLst><a:ext uri=\"{{909E8E84-426E-40DD-AFC4-6F175D3DCCD1}}\"><a14:hiddenFill><a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill></a14:hiddenFill></a:ext><a:ext uri=\"{{91240B29-F687-4F45-9708-019B960494DF}}\"><a14:hiddenLine w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a14:hiddenLine></a:ext></a:extLst>");
                     break;
             }
+            xml.Append("</xdr:spPr>");
             //Textbox
             switch (ControlType)
             {
@@ -123,6 +127,9 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.RadioButton:
                     xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/><a:lstStyle/><a:p><a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr><a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
                     break;
+                default:
+                    break;
+
             }
             return xml.ToString();
         }
@@ -151,6 +158,8 @@ namespace OfficeOpenXml.Drawing.Controls
                         return "Checkbox";
                     case eControlType.RadioButton:
                         return "Radio";
+                    case eControlType.DropDown:
+                        return "Drop";
                     default:
                         return ControlType.ToString();
                 }
