@@ -32,6 +32,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
 using System.Drawing;
+using System.Globalization;
 
 namespace EPPlusTest.Table
 {
@@ -275,6 +276,69 @@ namespace EPPlusTest.Table
                 }
              }
         }
+        [TestMethod]
+        public void ValidateTableSaveLoad()
+        {
+            using (var p1 = OpenPackage("table.xlsx"))
+            {
+                var sheet = p1.Workbook.Worksheets.Add("Tables");
 
+                // headers
+                sheet.Cells["A1"].Value = "Month";
+                sheet.Cells["B1"].Value = "Sales";
+                sheet.Cells["C1"].Value = "VAT";
+                sheet.Cells["D1"].Value = "Total";
+
+                var rnd = new Random();
+                for (var row = 2; row < 12; row++)
+                {
+                    sheet.Cells[row, 1].Value = new DateTimeFormatInfo().GetMonthName(row);
+                    sheet.Cells[row, 2].Value = rnd.Next(10000, 100000);
+                    sheet.Cells[row, 3].Formula = $"B{row} * 0.25";
+                    sheet.Cells[row, 4].Formula = $"B{row} + C{row}";
+                }
+                sheet.Cells["B2:D13"].Style.Numberformat.Format = "€#,##0.00";
+
+                var range = sheet.Cells["A1:D11"];
+
+                // create the table
+                var table = sheet.Tables.Add(range, "myTable");
+                // configure the table
+                table.ShowHeader = true;
+                table.ShowFirstColumn = true;
+                table.TableStyle = TableStyles.Dark2;
+                // add a totals row under the data
+                table.ShowTotal = true;
+                table.Columns[1].TotalsRowFunction = RowFunctions.Sum;
+                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+                table.Columns[3].TotalsRowFunction = RowFunctions.Sum;
+
+                // Calculate all the formulas including the totals row.
+                // This will give input to the AutofitColumns call
+                range.Calculate();
+                range.AutoFitColumns();
+
+                p1.Save();
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    sheet = p2.Workbook.Worksheets["Tables"];
+                    // get a table by its name and change properties
+                    var myTable = sheet.Tables["myTable"];
+                    myTable.TableStyle = TableStyles.Medium8;
+                    myTable.ShowFirstColumn = false;
+                    myTable.ShowLastColumn = true;
+                    Assert.AreEqual(TableStyles.Medium8, myTable.TableStyle);
+                    SaveWorkbook("Table2.xlsx", p2);
+                    using (var p3 = new ExcelPackage(p2.Stream))
+                    {
+                        sheet = p3.Workbook.Worksheets["Tables"];
+                        // get a table by its name and change properties
+                        sheet.Tables.Delete("myTable");
+
+                        SaveWorkbook("Table3.xlsx", p3);
+                    }
+                }
+            }
+        }
     }
 }
