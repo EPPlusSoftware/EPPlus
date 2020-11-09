@@ -748,10 +748,10 @@ namespace OfficeOpenXml
                 var node = TopNode.SelectSingleNode(path, NameSpaceManager);
                 if (node != null)
                 {
-                    if (node is XmlAttribute)
+                    if (node is XmlAttribute attrib)
                     {
-                        var elem = (node as XmlAttribute).OwnerElement;
-                        elem.ParentNode.RemoveChild(elem);
+                        var elem = attrib.OwnerElement;
+                        elem.RemoveAttribute(node.Name);
                     }
                     else
                     {
