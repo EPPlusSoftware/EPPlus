@@ -106,48 +106,42 @@ namespace OfficeOpenXml.Drawing.Controls
             switch (controlType)
             {
                 case eControlType.Button:
-                    ctrl = new ExcelControlButton(drawings, drawNode)
-                    {
-                        Text = name
-                    };                    
+                    ctrl = new ExcelControlButton(drawings, drawNode);
                     break;
                 case eControlType.DropDown:
                     ctrl = new ExcelControlDropDown(drawings, drawNode);
                     break;
                 case eControlType.GroupBox:
-                    return new ExcelControlGroupBox(drawings, drawNode)
-                    {
-                        Text = name
-                    };
+                    ctrl = new ExcelControlGroupBox(drawings, drawNode);
+                    break;
                 case eControlType.Label:
-                    return new ExcelControlLabel(drawings, drawNode)
-                    {
-                        Text = name
-                    };
+                    ctrl = new ExcelControlLabel(drawings, drawNode);
+                    break;
                 case eControlType.ListBox:
                     return new ExcelControlListBox(drawings, drawNode);
+                    break;
                 case eControlType.CheckBox:
-                    ctrl = new ExcelControlCheckBox(drawings, drawNode)
-                    {
-                        Text = name
-                    };
+                    ctrl = new ExcelControlCheckBox(drawings, drawNode);
                     break;
                 case eControlType.RadioButton:
-                    ctrl = new ExcelControlRadioButton(drawings, drawNode)
-                    {
-                        Text = name
-                    };
+                    ctrl = new ExcelControlRadioButton(drawings, drawNode);
                     break;
                 case eControlType.ScrollBar:
-                    return new ExcelControlScrollBar(drawings, drawNode);
+                    ctrl=new ExcelControlScrollBar(drawings, drawNode);
+                    break;
                 case eControlType.SpinButton:
-                    return new ExcelControlSpinButton(drawings, drawNode);
+                    ctrl = new ExcelControlSpinButton(drawings, drawNode);
+                    break;
                 //case eControlType.EditBox:
                 //    return new ExcelControlEditBox(drawings, drawNode);
                 //case eControlType.Dialog:
                 //    return new ExcelControlDialog(drawings, drawNode);
                 default:
                     throw new NotSupportedException("Editboxes and Dialogs controls are not supported");
+            }
+            if(ctrl is ExcelControlWithText t)
+            {
+                t.Text = name;
             }
             ctrl.Name = name;
             return ctrl;

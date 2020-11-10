@@ -106,7 +106,7 @@ namespace EPPlusTest.Drawing.Control
         [TestMethod]
         public void AddLabelTest()
         {
-            _ws = _pck.Workbook.Worksheets.Add("ListBox");
+            _ws = _pck.Workbook.Worksheets.Add("Label");
             var ctrl = (ExcelControlLabel)_ws.Drawings.AddControl("Label 1", eControlType.Label);
             ctrl.Macro = "Label_Click";
             ctrl.SetPosition(500, 100);

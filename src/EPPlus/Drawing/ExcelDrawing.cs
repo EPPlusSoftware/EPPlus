@@ -65,7 +65,16 @@ namespace OfficeOpenXml.Drawing
             if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
             {
                 _topNode = node;
-                _id = drawings.Worksheet.Workbook._nextDrawingID++;
+                
+                if(DrawingType==eDrawingType.Control || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
+                {
+                    _id = drawings.Worksheet._nextControlId++;
+                }
+                else
+                {
+                    _id = drawings.Worksheet.Workbook._nextDrawingId++;
+                }
+
                 AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "nvSpPr", "nvCxnSpPr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
                 if (_parent == null)
                 {

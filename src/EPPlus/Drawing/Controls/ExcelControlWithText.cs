@@ -33,8 +33,15 @@ namespace OfficeOpenXml.Drawing.Controls
             }
             set
             {
-                RichText.Clear();
-                RichText.Text = value;
+                if(RichText.Count==1)
+                {
+                    RichText[0].Text = value;
+                }
+                else
+                {
+                    RichText.Clear();
+                    RichText.Text = value;
+                }
                 _vml.Text = value;
             }
         }

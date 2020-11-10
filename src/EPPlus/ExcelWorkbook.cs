@@ -221,7 +221,7 @@ namespace OfficeOpenXml
 		internal Dictionary<string, SharedStringItem> _sharedStrings = new Dictionary<string, SharedStringItem>(); //Used when reading cells.
 		internal List<SharedStringItem> _sharedStringsList = new List<SharedStringItem>(); //Used when reading cells.
 		internal ExcelNamedRangeCollection _names;
-		internal int _nextDrawingID = 2;
+		internal int _nextDrawingId = 2;
 		internal int _nextTableID = int.MinValue;
 		internal int _nextPivotCacheId = 1;
 		internal int GetNewPivotCacheId()

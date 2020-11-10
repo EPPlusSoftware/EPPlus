@@ -387,6 +387,7 @@ namespace OfficeOpenXml
         internal Dictionary<int, Formulas> _sharedFormulas = new Dictionary<int, Formulas>();
         internal int _minCol = ExcelPackage.MaxColumns;
         internal int _maxCol = 0;
+        internal int _nextControlId;
         #region Worksheet Private Properties
         internal ExcelPackage _package;
         private Uri _worksheetUri;
@@ -434,7 +435,7 @@ namespace OfficeOpenXml
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
             _hyperLinks = new CellStore<Uri>();
-
+            _nextControlId = (PositionId + 1) * 1024 + 1;
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             CreateXml();

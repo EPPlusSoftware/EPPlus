@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.CheckBox:
                     return string.Format(xml, "objectType=\"CheckBox\" lockText=\"1\" noThreeD=\"1\"");
                 case eControlType.RadioButton:
-                    return string.Format(xml, "objectType=\"RadioButton\" firstButton=\"1\" lockText=\"1\" noThreeD=\"1\"");
+                    return string.Format(xml, "objectType=\"Radio\" firstButton=\"1\" lockText=\"1\" noThreeD=\"1\"");
                 case eControlType.DropDown:
                     return string.Format(xml, "objectType=\"Drop\" dropStyle=\"combo\" dx=\"22\" noThreeD=\"1\" sel=\"0\" val=\"0\"");
                 case eControlType.ListBox:
@@ -129,20 +129,29 @@ namespace OfficeOpenXml.Drawing.Controls
                     break;
             }
             xml.Append("</xdr:spPr>");
-            //Textbox
+            if(this is ExcelControlWithText)
+            {
+                xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/>" +
+                    $"<a:lstStyle/>" +
+                    $"<a:p>{GetrPr(ControlType)}" +
+                    $"<a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
+            }
+            return xml.ToString();
+        }
+
+        private object GetrPr(eControlType controlType)
+        {
             switch (ControlType)
             {
                 case eControlType.Button:
+                    return "<a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr>";
                 case eControlType.CheckBox:
                 case eControlType.RadioButton:
                 case eControlType.Label:
-                    xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/><a:lstStyle/><a:p><a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr><a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
-                    break;
+                    return "<a:pPr rtl=\"0\" algn=\"l\"><a:defRPr sz=\"1000\"/></a:pPr>"; 
                 default:
-                    break;
-
+                    return "<a:pPr rtl=\"0\" algn=\"l\"><a:defRPr sz=\"1000\"/></a:pPr>";                    
             }
-            return xml.ToString();
         }
 
         private XmlNode GetVmlNode(ExcelVmlDrawingCollection vmlDrawings)
