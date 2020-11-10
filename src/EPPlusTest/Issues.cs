@@ -752,7 +752,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void Issue220()
+        public void WorksheetNameWithSingeQuote()
         {
             var pck = OpenPackage("sheetname_pbl.xlsx", true);
             var ws = pck.Workbook.Worksheets.Add("Deal's History");
@@ -1412,6 +1412,14 @@ namespace EPPlusTest
                         .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
                 }
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Issue220()
+        {
+            using (var p = OpenTemplatePackage("Generated.with.EPPlus.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
             }
         }
     }

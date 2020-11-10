@@ -1367,21 +1367,33 @@ namespace OfficeOpenXml
                         if (xr.GetAttribute("id", ExcelPackage.schemaRelationships) != null)
                         {
                             var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
-                            var uri = Part.GetRelationship(rId).TargetUri;
-                            if (uri.IsAbsoluteUri)
+                            var rel = Part.GetRelationship(rId);
+                            if (rel.TargetUri == null)
                             {
-                                try
+                                if(rel.Target.StartsWith("#") && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
                                 {
-                                    hl = new ExcelHyperLink(uri.AbsoluteUri);
-                                }
-                                catch
-                                {
-                                    hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
-                                }
+                                    var a = new ExcelAddressBase(rel.Target.Substring(1));
+                                    hl = new ExcelHyperLink(a.FullAddress, string.IsNullOrEmpty(a.WorkSheetName)?a.Address:a.WorkSheetName);
+                                }                                
                             }
                             else
                             {
-                                hl = new ExcelHyperLink(uri.OriginalString, UriKind.Relative);
+                                var uri = rel.TargetUri;
+                                if (uri.IsAbsoluteUri)
+                                {
+                                    try
+                                    {
+                                        hl = new ExcelHyperLink(uri.AbsoluteUri);
+                                    }
+                                    catch
+                                    {
+                                        hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
+                                    }
+                                }
+                                else
+                                {
+                                    hl = new ExcelHyperLink(uri.OriginalString, UriKind.Relative);
+                                }
                             }
                             hl.RId = rId;
                             Part.DeleteRelationship(rId); //Delete the relationship, it is recreated when we save the package.
