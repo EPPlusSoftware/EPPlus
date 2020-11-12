@@ -76,5 +76,20 @@ namespace OfficeOpenXml.Drawing.Controls
                 SetXmlNodeBool(_lockTextPath, value);
             }
         }
+        ExcelTextBody _textBody = null;
+        /// <summary>
+        /// Access to text body properties.
+        /// </summary>
+        internal ExcelTextBody TextBody
+        {
+            get
+            {
+                if (_textBody == null)
+                {
+                    _textBody = new ExcelTextBody(NameSpaceManager, TopNode, "xdr:sp/xdr:txBody/a:bodyPr", this.SchemaNodeOrder);
+                }
+                return _textBody;
+            }
+        }
     }
 }

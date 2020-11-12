@@ -2330,7 +2330,7 @@ namespace OfficeOpenXml
                         d.AdjustPositionAndSize();
                         if (d is ExcelChart)
                         {
-                            ExcelChart c = (ExcelChart)d;
+                            var c = (ExcelChart)d;
                             c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
                         }
                         else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
@@ -2345,7 +2345,7 @@ namespace OfficeOpenXml
                         else if (d is OfficeOpenXml.Drawing.Controls.ExcelControl c)
                         {
                             c.ControlPropertiesXml.Save(c.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
-                            c.SetWorksheetXmlPositions();
+                            c.UpdateXml();
                         }
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;

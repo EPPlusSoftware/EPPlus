@@ -1216,7 +1216,7 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
 
             ExcelControl control = ControlFactory.CreateControl(ControlType, this, drawNode, Name);
-
+            control.EditAs = ExcelControl.GetControlEditAs(ControlType);
             _drawings.Add(control);
             _drawingNames.Add(Name, _drawings.Count - 1);
             return control;

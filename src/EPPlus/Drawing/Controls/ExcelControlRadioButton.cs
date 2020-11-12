@@ -52,13 +52,13 @@ namespace OfficeOpenXml.Drawing.Controls
                 {
                     return v;
                 }
-                return LinkedCellBase;
+                return FmlaLink;
             }
             set
             {
                 if (LinkedGroup == null)
                 {
-                    LinkedCellBase = value;
+                    FmlaLink = value;
                 }
                 else
                 {

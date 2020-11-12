@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Controls
     {
         protected ExcelVmlDrawingControl _vml;
         protected XmlHelper _ctrlProp;
-        protected XmlHelper _vmlProp;
+        internal protected XmlHelper _vmlProp;
         internal ControlInternal _control;
 
         internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart ctrlPropPart, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
@@ -72,7 +72,6 @@ namespace OfficeOpenXml.Drawing.Controls
             _control = new ControlInternal(NameSpaceManager, ctrlNode.FirstChild.FirstChild.FirstChild);
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ControlPropertiesXml.DocumentElement);
         }
-
         private string GetControlStartWorksheetXml(string relId)
         {
             var sb = new StringBuilder();
@@ -85,7 +84,6 @@ namespace OfficeOpenXml.Drawing.Controls
             sb.Append("</anchor></controlPr></control></mc:Choice></mc:AlternateContent>");
             return sb.ToString();
         }
-
         private string ControlStartControlPrXml()
         {
             var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><formControlPr xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" {0} />";
@@ -104,7 +102,11 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.Label:
                     return string.Format(xml, "objectType=\"Label\" lockText=\"1\"");
                 case eControlType.ScrollBar:
-                    return string.Format(xml, "");
+                    return string.Format(xml, "objectType=\"Scroll\" dx=\"22\" max=\"100\" page=\"10\" val=\"0\"");
+                case eControlType.SpinButton:
+                    return string.Format(xml, "objectType=\"Spin\" dx=\"22\" fmlaLink=\"$A$1\" max=\"30000\" page=\"10\" val=\"0\"");
+                case eControlType.GroupBox:
+                    return string.Format(xml, "objectType=\"GBox\" noThreeD=\"1\"");
                 default:
                     throw new NotImplementedException();
             }
@@ -139,9 +141,9 @@ namespace OfficeOpenXml.Drawing.Controls
             return xml.ToString();
         }
 
-        private object GetrPr(eControlType controlType)
+        private static string GetrPr(eControlType controlType)
         {
-            switch (ControlType)
+            switch (controlType)
             {
                 case eControlType.Button:
                     return "<a:pPr rtl=\"0\" algn=\"ctr\"><a:defRPr sz=\"1000\"/></a:pPr>";
@@ -371,6 +373,40 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         /// <summary>
+        /// Gets or sets the address to the cell that is linked to the control. 
+        /// </summary>
+        public ExcelAddressBase LinkedCell
+        {
+            get
+            {
+                if (ControlType == eControlType.Label ||
+                   ControlType == eControlType.Button ||
+                   ControlType == eControlType.GroupBox)
+                {
+                    return FmlaTxbx;
+                }
+                else
+                {
+                    return FmlaLink;
+                }
+
+            }
+            set
+            {
+                if (ControlType == eControlType.Label ||
+                   ControlType == eControlType.Button ||
+                   ControlType == eControlType.GroupBox)
+                {
+                    FmlaTxbx = value;
+                }
+                else
+                {
+                    FmlaLink = value;
+                }
+            }
+        }
+
+        /// <summary>
         /// Horizontal text alignment. Not used in Excel 2010- , so internal for now
         /// </summary>
         internal eHorizontalAlignmentControl HorizontalTextAlignment
@@ -401,7 +437,7 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         #region Shared Properties
-        internal protected ExcelAddressBase LinkedCellBase
+        internal protected ExcelAddressBase FmlaLink
         {
             get
             {
@@ -428,6 +464,39 @@ namespace OfficeOpenXml.Drawing.Controls
                 {
                     _ctrlProp.SetXmlNodeString("@fmlaLink", value.FullAddress);
                     _vmlProp.SetXmlNodeString("x:FmlaLink", value.FullAddress);
+                }
+            }
+        }
+        /// <summary>
+        /// The source data cell that the control object's data is linked to.
+        /// </summary>
+        internal ExcelAddressBase FmlaTxbx
+        {
+            get
+            {
+                var range = _ctrlProp.GetXmlNodeString("@fmlaTxbx");
+                if (ExcelAddressBase.IsValidAddress(range))
+                {
+                    return new ExcelAddressBase(range);
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _ctrlProp.DeleteNode("@fmlaTxbx");
+                    _vmlProp.DeleteNode("x:FmlaTxbx");
+                }
+                if (value.WorkSheetName.Equals(_drawings.Worksheet.Name, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaTxbx", value.Address);
+                    _vmlProp.SetXmlNodeString("x:FmlaTxbx", value.Address);
+                }
+                else
+                {
+                    _ctrlProp.SetXmlNodeString("@fmlaTxbx", value.FullAddress);
+                    _vmlProp.SetXmlNodeString("x:FmlaTxbx", value.FullAddress);
                 }
             }
         }
@@ -468,7 +537,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 return eDrawingType.Control;
             }
         }
-        internal void SetWorksheetXmlPositions()
+        internal virtual void UpdateXml()
         {
             _control.From.Row = From.Row;
             _control.From.RowOff = From.RowOff;
@@ -484,6 +553,19 @@ namespace OfficeOpenXml.Drawing.Controls
             _control.SizeWithCells = EditAs == eEditAs.TwoCell;
 
             _vml.Anchor = GetVmlAnchorValue();
+        }
+
+        internal static eEditAs GetControlEditAs(eControlType controlType)
+        {
+            switch(controlType)
+            {
+                case eControlType.Button:
+                    return eEditAs.Absolute;
+                case eControlType.Label:
+                    return eEditAs.TwoCell;
+                default:
+                    return eEditAs.OneCell;
+            }
         }
 
         #endregion

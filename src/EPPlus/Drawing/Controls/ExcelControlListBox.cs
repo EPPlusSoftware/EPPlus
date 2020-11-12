@@ -83,5 +83,10 @@ namespace OfficeOpenXml.Drawing.Controls
                 _vmlProp.SetXmlNodeString("x:MultiSel", v);
             }
         }
+        internal override void UpdateXml()
+        {
+            base.UpdateXml();
+            ((ExcelControlList)this).Page = (int)Math.Round((_height / 14));
+        }
     }
 }

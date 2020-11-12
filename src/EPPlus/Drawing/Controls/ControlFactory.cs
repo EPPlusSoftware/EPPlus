@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Drawing.Controls
                     ctrl = new ExcelControlLabel(drawings, drawNode);
                     break;
                 case eControlType.ListBox:
-                    return new ExcelControlListBox(drawings, drawNode);
+                    ctrl = new ExcelControlListBox(drawings, drawNode);
                     break;
                 case eControlType.CheckBox:
                     ctrl = new ExcelControlCheckBox(drawings, drawNode);
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 //case eControlType.Dialog:
                 //    return new ExcelControlDialog(drawings, drawNode);
                 default:
-                    throw new NotSupportedException("Editboxes and Dialogs controls are not supported");
+                    throw new NotSupportedException("Editboxes and Dialogs controls are not supported in worksheets");
             }
             if(ctrl is ExcelControlWithText t)
             {

@@ -35,11 +35,11 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return LinkedCellBase;
+                return FmlaLink;
             }
             set
             {
-                LinkedCellBase = value;
+                FmlaLink = value;
             }
         }
         /// <summary>

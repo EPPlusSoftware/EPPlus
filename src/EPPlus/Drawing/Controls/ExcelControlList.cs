@@ -61,20 +61,6 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         /// <summary>
-        /// Gets or sets the address to the cell that is linked to the control. 
-        /// </summary>
-        public ExcelAddressBase LinkedCell
-        {
-            get
-            {
-                return LinkedCellBase;
-            }
-            set
-            {
-                LinkedCellBase = value;
-            }
-        }
-        /// <summary>
         /// The index of a selected item in the list. 
         /// </summary>
         public int SelectedIndex
@@ -95,6 +81,18 @@ namespace OfficeOpenXml.Drawing.Controls
                     _ctrlProp.SetXmlNodeInt("@sel", value);
                     _vmlProp.SetXmlNodeInt("x:Sel", value);
                 }
+            }
+        }
+        internal int Page
+        {
+            get
+            {
+                return _vmlProp.GetXmlNodeInt("x:Page");
+            }
+            set
+            {
+                _ctrlProp.SetXmlNodeInt("@page", value);
+                _vmlProp.SetXmlNodeInt("x:Page", value);
             }
         }
     }

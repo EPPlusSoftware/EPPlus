@@ -1,7 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.VBA;
+using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -29,12 +33,35 @@ namespace EPPlusTest.Drawing.Control
         public void AddButtonTest()
         {
             _ws = _pck.Workbook.Worksheets.Add("Buttons");
-            var ctrl = _ws.Drawings.AddControl("Button 1", eControlType.Button);
+            var ctrl = _ws.Drawings.AddControl("Button 1", eControlType.Button).As.Control.Button;
             ctrl.Macro = "Button1_Click";
             ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 100);
-
+            _ws.Cells["A1"].Value = "Linked Button Caption";
+            ctrl.LinkedCell = _ws.Cells["A1"];
             _codeModule.Code += "Sub Button1_Click()\r\n  MsgBox \"Clicked Button!!\"\r\nEnd Sub\r\n";
+            //ctrl.Text = "Text";
+            ctrl.RichText[0].Fill.Color = Color.Red;
+            ctrl.RichText[0].Size=18;
+            var rt2 = ctrl.RichText.Add(" Blue");
+            rt2.Fill.Color = Color.Blue;
+            rt2.Size = 24;
+
+            ctrl.Margin.Automatic = false;
+            ctrl.Margin.SetUnit(eMeasurementUnits.Millimeters);
+            ctrl.Margin.LeftMargin = 1;
+            ctrl.Margin.TopMargin = 2;
+            ctrl.Margin.RightMargin = 3;
+            ctrl.Margin.BottomMargin = 4;
+
+            ctrl.TextBody.VerticalText = eTextVerticalType.WordArtVertical;
+            ctrl.TextBody.WrapText = eTextWrappingType.Square;
+            ctrl.TextBody.Anchor = eTextAnchoringType.Center;
+            ctrl.TextBody.TextUpright = true;
+            ctrl.TextBody.VerticalTextOverflow = eTextVerticalOverflow.Clip;
+
+            Assert.AreEqual(eEditAs.Absolute ,ctrl.EditAs);
+            Assert.AreEqual("A1", ctrl.FmlaTxbx.Address);
         }
         [TestMethod]
         public void AddCheckboxTest()
@@ -118,6 +145,35 @@ namespace EPPlusTest.Drawing.Control
 
             _codeModule.Code += "Sub Label_Click()\r\n  MsgBox \"Selected Label!!\"\r\nEnd Sub\r\n";
         }
+        [TestMethod]
+        public void AddSpinButtonTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("SpinButton");
+            var ctrl = (ExcelControlSpinButton)_ws.Drawings.AddControl("SpinButton 1", eControlType.SpinButton);
+            ctrl.Macro = "SpinButton_Click";
+            ctrl.SetPosition(500, 100);
+            ctrl.SetSize(200, 100);
 
+            _ws.Cells["G1"].Value = 3;
+
+            ctrl.LinkedCell = _ws.Cells["G1"];
+
+            _codeModule.Code += "Sub SpinButton_Click()\r\n  MsgBox \"Selected SpinButton!!\"\r\nEnd Sub\r\n";
+        }
+        [TestMethod]
+        public void AddGroupBoxTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("GroupBox");
+            var ctrl = (ExcelControlGroupBox)_ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
+            ctrl.Macro = "GroupBox_Click";
+            ctrl.SetPosition(500, 100);
+            ctrl.SetSize(200, 200);
+
+            _ws.Cells["B1"].Value = "Linked Groupbox";
+            
+            ctrl.LinkedCell = _ws.Cells["G1"];
+
+            _codeModule.Code += "Sub GroupBox_Click()\r\n  MsgBox \"Clicked GroupBox!!\"\r\nEnd Sub\r\n";
+        }
     }
 }

@@ -51,7 +51,9 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public const int EMU_PER_POINT = 12700;
         public const int EMU_PER_CM = 360000;
+        public const int EMU_PER_MM = 3600000;
         public const int EMU_PER_US_INCH = 914400;
+        public const int EMU_PER_PICA = EMU_PER_US_INCH / 6;
 
         internal double _width = double.MinValue, _height = double.MinValue, _top = double.MinValue, _left = double.MinValue;
         internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill", "grpFill", "blipFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d" };

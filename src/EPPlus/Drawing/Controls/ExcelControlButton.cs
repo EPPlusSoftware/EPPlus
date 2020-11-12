@@ -17,15 +17,33 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlButton : ExcelControlWithText
     {
+
         internal ExcelControlButton(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
         {
         }
 
         internal ExcelControlButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, part,  controlPropertiesXml, null)
+            : base(drawings, drawNode, control, part, controlPropertiesXml, null)
         {
         }
 
         public override eControlType ControlType => eControlType.Button;
+        private ExcelControlMargin _margin;
+        public ExcelControlMargin Margin
+        {
+            get
+            {
+                if (_margin == null)
+                {
+                    _margin = new ExcelControlMargin(this);
+                }
+                return _margin;
+            }
+        }
+        internal override void UpdateXml()
+        {
+            base.UpdateXml();
+            Margin.UpdateXml();
+        }
     }
 }
