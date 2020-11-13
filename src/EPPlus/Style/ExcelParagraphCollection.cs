@@ -17,6 +17,7 @@ using System.Xml;
 using OfficeOpenXml.Drawing;
 using System.Drawing;
 using System.Linq;
+using System.Globalization;
 
 namespace OfficeOpenXml.Style
 {
@@ -100,15 +101,30 @@ namespace OfficeOpenXml.Style
             {
                 parentNode = CreateNode(_path, false, true);
                 _paragraphs.Add((XmlElement)parentNode);
+                var p = _list[0].TopNode.ParentNode.ParentNode.SelectSingleNode("a:pPr", NameSpaceManager);
+                if(p!=null)
+                {
+                    parentNode.InnerXml = p.OuterXml;
+                }                
             }
             else if(_paragraphs.Count > 1)
             {
                 parentNode = _paragraphs[_paragraphs.Count - 1];
             }
             else 
-            {
+            {                
                 parentNode = CreateNode(_path);
                 _paragraphs.Add((XmlElement)parentNode);
+                var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
+                if (defNode.InnerXml == "")
+                {
+                    ((XmlElement)defNode).SetAttribute("sz", _defaultFontSize.ToString(CultureInfo.InvariantCulture));
+                    var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
+                    if (normalStyle == null)
+                        defNode.InnerXml = "<a:latin typeface=\"Calibri\" />< a:cs typeface=\"Calibri\" />";
+                    else
+                        defNode.InnerXml = $"<a:latin typeface=\"{normalStyle.Style.Font.Name}\"/><a:cs typeface=\"{normalStyle.Style.Font.Name}\"/>";
+                }
             }
 
             var node = doc.CreateElement("a", "r", ExcelPackage.schemaDrawings);
@@ -116,18 +132,18 @@ namespace OfficeOpenXml.Style
             var childNode = doc.CreateElement("a", "rPr", ExcelPackage.schemaDrawings);
             node.AppendChild(childNode);
             var rt = new ExcelParagraph(_drawing._drawings, NameSpaceManager, node, "", SchemaNodeOrder);
-            var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
-            if (normalStyle == null)
-            {
-                rt.ComplexFont = "Calibri";
-                rt.LatinFont = "Calibri";
-            }
-            else
-            {
-                rt.LatinFont = normalStyle.Style.Font.Name;
-                rt.ComplexFont = normalStyle.Style.Font.Name;
-            }
-            rt.Size = _defaultFontSize;
+            //var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
+            //if (normalStyle == null)
+            //{
+            //    rt.ComplexFont = "Calibri";
+            //    rt.LatinFont = "Calibri";
+            //}
+            //else
+            //{
+            //    rt.LatinFont = normalStyle.Style.Font.Name;
+            //    rt.ComplexFont = normalStyle.Style.Font.Name;
+            //}
+            //rt.Size = _defaultFontSize;
 
             rt.Text = Text;
             _list.Add(rt);
@@ -192,7 +208,7 @@ namespace OfficeOpenXml.Style
             set
             {
                 if (Count == 0)
-                {
+                {                    
                     Add(value);
                 }
                 else

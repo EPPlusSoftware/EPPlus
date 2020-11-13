@@ -238,8 +238,7 @@ namespace OfficeOpenXml.Drawing
                 return RichText.Text;
             }
             set
-            {
-                RichText.Clear();
+            {                
                 RichText.Text = value;
             }
 
