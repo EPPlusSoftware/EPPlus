@@ -11,6 +11,7 @@
   10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
@@ -39,11 +40,46 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
                 return _margin;
             }
+        }        
+        public eLayoutFlow LayoutFlow
+        {
+            get;
+            set;
+        }
+        public eShapeOrienation Orientation
+        {
+            get;
+            set;
+        }
+        public ExcelReadingOrder ReadingOrder
+        {
+            get;
+            set;
+        }
+        public bool AutomaticSize
+        {
+            get;
+            set;
         }
         internal override void UpdateXml()
         {
             base.UpdateXml();
             Margin.UpdateXml();
+            var vmlHelper = XmlHelperFactory.Create(_vmlProp.NameSpaceManager, _vmlProp.TopNode.ParentNode);            
+            var style = "layout-flow:" + LayoutFlow.TranslateString() + ";mso-layout-flow-alt:" + Orientation.TranslateString();
+            if (ReadingOrder == ExcelReadingOrder.RightToLeft)
+            {
+                style += ";direction:RTL";
+            }
+            else if (ReadingOrder == ExcelReadingOrder.ContextDependent)
+            {
+                style += ";mso-direction-alt:auto";
+            }
+            if(AutomaticSize)
+            {
+                style += ";mso-fit-shape-to-text:t";
+            }
+            vmlHelper.SetXmlNodeString("v:textbox/@style", style);
         }
     }
 }

@@ -54,12 +54,13 @@ namespace EPPlusTest.Drawing.Control
             ctrl.Margin.RightMargin = 3;
             ctrl.Margin.BottomMargin = 4;
 
-            ctrl.TextBody.VerticalText = eTextVerticalType.WordArtVertical;
-            ctrl.TextBody.WrapText = eTextWrappingType.Square;
-            ctrl.TextBody.Anchor = eTextAnchoringType.Center;
-            ctrl.TextBody.TextUpright = true;
-            ctrl.TextBody.VerticalTextOverflow = eTextVerticalOverflow.Clip;
+            ctrl.VerticalTextAlignment=eVerticalAlignmentControl.Distributed;
+            ctrl.HorizontalTextAlignment = eHorizontalAlignmentControl.Right;
 
+            ctrl.LayoutFlow = eLayoutFlow.Vertical;
+            ctrl.Orientation = eShapeOrienation.BottomToTop;
+            ctrl.ReadingOrder = OfficeOpenXml.Style.ExcelReadingOrder.RightToLeft;
+            ctrl.AutomaticSize = true;
             Assert.AreEqual(eEditAs.Absolute ,ctrl.EditAs);
             Assert.AreEqual("A1", ctrl.FmlaTxbx.Address);
         }

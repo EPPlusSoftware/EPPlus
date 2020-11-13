@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Utils.TypeConversion;
+﻿using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -43,5 +44,55 @@ namespace OfficeOpenXml.Drawing.Controls
                     return "";  //Blank is Pixels, px
             }
         }
+
+        internal static eLayoutFlow TranslateLayoutFlow(this string v)
+        {
+            switch (v)
+            {
+                case "horizontal-ideographic":
+                    return eLayoutFlow.HorizontalIdeographic;
+                case "vertical-ideographic":
+                    return eLayoutFlow.VerticalIdeographic;
+                default:
+                    return v.ToEnum(eLayoutFlow.Horizontal);
+            }
+        }
+        internal static string TranslateString(this eLayoutFlow v)
+        {
+            switch (v)
+            {
+                case eLayoutFlow.HorizontalIdeographic:
+                    return "horizontal-ideographic";
+                case eLayoutFlow.VerticalIdeographic:
+                    return "vertical-ideographic";
+                default:
+                    return v.ToString().ToLower();  
+            }
+        }
+        internal static eShapeOrienation TranslateShapeOrienation(this string v)
+        {
+            switch (v)
+            {
+                case "top-to-bottom":
+                    return eShapeOrienation.TopToBottom;
+                case "bottom-to-top":
+                    return eShapeOrienation.BottomToTop;
+                default:
+                    return eShapeOrienation.Auto;
+            }
+        }
+        internal static string TranslateString(this eShapeOrienation v)
+        {
+            switch (v)
+            {
+                case eShapeOrienation.TopToBottom:
+                    return "top-to-bottom";
+                case eShapeOrienation.BottomToTop:
+                    return "bottom-to-top";
+                default:
+                    return "auto";
+            }
+        }
+        
     }
 }
