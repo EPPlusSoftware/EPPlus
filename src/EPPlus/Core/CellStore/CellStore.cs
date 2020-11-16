@@ -917,8 +917,16 @@ namespace OfficeOpenXml.Core.CellStore
             var page = column._pages[pagePos];
             if (rowPos > 0) //RowPos is 0 then we can update the page index instead
             {
-                AddRowIndex(rowPos, (short)rows, page);
-                pagePos = ValidateAndSplitPageIfNeeded(column, page, pagePos);
+                if(rows>=CellStoreSettings._pageSize)
+                {
+                    SplitPageAtPosition(column, pagePos, page, rowPos);
+                    UpdatePageOffsetSinglePage(column, ++pagePos, rows);
+                }
+                else
+                {
+                    AddRowIndex(rowPos, (short)rows, page);
+                    pagePos = ValidateAndSplitPageIfNeeded(column, page, pagePos);
+                }
             }
             else
             {
@@ -926,6 +934,11 @@ namespace OfficeOpenXml.Core.CellStore
             }
 
             UpdatePageOffset(column, pagePos + 1, rows);
+        }
+
+        private void SplitPageAtRowPos(PageIndex page, int rowPos, int rows)
+        {
+            
         }
 
         private int ValidateAndSplitPageIfNeeded(ColumnIndex column, PageIndex page, int pagePos)
@@ -1035,17 +1048,21 @@ namespace OfficeOpenXml.Core.CellStore
                 splitPos = ~splitPos;
             }
 
-            //var newPage = new PageIndex(page, 0, splitPos);
+            SplitPageAtPosition(columnIndex, pagePos, page, splitPos);
+            return pagePos + 1;
+        }
+
+        private void SplitPageAtPosition(ColumnIndex columnIndex, int pagePos, PageIndex page, int splitPos)
+        {
             var nextPage = new PageIndex(page, splitPos, page.RowCount - splitPos, (short)(page.Index + 1), page.Offset, CellStoreSettings._pageSizeMax);
             page.RowCount = splitPos;
-
+            
             for (int r = 0; r < nextPage.RowCount; r++)
             {
                 nextPage.Rows[r].Index = (short)(nextPage.Rows[r].Index - CellStoreSettings._pageSize);
             }
 
             AddPage(columnIndex, nextPage, pagePos + 1);
-            return pagePos + 1;
         }
 
         private static void ResizePageCollectionIfNecessery(ColumnIndex columnIndex)

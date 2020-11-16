@@ -1400,17 +1400,18 @@ namespace EPPlusTest
         {
             int START_ROW = 1;
             int CustomTemplateRowsOffset = 4;
-            int rowCount = 27000;
+            int rowCount = 34000;
             using (var package = OpenTemplatePackage("CellStoreIssue.xlsm"))
             {
                 var worksheet = package.Workbook.Worksheets[0];
-                worksheet.InsertRow(START_ROW + 1 + CustomTemplateRowsOffset, rowCount - 1);
-
-                for (int k = 1; k < rowCount; k++)
-                {
-                    worksheet.Cells[(START_ROW + CustomTemplateRowsOffset) + ":" + (START_ROW + CustomTemplateRowsOffset)]
-                        .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
-                }
+                worksheet.Cells["A5"].Value = "Test";
+                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset+1);
+                Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
+                //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
+                //{
+                //    worksheet.Cells[(START_ROW + CustomTemplateRowsOffset) + ":" + (START_ROW + CustomTemplateRowsOffset)]
+                //        .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
+                //}
                 SaveAndCleanup(package);
             }
         }
