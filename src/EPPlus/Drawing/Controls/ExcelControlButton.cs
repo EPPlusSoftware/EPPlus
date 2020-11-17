@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Drawing.Controls
             get;
             set;
         }
-        public ExcelReadingOrder ReadingOrder
+        public eReadingOrder ReadingOrder
         {
             get;
             set;
@@ -61,17 +61,86 @@ namespace OfficeOpenXml.Drawing.Controls
             get;
             set;
         }
+        /// <summary>
+        /// Text Anchoring for the text body
+        /// </summary>
+        internal eTextAnchoringType TextAnchor
+        {
+            get
+            {
+                return TextBody.Anchor;
+            }
+            set
+            {
+                TextBody.Anchor = value;
+            }
+        }
+        private string _textAlignPath = "xdr:sp/xdr:txBody/a:p/a:pPr/@algn";
+        /// <summary>
+        /// How the text is aligned
+        /// </summary>
+        public eTextAlignment TextAlignment
+        {
+            get
+            {
+                switch (GetXmlNodeString(_textAlignPath))
+                {
+                    case "ctr":
+                        return eTextAlignment.Center;
+                    case "r":
+                        return eTextAlignment.Right;
+                    case "dist":
+                        return eTextAlignment.Distributed;
+                    case "just":
+                        return eTextAlignment.Justified;
+                    case "justLow":
+                        return eTextAlignment.JustifiedLow;
+                    case "thaiDist":
+                        return eTextAlignment.ThaiDistributed;
+                    default:
+                        return eTextAlignment.Left;
+                }
+            }
+            set
+            {
+                switch (value)
+                {
+                    case eTextAlignment.Right:
+                        SetXmlNodeString(_textAlignPath, "r");
+                        break;
+                    case eTextAlignment.Center:
+                        SetXmlNodeString(_textAlignPath, "ctr");
+                        break;
+                    case eTextAlignment.Distributed:
+                        SetXmlNodeString(_textAlignPath, "dist");
+                        break;
+                    case eTextAlignment.Justified:
+                        SetXmlNodeString(_textAlignPath, "just");
+                        break;
+                    case eTextAlignment.JustifiedLow:
+                        SetXmlNodeString(_textAlignPath, "justLow");
+                        break;
+                    case eTextAlignment.ThaiDistributed:
+                        SetXmlNodeString(_textAlignPath, "thaiDist");
+                        break;
+                    default:
+                        DeleteNode(_textAlignPath);
+                        break;
+                }
+            }
+        }
+
         internal override void UpdateXml()
         {
             base.UpdateXml();
             Margin.UpdateXml();
             var vmlHelper = XmlHelperFactory.Create(_vmlProp.NameSpaceManager, _vmlProp.TopNode.ParentNode);            
             var style = "layout-flow:" + LayoutFlow.TranslateString() + ";mso-layout-flow-alt:" + Orientation.TranslateString();
-            if (ReadingOrder == ExcelReadingOrder.RightToLeft)
+            if (ReadingOrder == eReadingOrder.RightToLeft)
             {
                 style += ";direction:RTL";
             }
-            else if (ReadingOrder == ExcelReadingOrder.ContextDependent)
+            else if (ReadingOrder == eReadingOrder.ContextDependent)
             {
                 style += ";mso-direction-alt:auto";
             }

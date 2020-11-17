@@ -42,18 +42,29 @@ namespace OfficeOpenXml.Drawing.Controls
                 _ctrlProp.SetXmlNodeString("@checked", value.ToEnumString());
             }
         }
-        /// <summary>
-        /// Gets or sets the address to the cell that is linked to the control. 
-        /// </summary>
-        public ExcelAddressBase LinkedCell
+
+        ExcelDrawingFill _fill = null;
+        public ExcelDrawingFill Fill
         {
             get
             {
-                return FmlaLink;
+                if(_fill==null)
+                {
+                    _fill=new ExcelDrawingFill(_drawings, NameSpaceManager, TopNode, "xdr:sp/xdr:spPr", SchemaNodeOrder);
+                }
+                return _fill;
             }
-            set
+        }
+        ExcelDrawingBorder _border = null;
+        public ExcelDrawingBorder Border
+        {
+            get
             {
-                FmlaLink = value;
+                if (_border == null)
+                {
+                    _border = new ExcelDrawingBorder(_drawings, NameSpaceManager, TopNode, "xdr:sp/xdr:spPr", SchemaNodeOrder);
+                }
+                return _border;
             }
         }
     }

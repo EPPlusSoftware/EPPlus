@@ -54,13 +54,14 @@ namespace EPPlusTest.Drawing.Control
             ctrl.Margin.RightMargin = 3;
             ctrl.Margin.BottomMargin = 4;
 
-            ctrl.VerticalTextAlignment=eVerticalAlignmentControl.Distributed;
-            ctrl.HorizontalTextAlignment = eHorizontalAlignmentControl.Right;
+            ctrl.TextAnchor = eTextAnchoringType.Distributed;
+            ctrl.TextAlignment = eTextAlignment.Right;
 
-            ctrl.LayoutFlow = eLayoutFlow.Vertical;
-            ctrl.Orientation = eShapeOrienation.BottomToTop;
-            ctrl.ReadingOrder = OfficeOpenXml.Style.ExcelReadingOrder.RightToLeft;
+            ctrl.LayoutFlow = eLayoutFlow.VerticalIdeographic;
+            ctrl.Orientation = eShapeOrienation.TopToBottom;
+            ctrl.ReadingOrder = eReadingOrder.LeftToRight;
             ctrl.AutomaticSize = true;
+            
             Assert.AreEqual(eEditAs.Absolute ,ctrl.EditAs);
             Assert.AreEqual("A1", ctrl.FmlaTxbx.Address);
         }
@@ -68,11 +69,13 @@ namespace EPPlusTest.Drawing.Control
         public void AddCheckboxTest()
         {
             _ws = _pck.Workbook.Worksheets.Add("Checkbox");
-            var ctrl = _ws.Drawings.AddControl("Checkbox 1", eControlType.CheckBox);
+            var ctrl = _ws.Drawings.AddControl("Checkbox 1", eControlType.CheckBox).As.Control.CheckBox;
             ctrl.Macro = "Checkbox_Click";
+            ctrl.Fill.Style = eFillStyle.SolidFill;
+            ctrl.Fill.SolidFill.Color.SetPresetColor(ePresetColor.Aquamarine);
             ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 100);
-
+            
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("CheckboxCode");
             _codeModule.Code += "Sub Checkbox_Click()\r\n  MsgBox \"Clicked Checkbox!!\"\r\nEnd Sub\r\n";
         }

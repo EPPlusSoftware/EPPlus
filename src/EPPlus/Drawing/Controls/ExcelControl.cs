@@ -11,12 +11,14 @@
     10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extentions;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
@@ -405,37 +407,6 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
-
-        /// <summary>
-        /// Horizontal text alignment. Not used in Excel 2010- , so internal for now
-        /// </summary>
-        internal eHorizontalAlignmentControl HorizontalTextAlignment
-        {
-            get
-            {
-                return _ctrlProp.GetXmlNodeString("textHAlign").ToEnum(eHorizontalAlignmentControl.Left);
-            }
-            set
-            {
-                _ctrlProp.SetXmlNodeString("textHAlign", value.ToEnumString());
-                _vmlProp.SetXmlNodeString("x:TextHAlign",value.ToString());
-            }
-        }
-        /// <summary>
-        /// Vertical text alignment. Not used in Excel 2010-
-        /// </summary>
-        internal eVerticalAlignmentControl VerticalTextAlignment
-        {
-            get
-            {
-                return _ctrlProp.GetXmlNodeString("textVAlign").ToEnum(eVerticalAlignmentControl.Top);
-            }
-            set
-            {
-                _ctrlProp.SetXmlNodeString("textVAlign", value.ToEnumString());
-                _vmlProp.SetXmlNodeString("x:TextVAlign", value.ToString());
-            }
-        }
         #region Shared Properties
         internal protected ExcelAddressBase FmlaLink
         {
@@ -537,6 +508,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 return eDrawingType.Control;
             }
         }
+
         internal virtual void UpdateXml()
         {
             _control.From.Row = From.Row;

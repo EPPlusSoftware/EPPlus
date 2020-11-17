@@ -8,10 +8,10 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlMargin
     {
-        private ExcelControl _control;
+        private ExcelControlWithText _control;
         private XmlHelper _vmlHelper;
         string[] _suffixes;
-        internal ExcelControlMargin(ExcelControl control)
+        internal ExcelControlMargin(ExcelControlWithText control)
         {
             _control = control;
             _vmlHelper = XmlHelperFactory.Create(control._vmlProp.NameSpaceManager, control._vmlProp.TopNode.ParentNode);
@@ -87,6 +87,11 @@ namespace OfficeOpenXml.Drawing.Controls
                     GetStringMargin(RightMargin, RightMarginUnit) + "," +
                     GetStringMargin(BottomMargin, BottomMarginUnit);
 
+                _control.TextBody.LeftInsert = ConvertToEMU(LeftMargin, LeftMarginUnit);
+                _control.TextBody.TopInsert = ConvertToEMU(TopMargin, TopMarginUnit);
+                _control.TextBody.RightInsert = ConvertToEMU(RightMargin, RightMarginUnit);
+                _control.TextBody.BottomInsert = ConvertToEMU(BottomMargin, BottomMarginUnit);
+
                 _vmlHelper.SetXmlNodeString("v:textbox/@inset", v);
             }
             else
@@ -95,9 +100,9 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
 
-        private string GetStringMargin(double leftMargin, eMeasurementUnits unit)
+        private string GetStringMargin(double margin, eMeasurementUnits unit)
         {
-            return leftMargin.ToString(CultureInfo.InvariantCulture) + unit.TranslateString();
+            return margin.ToString(CultureInfo.InvariantCulture) + unit.TranslateString();
         }
 
         public bool Automatic
@@ -151,35 +156,32 @@ namespace OfficeOpenXml.Drawing.Controls
             return v + unit.TranslateString();
         }
 
-        private double CovertToPt(string v)
+        private static double ConvertToEMU(double v, eMeasurementUnits measure)
         {
             int ratio;
-            if (v.EndsWith("mm"))
+            switch (measure)
             {
-                v = v.Substring(0, v.Length - 2);
-                ratio = ExcelDrawing.EMU_PER_MM;
-            }
-            else if (v.EndsWith("cm"))
-            {
-                v = v.Substring(0, v.Length - 2);
-                ratio = ExcelDrawing.EMU_PER_CM;
-            }
-            else if (v.EndsWith("pt"))
-            {
-                v = v.Substring(0, v.Length - 2);
-                ratio = ExcelDrawing.EMU_PER_POINT;
-            }
-            else if (v.EndsWith("pc"))
-            {
-                v = v.Substring(0, v.Length - 2);
-                ratio = ExcelDrawing.EMU_PER_PICA;
-            }
-            else
-            {
-                ratio = ExcelDrawing.EMU_PER_PIXEL;
+                case eMeasurementUnits.Millimeters:
+                    ratio = ExcelDrawing.EMU_PER_MM;
+                    break;
+                case eMeasurementUnits.Centimeters:
+                    ratio = ExcelDrawing.EMU_PER_CM;
+                    break;
+                case eMeasurementUnits.Points:
+                    ratio = ExcelDrawing.EMU_PER_POINT;
+                    break;
+                case eMeasurementUnits.Picas:
+                    ratio = ExcelDrawing.EMU_PER_PICA;
+                    break;
+                case eMeasurementUnits.Inches:
+                    ratio = ExcelDrawing.EMU_PER_US_INCH;
+                    break;
+                default:
+                    ratio = ExcelDrawing.EMU_PER_PIXEL;
+                    break;
             }
 
-            return ConvertUtil.GetValueDouble(v) * ratio / ExcelDrawing.EMU_PER_POINT;
+            return v * ratio ;
         }
     }
 }
