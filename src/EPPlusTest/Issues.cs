@@ -1423,5 +1423,16 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets[0];
             }
         }
+        [TestMethod]
+        public void Issue232()
+        {
+            using (var p = OpenTemplatePackage("pivotbug541.xlsx"))
+            {
+                var overviewSheet = p.Workbook.Worksheets["Overblik"];
+                var serverSheet = p.Workbook.Worksheets["Servers"];
+                var serverPivot = overviewSheet.PivotTables.Add(overviewSheet.Cells["A4"], serverSheet.Cells[serverSheet.Dimension.Address], "ServerPivot");
+                p.Save();
+            }
+        }
     }
 }
