@@ -71,8 +71,8 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("Checkbox");
             var ctrl = _ws.Drawings.AddControl("Checkbox 1", eControlType.CheckBox).As.Control.CheckBox;
             ctrl.Macro = "Checkbox_Click";
-            ctrl.Fill.Style = eFillStyle.SolidFill;
-            ctrl.Fill.SolidFill.Color.SetPresetColor(ePresetColor.Aquamarine);
+            //ctrl.Fill.Style = eFillStyle.SolidFill;
+            //ctrl.Fill.SolidFill.Color.SetPresetColor(ePresetColor.Aquamarine);
             ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 100);
             
