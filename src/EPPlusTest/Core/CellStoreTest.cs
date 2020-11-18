@@ -424,6 +424,20 @@ namespace EPPlusTest.Core
             var elapsedTime = DateTime.Now - dt;
             Assert.IsTrue(elapsedTime < acceptable, "Cellstore performance is slow");
         }
+        [TestMethod]
+        public void Add35000RowsAtOnce()
+        {
+            var cellStore = new CellStore<int>();
+            cellStore.SetValue(1, 1, 1);
+            cellStore.SetValue(2, 1, 2);
+            cellStore.SetValue(10000, 1, 10000);
+
+            cellStore.Insert(2, 1, 35000, 1);
+
+            Assert.AreEqual(1, cellStore.GetValue(1, 1));
+            Assert.AreEqual(2, cellStore.GetValue(35002, 1));
+            Assert.AreEqual(10000, cellStore.GetValue(45000, 1));
+        }
         #endregion
 
         private static void LoadCellStore(CellStore<int> cellStore,int fromRow=1, int toRow=1000, int add=1, int cols=1)

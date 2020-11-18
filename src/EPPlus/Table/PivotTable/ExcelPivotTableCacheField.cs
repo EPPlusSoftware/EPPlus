@@ -696,7 +696,8 @@ namespace OfficeOpenXml.Table.PivotTable
             _cacheLookup = new Dictionary<object, int>(new CacheComparer());
             for (int i = 0; i < items.Count; i++)
             {
-                _cacheLookup.Add(items[i]??"", i);
+                var key = items[i] ?? "";
+                if (!_cacheLookup.ContainsKey(key)) _cacheLookup.Add(key, i);
             }
         }
 
@@ -756,7 +757,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var range = _cache.SourceRange;
             var column = range._fromCol + Index;
             var toRow = range._toRow;
-            var hs = new HashSet<object>();
+            var hs = new HashSet<object>(new InvariantObjectComparer());
             var ws = range.Worksheet;
             //Get unique values.
             for (int row = range._fromRow + 1; row <= toRow; row++)

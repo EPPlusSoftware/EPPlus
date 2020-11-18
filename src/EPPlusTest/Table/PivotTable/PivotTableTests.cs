@@ -595,6 +595,23 @@ namespace EPPlusTest.Table.PivotTable
             Assert.IsTrue(tbl.ShowValuesRow);
             tbl.ShowValuesRow = false;
         }
+        [TestMethod]
+        public void ValidateSharedItemsAreCaseInsensitive()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CaseInsentitive");
 
+            ws.Cells["A1"].Value = "Column1";
+            ws.Cells["B1"].Value = "Column2";
+            ws.Cells["A2"].Value = "Value1";
+            ws.Cells["B2"].Value = 1;
+            ws.Cells["A3"].Value = "value1";
+            ws.Cells["B3"].Value = 2;
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:B3"], "CIPivotTable");
+            var rf = tbl.RowFields.Add(tbl.Fields[0]);
+            var df = tbl.DataFields.Add(tbl.Fields[1]);
+            rf.Cache.Refresh();
+            Assert.AreEqual(1, rf.Cache.SharedItems.Count);
+            Assert.AreEqual("Value1", rf.Cache.SharedItems[0]);
+        }
     }
 }
