@@ -43,8 +43,8 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
 
-        ExcelDrawingFill _fill = null;
-        public ExcelDrawingFill Fill
+        ExcelVmlDrawingFill _fill = null;
+        public ExcelVmlDrawingFill Fill
         {
             get
             {
