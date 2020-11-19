@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.4.1.0</AssemblyVersion>
-    <FileVersion>5.4.1.0</FileVersion>
-    <Version>5.4.1</Version>
+    <AssemblyVersion>5.4.2.0</AssemblyVersion>
+    <FileVersion>5.4.2.0</FileVersion>
+    <Version>5.4.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -25,12 +25,16 @@
       Commercial licenses can be purchased from https://epplussoftware.com
       This applies to EPPlus version 5 and later. Previous versions are still licensed LGPL.
 
+      ## Version 5.4.2
+      * .NET 5.0 
+      * Bug fixes
+      
       ## Version 5.4.1
       # Features
       * WriteProtection added to Workbook.Protection. Allows to set a workbook to read-only with a password.
       * ToDataTable method added to ExcelRange
       * Bug fixes
-      
+
       ## Version 5.4.0
       ### Features
       * Pivot tables filters
