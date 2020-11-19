@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Core.CellStore
                             pageItem = _columnIndex[colPos]._pages[pos];
                         }
                     }
-                    short ix = (short)(Row - pageItem.IndexOffset);
+                    int ix = Row - pageItem.IndexOffset;
                     var cellPos = ArrayUtil.OptimizedBinarySearch(pageItem.Rows, ix, pageItem.RowCount);
                     if (cellPos >= 0)
                     {
@@ -934,11 +934,6 @@ namespace OfficeOpenXml.Core.CellStore
             }
 
             UpdatePageOffset(column, pagePos + 1, rows);
-        }
-
-        private void SplitPageAtRowPos(PageIndex page, int rowPos, int rows)
-        {
-            
         }
 
         private int ValidateAndSplitPageIfNeeded(ColumnIndex column, PageIndex page, int pagePos)

@@ -1434,5 +1434,21 @@ namespace EPPlusTest
                 p.Save();
             }
         }
+        [TestMethod]
+        public void Issue_234()
+        {
+            using (var p = OpenTemplatePackage("ExcelErrorFile.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Leistung"];
+
+                Assert.IsNull(ws.Cells["C65538"].Value);
+                Assert.IsNull(ws.Cells["C71715"].Value);
+                Assert.AreEqual(0D, ws.Cells["C71716"].Value);
+                Assert.AreEqual(0D, ws.Cells["C71811"].Value);
+                Assert.IsNull(ws.Cells["C71812"].Value);
+                Assert.IsNull(ws.Cells["C77667"].Value);
+                Assert.AreEqual(0D, ws.Cells["C77668"].Value);
+            }
+        }
     }
 }
