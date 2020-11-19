@@ -771,14 +771,15 @@ namespace OfficeOpenXml.Table.PivotTable
                 var list = pt.Fields[Index].Items._list;
                 for (var ix = 0; ix < list.Count; ix++)
                 {
-                    if (!hs.Contains(list[ix].Value ?? ""))
+                    var v = list[ix].Value;
+                    if (!hs.Contains(v) || existingItems.Contains((v??"").ToString()))
                     {
                         list.RemoveAt(ix);
                         ix--;
                     }
                     else
                     {
-                        existingItems.Add((list[ix].Value??"").ToString());
+                        existingItems.Add((v??"").ToString());
                     }
                 }
                 foreach (var c in hs)
@@ -788,7 +789,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         list.Insert(list.Count, new ExcelPivotTableFieldItem() { Value = c });
                     }
                 }
-                if (list.Count > 0 && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
+                if (list.Count > 0 && list[list.Count-1].Type != eItemType.Default && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
                 {
                     list.Add(new ExcelPivotTableFieldItem() { Type = eItemType.Default, X = -1 });
                 }
