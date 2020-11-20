@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Core.CellStore
                             pageItem = _columnIndex[colPos]._pages[pos];
                         }
                     }
-                    short ix = (short)(Row - pageItem.IndexOffset);
+                    int ix = Row - pageItem.IndexOffset;
                     var cellPos = ArrayUtil.OptimizedBinarySearch(pageItem.Rows, ix, pageItem.RowCount);
                     if (cellPos >= 0)
                     {

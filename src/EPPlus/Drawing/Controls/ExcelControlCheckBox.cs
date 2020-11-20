@@ -10,6 +10,7 @@
  *************************************************************************************************
   10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.Extentions;
 using System.Xml;
@@ -50,7 +51,7 @@ namespace OfficeOpenXml.Drawing.Controls
             {
                 if(_fill==null)
                 {
-                    _fill=new ExcelDrawingFill(_drawings, NameSpaceManager, TopNode, "xdr:sp/xdr:spPr", SchemaNodeOrder);
+                    _fill=new ExcelVmlDrawingFill(_drawings, _vml.NameSpaceManager, _vml.TopNode, _vml.SchemaNodeOrder);
                 }
                 return _fill;
             }

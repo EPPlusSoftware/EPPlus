@@ -1101,6 +1101,9 @@ namespace OfficeOpenXml
 
 			UpdateDefinedNamesXml();
 
+			//Updates the Workbook Xml, so must be before saving the wookbook part 
+			SavePivotTableCaches();
+
 			// save the workbook
 			if (_workbookXml != null)
 			{
@@ -1123,8 +1126,6 @@ namespace OfficeOpenXml
 			// save the style sheet
 			Styles.UpdateXml();
 			_package.SavePart(StylesUri, this.StylesXml);
-
-			SavePivotTableCaches();
 
 			// save persons
 			_threadedCommentPersons?.Save(_package, Part, PersonsUri);
@@ -1176,6 +1177,7 @@ namespace OfficeOpenXml
 					if (cache._pivotTables.Count == 0)
 					{
 						cache.Delete();
+						continue;
 					}
 					//Rewrite the pivottable address again if any rows or columns have been inserted or deleted
 					var r = cache.SourceRange;

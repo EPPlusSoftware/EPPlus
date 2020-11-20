@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -20,9 +21,11 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
+        ExcelPivotTableField _field;
         private readonly ExcelPivotTableCacheField _cache;
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
+            _field = field;
             _cache = field.Cache;
         }
         /// <summary>
@@ -69,6 +72,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 item.Hidden = false;
             }
+            _field.PageFieldSettings.SelectedItem = -1;
         }
         /// <summary>
         /// Hide all items except the item at the supplied index
@@ -88,6 +92,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             _list[index].Hidden=false;
+            if(_field.IsPageField)
+            {
+                _field.PageFieldSettings.SelectedItem = index;
+            }
         }
         /// <summary>
         /// Refreshes the data of the cache field

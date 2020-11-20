@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.VBA;
 using System.Drawing;
@@ -71,8 +72,8 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("Checkbox");
             var ctrl = _ws.Drawings.AddControl("Checkbox 1", eControlType.CheckBox).As.Control.CheckBox;
             ctrl.Macro = "Checkbox_Click";
-            ctrl.Fill.Style = eFillStyle.SolidFill;
-            //ctrl.Fill.SolidFill.Color.SetPresetColor(ePresetColor.Aquamarine);
+            ctrl.Fill.Style = eVmlFillType.Solid;
+            ctrl.Fill.Color.SetColor(Color.Red);
             ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 100);
             
