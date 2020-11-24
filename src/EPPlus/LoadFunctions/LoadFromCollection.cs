@@ -20,14 +20,25 @@ namespace OfficeOpenXml.LoadFunctions
     {
         public LoadFromCollection(ExcelRangeBase range, IEnumerable<T> items, LoadFromCollectionParams parameters) : base(range, parameters)
         {
+
             _items = items;
             _members = parameters.Members;
+
             _bindingFlags = parameters.BindingFlags;
             _headerParsingType = parameters.HeaderParsingType;
             var type = typeof(T);
             if (_members == null)
             {
+
+#if (NET35 || NET40)
                 _members = type.GetProperties(_bindingFlags);
+#else
+                _members = type.GetProperties(_bindingFlags)
+                    .OrderBy(r =>
+                        (r.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() as DisplayAttribute)
+                        ?.Order ?? int.MaxValue)
+                    .ToArray();
+#endif
             }
             else
             {
@@ -35,6 +46,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
+                
                 foreach (var t in _members)
                 {
                     if (t.DeclaringType != null && t.DeclaringType != type)
@@ -73,11 +85,7 @@ namespace OfficeOpenXml.LoadFunctions
             int col = 0, row = 0;
             if (_members.Length > 0 && PrintHeaders)
             {
-                foreach (var t in _members
-#if !(NET35 || NET40)
-                    .OrderBy(r => (r.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() as DisplayAttribute)?.Order ?? int.MaxValue )
-#endif
-                )
+                foreach (var t in _members)
                 {
                     var descriptionAttribute = t.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
                     var header = string.Empty;
@@ -129,11 +137,7 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     else
                     {
-                        foreach (var t in _members
-#if !(NET35 || NET40)
-                                .OrderBy(r => (r.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() as DisplayAttribute)?.Order ?? int.MaxValue)
-#endif
-                        )
+                        foreach (var t in _members)
                         {
                             if (_isSameType == false && item.GetType().GetMember(t.Name, _bindingFlags).Length == 0)
                             {
