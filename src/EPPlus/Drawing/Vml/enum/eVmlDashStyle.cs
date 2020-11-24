@@ -8,39 +8,62 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-    11/24/2020         EPPlus Software AB           Controls 
+  11/23/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
-namespace OfficeOpenXml.Drawing.Controls
+namespace OfficeOpenXml
 {
-    public enum eMeasurementUnits
+    /// <summary>
+    /// Dash style for a line used in VML drawings
+    /// </summary>
+    public enum eVmlDashStyle
     {
         /// <summary>
-        /// Inches
+        /// A solid line
         /// </summary>
-        Inches,
+        Solid,
         /// <summary>
-        /// Centimeters
+        /// Short - Dash
         /// </summary>
-        Centimeters,
+        ShortDash,
         /// <summary>
-        /// Millimeters
+        /// Short - Dot
         /// </summary>
-        Millimeters,
+        ShortDot,
         /// <summary>
-        /// Points
+        /// Short - Dash - Dot
         /// </summary>
-        Points,
+        ShortDashDot,
         /// <summary>
-        /// Picas
+        /// Short - Dash - Dot - Dot
         /// </summary>
-        Picas,
+        ShortDashDotDot,
         /// <summary>
-        /// Pixels
+        /// Dotted
         /// </summary>
-        Pixels,
+        Dot,
         /// <summary>
-        /// English metric unit
+        /// Dashed
         /// </summary>
-        EMUs
+        Dash,
+        /// <summary>
+        /// Long dashes
+        /// </summary>
+        LongDash,
+        /// <summary>
+        /// Dash - Dot
+        /// </summary>
+        DashDot,
+        /// <summary>
+        /// Long Dash - Dot
+        /// </summary>
+        LongDashDot,
+        /// <summary>
+        /// Long Dash - Dot - Dot
+        /// </summary>
+        LongDashDotDot,
+        /// <summary>
+        /// Custom dash style.
+        /// </summary>
+        Custom
     }
 }

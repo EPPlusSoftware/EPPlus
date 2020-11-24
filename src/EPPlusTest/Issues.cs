@@ -1453,7 +1453,7 @@ namespace EPPlusTest
         [TestMethod]
         public void InflateIssue()
         {
-            using (var p=OpenPackage("inflateStart.xlsx"))
+            using (var p=OpenPackage("inflateStart.xlsx", true))
             {
                 var worksheet = p.Workbook.Worksheets.Add("Test");
                 for (int i = 1; i <= 10; i++)

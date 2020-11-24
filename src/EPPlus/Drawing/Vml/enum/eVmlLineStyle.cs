@@ -8,39 +8,38 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-    11/24/2020         EPPlus Software AB           Controls 
+  11/23/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
-namespace OfficeOpenXml.Drawing.Controls
+namespace OfficeOpenXml
 {
-    public enum eMeasurementUnits
+    /// <summary>
+    /// The line style of a vml drawing
+    /// </summary>
+    public enum eVmlLineStyle
     {
         /// <summary>
-        /// Inches
+        /// No line style
         /// </summary>
-        Inches,
+        NoLine,
         /// <summary>
-        /// Centimeters
+        /// A single line
         /// </summary>
-        Centimeters,
+        Single,
         /// <summary>
-        /// Millimeters
+        /// Thin thin line style
         /// </summary>
-        Millimeters,
+        ThinThin,
         /// <summary>
-        /// Points
+        /// Thin thick line style
         /// </summary>
-        Points,
+        ThinThick,
         /// <summary>
-        /// Picas
+        /// Thick thin line style
         /// </summary>
-        Picas,
+        ThickThin,
         /// <summary>
-        /// Pixels
+        /// Thick between thin line style
         /// </summary>
-        Pixels,
-        /// <summary>
-        /// English metric unit
-        /// </summary>
-        EMUs
+        ThickBetweenThin
     }
 }

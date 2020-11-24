@@ -672,7 +672,7 @@ namespace OfficeOpenXml
         {
             TopNode.ParentNode.RemoveChild(TopNode);
         }
-        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null)
+        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="")
         {
             if (d == null)
             {
@@ -680,7 +680,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
+                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture) + suffix);
             }
         }
         internal void SetXmlNodeInt(string path, int? d, CultureInfo ci = null, bool allowNegative = true)
@@ -741,6 +741,11 @@ namespace OfficeOpenXml
         {
             SetXmlNodeString(TopNode, path, value ? "1" : "0", false, false);
         }
+        internal void SetXmlNodeBoolVml(string path, bool value)
+        {
+            SetXmlNodeString(TopNode, path, value ? "t" : "f", false, false);
+        }
+
         internal void SetXmlNodeBool(string path, bool value, bool removeIf)
         {
             if (value == removeIf)
@@ -853,7 +858,7 @@ namespace OfficeOpenXml
         internal bool GetXmlNodeBool(string path, bool blankValue)
         {
             string value = GetXmlNodeString(path);
-            if (value == "1" || value == "-1" || value.Equals("true", StringComparison.OrdinalIgnoreCase))
+            if (value == "1" || value == "-1" || value.StartsWith("t", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

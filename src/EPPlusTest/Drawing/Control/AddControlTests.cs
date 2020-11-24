@@ -50,16 +50,16 @@ namespace EPPlusTest.Drawing.Control
 
             ctrl.Margin.Automatic = false;
             ctrl.Margin.SetUnit(eMeasurementUnits.Millimeters);
-            ctrl.Margin.LeftMargin = 1;
-            ctrl.Margin.TopMargin = 2;
-            ctrl.Margin.RightMargin = 3;
-            ctrl.Margin.BottomMargin = 4;
+            ctrl.Margin.LeftMargin.Value = 1;
+            ctrl.Margin.TopMargin.Value = 2;
+            ctrl.Margin.RightMargin.Value = 3;
+            ctrl.Margin.BottomMargin.Value = 4;
 
             ctrl.TextAnchor = eTextAnchoringType.Distributed;
             ctrl.TextAlignment = eTextAlignment.Right;
 
             ctrl.LayoutFlow = eLayoutFlow.VerticalIdeographic;
-            ctrl.Orientation = eShapeOrienation.TopToBottom;
+            ctrl.Orientation = eShapeOrientation.TopToBottom;
             ctrl.ReadingOrder = eReadingOrder.LeftToRight;
             ctrl.AutomaticSize = true;
             
@@ -72,8 +72,17 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("Checkbox");
             var ctrl = _ws.Drawings.AddControl("Checkbox 1", eControlType.CheckBox).As.Control.CheckBox;
             ctrl.Macro = "Checkbox_Click";
-            ctrl.Fill.Style = eVmlFillType.Solid;
-            ctrl.Fill.Color.SetColor(Color.Red);
+            ctrl.Fill.Style = eVmlFillType.Gradient;
+            ctrl.Fill.GradientSettings.SecondColor.ColorString= "#ff8200";
+            ctrl.Fill.GradientSettings.Focus = 100;
+            ctrl.Fill.GradientSettings.Angle = 135;
+            ctrl.Fill.GradientSettings.ColorsString = "0 #000082;19661f #66008f;42598f #ba0066;58982f red;1 #ff8200";
+            ctrl.Fill.Color.ColorString="#000082";
+            ctrl.Fill.Opacity = 97;
+            ctrl.Fill.GradientSettings.SecondColorOpacity = 50;
+            ctrl.Border.LineStyle = eVmlLineStyle.ThickThin;
+            ctrl.Border.Width.Value = 1;
+            ctrl.Border.Width.Unit = eMeasurementUnits.Pixels;
             ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 100);
             

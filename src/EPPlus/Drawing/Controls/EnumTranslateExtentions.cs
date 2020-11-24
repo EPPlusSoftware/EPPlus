@@ -1,14 +1,22 @@
-﻿using OfficeOpenXml.Utils.Extentions;
-using OfficeOpenXml.Utils.TypeConversion;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+    11/24/2020         EPPlus Software AB           Controls 
+ *************************************************************************************************/
+using OfficeOpenXml.Utils.Extentions;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
     public static class EnumTranslateExtentions
     {
-        internal static eMeasurementUnits TranslatePresetColor(this string v)
+        internal static eMeasurementUnits TranslateMeasurementUnits(this string v)
         {
             switch(v)
             {
@@ -22,8 +30,10 @@ namespace OfficeOpenXml.Drawing.Controls
                     return eMeasurementUnits.Inches;
                 case "pc":
                     return eMeasurementUnits.Picas;
-                default:
+                case "px":
                     return eMeasurementUnits.Pixels;
+                default:
+                    return eMeasurementUnits.EMUs;
             }
         }
         internal static string TranslateString(this eMeasurementUnits v)
@@ -40,6 +50,8 @@ namespace OfficeOpenXml.Drawing.Controls
                     return "in";
                 case eMeasurementUnits.Picas:
                     return "pc";
+                case eMeasurementUnits.Pixels:
+                    return "px";
                 default:
                     return "";  //Blank is Pixels, px
             }
@@ -69,25 +81,25 @@ namespace OfficeOpenXml.Drawing.Controls
                     return v.ToString().ToLower();  
             }
         }
-        internal static eShapeOrienation TranslateShapeOrienation(this string v)
+        internal static eShapeOrientation TranslateShapeOrientation(this string v)
         {
             switch (v)
             {
                 case "top-to-bottom":
-                    return eShapeOrienation.TopToBottom;
+                    return eShapeOrientation.TopToBottom;
                 case "bottom-to-top":
-                    return eShapeOrienation.BottomToTop;
+                    return eShapeOrientation.BottomToTop;
                 default:
-                    return eShapeOrienation.Auto;
+                    return eShapeOrientation.Auto;
             }
         }
-        internal static string TranslateString(this eShapeOrienation v)
+        internal static string TranslateString(this eShapeOrientation v)
         {
             switch (v)
             {
-                case eShapeOrienation.TopToBottom:
+                case eShapeOrientation.TopToBottom:
                     return "top-to-bottom";
-                case eShapeOrienation.BottomToTop:
+                case eShapeOrientation.BottomToTop:
                     return "bottom-to-top";
                 default:
                     return "auto";

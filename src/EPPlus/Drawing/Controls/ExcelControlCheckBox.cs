@@ -17,7 +17,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlCheckBox : ExcelControlWithText
+    public class ExcelControlCheckBox : ExcelControlWithColorsAndLines
     {
         internal ExcelControlCheckBox(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
         {
@@ -41,31 +41,6 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 _ctrlProp.SetXmlNodeString("@checked", value.ToEnumString());
-            }
-        }
-
-        ExcelVmlDrawingFill _fill = null;
-        public ExcelVmlDrawingFill Fill
-        {
-            get
-            {
-                if(_fill==null)
-                {
-                    _fill=new ExcelVmlDrawingFill(_drawings, _vml.NameSpaceManager, _vml.TopNode, _vml.SchemaNodeOrder);
-                }
-                return _fill;
-            }
-        }
-        ExcelDrawingBorder _border = null;
-        public ExcelDrawingBorder Border
-        {
-            get
-            {
-                if (_border == null)
-                {
-                    _border = new ExcelDrawingBorder(_drawings, NameSpaceManager, TopNode, "xdr:sp/xdr:spPr", SchemaNodeOrder);
-                }
-                return _border;
             }
         }
     }

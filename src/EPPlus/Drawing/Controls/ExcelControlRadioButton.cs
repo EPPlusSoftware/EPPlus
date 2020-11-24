@@ -15,7 +15,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public class ExcelControlRadioButton : ExcelControlWithText
+    public class ExcelControlRadioButton : ExcelControlWithColorsAndLines
     {
         internal ExcelControlRadioButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
             : base(drawings, drawNode, control, part, controlPropertiesXml, null)
@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// Gets or sets the address to the cell that is linked to the control. 
         /// </summary>
-        public ExcelAddressBase LinkedCell
+        public new ExcelAddressBase LinkedCell
         {
             get
             {
@@ -80,6 +80,6 @@ namespace OfficeOpenXml.Drawing.Controls
                 _ctrlProp.SetXmlNodeBool("@firstButton", value);
                 _vmlProp.SetBoolNode("x:FirstButton", value);
             }
-        }        
+        }
     }
 }

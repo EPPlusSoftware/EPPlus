@@ -12,10 +12,22 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public enum eShapeOrienation
+    /// <summary>
+    /// Text orientation in a shape
+    /// </summary>
+    public enum eShapeOrientation
     {
+        /// <summary>
+        /// Auto orientation
+        /// </summary>
         Auto,
+        /// <summary>
+        /// Top To Bottom 
+        /// </summary>
         TopToBottom,
+        /// <summary>
+        /// Bottom To Top
+        /// </summary>
         BottomToTop,
     }
 }

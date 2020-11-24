@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Controls
             get;
             set;
         }
-        public eShapeOrienation Orientation
+        public eShapeOrientation Orientation
         {
             get;
             set;

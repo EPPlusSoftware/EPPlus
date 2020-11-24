@@ -17,6 +17,7 @@ namespace OfficeOpenXml.Drawing.Vml
     /// </summary>
     public enum eVmlFillType
     {
+        NoFill,
         /// <summary>
         /// The fill pattern is solid.Default
         /// </summary>

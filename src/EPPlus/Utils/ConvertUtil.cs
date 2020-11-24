@@ -409,28 +409,6 @@ namespace OfficeOpenXml.Utils
             }
             return s;
         }
-        internal static double GetOpacityFromStringVml(string v)
-        {
-            if (string.IsNullOrEmpty(v))
-            {
-                return 0;
-            }
-            if (v.EndsWith("f", StringComparison.OrdinalIgnoreCase))
-            {
-                TryParseNumericString(v.Substring(0, v.Length - 1), out double d);
-                return (d / 0x10000) * 100;
-            }
-            else if (v.EndsWith("%"))
-            {
-                TryParseNumericString(v.Substring(0, v.Length - 1), out double d);
-                return d;
-            }
-            else
-            {
-                TryParseNumericString(v.Substring(0, v.Length - 1), out double d);
-                return d * 100;
-            }
-        }
 
         #region internal cache objects
         internal static TextInfo _invariantTextInfo = CultureInfo.InvariantCulture.TextInfo;

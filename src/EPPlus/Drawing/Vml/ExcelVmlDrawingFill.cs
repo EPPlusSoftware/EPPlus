@@ -20,11 +20,20 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                return GetXmlNodeString("v:fill/@type").ToEnum(eVmlFillType.Solid);
+                return GetXmlNodeString("v:fill/@type").ToEnum(eVmlFillType.NoFill);
             }
             set
             {
-                SetXmlNodeString("v:fill/@type", value.ToEnumString());
+                if (value == eVmlFillType.NoFill)
+                {
+                    SetXmlNodeString("@filled", "t");
+                    DeleteNode("v:fill");
+                }
+                else
+                {
+                    DeleteNode("@filled");
+                    SetXmlNodeString("v:fill/@type", value.ToEnumString());
+                }
             }
         }
         ExcelVmlDrawingColor _fillColor = null;
@@ -43,19 +52,25 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
-        /// Opacity for fill color 1. Spans 0-100%
+        /// Opacity for fill color 1. Spans 0-100%. 
+        /// Transparency is is 100-Opacity
         /// </summary>
         public double Opacity
         {
             get
             {
-                return ConvertUtil.GetOpacityFromStringVml(GetXmlNodeString("v:fill/@opacity"));
+                return VmlConvertUtil.GetOpacityFromStringVml(GetXmlNodeString("v:fill/@opacity"));
             }
             set
             {
-                SetXmlNodeDouble("v:fill/@opacity", value);
+                if(value < 0 || value > 100)
+                {
+                    throw (new ArgumentOutOfRangeException("Opacity ranges from 0 to 100%"));
+                }
+                SetXmlNodeDouble("v:fill/@opacity", value, null, "%");
             }
         }
+        
         ExcelVmlDrawingGradientFill _gradientSettings = null;
         public ExcelVmlDrawingGradientFill GradientSettings
         {
@@ -68,76 +83,27 @@ namespace OfficeOpenXml.Drawing.Vml
                 return _gradientSettings;
             }
         }
-        public int Recolor { get; set; }
-        public int Rotate { get; set; }
-    }
-
-    public class ExcelVmlDrawingGradientFill : XmlHelper
-    {
-        internal ExcelVmlDrawingGradientFill(XmlNamespaceManager nsm, XmlNode topNode) : base(nsm, topNode)
-        {
-        }
-        /// <summary>
-        /// Fill color 2. 
-        /// </summary>
-        public double SecondColor
-        {
+        public bool Recolor 
+        { 
             get
             {
-                return ConvertUtil.GetOpacityFromStringVml(GetXmlNodeString("v:fill/@opacity2"));
+                return GetXmlNodeBool("v:fill/@recolor");
             }
             set
             {
-                SetXmlNodeDouble("v:fill/@opacity2", value);
+                SetXmlNodeBoolVml("v:fill/@recolor", value);
             }
         }
-
-        /// <summary>
-        /// Opacity for fill color 2. Spans 0-100%
-        /// </summary>
-        public double SecondColorOpacity
+        public bool Rotate 
         {
             get
             {
-                return ConvertUtil.GetOpacityFromStringVml(GetXmlNodeString("v:fill/@opacity2"));
+                return GetXmlNodeBool("v:fill/@rotate");
             }
             set
             {
-                SetXmlNodeDouble("v:fill/@opacity2", value);
+                SetXmlNodeBoolVml("v:fill/@rotate", value);
             }
         }
-        public string ColorsString
-        {
-            get
-            {
-                return GetXmlNodeString("v:fill/@colors");
-            }
-            set
-            {
-                SetXmlNodeString("v:fill/@colors", value);
-            }
-        }
-        public double? Angle
-        {
-            get
-            {
-                return GetXmlNodeDouble("v:fill/@angle");
-            }
-            set
-            {
-                SetXmlNodeDouble("v:fill/@angle", value);
-            }
-        }
-        public double Focus
-        {
-            get
-            {
-                return GetXmlNodeDouble("v:fill/@focus");
-            }
-            set
-            {
-                SetXmlNodeDouble("v:fill/@focus", value);
-            }
-        }        
     }
 }

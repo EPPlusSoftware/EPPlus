@@ -12,35 +12,54 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Controls
 {
-    /*
-     *<xsd:simpleType name="ST_ObjectType">
-   <xsd:restriction base="xsd:token">
-     <xsd:enumeration value="Button"/>
-     <xsd:enumeration value="CheckBox"/>
-     <xsd:enumeration value="Drop"/>
-     <xsd:enumeration value="GBox"/>
-     <xsd:enumeration value="Label"/>
-     <xsd:enumeration value="List"/>
-     <xsd:enumeration value="Radio"/>
-     <xsd:enumeration value="Scroll"/>
-     <xsd:enumeration value="Spin"/>
-     <xsd:enumeration value="EditBox"/>
-     <xsd:enumeration value="Dialog"/>
-   </xsd:restriction>
- </xsd:simpleType> 
-     */
+    /// <summary>
+    /// Type of form control
+    /// </summary>
     public enum eControlType
     {
+        /// <summary>
+        /// A button
+        /// </summary>
         Button,
+        /// <summary>
+        /// A checkbox
+        /// </summary>
         CheckBox,
+        /// <summary>
+        /// A combobox
+        /// </summary>
         DropDown,
+        /// <summary>
+        /// A groupbox
+        /// </summary>
         GroupBox,
+        /// <summary>
+        /// A label
+        /// </summary>
         Label,
+        /// <summary>
+        /// A listbox
+        /// </summary>
         ListBox,
+        /// <summary>
+        /// An option button
+        /// </summary>
         RadioButton,
+        /// <summary>
+        /// A scrollbar
+        /// </summary>
         ScrollBar,
+        /// <summary>
+        /// A spin button
+        /// </summary>
         SpinButton,
+        /// <summary>
+        /// An editbox. Unsupported. Editboxes can't be used directly on a form
+        /// </summary>
         EditBox,
+        /// <summary>
+        /// A dialog. Unsupported.
+        /// </summary>
         Dialog
     }
 
