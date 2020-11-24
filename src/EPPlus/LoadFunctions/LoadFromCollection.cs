@@ -10,6 +10,10 @@ using OfficeOpenXml.LoadFunctions.Params;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
+#if !(NET35 || NET40)
+using System.ComponentModel.DataAnnotations;
+#endif
+
 namespace OfficeOpenXml.LoadFunctions
 {
     internal class LoadFromCollection<T> : LoadFunctionBase
@@ -23,7 +27,15 @@ namespace OfficeOpenXml.LoadFunctions
             var type = typeof(T);
             if (_members == null)
             {
+#if (NET35 || NET40)
                 _members = type.GetProperties(_bindingFlags);
+#else
+                _members = type.GetProperties(_bindingFlags)
+                    .OrderBy(r =>
+                        (r.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() as DisplayAttribute)
+                        ?.Order ?? int.MaxValue)
+                    .ToArray();
+#endif
             }
             else
             {
@@ -79,13 +91,16 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     else
                     {
-                        var displayNameAttribute =
-                            t.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as
-                            DisplayNameAttribute;
-                        if (displayNameAttribute != null)
+                        if (t.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() is DisplayNameAttribute displayNameAttribute)
                         {
                             header = displayNameAttribute.DisplayName;
                         }
+#if !(NET35 || NET40)
+                        else if (t.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() is DisplayAttribute displayAttribute)
+                        {
+                            header = displayAttribute.Name;
+                        }
+#endif
                         else
                         {
                             header = ParseHeader(t.Name);
@@ -146,7 +161,7 @@ namespace OfficeOpenXml.LoadFunctions
 
         private string ParseHeader(string header)
         {
-            switch(_headerParsingType)
+            switch (_headerParsingType)
             {
                 case HeaderParsingTypes.Preserve:
                     return header;
