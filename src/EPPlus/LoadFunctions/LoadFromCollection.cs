@@ -10,6 +10,10 @@ using OfficeOpenXml.LoadFunctions.Params;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
+#if !(NET35 || NET40)
+using System.ComponentModel.DataAnnotations;
+#endif
+
 namespace OfficeOpenXml.LoadFunctions
 {
     internal class LoadFromCollection<T> : LoadFunctionBase
@@ -69,7 +73,11 @@ namespace OfficeOpenXml.LoadFunctions
             int col = 0, row = 0;
             if (_members.Length > 0 && PrintHeaders)
             {
-                foreach (var t in _members)
+                foreach (var t in _members
+#if !(NET35 || NET40)
+                    .OrderBy(r => (r.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() as DisplayAttribute)?.Order ?? int.MaxValue )
+#endif
+                )
                 {
                     var descriptionAttribute = t.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
                     var header = string.Empty;
@@ -79,13 +87,16 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     else
                     {
-                        var displayNameAttribute =
-                            t.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() as
-                            DisplayNameAttribute;
-                        if (displayNameAttribute != null)
+                        if (t.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault() is DisplayNameAttribute displayNameAttribute)
                         {
                             header = displayNameAttribute.DisplayName;
                         }
+#if !(NET35 || NET40)
+                        else if (t.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() is DisplayAttribute displayAttribute)
+                        {
+                            header = displayAttribute.Name;
+                        }
+#endif
                         else
                         {
                             header = ParseHeader(t.Name);
@@ -118,7 +129,11 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     else
                     {
-                        foreach (var t in _members)
+                        foreach (var t in _members
+#if !(NET35 || NET40)
+                                .OrderBy(r => (r.GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault() as DisplayAttribute)?.Order ?? int.MaxValue)
+#endif
+                        )
                         {
                             if (_isSameType == false && item.GetType().GetMember(t.Name, _bindingFlags).Length == 0)
                             {
