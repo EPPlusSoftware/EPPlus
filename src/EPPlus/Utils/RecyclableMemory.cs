@@ -51,6 +51,5 @@ namespace OfficeOpenXml.Utils
 			return MemoryManager.GetStream(null, capacity);
 #endif
 		}
-
 	}
 }
