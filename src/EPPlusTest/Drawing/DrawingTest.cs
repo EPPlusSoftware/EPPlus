@@ -1122,6 +1122,23 @@ namespace EPPlusTest
 
             }
         }
+        [TestMethod]
+        public void DrawingSetFont()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DrawingChangeFont");
+            var shape = ws.Drawings.AddShape("FontChange", eShapeStyle.Rect);
+            shape.Font.SetFromFont(new Font("Arial", 20));
+            shape.Text = "Font";
+            shape.RichText[0].SetFromFont(new Font("Calibri", 8));  //works
+            shape.RichText.Add("New Line", true);
 
+            Assert.AreEqual("Arial", shape.Font.LatinFont);
+            Assert.AreEqual("Arial", shape.Font.ComplexFont);
+            Assert.AreEqual(20 , shape.Font.Size);
+
+            Assert.AreEqual("Calibri", shape.RichText[0].LatinFont);
+            Assert.AreEqual("Calibri", shape.RichText[0].ComplexFont);
+            Assert.AreEqual(8, shape.RichText[0].Size);
+        }
     }
 }

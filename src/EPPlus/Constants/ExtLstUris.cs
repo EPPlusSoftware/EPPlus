@@ -7,7 +7,7 @@ namespace OfficeOpenXml.Constants
     internal class ExtLstUris
     {
         //Pivot Table
-        internal const string PivotTableDefinitionUri = "{962EF5D1-5CA2-4C93-8EF4-DBF5C05439D2}";
+        internal const string PivotTableDefinitionUri = "{962EF5D1-5CA2-4c93-8EF4-DBF5C05439D2}";
         internal const string PivotTableDataUri = "{44433962-1CF7-4059-B4EE-95C3D5FFCF73}";
         internal const string PivotTableServerFormatsUri = "{C510F80B-63DE-4267-81D5-13C33094786E}";
         internal const string PivotTableUISettingsUri = "{E67621CE-5B39-4880-91FE-76760E9C1902}";

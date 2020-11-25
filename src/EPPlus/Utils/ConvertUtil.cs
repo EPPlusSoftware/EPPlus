@@ -176,11 +176,11 @@ namespace OfficeOpenXml.Utils
                         var n = GetValueDouble(v);
                         if (double.IsNaN(n))
                         {
-                            return DateTime.FromOADate(n);
+                            return null;
                         }
                         else
                         {
-                            return null;
+                            return DateTime.FromOADate(n);
                         }
                     }
                 }

@@ -133,7 +133,7 @@ namespace OfficeOpenXml.Encryption
 
             //Get the password key.
             var hashProvider = GetHashProvider(encryptionInfo.KeyEncryptors[0]);
-            var baseHash = GetPasswordHash(hashProvider, encr.SaltValue, encryption.Password, encr.SpinCount, encr.HashSize);
+            var baseHash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, encryption.Password, encr.SpinCount, encr.HashSize);
             var hashFinal = GetFinalHash(hashProvider,  BlockKey_KeyValue, baseHash);
             hashFinal = FixHashSize(hashFinal, encr.KeyBits / 8);
 
@@ -258,18 +258,18 @@ namespace OfficeOpenXml.Encryption
             switch (ei.HashAlgorithm)
             {
 #if (!Core)
-                case eHashAlogorithm.RIPEMD160:
+                case eHashAlgorithm.RIPEMD160:
                     return new HMACRIPEMD160(salt);
 #endif                
-                case eHashAlogorithm.MD5:
+                case eHashAlgorithm.MD5:
                     return new HMACMD5(salt);              
-                case eHashAlogorithm.SHA1:
+                case eHashAlgorithm.SHA1:
                     return new HMACSHA1(salt);
-                case eHashAlogorithm.SHA256:
+                case eHashAlgorithm.SHA256:
                     return new HMACSHA256(salt);
-                case eHashAlogorithm.SHA384:
+                case eHashAlgorithm.SHA384:
                     return new HMACSHA384(salt);
-                case eHashAlogorithm.SHA512:
+                case eHashAlgorithm.SHA512:
                     return new HMACSHA512(salt);
                 default:
                     throw(new NotSupportedException(string.Format("Hash method {0} not supported.",ei.HashAlgorithm)));
@@ -560,7 +560,7 @@ namespace OfficeOpenXml.Encryption
                 var hashProvider = GetHashProvider(encr);
                 var hashProviderDataKey = GetHashProvider(encryptionInfo.KeyData);
 
-                var baseHash = GetPasswordHash(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
+                var baseHash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
 
                 //Get the keys for the verifiers and the key value
                 var valInputKey = GetFinalHash(hashProvider, BlockKey_HashInput, baseHash);
@@ -626,17 +626,17 @@ namespace OfficeOpenXml.Encryption
         {
             switch (encr.HashAlgorithm)
             {
-                case eHashAlogorithm.MD5:
+                case eHashAlgorithm.MD5:
                     return MD5.Create();
                 //case eHashAlogorithm.RIPEMD160:
                 //    return new RIPEMD160Managed();                    
-                case eHashAlogorithm.SHA1:
+                case eHashAlgorithm.SHA1:
                     return SHA1.Create();
-                case eHashAlogorithm.SHA256:
+                case eHashAlgorithm.SHA256:
                     return SHA256.Create();
-                case eHashAlogorithm.SHA384:
+                case eHashAlgorithm.SHA384:
                     return SHA384.Create();
-                case eHashAlogorithm.SHA512:
+                case eHashAlgorithm.SHA512:
                     return SHA512.Create();
                 default:
                     throw new NotSupportedException(string.Format("Hash provider is unsupported. {0}", encr.HashAlgorithm));
@@ -647,17 +647,17 @@ namespace OfficeOpenXml.Encryption
         {
             switch (encr.HashAlgorithm)
             {
-                case eHashAlogorithm.MD5:
+                case eHashAlgorithm.MD5:
                         return new MD5CryptoServiceProvider();
-                case eHashAlogorithm.RIPEMD160:
+                case eHashAlgorithm.RIPEMD160:
                         return new RIPEMD160Managed();
-                case eHashAlogorithm.SHA1:
+                case eHashAlgorithm.SHA1:
                         return new SHA1CryptoServiceProvider();
-                case eHashAlogorithm.SHA256:
+                case eHashAlgorithm.SHA256:
                         return  new SHA256CryptoServiceProvider();
-                case eHashAlogorithm.SHA384:
+                case eHashAlgorithm.SHA384:
                         return new SHA384CryptoServiceProvider();
-                case eHashAlogorithm.SHA512:
+                case eHashAlgorithm.SHA512:
                         return new SHA512CryptoServiceProvider();
                 default:
                         throw new NotSupportedException(string.Format("Hash provider is unsupported. {0}", encr.HashAlgorithm));
@@ -923,7 +923,7 @@ namespace OfficeOpenXml.Encryption
                     throw new NotSupportedException("Hash provider is invalid. Must be SHA1(AlgIDHash == 0x8004)");
                 }
 
-                hash = GetPasswordHash(hashProvider, encryptionInfo.Verifier.Salt, password, 50000, 20);
+                hash = GetPasswordHashSpinPrepending(hashProvider, encryptionInfo.Verifier.Salt, password, 50000, 20);
 
                 // Append "block" (0)
                 Array.Copy(hash, tempHash, hash.Length);
@@ -979,7 +979,7 @@ namespace OfficeOpenXml.Encryption
             try
             {
                 var hashProvider = GetHashProvider(encr);
-                var hash = GetPasswordHash(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
+                var hash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
                 var hashFinal = GetFinalHash(hashProvider, blockKey, hash);
 
                 return FixHashSize(hashFinal, encr.KeyBits / 8);
@@ -998,9 +998,9 @@ namespace OfficeOpenXml.Encryption
             var hashFinal = hashProvider.ComputeHash(tempHash);
             return hashFinal;
         }
-        private byte[] GetPasswordHash(HashAlgorithm hashProvider, byte[] salt, string password, int spinCount, int hashSize)
+        internal static byte[] GetPasswordHashSpinPrepending(HashAlgorithm hashProvider, byte[] salt, string password, int spinCount, int hashSize)
         {
-            byte[] hash = null;
+            byte[] hash;
             byte[] tempHash = new byte[4 + hashSize];    //Iterator + prev. hash
             hash = hashProvider.ComputeHash(CombinePassword(salt, password));
 
@@ -1009,6 +1009,23 @@ namespace OfficeOpenXml.Encryption
             {
                 Array.Copy(BitConverter.GetBytes(i), tempHash, 4);
                 Array.Copy(hash, 0, tempHash, 4, hash.Length);
+
+                hash = hashProvider.ComputeHash(tempHash);
+            }
+
+            return hash;
+        }
+        internal static byte[] GetPasswordHashSpinAppending(HashAlgorithm hashProvider, byte[] salt, string password, int spinCount, int hashSize)
+        {
+            byte[] hash;
+            byte[] tempHash = new byte[4 + hashSize];    //Iterator + prev. hash
+            hash = hashProvider.ComputeHash(CombinePassword(salt, password));
+
+            //Iterate "spinCount" times, inserting i in first 4 bytes and then the prev. hash in byte 5-24
+            for (int i = 0; i < spinCount; i++)
+            {
+                Array.Copy(hash, tempHash, hash.Length);
+                Array.Copy(BitConverter.GetBytes(i), 0, tempHash, hash.Length, 4);
 
                 hash = hashProvider.ComputeHash(tempHash);
             }
@@ -1036,7 +1053,7 @@ namespace OfficeOpenXml.Encryption
                 return buff;
             }
         }
-        private byte[] CombinePassword(byte[] salt, string password)
+        private static byte[] CombinePassword(byte[] salt, string password)
         {
             if (password == "")
             {

@@ -436,8 +436,38 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("Row 2", ws2.Cells["A1"].Value);
                 Assert.AreEqual("Row 3", ws2.Cells["A2"].Value);
             }
-
         }
+        [TestMethod]
+        public void VerifyFullWorksheetAddressR1C1Start()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wb = pck.Workbook;
 
+                var ws = wb.Worksheets.Add("RC01");
+                var n=wb.Names.Add("Name1", ws.Cells["A1"]);
+                Assert.AreEqual("'RC01'!$A$1", n.FullAddressAbsolute);
+
+                ws = wb.Worksheets.Add("CR01");
+                n = wb.Names.Add("Name2", ws.Cells["A1"]);
+                Assert.AreEqual("CR01!$A$1", n.FullAddressAbsolute);
+
+                ws = wb.Worksheets.Add("C1");
+                n = wb.Names.Add("Name3", ws.Cells["A1"]);
+                Assert.AreEqual("'C1'!$A$1", n.FullAddressAbsolute);
+
+                ws = wb.Worksheets.Add("C0001");
+                n = wb.Names.Add("Name3", ws.Cells["A1"]);
+                Assert.AreEqual("'C0001'!$A$1", n.FullAddressAbsolute);
+
+                ws = wb.Worksheets.Add("r9");
+                n = wb.Names.Add("Name4", ws.Cells["A1"]);
+                Assert.AreEqual("'r9'!$A$1", n.FullAddressAbsolute);
+
+                ws = wb.Worksheets.Add("R009_cc");
+                n = wb.Names.Add("Name4", ws.Cells["A1"]);
+                Assert.AreEqual("'R009_cc'!$A$1", n.FullAddressAbsolute);
+            }
+        }
     }
 }

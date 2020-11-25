@@ -298,7 +298,7 @@ namespace OfficeOpenXml.Style
             if (Font.Bold) Bold = Font.Bold;
             if (Font.Italic) Italic = Font.Italic;
             if (Font.Underline) UnderLine = eUnderLineType.Single;
-            if (Font.Strikeout) Strike = eStrikeType.Single;
+            if (Font.Strikeout) Strike = eStrikeType.Single;            
         }
     }
 }

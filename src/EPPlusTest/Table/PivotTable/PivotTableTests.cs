@@ -356,6 +356,37 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataOnRows = true;
         }
         [TestMethod]
+        public void Pivot_SaveDataFalse()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-NoRecord");
+
+            wsData.Cells["A1"].Value = "Column1";
+            wsData.Cells["B1"].Value = "Column2";
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["A1:B2"], "Pivottable11");
+            pt.ColumnFields.Add(pt.Fields[1]);
+            var rf = pt.RowFields.Add(pt.Fields[0]);
+            rf.SubTotalFunctions = eSubTotalFunctions.None;
+            pt.DataOnRows = true;
+            pt.CacheDefinition.SaveData = false;
+        }
+        [TestMethod]
+        public void Pivot_SavedDataTrue()
+        {
+            var wsData = _pck.Workbook.Worksheets["Data"];
+            var ws = _pck.Workbook.Worksheets.Add("Pivot-WithRecord");
+
+            wsData.Cells["A1"].Value = "Column1";
+            wsData.Cells["B1"].Value = "Column2";
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], wsData.Cells["A1:B2"], "Pivottable11");
+            pt.ColumnFields.Add(pt.Fields[1]);
+            var rf = pt.RowFields.Add(pt.Fields[0]);
+            rf.SubTotalFunctions = eSubTotalFunctions.None;
+            pt.DataOnRows = true;
+            pt.CacheDefinition.SaveData = false;    //Remove the record xml
+            pt.CacheDefinition.SaveData = true;     //Add the record xml
+        }
+        [TestMethod]
         public void Pivot_ManyPageFields()
         {
             var wsData = _pck.Workbook.Worksheets["Data"];
@@ -457,7 +488,6 @@ namespace EPPlusTest.Table.PivotTable
             df1.Function = DataFieldFunctions.Sum;
             df2.Function = DataFieldFunctions.Sum;
             tbl.DataOnRows = false;
-
             Assert.AreEqual("NumValue*2", tbl.Fields[4].Cache.Formula);
         }
         [TestMethod]
@@ -544,7 +574,44 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(PivotTableStyles.Light28, pt.PivotTableStyle);
             Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
             Assert.AreEqual("PivotStyleLight28", pt.StyleName);
+        }
 
+        [TestMethod]
+        public void HideValuesRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("HideValuesRow");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = DataFieldFunctions.Sum;
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+            Assert.IsTrue(tbl.ShowValuesRow);
+            tbl.ShowValuesRow = false;
+            Assert.IsFalse(tbl.ShowValuesRow);
+            tbl.ShowValuesRow = true;
+            Assert.IsTrue(tbl.ShowValuesRow);
+            tbl.ShowValuesRow = false;
+        }
+        [TestMethod]
+        public void ValidateSharedItemsAreCaseInsensitive()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CaseInsentitive");
+
+            ws.Cells["A1"].Value = "Column1";
+            ws.Cells["B1"].Value = "Column2";
+            ws.Cells["A2"].Value = "Value1";
+            ws.Cells["B2"].Value = 1;
+            ws.Cells["A3"].Value = "value1";
+            ws.Cells["B3"].Value = 2;
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:B3"], "CIPivotTable");
+            var rf = tbl.RowFields.Add(tbl.Fields[0]);
+            var df = tbl.DataFields.Add(tbl.Fields[1]);
+            rf.Cache.Refresh();
+            Assert.AreEqual(1, rf.Cache.SharedItems.Count);
+            Assert.AreEqual("Value1", rf.Cache.SharedItems[0]);
         }
     }
 }

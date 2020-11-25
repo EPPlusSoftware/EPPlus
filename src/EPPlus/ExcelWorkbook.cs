@@ -31,6 +31,7 @@ using OfficeOpenXml.Table;
 using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml
 {
@@ -76,7 +77,7 @@ namespace OfficeOpenXml
 
 		private ExcelStyles _styles;
 		//internal HashSet<string> _tableSlicerNames = new HashSet<string>();
-		internal HashSet<string> _slicerNames = new HashSet<string>();
+		internal HashSet<string> _slicerNames=null;
 
 
 		internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
@@ -93,7 +94,33 @@ namespace OfficeOpenXml
 
 		internal string GetSlicerName(string name)
 		{
+			if (_slicerNames == null) LoadSlicerNames();
 			return GetUniqueName(name, _slicerNames);
+		}
+		internal bool CheckSlicerNameIsUnique(string name)
+		{
+			if (_slicerNames == null) LoadSlicerNames();
+			if (_slicerNames.Contains(name))
+			{
+				return false;
+			}
+			_slicerNames.Add(name);
+			return true;
+		}
+
+		private void LoadSlicerNames()
+		{
+			_slicerNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+			foreach(var ws in Worksheets)
+			{
+				foreach(ExcelDrawing d in ws.Drawings)
+				{
+					if(d is ExcelTableSlicer || d is ExcelPivotTableSlicer)
+					{
+						_slicerNames.Add(d.Name);
+					}
+				}
+			}
 		}
 
 		private string GetUniqueName(string name, HashSet<string> hs)
@@ -206,6 +233,8 @@ namespace OfficeOpenXml
 		}
 		internal int _nextPivotTableID = int.MinValue;
 		internal XmlNamespaceManager _namespaceManager;
+
+
 		internal FormulaParser _formulaParser = null;
 		internal ExcelThreadedCommentPersonCollection _threadedCommentPersons = null;
 		internal FormulaParserManager _parserManager;
@@ -1071,6 +1100,9 @@ namespace OfficeOpenXml
 
 			UpdateDefinedNamesXml();
 
+			//Updates the Workbook Xml, so must be before saving the wookbook part 
+			SavePivotTableCaches();
+
 			// save the workbook
 			if (_workbookXml != null)
 			{
@@ -1093,8 +1125,6 @@ namespace OfficeOpenXml
 			// save the style sheet
 			Styles.UpdateXml();
 			_package.SavePart(StylesUri, this.StylesXml);
-
-			SavePivotTableCaches();
 
 			// save persons
 			_threadedCommentPersons?.Save(_package, Part, PersonsUri);
@@ -1146,6 +1176,7 @@ namespace OfficeOpenXml
 					if (cache._pivotTables.Count == 0)
 					{
 						cache.Delete();
+						continue;
 					}
 					//Rewrite the pivottable address again if any rows or columns have been inserted or deleted
 					var r = cache.SourceRange;
@@ -1638,7 +1669,8 @@ namespace OfficeOpenXml
 				}
 				cache.CacheRel = r;
 				cache.Part = p;
-				cache.TopNode = xml.DocumentElement;				
+				cache.TopNode = xml.DocumentElement;
+				cache.SlicerCacheXml = xml;
 				cache.Init(this);
 
 				_slicerCaches.Add(cache.Name, cache);

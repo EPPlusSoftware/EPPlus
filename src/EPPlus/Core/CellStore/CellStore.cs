@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Core.CellStore
                             pageItem = _columnIndex[colPos]._pages[pos];
                         }
                     }
-                    short ix = (short)(Row - pageItem.IndexOffset);
+                    int ix = Row - pageItem.IndexOffset;
                     var cellPos = ArrayUtil.OptimizedBinarySearch(pageItem.Rows, ix, pageItem.RowCount);
                     if (cellPos >= 0)
                     {
@@ -917,8 +917,16 @@ namespace OfficeOpenXml.Core.CellStore
             var page = column._pages[pagePos];
             if (rowPos > 0) //RowPos is 0 then we can update the page index instead
             {
-                AddRowIndex(rowPos, (short)rows, page);
-                pagePos = ValidateAndSplitPageIfNeeded(column, page, pagePos);
+                if(rows>=CellStoreSettings._pageSize)
+                {
+                    SplitPageAtPosition(column, pagePos, page, rowPos);
+                    UpdatePageOffsetSinglePage(column, ++pagePos, rows);
+                }
+                else
+                {
+                    AddRowIndex(rowPos, (short)rows, page);
+                    pagePos = ValidateAndSplitPageIfNeeded(column, page, pagePos);
+                }
             }
             else
             {
@@ -1035,17 +1043,21 @@ namespace OfficeOpenXml.Core.CellStore
                 splitPos = ~splitPos;
             }
 
-            //var newPage = new PageIndex(page, 0, splitPos);
-            var nextPage = new PageIndex(page, splitPos, page.RowCount - splitPos, (short)(page.Index + 1), page.Offset);
-            page.RowCount = splitPos;
+            SplitPageAtPosition(columnIndex, pagePos, page, splitPos);
+            return pagePos + 1;
+        }
 
+        private void SplitPageAtPosition(ColumnIndex columnIndex, int pagePos, PageIndex page, int splitPos)
+        {
+            var nextPage = new PageIndex(page, splitPos, page.RowCount - splitPos, (short)(page.Index + 1), page.Offset, CellStoreSettings._pageSizeMax);
+            page.RowCount = splitPos;
+            
             for (int r = 0; r < nextPage.RowCount; r++)
             {
                 nextPage.Rows[r].Index = (short)(nextPage.Rows[r].Index - CellStoreSettings._pageSize);
             }
 
             AddPage(columnIndex, nextPage, pagePos + 1);
-            return pagePos + 1;
         }
 
         private static void ResizePageCollectionIfNecessery(ColumnIndex columnIndex)

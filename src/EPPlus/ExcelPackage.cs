@@ -821,7 +821,11 @@ namespace OfficeOpenXml
                 _workbook = null;
                 _stream = null;
                 _workbook = null;
-                GC.Collect();
+                    
+                if (Settings.DoGarbageCollectOnDispose)
+                {
+                    GC.Collect();
+                }
             }
 		}
         #endregion
@@ -1052,6 +1056,11 @@ namespace OfficeOpenXml
                 return _compatibility;
             }
         }
+        public ExcelPackageSettings Settings
+        {
+            get;
+            private set;
+        } = new ExcelPackageSettings();
         #region GetXmlFromUri
         /// <summary>
         /// Get the XmlDocument from an URI

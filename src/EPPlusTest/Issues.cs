@@ -34,24 +34,16 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Style;
 using System.Data;
 using OfficeOpenXml.Table;
 using System.Collections.Generic;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Drawing.Chart;
 using System.Text;
-using System.Dynamic;
 using System.Globalization;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing;
 using System.Threading;
-using System.Text.RegularExpressions;
-using System.IO.Compression;
-using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
-using System.Security.Cryptography.X509Certificates;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace EPPlusTest
 {
@@ -760,7 +752,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void Issue220()
+        public void WorksheetNameWithSingeQuote()
         {
             var pck = OpenPackage("sheetname_pbl.xlsx", true);
             var ws = pck.Workbook.Worksheets.Add("Deal's History");
@@ -1261,15 +1253,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue108()
-        {
-            using (var p = OpenTemplatePackage("Test.xlsx"))
-            {
-                Assert.AreEqual(3, ((ExcelShape)p.Workbook.Worksheets[0].Drawings[0]).RichText.Count);
-                SaveWorkbook("Issue108.xlsx", p);
-            }
-        }
-        [TestMethod]
         public void Issue115()
         {
             using (var p = OpenPackage("Issue115.xlsx", true))
@@ -1348,6 +1331,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
         [TestMethod]
         public void Issue38()
         {
@@ -1366,7 +1350,104 @@ namespace EPPlusTest
                 tbl.Columns["IsUser"].AddSlicer();
                 pt.Fields["IsUser"].AddSlicer();
 
+                SaveWorkbook("pivotTable2.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue195_PivotTable()
+        {
+            using (var p=OpenTemplatePackage("Issue195.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue45()
+        {
+            using (var p=OpenPackage("LinkIssue.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:A2"].Value = 1;
+                ws.Cells["B1:B2"].Formula = $"VLOOKUP($A1,[externalBook.xlsx]Prices!$A:$H, 3, FALSE)";
+                SaveAndCleanup(p);
+            }
+
+        }
+        [TestMethod]
+        public void EmfIssue()
+        {
+            using (var p = OpenTemplatePackage("emfIssue.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue201()
+        {
+            using (var p = OpenTemplatePackage("book1.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual("0", ws.Cells["A1"].Text);
+                Assert.AreEqual("-", ws.Cells["A2"].Text);
+                Assert.AreEqual("0", ws.Cells["A3"].Text);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void IssueCellstore()
+        {
+            int START_ROW = 1;
+            int CustomTemplateRowsOffset = 4;
+            int rowCount = 34000;
+            using (var package = OpenTemplatePackage("CellStoreIssue.xlsm"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.Cells["A5"].Value = "Test";
+                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset+1);
+                Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
+                //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
+                //{
+                //    worksheet.Cells[(START_ROW + CustomTemplateRowsOffset) + ":" + (START_ROW + CustomTemplateRowsOffset)]
+                //        .Copy(worksheet.Cells[k + 1 + ":" + k + 1]);
+                //}
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Issue220()
+        {
+            using (var p = OpenTemplatePackage("Generated.with.EPPlus.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+            }
+        }
+        [TestMethod]
+        public void Issue232()
+        {
+            using (var p = OpenTemplatePackage("pivotbug541.xlsx"))
+            {
+                var overviewSheet = p.Workbook.Worksheets["Overblik"];
+                var serverSheet = p.Workbook.Worksheets["Servers"];
+                var serverPivot = overviewSheet.PivotTables.Add(overviewSheet.Cells["A4"], serverSheet.Cells[serverSheet.Dimension.Address], "ServerPivot");
+                p.Save();
+            }
+        }
+        [TestMethod]
+        public void Issue_234()
+        {
+            using (var p = OpenTemplatePackage("ExcelErrorFile.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Leistung"];
+
+                Assert.IsNull(ws.Cells["C65538"].Value);
+                Assert.IsNull(ws.Cells["C71715"].Value);
+                Assert.AreEqual(0D, ws.Cells["C71716"].Value);
+                Assert.AreEqual(0D, ws.Cells["C71811"].Value);
+                Assert.IsNull(ws.Cells["C71812"].Value);
+                Assert.IsNull(ws.Cells["C77667"].Value);
+                Assert.AreEqual(0D, ws.Cells["C77668"].Value);
             }
         }
     }

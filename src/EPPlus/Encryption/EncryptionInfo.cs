@@ -91,9 +91,9 @@ namespace OfficeOpenXml.Encryption
         ChainingModeCFB
     }
     /// <summary>
-    /// Hashalgorithm
+    /// Hash algorithm
     /// </summary>
-    internal enum eHashAlogorithm
+    internal enum eHashAlgorithm
     {
         /// <summary>
         /// Sha 1-MUST conform to [RFC4634]
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Encryption
                     SetXmlNodeString("@saltValue", Convert.ToBase64String(value));
                 }
             }
-            internal eHashAlogorithm HashAlgorithm
+            internal eHashAlgorithm HashAlgorithm
             {
                 get
                 {
@@ -185,20 +185,20 @@ namespace OfficeOpenXml.Encryption
                 }
             }
 
-            private eHashAlogorithm GetHashAlgorithm(string v)
+            private eHashAlgorithm GetHashAlgorithm(string v)
             {
                 switch (v)
                 {
                     case "RIPEMD-128":
-                        return eHashAlogorithm.RIPEMD128;
+                        return eHashAlgorithm.RIPEMD128;
                     case "RIPEMD-160":
-                        return eHashAlogorithm.RIPEMD160;
+                        return eHashAlgorithm.RIPEMD160;
                     case "SHA-1":
-                        return eHashAlogorithm.SHA1;
+                        return eHashAlgorithm.SHA1;
                     default:
                         try
                         {
-                            return (eHashAlogorithm)Enum.Parse(typeof(eHashAlogorithm),v);
+                            return (eHashAlgorithm)Enum.Parse(typeof(eHashAlgorithm),v);
                         }
                         catch
                         {
@@ -207,15 +207,15 @@ namespace OfficeOpenXml.Encryption
                 }
             }
 
-            private string GetHashAlgorithmString(eHashAlogorithm value)
+            private string GetHashAlgorithmString(eHashAlgorithm value)
             {
                 switch (value)
                 {
-                    case eHashAlogorithm.RIPEMD128:
+                    case eHashAlgorithm.RIPEMD128:
                         return "RIPEMD-128";
-                    case eHashAlogorithm.RIPEMD160:
+                    case eHashAlgorithm.RIPEMD160:
                         return "RIPEMD-160";
-                    case eHashAlogorithm.SHA1:
+                    case eHashAlgorithm.SHA1:
                         return "SHA-1";
                     default: 
                         return value.ToString();

@@ -49,7 +49,7 @@ namespace OfficeOpenXml
             ExcelNamedRange item;
             if(!ExcelAddressUtil.IsValidName(Name))
             {
-                throw (new ArgumentException("Name contains invalid characters"));
+                throw (new ArgumentException("Name contains invalid characters or is not valid."));
             }
             if (Range.IsName)
             {

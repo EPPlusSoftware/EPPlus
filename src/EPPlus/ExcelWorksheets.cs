@@ -1089,6 +1089,10 @@ namespace OfficeOpenXml
                 worksheet.Comments.Clear();
             }
 
+            while(worksheet.PivotTables.Count>0)
+            {
+                worksheet.PivotTables.Delete(worksheet.PivotTables[0]);
+            }
             //Delete any parts still with relations to the Worksheet.
             DeleteRelationsAndParts(worksheet.Part);
 

@@ -181,6 +181,20 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
+        /// If Excel will save the source data with the pivot table.
+        /// </summary>
+        public bool SaveData
+        {
+            get
+            {
+                return _cacheReference.SaveData;
+            }
+            set
+            {
+                _cacheReference.SaveData = value;
+            }
+        }
+        /// <summary>
         /// Type of source data
         /// </summary>
         public eSourceType CacheSource

@@ -310,7 +310,15 @@ namespace OfficeOpenXml.Table.PivotTable
                             AppendItem(shNode, "n", ConvertUtil.GetValueForXml(si, false));
                             break;
                         case TypeCode.DateTime:
-                            AppendItem(shNode, "d", ((DateTime)si).ToString("s"));
+                            var d = ((DateTime)si);
+                            if (d.Year > 1899)
+                            {
+                                AppendItem(shNode, "d", d.ToString("s"));
+                            }
+                            else
+                            {
+                                AppendItem(shNode, "d", d.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
+                            }
                             break;
                         case TypeCode.Boolean:
                             AppendItem(shNode, "b", ConvertUtil.GetValueForXml(si, false));
@@ -321,7 +329,15 @@ namespace OfficeOpenXml.Table.PivotTable
                         default:
                             if (t == typeof(TimeSpan))
                             {
-                                AppendItem(shNode, "d", ConvertUtil.GetValueForXml(si, false));
+                                d = new DateTime(((TimeSpan)si).Ticks);
+                                if (d.Year > 1899)
+                                {
+                                    AppendItem(shNode, "d", d.ToString("s"));
+                                }
+                                else
+                                {
+                                    AppendItem(shNode, "d", d.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
+                                }
                             }
                             else if (t == typeof(ExcelErrorValue))
                             {
@@ -680,7 +696,8 @@ namespace OfficeOpenXml.Table.PivotTable
             _cacheLookup = new Dictionary<object, int>(new CacheComparer());
             for (int i = 0; i < items.Count; i++)
             {
-                _cacheLookup.Add(items[i]??"", i);
+                var key = items[i] ?? "";
+                if (!_cacheLookup.ContainsKey(key)) _cacheLookup.Add(key, i);
             }
         }
 
@@ -740,16 +757,12 @@ namespace OfficeOpenXml.Table.PivotTable
             var range = _cache.SourceRange;
             var column = range._fromCol + Index;
             var toRow = range._toRow;
-            var hs = new HashSet<object>();
+            var hs = new HashSet<object>(new InvariantObjectComparer());
             var ws = range.Worksheet;
             //Get unique values.
             for (int row = range._fromRow + 1; row <= toRow; row++)
             {
-                var o = ws.GetValue(row, column);
-                if (!hs.Contains(o))
-                {
-                    hs.Add(o);
-                }
+                AddSharedItemToHashSet(hs, ws.GetValue(row, column));
             }
             //A pivot table cache can reference multiple Pivot tables, so we need to update them all
             foreach (var pt in _cache._pivotTables)
@@ -758,14 +771,15 @@ namespace OfficeOpenXml.Table.PivotTable
                 var list = pt.Fields[Index].Items._list;
                 for (var ix = 0; ix < list.Count; ix++)
                 {
-                    if (!hs.Contains(list[ix].Value ?? ""))
+                    var v = list[ix].Value;
+                    if (!hs.Contains(v) || existingItems.Contains((v??"").ToString()))
                     {
                         list.RemoveAt(ix);
                         ix--;
                     }
                     else
                     {
-                        existingItems.Add((list[ix].Value??"").ToString());
+                        existingItems.Add((v??"").ToString());
                     }
                 }
                 foreach (var c in hs)
@@ -775,7 +789,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         list.Insert(list.Count, new ExcelPivotTableFieldItem() { Value = c });
                     }
                 }
-                if (list.Count > 0 && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
+                if (list.Count > 0 && list[list.Count-1].Type != eItemType.Default && pt.Fields[Index].GetXmlNodeBool("@defaultSubtotal", true) == true)
                 {
                     list.Add(new ExcelPivotTableFieldItem() { Type = eItemType.Default, X = -1 });
                 }
@@ -787,6 +801,34 @@ namespace OfficeOpenXml.Table.PivotTable
                 UpdateSlicers();
             }
         }
+        internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)
+        {
+            if (o != null)
+            {
+                var t = o.GetType();
+                if (t == typeof(TimeSpan))
+                {
+                    var ticks = ((TimeSpan)o).Ticks + (TimeSpan.TicksPerSecond) / 2;
+                    o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                }
+                if (t == typeof(DateTime))
+                {
+                    var ticks = ((DateTime)o).Ticks;
+                    if ((ticks % TimeSpan.TicksPerSecond) != 0)
+                    {
+                        ticks += TimeSpan.TicksPerSecond / 2;
+                        o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                    }
+                }
+            }
+            if (!hs.Contains(o))
+            {
+                hs.Add(o);
+            }
+
+            return o;
+        }
+
     }
 
     internal class CacheComparer : IEqualityComparer<object>

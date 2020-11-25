@@ -58,21 +58,27 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /***** Dont work. Need items to be populated. ****/
-        ///// <summary>
-        ///// The selected item 
-        ///// </summary>
-        //public int SelectedItem
-        //{
-        //    get
-        //    {
-        //        return GetXmlNodeInt("@item");
-        //    }
-        //    set
-        //    {
-        //        if (value < 0) throw new InvalidOperationException("Can't be negative");
-        //        SetXmlNodeString("@item", value.ToString());
-        //    }
-        //}
+        /// <summary>
+        /// The selected item 
+        /// </summary>
+        internal int SelectedItem
+        {
+            get
+            {
+                return GetXmlNodeInt("@item");
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    DeleteNode("@item");
+                }
+                else
+                {
+                    SetXmlNodeString("@item", value.ToString());
+                }
+            }
+        }
         internal int NumFmtId
         {
             get
