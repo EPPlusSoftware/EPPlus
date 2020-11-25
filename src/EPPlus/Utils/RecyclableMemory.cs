@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 
 namespace OfficeOpenXml.Utils
 {
@@ -6,17 +7,14 @@ namespace OfficeOpenXml.Utils
 	{
 #if !NET35
 		private static Microsoft.IO.RecyclableMemoryStreamManager _memoryManager;
+		private static bool _dataInitialized = false;
+		private static object _dataLock = new object();
 
 		private static Microsoft.IO.RecyclableMemoryStreamManager MemoryManager
 		{
 			get
 			{
-				if (_memoryManager is null)
-				{
-					_memoryManager = new Microsoft.IO.RecyclableMemoryStreamManager();
-				}
-
-				return _memoryManager;
+				return LazyInitializer.EnsureInitialized(ref _memoryManager, ref _dataInitialized, ref _dataLock);
 			}
 		}
 
