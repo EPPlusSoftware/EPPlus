@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// Richtext collection. Used to format specific parts of the text
         /// </summary>
-        public ExcelParagraphCollection RichText
+        internal ExcelParagraphCollection RichText
         {
             get
             {

@@ -174,8 +174,8 @@ namespace OfficeOpenXml.Drawing.Vml
 
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
 
-            shapeElement.SetAttribute("o:spid", "_x0000_s"+ctrl.Id);
-            shapeElement.SetAttribute("id", $"{ctrl.ControlTypeString}_x0020_1");
+            shapeElement.SetAttribute("spid", ExcelPackage.schemaMicrosoftOffice, "_x0000_s"+ctrl.Id);
+            shapeElement.SetAttribute("id", $"{ctrl.ControlTypeString}_x{ctrl.Id}_1");
             shapeElement.SetAttribute("type", "#_x0000_t201");
             shapeElement.SetAttribute("style", "position:absolute;z-index:1;");
             shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.Drawing.Vml
             vml.Append("<v:textbox style=\"mso-direction-alt:auto\" o:singleclick=\"f\">");
             if (ctrl is ExcelControlWithText textControl)
             {
-                vml.Append($"<div style=\"text-align:center\"><font color=\"#000000\" size=\"220\" face=\"Calibri\">{textControl.Text}</font></div>");
+                vml.Append($"<div style=\"text-align:center\"><font color=\"#000000\" size=\"{GetFontSize(ctrl)}\" face=\"{GetFontName(ctrl)}\">{textControl.Text}</font></div>");
             }
             vml.Append("</v:textbox>");
             vml.Append($"<x:ClientData ObjectType=\"{ctrl.ControlTypeString}\">");
@@ -195,12 +195,38 @@ namespace OfficeOpenXml.Drawing.Vml
             vml.Append(GetVmlClientData(ctrl, shapeElement));
             vml.Append("<x:PrintObject>False</x:PrintObject>");
             vml.Append("<x:AutoFill>False</x:AutoFill>");
-            vml.Append("<x:TextVAlign>Center</x:TextVAlign>");
+            if (ctrl.ControlType != eControlType.GroupBox)
+            {
+                vml.Append("<x:TextVAlign>Center</x:TextVAlign>");
+            }
 
             vml.Append("</x:ClientData>");
 
             shapeElement.InnerXml = vml.ToString();
             return shapeElement;
+        }
+        private string GetFontName(ExcelControl ctrl)
+        {
+            if (ctrl.ControlType == eControlType.Button)
+            {
+                return "Calibri";
+            }
+            else
+            {
+                return "Segoe UI";
+            }
+        }
+
+        private string GetFontSize(ExcelControl ctrl)
+        {
+            if (ctrl.ControlType == eControlType.Button)
+            {
+                return "220";
+            }
+            else
+            {
+                return "160";
+            }
         }
 
         private string GetVmlClientData(ExcelControl ctrl, XmlElement shapeElement)

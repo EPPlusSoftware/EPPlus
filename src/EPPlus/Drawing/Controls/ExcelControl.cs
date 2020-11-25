@@ -135,12 +135,48 @@ namespace OfficeOpenXml.Drawing.Controls
             xml.Append("</xdr:spPr>");
             if(this is ExcelControlWithText)
             {
-                xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"ctr\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/>" +
+                xml.Append($"<xdr:txBody><a:bodyPr upright=\"1\" anchor=\"{GetDrawingAnchor()}\" bIns=\"27432\" rIns=\"27432\" tIns=\"27432\" lIns=\"27432\" wrap=\"square\" vertOverflow=\"clip\"/>" +
                     $"<a:lstStyle/>" +
                     $"<a:p>{GetrPr(ControlType)}" +
-                    $"<a:r><a:rPr lang=\"en-US\" sz=\"1100\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"Calibri\"/><a:cs typeface=\"Calibri\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
+                    $"<a:r><a:rPr lang=\"en-US\" sz=\"{GetFontSize()}\" baseline=\"0\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\"><a:solidFill><a:srgbClr val=\"000000\"/></a:solidFill><a:latin typeface=\"{GetFontName()}\"/><a:cs typeface=\"{GetFontName()}\"/></a:rPr><a:t></a:t></a:r></a:p></xdr:txBody>");
             }
             return xml.ToString();
+        }
+
+        private string GetFontName()
+        {
+            if (ControlType == eControlType.Button)
+            {
+                return "Calibri";
+            }
+            else
+            {
+                return "Segoe UI";
+            }
+        }
+
+        private string GetFontSize()
+        {
+            if(ControlType==eControlType.Button)
+            {
+                return "1100";
+            }
+            else
+            {
+                return "800";
+            }
+        }
+
+        private string GetDrawingAnchor()
+        {
+            if(ControlType==eControlType.GroupBox)
+            {
+                return "t";
+            }
+            else
+            {
+                return "ctr";
+            }
         }
 
         private static string GetrPr(eControlType controlType)

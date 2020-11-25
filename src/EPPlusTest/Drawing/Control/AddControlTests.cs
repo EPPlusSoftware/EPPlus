@@ -43,7 +43,7 @@ namespace EPPlusTest.Drawing.Control
             _codeModule.Code += "Sub Button1_Click()\r\n  MsgBox \"Clicked Button!!\"\r\nEnd Sub\r\n";
             //ctrl.Text = "Text";
             ctrl.RichText[0].Fill.Color = Color.Red;
-            ctrl.RichText[0].Size=18;
+            ctrl.RichText[0].Size = 18;
             var rt2 = ctrl.RichText.Add(" Blue");
             rt2.Fill.Color = Color.Blue;
             rt2.Size = 24;
@@ -93,10 +93,46 @@ namespace EPPlusTest.Drawing.Control
         public void AddRadioButtonTest()
         {
             _ws = _pck.Workbook.Worksheets.Add("RadioButton");
-            var ctrl = _ws.Drawings.AddControl("RadioButton 1", eControlType.RadioButton);
+            var groupBox = _ws.Drawings.AddControl("Groupbox 1", eControlType.GroupBox);
+            groupBox.SetPosition(480, 80);
+            groupBox.SetSize(240, 120);
+
+            var ctrl = _ws.Drawings.AddControl("RadioButton 1", eControlType.RadioButton).As.Control.RadioButton;
             ctrl.Macro = "RadioButton_Click";
             ctrl.SetPosition(500, 100);
-            ctrl.SetSize(200, 100);
+            ctrl.SetSize(200, 30);
+            ctrl.RichText[0].LatinFont = "Times New Roman";
+            ctrl.RichText[0].ComplexFont = "Times New Roman";
+            ctrl.RichText.Add(" - Added Text");
+            
+            var ctrl2 = _ws.Drawings.AddControl("RadioButton 2", eControlType.RadioButton);
+            ctrl2.Macro = "RadioButton_Click";
+            ctrl2.SetPosition(530, 100);
+            ctrl2.SetSize(200, 30);
+
+            var ctrl3 = _ws.Drawings.AddControl("RadioButton 3", eControlType.RadioButton);
+            ctrl3.Macro = "RadioButton_Click";
+            ctrl3.SetPosition(560, 100);
+            ctrl3.SetSize(200, 30);
+
+            var groupBox2 = _ws.Drawings.AddControl("Groupbox 2", eControlType.GroupBox);
+            groupBox2.SetPosition(780, 80);
+            groupBox2.SetSize(240, 120);
+
+            var ctrl4 = _ws.Drawings.AddControl("RadioButton 4", eControlType.RadioButton).As.Control.RadioButton;
+            ctrl4.FirstButton = true;
+            ctrl4.SetPosition(800, 100);
+            ctrl4.SetSize(200, 30);
+
+            var ctrl5 = _ws.Drawings.AddControl("RadioButton 5", eControlType.RadioButton);
+            ctrl5.SetPosition(830, 100);
+            ctrl5.SetSize(200, 30);
+
+            var ctrl6 = _ws.Drawings.AddControl("RadioButton 6", eControlType.RadioButton);
+            ctrl6.SetPosition(860, 100);
+            ctrl6.SetSize(200, 30);
+
+            var v=_ws.Calculate("A1=B1");
 
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("RadioButtonCode");
             _codeModule.Code += "Sub RadioButton_Click()\r\n  MsgBox \"Clicked RadioButton!!\"\r\nEnd Sub\r\n";
@@ -180,12 +216,13 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("GroupBox");
             var ctrl = (ExcelControlGroupBox)_ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
             ctrl.Macro = "GroupBox_Click";
+            ctrl.Text = "Groupbox 1";
             ctrl.SetPosition(500, 100);
             ctrl.SetSize(200, 200);
 
-            _ws.Cells["B1"].Value = "Linked Groupbox";
+            _ws.Cells["G1"].Value = "Linked Groupbox";
             
-            ctrl.LinkedCell = _ws.Cells["G1"];
+            //ctrl.LinkedCell = _ws.Cells["G1"];
 
             _codeModule.Code += "Sub GroupBox_Click()\r\n  MsgBox \"Clicked GroupBox!!\"\r\nEnd Sub\r\n";
         }
