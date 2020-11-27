@@ -67,6 +67,17 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
+        /// Adds a drawing to the group
+        /// </summary>
+        /// <param name="drawing"></param>
+        public void Add(ExcelDrawing drawing)
+        {
+            ExcelGroupShape.Validate(drawing, _parent._drawings);
+            drawing._parent = _parent;
+            _groupDrawings.Add(drawing);
+            _drawingNames.Add(drawing.Name, _groupDrawings.Count - 1);
+        }
+        /// <summary>
         /// Disposes the class
         /// </summary>
         public void Dispose()
@@ -152,6 +163,18 @@ namespace OfficeOpenXml.Drawing
                     }
                 }
                 return _groupDrawings;
+            }
+        }
+
+        internal static void Validate(ExcelDrawing d, ExcelDrawings drawings)
+        {
+            if (d._drawings != drawings)
+            {
+                throw new InvalidOperationException("All drawings must be in the same worksheet.");
+            }
+            if (d._parent != null)
+            {
+                throw new InvalidOperationException($"The drawing {d.Name} is already in a group."); ;
             }
         }
     }

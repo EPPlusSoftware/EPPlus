@@ -1038,9 +1038,25 @@ namespace OfficeOpenXml.Drawing
         {
             _drawings.BringToFront(this);
         }
-        public void Group(ExcelDrawing drawings)
+        public ExcelGroupShape Group(params ExcelDrawing[] drawing)
         {
-
+            foreach(var d in drawing)
+            {
+                ExcelGroupShape.Validate(d, _drawings);
+            }
+            var grp=_drawings.AddGroupDrawing("Group 1");
+            foreach (var d in drawing)
+            {
+                grp.Drawings.Add(d);
+            }
+            return grp;
+        }
+        /// <summary>
+        /// Will ungroup this drawing or the entire group.
+        /// </summary>
+        /// <param name="ungroupThisItemOnly"></param>
+        public void UnGroup(bool ungroupThisItemOnly=true)
+        {
         }
         internal virtual void DeleteMe()
         {

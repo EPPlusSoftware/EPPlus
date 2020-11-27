@@ -860,7 +860,13 @@ namespace OfficeOpenXml.Drawing
             AddPicture(Name, pic);
             return pic;
         }
-#region AddPictureAsync
+
+        internal ExcelGroupShape AddGroupDrawing(string Name)
+        {
+            XmlElement drawNode = CreateDrawingXml();
+            return new ExcelGroupShape(this, drawNode);
+        }
+        #region AddPictureAsync
 #if !NET35 && !NET40
         /// <summary>
         /// Adds a picture to the worksheet
