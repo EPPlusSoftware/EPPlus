@@ -106,31 +106,31 @@ namespace OfficeOpenXml.Drawing.Controls
             switch (controlType)
             {
                 case eControlType.Button:
-                    ctrl = new ExcelControlButton(drawings, drawNode);
+                    ctrl = new ExcelControlButton(drawings, drawNode, name);
                     break;
                 case eControlType.DropDown:
-                    ctrl = new ExcelControlDropDown(drawings, drawNode);
+                    ctrl = new ExcelControlDropDown(drawings, drawNode, name);
                     break;
                 case eControlType.GroupBox:
-                    ctrl = new ExcelControlGroupBox(drawings, drawNode);
+                    ctrl = new ExcelControlGroupBox(drawings, drawNode, name);
                     break;
                 case eControlType.Label:
-                    ctrl = new ExcelControlLabel(drawings, drawNode);
+                    ctrl = new ExcelControlLabel(drawings, drawNode, name);
                     break;
                 case eControlType.ListBox:
-                    ctrl = new ExcelControlListBox(drawings, drawNode);
+                    ctrl = new ExcelControlListBox(drawings, drawNode, name);
                     break;
                 case eControlType.CheckBox:
-                    ctrl = new ExcelControlCheckBox(drawings, drawNode);
+                    ctrl = new ExcelControlCheckBox(drawings, drawNode, name);
                     break;
                 case eControlType.RadioButton:
-                    ctrl = new ExcelControlRadioButton(drawings, drawNode);
+                    ctrl = new ExcelControlRadioButton(drawings, drawNode, name);
                     break;
                 case eControlType.ScrollBar:
-                    ctrl=new ExcelControlScrollBar(drawings, drawNode);
+                    ctrl=new ExcelControlScrollBar(drawings, drawNode, name);
                     break;
                 case eControlType.SpinButton:
-                    ctrl = new ExcelControlSpinButton(drawings, drawNode);
+                    ctrl = new ExcelControlSpinButton(drawings, drawNode, name);
                     break;
                 //case eControlType.EditBox:
                 //    return new ExcelControlEditBox(drawings, drawNode);

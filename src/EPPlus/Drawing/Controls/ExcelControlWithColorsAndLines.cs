@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Controls
 
         }
 
-        internal ExcelControlWithColorsAndLines(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlWithColorsAndLines(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
 

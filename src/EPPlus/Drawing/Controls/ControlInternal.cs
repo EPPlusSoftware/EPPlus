@@ -224,22 +224,22 @@ namespace OfficeOpenXml.Drawing.Controls
         { 
             get
             {
-                return GetXmlNodeBool("d:anchor/@moveWithCells");
+                return GetXmlNodeBool("d:controlPr/d:anchor/@moveWithCells");
             }
             set
             {
-                SetXmlNodeBool("d:anchor/@moveWithCells", value, false);
+                SetXmlNodeBool("d:controlPr/d:anchor/@moveWithCells", value, false);
             }
         }
         public bool SizeWithCells
         {
             get
             {
-                return GetXmlNodeBool("d:anchor/@sizeWithCells");
+                return GetXmlNodeBool("d:controlPr/d:anchor/@sizeWithCells");
             }
             set
             {
-                SetXmlNodeBool("d:anchor/@sizeWithCells", value, false);
+                SetXmlNodeBool("d:controlPr/d:anchor/@sizeWithCells", value, false);
             }
         }
     }

@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlCheckBox : ExcelControlWithColorsAndLines
     {
-        internal ExcelControlCheckBox(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlCheckBox(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
 

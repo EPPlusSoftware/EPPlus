@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Drawing.Controls
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
         }
 
-        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode) : base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
+        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name) : base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
         {
             var ws = drawings.Worksheet;
 
@@ -62,28 +62,35 @@ namespace OfficeOpenXml.Drawing.Controls
             var rel=ws.Part.CreateRelationship(ControlPropertiesUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
 
             //Vml
-            _vml=drawings.Worksheet.VmlDrawings.AddControl(this);
+            _vml=drawings.Worksheet.VmlDrawings.AddControl(this, name);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
             //Control in worksheet xml
-            XmlNode ctrlNode = ws.CreateControlNode();
+            XmlNode ctrlNode = ws.CreateControlContainerNode();
             ((XmlElement)ws.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
             ((XmlElement)ws.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
             ((XmlElement)ws.TopNode).SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);   //Make sure the namespace exists
             ctrlNode.InnerXml = GetControlStartWorksheetXml(rel.Id);
-            _control = new ControlInternal(NameSpaceManager, ctrlNode.FirstChild.FirstChild.FirstChild);
+            _control = new ControlInternal(NameSpaceManager, ctrlNode.FirstChild);
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ControlPropertiesXml.DocumentElement);
         }
         private string GetControlStartWorksheetXml(string relId)
         {
             var sb = new StringBuilder();
 
-            sb.Append($"<mc:AlternateContent><mc:Choice Requires=\"x14\"><control shapeId=\"{Id}\" r:id=\"{relId}\" name=\"\">");
+            sb.Append($"<control shapeId=\"{Id}\" r:id=\"{relId}\" name=\"\">");
             sb.Append("<controlPr defaultSize=\"0\" print=\"0\" autoFill=\"0\" autoPict=\"0\">");
-            sb.Append("<anchor moveWithCells=\"1\" sizeWithCells=\"1\">");
+            if (ControlType == eControlType.Button || ControlType == eControlType.Label)
+            {
+                sb.Append("<anchor moveWithCells=\"1\" sizeWithCells=\"1\">");
+            }
+            else 
+            {
+                sb.Append("<anchor moveWithCells=\"1\" >");
+            }
             sb.Append($"<from><xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff></from>");
             sb.Append($"<to><xdr:col>10</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>10</xdr:row><xdr:rowOff>0</xdr:rowOff></to>");
-            sb.Append("</anchor></controlPr></control></mc:Choice></mc:AlternateContent>");
+            sb.Append("</anchor></controlPr></control>");
             return sb.ToString();
         }
         private string ControlStartControlPrXml()
@@ -262,6 +269,7 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 _control.Name=value;
+                _vml.Id = value;
                 base.Name = value;
             }
         }

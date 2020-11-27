@@ -94,25 +94,25 @@ namespace EPPlusTest.Drawing.Control
         {
             _ws = _pck.Workbook.Worksheets.Add("RadioButton");
             var groupBox = _ws.Drawings.AddControl("Groupbox 1", eControlType.GroupBox);
-            groupBox.SetPosition(480, 80);
+            groupBox.SetPosition(80, 80);
             groupBox.SetSize(240, 120);
 
-            var ctrl = _ws.Drawings.AddControl("RadioButton 1", eControlType.RadioButton).As.Control.RadioButton;
+            var ctrl = _ws.Drawings.AddControl("Option Button 1", eControlType.RadioButton).As.Control.RadioButton;
             ctrl.Macro = "RadioButton_Click";
-            ctrl.SetPosition(500, 100);
+            ctrl.SetPosition(100, 100);
             ctrl.SetSize(200, 30);
-            ctrl.RichText[0].LatinFont = "Times New Roman";
-            ctrl.RichText[0].ComplexFont = "Times New Roman";
-            ctrl.RichText.Add(" - Added Text");
-            
+            //ctrl.RichText[0].LatinFont = "Times New Roman";
+            //ctrl.RichText[0].ComplexFont = "Times New Roman";
+            //ctrl.RichText.Add(" - Added Text");
+
             var ctrl2 = _ws.Drawings.AddControl("RadioButton 2", eControlType.RadioButton);
             ctrl2.Macro = "RadioButton_Click";
-            ctrl2.SetPosition(530, 100);
+            ctrl2.SetPosition(130, 100);
             ctrl2.SetSize(200, 30);
 
             var ctrl3 = _ws.Drawings.AddControl("RadioButton 3", eControlType.RadioButton);
             ctrl3.Macro = "RadioButton_Click";
-            ctrl3.SetPosition(560, 100);
+            ctrl3.SetPosition(160, 100);
             ctrl3.SetSize(200, 30);
 
             var groupBox2 = _ws.Drawings.AddControl("Groupbox 2", eControlType.GroupBox);
@@ -131,8 +131,6 @@ namespace EPPlusTest.Drawing.Control
             var ctrl6 = _ws.Drawings.AddControl("RadioButton 6", eControlType.RadioButton);
             ctrl6.SetPosition(860, 100);
             ctrl6.SetSize(200, 30);
-
-            var v=_ws.Calculate("A1=B1");
 
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("RadioButtonCode");
             _codeModule.Code += "Sub RadioButton_Click()\r\n  MsgBox \"Clicked RadioButton!!\"\r\nEnd Sub\r\n";

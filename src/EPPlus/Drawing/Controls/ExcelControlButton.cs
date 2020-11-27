@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing.Controls
     public class ExcelControlButton : ExcelControlWithText
     {
 
-        internal ExcelControlButton(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlButton(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
 

@@ -101,7 +101,11 @@ namespace OfficeOpenXml.Drawing.Vml
             vml += "<o:shapelayout v:ext=\"edit\">";
             vml += "<o:idmap v:ext=\"edit\" data=\"1\"/>";
             vml += "</o:shapelayout>";
-
+            vml += "<v:shapetype path=\"m,l,21600r21600,l21600,xe\" o:spt=\"201\" coordsize=\"21600,21600\" id=\"_x0000_t201\">"; 
+            vml += "<v:stroke joinstyle=\"miter\"/>";
+            vml += "<v:path o:connecttype=\"rect\" fillok=\"f\" strokeok=\"f\" o:extrusionok=\"f\" shadowok=\"f\"/>";
+            vml += "<o:lock v:ext=\"edit\" shapetype=\"t\"/>";
+            vml += "</v:shapetype>";
             vml += "<v:shapetype id=\"_x0000_t202\" coordsize=\"21600,21600\" o:spt=\"202\" path=\"m,l,21600r21600,l21600,xe\">";
             vml += "<v:stroke joinstyle=\"miter\" />";
             vml += "<v:path gradientshapeok=\"t\" o:connecttype=\"rect\" />";
@@ -160,22 +164,23 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = vml;
             return node;
         }
-        internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl)
+        internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl, string name)
         {
-            XmlNode node = AddControlDrawing(ctrl);
+            XmlNode node = AddControlDrawing(ctrl, name);
             var draw = new ExcelVmlDrawingControl(node, NameSpaceManager);
             _drawings.Add(draw);
             _drawingsDict.Add(draw.Id, _drawings.Count-1);
             return draw;
         }
-        private XmlNode AddControlDrawing(ExcelControl ctrl)
+        private XmlNode AddControlDrawing(ExcelControl ctrl, string name)
         {
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
 
             shapeElement.SetAttribute("spid", ExcelPackage.schemaMicrosoftOffice, "_x0000_s"+ctrl.Id);
-            shapeElement.SetAttribute("id", $"{ctrl.ControlTypeString}_x{ctrl.Id}_1");
+            shapeElement.SetAttribute("id", name);
+            //shapeElement.SetAttribute("id", $"{ctrl.ControlTypeString}_x{ctrl.Id}_1");
             shapeElement.SetAttribute("type", "#_x0000_t201");
             shapeElement.SetAttribute("style", "position:absolute;z-index:1;");
             shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
@@ -278,7 +283,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 case eControlType.RadioButton:
                     shapeElement.SetAttribute("fillcolor", "windows [65]");
                     shapeElement.SetAttribute("strokecolor", "windowText [64]");
-                    shapeElement.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
+                    //shapeElement.SetAttribute("button", ExcelPackage.schemaMicrosoftOffice, "t");
                     shapeElement.SetAttribute("stroked", "f");
                     shapeElement.SetAttribute("filled", "f");
                     //style = "position:absolute; margin-left:15pt;margin-top:10.5pt;width:120.75pt;height:23.25pt;z-index:1; mso-wrap-style:tight" type = "#_x0000_t201" >

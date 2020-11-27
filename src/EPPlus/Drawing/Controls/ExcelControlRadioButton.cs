@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Controls
             : base(drawings, drawNode, control, part, controlPropertiesXml, null)
         {
         }
-        internal ExcelControlRadioButton(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlRadioButton(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
 

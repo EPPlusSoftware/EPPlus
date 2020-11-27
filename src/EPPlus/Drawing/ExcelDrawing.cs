@@ -1038,6 +1038,10 @@ namespace OfficeOpenXml.Drawing
         {
             _drawings.BringToFront(this);
         }
+        public void Group(ExcelDrawing drawings)
+        {
+
+        }
         internal virtual void DeleteMe()
         {
             TopNode.ParentNode.RemoveChild(TopNode);            

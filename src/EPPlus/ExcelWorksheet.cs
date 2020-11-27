@@ -158,7 +158,6 @@ namespace OfficeOpenXml
                 };
             }
         }
-
         /// <summary>
         /// Removes all formulas within the entire worksheet, but keeps the calculated values.
         /// </summary>
@@ -3959,15 +3958,14 @@ namespace OfficeOpenXml
             SlicerXmlSources.Remove(xmlSource);
         }
 
-        internal XmlNode CreateControlNode()
+        internal XmlNode CreateControlContainerNode()
         {
-            XmlElement node = GetNode("mc:AlternateContent/mc:Choice[Requires='x14']") as XmlElement;
+            XmlElement node = GetNode("mc:AlternateContent/mc:Choice[@Requires='x14']") as XmlElement;
             if(node == null)
             {
                 node = (XmlElement)CreateNode("mc:AlternateContent/mc:Choice");
                 node.SetAttribute("Requires", "x14");
                 node.InnerXml = "<controls/>";
-                return node.FirstChild;
             }
 
             var controlsNode = node.SelectSingleNode("d:controls", NameSpaceManager);
@@ -3976,7 +3974,14 @@ namespace OfficeOpenXml
                 var f=XmlHelperFactory.Create(NameSpaceManager, node);
                 return f.CreateNode("d:controls");
             }
-            return controlsNode;
+            var xh = XmlHelperFactory.Create(NameSpaceManager, controlsNode);
+            var altNode = (XmlElement)xh.CreateNode("mc:AlternateContent", false, true);
+            
+            xh = XmlHelperFactory.Create(NameSpaceManager, altNode);
+            var ctrlContainerNode=(XmlElement)xh.CreateNode("mc:Choice");
+            ctrlContainerNode.SetAttribute("Requires", "x14");
+
+            return ctrlContainerNode;
         }
         #endregion
     }  // END class Worksheet

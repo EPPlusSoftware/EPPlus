@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public abstract class ExcelControlList : ExcelControl
     {
-        internal ExcelControlList(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlList(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
 

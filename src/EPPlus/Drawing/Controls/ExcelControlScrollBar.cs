@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlScrollBar : ExcelControl
     {
-        internal ExcelControlScrollBar(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlScrollBar(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
         internal ExcelControlScrollBar(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
@@ -27,20 +27,7 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         public override eControlType ControlType => eControlType.ScrollBar;
-        /// <summary>
-        /// Gets or sets the address to the cell that is linked to the control. 
-        /// </summary>
-        public ExcelAddressBase LinkedCell
-        {
-            get
-            {
-                return FmlaLink;
-            }
-            set
-            {
-                FmlaLink = value;
-            }
-        }
+
         /// <summary>
         /// Gets or sets if scrollbar is horizontal or vertical
         /// </summary>

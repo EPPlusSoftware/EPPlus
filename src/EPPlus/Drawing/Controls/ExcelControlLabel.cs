@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlLabel : ExcelControlWithText
     {
-        internal ExcelControlLabel(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlLabel(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
 

@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlDropDown : ExcelControlList
     {
-        internal ExcelControlDropDown(ExcelDrawings drawings, XmlElement drawNode) : base(drawings, drawNode)
+        internal ExcelControlDropDown(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
         {
         }
         internal ExcelControlDropDown(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
