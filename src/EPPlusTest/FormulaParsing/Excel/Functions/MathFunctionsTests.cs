@@ -1645,6 +1645,90 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void Quartile_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 6;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 5;
+                sheet.Cells["A7"].Value = 0;
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,0)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(0d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,1)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(1.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7, 2)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,3)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(4.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,4)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(6d, result);
+            }
+        }
+
+        [TestMethod]
+        public void QuartileInc_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 6;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 5;
+                sheet.Cells["A7"].Value = 0;
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,0)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(0d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,1)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(1.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7, 2)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,3)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(4.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,4)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(6d, result);
+            }
+        }
+
+        [TestMethod]
         public void ModeShouldReturnCorrectResult()
         {
             using (var package = new ExcelPackage())
