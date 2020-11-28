@@ -1645,6 +1645,40 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void PercentileExc_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["A4"].Value = 4;
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,0.2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(1d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,60%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,50%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(2.5d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,95%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
+            }
+        }
+
+        [TestMethod]
         public void Quartile_Test1()
         {
             using (var package = new ExcelPackage())
