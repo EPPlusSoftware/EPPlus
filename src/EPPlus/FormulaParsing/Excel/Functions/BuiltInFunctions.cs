@@ -161,6 +161,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["acos"] = new Acos();
             Functions["acosh"] = new Acosh();
             Functions["var"] = new Var();
+            Functions["vara"] = new Vara();
             Functions["var.s"] = new VarDotS();
             Functions["varp"] = new VarP();
             Functions["var.p"] = new VarDotP();
