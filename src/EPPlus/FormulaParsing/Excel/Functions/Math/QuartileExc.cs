@@ -15,14 +15,16 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
             Category = ExcelFunctionCategory.Statistical,
             EPPlusVersion = "5.5",
-            Description = "Returns the K'th percentile of values in a supplied range, where K is in the range 0 - 1 (inclusive)")]
-    internal class Quartile : Percentile
+            IntroducedInExcelVersion = "2010",
+            Description = "Returns the specified quartile of a set of supplied numbers, based on percentile value 0 - 1 (exclusive) ")]
+    internal class QuartileExc : PercentileExc
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -33,16 +35,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             var quart = ArgToInt(arguments, 1);
             switch (quart)
             {
-                case 0:
-                    return CreateResult(arr.Min(), DataType.Decimal);
                 case 1:
                     return base.Execute(BuildArgs(arrArg, 0.25d), context);
                 case 2:
                     return base.Execute(BuildArgs(arrArg, 0.5d), context);
                 case 3:
                     return base.Execute(BuildArgs(arrArg, 0.75d), context);
-                case 4:
-                    return CreateResult(arr.Max(), DataType.Decimal);
                 default:
                     return CreateResult(eErrorType.Num);
             }

@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
     internal abstract class DateParsingFunction : ExcelFunction
     {
-        protected System.DateTime ParseDate(IEnumerable<FunctionArgument> arguments, object dateObj)
+        protected System.DateTime ParseDate(IEnumerable<FunctionArgument> arguments, object dateObj, int argIndex)
         {
             System.DateTime date = System.DateTime.MinValue;
             if (dateObj is string)
@@ -29,10 +29,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             }
             else
             {
-                var d = ArgToDecimal(arguments, 0);
+                var d = ArgToDecimal(arguments, argIndex);
                 date = System.DateTime.FromOADate(d);
             }
             return date;
+        }
+
+        protected System.DateTime ParseDate(IEnumerable<FunctionArgument> arguments, object dateObj)
+        {
+            return ParseDate(arguments, dateObj, 0);
         }
     }
 }

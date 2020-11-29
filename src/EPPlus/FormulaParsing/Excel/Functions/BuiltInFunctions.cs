@@ -148,6 +148,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["percentile.exc"] = new PercentileExc();
             Functions["quartile"] = new Quartile();
             Functions["quartile.inc"] = new QuartileInc();
+            Functions["quartile.exc"] = new QuartileExc();
             Functions["percentrank"] = new Percentrank();
             Functions["percentrank.inc"] = new PercentrankInc();
             Functions["quotient"] = new Quotient();
@@ -212,6 +213,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["offset"] = new Offset();
             // Date
             Functions["date"] = new Date();
+            Functions["datedif"] = new DateDif();
             Functions["today"] = new Today();
             Functions["now"] = new Now();
             Functions["day"] = new Day();
