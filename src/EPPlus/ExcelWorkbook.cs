@@ -1186,16 +1186,16 @@ namespace OfficeOpenXml
 						if (r.IsName)
 						{
 							//Named range, set name
-							cache.SetSourceName(((ExcelNamedRange)cache.SourceRange).Name);
+							cache.SetSourceName(((ExcelNamedRange)r).Name);
 						}
 						else
 						{
-							var ws = Worksheets[cache.SourceRange.WorkSheetName];
-							t = ws.Tables.GetFromRange(cache.SourceRange);
+							var ws = Worksheets[r.WorkSheetName];
+							t = ws.Tables.GetFromRange(r);
 							if (t == null)
 							{
 								//Address
-								cache.SetSourceAddress(cache.SourceRange.Address);
+								cache.SetSourceAddress(r.Address);
 							}
 							else
 							{
@@ -1223,14 +1223,15 @@ namespace OfficeOpenXml
 			cache.RefreshFields();
 			int ix = 0;
 			var flds = new HashSet<string>();
+			var sourceRange = cache.SourceRange;
 			foreach (XmlElement node in fields)
 			{
-				if (ix >= cache.SourceRange.Columns) break;
+				if (ix >= sourceRange.Columns) break;
 				var fldName = node.GetAttribute("name");                        //Fixes issue 15295 dup name error
 				if (string.IsNullOrEmpty(fldName))
 				{
 					fldName = (t == null
-						? cache.SourceRange.Offset(0, ix, 1, 1).Value.ToString()
+						? sourceRange.Offset(0, ix, 1, 1).Value.ToString()
 						: t.Columns[ix].Name);
 				}
 				if (flds.Contains(fldName))
@@ -1505,15 +1506,16 @@ namespace OfficeOpenXml
 				pivotCaches.AppendChild(item);
 			}
 
-			if (_pivotTableCaches.TryGetValue(cacheReference.SourceRange.FullAddress, out PivotTableCacheRangeInfo cacheInfo))
+			var fullAddress = cacheReference.SourceRange.FullAddress;
+			if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
 			{
 				cacheInfo.PivotCaches.Add(cacheReference);
 			}
 			else
 			{
-				_pivotTableCaches.Add(cacheReference.SourceRange.FullAddress, new PivotTableCacheRangeInfo()
+				_pivotTableCaches.Add(fullAddress, new PivotTableCacheRangeInfo()
 				{
-					Address = cacheReference.SourceRange.FullAddress,
+					Address = fullAddress,
 					PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
 				});
 			}

@@ -58,58 +58,52 @@ namespace OfficeOpenXml.Table.PivotTable
                 return GetXmlNodeString(_sourceNamePath);
             }
         }
-        internal ExcelRangeBase _sourceRange = null;
         internal ExcelRangeBase SourceRange 
         { 
             get
             {
-                if (_sourceRange == null)
+                ExcelRangeBase sourceRange=null;
+                if (CacheSource == eSourceType.Worksheet)
                 {
-                    if (CacheSource == eSourceType.Worksheet)
+                    var ws = _wb.Worksheets[GetXmlNodeString(_sourceWorksheetPath)];
+                    if (ws == null) //Not worksheet, check name or table name
                     {
-                        var ws = _wb.Worksheets[GetXmlNodeString(_sourceWorksheetPath)];
-                        if (ws == null) //Not worksheet, check name or table name
+                        var name = GetXmlNodeString(_sourceNamePath);
+                        foreach (var n in _wb.Names)
                         {
-                            var name = GetXmlNodeString(_sourceNamePath);
-                            foreach (var n in _wb.Names)
+                            if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
                             {
-                                if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    _sourceRange = n;
-                                    return _sourceRange;
-                                }
-                            }
-                            foreach (var w in _wb.Worksheets)
-                            {
-                                _sourceRange = GetRangeByName(w, name);
-                                if (_sourceRange != null) break;
+                                sourceRange = n;
+                                return sourceRange;
                             }
                         }
-                        else
+                        foreach (var w in _wb.Worksheets)
                         {
-                            var address = Ref;
-                            if (string.IsNullOrEmpty(address))
-                            {
-                                var name = SourceName;
-                                _sourceRange = GetRangeByName(ws, name);
-                            }
-                            else
-                            {
-                                _sourceRange = ws.Cells[address];
-                            }
+                            sourceRange = GetRangeByName(w, name);
+                            if (sourceRange != null) break;
                         }
                     }
                     else
                     {
-                        throw (new ArgumentException("The cache source is not a worksheet"));
+                        var address = Ref;
+                        if (string.IsNullOrEmpty(address))
+                        {
+                            var name = SourceName;
+                            sourceRange = GetRangeByName(ws, name);
+                        }
+                        else
+                        {
+                            sourceRange = ws.Cells[address];
+                        }
                     }
                 }
-                return _sourceRange;
+                else
+                {
+                    throw (new ArgumentException("The cache source is not a worksheet"));
+                }
+                return sourceRange;
             }
-            set
-            {
-                _sourceRange = value;
-            }
+
         }
         private ExcelRangeBase GetRangeByName(ExcelWorksheet w, string name)
         {
