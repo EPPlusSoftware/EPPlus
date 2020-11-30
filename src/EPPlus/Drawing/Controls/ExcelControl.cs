@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing.Controls
         internal ControlInternal _control;
 
         internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart ctrlPropPart, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
-            base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
+            base(drawings, drawingNode, parent==null ? "xdr:sp":"", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _control = control;
             _vml = (ExcelVmlDrawingControl)drawings.Worksheet.VmlDrawings[LegacySpId];
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Drawing.Controls
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
         }
 
-        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name) : base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
+        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name, ExcelGroupShape parent = null) : base(drawings, drawingNode, parent == null ? "xdr:sp" : "", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             var ws = drawings.Worksheet;
 
@@ -242,11 +242,11 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return GetXmlNodeString($"xdr:sp/xdr:nvSpPr/xdr:cNvPr/a:extLst/a:ext[@uri='{ExtLstUris.LegacyObjectWrapperUri}']/a14:compatExt/@spid");
+                return GetXmlNodeString($"{_topPath}xdr:nvSpPr/xdr:cNvPr/a:extLst/a:ext[@uri='{ExtLstUris.LegacyObjectWrapperUri}']/a14:compatExt/@spid");
             }
             set
             {
-                var node= GetNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr");
+                var node= GetNode($"{_topPath}/xdr:nvSpPr/xdr:cNvPr");
                 var extHelper = XmlHelperFactory.Create(NameSpaceManager, node);
                 var extNode= extHelper.GetOrCreateExtLstSubNode(ExtLstUris.LegacyObjectWrapperUri, "a14");
                 if (extNode.InnerXml == "")

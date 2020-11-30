@@ -18,11 +18,11 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlEditBox : ExcelControlWithText
     {
-        internal ExcelControlEditBox(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
+        internal ExcelControlEditBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
         }
-        internal ExcelControlEditBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, part, controlPropertiesXml, null)
+        internal ExcelControlEditBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
+            : base(drawings, drawNode, control, part, controlPropertiesXml, parent)
         {
         }
 

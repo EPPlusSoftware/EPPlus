@@ -17,11 +17,11 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlRadioButton : ExcelControlWithColorsAndLines
     {
-        internal ExcelControlRadioButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, part, controlPropertiesXml, null)
+        internal ExcelControlRadioButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
+            : base(drawings, drawNode, control, part, controlPropertiesXml, parent)            
         {
         }
-        internal ExcelControlRadioButton(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
+        internal ExcelControlRadioButton(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
         }
 

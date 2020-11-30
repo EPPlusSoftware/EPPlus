@@ -117,6 +117,8 @@ namespace OfficeOpenXml.Drawing
                     _topPath = "";
                     _nvPrPath = nvPrPath;
                     _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
+                    SetPositionProperties(drawings, node);
+                    GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
                 }
             }   
         }
@@ -124,28 +126,47 @@ namespace OfficeOpenXml.Drawing
 
         private void SetPositionProperties(ExcelDrawings drawings, XmlNode node)
         {
-            XmlNode posNode = node.SelectSingleNode("xdr:from", drawings.NameSpaceManager);
-            if (posNode != null)
+            if (_parent == null) //Top level drawing
             {
-                From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                XmlNode posNode = node.SelectSingleNode("xdr:from", drawings.NameSpaceManager);
+                if (posNode != null)
+                {
+                    From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                }
+                else
+                {
+                    posNode = node.SelectSingleNode("xdr:pos", drawings.NameSpaceManager);
+                    if (posNode != null)
+                    {
+                        Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
+                    }
+                }
+                posNode = node.SelectSingleNode("xdr:to", drawings.NameSpaceManager);
+                if (posNode != null)
+                {
+                    To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                }
+                else
+                {
+                    To = null;
+                    posNode = node.SelectSingleNode("xdr:ext", drawings.NameSpaceManager);
+                    if (posNode != null)
+                    {
+                        Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
+                    }
+                }
             }
-            else
+            else //Child to Group shape
             {
-                posNode = node.SelectSingleNode("xdr:pos", drawings.NameSpaceManager);
+                From = null;
+                To = null;
+                XmlNode posNode = node.SelectSingleNode("xdr:spPr/a:xfrm/a:off", drawings.NameSpaceManager);
                 if (posNode != null)
                 {
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
-            }
-            posNode = node.SelectSingleNode("xdr:to", drawings.NameSpaceManager);
-            if (posNode != null)
-            {
-                To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
-            }
-            else
-            {
-                To = null;
-                posNode = node.SelectSingleNode("xdr:ext", drawings.NameSpaceManager);
+
+                posNode = node.SelectSingleNode("xdr:spPr/a:xfrm/a:ext", drawings.NameSpaceManager);
                 if (posNode != null)
                 {
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
@@ -461,18 +482,23 @@ namespace OfficeOpenXml.Drawing
         {
             if (node.ChildNodes.Count < 3) return null; //Invalid formatted anchor node, ignore
             XmlElement drawNode = (XmlElement)node.ChildNodes[2];
+            return GetDrawingFromNode(drawings, node, drawNode);
+        }
+
+        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent=null)
+        {
             switch (drawNode.LocalName)
             {
                 case "sp":
                     var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
                     var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
-                    if(control != null)
+                    if (control != null)
                     {
-                        return ControlFactory.GetControl(drawings, drawNode, control);
+                        return ControlFactory.GetControl(drawings, drawNode, control, parent);
                     }
                     else
                     {
-                        return new ExcelShape(drawings, node);
+                        return new ExcelShape(drawings, node, parent);
                     }
                 case "pic":
                     return new ExcelPicture(drawings, node);
@@ -485,13 +511,13 @@ namespace OfficeOpenXml.Drawing
                 case "contentPart":
                     //Not handled yet, return as standard drawing below
                     break;
-                case "AlternateContent":                    
+                case "AlternateContent":
                     XmlElement choice = drawNode.FirstChild as XmlElement;
-                    if(choice!=null && choice.LocalName=="Choice")
+                    if (choice != null && choice.LocalName == "Choice")
                     {
                         var req = choice.GetAttribute("Requires");  //NOTE:Can be space sparated. Might have to implement functinality for this.
                         var ns = drawNode.GetAttribute($"xmlns:{req}");
-                        if(ns=="")
+                        if (ns == "")
                         {
                             ns = choice.GetAttribute($"xmlns:{req}");
                         }
@@ -514,7 +540,7 @@ namespace OfficeOpenXml.Drawing
                     }
                     break;
             }
-            return new ExcelDrawing(drawings, node, "","");
+            return new ExcelDrawing(drawings, node, "", "");
         }
 
         private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
@@ -1038,6 +1064,11 @@ namespace OfficeOpenXml.Drawing
         {
             _drawings.BringToFront(this);
         }
+        /// <summary>
+        /// Group the drawings together
+        /// </summary>
+        /// <param name="drawing">The drawings to group</param>
+        /// <returns>The group shape</returns>
         public ExcelGroupShape Group(params ExcelDrawing[] drawing)
         {
             foreach(var d in drawing)
@@ -1054,7 +1085,9 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Will ungroup this drawing or the entire group.
         /// </summary>
-        /// <param name="ungroupThisItemOnly"></param>
+        /// <param name="ungroupThisItemOnly">If true this drawing will be removed from the group. 
+        /// If it is false, the whole group will be disbanded.
+        /// </param>
         public void UnGroup(bool ungroupThisItemOnly=true)
         {
         }

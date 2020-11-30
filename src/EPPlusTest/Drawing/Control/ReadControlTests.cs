@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Controls;
 using System;
 using System.Collections.Generic;
@@ -137,6 +138,17 @@ namespace EPPlusTest.Drawing.Control
 
             Assert.AreEqual("Option Button 11", radioButton.Name);
             Assert.AreEqual("Option Button 11", radioButton.Text);
+        }
+        [TestMethod]
+        public void ValidateDrawingGroup()
+        {
+            var ws = _pck.Workbook.Worksheets[1];
+
+            Assert.IsInstanceOfType(ws.Drawings[0], typeof(ExcelGroupShape));
+            Assert.AreEqual(1, ws.Drawings.Count);
+            var grp = (ExcelGroupShape)ws.Drawings[0];
+            Assert.AreEqual(4, grp.Drawings.Count);
+            Assert.AreEqual(eDrawingType.Control, grp.Drawings[0].DrawingType);
         }
     }
 }

@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
 
-        internal static ExcelDrawing GetControl(ExcelDrawings drawings, XmlElement drawNode, ControlInternal control)
+        internal static ExcelDrawing GetControl(ExcelDrawings drawings, XmlElement drawNode, ControlInternal control, ExcelGroupShape parent)
         {
             var rel = drawings.Worksheet.Part.GetRelationship(control.RelationshipId);
             var controlUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
@@ -70,30 +70,41 @@ namespace OfficeOpenXml.Drawing.Controls
             XmlHelper.LoadXmlSafe(controlPropertiesXml, part.GetStream());
             var objectType = controlPropertiesXml.DocumentElement.Attributes["objectType"]?.Value;
             var controlType = GetControlType(objectType);
+            
+            XmlNode node;            
+            if(parent==null)
+            {
+                node = drawNode.ParentNode;
+            }
+            else
+            {
+                node = drawNode;
+            }
+
             switch(controlType)
             {
                 case eControlType.Button:
-                    return new ExcelControlButton(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlButton(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.DropDown:
-                    return new ExcelControlDropDown(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlDropDown(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.GroupBox:
-                    return new ExcelControlGroupBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlGroupBox(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.Label:
-                    return new ExcelControlLabel(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlLabel(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.ListBox:
-                    return new ExcelControlListBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlListBox(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.CheckBox:
-                    return new ExcelControlCheckBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlCheckBox(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.RadioButton:
-                    return new ExcelControlRadioButton(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlRadioButton(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.ScrollBar:
-                    return new ExcelControlScrollBar(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlScrollBar(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.SpinButton:
-                    return new ExcelControlSpinButton(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlSpinButton(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.EditBox:
-                    return new ExcelControlEditBox(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlEditBox(drawings, node, control, part, controlPropertiesXml, parent);
                 case eControlType.Dialog:
-                    return new ExcelControlDialog(drawings, drawNode.ParentNode, control, part, controlPropertiesXml);
+                    return new ExcelControlDialog(drawings, node, control, part, controlPropertiesXml, parent);
                 default:
                     throw new NotSupportedException();
             }

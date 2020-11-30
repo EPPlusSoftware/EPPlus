@@ -41,29 +41,12 @@ namespace OfficeOpenXml.Drawing
             _groupDrawings = new List<ExcelDrawing>();
             foreach (XmlNode node in _topNode.ChildNodes)
             {
-                ExcelDrawing grpDraw;
-                switch (node.LocalName)
+                if (node.LocalName != "nvGrpSpPr" && node.LocalName != "grpSpPr")
                 {
-                    case "sp":
-                        grpDraw = new ExcelShape(_parent._drawings, node, _parent);
-                        break;
-                    case "pic":
-                        grpDraw=new ExcelPicture(_parent._drawings, node, _parent);
-                        break;
-                    case "graphicFrame":
-                        grpDraw = ExcelChart.GetChart(_parent._drawings, node, _parent);
-                        break;
-                    case "grpSp":
-                        grpDraw = new ExcelGroupShape(_parent._drawings, node, _parent);
-                        break;
-                    case "cxnSp":
-                        grpDraw = new ExcelConnectionShape(_parent._drawings, node, _parent);
-                        break;
-                    default:
-                        continue;
+                    var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent);
+                    _groupDrawings.Add(grpDraw);
+                    _drawingNames.Add(grpDraw.Name, _groupDrawings.Count - 1);
                 }
-                _groupDrawings.Add(grpDraw);
-                _drawingNames.Add(grpDraw.Name, _groupDrawings.Count-1);
             }
         }
         /// <summary>

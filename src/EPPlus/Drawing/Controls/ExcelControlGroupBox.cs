@@ -17,11 +17,11 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public class ExcelControlGroupBox : ExcelControlWithText
     {
-        internal ExcelControlGroupBox(ExcelDrawings drawings, XmlElement drawNode, string name) : base(drawings, drawNode, name)
+        internal ExcelControlGroupBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
         }
-        internal ExcelControlGroupBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml)
-            : base(drawings, drawNode, control, part, controlPropertiesXml, null)
+        internal ExcelControlGroupBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
+            : base(drawings, drawNode, control, part, controlPropertiesXml, parent)
         {
         }
         public override eControlType ControlType => eControlType.GroupBox;
