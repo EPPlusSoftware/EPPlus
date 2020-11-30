@@ -44,6 +44,7 @@ using System.Globalization;
 using OfficeOpenXml.Drawing;
 using System.Threading;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Threading.Tasks;
 
 namespace EPPlusTest
 {
@@ -1484,5 +1485,69 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue_57()
+        {
+            using (var package = OpenTemplatePackage("Issue57.xltx"))
+            {
+
+                var worksheet = CreateWorksheet(package);
+
+                var ea = new ExcelAddress(1, 1, 2 + 1, 6); // +1 Rows because of header
+                ea = new ExcelAddress(ea.ToString());
+                var tbl = worksheet.Tables.Add(ea, "");
+
+
+
+                //Add the headers
+                worksheet.Cells[1, 1].Value = "Intressent";
+                worksheet.Cells[1, 2].Value = "Ort";
+                worksheet.Cells[1, 3].Value = "Application";
+                worksheet.Cells[1, 4].Value = "Caesar CRM Platform";
+                worksheet.Cells[1, 5].Value = "Uppföljning ExpertCenter";
+                worksheet.Cells[1, 6].Value = "Ärendestatus";
+
+                //Add some items...
+                worksheet.Cells["A2"].Value = "Stokvis Tapes Sverige AB";
+                worksheet.Cells["B2"].Value = "NORRKÖPING";
+                worksheet.Cells["C2"].Value = "Sales";
+                worksheet.Cells["D2"].Value = "";
+                worksheet.Cells["E2"].Value = "Anpassning";
+                worksheet.Cells["F2"].Value = "Stängt";
+
+                worksheet.Cells["A3"].Value = "VBG Group AB";
+                worksheet.Cells["B3"].Value = "VÄNERSBORG";
+                worksheet.Cells["C3"].Value = "Sales";
+                worksheet.Cells["D3"].Value = "";
+                worksheet.Cells["E3"].Value = "Anpassning";
+                worksheet.Cells["F3"].Value = "Stängt";
+
+                SaveWorkbook("Issue57.xlsx",package);
+            }
+
+        }
+        private static ExcelWorksheet CreateWorksheet(ExcelPackage pck)
+        {
+            var workSheetExists = false;
+            const string workSheetName = "CWS";
+            foreach (var workSheet in pck.Workbook.Worksheets)
+            {
+                if ((workSheet.Name.ToLower() ?? "") == (workSheetName.ToLower() ?? ""))
+                {
+                    workSheetExists = true;
+                    break;
+                }
+            }
+
+            if (workSheetExists)
+            {
+                // Must delete the standard work sheet, otherwise error when creating table
+                pck.Workbook.Worksheets.Delete(pck.Workbook.Worksheets[workSheetName]);
+            }
+
+            return pck.Workbook.Worksheets.Add(workSheetName);
+
+        }
+
     }
 }
