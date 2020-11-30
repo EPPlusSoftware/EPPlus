@@ -896,6 +896,19 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void VarpaShouldReturnCorrectResult()
+        {
+            var func = new Varpa();
+            var args = FunctionsHelper.CreateArgs(1, 3, 5, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(2.1875, System.Math.Round((double)result.Result, 4));
+
+            args = FunctionsHelper.CreateArgs(1, 3, 5, 2, true, "text");
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(2.6667d, System.Math.Round((double)result.Result, 4));
+        }
+
+        [TestMethod]
         public void VarDotSShouldReturnCorrectResult()
         {
             var func = new VarDotS();

@@ -164,6 +164,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["vara"] = new Vara();
             Functions["var.s"] = new VarDotS();
             Functions["varp"] = new VarP();
+            Functions["varpa"] = new Varpa();
             Functions["var.p"] = new VarDotP();
             Functions["large"] = new Large();
             Functions["small"] = new Small();

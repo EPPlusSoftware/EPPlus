@@ -24,17 +24,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
          Category = ExcelFunctionCategory.Statistical,
          EPPlusVersion = "5.5",
          Description = "Returns the variance of a supplied set of values (which represent a sample of a population), counting text and the logical value FALSE as the value 0 and counting the logical value TRUE as the value 1")]
-    internal class Vara : ExcelFunction
+    internal class Varpa : ExcelFunction
     {
         private readonly DoubleEnumerableArgConverter _argConverter;
 
-        public Vara()
+        public Varpa()
             : this(new DoubleEnumerableArgConverter())
         {
 
         }
 
-        public Vara(DoubleEnumerableArgConverter argConverter)
+        public Varpa(DoubleEnumerableArgConverter argConverter)
         {
             Require.Argument(argConverter).IsNotNull("argConverter");
             _argConverter = argConverter;
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             if (!arguments.Any() || arguments.Count() < 2) return CreateResult(eErrorType.Div0);
             var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments);
-            var result = VarMethods.Var(values);
+            var result = VarMethods.VarP(values);
             return CreateResult(result, DataType.Decimal);
         }
     }
