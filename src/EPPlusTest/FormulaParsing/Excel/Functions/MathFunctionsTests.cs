@@ -530,6 +530,19 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void StdevpaShouldCalculateCorrectResult()
+        {
+            var func = new Stdevpa();
+            var args = FunctionsHelper.CreateArgs(1, 3, 5, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.479d, System.Math.Round((double)result.Result, 4));
+
+            args = FunctionsHelper.CreateArgs(1, 3, 5, 2, true, "text");
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.633d, System.Math.Round((double)result.Result, 4));
+        }
+
+        [TestMethod]
         public void StdevShouldIgnoreHiddenValuesWhenIgnoreHiddenValuesIsSet()
         {
             var func = new Stdev();
