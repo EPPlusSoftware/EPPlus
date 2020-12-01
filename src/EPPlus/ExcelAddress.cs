@@ -477,7 +477,7 @@ namespace OfficeOpenXml
 
                 if (_address.IndexOf("'!")>=0 || ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
-                    address += string.Format("'{0}'!", _ws);
+                    address += string.Format("'{0}'!", _ws.Replace("'","''"));
                 }
                 else
                 {
@@ -545,7 +545,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The full address including the worksheet
         /// </summary>
-        internal string FullAddress
+        public string FullAddress
         {
             get
             {

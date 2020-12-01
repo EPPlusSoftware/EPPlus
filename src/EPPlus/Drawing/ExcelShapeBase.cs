@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_threeD == null)
                 {
-                    _threeD = new ExcelDrawing3D(NameSpaceManager, _topNode, _fillPath, SchemaNodeOrder);
+                    _threeD = new ExcelDrawing3D(NameSpaceManager, TopNode, _fillPath, SchemaNodeOrder);
                 }
                 return _threeD;
             }

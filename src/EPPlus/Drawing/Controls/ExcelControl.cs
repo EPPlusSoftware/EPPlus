@@ -44,8 +44,8 @@ namespace OfficeOpenXml.Drawing.Controls
             ControlPropertiesUri = ctrlPropPart.Uri;
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
         }
-
-        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name, ExcelGroupShape parent = null) : base(drawings, drawingNode, parent == null ? "xdr:sp" : "", "xdr:nvSpPr/xdr:cNvPr", parent)
+        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name, ExcelGroupShape parent = null) : 
+            base(drawings, drawingNode, parent == null ? "xdr:sp" : "", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             var ws = drawings.Worksheet;
 
@@ -242,11 +242,11 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                return GetXmlNodeString($"{_topPath}xdr:nvSpPr/xdr:cNvPr/a:extLst/a:ext[@uri='{ExtLstUris.LegacyObjectWrapperUri}']/a14:compatExt/@spid");
+                return GetXmlNodeString($"{GetlegacySpIdPath()}/a:extLst/a:ext[@uri='{ExtLstUris.LegacyObjectWrapperUri}']/a14:compatExt/@spid");
             }
             set
             {
-                var node= GetNode($"{_topPath}/xdr:nvSpPr/xdr:cNvPr");
+                var node = GetNode(GetlegacySpIdPath());
                 var extHelper = XmlHelperFactory.Create(NameSpaceManager, node);
                 var extNode= extHelper.GetOrCreateExtLstSubNode(ExtLstUris.LegacyObjectWrapperUri, "a14");
                 if (extNode.InnerXml == "")
@@ -254,9 +254,13 @@ namespace OfficeOpenXml.Drawing.Controls
                     extNode.InnerXml = $"<a14:compatExt/>";
                 }
                 ((XmlElement)extNode.FirstChild).SetAttribute("spid", value);
-
             }
         }
+        public string GetlegacySpIdPath()
+        {
+            return $"{(_topPath == "" ? "" : _topPath + "/")}xdr:nvSpPr/xdr:cNvPr";
+        }
+
         /// <summary>
         /// The name of the control
         /// </summary>

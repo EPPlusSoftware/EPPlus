@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Drawing
     {
         private XmlDocument _drawingsXml = new XmlDocument();
         internal Dictionary<string, int> _drawingNames;
-        private List<ExcelDrawing> _drawings;
+        internal List<ExcelDrawing> _drawings;
         internal class ImageCompare
         {
             internal byte[] image { get; set; }
@@ -861,10 +861,14 @@ namespace OfficeOpenXml.Drawing
             return pic;
         }
 
-        internal ExcelGroupShape AddGroupDrawing(string Name)
+        internal ExcelGroupShape AddGroupDrawing()
         {
             XmlElement drawNode = CreateDrawingXml();
-            return new ExcelGroupShape(this, drawNode);
+            var grp=new ExcelGroupShape(this, drawNode);
+            grp.Name = $"Group {grp.Id}";
+            _drawings.Add(grp);
+            _drawingNames.Add(grp.Name, _drawings.Count - 1);
+            return grp;
         }
         #region AddPictureAsync
 #if !NET35 && !NET40
@@ -1226,6 +1230,19 @@ namespace OfficeOpenXml.Drawing
             _drawings.Add(control);
             _drawingNames.Add(Name, _drawings.Count - 1);
             return control;
+        }
+        /// <summary>
+        /// Adds a checkbox form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the checkbox</param>
+        /// <returns></returns>
+        public ExcelControlCheckBox AddCheckBoxControl(string Name)
+        {
+            return (ExcelControlCheckBox)AddControl(Name, eControlType.CheckBox);
+        }
+        public ExcelControlRadioButton AddRadioButtonControl(string Name)
+        {
+            return (ExcelControlRadioButton)AddControl(Name, eControlType.RadioButton);
         }
         #endregion
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent=false)

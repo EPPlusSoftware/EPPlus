@@ -56,10 +56,24 @@ namespace OfficeOpenXml.Drawing
         public void Add(ExcelDrawing drawing)
         {
             ExcelGroupShape.Validate(drawing, _parent._drawings);
+            AppendDrawingNode(drawing.TopNode);
             drawing._parent = _parent;
             _groupDrawings.Add(drawing);
             _drawingNames.Add(drawing.Name, _groupDrawings.Count - 1);
         }
+
+        private void AppendDrawingNode(XmlNode drawingNode)
+        {
+            if (drawingNode.ParentNode?.ParentNode?.LocalName == "AlternateContent")
+            {
+                _topNode.AppendChild(drawingNode.ParentNode.ParentNode);
+            }
+            else
+            {
+                _topNode.AppendChild(drawingNode);
+            }
+        }
+
         /// <summary>
         /// Disposes the class
         /// </summary>
@@ -124,7 +138,11 @@ namespace OfficeOpenXml.Drawing
         internal ExcelGroupShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : 
             base(drawings, node, "xdr:grpSp", "xdr:nvGrpSpPr/xdr:cNvPr", parent)
         {
-            
+            var grpNode = CreateNode(_topPath);
+            if (grpNode.InnerXml == "")
+            {
+                grpNode.InnerXml = "<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"561975\" x=\"3028950\"/><a:ext cy=\"2524125\" cx=\"3152775\"/><a:chOff y=\"561975\" x=\"3028950\"/><a:chExt cy=\"2524125\" cx=\"3152775\"/></a:xfrm></xdr:grpSpPr>";
+            }
         }
         ExcelDrawingsGroup _groupDrawings = null;
         /// <summary>

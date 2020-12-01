@@ -215,12 +215,23 @@ namespace EPPlusTest.Drawing.Control
             var ctrl = (ExcelControlGroupBox)_ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
             ctrl.Macro = "GroupBox_Click";
             ctrl.Text = "Groupbox 1";
-            ctrl.SetPosition(500, 100);
-            ctrl.SetSize(200, 200);
+            ctrl.SetPosition(480, 80);
+            ctrl.SetSize(200, 100);
 
-            _ws.Cells["G1"].Value = "Linked Groupbox";
-            
-            //ctrl.LinkedCell = _ws.Cells["G1"];
+            _ws.Cells["G1"].Value = "Linked Groupbox";            
+            ctrl.LinkedCell = _ws.Cells["G1"];
+
+            var r1 = _ws.Drawings.AddRadioButtonControl("Option Button 1");
+            r1.SetPosition(500, 100);
+            r1.SetSize(100, 25);
+            var r2 = _ws.Drawings.AddRadioButtonControl("Option Button 2");
+            r2.SetPosition(530, 100);
+            r2.SetSize(100, 25);
+            var r3 = _ws.Drawings.AddRadioButtonControl("Option Button 3");
+            r3.SetPosition(560, 100);
+            r3.SetSize(100, 25);
+
+            ctrl.Group(r1, r2, r3);
 
             _codeModule.Code += "Sub GroupBox_Click()\r\n  MsgBox \"Clicked GroupBox!!\"\r\nEnd Sub\r\n";
         }

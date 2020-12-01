@@ -149,6 +149,7 @@ namespace EPPlusTest.Drawing.Control
             var grp = (ExcelGroupShape)ws.Drawings[0];
             Assert.AreEqual(4, grp.Drawings.Count);
             Assert.AreEqual(eDrawingType.Control, grp.Drawings[0].DrawingType);
+            Assert.AreEqual(2028825, grp.Drawings[0].Size.Width);
         }
     }
 }

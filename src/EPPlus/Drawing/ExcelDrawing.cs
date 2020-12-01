@@ -38,7 +38,6 @@ namespace OfficeOpenXml.Drawing
     {
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
-        internal XmlNode _topNode;
         internal string _topPath, _nvPrPath, _hyperLinkPath;
         internal int _id;
         internal const float STANDARD_DPI = 96;
@@ -66,7 +65,7 @@ namespace OfficeOpenXml.Drawing
             _parent = parent;
             if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
             {
-                _topNode = node;
+                TopNode = node;
                 
                 if(DrawingType==eDrawingType.Control || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
                 {
@@ -345,7 +344,11 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                if (CellAnchor == eEditAs.TwoCell)
+                if(_parent!=null)
+                {
+                    throw (new InvalidOperationException("EditAs can't be set when a drawing is a part of a group."));
+                }
+                else if (CellAnchor == eEditAs.TwoCell)
                 {
                     string s = value.ToString();
                     SetXmlNodeString("@editAs", s.Substring(0, 1).ToLower(CultureInfo.InvariantCulture) + s.Substring(1, s.Length - 1));
@@ -1075,13 +1078,75 @@ namespace OfficeOpenXml.Drawing
             {
                 ExcelGroupShape.Validate(d, _drawings);
             }
-            var grp=_drawings.AddGroupDrawing("Group 1");
+            var grp=_drawings.AddGroupDrawing();
+            AdjustXmlAndMoveToGroup(this);
+            grp.Drawings.Add(this);
+
             foreach (var d in drawing)
             {
+                AdjustXmlAndMoveToGroup(d);
                 grp.Drawings.Add(d);
             }
+
             return grp;
         }
+
+        private void AdjustXmlAndMoveToGroup(ExcelDrawing d)
+        {
+            _drawings._drawings.Remove(d);
+            _drawings._drawingNames.Remove(d.Name);
+            var height = d.GetPixelHeight();
+            var width = d.GetPixelWidth();
+            var top = d.GetPixelTop();
+            var left = d.GetPixelLeft();
+            var node = d.TopNode.ChildNodes[2];
+            XmlElement xFrmNode=GetFrmxNode(node);
+            if (xFrmNode.ChildNodes.Count == 0)
+            {
+                CreateNode(xFrmNode, "a:off");
+                CreateNode(xFrmNode, "a:ext");
+            }
+            var offNode = (XmlElement)xFrmNode.ChildNodes[0];
+            offNode.SetAttribute("y", (top * EMU_PER_PIXEL).ToString());
+            offNode.SetAttribute("x", (left * EMU_PER_PIXEL).ToString());
+            var extNode = (XmlElement)xFrmNode.ChildNodes[1];
+            extNode.SetAttribute("cy", (height * EMU_PER_PIXEL).ToString());
+            extNode.SetAttribute("cx", (width * EMU_PER_PIXEL).ToString());
+            node.ParentNode.RemoveChild(node);
+            if(d.TopNode.ParentNode?.ParentNode.LocalName == "AlternateContent")
+            {
+                var containerNode = d.TopNode.ParentNode?.ParentNode;
+                d.TopNode.ParentNode.RemoveChild(d.TopNode);
+                containerNode.ParentNode.RemoveChild(containerNode);
+                containerNode.FirstChild.AppendChild(node);
+                node = containerNode;
+            }
+            else
+            {
+                d.TopNode.ParentNode.RemoveChild(d.TopNode);
+            }
+            d._topPath = "";
+            d.TopNode = node;
+        }
+
+        private XmlElement GetFrmxNode(XmlNode node)
+        {
+            if(node.LocalName == "AlternateContent")
+            {
+                node = node.FirstChild.FirstChild;
+            }
+
+            if(node.LocalName == "sp")
+            {
+                return (XmlElement)CreateNode(node, "xdr:spPr/a:xfrm");
+            }
+            else if(node.LocalName == "graphicFrame")
+            {
+                return (XmlElement)CreateNode(node, "xdr:graphicFrame/a:xfrm"); 
+            }
+            return null;
+        }
+
         /// <summary>
         /// Will ungroup this drawing or the entire group.
         /// </summary>
@@ -1101,7 +1166,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public virtual void Dispose()
         {
-            _topNode = null;
+            TopNode = null;
         }
         internal void GetPositionSize()
         {

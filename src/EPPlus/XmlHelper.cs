@@ -108,6 +108,14 @@ namespace OfficeOpenXml
             else
                 return CreateNode(path, false);
         }
+        internal XmlNode CreateNode(XmlNode node, string path)
+        {
+            if (path == "")
+                return node;
+            else
+                return CreateNode(node, path, false, false,"");
+        }
+
         /// <summary>
         /// Create the node path. Nodes are inserted according to the Schema node order
         /// </summary>
@@ -118,7 +126,11 @@ namespace OfficeOpenXml
         /// <returns></returns>
         internal XmlNode CreateNode(string path, bool insertFirst, bool addNew = false, string exitName = "")
         {
-            XmlNode node = TopNode;
+            return CreateNode(TopNode, path, insertFirst, addNew, exitName);
+        }
+
+        private XmlNode CreateNode(XmlNode node, string path, bool insertFirst, bool addNew, string exitName)
+        {
             XmlNode prependNode = null;
             int lastUsedOrderIndex = 0;
             if (path.StartsWith("/")) path = path.Substring(1);
@@ -208,6 +220,7 @@ namespace OfficeOpenXml
             }
             return node;
         }
+
         internal bool CreateNodeUntil(string path, string untilNodeName, out XmlNode spPrNode)
         {
             spPrNode = CreateNode(path, false, false, untilNodeName);
