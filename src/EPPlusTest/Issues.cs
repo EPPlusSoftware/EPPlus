@@ -1451,69 +1451,26 @@ namespace EPPlusTest
                 Assert.AreEqual(0D, ws.Cells["C77668"].Value);
             }
         }
-        [TestMethod]
-        public void Issue_57()
+        [TestMethod]        
+        public void Issue_258()
         {
-            using (var package = OpenTemplatePackage("Issue57.xltx"))
+            using (var package = OpenTemplatePackage("Test.xlsx"))
             {
-
-                var worksheet = CreateWorksheet(package);
-
-                var ea = new ExcelAddress(1, 1, 2 + 1, 6); // +1 Rows because of header
-                ea = new ExcelAddress(ea.ToString());
-                var tbl = worksheet.Tables.Add(ea, "");
-
-
-
-                //Add the headers
-                worksheet.Cells[1, 1].Value = "Intressent";
-                worksheet.Cells[1, 2].Value = "Ort";
-                worksheet.Cells[1, 3].Value = "Application";
-                worksheet.Cells[1, 4].Value = "Caesar CRM Platform";
-                worksheet.Cells[1, 5].Value = "Uppföljning ExpertCenter";
-                worksheet.Cells[1, 6].Value = "Ärendestatus";
-
-                //Add some items...
-                worksheet.Cells["A2"].Value = "Stokvis Tapes Sverige AB";
-                worksheet.Cells["B2"].Value = "NORRKÖPING";
-                worksheet.Cells["C2"].Value = "Sales";
-                worksheet.Cells["D2"].Value = "";
-                worksheet.Cells["E2"].Value = "Anpassning";
-                worksheet.Cells["F2"].Value = "Stängt";
-
-                worksheet.Cells["A3"].Value = "VBG Group AB";
-                worksheet.Cells["B3"].Value = "VÄNERSBORG";
-                worksheet.Cells["C3"].Value = "Sales";
-                worksheet.Cells["D3"].Value = "";
-                worksheet.Cells["E3"].Value = "Anpassning";
-                worksheet.Cells["F3"].Value = "Stängt";
-
-                SaveWorkbook("Issue57.xlsx",package);
+                var overviewSheet = package.Workbook.Worksheets["Overview"];
+                if (overviewSheet != null)
+                    package.Workbook.Worksheets.Delete(overviewSheet);
+                overviewSheet = package.Workbook.Worksheets.Add("Overview");
+                var serverSheet = package.Workbook.Worksheets["Servers"];
+                var serverPivot = overviewSheet.PivotTables.Add(overviewSheet.Cells["A4"], serverSheet.Cells[serverSheet.Dimension.Address], "ServerPivot");
+                var serverNameField = serverPivot.Fields["Name"];
+                serverPivot.RowFields.Add(serverNameField);
+                var standardBackupField = serverPivot.Fields["StandardBackup"];
+                serverPivot.PageFields.Add(standardBackupField);
+                standardBackupField.Items.Refresh();
+                var items = standardBackupField.Items;
+                items.SelectSingleItem(1); // <===== this one is to select only the "false" condition
+                SaveWorkbook("Issue248.xlsx", package);
             }
-
         }
-        private static ExcelWorksheet CreateWorksheet(ExcelPackage pck)
-        {
-            var workSheetExists = false;
-            const string workSheetName = "CWS";
-            foreach (var workSheet in pck.Workbook.Worksheets)
-            {
-                if ((workSheet.Name.ToLower() ?? "") == (workSheetName.ToLower() ?? ""))
-                {
-                    workSheetExists = true;
-                    break;
-                }
-            }
-
-            if (workSheetExists)
-            {
-                // Must delete the standard work sheet, otherwise error when creating table
-                pck.Workbook.Worksheets.Delete(pck.Workbook.Worksheets[workSheetName]);
-            }
-
-            return pck.Workbook.Worksheets.Add(workSheetName);
-
-        }
-
     }
 }

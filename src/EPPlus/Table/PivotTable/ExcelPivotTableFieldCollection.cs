@@ -90,6 +90,17 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(field);
             return field;
         }
+        internal ExcelPivotTableField AddField(int index)
+        {
+            //Pivot field
+            XmlElement fieldNode = CreateFieldNode(_table);
+            fieldNode.InnerXml = "<items/>";
+
+            var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
+
+            _list.Add(field);
+            return field;
+        }
 
         private XmlElement CreateFieldNode(ExcelPivotTable tbl)
         {
