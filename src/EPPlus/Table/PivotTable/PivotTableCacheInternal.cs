@@ -207,6 +207,11 @@ namespace OfficeOpenXml.Table.PivotTable
                     if (_fields==null || ix>=_fields?.Count)
                     {
                         field = CreateField(name, ix);
+                        field.TopNode.InnerXml = "<sharedItems/>";
+                        foreach(var pt in _pivotTables)
+                        {
+                            pt.Fields.AddField(ix);
+                        }
                     }
                     else
                     {
@@ -462,6 +467,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 cacheFieldNode.SetAttribute("databaseField", "0");
             }
+            
             cacheTopNode.AppendChild(cacheFieldNode);
 
             return new ExcelPivotTableCacheField(NameSpaceManager, cacheFieldNode, this, index);
