@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Drawing
                     _id = drawings.Worksheet.Workbook._nextDrawingId++;
                 }
 
-                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "nvSpPr", "nvCxnSpPr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ","grpSp", "nvSpPr", "nvCxnSpPr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
                 if (_parent == null)
                 {
                     _topPath = topPath;
@@ -1069,6 +1069,8 @@ namespace OfficeOpenXml.Drawing
         }
         /// <summary>
         /// Group the drawings together
+        /// <seealso cref="UnGroup(bool)"/>
+        /// <seealso cref="ParentGroup"/>
         /// </summary>
         /// <param name="drawing">The drawings to group</param>
         /// <returns>The group shape</returns>
@@ -1087,7 +1089,7 @@ namespace OfficeOpenXml.Drawing
                 AdjustXmlAndMoveToGroup(d);
                 grp.Drawings.Add(d);
             }
-
+            grp.SetPositionAndSizeFromChildren();
             return grp;
         }
 
@@ -1155,6 +1157,18 @@ namespace OfficeOpenXml.Drawing
         /// </param>
         public void UnGroup(bool ungroupThisItemOnly=true)
         {
+
+        }
+        /// <summary>
+        /// If the drawing is grouped this property contains the Group drawing containing the group.
+        /// Otherwise this property is null
+        /// </summary>
+        public ExcelGroupShape ParentGroup
+        { 
+            get
+            {
+                return _parent;
+            }
         }
         internal virtual void DeleteMe()
         {

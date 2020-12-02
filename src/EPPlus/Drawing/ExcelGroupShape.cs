@@ -143,6 +143,7 @@ namespace OfficeOpenXml.Drawing
             {
                 grpNode.InnerXml = "<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"561975\" x=\"3028950\"/><a:ext cy=\"2524125\" cx=\"3152775\"/><a:chOff y=\"561975\" x=\"3028950\"/><a:chExt cy=\"2524125\" cx=\"3152775\"/></a:xfrm></xdr:grpSpPr>";
             }
+            CreateNode("xdr:clientData");
         }
         ExcelDrawingsGroup _groupDrawings = null;
         /// <summary>
@@ -177,6 +178,32 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException($"The drawing {d.Name} is already in a group."); ;
             }
+        }
+        internal void SetPositionAndSizeFromChildren()
+        {
+            double t = Drawings[0]._top, l = Drawings[0]._left, h = Drawings[0]._top + Drawings[0]._height, w=Drawings[0]._left + Drawings[0]._width;
+            for(int i=1;i<Drawings.Count;i++)
+            {
+                if(t>Drawings[i]._top)
+                {
+                   t = Drawings[i]._top;
+                }
+                if (l > Drawings[i]._left)
+                {
+                    l = Drawings[i]._left;
+                }
+                if (w < Drawings[i]._left+Drawings[i]._width)
+                {
+                    w = Drawings[i]._left + Drawings[i]._width;
+                }
+                if (t < Drawings[i]._top + Drawings[i]._height)
+                {
+                    h = Drawings[i]._top + Drawings[i]._height;
+                }
+            }
+
+            SetPosition((int)t, (int)l);
+            SetSize((int)(w - l), (int)(h - t));
         }
     }
 }

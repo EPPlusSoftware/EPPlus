@@ -216,7 +216,7 @@ namespace EPPlusTest.Drawing.Control
             ctrl.Macro = "GroupBox_Click";
             ctrl.Text = "Groupbox 1";
             ctrl.SetPosition(480, 80);
-            ctrl.SetSize(200, 100);
+            ctrl.SetSize(200, 120);
 
             _ws.Cells["G1"].Value = "Linked Groupbox";            
             ctrl.LinkedCell = _ws.Cells["G1"];
@@ -230,6 +230,7 @@ namespace EPPlusTest.Drawing.Control
             var r3 = _ws.Drawings.AddRadioButtonControl("Option Button 3");
             r3.SetPosition(560, 100);
             r3.SetSize(100, 25);
+            r3.FirstButton = true;
 
             ctrl.Group(r1, r2, r3);
 

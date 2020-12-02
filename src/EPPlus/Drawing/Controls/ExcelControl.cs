@@ -103,7 +103,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.CheckBox:
                     return string.Format(xml, "objectType=\"CheckBox\" lockText=\"1\" noThreeD=\"1\"");
                 case eControlType.RadioButton:
-                    return string.Format(xml, "objectType=\"Radio\" firstButton=\"1\" lockText=\"1\" noThreeD=\"1\"");
+                    return string.Format(xml, "objectType=\"Radio\" lockText=\"1\" noThreeD=\"1\"");
                 case eControlType.DropDown:
                     return string.Format(xml, "objectType=\"Drop\" dropStyle=\"combo\" dx=\"22\" noThreeD=\"1\" sel=\"0\" val=\"0\"");
                 case eControlType.ListBox:

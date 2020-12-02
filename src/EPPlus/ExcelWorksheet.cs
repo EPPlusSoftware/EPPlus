@@ -2339,29 +2339,43 @@ namespace OfficeOpenXml
                     foreach (ExcelDrawing d in Drawings)
                     {
                         d.AdjustPositionAndSize();
-                        if (d is ExcelChart)
+                        if (d is ExcelGroupShape grp)
                         {
-                            var c = (ExcelChart)d;
-                            c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
+                            foreach(var sd in grp.Drawings)
+                            {
+                                HandleSaveForIndividualDrawings(sd);
+                            }
                         }
-                        else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
+                        else
                         {
-                            s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-                        }
-                        else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
-                        {
-                            p.Cache.UpdateItemsXml();
-                            p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-                        }
-                        else if (d is OfficeOpenXml.Drawing.Controls.ExcelControl c)
-                        {
-                            c.ControlPropertiesXml.Save(c.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
-                            c.UpdateXml();
+                            HandleSaveForIndividualDrawings(d);
                         }
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
                     Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
                 }
+            }
+        }
+
+        private static void HandleSaveForIndividualDrawings(ExcelDrawing d)
+        {
+            if (d is ExcelChart c)
+            {
+                c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+            else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
+            {
+                s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+            else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
+            {
+                p.Cache.UpdateItemsXml();
+                p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+            else if (d is OfficeOpenXml.Drawing.Controls.ExcelControl ctrl)
+            {
+                ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
+                ctrl.UpdateXml();
             }
         }
 
