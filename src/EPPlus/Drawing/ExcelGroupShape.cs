@@ -107,7 +107,45 @@ namespace OfficeOpenXml.Drawing
             d._topPath = "";
             d.TopNode = node;
         }
+        private void AdjustXmlAndMoveFromGroup(ExcelDrawing d)
+        {
+            var height = d.GetPixelHeight();
+            var width = d.GetPixelWidth();
+            var top = d.GetPixelTop();
+            var left = d.GetPixelLeft();
+            var xmlDoc = _parent.TopNode.OwnerDocument;            
+            if (_parent.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent") //Create alternat content above ungrouped drawing.
+            {
+                //drawingNode = xmlDoc.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
+                var drawingNode = _parent.TopNode.ParentNode.ParentNode.CloneNode(false);
+                var choiceNode=drawingNode.ChildNodes[0].CloneNode(false);
+                drawingNode.AppendChild(choiceNode);
+                d.TopNode.ParentNode.RemoveChild(d.TopNode);
+                choiceNode.AppendChild(d.TopNode);
+                drawingNode = CreateAnchorNode(drawingNode);
+                _parent.TopNode.ParentNode.ParentNode.ParentNode.InsertBefore(drawingNode,null);
+            }
+            else
+            {
+                d.TopNode.ParentNode.RemoveChild(d.TopNode);
+                var drawingNode = CreateAnchorNode(d.TopNode);
+                _parent.TopNode.ParentNode.InsertBefore(d.TopNode, null);
+            }
+        }
 
+        private XmlNode CreateAnchorNode(XmlNode drawingNode)
+        {
+            var topNode = _parent.TopNode.CloneNode(false);
+            topNode.AppendChild(_parent.TopNode.ChildNodes[0].CloneNode(true));
+            topNode.AppendChild(_parent.TopNode.ChildNodes[1].CloneNode(true));
+            topNode.AppendChild(drawingNode);
+            var ix = 3;
+            while(ix< _parent.TopNode.ChildNodes.Count)
+            {
+                topNode.AppendChild(_parent.TopNode.ChildNodes[ix].CloneNode(true));
+            }
+            return topNode;
+        }
 
         private void AppendDrawingNode(XmlNode drawingNode)
         {
@@ -175,6 +213,19 @@ namespace OfficeOpenXml.Drawing
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _groupDrawings.GetEnumerator();
+        }
+
+        public void Remove(ExcelDrawing drawing)
+        {
+            _groupDrawings.Remove(drawing);
+            AdjustXmlAndMoveFromGroup(drawing);
+        }
+        public void Clear()
+        {
+            while(_groupDrawings.Count>0)
+            {
+                _groupDrawings.Remove(_groupDrawings[_groupDrawings.Count-1]);
+            }
         }
     }
     /// <summary>

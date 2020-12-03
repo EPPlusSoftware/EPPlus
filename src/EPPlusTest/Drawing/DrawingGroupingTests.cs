@@ -79,5 +79,16 @@ namespace EPPlusTest.Drawing.Control
             var group = ctrl.Group();
             group.Drawings.Add(r1);
         }
+        [TestMethod]
+        public void UnGroup_SingleDrawing()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("UnGroupSingleDrawing");
+            var ctrl = (ExcelControlGroupBox)_ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
+            ctrl.SetPosition(480, 80);
+            ctrl.SetSize(200, 120);
+            
+            ctrl.Group();
+            ctrl.UnGroup();
+        }
     }
 }

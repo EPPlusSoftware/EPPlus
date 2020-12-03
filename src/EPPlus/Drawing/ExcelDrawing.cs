@@ -1123,11 +1123,22 @@ namespace OfficeOpenXml.Drawing
         /// Will ungroup this drawing or the entire group.
         /// </summary>
         /// <param name="ungroupThisItemOnly">If true this drawing will be removed from the group. 
-        /// If it is false, the whole group will be disbanded.
+        /// If it is false, the whole group will be disbanded. If true only this drawing will be removed.
         /// </param>
         public void UnGroup(bool ungroupThisItemOnly=true)
         {
-
+            if(_parent==null)
+            {
+                throw new InvalidOperationException("Can not ungroup this drawing. This drawing is not part of a group");
+            }
+            if(ungroupThisItemOnly)
+            {
+                _parent.Drawings.Remove(this);
+            }
+            else
+            {
+                _parent.Drawings.Clear();
+            }
         }
         /// <summary>
         /// If the drawing is grouped this property contains the Group drawing containing the group.
