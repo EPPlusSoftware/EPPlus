@@ -320,6 +320,10 @@ namespace OfficeOpenXml.Drawing
             {
                 try
                 {
+                    if (_parent!=null && DrawingType == eDrawingType.Control)
+                    {
+                        return ((ExcelControl)this).GetCellAnchorFromWorksheetXml();
+                    }
                     if (CellAnchor == eEditAs.TwoCell)
                     {
                         string s = GetXmlNodeString("@editAs");
@@ -346,7 +350,14 @@ namespace OfficeOpenXml.Drawing
             {
                 if(_parent!=null)
                 {
-                    throw (new InvalidOperationException("EditAs can't be set when a drawing is a part of a group."));
+                    if(DrawingType==eDrawingType.Control)
+                    {
+                        ((ExcelControl)this).SetCellAnchor(value);
+                    }
+                    else
+                    {
+                        throw (new InvalidOperationException("EditAs can't be set when a drawing is a part of a group."));
+                    }
                 }
                 else if (CellAnchor == eEditAs.TwoCell)
                 {
@@ -1068,7 +1079,7 @@ namespace OfficeOpenXml.Drawing
             _drawings.BringToFront(this);
         }
         /// <summary>
-        /// Group the drawings together
+        /// Group the drawing together with a list of other drawings. 
         /// <seealso cref="UnGroup(bool)"/>
         /// <seealso cref="ParentGroup"/>
         /// </summary>
@@ -1081,57 +1092,16 @@ namespace OfficeOpenXml.Drawing
                 ExcelGroupShape.Validate(d, _drawings);
             }
             var grp=_drawings.AddGroupDrawing();
-            AdjustXmlAndMoveToGroup(this);
-            grp.Drawings.Add(this);
+            grp.Drawings.AddDrawing(this);
 
             foreach (var d in drawing)
             {
-                AdjustXmlAndMoveToGroup(d);
-                grp.Drawings.Add(d);
+                grp.Drawings.AddDrawing(d);
             }
             grp.SetPositionAndSizeFromChildren();
             return grp;
         }
-
-        private void AdjustXmlAndMoveToGroup(ExcelDrawing d)
-        {
-            _drawings._drawings.Remove(d);
-            _drawings._drawingNames.Remove(d.Name);
-            var height = d.GetPixelHeight();
-            var width = d.GetPixelWidth();
-            var top = d.GetPixelTop();
-            var left = d.GetPixelLeft();
-            var node = d.TopNode.ChildNodes[2];
-            XmlElement xFrmNode=GetFrmxNode(node);
-            if (xFrmNode.ChildNodes.Count == 0)
-            {
-                CreateNode(xFrmNode, "a:off");
-                CreateNode(xFrmNode, "a:ext");
-            }
-            var offNode = (XmlElement)xFrmNode.ChildNodes[0];
-            offNode.SetAttribute("y", (top * EMU_PER_PIXEL).ToString());
-            offNode.SetAttribute("x", (left * EMU_PER_PIXEL).ToString());
-            var extNode = (XmlElement)xFrmNode.ChildNodes[1];
-            extNode.SetAttribute("cy", (height * EMU_PER_PIXEL).ToString());
-            extNode.SetAttribute("cx", (width * EMU_PER_PIXEL).ToString());
-            node.ParentNode.RemoveChild(node);
-            if(d.TopNode.ParentNode?.ParentNode.LocalName == "AlternateContent")
-            {
-                var containerNode = d.TopNode.ParentNode?.ParentNode;
-                d.TopNode.ParentNode.RemoveChild(d.TopNode);
-                containerNode.ParentNode.RemoveChild(containerNode);
-                containerNode.FirstChild.AppendChild(node);
-                node = containerNode;
-            }
-            else
-            {
-                d.TopNode.ParentNode.RemoveChild(d.TopNode);
-            }
-            d._topPath = "";
-            d.TopNode = node;
-        }
-
-        private XmlElement GetFrmxNode(XmlNode node)
+        internal XmlElement GetFrmxNode(XmlNode node)
         {
             if(node.LocalName == "AlternateContent")
             {

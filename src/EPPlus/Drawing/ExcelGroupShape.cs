@@ -55,12 +55,59 @@ namespace OfficeOpenXml.Drawing
         /// <param name="drawing"></param>
         public void Add(ExcelDrawing drawing)
         {
+            AddDrawing(drawing);
+            drawing.ParentGroup.SetPositionAndSizeFromChildren();
+        }
+
+        internal void AddDrawing(ExcelDrawing drawing)
+        {
+            ExcelGroupShape.Validate(drawing, drawing._drawings);
+            AdjustXmlAndMoveToGroup(drawing);
             ExcelGroupShape.Validate(drawing, _parent._drawings);
             AppendDrawingNode(drawing.TopNode);
             drawing._parent = _parent;
             _groupDrawings.Add(drawing);
             _drawingNames.Add(drawing.Name, _groupDrawings.Count - 1);
         }
+
+        private void AdjustXmlAndMoveToGroup(ExcelDrawing d)
+        {
+            d._drawings._drawingsList.Remove(d);
+            d._drawings._drawingNames.Remove(d.Name);
+            var height = d.GetPixelHeight();
+            var width = d.GetPixelWidth();
+            var top = d.GetPixelTop();
+            var left = d.GetPixelLeft();
+            var node = d.TopNode.ChildNodes[2];
+            XmlElement xFrmNode = d.GetFrmxNode(node);
+            if (xFrmNode.ChildNodes.Count == 0)
+            {
+                d.CreateNode(xFrmNode, "a:off");
+                d.CreateNode(xFrmNode, "a:ext");
+            }
+            var offNode = (XmlElement)xFrmNode.ChildNodes[0];
+            offNode.SetAttribute("y", (top * ExcelDrawing.EMU_PER_PIXEL).ToString());
+            offNode.SetAttribute("x", (left * ExcelDrawing.EMU_PER_PIXEL).ToString());
+            var extNode = (XmlElement)xFrmNode.ChildNodes[1];
+            extNode.SetAttribute("cy", (height * ExcelDrawing.EMU_PER_PIXEL).ToString());
+            extNode.SetAttribute("cx", (width * ExcelDrawing.EMU_PER_PIXEL).ToString());
+            node.ParentNode.RemoveChild(node);
+            if (d.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent")
+            {
+                var containerNode = d.TopNode.ParentNode?.ParentNode;
+                d.TopNode.ParentNode.RemoveChild(d.TopNode);
+                containerNode.ParentNode.RemoveChild(containerNode);
+                containerNode.FirstChild.AppendChild(node);
+                node = containerNode;
+            }
+            else
+            {
+                d.TopNode.ParentNode.RemoveChild(d.TopNode);
+            }
+            d._topPath = "";
+            d.TopNode = node;
+        }
+
 
         private void AppendDrawingNode(XmlNode drawingNode)
         {
@@ -196,7 +243,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     w = Drawings[i]._left + Drawings[i]._width;
                 }
-                if (t < Drawings[i]._top + Drawings[i]._height)
+                if (h < Drawings[i]._top + Drawings[i]._height)
                 {
                     h = Drawings[i]._top + Drawings[i]._height;
                 }

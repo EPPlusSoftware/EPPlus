@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Drawing.Controls
             base(drawings, drawingNode, parent == null ? "xdr:sp" : "", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             var ws = drawings.Worksheet;
-
+                       
             //Drawing Xml
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = ControlStartDrawingXml();
@@ -80,11 +80,15 @@ namespace OfficeOpenXml.Drawing.Controls
 
             sb.Append($"<control shapeId=\"{Id}\" r:id=\"{relId}\" name=\"\">");
             sb.Append("<controlPr defaultSize=\"0\" print=\"0\" autoFill=\"0\" autoPict=\"0\">");
-            if (ControlType == eControlType.Button || ControlType == eControlType.Label)
+            if (ControlType == eControlType.Label)
             {
                 sb.Append("<anchor moveWithCells=\"1\" sizeWithCells=\"1\">");
             }
-            else 
+            else if(ControlType == eControlType.Button)
+            {
+                sb.Append("<anchor>");
+            }
+            else
             {
                 sb.Append("<anchor moveWithCells=\"1\" >");
             }
@@ -277,6 +281,40 @@ namespace OfficeOpenXml.Drawing.Controls
                 base.Name = value;
             }
         }
+        internal eEditAs GetCellAnchorFromWorksheetXml()
+        {
+            if (_control.MoveWithCells && _control.SizeWithCells)
+            {
+                return eEditAs.TwoCell;
+            }
+            else if(_control.MoveWithCells)
+            {
+                return eEditAs.OneCell;
+            }
+            else
+            {
+                return eEditAs.Absolute;
+            }
+        }
+        internal void SetCellAnchor(eEditAs value)
+        {
+            switch(value)
+            {
+                case eEditAs.Absolute:
+                    _control.MoveWithCells = false;
+                    _control.SizeWithCells = false;
+                    break;
+                case eEditAs.OneCell:
+                    _control.MoveWithCells = true;
+                    _control.SizeWithCells = false;
+                    break;
+                default:
+                    _control.MoveWithCells = true;
+                    _control.SizeWithCells = true;
+                    break;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the alternative text for the control.
         /// </summary>
@@ -569,9 +607,11 @@ namespace OfficeOpenXml.Drawing.Controls
             _control.To.Column = To.Column;
             _control.To.ColumnOff = To.ColumnOff;
 
-            _control.MoveWithCells = EditAs != eEditAs.Absolute;
-            _control.SizeWithCells = EditAs == eEditAs.TwoCell;
-
+            if (_parent == null)
+            {
+                _control.MoveWithCells = EditAs != eEditAs.Absolute;
+                _control.SizeWithCells = EditAs == eEditAs.TwoCell;
+            }
             _vml.Anchor = GetVmlAnchorValue();
         }
 
