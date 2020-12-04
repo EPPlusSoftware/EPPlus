@@ -27,10 +27,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the standard deviation of a supplied set of values (which represent a sample of a population) ")]
     internal class Stdev : HiddenValuesHandlingFunction
     {
+        public Stdev() : base()
+        {
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var values = ArgsToDoubleEnumerable(arguments, context, false).Select(x => (double)x);
+            var values = ArgsToDoubleEnumerable(arguments, context, IgnoreErrors).Select(x => (double)x);
             return CreateResult(StandardDeviation(values), DataType.Decimal);
         }
 

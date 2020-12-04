@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             if (!arguments.Any() || arguments.Count() < 2) return CreateResult(eErrorType.Div0);
-            var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments);
+            var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments, false);
             var result = VarMethods.VarP(values);
             return CreateResult(result, DataType.Decimal);
         }

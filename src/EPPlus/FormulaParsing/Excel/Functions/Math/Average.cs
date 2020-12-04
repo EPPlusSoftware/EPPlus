@@ -33,6 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             double nValues = 0d, result = 0d;
             foreach (var arg in arguments)
             {
+                if (ShouldIgnore(arg)) continue;
                 Calculate(arg, context, ref result, ref nValues);
             }
             return CreateResult(Divide(result, nValues), DataType.Decimal);

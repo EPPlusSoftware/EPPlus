@@ -23,8 +23,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "4",
         Description = "Returns the Kth LARGEST value from a list of supplied numbers, for a given value K")]
-    internal class Large : ExcelFunction
+    internal class Large : HiddenValuesHandlingFunction
     {
+        public Large()
+        {
+            IgnoreHiddenValues = false;
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);

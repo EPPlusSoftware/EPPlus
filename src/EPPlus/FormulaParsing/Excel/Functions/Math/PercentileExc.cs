@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
      EPPlusVersion = "5.5",
      IntroducedInExcelVersion = "2010",
      Description = "Returns the K'th percentile of values in a supplied range, where K is in the range 0 - 1 (exclusive)")]
-    internal class PercentileExc : ExcelFunction
+    internal class PercentileExc : HiddenValuesHandlingFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
