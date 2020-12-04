@@ -114,7 +114,6 @@ namespace EPPlusTest.Core.Range
             var a1 = new ExcelAddress("SalesData!$K$445");
             var a2 = new ExcelAddress("SalesData!$K$445:$M$449,SalesData!$N$448:$Q$454,SalesData!$L$458:$O$464");
             var a3 = new ExcelAddress("SalesData!$K$445:$L$448");
-            //var a4 = new ExcelAddress("'[1]Risk]TatTWRForm_TWRWEEKLY20130926090'!$N$527");
             var a5 = new ExcelAddress("Table1[[#All],[Title]]");
             var a6 = new ExcelAddress("Table1[#All]");
             var a7 = new ExcelAddress("Table1[[#Headers],[FirstName]:[LastName]]");

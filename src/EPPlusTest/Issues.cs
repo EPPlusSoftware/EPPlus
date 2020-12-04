@@ -1326,7 +1326,7 @@ namespace EPPlusTest
         }
         [TestMethod]
         public void Issue34()
-        {            
+        {
             using (var p = OpenTemplatePackage("Issue34.xlsx"))
             {
                 SaveAndCleanup(p);
@@ -1344,7 +1344,7 @@ namespace EPPlusTest
                 Assert.IsNotNull(p.Workbook.Worksheets[1].PivotTables[0].CacheDefinition);
                 var s1 = pt.Fields[0].AddSlicer();
                 s1.SetPosition(0, 500);
-                var s2=pt.Fields["OpenDate"].AddSlicer();
+                var s2 = pt.Fields["OpenDate"].AddSlicer();
                 pt.Fields["Distance"].Format = "#,##0.00";
                 pt.Fields["Distance"].AddSlicer();
                 s2.SetPosition(0, 500 + (int)s1._width);
@@ -1357,7 +1357,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue195_PivotTable()
         {
-            using (var p=OpenTemplatePackage("Issue195.xlsx"))
+            using (var p = OpenTemplatePackage("Issue195.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
                 SaveAndCleanup(p);
@@ -1366,7 +1366,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue45()
         {
-            using (var p=OpenPackage("LinkIssue.xlsx",true))
+            using (var p = OpenPackage("LinkIssue.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1:A2"].Value = 1;
@@ -1406,7 +1406,7 @@ namespace EPPlusTest
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.Cells["A5"].Value = "Test";
-                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset+1);
+                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset + 1);
                 Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
                 //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
                 //{
@@ -1451,7 +1451,7 @@ namespace EPPlusTest
                 Assert.AreEqual(0D, ws.Cells["C77668"].Value);
             }
         }
-        [TestMethod]        
+        [TestMethod]
         public void Issue_258()
         {
             using (var package = OpenTemplatePackage("Test.xlsx"))
@@ -1470,6 +1470,28 @@ namespace EPPlusTest
                 var items = standardBackupField.Items;
                 items.SelectSingleItem(1); // <===== this one is to select only the "false" condition
                 SaveWorkbook("Issue248.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void Issue_243()
+        {
+            using (var p = OpenPackage("formula.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("formula");
+                ws.Cells["A1"].Value = "column1";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["A3"].Value = 2;
+                ws.Cells["A4"].Value = 3;
+
+                var tbl = ws.Tables.Add(ws.Cells["A1:A4"], "Table1");
+
+                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1[#data]\"))";
+                ws.Calculate();
+                Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
+
+                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1\"))";
+                ws.Calculate();
+                Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
             }
         }
     }
