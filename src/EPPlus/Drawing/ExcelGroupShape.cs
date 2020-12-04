@@ -72,8 +72,7 @@ namespace OfficeOpenXml.Drawing
 
         private void AdjustXmlAndMoveToGroup(ExcelDrawing d)
         {
-            d._drawings._drawingsList.Remove(d);
-            d._drawings._drawingNames.Remove(d.Name);
+            d._drawings.RemoveDrawing(d._drawings._drawingsList.IndexOf(d), false);
             var height = d.GetPixelHeight();
             var width = d.GetPixelWidth();
             var top = d.GetPixelTop();
@@ -129,7 +128,7 @@ namespace OfficeOpenXml.Drawing
             {
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
                 var drawingNode = CreateAnchorNode(d.TopNode);
-                _parent.TopNode.ParentNode.InsertBefore(d.TopNode, null);
+                _parent.TopNode.ParentNode.InsertBefore(drawingNode, _parent.TopNode);
             }
         }
 
@@ -143,6 +142,7 @@ namespace OfficeOpenXml.Drawing
             while(ix< _parent.TopNode.ChildNodes.Count)
             {
                 topNode.AppendChild(_parent.TopNode.ChildNodes[ix].CloneNode(true));
+                ix++;
             }
             return topNode;
         }
@@ -219,12 +219,22 @@ namespace OfficeOpenXml.Drawing
         {
             _groupDrawings.Remove(drawing);
             AdjustXmlAndMoveFromGroup(drawing);
+            var ix = _parent._drawings._drawingsList.IndexOf(_parent);
+            _parent._drawings._drawingsList.Insert(ix, drawing);
+            _parent._drawings._drawingNames.Add(drawing.Name, ix);
+
+            //Remove 
+            if (_parent.Drawings.Count == 0)
+            {
+                _parent._drawings.Remove(_parent);
+            }
+            drawing._parent = null;
         }
         public void Clear()
         {
             while(_groupDrawings.Count>0)
             {
-                _groupDrawings.Remove(_groupDrawings[_groupDrawings.Count-1]);
+                Remove(_groupDrawings[0]);
             }
         }
     }

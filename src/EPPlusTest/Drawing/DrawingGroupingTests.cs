@@ -90,5 +90,32 @@ namespace EPPlusTest.Drawing.Control
             ctrl.Group();
             ctrl.UnGroup();
         }
+        [TestMethod]
+        public void UnGroup_GroupBoxWithRadioButtonsTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("UnGroupBox");
+            var ctrl = (ExcelControlGroupBox)_ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
+            ctrl.Text = "Groupbox 1";
+            ctrl.SetPosition(480, 80);
+            ctrl.SetSize(200, 120);
+
+            _ws.Cells["G1"].Value = "Linked Groupbox";
+            ctrl.LinkedCell = _ws.Cells["G1"];
+
+            var r1 = _ws.Drawings.AddRadioButtonControl("Option Button 1");
+            r1.SetPosition(500, 100);
+            r1.SetSize(100, 25);
+            var r2 = _ws.Drawings.AddRadioButtonControl("Option Button 2");
+            r2.SetPosition(530, 100);
+            r2.SetSize(100, 25);
+            var r3 = _ws.Drawings.AddRadioButtonControl("Option Button 3");
+            r3.SetPosition(560, 100);
+            r3.SetSize(100, 25);
+            r3.FirstButton = true;
+
+            ctrl.Group(r1, r2, r3);
+
+            r1.UnGroup(false);
+        }
     }
 }

@@ -1339,10 +1339,13 @@ namespace OfficeOpenXml.Drawing
             RemoveDrawing(Index);
         }
 
-        internal void RemoveDrawing(int Index)
+        internal void RemoveDrawing(int Index, bool DeleteXmlNode = true)
         {
             var draw = _drawingsList[Index];
-            draw.DeleteMe();
+            if (DeleteXmlNode)
+            {
+                draw.DeleteMe();
+            }
             for (int i = Index + 1; i < _drawingsList.Count; i++)
             {
                 if (_drawingNames.ContainsKey(_drawingsList[i].Name))

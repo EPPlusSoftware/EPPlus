@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Drawing
                     _id = drawings.Worksheet.Workbook._nextDrawingId++;
                 }
 
-                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ","grpSp", "nvSpPr", "nvCxnSpPr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ","grpSp", "nvSpPr", "nvCxnSpPr", "nvGraphicFramePr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
                 if (_parent == null)
                 {
                     _topPath = topPath;
@@ -1108,13 +1108,13 @@ namespace OfficeOpenXml.Drawing
                 node = node.FirstChild.FirstChild;
             }
 
-            if(node.LocalName == "sp")
+            if(node.LocalName == "sp" || node.LocalName == "pic" || node.LocalName == "cxnSp")
             {
                 return (XmlElement)CreateNode(node, "xdr:spPr/a:xfrm");
             }
             else if(node.LocalName == "graphicFrame")
             {
-                return (XmlElement)CreateNode(node, "xdr:graphicFrame/a:xfrm"); 
+                return (XmlElement)CreateNode(node, "a:xfrm"); 
             }
             return null;
         }
@@ -1138,7 +1138,7 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 _parent.Drawings.Clear();
-            }
+            }           
         }
         /// <summary>
         /// If the drawing is grouped this property contains the Group drawing containing the group.
