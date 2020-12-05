@@ -45,6 +45,7 @@ using OfficeOpenXml.Drawing;
 using System.Threading;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Threading.Tasks;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace EPPlusTest
 {
@@ -1493,6 +1494,49 @@ namespace EPPlusTest
                 ws.Calculate();
                 Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
             }
+        }
+
+        [TestMethod]
+        public void Supportcase44()
+        {
+            var n = -120253.87499999999;
+            var r = System.Math.Round(n, 2);
+            var n2 = 120253.875;
+            var r2 = System.Math.Round(n2, 2);
+            var power = 1e14;
+            var n3 = Math.Round(n * power) / power;
+            var n4 = RoundingHelper.RoundToSignificantFig(n, 15);
+        }
+
+        double Round_off(double N, double n)
+        {
+            int h;
+            double l, a, b, c, d, e, i, j, m, f, g;
+            b = N;
+            c = Math.Floor(N);
+
+            // Counting the no. of digits to the left of decimal point 
+            // in the given no. 
+            for (i = 0; b >= 1; ++i)
+                b = b / 10;
+
+            d = n - i;
+            b = N;
+            b = b * Math.Pow(10, d);
+            e = b + 0.5;
+            if ((float)e == (float)Math.Ceiling(b))
+            {
+                f = (Math.Ceiling(b));
+                h = (int)f - 2;
+                if (h % 2 != 0)
+                {
+                    e = e - 1;
+                }
+            }
+            j = Math.Floor(e);
+            m = Math.Pow(10, d);
+            j = j / m;
+            return j;
         }
     }
 }

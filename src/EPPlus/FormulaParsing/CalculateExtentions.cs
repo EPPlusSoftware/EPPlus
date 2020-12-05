@@ -36,6 +36,15 @@ namespace OfficeOpenXml
         {
             Calculate(workbook, new ExcelCalculationOption(){AllowCircularReferences=false});
         }
+
+        public static void Calculate(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
+        {
+            var option = new ExcelCalculationOption();
+            configHandler.Invoke(option);
+            Calculate(workbook, option);
+        }
+
+
         /// <summary>
         /// Calculate all formulas in the current workbook
         /// </summary>
@@ -63,6 +72,14 @@ namespace OfficeOpenXml
         {
             Calculate(worksheet, new ExcelCalculationOption());
         }
+
+        public static void Calculate(this ExcelWorksheet worksheet, Action<ExcelCalculationOption> configHandler)
+        {
+            var option = new ExcelCalculationOption();
+            configHandler.Invoke(option);
+            Calculate(worksheet, option);
+        }
+
         /// <summary>
         /// Calculate all formulas in the current worksheet
         /// </summary>
@@ -90,6 +107,14 @@ namespace OfficeOpenXml
         {
             Calculate(range, new ExcelCalculationOption());
         }
+
+        public static void Calculate(this ExcelRangeBase range, Action<ExcelCalculationOption> configHandler)
+        {
+            var option = new ExcelCalculationOption();
+            configHandler.Invoke(option);
+            Calculate(range, option);
+        }
+
         /// <summary>
         /// Calculate all formulas in the current range
         /// </summary>
@@ -145,7 +170,11 @@ namespace OfficeOpenXml
         }
         private static void CalcChain(ExcelWorkbook wb, FormulaParser parser, DependencyChain dc, ExcelCalculationOption options)
         {
-            wb.FormulaParser.Configure(config => config.AllowCircularReferences = options.AllowCircularReferences);
+            wb.FormulaParser.Configure(config =>
+            {
+                config.AllowCircularReferences = options.AllowCircularReferences;
+                config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
+            });
             var debug = parser.Logger != null;
             foreach (var ix in dc.CalcOrder)
             {

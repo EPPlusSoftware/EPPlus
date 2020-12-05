@@ -200,6 +200,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             Assert.AreEqual(124D, result.Result);
         }
 
+        [TestMethod]
+        public void RoundShouldUseFifteenSignificantFigures()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 120253.8749999999d;
+                sheet.Cells["A2"].Formula = "ROUND(A1,2)";
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+                Assert.AreEqual(120253.88, sheet.Cells["A2"].Value);
+                sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet);
+                Assert.AreEqual(120253.87, sheet.Cells["A2"].Value);
+            }
+           
+        }
+
         /* MROUND tests */
 
         [TestMethod]
