@@ -142,5 +142,47 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             return (number > 0d && sign < 0);
         }
+
+        internal static double RoundToSignificantFig(double number, double nSignificantFigures)
+        {
+            var isNegative = false;
+            if(number < 0d)
+            {
+                number *= -1;
+                isNegative = true;
+            }
+            var nFiguresIntPart = GetNumberOfDigitsIntPart(number);
+
+            var nFiguresDecimalPart = nSignificantFigures - nFiguresIntPart;
+            var tmp = number * System.Math.Pow(10, nFiguresDecimalPart);
+            var e = tmp + 0.5;
+            if ((float)e == (float)System.Math.Ceiling(tmp))
+            {
+                var f = System.Math.Ceiling(tmp);
+                var h = (int)f - 2;
+                if (h % 2 != 0)
+                {
+                    e = e - 1;
+                }
+            }
+            var intVersion = System.Math.Floor(e);
+            double divideBy = System.Math.Pow(10, nFiguresDecimalPart);
+            var result = intVersion / divideBy;
+            return isNegative ? result * -1 : result;
+        }
+
+        /// <summary>
+        /// Count the number of digits left of the decimal point
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        private static double GetNumberOfDigitsIntPart(double n)
+        {
+            var tmp = n;
+            int nFiguresIntPart;
+            for (nFiguresIntPart = 0; tmp >= 1; ++nFiguresIntPart)
+                tmp = tmp / 10;
+            return nFiguresIntPart;
+        }
     }
 }

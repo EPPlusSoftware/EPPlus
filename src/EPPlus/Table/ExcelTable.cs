@@ -237,6 +237,16 @@ namespace OfficeOpenXml.Table
                 return WorkSheet.Cells[_address._fromRow, _address._fromCol, _address._toRow, _address._toCol];
             }
         }
+        internal ExcelRangeBase DataRange
+        {
+            get
+            {
+                int fromRow = ShowHeader ? _address._fromRow + 1 : _address._fromRow;
+                int toRow = ShowTotal ? _address._toRow - 1: _address._toRow;
+
+                return WorkSheet.Cells[fromRow, _address._fromCol, toRow, _address._toCol];
+            }
+        }
 
         #region Export table data
 

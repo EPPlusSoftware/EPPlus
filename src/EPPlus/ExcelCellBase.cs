@@ -667,7 +667,7 @@ namespace OfficeOpenXml
             }
             return true;
         }
-
+        
         private static bool IsCol(char c)
         {
             return c >= 'A' && c <= 'Z';

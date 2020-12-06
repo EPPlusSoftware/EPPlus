@@ -33,6 +33,10 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         public bool AllowCircularReferences { get; internal set; }
         /// <summary>
+        /// In some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.
+        /// </summary>
+        public PrecisionAndRoundingStrategy PrecisionAndRoundingStrategy { get; internal set; }
+        /// <summary>
         /// The <see cref="ILexer"/> of the parser
         /// </summary>
         public virtual ILexer Lexer { get; private set; }

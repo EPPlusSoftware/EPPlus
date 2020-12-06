@@ -12,6 +12,7 @@
  *************************************************************************************************/
 #if (Core)
 using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
 #else
 using System.Configuration;
@@ -28,6 +29,7 @@ namespace OfficeOpenXml.FormulaParsing
         public ExcelCalculationOption()
         {
             AllowCircularReferences = false;
+            PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
 #if (Core)
             var build = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -39,11 +41,33 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 AllowCircularReferences = allow;
             }
+            var roundingStrategy = c["EPPlus:ExcelPackage:PrecisionAndRoundingStrategy"];
+            if(Enum.TryParse(roundingStrategy, out PrecisionAndRoundingStrategy precisionAndRoundingStrategy))
+            {
+                PrecisionAndRoundingStrategy = precisionAndRoundingStrategy;
+            }
 
 #else
             if(bool.TryParse(ConfigurationManager.AppSettings["EPPlus:ExcelPackage.AllowCircularReferences"], out bool allow))
             {
                 AllowCircularReferences = allow;
+            }
+            // no Enum.TryParse in .NET 35...
+            var roundingStrategy = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.PrecisionAndRoundingStrategy"];
+            if(!string.IsNullOrEmpty(roundingStrategy))
+            {
+                switch(roundingStrategy.ToLower())
+                {
+                    case "dotnet":
+                        PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
+                        break;
+                    case "excel":
+                        PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel;
+                        break;
+                    default:
+                        PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
+                        break;
+                }
             }
 #endif
         }
@@ -51,5 +75,10 @@ namespace OfficeOpenXml.FormulaParsing
         /// Do not throw an exception if the formula parser encounters a circular reference
         /// </summary>
         public bool AllowCircularReferences { get; set; }
+
+        /// <summary>
+        /// In some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.
+        /// </summary>
+        public PrecisionAndRoundingStrategy PrecisionAndRoundingStrategy { get; set; }
     }
 }
