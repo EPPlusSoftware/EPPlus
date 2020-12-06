@@ -1624,7 +1624,7 @@ namespace EPPlusTest.Excel.Functions
             }
         }
 
-        [TestMethod]
+        [TestMethod] 
         public void PercentrankExc_Test1()
         {
             using (var package = new ExcelPackage())
@@ -1643,6 +1643,7 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Calculate();
                 var result = sheet.Cells["B1"].Value;
                 Assert.AreEqual(0.4, result);
+
 
                 sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,7,5)";
                 sheet.Calculate();
