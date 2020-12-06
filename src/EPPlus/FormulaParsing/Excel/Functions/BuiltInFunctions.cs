@@ -154,6 +154,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["quartile.exc"] = new QuartileExc();
             Functions["percentrank"] = new Percentrank();
             Functions["percentrank.inc"] = new PercentrankInc();
+            Functions["percentrank.exc"] = new PercentrankExc();
             Functions["quotient"] = new Quotient();
             Functions["trunc"] = new Trunc();
             Functions["tan"] = new Tan();

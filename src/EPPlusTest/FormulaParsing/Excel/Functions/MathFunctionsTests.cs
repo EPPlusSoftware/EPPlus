@@ -1620,7 +1620,39 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Cells["A10"].Formula = "PERCENTRANK.INC(A1:A9,7,5)";
                 sheet.Calculate();
                 result = sheet.Cells["A10"].Value;
-                Assert.AreEqual(0.41666, result);
+                Assert.AreEqual(0.41667, result);
+            }
+        }
+
+        [TestMethod]
+        public void PercentrankExc_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 4;
+                sheet.Cells["A4"].Value = 6.5;
+                sheet.Cells["A5"].Value = 8;
+                sheet.Cells["A6"].Value = 9;
+                sheet.Cells["A7"].Value = 10;
+                sheet.Cells["A8"].Value = 12;
+                sheet.Cells["A9"].Value = 14;
+                sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,6.5)";
+                sheet.Calculate();
+                var result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(0.4, result);
+
+                sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,7,5)";
+                sheet.Calculate();
+                result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(0.43333, result);
+
+                sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,18)";
+                sheet.Calculate();
+                result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result);
             }
         }
 

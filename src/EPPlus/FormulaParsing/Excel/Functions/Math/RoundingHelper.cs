@@ -176,7 +176,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        private static double GetNumberOfDigitsIntPart(double n)
+        internal static double GetNumberOfDigitsIntPart(double n)
         {
             var tmp = n;
             int nFiguresIntPart;

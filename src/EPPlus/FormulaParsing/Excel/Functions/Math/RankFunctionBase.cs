@@ -69,17 +69,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return percentrankLow + (percentrankHigh - percentrankLow) * ((number - largestBelow) / (smallestAbove - largestBelow));
         }
 
+        protected double PercentRankExcImpl(double[] array, double number)
+        {
+            var smallerThan = 0d;
+            var largestBelow = 0d;
+            var ix = 0;
+            while (number > array[ix])
+            {
+                smallerThan++;
+                largestBelow = array[ix];
+                ix++;
+            }
+            smallerThan++;
+            var fullMatch = AreEqual(number, array[ix]);
+            while (ix < array.Length - 1 && AreEqual(number, array[ix]))
+                ix++;
+            var smallestAbove = array[ix];
+            var largerThan = AreEqual(number, array[array.Length - 1]) ? 0 : array.Length - ix + 1;
+            if (fullMatch)
+                return smallerThan / (smallerThan + largerThan);
+            var percentrankLow = PercentRankExcImpl(array, largestBelow);
+            var percentrankHigh = PercentRankExcImpl(array, smallestAbove);
+            return percentrankLow + (percentrankHigh - percentrankLow) * ((number - largestBelow) / (smallestAbove - largestBelow));
+        }
+
         /// <summary>
         /// Rank functions rounds towards zero, i.e. 0.41666666 should be rounded to 0.4166 if 4 decimals.
         /// </summary>
         /// <param name="number">The number to round</param>
-        /// <param name="decimals">Number of decimals</param>
+        /// <param name="sign">Number of siginicant digits</param>
         /// <returns></returns>
-        protected double RoundResult(double number, int decimals)
+        protected double RoundResult(double number, int sign)
         {
-            if(System.Math.Round(number, decimals) - number > double.Epsilon)
-                return System.Math.Round(number, decimals, MidpointRounding.AwayFromZero) - System.Math.Pow(10, decimals * -1);
-            return number;
+            return RoundingHelper.RoundToSignificantFig(number, sign);
         }
     }
 }
