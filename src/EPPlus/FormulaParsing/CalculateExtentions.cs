@@ -37,6 +37,16 @@ namespace OfficeOpenXml
             Calculate(workbook, new ExcelCalculationOption(){AllowCircularReferences=false});
         }
 
+        /// <summary>
+        /// Calculate all formulas in the current workbook
+        /// </summary>
+        /// <param name="workbook">The workbook to calculate</param>
+        /// <param name="configHandler">Configuration handler</param>
+        /// <example>
+        /// <code>
+        /// workbook.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+        /// </code>
+        /// </example>
         public static void Calculate(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
         {
             var option = new ExcelCalculationOption();
@@ -73,6 +83,16 @@ namespace OfficeOpenXml
             Calculate(worksheet, new ExcelCalculationOption());
         }
 
+        /// <summary>
+        /// Calculate all formulas in the current range
+        /// </summary>
+        /// <param name="worksheet">The worksheet to calculate</param>
+        /// <param name="configHandler">Configuration handler</param>
+        /// <example>
+        /// <code>
+        /// sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+        /// </code>
+        /// </example>
         public static void Calculate(this ExcelWorksheet worksheet, Action<ExcelCalculationOption> configHandler)
         {
             var option = new ExcelCalculationOption();
@@ -87,8 +107,7 @@ namespace OfficeOpenXml
         /// <param name="options">Calculation options</param>
         public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
         {
-            Init(worksheet.Workbook);
-            //worksheet.Workbook._formulaParser = null; TODO:Cant reset. Don't work with userdefined or overrided worksheet functions            
+            Init(worksheet.Workbook);       
             var dc = DependencyChainFactory.Create(worksheet, options);
             var parser = worksheet.Workbook.FormulaParser;
             parser.InitNewCalc();
@@ -108,6 +127,16 @@ namespace OfficeOpenXml
             Calculate(range, new ExcelCalculationOption());
         }
 
+        /// <summary>
+        /// Calculate all formulas in the current range
+        /// </summary>
+        /// <param name="range">The range to calculate</param>
+        /// <param name="configHandler">Configuration handler</param>
+        /// <example>
+        /// <code>
+        /// sheet.Cells["A1:A3"].Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+        /// </code>
+        /// </example>
         public static void Calculate(this ExcelRangeBase range, Action<ExcelCalculationOption> configHandler)
         {
             var option = new ExcelCalculationOption();
