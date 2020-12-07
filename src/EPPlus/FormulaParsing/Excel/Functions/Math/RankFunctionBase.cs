@@ -101,7 +101,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         /// <returns></returns>
         protected double RoundResult(double number, int sign)
         {
-            return RoundingHelper.RoundToSignificantFig(number, sign);
+            return RoundingHelper.RoundToSignificantFig(number, sign, false);
         }
     }
 }

@@ -1620,7 +1620,7 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Cells["A10"].Formula = "PERCENTRANK.INC(A1:A9,7,5)";
                 sheet.Calculate();
                 result = sheet.Cells["A10"].Value;
-                Assert.AreEqual(0.41667, result);
+                Assert.AreEqual(0.41666, result);
             }
         }
 
@@ -1643,7 +1643,6 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Calculate();
                 var result = sheet.Cells["B1"].Value;
                 Assert.AreEqual(0.4, result);
-
 
                 sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,7,5)";
                 sheet.Calculate();
