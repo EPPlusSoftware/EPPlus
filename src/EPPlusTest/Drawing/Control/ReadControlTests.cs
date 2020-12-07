@@ -25,6 +25,7 @@ namespace EPPlusTest.Drawing.Control
         [ClassCleanup]
         public static void Cleanup()
         {
+            SaveAndCleanup(_pck);
             _pck.Dispose();
         }
         [TestMethod]
@@ -150,6 +151,21 @@ namespace EPPlusTest.Drawing.Control
             Assert.AreEqual(4, grp.Drawings.Count);
             Assert.AreEqual(eDrawingType.Control, grp.Drawings[0].DrawingType);
             Assert.AreEqual(2028825, grp.Drawings[0].Size.Width);
+
+            //grp.Drawings.Clear();
         }
+        [TestMethod]
+        public void ValidateDrawingUnGroup()
+        {
+            var ws = _pck.Workbook.Worksheets[1];
+
+            Assert.IsInstanceOfType(ws.Drawings[0], typeof(ExcelGroupShape));
+            Assert.AreEqual(1, ws.Drawings.Count);
+            var grp = (ExcelGroupShape)ws.Drawings[0];
+            Assert.AreEqual(4, grp.Drawings.Count);
+            Assert.AreEqual(eDrawingType.Control, grp.Drawings[0].DrawingType);
+            Assert.AreEqual(2028825, grp.Drawings[0].Size.Width);
+        }
+
     }
 }

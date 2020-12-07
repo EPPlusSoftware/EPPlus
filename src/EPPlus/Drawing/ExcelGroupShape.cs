@@ -19,7 +19,7 @@ using System.Xml;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
-    /// A collection of sub drawings to a group drawing
+    /// A collection of child drawings to a group drawing
     /// </summary>
     public class ExcelDrawingsGroup : IEnumerable<ExcelDrawing>, IDisposable
     {
@@ -55,8 +55,17 @@ namespace OfficeOpenXml.Drawing
         /// <param name="drawing"></param>
         public void Add(ExcelDrawing drawing)
         {
+            CheckNotDisposed();
             AddDrawing(drawing);
             drawing.ParentGroup.SetPositionAndSizeFromChildren();
+        }
+
+        private void CheckNotDisposed()
+        {
+            if (_topNode == null)
+            {
+                throw (new ObjectDisposedException("This group drawing has been disposed."));
+            }
         }
 
         internal void AddDrawing(ExcelDrawing drawing)
@@ -66,6 +75,7 @@ namespace OfficeOpenXml.Drawing
             ExcelGroupShape.Validate(drawing, _parent._drawings);
             AppendDrawingNode(drawing.TopNode);
             drawing._parent = _parent;
+
             _groupDrawings.Add(drawing);
             _drawingNames.Add(drawing.Name, _groupDrawings.Count - 1);
         }
@@ -90,6 +100,8 @@ namespace OfficeOpenXml.Drawing
             var extNode = (XmlElement)xFrmNode.ChildNodes[1];
             extNode.SetAttribute("cy", (height * ExcelDrawing.EMU_PER_PIXEL).ToString());
             extNode.SetAttribute("cx", (width * ExcelDrawing.EMU_PER_PIXEL).ToString());
+            
+            d.SetGroupChild(offNode, extNode);
             node.ParentNode.RemoveChild(node);
             if (d.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent")
             {
@@ -103,6 +115,7 @@ namespace OfficeOpenXml.Drawing
             {
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
             }
+
             d._topPath = "";
             d.TopNode = node;
         }
@@ -112,24 +125,29 @@ namespace OfficeOpenXml.Drawing
             var width = d.GetPixelWidth();
             var top = d.GetPixelTop();
             var left = d.GetPixelLeft();
-            var xmlDoc = _parent.TopNode.OwnerDocument;            
+            var xmlDoc = _parent.TopNode.OwnerDocument;
+            XmlNode drawingNode;
             if (_parent.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent") //Create alternat content above ungrouped drawing.
             {
                 //drawingNode = xmlDoc.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
-                var drawingNode = _parent.TopNode.ParentNode.ParentNode.CloneNode(false);
-                var choiceNode=drawingNode.ChildNodes[0].CloneNode(false);
+                drawingNode = _parent.TopNode.ParentNode.ParentNode.CloneNode(false);
+                var choiceNode= _parent.TopNode.ParentNode.CloneNode(false);
                 drawingNode.AppendChild(choiceNode);
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
                 choiceNode.AppendChild(d.TopNode);
                 drawingNode = CreateAnchorNode(drawingNode);
-                _parent.TopNode.ParentNode.ParentNode.ParentNode.InsertBefore(drawingNode,null);
+                var addBeforeNode = _parent.TopNode.ParentNode.ParentNode;
+                addBeforeNode.ParentNode.InsertBefore(drawingNode, addBeforeNode);
             }
             else
             {
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
-                var drawingNode = CreateAnchorNode(d.TopNode);
+                drawingNode = CreateAnchorNode(d.TopNode);
                 _parent.TopNode.ParentNode.InsertBefore(drawingNode, _parent.TopNode);
             }
+            d.TopNode = drawingNode;
+            d.SetPosition(top, left);
+            d.SetSize((int)width, (int)height);
         }
 
         private XmlNode CreateAnchorNode(XmlNode drawingNode)
@@ -165,6 +183,7 @@ namespace OfficeOpenXml.Drawing
         public void Dispose()
         {
             _parent = null;
+            _topNode = null;
         }
         /// <summary>
         /// Number of items in the collection
@@ -215,12 +234,18 @@ namespace OfficeOpenXml.Drawing
             return _groupDrawings.GetEnumerator();
         }
 
+        /// <summary>
+        /// Removes the <see cref="ExcelDrawing"/> from the group
+        /// </summary>
+        /// <param name="drawing">The drawing to remove</param>
         public void Remove(ExcelDrawing drawing)
         {
+            CheckNotDisposed();
             _groupDrawings.Remove(drawing);
             AdjustXmlAndMoveFromGroup(drawing);
             var ix = _parent._drawings._drawingsList.IndexOf(_parent);
             _parent._drawings._drawingsList.Insert(ix, drawing);
+            _parent._drawings.ReIndexNames(ix, 1);
             _parent._drawings._drawingNames.Add(drawing.Name, ix);
 
             //Remove 
@@ -230,9 +255,13 @@ namespace OfficeOpenXml.Drawing
             }
             drawing._parent = null;
         }
+        /// <summary>
+        /// Removes all children drawings from the group.
+        /// </summary>
         public void Clear()
         {
-            while(_groupDrawings.Count>0)
+            CheckNotDisposed();
+            while (_groupDrawings.Count>0)
             {
                 Remove(_groupDrawings[0]);
             }
@@ -310,8 +339,20 @@ namespace OfficeOpenXml.Drawing
                 }
             }
 
-            SetPosition((int)t, (int)l);
+            SetPosition((int)t, (int)l, false);
             SetSize((int)(w - l), (int)(h - t));
         }
+
+        /// <summary>
+        /// The type of drawing
+        /// </summary>
+        public override eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.GroupShape;
+            }
+        }
     }
+    
 }

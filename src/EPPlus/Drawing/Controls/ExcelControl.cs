@@ -347,11 +347,13 @@ namespace OfficeOpenXml.Drawing.Controls
 
         internal string GetVmlAnchorValue()
         {
+            var from = _control?.From ?? From;
+            var to = _control?.To ?? To;
             return string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}",
-                From.Column, From.ColumnOff / EMU_PER_PIXEL,
-                From.Row, From.RowOff / EMU_PER_PIXEL,
-                To.Column, To.ColumnOff / EMU_PER_PIXEL,
-                To.Row, To.RowOff / EMU_PER_PIXEL);
+                from.Column, from.ColumnOff / EMU_PER_PIXEL,
+                from.Row, from.RowOff / EMU_PER_PIXEL,
+                to.Column, to.ColumnOff / EMU_PER_PIXEL,
+                to.Row, to.RowOff / EMU_PER_PIXEL);
         }
 
         /// <summary>
@@ -597,15 +599,41 @@ namespace OfficeOpenXml.Drawing.Controls
 
         internal virtual void UpdateXml()
         {
-            _control.From.Row = From.Row;
-            _control.From.RowOff = From.RowOff;
-            _control.From.Column = From.Column;
-            _control.From.ColumnOff = From.ColumnOff;
-            
-            _control.To.Row = To.Row;
-            _control.To.RowOff = To.RowOff;
-            _control.To.Column = To.Column;
-            _control.To.ColumnOff = To.ColumnOff;
+            if(Position==null)
+            {
+                _control.From.Row = From.Row;
+                _control.From.RowOff = From.RowOff;
+                _control.From.Column = From.Column;
+                _control.From.ColumnOff = From.ColumnOff;
+            }
+            else
+            {
+                CalcColFromPixelLeft(_left, out int col, out int colOff);
+                _control.From.Column = col;
+                _control.From.ColumnOff = colOff;
+
+                CalcRowFromPixelTop(_top, out int row, out int rowOff);
+                _control.From.Row = row;
+                _control.From.RowOff = rowOff;
+            }
+
+            if(Size==null)
+            {
+                _control.To.Row = To.Row;
+                _control.To.RowOff = To.RowOff;
+                _control.To.Column = To.Column;
+                _control.To.ColumnOff = To.ColumnOff;
+            }
+            else
+            {
+                GetToRowFromPixels(_height, STANDARD_DPI, out int row, out int rowOff, _control.From.Row, _control.From.RowOff);
+                GetToColumnFromPixels(_width, STANDARD_DPI, out int col, out double pixOff, _control.From.Column, _control.From.ColumnOff);
+                _control.To.Row = row;
+                _control.To.RowOff = rowOff;
+
+                _control.To.Column = col - 2;
+                _control.To.ColumnOff = (int)(pixOff * EMU_PER_PIXEL);
+            }
 
             if (_parent == null)
             {

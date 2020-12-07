@@ -93,7 +93,7 @@ namespace EPPlusTest.Drawing.Control
         [TestMethod]
         public void UnGroup_GroupBoxWithRadioButtonsTest()
         {
-            _ws = _pck.Workbook.Worksheets.Add("UnGroupBox");
+            _ws = _pck.Workbook.Worksheets.Add("UnGroupAllDrawings");
             var ctrl = (ExcelControlGroupBox)_ws.Drawings.AddControl("GroupBox 1", eControlType.GroupBox);
             ctrl.Text = "Groupbox 1";
             ctrl.SetPosition(480, 80);
@@ -113,7 +113,9 @@ namespace EPPlusTest.Drawing.Control
             r3.SetSize(100, 25);
             r3.FirstButton = true;
 
-            ctrl.Group(r1, r2, r3);
+            var g=ctrl.Group(r1, r2, r3);
+
+            g.SetPosition(100, 100);    //Move whole group
 
             r1.UnGroup(false);
         }

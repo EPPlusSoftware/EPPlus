@@ -4,6 +4,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// The type of drawing
+    /// </summary>
     public enum eDrawingType
     {
         /// <summary>
@@ -29,6 +32,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A form control drawing
         /// </summary>
-        Control
+        Control,
+        /// <summary>
+        /// A drawing grouping other drawings together.
+        /// </summary>
+        GroupShape
     }
 }

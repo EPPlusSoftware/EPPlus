@@ -1346,16 +1346,22 @@ namespace OfficeOpenXml.Drawing
             {
                 draw.DeleteMe();
             }
+            ReIndexNames(Index, -1);
+            _drawingNames.Remove(draw.Name);
+            _drawingsList.Remove(draw);
+        }
+
+        internal void ReIndexNames(int Index, int increase)
+        {
             for (int i = Index + 1; i < _drawingsList.Count; i++)
             {
                 if (_drawingNames.ContainsKey(_drawingsList[i].Name))
                 {
-                    _drawingNames[_drawingsList[i].Name]--;
+                    _drawingNames[_drawingsList[i].Name]+= increase;
                 }
             }
-            _drawingNames.Remove(draw.Name);
-            _drawingsList.Remove(draw);
         }
+
         /// <summary>
         /// Removes a drawing.
         /// </summary>
