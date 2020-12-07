@@ -92,6 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["iso.ceiling"] = new IsoCeiling();
             Functions["combin"] = new Combin();
             Functions["combina"] = new Combina();
+            Functions["permut"] = new Permut();
             Functions["count"] = new Count();
             Functions["counta"] = new CountA();
             Functions["countblank"] = new CountBlank();

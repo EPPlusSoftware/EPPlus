@@ -148,6 +148,20 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void PermutShouldReturnCorrectResult()
+        {
+            var func = new Permut();
+
+            var args = FunctionsHelper.CreateArgs(6, 6);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(720d, result.Result);
+
+            args = FunctionsHelper.CreateArgs(10, 6);
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(151200d, result.Result);
+        }
+
+        [TestMethod]
         public void SecShouldReturnCorrectResult_MinusPi()
         {
             var func = new Sec();
