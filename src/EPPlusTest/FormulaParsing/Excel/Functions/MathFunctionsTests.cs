@@ -148,6 +148,20 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void PermutationaShouldReturnCorrectResult()
+        {
+            var func = new Permutationa();
+
+            var args = FunctionsHelper.CreateArgs(6, 6);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(46656d, result.Result);
+
+            args = FunctionsHelper.CreateArgs(10, 6);
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1000000d, result.Result);
+        }
+
+        [TestMethod]
         public void PermutShouldReturnCorrectResult()
         {
             var func = new Permut();
