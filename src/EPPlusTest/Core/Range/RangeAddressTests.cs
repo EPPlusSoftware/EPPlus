@@ -468,5 +468,40 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("'R009_cc'!$A$1", n.FullAddressAbsolute);
             }
         }
+        [TestMethod]
+        public void R1C1OffSheetReferenceShouldNotBeASharedFormula()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                ExcelWorksheet ws = package.Workbook.Worksheets.Add("Sheet1");
+                ExcelWorksheet ws2 = package.Workbook.Worksheets.Add("Sheet2");
+                ws2.Cells[1, 3, 4, 3].Value = 2;
+                ws2.Cells[2, 3].Value = 1;
+                ws2.Cells[4, 3].Value = 4;
+                ws.Cells[1, 2].Value = 1;
+                ws.Cells[2, 2].Value = 2;
+                ws.Cells[3, 2].Value = 3;
+                ws.Cells[4, 2].Value = 4;
+                ws.Cells[1, 1, 4, 1].FormulaR1C1 = "COUNTIF(Sheet2!R1C3:R4C3, RC2)";
+                Assert.AreEqual(0, ws._sharedFormulas.Count);
+            }
+        }
+        [TestMethod]
+        public void R1C1ReferenceShouldBeASharedFormula()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                ExcelWorksheet ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells[1, 3, 4, 3].Value = 2;
+                ws.Cells[2, 3].Value = 1;
+                ws.Cells[4, 3].Value = 4;
+                ws.Cells[1, 2].Value = 1;
+                ws.Cells[2, 2].Value = 2;
+                ws.Cells[3, 2].Value = 3;
+                ws.Cells[4, 2].Value = 4;
+                ws.Cells["A10:A14"].FormulaR1C1 = "COUNTIF(R1C3:R4C3, RC2)";
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
+            }
+        }
     }
 }
