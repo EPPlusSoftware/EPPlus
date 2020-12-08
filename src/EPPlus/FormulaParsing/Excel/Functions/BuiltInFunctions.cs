@@ -259,6 +259,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             //Finance
             Functions["cumipmt"] = new Cumipmt();
             Functions["cumprinc"] = new Cumprinc();
+            Functions["dollarde"] = new DollarDe();
             Functions["ddb"] = new Ddb();
             Functions["effect"] = new Effect();
             Functions["fvschedule"] = new FvSchedule();

@@ -578,5 +578,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
             Assert.AreEqual(0.000686, result);
         }
+
+        [TestMethod]
+        public void DollarDeTest()
+        {
+            _worksheet.Cells["A1"].Formula = "DOLLARDE(1.99, 23)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(5.304348, result);
+
+            _worksheet.Cells["A1"].Formula = "DOLLARDE(1.01, 16)";
+            _worksheet.Calculate();
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(1.0625, result);
+        }
     }
 }
