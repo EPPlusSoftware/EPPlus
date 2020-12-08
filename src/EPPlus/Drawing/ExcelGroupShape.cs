@@ -70,9 +70,11 @@ namespace OfficeOpenXml.Drawing
 
         internal void AddDrawing(ExcelDrawing drawing)
         {
-            ExcelGroupShape.Validate(drawing, drawing._drawings);
+            if (drawing._parent == _parent) return; //This drawing is already added to the group, exit
+
+            ExcelGroupShape.Validate(drawing, drawing._drawings, _parent);
             AdjustXmlAndMoveToGroup(drawing);
-            ExcelGroupShape.Validate(drawing, _parent._drawings);
+            ExcelGroupShape.Validate(drawing, _parent._drawings, _parent);
             AppendDrawingNode(drawing.TopNode);
             drawing._parent = _parent;
 
@@ -94,10 +96,10 @@ namespace OfficeOpenXml.Drawing
                 d.CreateNode(xFrmNode, "a:off");
                 d.CreateNode(xFrmNode, "a:ext");
             }
-            var offNode = (XmlElement)xFrmNode.ChildNodes[0];
+            var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", _nsm);
             offNode.SetAttribute("y", (top * ExcelDrawing.EMU_PER_PIXEL).ToString());
             offNode.SetAttribute("x", (left * ExcelDrawing.EMU_PER_PIXEL).ToString());
-            var extNode = (XmlElement)xFrmNode.ChildNodes[1];
+            var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext",_nsm);
             extNode.SetAttribute("cy", (height * ExcelDrawing.EMU_PER_PIXEL).ToString());
             extNode.SetAttribute("cx", (width * ExcelDrawing.EMU_PER_PIXEL).ToString());
             
@@ -116,7 +118,7 @@ namespace OfficeOpenXml.Drawing
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
             }
 
-            d._topPath = "";
+            d.AdjustXPathsForGrouping(true);
             d.TopNode = node;
         }
         private void AdjustXmlAndMoveFromGroup(ExcelDrawing d)
@@ -145,6 +147,7 @@ namespace OfficeOpenXml.Drawing
                 drawingNode = CreateAnchorNode(d.TopNode);
                 _parent.TopNode.ParentNode.InsertBefore(drawingNode, _parent.TopNode);
             }
+            d.AdjustXPathsForGrouping(false);
             d.TopNode = drawingNode;
             d.SetPosition(top, left);
             d.SetSize((int)width, (int)height);
@@ -278,7 +281,7 @@ namespace OfficeOpenXml.Drawing
             var grpNode = CreateNode(_topPath);
             if (grpNode.InnerXml == "")
             {
-                grpNode.InnerXml = "<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"561975\" x=\"3028950\"/><a:ext cy=\"2524125\" cx=\"3152775\"/><a:chOff y=\"561975\" x=\"3028950\"/><a:chExt cy=\"2524125\" cx=\"3152775\"/></a:xfrm></xdr:grpSpPr>";
+                grpNode.InnerXml = "<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></xdr:grpSpPr>";
             }
             CreateNode("xdr:clientData");
         }
@@ -305,20 +308,20 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal static void Validate(ExcelDrawing d, ExcelDrawings drawings)
+        internal static void Validate(ExcelDrawing d, ExcelDrawings drawings, ExcelGroupShape grp)
         {
             if (d._drawings != drawings)
             {
                 throw new InvalidOperationException("All drawings must be in the same worksheet.");
             }
-            if (d._parent != null)
+            if (d._parent != null && d._parent!=grp)
             {
-                throw new InvalidOperationException($"The drawing {d.Name} is already in a group."); ;
+                throw new InvalidOperationException($"The drawing {d.Name} is already in a group different from the other drawings."); ;
             }
         }
         internal void SetPositionAndSizeFromChildren()
         {
-            double t = Drawings[0]._top, l = Drawings[0]._left, h = Drawings[0]._top + Drawings[0]._height, w=Drawings[0]._left + Drawings[0]._width;
+            double t = Drawings[0]._top, l = Drawings[0]._left, b = Drawings[0]._top + Drawings[0]._height, r=Drawings[0]._left + Drawings[0]._width;
             for(int i=1;i<Drawings.Count;i++)
             {
                 if(t>Drawings[i]._top)
@@ -329,20 +332,83 @@ namespace OfficeOpenXml.Drawing
                 {
                     l = Drawings[i]._left;
                 }
-                if (w < Drawings[i]._left+Drawings[i]._width)
+                if (r < Drawings[i]._left+Drawings[i]._width)
                 {
-                    w = Drawings[i]._left + Drawings[i]._width;
+                    r = Drawings[i]._left + Drawings[i]._width;
                 }
-                if (h < Drawings[i]._top + Drawings[i]._height)
+                if (b < Drawings[i]._top + Drawings[i]._height)
                 {
-                    h = Drawings[i]._top + Drawings[i]._height;
+                    b = Drawings[i]._top + Drawings[i]._height;
                 }
             }
 
             SetPosition((int)t, (int)l, false);
-            SetSize((int)(w - l), (int)(h - t));
+            SetSize((int)(r - l), (int)(b - t));
+
+            SetxFrmPosition();
         }
 
+        private void SetxFrmPosition()
+        {
+            xFrmPosition.X = (int)(_left * EMU_PER_PIXEL);
+            xFrmPosition.Y = (int)(_top * EMU_PER_PIXEL);
+            xFrmSize.Width = (long)(_width * EMU_PER_PIXEL);
+            xFrmSize.Height = (long)(_height * EMU_PER_PIXEL);
+
+            xFrmChildPosition.X = (int)(_left * EMU_PER_PIXEL);
+            xFrmChildPosition.Y = (int)(_top * EMU_PER_PIXEL);
+            xFrmChildSize.Width = (long)(_width * EMU_PER_PIXEL);
+            xFrmChildSize.Height = (long)(_height * EMU_PER_PIXEL);
+        }
+
+        ExcelDrawingCoordinate _xFrmPosition = null;
+        internal ExcelDrawingCoordinate xFrmPosition
+        {
+            get
+            {
+                if(_xFrmPosition==null)
+                {
+                    _xFrmPosition= new ExcelDrawingCoordinate(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:off")); 
+                }
+                return _xFrmPosition;
+            }
+        }
+        ExcelDrawingSize _xFrmSize = null;
+        internal ExcelDrawingSize xFrmSize
+        {
+            get
+            {
+                if (_xFrmSize == null)
+                {
+                    _xFrmSize = new ExcelDrawingSize(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:ext")); 
+                }
+                return _xFrmSize;
+            }
+        }
+        ExcelDrawingCoordinate _xFrmChildPosition = null;
+        internal ExcelDrawingCoordinate xFrmChildPosition
+        {
+            get
+            {
+                if (_xFrmChildPosition == null)
+                {
+                    _xFrmChildPosition = new ExcelDrawingCoordinate(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:chOff"));
+                }
+                return _xFrmChildPosition;
+            }
+        }
+        ExcelDrawingSize _xFrmChildSize = null;
+        internal ExcelDrawingSize xFrmChildSize
+        {
+            get
+            {
+                if (_xFrmChildSize == null)
+                {
+                    _xFrmChildSize = new ExcelDrawingSize(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:chExt"));
+                }
+                return _xFrmChildSize;
+            }
+        }
         /// <summary>
         /// The type of drawing
         /// </summary>

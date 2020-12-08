@@ -40,6 +40,7 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Drawing.Controls;
 
 namespace OfficeOpenXml
 {
@@ -2339,17 +2340,7 @@ namespace OfficeOpenXml
                     foreach (ExcelDrawing d in Drawings)
                     {
                         d.AdjustPositionAndSize();
-                        if (d is ExcelGroupShape grp)
-                        {
-                            foreach(var sd in grp.Drawings)
-                            {
-                                HandleSaveForIndividualDrawings(sd);
-                            }
-                        }
-                        else
-                        {
-                            HandleSaveForIndividualDrawings(d);
-                        }
+                        HandleSaveForIndividualDrawings(d);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
                     Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
@@ -2372,10 +2363,17 @@ namespace OfficeOpenXml
                 p.Cache.UpdateItemsXml();
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
-            else if (d is OfficeOpenXml.Drawing.Controls.ExcelControl ctrl)
+            else if (d is ExcelControl ctrl)
             {
                 ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
                 ctrl.UpdateXml();
+            }
+            if (d is ExcelGroupShape grp)
+            {
+                foreach (var sd in grp.Drawings)
+                {
+                    HandleSaveForIndividualDrawings(sd);
+                }
             }
         }
 

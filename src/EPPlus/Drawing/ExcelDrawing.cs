@@ -39,6 +39,7 @@ namespace OfficeOpenXml.Drawing
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
         internal string _topPath, _nvPrPath, _hyperLinkPath;
+        internal string _topPathUngrouped, _nvPrPathUngrouped;
         internal int _id;
         internal const float STANDARD_DPI = 96;
         /// <summary>
@@ -77,11 +78,11 @@ namespace OfficeOpenXml.Drawing
                 }
 
                 AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ","grpSp", "nvSpPr", "nvCxnSpPr", "nvGraphicFramePr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
+                _topPathUngrouped = topPath;
+                _nvPrPathUngrouped = nvPrPath;
                 if (_parent == null)
                 {
-                    _topPath = topPath;
-                    _nvPrPath = _topPath + "/" + nvPrPath;
-                    _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
+                    AdjustXPathsForGrouping(false);
                     CellAnchor = GetAnchorFromName(node.LocalName);
                     SetPositionProperties(drawings, node);
                     GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
@@ -113,14 +114,35 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    _topPath = "";
-                    _nvPrPath = nvPrPath;
-                    _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
+                    AdjustXPathsForGrouping(true);
                     SetPositionProperties(drawings, node);
                     GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
                 }
             }   
         }
+
+        internal virtual void AdjustXPathsForGrouping(bool group)
+        {
+            if(group)
+            {
+                _topPath = _topPathUngrouped.IndexOf("/") > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf("/")) : "";
+                if(_topPath=="")
+                {
+                    _nvPrPath = _nvPrPathUngrouped;
+                }
+                else
+                {
+                    _nvPrPath = _topPath + "/" + _nvPrPathUngrouped;
+                }
+            }
+            else
+            {
+                _topPath = _topPathUngrouped;
+                _nvPrPath = _topPath + "/" + _nvPrPathUngrouped;
+            }
+            _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
+        }
+
         internal void SetGroupChild(XmlNode offNode, XmlNode extNode)
         {
             CellAnchor = eEditAs.Absolute;
@@ -1135,17 +1157,24 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The group shape</returns>
         public ExcelGroupShape Group(params ExcelDrawing[] drawing)
         {
+            ExcelGroupShape grp = _parent;
             foreach(var d in drawing)
             {
-                ExcelGroupShape.Validate(d, _drawings);
+                ExcelGroupShape.Validate(d, _drawings, grp);
+                if (d._parent != null) grp = d._parent;
             }
-            var grp=_drawings.AddGroupDrawing();
+            if (grp == null)
+            {
+                grp = _drawings.AddGroupDrawing();
+            }
+            
             grp.Drawings.AddDrawing(this);
 
             foreach (var d in drawing)
             {
                 grp.Drawings.AddDrawing(d);
             }
+
             grp.SetPositionAndSizeFromChildren();
             return grp;
         }
@@ -1162,7 +1191,7 @@ namespace OfficeOpenXml.Drawing
             }
             else if(node.LocalName == "graphicFrame")
             {
-                return (XmlElement)CreateNode(node, "a:xfrm"); 
+                return (XmlElement)CreateNode(node, "xdr:xfrm"); 
             }
             return null;
         }
