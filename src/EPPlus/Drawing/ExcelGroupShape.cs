@@ -41,6 +41,7 @@ namespace OfficeOpenXml.Drawing
             _groupDrawings = new List<ExcelDrawing>();
             foreach (XmlNode node in _topNode.ChildNodes)
             {
+                
                 if (node.LocalName != "nvGrpSpPr" && node.LocalName != "grpSpPr")
                 {
                     var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent);
@@ -283,7 +284,7 @@ namespace OfficeOpenXml.Drawing
             {
                 grpNode.InnerXml = "<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></xdr:grpSpPr>";
             }
-            CreateNode("xdr:clientData");
+            if(parent==null) CreateNode("xdr:clientData");
         }
         ExcelDrawingsGroup _groupDrawings = null;
         /// <summary>

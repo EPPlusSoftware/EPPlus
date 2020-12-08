@@ -20,14 +20,14 @@ namespace OfficeOpenXml
         /// <summary>
         /// The checkbox is unchecked
         /// </summary>
-        Unchecked,
+        Unchecked=0,
         /// <summary>
         /// The checkbox is checked
         /// </summary>
-        Checked,
+        Checked=1,
         /// <summary>
         /// The checkbox is greyed out, neither checked or unchecked
         /// </summary>
-        Mixed
+        Mixed=2
     }
 }

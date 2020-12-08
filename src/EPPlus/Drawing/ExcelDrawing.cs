@@ -189,13 +189,13 @@ namespace OfficeOpenXml.Drawing
             {
                 From = null;
                 To = null;
-                XmlNode posNode = node.SelectSingleNode("xdr:spPr/a:xfrm/a:off", drawings.NameSpaceManager);
+                XmlNode posNode = node.SelectSingleNode("//a:xfrm/a:off", drawings.NameSpaceManager);
                 if (posNode != null)
                 {
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
 
-                posNode = node.SelectSingleNode("xdr:spPr/a:xfrm/a:ext", drawings.NameSpaceManager);
+                posNode = node.SelectSingleNode("//a:xfrm/a:ext", drawings.NameSpaceManager);
                 if (posNode != null)
                 {
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
@@ -545,13 +545,13 @@ namespace OfficeOpenXml.Drawing
                         return new ExcelShape(drawings, node, parent);
                     }
                 case "pic":
-                    return new ExcelPicture(drawings, node);
+                    return new ExcelPicture(drawings, node, parent);
                 case "graphicFrame":
-                    return ExcelChart.GetChart(drawings, node);
+                    return ExcelChart.GetChart(drawings, node, parent);
                 case "grpSp":
-                    return new ExcelGroupShape(drawings, node);
+                    return new ExcelGroupShape(drawings, node, parent);
                 case "cxnSp":
-                    return new ExcelConnectionShape(drawings, node);
+                    return new ExcelConnectionShape(drawings, node, parent);
                 case "contentPart":
                     //Not handled yet, return as standard drawing below
                     break;
@@ -570,13 +570,13 @@ namespace OfficeOpenXml.Drawing
                             case ExcelPackage.schemaChartEx2015_9_8:
                             case ExcelPackage.schemaChartEx2015_10_21:
                             case ExcelPackage.schemaChartEx2016_5_10:
-                                return ExcelChart.GetChartEx(drawings, node);
+                                return ExcelChart.GetChartEx(drawings, node, parent);
                             case ExcelPackage.schemaSlicer:
-                                return new ExcelTableSlicer(drawings, node);
+                                return new ExcelTableSlicer(drawings, node, parent);
                             case ExcelPackage.schemaDrawings2010:
                                 if (choice.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/@uri", drawings.NameSpaceManager)?.Value == ExcelPackage.schemaSlicer2010)
                                 {
-                                    return new ExcelPivotTableSlicer(drawings, node);
+                                    return new ExcelPivotTableSlicer(drawings, node, parent);
                                 }
                                 break;
 

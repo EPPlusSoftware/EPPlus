@@ -40,7 +40,36 @@ namespace OfficeOpenXml.Drawing.Controls
             }
             set
             {
-                _ctrlProp.SetXmlNodeString("@checked", value.ToEnumString());
+                _ctrlProp.SetXmlNodeString("@checked", value.ToString());
+                _vmlProp.SetXmlNodeInt("x:Checked",(int)value);
+                if(LinkedCell!=null)
+                {
+                    ExcelWorksheet ws;
+                    if(string.IsNullOrEmpty(LinkedCell.WorkSheetName))
+                    {
+                        ws = _drawings.Worksheet;
+                    }
+                    else
+                    {
+                        ws = _drawings.Worksheet.Workbook.Worksheets[LinkedCell.WorkSheetName];
+                    }
+
+                    if (ws!=null)
+                    {
+                        if(value == eCheckState.Checked)
+                        {
+                            ws.Cells[LinkedCell.Address].Value = true;
+                        }
+                        else if (value == eCheckState.Unchecked)
+                        {
+                            ws.Cells[LinkedCell.Address].Value = false;
+                        }
+                        else
+                        {
+                            ws.Cells[LinkedCell.Address].Value = ExcelErrorValue.Create(eErrorType.NA);
+                        }                           
+                    }
+                }
             }
         }
     }

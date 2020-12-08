@@ -22,15 +22,15 @@ namespace OfficeOpenXml.Drawing.Controls
         /// </summary>
         Button,
         /// <summary>
-        /// A checkbox
+        /// A check box
         /// </summary>
         CheckBox,
         /// <summary>
-        /// A combobox
+        /// A combo box
         /// </summary>
         DropDown,
         /// <summary>
-        /// A groupbox
+        /// A group box
         /// </summary>
         GroupBox,
         /// <summary>
@@ -38,15 +38,15 @@ namespace OfficeOpenXml.Drawing.Controls
         /// </summary>
         Label,
         /// <summary>
-        /// A listbox
+        /// A list box
         /// </summary>
         ListBox,
         /// <summary>
-        /// An option button
+        /// An radio button (option button)
         /// </summary>
         RadioButton,
         /// <summary>
-        /// A scrollbar
+        /// A scroll bar
         /// </summary>
         ScrollBar,
         /// <summary>
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// </summary>
         SpinButton,
         /// <summary>
-        /// An editbox. Unsupported. Editboxes can't be used directly on a form
+        /// An edit box. Unsupported. Editboxes can't be used directly on a form
         /// </summary>
         EditBox,
         /// <summary>

@@ -1232,17 +1232,85 @@ namespace OfficeOpenXml.Drawing
             return control;
         }
         /// <summary>
+        /// Adds a button form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the button</param>
+        /// <returns>The button form control</returns>
+        public ExcelControlButton AddButtonControl(string Name)
+        {
+            return (ExcelControlButton)AddControl(Name, eControlType.Button);
+        }
+        /// <summary>
         /// Adds a checkbox form control to the worksheet
         /// </summary>
-        /// <param name="Name">The name of the checkbox</param>
-        /// <returns></returns>
+        /// <param name="Name">The name of the checkbox control</param>
+        /// <returns>The checkbox form control</returns>
         public ExcelControlCheckBox AddCheckBoxControl(string Name)
         {
             return (ExcelControlCheckBox)AddControl(Name, eControlType.CheckBox);
         }
+        /// <summary>
+        /// Adds a radio button form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the radio button control</param>
+        /// <returns>The radio button form control</returns>
         public ExcelControlRadioButton AddRadioButtonControl(string Name)
         {
             return (ExcelControlRadioButton)AddControl(Name, eControlType.RadioButton);
+        }
+        /// <summary>
+        /// Adds a list box form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the list box control</param>
+        /// <returns>The list box form control</returns>
+        public ExcelControlListBox AddListBoxControl(string Name)
+        {
+            return (ExcelControlListBox)AddControl(Name, eControlType.ListBox);
+        }
+        /// <summary>
+        /// Adds a drop-down form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drop-down control</param>
+        /// <returns>The drop-down form control</returns>
+        public ExcelControlDropDown AddDropDownControl(string Name)
+        {
+            return (ExcelControlDropDown)AddControl(Name, eControlType.DropDown);
+        }
+        /// <summary>
+        /// Adds a group box form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the group box control</param>
+        /// <returns>The group box form control</returns>
+        public ExcelControlGroupBox AddGroupBoxControl(string Name)
+        {
+            return (ExcelControlGroupBox)AddControl(Name, eControlType.GroupBox);
+        }
+        /// <summary>
+        /// Adds a label form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the label control</param>
+        /// <returns>The label form control</returns>
+        public ExcelControlLabel AddLabelControl(string Name)
+        {
+            return (ExcelControlLabel)AddControl(Name, eControlType.Label);
+        }
+        /// <summary>
+        /// Adds a spin button control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the spin button control</param>
+        /// <returns>The spin button form control</returns>
+        public ExcelControlSpinButton AddSpinButtonControl(string Name)
+        {
+            return (ExcelControlSpinButton)AddControl(Name, eControlType.SpinButton);
+        }
+        /// <summary>
+        /// Adds a scroll bar control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the scroll bar control</param>
+        /// <returns>The scroll bar form control</returns>
+        public ExcelControlScrollBar AddScrollBarControl(string Name)
+        {
+            return (ExcelControlScrollBar)AddControl(Name, eControlType.ScrollBar);
         }
         #endregion
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent=false)
