@@ -36,6 +36,25 @@ namespace OfficeOpenXml
         {
             Calculate(workbook, new ExcelCalculationOption(){AllowCircularReferences=false});
         }
+
+        /// <summary>
+        /// Calculate all formulas in the current workbook
+        /// </summary>
+        /// <param name="workbook">The workbook to calculate</param>
+        /// <param name="configHandler">Configuration handler</param>
+        /// <example>
+        /// <code>
+        /// workbook.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+        /// </code>
+        /// </example>
+        public static void Calculate(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
+        {
+            var option = new ExcelCalculationOption();
+            configHandler.Invoke(option);
+            Calculate(workbook, option);
+        }
+
+
         /// <summary>
         /// Calculate all formulas in the current workbook
         /// </summary>
@@ -63,6 +82,24 @@ namespace OfficeOpenXml
         {
             Calculate(worksheet, new ExcelCalculationOption());
         }
+
+        /// <summary>
+        /// Calculate all formulas in the current range
+        /// </summary>
+        /// <param name="worksheet">The worksheet to calculate</param>
+        /// <param name="configHandler">Configuration handler</param>
+        /// <example>
+        /// <code>
+        /// sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+        /// </code>
+        /// </example>
+        public static void Calculate(this ExcelWorksheet worksheet, Action<ExcelCalculationOption> configHandler)
+        {
+            var option = new ExcelCalculationOption();
+            configHandler.Invoke(option);
+            Calculate(worksheet, option);
+        }
+
         /// <summary>
         /// Calculate all formulas in the current worksheet
         /// </summary>
@@ -70,8 +107,7 @@ namespace OfficeOpenXml
         /// <param name="options">Calculation options</param>
         public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
         {
-            Init(worksheet.Workbook);
-            //worksheet.Workbook._formulaParser = null; TODO:Cant reset. Don't work with userdefined or overrided worksheet functions            
+            Init(worksheet.Workbook);       
             var dc = DependencyChainFactory.Create(worksheet, options);
             var parser = worksheet.Workbook.FormulaParser;
             parser.InitNewCalc();
@@ -90,6 +126,24 @@ namespace OfficeOpenXml
         {
             Calculate(range, new ExcelCalculationOption());
         }
+
+        /// <summary>
+        /// Calculate all formulas in the current range
+        /// </summary>
+        /// <param name="range">The range to calculate</param>
+        /// <param name="configHandler">Configuration handler</param>
+        /// <example>
+        /// <code>
+        /// sheet.Cells["A1:A3"].Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+        /// </code>
+        /// </example>
+        public static void Calculate(this ExcelRangeBase range, Action<ExcelCalculationOption> configHandler)
+        {
+            var option = new ExcelCalculationOption();
+            configHandler.Invoke(option);
+            Calculate(range, option);
+        }
+
         /// <summary>
         /// Calculate all formulas in the current range
         /// </summary>
@@ -145,7 +199,11 @@ namespace OfficeOpenXml
         }
         private static void CalcChain(ExcelWorkbook wb, FormulaParser parser, DependencyChain dc, ExcelCalculationOption options)
         {
-            wb.FormulaParser.Configure(config => config.AllowCircularReferences = options.AllowCircularReferences);
+            wb.FormulaParser.Configure(config =>
+            {
+                config.AllowCircularReferences = options.AllowCircularReferences;
+                config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
+            });
             var debug = parser.Logger != null;
             foreach (var ix in dc.CalcOrder)
             {

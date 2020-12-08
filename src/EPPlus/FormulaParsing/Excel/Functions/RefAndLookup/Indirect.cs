@@ -29,7 +29,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             ValidateArguments(arguments, 1);
             var address = ArgToAddress(arguments, 0);
-            var adr = new ExcelAddress(address);
+            ExcelAddressBase adr;
+            if (ExcelAddressBase.IsValidAddress(address) || ExcelAddressBase.IsTableAddress(address))
+            {
+                adr = new ExcelAddressBase(address);
+            }
+            else
+            {                
+                var n=context.ExcelDataProvider.GetName(context.Scopes.Current.Address.Worksheet, address);
+                if(n.Value is EpplusExcelDataProvider.RangeInfo ri)
+                {
+                    adr = ri.Address;
+                }
+                else
+                {
+                    adr = new ExcelAddressBase(n.Formula);
+                }
+                address = adr.Address;
+            }
             var ws = adr.WorkSheetName;
             if (string.IsNullOrEmpty(ws))
             {

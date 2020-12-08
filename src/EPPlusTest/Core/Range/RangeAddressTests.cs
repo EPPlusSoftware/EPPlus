@@ -114,7 +114,6 @@ namespace EPPlusTest.Core.Range
             var a1 = new ExcelAddress("SalesData!$K$445");
             var a2 = new ExcelAddress("SalesData!$K$445:$M$449,SalesData!$N$448:$Q$454,SalesData!$L$458:$O$464");
             var a3 = new ExcelAddress("SalesData!$K$445:$L$448");
-            //var a4 = new ExcelAddress("'[1]Risk]TatTWRForm_TWRWEEKLY20130926090'!$N$527");
             var a5 = new ExcelAddress("Table1[[#All],[Title]]");
             var a6 = new ExcelAddress("Table1[#All]");
             var a7 = new ExcelAddress("Table1[[#Headers],[FirstName]:[LastName]]");
@@ -467,6 +466,41 @@ namespace EPPlusTest.Core.Range
                 ws = wb.Worksheets.Add("R009_cc");
                 n = wb.Names.Add("Name4", ws.Cells["A1"]);
                 Assert.AreEqual("'R009_cc'!$A$1", n.FullAddressAbsolute);
+            }
+        }
+        [TestMethod]
+        public void R1C1OffSheetReferenceShouldNotBeASharedFormula()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                ExcelWorksheet ws = package.Workbook.Worksheets.Add("Sheet1");
+                ExcelWorksheet ws2 = package.Workbook.Worksheets.Add("Sheet2");
+                ws2.Cells[1, 3, 4, 3].Value = 2;
+                ws2.Cells[2, 3].Value = 1;
+                ws2.Cells[4, 3].Value = 4;
+                ws.Cells[1, 2].Value = 1;
+                ws.Cells[2, 2].Value = 2;
+                ws.Cells[3, 2].Value = 3;
+                ws.Cells[4, 2].Value = 4;
+                ws.Cells[1, 1, 4, 1].FormulaR1C1 = "COUNTIF(Sheet2!R1C3:R4C3, RC2)";
+                Assert.AreEqual(0, ws._sharedFormulas.Count);
+            }
+        }
+        [TestMethod]
+        public void R1C1ReferenceShouldBeASharedFormula()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                ExcelWorksheet ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells[1, 3, 4, 3].Value = 2;
+                ws.Cells[2, 3].Value = 1;
+                ws.Cells[4, 3].Value = 4;
+                ws.Cells[1, 2].Value = 1;
+                ws.Cells[2, 2].Value = 2;
+                ws.Cells[3, 2].Value = 3;
+                ws.Cells[4, 2].Value = 4;
+                ws.Cells["A10:A14"].FormulaR1C1 = "COUNTIF(R1C3:R4C3, RC2)";
+                Assert.AreEqual(1, ws._sharedFormulas.Count);
             }
         }
     }

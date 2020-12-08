@@ -1099,18 +1099,30 @@ namespace OfficeOpenXml
                 if (value == null || value.Trim() == "")
                 {
                     //Set the cells to null
-                    _worksheet.Cells[ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol)].Value = null;
-                }
-                else if (Addresses == null)
-                {
-                    Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol), this, false);
+                    Value = null;
                 }
                 else
                 {
-                    Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol), new ExcelAddress(WorkSheetName, FirstAddress), false);
-                    foreach (var address in Addresses)
+                    var formula = TranslateFromR1C1(value, _fromRow, _fromCol);
+                    if (_fromRow == _toRow && _fromCol == _toCol)
                     {
-                        Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, address.Start.Row, address.Start.Column), address, false);
+                        Set_Formula(this, formula, _fromRow, _fromCol);
+                    }
+                    else if (HasOffSheetReference(formula))
+                    {
+                        Set_Formula_Range(this, formula);
+                    }
+                    else
+                    {
+                        Set_SharedFormula(this, formula, this, false);
+                        if (Addresses != null)
+                        {
+                            foreach (var address in Addresses)
+                            {
+                                formula = TranslateFromR1C1(value, address._fromRow, address._fromCol);
+                                Set_SharedFormula(this, formula, address, false);
+                            }
+                        }
                     }
                 }
             }

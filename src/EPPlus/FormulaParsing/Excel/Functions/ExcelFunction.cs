@@ -23,6 +23,7 @@ using System.Collections;
 using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -50,6 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         private readonly ArgumentCollectionUtil _argumentCollectionUtil;
         private readonly ArgumentParsers _argumentParsers;
         private readonly CompileResultValidators _compileResultValidators;
+        protected readonly int NumberOfSignificantFigures = 15;
 
         /// <summary>
         /// 
@@ -219,6 +221,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
+        /// <returns>Value of the argument as a double.</returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected double ArgToDecimal(object obj, PrecisionAndRoundingStrategy precisionAndRoundingStrategy)
+        {
+            var result = ArgToDecimal(obj);
+            if (precisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
+            {
+                result = RoundingHelper.RoundToSignificantFig(result, NumberOfSignificantFigures);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Returns the value of the argument att the position of the 0-based
         /// <paramref name="index"/> as a <see cref="System.Double"/>.
         /// </summary>
         /// <param name="arguments"></param>
@@ -227,7 +246,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <exception cref="ExcelErrorValueException"></exception>
         protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index)
         {
-            return ArgToDecimal(arguments.ElementAt(index).Value);
+            return ArgToDecimal(arguments.ElementAt(index).Value, PrecisionAndRoundingStrategy.DotNet);
+        }
+
+        /// <summary>
+        /// Returns the value of the argument att the position of the 0-based
+        /// <paramref name="index"/> as a <see cref="System.Double"/>.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="index"></param>
+        /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
+        /// <returns>Value of the argument as an integer.</returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy)
+        {
+            return ArgToDecimal(arguments.ElementAt(index).Value, precisionAndRoundingStrategy);
         }
 
         /// <summary>

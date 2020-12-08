@@ -45,6 +45,7 @@ using OfficeOpenXml.Drawing;
 using System.Threading;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Threading.Tasks;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace EPPlusTest
 {
@@ -1326,7 +1327,7 @@ namespace EPPlusTest
         }
         [TestMethod]
         public void Issue34()
-        {            
+        {
             using (var p = OpenTemplatePackage("Issue34.xlsx"))
             {
                 SaveAndCleanup(p);
@@ -1344,7 +1345,7 @@ namespace EPPlusTest
                 Assert.IsNotNull(p.Workbook.Worksheets[1].PivotTables[0].CacheDefinition);
                 var s1 = pt.Fields[0].AddSlicer();
                 s1.SetPosition(0, 500);
-                var s2=pt.Fields["OpenDate"].AddSlicer();
+                var s2 = pt.Fields["OpenDate"].AddSlicer();
                 pt.Fields["Distance"].Format = "#,##0.00";
                 pt.Fields["Distance"].AddSlicer();
                 s2.SetPosition(0, 500 + (int)s1._width);
@@ -1357,7 +1358,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue195_PivotTable()
         {
-            using (var p=OpenTemplatePackage("Issue195.xlsx"))
+            using (var p = OpenTemplatePackage("Issue195.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
                 SaveAndCleanup(p);
@@ -1366,7 +1367,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue45()
         {
-            using (var p=OpenPackage("LinkIssue.xlsx",true))
+            using (var p = OpenPackage("LinkIssue.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1:A2"].Value = 1;
@@ -1406,7 +1407,7 @@ namespace EPPlusTest
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.Cells["A5"].Value = "Test";
-                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset+1);
+                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset + 1);
                 Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
                 //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
                 //{
@@ -1485,7 +1486,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]        
+        [TestMethod]
         public void Issue_258()
         {
             using (var package = OpenTemplatePackage("Test.xlsx"))
@@ -1505,6 +1506,71 @@ namespace EPPlusTest
                 items.SelectSingleItem(1); // <===== this one is to select only the "false" condition
                 SaveWorkbook("Issue248.xlsx", package);
             }
+        }
+        [TestMethod]
+        public void Issue_243()
+        {
+            using (var p = OpenPackage("formula.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("formula");
+                ws.Cells["A1"].Value = "column1";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["A3"].Value = 2;
+                ws.Cells["A4"].Value = 3;
+
+                var tbl = ws.Tables.Add(ws.Cells["A1:A4"], "Table1");
+
+                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1[#data]\"))";
+                ws.Calculate();
+                Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
+
+                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1\"))";
+                ws.Calculate();
+                Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Supportcase44()
+        {
+            var n = -120253.87499999999;
+            var r = System.Math.Round(n, 2);
+            var n2 = 120253.875;
+            var r2 = System.Math.Round(n2, 2);
+            var power = 1e14;
+            var n3 = Math.Round(n * power) / power;
+            var n4 = RoundingHelper.RoundToSignificantFig(n, 15);
+        }
+
+        double Round_off(double N, double n)
+        {
+            int h;
+            double l, a, b, c, d, e, i, j, m, f, g;
+            b = N;
+            c = Math.Floor(N);
+
+            // Counting the no. of digits to the left of decimal point 
+            // in the given no. 
+            for (i = 0; b >= 1; ++i)
+                b = b / 10;
+
+            d = n - i;
+            b = N;
+            b = b * Math.Pow(10, d);
+            e = b + 0.5;
+            if ((float)e == (float)Math.Ceiling(b))
+            {
+                f = (Math.Ceiling(b));
+                h = (int)f - 2;
+                if (h % 2 != 0)
+                {
+                    e = e - 1;
+                }
+            }
+            j = Math.Floor(e);
+            m = Math.Pow(10, d);
+            j = j / m;
+            return j;
         }
     }
 }

@@ -369,12 +369,20 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
-                    var wsName = _package.Workbook.Worksheets[name];
-                    if(wsName == null)
+                    var tbl = ws.Tables[name];
+                    if (tbl != null)
                     {
-                        return null;
+                        nameItem = new ExcelNamedRange(name, ws, ws, tbl.DataRange.Address, -1);
                     }
-                    nameItem = new ExcelNamedRange(name, ws,wsName, "A:XFD", -1);
+                    else
+                    {
+                        var wsName = _package.Workbook.Worksheets[name];
+                        if (wsName == null)
+                        {
+                            return null;
+                        }
+                        nameItem = new ExcelNamedRange(name, ws, wsName, "A:XFD", -1);
+                    }
                 }
             }
             id = ExcelAddressBase.GetCellID(nameItem.LocalSheetId, nameItem.Index, 0);
