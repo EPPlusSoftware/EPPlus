@@ -10,6 +10,7 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeWorkbookMacroEnabled = "application/vnd.ms-excel.sheet.macroEnabled.main+xml";
         internal const string contentTypeSharedString = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml";
         internal const string contentTypeControlProperties = "application/vnd.ms-excel.controlproperties+xml";
+        internal const string contentTypeChart = "application/vnd.openxmlformats-officedocument.drawingml.chart+xml";
         internal const string contentTypeChartEx = "application/vnd.ms-office.chartex+xml";
         internal const string contentTypeThemeOverride = "application/vnd.openxmlformats-officedocument.themeOverride+xml";
 

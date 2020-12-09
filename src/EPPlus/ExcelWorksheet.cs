@@ -2513,7 +2513,10 @@ namespace OfficeOpenXml
                         Part.DeleteRelationship(_comments.RelId);
                         _package.ZipPackage.DeletePart(_comments.Uri);
                     }
-                    RemoveLegacyDrawingRel(VmlDrawings.RelId);
+                    if (VmlDrawings.Count == 0)
+                    {
+                        RemoveLegacyDrawingRel(VmlDrawings.RelId);
+                    }
                 }
                 else
                 {
