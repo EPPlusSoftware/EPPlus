@@ -10,7 +10,7 @@
  *************************************************************************************************
   04/15/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Xml;
 

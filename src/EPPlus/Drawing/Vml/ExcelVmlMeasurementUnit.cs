@@ -13,11 +13,17 @@ namespace OfficeOpenXml.Drawing.Vml
     {
         static string[] _suffixes = ((eMeasurementUnits[]) Enum.GetValues(typeof(eMeasurementUnits))).Where(x=>x!=eMeasurementUnits.Pixels).Select(x=>x.TranslateString()).ToArray();
 
-        public ExcelVmlMeasurementUnit(string value="")
+        internal ExcelVmlMeasurementUnit(string value="")
         {
             SetValue(value);
         }
+        /// <summary>
+        /// The value of the specified unit.
+        /// </summary>
         public double Value { get; set; }
+        /// <summary>
+        /// The unit of measurement.
+        /// </summary>
         public eMeasurementUnits Unit { get; set;}
         internal void SetValue(string value)
         {

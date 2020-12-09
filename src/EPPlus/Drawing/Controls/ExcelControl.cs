@@ -16,7 +16,7 @@ using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

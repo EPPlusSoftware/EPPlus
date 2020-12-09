@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Drawing.Vml
             _drawingsCellStore?.Dispose();
             _drawingsCellStore = null;
         }
-        protected void AddDrawingsFromXml(ExcelWorksheet ws)
+        protected internal void AddDrawingsFromXml(ExcelWorksheet ws)
         {
             var nodes = VmlDrawingXml.SelectNodes("//v:shape", NameSpaceManager);
             //var list = new List<IRangeID>();

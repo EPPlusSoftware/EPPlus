@@ -14,7 +14,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Globalization;
 using System.Xml;

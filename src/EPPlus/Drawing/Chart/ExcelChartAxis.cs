@@ -17,7 +17,7 @@ using System.Globalization;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.Drawing.Chart

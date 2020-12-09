@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;

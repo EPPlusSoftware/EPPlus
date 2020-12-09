@@ -25,7 +25,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing

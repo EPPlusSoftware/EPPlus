@@ -65,6 +65,25 @@ namespace EPPlusTest.Drawing.Control
             
             Assert.AreEqual(eEditAs.Absolute ,ctrl.EditAs);
             Assert.AreEqual("A1", ctrl.FmlaTxbx.Address);
+            
+            Assert.IsFalse(ctrl.Margin.Automatic);
+            Assert.AreEqual(1, ctrl.Margin.LeftMargin.Value);
+            Assert.AreEqual(eMeasurementUnits.Millimeters, ctrl.Margin.LeftMargin.Unit);
+            Assert.AreEqual(2, ctrl.Margin.TopMargin.Value);
+            Assert.AreEqual(eMeasurementUnits.Millimeters, ctrl.Margin.TopMargin.Unit);
+            Assert.AreEqual(3, ctrl.Margin.RightMargin.Value);
+            Assert.AreEqual(eMeasurementUnits.Millimeters, ctrl.Margin.RightMargin.Unit);
+            Assert.AreEqual(4, ctrl.Margin.BottomMargin.Value);
+            Assert.AreEqual(eMeasurementUnits.Millimeters, ctrl.Margin.BottomMargin.Unit);
+
+            Assert.IsTrue(ctrl.AutomaticSize);
+
+            Assert.AreEqual(eTextAnchoringType.Distributed, ctrl.TextAnchor);
+            Assert.AreEqual(eTextAlignment.Right, ctrl.TextAlignment);
+
+            Assert.AreEqual(eLayoutFlow.VerticalIdeographic, ctrl.LayoutFlow);
+            Assert.AreEqual(eShapeOrientation.TopToBottom, ctrl.Orientation);
+            Assert.AreEqual(eReadingOrder.LeftToRight, ctrl.ReadingOrder);            
         }
         [TestMethod]
         public void AddCheckboxTest()
@@ -75,10 +94,11 @@ namespace EPPlusTest.Drawing.Control
             ctrl.Fill.Style = eVmlFillType.Gradient;
             ctrl.Fill.GradientSettings.SecondColor.ColorString= "#ff8200";
             ctrl.Fill.GradientSettings.Focus = 100;
-            ctrl.Fill.GradientSettings.Angle = 135;
-            ctrl.Fill.GradientSettings.ColorsString = "0 #000082;19661f #66008f;42598f #ba0066;58982f red;1 #ff8200";
-            ctrl.Fill.Color.ColorString="#000082";
+            ctrl.Fill.GradientSettings.Angle = -135;
+            ctrl.Fill.Color.ColorString = "#000082";
+            ctrl.Fill.GradientSettings.SetGradientColors(new VmlGradiantColor(0, Color.Red), new VmlGradiantColor(50, Color.Orange), new VmlGradiantColor(100, Color.Yellow));            
             ctrl.Fill.Opacity = 97;
+            ctrl.Fill.Recolor = true;
             ctrl.Fill.GradientSettings.SecondColorOpacity = 50;
             ctrl.Border.LineStyle = eVmlLineStyle.ThickThin;
             ctrl.Border.Width.Value = 1;

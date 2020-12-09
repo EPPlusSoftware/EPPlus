@@ -17,7 +17,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;

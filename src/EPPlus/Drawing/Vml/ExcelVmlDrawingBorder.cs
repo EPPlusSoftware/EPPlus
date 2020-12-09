@@ -11,11 +11,14 @@
   11/18/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Border line settings for a vml drawing
+    /// </summary>
     public class ExcelVmlDrawingBorder : XmlHelper
     {
         internal ExcelVmlDrawingBorder(ExcelDrawings drawings, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) :
@@ -23,6 +26,9 @@ namespace OfficeOpenXml.Drawing.Vml
         {
            SchemaNodeOrder = schemaNodeOrder;
         }
+        /// <summary>
+        /// The style of the border
+        /// </summary>
         public eVmlLineStyle LineStyle 
         { 
             get
@@ -44,6 +50,9 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
             }
         }
+        /// <summary>
+        /// Dash style for the border 
+        /// </summary>
         public eVmlDashStyle DashStyle 
         { 
             get
@@ -55,6 +64,12 @@ namespace OfficeOpenXml.Drawing.Vml
                 CustomDashStyle = value.ToEnumString();
             }
         }
+        /// <summary>
+        /// Custom dash style.
+        /// A series on numbers representing the width followed by the space between.        
+        /// Example 1 : 8 2 1 2 1 2 --> Long dash dot dot. Space is twice the line width (2). LongDash (8) Dot (1). 
+        /// Example 2 : 0 2 --> 0 implies a circular dot. 2 is the space between.
+        /// </summary>
         public string CustomDashStyle
         {
             get
@@ -67,6 +82,9 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         ExcelVmlMeasurementUnit _width = null;
+        /// <summary>
+        /// The width of the border
+        /// </summary>
         public ExcelVmlMeasurementUnit Width
         {
             get

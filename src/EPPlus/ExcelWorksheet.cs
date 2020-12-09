@@ -2565,7 +2565,6 @@ namespace OfficeOpenXml
                 }
             }
         }
-
         /// <summary>
         /// Save all table data
         /// </summary>

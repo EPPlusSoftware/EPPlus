@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls

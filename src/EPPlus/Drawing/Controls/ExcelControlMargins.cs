@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Globalization;
 using System.Linq;
