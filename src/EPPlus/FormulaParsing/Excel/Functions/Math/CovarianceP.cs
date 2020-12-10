@@ -11,7 +11,6 @@
   10/12/2020         EPPlus Software AB       Version 5.5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,24 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "5.5",
         Description = "Returns covariance, the average of the products of deviations for each data point pair in two data sets.")]
-    internal class Covar : ExcelFunction
+    internal class CovarianceP : Covar
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            ValidateArguments(arguments, 2);
-            var array1 = ArgsToDoubleEnumerable(arguments.Take(1), context).ToArray();
-            var array2 = ArgsToDoubleEnumerable(arguments.Skip(1).Take(1), context).ToArray();
-            if (array1.Length != array2.Length) return CreateResult(eErrorType.NA);
-            if (array1.Length == 0) return CreateResult(eErrorType.Div0);
-            var avg1 = array1.Select(x => x.Value).Average();
-            var avg2 = array2.Select(x => x.Value).Average();
-            var result = 0d;
-            for(var x = 0; x < array1.Length; x++)
-            {
-                result += (array1[x] - avg1) * (array2[x] - avg2);
-            }
-            result /= array1.Length;
-            return CreateResult(result, DataType.Decimal);
-        }
     }
 }

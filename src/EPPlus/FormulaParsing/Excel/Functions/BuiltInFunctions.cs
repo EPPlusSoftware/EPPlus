@@ -168,6 +168,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["atanh"] = new Atanh();
             Functions["acos"] = new Acos();
             Functions["acosh"] = new Acosh();
+            Functions["covar"] = new Covar();
+            Functions["covariance.p"] = new CovarianceP();
             Functions["var"] = new Var();
             Functions["vara"] = new Vara();
             Functions["var.s"] = new VarDotS();
