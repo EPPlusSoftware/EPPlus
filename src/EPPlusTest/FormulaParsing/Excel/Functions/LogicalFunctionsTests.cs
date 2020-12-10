@@ -300,5 +300,32 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(5d, s1.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void XorShouldReturnCorrectResult()
+        {
+            var func = new Xor();
+            var args = FunctionsHelper.CreateArgs(true, false);
+            var result = func.Execute(args, ParsingContext.Create());
+            Assert.IsTrue((bool)result.Result);
+
+            args = FunctionsHelper.CreateArgs(false, false);
+            result = func.Execute(args, ParsingContext.Create());
+            Assert.IsFalse((bool)result.Result);
+
+            args = FunctionsHelper.CreateArgs(true, true);
+            result = func.Execute(args, ParsingContext.Create());
+            Assert.IsFalse((bool)result.Result);
+
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = true;
+                sheet.Cells["A2"].Value = 0;
+                sheet.Cells["A3"].Formula = "XOR(A1:A2,DATE(2020,12,10))";
+                sheet.Calculate();
+                Assert.IsFalse((bool)sheet.Cells["A3"].Value);
+            }
+        }
     }
 }
