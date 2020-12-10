@@ -1954,5 +1954,27 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(1.625d, sheet.Cells["C1"].Value);
             }
         }
+
+        [TestMethod]
+        public void CovarianceSshouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 3;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 5;
+                sheet.Cells["B1"].Value = 2;
+                sheet.Cells["B2"].Value = 6;
+                sheet.Cells["B3"].Value = 2;
+                sheet.Cells["B4"].Value = 8;
+
+                sheet.Cells["C1"].Formula = "COVARIANCE.S(A1:A4, B1:B4)";
+                sheet.Calculate();
+                Assert.AreEqual(2.16667d, System.Math.Round((double)sheet.Cells["C1"].Value, 5));
+            }
+        }
     }
 }
