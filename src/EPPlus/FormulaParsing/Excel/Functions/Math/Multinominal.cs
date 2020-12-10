@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(arguments, context);
             var part1 = 0d;
-            var part2 = 0d;
+            var part2 = 1d;
             foreach(var number in numbers)
             {
                 part1 += number;

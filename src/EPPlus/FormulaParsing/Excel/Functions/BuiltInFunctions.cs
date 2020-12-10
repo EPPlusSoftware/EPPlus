@@ -292,6 +292,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["couppcd"] = new Couppcd();
             Functions["price"] = new Price();
             Functions["yield"] = new Yield();
+            Functions["yieldmat"] = new Yieldmat();
             Functions["duration"] = new Duration();
             Functions["disc"] = new Disc();
             //Engineering
