@@ -61,13 +61,12 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 ExcelWorksheet added = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, worksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
 
-
                 //Copy comments
                 if (copy.ThreadedComments.Count > 0)
                 {
                     CopyThreadedComments(copy, added);
                 }
-                else if (copy.Comments.Count > 0)
+                else if(copy.Comments.Count > 0)
                 {
                     CopyComment(copy, added);
                 }

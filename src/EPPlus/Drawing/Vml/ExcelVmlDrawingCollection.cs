@@ -18,17 +18,19 @@ using System.Globalization;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Controls;
 using System.Text;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Packaging;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
     internal class ExcelVmlDrawingCollection
-        : ExcelVmlDrawingBaseCollection, IEnumerable<ExcelVmlDrawingBase>, IDisposable
+        : ExcelVmlDrawingBaseCollection, IEnumerable<ExcelVmlDrawingBase>, IDisposable, IPictureRelationDocument
     {
         internal CellStore<int> _drawingsCellStore;
         internal Dictionary<string, int> _drawingsDict = new Dictionary<string, int>();
         internal List<ExcelVmlDrawingBase> _drawings = new List<ExcelVmlDrawingBase>();
-        internal ExcelVmlDrawingCollection(ExcelPackage pck, ExcelWorksheet ws, Uri uri) :
-            base(pck, ws, uri)
+        internal ExcelVmlDrawingCollection(ExcelWorksheet ws, Uri uri) :
+            base(ws, uri, "d:legacyDrawing/@r:id")
         {
             _drawingsCellStore = new CellStore<int>();
             if (uri == null)
@@ -363,6 +365,14 @@ namespace OfficeOpenXml.Drawing.Vml
                 return _drawings.Count;
             }
         }
+
+        public ExcelPackage Package => _package;
+
+        public Dictionary<string, HashInfo> Hashes => _ws.Drawings._hashes;
+
+        public ZipPackagePart RelatedPart => Part;
+
+        public Uri RelatedUri => Uri;
         #region "Enumerator"
         //CellStoreEnumerator<ExcelVmlDrawingComment> _enum;
         public IEnumerator<ExcelVmlDrawingBase> GetEnumerator()

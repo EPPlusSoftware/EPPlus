@@ -8,11 +8,12 @@ namespace OfficeOpenXml.Drawing.Vml
 {
     public class ExcelVmlDrawingFill : XmlHelper
     {
+        internal ExcelDrawings _drawings;
         internal ExcelVmlDrawingFill(ExcelDrawings drawings, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) :
             base(ns, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
-            SetSettings(Style);
+            _drawings = drawings;
         }
         /// <summary>
         /// The type of fill used in the vml drawing
@@ -34,30 +35,9 @@ namespace OfficeOpenXml.Drawing.Vml
                 {
                     DeleteNode("@filled");
                     SetXmlNodeString("v:fill/@type", value.ToEnumString());
-                    SetSettings(value);
                 }
             }
         }
-
-        private void SetSettings(eVmlFillType value)
-        {
-            if(value==eVmlFillType.NoFill || value==eVmlFillType.Solid)
-            {
-                _gradientSettings = null;
-                _patternPictureSettings = null;
-            }
-            if (_gradientSettings == null && (value == eVmlFillType.Gradient || value == eVmlFillType.GradientRadial))
-            {
-                _gradientSettings = new ExcelVmlDrawingGradientFill(this, NameSpaceManager, TopNode);
-                _patternPictureSettings = null;
-            }
-            else if (_patternPictureSettings == null && (value == eVmlFillType.Gradient || value == eVmlFillType.GradientRadial))
-            {
-                _gradientSettings = null;
-                _patternPictureSettings = new ExcelVmlDrawingBlipFill(this, NameSpaceManager, TopNode);
-            }
-        }
-
         ExcelVmlDrawingColor _fillColor = null;
         /// <summary>
         /// The primary color used for filling the drawing.
@@ -92,32 +72,72 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeDouble("v:fill/@opacity", value, null, "%");
             }
         }
-        
+        ExcelVmlDrawingColor _secondColor;
+        /// <summary>
+        /// Fill color 2. 
+        /// </summary>
+        public ExcelVmlDrawingColor SecondColor
+        {
+            get
+            {
+                if (_secondColor == null)
+                {
+                    _secondColor = new ExcelVmlDrawingColor(NameSpaceManager, TopNode, "v:fill/@color2");
+                }
+                return _secondColor;
+            }
+        }
+        /// <summary>
+        /// Opacity for fill color 2. Spans 0-100%
+        /// Transparency is is 100-Opacity
+        /// </summary>
+        public double SecondColorOpacity
+        {
+            get
+            {
+                return VmlConvertUtil.GetOpacityFromStringVml(GetXmlNodeString("v:fill/@o:opacity2"));
+            }
+            set
+            {
+                if (value < 0 || value > 100)
+                {
+                    throw (new ArgumentOutOfRangeException("Opacity ranges from 0 to 100%"));
+                }
+                SetXmlNodeDouble("v:fill/@o:opacity2", value, null, "%");
+            }
+        }
         ExcelVmlDrawingGradientFill _gradientSettings = null;
         /// <summary>
-        /// If <see cref="Style"/> is set to Gradient or GradientRadial this propery contains the gradient specific settings.
+        /// Gradient specific settings used when <see cref="Style"/> is set to Gradient or GradientRadial.
         /// </summary>
         public ExcelVmlDrawingGradientFill GradientSettings
         {
             get
             {
+                if(_gradientSettings==null)
+                {
+                    _gradientSettings = new ExcelVmlDrawingGradientFill(this, NameSpaceManager, TopNode);
+                }
                 return _gradientSettings;
             }
         }
-        ExcelVmlDrawingBlipFill _patternPictureSettings = null;
+        ExcelVmlDrawingPictureFill _patternPictureSettings = null;
         /// <summary>
-        /// If <see cref="Style"/> is set to Gradient or GradientRadial this propery contains the gradient specific settings.
+        /// Image and pattern specific settings used when <see cref="Style"/> is set to Pattern, Tile or Frame.
         /// </summary>
-        public ExcelVmlDrawingBlipFill PatternPictureSettings
+        public ExcelVmlDrawingPictureFill PatternPictureSettings
         {
             get
             {
+                if(_patternPictureSettings==null)
+                {
+                    _patternPictureSettings = new ExcelVmlDrawingPictureFill(this, NameSpaceManager, TopNode);
+                }
                 return _patternPictureSettings;
             }
         }
-
         /// <summary>
-        /// Recolor
+        /// Recolor with picture
         /// </summary>
         public bool Recolor 
         { 
@@ -131,7 +151,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
-        /// Rotate
+        /// Rotate fill with shape
         /// </summary>
         public bool Rotate 
         {

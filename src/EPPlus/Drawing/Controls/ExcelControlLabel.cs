@@ -20,8 +20,8 @@ namespace OfficeOpenXml.Drawing.Controls
     {
         internal ExcelControlLabel(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
+            SetSize(150, 30); //Default size
         }
-
         internal ExcelControlLabel(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
             : base(drawings, drawNode, control, part, controlPropertiesXml, parent)
         {

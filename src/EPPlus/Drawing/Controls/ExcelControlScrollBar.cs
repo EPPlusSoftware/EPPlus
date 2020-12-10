@@ -20,6 +20,7 @@ namespace OfficeOpenXml.Drawing.Controls
     {
         internal ExcelControlScrollBar(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
+            SetSize(30, 150); //Default size
         }
         internal ExcelControlScrollBar(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
             : base(drawings, drawNode, control, part, controlPropertiesXml, parent)

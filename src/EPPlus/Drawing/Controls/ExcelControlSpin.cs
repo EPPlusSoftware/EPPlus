@@ -20,6 +20,7 @@ namespace OfficeOpenXml.Drawing.Controls
     {
         internal ExcelControlSpinButton(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
+            SetSize(40, 80); //Default size
         }
 
         internal ExcelControlSpinButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)

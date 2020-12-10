@@ -19,8 +19,10 @@ namespace OfficeOpenXml.Drawing.Controls
     public class ExcelControlButton : ExcelControlWithText
     {
 
-        internal ExcelControlButton(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
+        internal ExcelControlButton(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : 
+            base(drawings, drawNode, name, parent)
         {
+            SetSize(90, 30); //Default size
         }
 
         internal ExcelControlButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)

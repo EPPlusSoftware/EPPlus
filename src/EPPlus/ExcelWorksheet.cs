@@ -1022,7 +1022,7 @@ namespace OfficeOpenXml
             var relIdNode = _worksheetXml.DocumentElement.SelectSingleNode("d:legacyDrawing/@r:id", NameSpaceManager);
             if (relIdNode == null)
             {
-                _vmlDrawings = new ExcelVmlDrawingCollection(_package, this, null);
+                _vmlDrawings = new ExcelVmlDrawingCollection(this, null);
             }
             else
             {
@@ -1031,7 +1031,7 @@ namespace OfficeOpenXml
                     var rel = Part.GetRelationship(relIdNode.Value);
                     var vmlUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
 
-                    _vmlDrawings = new ExcelVmlDrawingCollection(_package, this, vmlUri);
+                    _vmlDrawings = new ExcelVmlDrawingCollection(this, vmlUri);
                     _vmlDrawings.RelId = rel.Id;
                 }
             }

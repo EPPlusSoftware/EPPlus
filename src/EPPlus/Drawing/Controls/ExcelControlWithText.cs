@@ -30,7 +30,8 @@ namespace OfficeOpenXml.Drawing.Controls
 
         }
 
-        protected ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
+        protected ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : 
+            base(drawings, drawNode, name, parent)
         {
         }
 

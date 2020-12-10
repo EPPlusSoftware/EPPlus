@@ -17,13 +17,13 @@ namespace OfficeOpenXml.Drawing.Controls
 {
     public abstract class ExcelControlWithColorsAndLines : ExcelControlWithText
     {
-        internal ExcelControlWithColorsAndLines(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart part, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
-            base(drawings, drawingNode, control, part, ctrlPropXml, parent)
-        {
-
-        }
 
         internal ExcelControlWithColorsAndLines(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent) : base(drawings, drawNode, name, parent)
+        {
+            SetSize(90, 30); //Default size        
+        }
+        internal ExcelControlWithColorsAndLines(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart part, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :
+            base(drawings, drawingNode, control, part, ctrlPropXml, parent)
         {
         }
 

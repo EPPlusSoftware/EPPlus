@@ -31,7 +31,7 @@ namespace EPPlusTest.Drawing.Control
         [TestMethod]
         public void ValidateNumberOfDrawings()
         {
-            Assert.AreEqual(8, _ws.Drawings.Count);
+            Assert.AreEqual(11, _ws.Drawings.Count);
         }
         [TestMethod]
         public void ValidateButtonControl()
@@ -102,6 +102,44 @@ namespace EPPlusTest.Drawing.Control
             Assert.AreEqual("Check Box 9", checkbox.Name);
             Assert.AreEqual("Check Box 9", checkbox.Text);
         }
+        [TestMethod]
+        public void ValidateCheckboxWithTileControl()
+        {
+            Assert.IsInstanceOfType(_ws.Drawings[8], typeof(ExcelControlCheckBox));
+            var checkbox = _ws.Drawings[8].As.Control.CheckBox;
+            Assert.AreEqual(eControlType.CheckBox, checkbox.ControlType);
+            Assert.AreEqual(eCheckState.Checked, checkbox.Checked);
+            Assert.AreEqual("Check Box 12", checkbox.Name);
+            Assert.AreEqual("Check Box 12", checkbox.Text);
+            Assert.AreEqual(OfficeOpenXml.Drawing.Vml.eVmlFillType.Tile, checkbox.Fill.Style);
+            Assert.IsNotNull(checkbox.Fill.PatternPictureSettings.Image);
+
+        }
+        [TestMethod]
+        public void ValidateCheckboxWithFrameControl()
+        {
+            Assert.IsInstanceOfType(_ws.Drawings[9], typeof(ExcelControlCheckBox));
+            var checkbox = _ws.Drawings[9].As.Control.CheckBox;
+            Assert.AreEqual(eControlType.CheckBox, checkbox.ControlType);
+            Assert.AreEqual(eCheckState.Checked, checkbox.Checked);
+            Assert.AreEqual("Check Box 13", checkbox.Name);
+            Assert.AreEqual("Check Box 13", checkbox.Text);
+            Assert.AreEqual(OfficeOpenXml.Drawing.Vml.eVmlFillType.Frame, checkbox.Fill.Style);
+            Assert.IsNotNull(checkbox.Fill.PatternPictureSettings.Image);
+        }
+        [TestMethod]
+        public void ValidateCheckboxWithPatternControl()
+        {
+            Assert.IsInstanceOfType(_ws.Drawings[10], typeof(ExcelControlCheckBox));
+            var checkbox = _ws.Drawings[10].As.Control.CheckBox;
+            Assert.AreEqual(eControlType.CheckBox, checkbox.ControlType);
+            Assert.AreEqual(eCheckState.Checked, checkbox.Checked);
+            Assert.AreEqual("Check Box 14", checkbox.Name);
+            Assert.AreEqual("Check Box 14", checkbox.Text);
+            Assert.AreEqual(OfficeOpenXml.Drawing.Vml.eVmlFillType.Pattern, checkbox.Fill.Style);
+            Assert.IsNotNull(checkbox.Fill.PatternPictureSettings.Image);
+        }
+
         [TestMethod]
         public void ValidateSpinbuttonControl()
         {

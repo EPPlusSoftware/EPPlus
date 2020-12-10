@@ -41,7 +41,7 @@ namespace EPPlusTest.Drawing.Control
             _ws.Cells["A1"].Value = "Linked Button Caption";
             ctrl.LinkedCell = _ws.Cells["A1"];
             _codeModule.Code += "Sub Button1_Click()\r\n  MsgBox \"Clicked Button!!\"\r\nEnd Sub\r\n";
-            //ctrl.Text = "Text";
+
             ctrl.RichText[0].Fill.Color = Color.Red;
             ctrl.RichText[0].Size = 18;
             var rt2 = ctrl.RichText.Add(" Blue");
@@ -92,21 +92,21 @@ namespace EPPlusTest.Drawing.Control
             var ctrl = _ws.Drawings.AddCheckBoxControl("Checkbox 1");
             ctrl.Macro = "Checkbox_Click";
             ctrl.Fill.Style = eVmlFillType.Gradient;
-            ctrl.Fill.GradientSettings.SecondColor.ColorString= "#ff8200";
+            ctrl.Fill.SecondColor.ColorString= "#ff8200";
             ctrl.Fill.GradientSettings.Focus = 100;
             ctrl.Fill.GradientSettings.Angle = -135;
             ctrl.Fill.Color.ColorString = "#000082";
             ctrl.Fill.GradientSettings.SetGradientColors(new VmlGradiantColor(0, Color.Red), new VmlGradiantColor(50, Color.Orange), new VmlGradiantColor(100, Color.Yellow));            
             ctrl.Fill.Opacity = 97;
             ctrl.Fill.Recolor = true;
-            ctrl.Fill.GradientSettings.SecondColorOpacity = 50;
+            ctrl.Fill.SecondColorOpacity = 50;
             ctrl.Border.LineStyle = eVmlLineStyle.ThickThin;
             ctrl.Border.Width.Value = 1;
             ctrl.Border.Width.Unit = eMeasurementUnits.Pixels;
             ctrl.LinkedCell = _ws.Cells["F1"];
             ctrl.Checked = eCheckState.Mixed;
             ctrl.SetPosition(100, 100);
-            ctrl.SetSize(200, 100);
+            //ctrl.SetSize(200, 100);
             
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("CheckboxCode");
             _codeModule.Code += "Sub Checkbox_Click()\r\n  MsgBox \"Clicked Checkbox!!\"\r\nEnd Sub\r\n";
@@ -154,6 +154,45 @@ namespace EPPlusTest.Drawing.Control
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("RadioButtonCode");
             _codeModule.Code += "Sub RadioButton_Click()\r\n  MsgBox \"Clicked RadioButton!!\"\r\nEnd Sub\r\n";
         }
+        [TestMethod]
+        public void AddCheckboxWithFrameFillTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("CheckboxWithImageFill");
+            var ctrl = _ws.Drawings.AddCheckBoxControl("Checkbox 2");
+            ctrl.Fill.Style = eVmlFillType.Frame;
+            ctrl.Fill.PatternPictureSettings.Image = Properties.Resources.Test1;
+            ctrl.Fill.PatternPictureSettings.AspectRatio = eVmlAspectRatio.AtLeast;
+            ctrl.Fill.PatternPictureSettings.Size = "0,0";
+            ctrl.SetPosition(100, 100);
+            ctrl.SetSize(200, 100);
+        }
+        [TestMethod]
+        public void AddCheckboxWithTileFillTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("CheckboxWithTileFill");
+            var ctrl = _ws.Drawings.AddCheckBoxControl("Checkbox 2");
+            ctrl.Fill.Style = eVmlFillType.Tile;
+            ctrl.Fill.PatternPictureSettings.Image = Properties.Resources.Pattern1;
+            ctrl.Fill.Color.SetColor(Color.Black);
+            ctrl.Fill.Recolor = true;
+            ctrl.SetPosition(100, 100);
+            ctrl.SetSize(200, 100);
+        }
+        [TestMethod]
+        public void AddCheckboxWithPatternFillTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("CheckboxWithPatternFill");
+            var ctrl = _ws.Drawings.AddCheckBoxControl("Checkbox 2");
+            ctrl.Fill.Style = eVmlFillType.Pattern;
+            ctrl.Fill.PatternPictureSettings.Image = Properties.Resources.VmlPatternImage;
+            ctrl.Fill.Color.SetColor(Color.Red);
+            ctrl.Fill.SecondColor.SetColor(Color.Yellow);
+            ctrl.Fill.Recolor = true;
+            ctrl.AutoFill = false;
+            ctrl.SetPosition(100, 100);
+            ctrl.SetSize(200, 100);
+        }
+
         [TestMethod]
         public void AddDropDownTest()
         {
@@ -228,6 +267,24 @@ namespace EPPlusTest.Drawing.Control
             _codeModule.Code += "Sub SpinButton_Click()\r\n  MsgBox \"Selected SpinButton!!\"\r\nEnd Sub\r\n";
         }
         [TestMethod]
+        public void AddScrollbarButtonTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("Scrollbar");
+            var ctrl = _ws.Drawings.AddScrollBarControl("Scrollbar 1");
+            ctrl.Macro = "ScrolbarButton_Click";
+            ctrl.SetPosition(500, 100);
+            //ctrl.SetSize(200, 100);
+
+            _ws.Cells["G1"].Value = 3;
+
+            ctrl.LinkedCell = _ws.Cells["G1"];
+            ctrl.MaxValue = 100;
+            ctrl.MinValue = 2;
+            ctrl.Page = 20;
+            _codeModule.Code += "Sub SpinButton_Click()\r\n  MsgBox \"Selected SpinButton!!\"\r\nEnd Sub\r\n";
+        }
+
+        [TestMethod]
         public void AddGroupBoxTest()
         {
             _ws = _pck.Workbook.Worksheets.Add("GroupBox");
@@ -254,6 +311,18 @@ namespace EPPlusTest.Drawing.Control
             ctrl.Group(r1, r2, r3);
 
             _codeModule.Code += "Sub GroupBox_Click()\r\n  MsgBox \"Clicked GroupBox!!\"\r\nEnd Sub\r\n";
+        }
+        [TestMethod]
+        public void AddControlHeaderAndComment()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("HeaderControlAndComment");
+            ws.HeaderFooter.OddHeader.CenteredText = "Before ";
+            var img = ws.HeaderFooter.OddHeader.InsertPicture(Properties.Resources.Test1, PictureAlignment.Centered);
+            img.Title = "Renamed Image";
+
+            ws.Comments.Add(ws.Cells["A1"], "Comment in cell A1", "JK");
+            var btn = ws.Drawings.AddButtonControl("Button 1");
+            btn.SetPosition(100, 100);
         }
     }
 }

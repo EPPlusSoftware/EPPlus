@@ -19,6 +19,7 @@ namespace OfficeOpenXml.Drawing.Controls
     {
         internal ExcelControlGroupBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
+            SetSize(200, 200); //Default size
         }
         internal ExcelControlGroupBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
             : base(drawings, drawNode, control, part, controlPropertiesXml, parent)
