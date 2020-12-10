@@ -1911,5 +1911,22 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(1d, sheet.Cells["B1"].Value);
             }
         }
+
+        [TestMethod]
+        public void MultinominalShouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 3;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 5;
+                sheet.Cells["B1"].Formula = "MULTINOMINAL(A1:A4)";
+                sheet.Calculate();
+                Assert.AreEqual(27720d, sheet.Cells["B1"].Value);
+            }
+        }
     }
 }
