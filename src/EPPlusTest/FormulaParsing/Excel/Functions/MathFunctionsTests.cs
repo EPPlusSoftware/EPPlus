@@ -1913,7 +1913,7 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
-        public void MultinominalShouldReturnCorrectResult()
+        public void MultinomialShouldReturnCorrectResult()
         {
             using (var package = new ExcelPackage())
             {
@@ -1923,7 +1923,7 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Cells["A2"].Value = 1;
                 sheet.Cells["A3"].Value = 2;
                 sheet.Cells["A4"].Value = 5;
-                sheet.Cells["B1"].Formula = "MULTINOMINAL(A1:A4)";
+                sheet.Cells["B1"].Formula = "MULTINOMIAL(A1:A4)";
                 sheet.Calculate();
                 Assert.AreEqual(27720d, sheet.Cells["B1"].Value);
             }

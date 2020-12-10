@@ -137,7 +137,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["mode"] = new Mode();
             Functions["mode.sngl"] = new ModeSngl();
             Functions["mround"] = new Mround();
-            Functions["multinominal"] = new Multinominal();
+            Functions["multinomial"] = new Multinomial();
             Functions["average"] = new Average();
             Functions["averagea"] = new AverageA();
             Functions["averageif"] = new AverageIf();

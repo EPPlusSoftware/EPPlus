@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.5",
         Description = "Returns the ratio of the factorial of a sum of values to the product of factorials.")]
-    internal class Multinominal : ExcelFunction
+    internal class Multinomial : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
