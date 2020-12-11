@@ -323,29 +323,36 @@ namespace OfficeOpenXml.VBA
             byte[] seed = new byte[1];
             var rn = RandomNumberGenerator.Create();
             rn.GetBytes(seed);
-            BinaryWriter br = new BinaryWriter(new MemoryStream());
+
+            byte[] array;
+            byte pb;
             byte[] enc = new byte[value.Length + 10];
-            enc[0] = seed[0];
-            enc[1] = (byte)(2 ^ seed[0]);
-
-            byte projKey = 0;
-
-            foreach (var c in ProjectID)
+            using (var ms = RecyclableMemory.GetStream())
             {
-                projKey += (byte)c;
+                BinaryWriter br = new BinaryWriter(ms);
+                enc[0] = seed[0];
+                enc[1] = (byte)(2 ^ seed[0]);
+
+                byte projKey = 0;
+
+                foreach (var c in ProjectID)
+                {
+                    projKey += (byte)c;
+                }
+                enc[2] = (byte)(projKey ^ seed[0]);
+                var ignoredLength = (seed[0] & 6) / 2;
+                for (int i = 0; i < ignoredLength; i++)
+                {
+                    br.Write(seed[0]);
+                }
+                br.Write(value.Length);
+                br.Write(value);
+                array = ms.ToArray();
+                pb = projKey;
             }
-            enc[2] = (byte)(projKey ^ seed[0]);
-            var ignoredLength = (seed[0] & 6) / 2;
-            for (int i = 0; i < ignoredLength; i++)
-            {
-                br.Write(seed[0]);
-            }
-            br.Write(value.Length);
-            br.Write(value);
 
             int pos = 3;
-            byte pb = projKey;
-            foreach (var b in ((MemoryStream)br.BaseStream).ToArray())
+            foreach (var b in array)
             {
                 enc[pos] = (byte)(b ^ (enc[pos - 2] + pb));
                 pos++;
@@ -382,149 +389,151 @@ namespace OfficeOpenXml.VBA
         private void ReadDirStream()
         {
             byte[] dir = VBACompression.DecompressPart(Document.Storage.SubStorage["VBA"].DataStreams["dir"]);
-            MemoryStream ms = new MemoryStream(dir);
-            BinaryReader br = new BinaryReader(ms);
-            ExcelVbaReference currentRef = null;
-            string referenceName = "";
-            ExcelVBAModule currentModule = null;
-            bool terminate = false;
-            while (br.BaseStream.Position < br.BaseStream.Length && terminate == false)
+            using (var ms = RecyclableMemory.GetStream(dir))
             {
-                ushort id = br.ReadUInt16();
-                uint size = br.ReadUInt32();
-                switch (id)
+                BinaryReader br = new BinaryReader(ms);
+                ExcelVbaReference currentRef = null;
+                string referenceName = "";
+                ExcelVBAModule currentModule = null;
+                bool terminate = false;
+                while (ms.Position < ms.Length && terminate == false)
                 {
-                    case 0x01:
-                        SystemKind = (eSyskind)br.ReadUInt32();
-                        break;
-                    case 0x02:
-                        Lcid = (int)br.ReadUInt32();
-                        break;
-                    case 0x03:
-                        CodePage = (int)br.ReadUInt16();
-                        break;
-                    case 0x04:
-                        Name = GetString(br, size);
-                        break;
-                    case 0x05:
-                        Description = GetUnicodeString(br, size);
-                        break;
-                    case 0x06:
-                        HelpFile1 = GetString(br, size);
-                        break;
-                    case 0x3D:
-                        HelpFile2 = GetString(br, size);
-                        break;
-                    case 0x07:
-                        HelpContextID = (int)br.ReadUInt32();
-                        break;
-                    case 0x08:
-                        LibFlags = (int)br.ReadUInt32();
-                        break;
-                    case 0x09:
-                        MajorVersion = (int)br.ReadUInt32();
-                        MinorVersion = (int)br.ReadUInt16();
-                        break;
-                    case 0x0C:
-                        Constants = GetUnicodeString(br, size);
-                        break;
-                    case 0x0D:
-                        uint sizeLibID = br.ReadUInt32();
-                        var regRef = new ExcelVbaReference();
-                        regRef.Name = referenceName;
-                        regRef.ReferenceRecordID = id;
-                        regRef.Libid = GetString(br, sizeLibID);
-                        uint reserved1 = br.ReadUInt32();
-                        ushort reserved2 = br.ReadUInt16();
-                        References.Add(regRef);
-                        break;
-                    case 0x0E:
-                        var projRef = new ExcelVbaReferenceProject();
-                        projRef.ReferenceRecordID = id;
-                        projRef.Name = referenceName;
-                        sizeLibID = br.ReadUInt32();
-                        projRef.Libid = GetString(br, sizeLibID);
-                        sizeLibID = br.ReadUInt32();
-                        projRef.LibIdRelative = GetString(br, sizeLibID);
-                        projRef.MajorVersion = br.ReadUInt32();
-                        projRef.MinorVersion = br.ReadUInt16();
-                        References.Add(projRef);
-                        break;
-                    case 0x0F:
-                        ushort modualCount = br.ReadUInt16();
-                        break;
-                    case 0x13:
-                        ushort cookie = br.ReadUInt16();
-                        break;
-                    case 0x14:
-                        LcidInvoke = (int)br.ReadUInt32();
-                        break;
-                    case 0x16:
-                        referenceName = GetUnicodeString(br, size);
-                        break;
-                    case 0x19:
-                        currentModule = new ExcelVBAModule();
-                        currentModule.Name = GetUnicodeString(br, size);
-                        Modules.Add(currentModule);
-                        break;
-                    case 0x1A:
-                        currentModule.streamName = GetUnicodeString(br, size);
-                        break;
-                    case 0x1C:
-                        currentModule.Description = GetUnicodeString(br, size);
-                        break;
-                    case 0x1E:
-                        currentModule.HelpContext = (int)br.ReadUInt32();
-                        break;
-                    case 0x21:
-                    case 0x22:
-                        break;
-                    case 0x2B:      //Modul Terminator
-                        break;
-                    case 0x2C:
-                        currentModule.Cookie = br.ReadUInt16();
-                        break;
-                    case 0x31:
-                        currentModule.ModuleOffset = br.ReadUInt32();
-                        break;
-                    case 0x10:
-                        terminate = true;
-                        break;
-                    case 0x30:
-                        var extRef = (ExcelVbaReferenceControl)currentRef;
-                        var sizeExt = br.ReadUInt32();
-                        extRef.LibIdExternal = GetString(br, sizeExt);
+                    ushort id = br.ReadUInt16();
+                    uint size = br.ReadUInt32();
+                    switch (id)
+                    {
+                        case 0x01:
+                            SystemKind = (eSyskind)br.ReadUInt32();
+                            break;
+                        case 0x02:
+                            Lcid = (int)br.ReadUInt32();
+                            break;
+                        case 0x03:
+                            CodePage = (int)br.ReadUInt16();
+                            break;
+                        case 0x04:
+                            Name = GetString(br, size);
+                            break;
+                        case 0x05:
+                            Description = GetUnicodeString(br, size);
+                            break;
+                        case 0x06:
+                            HelpFile1 = GetString(br, size);
+                            break;
+                        case 0x3D:
+                            HelpFile2 = GetString(br, size);
+                            break;
+                        case 0x07:
+                            HelpContextID = (int)br.ReadUInt32();
+                            break;
+                        case 0x08:
+                            LibFlags = (int)br.ReadUInt32();
+                            break;
+                        case 0x09:
+                            MajorVersion = (int)br.ReadUInt32();
+                            MinorVersion = (int)br.ReadUInt16();
+                            break;
+                        case 0x0C:
+                            Constants = GetUnicodeString(br, size);
+                            break;
+                        case 0x0D:
+                            uint sizeLibID = br.ReadUInt32();
+                            var regRef = new ExcelVbaReference();
+                            regRef.Name = referenceName;
+                            regRef.ReferenceRecordID = id;
+                            regRef.Libid = GetString(br, sizeLibID);
+                            uint reserved1 = br.ReadUInt32();
+                            ushort reserved2 = br.ReadUInt16();
+                            References.Add(regRef);
+                            break;
+                        case 0x0E:
+                            var projRef = new ExcelVbaReferenceProject();
+                            projRef.ReferenceRecordID = id;
+                            projRef.Name = referenceName;
+                            sizeLibID = br.ReadUInt32();
+                            projRef.Libid = GetString(br, sizeLibID);
+                            sizeLibID = br.ReadUInt32();
+                            projRef.LibIdRelative = GetString(br, sizeLibID);
+                            projRef.MajorVersion = br.ReadUInt32();
+                            projRef.MinorVersion = br.ReadUInt16();
+                            References.Add(projRef);
+                            break;
+                        case 0x0F:
+                            ushort modualCount = br.ReadUInt16();
+                            break;
+                        case 0x13:
+                            ushort cookie = br.ReadUInt16();
+                            break;
+                        case 0x14:
+                            LcidInvoke = (int)br.ReadUInt32();
+                            break;
+                        case 0x16:
+                            referenceName = GetUnicodeString(br, size);
+                            break;
+                        case 0x19:
+                            currentModule = new ExcelVBAModule();
+                            currentModule.Name = GetUnicodeString(br, size);
+                            Modules.Add(currentModule);
+                            break;
+                        case 0x1A:
+                            currentModule.streamName = GetUnicodeString(br, size);
+                            break;
+                        case 0x1C:
+                            currentModule.Description = GetUnicodeString(br, size);
+                            break;
+                        case 0x1E:
+                            currentModule.HelpContext = (int)br.ReadUInt32();
+                            break;
+                        case 0x21:
+                        case 0x22:
+                            break;
+                        case 0x2B:      //Modul Terminator
+                            break;
+                        case 0x2C:
+                            currentModule.Cookie = br.ReadUInt16();
+                            break;
+                        case 0x31:
+                            currentModule.ModuleOffset = br.ReadUInt32();
+                            break;
+                        case 0x10:
+                            terminate = true;
+                            break;
+                        case 0x30:
+                            var extRef = (ExcelVbaReferenceControl)currentRef;
+                            var sizeExt = br.ReadUInt32();
+                            extRef.LibIdExternal = GetString(br, sizeExt);
 
-                        uint reserved4 = br.ReadUInt32();
-                        ushort reserved5 = br.ReadUInt16();
-                        extRef.OriginalTypeLib = new Guid(br.ReadBytes(16));
-                        extRef.Cookie = br.ReadUInt32();
-                        break;
-                    case 0x33:
-                        currentRef = new ExcelVbaReferenceControl();
-                        currentRef.ReferenceRecordID = id;
-                        currentRef.Name = referenceName;
-                        currentRef.Libid = GetString(br, size);
-                        References.Add(currentRef);
-                        break;
-                    case 0x2F:
-                        var contrRef = (ExcelVbaReferenceControl)currentRef;
-                        contrRef.ReferenceRecordID = id;
+                            uint reserved4 = br.ReadUInt32();
+                            ushort reserved5 = br.ReadUInt16();
+                            extRef.OriginalTypeLib = new Guid(br.ReadBytes(16));
+                            extRef.Cookie = br.ReadUInt32();
+                            break;
+                        case 0x33:
+                            currentRef = new ExcelVbaReferenceControl();
+                            currentRef.ReferenceRecordID = id;
+                            currentRef.Name = referenceName;
+                            currentRef.Libid = GetString(br, size);
+                            References.Add(currentRef);
+                            break;
+                        case 0x2F:
+                            var contrRef = (ExcelVbaReferenceControl)currentRef;
+                            contrRef.ReferenceRecordID = id;
 
-                        var sizeTwiddled = br.ReadUInt32();
-                        contrRef.LibIdTwiddled = GetString(br, sizeTwiddled);
-                        var r1 = br.ReadUInt32();
-                        var r2 = br.ReadUInt16();
+                            var sizeTwiddled = br.ReadUInt32();
+                            contrRef.LibIdTwiddled = GetString(br, sizeTwiddled);
+                            var r1 = br.ReadUInt32();
+                            var r2 = br.ReadUInt16();
 
-                        break;
-                    case 0x25:
-                        currentModule.ReadOnly = true;
-                        break;
-                    case 0x28:
-                        currentModule.Private = true;
-                        break;
-                    default:
-                        break;
+                            break;
+                        case 0x25:
+                            currentModule.ReadOnly = true;
+                            break;
+                        case 0x28:
+                            currentModule.Private = true;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -598,12 +607,15 @@ namespace OfficeOpenXml.VBA
         /// <returns></returns>
         private byte[] CreateVBAProjectStream()
         {
-            BinaryWriter bw = new BinaryWriter(new MemoryStream());
-            bw.Write((ushort)0x61CC); //Reserved1
-            bw.Write((ushort)0xFFFF); //Version
-            bw.Write((byte)0x0); //Reserved3
-            bw.Write((ushort)0x0); //Reserved4
-            return ((MemoryStream)bw.BaseStream).ToArray();
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
+                bw.Write((ushort)0x61CC); //Reserved1
+                bw.Write((ushort)0xFFFF); //Version
+                bw.Write((byte)0x0); //Reserved3
+                bw.Write((ushort)0x0); //Reserved4
+                return ms.ToArray();
+            }
         }
         /// <summary>
         /// MS-OVBA 2.3.4.1
@@ -611,108 +623,111 @@ namespace OfficeOpenXml.VBA
         /// <returns></returns>
         private byte[] CreateDirStream()
         {
-            BinaryWriter bw = new BinaryWriter(new MemoryStream());
-
-            /****** PROJECTINFORMATION Record ******/
-            bw.Write((ushort)1);        //ID
-            bw.Write((uint)4);          //Size
-            bw.Write((uint)SystemKind); //SysKind
-
-            bw.Write((ushort)2);        //ID
-            bw.Write((uint)4);          //Size
-            bw.Write((uint)Lcid);       //Lcid
-
-            bw.Write((ushort)0x14);     //ID
-            bw.Write((uint)4);          //Size
-            bw.Write((uint)LcidInvoke); //Lcid Invoke
-
-            bw.Write((ushort)3);        //ID
-            bw.Write((uint)2);          //Size
-            bw.Write((ushort)CodePage);   //Codepage
-
-            //ProjectName
-            bw.Write((ushort)4);                                            //ID
-            bw.Write((uint)Name.Length);                             //Size
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Name)); //Project Name
-
-            //Description
-            bw.Write((ushort)5);                                            //ID
-            bw.Write((uint)Description.Length);                             //Size
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Description)); //Project Name
-            bw.Write((ushort)0x40);                                           //ID
-            bw.Write((uint)Description.Length*2);                           //Size
-            bw.Write(Encoding.Unicode.GetBytes(Description));               //Project Description
-
-            //Helpfiles
-            bw.Write((ushort)6);                                           //ID
-            bw.Write((uint)HelpFile1.Length);                              //Size
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(HelpFile1));  //HelpFile1            
-            bw.Write((ushort)0x3D);                                           //ID
-            bw.Write((uint)HelpFile2.Length);                              //Size
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(HelpFile2));  //HelpFile2
-
-            //Help context id
-            bw.Write((ushort)7);            //ID
-            bw.Write((uint)4);              //Size
-            bw.Write((uint)HelpContextID);  //Help context id
-
-            //Libflags
-            bw.Write((ushort)8);            //ID
-            bw.Write((uint)4);              //Size
-            bw.Write((uint)0);  //Help context id
-
-            //Vba Version
-            bw.Write((ushort)9);            //ID
-            bw.Write((uint)4);              //Reserved
-            bw.Write((uint)MajorVersion);   //Reserved
-            bw.Write((ushort)MinorVersion); //Help context id
-
-            //Constants
-            bw.Write((ushort)0x0C);           //ID
-            bw.Write((uint)Constants.Length);              //Size
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Constants));              //Help context id
-            bw.Write((ushort)0x3C);                                           //ID
-            bw.Write((uint)Constants.Length/2);                              //Size
-            bw.Write(Encoding.Unicode.GetBytes(Constants));  //HelpFile2
-
-            /****** PROJECTREFERENCES Record ******/
-            foreach (var reference in References)
+            using (var ms = RecyclableMemory.GetStream())
             {
-                WriteNameReference(bw, reference);
+                BinaryWriter bw = new BinaryWriter(ms);
 
-                if (reference.ReferenceRecordID == 0x2F)
+                /****** PROJECTINFORMATION Record ******/
+                bw.Write((ushort)1);        //ID
+                bw.Write((uint)4);          //Size
+                bw.Write((uint)SystemKind); //SysKind
+
+                bw.Write((ushort)2);        //ID
+                bw.Write((uint)4);          //Size
+                bw.Write((uint)Lcid);       //Lcid
+
+                bw.Write((ushort)0x14);     //ID
+                bw.Write((uint)4);          //Size
+                bw.Write((uint)LcidInvoke); //Lcid Invoke
+
+                bw.Write((ushort)3);        //ID
+                bw.Write((uint)2);          //Size
+                bw.Write((ushort)CodePage);   //Codepage
+
+                //ProjectName
+                bw.Write((ushort)4);                                            //ID
+                bw.Write((uint)Name.Length);                             //Size
+                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Name)); //Project Name
+
+                //Description
+                bw.Write((ushort)5);                                            //ID
+                bw.Write((uint)Description.Length);                             //Size
+                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Description)); //Project Name
+                bw.Write((ushort)0x40);                                           //ID
+                bw.Write((uint)Description.Length * 2);                           //Size
+                bw.Write(Encoding.Unicode.GetBytes(Description));               //Project Description
+
+                //Helpfiles
+                bw.Write((ushort)6);                                           //ID
+                bw.Write((uint)HelpFile1.Length);                              //Size
+                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(HelpFile1));  //HelpFile1            
+                bw.Write((ushort)0x3D);                                           //ID
+                bw.Write((uint)HelpFile2.Length);                              //Size
+                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(HelpFile2));  //HelpFile2
+
+                //Help context id
+                bw.Write((ushort)7);            //ID
+                bw.Write((uint)4);              //Size
+                bw.Write((uint)HelpContextID);  //Help context id
+
+                //Libflags
+                bw.Write((ushort)8);            //ID
+                bw.Write((uint)4);              //Size
+                bw.Write((uint)0);  //Help context id
+
+                //Vba Version
+                bw.Write((ushort)9);            //ID
+                bw.Write((uint)4);              //Reserved
+                bw.Write((uint)MajorVersion);   //Reserved
+                bw.Write((ushort)MinorVersion); //Help context id
+
+                //Constants
+                bw.Write((ushort)0x0C);           //ID
+                bw.Write((uint)Constants.Length);              //Size
+                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Constants));              //Help context id
+                bw.Write((ushort)0x3C);                                           //ID
+                bw.Write((uint)Constants.Length / 2);                              //Size
+                bw.Write(Encoding.Unicode.GetBytes(Constants));  //HelpFile2
+
+                /****** PROJECTREFERENCES Record ******/
+                foreach (var reference in References)
                 {
-                    WriteControlReference(bw, reference);
+                    WriteNameReference(bw, reference);
+
+                    if (reference.ReferenceRecordID == 0x2F)
+                    {
+                        WriteControlReference(bw, reference);
+                    }
+                    else if (reference.ReferenceRecordID == 0x33)
+                    {
+                        WriteOrginalReference(bw, reference);
+                    }
+                    else if (reference.ReferenceRecordID == 0x0D)
+                    {
+                        WriteRegisteredReference(bw, reference);
+                    }
+                    else if (reference.ReferenceRecordID == 0x0E)
+                    {
+                        WriteProjectReference(bw, reference);
+                    }
                 }
-                else if (reference.ReferenceRecordID == 0x33)
+
+                bw.Write((ushort)0x0F);
+                bw.Write((uint)0x02);
+                bw.Write((ushort)Modules.Count);
+                bw.Write((ushort)0x13);
+                bw.Write((uint)0x02);
+                bw.Write((ushort)0xFFFF);
+
+                foreach (var module in Modules)
                 {
-                    WriteOrginalReference(bw, reference);
+                    WriteModuleRecord(bw, module);
                 }
-                else if (reference.ReferenceRecordID == 0x0D)
-                {
-                    WriteRegisteredReference(bw, reference);
-                }
-                else if (reference.ReferenceRecordID == 0x0E)
-                {
-                    WriteProjectReference(bw, reference);
-                }
+                bw.Write((ushort)0x10);             //Terminator
+                bw.Write((uint)0);
+
+                return VBACompression.CompressPart(ms.ToArray());
             }
-
-            bw.Write((ushort)0x0F);
-            bw.Write((uint)0x02);
-            bw.Write((ushort)Modules.Count);
-            bw.Write((ushort)0x13);
-            bw.Write((uint)0x02);
-            bw.Write((ushort)0xFFFF);
-
-            foreach (var module in Modules)
-            {
-                WriteModuleRecord(bw, module);
-            }
-            bw.Write((ushort)0x10);             //Terminator
-            bw.Write((uint)0);              
-
-            return VBACompression.CompressPart(((MemoryStream)bw.BaseStream).ToArray());
         }
 
         private void WriteModuleRecord(BinaryWriter bw, ExcelVBAModule module)
@@ -836,17 +851,20 @@ namespace OfficeOpenXml.VBA
 
         private byte[] CreateProjectwmStream()
         {
-            BinaryWriter bw = new BinaryWriter(new MemoryStream());
-
-            foreach (var module in Modules)
+            using (var ms = RecyclableMemory.GetStream())
             {
-                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(module.Name));     //Name
-                bw.Write((byte)0); //Null
-                bw.Write(Encoding.Unicode.GetBytes(module.Name));                   //Name
+                BinaryWriter bw = new BinaryWriter(ms);
+
+                foreach (var module in Modules)
+                {
+                    bw.Write(Encoding.GetEncoding(CodePage).GetBytes(module.Name));     //Name
+                    bw.Write((byte)0); //Null
+                    bw.Write(Encoding.Unicode.GetBytes(module.Name));                   //Name
+                    bw.Write((ushort)0); //Null
+                }
                 bw.Write((ushort)0); //Null
+                return ms.ToArray();
             }
-            bw.Write((ushort)0); //Null
-            return ((MemoryStream)bw.BaseStream).ToArray();
         }       
         private byte[] CreateProjectStream()
         {
@@ -952,13 +970,16 @@ namespace OfficeOpenXml.VBA
                     }
                 }
                 //Write the Password Hash Data Structure (2.4.4.1)
-                BinaryWriter bw = new BinaryWriter(new MemoryStream());
-                bw.Write((byte)0xFF);
-                bw.Write(nullBits);
-                bw.Write(nullKey);
-                bw.Write(nullHash);
-                bw.Write((byte)0);
-                return Encrypt(((MemoryStream)bw.BaseStream).ToArray());
+                using (var ms = RecyclableMemory.GetStream())
+                {
+                    BinaryWriter bw = new BinaryWriter(ms);
+                    bw.Write((byte)0xFF);
+                    bw.Write(nullBits);
+                    bw.Write(nullKey);
+                    bw.Write(nullHash);
+                    bw.Write((byte)0);
+                    return Encrypt(ms.ToArray());
+                }
             }
         }
         private string WriteVisibilityState()

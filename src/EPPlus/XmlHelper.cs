@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml
 {
@@ -1149,8 +1150,10 @@ namespace OfficeOpenXml
         }
         internal static void LoadXmlSafe(XmlDocument xmlDoc, string xml, Encoding encoding)
         {
-            var stream = new MemoryStream(encoding.GetBytes(xml));
-            LoadXmlSafe(xmlDoc, stream);
+            using (var stream = RecyclableMemory.GetStream(encoding.GetBytes(xml)))
+            {
+                LoadXmlSafe(xmlDoc, stream);
+            }
         }
         internal protected void CreatespPrNode(string nodePath = "c:spPr", bool withLine = true)
         {

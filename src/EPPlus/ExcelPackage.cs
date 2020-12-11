@@ -437,13 +437,16 @@ namespace OfficeOpenXml
                 {
                     throw new IOException($"{template.FullName} can not be a zero-byte file.");
                 }
-                if (_stream==null) _stream=new MemoryStream();
-                var ms = new MemoryStream();
+                if (_stream==null)
+                    _stream = RecyclableMemory.GetStream();
+
+                var ms = RecyclableMemory.GetStream();
                 if (password != null)
                 {
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
                     var encrHandler = new EncryptedPackageHandler();
+                    ms.Dispose();
                     ms = encrHandler.DecryptPackage(template, Encryption);
                     encrHandler = null;
                 }
@@ -466,6 +469,10 @@ namespace OfficeOpenXml
                         throw;
                     }
                 }
+                finally
+                {
+                    ms.Dispose();
+				}
             }
             else
                 throw new Exception("Passed invalid TemplatePath to Excel Template");
@@ -473,8 +480,8 @@ namespace OfficeOpenXml
         }
         private void ConstructNewFile(string password)
         {
-            var ms = new MemoryStream();
-            if (_stream == null) _stream = new MemoryStream();
+            var ms = RecyclableMemory.GetStream();
+            if (_stream == null) _stream = RecyclableMemory.GetStream();
             if (File != null) File.Refresh();
             if (File != null && File.Exists && File.Length > 0)
             {
@@ -483,6 +490,7 @@ namespace OfficeOpenXml
                     var encrHandler = new EncryptedPackageHandler();
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
+                    ms.Dispose();
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
                 else
@@ -494,7 +502,7 @@ namespace OfficeOpenXml
                     _zipPackage = new ZipPackage(ms);
                 }
                 catch (Exception ex)
-               {
+                {
                     if (password == null && CompoundDocument.IsCompoundDocument(File))
                     {
                         throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
@@ -504,10 +512,15 @@ namespace OfficeOpenXml
                         throw;
                     }
                 }
+                finally
+                {
+                    ms.Dispose();
+				}
             }
             else
             {
                 _zipPackage = new ZipPackage(ms);
+                ms.Dispose();
                 CreateBlankWb();
             }
         }
@@ -832,12 +845,17 @@ namespace OfficeOpenXml
                 {
                     if(Encryption.IsEncrypted)
                     {
-                        var ms = new MemoryStream();
-                        _zipPackage.Save(ms);
-                        byte[] file = ms.ToArray(); 
+                        byte[] file;
+                        using (var ms = RecyclableMemory.GetStream())
+                        {
+                            _zipPackage.Save(ms);
+                            file = ms.ToArray();
+                        }
                         EncryptedPackageHandler eph = new EncryptedPackageHandler();
-                        var msEnc = eph.EncryptPackage(file, Encryption);
-                        CopyStream(msEnc, ref _stream);
+                        using (var msEnc = eph.EncryptPackage(file, Encryption))
+                        {
+                            CopyStream(msEnc, ref _stream);
+                        }
                     }   
                     else
                     {
@@ -870,9 +888,11 @@ namespace OfficeOpenXml
                         {
                             byte[] file = ((MemoryStream)Stream).ToArray();
                             EncryptedPackageHandler eph = new EncryptedPackageHandler();
-                            var ms = eph.EncryptPackage(file, Encryption);
-                             
-                            fi.Write(ms.ToArray(), 0, (int)ms.Length);
+
+                            using (var ms = eph.EncryptPackage(file, Encryption))
+                            {
+                                fi.Write(ms.ToArray(), 0, (int)ms.Length);
+                            }
                         }   
                         else
                         {                            
@@ -978,7 +998,7 @@ namespace OfficeOpenXml
                 _stream.Dispose();
             }
 
-            _stream = new MemoryStream();
+            _stream = RecyclableMemory.GetStream();
         }
         /// <summary>
         /// The output stream. This stream is the not the encrypted package.
@@ -1108,8 +1128,10 @@ namespace OfficeOpenXml
             if (Encryption.IsEncrypted)
             {
                 EncryptedPackageHandler eph=new EncryptedPackageHandler();
-                var ms = eph.EncryptPackage(byRet, Encryption);
-                byRet = ms.ToArray();
+                using (var ms = eph.EncryptPackage(byRet, Encryption))
+                {
+                    byRet = ms.ToArray();
+                }
             }
 
             Stream.Seek(pos, SeekOrigin.Begin);
@@ -1123,7 +1145,7 @@ namespace OfficeOpenXml
         /// <param name="input">The input.</param>
         public void Load(Stream input)
         {
-            Load(input, new MemoryStream(), null);
+            Load(input, RecyclableMemory.GetStream(), null);
         }
         /// <summary>
         /// Loads the specified package data from a stream.
@@ -1132,7 +1154,7 @@ namespace OfficeOpenXml
         /// <param name="Password">The password to decrypt the document</param>
         public void Load(Stream input, string Password)
         {
-            Load(input, new MemoryStream(), Password);
+            Load(input, RecyclableMemory.GetStream(), Password);
         }   
         /// <summary>
         /// 
@@ -1154,15 +1176,16 @@ namespace OfficeOpenXml
                 this._stream = output;
                 if (Password != null)
                 {
-                    Stream encrStream = new MemoryStream();
+                    Stream encrStream = RecyclableMemory.GetStream();
                     CopyStream(input, ref encrStream);
                     EncryptedPackageHandler eph = new EncryptedPackageHandler();
                     Encryption.Password = Password;
                     ms = eph.DecryptPackage((MemoryStream)encrStream, Encryption);
+                    encrStream.Dispose();
                 }
                 else
                 {
-                    ms = new MemoryStream();
+                    ms = RecyclableMemory.GetStream();
                     CopyStream(input, ref ms);
                 }
 
@@ -1183,6 +1206,10 @@ namespace OfficeOpenXml
                         throw;
                     }
                 }
+                finally
+                {
+                    ms.Dispose();
+				}
             }            
             //Clear the workbook so that it gets reinitialized next time
             this._workbook = null;

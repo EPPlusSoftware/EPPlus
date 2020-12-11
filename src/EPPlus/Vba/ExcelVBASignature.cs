@@ -152,49 +152,51 @@ namespace OfficeOpenXml.VBA
                     return;
                 }
             }
-            var ms = new MemoryStream();
-            var bw = new BinaryWriter(ms);
-
-            byte[] certStore = GetCertStore();
-
-            byte[] cert = SignProject(proj);
-            bw.Write((uint)cert.Length);
-            bw.Write((uint)44);                  //?? 36 ref inside cert ??
-            bw.Write((uint)certStore.Length);    //cbSigningCertStore
-            bw.Write((uint)(cert.Length + 44));  //certStoreOffset
-            bw.Write((uint)0);                   //cbProjectName
-            bw.Write((uint)(cert.Length + certStore.Length + 44));    //projectNameOffset
-            bw.Write((uint)0);    //fTimestamp
-            bw.Write((uint)0);    //cbTimestampUrl
-            bw.Write((uint)(cert.Length + certStore.Length + 44 + 2));    //timestampUrlOffset
-            bw.Write(cert);
-            bw.Write(certStore);
-            bw.Write((ushort)0);//rgchProjectNameBuffer
-            bw.Write((ushort)0);//rgchTimestampBuffer
-            bw.Write((ushort)0);
-            bw.Flush();
-
-            var rel = (ZipPackageRelationship)proj.Part.GetRelationshipsByType(schemaRelVbaSignature).FirstOrDefault();
-            if (Part == null)
+            using (var ms = RecyclableMemory.GetStream())
             {
+                var bw = new BinaryWriter(ms);
 
-                if (rel != null)
+                byte[] certStore = GetCertStore();
+
+                byte[] cert = SignProject(proj);
+                bw.Write((uint)cert.Length);
+                bw.Write((uint)44);                  //?? 36 ref inside cert ??
+                bw.Write((uint)certStore.Length);    //cbSigningCertStore
+                bw.Write((uint)(cert.Length + 44));  //certStoreOffset
+                bw.Write((uint)0);                   //cbProjectName
+                bw.Write((uint)(cert.Length + certStore.Length + 44));    //projectNameOffset
+                bw.Write((uint)0);    //fTimestamp
+                bw.Write((uint)0);    //cbTimestampUrl
+                bw.Write((uint)(cert.Length + certStore.Length + 44 + 2));    //timestampUrlOffset
+                bw.Write(cert);
+                bw.Write(certStore);
+                bw.Write((ushort)0);//rgchProjectNameBuffer
+                bw.Write((ushort)0);//rgchTimestampBuffer
+                bw.Write((ushort)0);
+                bw.Flush();
+
+                var rel = (ZipPackageRelationship)proj.Part.GetRelationshipsByType(schemaRelVbaSignature).FirstOrDefault();
+                if (Part == null)
                 {
-                    Uri = rel.TargetUri;
-                    Part = proj._pck.GetPart(rel.TargetUri);
-                }
-                else
-                {
-                    Uri = new Uri("/xl/vbaProjectSignature.bin", UriKind.Relative);
+
+                    if (rel != null)
+                    {
+                        Uri = rel.TargetUri;
+                        Part = proj._pck.GetPart(rel.TargetUri);
+                    }
+                    else
+                    {
+                        Uri = new Uri("/xl/vbaProjectSignature.bin", UriKind.Relative);
                     Part = proj._pck.CreatePart(Uri, ContentTypes.contentTypeVBASignature);
+                    }
                 }
+                if (rel == null)
+                {
+                    proj.Part.CreateRelationship(UriHelper.ResolvePartUri(proj.Uri, Uri), Packaging.TargetMode.Internal, schemaRelVbaSignature);
+                }
+                var b = ms.ToArray();
+                Part.GetStream(FileMode.Create).Write(b, 0, b.Length);
             }
-            if (rel == null)
-            {
-                proj.Part.CreateRelationship(UriHelper.ResolvePartUri(proj.Uri, Uri), Packaging.TargetMode.Internal, schemaRelVbaSignature);                
-            }
-            var b = ms.ToArray();
-            Part.GetStream(FileMode.Create).Write(b, 0, b.Length);            
         }
 
         private X509Certificate2 GetCertFromStore(StoreLocation loc)
@@ -228,25 +230,27 @@ namespace OfficeOpenXml.VBA
 
         private byte[] GetCertStore()
         {
-            var ms = new MemoryStream();
-            var bw = new BinaryWriter(ms);
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                var bw = new BinaryWriter(ms);
 
-            bw.Write((uint)0); //Version
-            bw.Write((uint)0x54524543); //fileType
+                bw.Write((uint)0); //Version
+                bw.Write((uint)0x54524543); //fileType
 
-            //SerializedCertificateEntry
-            var certData = Certificate.RawData;
-            bw.Write((uint)0x20);
-            bw.Write((uint)1);
-            bw.Write((uint)certData.Length);
-            bw.Write(certData);
+                //SerializedCertificateEntry
+                var certData = Certificate.RawData;
+                bw.Write((uint)0x20);
+                bw.Write((uint)1);
+                bw.Write((uint)certData.Length);
+                bw.Write(certData);
 
-            //EndElementMarkerEntry
-            bw.Write((uint)0);
-            bw.Write((ulong)0);
+                //EndElementMarkerEntry
+                bw.Write((uint)0);
+                bw.Write((ulong)0);
 
-            bw.Flush();
-            return ms.ToArray();
+                bw.Flush();
+                return ms.ToArray();
+            }
         }
 
         private void WriteProp(BinaryWriter bw, int id, byte[] data)
@@ -266,31 +270,35 @@ namespace OfficeOpenXml.VBA
             }
             var hash = GetContentHash(proj);
 
-            BinaryWriter bw = new BinaryWriter(new MemoryStream());
-            bw.Write((byte)0x30); //Constructed Type 
-            bw.Write((byte)0x32); //Total length
-            bw.Write((byte)0x30); //Constructed Type 
-            bw.Write((byte)0x0E); //Length SpcIndirectDataContent
-            bw.Write((byte)0x06); //Oid Tag Indentifier 
-            bw.Write((byte)0x0A); //Lenght OId
-            bw.Write(new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1D }); //Encoded Oid 1.3.6.1.4.1.311.2.1.29
-            bw.Write((byte)0x04);   //Octet String Tag Identifier
-            bw.Write((byte)0x00);   //Zero length
+            ContentInfo contentInfo;
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
+                bw.Write((byte)0x30); //Constructed Type 
+                bw.Write((byte)0x32); //Total length
+                bw.Write((byte)0x30); //Constructed Type 
+                bw.Write((byte)0x0E); //Length SpcIndirectDataContent
+                bw.Write((byte)0x06); //Oid Tag Indentifier 
+                bw.Write((byte)0x0A); //Lenght OId
+                bw.Write(new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1D }); //Encoded Oid 1.3.6.1.4.1.311.2.1.29
+                bw.Write((byte)0x04);   //Octet String Tag Identifier
+                bw.Write((byte)0x00);   //Zero length
 
-            bw.Write((byte)0x30); //Constructed Type (DigestInfo)
-            bw.Write((byte)0x20); //Length DigestInfo
-            bw.Write((byte)0x30); //Constructed Type (Algorithm)
-            bw.Write((byte)0x0C); //length AlgorithmIdentifier
-            bw.Write((byte)0x06); //Oid Tag Indentifier 
-            bw.Write((byte)0x08); //Lenght OId
-            bw.Write(new byte[] { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05 }); //Encoded Oid for 1.2.840.113549.2.5 (AlgorithmIdentifier MD5)
-            bw.Write((byte)0x05);   //Null type identifier
-            bw.Write((byte)0x00);   //Null length
-            bw.Write((byte)0x04);   //Octet String Identifier
-            bw.Write((byte)hash.Length);   //Hash length
-            bw.Write(hash);                //Content hash
+                bw.Write((byte)0x30); //Constructed Type (DigestInfo)
+                bw.Write((byte)0x20); //Length DigestInfo
+                bw.Write((byte)0x30); //Constructed Type (Algorithm)
+                bw.Write((byte)0x0C); //length AlgorithmIdentifier
+                bw.Write((byte)0x06); //Oid Tag Indentifier 
+                bw.Write((byte)0x08); //Lenght OId
+                bw.Write(new byte[] { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05 }); //Encoded Oid for 1.2.840.113549.2.5 (AlgorithmIdentifier MD5)
+                bw.Write((byte)0x05);   //Null type identifier
+                bw.Write((byte)0x00);   //Null length
+                bw.Write((byte)0x04);   //Octet String Identifier
+                bw.Write((byte)hash.Length);   //Hash length
+                bw.Write(hash);                //Content hash
 
-            ContentInfo contentInfo = new ContentInfo(((MemoryStream)bw.BaseStream).ToArray());
+                contentInfo = new ContentInfo(ms.ToArray());
+            }
             contentInfo.ContentType.Value = "1.3.6.1.4.1.311.2.1.4";
             Verifier = new SignedCms(contentInfo);
             var signer = new CmsSigner(Certificate);
@@ -303,44 +311,48 @@ namespace OfficeOpenXml.VBA
         {
             //MS-OVBA 2.4.2
             var enc = System.Text.Encoding.GetEncoding(proj.CodePage);
-            BinaryWriter bw = new BinaryWriter(new MemoryStream());
-            bw.Write(enc.GetBytes(proj.Name));
-            bw.Write(enc.GetBytes(proj.Constants));
-            foreach (var reference in proj.References)
+            using (var ms = RecyclableMemory.GetStream())
             {
-                if (reference.ReferenceRecordID == 0x0D)
+                BinaryWriter bw = new BinaryWriter(ms);
+                bw.Write(enc.GetBytes(proj.Name));
+                bw.Write(enc.GetBytes(proj.Constants));
+                foreach (var reference in proj.References)
                 {
-                    bw.Write((byte)0x7B);
-                }
-                if (reference.ReferenceRecordID == 0x0E)
-                {
-                    foreach (byte b in BitConverter.GetBytes((uint)reference.Libid.Length))  //Length will never be an UInt with 4 bytes that aren't 0 (> 0x00FFFFFF), so no need for the rest of the properties.
+                    if (reference.ReferenceRecordID == 0x0D)
                     {
-                        if (b != 0)
+                        bw.Write((byte)0x7B);
+                    }
+                    if (reference.ReferenceRecordID == 0x0E)
+                    {
+                        foreach (byte b in BitConverter.GetBytes((uint)reference.Libid.Length))  //Length will never be an UInt with 4 bytes that aren't 0 (> 0x00FFFFFF), so no need for the rest of the properties.
                         {
-                            bw.Write(b);
-                        }
-                        else
-                        {
-                            break;
+                            if (b != 0)
+                            {
+                                bw.Write(b);
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            foreach (var module in proj.Modules)
-            {
-                var lines = module.Code.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in lines)
+                foreach (var module in proj.Modules)
                 {
-                    if (!line.StartsWith("attribute", StringComparison.OrdinalIgnoreCase))
+                    var lines = module.Code.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var line in lines)
                     {
-                        bw.Write(enc.GetBytes(line));
+                        if (!line.StartsWith("attribute", StringComparison.OrdinalIgnoreCase))
+                        {
+                            bw.Write(enc.GetBytes(line));
+                        }
                     }
                 }
+                var buffer = ms.ToArray();
+
+                var hp = System.Security.Cryptography.MD5.Create();
+                return hp.ComputeHash(buffer);
             }
-            var buffer = (bw.BaseStream as MemoryStream).ToArray();
-            var hp = System.Security.Cryptography.MD5.Create();
-            return hp.ComputeHash(buffer);
         }
         /// <summary>
         /// The certificate to sign the VBA project.

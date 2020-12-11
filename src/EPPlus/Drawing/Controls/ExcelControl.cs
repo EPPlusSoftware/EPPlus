@@ -599,7 +599,30 @@ namespace OfficeOpenXml.Drawing.Controls
 
         internal virtual void UpdateXml()
         {
-            if(Position==null)
+            SetPositionAndSizeForControl();
+            if(ControlType==eControlType.CheckBox || ControlType == eControlType.RadioButton)
+            {
+                var c = (ExcelControlWithColorsAndLines)this;
+                
+                if(c.Fill.Style!=eVmlFillType.NoFill)
+                {
+                    var fill = new ExcelDrawingFill(_drawings, NameSpaceManager, TopNode, _topPath+"/xdr:spPr", SchemaNodeOrder);
+                    if(c.Fill.Style==eVmlFillType.Solid) //Set solid fill for drawing. 
+                    {
+                        var color = c.Fill.Color.GetColor();
+                        if (!color.IsEmpty)
+                        {
+                            fill.Color = color;
+                        }
+                        fill.Transparancy = (int)c.Fill.Opacity - 100;
+                    }
+                }
+            }
+        }
+
+        private void SetPositionAndSizeForControl()
+        {
+            if (Position == null)
             {
                 _control.From.Row = From.Row;
                 _control.From.RowOff = From.RowOff;
@@ -617,7 +640,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 _control.From.RowOff = rowOff;
             }
 
-            if(Size==null)
+            if (Size == null)
             {
                 _control.To.Row = To.Row;
                 _control.To.RowOff = To.RowOff;

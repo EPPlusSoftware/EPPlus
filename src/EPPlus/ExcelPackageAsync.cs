@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Encryption;
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.IO;
@@ -33,7 +34,7 @@ namespace OfficeOpenXml
         public async Task LoadAsync(FileInfo fileInfo, CancellationToken cancellationToken = default)
         {
             var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, new MemoryStream(), null, cancellationToken).ConfigureAwait(false);
+            await LoadAsync(stream, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace OfficeOpenXml
         public async Task LoadAsync(FileInfo fileInfo, string Password, CancellationToken cancellationToken = default)
         {
             var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, new MemoryStream(), Password, cancellationToken).ConfigureAwait(false);
+            await LoadAsync(stream, RecyclableMemory.GetStream(), Password, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace OfficeOpenXml
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task LoadAsync(Stream input, CancellationToken cancellationToken = default)
         {
-            await LoadAsync(input, new MemoryStream(), null, cancellationToken).ConfigureAwait(false);
+            await LoadAsync(input, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace OfficeOpenXml
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task LoadAsync(Stream input, string Password, CancellationToken cancellationToken = default)
         {
-            await LoadAsync(input, new MemoryStream(), Password, cancellationToken).ConfigureAwait(false);
+            await LoadAsync(input, RecyclableMemory.GetStream(), Password, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -103,31 +104,37 @@ namespace OfficeOpenXml
                 _stream = output;
                 if (Password != null)
                 {
-                    Stream encrStream = new MemoryStream();
-                    await CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
-                    var eph = new EncryptedPackageHandler();
-                    Encryption.Password = Password;
-                    ms = eph.DecryptPackage((MemoryStream)encrStream, Encryption);
+                    using (var encrStream = RecyclableMemory.GetStream())
+                    {
+                        await CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
+                        var eph = new EncryptedPackageHandler();
+                        Encryption.Password = Password;
+                        ms = eph.DecryptPackage(encrStream, Encryption);
+                    }
                 }
                 else
                 {
-                    ms = new MemoryStream();
+                    ms = RecyclableMemory.GetStream();
                     await CopyStreamAsync(input, ms, cancellationToken).ConfigureAwait(false);
                 }
 
-                try
-                {
-                    _zipPackage = new Packaging.ZipPackage(ms);
-                }
-                catch (Exception ex)
-                {
-                    if (Password == null && await CompoundDocumentFile.IsCompoundDocumentAsync((MemoryStream)_stream, cancellationToken).ConfigureAwait(false))
-                    {
-                        throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
-                    }
+				try
+				{
+					_zipPackage = new Packaging.ZipPackage(ms);
+				}
+				catch (Exception ex)
+				{
+					if (Password == null && await CompoundDocumentFile.IsCompoundDocumentAsync((MemoryStream)_stream, cancellationToken).ConfigureAwait(false))
+					{
+						throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
+					}
 
-                    throw;
-                }
+					throw;
+				}
+                finally
+                {
+                    ms.Dispose();
+				}
             }
             //Clear the workbook so that it gets reinitialized next time
             this._workbook = null;
@@ -166,12 +173,16 @@ namespace OfficeOpenXml
                 {
                     if (Encryption.IsEncrypted)
                     {
-                        var ms = new MemoryStream();
-                        _zipPackage.Save(ms);
-                        var file = ms.ToArray();
-                        var eph = new EncryptedPackageHandler();
-                        var msEnc = eph.EncryptPackage(file, Encryption);
-                        await CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
+                        using (var ms = RecyclableMemory.GetStream())
+                        {
+                            _zipPackage.Save(ms);
+                            var file = ms.ToArray();
+                            var eph = new EncryptedPackageHandler();
+                            using (var msEnc = eph.EncryptPackage(file, Encryption))
+                            {
+                                await CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
+                            }
+                        }
                     }
                     else
                     {
@@ -209,9 +220,10 @@ namespace OfficeOpenXml
                             {
                                 var file = stream.ToArray();
                                 var eph = new EncryptedPackageHandler();
-                                var ms = eph.EncryptPackage(file, Encryption);
-
-                                await fi.WriteAsync(ms.ToArray(), 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
+                                using (var ms = eph.EncryptPackage(file, Encryption))
+                                {
+                                    await fi.WriteAsync(ms.ToArray(), 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
+                                }
                             }
                             else
                             {
@@ -370,7 +382,7 @@ namespace OfficeOpenXml
 #else
                     _stream.Dispose();
 #endif
-                    _stream = new MemoryStream();
+                    _stream = RecyclableMemory.GetStream();
                 }
                 _zipPackage.Save(_stream);
             }
@@ -383,8 +395,10 @@ namespace OfficeOpenXml
             if (Encryption.IsEncrypted)
             {
                 var eph = new EncryptedPackageHandler();
-                var ms = eph.EncryptPackage(byRet, Encryption);
-                byRet = ms.ToArray();
+                using (var ms = eph.EncryptPackage(byRet, Encryption))
+                {
+                    byRet = ms.ToArray();
+                }
             }
 
             Stream.Seek(pos, SeekOrigin.Begin);
@@ -444,8 +458,8 @@ namespace OfficeOpenXml
 
         private async Task ConstructNewFileAsync(string password, CancellationToken cancellationToken)
         {
-            var ms = new MemoryStream();
-            if (_stream == null) _stream = new MemoryStream();
+            var ms = RecyclableMemory.GetStream();
+            if (_stream == null) _stream = RecyclableMemory.GetStream();
             File?.Refresh();
             if (File != null && File.Exists)
             {
@@ -454,6 +468,7 @@ namespace OfficeOpenXml
                     var encrHandler = new EncryptedPackageHandler();
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
+                    ms.Dispose();
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
                 else
@@ -473,10 +488,15 @@ namespace OfficeOpenXml
 
                     throw;
                 }
+                finally
+                {
+                    ms.Dispose();
+				}
             }
             else
             {
                 _zipPackage = new Packaging.ZipPackage(ms);
+                ms.Dispose();
                 CreateBlankWb();
             }
         }

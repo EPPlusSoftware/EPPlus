@@ -25,6 +25,8 @@
 // ------------------------------------------------------------------
 
 using OfficeOpenXml.Packaging.Ionic.Crc;
+using OfficeOpenXml.Utils;
+
 using System;
 using System.IO;
 
@@ -586,7 +588,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
             // workitem 8460
             byte[] working = new byte[1024];
             var encoding = System.Text.Encoding.UTF8;
-            using (var output = new MemoryStream())
+            using (var output = RecyclableMemory.GetStream())
             {
                 using (decompressor)
                 {
@@ -608,7 +610,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         {
             // workitem 8460
             byte[] working = new byte[1024];
-            using (var output = new MemoryStream())
+            using (var output = RecyclableMemory.GetStream())
             {
                 using (decompressor)
                 {

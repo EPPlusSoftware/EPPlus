@@ -106,7 +106,7 @@ namespace EPPlusTest.Drawing.Control
             ctrl.LinkedCell = _ws.Cells["F1"];
             ctrl.Checked = eCheckState.Mixed;
             ctrl.SetPosition(100, 100);
-            //ctrl.SetSize(200, 100);
+            ctrl.SetSize(200, 100);
             
             var codeModule = _pck.Workbook.VbaProject.Modules.AddModule("CheckboxCode");
             _codeModule.Code += "Sub Checkbox_Click()\r\n  MsgBox \"Clicked Checkbox!!\"\r\nEnd Sub\r\n";
@@ -323,6 +323,16 @@ namespace EPPlusTest.Drawing.Control
             ws.Comments.Add(ws.Cells["A1"], "Comment in cell A1", "JK");
             var btn = ws.Drawings.AddButtonControl("Button 1");
             btn.SetPosition(100, 100);
+        }
+        [TestMethod]
+        public void ValidateVmlGetColor()
+        {
+            Assert.AreEqual(Color.FromArgb(0xFF,0x33, 0x99, 0x66).ToArgb(), ExcelVmlDrawingColor.GetColor("#396 [57]").ToArgb());
+            Assert.AreEqual(Color.FromArgb(0xFF, 0xFF, 0xCC, 0x99).ToArgb(), ExcelVmlDrawingColor.GetColor("#fc9").ToArgb());
+            Assert.AreEqual(Color.FromArgb(0xFF, 0x00, 0x00, 0x82).ToArgb(), ExcelVmlDrawingColor.GetColor("#000082").ToArgb());
+            Assert.AreEqual(Color.Red.ToArgb(), ExcelVmlDrawingColor.GetColor("Red").ToArgb());
+            Assert.AreEqual(Color.Blue.ToArgb(), (long)ExcelVmlDrawingColor.GetColor("Blue [0]").ToArgb());
+            Assert.AreEqual(Color.FromArgb(0xFF, 200, 100, 0).ToArgb(), ExcelVmlDrawingColor.GetColor("rgb (200, 100, 0)").ToArgb()); 
         }
     }
 }
