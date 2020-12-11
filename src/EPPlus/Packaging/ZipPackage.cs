@@ -272,6 +272,7 @@ namespace OfficeOpenXml.Packaging
             /**** Top Rels ****/
             _rels.WriteZip(os, $"_rels/.rels");
             ZipPackagePart ssPart=null;
+
             foreach(var part in Parts.Values)
             {
                 if (part.ContentType != ContentTypes.contentTypeSharedString)
@@ -283,6 +284,7 @@ namespace OfficeOpenXml.Packaging
                     ssPart = part;
                 }
             }
+
             //Shared strings must be saved after all worksheets. The ss dictionary is populated when that workheets are saved (to get the best performance).
             if (ssPart != null)
             {

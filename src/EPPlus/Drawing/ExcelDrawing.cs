@@ -189,17 +189,33 @@ namespace OfficeOpenXml.Drawing
             {
                 From = null;
                 To = null;
-                XmlNode posNode = node.SelectSingleNode("//a:xfrm/a:off", drawings.NameSpaceManager);
+                XmlNode posNode = GetXFrameNode(node, "a:off");
                 if (posNode != null)
                 {
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
 
-                posNode = node.SelectSingleNode("//a:xfrm/a:ext", drawings.NameSpaceManager);
+                posNode = GetXFrameNode(node, "a:ext");
                 if (posNode != null)
                 {
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
+            }
+        }
+
+        private XmlNode GetXFrameNode(XmlNode node, string child)
+        {
+            if (node.LocalName == "grpSp")
+            {
+                return node.SelectSingleNode($"xdr:grpSpPr/a:xfrm/{child}", NameSpaceManager);
+            }
+            else if (node.LocalName == "graphicFrame")
+            {
+                return node.SelectSingleNode($"a:xfrm/{child}", NameSpaceManager);
+            }
+            else
+            {
+                return node.SelectSingleNode($"xdr:spPr/a:xfrm/{child}", NameSpaceManager);
             }
         }
 
