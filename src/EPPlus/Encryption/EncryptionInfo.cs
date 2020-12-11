@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -547,19 +549,21 @@ namespace OfficeOpenXml.Encryption
         }
         internal byte[] WriteBinary()
         {
-            MemoryStream ms = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(ms);
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
 
-            bw.Write(MajorVersion);
-            bw.Write(MinorVersion);
-            bw.Write((int)Flags);
-            byte[] header = Header.WriteBinary();
-            bw.Write((uint)header.Length);
-            bw.Write(header);
-            bw.Write(Verifier.WriteBinary());
+                bw.Write(MajorVersion);
+                bw.Write(MinorVersion);
+                bw.Write((int)Flags);
+                byte[] header = Header.WriteBinary();
+                bw.Write((uint)header.Length);
+                bw.Write(header);
+                bw.Write(Verifier.WriteBinary());
 
-            bw.Flush();
-            return ms.ToArray();
+                bw.Flush();
+                return ms.ToArray();
+            }
         }
 
     }
