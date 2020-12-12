@@ -57,7 +57,7 @@ namespace OfficeOpenXml.LoadFunctions
         /// <returns></returns>
         protected abstract int GetNumberOfColumns();
 
-        protected abstract void LoadInternal(object[,] values);
+        protected abstract void LoadInternal(object[,] values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
 
         /// <summary>
         /// Loads the data into the worksheet
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.LoadFunctions
             var nRows = PrintHeaders ? GetNumberOfRows() + 1 : GetNumberOfRows();
             var nCols = GetNumberOfColumns();
             var values = new object[nRows, nCols];
-            LoadInternal(values);
+            LoadInternal(values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int,string> columnFormats);
             var ws = Range.Worksheet;
             ws.SetRangeValueInner(Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1, values);
             
@@ -76,6 +76,29 @@ namespace OfficeOpenXml.LoadFunctions
             if (nRows == 1 && PrintHeaders)
             {
                 nRows++;
+            }
+            // set number formats
+            foreach(var col in columnFormats.Keys)
+            {
+                ws.Cells[Range._fromRow, Range._fromCol + col, Range._fromRow + nRows - 1, Range._fromCol + col].Style.Numberformat.Format = columnFormats[col];
+            }
+            // set formulas
+            foreach(var col in formulaCells.Keys)
+            {
+                var row = PrintHeaders ? 0 : -1;
+                while (++row < nRows)
+                {
+                    var formulaCell = formulaCells[col];
+                    if(!string.IsNullOrEmpty(formulaCell.Formula))
+                    {
+                        var formula = formulaCell.Formula.Replace("{row}", (Range._fromRow + row).ToString());
+                        ws.SetFormula(Range._fromRow + row, Range._fromCol + col, formula);
+                    }
+                    else if(!string.IsNullOrEmpty(formulaCell.FormulaR1C1))
+                    {
+                        ws.Cells[Range._fromRow + row, Range._fromCol + col].FormulaR1C1 = formulaCell.FormulaR1C1;
+                    }
+                }
             }
 
             var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];

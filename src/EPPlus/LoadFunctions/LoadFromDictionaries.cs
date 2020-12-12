@@ -52,9 +52,10 @@ namespace OfficeOpenXml.LoadFunctions
 
         
 
-        protected override void LoadInternal(object[,] values)
+        protected override void LoadInternal(object[,] values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats)
         {
-            
+            columnFormats = new Dictionary<int, string>();
+            formulaCells = new Dictionary<int, FormulaCell>();
             int col = 0, row = 0;
             if (PrintHeaders && _keys.Count() > 0)
             {
