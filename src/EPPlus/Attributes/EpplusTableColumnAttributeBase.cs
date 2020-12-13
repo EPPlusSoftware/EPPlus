@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Attributes
         /// <summary>
         /// Order of the columns value, default value is 0
         /// </summary>
-        public int ColumnOrder
+        public int Order
         {
             get;
             set;
@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Attributes
         /// <summary>
         /// Name shown in the header row, overriding the property name
         /// </summary>
-        public string ColumnHeader
+        public string Header
         {
             get;
             set;
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Attributes
         /// <summary>
         /// Excel format string for the column
         /// </summary>
-        public string ColumnNumberFormat
+        public string NumberFormat
         {
             get;
             set;

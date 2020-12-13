@@ -120,8 +120,8 @@ namespace OfficeOpenXml.LoadFunctions
                     var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                     if (epplusColumnAttr != null)
                     {
-                        sortOrder = epplusColumnAttr.ColumnOrder;
-                        numberFormat = epplusColumnAttr.ColumnNumberFormat;
+                        sortOrder = epplusColumnAttr.Order;
+                        numberFormat = epplusColumnAttr.NumberFormat;
                     }
                     result.Add(new ColumnInfo { SortOrder = sortOrder, MemberInfo = member, NumberFormat = numberFormat });
                 }
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 foreach (var attr in formulaColumnAttributes)
                 {
-                    result.Add(new ColumnInfo { SortOrder = attr.ColumnOrder, Header = attr.ColumnHeader, Formula = attr.Formula, FormulaR1C1 = attr.FormulaR1C1, NumberFormat = attr.ColumnNumberFormat });
+                    result.Add(new ColumnInfo { SortOrder = attr.Order, Header = attr.Header, Formula = attr.Formula, FormulaR1C1 = attr.FormulaR1C1, NumberFormat = attr.NumberFormat });
                 }
                 ReindexAndSortColumns(result);
             }
@@ -219,17 +219,17 @@ namespace OfficeOpenXml.LoadFunctions
                     var epplusColumnAttribute = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                     if (epplusColumnAttribute != null)
                     {
-                        if (!string.IsNullOrEmpty(epplusColumnAttribute.ColumnHeader))
+                        if (!string.IsNullOrEmpty(epplusColumnAttribute.Header))
                         {
-                            header = epplusColumnAttribute.ColumnHeader;
+                            header = epplusColumnAttribute.Header;
                         }
                         else
                         {
                             header = ParseHeader(member.Name);
                         }
-                        if (!string.IsNullOrEmpty(epplusColumnAttribute.ColumnNumberFormat))
+                        if (!string.IsNullOrEmpty(epplusColumnAttribute.NumberFormat))
                         {
-                            columnFormats.Add(col, epplusColumnAttribute.ColumnNumberFormat);
+                            columnFormats.Add(col, epplusColumnAttribute.NumberFormat);
                         }
                     }
                     else
