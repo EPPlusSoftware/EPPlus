@@ -36,59 +36,17 @@ namespace OfficeOpenXml.LoadFunctions
             var type = typeof(T);
             if (parameters.Members == null)
             {
-                var members = type.GetProperties(_bindingFlags);
-                var sortedMemberInfos = new List<ColumnInfo>();
-                if(type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
-                {
-                    var index = 0;
-                    foreach(var member in members)
-                    {
-                        if(member.HasPropertyOfType<EpplusIgnore>())
-                        {
-                            continue;
-                        }
-                        var sortOrder = -1;
-                        var numberFormat = string.Empty;
-                        var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
-                        if(epplusColumnAttr != null)
-                        {
-                            sortOrder = epplusColumnAttr.ColumnOrder;
-                            numberFormat = epplusColumnAttr.ColumnNumberFormat;
-                        }
-                        sortedMemberInfos.Add(new ColumnInfo { SortOrder = sortOrder, MemberInfo = member, NumberFormat =  numberFormat});
-                    }
-                    sortedMemberInfos.Sort((a, b) => a.SortOrder.CompareTo(b.SortOrder));
-                    sortedMemberInfos.ForEach(x => x.Index = index++);
-                    _members = sortedMemberInfos.ToArray();
-                }
-                else
-                {
-                    var index = 0;
-                    _members = members.Select(x => new ColumnInfo { Index = index++, MemberInfo = x }).ToArray();
-                }
-                var formulaColumns = type.FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
-                if(formulaColumns != null && formulaColumns.Any())
-                {
-                    var formulaColumnList = new List<ColumnInfo>(_members);
-                    foreach(var column in formulaColumns)
-                    {
-                        formulaColumnList.Add(new ColumnInfo { SortOrder = column.ColumnOrder, Header = column.ColumnHeader, Formula = column.Formula, FormulaR1C1 = column.FormulaR1C1, NumberFormat = column.ColumnNumberFormat });
-                    }
-                    formulaColumnList.Sort((a, b) => a.SortOrder.CompareTo(b.SortOrder));
-                    var index = 0;
-                    formulaColumnList.ForEach(x => x.Index = index++);
-                    _members = formulaColumnList.ToArray();
-                   
-                }
+                var columns = SetupColumns();
+                _columns = columns.ToArray();
             }
             else
             {
-                _members = parameters.Members.Select(x => new ColumnInfo { MemberInfo = x }).ToArray();
-                if (_members.Length == 0)   //Fixes issue 15555
+                _columns = parameters.Members.Select(x => new ColumnInfo { MemberInfo = x }).ToArray();
+                if (_columns.Length == 0)   //Fixes issue 15555
                 {
                     throw (new ArgumentException("Parameter Members must have at least one property. Length is zero"));
                 }
-                foreach (var columnInfo in _members)
+                foreach (var columnInfo in _columns)
                 {
                     if (columnInfo.MemberInfo == null) continue;
                     var member = columnInfo.MemberInfo;
@@ -107,14 +65,14 @@ namespace OfficeOpenXml.LoadFunctions
         }
 
         private readonly BindingFlags _bindingFlags;
-        private readonly ColumnInfo[] _members;
+        private readonly ColumnInfo[] _columns;
         private readonly HeaderParsingTypes _headerParsingType;
         private readonly IEnumerable<T> _items;
         private readonly bool _isSameType = true;
 
         protected override int GetNumberOfColumns()
         {
-            return _members.Length == 0 ? 1 : _members.Length;
+            return _columns.Length == 0 ? 1 : _columns.Length;
         }
 
         protected override int GetNumberOfRows()
@@ -124,74 +82,77 @@ namespace OfficeOpenXml.LoadFunctions
         }
 
 
+
         protected override void LoadInternal(object[,] values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats)
         {
 
             int col = 0, row = 0;
             columnFormats = new Dictionary<int, string>();
             formulaCells = new Dictionary<int, FormulaCell>();
-            if (_members.Length > 0 && PrintHeaders)
+            if (_columns.Length > 0 && PrintHeaders)
             {
-                foreach (var colInfo in _members)
-                {
-                    var header = string.Empty;
-                    if(colInfo.MemberInfo != null)
-                    {
-                        var member = colInfo.MemberInfo;
-                        var epplusColumnAttribute = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
-                        if (epplusColumnAttribute != null)
-                        {
-                            if (!string.IsNullOrEmpty(epplusColumnAttribute.ColumnHeader))
-                            {
-                                header = epplusColumnAttribute.ColumnHeader;
-                            }
-                            else
-                            {
-                                header = ParseHeader(member.Name);
-                            }
-                            if (!string.IsNullOrEmpty(epplusColumnAttribute.ColumnNumberFormat))
-                            {
-                                columnFormats.Add(col, epplusColumnAttribute.ColumnNumberFormat);
-                            }
-                        }
-                        else
-                        {
-                            var descriptionAttribute = member.GetFirstAttributeOfType<DescriptionAttribute>();
-                            if (descriptionAttribute != null)
-                            {
-                                header = descriptionAttribute.Description;
-                            }
-                            else
-                            {
-                                var displayNameAttribute = member.GetFirstAttributeOfType<DisplayNameAttribute>();
-                                if (displayNameAttribute != null)
-                                {
-                                    header = displayNameAttribute.DisplayName;
-                                }
-                                else
-                                {
-                                    header = ParseHeader(member.Name);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // column is a FormulaColumn
-                        header = colInfo.Header;
-                        columnFormats.Add(colInfo.Index, colInfo.NumberFormat);
-                    }
-                    
-                    values[row, col++] = header;
-                }
-                row++;
+                SetHeaders(values, columnFormats, ref col, ref row);
             }
 
-            if (!_items.Any() && (_members.Length == 0 || PrintHeaders == false))
+            if (!_items.Any() && (_columns.Length == 0 || PrintHeaders == false))
             {
                 return;
             }
 
+            SetValuesAndFormulas(values, formulaCells, ref col, ref row);
+        }
+
+        private List<ColumnInfo> SetupColumns()
+        {
+            var type = typeof(T);
+            var members = type.GetProperties(_bindingFlags);
+            var result = new List<ColumnInfo>();
+            if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
+            {
+                foreach (var member in members)
+                {
+                    if (member.HasPropertyOfType<EpplusIgnore>())
+                    {
+                        continue;
+                    }
+                    var sortOrder = -1;
+                    var numberFormat = string.Empty;
+                    var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
+                    if (epplusColumnAttr != null)
+                    {
+                        sortOrder = epplusColumnAttr.ColumnOrder;
+                        numberFormat = epplusColumnAttr.ColumnNumberFormat;
+                    }
+                    result.Add(new ColumnInfo { SortOrder = sortOrder, MemberInfo = member, NumberFormat = numberFormat });
+                }
+                ReindexAndSortColumns(result);
+            }
+            else
+            {
+                var index = 0;
+                result = members.Select(x => new ColumnInfo { Index = index++, MemberInfo = x }).ToList();
+            }
+            var formulaColumnAttributes = type.FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
+            if (formulaColumnAttributes != null && formulaColumnAttributes.Any())
+            {
+                foreach (var attr in formulaColumnAttributes)
+                {
+                    result.Add(new ColumnInfo { SortOrder = attr.ColumnOrder, Header = attr.ColumnHeader, Formula = attr.Formula, FormulaR1C1 = attr.FormulaR1C1, NumberFormat = attr.ColumnNumberFormat });
+                }
+                ReindexAndSortColumns(result);
+            }
+            return result;
+        }
+
+        private static void ReindexAndSortColumns(List<ColumnInfo> result)
+        {
+            var index = 0;
+            result.Sort((a, b) => a.SortOrder.CompareTo(b.SortOrder));
+            result.ForEach(x => x.Index = index++);
+        }
+
+        private void SetValuesAndFormulas(object[,] values, Dictionary<int, FormulaCell> formulaCells, ref int col, ref int row)
+        {
             var nMembers = GetNumberOfColumns();
             foreach (var item in _items)
             {
@@ -208,9 +169,9 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     else
                     {
-                        foreach (var colInfo in _members)
+                        foreach (var colInfo in _columns)
                         {
-                            if(colInfo.MemberInfo != null)
+                            if (colInfo.MemberInfo != null)
                             {
                                 var member = colInfo.MemberInfo;
                                 if (_isSameType == false && item.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
@@ -231,11 +192,11 @@ namespace OfficeOpenXml.LoadFunctions
                                     values[row, col++] = ((MethodInfo)member).Invoke(item, null);
                                 }
                             }
-                            else if(!string.IsNullOrEmpty(colInfo.Formula))
+                            else if (!string.IsNullOrEmpty(colInfo.Formula))
                             {
                                 formulaCells[colInfo.Index] = new FormulaCell { Formula = colInfo.Formula };
                             }
-                            else if(!string.IsNullOrEmpty(colInfo.Formula))
+                            else if (!string.IsNullOrEmpty(colInfo.Formula))
                             {
                                 formulaCells[colInfo.Index] = new FormulaCell { FormulaR1C1 = colInfo.FormulaR1C1 };
                             }
@@ -244,6 +205,64 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 row++;
             }
+        }
+
+        private void SetHeaders(object[,] values, Dictionary<int, string> columnFormats, ref int col, ref int row)
+        {
+            foreach (var colInfo in _columns)
+            {
+                var header = string.Empty;
+                if (colInfo.MemberInfo != null)
+                {
+                    // column data based on a property read with reflection
+                    var member = colInfo.MemberInfo;
+                    var epplusColumnAttribute = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
+                    if (epplusColumnAttribute != null)
+                    {
+                        if (!string.IsNullOrEmpty(epplusColumnAttribute.ColumnHeader))
+                        {
+                            header = epplusColumnAttribute.ColumnHeader;
+                        }
+                        else
+                        {
+                            header = ParseHeader(member.Name);
+                        }
+                        if (!string.IsNullOrEmpty(epplusColumnAttribute.ColumnNumberFormat))
+                        {
+                            columnFormats.Add(col, epplusColumnAttribute.ColumnNumberFormat);
+                        }
+                    }
+                    else
+                    {
+                        var descriptionAttribute = member.GetFirstAttributeOfType<DescriptionAttribute>();
+                        if (descriptionAttribute != null)
+                        {
+                            header = descriptionAttribute.Description;
+                        }
+                        else
+                        {
+                            var displayNameAttribute = member.GetFirstAttributeOfType<DisplayNameAttribute>();
+                            if (displayNameAttribute != null)
+                            {
+                                header = displayNameAttribute.DisplayName;
+                            }
+                            else
+                            {
+                                header = ParseHeader(member.Name);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // column is a FormulaColumn
+                    header = colInfo.Header;
+                    columnFormats.Add(colInfo.Index, colInfo.NumberFormat);
+                }
+
+                values[row, col++] = header;
+            }
+            row++;
         }
 
         private string ParseHeader(string header)

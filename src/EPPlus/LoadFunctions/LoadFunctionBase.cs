@@ -57,6 +57,11 @@ namespace OfficeOpenXml.LoadFunctions
         /// <returns></returns>
         protected abstract int GetNumberOfColumns();
 
+        protected virtual void PostProcessTable(ExcelTable table)
+        {
+
+        }
+
         protected abstract void LoadInternal(object[,] values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
 
         /// <summary>
@@ -108,6 +113,7 @@ namespace OfficeOpenXml.LoadFunctions
                 var tbl = ws.Tables.Add(r, "");
                 tbl.ShowHeader = PrintHeaders;
                 tbl.TableStyle = TableStyle;
+                PostProcessTable(tbl);
             }
 
             return r;
