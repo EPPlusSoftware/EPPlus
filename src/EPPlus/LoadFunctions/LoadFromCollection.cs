@@ -196,7 +196,7 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 formulaCells[colInfo.Index] = new FormulaCell { Formula = colInfo.Formula };
                             }
-                            else if (!string.IsNullOrEmpty(colInfo.Formula))
+                            else if (!string.IsNullOrEmpty(colInfo.FormulaR1C1))
                             {
                                 formulaCells[colInfo.Index] = new FormulaCell { FormulaR1C1 = colInfo.FormulaR1C1 };
                             }
