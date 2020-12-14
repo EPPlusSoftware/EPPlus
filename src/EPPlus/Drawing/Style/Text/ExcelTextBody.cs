@@ -13,7 +13,7 @@
 using System;
 using System.Xml;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Drawing
 {

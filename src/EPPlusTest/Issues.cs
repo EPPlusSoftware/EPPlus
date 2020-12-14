@@ -46,6 +46,7 @@ using System.Threading;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace EPPlusTest
 {
@@ -1450,6 +1451,40 @@ namespace EPPlusTest
                 Assert.IsNull(ws.Cells["C71812"].Value);
                 Assert.IsNull(ws.Cells["C77667"].Value);
                 Assert.AreEqual(0D, ws.Cells["C77668"].Value);
+            }                
+        }        
+        [TestMethod]
+        public void InflateIssue()
+        {
+            using (var p=OpenPackage("inflateStart.xlsx", true))
+            {
+                var worksheet = p.Workbook.Worksheets.Add("Test");
+                for (int i = 1; i <= 10; i++)
+                {
+                    worksheet.Cells[1, i].Hyperlink = new Uri("https://epplussoftware.com");
+                    worksheet.Cells[1, i].Value = "Url " + worksheet.Cells[1, i].Address;
+                }
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        p.Save();
+                    }
+                    SaveWorkbook("Inflate.xlsx", p2);
+                }                
+            }
+        }
+        [TestMethod]
+        public void DrawingSetFont()
+        {
+            using (var p = OpenPackage("DrawingSetFromFont.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Drawing1");
+                var shape = ws.Drawings.AddShape("x", eShapeStyle.Rect);
+                shape.Font.SetFromFont(new Font("Arial", 20));
+                shape.Text = "Font";
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -1507,7 +1542,22 @@ namespace EPPlusTest
             var n3 = Math.Round(n * power) / power;
             var n4 = RoundingHelper.RoundToSignificantFig(n, 15);
         }
+        [TestMethod]
+        public void IssueCommentInsert()
+        {
 
+            using (var p = OpenPackage("comment.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("CommentInsert");
+                ws.Cells["A2"].AddComment("na", "test");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                ws.InsertRow(2, 1);
+                ws.Cells["A3"].Insert(eShiftTypeInsert.Right);
+                SaveAndCleanup(p);
+            }
+
+        }
         double Round_off(double N, double n)
         {
             int h;

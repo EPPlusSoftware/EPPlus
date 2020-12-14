@@ -1,11 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
 
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  12/14/2020         EPPlus Software AB       EPPlus 5.5
+ *************************************************************************************************/
 namespace OfficeOpenXml.Constants
 {
     internal class ExtLstUris
     {
+        //Legacy Object Wrapper
+        internal const string LegacyObjectWrapperUri = "{63B3BB69-23CF-44E3-9099-C40C66FF867C}";
+
         //Pivot Table
         internal const string PivotTableDefinitionUri = "{962EF5D1-5CA2-4c93-8EF4-DBF5C05439D2}";
         internal const string PivotTableDataUri = "{44433962-1CF7-4059-B4EE-95C3D5FFCF73}";

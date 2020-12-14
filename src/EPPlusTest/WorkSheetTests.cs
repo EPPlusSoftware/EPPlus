@@ -1482,7 +1482,6 @@ namespace EPPlusTest
         [TestMethod]
         public void SetHeaderFooterImage()
         {
-
             var ws = _pck.Workbook.Worksheets.Add("HeaderImage");
             ws.HeaderFooter.OddHeader.CenteredText = "Before ";
             var img = ws.HeaderFooter.OddHeader.InsertPicture(Properties.Resources.Test1, PictureAlignment.Centered);

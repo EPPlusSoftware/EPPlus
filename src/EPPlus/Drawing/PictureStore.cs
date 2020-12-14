@@ -166,21 +166,12 @@ namespace OfficeOpenXml.Drawing
         internal static Image GetPicture(string relId, IPictureContainer container, out string contentType)
         {
             ZipPackagePart part;
-            //if (container.Drawing is ExcelChart chart)
-            //{
-            //    container.RelPic = chart.Part.GetRelationship(relId);
-            //    container.UriPic = UriHelper.ResolvePartUri(chart.UriChart, container.RelPic.TargetUri);
-            //    part = chart.Part.Package.GetPart(container.UriPic);
-            //}
-            //else
-            //{                
-                container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relId);
-                container.UriPic = UriHelper.ResolvePartUri(container.RelationDocument.RelatedUri, container.RelPic.TargetUri);
-                part = container.RelationDocument.RelatedPart.Package.GetPart(container.UriPic);
-            //}
+            container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relId);
+            container.UriPic = UriHelper.ResolvePartUri(container.RelationDocument.RelatedUri, container.RelPic.TargetUri);
+            part = container.RelationDocument.RelatedPart.Package.GetPart(container.UriPic);
 
             var extension = Path.GetExtension(container.UriPic.OriginalString);
-            contentType = PictureStore.GetContentType(extension);
+            contentType = GetContentType(extension);
             return Image.FromStream(part.GetStream());
         }
         internal static ePictureType GetPictureType(string extension)

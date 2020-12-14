@@ -19,6 +19,8 @@ using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using Ionic.Zip;
+using OfficeOpenXml.Constants;
+
 namespace OfficeOpenXml.Packaging
 {
     /// <summary>
@@ -270,9 +272,10 @@ namespace OfficeOpenXml.Packaging
             /**** Top Rels ****/
             _rels.WriteZip(os, $"_rels/.rels");
             ZipPackagePart ssPart=null;
+
             foreach(var part in Parts.Values)
             {
-                if (part.ContentType != ExcelPackage.contentTypeSharedString)
+                if (part.ContentType != ContentTypes.contentTypeSharedString)
                 {
                     part.WriteZip(os);
                 }
@@ -281,6 +284,7 @@ namespace OfficeOpenXml.Packaging
                     ssPart = part;
                 }
             }
+
             //Shared strings must be saved after all worksheets. The ss dictionary is populated when that workheets are saved (to get the best performance).
             if (ssPart != null)
             {

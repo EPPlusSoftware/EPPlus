@@ -27,15 +27,13 @@ namespace OfficeOpenXml.Drawing
         internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style) :
             base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
         {
-            XmlElement shapeNode = node.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
-            shapeNode.SetAttribute("macro", "");
-            shapeNode.SetAttribute("textlink", "");
-            node.AppendChild(shapeNode);
+            XmlElement shapeNode = CreateShapeNode();
 
             shapeNode.InnerXml = ShapeStartXml();
             node.AppendChild(shapeNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
             Style = style;
         }
+
         #region "Private Methods"
         private string ShapeStartXml()
         {

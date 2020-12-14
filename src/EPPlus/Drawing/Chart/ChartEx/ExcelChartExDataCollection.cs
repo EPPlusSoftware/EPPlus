@@ -11,7 +11,7 @@
   04/29/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;

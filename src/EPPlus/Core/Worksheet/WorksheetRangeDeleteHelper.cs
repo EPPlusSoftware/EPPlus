@@ -195,7 +195,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._flags.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._commentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._threadedCommentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
-            ws._vmlDrawings?._drawings.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._vmlDrawings?._drawingsCellStore.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._hyperLinks.Delete(rowFrom, columnFrom, rows, columns, true);
 
             if (rows == 0 || columns == 0)
@@ -226,7 +226,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._flags.DeleteShiftLeft(fromAddress);
             ws._commentsStore.DeleteShiftLeft(fromAddress);
             ws._threadedCommentsStore.DeleteShiftLeft(fromAddress);
-            ws._vmlDrawings?._drawings.DeleteShiftLeft(fromAddress);
+            ws._vmlDrawings?._drawingsCellStore.DeleteShiftLeft(fromAddress);
             ws._hyperLinks.DeleteShiftLeft(fromAddress);
 
             ws.Comments.Delete(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);

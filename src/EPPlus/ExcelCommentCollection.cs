@@ -214,7 +214,7 @@ namespace OfficeOpenXml
                 comment.TopNode.ParentNode.RemoveChild(comment.TopNode); //Remove VML
                 comment._commentHelper.TopNode.ParentNode.RemoveChild(comment._commentHelper.TopNode); //Remove Comment
 
-                Worksheet.VmlDrawingsComments._drawings.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, shift);
+                Worksheet.VmlDrawings._drawingsCellStore.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, shift);
                 Worksheet._commentsStore.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, shift);
                 _list[i]=null;
                 _listIndex.Remove(i);

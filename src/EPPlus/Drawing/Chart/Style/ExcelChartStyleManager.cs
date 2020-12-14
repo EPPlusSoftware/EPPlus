@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using Ionic.Zip;
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Style.Effect;
@@ -959,7 +960,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             var id = GetIxFromChartUri(_chart.UriChart.OriginalString);
             StyleUri = GetNewUri(p, "/xl/charts/style{0}.xml", ref id);
             _chart.Part.CreateRelationship(StyleUri, TargetMode.Internal, ExcelPackage.schemaChartStyleRelationships);
-            StylePart = p.CreatePart(StyleUri, ExcelPackage.contentTypeChartStyle);
+            StylePart = p.CreatePart(StyleUri, ContentTypes.contentTypeChartStyle);
             return id;
         }
         private int CreateColorPart(ZipPackage p)
@@ -967,7 +968,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             var id = GetIxFromChartUri(_chart.UriChart.OriginalString);
             ColorsUri = GetNewUri(p, "/xl/charts/colors{0}.xml", ref id);
             _chart.Part.CreateRelationship(ColorsUri, TargetMode.Internal, ExcelPackage.schemaChartColorStyleRelationships);
-            ColorsPart = p.CreatePart(ColorsUri, ExcelPackage.contentTypeChartColorStyle);
+            ColorsPart = p.CreatePart(ColorsUri, ContentTypes.contentTypeChartColorStyle);
             return id;
         }
         private ZipPackageRelationship CreateThemeOverridePart(ZipPackage p, ZipPackagePart partToCopy)
@@ -975,7 +976,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             var id = GetIxFromChartUri(_chart.UriChart.OriginalString);
             ThemeOverrideUri = GetNewUri(p, "/xl/theme/themeOverride{0}.xml", ref id);
             var rel=_chart.Part.CreateRelationship(ThemeOverrideUri, TargetMode.Internal, ExcelPackage.schemaThemeOverrideRelationships);
-            ThemeOverridePart = p.CreatePart(ThemeOverrideUri, ExcelPackage.contentTypeThemeOverride);
+            ThemeOverridePart = p.CreatePart(ThemeOverrideUri, ContentTypes.contentTypeThemeOverride);
 
             ThemeOverrideXml = new XmlDocument();
             ThemeOverrideXml.Load(partToCopy.GetStream());

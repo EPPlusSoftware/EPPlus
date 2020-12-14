@@ -23,6 +23,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
@@ -185,7 +186,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
 
                 // save it to the package
-                Part = package.CreatePart(UriChart, "application/vnd.openxmlformats-officedocument.drawingml.chart+xml", _drawings._package.Compression);
+                Part = package.CreatePart(UriChart, ContentTypes.contentTypeChart, _drawings._package.Compression);
 
                 StreamWriter streamChart = new StreamWriter(Part.GetStream(FileMode.Create, FileAccess.Write));
                 ChartXml.Save(streamChart);

@@ -32,6 +32,8 @@ using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Drawing;
+using System.Net.Mime;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml
 {
@@ -213,14 +215,13 @@ namespace OfficeOpenXml
 				StylesUri = new Uri("/xl/styles.xml", UriKind.Relative);
 			if (PersonsUri == null)
 				PersonsUri = new Uri("/xl/persons/person.xml", UriKind.Relative);
-
 		}
 		#endregion
 
 		internal Dictionary<string, SharedStringItem> _sharedStrings = new Dictionary<string, SharedStringItem>(); //Used when reading cells.
 		internal List<SharedStringItem> _sharedStringsList = new List<SharedStringItem>(); //Used when reading cells.
 		internal ExcelNamedRangeCollection _names;
-		internal int _nextDrawingID = 2;
+		internal int _nextDrawingId = 2;
 		internal int _nextTableID = int.MinValue;
 		internal int _nextPivotCacheId = 1;
 		internal int GetNewPivotCacheId()
@@ -1085,16 +1086,16 @@ namespace OfficeOpenXml
 
 			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
 			{
-				if (Part.ContentType != ExcelPackage.contentTypeWorkbookDefault)
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault)
 				{
-					Part.ContentType = ExcelPackage.contentTypeWorkbookDefault;
+					Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
 				}
 			}
 			else
 			{
-				if (Part.ContentType != ExcelPackage.contentTypeWorkbookMacroEnabled)
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
 				{
-					Part.ContentType = ExcelPackage.contentTypeWorkbookMacroEnabled;
+					Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
 				}
 			}
 

@@ -11,7 +11,7 @@
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Security.Principal;
 using System.Text;

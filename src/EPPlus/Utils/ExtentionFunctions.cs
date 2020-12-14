@@ -11,9 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Drawing;
 using System.Linq;
 
-namespace OfficeOpenXml.Utils.Extentions
+namespace OfficeOpenXml.Utils.Extensions
 {
     internal static class EnumExtensions
     {
@@ -47,6 +48,10 @@ namespace OfficeOpenXml.Utils.Extentions
         internal static bool IsInt(this string s)
         {
             return (!s.Any(x => x < '0' && x > '9'));
+        }
+        internal static string ToColorString(this Color color)
+        {
+            return (color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0');
         }
     }
 }
