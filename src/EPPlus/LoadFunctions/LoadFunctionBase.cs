@@ -45,6 +45,10 @@ namespace OfficeOpenXml.LoadFunctions
         /// </summary>
         protected TableStyles TableStyle { get; set; }
 
+        protected bool ShowFirstColumn { get; set; }
+
+        protected bool ShowLastColumn { get; set; }
+
         /// <summary>
         /// Returns how many rows there are in the range (header row not included)
         /// </summary>
@@ -103,6 +107,8 @@ namespace OfficeOpenXml.LoadFunctions
                 var tbl = ws.Tables.Add(r, "");
                 tbl.ShowHeader = PrintHeaders;
                 tbl.TableStyle = TableStyle;
+                tbl.ShowFirstColumn = ShowFirstColumn;
+                tbl.ShowLastColumn = ShowLastColumn;
                 PostProcessTable(tbl);
             }
 

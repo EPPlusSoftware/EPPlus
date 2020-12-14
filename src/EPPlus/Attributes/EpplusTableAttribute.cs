@@ -47,6 +47,24 @@ namespace OfficeOpenXml.Attributes
         }
 
         /// <summary>
+        /// If true, the first column of the table is highlighted
+        /// </summary>
+        public bool ShowFirstColumn
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// If true, the last column of the table is highlighted
+        /// </summary>
+        public bool ShowLastColumn
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// If true, column width will be adjusted to cell content
         /// </summary>
         public bool AutofitColumns

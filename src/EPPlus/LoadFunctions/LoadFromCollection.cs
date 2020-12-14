@@ -34,6 +34,12 @@ namespace OfficeOpenXml.LoadFunctions
             _bindingFlags = parameters.BindingFlags;
             _headerParsingType = parameters.HeaderParsingType;
             var type = typeof(T);
+            var tableAttr = type.GetFirstAttributeOfType<EpplusTableAttribute>();
+            if(tableAttr != null)
+            {
+                ShowFirstColumn = tableAttr.ShowFirstColumn;
+                ShowLastColumn = tableAttr.ShowLastColumn;
+            }
             if (parameters.Members == null)
             {
                 var columns = SetupColumns();

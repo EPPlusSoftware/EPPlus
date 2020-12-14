@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Utils
         internal static IEnumerable<T> FindAttributesOfType<T>(this Type type)
             where T : Attribute
         {
-            var attributes = type.GetCustomAttributes(false);
+            var attributes = type.GetCustomAttributes(true);
             if(attributes == null || !attributes.Any())
             {
                 return Enumerable.Empty<T>();

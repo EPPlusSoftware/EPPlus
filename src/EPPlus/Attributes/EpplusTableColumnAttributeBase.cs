@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Attributes
         /// </summary>
         public EpplusTableColumnAttributeBase()
         {
-            TotalsRowFunction = RowFunctions.None;
+
         }
 
         /// <summary>
@@ -50,15 +50,6 @@ namespace OfficeOpenXml.Attributes
         /// Excel format string for the column
         /// </summary>
         public string NumberFormat
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// If not <see cref="RowFunctions.None"/> the last cell in the column will contain a formula of the specified type.
-        /// </summary>
-        public RowFunctions TotalsRowFunction
         {
             get;
             set;
