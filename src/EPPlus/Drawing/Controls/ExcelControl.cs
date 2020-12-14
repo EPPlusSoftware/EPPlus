@@ -26,6 +26,9 @@ using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// An abstract class inherited by form controls
+    /// </summary>
     public abstract class ExcelControl : ExcelDrawing
     {
         protected ExcelVmlDrawingControl _vml;
@@ -210,9 +213,15 @@ namespace OfficeOpenXml.Drawing.Controls
             return vmlDrawings.FirstOrDefault(x => x.Id == LegacySpId)?.TopNode;
         }
 
+        /// <summary>
+        /// The control property xml associated with the control
+        /// </summary>
         public XmlDocument ControlPropertiesXml { get; private set; }
         internal ZipPackagePart ControlPropertiesPart { get; private set; }
         internal Uri ControlPropertiesUri { get; private set; }
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public abstract eControlType ControlType
         {
             get;
@@ -260,7 +269,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 ((XmlElement)extNode.FirstChild).SetAttribute("spid", value);
             }
         }
-        public string GetlegacySpIdPath()
+        internal string GetlegacySpIdPath()
         {
             return $"{(_topPath == "" ? "" : _topPath + "/")}xdr:nvSpPr/xdr:cNvPr";
         }
@@ -589,6 +598,9 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
+        /// <summary>
+        /// The type of drawing. Always set to <see cref="eDrawingType.Control"/>
+        /// </summary>
         public override eDrawingType DrawingType
         {
             get

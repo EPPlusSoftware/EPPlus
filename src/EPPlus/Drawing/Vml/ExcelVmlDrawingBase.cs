@@ -39,9 +39,9 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
-        /// The Id of the vml drawing
+        /// The Id of the shape drawing
         /// </summary>
-        public string SpId
+        internal string SpId
         {
             get
             {

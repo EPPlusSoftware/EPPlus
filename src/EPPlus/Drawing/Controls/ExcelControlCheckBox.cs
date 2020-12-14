@@ -17,6 +17,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents a check box form control
+    /// </summary>
     public class ExcelControlCheckBox : ExcelControlWithColorsAndLines
     {
         internal ExcelControlCheckBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
@@ -28,9 +31,12 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.CheckBox;
         /// <summary>
-        /// Gets or sets if a check box or radio button is selected
+        /// Gets or sets the state of a check box 
         /// </summary>
         public eCheckState Checked 
         { 

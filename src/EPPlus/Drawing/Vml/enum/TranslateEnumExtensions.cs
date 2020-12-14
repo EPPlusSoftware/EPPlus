@@ -1,7 +1,7 @@
 ﻿using System;
 namespace OfficeOpenXml.Drawing.Vml
 {
-    public static class TranslateEnumExtensions
+    internal static class TranslateEnumExtensions
     {
         internal static eVmlGradientMethod ToGradientMethodEnum(this string s, eVmlGradientMethod defaultValue)
         {

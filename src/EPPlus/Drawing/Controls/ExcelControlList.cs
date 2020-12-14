@@ -20,6 +20,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// An abstract class used by form control list objects
+    /// </summary>
     public abstract class ExcelControlList : ExcelControl
     {
         internal ExcelControlList(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
@@ -30,6 +33,9 @@ namespace OfficeOpenXml.Drawing.Controls
             : base(drawings, drawNode, control, part, controlPropertiesXml, parent)
         {
         }
+        /// <summary>
+        /// The range to the items populating the list.
+        /// </summary>
         public ExcelAddressBase InputRange 
         { 
             get

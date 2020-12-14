@@ -10,7 +10,7 @@
  *************************************************************************************************
     10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Drawing.Controls
 {
     /// <summary>
     /// Vertical Alignment for a form control

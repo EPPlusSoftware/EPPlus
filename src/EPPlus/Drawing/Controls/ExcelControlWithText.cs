@@ -19,6 +19,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// An abstract class used for formcontrols with text properties.
+    /// </summary>
     public abstract class ExcelControlWithText : ExcelControl
     {
         private string _paragraphPath = "xdr:sp/xdr:txBody/a:p";
@@ -30,7 +33,7 @@ namespace OfficeOpenXml.Drawing.Controls
 
         }
 
-        protected ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : 
+        internal ExcelControlWithText(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : 
             base(drawings, drawNode, name, parent)
         {
         }

@@ -10,13 +10,14 @@
  *************************************************************************************************
   10/21/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
-using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents a drop down form control
+    /// </summary>
     public class ExcelControlDropDown : ExcelControlList
     {
         internal ExcelControlDropDown(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
@@ -28,6 +29,9 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.DropDown;
         /// <summary>
         /// Gets or sets whether a drop-down object has a color applied to it
@@ -82,6 +86,9 @@ namespace OfficeOpenXml.Drawing.Controls
                 _vmlProp.SetXmlNodeString("x:DropStyle", value.ToString());
             }
         }
+        /// <summary>
+        /// Minimum width 
+        /// </summary>
         public int? MinimumWidth
         {
             get

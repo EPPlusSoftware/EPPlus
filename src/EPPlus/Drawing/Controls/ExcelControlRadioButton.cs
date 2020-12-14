@@ -15,6 +15,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents a radio button form control
+    /// </summary>
     public class ExcelControlRadioButton : ExcelControlWithColorsAndLines
     {
         internal ExcelControlRadioButton(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
@@ -25,9 +28,12 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.RadioButton;
         /// <summary>
-        /// Gets or sets if a check box or radio button is selected
+        /// Gets or sets the state of the radio box.
         /// </summary>
         public bool Checked
         {

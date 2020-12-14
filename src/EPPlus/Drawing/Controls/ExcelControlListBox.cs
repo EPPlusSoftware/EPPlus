@@ -20,6 +20,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents a list box form control.
+    /// </summary>
     public class ExcelControlListBox : ExcelControlList
     {
         internal ExcelControlListBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
@@ -31,6 +34,9 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.ListBox;
         /// <summary>
         /// The type of selection

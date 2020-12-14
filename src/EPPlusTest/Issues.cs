@@ -1541,7 +1541,22 @@ namespace EPPlusTest
             var n3 = Math.Round(n * power) / power;
             var n4 = RoundingHelper.RoundToSignificantFig(n, 15);
         }
+        [TestMethod]
+        public void IssueCommentInsert()
+        {
 
+            using (var p = OpenPackage("comment.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("CommentInsert");
+                ws.Cells["A2"].AddComment("na", "test");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                ws.InsertRow(2, 1);
+                ws.Cells["A3"].Insert(eShiftTypeInsert.Right);
+                SaveAndCleanup(p);
+            }
+
+        }
         double Round_off(double N, double n)
         {
             int h;

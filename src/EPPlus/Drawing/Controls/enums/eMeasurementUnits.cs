@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Units of measurement
+    /// </summary>
     public enum eMeasurementUnits
     {
         /// <summary>

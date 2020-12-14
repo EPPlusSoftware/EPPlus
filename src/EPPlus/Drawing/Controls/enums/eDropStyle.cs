@@ -10,8 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// A style for a form control drop-down.
+    /// </summary>
     public enum eDropStyle
     {
         /// <summary>

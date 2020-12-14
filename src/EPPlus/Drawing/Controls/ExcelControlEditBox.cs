@@ -16,6 +16,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents an edit box form control. Unsupported.
+    /// </summary>
     public class ExcelControlEditBox : ExcelControlWithText
     {
         internal ExcelControlEditBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
@@ -26,11 +29,10 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.EditBox;
 
-        //editVal
-        //multiLine
-        //verticalBar
-        //passwordEdit
     }
 }

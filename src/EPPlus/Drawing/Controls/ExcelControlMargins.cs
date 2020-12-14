@@ -12,12 +12,11 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
-using System;
-using System.Globalization;
-using System.Linq;
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Margin setting for a vml drawing
+    /// </summary>
     public class ExcelControlMargin
     {
         private ExcelControlWithText _control;
@@ -98,23 +97,38 @@ namespace OfficeOpenXml.Drawing.Controls
                 _vmlHelper.DeleteNode("v:textbox/@inset");
             }
         }
+        /// <summary>
+        /// Margin is autiomatic
+        /// </summary>
         public bool Automatic
         {
             get;
             set;
         }
+        /// <summary>
+        /// Left Margin
+        /// </summary>
         public ExcelVmlMeasurementUnit LeftMargin
         {
             get;
         } = new ExcelVmlMeasurementUnit();
+        /// <summary>
+        /// Right Margin
+        /// </summary>
         public ExcelVmlMeasurementUnit RightMargin
         {
             get;
         } = new ExcelVmlMeasurementUnit();
+        /// <summary>
+        /// Top Margin
+        /// </summary>
         public ExcelVmlMeasurementUnit TopMargin
         {
             get;
         } = new ExcelVmlMeasurementUnit();
+        /// <summary>
+        /// Bottom margin
+        /// </summary>
         public ExcelVmlMeasurementUnit BottomMargin
         {
             get;

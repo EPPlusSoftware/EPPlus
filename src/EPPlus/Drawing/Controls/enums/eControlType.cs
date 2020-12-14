@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// </summary>
         ListBox,
         /// <summary>
-        /// An radio button (option button)
+        /// A radio button (option button)
         /// </summary>
         RadioButton,
         /// <summary>
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// </summary>
         SpinButton,
         /// <summary>
-        /// An edit box. Unsupported. Editboxes can't be used directly on a form
+        /// An edit box. Unsupported. Editboxes can only be used in dialog sheets.
         /// </summary>
         EditBox,
         /// <summary>

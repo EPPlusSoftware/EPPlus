@@ -15,6 +15,9 @@ using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// An abstract class used by form controls with color and line settings
+    /// </summary>
     public abstract class ExcelControlWithColorsAndLines : ExcelControlWithText
     {
 
@@ -28,6 +31,9 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         ExcelVmlDrawingFill _fill = null;
+        /// <summary>
+        /// Fill settings for the control
+        /// </summary>
         public ExcelVmlDrawingFill Fill
         {
             get
@@ -40,6 +46,9 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         ExcelVmlDrawingBorder _border = null;
+        /// <summary>
+        /// Border settings for the control
+        /// </summary>
         public ExcelVmlDrawingBorder Border
         {
             get

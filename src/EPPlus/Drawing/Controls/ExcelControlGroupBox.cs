@@ -15,6 +15,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents a group box form control. 
+    /// </summary>
     public class ExcelControlGroupBox : ExcelControlWithText
     {
         internal ExcelControlGroupBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
@@ -25,6 +28,9 @@ namespace OfficeOpenXml.Drawing.Controls
             : base(drawings, drawNode, control, part, controlPropertiesXml, parent)
         {
         }
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.GroupBox;
     }
 }

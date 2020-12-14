@@ -16,6 +16,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents a spin button form control
+    /// </summary>
     public class ExcelControlSpinButton : ExcelControl
     {
         internal ExcelControlSpinButton(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
@@ -28,6 +31,9 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.SpinButton;
         /// <summary>
         /// Gets or sets the address to the cell that is linked to the control. 

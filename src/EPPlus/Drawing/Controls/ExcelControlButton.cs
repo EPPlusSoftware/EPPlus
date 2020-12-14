@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  10/21/2020         EPPlus Software AB           Controls 
+  10/21/2020         EPPlus Software AB           EPPlus 5.5 
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
@@ -16,6 +16,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
+    /// <summary>
+    /// Represents a button form control
+    /// </summary>
     public class ExcelControlButton : ExcelControlWithText
     {
 
@@ -30,8 +33,14 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
+        /// <summary>
+        /// The type of form control
+        /// </summary>
         public override eControlType ControlType => eControlType.Button;
         private ExcelControlMargin _margin;
+        /// <summary>
+        /// The buttons margin settings
+        /// </summary>
         public ExcelControlMargin Margin
         {
             get
@@ -43,21 +52,33 @@ namespace OfficeOpenXml.Drawing.Controls
                 return _margin;
             }
         }        
+        /// <summary>
+        /// The buttons text layout flow
+        /// </summary>
         public eLayoutFlow LayoutFlow
         {
             get;
             set;
         }
+        /// <summary>
+        /// Text orientation
+        /// </summary>
         public eShapeOrientation Orientation
         {
             get;
             set;
         }
+        /// <summary>
+        /// The reading order for the text
+        /// </summary>
         public eReadingOrder ReadingOrder
         {
             get;
             set;
         }
+        /// <summary>
+        /// If size is automatic
+        /// </summary>
         public bool AutomaticSize
         {
             get;
