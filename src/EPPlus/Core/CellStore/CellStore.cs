@@ -936,11 +936,6 @@ namespace OfficeOpenXml.Core.CellStore
             UpdatePageOffset(column, pagePos + 1, rows);
         }
 
-        private void SplitPageAtRowPos(PageIndex page, int rowPos, int rows)
-        {
-            
-        }
-
         private int ValidateAndSplitPageIfNeeded(ColumnIndex column, PageIndex page, int pagePos)
         {
             if (page.RowSpan >= CellStoreSettings._pageSizeMax)   //Can not be larger than the max size of the page.

@@ -46,6 +46,7 @@ using System.Threading;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace EPPlusTest
 {
