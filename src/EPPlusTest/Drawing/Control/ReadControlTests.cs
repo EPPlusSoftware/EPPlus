@@ -184,7 +184,7 @@ namespace EPPlusTest.Drawing.Control
             var ws = _pck.Workbook.Worksheets[1];
 
             Assert.IsInstanceOfType(ws.Drawings[0], typeof(ExcelGroupShape));
-            Assert.AreEqual(1, ws.Drawings.Count);
+            Assert.AreEqual(2, ws.Drawings.Count);
             var grp = (ExcelGroupShape)ws.Drawings[0];
             Assert.AreEqual(4, grp.Drawings.Count);
             Assert.AreEqual(eDrawingType.Control, grp.Drawings[0].DrawingType);
@@ -198,7 +198,7 @@ namespace EPPlusTest.Drawing.Control
             var ws = _pck.Workbook.Worksheets[1];
 
             Assert.IsInstanceOfType(ws.Drawings[0], typeof(ExcelGroupShape));
-            Assert.AreEqual(1, ws.Drawings.Count);
+            Assert.AreEqual(2, ws.Drawings.Count);
             var grp = (ExcelGroupShape)ws.Drawings[0];
             Assert.AreEqual(4, grp.Drawings.Count);
             Assert.AreEqual(eDrawingType.Control, grp.Drawings[0].DrawingType);

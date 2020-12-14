@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(group)
             {
-                _topPath = _topPathUngrouped.IndexOf("/") > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf("/")) : "";
+                _topPath = _topPathUngrouped.IndexOf("/") > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf("/")+1) : "";
                 if(_topPath=="")
                 {
                     _nvPrPath = _nvPrPathUngrouped;
@@ -205,13 +205,17 @@ namespace OfficeOpenXml.Drawing
 
         private XmlNode GetXFrameNode(XmlNode node, string child)
         {
+            if(node.LocalName == "AlternateContent")
+            {
+                node = node.ChildNodes[0].ChildNodes[0];
+            }
             if (node.LocalName == "grpSp")
             {
                 return node.SelectSingleNode($"xdr:grpSpPr/a:xfrm/{child}", NameSpaceManager);
             }
             else if (node.LocalName == "graphicFrame")
             {
-                return node.SelectSingleNode($"a:xfrm/{child}", NameSpaceManager);
+                return node.SelectSingleNode($"xdr:xfrm/{child}", NameSpaceManager);
             }
             else
             {
