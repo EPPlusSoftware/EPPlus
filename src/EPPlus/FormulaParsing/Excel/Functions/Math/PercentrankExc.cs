@@ -21,9 +21,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "The Excel Percentrank function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
-    internal class Percentrank : RankFunctionBase
+        EPPlusVersion = "5.5",
+        IntroducedInExcelVersion = "2010",
+        Description = "Returns the rank of a value in a data set, as a percentage (0 - 1 exclusive)")]
+    internal class PercentrankExc : RankFunctionBase
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -36,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 significance = ArgToInt(arguments, 2);
             }
-            var result = PercentRankIncImpl(array, number);
+            var result = PercentRankExcImpl(array, number);
             result = RoundResult(result, significance);
             return CreateResult(result, DataType.Decimal);
         }

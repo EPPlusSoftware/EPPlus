@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,33 +8,21 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  10/12/2020         EPPlus Software AB       Version 5.5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "4",
-        Description = "Returns the smallest value from a list of supplied numbers")]
-    internal class Min : HiddenValuesHandlingFunction
+        EPPlusVersion = "5.5",
+        Description = "Returns covariance, the average of the products of deviations for each data point pair in two data sets.")]
+    internal class CovarianceP : Covar
     {
-        public Min() : base()
-        {
-            IgnoreErrors = false;
-        }
-
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            ValidateArguments(arguments, 1);
-            var values = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
-            return CreateResult(values.Min(), DataType.Decimal);
-        }
     }
 }

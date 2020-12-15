@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/25/2020         EPPlus Software AB       Implemented function
+  05/03/2020         EPPlus Software AB         Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -17,27 +17,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "The Excel Percentrank function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
-    internal class Percentrank : RankFunctionBase
+        Category = ExcelFunctionCategory.Financial,
+        EPPlusVersion = "5.5",
+        Description = "Converts a dollar price expressed as a decimal, into a dollar price expressed as a fraction")]
+    internal class DollarFr : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
-            var significance = 3;
-            if (arguments.Count() > 2)
-            {
-                significance = ArgToInt(arguments, 2);
-            }
-            var result = PercentRankIncImpl(array, number);
-            result = RoundResult(result, significance);
+            var decimalDollar = ArgToDecimal(arguments, 0);
+            var fractionDec = ArgToDecimal(arguments, 1);
+            var fraction = System.Math.Floor(fractionDec);
+            if (fraction < 0d) return CreateResult(eErrorType.Num);
+            if (fraction == 0d) return CreateResult(eErrorType.Div0);
+            var result = System.Math.Floor(decimalDollar);
+            result += (decimalDollar % 1) * System.Math.Pow(10, -System.Math.Ceiling(System.Math.Log(fraction) / System.Math.Log(10))) * fraction;
             return CreateResult(result, DataType.Decimal);
         }
     }

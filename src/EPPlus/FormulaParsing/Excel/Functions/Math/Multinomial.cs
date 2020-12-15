@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/25/2020         EPPlus Software AB       Implemented function
+  12/10/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -20,24 +20,23 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "The Excel Percentrank function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
-    internal class Percentrank : RankFunctionBase
+        Category = ExcelFunctionCategory.MathAndTrig,
+        EPPlusVersion = "5.5",
+        Description = "Returns the ratio of the factorial of a sum of values to the product of factorials.")]
+    internal class Multinomial : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
-            var significance = 3;
-            if (arguments.Count() > 2)
+            ValidateArguments(arguments, 1);
+            var numbers = ArgsToDoubleEnumerable(arguments, context);
+            var part1 = 0d;
+            var part2 = 1d;
+            foreach(var number in numbers)
             {
-                significance = ArgToInt(arguments, 2);
+                part1 += number;
+                part2 *= MathHelper.Factorial(number);
             }
-            var result = PercentRankIncImpl(array, number);
-            result = RoundResult(result, significance);
+            var result = MathHelper.Factorial(part1) / part2;
             return CreateResult(result, DataType.Decimal);
         }
     }

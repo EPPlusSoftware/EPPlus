@@ -20,24 +20,24 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "The Excel Percentrank function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
-    internal class Percentrank : RankFunctionBase
+     Category = ExcelFunctionCategory.Statistical,
+     EPPlusVersion = "5.5",
+     IntroducedInExcelVersion = "2010",
+     Description = "Returns the K'th percentile of values in a supplied range, where K is in the range 0 - 1 (exclusive)")]
+    internal class PercentileExc : HiddenValuesHandlingFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
-            var significance = 3;
-            if (arguments.Count() > 2)
-            {
-                significance = ArgToInt(arguments, 2);
-            }
-            var result = PercentRankIncImpl(array, number);
-            result = RoundResult(result, significance);
+            var arr = ArgsToDoubleEnumerable(arguments.Take(1), context).Select(x => (double)x).ToList();
+            var k = ArgToDecimal(arguments, 1);
+            if (k <= 0 || k >= 1) return CreateResult(eErrorType.Num);
+            var n = arr.Count;
+            if (k < 1d / (n + 1d) || k > 1 - 1d / (n + 1d)) return CreateResult(eErrorType.Num);
+            arr.Sort();
+            var l = k * (n + 1d) - 1;
+            var fl = (int)System.Math.Floor(l);
+            var result = ((l - fl) < double.Epsilon) ? arr[fl] : arr[fl] + (l - fl) * (arr[fl + 1] - arr[fl]);
             return CreateResult(result, DataType.Decimal);
         }
     }

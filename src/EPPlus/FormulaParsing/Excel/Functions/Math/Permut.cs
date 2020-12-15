@@ -8,36 +8,30 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/25/2020         EPPlus Software AB       Implemented function
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "The Excel Percentrank function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
-    internal class Percentrank : RankFunctionBase
+        Category = ExcelFunctionCategory.MathAndTrig,
+        EPPlusVersion = "5.5",
+        Description = "Returns the number of permutations for a given number of objects")]
+    internal class Permut : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
-            var significance = 3;
-            if (arguments.Count() > 2)
-            {
-                significance = ArgToInt(arguments, 2);
-            }
-            var result = PercentRankIncImpl(array, number);
-            result = RoundResult(result, significance);
+            var number = ArgToDecimal(arguments, 0);
+            number = System.Math.Floor(number);
+            var numberChosen = ArgToDecimal(arguments, 1);
+            if (number <= 0d || numberChosen <= 0 || number < numberChosen) return CreateResult(eErrorType.Num);
+            var result = MathHelper.Factorial(number) / MathHelper.Factorial(number - numberChosen);
             return CreateResult(result, DataType.Decimal);
         }
     }

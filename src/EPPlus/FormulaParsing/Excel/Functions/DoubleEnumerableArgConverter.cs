@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 });
         }
 
-        public virtual IEnumerable<ExcelDoubleCellValue> ConvertArgsIncludingOtherTypes(IEnumerable<FunctionArgument> arguments)
+        public virtual IEnumerable<ExcelDoubleCellValue> ConvertArgsIncludingOtherTypes(IEnumerable<FunctionArgument> arguments, bool ignoreHidden)
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>
             {
@@ -59,8 +59,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 {
                     foreach (var cell in (ExcelDataProvider.IRangeInfo)arg.Value)
                     {
-                        var val = new ExcelDoubleCellValue(cell.ValueDoubleLogical, cell.Row);
-                        argList.Add(val);
+                        if((!ignoreHidden && cell.IsHiddenRow) || !cell.IsHiddenRow)
+                        {
+                            var val = new ExcelDoubleCellValue(cell.ValueDoubleLogical, cell.Row);
+                            argList.Add(val);
+                        }
+                        
                     }
                 }
                 else

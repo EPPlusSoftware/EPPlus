@@ -548,6 +548,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void YieldmatTest()
+        {
+            _worksheet.Cells["B1"].Value = new DateTime(2008, 03, 15);
+            _worksheet.Cells["B2"].Value = new DateTime(2008, 11, 03);
+            _worksheet.Cells["B3"].Value = new DateTime(2007, 11, 08);
+            _worksheet.Cells["A1"].Formula = "YIELDMAT( B1, B2, B3, 6.25%, 100.0123, 0 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(0.060954, result);
+        }
+
+        [TestMethod]
         public void DurationTest()
         {
             _worksheet.Cells["B1"].Value = new DateTime(2015, 04, 01);
@@ -577,6 +590,34 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
             Assert.AreEqual(0.000686, result);
+        }
+
+        [TestMethod]
+        public void DollarDeTest()
+        {
+            _worksheet.Cells["A1"].Formula = "DOLLARDE(1.99, 23)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(5.304348, result);
+
+            _worksheet.Cells["A1"].Formula = "DOLLARDE(1.01, 16)";
+            _worksheet.Calculate();
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(1.0625, result);
+        }
+
+        [TestMethod]
+        public void DollarFrTest()
+        {
+            _worksheet.Cells["A1"].Formula = "DOLLARFR(1.0625, 16)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(1.01, result);
+
+            _worksheet.Cells["A1"].Formula = "DOLLARFR(1.09375, 32)";
+            _worksheet.Calculate();
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
+            Assert.AreEqual(1.03, result);
         }
     }
 }

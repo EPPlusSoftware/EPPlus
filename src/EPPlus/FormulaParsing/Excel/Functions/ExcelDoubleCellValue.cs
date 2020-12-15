@@ -69,22 +69,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }        
         public static bool operator ==(ExcelDoubleCellValue a, ExcelDoubleCellValue b)
         {
-            return a.Value.CompareTo(b.Value) == 0;
+            return a.Value.CompareTo(b.Value) == 0d;
         }
 
         public static bool operator ==(ExcelDoubleCellValue a, double b)
         {
-            return a.Value.CompareTo(b) == 0;
+            return a.Value.CompareTo(b) == 0d;
         }
 
         public static bool operator !=(ExcelDoubleCellValue a, ExcelDoubleCellValue b)
         {
-            return a.Value.CompareTo(b.Value) != 0;
+            return a.Value.CompareTo(b.Value) != 0d;
         }
 
         public static bool operator !=(ExcelDoubleCellValue a, double b)
         {
-            return a.Value.CompareTo(b) != 0;
+            return a.Value.CompareTo(b) != 0d;
         }
     }
 }

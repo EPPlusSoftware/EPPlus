@@ -20,25 +20,38 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "The Excel Percentrank function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
-    internal class Percentrank : RankFunctionBase
+            Category = ExcelFunctionCategory.Statistical,
+            EPPlusVersion = "5.5",
+            IntroducedInExcelVersion = "2010",
+            Description = "Returns the specified quartile of a set of supplied numbers, based on percentile value 0 - 1 (exclusive) ")]
+    internal class QuartileExc : PercentileExc
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
-            var significance = 3;
-            if (arguments.Count() > 2)
+            var arrArg = arguments.Take(1);
+            var arr = ArgsToDoubleEnumerable(arrArg, context).Select(x => (double)x).ToList();
+            if (!arr.Any()) return CreateResult(eErrorType.Value);
+            var quart = ArgToInt(arguments, 1);
+            switch (quart)
             {
-                significance = ArgToInt(arguments, 2);
+                case 1:
+                    return base.Execute(BuildArgs(arrArg, 0.25d), context);
+                case 2:
+                    return base.Execute(BuildArgs(arrArg, 0.5d), context);
+                case 3:
+                    return base.Execute(BuildArgs(arrArg, 0.75d), context);
+                default:
+                    return CreateResult(eErrorType.Num);
             }
-            var result = PercentRankIncImpl(array, number);
-            result = RoundResult(result, significance);
-            return CreateResult(result, DataType.Decimal);
+        }
+
+        private IEnumerable<FunctionArgument> BuildArgs(IEnumerable<FunctionArgument> arrArg, double quart)
+        {
+            var argList = new List<FunctionArgument>();
+            argList.AddRange(arrArg);
+            argList.Add(new FunctionArgument(quart, DataType.Decimal));
+            return argList;
         }
     }
 }

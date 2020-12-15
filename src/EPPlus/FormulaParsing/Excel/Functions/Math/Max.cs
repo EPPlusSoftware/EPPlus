@@ -25,10 +25,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the largest value from a list of supplied numbers")]
     internal class Max : HiddenValuesHandlingFunction
     {
+        public Max() : base()
+        {
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var values = ArgsToDoubleEnumerable(IgnoreHiddenValues, false, arguments, context);
+            var values = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
             return CreateResult(values.Max(), DataType.Decimal);
         }
     }

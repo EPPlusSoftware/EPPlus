@@ -52,7 +52,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
                 {
-                    retVal += Calculate(item, context);
+                    if(!ShouldIgnore(arg))
+                    {
+                        retVal += Calculate(item, context);
+                    }
                 }
             }
             else if (arg.Value is ExcelDataProvider.IRangeInfo)

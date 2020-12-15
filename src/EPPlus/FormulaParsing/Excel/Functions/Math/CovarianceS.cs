@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/25/2020         EPPlus Software AB       Implemented function
+  10/12/2020         EPPlus Software AB       Version 5.5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -21,23 +21,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.2",
-        Description = "The Excel Percentrank function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
-    internal class Percentrank : RankFunctionBase
+        EPPlusVersion = "5.5",
+        Description = "Returns covariance, the average of the products of deviations for each data point pair in two data sets.")]
+    internal class CovarianceS : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var array = GetNumbersFromArgs(arguments, 0, context);
-            var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
-            var significance = 3;
-            if (arguments.Count() > 2)
+            var array1 = ArgsToDoubleEnumerable(arguments.Take(1), context).ToArray();
+            var array2 = ArgsToDoubleEnumerable(arguments.Skip(1).Take(1), context).ToArray();
+            if (array1.Length != array2.Length) return CreateResult(eErrorType.NA);
+            if (array1.Length == 0) return CreateResult(eErrorType.Div0);
+            var avg1 = array1.Select(x => x.Value).Average();
+            var avg2 = array2.Select(x => x.Value).Average();
+            var result = 0d;
+            for (var x = 0; x < array1.Length; x++)
             {
-                significance = ArgToInt(arguments, 2);
+                result += (array1[x] - avg1) * (array2[x] - avg2);
             }
-            var result = PercentRankIncImpl(array, number);
-            result = RoundResult(result, significance);
+            result /= (array1.Length - 1);
             return CreateResult(result, DataType.Decimal);
         }
     }

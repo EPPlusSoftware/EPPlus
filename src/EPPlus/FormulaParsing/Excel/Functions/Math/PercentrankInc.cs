@@ -31,6 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             ValidateArguments(arguments, 2);
             var array = GetNumbersFromArgs(arguments, 0, context);
             var number = ArgToDecimal(arguments, 1);
+            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
             var significance = 3;
             if(arguments.Count() > 2)
             {

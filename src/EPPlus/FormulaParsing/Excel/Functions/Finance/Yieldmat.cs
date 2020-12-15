@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  12/10/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
@@ -23,39 +23,40 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Financial,
-        EPPlusVersion = "5.2",
-        Description = "Calculates the Macauley duration of a security with an assumed par value of $100")]
-    internal class Duration : ExcelFunction
+        EPPlusVersion = "5.5",
+        Description = "Returns the annual yield of a security that pays interest at maturity.")]
+    internal class Yieldmat : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 5);
-            var settlementNum = ArgToDecimal(arguments, 0);
-            var maturityNum = ArgToDecimal(arguments, 1);
-            var settlement = System.DateTime.FromOADate(settlementNum);
-            var maturity = System.DateTime.FromOADate(maturityNum);
-            var coupon = ArgToDecimal(arguments, 2);
-            var yield = ArgToDecimal(arguments, 3);
-            if(coupon < 0 || yield < 0)
-            {
-                return CreateResult(eErrorType.Num);
-            }
-            var frequency = ArgToInt(arguments, 4);
-            if(frequency != 1 && frequency != 2 && frequency != 4)
-            {
-                return CreateResult(eErrorType.Num);
-            }
+            var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
+            var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
+            if (settlementDate >= maturityDate) return CreateResult(eErrorType.Num);
+
+            var issueDate = System.DateTime.FromOADate(ArgToInt(arguments, 2));
+            
+            var rate = ArgToDecimal(arguments, 3);
+            if (rate < 0) return CreateResult(eErrorType.Num);
+            
+            var price = ArgToDecimal(arguments, 4);
+            if (price <= 0) return CreateResult(eErrorType.Num);
+            
             var basis = 0;
             if(arguments.Count() > 5)
             {
                 basis = ArgToInt(arguments, 5);
+                if (basis < 0 || basis > 4) return CreateResult(eErrorType.Num);
             }
-            if(basis < 0 || basis > 4)
-            {
-                return CreateResult(eErrorType.Num);
-            }
-            var func = new DurationImpl(new YearFracProvider(context), new CouponProvider());
-            var result = func.GetDuration(settlement, maturity, coupon, yield, frequency, (DayCountBasis)basis);
+
+            var yearFracProvider = new YearFracProvider(context);
+            var yf1 = yearFracProvider.GetYearFrac(issueDate, maturityDate, (DayCountBasis)basis);
+            var yf2 = yearFracProvider.GetYearFrac(issueDate, settlementDate, (DayCountBasis)basis);
+            var yf3 = yearFracProvider.GetYearFrac(settlementDate, maturityDate, (DayCountBasis)basis);
+
+            var result = 1d + yf1 * rate;
+            result /= price / 100d + yf2 * rate;
+            result = --result / yf3;
             return CreateResult(result, DataType.Decimal);
         }
     }

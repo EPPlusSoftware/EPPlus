@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -18,23 +18,34 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using MathObj = System.Math;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "4",
-        Description = "Returns the standard deviation of a supplied set of values (which represent a sample of a population) ")]
-    internal class Stdev : HiddenValuesHandlingFunction
+        EPPlusVersion = "5.5",
+        Description = "Returns the standard deviation of a supplied set of values (which represent an entire population), counting text and the logical value FALSE as the value 0 and counting the logical value TRUE as the value 1")]
+    internal class Stdevpa : HiddenValuesHandlingFunction
     {
-        public Stdev() : base()
+        private readonly DoubleEnumerableArgConverter _argConverter;
+
+        public Stdevpa()
+            : this(new DoubleEnumerableArgConverter())
         {
-            IgnoreErrors = false;
+
         }
+
+        public Stdevpa(DoubleEnumerableArgConverter argConverter)
+        {
+            Require.Argument(argConverter).IsNotNull("argConverter");
+            _argConverter = argConverter;
+        }
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var values = ArgsToDoubleEnumerable(arguments, context, IgnoreErrors).Select(x => (double)x);
+            var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments, IgnoreHiddenValues).Select(x => (double)x);
             return CreateResult(StandardDeviation(values), DataType.Decimal);
         }
 
@@ -44,16 +55,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             if (values.Any())
             {
                 var nValues = values.Count();
-                if(nValues == 1) throw new ExcelErrorValueException(eErrorType.Div0);
+                if (nValues == 1) throw new ExcelErrorValueException(eErrorType.Div0);
                 //Compute the Average       
                 double avg = values.Average();
                 //Perform the Sum of (value-avg)_2_2       
                 double sum = values.Sum(d => MathObj.Pow(d - avg, 2));
                 //Put it all together       
-                ret = MathObj.Sqrt(Divide(sum, (values.Count() - 1)));
+                ret = MathObj.Sqrt(Divide(sum, (values.Count())));
             }
             return ret;
-        } 
+        }
 
     }
 }

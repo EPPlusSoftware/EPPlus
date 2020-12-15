@@ -145,6 +145,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
         internal static double RoundToSignificantFig(double number, double nSignificantFigures)
         {
+            return RoundToSignificantFig(number, nSignificantFigures, true);
+        }
+
+        internal static double RoundToSignificantFig(double number, double nSignificantFigures, bool awayFromMidpoint)
+        {
             var isNegative = false;
             if(number < 0d)
             {
@@ -155,14 +160,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
             var nFiguresDecimalPart = nSignificantFigures - nFiguresIntPart;
             var tmp = number * System.Math.Pow(10, nFiguresDecimalPart);
-            var e = tmp + 0.5;
-            if ((float)e == (float)System.Math.Ceiling(tmp))
-            {
-                var f = System.Math.Ceiling(tmp);
-                var h = (int)f - 2;
-                if (h % 2 != 0)
+            var e = awayFromMidpoint? tmp + 0.5 : tmp;
+            if(awayFromMidpoint)
+            { 
+                if ((float)e == (float)System.Math.Ceiling(tmp))
                 {
-                    e = e - 1;
+                    var f = System.Math.Ceiling(tmp);
+                    var h = (int)f - 2;
+                    if (h % 2 != 0)
+                    {
+                        e = e - 1;
+                    }
                 }
             }
             var intVersion = System.Math.Floor(e);
@@ -176,7 +184,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        private static double GetNumberOfDigitsIntPart(double n)
+        internal static double GetNumberOfDigitsIntPart(double n)
         {
             var tmp = n;
             int nFiguresIntPart;
