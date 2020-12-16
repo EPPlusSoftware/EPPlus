@@ -129,8 +129,12 @@ namespace OfficeOpenXml
         {
             return CreateNode(TopNode, path, insertFirst, addNew, exitName);
         }
+        protected XmlNode CreateAlternateContentNode(string elementName, string requires)
+        {
+            return CreateNode(TopNode, elementName, false, false,"", requires);
+        }
 
-        private XmlNode CreateNode(XmlNode node, string path, bool insertFirst, bool addNew, string exitName)
+        private XmlNode CreateNode(XmlNode node, string path, bool insertFirst, bool addNew, string exitName, string alternateContentRequires=null)
         {
             XmlNode prependNode = null;
             int lastUsedOrderIndex = 0;
@@ -190,6 +194,16 @@ namespace OfficeOpenXml
                                 subNode = node.OwnerDocument.CreateElement(nodePrefix, nodeName, nameSpaceURI);
                             }
                         }
+                        if(string.IsNullOrEmpty(alternateContentRequires)==false)
+                        {
+                            var altNode = node.OwnerDocument.CreateElement("AlternateContent", ExcelPackage.schemaMarkupCompatibility);
+                            var choiceNode = node.OwnerDocument.CreateElement("Choice", ExcelPackage.schemaMarkupCompatibility);
+                            altNode.AppendChild(choiceNode);
+                            choiceNode.SetAttribute("Requires", alternateContentRequires);
+                            choiceNode.AppendChild(subNode);
+                            subNode=altNode;
+                        }
+
                         if (prependNode != null)
                         {
                             node.InsertBefore(subNode, prependNode);

@@ -36,21 +36,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// </summary>
         public override eControlType ControlType => eControlType.SpinButton;
         /// <summary>
-        /// Gets or sets the address to the cell that is linked to the control. 
-        /// </summary>
-        public ExcelAddressBase LinkedCell
-        {
-            get
-            {
-                return FmlaLink;
-            }
-            set
-            {
-                FmlaLink = value;
-            }
-        }
-        /// <summary>
-        /// How much the scrollbar is incremented for each click
+        /// How much the spin button is incremented for each click
         /// </summary>
         public int Increment
         {
@@ -65,10 +51,11 @@ namespace OfficeOpenXml.Drawing.Controls
                     throw (new ArgumentOutOfRangeException("Increment must be between 0 and 3000"));
                 }
                 _ctrlProp.SetXmlNodeInt("@inc", value);
+                _vmlProp.SetXmlNodeInt("x:Inc", value);
             }
         }
         /// <summary>
-        /// The value when a scrollbar is at it's minimum
+        /// The value when a spin button is at it's minimum
         /// </summary>
         public int MinValue
         {
@@ -83,10 +70,11 @@ namespace OfficeOpenXml.Drawing.Controls
                     throw (new ArgumentOutOfRangeException("MinValue must be between 0 and 3000"));
                 }
                 _ctrlProp.SetXmlNodeInt("@min", value);
+                _vmlProp.SetXmlNodeInt("x:Min", value);
             }
         }
         /// <summary>
-        /// The value when a scrollbar is at it's maximum
+        /// The value when a spin button is at it's maximum
         /// </summary>
         public int MaxValue
         {
@@ -101,10 +89,11 @@ namespace OfficeOpenXml.Drawing.Controls
                     throw (new ArgumentOutOfRangeException("MaxValue must be between 0 and 30000"));
                 }
                 _ctrlProp.SetXmlNodeInt("@max", value);
+                _vmlProp.SetXmlNodeInt("x:Max", value);
             }
         }
         /// <summary>
-        /// The value when a scrollbar is at it's maximum
+        /// The value when a spin button is at it's maximum
         /// </summary>
         public int Value
         {
@@ -119,31 +108,9 @@ namespace OfficeOpenXml.Drawing.Controls
                     throw (new ArgumentOutOfRangeException("Value must be between 0 and 30000"));
                 }
                 _ctrlProp.SetXmlNodeInt("@val", value);
-            }
-        }
+                _vmlProp.SetXmlNodeInt("x:Val", value);
 
-        //TODO: Implement?
-        //public bool JustLastX
-        //{
-
-        //}
-
-        /// <summary>
-        /// The number of items to move the scroll bar on a page click. Null is default
-        /// </summary>
-        public int? Page
-        {
-            get
-            {
-                return _ctrlProp.GetXmlNodeIntNull("@page");
-            }
-            set
-            {
-                if (value.HasValue && (value < 0 || value > 3000))
-                {
-                    throw (new ArgumentOutOfRangeException("Page must be between 0 and 3000"));
-                }
-                _ctrlProp.SetXmlNodeInt("@page", value);
+                SetLinkedCellValue(value);
             }
         }
     }

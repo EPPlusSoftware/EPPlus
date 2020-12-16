@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing.Controls
     {
         internal ExcelControlListBox(ExcelDrawings drawings, XmlElement drawNode, string name, ExcelGroupShape parent=null) : base(drawings, drawNode, name, parent)
         {
-            SetSize(150, 240); //Default size
+            SetSize(150, 100); //Default size
         }
         internal ExcelControlListBox(ExcelDrawings drawings, XmlNode drawNode, ControlInternal control, ZipPackagePart part, XmlDocument controlPropertiesXml, ExcelGroupShape parent = null)
             : base(drawings, drawNode, control, part, controlPropertiesXml, parent)
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         /// <summary>
-        /// If <see cref="SelectionType"/> is Multi or extended this array contains the selected indicies. Index is zero based. 
+        /// If <see cref="SelectionType"/> is Multi or Extended this array contains the selected indicies. Index is zero based. 
         /// </summary>
         public int[] MultiSelection
         {

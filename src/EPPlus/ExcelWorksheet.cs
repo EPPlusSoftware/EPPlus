@@ -3974,20 +3974,23 @@ namespace OfficeOpenXml
 
         internal XmlNode CreateControlContainerNode()
         {
-            XmlElement node = GetNode("mc:AlternateContent/mc:Choice[@Requires='x14']") as XmlElement;
-            if(node == null)
+            var node = GetNode("mc:AlternateContent/mc:Choice[@Requires='x14']");
+            XmlNode controlsNode;
+            if (node == null)
             {
-                node = (XmlElement)CreateNode("mc:AlternateContent/mc:Choice");
-                node.SetAttribute("Requires", "x14");
-                node.InnerXml = "<controls/>";
+                node = CreateAlternateContentNode("controls", "x14");
+                controlsNode = node.ChildNodes[0].ChildNodes[0];
+            }
+            else
+            {
+                controlsNode = node.SelectSingleNode("d:controls", NameSpaceManager);
+                if (controlsNode == null)
+                {
+                    var f = XmlHelperFactory.Create(NameSpaceManager, node);
+                    return f.CreateNode("d:controls");
+                }
             }
 
-            var controlsNode = node.SelectSingleNode("d:controls", NameSpaceManager);
-            if(controlsNode==null)
-            {
-                var f=XmlHelperFactory.Create(NameSpaceManager, node);
-                return f.CreateNode("d:controls");
-            }
             var xh = XmlHelperFactory.Create(NameSpaceManager, controlsNode);
             var altNode = (XmlElement)xh.CreateNode("mc:AlternateContent", false, true);
             

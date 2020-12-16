@@ -243,6 +243,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 case eControlType.Button:
                     return "<x:TextHAlign>Center</x:TextHAlign>";
                 case eControlType.CheckBox:
+                case eControlType.GroupBox:
                     return "<x:SizeWithCells/><x:NoThreeD/>";
                 case eControlType.RadioButton:
                     return "<x:SizeWithCells/><x:AutoLine>False</x:AutoLine><x:NoThreeD/><x:FirstButton/>";
@@ -254,6 +255,8 @@ namespace OfficeOpenXml.Drawing.Vml
                     return "<x:AutoFill>False</x:AutoFill><x:AutoLine>False</x:AutoLine>";
                 case eControlType.ScrollBar:
                     return "<x:SizeWithCells/><x:Val>0</x:Val><x:Min>0</x:Min><x:Max>100</x:Max><x:Inc>1</x:Inc><x:Page>10</x:Page><x:Dx>22</x:Dx>";
+                case eControlType.SpinButton:
+                    return "   <x:Val>0</x:Val><x:Min>0</x:Min><x:Max>30000</x:Max><x:Inc>1</x:Inc><x:Page>10</x:Page><x:Dx>22</x:Dx>";
                 default:
                     return "";
             }

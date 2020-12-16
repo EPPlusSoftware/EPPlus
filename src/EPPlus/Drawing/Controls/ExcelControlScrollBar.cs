@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing.Controls
         public override eControlType ControlType => eControlType.ScrollBar;
 
         /// <summary>
-        /// Gets or sets if scrollbar is horizontal or vertical
+        /// Gets or sets if scroll bar is horizontal or vertical
         /// </summary>
         public bool Horizontal
         {
@@ -47,11 +47,18 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 _ctrlProp.SetXmlNodeBool("@horiz", value);
-                _vmlProp.SetXmlNodeBool("x:Horiz", value);
+                if(value)
+                {
+                    _vmlProp.CreateNode("x:Horiz");
+                }
+                else
+                {
+                    _vmlProp.DeleteNode("x:Horiz");
+                }
             }
         }
         /// <summary>
-        /// How much the scrollbar is incremented for each click
+        /// How much the scroll bar is incremented for each click
         /// </summary>
         public int Increment
         {
@@ -89,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         /// <summary>
-        /// The value when a scrollbar is at it's minimum
+        /// The value when a scroll bar is at it's minimum
         /// </summary>
         public int MinValue
         {
@@ -107,7 +114,7 @@ namespace OfficeOpenXml.Drawing.Controls
             }
         }
         /// <summary>
-        /// The value when a scrollbar is at it's maximum
+        /// The value when a scroll bar is at it's maximum
         /// </summary>
         public int MaxValue
         {
@@ -122,6 +129,27 @@ namespace OfficeOpenXml.Drawing.Controls
                     throw (new ArgumentOutOfRangeException("MaxValue must be between 0 and 30000"));
                 }
                 _ctrlProp.SetXmlNodeInt("@max", value);
+            }
+        }
+        /// <summary>
+        /// The value of the scroll bar.
+        /// </summary>
+        public int Value
+        {
+            get
+            {
+                return _ctrlProp.GetXmlNodeInt("@val", 0);
+            }
+            set
+            {
+                if (value < 0 || value > 30000)
+                {
+                    throw (new ArgumentOutOfRangeException("Value must be between 0 and 30000"));
+                }
+                _ctrlProp.SetXmlNodeInt("@val", value);
+                _vmlProp.SetXmlNodeInt("x:Val", value);
+
+                SetLinkedCellValue(value);
             }
         }
     }

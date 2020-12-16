@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 case eControlType.ScrollBar:
                     return string.Format(xml, "objectType=\"Scroll\" dx=\"22\" max=\"100\" page=\"10\" val=\"0\"");
                 case eControlType.SpinButton:
-                    return string.Format(xml, "objectType=\"Spin\" dx=\"22\" fmlaLink=\"$A$1\" max=\"30000\" page=\"10\" val=\"0\"");
+                    return string.Format(xml, "objectType=\"Spin\" dx=\"22\" max=\"30000\" page=\"10\" val=\"0\"");
                 case eControlType.GroupBox:
                     return string.Format(xml, "objectType=\"GBox\" noThreeD=\"1\"");
                 default:
@@ -488,7 +488,6 @@ namespace OfficeOpenXml.Drawing.Controls
                 {
                     return FmlaLink;
                 }
-
             }
             set
             {
@@ -504,6 +503,23 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
+        protected void SetLinkedCellValue(int value)
+        {
+            if (LinkedCell != null)
+            {
+                ExcelWorksheet ws;
+                if (string.IsNullOrEmpty(LinkedCell.WorkSheetName))
+                {
+                    ws = _drawings.Worksheet;
+                }
+                else
+                {
+                    ws = _drawings.Worksheet.Workbook.Worksheets[LinkedCell.WorkSheetName];
+                }
+                ws.Cells[LinkedCell._fromRow, LinkedCell._fromCol].Value = value;
+            }
+        }
+
         #region Shared Properties
         internal protected ExcelAddressBase FmlaLink
         {

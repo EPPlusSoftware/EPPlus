@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using OfficeOpenXml.Style.XmlAccess;
 
@@ -129,8 +130,7 @@ namespace OfficeOpenXml.Style
         /// <param name="Style">The border style</param>
         public void BorderAround(ExcelBorderStyle Style)
         {
-            var addr = new ExcelAddress(_address);
-            SetBorderAroundStyle(Style, addr);
+            BorderAround(Style, Color.Empty);
         }
         /// <summary>
         /// Set the border style around the range.
@@ -138,10 +138,25 @@ namespace OfficeOpenXml.Style
         /// <param name="Style">The border style</param>
         /// <param name="Color">The color of the border</param>
         public void BorderAround(ExcelBorderStyle Style, System.Drawing.Color Color)
-        {            
-            var addr=new ExcelAddress(_address);
-            SetBorderAroundStyle(Style, addr);
+        {
+            var addr = new ExcelAddress(_address);
+            if (addr.Addresses?.Count > 1)
+            {
+                foreach (var a in addr.Addresses)
+                {
+                    SetBorderAroundStyle(Style, a);
+                    if (!Color.IsEmpty) SetBorderColor(Color, a);
+                }
+            }
+            else
+            {
+                SetBorderAroundStyle(Style, addr);
+                if (!Color.IsEmpty) SetBorderColor(Color, addr);
+            }
+        }
 
+        private void SetBorderColor(Color Color, ExcelAddress addr)
+        {
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Color, Color.ToArgb().ToString("X"), _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._fromRow, addr._toCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Color, Color.ToArgb().ToString("X"), _positionID, new ExcelAddress(addr._toRow, addr._fromCol, addr._toRow, addr._toCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderLeft, eStyleProperty.Color, Color.ToArgb().ToString("X"), _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._toRow, addr._fromCol).Address));
