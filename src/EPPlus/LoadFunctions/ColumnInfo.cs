@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Table;
+using System;
 /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
@@ -20,6 +21,11 @@ namespace OfficeOpenXml.LoadFunctions
 {
     internal class ColumnInfo
     {
+        public ColumnInfo()
+        {
+            TotalsRowFunction = RowFunctions.None;
+        }
+
         public int SortOrder { get; set; }
         public int Index { get; set; }
 
@@ -32,5 +38,13 @@ namespace OfficeOpenXml.LoadFunctions
         public string Header { get; set; }
 
         public string NumberFormat { get; set; }
+
+        public RowFunctions TotalsRowFunction { get; set; }
+
+        public string TotalsRowFormula { get; set; }
+
+        public string TotalsRowNumberFormat { get; set; }
+
+        public string TotalsRowLabel { get; set; }
     }
 }

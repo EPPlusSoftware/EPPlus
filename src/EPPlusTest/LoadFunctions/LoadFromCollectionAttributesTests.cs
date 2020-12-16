@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.LoadFunctions
 {
-    [EpplusTable(TableStyle = TableStyles.Dark1, PrintHeaders = true, AutofitColumns = true, AutoCalculate = false)]
+    [EpplusTable(TableStyle = TableStyles.Dark1, PrintHeaders = true, AutofitColumns = true, AutoCalculate = true, ShowTotal = true, ShowFirstColumn = true)]
     [
-        EpplusFormulaTableColumn(Order = 6, NumberFormat = "€#,##0.00", Header = "Tax amount", FormulaR1C1 = "RC[-2] * RC[-1]"),
-        EpplusFormulaTableColumn(Order = 7, NumberFormat = "€#,##0.00", Header = "Net salary", Formula = "E2-G2")
+        EpplusFormulaTableColumn(Order = 6, NumberFormat = "€#,##0.00", Header = "Tax amount", FormulaR1C1 = "RC[-2] * RC[-1]", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00"),
+        EpplusFormulaTableColumn(Order = 7, NumberFormat = "€#,##0.00", Header = "Net salary", Formula = "E2-G2", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00")
     ]
     internal class Actor
     {
@@ -28,13 +28,13 @@ namespace EPPlusTest.LoadFunctions
         [EpplusTableColumn(Order = 2)]
         public string MiddleName { get; set; }
 
-        [EpplusTableColumn(Order = 0, NumberFormat = "yyyy-MM-dd")]
+        [EpplusTableColumn(Order = 0, NumberFormat = "yyyy-MM-dd", TotalsRowLabel = "Total")]
         public DateTime Birthdate { get; set; }
 
-        [EpplusTableColumn(Order = 4, NumberFormat = "€#,##0.00")]
+        [EpplusTableColumn(Order = 4, NumberFormat = "€#,##0.00", TotalsRowFunction = RowFunctions.Sum, TotalsRowNumberFormat = "€#,##0.00")]
         public double Salary { get; set; }
 
-        [EpplusTableColumn(Order = 5, NumberFormat = "0%")]
+        [EpplusTableColumn(Order = 5, NumberFormat = "0%", TotalsRowFormula = "Table1[[#Totals],[Tax amount]]/Table1[[#Totals],[Salary]]", TotalsRowNumberFormat ="0 %")]
         public double Tax { get; set; }
     }
 

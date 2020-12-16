@@ -39,6 +39,7 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 ShowFirstColumn = tableAttr.ShowFirstColumn;
                 ShowLastColumn = tableAttr.ShowLastColumn;
+                ShowTotal = tableAttr.ShowTotal;
             }
             if (parameters.Members == null)
             {
@@ -87,6 +88,36 @@ namespace OfficeOpenXml.LoadFunctions
             return _items.Count();
         }
 
+        protected override void PostProcessTable(ExcelTable table, ExcelRangeBase range)
+        {
+            for(var ix = 0; ix < table.Columns.Count; ix++)
+            {
+                if (ix >= _columns.Length) break;
+                var totalsRowFormula = _columns[ix].TotalsRowFormula;
+                var totalsRowLabel = _columns[ix].TotalsRowLabel;
+                if (!string.IsNullOrEmpty(totalsRowFormula))
+                {
+                    table.Columns[ix].TotalsRowFormula = totalsRowFormula;
+                }
+                else if(!string.IsNullOrEmpty(totalsRowLabel))
+                {
+                    table.Columns[ix].TotalsRowLabel = _columns[ix].TotalsRowLabel;
+                    table.Columns[ix].TotalsRowFunction = RowFunctions.None;
+                }
+                else
+                {
+                    table.Columns[ix].TotalsRowFunction = _columns[ix].TotalsRowFunction;
+                }
+                
+                if(!string.IsNullOrEmpty(_columns[ix].TotalsRowNumberFormat))
+                {
+                    var row = range._toRow + 1;
+                    var col = range._fromCol + _columns[ix].Index;
+                    range.Worksheet.Cells[row, col].Style.Numberformat.Format = _columns[ix].TotalsRowNumberFormat;
+                }
+            }
+        }
+
 
 
         protected override void LoadInternal(object[,] values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats)
@@ -123,13 +154,30 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     var sortOrder = -1;
                     var numberFormat = string.Empty;
+                    var rowFunction = RowFunctions.None;
+                    var totalsRowNumberFormat = string.Empty;
+                    var totalsRowLabel = string.Empty;
+                    var totalsRowFormula = string.Empty;
                     var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                     if (epplusColumnAttr != null)
                     {
                         sortOrder = epplusColumnAttr.Order;
                         numberFormat = epplusColumnAttr.NumberFormat;
+                        rowFunction = epplusColumnAttr.TotalsRowFunction;
+                        totalsRowNumberFormat = epplusColumnAttr.TotalsRowNumberFormat;
+                        totalsRowLabel = epplusColumnAttr.TotalsRowLabel;
+                        totalsRowFormula = epplusColumnAttr.TotalsRowFormula;
                     }
-                    result.Add(new ColumnInfo { SortOrder = sortOrder, MemberInfo = member, NumberFormat = numberFormat });
+                    result.Add(new ColumnInfo
+                    {
+                        SortOrder = sortOrder,
+                        MemberInfo = member,
+                        NumberFormat = numberFormat,
+                        TotalsRowFunction = rowFunction,
+                        TotalsRowNumberFormat = totalsRowNumberFormat,
+                        TotalsRowLabel = totalsRowLabel,
+                        TotalsRowFormula = totalsRowFormula
+                    }); ;
                 }
                 ReindexAndSortColumns(result);
             }
@@ -143,7 +191,16 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 foreach (var attr in formulaColumnAttributes)
                 {
-                    result.Add(new ColumnInfo { SortOrder = attr.Order, Header = attr.Header, Formula = attr.Formula, FormulaR1C1 = attr.FormulaR1C1, NumberFormat = attr.NumberFormat });
+                    result.Add(new ColumnInfo 
+                    { 
+                        SortOrder = attr.Order, 
+                        Header = attr.Header, 
+                        Formula = attr.Formula, 
+                        FormulaR1C1 = attr.FormulaR1C1, 
+                        NumberFormat = attr.NumberFormat,
+                        TotalsRowFunction = attr.TotalsRowFunction,
+                        TotalsRowNumberFormat = attr.TotalsRowNumberFormat
+                    });
                 }
                 ReindexAndSortColumns(result);
             }

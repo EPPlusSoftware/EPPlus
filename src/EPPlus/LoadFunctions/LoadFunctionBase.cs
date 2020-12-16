@@ -49,6 +49,8 @@ namespace OfficeOpenXml.LoadFunctions
 
         protected bool ShowLastColumn { get; set; }
 
+        protected bool ShowTotal { get; set; }
+
         /// <summary>
         /// Returns how many rows there are in the range (header row not included)
         /// </summary>
@@ -61,7 +63,7 @@ namespace OfficeOpenXml.LoadFunctions
         /// <returns></returns>
         protected abstract int GetNumberOfColumns();
 
-        protected virtual void PostProcessTable(ExcelTable table)
+        protected virtual void PostProcessTable(ExcelTable table, ExcelRangeBase range)
         {
 
         }
@@ -109,7 +111,8 @@ namespace OfficeOpenXml.LoadFunctions
                 tbl.TableStyle = TableStyle;
                 tbl.ShowFirstColumn = ShowFirstColumn;
                 tbl.ShowLastColumn = ShowLastColumn;
-                PostProcessTable(tbl);
+                tbl.ShowTotal = ShowTotal;
+                PostProcessTable(tbl, r);
             }
 
             return r;

@@ -65,6 +65,15 @@ namespace OfficeOpenXml.Attributes
         }
 
         /// <summary>
+        /// If true, a totals row will be added under the table data. This should be used in combination with <see cref="EpplusTableColumnAttributeBase.TotalsRowFunction"/> on the column attributes.
+        /// </summary>
+        public bool ShowTotal
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// If true, column width will be adjusted to cell content
         /// </summary>
         public bool AutofitColumns

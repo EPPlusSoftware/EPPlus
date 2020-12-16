@@ -20,13 +20,6 @@ namespace OfficeOpenXml.Attributes
 {
     public abstract class EpplusTableColumnAttributeBase : Attribute
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public EpplusTableColumnAttributeBase()
-        {
-
-        }
 
         /// <summary>
         /// Order of the columns value, default value is 0
@@ -50,6 +43,42 @@ namespace OfficeOpenXml.Attributes
         /// Excel format string for the column
         /// </summary>
         public string NumberFormat
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// If not <see cref="RowFunctions.None"/> the last cell in the column (the totals row) will contain a formula of the specified type.
+        /// </summary>
+        public RowFunctions TotalsRowFunction
+        {
+            get;
+            set;
+        } = RowFunctions.None;
+
+        /// <summary>
+        /// Formula for the total row of this column.
+        /// </summary>
+        public string TotalsRowFormula
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Number format for this columns cell in the totals row.
+        /// </summary>
+        public string TotalsRowNumberFormat
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Text in this columns cell in the totals row
+        /// </summary>
+        public string TotalsRowLabel
         {
             get;
             set;
