@@ -150,7 +150,6 @@ namespace EPPlusTest.Drawing.Control
             Assert.AreEqual(3, spin.Increment);
             Assert.AreEqual(0, spin.MinValue);
             Assert.AreEqual(30000, spin.MaxValue);
-            Assert.AreEqual(10, spin.Page);
             Assert.AreEqual(18, spin.Value);
             Assert.AreEqual("Spinner 10", spin.Name);
         }
