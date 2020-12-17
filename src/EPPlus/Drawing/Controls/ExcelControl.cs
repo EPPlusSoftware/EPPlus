@@ -519,7 +519,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 ws.Cells[LinkedCell._fromRow, LinkedCell._fromCol].Value = value;
             }
         }
-
+        
         #region Shared Properties
         internal protected ExcelAddressBase FmlaLink
         {
@@ -708,5 +708,12 @@ namespace OfficeOpenXml.Drawing.Controls
         }
 
         #endregion
+        internal override void DeleteMe()
+        {
+            _vml.TopNode.ParentNode.RemoveChild(_vml.TopNode);
+            _drawings._package.ZipPackage.DeletePart(ControlPropertiesUri);
+            _control.DeleteMe();
+            base.DeleteMe();
+        }
     }
 }

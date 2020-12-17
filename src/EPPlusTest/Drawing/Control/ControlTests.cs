@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 namespace EPPlusTest.Drawing.Control
 {
     [TestClass]
-    public class AddControlTests : TestBase
+    public class ControlTests : TestBase
     {
         static ExcelPackage _pck;
         static ExcelWorksheet _ws;
@@ -333,6 +333,15 @@ namespace EPPlusTest.Drawing.Control
             Assert.AreEqual(Color.Red.ToArgb(), ExcelVmlDrawingColor.GetColor("Red").ToArgb());
             Assert.AreEqual(Color.Blue.ToArgb(), (long)ExcelVmlDrawingColor.GetColor("Blue [0]").ToArgb());
             Assert.AreEqual(Color.FromArgb(0xFF, 200, 100, 0).ToArgb(), ExcelVmlDrawingColor.GetColor("rgb (200, 100, 0)").ToArgb()); 
+        }
+        [TestMethod]
+        public void RemoveControlTest()
+        {
+            _ws = _pck.Workbook.Worksheets.Add("RemoveControl");
+            var ctrl = _ws.Drawings.AddGroupBoxControl("GroupBox 1");
+            Assert.AreEqual(1, _ws.Drawings.Count);
+            //_ws.Drawings.Remove(ctrl);
+            //Assert.AreEqual(0, _ws.Drawings.Count);
         }
     }
 }

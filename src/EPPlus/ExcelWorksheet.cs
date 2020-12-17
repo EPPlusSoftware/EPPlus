@@ -3978,7 +3978,7 @@ namespace OfficeOpenXml
             XmlNode controlsNode;
             if (node == null)
             {
-                node = CreateAlternateContentNode("controls", "x14");
+                node = CreateAlternateContentNode("d:controls", "x14");
                 controlsNode = node.ChildNodes[0].ChildNodes[0];
             }
             else

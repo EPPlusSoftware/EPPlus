@@ -1507,18 +1507,21 @@ namespace OfficeOpenXml
 				pivotCaches.AppendChild(item);
 			}
 
-			var fullAddress = cacheReference.SourceRange.FullAddress;
-			if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
+			if (cacheReference.CacheSource == eSourceType.Worksheet)
 			{
-				cacheInfo.PivotCaches.Add(cacheReference);
-			}
-			else
-			{
-				_pivotTableCaches.Add(fullAddress, new PivotTableCacheRangeInfo()
+				var fullAddress = cacheReference.SourceRange.FullAddress;
+				if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
 				{
-					Address = fullAddress,
-					PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
-				});
+					cacheInfo.PivotCaches.Add(cacheReference);
+				}
+				else
+				{
+					_pivotTableCaches.Add(fullAddress, new PivotTableCacheRangeInfo()
+					{
+						Address = fullAddress,
+						PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
+					});
+				}
 			}
 		}
 		internal void RemovePivotTableCache(int cacheId)

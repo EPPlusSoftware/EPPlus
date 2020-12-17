@@ -1556,37 +1556,16 @@ namespace EPPlusTest
                 ws.Cells["A3"].Insert(eShiftTypeInsert.Right);
                 SaveAndCleanup(p);
             }
-
         }
-        double Round_off(double N, double n)
+        [TestMethod]
+        public void Issue261()
         {
-            int h;
-            double l, a, b, c, d, e, i, j, m, f, g;
-            b = N;
-            c = Math.Floor(N);
-
-            // Counting the no. of digits to the left of decimal point 
-            // in the given no. 
-            for (i = 0; b >= 1; ++i)
-                b = b / 10;
-
-            d = n - i;
-            b = N;
-            b = b * Math.Pow(10, d);
-            e = b + 0.5;
-            if ((float)e == (float)Math.Ceiling(b))
+            using (var p = OpenTemplatePackage("issue261.xlsx"))
             {
-                f = (Math.Ceiling(b));
-                h = (int)f - 2;
-                if (h % 2 != 0)
-                {
-                    e = e - 1;
-                }
+                var ws = p.Workbook.Worksheets["data"];
+                ws.Cells["A1"].Value = "test";
+                SaveAndCleanup(p);
             }
-            j = Math.Floor(e);
-            m = Math.Pow(10, d);
-            j = j / m;
-            return j;
         }
     }
 }

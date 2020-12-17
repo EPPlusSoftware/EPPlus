@@ -11,6 +11,7 @@
   12/01/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
@@ -240,6 +241,19 @@ namespace OfficeOpenXml.Drawing.Controls
             set
             {
                 SetXmlNodeBool("d:controlPr/d:anchor/@sizeWithCells", value, false);
+            }
+        }
+
+        internal void DeleteMe()
+        {
+            var node = TopNode.ParentNode?.ParentNode;
+            if (node?.LocalName=="AlternateContent")
+            {
+                node.ParentNode.RemoveChild(node);
+            }
+            else
+            {
+                TopNode.ParentNode.RemoveChild(TopNode);
             }
         }
     }
