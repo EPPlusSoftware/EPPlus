@@ -359,10 +359,10 @@ namespace OfficeOpenXml.Drawing.Controls
             var from = _control?.From ?? From;
             var to = _control?.To ?? To;
             return string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}",
-                from.Column, from.ColumnOff / EMU_PER_PIXEL,
-                from.Row, from.RowOff / EMU_PER_PIXEL,
-                to.Column, to.ColumnOff / EMU_PER_PIXEL,
-                to.Row, to.RowOff / EMU_PER_PIXEL);
+                from.Column, Math.Round(from.ColumnOff / EMU_PER_PIXEL * 1.5),
+                from.Row, Math.Round(from.RowOff / EMU_PER_PIXEL * 1.5),
+                to.Column, Math.Round(to.ColumnOff / EMU_PER_PIXEL * 1.5),
+                to.Row, Math.Round(to.RowOff / EMU_PER_PIXEL * 1.5));
         }
 
         /// <summary>

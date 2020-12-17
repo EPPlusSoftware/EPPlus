@@ -1,5 +1,51 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.5.0
+### Features
+* Form Controls
+	* Buttons
+	* Drop-Downs
+	* List Boxes
+	* Check Boxes
+	* Radio Buttons
+	* Spin Buttons
+	* Scroll Bars
+	* Labels
+	* Group Boxes 
+* Group/Ungroup drawing object via the ExcelDrawing.Group and ExcelDrawing.Ungroup methods
+* New attribute support for LoadFromCollection. See https://github.com/EPPlusSoftware/EPPlus/wiki/LoadFromCollection-using-Attributes
+* 20 new functions 
+	* AGGREGATE
+	* PERCENTILE.EXC
+	* DATEDIF
+	* QUARTILE.EXC
+	* STDEVA
+	* STDEVPA
+	* VARA 
+	* VARPA
+	* COVAR 
+	* COVARIANCE.P
+	* COVARIANCE.S
+	* RANK
+	* DOLLAR
+	* DOLLARDE
+	* DOLLARFR
+	* PERMUT 
+	* PERMUTATIONA
+	* XOR
+	* MULTINOMIAL
+	* YIELDMAT
+
+### Fixed issues
+* Round methods can now use only 15 sigificant figures with calculation option - PrecisionAndRoundingStrategy  
+* R1C1 causes corrupt worksheet if used as shared formula with off-sheet reference. 
+* Using double qoutes in R1C1 didn't encode correctly.
+* Altering fields on a table connected to a pivot table causes the pivot table to become corrupt.
+* Pivot tables with a boolean column and a filter got corrupt on save. 
+* Deleting a worksheet and adding it again with the same name causes a crash on save if the worksheet is referenced by a pivot table. This happends due to the SourceRange property still referencing the deleted worksheet.
+* Changed ExcelAddressBase.FullName to public
+* Reference table name only in indirect formula did not work.
+
 ## Version 5.4.2
 ### Fixed issues
 * .NET 5.0 to Nuget package.
