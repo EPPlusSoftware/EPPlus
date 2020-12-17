@@ -31,9 +31,9 @@ namespace OfficeOpenXml.Drawing.Controls
     /// </summary>
     public abstract class ExcelControl : ExcelDrawing
     {
-        protected ExcelVmlDrawingControl _vml;
-        protected XmlHelper _ctrlProp;
-        internal protected XmlHelper _vmlProp;
+        internal ExcelVmlDrawingControl _vml;
+        internal XmlHelper _ctrlProp;
+        internal XmlHelper _vmlProp;
         internal ControlInternal _control;
 
         internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, ControlInternal control, ZipPackagePart ctrlPropPart, XmlDocument ctrlPropXml, ExcelGroupShape parent = null) :

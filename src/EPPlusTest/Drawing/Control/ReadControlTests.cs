@@ -144,7 +144,7 @@ namespace EPPlusTest.Drawing.Control
         public void ValidateSpinbuttonControl()
         {
             Assert.IsInstanceOfType(_ws.Drawings[5], typeof(ExcelControlSpinButton));
-            var spin = _ws.Drawings[5].As.Control.Spin;
+            var spin = _ws.Drawings[5].As.Control.SpinButton;
             Assert.AreEqual(eControlType.SpinButton, spin.ControlType);
             Assert.AreEqual("$K$22", spin.LinkedCell.Address);
             Assert.AreEqual(3, spin.Increment);
