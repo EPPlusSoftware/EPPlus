@@ -146,7 +146,10 @@ namespace OfficeOpenXml.Table
             }
             set
             {
-                if (value.StartsWith("=")) value = value.Substring(1, value.Length - 1);
+                if(!string.IsNullOrEmpty(value))
+                {
+                    if (value.StartsWith("=")) value = value.Substring(1, value.Length - 1);
+                }
                 SetXmlNodeString("@totalsRowFunction", "custom");                
                 SetXmlNodeString(TOTALSROWFORMULA_PATH, value);
                 _tbl.WorkSheet.SetTableTotalFunction(_tbl, this);

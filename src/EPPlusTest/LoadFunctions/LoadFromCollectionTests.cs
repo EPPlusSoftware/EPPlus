@@ -36,6 +36,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Attributes;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 
@@ -176,10 +177,10 @@ namespace EPPlusTest.LoadFunctions
             {
                 var sheet = pck.Workbook.Worksheets.Add("sheet");
                 var t = typeof(Implementation);
-                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, LoadFromCollectionParams.DefaultBindingFlags, 
-                    new MemberInfo[] 
-                    { 
-                        t.GetProperty("Id"), 
+                sheet.Cells["C1"].LoadFromCollection(items, true, TableStyles.Dark1, LoadFromCollectionParams.DefaultBindingFlags,
+                    new MemberInfo[]
+                    {
+                        t.GetProperty("Id"),
                         t.GetProperty("Name")
                     });
 
@@ -253,7 +254,7 @@ namespace EPPlusTest.LoadFunctions
             {
                 new Implementation(){ Id = "123", Name = "Item 1", Number = 3}
             };
-            var items = objs.Select(x => new {Id = x.Id, Name = x.Name}).ToList();
+            var items = objs.Select(x => new { Id = x.Id, Name = x.Name }).ToList();
             using (var pck = new ExcelPackage(new MemoryStream()))
             {
                 var sheet = pck.Workbook.Worksheets.Add("sheet");

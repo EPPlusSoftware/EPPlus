@@ -10,10 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.LoadFunctions;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -264,6 +266,21 @@ namespace OfficeOpenXml
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection)
         {
+            var type = typeof(T);
+            var attr = type.GetFirstAttributeOfType<EpplusTableAttribute>();
+            if(attr != null)
+            {
+                var range = LoadFromCollection(Collection, attr.PrintHeaders, attr.TableStyle, BindingFlags.Public | BindingFlags.Instance, null);
+                if(attr.AutofitColumns)
+                {
+                    range.AutoFitColumns();
+                }
+                if(attr.AutoCalculate)
+                {
+                    range.Calculate();
+                }
+                return range;
+            }
             return LoadFromCollection<T>(Collection, false, TableStyles.None, BindingFlags.Public | BindingFlags.Instance, null);
         }
         /// <summary>
