@@ -47,6 +47,7 @@
 * Reference table name only in indirect formula did not work.
 * Replaced MemoryStrem internally with Microsoft.IO.RecyclableMemoryStream. Thanks to LIFEfreedom.
 * Referencing a single cell with rich text from a formula returned an invalid value.
+* Reverted .NET 5.0 references for .NET standard 2.0 and 2.1, to be compatible with Azure Functions.
 
 ## Version 5.4.2
 ### Fixed issues
