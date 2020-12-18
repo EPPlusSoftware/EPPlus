@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Style
                 var defNode = CreateNode(_path + "/a:pPr/a:defRPr");
                 if (defNode.InnerXml == "")
                 {
-                    ((XmlElement)defNode).SetAttribute("sz", _defaultFontSize.ToString(CultureInfo.InvariantCulture));
+                    ((XmlElement)defNode).SetAttribute("sz", (_defaultFontSize*100).ToString(CultureInfo.InvariantCulture));
                     var normalStyle = _drawing._drawings.Worksheet.Workbook.Styles.GetNormalStyle();
                     if (normalStyle == null)
                         defNode.InnerXml = "<a:latin typeface=\"Calibri\" />< a:cs typeface=\"Calibri\" />";
