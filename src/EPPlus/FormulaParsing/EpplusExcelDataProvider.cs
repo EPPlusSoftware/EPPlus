@@ -215,7 +215,17 @@ namespace OfficeOpenXml.FormulaParsing
 
             public object Value
             {
-                get { return _values.Value._value; }
+                get 
+                { 
+                    if(_ws._flags.GetFlagValue(_values.Row, _values.Column, CellFlags.RichText))
+                    {
+                        return _ws.GetRichText(_values.Row, _values.Column, null).Text;
+                    }
+                    else
+                    {
+                        return _values.Value._value;
+                    }
+                }
             }
             
             public double ValueDouble

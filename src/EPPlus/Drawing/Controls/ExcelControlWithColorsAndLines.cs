@@ -30,7 +30,6 @@ namespace OfficeOpenXml.Drawing.Controls
         {
         }
 
-        ExcelVmlDrawingFill _fill = null;
         /// <summary>
         /// Fill settings for the control
         /// </summary>
@@ -38,11 +37,7 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             get
             {
-                if (_fill == null)
-                {
-                    _fill = new ExcelVmlDrawingFill(_drawings, _vml.NameSpaceManager, _vml.TopNode, _vml.SchemaNodeOrder);
-                }
-                return _fill;
+                return _vml.GetFill();
             }
         }
         ExcelVmlDrawingBorder _border = null;

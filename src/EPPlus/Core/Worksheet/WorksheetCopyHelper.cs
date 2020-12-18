@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopyHeaderFooterPictures(copy, added);
                 
                 //Copy all relationships 
-                if (copy.HasDrawingRelationship)
+                    if (copy.HasDrawingRelationship)
                 {
                     CopySlicers(copy, added);
                     CopyDrawing(pck, nsm, copy, added);

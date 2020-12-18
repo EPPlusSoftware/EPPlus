@@ -511,7 +511,7 @@ namespace OfficeOpenXml
             {
                 if (_vmlDrawingsHF.Count == 0)
                 {
-                    if (_vmlDrawingsHF.Uri != null)
+                    if (_vmlDrawingsHF.Part != null)
                     {
                         _ws.Part.DeleteRelationship(_vmlDrawingsHF.RelId);
                         _ws._package.ZipPackage.DeletePart(_vmlDrawingsHF.Uri);

@@ -46,6 +46,7 @@
 * Changed ExcelAddressBase.FullName to public
 * Reference table name only in indirect formula did not work.
 * Replaced MemoryStrem internally with Microsoft.IO.RecyclableMemoryStream. Thanks to LIFEfreedom.
+* Referencing a single cell with rich text from a formula returned an invalid value.
 
 ## Version 5.4.2
 ### Fixed issues

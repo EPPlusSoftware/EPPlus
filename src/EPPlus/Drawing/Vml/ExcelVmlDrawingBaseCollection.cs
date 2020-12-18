@@ -42,12 +42,6 @@ namespace OfficeOpenXml.Drawing.Vml
             if (uri == null)
             {
                 var id = _ws.SheetId;
-                Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
-
-                Part = _package.ZipPackage.CreatePart(Uri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _package.Compression);
-                var rel = _ws.Part.CreateRelationship(UriHelper.GetRelativeUri(_ws.WorksheetUri, Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
-                _ws.SetXmlNodeString(worksheetRelIdPath, rel.Id);
-                RelId = rel.Id;
             }
             else
             {
