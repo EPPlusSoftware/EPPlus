@@ -280,7 +280,10 @@ namespace OfficeOpenXml.ThreadedComments
 
             foreach (var comment in deletedComments)
             {
-                comment.Comments.TopNode.ParentNode.RemoveChild(comment.Comments.TopNode);
+                foreach (var c in comment.Comments)
+                {
+                    c.TopNode.ParentNode.RemoveChild(c.TopNode);
+                }
                 var ix = _threads.IndexOf(comment);
                 _threadsIndex.Remove(ix);
                 _threads[ix] = null;

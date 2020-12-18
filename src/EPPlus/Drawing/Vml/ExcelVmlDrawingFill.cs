@@ -121,7 +121,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 return _gradientSettings;
             }
         }
-        ExcelVmlDrawingPictureFill _patternPictureSettings = null;
+        internal ExcelVmlDrawingPictureFill _patternPictureSettings = null;
         /// <summary>
         /// Image and pattern specific settings used when <see cref="Style"/> is set to Pattern, Tile or Frame.
         /// </summary>

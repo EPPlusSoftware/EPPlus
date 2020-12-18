@@ -98,11 +98,16 @@ namespace OfficeOpenXml.Style
         /// </summary>
         protected internal void CreateTopNode()
         {
-            if (_path!="" && TopNode == _rootNode)
+            if (_path!="" && TopNode==_rootNode)
             {
                 _initXml?.Invoke();
                 CreateNode(_path);
                 TopNode = _rootNode.SelectSingleNode(_path, NameSpaceManager);
+                CreateNode("../../../a:bodyPr");
+                CreateNode("../../../a:lstStyle");
+            }
+            else if (TopNode.ParentNode?.ParentNode?.ParentNode?.LocalName == "rich")
+            {
                 CreateNode("../../../a:bodyPr");
                 CreateNode("../../../a:lstStyle");
             }

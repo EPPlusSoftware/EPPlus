@@ -36,7 +36,7 @@
 	* MULTINOMIAL
 	* YIELDMAT
 
-### Fixed issues
+### Fixed issues & minor fixes
 * Round methods can now use only 15 sigificant figures with calculation option - PrecisionAndRoundingStrategy  
 * R1C1 causes corrupt worksheet if used as shared formula with off-sheet reference. 
 * Using double qoutes in R1C1 didn't encode correctly.
@@ -45,6 +45,8 @@
 * Deleting a worksheet and adding it again with the same name causes a crash on save if the worksheet is referenced by a pivot table. This happends due to the SourceRange property still referencing the deleted worksheet.
 * Changed ExcelAddressBase.FullName to public
 * Reference table name only in indirect formula did not work.
+* Replaced MemoryStrem internally with Microsoft.IO.RecyclableMemoryStream. Thanks to LIFEfreedom.
+* Referencing a single cell with rich text from a formula returned an invalid value.
 
 ## Version 5.4.2
 ### Fixed issues

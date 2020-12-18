@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:fill/@o:title", value, true);
             }
         }
-        Image _image = null;
+        internal Image _image = null;
         /// <summary>
         /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
         /// </summary>
@@ -150,17 +150,23 @@ namespace OfficeOpenXml.Drawing.Vml
                 if (value != null)
                 {
                     _image = value;
-                    try
-                    {
-                        string relId = PictureStore.SavePicture(value, this);
+                }
+            }
+        }
+        internal void SaveImage()
+        {
+            if (_image != null)
+            {
+                try
+                {
+                    string relId = PictureStore.SavePicture(_image, this);
 
-                        //Create relationship
-                        SetXmlNodeString("v:fill/@o:relid", relId);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw (new Exception("Can't save image - " + ex.Message, ex));
-                    }
+                    //Create relationship
+                    SetXmlNodeString("v:fill/@o:relid", relId);
+                }
+                catch (Exception ex)
+                {
+                    throw (new Exception("Can't save image - " + ex.Message, ex));
                 }
             }
         }

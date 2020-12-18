@@ -67,7 +67,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     case "Radio":
                     case "EditBox":
                     case "Dialog":
-                        vmlDrawing = new ExcelVmlDrawingControl(node, NameSpaceManager);
+                        vmlDrawing = new ExcelVmlDrawingControl(_ws, node, NameSpaceManager);
                         _drawings.Add(vmlDrawing);
                         break;
                     default:    //Comments
@@ -169,7 +169,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl, string name)
         {
             XmlNode node = AddControlDrawing(ctrl, name);
-            var draw = new ExcelVmlDrawingControl(node, NameSpaceManager);
+            var draw = new ExcelVmlDrawingControl(_ws, node, NameSpaceManager);
             _drawings.Add(draw);
             _drawingsDict.Add(draw.Id, _drawings.Count-1);
             return draw;

@@ -685,7 +685,7 @@ namespace OfficeOpenXml
                     {
                         if (_worksheet._flags.GetFlagValue(row, col, CellFlags.RichText))
                         {
-                            v[row - addr._fromRow, col - addr._fromCol] = GetRichText(row, col).Text;
+                            v[row - addr._fromRow, col - addr._fromCol] = _worksheet.GetRichText(row, col, this).Text;
                         }
                         else
                         {
@@ -1341,8 +1341,8 @@ namespace OfficeOpenXml
         /// </summary>
         protected internal ExcelRichTextCollection _rtc = null;
         /// <summary>
-        /// Cell value is richtext formatted. 
-        /// Richtext-property only apply to the left-top cell of the range.
+        /// The cell value is rich text formatted. 
+        /// The RichText-property only apply to the left-top cell of the range.
         /// </summary>
         public ExcelRichTextCollection RichText
         {
@@ -1351,35 +1351,12 @@ namespace OfficeOpenXml
                 IsRangeValid("richtext");
                 if (_rtc == null)
                 {
-                    _rtc = GetRichText(_fromRow, _fromCol);
+                    _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
                 }
                 return _rtc;
             }
         }
 
-        private ExcelRichTextCollection GetRichText(int row, int col)
-        {
-            XmlDocument xml = new XmlDocument();
-            var v = _worksheet.GetValueInner(row, col);
-            var isRt = _worksheet._flags.GetFlagValue(row, col, CellFlags.RichText);
-            if (v != null)
-            {
-                if (isRt)
-                {
-                    XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v.ToString() + "</d:si>", Encoding.UTF8);
-                }
-                else
-                {
-                    xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" ><d:r><d:t>" + OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(v.ToString()) + "</d:t></d:r></d:si>");
-                }
-            }
-            else
-            {
-                xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" />");
-            }
-            var rtc = new ExcelRichTextCollection(_worksheet.NameSpaceManager, xml.SelectSingleNode("d:si", _worksheet.NameSpaceManager), this);
-            return rtc;
-        }
         /// <summary>
         /// Returns the comment object of the first cell in the range
         /// </summary>
