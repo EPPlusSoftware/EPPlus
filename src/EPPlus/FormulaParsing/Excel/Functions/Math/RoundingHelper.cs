@@ -157,9 +157,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 isNegative = true;
             }
             var nFiguresIntPart = GetNumberOfDigitsIntPart(number);
-
-            var nFiguresDecimalPart = nSignificantFigures - nFiguresIntPart;
-            var tmp = number * System.Math.Pow(10, nFiguresDecimalPart);
+            var nLeadingZeroDecimals = GetNumberOfLeadingZeroDecimals(number);
+            var nFiguresDecimalPart = nSignificantFigures - nFiguresIntPart - nLeadingZeroDecimals;
+            if (number < 1d)
+            {
+                nFiguresDecimalPart -= nLeadingZeroDecimals;
+            }
+            var tmp = number * System.Math.Pow(10, nFiguresDecimalPart + nLeadingZeroDecimals);
             var e = awayFromMidpoint? tmp + 0.5 : tmp;
             if(awayFromMidpoint)
             { 
@@ -174,7 +178,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 }
             }
             var intVersion = System.Math.Floor(e);
-            double divideBy = System.Math.Pow(10, nFiguresDecimalPart);
+            double divideBy = System.Math.Pow(10, nFiguresDecimalPart + nLeadingZeroDecimals);
             var result = intVersion / divideBy;
             return isNegative ? result * -1 : result;
         }
@@ -191,6 +195,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             for (nFiguresIntPart = 0; tmp >= 1; ++nFiguresIntPart)
                 tmp = tmp / 10;
             return nFiguresIntPart;
+        }
+
+        private static double GetNumberOfLeadingZeroDecimals(double n)
+        {
+            var tmp = n;
+            var result = 0;
+            while (tmp < 1d)
+            {
+                tmp *= 10;
+                result++;
+            }
+            return result - 1;
         }
     }
 }

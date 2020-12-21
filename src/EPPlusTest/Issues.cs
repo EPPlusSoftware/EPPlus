@@ -1532,17 +1532,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void Supportcase44()
-        {
-            var n = -120253.87499999999;
-            var r = System.Math.Round(n, 2);
-            var n2 = 120253.875;
-            var r2 = System.Math.Round(n2, 2);
-            var power = 1e14;
-            var n3 = Math.Round(n * power) / power;
-            var n4 = RoundingHelper.RoundToSignificantFig(n, 15);
-        }
-        [TestMethod]
         public void IssueCommentInsert()
         {
 
