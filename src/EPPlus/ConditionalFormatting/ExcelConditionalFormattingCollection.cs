@@ -96,9 +96,9 @@ namespace OfficeOpenXml.ConditionalFormatting
               ExcelConditionalFormattingConstants.Errors.MissingSqrefAttribute);
           }
 
-          // Get the @sqref attribute
-          ExcelAddress address = new ExcelAddress(
-            conditionalFormattingNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Sqref].Value);
+          // Get the @sqref attribute    
+          var refAddress = conditionalFormattingNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Sqref].Value.Replace(" ", ",");
+          ExcelAddress address = new ExcelAddress(refAddress);
 
           // Check for all the <cfRules> nodes and load them
           var cfRuleNodes = conditionalFormattingNode.SelectNodes(

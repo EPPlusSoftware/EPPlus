@@ -167,7 +167,7 @@ namespace OfficeOpenXml.ConditionalFormatting
       set
       {
         // Check if the address is to be changed
-        if (Address.Address != value.Address)
+        if (!Address.Equals(value))
         {
           // Save the old parente node
           XmlNode oldParentNode = Node.ParentNode;

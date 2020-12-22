@@ -1523,6 +1523,41 @@ namespace OfficeOpenXml
                    _toRow > ExcelPackage.MaxRows ||
                    _toCol > ExcelPackage.MaxColumns);
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is ExcelAddressBase a)
+            {
+                if (Addresses==null || a.Addresses==null)
+                {
+                    if (Addresses?.Count > 1 || a.Addresses?.Count > 1) return false;
+                    return IsEqual(this, a);
+                }
+                else
+                {
+                    for(int i=0;i<Addresses.Count;i++)
+                    {
+                        if (IsEqual(Addresses[i], a.Addresses[i]) == false)
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+            else
+            {
+                return _address == obj.ToString();
+            }
+        }
+
+        private bool IsEqual(ExcelAddressBase a1, ExcelAddressBase a2)
+        {
+            return a1._fromRow == a2._fromRow &&
+                    a1._toRow == a2._toRow &&
+                    a1._fromCol == a2._fromCol &&
+                    a1._toCol == a2._toCol;
+        }
+
     }
     /// <summary>
     /// Range address with the address property readonly
