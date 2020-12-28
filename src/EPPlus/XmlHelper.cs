@@ -22,6 +22,7 @@ using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml
 {
@@ -1083,6 +1084,19 @@ namespace OfficeOpenXml
             }
             return uri;
         }
+        internal T? GetXmlEnumNull<T>(string path, T? defaultValue=null) where T : struct, Enum
+        {
+            var v = GetXmlNodeString(path);
+            if(string.IsNullOrEmpty(v))
+            {
+                return defaultValue;
+            }
+            else
+            {
+                return v.ToEnum(default(T));
+            }
+        }
+
         internal double? GetXmlNodePercentage(string path)
         {
             double d;
