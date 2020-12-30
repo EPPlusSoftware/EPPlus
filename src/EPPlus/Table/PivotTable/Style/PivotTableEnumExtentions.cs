@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Utils.Extensions;
 
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Table.PivotTable
 {
     public static class PivotTableEnumExtentions
     {

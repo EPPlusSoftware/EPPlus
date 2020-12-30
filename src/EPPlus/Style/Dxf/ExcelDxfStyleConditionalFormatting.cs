@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// Differential formatting record used in conditional formatting
     /// </summary>
-    public class ExcelDxfStyleConditionalFormatting : ExcelDxfStyle<ExcelDxfStyleConditionalFormatting>
+    public class ExcelDxfStyleConditionalFormatting : ExcelDxfStyle
     {
         internal ExcelDxfStyleConditionalFormatting(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles)
             : base(nameSpaceManager, topNode, styles)
@@ -38,20 +38,20 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// Font formatting settings
         /// </summary>
-        public ExcelDxfFont Font { get; set; }
+        public ExcelDxfFontBase Font { get; set; }
 
         /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfStyleConditionalFormatting Clone()
+        protected internal override DxfStyleBase Clone()
         {
             var s = new ExcelDxfStyleConditionalFormatting(_helper.NameSpaceManager, null, _styles)
             {
                 Font = (ExcelDxfFont)Font.Clone(),
-                NumberFormat = NumberFormat.Clone(),
-                Fill = Fill.Clone(),
-                Border = Border.Clone()
+                NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),
+                Fill = (ExcelDxfFill)Fill.Clone(),
+                Border = (ExcelDxfBorderBase)Border.Clone()
             };
 
             return s;

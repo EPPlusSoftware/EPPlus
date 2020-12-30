@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// A numberformat in a differential formatting record
     /// </summary>
-    public class ExcelDxfNumberFormat : DxfStyleBase<ExcelDxfNumberFormat>
+    public class ExcelDxfNumberFormat : DxfStyleBase
     {
         internal ExcelDxfNumberFormat(ExcelStyles styles) : base(styles)
         {
@@ -123,14 +123,14 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get 
             { 
-                return !string.IsNullOrEmpty(Format); 
+                return !string.IsNullOrEmpty(Format) && NumFmtID!=0; 
             }
         }
         /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfNumberFormat Clone()
+        protected internal override DxfStyleBase Clone()
         {
             return new ExcelDxfNumberFormat(_styles) { NumFmtID = NumFmtID, Format = Format };
         }

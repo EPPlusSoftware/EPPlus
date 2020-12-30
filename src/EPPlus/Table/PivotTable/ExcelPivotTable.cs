@@ -24,6 +24,7 @@ using OfficeOpenXml.Filter;
 using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.Style.Dxf;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -43,7 +44,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             PivotTableXml = new XmlDocument();
             LoadXmlSafe(PivotTableXml, Part.GetStream());
-            init();
+            Init();
             TopNode = PivotTableXml.DocumentElement;
             Address = new ExcelAddressBase(GetXmlNodeString("d:location/@ref"));
 
@@ -147,7 +148,7 @@ namespace OfficeOpenXml.Table.PivotTable
             LoadXmlSafe(PivotTableXml, GetStartXml(name, address, fields), Encoding.UTF8);
             TopNode = PivotTableXml.DocumentElement;
             PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
-            init();
+            Init();
 
             Part = pck.CreatePart(PivotTableUri, ContentTypes.contentTypePivotTable);
             PivotTableXml.Save(Part.GetStream());
@@ -161,9 +162,10 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        private void init()
+        private void Init()
         {
             SchemaNodeOrder = new string[] { "location", "pivotFields", "rowFields", "rowItems", "colFields", "colItems", "pageFields", "dataFields",  "formats", "conditionalFormats", "chartFormats", "pivotHierarchies", "pivotTableStyleInfo", "filters", "rowHierarchiesUsage", "colHierarchiesUsage", "extLst" };
+            PivotAreaStyles = new ExcelPivotTableAreaStyleCollection(this);
         }
         private void LoadFields()
         {
@@ -178,19 +180,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 Fields.AddInternal(fld);
             }
         }
-
-        private void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute)
-        {
-            toElement.InnerXml = fromElement.InnerXml;
-            foreach (XmlAttribute a in fromElement.Attributes)
-            {
-                if (ignoreAttribute.Contains(a.Name))
-                {
-                    toElement.SetAttribute(a.Name, a.Value);
-                }
-            }
-        }
-
         private string GetStartXml(string name, ExcelAddressBase address, int fields)
         {
             string xml = string.Format("<pivotTableDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" name=\"{0}\" dataOnRows=\"1\" applyNumberFormats=\"0\" applyBorderFormats=\"0\" applyFontFormats=\"0\" applyPatternFormats=\"0\" applyAlignmentFormats=\"0\" applyWidthHeightFormats=\"1\" dataCaption=\"Data\"  createdVersion=\"6\" updatedVersion=\"6\" showMemberPropertyTips=\"0\" useAutoFormatting=\"1\" itemPrintTitles=\"1\" indent=\"0\" compact=\"0\" compactData=\"0\" gridDropZones=\"1\">", 
@@ -213,6 +202,11 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get;
             set;
+        }
+        public ExcelPivotTableAreaStyleCollection PivotAreaStyles 
+        { 
+            get;
+            private set;
         }
         /// <summary>
         /// Provides access to the XML data representing the pivottable in the package.

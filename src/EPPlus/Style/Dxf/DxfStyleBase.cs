@@ -24,8 +24,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// Base class for differential formatting styles. 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class DxfStyleBase<T>
+    public abstract class DxfStyleBase
     {
         internal ExcelStyles _styles;
         internal DxfStyleBase(ExcelStyles styles)
@@ -51,7 +50,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns></returns>
-        protected internal abstract T Clone();
+        protected internal abstract DxfStyleBase Clone();
         /// <summary>
         /// Set the color value
         /// </summary>
@@ -129,6 +128,23 @@ namespace OfficeOpenXml.Style.Dxf
                 {
                     helper.SetXmlNodeString(path, v.ToString());
                 }
+            }
+        }
+        /// <summary>
+        /// Sets the value
+        /// </summary>
+        /// <param name="helper">The xml helper</param>
+        /// <param name="path">The x path</param>
+        /// <param name="v">The string</param>
+        internal protected void SetValue(XmlHelper helper, string path, string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                helper.DeleteNode(path);
+            }
+            else
+            {
+                helper.SetXmlNodeString(path, s);
             }
         }
         /// <summary>

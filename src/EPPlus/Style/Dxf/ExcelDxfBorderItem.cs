@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// A single border line of a drawing in a differential formatting record
     /// </summary>
-    public class ExcelDxfBorderItem : DxfStyleBase<ExcelDxfBorderItem>
+    public class ExcelDxfBorderItem : DxfStyleBase
     {
         internal ExcelDxfBorderItem(ExcelStyles styles) :
             base(styles)
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfBorderItem Clone()
+        protected internal override DxfStyleBase Clone()
         {
             return new ExcelDxfBorderItem(_styles) { Style = Style, Color = Color };
         }

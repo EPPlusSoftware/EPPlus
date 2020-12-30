@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// A color in a differential formatting record
     /// </summary>
-    public class ExcelDxfColor : DxfStyleBase<ExcelDxfColor>
+    public class ExcelDxfColor : DxfStyleBase
 
     {
         internal ExcelDxfColor(ExcelStyles styles) : base(styles)
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         protected internal override string Id
         {
-            get { return GetAsString(Theme) + "|" + GetAsString(Index) + "|" + GetAsString(Auto) + "|" + GetAsString(Tint) + "|" + GetAsString(Color==null ? "" : ((Color)Color.Value).ToArgb().ToString("x")); }
+            get { return GetAsString(Theme) + "|" + GetAsString(Index) + "|" + GetAsString(Auto) + "|" + GetAsString(Tint) + "|" + GetAsString(Color==null ? "" : Color.Value.ToArgb().ToString("x")); }
         }
         /// <summary>
         /// Set the color of the drawing
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfColor Clone()
+        protected internal override DxfStyleBase Clone()
         {
             return new ExcelDxfColor(_styles) { Theme = Theme, Index = Index, Color = Color, Auto = Auto, Tint = Tint };
         }

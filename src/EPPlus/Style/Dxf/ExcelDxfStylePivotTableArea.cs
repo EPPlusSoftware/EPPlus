@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// Differential formatting record used in conditional formatting
     /// </summary>
-    public class ExcelDxfStylePivotTableArea : ExcelDxfStyle<ExcelDxfStylePivotTableArea>
+    public class ExcelDxfStylePivotTableArea : ExcelDxfStyle
     {
         internal ExcelDxfStylePivotTableArea(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) 
             : base(nameSpaceManager,topNode, styles)
@@ -37,6 +37,17 @@ namespace OfficeOpenXml.Style.Dxf
                 Font.GetValuesFromXml(_helper);
             }
         }
+        internal override int DxfId 
+        {
+            get 
+            {
+                return _helper.GetXmlNodeInt("../@dxfId");
+            }
+            set
+            {
+                _helper.SetXmlNodeInt("../@dxfId", value);
+            }
+        }
         /// <summary>
         /// Font formatting settings
         /// </summary>
@@ -45,13 +56,13 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfStylePivotTableArea Clone()
+        protected internal override DxfStyleBase Clone()
         {
             var s = new ExcelDxfStylePivotTableArea(_helper.NameSpaceManager, null, _styles);
             s.Font = (ExcelDxfFont)Font.Clone();
-            s.NumberFormat = NumberFormat.Clone();
-            s.Fill = Fill.Clone();
-            s.Border = Border.Clone();
+            s.NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone();
+            s.Fill = (ExcelDxfFill)Fill.Clone();
+            s.Border = (ExcelDxfBorderBase)Border.Clone();
             return s;
         }
         protected internal override void CreateNodes(XmlHelper helper, string path)
@@ -64,6 +75,13 @@ namespace OfficeOpenXml.Style.Dxf
             get
             {
                 return Font.HasValue || base.HasValue;
+            }
+        }
+        protected internal override string Id
+        {
+            get
+            {
+                return Font.Id + base.Id;
             }
         }
     }

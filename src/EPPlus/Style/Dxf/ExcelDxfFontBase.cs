@@ -17,13 +17,14 @@ using System.Text;
 using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Style.Dxf
 {
     /// <summary>
     /// A base class for differential formatting font styles
     /// </summary>
-    public class ExcelDxfFontBase : DxfStyleBase<ExcelDxfFontBase>
+    public class ExcelDxfFontBase : DxfStyleBase
     {
         internal ExcelDxfFontBase(ExcelStyles styles)
             : base(styles)
@@ -102,18 +103,21 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfFontBase Clone()
+        protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfFontBase(_styles) { Bold = Bold, Color = Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
+            return new ExcelDxfFontBase(_styles) { Bold = Bold, Color = (ExcelDxfColor)Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
         }
 
         internal void GetValuesFromXml(XmlHelperInstance helper)
         {
-            Bold = helper.GetXmlNodeBoolNullable("d:font/d:b/@val");
-            Italic = helper.GetXmlNodeBoolNullable("d:font/d:i/@val");
-            Strike = helper.GetXmlNodeBoolNullable("d:font/d:strike");
-            Underline = GetUnderLineEnum(helper.GetXmlNodeString("d:font/d:u/@val"));
-            Color = GetColor(helper, "d:font/d:color");
+            if (helper.ExistNode("d:font"))
+            {
+                Bold = helper.GetXmlNodeBoolNullable("d:font/d:b/@val");
+                Italic = helper.GetXmlNodeBoolNullable("d:font/d:i/@val");
+                Strike = helper.GetXmlNodeBoolNullable("d:font/d:strike");
+                Underline = GetUnderLineEnum(helper.GetXmlNodeString("d:font/d:u/@val"));
+                Color = GetColor(helper, "d:font/d:color");
+            }
         }
     }
     public class ExcelDxfFont : ExcelDxfFontBase
@@ -137,11 +141,11 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// Font-Vertical Align
         /// </summary>
-        public ExcelVerticalAlignmentFont? VerticalAlign
+        public ExcelVerticalAlignmentFont VerticalAlign
         {
             get;
             set;
-        }
+        } = ExcelVerticalAlignmentFont.None;
         public bool? Outline { get; set; }
         public bool? Shadow { get; set; }
         public bool? Condense { get; set; }
@@ -158,7 +162,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfFontBase Clone()
+        protected internal override DxfStyleBase Clone()
         {
             return new ExcelDxfFont(_styles) 
             {
@@ -166,7 +170,7 @@ namespace OfficeOpenXml.Style.Dxf
                 Size = Size,
                 Family = Family,
                 Bold = Bold, 
-                Color = Color.Clone(), 
+                Color = (ExcelDxfColor)Color.Clone(), 
                 Italic = Italic, 
                 Strike = Strike, 
                 Underline = Underline,  
@@ -183,7 +187,7 @@ namespace OfficeOpenXml.Style.Dxf
             get
             {
                 return base.HasValue ||
-                       string.IsNullOrEmpty(Name) ==false ||
+                       string.IsNullOrEmpty(Name) == false ||
                        Size.HasValue ||
                        Family.HasValue ||
                        Condense.HasValue ||
@@ -191,11 +195,23 @@ namespace OfficeOpenXml.Style.Dxf
                        Scheme.HasValue ||
                        Outline.HasValue ||
                        Shadow.HasValue ||
-                       VerticalAlign.HasValue
+                       VerticalAlign != ExcelVerticalAlignmentFont.None
 ;
             }
         }
-        internal void GetValuesFromXml(XmlHelperInstance helper)
+        protected internal override void CreateNodes(XmlHelper helper, string path)
+        {
+            base.CreateNodes(helper, path);
+            SetValueBool(helper, path + "/d:condense/@val", Condense);
+            SetValueBool(helper, path + "/d:extend/@val", Extend);
+            SetValueBool(helper, path + "/d:outline/@val", Outline);
+            SetValueBool(helper, path + "/d:shadow/@val", Shadow);
+            SetValue(helper, path + "/d:name", Name);
+            SetValue(helper, path + "/d:size", Size);
+            SetValue(helper, path + "/d:family", Family);
+            SetValue(helper, path + "/d:vertAlign", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
+        }
+        internal new void GetValuesFromXml(XmlHelperInstance helper)
         {
             base.GetValuesFromXml(helper);
             Name = helper.GetXmlNodeString("d:font/d:name/@val");
@@ -203,7 +219,10 @@ namespace OfficeOpenXml.Style.Dxf
             Condense = helper.GetXmlNodeBoolNullable("d:font/d:condense/@val");
             Extend = helper.GetXmlNodeBoolNullable("d:font/d:extend/@val");
             Outline = helper.GetXmlNodeBoolNullable("d:font/d:outline/@val");
-            VerticalAlign = helper.GetXmlEnumNull<ExcelVerticalAlignmentFont>("d:font/d:scheme/@val");
+            
+            var v = helper.GetXmlNodeString("d:font/d:vertAlign/@val");
+            VerticalAlign = string.IsNullOrEmpty(v)?ExcelVerticalAlignmentFont.None: v.ToEnum(ExcelVerticalAlignmentFont.None);
+            
             Family = helper.GetXmlNodeIntNull("d:font/d:family/@val");
             Scheme = helper.GetXmlEnumNull<eThemeFontCollectionType>("d:font/d:scheme/@val");
             Shadow = helper.GetXmlNodeBoolNullable("d:font/d:shadow/@val");

@@ -178,6 +178,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 return GetXmlNodeString("@offset");
             }
         }
+        /// <summary>
+        /// If collapsed levels/dimensions are considered subtotals
+        /// </summary>
         public bool CollapsedLevelsAreSubtotals 
         {
             get

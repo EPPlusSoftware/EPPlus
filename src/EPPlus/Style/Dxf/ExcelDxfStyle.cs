@@ -18,7 +18,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.Style.Dxf
 {
-    public abstract class ExcelDxfStyle<T> : DxfStyleBase<T> 
+    public abstract class ExcelDxfStyle : DxfStyleBase 
     {
         internal XmlHelperInstance _helper;
         internal ExcelDxfStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(styles)
@@ -30,21 +30,29 @@ namespace OfficeOpenXml.Style.Dxf
             if (topNode != null)
             {
                 _helper = new XmlHelperInstance(nameSpaceManager, topNode);
-                NumberFormat.NumFmtID = _helper.GetXmlNodeInt("d:numFmt/@numFmtId");
-                NumberFormat.Format = _helper.GetXmlNodeString("d:numFmt/@formatCode");
-                if (NumberFormat.NumFmtID < 164 && string.IsNullOrEmpty(NumberFormat.Format))
+                if (_helper.ExistNode("d:numFmt"))
                 {
-                    NumberFormat.Format = ExcelNumberFormat.GetFromBuildInFromID(NumberFormat.NumFmtID);
+                    NumberFormat.NumFmtID = _helper.GetXmlNodeInt("d:numFmt/@numFmtId");
+                    NumberFormat.Format = _helper.GetXmlNodeString("d:numFmt/@formatCode");
+                    if (NumberFormat.NumFmtID < 164 && string.IsNullOrEmpty(NumberFormat.Format))
+                    {
+                        NumberFormat.Format = ExcelNumberFormat.GetFromBuildInFromID(NumberFormat.NumFmtID);
+                    }
+                }
+                if (_helper.ExistNode("d:border"))
+                {
+                    Border.Left = GetBorderItem(_helper, "d:border/d:left");
+                    Border.Right = GetBorderItem(_helper, "d:border/d:right");
+                    Border.Bottom = GetBorderItem(_helper, "d:border/d:bottom");
+                    Border.Top = GetBorderItem(_helper, "d:border/d:top");
                 }
 
-                Border.Left = GetBorderItem(_helper, "d:border/d:left");
-                Border.Right = GetBorderItem(_helper, "d:border/d:right");
-                Border.Bottom = GetBorderItem(_helper, "d:border/d:bottom");
-                Border.Top = GetBorderItem(_helper, "d:border/d:top");
-
-                Fill.PatternType = GetPatternTypeEnum(_helper.GetXmlNodeString("d:fill/d:patternFill/@patternType"));
-                Fill.BackgroundColor = GetColor(_helper, "d:fill/d:patternFill/d:bgColor/");
-                Fill.PatternColor = GetColor(_helper, "d:fill/d:patternFill/d:fgColor/");
+                if (_helper.ExistNode("d:fill"))
+                {
+                    Fill.PatternType = GetPatternTypeEnum(_helper.GetXmlNodeString("d:fill/d:patternFill/@patternType"));
+                    Fill.BackgroundColor = GetColor(_helper, "d:fill/d:patternFill/d:bgColor/");
+                    Fill.PatternColor = GetColor(_helper, "d:fill/d:patternFill/d:fgColor/");
+                }
             }
             else
             {
@@ -87,7 +95,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        internal int DxfId { get; set; }
+        internal virtual int DxfId { get; set; }
         /// <summary>
         /// Numberformat formatting settings
         /// </summary>

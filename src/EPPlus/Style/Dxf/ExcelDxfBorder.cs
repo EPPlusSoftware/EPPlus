@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// The border style of a drawing in a differential formatting record
     /// </summary>
-    public class ExcelDxfBorderBase : DxfStyleBase<ExcelDxfBorderBase>
+    public class ExcelDxfBorderBase : DxfStyleBase
     {
         internal ExcelDxfBorderBase(ExcelStyles styles)
             : base(styles)
@@ -104,9 +104,9 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfBorderBase Clone()
+        protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfBorderBase(_styles) { Bottom = Bottom.Clone(), Top=Top.Clone(), Left=Left.Clone(), Right=Right.Clone() };
+            return new ExcelDxfBorderBase(_styles) { Bottom = (ExcelDxfBorderItem)Bottom.Clone(), Top= (ExcelDxfBorderItem)Top.Clone(), Left= (ExcelDxfBorderItem)Left.Clone(), Right= (ExcelDxfBorderItem)Right.Clone() };
         }
     }
 }

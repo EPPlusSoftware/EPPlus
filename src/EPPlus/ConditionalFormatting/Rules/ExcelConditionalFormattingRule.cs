@@ -104,7 +104,7 @@ namespace OfficeOpenXml.ConditionalFormatting
       if (DxfId >= 0 && DxfId < worksheet.Workbook.Styles.Dxfs.Count)
       {
           worksheet.Workbook.Styles.Dxfs[DxfId].AllowChange = true;  //This Id is referenced by CF, so we can use it when we save.
-          _style = worksheet.Workbook.Styles.Dxfs[DxfId].Clone();    //Clone, so it can be altered without effecting other dxf styles
+          _style = (ExcelDxfStyleConditionalFormatting)worksheet.Workbook.Styles.Dxfs[DxfId].Clone();    //Clone, so it can be altered without effecting other dxf styles
       }
     }
 

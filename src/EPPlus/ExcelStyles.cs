@@ -38,7 +38,6 @@ namespace OfficeOpenXml
         const string CellStyleXfsPath = "d:styleSheet/d:cellStyleXfs";
         const string CellXfsPath = "d:styleSheet/d:cellXfs";
         const string CellStylesPath = "d:styleSheet/d:cellStyles";
-        const string dxfsPath = "d:styleSheet/d:dxfs";
 
         //internal Dictionary<int, ExcelXfs> Styles = new Dictionary<int, ExcelXfs>();
         XmlDocument _styleXml;
@@ -68,7 +67,7 @@ namespace OfficeOpenXml
                 {
                     ExcelNumberFormatXml nf = new ExcelNumberFormatXml(_nameSpaceManager, n);
                     NumberFormats.Add(nf.Id, nf);
-                    if (nf.NumFmtId >= NumberFormats.NextId) NumberFormats.NextId=nf.NumFmtId+1;
+                    if (nf.NumFmtId >= NumberFormats.NextId) NumberFormats.NextId = nf.NumFmtId + 1;
                 }
             }
 
@@ -134,16 +133,7 @@ namespace OfficeOpenXml
                 }
             }
 
-            //dxfsPath
-            XmlNode dxfsNode = _styleXml.SelectSingleNode(dxfsPath, _nameSpaceManager);
-            if (dxfsNode != null)
-            {
-                foreach (XmlNode x in dxfsNode)
-                {
-                    ExcelDxfStyleConditionalFormatting item = new ExcelDxfStyleConditionalFormatting(_nameSpaceManager, x, this);
-                    Dxfs.Add(item.Id, item);
-                }
-            }
+            DxfStyleHandler.Load(_wb, this);
         }
 
         internal ExcelNamedStyleXml GetNormalStyle()
@@ -671,7 +661,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Contain all differential formatting styles for the package
         /// </summary>
-        public ExcelStyleCollection<ExcelDxfStyleConditionalFormatting> Dxfs = new ExcelStyleCollection<ExcelDxfStyleConditionalFormatting>();
+        public ExcelStyleCollection<ExcelDxfStyle> Dxfs = new ExcelStyleCollection<ExcelDxfStyle>();
         
         internal string Id
         {
@@ -748,7 +738,7 @@ namespace OfficeOpenXml
             RemoveUnusedStyles();
 
             //NumberFormat
-            XmlNode nfNode=_styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
+            XmlNode nfNode = _styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
             if (nfNode == null)
             {
                 CreateNode(NumberFormatsPath, true);
@@ -756,16 +746,16 @@ namespace OfficeOpenXml
             }
             else
             {
-                nfNode.RemoveAll();                
+                nfNode.RemoveAll();
             }
 
             int count = 0;
             int normalIx = NamedStyles.FindIndexByBuildInId(0);
-            if(normalIx<0)
+            if (normalIx < 0)
             {
                 normalIx = NamedStyles.FindIndexById("normal");
             }
-            if (NamedStyles.Count > 0 && normalIx>=0 && NamedStyles[normalIx].Style.Numberformat.NumFmtID >= 164)
+            if (NamedStyles.Count > 0 && normalIx >= 0 && NamedStyles[normalIx].Style.Numberformat.NumFmtID >= 164)
             {
                 ExcelNumberFormatXml nf = NumberFormats[NumberFormats.FindIndexById(NamedStyles[normalIx].Style.Numberformat.Id)];
                 nfNode.AppendChild(nf.CreateXmlNode(_styleXml.CreateElement("numFmt", ExcelPackage.schemaMain)));
@@ -786,7 +776,7 @@ namespace OfficeOpenXml
                         }
                         foreach (var df in pt.DataFields)
                         {
-                            if(df.NumFmtId<0 && df.Field.NumFmtId.HasValue)
+                            if (df.NumFmtId < 0 && df.Field.NumFmtId.HasValue)
                             {
                                 df.NumFmtId = df.Field.NumFmtId.Value;
                             }
@@ -797,18 +787,18 @@ namespace OfficeOpenXml
 
             foreach (ExcelNumberFormatXml nf in NumberFormats)
             {
-                if(!nf.BuildIn /*&& nf.newID<0*/) //Buildin formats are not updated.
+                if (!nf.BuildIn /*&& nf.newID<0*/) //Buildin formats are not updated.
                 {
                     nfNode.AppendChild(nf.CreateXmlNode(_styleXml.CreateElement("numFmt", ExcelPackage.schemaMain)));
                     nf.newID = count;
                     count++;
                 }
             }
-            
+
             (nfNode as XmlElement).SetAttribute("count", count.ToString());
 
             //Font
-            count=0;
+            count = 0;
             XmlNode fntNode = _styleXml.SelectSingleNode(FontsPath, _nameSpaceManager);
             fntNode.RemoveAll();
 
@@ -880,7 +870,7 @@ namespace OfficeOpenXml
             count = normalIx > -1 ? 1 : 0;  //If we have a normal style, we make sure it's added first.
 
             XmlNode cellStyleNode = _styleXml.SelectSingleNode(CellStylesPath, _nameSpaceManager);
-            if(cellStyleNode!=null)
+            if (cellStyleNode != null)
             {
                 cellStyleNode.RemoveAll();
             }
@@ -904,7 +894,7 @@ namespace OfficeOpenXml
                 }
                 cellStyleNode.AppendChild(style.CreateXmlNode(_styleXml.CreateElement("cellStyle", ExcelPackage.schemaMain)));
             }
-            if (cellStyleNode!=null) (cellStyleNode as XmlElement).SetAttribute("count", count.ToString());
+            if (cellStyleNode != null) (cellStyleNode as XmlElement).SetAttribute("count", count.ToString());
             if (styleXfsNode != null) (styleXfsNode as XmlElement).SetAttribute("count", count.ToString());
 
             //CellStyle
@@ -921,32 +911,7 @@ namespace OfficeOpenXml
             }
             (cellXfsNode as XmlElement).SetAttribute("count", count.ToString());
 
-            //Set dxf styling for conditional Formatting
-            XmlNode dxfsNode = _styleXml.SelectSingleNode(dxfsPath, _nameSpaceManager);
-            foreach (var ws in _wb.Worksheets)
-            {
-                if (ws is ExcelChartsheet) continue;
-                foreach (var cf in ws.ConditionalFormatting)
-                {
-                    if (cf.Style.HasValue)
-                    {
-                        int ix = Dxfs.FindIndexById(cf.Style.Id);
-                        if (ix < 0)
-                        {
-                            ((ExcelConditionalFormattingRule)cf).DxfId = Dxfs.Count;
-                            Dxfs.Add(cf.Style.Id, cf.Style);
-                            var elem = ((XmlDocument)TopNode).CreateElement("d", "dxf", ExcelPackage.schemaMain);
-                            cf.Style.CreateNodes(new XmlHelperInstance(NameSpaceManager, elem), "");
-                            dxfsNode.AppendChild(elem);
-                        }
-                        else
-                        {
-                            ((ExcelConditionalFormattingRule)cf).DxfId = ix;
-                        }
-                    }
-                }
-            }
-            if (dxfsNode != null) (dxfsNode as XmlElement).SetAttribute("count", Dxfs.Count.ToString());
+            DxfStyleHandler.UpdateDxfXml(_wb);
         }
 
         private int? GetNumFormatId(string format)
@@ -1242,25 +1207,6 @@ namespace OfficeOpenXml
                     }
                 }
                 return index;
-            }
-        }
-        internal int CloneDxfStyle(ExcelStyles style, int styleID)
-        {
-            var copy = style.Dxfs[styleID];
-            var ix = Dxfs.FindIndexById(copy.Id);
-            if(ix<0)
-            {
-                var parent = GetNode(dxfsPath);
-                var node = _styleXml.CreateElement("d:dxf", ExcelPackage.schemaMain);
-                parent.AppendChild(node);
-                node.InnerXml = copy._helper.TopNode.InnerXml;
-                var dxf = new ExcelDxfStyleConditionalFormatting(_nameSpaceManager, node, this);
-                Dxfs.Add(copy.Id, dxf);
-                return Dxfs.Count - 1;
-            }
-            else
-            {
-                return ix;
             }
         }
     }

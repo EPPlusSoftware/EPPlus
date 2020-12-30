@@ -26,6 +26,7 @@ using OfficeOpenXml.VBA;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Style.Dxf;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -603,7 +604,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (!dxfStyleCashe.ContainsKey(dxfId))
                     {
-                        var s = added.Workbook.Styles.CloneDxfStyle(Copy.Workbook.Styles, dxfIdInt);
+                        var s = DxfStyleHandler.CloneDxfStyle(Copy.Workbook, dxfIdInt);
                         dxfStyleCashe.Add(dxfId, s);
                     }
                 }

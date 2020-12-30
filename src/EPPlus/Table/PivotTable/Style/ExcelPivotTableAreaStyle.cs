@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Table.PivotTable
             base(nsm, topNode)
         {
             _styles = styles;
-        }
+        }        
         ExcelDxfStylePivotTableArea _style = null;
         public ExcelDxfStylePivotTableArea Style 
         { 

@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// A fill in a differential formatting record
     /// </summary>
-    public class ExcelDxfFill : DxfStyleBase<ExcelDxfFill>
+    public class ExcelDxfFill : DxfStyleBase
     {
         internal ExcelDxfFill(ExcelStyles styles)
             : base(styles)
@@ -80,9 +80,9 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfFill Clone()
+        protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfFill(_styles) {PatternType=PatternType, PatternColor=PatternColor.Clone(), BackgroundColor=BackgroundColor.Clone()};
+            return new ExcelDxfFill(_styles) {PatternType=PatternType, PatternColor=(ExcelDxfColor)PatternColor.Clone(), BackgroundColor= (ExcelDxfColor)BackgroundColor.Clone()};
         }
     }
 }
