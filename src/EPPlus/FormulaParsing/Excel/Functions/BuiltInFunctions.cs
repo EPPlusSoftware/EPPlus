@@ -25,6 +25,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -182,6 +183,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["degrees"] = new Degrees();
             Functions["odd"] = new Odd();
             Functions["even"] = new Even();
+            // Statistical
+            Functions["confidence.norm"] = new ConfidenceNorm();
+            Functions["confidence"] = new Confidence();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
