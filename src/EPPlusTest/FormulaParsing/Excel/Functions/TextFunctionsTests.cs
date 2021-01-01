@@ -403,5 +403,18 @@ namespace EPPlusTest.Excel.Functions.Text
                 Assert.AreEqual(expected, sheet.Cells["A2"].Value);
             }
         }
+
+        [TestMethod]
+        public void ValueShouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "1,234,567.89";
+                sheet.Cells["A2"].Formula = "VALUE(A1)";
+                sheet.Calculate();
+                Assert.AreEqual(1234567.89, sheet.Cells["A2"].Value);
+            }
+        }
     }
 }
