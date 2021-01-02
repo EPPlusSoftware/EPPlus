@@ -331,6 +331,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["besselj"] = new BesselJ();
             Functions["besselk"] = new BesselK();
             Functions["bessely"] = new BesselY();
+            Functions["complex"] = new Complex();
         }
     }
 }
