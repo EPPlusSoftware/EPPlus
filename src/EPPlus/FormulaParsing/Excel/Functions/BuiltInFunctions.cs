@@ -188,6 +188,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["confidence"] = new Confidence();
             Functions["confidence.t"] = new ConfidenceT();
             Functions["devsq"] = new Devsq();
+            Functions["avedev"] = new Avedev();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
