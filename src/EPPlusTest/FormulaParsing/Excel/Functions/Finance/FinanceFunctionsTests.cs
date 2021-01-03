@@ -403,6 +403,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void Db_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "DB( 10000, 1000, 5, 1, 6 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(1845d, result);
+
+            _worksheet.Cells["A1"].Formula = "DB( 10000, 1000, 5, 5, 6 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(756.03d, result);
+
+            _worksheet.Cells["A1"].Formula = "DB( 10000, 1000, 5, 6, 6 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(238.53d, result);
+        }
+
+        [TestMethod]
         public void FvSchedule_Tests()
         {
             _worksheet.Cells["B2"].Value = 0.05;

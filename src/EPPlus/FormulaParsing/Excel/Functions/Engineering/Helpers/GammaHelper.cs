@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
     {
         private readonly static double HALF_LOG_2_PI = 0.5 * System.Math.Log(2.0 * System.Math.PI);
         private readonly static double LANCZOS_G = 607.0 / 128.0;
-        /** The constant value of &radic;(2&pi;). */
+        /** The constant value of radic;(2pi;). */
         private static readonly double SQRT_TWO_PI = 2.506628274631000502;
 
         #region Gamma constants
