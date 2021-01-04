@@ -1283,7 +1283,19 @@ namespace OfficeOpenXml
             }
             set
             {
-                _changePropMethod(this, _setIsRichTextDelegate, value);
+                var isRT = IsRichText;
+                if (isRT != value)
+                {
+                    if (value)
+                    {
+                        RichText.Text = Text;
+                    }
+                    else
+                    {
+                        Value = RichText.Text;
+                    }
+                    _changePropMethod(this, _setIsRichTextDelegate, value);
+                }
             }
         }
         /// <summary>
