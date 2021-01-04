@@ -1294,10 +1294,16 @@ namespace OfficeOpenXml
                     {
                         Value = RichText.Text;
                     }
-                    _changePropMethod(this, _setIsRichTextDelegate, value);
+                    SetIsRichTextFlag(value);
                 }
             }
         }
+
+        internal void SetIsRichTextFlag(bool value)
+        {
+            _changePropMethod(this, _setIsRichTextDelegate, value);
+        }
+
         /// <summary>
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>
