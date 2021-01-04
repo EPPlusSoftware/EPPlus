@@ -1235,7 +1235,7 @@ namespace OfficeOpenXml
                     if(tbl==null)
                     {
                         _worksheet.AutoFilterAddress = this;
-                        var result = _worksheet.Names.Add("_xlnm._FilterDatabase", this);
+                        var result = _worksheet.Names.AddName("_xlnm._FilterDatabase", this);
                         result.IsNameHidden = true;
                     }
                     else

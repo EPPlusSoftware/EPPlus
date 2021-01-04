@@ -581,7 +581,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _ws.Names.Add("_xlnm.Print_Titles", new ExcelRangeBase(_ws, addr));
+                    _ws.Names.AddName("_xlnm.Print_Titles", new ExcelRangeBase(_ws, addr));
                 }
             }
         }
@@ -641,7 +641,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _ws.Names.Add("_xlnm.Print_Titles", new ExcelRangeBase(_ws, addr));
+                    _ws.Names.AddName("_xlnm.Print_Titles", new ExcelRangeBase(_ws, addr));
                 }
             }
         }
@@ -674,7 +674,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    _ws.Names.Add("_xlnm.Print_Area", value);
+                    _ws.Names.AddName("_xlnm.Print_Area", value);
                 }
             }
         }
