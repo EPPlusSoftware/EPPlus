@@ -66,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     val = "-" + numCandidate;
                 }
             }
-            if (Regex.IsMatch(val, $"^[\\d]*({Regex.Escape(_groupSeparator)}?[\\d]*)?({Regex.Escape(_decimalSeparator)}[\\d]*)*?[ ?% ?]?$", RegexOptions.Compiled))
+            if (Regex.IsMatch(val, $"^[\\d]*({Regex.Escape(_groupSeparator)}?[\\d]*)*?({Regex.Escape(_decimalSeparator)}[\\d]*)?[ ?% ?]?$", RegexOptions.Compiled))
             {
                 result = double.Parse(val, _cultureInfo);
                 return CreateResult(isPercentage ? result/100 : result, DataType.Decimal);

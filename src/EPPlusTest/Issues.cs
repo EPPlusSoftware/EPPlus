@@ -1556,5 +1556,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod] 
+        public void Issue260()
+        {
+            using (var p = OpenTemplatePackage("issue260.xlsx"))
+            {
+                var workbook = p.Workbook;
+                Console.WriteLine(workbook.Worksheets.Count);
+            }
+        }
     }
 }

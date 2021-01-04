@@ -96,5 +96,28 @@ namespace EPPlusTest.Core.Range
             p.VerticalAlign = OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None;
             Assert.AreEqual(p.VerticalAlign, OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None);
         }
+        [TestMethod]
+        public void ValidateIsRichTextValuesAndTexts()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("RichText");
+                var v = "Player's taunt success & you attack them";
+                ws.Cells["A1"].Value = v;
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    Assert.AreEqual(v, ws.Cells["A1"].Value);
+                    ws.Cells["A1"].IsRichText = true;
+                    Assert.AreEqual(v, ws.Cells["A1"].Value);
+                    Assert.AreEqual(v, ws.Cells["A1"].RichText.Text);
+                    ws.Cells["A1"].IsRichText = false;
+                    Assert.AreEqual(v, ws.Cells["A1"].Value);
+
+                    p2.Save();
+                }
+            }
+        }
     }
 }
