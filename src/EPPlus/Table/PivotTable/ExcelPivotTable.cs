@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Table.PivotTable
         private void Init()
         {
             SchemaNodeOrder = new string[] { "location", "pivotFields", "rowFields", "rowItems", "colFields", "colItems", "pageFields", "dataFields",  "formats", "conditionalFormats", "chartFormats", "pivotHierarchies", "pivotTableStyleInfo", "filters", "rowHierarchiesUsage", "colHierarchiesUsage", "extLst" };
-            PivotAreaStyles = new ExcelPivotTableAreaStyleCollection(this);
+            Styling = new ExcelPivotTableStyle(this);
         }
         private void LoadFields()
         {
@@ -203,7 +203,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         }
-        public ExcelPivotTableAreaStyleCollection PivotAreaStyles 
+        public ExcelPivotTableStyle Styling 
         { 
             get;
             private set;

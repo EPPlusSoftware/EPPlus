@@ -17,7 +17,15 @@ namespace OfficeOpenXml.Table.PivotTable
             _pt = pt;
             _styles = pt.WorkSheet.Workbook.Styles;
         }
-        public ExcelPivotTableAreaStyle Add(ePivotAreaType type)
+        internal ExcelPivotTableAreaStyle Add()
+        {
+            var formatNode = GetTopNode();
+            var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _styles);
+            _list.Add(s);
+            return s;
+        }
+
+        internal ExcelPivotTableAreaStyle Add(ePivotAreaType type)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _styles)
@@ -28,7 +36,7 @@ namespace OfficeOpenXml.Table.PivotTable
             return s;
         }
 
-        public ExcelPivotTableAreaStyle Add(ePivotAreaType type, ePivotTableAxis axis)
+        internal ExcelPivotTableAreaStyle Add(ePivotAreaType type, ePivotTableAxis axis)
         {
             var formatNode = GetTopNode();
             
@@ -36,7 +44,8 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 PivotArea = type,
                 Axis = axis
-            };            
+            };
+            _list.Add(s);
             return s;
         }
         private XmlNode GetTopNode()

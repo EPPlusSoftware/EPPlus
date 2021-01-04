@@ -55,9 +55,9 @@ namespace OfficeOpenXml.Style.Dxf
                 UpdateConditionalFormatting(ws, styles.Dxfs, dxfsNode);
                 foreach(var pt in ws.PivotTables)
                 {
-                    if(pt.PivotAreaStyles!=null)
+                    if(pt.Styling!=null)
                     {
-                        foreach(var pas in pt.PivotAreaStyles._list)
+                        foreach(var pas in pt.Styling.Areas._list)
                         {
                             if(pas.Style.HasValue)
                             {

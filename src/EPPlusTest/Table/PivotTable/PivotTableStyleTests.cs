@@ -34,12 +34,13 @@ namespace EPPlusTest.Table.PivotTable
             var pt = ws.PivotTables.Add(ws.Cells["A1"], _ws.Cells[_ws.Dimension.Address], "PivotTable1");
             pt.RowFields.Add(pt.Fields[0]);
             pt.DataFields.Add(pt.Fields[3]);
-            var style = pt.PivotAreaStyles.Add(ePivotAreaType.All);
-            style.DataOnly = false;
-            style.LabelOnly = false;
-            style.GrandRow = true;
-            style.GrandColumn = true;
-            style.Style.Font.Color.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor.Accent1);            
+            pt.Styling.All.Style.Font.Name="Bauhaus 93";
+            pt.Styling.GrandRowData.Style.Font.Italic = true;
+            pt.Styling.GrandRowData.Style.Font.Bold = false;
+            //pt.Styling.Data.Style.Font.Bold = true;
+            //pt.Styling.Origin.Style.Font.Color.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor.Accent4);
+            //pt.Styling.ColumnHeaders.Style.Font.Color.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor.Accent5);
+            //pt.Styling.GrandColumnHeaders.Style.Font.Color.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor.Accent5);
         }
     }
 }

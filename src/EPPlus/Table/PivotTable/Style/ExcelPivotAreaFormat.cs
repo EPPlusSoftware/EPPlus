@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                SetXmlNodeBool("@dataOnly", value, true);
+                SetXmlNodeBool("@dataOnly", value);
             }
         }
         /// <summary>
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                SetXmlNodeBool("@labelOnly", value, false);
+                SetXmlNodeBool("@labelOnly", value);
             }
         }
         /// <summary>
@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                SetXmlNodeBool("@grandRow", value, false);
+                SetXmlNodeBool("@grandRow", value);
             }
         }
         /// <summary>
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                SetXmlNodeBool("@grandCol", value, false);
+                SetXmlNodeBool("@grandCol", value);
             }
         }
         /// <summary>

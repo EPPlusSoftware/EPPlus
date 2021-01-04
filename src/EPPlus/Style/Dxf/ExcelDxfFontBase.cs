@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Style.Dxf
             helper.CreateNode(path);
             SetValueBool(helper, path + "/d:b/@val", Bold);
             SetValueBool(helper, path + "/d:i/@val", Italic);
-            SetValueBool(helper, path + "/d:strike", Strike);
+            SetValueBool(helper, path + "/d:strike/@val", Strike);
             SetValue(helper, path + "/d:u/@val", Underline);
             SetValueColor(helper, path + "/d:color", Color);
         }
@@ -206,10 +206,10 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueBool(helper, path + "/d:extend/@val", Extend);
             SetValueBool(helper, path + "/d:outline/@val", Outline);
             SetValueBool(helper, path + "/d:shadow/@val", Shadow);
-            SetValue(helper, path + "/d:name", Name);
-            SetValue(helper, path + "/d:size", Size);
-            SetValue(helper, path + "/d:family", Family);
-            SetValue(helper, path + "/d:vertAlign", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
+            SetValue(helper, path + "/d:name/@val", Name);
+            SetValue(helper, path + "/d:size/@val", Size);
+            SetValue(helper, path + "/d:family/@val", Family);
+            SetValue(helper, path + "/d:vertAlign/@val", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
         }
         internal new void GetValuesFromXml(XmlHelperInstance helper)
         {
