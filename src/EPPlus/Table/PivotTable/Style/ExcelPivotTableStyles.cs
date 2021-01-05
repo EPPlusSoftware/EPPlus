@@ -42,7 +42,23 @@ namespace OfficeOpenXml.Table.PivotTable
                     _labels.GrandRow = true;
                     _labels.GrandColumn = true;
                 }
-                return _data;
+                return _labels;
+            }
+        }
+        ExcelPivotTableAreaStyle _columnLabels = null;
+        public ExcelPivotTableAreaStyle ColumnLabels
+        {
+            get
+            {
+                if (_columnLabels == null)
+                {
+                    _columnLabels = Areas.Add();
+                    _columnLabels.DataOnly = false;
+                    _columnLabels.LabelOnly = true;
+                    _columnLabels.GrandRow = false;
+                    _columnLabels.GrandColumn = true;
+                }
+                return _columnLabels;
             }
         }
         ExcelPivotTableAreaStyle _data = null;
@@ -80,6 +96,25 @@ namespace OfficeOpenXml.Table.PivotTable
                     _grandRowData.CollapsedLevelsAreSubtotals = true;
                 }
                 return _grandRowData;
+            }
+        }
+        ExcelPivotTableAreaStyle _grandColumnData = null;
+        public ExcelPivotTableAreaStyle GrandColumnData
+        {
+            get
+            {
+                if (_grandColumnData == null)
+                {
+                    _grandColumnData = Areas.Add();
+                    _grandColumnData.DataOnly = true;
+                    _grandColumnData.LabelOnly = false;
+                    _grandColumnData.GrandRow = false;
+                    _grandColumnData.GrandColumn = true;
+                    _grandColumnData.FieldPosition = 0;
+                    _grandColumnData.FieldIndex = 0;
+                    _grandColumnData.CollapsedLevelsAreSubtotals = true;
+                }
+                return _grandColumnData;
             }
         }
 
