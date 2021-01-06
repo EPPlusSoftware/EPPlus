@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -42,7 +43,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
             if (name == null)
             {
-                throw (new Exceptions.ExcelErrorValueException(ExcelErrorValue.Create(eErrorType.Name)));
+                // check if there is a table with the name
+                var table = _parsingContext.ExcelDataProvider.GetExcelTable(ExpressionString);
+                if(table != null)
+                {
+                    var ri = new RangeInfo(table.WorkSheet, table.Address);
+                    return new CompileResult(ri, DataType.Enumerable, cacheId);
+                }
+                return new CompileResult(eErrorType.Name);
             }
             if (name.Value==null)
             {

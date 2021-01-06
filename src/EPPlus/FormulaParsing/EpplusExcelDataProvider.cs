@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Table;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -317,6 +318,19 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
             return -1;
+        }
+
+        public override ExcelTable GetExcelTable(string name)
+        {
+            foreach (var ws in _package.Workbook.Worksheets)
+            {
+                if (ws is ExcelChartsheet) continue;
+                if (ws.Tables._tableNames.ContainsKey(name))
+                {
+                    return ws.Tables[name];
+                }
+            }
+            return null;
         }
 
         public override ExcelNamedRangeCollection GetWorkbookNameValues()

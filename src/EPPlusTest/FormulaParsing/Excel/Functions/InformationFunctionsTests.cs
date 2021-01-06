@@ -335,7 +335,7 @@ namespace EPPlusTest.Excel.Functions
             }
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void SheetShouldReturnCorrectResult_Table()
         {
             // TODO: support table names as expressions in formula calc engine

@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +65,10 @@ namespace OfficeOpenXml.FormulaParsing
             object Value { get; set; }
         }
 
+        /// <summary>
+        /// Returns the names of the worksheets in a workbook
+        /// </summary>
+        /// <returns></returns>
         public abstract IEnumerable<string> GetWorksheets();
         /// <summary>
         /// Returns the names of all worksheet names
@@ -71,6 +76,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns></returns>
         public abstract ExcelNamedRangeCollection GetWorksheetNames(string worksheet);
 
+        public abstract ExcelTable GetExcelTable(string name);
         /// <summary>
         /// Returns the number of a worksheet in the workbook
         /// </summary>

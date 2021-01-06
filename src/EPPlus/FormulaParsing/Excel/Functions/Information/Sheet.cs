@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                                 break;
                             }
                         }
-                        if(result == -1)
+                        if (result == -1)
                         {
                             // not a worksheet name, now check if it is a named range in the current worksheet
                             var wsNamedRanges = context.ExcelDataProvider.GetWorksheetNames(context.Scopes.Current.Address.Worksheet);
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                             {
                                 result = context.ExcelDataProvider.GetWorksheetIndex(matchingWsName.WorkSheetName);
                             }
-                            
+
                             if (result == -1)
                             {
                                 // not a worksheet named range, now check workbook level
@@ -70,6 +70,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                                 else
                                 {
                                     result = context.ExcelDataProvider.GetWorksheetIndex(value);
+                                }
+                            }
+
+                            if (result == -1)
+                            {
+                                var table = context.ExcelDataProvider.GetExcelTable(value);
+                                if (table != null)
+                                {
+                                    result = context.ExcelDataProvider.GetWorksheetIndex(table.WorkSheet.Name);
                                 }
                             }
                         }
