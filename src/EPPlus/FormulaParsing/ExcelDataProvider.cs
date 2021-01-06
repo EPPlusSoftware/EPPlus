@@ -63,11 +63,20 @@ namespace OfficeOpenXml.FormulaParsing
             IList<Token> Tokens { get; }
             object Value { get; set; }
         }
+
+        public abstract IEnumerable<string> GetWorksheets();
         /// <summary>
         /// Returns the names of all worksheet names
         /// </summary>
         /// <returns></returns>
         public abstract ExcelNamedRangeCollection GetWorksheetNames(string worksheet);
+
+        /// <summary>
+        /// Returns the number of a worksheet in the workbook
+        /// </summary>
+        /// <param name="worksheetName">Name of the worksheet</param>
+        /// <returns>The number within the workbook</returns>
+        public abstract int GetWorksheetIndex(string worksheetName);
 
         /// <summary>
         /// Returns all defined names in a workbook

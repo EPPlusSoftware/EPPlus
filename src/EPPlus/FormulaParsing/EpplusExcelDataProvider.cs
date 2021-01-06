@@ -288,6 +288,11 @@ namespace OfficeOpenXml.FormulaParsing
             _rangeAddressFactory = new RangeAddressFactory(this);
         }
 
+        public override IEnumerable<string> GetWorksheets()
+        {
+            return _package.Workbook.Worksheets.Select(x => x.Name);
+        }
+
         public override ExcelNamedRangeCollection GetWorksheetNames(string worksheet)
         {
             var ws=_package.Workbook.Worksheets[worksheet];
@@ -299,6 +304,19 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 return null;
             }
+        }
+
+        public override int GetWorksheetIndex(string worksheetName)
+        {
+            for (var ix = 1; ix <= _package.Workbook.Worksheets.Count; ix++)
+            {
+                var ws = _package.Workbook.Worksheets[ix - 1];
+                if (string.Compare(worksheetName, ws.Name, true) == 0)
+                {
+                    return ix;
+                }
+            }
+            return -1;
         }
 
         public override ExcelNamedRangeCollection GetWorkbookNameValues()
