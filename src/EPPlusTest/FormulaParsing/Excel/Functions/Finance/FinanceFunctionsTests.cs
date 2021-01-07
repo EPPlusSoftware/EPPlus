@@ -641,5 +641,27 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
             Assert.AreEqual(1.03, result);
         }
+
+        [TestMethod]
+        public void IntrateTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 2, 15);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 5, 15);
+            _worksheet.Cells["A3"].Formula = "INTRATE(A1, A2,1000000, 1014420, 2)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["A3"].Value, 6);
+            Assert.AreEqual(0.05768, result);
+        }
+
+        [TestMethod]
+        public void IntrateTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2005, 4, 1);
+            _worksheet.Cells["A2"].Value = new DateTime(2007, 3, 31);
+            _worksheet.Cells["A3"].Formula = "INTRATE(A1, A2, 1000, 2125)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["A3"].Value, 5);
+            Assert.AreEqual(0.5625, result);
+        }
     }
 }

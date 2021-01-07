@@ -28,5 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
         int GetNumberOfCouponPeriods(FinancialDay settlementDate, FinancialDay maturityDate, int frequency);
 
         double GetCoupdays(FinancialDay startDate, FinancialDay endDate, int frequency);
+
+        double DaysPerYear { get; }
     }
 }
