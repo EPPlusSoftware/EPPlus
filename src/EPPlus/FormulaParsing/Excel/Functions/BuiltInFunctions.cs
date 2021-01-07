@@ -309,6 +309,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["yield"] = new Yield();
             Functions["yieldmat"] = new Yieldmat();
             Functions["duration"] = new Duration();
+            Functions["mduration"] = new Mduration();
             Functions["intrate"] = new Intrate();
             Functions["disc"] = new Disc();
             //Engineering

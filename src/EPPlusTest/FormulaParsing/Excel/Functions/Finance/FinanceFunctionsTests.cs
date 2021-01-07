@@ -595,6 +595,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void MdurationTest()
+        {
+            _worksheet.Cells["B1"].Value = new DateTime(2008, 01, 01);
+            _worksheet.Cells["B2"].Value = new DateTime(2016, 01, 01);
+            _worksheet.Cells["A1"].Formula = "MDURATION( B1, B2, 8%, 9%, 2 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 3);
+            Assert.AreEqual(5.736, result);
+        }
+
+        [TestMethod]
         public void DiscTest()
         {
             _worksheet.Cells["B1"].Value = new DateTime(2016, 04, 01);
