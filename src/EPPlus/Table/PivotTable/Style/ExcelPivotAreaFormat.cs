@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The pivot area effected.
         /// </summary>
-        public ePivotAreaType PivotArea
+        public ePivotAreaType PivotAreaType
         {
             get
             {
@@ -147,11 +147,11 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeBool("@", true);
+                return GetXmlNodeBool("@cacheIndex", true);
             }
             set
             {
-                SetXmlNodeBool("@", value, true);
+                SetXmlNodeBool("@cacheIndex", value, true);
             }
         }
         /// <summary>
@@ -161,11 +161,11 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeBool("@offset", true);
+                return GetXmlNodeBool("@outline", true);
             }
             set
             {
-                SetXmlNodeBool("@offset", value, true);
+                SetXmlNodeBool("@outline", value, true);
             }
         }
         /// <summary>

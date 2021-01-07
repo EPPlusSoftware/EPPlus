@@ -10,37 +10,9 @@
  *************************************************************************************************
   12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using OfficeOpenXml.Style.Dxf;
-using System.Xml;
-
 namespace OfficeOpenXml.Table.PivotTable
 {
-    /// <summary>
-    /// Defines a pivot table area of selection used for styling.
-    /// </summary>
-    public class ExcelPivotTableAreaStyle : ExcelPivotArea
+    public class ExcelPivotAreaReferenceCollection
     {
-        ExcelStyles _styles;
-        internal ExcelPivotTableAreaStyle(XmlNamespaceManager nsm, XmlNode topNode, ExcelStyles styles) :
-            base(nsm, topNode)
-        {
-            _styles = styles;
-        }
-        public ExcelPivotAreaReferenceCollection References 
-        { 
-            get;         
-        }
-        ExcelDxfStylePivotTableArea _style = null;
-        public ExcelDxfStylePivotTableArea Style 
-        { 
-            get
-            {
-                if (_style == null)
-                {
-                    _style=new ExcelDxfStylePivotTableArea(NameSpaceManager, TopNode, _styles);
-                }
-                return _style;
-            }
-        }
     }
 }

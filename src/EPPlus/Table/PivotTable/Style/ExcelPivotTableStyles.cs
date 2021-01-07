@@ -12,8 +12,15 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _styles = pt.WorkSheet.Workbook.Styles;
             Areas = new ExcelPivotTableAreaStyleCollection(pt);
+            foreach(var a in Areas)
+            {
+
+            }
         }
         ExcelPivotTableAreaStyle _all = null;
+        /// <summary>
+        /// Refers to styling for the entire pivot table
+        /// </summary>
         public ExcelPivotTableAreaStyle All
         {
             get
@@ -45,22 +52,27 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _labels;
             }
         }
-        ExcelPivotTableAreaStyle _columnLabels = null;
-        public ExcelPivotTableAreaStyle ColumnLabels
-        {
-            get
-            {
-                if (_columnLabels == null)
-                {
-                    _columnLabels = Areas.Add();
-                    _columnLabels.DataOnly = false;
-                    _columnLabels.LabelOnly = true;
-                    _columnLabels.GrandRow = false;
-                    _columnLabels.GrandColumn = true;
-                }
-                return _columnLabels;
-            }
-        }
+        //ExcelPivotTableAreaStyle _columnLabels = null;
+        //public ExcelPivotTableAreaStyle ColumnLabels
+        //{
+        //    get
+        //    {
+        //        if (_columnLabels == null)
+        //        {
+        //            _columnLabels = Areas.Add();
+        //            _columnLabels.Axis = ePivotTableAxis.ColumnAxis;
+        //            _columnLabels.PivotAreaType = ePivotAreaType.Data;
+        //            _columnLabels.FieldPosition = 0;
+        //            _columnLabels.FieldIndex = 1;
+        //            _columnLabels.DataOnly = false;
+        //            _columnLabels.LabelOnly = true;
+        //            //_columnLabels.GrandRow = false;
+        //            //_columnLabels.GrandColumn = false;
+        //            _columnLabels.Outline = false;
+        //        }
+        //        return _columnLabels;
+        //    }
+        //}
         ExcelPivotTableAreaStyle _data = null;
         public ExcelPivotTableAreaStyle Data
         {
@@ -72,8 +84,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     _data.DataOnly = true;
                     _data.LabelOnly = false;
                     _data.GrandRow = false;
-                    //_data.FieldPosition = 0;
-                    //_data.FieldIndex = 0;
                     _data.GrandColumn = false;
                 }
                 return _data;

@@ -204,7 +204,7 @@ namespace EPPlusTest
             var fi = new FileInfo(_worksheetPath + name);
             if (fi.Exists)
             {
-                fi.Delete();
+                //fi.Delete();
             }
             pck.SaveAs(fi);
         }

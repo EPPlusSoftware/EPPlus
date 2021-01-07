@@ -82,7 +82,7 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueBool(helper, path + "/d:b/@val", Bold);
             SetValueBool(helper, path + "/d:i/@val", Italic);
             SetValueBool(helper, path + "/d:strike/@val", Strike);
-            SetValue(helper, path + "/d:u/@val", Underline);
+            SetValue(helper, path + "/d:u/@val", Underline==null?null:Underline.ToEnumString());
             SetValueColor(helper, path + "/d:color", Color);
         }
         /// <summary>
@@ -112,11 +112,31 @@ namespace OfficeOpenXml.Style.Dxf
         {
             if (helper.ExistNode("d:font"))
             {
-                Bold = helper.GetXmlNodeBoolNullable("d:font/d:b/@val");
-                Italic = helper.GetXmlNodeBoolNullable("d:font/d:i/@val");
-                Strike = helper.GetXmlNodeBoolNullable("d:font/d:strike");
-                Underline = GetUnderLineEnum(helper.GetXmlNodeString("d:font/d:u/@val"));
+                Bold = helper.GetXmlNodeBoolNullableWithVal("d:font/d:b");
+                Italic = helper.GetXmlNodeBoolNullableWithVal("d:font/d:i");
+                Strike = helper.GetXmlNodeBoolNullableWithVal("d:font/d:strike");
+                Underline = GetUnderLine(helper);
                 Color = GetColor(helper, "d:font/d:color");
+            }
+        }
+
+        private ExcelUnderLineType? GetUnderLine(XmlHelperInstance helper)
+        {
+            if (helper.ExistNode("d:font/d:u"))
+            {
+                var v = helper.GetXmlNodeString("d:font/d:u/@val");
+                if (string.IsNullOrEmpty(v))
+                {
+                    return ExcelUnderLineType.Single;
+                }
+                else
+                {
+                    return GetUnderLineEnum(v);
+                }
+            }
+            else
+            {
+                return null;
             }
         }
     }

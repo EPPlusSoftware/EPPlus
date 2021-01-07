@@ -16,6 +16,10 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _pt = pt;
             _styles = pt.WorkSheet.Workbook.Styles;
+            foreach (XmlNode node in pt.GetNodes("d:formats/d:format/d:pivotArea"))
+            {
+                var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, node, _styles);
+            }
         }
         internal ExcelPivotTableAreaStyle Add()
         {
@@ -30,7 +34,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _styles)
             {
-                PivotArea = type
+                PivotAreaType = type
             };
             _list.Add(s);
             return s;
@@ -42,7 +46,7 @@ namespace OfficeOpenXml.Table.PivotTable
             
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _styles)
             {
-                PivotArea = type,
+                PivotAreaType = type,
                 Axis = axis
             };
             _list.Add(s);

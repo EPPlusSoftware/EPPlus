@@ -900,6 +900,23 @@ namespace OfficeOpenXml
             }
             return GetXmlNodeBool(path);
         }
+        internal bool? GetXmlNodeBoolNullableWithVal(string path)
+        {
+            var node = GetNode(path);
+            if (node==null)
+            {
+                return null;
+            }
+            var value = node.Attributes["val"];
+            if (value==null)
+            {
+                return true;
+            }       
+            else
+            {
+                return value.Value == "1" || value.Value == "-1" || value.Value.StartsWith("t", StringComparison.OrdinalIgnoreCase);
+            }
+        }
         internal bool GetXmlNodeBool(string path)
         {
             return GetXmlNodeBool(path, false);

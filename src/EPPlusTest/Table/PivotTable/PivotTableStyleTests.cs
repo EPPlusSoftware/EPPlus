@@ -39,13 +39,20 @@ namespace EPPlusTest.Table.PivotTable
             pt.DataFields.Add(pt.Fields[2]);
             pt.PageFields.Add(pt.Fields[4]);
             pt.Styling.All.Style.Font.Name="Bauhaus 93";
-            pt.Styling.GrandRowData.Style.Font.Italic = true;
-            pt.Styling.GrandRowData.Style.Font.Bold = false;
-            pt.Styling.GrandColumnData.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Single;
+            //pt.Styling.GrandRowData.Style.Font.Italic = true;
+            //pt.Styling.GrandRowData.Style.Font.Bold = false;
+            //pt.Styling.GrandColumnData.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Single;
             pt.Styling.Labels.Style.Font.Color.SetColor(Color.Green);
-            pt.Styling.ColumnLabels.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Double;
+            pt.Styling.Data.Style.Font.Color.SetColor(Color.Blue);
+            //pt.Styling.GrandRowData.Style.Font.Color.SetColor(Color.Green);
+            //pt.Styling.GrandColumnData.Style.Font.Color.SetColor(Color.Yellow);
+            //pt.Styling.ColumnLabels.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Double;
+            //pt.Styling.ColumnLabels.Style.Font.Color.SetColor(Color.Red);
+
             pt.Styling.Origin.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
             pt.Styling.Origin.Style.Fill.BackgroundColor.SetColor(Color.Red);
+
+            //pt.Styling.ColumnLabels.FieldIndex = 1;
         }
     }
 }
