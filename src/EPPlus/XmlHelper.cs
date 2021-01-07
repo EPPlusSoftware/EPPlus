@@ -596,9 +596,18 @@ namespace OfficeOpenXml
                 return null;
             }
             XmlNode prependNode = null;
-            foreach (XmlNode childNode in node.ChildNodes)
+            foreach(XmlNode childNode in node.ChildNodes)
             {
-                int childPos = GetNodePos(childNode.Name, index);
+                string checkNodeName;
+                if (childNode.LocalName=="AlternateContent") //AlternateContent contains the node that should be in the correnct order. For example AlternateContent/Choice/controls
+                {
+                    checkNodeName = childNode.FirstChild?.FirstChild?.Name;
+                }
+                else
+                {
+                    checkNodeName = childNode.Name;
+                }
+                int childPos = GetNodePos(checkNodeName, index);
                 if (childPos > -1)  //Found?
                 {
                     if (childPos > ix) //Position is before

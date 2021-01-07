@@ -1565,5 +1565,30 @@ namespace EPPlusTest
                 Console.WriteLine(workbook.Worksheets.Count);
             }
         }
+        [TestMethod]
+        public void Issue268()
+        {
+            using (var p = OpenPackage("Issue268.xlsx",true))
+            {
+                ExcelWorksheet formSheet = CreateFormSheet(p);
+                var r1 = formSheet.Drawings.AddCheckBoxControl("OptionSingleRoom");
+                r1.Text = "Single Room";
+                r1.LinkedCell = formSheet.Cells["G7"];
+                r1.SetPosition(5, 0, 1, 0);
+                var tableSheet = p.Workbook.Worksheets.Add("Table");
+                ExcelRange tableRange = formSheet.Cells[10, 20, 30, 22];
+                ExcelTable faultsTable = formSheet.Tables.Add(tableRange, "FaultsTable");
+                faultsTable.StyleName = "None";
+                SaveAndCleanup(p);
+            }
+        }
+        private static ExcelWorksheet CreateFormSheet(ExcelPackage package)
+        {
+            var formSheet = package.Workbook.Worksheets.Add("Form");
+            formSheet.Cells["A1"].Value = "Room booking";
+            formSheet.Cells["A1"].Style.Font.Size = 18;
+            formSheet.Cells["A1"].Style.Font.Bold = true;
+            return formSheet;
+        }
     }
 }
