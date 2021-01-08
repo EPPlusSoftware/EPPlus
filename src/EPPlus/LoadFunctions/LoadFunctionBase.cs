@@ -102,6 +102,11 @@ namespace OfficeOpenXml.LoadFunctions
                 ws.Cells[Range._fromRow, Range._fromCol + col, Range._fromRow + nRows - 1, Range._fromCol + col].Style.Numberformat.Format = columnFormats[col];
             }
 
+            if(nRows==0)
+            {
+                return null;
+            }
+
             var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
 
             if (TableStyle != TableStyles.None)

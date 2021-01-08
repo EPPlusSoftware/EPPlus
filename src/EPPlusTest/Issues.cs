@@ -1451,12 +1451,12 @@ namespace EPPlusTest
                 Assert.IsNull(ws.Cells["C71812"].Value);
                 Assert.IsNull(ws.Cells["C77667"].Value);
                 Assert.AreEqual(0D, ws.Cells["C77668"].Value);
-            }                
-        }        
+            }
+        }
         [TestMethod]
         public void InflateIssue()
         {
-            using (var p=OpenPackage("inflateStart.xlsx", true))
+            using (var p = OpenPackage("inflateStart.xlsx", true))
             {
                 var worksheet = p.Workbook.Worksheets.Add("Test");
                 for (int i = 1; i <= 10; i++)
@@ -1472,7 +1472,7 @@ namespace EPPlusTest
                         p.Save();
                     }
                     SaveWorkbook("Inflate.xlsx", p2);
-                }                
+                }
             }
         }
         [TestMethod]
@@ -1556,7 +1556,7 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod] 
+        [TestMethod]
         public void Issue260()
         {
             using (var p = OpenTemplatePackage("issue260.xlsx"))
@@ -1568,7 +1568,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue268()
         {
-            using (var p = OpenPackage("Issue268.xlsx",true))
+            using (var p = OpenPackage("Issue268.xlsx", true))
             {
                 ExcelWorksheet formSheet = CreateFormSheet(p);
                 var r1 = formSheet.Drawings.AddCheckBoxControl("OptionSingleRoom");
@@ -1589,6 +1589,18 @@ namespace EPPlusTest
             formSheet.Cells["A1"].Style.Font.Size = 18;
             formSheet.Cells["A1"].Style.Font.Bold = true;
             return formSheet;
+        }
+        [TestMethod]
+        public void Issue269()
+        {
+            var data = new List<TestDTO>();
+            
+            using (var p = new ExcelPackage())
+            {
+                var sheet = p.Workbook.Worksheets.Add("Sheet1");
+                var r = sheet.Cells["A1"].LoadFromCollection(data,false);
+                Assert.IsNull(r);
+            }
         }
     }
 }
