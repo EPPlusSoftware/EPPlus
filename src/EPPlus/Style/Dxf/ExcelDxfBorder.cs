@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// If the object has a value
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get 
             {
@@ -99,6 +99,13 @@ namespace OfficeOpenXml.Style.Dxf
                     Top.HasValue ||
                     Bottom.HasValue;
             }
+        }
+        public override void Clear()
+        {
+            Left.Clear();
+            Right.Clear();
+            Top.Clear();
+            Bottom.Clear();
         }
         /// <summary>
         /// Clone the object

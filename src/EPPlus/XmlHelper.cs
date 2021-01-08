@@ -12,15 +12,12 @@
  *************************************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Style;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 

@@ -8,40 +8,47 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
+  01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
 using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Utils.Extensions;
+using System;
 using System.Xml;
 
-namespace OfficeOpenXml.Table.PivotTable
+namespace OfficeOpenXml.Style
 {
-    /// <summary>
-    /// Defines a pivot table area of selection used for styling.
-    /// </summary>
-    public class ExcelPivotTableAreaStyle : ExcelPivotArea
+    public class ExcelTableStyleElement : XmlHelper
     {
         ExcelStyles _styles;
-        internal ExcelPivotTableAreaStyle(XmlNamespaceManager nsm, XmlNode topNode, ExcelStyles styles) :
-            base(nsm, topNode)
+        internal ExcelTableStyleElement(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, eTableStyleElement type) : base(nameSpaceManager, topNode)
         {
             _styles = styles;
+            Type = type;
         }
-        public ExcelPivotAreaReferenceCollection References
+        ExcelDxfStyleLimitedFont _style = null;
+        public ExcelDxfStyleLimitedFont Style
         {
-            get;
-        }
-
-        ExcelDxfStylePivotTableArea _style = null;
-        public ExcelDxfStylePivotTableArea Style 
-        { 
             get
             {
                 if (_style == null)
                 {
-                    _style=new ExcelDxfStylePivotTableArea(NameSpaceManager, TopNode, _styles);
+                    _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, TopNode, _styles);
                 }
                 return _style;
             }
+        }
+        public eTableStyleElement Type
+        {
+            get;
+        }
+        internal void CreateNode()
+        {
+            if(TopNode.LocalName!= "tableStyleElement")
+            {
+                TopNode = CreateNode("d:tableStyleElement", false, true);
+            }
+            SetXmlNodeString("@type", Type.ToEnumString());
+            SetXmlNodeInt("@dxfId", Style.DxfId);
         }
     }
 }

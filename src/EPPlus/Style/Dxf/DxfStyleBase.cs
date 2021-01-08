@@ -33,13 +33,17 @@ namespace OfficeOpenXml.Style.Dxf
             AllowChange = false; //Don't touch this value in the styles.xml (by default). When Dxfs is fully implemented this can be removed.
         }
         /// <summary>
+        /// Reset all properties for the style.
+        /// </summary>
+        public abstract void Clear();
+        /// <summary>
         /// The id
         /// </summary>
         protected internal abstract string Id { get; }
         /// <summary>
-        /// If the dfx has a value
+        /// If the style has any value set
         /// </summary>
-        protected internal abstract bool HasValue{get;}
+        public abstract bool HasValue{get;}
         /// <summary>
         /// Create the nodes
         /// </summary>

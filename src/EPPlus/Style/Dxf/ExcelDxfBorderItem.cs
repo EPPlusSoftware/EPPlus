@@ -61,12 +61,17 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// If the object has a value
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get 
             {
                 return Style != null || Color.HasValue;
             }
+        }
+        public override void Clear()
+        {
+            Style = null;
+            Color.Clear();
         }
         /// <summary>
         /// Clone the object

@@ -119,12 +119,17 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// If the object has a value
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get 
             { 
                 return !string.IsNullOrEmpty(Format) && NumFmtID!=0; 
             }
+        }
+        public override void Clear()
+        {
+            Format = null;
+            NumFmtID = int.MinValue;
         }
         /// <summary>
         /// Clone the object

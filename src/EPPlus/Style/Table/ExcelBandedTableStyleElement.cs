@@ -8,39 +8,38 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
+  01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
 using OfficeOpenXml.Style.Dxf;
+using System;
 using System.Xml;
 
-namespace OfficeOpenXml.Table.PivotTable
+namespace OfficeOpenXml.Style
 {
-    /// <summary>
-    /// Defines a pivot table area of selection used for styling.
-    /// </summary>
-    public class ExcelPivotTableAreaStyle : ExcelPivotArea
+    public class ExcelBandedTableStyleElement : ExcelTableStyleElement        
     {
-        ExcelStyles _styles;
-        internal ExcelPivotTableAreaStyle(XmlNamespaceManager nsm, XmlNode topNode, ExcelStyles styles) :
-            base(nsm, topNode)
+        internal ExcelBandedTableStyleElement(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, eTableStyleElement type) : 
+            base(nameSpaceManager, topNode, styles, type)
         {
-            _styles = styles;
-        }
-        public ExcelPivotAreaReferenceCollection References
-        {
-            get;
-        }
 
-        ExcelDxfStylePivotTableArea _style = null;
-        public ExcelDxfStylePivotTableArea Style 
-        { 
+        }
+        int _bandSize = 1;
+        /// <summary>
+        /// Band size. Only applicable when <see cref="Type"/> is set to FirstRowStripe, FirstColumnStripe, SecondRowStripe or SecondColumnStripe
+        /// </summary>
+        public int BandSize
+        {
             get
             {
-                if (_style == null)
+                return _bandSize;
+            }
+            set
+            {
+                if(value < 1 && value > 9)
                 {
-                    _style=new ExcelDxfStylePivotTableArea(NameSpaceManager, TopNode, _styles);
+                    throw new InvalidOperationException("BandSize must be between 1 and 9");
                 }
-                return _style;
+                _bandSize = value;
             }
         }
     }

@@ -95,7 +95,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        internal virtual int DxfId { get; set; }
+        internal virtual int DxfId { get; set; } = int.MinValue;
         /// <summary>
         /// Numberformat formatting settings
         /// </summary>
@@ -134,13 +134,18 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// If the object has a value
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get 
             {
                 return  NumberFormat.HasValue || Fill.HasValue || Border.HasValue; 
             }
         }
-
+        public override void Clear()
+        {
+            NumberFormat.Clear();
+            Fill.Clear();
+            Border.Clear();
+        }
     }
 }

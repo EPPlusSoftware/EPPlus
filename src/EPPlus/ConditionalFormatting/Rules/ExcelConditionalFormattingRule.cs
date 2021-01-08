@@ -104,7 +104,7 @@ namespace OfficeOpenXml.ConditionalFormatting
       if (DxfId >= 0 && DxfId < worksheet.Workbook.Styles.Dxfs.Count)
       {
           worksheet.Workbook.Styles.Dxfs[DxfId].AllowChange = true;  //This Id is referenced by CF, so we can use it when we save.
-          _style = (ExcelDxfStyleConditionalFormatting)worksheet.Workbook.Styles.Dxfs[DxfId].Clone();    //Clone, so it can be altered without effecting other dxf styles
+          _style = (ExcelDxfStyleLimitedFont)worksheet.Workbook.Styles.Dxfs[DxfId].Clone();    //Clone, so it can be altered without effecting other dxf styles
       }
     }
 
@@ -346,17 +346,17 @@ namespace OfficeOpenXml.ConditionalFormatting
           true);
       }
     }
-    internal ExcelDxfStyleConditionalFormatting _style = null;
+    internal ExcelDxfStyleLimitedFont _style = null;
     /// <summary>
     /// The style
     /// </summary>
-    public ExcelDxfStyleConditionalFormatting Style
+    public ExcelDxfStyleLimitedFont Style
     {
         get
         {
             if (_style == null)
             {
-                _style = new ExcelDxfStyleConditionalFormatting(NameSpaceManager, null, _worksheet.Workbook.Styles);
+                _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, null, _worksheet.Workbook.Styles);
             }
             return _style;
         }
@@ -634,7 +634,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     } 
     #endregion Internal Properties
     /****************************************************************************************/
-    internal protected void SetStyle(ExcelDxfStyleConditionalFormatting style)
+    internal protected void SetStyle(ExcelDxfStyleLimitedFont style)
     {
        _style = Style;
        TopNode = null;

@@ -111,7 +111,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// If the object has a value
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get
             {
@@ -121,6 +121,14 @@ namespace OfficeOpenXml.Style.Dxf
                        Tint != null ||
                        Color != null;
             }
+        }
+        public override void Clear()
+        {
+            Theme = null;
+            Index = null;
+            Auto = null;
+            Tint = null;
+            Color = null;
         }
         /// <summary>
         /// Creates the the xml node

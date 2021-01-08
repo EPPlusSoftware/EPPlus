@@ -8,40 +8,38 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
+  01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using OfficeOpenXml.Style.Dxf;
 using System.Xml;
 
-namespace OfficeOpenXml.Table.PivotTable
+namespace OfficeOpenXml.Style.Table
 {
-    /// <summary>
-    /// Defines a pivot table area of selection used for styling.
-    /// </summary>
-    public class ExcelPivotTableAreaStyle : ExcelPivotArea
+    public class ExcelTableNamedStyle : ExcelTableNamedStyleBase
     {
-        ExcelStyles _styles;
-        internal ExcelPivotTableAreaStyle(XmlNamespaceManager nsm, XmlNode topNode, ExcelStyles styles) :
-            base(nsm, topNode)
+        internal ExcelTableNamedStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(nameSpaceManager, topNode, styles)
         {
-            _styles = styles;
         }
-        public ExcelPivotAreaReferenceCollection References
+        public ExcelTableStyleElement LastHeaderCell
         {
-            get;
-        }
-
-        ExcelDxfStylePivotTableArea _style = null;
-        public ExcelDxfStylePivotTableArea Style 
-        { 
             get
             {
-                if (_style == null)
-                {
-                    _style=new ExcelDxfStylePivotTableArea(NameSpaceManager, TopNode, _styles);
-                }
-                return _style;
+                return GetTableStyleElement(eTableStyleElement.LastHeaderCell, false);
             }
         }
+        public ExcelTableStyleElement FirstTotalCell
+        {
+            get
+            {
+                return GetTableStyleElement(eTableStyleElement.FirstTotalCell, false);
+            }
+        }
+        public ExcelTableStyleElement LastTotalCell
+        {
+            get
+            {
+                return GetTableStyleElement(eTableStyleElement.LastTotalCell, false);
+            }
+        }
+
     }
 }

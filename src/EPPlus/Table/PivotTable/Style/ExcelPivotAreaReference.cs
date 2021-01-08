@@ -10,12 +10,14 @@
  *************************************************************************************************
   12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using OfficeOpenXml.Core;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
-    public class ExcelPivotAreaReferenceCollection : EPPlusReadOnlyList<ExcelPivotAreaReference>
+    public class ExcelPivotAreaReference
     {
-        
+        public int Field { get; set; }
+        public bool Selected { get; set; }
+        public List<object> Values { get; } = new List<object>();
     }
 }

@@ -23,6 +23,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style.Table;
 
 namespace OfficeOpenXml
 {
@@ -38,6 +39,7 @@ namespace OfficeOpenXml
         const string CellStyleXfsPath = "d:styleSheet/d:cellStyleXfs";
         const string CellXfsPath = "d:styleSheet/d:cellXfs";
         const string CellStylesPath = "d:styleSheet/d:cellStyles";
+        const string TableStylesPath = "d:styleSheet/d:tableStyles";
 
         //internal Dictionary<int, ExcelXfs> Styles = new Dictionary<int, ExcelXfs>();
         XmlDocument _styleXml;
@@ -45,7 +47,7 @@ namespace OfficeOpenXml
         XmlNamespaceManager _nameSpaceManager;
         internal int _nextDfxNumFmtID = 164;
         internal ExcelStyles(XmlNamespaceManager NameSpaceManager, XmlDocument xml, ExcelWorkbook wb) :
-            base(NameSpaceManager, xml)
+            base(NameSpaceManager, xml.DocumentElement)
         {       
             _styleXml=xml;
             _wb = wb;
@@ -134,6 +136,26 @@ namespace OfficeOpenXml
             }
 
             DxfStyleHandler.Load(_wb, this);
+
+            //Table Styles
+            XmlNode tableStyleNode = _styleXml.SelectSingleNode(TableStylesPath, _nameSpaceManager);
+            if (tableStyleNode != null)
+            {
+                foreach (XmlNode n in tableStyleNode)
+                {
+                    ExcelTableNamedStyleBase item;
+                    if(n.Attributes["pivot"]?.Value=="0")
+                    {
+                        item = new ExcelPivotTableNamedStyle(_nameSpaceManager, n, this);
+                    }
+                    else
+                    {
+                        item = new ExcelTableNamedStyle(_nameSpaceManager, n, this);
+                    }
+                    TableStyles.Add(item.Name, item);
+                }
+            }
+
         }
 
         internal ExcelNamedStyleXml GetNormalStyle()
@@ -658,6 +680,7 @@ namespace OfficeOpenXml
         /// Contain all named styles for that package
         /// </summary>
         public ExcelStyleCollection<ExcelNamedStyleXml> NamedStyles = new ExcelStyleCollection<ExcelNamedStyleXml>();
+        public ExcelStyleCollection<ExcelTableNamedStyleBase> TableStyles = new ExcelStyleCollection<ExcelTableNamedStyleBase>();
         /// <summary>
         /// Contain all differential formatting styles for the package
         /// </summary>
@@ -729,6 +752,29 @@ namespace OfficeOpenXml
             style.Style.SetIndex(ix);
             return style;
         }
+        public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name)
+        {
+            var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
+            node.SetAttribute("table", "0");
+            var s = new ExcelPivotTableNamedStyle(NameSpaceManager, node, this)
+            {
+                Name = name
+            };
+            TableStyles.Add(name, s);
+            return s;
+        }
+        public ExcelTableNamedStyle CreateTableStyle(string name)
+        {
+            var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
+            node.SetAttribute("pivot", "0");
+            var s = new ExcelTableNamedStyle(NameSpaceManager, node, this)
+            {
+                Name = name
+            };
+            TableStyles.Add(name, s);
+            return s;
+        }
+
         /// <summary>
         /// Update the changes to the Style.Xml file inside the package.
         /// This will remove any unused styles from the collections.

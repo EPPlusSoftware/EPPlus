@@ -17,7 +17,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 foreach (XmlNode x in dxfsNode)
                 {
-                    ExcelDxfStyleConditionalFormatting item = new ExcelDxfStyleConditionalFormatting(styles.NameSpaceManager, x, styles);
+                    var item = new ExcelDxfStyleLimitedFont(styles.NameSpaceManager, x, styles);
                     styles.Dxfs.Add(item.Id, item);
                 }
             }
@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style.Dxf
                 var node = styles.TopNode.OwnerDocument.CreateElement("d:dxf", ExcelPackage.schemaMain);
                 parent.AppendChild(node);
                 node.InnerXml = copy._helper.TopNode.InnerXml;
-                var dxf = new ExcelDxfStyleConditionalFormatting(styles.NameSpaceManager, node, styles);
+                var dxf = new ExcelDxfStyleLimitedFont(styles.NameSpaceManager, node, styles);
                 styles.Dxfs.Add(copy.Id, dxf);
                 return styles.Dxfs.Count - 1;
             }
@@ -43,43 +43,68 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        const string dxfsPath = "d:styleSheet/d:dxfs";
+        const string dxfsPath = "d:dxfs";
         internal static void UpdateDxfXml(ExcelWorkbook wb)
         {
             //Set dxf styling for conditional Formatting
-            var styles = wb.Styles;
-            XmlNode dxfsNode = styles.TopNode.SelectSingleNode(dxfsPath, wb.NameSpaceManager);
+            XmlNode dxfsNode = wb.Styles.TopNode.SelectSingleNode(dxfsPath, wb.NameSpaceManager);
+            UpdateTableStyles(wb, wb.Styles, dxfsNode);
+            UpdateDxfXmlWorksheet(wb, wb.Styles, dxfsNode);
+            if (dxfsNode != null) (dxfsNode as XmlElement).SetAttribute("count", wb.Styles.Dxfs.Count.ToString());
+        }
+
+        private static void UpdateTableStyles(ExcelWorkbook wb, ExcelStyles styles, XmlNode dxfsNode)
+        {
+            foreach (var ts in styles.TableStyles)
+            {
+                foreach(var element in ts._dic.Values)
+                {
+                    AddDxfNode(styles, dxfsNode, element.Style);
+                    if(element.Style.DxfId>=0)
+                    {
+                        element.CreateNode();
+                    }
+                }
+            }
+        }
+
+        private static void UpdateDxfXmlWorksheet(ExcelWorkbook wb, ExcelStyles styles, XmlNode dxfsNode)
+        {
             foreach (var ws in wb.Worksheets)
             {
                 if (ws is ExcelChartsheet) continue;
                 UpdateConditionalFormatting(ws, styles.Dxfs, dxfsNode);
-                foreach(var pt in ws.PivotTables)
+                foreach (var pt in ws.PivotTables)
                 {
-                    if(pt.Styling!=null)
+                    if (pt.Styling != null)
                     {
-                        foreach(var pas in pt.Styling.Areas._list)
+                        foreach (var pas in pt.Styling.Areas._list)
                         {
-                            if(pas.Style.HasValue)
-                            {
-                                var ix = styles.Dxfs.FindIndexById(pas.Style.Id);
-                                if (ix < 0)
-                                {
-                                    pas.Style.DxfId = styles.Dxfs.Count;
-                                    styles.Dxfs.Add(pas.Style.Id, pas.Style);
-                                    var elem = dxfsNode.OwnerDocument.CreateElement("dxf", ExcelPackage.schemaMain);
-                                    pas.Style.CreateNodes(new XmlHelperInstance(ws.NameSpaceManager, elem), "");
-                                    dxfsNode.AppendChild(elem);
-                                }
-                                else
-                                {
-                                    pas.Style.DxfId = ix;
-                                }
-                            }
+                            AddDxfNode(styles, dxfsNode, pas.Style);
                         }
                     }
                 }
             }
-            if (dxfsNode != null) (dxfsNode as XmlElement).SetAttribute("count", styles.Dxfs.Count.ToString());
+        }
+
+        private static void AddDxfNode(ExcelStyles styles, XmlNode dxfsNode, ExcelDxfStyle dxfStyle)
+        {
+            if (dxfStyle.HasValue)
+            {
+                var ix = styles.Dxfs.FindIndexById(dxfStyle.Id);
+                if (ix < 0)
+                {
+                    dxfStyle.DxfId = styles.Dxfs.Count;
+                    styles.Dxfs.Add(dxfStyle.Id, dxfStyle);
+                    var elem = dxfsNode.OwnerDocument.CreateElement("dxf", ExcelPackage.schemaMain);
+                    dxfStyle.CreateNodes(new XmlHelperInstance(styles.NameSpaceManager, elem), "");
+                    dxfsNode.AppendChild(elem);
+                }
+                else
+                {
+                    dxfStyle.DxfId = ix;
+                }
+            }
         }
 
         private static void UpdateConditionalFormatting(ExcelWorksheet ws, ExcelStyleCollection<ExcelDxfStyle> dxfs, XmlNode dxfsNode)

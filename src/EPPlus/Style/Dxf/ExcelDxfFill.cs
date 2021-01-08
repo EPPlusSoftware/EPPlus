@@ -67,14 +67,20 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// If the object has a value
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get 
             {
-                return PatternType != null ||
-                    PatternColor.HasValue ||
-                    BackgroundColor.HasValue;
+                return  PatternType != null ||
+                        PatternColor.HasValue ||
+                        BackgroundColor.HasValue;
             }
+        }
+        public override void Clear()
+        {
+            PatternType = null;
+            PatternColor.Clear();
+            BackgroundColor.Clear();
         }
         /// <summary>
         /// Clone the object

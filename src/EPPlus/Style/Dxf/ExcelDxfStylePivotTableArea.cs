@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Style.Dxf
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
             base.CreateNodes(helper, path);
         }
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get
             {

@@ -88,7 +88,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// If the font has a value
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get
             {
@@ -98,6 +98,14 @@ namespace OfficeOpenXml.Style.Dxf
                        Underline != null ||
                        Color.HasValue;
             }
+        }
+        public override void Clear()
+        {
+            Bold = null;
+            Italic = null;
+            Strike = null;
+            Underline = null;
+            Color.Clear();
         }
         /// <summary>
         /// Clone the object
@@ -202,7 +210,7 @@ namespace OfficeOpenXml.Style.Dxf
                 VerticalAlign=VerticalAlign
             };
         }
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get
             {
@@ -218,6 +226,19 @@ namespace OfficeOpenXml.Style.Dxf
                        VerticalAlign != ExcelVerticalAlignmentFont.None
 ;
             }
+        }
+        public override void Clear()
+        {
+            base.Clear();
+            Name = null;
+            Size = null;
+            Family = null;
+            Condense = null;
+            Extend = null;
+            Scheme = null;
+            Outline = null;
+            Shadow = null;
+            VerticalAlign = ExcelVerticalAlignmentFont.None;
         }
         protected internal override void CreateNodes(XmlHelper helper, string path)
         {
