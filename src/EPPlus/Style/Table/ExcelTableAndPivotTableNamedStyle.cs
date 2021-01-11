@@ -15,12 +15,22 @@ using System.Xml;
 namespace OfficeOpenXml.Style.Table
 {
     /// <summary>
-    /// A named table style that applies to tables only
+    /// A named table style that applies to both tables and pivot tables
     /// </summary>
-    public class ExcelTableNamedStyle : ExcelTableNamedStyleBase
+    public class ExcelTableAndPivotTableNamedStyle : ExcelPivotTableNamedStyle
     {
-        internal ExcelTableNamedStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(nameSpaceManager, topNode, styles)
+        internal ExcelTableAndPivotTableNamedStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(nameSpaceManager, topNode, styles)
         {
+        }
+        /// <summary>
+        /// If the style applies to tables, pivot table or both
+        /// </summary>
+        public override eTableNamedStyleAppliesTo AppliesTo
+        {
+            get
+            {
+                return eTableNamedStyleAppliesTo.TablesAndPivotTables;
+            }
         }
         /// <summary>
         /// Applies to the last header cell of a table
@@ -50,16 +60,6 @@ namespace OfficeOpenXml.Style.Table
             get
             {
                 return GetTableStyleElement(eTableStyleElement.LastTotalCell, false);
-            }
-        }
-        /// <summary>
-        /// If the style applies to tables, pivot table or both
-        /// </summary>
-        public override eTableNamedStyleAppliesTo AppliesTo
-        {
-            get
-            {
-                return eTableNamedStyleAppliesTo.Tables;
             }
         }
     }

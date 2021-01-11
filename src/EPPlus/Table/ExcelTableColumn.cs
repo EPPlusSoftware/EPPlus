@@ -23,13 +23,14 @@ namespace OfficeOpenXml.Table
     /// <summary>
     /// A table column
     /// </summary>
-    public class ExcelTableColumn : XmlHelper
+    public class ExcelTableColumn : ExcelTableDxfBase
     {
         internal ExcelTable _tbl;
         internal ExcelTableColumn(XmlNamespaceManager ns, XmlNode topNode, ExcelTable tbl, int pos) :
             base(ns, topNode)
         {
             _tbl = tbl;
+            InitStyles(tbl.WorkSheet.Workbook.Styles);
             Position = pos;
         }
         /// <summary>

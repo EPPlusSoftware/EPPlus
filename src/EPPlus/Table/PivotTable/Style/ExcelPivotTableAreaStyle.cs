@@ -31,14 +31,14 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
         }
 
-        ExcelDxfStylePivotTableArea _style = null;
-        public ExcelDxfStylePivotTableArea Style 
+        ExcelDxfStyle _style = null;
+        public ExcelDxfStyle Style 
         { 
             get
             {
                 if (_style == null)
                 {
-                    _style=new ExcelDxfStylePivotTableArea(NameSpaceManager, TopNode, _styles);
+                    _style=new ExcelDxfStyle(NameSpaceManager, TopNode, _styles, "../@dxfId");
                 }
                 return _style;
             }

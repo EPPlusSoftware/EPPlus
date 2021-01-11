@@ -6,7 +6,7 @@ using System.Text;
 namespace OfficeOpenXml.ConditionalFormatting
 {
     /// <summary>
-    /// Provides a simple way to type cast a conditional formatting object top its top level class.
+    /// Provides a simple way to type cast a conditional formatting object to its top level class.
     /// </summary>
     public class ExcelConditionalFormattingAsType
     {

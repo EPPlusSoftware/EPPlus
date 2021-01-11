@@ -356,7 +356,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_style == null)
             {
-                _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, null, _worksheet.Workbook.Styles);
+                _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, null, _worksheet.Workbook.Styles, "../@dxfId");
             }
             return _style;
         }
@@ -621,6 +621,9 @@ namespace OfficeOpenXml.ConditionalFormatting
     }
 
     private ExcelConditionalFormattingAsType _as = null;
+    /// <summary>
+    /// Provides access to type conversion for all conditional formatting rules.
+    /// </summary>
     public ExcelConditionalFormattingAsType As 
     { 
         get

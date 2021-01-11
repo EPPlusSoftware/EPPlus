@@ -23,6 +23,7 @@ using OfficeOpenXml.Core.Worksheet;
 using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
+using OfficeOpenXml.Style.Dxf;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -32,7 +33,7 @@ namespace OfficeOpenXml.Table
     /// <summary>
     /// An Excel Table
     /// </summary>
-    public class ExcelTable : XmlHelper, IEqualityComparer<ExcelTable>
+    public class ExcelTable : ExcelTableDxfBase, IEqualityComparer<ExcelTable>
     {
         internal ExcelTable(Packaging.ZipPackageRelationship rel, ExcelWorksheet sheet) : 
             base(sheet.NameSpaceManager)
@@ -57,7 +58,6 @@ namespace OfficeOpenXml.Table
 
             TableXml = new XmlDocument();
             LoadXmlSafe(TableXml, GetStartXml(name, tblId), Encoding.UTF8); 
-            TopNode = TableXml.DocumentElement;
 
             Init();
 
@@ -76,6 +76,7 @@ namespace OfficeOpenXml.Table
         {
             TopNode = TableXml.DocumentElement;
             SchemaNodeOrder = new string[] { "autoFilter", "tableColumns", "tableStyleInfo" };
+            InitStyles(WorkSheet.Workbook.Styles);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -760,7 +761,6 @@ namespace OfficeOpenXml.Table
 
             }
         }
-
         /// <summary>
         /// Checkes if two tables are the same
         /// </summary>
@@ -930,5 +930,29 @@ namespace OfficeOpenXml.Table
 
             return range;
         }
+        internal int HeaderRowBorderDxfId
+        {
+            get
+            {
+                return GetXmlNodeInt("@headerRowBorderDxfId");
+            }
+            set
+            {
+                SetXmlNodeInt("@headerRowBorderDxfId", value);
+            }
+        }
+        public ExcelDxfBorderBase HeaderRowBorderStyle { get; private set; }
+        internal int TableBorderDxfId
+        {
+            get
+            {
+                return GetXmlNodeInt("@tableBorderDxfId");
+            }
+            set
+            {
+                SetXmlNodeInt("@tableBorderDxfId", value);
+            }
+        }
+        public ExcelDxfBorderBase TableBorderStyle { get; private set; }
     }
 }

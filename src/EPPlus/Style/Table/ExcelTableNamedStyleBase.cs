@@ -23,10 +23,11 @@ namespace OfficeOpenXml.Style.Table
         internal ExcelTableNamedStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(nameSpaceManager, topNode)
         {
             _styles = styles;
+            As = new ExcelTableNamedStyleAsType(this);
         }
         protected ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element, bool createBanded)
         {
-            if(_dic.ContainsKey(element))
+            if (_dic.ContainsKey(element))
             {
                 return _dic[element];
             }
@@ -42,7 +43,13 @@ namespace OfficeOpenXml.Style.Table
             _dic.Add(element, item);
             return item;
         }
-
+        public abstract eTableNamedStyleAppliesTo AppliesTo
+        {
+            get;
+        }
+        /// <summary>
+        /// The name of the table named style
+        /// </summary>
         public string Name 
         { 
             get
@@ -58,6 +65,9 @@ namespace OfficeOpenXml.Style.Table
                 SetXmlNodeString("@name", value);
             }
         }
+        /// <summary>
+        /// Applies to the entire content of a table or pivot table
+        /// </summary>
         public ExcelTableStyleElement WholeTable 
         { 
             get
@@ -65,8 +75,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.WholeTable, false);
             }
         }
-
-
+        /// <summary>
+        /// Applies to the first column stripe of a table or pivot table
+        /// </summary>
         public ExcelBandedTableStyleElement FirstColumnStripe
         { 
             get
@@ -74,6 +85,9 @@ namespace OfficeOpenXml.Style.Table
                 return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.FirstColumnStripe, true);
             }
         }
+        /// <summary>
+        /// Applies to the second column stripe of a table or pivot table
+        /// </summary>
         public ExcelBandedTableStyleElement SecondColumnStripe
         {
             get
@@ -81,6 +95,9 @@ namespace OfficeOpenXml.Style.Table
                 return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.SecondColumnStripe, true);
             }
         }
+        /// <summary>
+        /// Applies to the first row stripe of a table or pivot table
+        /// </summary>
         public ExcelBandedTableStyleElement FirstRowStripe
         {
             get
@@ -88,6 +105,9 @@ namespace OfficeOpenXml.Style.Table
                 return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.FirstRowStripe, true);
             }
         }
+        /// <summary>
+        /// Applies to the second row stripe of a table or pivot table
+        /// </summary>
         public ExcelBandedTableStyleElement SecondRowStripe
         {
             get
@@ -95,6 +115,9 @@ namespace OfficeOpenXml.Style.Table
                 return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.SecondRowStripe, true);
             }
         }
+        /// <summary>
+        /// Applies to the last column of a table or pivot table
+        /// </summary>
         public ExcelTableStyleElement LastColumn
         {
             get
@@ -102,6 +125,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.LastColumn, false);
             }
         }
+        /// <summary>
+        /// Applies to the first column of a table or pivot table
+        /// </summary>
         public ExcelTableStyleElement FirstColumn
         {
             get
@@ -109,6 +135,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.FirstColumn, false);
             }
         }
+        /// <summary>
+        /// Applies to the header row of a table or pivot table
+        /// </summary>
         public ExcelTableStyleElement HeaderRow
         {
             get
@@ -116,6 +145,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.HeaderRow, false);
             }
         }
+        /// <summary>
+        /// Applies to the total row of a table or pivot table
+        /// </summary>
         public ExcelTableStyleElement TotalRow
         {
             get
@@ -123,6 +155,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.TotalRow, false);
             }
         }
+        /// <summary>
+        /// Applies to the first header cell of a table or pivot table
+        /// </summary>
         public ExcelTableStyleElement FirstHeaderCell
         {
             get
@@ -130,5 +165,13 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.FirstHeaderCell, false);
             }
         }
+        /// <summary>
+        /// Provides access to type conversion for all table named styles.
+        /// </summary>
+        public ExcelTableNamedStyleAsType As
+        {
+            get;
+        }
     }
 }
+

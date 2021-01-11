@@ -16,10 +16,10 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// Differential formatting record used in conditional formatting
     /// </summary>
-    public class ExcelDxfStyleLimitedFont : ExcelDxfStyle
+    public class ExcelDxfStyleLimitedFont : ExcelDxfStyleBase
     {
-        internal ExcelDxfStyleLimitedFont(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles)
-            : base(nameSpaceManager, topNode, styles)
+        internal ExcelDxfStyleLimitedFont(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, string dxfIdPath)
+            : base(nameSpaceManager, topNode, styles, dxfIdPath)
         {
             Font = new ExcelDxfFont(styles);
             if (topNode != null)
@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            var s = new ExcelDxfStyleLimitedFont(_helper.NameSpaceManager, null, _styles)
+            var s = new ExcelDxfStyleLimitedFont(_helper.NameSpaceManager, null, _styles, _dxfIdPath)
             {
                 Font = (ExcelDxfFont)Font.Clone(),
                 NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),

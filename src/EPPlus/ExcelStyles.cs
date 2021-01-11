@@ -148,9 +148,13 @@ namespace OfficeOpenXml
                     {
                         item = new ExcelPivotTableNamedStyle(_nameSpaceManager, n, this);
                     }
-                    else
+                    else if(n.Attributes["table"]?.Value == "0")
                     {
                         item = new ExcelTableNamedStyle(_nameSpaceManager, n, this);
+                    }
+                    else
+                    {
+                        item = new ExcelTableAndPivotTableNamedStyle(_nameSpaceManager, n, this);
                     }
                     TableStyles.Add(item.Name, item);
                 }
@@ -684,7 +688,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Contain all differential formatting styles for the package
         /// </summary>
-        public ExcelStyleCollection<ExcelDxfStyle> Dxfs = new ExcelStyleCollection<ExcelDxfStyle>();
+        public ExcelStyleCollection<ExcelDxfStyleBase> Dxfs = new ExcelStyleCollection<ExcelDxfStyleBase>();
         
         internal string Id
         {
@@ -768,6 +772,16 @@ namespace OfficeOpenXml
             var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
             node.SetAttribute("pivot", "0");
             var s = new ExcelTableNamedStyle(NameSpaceManager, node, this)
+            {
+                Name = name
+            };
+            TableStyles.Add(name, s);
+            return s;
+        }
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name)
+        {
+            var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
+            var s = new ExcelTableAndPivotTableNamedStyle(NameSpaceManager, node, this)
             {
                 Name = name
             };

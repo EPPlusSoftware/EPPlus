@@ -42,5 +42,17 @@ namespace OfficeOpenXml.Style
                 _bandSize = value;
             }
         }
+        internal override void CreateNode()
+        {
+            base.CreateNode();
+            if (_bandSize == 1)
+            {
+                DeleteNode("@size");
+            }
+            else
+            {
+                SetXmlNodeInt("@size", _bandSize);
+            }
+        }
     }
 }

@@ -1,151 +1,88 @@
-﻿/*************************************************************************************************
- Required Notice: Copyright (C) EPPlus Software AB. 
- This software is licensed under PolyForm Noncommercial License 1.0.0 
- and may only be used for noncommercial purposes 
- https://polyformproject.org/licenses/noncommercial/1.0.0/
+/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
 
- A commercial license to use this software can be purchased at https://epplussoftware.com
+  A commercial license to use this software can be purchased at https://epplussoftware.com
  *************************************************************************************************
- Date               Author                       Change
+  Date               Author                       Change
  *************************************************************************************************
- 12/28/2020         EPPlus Software AB       EPPlus 5.6
+  12/28/2020         EPPlus Software AB       EPPlus 5.6
  *************************************************************************************************/
-using OfficeOpenXml.Drawing;
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Xml;
+using System.Drawing;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Drawing.Theme;
 
 namespace OfficeOpenXml.Style.Dxf
 {
-    public abstract class ExcelDxfStyle : DxfStyleBase 
+    /// <summary>
+    /// Differential formatting record used in conditional formatting
+    /// </summary>
+    public class ExcelDxfStyle : ExcelDxfStyleBase
     {
-        internal XmlHelperInstance _helper;
-        internal ExcelDxfStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(styles)
+        internal ExcelDxfStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, string dxfIdPath) 
+            : base(nameSpaceManager,topNode, styles, dxfIdPath)
         {
-            NumberFormat = new ExcelDxfNumberFormat(_styles);
-            Border = new ExcelDxfBorderBase(_styles);
-            Fill = new ExcelDxfFill(_styles);
-
+            Font = new ExcelDxfFont(styles);
             if (topNode != null)
             {
-                _helper = new XmlHelperInstance(nameSpaceManager, topNode);
-                if (_helper.ExistNode("d:numFmt"))
-                {
-                    NumberFormat.NumFmtID = _helper.GetXmlNodeInt("d:numFmt/@numFmtId");
-                    NumberFormat.Format = _helper.GetXmlNodeString("d:numFmt/@formatCode");
-                    if (NumberFormat.NumFmtID < 164 && string.IsNullOrEmpty(NumberFormat.Format))
-                    {
-                        NumberFormat.Format = ExcelNumberFormat.GetFromBuildInFromID(NumberFormat.NumFmtID);
-                    }
-                }
-                if (_helper.ExistNode("d:border"))
-                {
-                    Border.Left = GetBorderItem(_helper, "d:border/d:left");
-                    Border.Right = GetBorderItem(_helper, "d:border/d:right");
-                    Border.Bottom = GetBorderItem(_helper, "d:border/d:bottom");
-                    Border.Top = GetBorderItem(_helper, "d:border/d:top");
-                }
-
-                if (_helper.ExistNode("d:fill"))
-                {
-                    Fill.PatternType = GetPatternTypeEnum(_helper.GetXmlNodeString("d:fill/d:patternFill/@patternType"));
-                    Fill.BackgroundColor = GetColor(_helper, "d:fill/d:patternFill/d:bgColor/");
-                    Fill.PatternColor = GetColor(_helper, "d:fill/d:patternFill/d:fgColor/");
-                }
+                Font.GetValuesFromXml(_helper);
             }
-            else
-            {
-                _helper = new XmlHelperInstance(nameSpaceManager);
-            }
-            _helper.SchemaNodeOrder = new string[] { "font", "numFmt", "fill", "border" };
         }
-        private ExcelDxfBorderItem GetBorderItem(XmlHelperInstance helper, string path)
+        internal override int DxfId 
         {
-            ExcelDxfBorderItem bi = new ExcelDxfBorderItem(_styles);
-            bi.Style = GetBorderStyleEnum(helper.GetXmlNodeString(path + "/@style"));
-            bi.Color = GetColor(helper, path + "/d:color");
-            return bi;
+            get 
+            {
+                return _helper.GetXmlNodeInt(_dxfIdPath);
+            }
+            set
+            {
+                _helper.SetXmlNodeInt(_dxfIdPath, value);
+            }
         }
-        private static ExcelBorderStyle GetBorderStyleEnum(string style)
+        /// <summary>
+        /// Font formatting settings
+        /// </summary>
+        public ExcelDxfFont Font { get; set; }
+        /// <summary>
+        /// Clone the object
+        /// </summary>
+        /// <returns>A new instance of the object</returns>
+        protected internal override DxfStyleBase Clone()
         {
-            if (style == "") return ExcelBorderStyle.None;
-            string sInStyle = style.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + style.Substring(1, style.Length - 1);
-            try
-            {
-                return (ExcelBorderStyle)Enum.Parse(typeof(ExcelBorderStyle), sInStyle);
-            }
-            catch
-            {
-                return ExcelBorderStyle.None;
-            }
-
+            var s = new ExcelDxfStyle(_helper.NameSpaceManager, null, _styles, _dxfIdPath);
+            s.Font = (ExcelDxfFont)Font.Clone();
+            s.NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone();
+            s.Fill = (ExcelDxfFill)Fill.Clone();
+            s.Border = (ExcelDxfBorderBase)Border.Clone();
+            return s;
         }
-        internal static ExcelFillStyle GetPatternTypeEnum(string patternType)
+        protected internal override void CreateNodes(XmlHelper helper, string path)
         {
-            if (patternType == "") return ExcelFillStyle.None;
-            patternType = patternType.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + patternType.Substring(1, patternType.Length - 1);
-            try
+            if (Font.HasValue) Font.CreateNodes(helper, "d:font");
+            base.CreateNodes(helper, path);
+        }
+        public override bool HasValue
+        {
+            get
             {
-                return (ExcelFillStyle)Enum.Parse(typeof(ExcelFillStyle), patternType);
-            }
-            catch
-            {
-                return ExcelFillStyle.None;
+                return Font.HasValue || base.HasValue;
             }
         }
-
-        internal virtual int DxfId { get; set; } = int.MinValue;
-        /// <summary>
-        /// Numberformat formatting settings
-        /// </summary>
-        public ExcelDxfNumberFormat NumberFormat { get; set; }
-        /// <summary>
-        /// Fill formatting settings
-        /// </summary>
-        public ExcelDxfFill Fill { get; set; }
-        /// <summary>
-        /// Border formatting settings
-        /// </summary>
-        public ExcelDxfBorderBase Border { get; set; }
-        /// <summary>
-        /// Id
-        /// </summary>
         protected internal override string Id
         {
             get
             {
-                return NumberFormat.Id + Border.Id + Fill.Id +
-                    (AllowChange ? "" : DxfId.ToString());
+                return Font.Id + base.Id;
             }
-        }
-        
-        /// <summary>
-        /// Creates the node
-        /// </summary>
-        /// <param name="helper">The helper</param>
-        /// <param name="path">The XPath</param>
-        protected internal override void CreateNodes(XmlHelper helper, string path)
-        {
-            if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
-            if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
-            if (Border.HasValue) Border.CreateNodes(helper, "d:border");
-        }
-        /// <summary>
-        /// If the object has a value
-        /// </summary>
-        public override bool HasValue
-        {
-            get 
-            {
-                return  NumberFormat.HasValue || Fill.HasValue || Border.HasValue; 
-            }
-        }
-        public override void Clear()
-        {
-            NumberFormat.Clear();
-            Fill.Clear();
-            Border.Clear();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 foreach (XmlNode x in dxfsNode)
                 {
-                    var item = new ExcelDxfStyleLimitedFont(styles.NameSpaceManager, x, styles);
+                    var item = new ExcelDxfStyleLimitedFont(styles.NameSpaceManager, x, styles, "../@dxfId");
                     styles.Dxfs.Add(item.Id, item);
                 }
             }
@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style.Dxf
                 var node = styles.TopNode.OwnerDocument.CreateElement("d:dxf", ExcelPackage.schemaMain);
                 parent.AppendChild(node);
                 node.InnerXml = copy._helper.TopNode.InnerXml;
-                var dxf = new ExcelDxfStyleLimitedFont(styles.NameSpaceManager, node, styles);
+                var dxf = new ExcelDxfStyleLimitedFont(styles.NameSpaceManager, node, styles, copy._dxfIdPath);
                 styles.Dxfs.Add(copy.Id, dxf);
                 return styles.Dxfs.Count - 1;
             }
@@ -74,20 +74,32 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 if (ws is ExcelChartsheet) continue;
                 UpdateConditionalFormatting(ws, styles.Dxfs, dxfsNode);
-                foreach (var pt in ws.PivotTables)
+                UpdateDxfXmlPivotTables(styles, dxfsNode, ws);
+            }
+        }
+        private static void UpdateDxfXmlTables(ExcelStyles styles, XmlNode dxfsNode, ExcelWorksheet ws)
+        {
+            foreach (var tbl in ws.Tables)
+            {
+                AddDxfNode(styles, dxfsNode, tbl.HeaderRowStyle);
+            }
+        }
+
+        private static void UpdateDxfXmlPivotTables(ExcelStyles styles, XmlNode dxfsNode, ExcelWorksheet ws)
+        {
+            foreach (var pt in ws.PivotTables)
+            {
+                if (pt.Styling != null)
                 {
-                    if (pt.Styling != null)
+                    foreach (var pas in pt.Styling.Areas._list)
                     {
-                        foreach (var pas in pt.Styling.Areas._list)
-                        {
-                            AddDxfNode(styles, dxfsNode, pas.Style);
-                        }
+                        AddDxfNode(styles, dxfsNode, pas.Style);
                     }
                 }
             }
         }
 
-        private static void AddDxfNode(ExcelStyles styles, XmlNode dxfsNode, ExcelDxfStyle dxfStyle)
+        private static void AddDxfNode(ExcelStyles styles, XmlNode dxfsNode, ExcelDxfStyleBase dxfStyle)
         {
             if (dxfStyle.HasValue)
             {
@@ -107,7 +119,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        private static void UpdateConditionalFormatting(ExcelWorksheet ws, ExcelStyleCollection<ExcelDxfStyle> dxfs, XmlNode dxfsNode)
+        private static void UpdateConditionalFormatting(ExcelWorksheet ws, ExcelStyleCollection<ExcelDxfStyleBase> dxfs, XmlNode dxfsNode)
         {
             foreach (var cf in ws.ConditionalFormatting)
             {

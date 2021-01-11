@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Style
             {
                 if (_style == null)
                 {
-                    _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, TopNode, _styles);
+                    _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, TopNode, _styles, "../@dxfId");
                 }
                 return _style;
             }
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Style
         {
             get;
         }
-        internal void CreateNode()
+        internal virtual void CreateNode()
         {
             if(TopNode.LocalName!= "tableStyleElement")
             {

@@ -69,7 +69,53 @@ namespace EPPlusTest.Style
             s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
             s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
             s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightYellow);
+
+            LoadTestdata(ws);
+            var tbl=ws.Tables.Add(ws.Cells["A1:D101"], "Table1");            
+            tbl.StyleName = "CustomTableStyle1";
         }
+        [TestMethod]
+        public void AddPivotTableStyle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotTableStyle");
+            var s = _pck.Workbook.Styles.CreatePivotTableStyle("CustomPivotTableStyle1");
+            s.WholeTable.Style.Font.Color.SetColor(Color.DarkBlue);
+            s.FirstRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightGreen);
+            s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["G2"], ws.Cells["A1:D101"], "PivotTable1");
+            tbl.StyleName = "CustomPivotTableStyle1";
+        }
+
+        [TestMethod]
+        public void AddTableAndPivotTableStyle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SharedTableStyle");
+            var s = _pck.Workbook.Styles.CreateTableAndPivotTableStyle("CustomTableAndPivotTableStyle1");
+            s.WholeTable.Style.Font.Color.SetColor(Color.DarkMagenta);
+
+            s.FirstRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;            
+            s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightCyan);
+            s.FirstRowStripe.BandSize = 2;
+
+            s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightPink);
+            s.SecondRowStripe.BandSize = 2;
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
+            tbl.StyleName = "CustomTableAndPivotTableStyle1";
+            
+            var pt = ws.PivotTables.Add(ws.Cells["G2"], tbl, "PivotTable2");
+            pt.RowFields.Add(pt.Fields[0]);
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.ShowRowStripes = true;
+            pt.StyleName = "CustomTableAndPivotTableStyle1";
+        }
+
     }
 }
 

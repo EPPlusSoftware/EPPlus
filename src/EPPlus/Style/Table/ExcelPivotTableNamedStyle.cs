@@ -14,28 +14,28 @@ using System.Xml;
 
 namespace OfficeOpenXml.Style.Table
 {
+    /// <summary>
+    /// A named table style that applies to pivot tables only
+    /// </summary>
     public class ExcelPivotTableNamedStyle : ExcelTableNamedStyleBase
     {
         internal ExcelPivotTableNamedStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(nameSpaceManager, topNode, styles)
         {
-            //PageFieldLabels = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.PageFieldLabels);
-            //PageFieldValues = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.PageFieldValues);
-            //FirstSubtotalColumn = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.FirstSubtotalColumn);
-            //SecondSubtotalColumn = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.SecondSubtotalColumn);
-            //ThirdSubtotalColumn = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.ThirdSubtotalColumn);
-            //BlankRow = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.BlankRow);
-            //FirstSubtotalRow = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.FirstSubtotalRow);
-            //SecondSubtotalRow = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.SecondSubtotalRow);
-            //ThirdSubtotalRow = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.ThirdSubtotalRow);
-            //FirstColumnSubheading = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.FirstColumnSubheading);
-            //SecondColumnSubheading = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.SecondColumnSubheading);
-            //ThirdColumnSubheading = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.ThirdColumnSubheading);
-            //FirstRowSubheading = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.FirstRowSubheading);
-            //SecondRowSubheading = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.SecondRowSubheading);
-            //ThirdRowSubheading = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.ThirdRowSubheading);
-            //GrandTotalColumn = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.LastColumn);
-            //GrandTotalRow = new ExcelTableStyleElement(nameSpaceManager, topNode, styles, eTableStyleElement.TotalRow);
         }
+        /// <summary>
+        /// If the style applies to tables, pivot table or both
+        /// </summary>
+        public override eTableNamedStyleAppliesTo AppliesTo
+        {
+            get
+            {
+                return eTableNamedStyleAppliesTo.PivotTables;
+            }
+        }
+
+        /// <summary>
+        /// Applies to the page field labels of a pivot table
+        /// </summary>
         public ExcelTableStyleElement PageFieldLabels
         {
             get
@@ -43,6 +43,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.PageFieldLabels, false);
             }
         }
+        /// <summary>
+        /// Applies to the page field values of a pivot table
+        /// </summary>
         public ExcelTableStyleElement PageFieldValues
         {
             get
@@ -50,6 +53,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.PageFieldValues, false);
             }
         }
+        /// <summary>
+        /// Applies to the first subtotal column of a pivot table
+        /// </summary>
         public ExcelTableStyleElement FirstSubtotalColumn
         {
             get
@@ -57,6 +63,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.FirstSubtotalColumn, false);
             }
         }
+        /// <summary>
+        /// Applies to the second subtotal column of a pivot table
+        /// </summary>
         public ExcelTableStyleElement SecondSubtotalColumn
         {
             get
@@ -64,6 +73,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.SecondSubtotalColumn, false);
             }
         }
+        /// <summary>
+        /// Applies to the third subtotal column of a pivot table
+        /// </summary>
         public ExcelTableStyleElement ThirdSubtotalColumn
         {
             get
@@ -71,6 +83,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.ThirdSubtotalColumn, false);
             }
         }
+        /// <summary>
+        /// Applies to blank rows of a pivot table
+        /// </summary>
         public ExcelTableStyleElement BlankRow
         {
             get
@@ -78,6 +93,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.BlankRow, false);
             }
         }
+        /// <summary>
+        /// Applies to the first subtotal row of a pivot table
+        /// </summary>
         public ExcelTableStyleElement FirstSubtotalRow
         {
             get
@@ -85,6 +103,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.FirstSubtotalRow, false);
             }
         }
+        /// <summary>
+        /// Applies to the second subtotal row of a pivot table
+        /// </summary>
         public ExcelTableStyleElement SecondSubtotalRow
         {
             get
@@ -92,6 +113,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.SecondSubtotalRow, false);
             }
         }
+        /// <summary>
+        /// Applies to the third subtotal row of a pivot table
+        /// </summary>
         public ExcelTableStyleElement ThirdSubtotalRow
         {
             get
@@ -99,6 +123,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.ThirdSubtotalRow, false);
             }
         }
+        /// <summary>
+        /// Applies to the first column subheading of a pivot table
+        /// </summary>
         public ExcelTableStyleElement FirstColumnSubheading
         {
             get
@@ -106,6 +133,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.FirstColumnSubheading, false);
             }
         }
+        /// <summary>
+        /// Applies to the second column subheading of a pivot table
+        /// </summary>
         public ExcelTableStyleElement SecondColumnSubheading
         {
             get
@@ -113,6 +143,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.SecondColumnSubheading, false);
             }
         }
+        /// <summary>
+        /// Applies to the third column subheading of a pivot table
+        /// </summary>
         public ExcelTableStyleElement ThirdColumnSubheading
         {
             get
@@ -120,6 +153,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.ThirdColumnSubheading, false);
             }
         }
+        /// <summary>
+        /// Applies to the first row subheading of a pivot table
+        /// </summary>
         public ExcelTableStyleElement FirstRowSubheading
         {
             get
@@ -127,6 +163,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.FirstRowSubheading, false);
             }
         }
+        /// <summary>
+        /// Applies to the second row subheading of a pivot table
+        /// </summary>
         public ExcelTableStyleElement SecondRowSubheading
         {
             get
@@ -134,6 +173,9 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.SecondRowSubheading, false);
             }
         }
+        /// <summary>
+        /// Applies to the third row subheading of a pivot table
+        /// </summary>
         public ExcelTableStyleElement ThirdRowSubheading
         {
             get
@@ -141,19 +183,5 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.ThirdRowSubheading, false);
             }
         }
-        //public ExcelTableStyleElement GrandTotalColumn
-        //{
-        //    get
-        //    {
-        //        return GetTableStyleElement(eTableStyleElement.GrandTotalColumn, false);
-        //    }
-        //}
-        //public ExcelTableStyleElement GrandTotalRow
-        //{
-        //    get
-        //    {
-        //        return GetTableStyleElement(eTableStyleElement.GrandTotalRow, false);
-        //    }
-        //}
     }
 }
