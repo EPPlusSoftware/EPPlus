@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             if (functionArguments.Count() > 2)
             {
                 basis = ArgToInt(functionArguments, 2);
-                ThrowExcelErrorValueExceptionIf(() => basis < 0 || basis > 4, eErrorType.Num);
+                if (basis < 0 || basis > 4) return CreateResult(eErrorType.Num);
             }
             var func = context.Configuration.FunctionRepository.GetFunction("days360");
             var calendar = new GregorianCalendar();

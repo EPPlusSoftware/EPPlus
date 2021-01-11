@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
                         break;
                     default:
                         // Not supported 
-                        ThrowExcelErrorValueException(eErrorType.Num);
+                        return CreateResult(eErrorType.Num);
                         break;
                 }
             }
