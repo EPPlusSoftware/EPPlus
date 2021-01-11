@@ -45,9 +45,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             var min = ArgToInt(arguments, 1);
             var sec = ArgToInt(arguments, 2);
 
-            ThrowArgumentExceptionIf(() => sec < 0 || sec > 59, "Invalid second: " + sec);
-            ThrowArgumentExceptionIf(() => min < 0 || min > 59, "Invalid minute: " + min);
-            ThrowArgumentExceptionIf(() => min < 0 || hour > 23, "Invalid hour: " + hour);
+            if (sec < 0 || sec > 59) return CreateResult(eErrorType.Value);
+            if (min < 0 || min > 59) return CreateResult(eErrorType.Value);
+            if (min < 0 || hour > 23) return CreateResult(eErrorType.Value);
 
 
             var secondsOfThisTime = (double)(hour * 60 * 60 + min * 60 + sec);

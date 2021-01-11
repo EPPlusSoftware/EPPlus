@@ -29,6 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
     {
         private readonly static double HALF_LOG_2_PI = 0.5 * System.Math.Log(2.0 * System.Math.PI);
         private readonly static double LANCZOS_G = 607.0 / 128.0;
+        /** The constant value of radic;(2pi;). */
+        private static readonly double SQRT_TWO_PI = 2.506628274631000502;
 
         #region Gamma constants
         /*
@@ -405,6 +407,92 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
         }
 
         static double log1p(double x) => System.Math.Abs(x) > 1e-4 ? System.Math.Log(1.0 + x) : (-0.5 * x + 1.0) * x;
+
+        /**
+     * Returns the value of Γ(x). Based on the <em>NSWC Library of
+     * Mathematics Subroutines</em> double precision implementation,
+     * {@code DGAMMA}.
+     *
+     * @param x Argument.
+     * @return the value of {@code Gamma(x)}.
+     */
+        
+        public static double gamma(double x)
+        {
+
+            if ((x == System.Math.Round(x)) && (x <= 0.0))
+            {
+                return Double.NaN;
+            }
+
+            double ret;
+            double absX = System.Math.Abs(x);
+            if (absX <= 20.0)
+            {
+                if (x >= 1.0)
+                {
+                    /*
+                     * From the recurrence relation
+                     * Gamma(x) = (x - 1) * ... * (x - n) * Gamma(x - n),
+                     * then
+                     * Gamma(t) = 1 / [1 + invGamma1pm1(t - 1)],
+                     * where t = x - n. This means that t must satisfy
+                     * -0.5 <= t - 1 <= 1.5.
+                     */
+                    double prod = 1.0;
+                    double t = x;
+                    while (t > 2.5)
+                    {
+                        t -= 1.0;
+                        prod *= t;
+                    }
+                    ret = prod / (1.0 + invGamma1pm1(t - 1.0));
+                }
+                else
+                {
+                    /*
+                     * From the recurrence relation
+                     * Gamma(x) = Gamma(x + n + 1) / [x * (x + 1) * ... * (x + n)]
+                     * then
+                     * Gamma(x + n + 1) = 1 / [1 + invGamma1pm1(x + n)],
+                     * which requires -0.5 <= x + n <= 1.5.
+                     */
+                    double prod = x;
+                    double t = x;
+                    while (t < -0.5)
+                    {
+                        t += 1.0;
+                        prod *= t;
+                    }
+                    ret = 1.0 / (prod * (1.0 + invGamma1pm1(t)));
+                }
+            }
+            else
+            {
+                double y = absX + LANCZOS_G + 0.5;
+                double gammaAbs = SQRT_TWO_PI / absX *
+                                        System.Math.Pow(y, absX + 0.5) *
+                                        System.Math.Exp(-y) * lanczos(absX);
+                if (x > 0.0)
+                {
+                    ret = gammaAbs;
+                }
+                else
+                {
+                    /*
+                     * From the reflection formula
+                     * Gamma(x) * Gamma(1 - x) * sin(pi * x) = pi,
+                     * and the recurrence relation
+                     * Gamma(1 - x) = -x * Gamma(-x),
+                     * it is found
+                     * Gamma(x) = -pi / [x * sin(pi * x) * Gamma(-x)].
+                     */
+                    ret = -System.Math.PI /
+                          (x * System.Math.Sin(System.Math.PI * x) * gammaAbs);
+                }
+            }
+            return ret;
+        }
 
 
     }

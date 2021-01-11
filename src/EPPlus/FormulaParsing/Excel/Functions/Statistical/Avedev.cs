@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,36 +8,31 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "4",
-        Description = "Returns the Kth SMALLEST value from a list of supplied numbers, for a given value K")]
-    internal class Small : HiddenValuesHandlingFunction
+        EPPlusVersion = "5.5",
+        Description = "Returns the average of the absolute deviations of data points from their mean")]
+    internal class Avedev : ExcelFunction
     {
-        public Small()
-        {
-            IgnoreHiddenValues = false;
-            IgnoreErrors = false;
-        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var args = arguments.ElementAt(0);
-            var index = ArgToInt(arguments, 1) - 1;
-            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { args }, context);
-            if (index < 0 || index >= values.Count()) return CreateResult(eErrorType.Num);
-            var result = values.OrderBy(x => x).ElementAt(index);
+            ValidateArguments(arguments, 1);
+            var arr = ArgsToDoubleEnumerable(arguments, context);
+            if (!arr.Any()) return CreateResult(eErrorType.Div0);
+            var dArr = arr.Select(x => (double)x);
+            var mean = dArr.Average();
+            var result = dArr.Aggregate(0d, (val, x) => val += System.Math.Abs(x - mean)) / dArr.Count();
             return CreateResult(result, DataType.Decimal);
         }
     }

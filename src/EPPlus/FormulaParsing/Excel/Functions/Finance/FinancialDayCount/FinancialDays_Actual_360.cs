@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 
         public double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate)
         {
-            return GetDaysBetweenDates(startDate, endDate, 360);
+            return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear);
         }
 
         protected override double GetDaysBetweenDates(FinancialDay start, FinancialDay end, int basis)
@@ -38,7 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 
         public double GetCoupdays(FinancialDay start, FinancialDay end, int frequency)
         {
-            return 360d / frequency;
+            return DaysPerYear / frequency;
         }
+
+        public double DaysPerYear { get { return 360d; } }
     }
 }

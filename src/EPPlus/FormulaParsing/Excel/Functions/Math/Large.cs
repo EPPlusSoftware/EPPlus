@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             var args = arguments.ElementAt(0);
             var index = ArgToInt(arguments, 1) - 1;
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> {args}, context);
-            ThrowExcelErrorValueExceptionIf(() => index < 0 || index >= values.Count(), eErrorType.Num);
+            if (index < 0 || index >= values.Count()) return CreateResult(eErrorType.Num);
             var result = values.OrderByDescending(x => x).ElementAt(index);
             return CreateResult(result, DataType.Decimal);
         }

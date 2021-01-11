@@ -25,6 +25,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -182,6 +183,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["degrees"] = new Degrees();
             Functions["odd"] = new Odd();
             Functions["even"] = new Even();
+            // Statistical
+            Functions["confidence.norm"] = new ConfidenceNorm();
+            Functions["confidence"] = new Confidence();
+            Functions["confidence.t"] = new ConfidenceT();
+            Functions["devsq"] = new Devsq();
+            Functions["avedev"] = new Avedev();
+            Functions["gamma"] = new Gamma();
+            Functions["gammaln"] = new Gammaln();
+            Functions["gammaln.precise"] = new GammalnPrecise();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -197,6 +207,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["na"] = new Na();
             Functions["n"] = new N();
             Functions["type"] = new TypeFunction();
+            Functions["sheet"] = new Sheet();
             // Logical
             Functions["if"] = new If();
             Functions["ifs"] = new Ifs();
@@ -266,6 +277,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["cumprinc"] = new Cumprinc();
             Functions["dollarde"] = new DollarDe();
             Functions["dollarfr"] = new DollarFr();
+            Functions["db"] = new Db();
             Functions["ddb"] = new Ddb();
             Functions["effect"] = new Effect();
             Functions["fvschedule"] = new FvSchedule();
@@ -297,6 +309,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["yield"] = new Yield();
             Functions["yieldmat"] = new Yieldmat();
             Functions["duration"] = new Duration();
+            Functions["mduration"] = new Mduration();
+            Functions["intrate"] = new Intrate();
             Functions["disc"] = new Disc();
             //Engineering
             Functions["bitand"] = new BitAnd();
@@ -326,6 +340,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["besselj"] = new BesselJ();
             Functions["besselk"] = new BesselK();
             Functions["bessely"] = new BesselY();
+            Functions["complex"] = new Complex();
         }
     }
 }

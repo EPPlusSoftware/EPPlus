@@ -36,5 +36,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
                     throw new ArgumentException("basis");
             }
         }
+
+        internal static FinancialPeriod CreatePeriod(System.DateTime start, System.DateTime end, DayCountBasis basis)
+        {
+            var s = Create(start, basis);
+            var e = Create(end, basis);
+            return new FinancialPeriod(s, e);
+        }
     }
 }

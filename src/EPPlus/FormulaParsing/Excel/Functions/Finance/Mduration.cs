@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  12/10/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -17,20 +17,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Text,
-        EPPlusVersion = "4",
-        Description = "Returns the character that corresponds to a supplied numeric value")]
-    internal class CharFunction : ExcelFunction
+       Category = ExcelFunctionCategory.Financial,
+       EPPlusVersion = "5.5",
+       Description = "Calculates the Macauley modified duration for a security with an assumed par value of $100")]
+    internal class Mduration : Duration
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var number = ArgToInt(arguments, 0);
-            if (number < 1 || number > 255) return CreateResult(eErrorType.Value);
-            return CreateResult(((char) number).ToString(), DataType.String);
+            ValidateArguments(arguments, 5);
+            var durationResult = base.Execute(arguments, context);
+            if (durationResult.DataType == DataType.ExcelError) return durationResult;
+            var dur = durationResult.ResultNumeric;
+            var yield = ArgToDecimal(arguments, 3);
+            var frequency = ArgToDecimal(arguments, 4);
+            var result = dur / (1d + (yield / frequency));
+            return CreateResult(result, DataType.Decimal);
         }
     }
 }

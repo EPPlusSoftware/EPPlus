@@ -8,34 +8,41 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.MathAndTrig,
-        EPPlusVersion = "5.1",
-        Description = "Returns the Double Factorial of a given number")]
-    internal class FactDouble : ExcelFunction
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "5.5",
+        Description = "Converts user-supplied real and imaginary coefficients into a complex number")]
+    internal class Complex : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var number = ArgToDecimal(arguments, 0);
-            if (number < 0) return CreateResult(eErrorType.NA);
-            var downTo = number % 2 == 0 ? 2 : 1;
-            var result = 1d;
-            for(var x = number; x >= downTo; x-=2)
+            ValidateArguments(arguments, 2);
+            var real = ArgToDecimal(arguments, 0);
+            var img = ArgToDecimal(arguments, 1);
+            var suffix = "i";
+            if(arguments.Count() > 2)
             {
-                result *= x;
+                suffix = ArgToString(arguments, 2);
+                if (suffix != "i" && suffix != "j") return CreateResult(eErrorType.Value);
             }
-            return CreateResult(result, DataType.Decimal);
+            var result = real.ToString();
+            if(img > 0)
+            {
+                result += "+";
+            }
+            result += img.ToString() + suffix;
+            return CreateResult(result, DataType.String);
         }
     }
 }

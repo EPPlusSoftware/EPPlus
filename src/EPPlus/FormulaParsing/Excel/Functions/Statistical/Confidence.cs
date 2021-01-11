@@ -8,27 +8,21 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using SDateTime = System.DateTime;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    internal interface IFinanicalDays
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "5.5",
+        Description = "Returns the confidence interval for a population mean, using a normal distribution")]
+    internal class Confidence : ConfidenceNorm
     {
-        double GetDaysBetweenDates(SDateTime startDate, SDateTime endDate);
-
-        double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate);
-
-        FinancialPeriod GetCouponPeriod(FinancialDay settlementDate, FinancialDay maturityDate, int frequency);
-
-        int GetNumberOfCouponPeriods(FinancialDay settlementDate, FinancialDay maturityDate, int frequency);
-
-        double GetCoupdays(FinancialDay startDate, FinancialDay endDate, int frequency);
-
-        double DaysPerYear { get; }
     }
 }

@@ -403,6 +403,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void Db_Tests()
+        {
+            _worksheet.Cells["A1"].Formula = "DB( 10000, 1000, 5, 1, 6 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(1845d, result);
+
+            _worksheet.Cells["A1"].Formula = "DB( 10000, 1000, 5, 5, 6 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(756.03d, result);
+
+            _worksheet.Cells["A1"].Formula = "DB( 10000, 1000, 5, 6, 6 )";
+            _worksheet.Calculate();
+
+            result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 2);
+            Assert.AreEqual(238.53d, result);
+        }
+
+        [TestMethod]
         public void FvSchedule_Tests()
         {
             _worksheet.Cells["B2"].Value = 0.05;
@@ -573,6 +595,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void MdurationTest()
+        {
+            _worksheet.Cells["B1"].Value = new DateTime(2008, 01, 01);
+            _worksheet.Cells["B2"].Value = new DateTime(2016, 01, 01);
+            _worksheet.Cells["A1"].Formula = "MDURATION( B1, B2, 8%, 9%, 2 )";
+            _worksheet.Calculate();
+
+            var result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 3);
+            Assert.AreEqual(5.736, result);
+        }
+
+        [TestMethod]
         public void DiscTest()
         {
             _worksheet.Cells["B1"].Value = new DateTime(2016, 04, 01);
@@ -618,6 +652,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _worksheet.Calculate();
             result = System.Math.Round((double)_worksheet.Cells["A1"].Value, 6);
             Assert.AreEqual(1.03, result);
+        }
+
+        [TestMethod]
+        public void IntrateTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 2, 15);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 5, 15);
+            _worksheet.Cells["A3"].Formula = "INTRATE(A1, A2,1000000, 1014420, 2)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["A3"].Value, 6);
+            Assert.AreEqual(0.05768, result);
+        }
+
+        [TestMethod]
+        public void IntrateTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2005, 4, 1);
+            _worksheet.Cells["A2"].Value = new DateTime(2007, 3, 31);
+            _worksheet.Cells["A3"].Formula = "INTRATE(A1, A2, 1000, 2125)";
+            _worksheet.Calculate();
+            var result = System.Math.Round((double)_worksheet.Cells["A3"].Value, 5);
+            Assert.AreEqual(0.5625, result);
         }
     }
 }
