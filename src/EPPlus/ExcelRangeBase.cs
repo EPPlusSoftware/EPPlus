@@ -1235,7 +1235,7 @@ namespace OfficeOpenXml
                     if(tbl==null)
                     {
                         _worksheet.AutoFilterAddress = this;
-                        var result = _worksheet.Names.Add("_xlnm._FilterDatabase", this);
+                        var result = _worksheet.Names.AddName("_xlnm._FilterDatabase", this);
                         result.IsNameHidden = true;
                     }
                     else
@@ -1283,9 +1283,27 @@ namespace OfficeOpenXml
             }
             set
             {
-                _changePropMethod(this, _setIsRichTextDelegate, value);
+                var isRT = IsRichText;
+                if (isRT != value)
+                {
+                    if (value)
+                    {
+                        RichText.Text = Text;
+                    }
+                    else
+                    {
+                        Value = RichText.Text;
+                    }
+                    SetIsRichTextFlag(value);
+                }
             }
         }
+
+        internal void SetIsRichTextFlag(bool value)
+        {
+            _changePropMethod(this, _setIsRichTextDelegate, value);
+        }
+
         /// <summary>
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>

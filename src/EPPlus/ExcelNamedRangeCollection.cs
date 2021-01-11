@@ -46,15 +46,26 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelNamedRange Add(string Name, ExcelRangeBase Range)
         {
-            ExcelNamedRange item;
-            if(!ExcelAddressUtil.IsValidName(Name))
+            if (!ExcelAddressUtil.IsValidName(Name))
             {
                 throw (new ArgumentException("Name contains invalid characters or is not valid."));
             }
+            return AddName(Name, Range);
+        }
+
+        /// <summary>
+        /// Add the name without validation as Excel allows some names on load that is not permitted in the GUI
+        /// </summary>
+        /// <param name="Name">The Name</param>
+        /// <param name="Range">The Range</param>
+        /// <returns></returns>
+        internal ExcelNamedRange AddName(string Name, ExcelRangeBase Range)
+        {
+            ExcelNamedRange item;
             if (Range.IsName)
             {
 
-                item = new ExcelNamedRange(Name, _wb,_ws, _dic.Count);
+                item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
             }
             else
             {

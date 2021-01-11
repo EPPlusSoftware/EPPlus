@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Style
                 rt.Size = style.Font.Size;
                 rt.Bold = style.Font.Bold;
                 rt.Italic = style.Font.Italic;
-                _cells.IsRichText = true;
+                _cells.SetIsRichTextFlag(true);
             }
             rt.Text = text;
             rt.PreserveSpace = true;
@@ -190,7 +190,7 @@ namespace OfficeOpenXml.Style
             if (_cells != null)
             {
                 _cells.Clear();
-                _cells.IsRichText = false;
+                _cells.SetIsRichTextFlag(false);
             }
         }
         /// <summary>
@@ -201,7 +201,7 @@ namespace OfficeOpenXml.Style
         {
             TopNode.RemoveChild(_list[Index].TopNode);
             _list.RemoveAt(Index);
-            if (_cells != null && _list.Count==0) _cells.IsRichText = false;
+            if (_cells != null && _list.Count==0) _cells.SetIsRichTextFlag(false);
         }
         /// <summary>
         /// Removes an item
@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Style
         {
             TopNode.RemoveChild(Item.TopNode);
             _list.Remove(Item);
-            if (_cells != null && _list.Count == 0) _cells.IsRichText = false;
+            if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
         }
         //public void Insert(int index, string Text)
         //{

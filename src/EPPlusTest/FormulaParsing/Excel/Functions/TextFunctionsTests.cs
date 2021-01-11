@@ -38,6 +38,7 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml;
 using System.Globalization;
+using System.Threading;
 
 namespace EPPlusTest.Excel.Functions.Text
 {
@@ -402,6 +403,22 @@ namespace EPPlusTest.Excel.Functions.Text
                 sheet.Calculate();
                 Assert.AreEqual(expected, sheet.Cells["A2"].Value);
             }
+        }
+
+        [TestMethod]
+        public void ValueShouldReturnCorrectResult()
+        {
+            var cc = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("EN-US");
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "1,234,567.89";
+                sheet.Cells["A2"].Formula = "VALUE(A1)";
+                sheet.Calculate();
+                Assert.AreEqual(1234567.89, sheet.Cells["A2"].Value);
+            }
+            Thread.CurrentThread.CurrentCulture = cc;
         }
     }
 }

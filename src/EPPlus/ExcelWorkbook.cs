@@ -284,7 +284,7 @@ namespace OfficeOpenXml
 				_package.ZipPackage.DeletePart(SharedStringsUri); //Remove the part, it is recreated when saved.
 			}
 		}
-		internal void GetDefinedNames()
+		internal void	GetDefinedNames()
 		{
 			XmlNodeList nl = WorkbookXml.SelectNodes("//d:definedNames/d:definedName", NameSpaceManager);
 			if (nl != null)
@@ -335,11 +335,11 @@ namespace OfficeOpenXml
 						range = new ExcelRangeBase(this, nameWorksheet, elem.GetAttribute("name"), true);
 						if (nameWorksheet == null)
 						{
-							namedRange = _names.Add(elem.GetAttribute("name"), range);
+							namedRange = _names.AddName(elem.GetAttribute("name"), range);
 						}
 						else
 						{
-							namedRange = nameWorksheet.Names.Add(elem.GetAttribute("name"), range);
+							namedRange = nameWorksheet.Names.AddName(elem.GetAttribute("name"), range);
 						}
 
 						if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "\"")) //String value
@@ -352,15 +352,7 @@ namespace OfficeOpenXml
 						}
 						else
 						{
-							//if (addressType == ExcelAddressBase.AddressType.ExternalAddress || addressType == ExcelAddressBase.AddressType.ExternalName)
-							//{
-							//    var r = new ExcelAddress(fullAddress);
-							//    namedRange.NameFormula = '\'[' + r._wb
-							//}
-							//else
-							//{
 							namedRange.NameFormula = fullAddress;
-							//}
 						}
 					}
 					else
@@ -370,17 +362,17 @@ namespace OfficeOpenXml
 						{
 							if (string.IsNullOrEmpty(addr._ws))
 							{
-								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.Add(elem.GetAttribute("name"), new ExcelRangeBase(this, Worksheets[localSheetID + _package._worksheetAdd], fullAddress, false));
+								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, Worksheets[localSheetID + _package._worksheetAdd], fullAddress, false));
 							}
 							else
 							{
-								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.Add(elem.GetAttribute("name"), new ExcelRangeBase(this, Worksheets[addr._ws], fullAddress, false));
+								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, Worksheets[addr._ws], fullAddress, false));
 							}
 						}
 						else
 						{
 							var ws = Worksheets[addr._ws];
-							namedRange = _names.Add(elem.GetAttribute("name"), new ExcelRangeBase(this, ws, fullAddress, false));
+							namedRange = _names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, ws, fullAddress, false));
 						}
 					}
 					if (elem.GetAttribute("hidden") == "1" && namedRange != null) namedRange.IsNameHidden = true;

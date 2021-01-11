@@ -1451,12 +1451,12 @@ namespace EPPlusTest
                 Assert.IsNull(ws.Cells["C71812"].Value);
                 Assert.IsNull(ws.Cells["C77667"].Value);
                 Assert.AreEqual(0D, ws.Cells["C77668"].Value);
-            }                
-        }        
+            }
+        }
         [TestMethod]
         public void InflateIssue()
         {
-            using (var p=OpenPackage("inflateStart.xlsx", true))
+            using (var p = OpenPackage("inflateStart.xlsx", true))
             {
                 var worksheet = p.Workbook.Worksheets.Add("Test");
                 for (int i = 1; i <= 10; i++)
@@ -1472,7 +1472,7 @@ namespace EPPlusTest
                         p.Save();
                     }
                     SaveWorkbook("Inflate.xlsx", p2);
-                }                
+                }
             }
         }
         [TestMethod]
@@ -1554,6 +1554,52 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets["data"];
                 ws.Cells["A1"].Value = "test";
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue260()
+        {
+            using (var p = OpenTemplatePackage("issue260.xlsx"))
+            {
+                var workbook = p.Workbook;
+                Console.WriteLine(workbook.Worksheets.Count);
+            }
+        }
+        [TestMethod]
+        public void Issue268()
+        {
+            using (var p = OpenPackage("Issue268.xlsx", true))
+            {
+                ExcelWorksheet formSheet = CreateFormSheet(p);
+                var r1 = formSheet.Drawings.AddCheckBoxControl("OptionSingleRoom");
+                r1.Text = "Single Room";
+                r1.LinkedCell = formSheet.Cells["G7"];
+                r1.SetPosition(5, 0, 1, 0);
+                var tableSheet = p.Workbook.Worksheets.Add("Table");
+                ExcelRange tableRange = formSheet.Cells[10, 20, 30, 22];
+                ExcelTable faultsTable = formSheet.Tables.Add(tableRange, "FaultsTable");
+                faultsTable.StyleName = "None";
+                SaveAndCleanup(p);
+            }
+        }
+        private static ExcelWorksheet CreateFormSheet(ExcelPackage package)
+        {
+            var formSheet = package.Workbook.Worksheets.Add("Form");
+            formSheet.Cells["A1"].Value = "Room booking";
+            formSheet.Cells["A1"].Style.Font.Size = 18;
+            formSheet.Cells["A1"].Style.Font.Bold = true;
+            return formSheet;
+        }
+        [TestMethod]
+        public void Issue269()
+        {
+            var data = new List<TestDTO>();
+            
+            using (var p = new ExcelPackage())
+            {
+                var sheet = p.Workbook.Worksheets.Add("Sheet1");
+                var r = sheet.Cells["A1"].LoadFromCollection(data,false);
+                Assert.IsNull(r);
             }
         }
     }
