@@ -8,27 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  05/25/2020         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using SDateTime = System.DateTime;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    internal interface IFinanicalDays
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "5.5",
+        IntroducedInExcelVersion = "2010",
+        Description = "Calculates the natural logarithm of the gamma function for a supplied value")]
+    internal class GammalnPrecise : Gammaln
     {
-        double GetDaysBetweenDates(SDateTime startDate, SDateTime endDate);
-
-        double GetDaysBetweenDates(FinancialDay startDate, FinancialDay endDate);
-
-        FinancialPeriod GetCouponPeriod(FinancialDay settlementDate, FinancialDay maturityDate, int frequency);
-
-        int GetNumberOfCouponPeriods(FinancialDay settlementDate, FinancialDay maturityDate, int frequency);
-
-        double GetCoupdays(FinancialDay startDate, FinancialDay endDate, int frequency);
-
-        double DaysPerYear { get; }
     }
 }

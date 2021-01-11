@@ -325,9 +325,6 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FormulaParsing\Excel\Functions\Statistical\" />
-  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.3.6</Version>

@@ -33,6 +33,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 		private double? _resultNumeric;
 
         public CompileResult(object result, DataType dataType)
+            : this(result, dataType, 0)
+        { 
+        }
+
+        public CompileResult(object result, DataType dataType, int excelAddressReferenceId)
         {
             if(result is ExcelDoubleCellValue)
             {
@@ -43,6 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 Result = result;
             }
             DataType = dataType;
+            ExcelAddressReferenceId = excelAddressReferenceId;
         }
 
         public CompileResult(eErrorType errorType)

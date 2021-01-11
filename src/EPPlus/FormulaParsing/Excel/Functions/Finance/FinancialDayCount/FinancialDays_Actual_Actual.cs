@@ -41,5 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
         {
             return end.ToDateTime().Subtract(start.ToDateTime()).TotalDays;
         }
+
+        public double DaysPerYear { get { return 365d; } }
     }
 }
