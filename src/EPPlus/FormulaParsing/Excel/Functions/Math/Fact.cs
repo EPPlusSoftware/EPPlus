@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
-            ThrowExcelErrorValueExceptionIf(() => number < 0, eErrorType.NA);
+            if (number < 0) return CreateResult(eErrorType.NA);
             var result = 1d;
             for (var x = 1; x < number; x++)
             {

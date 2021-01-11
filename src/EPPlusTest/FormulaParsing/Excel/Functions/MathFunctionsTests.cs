@@ -40,6 +40,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -1287,12 +1288,13 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(120d, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void FactShouldThrowWhenNegativeNumber()
+        [TestMethod]
+        public void FactShouldReturnErrorNegativeNumber()
         {
             var func = new Fact();
             var args = FunctionsHelper.CreateArgs(-1);
-            func.Execute(args, _parsingContext);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
@@ -1322,12 +1324,13 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(2, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void QuotientShouldThrowWhenDenomIs0()
+        [TestMethod]
+        public void QuotientShouldReturnErrorDenomIs0()
         {
             var func = new Quotient();
             var args = FunctionsHelper.CreateArgs(1, 0);
-            func.Execute(args, _parsingContext);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
@@ -1348,12 +1351,13 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(3d, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void LargeShouldThrowIfIndexOutOfBounds()
+        [TestMethod]
+        public void LargeShouldReturnErrorIfIndexOutOfBounds()
         {
             var func = new Large();
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 6);
             var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
@@ -1374,20 +1378,22 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(2d, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
+        [TestMethod]
         public void SmallShouldThrowIfIndexOutOfBounds()
         {
             var func = new Small();
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 6);
             var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void MedianShouldThrowIfNoArgs()
+        [TestMethod]
+        public void MedianShouldReturnErrorIfNoArgs()
         {
             var func = new Median();
             var args = FunctionsHelper.Empty();
-            func.Execute(args, _parsingContext);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
