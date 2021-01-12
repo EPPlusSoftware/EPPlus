@@ -2366,7 +2366,12 @@ namespace OfficeOpenXml
                         HandleSaveForIndividualDrawings(d);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
-                    Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
+
+                    var stream      = partPack.GetStream(FileMode.Create, FileAccess.Write);
+                    var xr          = new XmlTextWriter(stream, Encoding.UTF8);
+                    xr.Formatting   = Formatting.None;
+
+                    Drawings.DrawingXml.Save(xr);
                 }
             }
         }
