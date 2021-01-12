@@ -1,6 +1,6 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
-## Version 5.5.0
+## Version 5.5.1
 ### Features
 * 10 new functions:
 	* COMPLEX
@@ -19,6 +19,7 @@
 * PrecisionAndRoundingStrategy.Excel doesn't work in range -1 to 1
 * EPPlus no longer validate defined names on load.
 * Setting the IsRichText property to true don't convert the value to Rich text properly.
+* Xml formatting issue on Saving DrawingXml. Thanks to ZaL133 for pull request.
 
 ## Version 5.5.0
 ### Features
