@@ -1,5 +1,26 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.5.1
+### Features
+* 10 new functions:
+	* COMPLEX
+	* DEVSQ
+	* AVEDEV 
+	* GAMMALN 
+	* GAMMALN.PRECISE
+	* GAMMA
+	* DB 
+	* SHEET
+	* INTRATE
+	* MDURATION
+### Fixed issues
+* LoadFromCollection thrown an exception if collection was empty and PrintHeaders was false
+* Adding controls after an table was added caused an corrupt workbook.
+* PrecisionAndRoundingStrategy.Excel doesn't work in range -1 to 1
+* EPPlus no longer validate defined names on load.
+* Setting the IsRichText property to true don't convert the value to Rich text properly.
+* Xml formatting issue on Saving DrawingXml. Thanks to ZaL133 for pull request.
+
 ## Version 5.5.0
 ### Features
 * Form Controls
