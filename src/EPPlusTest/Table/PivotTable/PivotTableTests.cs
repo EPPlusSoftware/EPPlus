@@ -480,11 +480,11 @@ namespace EPPlusTest.Table.PivotTable
             LoadTestdata(ws);
             var formula = "NumValue*2";
             var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTable1");
-            tbl.Fields.AddCalculatedField("NumValueX2", formula);
-
+            var f = tbl.Fields.AddCalculatedField("NumValueX2", formula);
+            f.Format = "#,##0";
             var rf = tbl.RowFields.Add(tbl.Fields[1]);
             var df1 = tbl.DataFields.Add(tbl.Fields[3]);
-            var df2 = tbl.DataFields.Add(tbl.Fields[4]);
+            var df2 = tbl.DataFields.Add(tbl.Fields["NumValueX2"]);
             df1.Function = DataFieldFunctions.Sum;
             df2.Function = DataFieldFunctions.Sum;
             tbl.DataOnRows = false;
