@@ -115,6 +115,31 @@ namespace EPPlusTest.Style
             pt.ShowRowStripes = true;
             pt.StyleName = "CustomTableAndPivotTableStyle1";
         }
+        [TestMethod]
+        public void AlterTableStyle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableRowStyle");
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
+            var ns = _pck.Workbook.Styles.CreateNamedStyle("TableCellStyle2");
+            ns.Style.Font.Color.SetColor(Color.Red);
+            //var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyle1");
+            //s.HeaderRow.Style.Font.Color.SetColor(Color.Red);
+            //s.FirstRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            //s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+            //s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            //s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightYellow);
+
+
+            tbl.TableStyle = OfficeOpenXml.Table.TableStyles.None;
+            //tbl.HeaderRowStyleName = "TableCellStyle2";
+            tbl.Range.Offset(0, 0, 1, tbl.Range.Columns).StyleName= "TableCellStyle2";
+            ////tbl.StyleName = "CustomTableStyle1";
+            ////tbl.HeaderRowStyle.Border.Bottom.Style=ExcelBorderStyle.Dashed;
+            ////tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
+            //tbl.DataStyle.Font.Color.SetColor(Color.Red);
+            //tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
+        }
 
     }
 }

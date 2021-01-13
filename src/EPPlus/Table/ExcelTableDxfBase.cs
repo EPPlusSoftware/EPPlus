@@ -28,7 +28,19 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@headerRowDxfId", value);
             }
         }
-        public ExcelDxfStyle HeaderRowStyle { get; private set; }
+        internal string HeaderRowStyleName
+        {
+            get
+            {
+                return GetXmlNodeString("@headerRowCellStyle");
+            }
+            set
+            {
+                SetXmlNodeString("@headerRowCellStyle",value);
+            }
+        }
+
+        internal ExcelDxfStyle HeaderRowStyle { get; private set; }
         internal int DataDxfId
         {
             get
@@ -40,8 +52,8 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@dataDxfId", value);
             }
         }
-        public ExcelDxfStyle DataStyle { get; private set; }
-        public ExcelDxfStyle TotalsRowStyle { get; private set; }
+        internal ExcelDxfStyle DataStyle { get; private set; }
+        internal ExcelDxfStyle TotalsRowStyle { get; private set; }
         internal int TotalsRowDxfId
         {
             get
@@ -53,7 +65,5 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@totalsRowDxfId", value);
             }
         }
-
-
     }
 }

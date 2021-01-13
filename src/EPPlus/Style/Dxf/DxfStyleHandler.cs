@@ -1,7 +1,9 @@
 ﻿using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -74,6 +76,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 if (ws is ExcelChartsheet) continue;
                 UpdateConditionalFormatting(ws, styles.Dxfs, dxfsNode);
+                UpdateDxfXmlTables(styles, dxfsNode, ws);
                 UpdateDxfXmlPivotTables(styles, dxfsNode, ws);
             }
         }
@@ -82,6 +85,34 @@ namespace OfficeOpenXml.Style.Dxf
             foreach (var tbl in ws.Tables)
             {
                 AddDxfNode(styles, dxfsNode, tbl.HeaderRowStyle);
+                AddDxfNode(styles, dxfsNode, tbl.DataStyle);
+                AddDxfNode(styles, dxfsNode, tbl.TotalsRowStyle);
+
+                var v = AddDxfBorderNode(styles, dxfsNode, tbl.HeaderRowBorderStyle);
+                if (v.HasValue)
+                {
+                    tbl.HeaderRowBorderDxfId = v.Value;
+                }
+
+                v = AddDxfBorderNode(styles, dxfsNode, tbl.TableBorderStyle);
+                if (v.HasValue)
+                {
+                    tbl.TableBorderDxfId = v.Value;
+                }
+
+                v = AddDxfBorderNode(styles, dxfsNode, tbl.HeaderRowBorderStyle);
+                if (v.HasValue)
+                {
+                    tbl.HeaderRowBorderDxfId = v.Value;
+                }
+
+
+                foreach (var column in tbl.Columns)
+                {
+                    AddDxfNode(styles, dxfsNode, column.HeaderRowStyle);
+                    AddDxfNode(styles, dxfsNode, column.DataStyle);
+                    AddDxfNode(styles, dxfsNode, column.TotalsRowStyle);
+                }
             }
         }
 
@@ -99,6 +130,27 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
+        private static int? AddDxfBorderNode(ExcelStyles styles, XmlNode dxfsNode, ExcelDxfBorderBase borderStyle)
+        {
+            if(borderStyle.HasValue)
+            {
+                var ix = styles.Dxfs.FindIndexById(borderStyle.Id);
+                if (ix < 0)
+                {
+                    var elem = dxfsNode.OwnerDocument.CreateElement("dxf", ExcelPackage.schemaMain);
+                    borderStyle.CreateNodes(new XmlHelperInstance(styles.NameSpaceManager, elem), "d:border");
+                    dxfsNode.AppendChild(elem);
+                    var dxfId = styles.Dxfs.Count;
+                    styles.Dxfs.Add(borderStyle.Id, new ExcelDxfStyle(styles.NameSpaceManager, elem, styles, "") { Border = borderStyle });
+                    return styles.Dxfs.Count - 1;
+                }
+                else
+                {
+                    return ix;
+                }
+            }
+            return null;
+        }
         private static void AddDxfNode(ExcelStyles styles, XmlNode dxfsNode, ExcelDxfStyleBase dxfStyle)
         {
             if (dxfStyle.HasValue)
