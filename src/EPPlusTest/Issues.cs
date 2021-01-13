@@ -1602,5 +1602,16 @@ namespace EPPlusTest
                 Assert.IsNull(r);
             }
         }
+        [TestMethod]
+        public void Issue272()
+        {
+            using (var p = OpenTemplatePackage("Issue272.xlsx"))
+            {
+                var workbook = p.Workbook;
+                Console.WriteLine(workbook.Worksheets.Count);
+                SaveAndCleanup(p);
+            }
+
+        }
     }
 }

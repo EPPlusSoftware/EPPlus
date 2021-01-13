@@ -310,28 +310,8 @@ namespace OfficeOpenXml
 					ExcelRangeBase range;
 					ExcelNamedRange namedRange;
 
-					if (fullAddress.IndexOf("[") == 0)
+                    if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula || addressType == ExcelAddressBase.AddressType.ExternalAddress)    //A value or a formula
 					{
-						int start = fullAddress.IndexOf("[");
-						int end = fullAddress.IndexOf("]", start);
-						if (start >= 0 && end >= 0)
-						{
-
-							string externalIndex = fullAddress.Substring(start + 1, end - start - 1);
-							int index;
-							if (int.TryParse(externalIndex, NumberStyles.Any, CultureInfo.InvariantCulture, out index))
-							{
-								if (index > 0 && index <= _externalReferences.Count)
-								{
-									fullAddress = fullAddress.Substring(0, start) + "[" + _externalReferences[index - 1] + "]" + fullAddress.Substring(end + 1);
-								}
-							}
-						}
-					}
-
-					if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula || addressType == ExcelAddressBase.AddressType.ExternalAddress)    //A value or a formula
-					{
-						double value;
 						range = new ExcelRangeBase(this, nameWorksheet, elem.GetAttribute("name"), true);
 						if (nameWorksheet == null)
 						{
@@ -346,7 +326,7 @@ namespace OfficeOpenXml
 						{
 							namedRange.NameValue = fullAddress.Substring(1, fullAddress.Length - 2);
 						}
-						else if (double.TryParse(fullAddress, NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+						else if (double.TryParse(fullAddress, NumberStyles.Number, CultureInfo.InvariantCulture, out double value))
 						{
 							namedRange.NameValue = value;
 						}
