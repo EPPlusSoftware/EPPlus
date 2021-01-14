@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal enum eBoolFlags
         {
             Hidden=0x1,
-            SD = 0x2,
+            ShowDetails = 0x2,
             C = 0x4,
             D = 0x8,
             E = 0x10,
@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Table.PivotTable
             M = 0x40,
             S = 0x80
         }
-        internal eBoolFlags flags=eBoolFlags.SD|eBoolFlags.E;
+        internal eBoolFlags flags=eBoolFlags.ShowDetails|eBoolFlags.E;
         internal ExcelPivotTableFieldItem()
         {
         }
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         S = XmlHelper.GetBoolFromString(a.Value);
                         break;
                     case "sd":
-                        SD = XmlHelper.GetBoolFromString(a.Value);
+                        ShowDetails = XmlHelper.GetBoolFromString(a.Value);
                         break;
                     case "t":                        
                         Type = a.Value.ToEnum(eItemType.Data);
@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         public object Value { get; internal set; }
         /// <summary>
-        /// True if the items is hidden
+        /// A flag indicating if the items are hidden
         /// </summary>
         public bool Hidden 
         { 
@@ -108,15 +108,18 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        internal bool SD
+        /// <summary>
+        /// A flag indicating if the items expanded or collapsed.
+        /// </summary>
+        public bool ShowDetails
         {
             get
             {
-                return (flags & eBoolFlags.SD) == eBoolFlags.SD;
+                return (flags & eBoolFlags.ShowDetails) == eBoolFlags.ShowDetails;
             }
             set
             {
-                SetFlag(eBoolFlags.SD, value);
+                SetFlag(eBoolFlags.ShowDetails, value);
             }
         }
         internal bool C
@@ -204,7 +207,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 sb.AppendFormat(" n=\"{0}\"", OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(Text));
             }
             AddBool(sb,"h", Hidden);
-            AddBool(sb, "sd", SD, true);
+            AddBool(sb, "sd", ShowDetails, true);
             AddBool(sb, "c", C);
             AddBool(sb, "d", D);
             AddBool(sb, "e", E, true);
