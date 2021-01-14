@@ -24,20 +24,27 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
-        internal static int CloneDxfStyle(ExcelWorkbook wb, int styleId)
+        internal static int CloneDxfStyle(ExcelStyles stylesFrom, ExcelStyles stylesTo, int styleId)
         {
-            var styles = wb.Styles;
-            var copy = styles.Dxfs[styleId];
-            var ix = styles.Dxfs.FindIndexById(copy.Id);
+            var copy = stylesFrom.Dxfs[styleId];
+            var ix = stylesTo.Dxfs.FindIndexById(copy.Id);
             if (ix < 0)
             {
-                var parent = styles.GetNode(dxfsPath);
-                var node = styles.TopNode.OwnerDocument.CreateElement("d:dxf", ExcelPackage.schemaMain);
+                var parent = stylesTo.GetNode(dxfsPath);
+                var node = stylesTo.TopNode.OwnerDocument.CreateElement("d:dxf", ExcelPackage.schemaMain);
                 parent.AppendChild(node);
                 node.InnerXml = copy._helper.TopNode.InnerXml;
-                var dxf = new ExcelDxfStyleLimitedFont(styles.NameSpaceManager, node, styles, copy._dxfIdPath);
-                styles.Dxfs.Add(copy.Id, dxf);
-                return styles.Dxfs.Count - 1;
+                ExcelDxfStyleBase dxf;
+                if (copy is ExcelDxfStyleLimitedFont)
+                {
+                    dxf = new ExcelDxfStyleLimitedFont(stylesTo.NameSpaceManager, node, stylesTo, copy._dxfIdPath);
+                }
+                else 
+                {
+                    dxf = new ExcelDxfStyle(stylesTo.NameSpaceManager, node, stylesTo, copy._dxfIdPath);
+                }
+                stylesTo.Dxfs.Add(copy.Id, dxf);
+                return stylesTo.Dxfs.Count - 1;
             }
             else
             {
