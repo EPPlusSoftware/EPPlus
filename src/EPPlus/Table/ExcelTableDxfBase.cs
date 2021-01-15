@@ -13,9 +13,9 @@ namespace OfficeOpenXml.Table
         }
         internal void InitStyles(ExcelStyles styles)
         {            
-            HeaderRowStyle = new ExcelDxfStyle(NameSpaceManager, TopNode, styles, "@headerRowDxfId");
-            DataStyle = new ExcelDxfStyle(NameSpaceManager, TopNode, styles, "@dataDxfId");
-            TotalsRowStyle = new ExcelDxfStyle(NameSpaceManager, TopNode, styles, "@totalsRowDxfId");
+            HeaderRowStyle = styles.GetDxf(HeaderRowDxfId);
+            DataStyle = styles.GetDxf(DataDxfId);
+            TotalsRowStyle = styles.GetDxf(TotalsRowDxfId);
         }
         internal int HeaderRowDxfId
         {

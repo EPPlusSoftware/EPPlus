@@ -44,8 +44,8 @@ namespace OfficeOpenXml.Table.PivotTable
 
             PivotTableXml = new XmlDocument();
             LoadXmlSafe(PivotTableXml, Part.GetStream());
-            Init();
             TopNode = PivotTableXml.DocumentElement;
+            Init();
             Address = new ExcelAddressBase(GetXmlNodeString("d:location/@ref"));
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this);

@@ -28,24 +28,13 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfStyle : ExcelDxfStyleBase
     {
-        internal ExcelDxfStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, string dxfIdPath) 
-            : base(nameSpaceManager,topNode, styles, dxfIdPath)
+        internal ExcelDxfStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) 
+            : base(nameSpaceManager,topNode, styles)
         {
             Font = new ExcelDxfFont(styles);
             if (topNode != null)
             {
                 Font.GetValuesFromXml(_helper);
-            }
-        }
-        internal override int DxfId 
-        {
-            get 
-            {
-                return _helper.GetXmlNodeInt(_dxfIdPath);
-            }
-            set
-            {
-                _helper.SetXmlNodeInt(_dxfIdPath, value);
             }
         }
         /// <summary>
@@ -58,7 +47,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            var s = new ExcelDxfStyle(_helper.NameSpaceManager, null, _styles, _dxfIdPath);
+            var s = new ExcelDxfStyle(_helper.NameSpaceManager, null, _styles);
             s.Font = (ExcelDxfFont)Font.Clone();
             s.NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone();
             s.Fill = (ExcelDxfFill)Fill.Clone();

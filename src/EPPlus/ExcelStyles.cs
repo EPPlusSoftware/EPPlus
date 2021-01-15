@@ -32,14 +32,14 @@ namespace OfficeOpenXml
 	/// </summary>
     public sealed class ExcelStyles : XmlHelper
     {
-        const string NumberFormatsPath = "d:styleSheet/d:numFmts";
-        const string FontsPath = "d:styleSheet/d:fonts";
-        const string FillsPath = "d:styleSheet/d:fills";
-        const string BordersPath = "d:styleSheet/d:borders";
-        const string CellStyleXfsPath = "d:styleSheet/d:cellStyleXfs";
-        const string CellXfsPath = "d:styleSheet/d:cellXfs";
-        const string CellStylesPath = "d:styleSheet/d:cellStyles";
-        const string TableStylesPath = "d:styleSheet/d:tableStyles";
+        const string NumberFormatsPath = "d:numFmts";
+        const string FontsPath = "d:fonts";
+        const string FillsPath = "d:fills";
+        const string BordersPath = "d:borders";
+        const string CellStyleXfsPath = "d:cellStyleXfs";
+        const string CellXfsPath = "d:cellXfs";
+        const string CellStylesPath = "d:cellStyles";
+        const string TableStylesPath = "d:tableStyles";
 
         //internal Dictionary<int, ExcelXfs> Styles = new Dictionary<int, ExcelXfs>();
         XmlDocument _styleXml;
@@ -62,7 +62,7 @@ namespace OfficeOpenXml
         {
             //NumberFormats
             ExcelNumberFormatXml.AddBuildIn(NameSpaceManager, NumberFormats);
-            XmlNode numNode = _styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
+            XmlNode numNode = GetNode(NumberFormatsPath);
             if (numNode != null)
             {
                 foreach (XmlNode n in numNode)
@@ -74,7 +74,7 @@ namespace OfficeOpenXml
             }
 
             //Fonts
-            XmlNode fontNode = _styleXml.SelectSingleNode(FontsPath, _nameSpaceManager);
+            XmlNode fontNode = GetNode(FontsPath);
             foreach (XmlNode n in fontNode)
             {
                 ExcelFontXml f = new ExcelFontXml(_nameSpaceManager, n);
@@ -82,7 +82,7 @@ namespace OfficeOpenXml
             }
 
             //Fills
-            XmlNode fillNode = _styleXml.SelectSingleNode(FillsPath, _nameSpaceManager);
+            XmlNode fillNode = GetNode(FillsPath);
             foreach (XmlNode n in fillNode)
             {
                 ExcelFillXml f;
@@ -98,7 +98,7 @@ namespace OfficeOpenXml
             }
 
             //Borders
-            XmlNode borderNode = _styleXml.SelectSingleNode(BordersPath, _nameSpaceManager);
+            XmlNode borderNode = GetNode(BordersPath);
             foreach (XmlNode n in borderNode)
             {
                 ExcelBorderXml b = new ExcelBorderXml(_nameSpaceManager, n);
@@ -106,7 +106,7 @@ namespace OfficeOpenXml
             }
 
             //cellStyleXfs
-            XmlNode styleXfsNode = _styleXml.SelectSingleNode(CellStyleXfsPath, _nameSpaceManager);
+            XmlNode styleXfsNode = GetNode(CellStyleXfsPath);
             if (styleXfsNode != null)
             {
                 foreach (XmlNode n in styleXfsNode)
@@ -116,7 +116,7 @@ namespace OfficeOpenXml
                 }
             }
 
-            XmlNode styleNode = _styleXml.SelectSingleNode(CellXfsPath, _nameSpaceManager);
+            XmlNode styleNode = GetNode(CellXfsPath);
             for (int i = 0; i < styleNode.ChildNodes.Count; i++)
             {
                 XmlNode n = styleNode.ChildNodes[i];
@@ -125,7 +125,7 @@ namespace OfficeOpenXml
             }
 
             //cellStyle
-            XmlNode namedStyleNode = _styleXml.SelectSingleNode(CellStylesPath, _nameSpaceManager);
+            XmlNode namedStyleNode = GetNode(CellStylesPath);
             if (namedStyleNode != null)
             {
                 foreach (XmlNode n in namedStyleNode)
@@ -138,7 +138,7 @@ namespace OfficeOpenXml
             DxfStyleHandler.Load(_wb, this);
 
             //Table Styles
-            XmlNode tableStyleNode = _styleXml.SelectSingleNode(TableStylesPath, _nameSpaceManager);
+            XmlNode tableStyleNode = GetNode(TableStylesPath);
             if (tableStyleNode != null)
             {
                 foreach (XmlNode n in tableStyleNode)
@@ -798,11 +798,10 @@ namespace OfficeOpenXml
             RemoveUnusedStyles();
 
             //NumberFormat
-            XmlNode nfNode = _styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
+            XmlNode nfNode = GetNode(NumberFormatsPath); 
             if (nfNode == null)
             {
-                CreateNode(NumberFormatsPath, true);
-                nfNode = _styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
+                nfNode = CreateNode(NumberFormatsPath, true);
             }
             else
             {
@@ -859,7 +858,7 @@ namespace OfficeOpenXml
 
             //Font
             count = 0;
-            XmlNode fntNode = _styleXml.SelectSingleNode(FontsPath, _nameSpaceManager);
+            XmlNode fntNode = GetNode(FontsPath);
             fntNode.RemoveAll();
 
             //Normal should be first in the collection
@@ -884,7 +883,7 @@ namespace OfficeOpenXml
 
             //Fills
             count = 0;
-            XmlNode fillsNode = _styleXml.SelectSingleNode(FillsPath, _nameSpaceManager);
+            XmlNode fillsNode = GetNode(FillsPath);
             fillsNode.RemoveAll();
             Fills[0].useCnt = 1;    //Must exist (none);  
             Fills[1].useCnt = 1;    //Must exist (gray125);
@@ -902,7 +901,7 @@ namespace OfficeOpenXml
 
             //Borders
             count = 0;
-            XmlNode bordersNode = _styleXml.SelectSingleNode(BordersPath, _nameSpaceManager);
+            XmlNode bordersNode = GetNode(BordersPath);
             bordersNode.RemoveAll();
             Borders[0].useCnt = 1;    //Must exist blank;
             foreach (ExcelBorderXml border in Borders)
@@ -916,11 +915,10 @@ namespace OfficeOpenXml
             }
             (bordersNode as XmlElement).SetAttribute("count", count.ToString());
 
-            XmlNode styleXfsNode = _styleXml.SelectSingleNode(CellStyleXfsPath, _nameSpaceManager);
+            XmlNode styleXfsNode = GetNode(CellStyleXfsPath);
             if (styleXfsNode == null && NamedStyles.Count > 0)
             {
-                CreateNode(CellStyleXfsPath);
-                styleXfsNode = _styleXml.SelectSingleNode(CellStyleXfsPath, _nameSpaceManager);
+                styleXfsNode=CreateNode(CellStyleXfsPath);
             }
             if (NamedStyles.Count > 0)
             {
@@ -929,12 +927,12 @@ namespace OfficeOpenXml
             //NamedStyles
             count = normalIx > -1 ? 1 : 0;  //If we have a normal style, we make sure it's added first.
 
-            XmlNode cellStyleNode = _styleXml.SelectSingleNode(CellStylesPath, _nameSpaceManager);
+            XmlNode cellStyleNode = GetNode(CellStylesPath);
             if (cellStyleNode != null)
             {
                 cellStyleNode.RemoveAll();
             }
-            XmlNode cellXfsNode = _styleXml.SelectSingleNode(CellXfsPath, _nameSpaceManager);
+            XmlNode cellXfsNode = GetNode(CellXfsPath);
             cellXfsNode.RemoveAll();
 
             if (NamedStyles.Count > 0 && normalIx >= 0)
@@ -1267,6 +1265,29 @@ namespace OfficeOpenXml
                     }
                 }
                 return index;
+            }
+        }
+
+        internal ExcelDxfStyleLimitedFont GetDxfLimitedFont(int dxfId)
+        {
+            if (dxfId == 0 && dxfId < Dxfs.Count)
+            {
+                return Dxfs[dxfId].ToDxfLimitedStyle();
+            }
+            else
+            {
+                return new ExcelDxfStyleLimitedFont(NameSpaceManager, null, this);
+            }
+        }
+        internal ExcelDxfStyle GetDxf(int dxfId)
+        {
+            if(dxfId==0 && dxfId < Dxfs.Count)
+            {
+                return Dxfs[dxfId].ToDxfStyle();
+            }
+            else
+            {
+                return new ExcelDxfStyle(NameSpaceManager, null, this);
             }
         }
     }

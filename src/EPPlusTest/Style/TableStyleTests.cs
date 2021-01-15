@@ -120,7 +120,7 @@ namespace EPPlusTest.Style
         {
             var ws = _pck.Workbook.Worksheets.Add("TableRowStyle");
             LoadTestdata(ws);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table3");
             var ns = _pck.Workbook.Styles.CreateNamedStyle("TableCellStyle2");
             ns.Style.Font.Color.SetColor(Color.Red);
             //var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyle1");
@@ -141,6 +141,18 @@ namespace EPPlusTest.Style
             //tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
         }
 
+        [TestMethod]
+        public void CopyTableRowStyle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyle");
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
+
+            tbl.HeaderRowStyle.Border.Bottom.Style=ExcelBorderStyle.Dashed;
+            tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
+            tbl.DataStyle.Font.Color.SetColor(Color.Red);
+            tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
+        }
     }
 }
 

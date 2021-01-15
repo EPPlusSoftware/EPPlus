@@ -21,11 +21,11 @@ namespace OfficeOpenXml.Style.Dxf
     public abstract class ExcelDxfStyleBase : DxfStyleBase 
     {
         internal XmlHelperInstance _helper;            
-        internal protected string _dxfIdPath;
+        //internal protected string _dxfIdPath;
 
-        internal ExcelDxfStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, string dxfIdPath) : base(styles)
+        internal ExcelDxfStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(styles)
         {
-            _dxfIdPath = dxfIdPath;
+            //_dxfIdPath = dxfIdPath;
             NumberFormat = new ExcelDxfNumberFormat(_styles);
             Border = new ExcelDxfBorderBase(_styles);
             Fill = new ExcelDxfFill(_styles);
@@ -149,6 +149,48 @@ namespace OfficeOpenXml.Style.Dxf
             NumberFormat.Clear();
             Fill.Clear();
             Border.Clear();
+        }
+        internal ExcelDxfStyle ToDxfStyle()
+        {
+            if(this is ExcelDxfStyle s)
+            {
+                return s;
+            }
+            else
+            {
+                var ns = new ExcelDxfStyle(_styles.NameSpaceManager, null, _styles)
+                {
+                    Border = Border,
+                    Fill = Fill,
+                    NumberFormat = NumberFormat,
+                    DxfId = DxfId,
+                    Font = new ExcelDxfFont(_styles),
+                    _helper = _helper
+                };
+                ns.Font.GetValuesFromXml(_helper);
+                return ns;
+            }
+        }
+        internal ExcelDxfStyleLimitedFont ToDxfLimitedStyle()
+        {
+            if (this is ExcelDxfStyleLimitedFont s)
+            {
+                return s;
+            }
+            else
+            {
+                var ns = new ExcelDxfStyleLimitedFont(_styles.NameSpaceManager, null, _styles)
+                {
+                    Border = Border,
+                    Fill = Fill,
+                    NumberFormat = NumberFormat,
+                    DxfId = DxfId,
+                    Font = new ExcelDxfFontBase(_styles),
+                    _helper = _helper
+                };
+                ns.Font.GetValuesFromXml(_helper);
+                return ns;
+            }
         }
     }
 }
