@@ -1611,7 +1611,25 @@ namespace EPPlusTest
                 Console.WriteLine(workbook.Worksheets.Count);
                 SaveAndCleanup(p);
             }
+        }
+        [TestMethod]
+        public void IssueS84()
+        {
+            using (var p = OpenTemplatePackage("XML in Cells.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];                
+                var cell = ws.Cells["D43"];
+                cell.Value = cell.Value + " ";
 
+                ExcelRichText rtx = cell.RichText.Add("a");
+
+                rtx.VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
+
+                ws.Cells["D43:E44"].Value = new object[,] { { "Cell1", "Cell2" }, { "Cell21", "Cell22" } };
+
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }
