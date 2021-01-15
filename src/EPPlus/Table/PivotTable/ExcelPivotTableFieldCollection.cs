@@ -124,6 +124,10 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The new calculated field</returns>
         public ExcelPivotTableField AddCalculatedField(string name, string formula)
         {            
+            if(_list.Exists(x=>x.Name.Equals(name,StringComparison.OrdinalIgnoreCase)))
+            {
+                throw (new InvalidOperationException($"Field with name {name} already exists in the collection"));
+            }
             var cache = _table.CacheDefinition._cacheReference;
             var cacheField = cache.AddFormula(name, formula);
 

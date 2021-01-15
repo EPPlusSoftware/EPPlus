@@ -469,7 +469,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             
             cacheTopNode.AppendChild(cacheFieldNode);
-
+            
             return new ExcelPivotTableCacheField(NameSpaceManager, cacheFieldNode, this, index);
         }
 
