@@ -90,7 +90,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 return left == null;
             }
             var operatorCandidate = GetNonAlphanumericStartChars(expression);
-            if (!string.IsNullOrEmpty(operatorCandidate))
+            // ignore the wildcard operator *
+            if (!string.IsNullOrEmpty(operatorCandidate) && operatorCandidate != "*")
             {
                 IOperator op;
                 if (OperatorsDict.Instance.TryGetValue(operatorCandidate, out op))

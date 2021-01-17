@@ -113,6 +113,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void ShouldHandleSingleStringWildcardCriteriaStartingWildcard()
+        {
+            _worksheet.Cells["A1"].Value = "abc";
+            _worksheet.Cells["A2"].Value = "def";
+            _worksheet.Cells["A3"].Value = "def";
+            _worksheet.Cells["A4"].Formula = "COUNTIFS(A1:A3, \"*ef\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(2d, _worksheet.Cells["A4"].Value);
+        }
+
+        [TestMethod]
         public void ShouldHandleNullRangeCriteria()
         {
             _worksheet.Cells["A1"].Value = null;
