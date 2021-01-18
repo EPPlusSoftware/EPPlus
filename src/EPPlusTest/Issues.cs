@@ -1639,5 +1639,22 @@ namespace EPPlusTest
                 p.Workbook.Calculate();
             }
         }
+
+        [TestMethod]
+        public void Ticket90()
+        {
+            using (var p = OpenTemplatePackage("Example - Calculate.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets["Others"];
+                var fi = new FileInfo(@"c:\Temp\countiflog.txt");
+                p.Workbook.FormulaParserManager.AttachLogger(fi);
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel);
+                p.Workbook.FormulaParserManager.DetachLogger();
+                var result = sheet.Cells["R5"].Value;
+
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

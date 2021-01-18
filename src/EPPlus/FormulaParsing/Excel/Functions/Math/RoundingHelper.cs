@@ -199,6 +199,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
         private static double GetNumberOfLeadingZeroDecimals(double n)
         {
+            if (n == 0) return 0;
             var tmp = n;
             var result = 0;
             while (tmp < 1d)
