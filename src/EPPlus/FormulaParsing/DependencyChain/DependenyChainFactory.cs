@@ -339,7 +339,7 @@ namespace OfficeOpenXml.FormulaParsing
                             foreach (var par in stack)
                             {
                                 if (ExcelAddressBase.GetCellID(par.ws.SheetId, par.iterator.Row, par.iterator.Column) == id ||
-                                    ExcelAddressBase.GetCellID(par.ws.SheetId, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
+                                    ExcelAddressBase.GetCellID(par.SheetID, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
                                     if (options.AllowCircularReferences == false)
                                     {
