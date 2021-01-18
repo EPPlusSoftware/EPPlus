@@ -135,6 +135,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void ShouldIgnoreCellsWithErrors()
+        {
+            _worksheet.Cells["A1"].Formula = "1/0";
+            _worksheet.Cells["A2"].Value = 1;
+            _worksheet.Cells["A3"].Value = null;
+            _worksheet.Cells["A4"].Formula = "COUNTIFS(A1:A3, \">0\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(1d, _worksheet.Cells["A4"].Value);
+        }
+
+        [TestMethod]
         public void ShouldHandleMultipleRangesAndCriterias()
         {
             _worksheet.Cells["A1"].Value = "abc";

@@ -41,7 +41,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             for (var ix = 0; ix < 30; ix +=2)
             {
                 if (functionArguments.Length <= ix) break;
-                var rangeInfo = functionArguments[ix].ValueAsRangeInfo;
+                var arg = functionArguments[ix];
+                if (arg.DataType == DataType.ExcelError) continue;
+                var rangeInfo = arg.ValueAsRangeInfo;
+                if(rangeInfo == null && arg.ExcelAddressReferenceId > 0)
+                {
+                    var addressString = ArgToAddress(arguments, ix, context);
+                    var address = new ExcelAddress(addressString);
+                    var ws = string.IsNullOrEmpty(address.WorkSheetName) ? context.Scopes.Current.Address.Worksheet : address.WorkSheetName;
+                    rangeInfo = context.ExcelDataProvider.GetRange(ws, address.Address);
+                }
                 argRanges.Add(rangeInfo);
                 var value = functionArguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
                 criterias.Add(value);
