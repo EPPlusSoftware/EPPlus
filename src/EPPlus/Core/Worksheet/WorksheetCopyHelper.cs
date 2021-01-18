@@ -601,35 +601,39 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void CopyDxfStylesTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
         {
             //Table formats
-            foreach(var tbl in copy.Tables)
+            for(int i=0;i<copy.Tables.Count; i++)
             {
-                AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, tbl.HeaderRowDxfId);
-                AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, tbl.HeaderRowBorderDxfId);
-                AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, tbl.DataDxfId);
-                AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, tbl.TableBorderDxfId);
-                AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, tbl.TotalsRowDxfId);
-                foreach (var c in tbl.Columns)
+                var tblFrom = copy.Tables[i];
+                var tblTo = added.Tables[i];
+                if (tblFrom.HeaderRowStyle.HasValue) tblTo.HeaderRowStyle = (ExcelDxfStyle)tblFrom.HeaderRowStyle.Clone();
+                if (tblFrom.HeaderRowBorderStyle.HasValue) tblTo.HeaderRowBorderStyle = (ExcelDxfBorderBase)tblFrom.HeaderRowBorderStyle.Clone();
+                if (tblFrom.DataStyle.HasValue) tblTo.DataStyle = (ExcelDxfStyle)tblFrom.DataStyle.Clone();
+                if (tblFrom.TableBorderStyle.HasValue) tblTo.TableBorderStyle = (ExcelDxfBorderBase)tblFrom.TableBorderStyle.Clone();
+                if (tblFrom.TotalsRowStyle.HasValue) tblTo.TotalsRowStyle = (ExcelDxfStyle)tblFrom.TotalsRowStyle.Clone();
+                for (int c=0;c < tblFrom.Columns.Count;c++)
                 {
-                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, c.HeaderRowDxfId);
-                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, c.DataDxfId);
-                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, c.TotalsRowDxfId);
+                    var colFrom = tblFrom.Columns[c];
+                    var colTo = tblTo.Columns[c];
+                    if (colFrom.HeaderRowStyle.HasValue) colTo.HeaderRowStyle = (ExcelDxfStyle)colFrom.HeaderRowStyle.Clone();
+                    if (colFrom.DataStyle.HasValue) colTo.DataStyle = (ExcelDxfStyle)colFrom.DataStyle.Clone();
+                    if (colFrom.TotalsRowStyle.HasValue) colTo.TotalsRowStyle = (ExcelDxfStyle)colFrom.TotalsRowStyle.Clone();
                 }
             }
 
-            foreach (var tbl in added.Tables)
-            {
-                tbl.HeaderRowDxfId = dxfStyleCashe[tbl.HeaderRowDxfId.ToString()];
-                tbl.HeaderRowBorderDxfId = dxfStyleCashe[tbl.HeaderRowBorderDxfId.ToString()];
-                tbl.DataDxfId = dxfStyleCashe[tbl.DataDxfId.ToString()];
-                tbl.TableBorderDxfId = dxfStyleCashe[tbl.TableBorderDxfId.ToString()];
-                tbl.TotalsRowDxfId = dxfStyleCashe[tbl.TotalsRowDxfId.ToString()];
-                foreach (var c in tbl.Columns)
-                {
-                    c.HeaderRowDxfId = dxfStyleCashe[c.HeaderRowDxfId.ToString()];
-                    c.DataDxfId = dxfStyleCashe[c.DataDxfId.ToString()];
-                    c.TotalsRowDxfId = dxfStyleCashe[c.TotalsRowDxfId.ToString()];
-                }
-            }
+            //foreach (var tbl in added.Tables)
+            //{
+            //    tbl.HeaderRowDxfId = dxfStyleCashe[tbl.HeaderRowDxfId.ToString()];
+            //    tbl.HeaderRowBorderDxfId = dxfStyleCashe[tbl.HeaderRowBorderDxfId.ToString()];
+            //    tbl.DataDxfId = dxfStyleCashe[tbl.DataDxfId.ToString()];
+            //    tbl.TableBorderDxfId = dxfStyleCashe[tbl.TableBorderDxfId.ToString()];
+            //    tbl.TotalsRowDxfId = dxfStyleCashe[tbl.TotalsRowDxfId.ToString()];
+            //    foreach (var c in tbl.Columns)
+            //    {
+            //        c.HeaderRowDxfId = dxfStyleCashe[c.HeaderRowDxfId.ToString()];
+            //        c.DataDxfId = dxfStyleCashe[c.DataDxfId.ToString()];
+            //        c.TotalsRowDxfId = dxfStyleCashe[c.TotalsRowDxfId.ToString()];
+            //    }
+            //}
         }
         private static void CopyDxfStylesPivotTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
         {

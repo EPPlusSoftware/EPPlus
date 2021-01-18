@@ -932,29 +932,29 @@ namespace OfficeOpenXml.Table
 
             return range;
         }
-        internal int HeaderRowBorderDxfId
+        internal int? HeaderRowBorderDxfId
         {
             get
             {
-                return GetXmlNodeInt("@headerRowBorderDxfId");
+                return GetXmlNodeIntNull("@headerRowBorderDxfId");
             }
             set
             {
                 SetXmlNodeInt("@headerRowBorderDxfId", value);
             }
         }
-        public ExcelDxfBorderBase HeaderRowBorderStyle { get; private set; }
-        internal int TableBorderDxfId
+        public ExcelDxfBorderBase HeaderRowBorderStyle { get; set; }
+        internal int? TableBorderDxfId
         {
             get
             {
-                return GetXmlNodeInt("@tableBorderDxfId");
+                return GetXmlNodeIntNull("@tableBorderDxfId");
             }
             set
             {
                 SetXmlNodeInt("@tableBorderDxfId", value);
             }
         }
-        public ExcelDxfBorderBase TableBorderStyle { get; private set; }
+        public ExcelDxfBorderBase TableBorderStyle { get; set; }
     }
 }

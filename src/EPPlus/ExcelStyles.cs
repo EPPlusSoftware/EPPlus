@@ -1268,22 +1268,22 @@ namespace OfficeOpenXml
             }
         }
 
-        internal ExcelDxfStyleLimitedFont GetDxfLimitedFont(int dxfId)
+        internal ExcelDxfStyleLimitedFont GetDxfLimitedFont(int? dxfId)
         {
-            if (dxfId == 0 && dxfId < Dxfs.Count)
+            if (dxfId.HasValue && dxfId < Dxfs.Count)
             {
-                return Dxfs[dxfId].ToDxfLimitedStyle();
+                return Dxfs[dxfId.Value].ToDxfLimitedStyle();
             }
             else
             {
                 return new ExcelDxfStyleLimitedFont(NameSpaceManager, null, this);
             }
         }
-        internal ExcelDxfStyle GetDxf(int dxfId)
+        internal ExcelDxfStyle GetDxf(int? dxfId)
         {
-            if(dxfId==0 && dxfId < Dxfs.Count)
+            if(dxfId.HasValue && dxfId < Dxfs.Count)
             {
-                return Dxfs[dxfId].ToDxfStyle();
+                return Dxfs[dxfId.Value].ToDxfStyle();
             }
             else
             {

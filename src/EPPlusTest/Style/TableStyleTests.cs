@@ -32,6 +32,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 
 namespace EPPlusTest.Style
@@ -49,7 +50,14 @@ namespace EPPlusTest.Style
         [ClassCleanup]
         public static void Cleanup()
         {
+            var dirName = _pck.File.DirectoryName;
+            var fileName = _pck.File.FullName;
+
             SaveAndCleanup(_pck);
+            if (File.Exists(fileName))
+            {
+                File.Copy(fileName, dirName + "\\PivotTableNamedStylesRead.xlsx", true);
+            }
         }
         [TestMethod]
         public void VerifyColumnStyle()
@@ -144,7 +152,7 @@ namespace EPPlusTest.Style
         [TestMethod]
         public void CopyTableRowStyle()
         {
-            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyle");
+            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
             LoadTestdata(ws);
             var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
 
@@ -152,6 +160,40 @@ namespace EPPlusTest.Style
             tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
             tbl.DataStyle.Font.Color.SetColor(Color.Red);
             tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
+
+            var wsCopy = _pck.Workbook.Worksheets.Add("CopyTableRowStyleCopy", ws);
+
+            Assert.AreEqual(ExcelBorderStyle.Dashed, tbl.HeaderRowStyle.Border.Bottom.Style);
+            Assert.AreEqual(Color.Black.ToArgb(),tbl.HeaderRowStyle.Border.Bottom.Color.Color.Value.ToArgb());
+            Assert.AreEqual(Color.Red.ToArgb(), tbl.DataStyle.Font.Color.Color.Value.ToArgb());
+            Assert.AreEqual(Color.Green.ToArgb(), tbl.Columns[0].DataStyle.Font.Color.Color.Value.ToArgb());
+
+        }
+        [TestMethod]
+        public void CopyTableRowStyleNewPackage()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("CopyTableRowStyleSource");
+                LoadTestdata(ws);
+                var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
+
+                tbl.HeaderRowStyle.Border.Bottom.Style = ExcelBorderStyle.Dashed;
+                tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
+                tbl.DataStyle.Font.Color.SetColor(Color.Red);
+                tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
+
+                using (var p2 = new ExcelPackage())
+                {
+                    var wsCopy = p2.Workbook.Worksheets.Add("CopyTableRowStyleCopy", ws);
+
+                    Assert.AreEqual(ExcelBorderStyle.Dashed, tbl.HeaderRowStyle.Border.Bottom.Style);
+                    Assert.AreEqual(Color.Black.ToArgb(), tbl.HeaderRowStyle.Border.Bottom.Color.Color.Value.ToArgb());
+                    Assert.AreEqual(Color.Red.ToArgb(), tbl.DataStyle.Font.Color.Color.Value.ToArgb());
+                    Assert.AreEqual(Color.Green.ToArgb(), tbl.Columns[0].DataStyle.Font.Color.Color.Value.ToArgb());
+                    SaveWorkbook("TableDxfCopy.xlsx", p2);
+                }
+            }
         }
     }
 }

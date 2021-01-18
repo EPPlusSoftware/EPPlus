@@ -17,11 +17,11 @@ namespace OfficeOpenXml.Table
             DataStyle = styles.GetDxf(DataDxfId);
             TotalsRowStyle = styles.GetDxf(TotalsRowDxfId);
         }
-        internal int HeaderRowDxfId
+        internal int? HeaderRowDxfId
         {
             get
             {
-                return GetXmlNodeInt("@headerRowDxfId");
+                return GetXmlNodeIntNull("@headerRowDxfId");
             }
             set
             {
@@ -40,25 +40,25 @@ namespace OfficeOpenXml.Table
             }
         }
 
-        internal ExcelDxfStyle HeaderRowStyle { get; private set; }
-        internal int DataDxfId
+        internal ExcelDxfStyle HeaderRowStyle { get; set; }
+        internal int? DataDxfId
         {
             get
             {
-                return GetXmlNodeInt("@dataDxfId");
+                return GetXmlNodeIntNull("@dataDxfId");
             }
             set
             {
                 SetXmlNodeInt("@dataDxfId", value);
             }
         }
-        internal ExcelDxfStyle DataStyle { get; private set; }
-        internal ExcelDxfStyle TotalsRowStyle { get; private set; }
-        internal int TotalsRowDxfId
+        internal ExcelDxfStyle DataStyle { get; set; }
+        internal ExcelDxfStyle TotalsRowStyle { get;  set; }
+        internal int? TotalsRowDxfId
         {
             get
             {
-                return GetXmlNodeInt("@totalsRowDxfId");
+                return GetXmlNodeIntNull("@totalsRowDxfId");
             }
             set
             {

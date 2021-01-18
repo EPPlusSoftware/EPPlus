@@ -91,34 +91,18 @@ namespace OfficeOpenXml.Style.Dxf
         {
             foreach (var tbl in ws.Tables)
             {
-                AddDxfNode(styles, dxfsNode, tbl.HeaderRowStyle);
-                AddDxfNode(styles, dxfsNode, tbl.DataStyle);
-                AddDxfNode(styles, dxfsNode, tbl.TotalsRowStyle);
-
-                var v = AddDxfBorderNode(styles, dxfsNode, tbl.HeaderRowBorderStyle);
-                if (v.HasValue)
-                {
-                    tbl.HeaderRowBorderDxfId = v.Value;
-                }
-
-                v = AddDxfBorderNode(styles, dxfsNode, tbl.TableBorderStyle);
-                if (v.HasValue)
-                {
-                    tbl.TableBorderDxfId = v.Value;
-                }
-
-                v = AddDxfBorderNode(styles, dxfsNode, tbl.HeaderRowBorderStyle);
-                if (v.HasValue)
-                {
-                    tbl.HeaderRowBorderDxfId = v.Value;
-                }
-
+                tbl.HeaderRowDxfId = AddDxfNode(styles, dxfsNode, tbl.HeaderRowStyle);
+                tbl.DataDxfId = AddDxfNode(styles, dxfsNode, tbl.DataStyle);
+                tbl.TotalsRowDxfId = AddDxfNode(styles, dxfsNode, tbl.TotalsRowStyle);
+                
+                tbl.HeaderRowBorderDxfId = AddDxfBorderNode(styles, dxfsNode, tbl.HeaderRowBorderStyle);
+                tbl.TableBorderDxfId = AddDxfBorderNode(styles, dxfsNode, tbl.TableBorderStyle);
 
                 foreach (var column in tbl.Columns)
                 {
-                    AddDxfNode(styles, dxfsNode, column.HeaderRowStyle);
-                    AddDxfNode(styles, dxfsNode, column.DataStyle);
-                    AddDxfNode(styles, dxfsNode, column.TotalsRowStyle);
+                    column.HeaderRowDxfId = AddDxfNode(styles, dxfsNode, column.HeaderRowStyle);
+                    column.DataDxfId = AddDxfNode(styles, dxfsNode, column.DataStyle);
+                    column.TotalsRowDxfId = AddDxfNode(styles, dxfsNode, column.TotalsRowStyle);
                 }
             }
         }
@@ -158,7 +142,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
             return null;
         }
-        private static void AddDxfNode(ExcelStyles styles, XmlNode dxfsNode, ExcelDxfStyleBase dxfStyle)
+        private static int? AddDxfNode(ExcelStyles styles, XmlNode dxfsNode, ExcelDxfStyleBase dxfStyle)
         {
             if (dxfStyle.HasValue)
             {
@@ -175,7 +159,9 @@ namespace OfficeOpenXml.Style.Dxf
                 {
                     dxfStyle.DxfId = ix;
                 }
+                return dxfStyle.DxfId;
             }
+            return null;
         }
 
         private static void UpdateConditionalFormatting(ExcelWorksheet ws, ExcelStyleCollection<ExcelDxfStyleBase> dxfs, XmlNode dxfsNode)
