@@ -1,5 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.5.2
+### Fixed issues
+* Fixed a bug in ExpressionEvaluator that caused search criteria's starting with a wildcard character to cause an Exception.
+* Setting cell value via an array overwriting rich text causes invalid cell content.
+* Removed invalid handling of defined names on load if the name contained a link to an external workbook.
+* Dependency chain referenced the wrong worksheet in some cases when a formula had off-sheet references when checking for circular references.
+* Table headers with rich text caused corrupt workbook.
+* Fixed error handling and handling of single cell addresses in COUNTIFS function
+* Downgraded .NET 5 referenced packages for .NET standard 2.0 and 2.1 build.
+
 ## Version 5.5.1
 ### Features
 * 10 new functions:
