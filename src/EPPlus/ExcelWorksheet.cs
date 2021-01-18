@@ -3945,8 +3945,8 @@ namespace OfficeOpenXml
             
             _values.SetValueRange_Value(fromRow, fromColumn, values);
             //Clearout formulas and flags, for example the rich text flag.
-            _formulas.Clear(fromRow, fromColumn, fromRow + values.GetUpperBound(0), fromColumn + values.GetUpperBound(1)); 
-            _flags.Clear(fromRow, fromColumn, fromRow + values.GetUpperBound(0), fromColumn + values.GetUpperBound(1));    
+            _formulas.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1); 
+            _flags.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1)+1);    
         }
 
         /// <summary>

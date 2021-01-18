@@ -119,5 +119,36 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
+        [TestMethod]
+        public void ValidateRichTextOverwriteByArray()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("RichTextOverwriteArray");
+            for(int row=1;row<10;row++)
+            {
+                for (int col = 1; col < 10; col++)
+                {
+                    ws.Cells[row, col].RichText.Text = $"Cell {ExcelCellBase.GetAddress(row,col)}";
+                }
+            }
+
+            var array = new object[,] { { "Overwrite cell 1-1", "Overwrite cell 1-2" }, { "Overwrite cell 2-1", "Overwrite cell 2-2" } };
+
+            ws.Cells["C3:D4"].Value = array;
+
+            Assert.IsTrue(ws.Cells["C2"].IsRichText);
+            Assert.IsTrue(ws.Cells["E3"].IsRichText);
+            Assert.IsTrue(ws.Cells["A4"].IsRichText);
+            Assert.IsTrue(ws.Cells["C5"].IsRichText);
+
+            Assert.IsFalse(ws.Cells["C3"].IsRichText);
+            Assert.IsFalse(ws.Cells["D4"].IsRichText);
+
+            Assert.AreEqual("Cell C2", ws.Cells["C2"].Value);
+            Assert.AreEqual("Overwrite cell 1-1", ws.Cells["C3"].Value);
+            Assert.AreEqual("Overwrite cell 2-2", ws.Cells["D4"].Value);
+            Assert.AreEqual("Cell A4", ws.Cells["A4"].Value);
+            Assert.AreEqual("Cell D5", ws.Cells["D5"].Value);
+        }
+
     }
 }

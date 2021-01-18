@@ -20,7 +20,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
+        Category = ExcelFunctionCategory.Engineering,
         EPPlusVersion = "5.5",
         Description = "Converts user-supplied real and imaginary coefficients into a complex number")]
     internal class Complex : ExcelFunction
