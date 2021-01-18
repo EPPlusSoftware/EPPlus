@@ -44,5 +44,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _style;
             }
         }
+
+        internal int? DxfId 
+        { 
+            get
+            {
+                return GetXmlNodeIntNull("../@dxfId");
+            }
+            set
+            {
+                SetXmlNodeInt("../@dxfId", value);
+            }
+        }
     }
 }

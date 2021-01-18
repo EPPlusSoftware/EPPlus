@@ -33,16 +33,8 @@ namespace OfficeOpenXml.Style.Dxf
                 var parent = stylesTo.GetNode(dxfsPath);
                 var node = stylesTo.TopNode.OwnerDocument.CreateElement("d:dxf", ExcelPackage.schemaMain);
                 parent.AppendChild(node);
-                node.InnerXml = copy._helper.TopNode.InnerXml;
-                ExcelDxfStyle dxf;
-                //if (copy is ExcelDxfStyleLimitedFont)
-                //{
-                //    dxf = new ExcelDxfStyleLimitedFont(stylesTo.NameSpaceManager, node, stylesTo);
-                //}
-                //else 
-                //{
-                    dxf = new ExcelDxfStyle(stylesTo.NameSpaceManager, node, stylesTo);
-                //}
+                node.InnerXml = copy._helper.TopNode.InnerXml;                
+                var dxf = new ExcelDxfStyle(stylesTo.NameSpaceManager, node, stylesTo);
                 stylesTo.Dxfs.Add(copy.Id, dxf);
                 return stylesTo.Dxfs.Count - 1;
             }
@@ -113,9 +105,18 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 if (pt.Styling != null)
                 {
-                    foreach (var pas in pt.Styling.Areas._list)
+                    for(int i= 0; i< pt.Styling.Areas.Count;i++)
                     {
-                        AddDxfNode(styles, dxfsNode, pas.Style);
+                        var pas = pt.Styling.Areas[i];
+                        if (pas.Style.HasValue)
+                        {
+                            pas.DxfId = AddDxfNode(styles, dxfsNode, pas.Style);
+                        }
+                        else
+                        {
+                            pt.Styling.Areas._list.Remove(pas);   //No dxf style set. We remove the area.
+                            i--;
+                        }
                     }
                 }
             }
