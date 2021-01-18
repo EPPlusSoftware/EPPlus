@@ -1631,5 +1631,13 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void CircularIssue()
+        {
+            using (var p = OpenTemplatePackage("CircularRefIssue.xlsx"))
+            {
+                p.Workbook.Calculate();
+            }
+        }
     }
 }
