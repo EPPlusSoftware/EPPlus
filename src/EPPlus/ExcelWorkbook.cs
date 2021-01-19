@@ -352,7 +352,14 @@ namespace OfficeOpenXml
 						else
 						{
 							var ws = Worksheets[addr._ws];
-							namedRange = _names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, ws, fullAddress, false));
+							if(ws==null)
+                            {
+								namedRange = _names.AddFormula(elem.GetAttribute("name"), fullAddress);
+							}
+							else
+                            {
+								namedRange = _names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, ws, fullAddress, false));
+							}
 						}
 					}
 					if (elem.GetAttribute("hidden") == "1" && namedRange != null) namedRange.IsNameHidden = true;

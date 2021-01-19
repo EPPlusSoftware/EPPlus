@@ -1631,5 +1631,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void IssueS80()
+        {
+            using (var p = OpenTemplatePackage("Example - CANNOT OPEN EPPLUS.xlsx"))
+            {
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
