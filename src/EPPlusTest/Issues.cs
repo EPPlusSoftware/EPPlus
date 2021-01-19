@@ -1632,12 +1632,14 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void CircularIssue()
+        public void IssueS80()
         {
-            using (var p = OpenTemplatePackage("CircularRefIssue.xlsx"))
+            using (var p = OpenTemplatePackage("Example - CANNOT OPEN EPPLUS.xlsx"))
             {
-                p.Workbook.Calculate();
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
             }
         }
+
     }
 }

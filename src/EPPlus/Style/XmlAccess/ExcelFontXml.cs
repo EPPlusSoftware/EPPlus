@@ -409,9 +409,8 @@ namespace OfficeOpenXml.Style.XmlAccess
 
             if (!string.IsNullOrEmpty(_name)) SetXmlNodeString(namePath, _name);
             if(_family>int.MinValue) SetXmlNodeString(familyPath, _family.ToString());
-            if (_scheme != "") SetXmlNodeString(schemePath, _scheme.ToString());
-
             SetXmlNodeInt(_charsetPath, Charset);
+            if (_scheme != "") SetXmlNodeString(schemePath, _scheme.ToString());
 
             return TopNode;
         }
