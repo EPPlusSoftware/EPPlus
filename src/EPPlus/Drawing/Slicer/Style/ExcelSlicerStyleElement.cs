@@ -8,44 +8,45 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
+  01/20/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Xml;
 
-namespace OfficeOpenXml.Style
+namespace OfficeOpenXml.Drawing.Slicer.Style
 {
-    public class ExcelTableStyleElement : XmlHelper
+    public class ExcelSlicerStyleElement : XmlHelper
     {
         ExcelStyles _styles;
-        internal ExcelTableStyleElement(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, eTableStyleElement type) : base(nameSpaceManager, topNode)
+        internal ExcelSlicerStyleElement(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, eSlicerStyleElement type) : base(nameSpaceManager, topNode)
         {
             _styles = styles;
             Type = type;
         }
-        ExcelDxfStyleLimitedFont _style = null;
-        public ExcelDxfStyleLimitedFont Style
+        ExcelDxfStyle _style = null;
+        public ExcelDxfStyle Style
         {
             get
             {
                 if (_style == null)
                 {
-                    _style = _styles.GetDxfLimitedFont(GetXmlNodeIntNull("@dxfId"));
+                    _style = _styles.GetDxf(GetXmlNodeIntNull("@dxfId"));
                 }
                 return _style;
             }
         }
-        public eTableStyleElement Type
+        public eSlicerStyleElement Type
         {
             get;
         }
         internal virtual void CreateNode()
         {
-            if(TopNode.LocalName!= "tableStyleElement")
+            if(TopNode.LocalName!= "slicerStyleElement")
             {
-                TopNode = CreateNode("d:tableStyleElement", false, true);
+                TopNode = CreateNode("x14:slicerStyleElements");
+                TopNode = CreateNode("x14:slicerStyleElement", false, true);
             }
 
             SetXmlNodeString("@type", Type.ToEnumString());

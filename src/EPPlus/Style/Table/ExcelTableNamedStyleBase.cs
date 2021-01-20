@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -24,7 +25,29 @@ namespace OfficeOpenXml.Style.Table
         {
             _styles = styles;
             As = new ExcelTableNamedStyleAsType(this);
+            foreach(XmlNode node in topNode.ChildNodes)
+            {
+                if (node is XmlElement e)
+                {
+                    var type = e.GetAttribute("type").ToEnum(eTableStyleElement.WholeTable);
+                    if (type == eTableStyleElement.FirstColumnStripe ||
+                        type == eTableStyleElement.FirstRowStripe ||
+                        type == eTableStyleElement.SecondColumnStripe ||
+                        type == eTableStyleElement.SecondRowStripe)
+                    {
+                        _dic.Add(type, new ExcelBandedTableStyleElement(nameSpaceManager, node, styles, type));
+                    }
+                    else
+                    {
+                        _dic.Add(type, new ExcelTableStyleElement(nameSpaceManager, node, styles, type));
+                    }
+                }
+            }
         }
+        /// <summary>
+        /// If a table style is applied for a table/pivot table or both
+        /// </summary>
+        public abstract eTableNamedStyleType TableNamedStyleType { get; }
         protected ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element, bool createBanded)
         {
             if (_dic.ContainsKey(element))
@@ -58,9 +81,9 @@ namespace OfficeOpenXml.Style.Table
             }
             set
             {
-                if(_styles.TableStyles.ExistsKey(value))
+                if(_styles.TableStyles.ExistsKey(value) || _styles.SlicerStyles.ExistsKey(value))
                 {
-                    throw new InvalidOperationException("Name already exists in the collection");
+                    throw new InvalidOperationException("Name already is already used by a table or slicer style");
                 }
                 SetXmlNodeString("@name", value);
             }

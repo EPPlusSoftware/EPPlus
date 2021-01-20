@@ -183,5 +183,15 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.ThirdRowSubheading, false);
             }
         }
+        /// <summary>
+        /// If a table style is applied for a table/pivot table or both
+        /// </summary>
+        public override eTableNamedStyleType TableNamedStyleType
+        {
+            get
+            {
+                return eTableNamedStyleType.PivotTable;
+            }
+        }
     }
 }

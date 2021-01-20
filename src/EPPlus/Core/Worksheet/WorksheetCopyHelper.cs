@@ -684,7 +684,7 @@ namespace OfficeOpenXml.Core.Worksheet
             if (dxfId < 0) return;
             if (!dxfStyleCashe.ContainsKey(dxfId.ToString()))
             {
-                var s = DxfStyleHandler.CloneDxfStyle(stylesFrom, stylesTo, dxfId);
+                var s = DxfStyleHandler.CloneDxfStyle(stylesFrom, stylesTo, dxfId, ExcelStyles.DxfsPath);
                 dxfStyleCashe.Add(dxfId.ToString(), s);
             }
         }

@@ -20,6 +20,25 @@ using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml
 {
+    public class ExcelNamedStyleCollection<T> : ExcelStyleCollection<T>
+    {
+        /// <summary>
+        /// Indexer for the collection
+        /// </summary>
+        /// <param name="name">The name of the Style</param>
+        /// <returns></returns>
+        public T this[string name]
+        {
+            get
+            {
+                if(_dic.ContainsKey(name))
+                {
+                    return _list[_dic[name]];
+                }
+                return default(T);
+            }
+        }
+    }
     /// <summary>
     /// Base collection class for styles.
     /// </summary>
@@ -40,7 +59,7 @@ namespace OfficeOpenXml
         /// </summary>
         public XmlNode TopNode { get; set; }
         internal List<T> _list = new List<T>();
-        Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        protected internal Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         internal int NextId=0;
         #region IEnumerable<T> Members
         /// <summary>

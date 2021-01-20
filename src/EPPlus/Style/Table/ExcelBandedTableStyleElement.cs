@@ -21,7 +21,10 @@ namespace OfficeOpenXml.Style
         internal ExcelBandedTableStyleElement(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, eTableStyleElement type) : 
             base(nameSpaceManager, topNode, styles, type)
         {
-
+            if(topNode!=null)
+            {
+                _bandSize= GetXmlNodeInt("@size",1);
+            }
         }
         int _bandSize = 1;
         /// <summary>

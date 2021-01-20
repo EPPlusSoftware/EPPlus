@@ -30,6 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Table;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -56,15 +57,15 @@ namespace EPPlusTest.Style
             SaveAndCleanup(_pck);
             if (File.Exists(fileName))
             {
-                File.Copy(fileName, dirName + "\\PivotTableNamedStylesRead.xlsx", true);
+                File.Copy(fileName, dirName + "\\TableStyleRead.xlsx", true);
             }
         }
         [TestMethod]
         public void VerifyColumnStyle()
         {
-            using (var p = OpenTemplatePackage("PivotTableNamedStyles.xlsx"))
+            using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
             {
-                Assert.AreEqual(2, p.Workbook.Styles.TableStyles.Count);
+                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
             }
         }
         [TestMethod]
@@ -81,6 +82,30 @@ namespace EPPlusTest.Style
             LoadTestdata(ws);
             var tbl=ws.Tables.Add(ws.Cells["A1:D101"], "Table1");            
             tbl.StyleName = "CustomTableStyle1";
+
+            //Assert
+            Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
+            Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+            Assert.AreEqual(Color.LightBlue.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+            Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
+            Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+        }
+        [TestMethod]
+        public void ReadTableStyle()
+        {
+            using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
+            {
+                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
+                var s = p.Workbook.Styles.TableStyles["CustomTableStyle1"].As.TableStyle;                
+                Assert.AreEqual("CustomTableStyle1", s.Name);
+
+                //Assert
+                Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+                Assert.AreEqual(Color.LightBlue.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+            }
         }
         [TestMethod]
         public void AddPivotTableStyle()
@@ -90,14 +115,36 @@ namespace EPPlusTest.Style
             s.WholeTable.Style.Font.Color.SetColor(Color.DarkBlue);
             s.FirstRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
             s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightGreen);
+            s.FirstRowStripe.BandSize = 2;
             s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
             s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
-
+            s.SecondRowStripe.BandSize = 3;
             LoadTestdata(ws);
-            var tbl = ws.PivotTables.Add(ws.Cells["G2"], ws.Cells["A1:D101"], "PivotTable1");
-            tbl.StyleName = "CustomPivotTableStyle1";
-        }
+            var pt = ws.PivotTables.Add(ws.Cells["G2"], ws.Cells["A1:D101"], "PivotTable1");
 
+            pt.StyleName = "CustomPivotTableStyle1";
+        }
+        [TestMethod]
+        public void ReadPivotTableStyle()
+        {
+            using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
+            {
+                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
+                var s = p.Workbook.Styles.TableStyles["CustomPivotTableStyle1"].As.PivotTableStyle;
+                Assert.AreEqual("CustomPivotTableStyle1", s.Name);
+
+                //Assert
+                Assert.AreEqual(Color.DarkBlue.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+
+                Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightGreen.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(2, s.FirstRowStripe.BandSize);
+
+                Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightGray.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(3, s.SecondRowStripe.BandSize);
+            }
+        }
         [TestMethod]
         public void AddTableAndPivotTableStyle()
         {
@@ -105,13 +152,13 @@ namespace EPPlusTest.Style
             var s = _pck.Workbook.Styles.CreateTableAndPivotTableStyle("CustomTableAndPivotTableStyle1");
             s.WholeTable.Style.Font.Color.SetColor(Color.DarkMagenta);
 
-            s.FirstRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;            
-            s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightCyan);
-            s.FirstRowStripe.BandSize = 2;
+            s.FirstColumnStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;            
+            s.FirstColumnStripe.Style.Fill.BackgroundColor.SetColor(Color.LightCyan);
+            s.FirstColumnStripe.BandSize = 2;
 
-            s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
-            s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightPink);
-            s.SecondRowStripe.BandSize = 2;
+            s.SecondColumnStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            s.SecondColumnStripe.Style.Fill.BackgroundColor.SetColor(Color.LightPink);
+            s.SecondColumnStripe.BandSize = 2;
 
             LoadTestdata(ws);
             var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
@@ -123,6 +170,28 @@ namespace EPPlusTest.Style
             pt.ShowRowStripes = true;
             pt.StyleName = "CustomTableAndPivotTableStyle1";
         }
+        [TestMethod]
+        public void ReadTableAndPivotTableStyle()
+        {
+            using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
+            {
+                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
+                var s = p.Workbook.Styles.TableStyles["CustomTableAndPivotTableStyle1"].As.TableAndPivotTableStyle;
+                Assert.AreEqual("CustomTableAndPivotTableStyle1", s.Name);
+
+                //Assert
+                Assert.AreEqual(Color.DarkMagenta.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+
+                Assert.AreEqual(ExcelFillStyle.Solid, s.FirstColumnStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightCyan.ToArgb(), s.FirstColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(2, s.FirstColumnStripe.BandSize);
+
+                Assert.AreEqual(ExcelFillStyle.Solid, s.SecondColumnStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightPink.ToArgb(), s.SecondColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(2, s.SecondColumnStripe.BandSize);
+            }
+        }
+
         [TestMethod]
         public void AlterTableStyle()
         {

@@ -62,5 +62,15 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.LastTotalCell, false);
             }
         }
+        /// <summary>
+        /// If a table style is applied for a table/pivot table or both
+        /// </summary>
+        public override eTableNamedStyleType TableNamedStyleType
+        {
+            get
+            {
+                return eTableNamedStyleType.PivotTableAndTable;
+            }
+        }       
     }
 }

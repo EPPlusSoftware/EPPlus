@@ -62,5 +62,16 @@ namespace OfficeOpenXml.Style.Table
                 return eTableNamedStyleAppliesTo.Tables;
             }
         }
+
+        /// <summary>
+        /// If a table style is applied for a table/pivot table or both
+        /// </summary>
+        public override eTableNamedStyleType TableNamedStyleType
+        {
+            get
+            {
+                return eTableNamedStyleType.Table;
+            }
+        }
     }
 }
