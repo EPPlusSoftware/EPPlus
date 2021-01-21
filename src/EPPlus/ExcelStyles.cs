@@ -223,7 +223,8 @@ namespace OfficeOpenXml
         }
 
         private void SetStyleCells(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCashe)
-        {            
+        {
+            ws._values.EnsureColumnsExists(address._fromCol, address._toCol);
             var rowCache = new Dictionary<int, int>(address.End.Row - address.Start.Row + 1);
             var colCache = new Dictionary<int, ExcelValue>(address.End.Column - address.Start.Column + 1);
             var cellEnum = new CellStoreEnumerator<ExcelValue>(ws._values, address.Start.Row, address.Start.Column, address.End.Row, address.End.Column);

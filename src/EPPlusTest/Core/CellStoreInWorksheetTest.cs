@@ -251,5 +251,26 @@ namespace EPPlusTest.Core
                 Assert.IsNull(worksheet.Cells[1025, 1].Value);
             }
         }
+        [TestMethod]
+        public void ValidateColumnsAreCreatedIfSpan()
+        {
+
+            var ws = _pck.Workbook.Worksheets.Add("ValidateColumnSpan");
+            for (int i = 1; i < 11; i++)
+            {
+                ws.Cells[i, 1].Value = "A";
+                ws.Cells[i, 10].Value = "J";
+            }
+            ws.Cells["A1:J10"].Style.Fill.SetBackground(System.Drawing.Color.AliceBlue);
+            ws.Cells["C3"].Value = "C3";
+            Assert.AreEqual("A", ws.Cells["A1"].Value);
+            Assert.AreEqual("A", ws.Cells["A5"].Value);
+            Assert.AreEqual("A", ws.Cells["A10"].Value);
+            Assert.AreEqual("C3", ws.Cells["C3"].Value);
+            Assert.AreEqual("J", ws.Cells["J1"].Value);
+            Assert.AreEqual("J", ws.Cells["J5"].Value);
+            Assert.AreEqual("J", ws.Cells["J10"].Value);
+        }
+
     }
 }

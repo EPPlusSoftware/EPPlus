@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Style
             set
             {
                 if (_gradient != null) _gradient = null;
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Fill, eStyleProperty.PatternType, value, _positionID, _address));
+                    _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Fill, eStyleProperty.PatternType, value, _positionID, _address));
             }
         }
         ExcelColor _patternColor = null;
