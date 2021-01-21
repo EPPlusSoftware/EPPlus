@@ -857,6 +857,9 @@ namespace OfficeOpenXml
             tableStyleNode.SetAttribute("name", name);
             _slicerTableStyleNodes.Add(name, tableStyleNode);
 
+            //The dxfs collection must be created before the slicer styles collection
+            GetOrCreateExtLstSubNode(ExtLstUris.SlicerStylesDxfCollectionUri, "x14");
+
             var extNode = GetOrCreateExtLstSubNode(ExtLstUris.SlicerStylesUri, "x14");
             var extHelper = XmlHelperFactory.Create(NameSpaceManager, extNode);
             if (extNode.ChildNodes.Count==0)

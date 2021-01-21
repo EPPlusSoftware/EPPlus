@@ -68,9 +68,10 @@ namespace EPPlusTest.Style
             s.WholeTable.Style.Font.Color.SetColor(Color.LightGray);
             s.HeaderRow.Style.Fill.BackgroundColor.SetColor(Color.DarkGray);
 
+            s.SelectedItemWithData.Style.Font.Bold=true;
             s.SelectedItemWithData.Style.Border.Top.Style = ExcelBorderStyle.Dotted;
             s.SelectedItemWithData.Style.Border.Bottom.Style = ExcelBorderStyle.Dotted;
-            s.SelectedItemWithData.Style.Border.Bottom.Color.SetColor(Color.Black);
+            s.SelectedItemWithData.Style.Border.Bottom.Color.SetColor(Color.Green);
             s.SelectedItemWithData.Style.Border.Left.Style = ExcelBorderStyle.Dotted;
             s.SelectedItemWithData.Style.Border.Right.Style = ExcelBorderStyle.Dotted;
 
