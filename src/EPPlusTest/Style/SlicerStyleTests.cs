@@ -70,10 +70,12 @@ namespace EPPlusTest.Style
 
             s.SelectedItemWithData.Style.Font.Bold=true;
             s.SelectedItemWithData.Style.Border.Top.Style = ExcelBorderStyle.Dotted;
-            s.SelectedItemWithData.Style.Border.Bottom.Style = ExcelBorderStyle.Dotted;
+            s.SelectedItemWithData.Style.Border.Bottom.Style = ExcelBorderStyle.Hair;
             s.SelectedItemWithData.Style.Border.Bottom.Color.SetColor(Color.Green);
-            s.SelectedItemWithData.Style.Border.Left.Style = ExcelBorderStyle.Dotted;
-            s.SelectedItemWithData.Style.Border.Right.Style = ExcelBorderStyle.Dotted;
+            s.SelectedItemWithData.Style.Border.Left.Style = ExcelBorderStyle.DashDotDot;
+            s.SelectedItemWithData.Style.Border.Right.Style = ExcelBorderStyle.None;
+            s.HoveredSelectedItemWithData.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Accent4);
+            s.HoveredUnselectedItemWithData.Style.Fill.BackgroundColor.SetColor(Color.LightGoldenrodYellow);
 
             LoadTestdata(ws);
             var tbl=ws.Tables.Add(ws.Cells["A1:D101"], "Table1");
@@ -82,29 +84,40 @@ namespace EPPlusTest.Style
             slicer.StyleName = "CustomSlicerStyle1";
 
             //Assert
-            //Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
-            //Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
-            //Assert.AreEqual(Color.LightBlue.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-            //Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
-            //Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-        }
-        //[TestMethod]
-        //public void ReadTableStyle()
-        //{
-        //    using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
-        //    {
-        //        Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
-        //        var s = p.Workbook.Styles.TableStyles["CustomTableStyle1"].As.TableStyle;                
-        //        Assert.AreEqual("CustomTableStyle1", s.Name);
+            Assert.AreEqual("CustomSlicerStyle1", slicer.StyleName);
+            Assert.AreEqual(Color.LightGray.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+            Assert.AreEqual(Color.DarkGray.ToArgb(), s.HeaderRow.Style.Fill.BackgroundColor.Color.Value.ToArgb());
 
-        //        //Assert
-        //        Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
-        //        Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
-        //        Assert.AreEqual(Color.LightBlue.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-        //        Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
-        //        Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-        //    }
-        //}
+            Assert.IsTrue(s.SelectedItemWithData.Style.Font.Bold.Value);
+            Assert.AreEqual(ExcelBorderStyle.Dotted, s.SelectedItemWithData.Style.Border.Top.Style);
+            Assert.AreEqual(ExcelBorderStyle.Hair, s.SelectedItemWithData.Style.Border.Bottom.Style);
+            Assert.AreEqual(ExcelBorderStyle.DashDotDot, s.SelectedItemWithData.Style.Border.Left.Style);
+            Assert.AreEqual(ExcelBorderStyle.None, s.SelectedItemWithData.Style.Border.Right.Style);
+            Assert.AreEqual(eThemeSchemeColor.Accent4, s.HoveredSelectedItemWithData.Style.Fill.BackgroundColor.Theme);
+            Assert.AreEqual(Color.LightGoldenrodYellow.ToArgb(), s.HoveredUnselectedItemWithData.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+        }
+        [TestMethod]
+        public void ReadSlicerStyle()
+        {
+            using (var p = OpenTemplatePackage("SlicerStyleRead.xlsx"))
+            {
+                Assert.AreEqual(1, p.Workbook.Styles.SlicerStyles.Count);
+                var s = p.Workbook.Styles.SlicerStyles["CustomSlicerStyle1"];
+                Assert.AreEqual("CustomSlicerStyle1", s.Name);
+
+                //Assert
+                Assert.AreEqual(Color.LightGray.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+                Assert.AreEqual(Color.DarkGray.ToArgb(), s.HeaderRow.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+
+                Assert.IsTrue(s.SelectedItemWithData.Style.Font.Bold.Value);
+                Assert.AreEqual(ExcelBorderStyle.Dotted, s.SelectedItemWithData.Style.Border.Top.Style);
+                Assert.AreEqual(ExcelBorderStyle.Hair, s.SelectedItemWithData.Style.Border.Bottom.Style);
+                Assert.AreEqual(ExcelBorderStyle.DashDotDot, s.SelectedItemWithData.Style.Border.Left.Style);
+                Assert.AreEqual(ExcelBorderStyle.None, s.SelectedItemWithData.Style.Border.Right.Style);
+                Assert.AreEqual(eThemeSchemeColor.Accent4, s.HoveredSelectedItemWithData.Style.Fill.BackgroundColor.Theme);
+                Assert.AreEqual(Color.LightGoldenrodYellow.ToArgb(), s.HoveredUnselectedItemWithData.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+            }
+        }
         //[TestMethod]
         //public void AddPivotTableStyle()
         //{
@@ -161,7 +174,7 @@ namespace EPPlusTest.Style
         //    LoadTestdata(ws);
         //    var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
         //    tbl.StyleName = "CustomTableAndPivotTableStyle1";
-            
+
         //    var pt = ws.PivotTables.Add(ws.Cells["G2"], tbl, "PivotTable2");
         //    pt.RowFields.Add(pt.Fields[0]);
         //    pt.DataFields.Add(pt.Fields[3]);

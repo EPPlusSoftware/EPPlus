@@ -43,8 +43,8 @@ namespace OfficeOpenXml
         const string CellStylesPath = "d:cellStyles";
         const string TableStylesPath = "d:tableStyles";
         internal const string DxfsPath = "d:dxfs";
-        internal const string DxfSlicerStylesPath = "d:extLst/d:ext[uri='" + ExtLstUris.SlicerStylesDxfCollectionUri + "']/d:dxfs";
-        const string SlicerStylesPath = "d:extLst/d:ext[uri='" + ExtLstUris.SlicerStylesUri + "']/x14:slicerStyles";
+        internal const string DxfSlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesDxfCollectionUri + "']/x14:dxfs";
+        const string SlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesUri + "']/x14:slicerStyles";
         XmlDocument _styleXml;
         ExcelWorkbook _wb;
         XmlNamespaceManager _nameSpaceManager;
@@ -158,6 +158,10 @@ namespace OfficeOpenXml
                     {
                         tableStyleNode = _slicerTableStyleNodes[name];
                     }
+                    else if(TableStyles._dic.ContainsKey(name))
+                    {
+                        tableStyleNode = TableStyles[name].TopNode;
+                    }
                     else
                     {
                         tableStyleNode = null;
@@ -178,8 +182,8 @@ namespace OfficeOpenXml
                 foreach (XmlNode n in tableStyleNode)
                 {
                     ExcelTableNamedStyleBase item;
-                    var pivot = n.Attributes["pivot"]?.Value == "0";
-                    var table = n.Attributes["table"]?.Value == "0";
+                    var pivot = !(n.Attributes["pivot"]?.Value == "0");
+                    var table = !(n.Attributes["table"]?.Value == "0");
                     if (pivot || table)
                     {
                         if (pivot)
@@ -287,6 +291,7 @@ namespace OfficeOpenXml
 
         private void SetStyleCells(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCashe)
         {
+            ws._values.EnsureColumnsExists(address._fromCol, address._toCol);
             var rowCache = new Dictionary<int, int>(address.End.Row - address.Start.Row + 1);
             var colCache = new Dictionary<int, ExcelValue>(address.End.Column - address.Start.Column + 1);
             var cellEnum = new CellStoreEnumerator<ExcelValue>(ws._values, address.Start.Row, address.Start.Column, address.End.Row, address.End.Column);
@@ -1385,7 +1390,7 @@ namespace OfficeOpenXml
         }
         internal ExcelDxfStyle GetDxfSlicer(int? dxfId)
         {
-            if (dxfId.HasValue && dxfId < Dxfs.Count)
+            if (dxfId.HasValue && dxfId < DxfsSlicers.Count)
             {
                 return DxfsSlicers[dxfId.Value].ToDxfStyle();
             }

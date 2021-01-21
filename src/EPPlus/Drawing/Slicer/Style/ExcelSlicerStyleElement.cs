@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
             {
                 if (_style == null)
                 {
-                    _style = _styles.GetDxf(GetXmlNodeIntNull("@dxfId"));
+                    _style = _styles.GetDxfSlicer(GetXmlNodeIntNull("@dxfId"));
                 }
                 return _style;
             }

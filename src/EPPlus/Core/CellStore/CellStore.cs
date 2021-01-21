@@ -1497,5 +1497,24 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
+        /// <summary>
+        /// Before enumerating columns where values are set to the cells store, 
+        /// this method makes sure the columns are created before the enumerator is created, so the positions will not get out of sync when a new column is added.
+        /// </summary>
+        /// <param name="fromCol">From column</param>
+        /// <param name="toCol">To Column</param>
+        internal void EnsureColumnsExists(int fromCol, int toCol)
+        {
+            for (int col = fromCol; col <= toCol; col++)
+            {
+                var colPos = GetColumnPosition(col);
+                if (colPos < 0)
+                {
+                    colPos = ~colPos;
+                    AddColumn(colPos, col);
+                }
+            }
+        }
+
     }
 }

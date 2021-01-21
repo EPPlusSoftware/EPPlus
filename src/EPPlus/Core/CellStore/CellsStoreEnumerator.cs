@@ -71,9 +71,6 @@ namespace OfficeOpenXml.Core.CellStore
         {
             get
             {
-                //if (colPos == -1) MoveNext();
-                //if (colPos == -1) return 0;
-
                 if (colPos<0 || colPos>=_cellStore.ColumnCount)
                 {
                     return -1;

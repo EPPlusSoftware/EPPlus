@@ -30,20 +30,31 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
         internal ExcelSlicerNamedStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, XmlNode tableStyleNode, ExcelStyles styles) : base(nameSpaceManager, topNode)
         {
             _styles = styles;
-            if(tableStyleNode==null)
+            if (tableStyleNode == null)
             {
                 //TODO: Create table styles node with 
             }
             else
             {
                 _tableStyleNode = tableStyleNode;
-            }
-            foreach (XmlNode node in topNode.ChildNodes)
-            {
-                if (node is XmlElement e)
+                foreach (XmlNode node in tableStyleNode.ChildNodes)
                 {
-                    var type = e.GetAttribute("type").ToEnum(eSlicerStyleElement.SelectedItemWithData);
-                    _dicSlicer.Add(type, new ExcelSlicerStyleElement(nameSpaceManager, node, styles, type));
+                    if (node is XmlElement e)
+                    {
+                        var type = e.GetAttribute("type").ToEnum(eTableStyleElement.WholeTable);
+                        _dicTable.Add(type, new ExcelTableStyleElement(nameSpaceManager, node, styles, type));
+                    }
+                }
+            }
+            if (topNode.HasChildNodes)
+            {
+                foreach (XmlNode node in topNode?.FirstChild?.ChildNodes)
+                {
+                    if (node is XmlElement e)
+                    {
+                        var type = e.GetAttribute("type").ToEnum(eSlicerStyleElement.SelectedItemWithData);
+                        _dicSlicer.Add(type, new ExcelSlicerStyleElement(nameSpaceManager, node, styles, type));
+                    }
                 }
             }
         }
