@@ -284,9 +284,9 @@ namespace OfficeOpenXml.Table.PivotTable
             int index = 0;
             foreach (var si in SharedItems)
             {
-                if (si == null)
+                if (si == null || si.Equals(ExcelPivotTable.PivotNullValue))
                 {
-                    _cacheLookup.Add("", index++);  //Can't have null as key.
+                    _cacheLookup.Add(ExcelPivotTable.PivotNullValue, index++);
                     AppendItem(shNode, "m", null);
                 }
                 else
@@ -359,7 +359,7 @@ namespace OfficeOpenXml.Table.PivotTable
             DataTypeFlags flags = 0;
             foreach (var si in SharedItems)
             {
-                if (si == null)
+                if (si == null || si.Equals(ExcelPivotTable.PivotNullValue))
                 {
                     flags |= DataTypeFlags.Empty;
                 }
@@ -513,11 +513,19 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else
                 {
-                    items.Add(null);
+                    items.Add(ExcelPivotTable.PivotNullValue);
                 }
                 if(updateCacheLookup)
                 {
-                    _cacheLookup.Add(items[items.Count-1]??"", items.Count - 1);
+                    var key = items[items.Count - 1];
+                    if (_cacheLookup.ContainsKey(key))
+                    {
+                        items._list.Remove(key);
+                    }
+                    else
+                    {
+                        _cacheLookup.Add(key, items.Count - 1);
+                    }
                 }
             }
         }
@@ -697,7 +705,7 @@ namespace OfficeOpenXml.Table.PivotTable
             _cacheLookup = new Dictionary<object, int>(new CacheComparer());
             for (int i = 0; i < items.Count; i++)
             {
-                var key = items[i] ?? "";
+                var key = items[i];
                 if (!_cacheLookup.ContainsKey(key)) _cacheLookup.Add(key, i);
             }
         }
@@ -768,24 +776,24 @@ namespace OfficeOpenXml.Table.PivotTable
             //A pivot table cache can reference multiple Pivot tables, so we need to update them all
             foreach (var pt in _cache._pivotTables)
             {
-                var existingItems = new HashSet<string>();
+                var existingItems = new HashSet<object>();
                 var list = pt.Fields[Index].Items._list;
                 for (var ix = 0; ix < list.Count; ix++)
                 {
-                    var v = list[ix].Value;
-                    if (!hs.Contains(v) || existingItems.Contains((v??"").ToString()))
+                    var v = list[ix].Value??ExcelPivotTable.PivotNullValue;
+                    if (!hs.Contains(v) || existingItems.Contains(v))
                     {
                         list.RemoveAt(ix);
                         ix--;
                     }
                     else
                     {
-                        existingItems.Add((v??"").ToString());
+                        existingItems.Add(v);
                     }
                 }
                 foreach (var c in hs)
                 {
-                    if (!existingItems.Contains((c ?? "").ToString()))
+                    if (!existingItems.Contains(c))
                     {
                         list.Insert(list.Count, new ExcelPivotTableFieldItem() { Value = c });
                     }
@@ -804,7 +812,11 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)
         {
-            if (o != null)
+            if (o == null)
+            {
+                o = ExcelPivotTable.PivotNullValue;
+            }
+            else
             {
                 var t = o.GetType();
                 if (t == typeof(TimeSpan))

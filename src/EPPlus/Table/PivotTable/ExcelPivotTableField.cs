@@ -905,7 +905,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 int hasMultipleSelectedCount=0;
                 foreach (var item in Items)
                 {
-                    var v = item.Value ?? "";
+                    var v = item.Value ?? ExcelPivotTable.PivotNullValue;
                     if (item.Type==eItemType.Data && cacheLookup.TryGetValue(v, out int x))
                     {
                         item.X = cacheLookup[v];

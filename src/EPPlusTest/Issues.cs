@@ -1626,8 +1626,7 @@ namespace EPPlusTest
                 rtx.VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
 
                 ws.Cells["D43:E44"].Value = new object[,] { { "Cell1", "Cell2" }, { "Cell21", "Cell22" } };
-
-
+                
                 SaveAndCleanup(p);
             }
         }
@@ -1638,9 +1637,88 @@ namespace EPPlusTest
             {
                 var workbook = p.Workbook;
                 SaveAndCleanup(p);
+                new ExcelAddress("f");
             }
         }
+        [TestMethod]
+        public void IssueS91()
+        {
+            using (var p = OpenTemplatePackage("Tagging Template V14.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Stacked Logs"];
+                //Insert 2 rows extending the data validations. 
+                ws.InsertRow(4,2,4);                
 
+                //Get the data validation of choice.
+                var dv = ws.DataValidations[0].As.ListValidation;
+                
+                //Adjust the formula using the R1C1 translator...
+                var formula = dv.Formula.ExcelFormula;
+                var r1c1Formula = OfficeOpenXml.Core.R1C1Translator.ToR1C1Formula(formula, dv.Address.Start.Row, dv.Address.Start.Column);                
+                //Add one row to the formula
+                var formulaRowPlus1 = OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(r1c1Formula, dv.Address.Start.Row+1, dv.Address.Start.Column);
+
+                SaveAndCleanup(p);
+            }
+        }
+        public class Test
+        {
+            public int Value1 { get; set; }
+            public int Value2 { get; set; }
+            public int Value3 { get; set; }
+
+        }
+        [TestMethod]
+        public void Issue284()
+        {
+            //1
+            var report1 = new List<Test>
+            {
+                new Test{ Value1 = 1, Value2= 2, Value3=3 },
+                new Test{ Value1 = 2, Value2= 3, Value3=4 },
+                new Test{ Value1 = 5, Value2= 6, Value3=7 }
+            };
+
+            //3
+            var report2 = new List<Test>
+            {
+                new Test{ Value1 = 0, Value2= 0, Value3=0 },
+                new Test{ Value1 = 0, Value2= 0, Value3=0 },
+                new Test{ Value1 = 0, Value2= 0, Value3=0 }
+            };
+
+            //4
+            var report3 = new List<Test>
+            {
+                new Test{ Value1 = 3, Value2= 3, Value3=3 },
+                new Test{ Value1 = 3, Value2= 3, Value3=3 },
+                new Test{ Value1 = 3, Value2= 3, Value3=3 }
+            };
+
+
+            string workingDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            using (var excelFile = OpenTemplatePackage("issue284.xlsx"))
+            {
+                //Data1
+                var worksheet = excelFile.Workbook.Worksheets["Test1"];
+                ExcelRangeBase location = worksheet.Cells["A1"].LoadFromCollection(Collection: report1, PrintHeaders: true);
+                worksheet.Tables.Add(location, "mytestTbl");
+
+                //Data2
+                worksheet = excelFile.Workbook.Worksheets["Test2"];
+                location = worksheet.Cells["A1"].LoadFromCollection(Collection: report2, PrintHeaders: true);
+                worksheet.Tables.Add(location, "mytestsureTbl");
+
+                //Data3
+                location = worksheet.Cells["K1"].LoadFromCollection(Collection: report3, PrintHeaders: true);
+                worksheet.Tables.Add(location, "Test3");
+
+                var wsFirst = excelFile.Workbook.Worksheets["Test1"];
+
+                wsFirst.Select();
+                SaveAndCleanup(excelFile);
+            }
+        }
         [TestMethod]
         public void Ticket90()
         {
@@ -1652,8 +1730,8 @@ namespace EPPlusTest
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel);
                 p.Workbook.FormulaParserManager.DetachLogger();
                 var result = sheet.Cells["R5"].Value;
-
-
+                ExcelAddress a = new ExcelAddress();
+                
                 SaveAndCleanup(p);
             }
         }
