@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.PageFieldLabels, false);
+                return GetTableStyleElement(eTableStyleElement.PageFieldLabels);
             }
         }
         /// <summary>
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.PageFieldValues, false);
+                return GetTableStyleElement(eTableStyleElement.PageFieldValues);
             }
         }
         /// <summary>
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.FirstSubtotalColumn, false);
+                return GetTableStyleElement(eTableStyleElement.FirstSubtotalColumn);
             }
         }
         /// <summary>
@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.SecondSubtotalColumn, false);
+                return GetTableStyleElement(eTableStyleElement.SecondSubtotalColumn);
             }
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.ThirdSubtotalColumn, false);
+                return GetTableStyleElement(eTableStyleElement.ThirdSubtotalColumn);
             }
         }
         /// <summary>
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.BlankRow, false);
+                return GetTableStyleElement(eTableStyleElement.BlankRow);
             }
         }
         /// <summary>
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.FirstSubtotalRow, false);
+                return GetTableStyleElement(eTableStyleElement.FirstSubtotalRow);
             }
         }
         /// <summary>
@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.SecondSubtotalRow, false);
+                return GetTableStyleElement(eTableStyleElement.SecondSubtotalRow);
             }
         }
         /// <summary>
@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.ThirdSubtotalRow, false);
+                return GetTableStyleElement(eTableStyleElement.ThirdSubtotalRow);
             }
         }
         /// <summary>
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.FirstColumnSubheading, false);
+                return GetTableStyleElement(eTableStyleElement.FirstColumnSubheading);
             }
         }
         /// <summary>
@@ -140,7 +140,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.SecondColumnSubheading, false);
+                return GetTableStyleElement(eTableStyleElement.SecondColumnSubheading);
             }
         }
         /// <summary>
@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.ThirdColumnSubheading, false);
+                return GetTableStyleElement(eTableStyleElement.ThirdColumnSubheading);
             }
         }
         /// <summary>
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.FirstRowSubheading, false);
+                return GetTableStyleElement(eTableStyleElement.FirstRowSubheading);
             }
         }
         /// <summary>
@@ -170,7 +170,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.SecondRowSubheading, false);
+                return GetTableStyleElement(eTableStyleElement.SecondRowSubheading);
             }
         }
         /// <summary>
@@ -180,7 +180,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.ThirdRowSubheading, false);
+                return GetTableStyleElement(eTableStyleElement.ThirdRowSubheading);
             }
         }
         /// <summary>

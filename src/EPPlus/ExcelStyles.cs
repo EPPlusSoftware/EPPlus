@@ -26,6 +26,7 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer.Style;
+using OfficeOpenXml.Table;
 
 namespace OfficeOpenXml
 {
@@ -836,6 +837,12 @@ namespace OfficeOpenXml
                 Name = name
             };
             TableStyles.Add(name, s);
+            return s;
+        }
+        public ExcelTableNamedStyle CreateTableStyle(string name, TableStyles templateStyle)
+        {
+            var s = CreateTableStyle(name);
+            s.SetFromTemplate(templateStyle);
             return s;
         }
         public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name)

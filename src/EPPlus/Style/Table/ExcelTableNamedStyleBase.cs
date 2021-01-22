@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Style.Table
 {
     public abstract class ExcelTableNamedStyleBase : XmlHelper
     {
-        ExcelStyles _styles;
+        protected ExcelStyles _styles;
         internal Dictionary<eTableStyleElement, ExcelTableStyleElement> _dic = new Dictionary<eTableStyleElement, ExcelTableStyleElement>();
         internal ExcelTableNamedStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(nameSpaceManager, topNode)
         {
@@ -30,10 +30,7 @@ namespace OfficeOpenXml.Style.Table
                 if (node is XmlElement e)
                 {
                     var type = e.GetAttribute("type").ToEnum(eTableStyleElement.WholeTable);
-                    if (type == eTableStyleElement.FirstColumnStripe ||
-                        type == eTableStyleElement.FirstRowStripe ||
-                        type == eTableStyleElement.SecondColumnStripe ||
-                        type == eTableStyleElement.SecondRowStripe)
+                    if (IsBanded(type))
                     {
                         _dic.Add(type, new ExcelBandedTableStyleElement(nameSpaceManager, node, styles, type));
                     }
@@ -44,18 +41,27 @@ namespace OfficeOpenXml.Style.Table
                 }
             }
         }
+
+        internal static bool IsBanded(eTableStyleElement type)
+        {
+            return type == eTableStyleElement.FirstColumnStripe ||
+                                    type == eTableStyleElement.FirstRowStripe ||
+                                    type == eTableStyleElement.SecondColumnStripe ||
+                                    type == eTableStyleElement.SecondRowStripe;
+        }
+
         /// <summary>
         /// If a table style is applied for a table/pivot table or both
         /// </summary>
         public abstract eTableNamedStyleType TableNamedStyleType { get; }
-        protected ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element, bool createBanded)
+        protected ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element)
         {
             if (_dic.ContainsKey(element))
             {
                 return _dic[element];
             }
             ExcelTableStyleElement item;
-            if (createBanded)
+            if (IsBanded(element))
             {
                 item = new ExcelBandedTableStyleElement(NameSpaceManager, TopNode, _styles, element);
             }
@@ -95,7 +101,7 @@ namespace OfficeOpenXml.Style.Table
         { 
             get
             {
-                return GetTableStyleElement(eTableStyleElement.WholeTable, false);
+                return GetTableStyleElement(eTableStyleElement.WholeTable);
             }
         }
         /// <summary>
@@ -105,7 +111,7 @@ namespace OfficeOpenXml.Style.Table
         { 
             get
             {
-                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.FirstColumnStripe, true);
+                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.FirstColumnStripe);
             }
         }
         /// <summary>
@@ -115,7 +121,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.SecondColumnStripe, true);
+                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.SecondColumnStripe);
             }
         }
         /// <summary>
@@ -125,7 +131,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.FirstRowStripe, true);
+                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.FirstRowStripe);
             }
         }
         /// <summary>
@@ -135,7 +141,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.SecondRowStripe, true);
+                return (ExcelBandedTableStyleElement)GetTableStyleElement(eTableStyleElement.SecondRowStripe);
             }
         }
         /// <summary>
@@ -145,7 +151,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.LastColumn, false);
+                return GetTableStyleElement(eTableStyleElement.LastColumn);
             }
         }
         /// <summary>
@@ -155,7 +161,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.FirstColumn, false);
+                return GetTableStyleElement(eTableStyleElement.FirstColumn);
             }
         }
         /// <summary>
@@ -165,7 +171,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.HeaderRow, false);
+                return GetTableStyleElement(eTableStyleElement.HeaderRow);
             }
         }
         /// <summary>
@@ -175,7 +181,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.TotalRow, false);
+                return GetTableStyleElement(eTableStyleElement.TotalRow);
             }
         }
         /// <summary>
@@ -185,7 +191,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.FirstHeaderCell, false);
+                return GetTableStyleElement(eTableStyleElement.FirstHeaderCell);
             }
         }
         /// <summary>

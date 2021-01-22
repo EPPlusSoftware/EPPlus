@@ -36,6 +36,10 @@ namespace OfficeOpenXml.Style
                 }
                 return _style;
             }
+            internal set
+            {
+                _style = value;
+            }
         }
         public eTableStyleElement Type
         {

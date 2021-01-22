@@ -10,6 +10,16 @@
  *************************************************************************************************
   01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
+using Ionic.Zip;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.Utils.Extensions;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Xml;
 
 namespace OfficeOpenXml.Style.Table
@@ -29,7 +39,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.LastHeaderCell, false);
+                return GetTableStyleElement(eTableStyleElement.LastHeaderCell);
             }
         }
         /// <summary>
@@ -39,7 +49,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.FirstTotalCell, false);
+                return GetTableStyleElement(eTableStyleElement.FirstTotalCell);
             }
         }
         /// <summary>
@@ -49,7 +59,7 @@ namespace OfficeOpenXml.Style.Table
         {
             get
             {
-                return GetTableStyleElement(eTableStyleElement.LastTotalCell, false);
+                return GetTableStyleElement(eTableStyleElement.LastTotalCell);
             }
         }
         /// <summary>
@@ -72,6 +82,36 @@ namespace OfficeOpenXml.Style.Table
             {
                 return eTableNamedStyleType.Table;
             }
+        }
+
+        internal void SetFromTemplate(TableStyles templateStyle)
+        {
+            var zipStream = ZipHelper.OpenZipResource();
+            ZipEntry entry;
+            var ts = templateStyle.ToString();
+            while ((entry = zipStream.GetNextEntry()) != null)
+            {
+                if (entry.IsDirectory || !entry.FileName.EndsWith(".xml") || entry.UncompressedSize <= 0) continue;
+
+                var name = new FileInfo(entry.FileName).Name;
+                name = name.Substring(0, name.Length - 4);
+                if (name.Equals(templateStyle.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    var xmlContent = ZipHelper.UncompressEntry(zipStream, entry);
+                    var xml = new XmlDocument();
+                    xml.LoadXml(xmlContent);
+
+                    foreach(XmlElement elem in xml.DocumentElement.ChildNodes)
+                    {
+                        var type = elem.GetAttribute("name").ToEnum(eTableStyleElement.WholeTable);
+                        var dxfXml = elem.InnerXml;
+                        var dxf = new ExcelDxfStyleLimitedFont(NameSpaceManager, elem.FirstChild, _styles);
+                        
+                        var te = GetTableStyleElement(type);
+                        te.Style = dxf;
+                    }
+                }
+            } 
         }
     }
 }

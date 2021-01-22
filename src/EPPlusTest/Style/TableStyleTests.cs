@@ -91,6 +91,23 @@ namespace EPPlusTest.Style
             Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
         }
         [TestMethod]
+        public void AddTableStyleFromTemplate()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableStyleFromTempl");
+            var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyleFromTempl1", OfficeOpenXml.Table.TableStyles.Light11);
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table1");
+            tbl.StyleName = "CustomTableStyleFromTempl1";
+
+            ////Assert
+            //Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
+            //Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+            //Assert.AreEqual(Color.LightBlue.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+            //Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
+            //Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+            }
+
+        [TestMethod]
         public void ReadTableStyle()
         {
             using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))

@@ -297,9 +297,13 @@
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="resources\DefaultTableStyles.cst" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="resources\DefaultChartStyles.ecs" />
+    <EmbeddedResource Include="resources\DefaultTableStyles.cst" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
