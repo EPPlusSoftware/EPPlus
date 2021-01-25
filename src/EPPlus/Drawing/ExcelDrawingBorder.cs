@@ -180,15 +180,15 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                if (ExistNode(_bevelPath))
+                if (ExistsNode(_bevelPath))
                 {
                     return eLineJoin.Bevel;
                 }
-                else if (ExistNode(_roundPath))
+                else if (ExistsNode(_roundPath))
                 {
                     return eLineJoin.Round;
                 }
-                else if (ExistNode(_miterPath))
+                else if (ExistsNode(_miterPath))
                 {
                     return eLineJoin.Miter;
                 }

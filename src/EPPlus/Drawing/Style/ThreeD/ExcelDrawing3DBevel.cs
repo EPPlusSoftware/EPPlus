@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Drawing.Style.ThreeD
             if (_isInit==false)
             {
                 _isInit = true;
-                if (!ExistNode(_typePath))
+                if (!ExistsNode(_typePath))
                 {
                     _initParent(false);
                     Height = 6;

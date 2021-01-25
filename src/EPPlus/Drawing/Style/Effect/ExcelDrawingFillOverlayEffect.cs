@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
                 }
             }
 
-            if (!ExistNode($"{_path}/@blend"))
+            if (!ExistsNode($"{_path}/@blend"))
             {
                 Blend = eBlendMode.Over;
             }

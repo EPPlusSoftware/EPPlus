@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return ExistNode(_aggregationPath);
+                return ExistsNode(_aggregationPath);
             }
             set
             {
@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 else
                 {
                     DeleteNode(_aggregationPath);
-                    if(!ExistNode(_binningPath))
+                    if(!ExistsNode(_binningPath))
                     {
                         Binning.IntervalClosed = eIntervalClosed.Right;
                     }

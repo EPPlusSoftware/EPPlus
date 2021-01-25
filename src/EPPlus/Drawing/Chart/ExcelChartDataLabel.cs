@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (TopNode.SelectSingleNode($"{_nsPrefix}:txPr", NameSpaceManager) == null)
             {
-                if (!ExistNode($"{_nsPrefix}:spPr"))
+                if (!ExistsNode($"{_nsPrefix}:spPr"))
                 {
                     var spNode = CreateNode($"{_nsPrefix}:spPr");
                     spNode.InnerXml = "<a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/>";

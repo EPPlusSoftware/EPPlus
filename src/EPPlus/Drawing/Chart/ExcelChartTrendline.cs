@@ -298,7 +298,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return ExistNode("c:trendlineLbl") ||
+                return ExistsNode("c:trendlineLbl") ||
                        (Type != eTrendLine.MovingAvgerage && (DisplayRSquaredValue == true || DisplayEquation == true));
             }
         }

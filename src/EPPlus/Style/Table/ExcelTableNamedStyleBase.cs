@@ -10,9 +10,14 @@
  *************************************************************************************************
   01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 namespace OfficeOpenXml.Style.Table
@@ -201,6 +206,52 @@ namespace OfficeOpenXml.Style.Table
         {
             get;
         }
+        internal void SetFromTemplate(ExcelTableNamedStyleBase templateStyle)
+        {
+            foreach(var s in templateStyle._dic.Values)
+            {
+                var element = GetTableStyleElement(s.Type);
+                element.Style = (ExcelDxfStyleLimitedFont)s.Style.Clone();
+            }
+        }
+        internal void SetFromTemplate(TableStyles templateStyle)
+        {
+            LoadTableTemplate("TableStyles", templateStyle.ToString());
+        }
+        internal void SetFromTemplate(PivotTableStyles templateStyle)
+        {
+            LoadTableTemplate("PivotTableStyles", templateStyle.ToString());
+        }
+
+        private void LoadTableTemplate(string folder, string styleName)
+        {
+            var zipStream = ZipHelper.OpenZipResource();
+            ZipEntry entry;
+            while ((entry = zipStream.GetNextEntry()) != null)
+            {
+                if (entry.IsDirectory || !entry.FileName.EndsWith(".xml") || entry.UncompressedSize <= 0 || !entry.FileName.StartsWith(folder)) continue;
+
+                var name = new FileInfo(entry.FileName).Name;
+                name = name.Substring(0, name.Length - 4);
+                if (name.Equals(styleName, StringComparison.OrdinalIgnoreCase))
+                {
+                    var xmlContent = ZipHelper.UncompressEntry(zipStream, entry);
+                    var xml = new XmlDocument();
+                    xml.LoadXml(xmlContent);
+
+                    foreach (XmlElement elem in xml.DocumentElement.ChildNodes)
+                    {
+                        var type = elem.GetAttribute("name").ToEnum(eTableStyleElement.WholeTable);
+                        var dxfXml = elem.InnerXml;
+                        var dxf = new ExcelDxfStyleLimitedFont(NameSpaceManager, elem.FirstChild, _styles);
+
+                        var te = GetTableStyleElement(type);
+                        te.Style = dxf;
+                    }
+                }
+            }
+        }
+
     }
 }
 

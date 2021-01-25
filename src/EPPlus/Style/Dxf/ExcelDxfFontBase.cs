@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Style.Dxf
 
         internal void GetValuesFromXml(XmlHelperInstance helper)
         {
-            if (helper.ExistNode("d:font"))
+            if (helper.ExistsNode("d:font"))
             {
                 Bold = helper.GetXmlNodeBoolNullableWithVal("d:font/d:b");
                 Italic = helper.GetXmlNodeBoolNullableWithVal("d:font/d:i");
@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Style.Dxf
 
         private ExcelUnderLineType? GetUnderLine(XmlHelperInstance helper)
         {
-            if (helper.ExistNode("d:font/d:u"))
+            if (helper.ExistsNode("d:font/d:u"))
             {
                 var v = helper.GetXmlNodeString("d:font/d:u/@val");
                 if (string.IsNullOrEmpty(v))

@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns>True if the serie has Error Bars</returns>
         public bool HasErrorBars()
         {
-            return ExistNode("c:errBars");
+            return ExistsNode("c:errBars");
         }
     }
 }

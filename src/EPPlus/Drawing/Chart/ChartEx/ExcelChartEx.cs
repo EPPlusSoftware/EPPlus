@@ -393,7 +393,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _chartXmlHelper.ExistNode("cx:chart/cx:title");
+                return _chartXmlHelper.ExistsNode("cx:chart/cx:title");
             }
         }
 
@@ -404,7 +404,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _chartXmlHelper.ExistNode("cx:chart/cx:legend");
+                return _chartXmlHelper.ExistsNode("cx:chart/cx:legend");
             }
         }
         /// <summary>

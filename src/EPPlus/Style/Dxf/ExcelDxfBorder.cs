@@ -30,6 +30,8 @@ namespace OfficeOpenXml.Style.Dxf
             Right = new ExcelDxfBorderItem(_styles);
             Top = new ExcelDxfBorderItem(_styles);
             Bottom = new ExcelDxfBorderItem(_styles);
+            Vertical = new ExcelDxfBorderItem(_styles);
+            Horizontal = new ExcelDxfBorderItem(_styles);
         }
         /// <summary>
         /// Left border style
@@ -63,6 +65,22 @@ namespace OfficeOpenXml.Style.Dxf
             get;
             internal set;
         }
+        /// <summary>
+        /// Horizontal border style
+        /// </summary>
+        public ExcelDxfBorderItem Horizontal
+        {
+            get;
+            internal set;
+        }
+        /// <summary>
+        /// Vertical border style
+        /// </summary>
+        public ExcelDxfBorderItem Vertical
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// The Id
@@ -71,7 +89,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return Top.Id + Bottom.Id + Left.Id + Right.Id/* + Diagonal.Id + GetAsString(DiagonalUp) + GetAsString(DiagonalDown)*/;
+                return Top.Id + Bottom.Id + Left.Id + Right.Id + Vertical.Id + Horizontal.Id;
             }
         }
 
@@ -86,6 +104,8 @@ namespace OfficeOpenXml.Style.Dxf
             Right.CreateNodes(helper, path + "/d:right");
             Top.CreateNodes(helper, path + "/d:top");
             Bottom.CreateNodes(helper, path + "/d:bottom");
+            Vertical.CreateNodes(helper, path + "/d:vertical");
+            Horizontal.CreateNodes(helper, path + "/d:horizontal");
         }
         /// <summary>
         /// If the object has a value
@@ -97,7 +117,9 @@ namespace OfficeOpenXml.Style.Dxf
                 return Left.HasValue ||
                     Right.HasValue ||
                     Top.HasValue ||
-                    Bottom.HasValue;
+                    Bottom.HasValue||
+                    Vertical.HasValue ||
+                    Horizontal.HasValue;
             }
         }
         public override void Clear()
@@ -106,6 +128,8 @@ namespace OfficeOpenXml.Style.Dxf
             Right.Clear();
             Top.Clear();
             Bottom.Clear();
+            Vertical.Clear();
+            Horizontal.Clear();
         }
         /// <summary>
         /// Clone the object
@@ -113,7 +137,15 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfBorderBase(_styles) { Bottom = (ExcelDxfBorderItem)Bottom.Clone(), Top= (ExcelDxfBorderItem)Top.Clone(), Left= (ExcelDxfBorderItem)Left.Clone(), Right= (ExcelDxfBorderItem)Right.Clone() };
+            return new ExcelDxfBorderBase(_styles) 
+            { 
+                Bottom = (ExcelDxfBorderItem)Bottom.Clone(), 
+                Top= (ExcelDxfBorderItem)Top.Clone(), 
+                Left= (ExcelDxfBorderItem)Left.Clone(), 
+                Right= (ExcelDxfBorderItem)Right.Clone(),
+                Vertical = (ExcelDxfBorderItem)Vertical.Clone(),
+                Horizontal = (ExcelDxfBorderItem)Horizontal.Clone(),
+            };
         }
     }
 }

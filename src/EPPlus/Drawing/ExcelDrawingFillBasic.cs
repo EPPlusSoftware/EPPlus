@@ -182,7 +182,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (isSpInit == false)
             {
-                if (!string.IsNullOrEmpty(_fillPath) && !ExistNode(_fillPath) && CreateNodeUntil(_fillPath, "spPr", out XmlNode spPrNode))
+                if (!string.IsNullOrEmpty(_fillPath) && !ExistsNode(_fillPath) && CreateNodeUntil(_fillPath, "spPr", out XmlNode spPrNode))
                 {
                     if(_fillPath.EndsWith("ln"))
                     {

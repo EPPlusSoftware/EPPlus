@@ -57,7 +57,7 @@ namespace OfficeOpenXml
 
         private void CreatedDefaultNode()
         {
-            if(_hasSheetProtection = false && !ExistNode("d:sheetProtection"))
+            if(_hasSheetProtection = false && !ExistsNode("d:sheetProtection"))
             {
                 AllowEditObject = true;
                 AllowEditScenarios = true;

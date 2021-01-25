@@ -154,7 +154,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                     else
                     {
-                        if(ExistNode("c:ser/c:spPr/a:ln/noFill"))
+                        if(ExistsNode("c:ser/c:spPr/a:ln/noFill"))
                         {
                             return eChartType.XYScatter;
                         }

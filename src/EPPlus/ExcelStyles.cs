@@ -187,11 +187,11 @@ namespace OfficeOpenXml
                     var table = !(n.Attributes["table"]?.Value == "0");
                     if (pivot || table)
                     {
-                        if (pivot)
+                        if (pivot==false)
                         {
                             item = new ExcelTableNamedStyle(_nameSpaceManager, n, this);
                         }
-                        else if (table)
+                        else if (table==false)
                         {
                             item = new ExcelPivotTableNamedStyle(_nameSpaceManager, n, this);
                         }
@@ -828,6 +828,19 @@ namespace OfficeOpenXml
             TableStyles.Add(name, s);
             return s;
         }
+        public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name, PivotTableStyles templateStyle)
+        {
+            var s = CreatePivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+        public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+        {
+            var s = CreatePivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
         public ExcelTableNamedStyle CreateTableStyle(string name)
         {
             var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
@@ -845,6 +858,13 @@ namespace OfficeOpenXml
             s.SetFromTemplate(templateStyle);
             return s;
         }
+        public ExcelTableNamedStyle CreateTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+        {
+            var s = CreateTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
         public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name)
         {
             var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
@@ -855,6 +875,26 @@ namespace OfficeOpenXml
             TableStyles.Add(name, s);
             return s;
         }
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, TableStyles templateStyle)
+        {
+            var s = CreateTableAndPivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, PivotTableStyles templateStyle)
+        {
+            var s = CreateTableAndPivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+        {
+            var s = CreateTableAndPivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
         public ExcelSlicerNamedStyle CreateSlicerStyle(string name)
         {
             if (SlicerStyles.ExistsKey(name) || TableStyles.ExistsKey(name))

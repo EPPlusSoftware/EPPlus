@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <returns></returns>
         public bool HasMarker()
         {
-            return ExistNode("c:marker");
+            return ExistsNode("c:marker");
         }
 
         /// <summary>

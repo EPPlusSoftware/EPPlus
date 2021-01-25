@@ -126,7 +126,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         { 
             get
             {
-                return ExistNode(_extPath +"/" + _hideItemsWithNoDataPath);
+                return ExistsNode(_extPath +"/" + _hideItemsWithNoDataPath);
             }
             set
             {

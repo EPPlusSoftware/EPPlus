@@ -31,6 +31,8 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
+using OfficeOpenXml.Table;
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -65,7 +67,7 @@ namespace EPPlusTest.Style
         {
             using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
             {
-                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
+                Assert.AreEqual(5, p.Workbook.Styles.TableStyles.Count);
             }
         }
         [TestMethod]
@@ -94,26 +96,42 @@ namespace EPPlusTest.Style
         public void AddTableStyleFromTemplate()
         {
             var ws = _pck.Workbook.Worksheets.Add("TableStyleFromTempl");
-            var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyleFromTempl1", OfficeOpenXml.Table.TableStyles.Light11);
+            var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyleFromTempl1", OfficeOpenXml.Table.TableStyles.Medium5);
             LoadTestdata(ws);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table1");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table2");
             tbl.StyleName = "CustomTableStyleFromTempl1";
 
-            ////Assert
-            //Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
-            //Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
-            //Assert.AreEqual(Color.LightBlue.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-            //Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
-            //Assert.AreEqual(Color.LightYellow.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-            }
+            //Assert
+            Assert.AreEqual(eThemeSchemeColor.Text1, s.WholeTable.Style.Font.Color.Theme);
+            Assert.IsTrue(s.HeaderRow.Style.Font.Bold.Value);
+            Assert.AreEqual(ExcelBorderStyle.Double, s.TotalRow.Style.Border.Top.Style);
+            Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
+            Assert.AreEqual(0.79998D, Math.Round(s.FirstColumnStripe.Style.Fill.BackgroundColor.Tint.Value,5));
+        }
 
+        [TestMethod]
+        public void AddTableStyleFromOtherStyle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableStyleFromOther");
+            var sc = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyleFromTemplCopy", OfficeOpenXml.Table.TableStyles.Light14);
+            var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyleFromOther1", sc);
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableOtherStyle");
+            tbl.StyleName = "CustomTableStyleFromOther1";
+
+            //Assert
+            Assert.AreEqual(eThemeSchemeColor.Text1, s.WholeTable.Style.Font.Color.Theme);
+            Assert.IsTrue(s.HeaderRow.Style.Font.Bold.Value);
+            Assert.AreEqual(ExcelBorderStyle.Double, s.TotalRow.Style.Border.Top.Style);
+        }
+    
         [TestMethod]
         public void ReadTableStyle()
         {
             using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
             {
-                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
-                var s = p.Workbook.Styles.TableStyles["CustomTableStyle1"].As.TableStyle;                
+                var s = p.Workbook.Styles.TableStyles["CustomTableStyle1"].As.TableStyle;
+                if (s == null) Assert.Inconclusive("CustomTableStyle1 does not exists in workbook");
                 Assert.AreEqual("CustomTableStyle1", s.Name);
 
                 //Assert
@@ -142,24 +160,39 @@ namespace EPPlusTest.Style
             pt.StyleName = "CustomPivotTableStyle1";
         }
         [TestMethod]
+        public void AddPivotTableStyleFromTemplate()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotTableStyleFromTempl");
+            var s = _pck.Workbook.Styles.CreatePivotTableStyle("CustomPivotTableStyleFromTempl1", PivotTableStyles.Dark2);
+
+            LoadTestdata(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["G2"], ws.Cells["A1:D101"], "PivotTable2");
+            pt.ColumnFields.Add(pt.Fields[0]);
+            pt.DataFields.Add(pt.Fields[3]);
+            pt.StyleName = "CustomPivotTableStyleFromTempl1";
+        }
+
+        [TestMethod]
         public void ReadPivotTableStyle()
         {
             using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
             {
-                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
-                var s = p.Workbook.Styles.TableStyles["CustomPivotTableStyle1"].As.PivotTableStyle;
-                Assert.AreEqual("CustomPivotTableStyle1", s.Name);
+                var s = p.Workbook.Styles.TableStyles["CustomPivotTableStyle1"];
+                if (s == null) Assert.Inconclusive("CustomPivotTableStyle1 does not exists in workbook");
+                var ps = s.As.PivotTableStyle;
+
+                Assert.AreEqual("CustomPivotTableStyle1", ps.Name);
 
                 //Assert
-                Assert.AreEqual(Color.DarkBlue.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+                Assert.AreEqual(Color.DarkBlue.ToArgb(), ps.WholeTable.Style.Font.Color.Color.Value.ToArgb());
 
-                Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
-                Assert.AreEqual(Color.LightGreen.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-                Assert.AreEqual(2, s.FirstRowStripe.BandSize);
+                Assert.AreEqual(ExcelFillStyle.Solid, ps.FirstRowStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightGreen.ToArgb(), ps.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(2, ps.FirstRowStripe.BandSize);
 
-                Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
-                Assert.AreEqual(Color.LightGray.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-                Assert.AreEqual(3, s.SecondRowStripe.BandSize);
+                Assert.AreEqual(ExcelFillStyle.Solid, ps.SecondRowStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightGray.ToArgb(), ps.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(3, ps.SecondRowStripe.BandSize);
             }
         }
         [TestMethod]
@@ -178,10 +211,10 @@ namespace EPPlusTest.Style
             s.SecondColumnStripe.BandSize = 2;
 
             LoadTestdata(ws);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table3");
             tbl.StyleName = "CustomTableAndPivotTableStyle1";
             
-            var pt = ws.PivotTables.Add(ws.Cells["G2"], tbl, "PivotTable2");
+            var pt = ws.PivotTables.Add(ws.Cells["G2"], tbl, "PivotTable3");
             pt.RowFields.Add(pt.Fields[0]);
             pt.DataFields.Add(pt.Fields[3]);
             pt.ShowRowStripes = true;
@@ -192,20 +225,20 @@ namespace EPPlusTest.Style
         {
             using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
             {
-                Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
-                var s = p.Workbook.Styles.TableStyles["CustomTableAndPivotTableStyle1"].As.TableAndPivotTableStyle;
-                Assert.AreEqual("CustomTableAndPivotTableStyle1", s.Name);
+                var s = p.Workbook.Styles.TableStyles["CustomTableAndPivotTableStyle1"];
+                var tpts =s.As.TableAndPivotTableStyle;
+                Assert.AreEqual("CustomTableAndPivotTableStyle1", tpts.Name);
 
                 //Assert
-                Assert.AreEqual(Color.DarkMagenta.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
+                Assert.AreEqual(Color.DarkMagenta.ToArgb(), tpts.WholeTable.Style.Font.Color.Color.Value.ToArgb());
 
-                Assert.AreEqual(ExcelFillStyle.Solid, s.FirstColumnStripe.Style.Fill.PatternType);
-                Assert.AreEqual(Color.LightCyan.ToArgb(), s.FirstColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-                Assert.AreEqual(2, s.FirstColumnStripe.BandSize);
+                Assert.AreEqual(ExcelFillStyle.Solid, tpts.FirstColumnStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightCyan.ToArgb(), tpts.FirstColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(2, tpts.FirstColumnStripe.BandSize);
 
-                Assert.AreEqual(ExcelFillStyle.Solid, s.SecondColumnStripe.Style.Fill.PatternType);
-                Assert.AreEqual(Color.LightPink.ToArgb(), s.SecondColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-                Assert.AreEqual(2, s.SecondColumnStripe.BandSize);
+                Assert.AreEqual(ExcelFillStyle.Solid, tpts.SecondColumnStripe.Style.Fill.PatternType);
+                Assert.AreEqual(Color.LightPink.ToArgb(), tpts.SecondColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                Assert.AreEqual(2, tpts.SecondColumnStripe.BandSize);
             }
         }
 
@@ -214,7 +247,7 @@ namespace EPPlusTest.Style
         {
             var ws = _pck.Workbook.Worksheets.Add("TableRowStyle");
             LoadTestdata(ws);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table3");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
             var ns = _pck.Workbook.Styles.CreateNamedStyle("TableCellStyle2");
             ns.Style.Font.Color.SetColor(Color.Red);
             //var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyle1");
@@ -240,7 +273,7 @@ namespace EPPlusTest.Style
         {
             var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
             LoadTestdata(ws);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table5");
 
             tbl.HeaderRowStyle.Border.Bottom.Style=ExcelBorderStyle.Dashed;
             tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
@@ -262,7 +295,7 @@ namespace EPPlusTest.Style
             {
                 var ws = p1.Workbook.Worksheets.Add("CopyTableRowStyleSource");
                 LoadTestdata(ws);
-                var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
+                var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table6");
 
                 tbl.HeaderRowStyle.Border.Bottom.Style = ExcelBorderStyle.Dashed;
                 tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);

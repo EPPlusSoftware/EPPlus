@@ -58,14 +58,14 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return ExistNode($"{GetSubTotalPath()}[@val={Index}]");
+                return ExistsNode($"{GetSubTotalPath()}[@val={Index}]");
             }
             set
             {
                 var path = GetSubTotalPath();
                 if (value)
                 {
-                    if (!ExistNode($"{path}[@val={Index}]"))
+                    if (!ExistsNode($"{path}[@val={Index}]"))
                     {
                         var idxElement = (XmlElement)CreateNode(path, false, true);
                         idxElement.SetAttribute("val", Index.ToString(CultureInfo.InvariantCulture));

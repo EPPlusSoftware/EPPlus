@@ -661,7 +661,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get 
             {
-                if (_slicer == null && _pivotTable.WorkSheet.Workbook.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
+                if (_slicer == null && _pivotTable.WorkSheet.Workbook.ExistsNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
                 {
                     foreach (var ws in _pivotTable.WorkSheet.Workbook.Worksheets)
                     {

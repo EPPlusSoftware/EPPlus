@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Drawing
             if(isInit==false)
             {
                 isInit = true;
-                if (!ExistNode(_latPath))
+                if (!ExistsNode(_latPath))
                 {
                     _initParent(false);
                     Latitude = 0;

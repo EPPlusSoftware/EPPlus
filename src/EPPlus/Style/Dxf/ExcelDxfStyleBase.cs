@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style.Dxf
             if (topNode != null)
             {
                 _helper = new XmlHelperInstance(nameSpaceManager, topNode);
-                if (_helper.ExistNode("d:numFmt"))
+                if (_helper.ExistsNode("d:numFmt"))
                 {
                     NumberFormat.NumFmtID = _helper.GetXmlNodeInt("d:numFmt/@numFmtId");
                     NumberFormat.Format = _helper.GetXmlNodeString("d:numFmt/@formatCode");
@@ -42,15 +42,17 @@ namespace OfficeOpenXml.Style.Dxf
                         NumberFormat.Format = ExcelNumberFormat.GetFromBuildInFromID(NumberFormat.NumFmtID);
                     }
                 }
-                if (_helper.ExistNode("d:border"))
+                if (_helper.ExistsNode("d:border"))
                 {
                     Border.Left = GetBorderItem(_helper, "d:border/d:left");
                     Border.Right = GetBorderItem(_helper, "d:border/d:right");
                     Border.Bottom = GetBorderItem(_helper, "d:border/d:bottom");
                     Border.Top = GetBorderItem(_helper, "d:border/d:top");
+                    Border.Vertical = GetBorderItem(_helper, "d:border/d:vertical");
+                    Border.Horizontal = GetBorderItem(_helper, "d:border/d:horizontal");
                 }
 
-                if (_helper.ExistNode("d:fill"))
+                if (_helper.ExistsNode("d:fill"))
                 {
                     Fill.PatternType = GetPatternTypeEnum(_helper.GetXmlNodeString("d:fill/d:patternFill/@patternType"));
                     Fill.BackgroundColor = GetColor(_helper, "d:fill/d:patternFill/d:bgColor/");
@@ -66,13 +68,18 @@ namespace OfficeOpenXml.Style.Dxf
         private ExcelDxfBorderItem GetBorderItem(XmlHelperInstance helper, string path)
         {
             ExcelDxfBorderItem bi = new ExcelDxfBorderItem(_styles);
-            bi.Style = GetBorderStyleEnum(helper.GetXmlNodeString(path + "/@style"));
-            bi.Color = GetColor(helper, path + "/d:color");
+            var exists = _helper.ExistsNode(path);
+            if(exists)
+            {
+                var style = helper.GetXmlNodeString(path + "/@style");
+                bi.Style = GetBorderStyleEnum(style);
+                bi.Color = GetColor(helper, path + "/d:color");
+            }
             return bi;
         }
         private static ExcelBorderStyle GetBorderStyleEnum(string style)
         {
-            if (style == "") return ExcelBorderStyle.None;
+            if (style == "") return ExcelBorderStyle.Hair;
             string sInStyle = style.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + style.Substring(1, style.Length - 1);
             try
             {

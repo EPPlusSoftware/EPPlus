@@ -83,35 +83,5 @@ namespace OfficeOpenXml.Style.Table
                 return eTableNamedStyleType.Table;
             }
         }
-
-        internal void SetFromTemplate(TableStyles templateStyle)
-        {
-            var zipStream = ZipHelper.OpenZipResource();
-            ZipEntry entry;
-            var ts = templateStyle.ToString();
-            while ((entry = zipStream.GetNextEntry()) != null)
-            {
-                if (entry.IsDirectory || !entry.FileName.EndsWith(".xml") || entry.UncompressedSize <= 0) continue;
-
-                var name = new FileInfo(entry.FileName).Name;
-                name = name.Substring(0, name.Length - 4);
-                if (name.Equals(templateStyle.ToString(), StringComparison.OrdinalIgnoreCase))
-                {
-                    var xmlContent = ZipHelper.UncompressEntry(zipStream, entry);
-                    var xml = new XmlDocument();
-                    xml.LoadXml(xmlContent);
-
-                    foreach(XmlElement elem in xml.DocumentElement.ChildNodes)
-                    {
-                        var type = elem.GetAttribute("name").ToEnum(eTableStyleElement.WholeTable);
-                        var dxfXml = elem.InnerXml;
-                        var dxf = new ExcelDxfStyleLimitedFont(NameSpaceManager, elem.FirstChild, _styles);
-                        
-                        var te = GetTableStyleElement(type);
-                        te.Style = dxf;
-                    }
-                }
-            } 
-        }
     }
 }

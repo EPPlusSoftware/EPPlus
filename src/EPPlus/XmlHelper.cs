@@ -877,7 +877,7 @@ namespace OfficeOpenXml
                 DeleteNode(path);
             }
         }
-        internal bool ExistNode(string path)
+        internal bool ExistsNode(string path)
         {
             if (TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
             {
@@ -1219,7 +1219,7 @@ namespace OfficeOpenXml
         }
         internal protected void CreatespPrNode(string nodePath = "c:spPr", bool withLine = true)
         {
-            if (!ExistNode(nodePath))
+            if (!ExistsNode(nodePath))
             {
                 var node = CreateNode(nodePath);
                 if (withLine)

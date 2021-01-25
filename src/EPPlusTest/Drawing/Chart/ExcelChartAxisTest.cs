@@ -102,11 +102,11 @@ namespace EPPlusTest.Drawing.Chart
         { 
             var major = axis.MajorGridlines;
             major.Width = 1;
-            Assert.IsTrue(axis.ExistNode("c:majorGridlines")); 
+            Assert.IsTrue(axis.ExistsNode("c:majorGridlines")); 
   
             var minor = axis.MinorGridlines;
             minor.Width = 1;
-            Assert.IsTrue(axis.ExistNode("c:minorGridlines")); 
+            Assert.IsTrue(axis.ExistsNode("c:minorGridlines")); 
         } 
   
         [TestMethod] 
@@ -119,8 +119,8 @@ namespace EPPlusTest.Drawing.Chart
 
             axis.RemoveGridlines(); 
   
-            Assert.IsFalse(axis.ExistNode("c:majorGridlines")); 
-            Assert.IsFalse(axis.ExistNode("c:minorGridlines")); 
+            Assert.IsFalse(axis.ExistsNode("c:majorGridlines")); 
+            Assert.IsFalse(axis.ExistsNode("c:minorGridlines")); 
   
             major = axis.MajorGridlines;
             major.Width = 1;
@@ -129,8 +129,8 @@ namespace EPPlusTest.Drawing.Chart
 
             axis.RemoveGridlines(true, false); 
   
-            Assert.IsFalse(axis.ExistNode("c:majorGridlines")); 
-            Assert.IsTrue(axis.ExistNode("c:minorGridlines")); 
+            Assert.IsFalse(axis.ExistsNode("c:majorGridlines")); 
+            Assert.IsTrue(axis.ExistsNode("c:minorGridlines")); 
   
             major = axis.MajorGridlines;
             major.Width = 1;
@@ -139,8 +139,8 @@ namespace EPPlusTest.Drawing.Chart
 
             axis.RemoveGridlines(false, true); 
   
-            Assert.IsTrue(axis.ExistNode("c:majorGridlines"));
-            Assert.IsFalse(axis.ExistNode("c:minorGridlines"));
+            Assert.IsTrue(axis.ExistsNode("c:majorGridlines"));
+            Assert.IsFalse(axis.ExistsNode("c:minorGridlines"));
         }
     }
 }

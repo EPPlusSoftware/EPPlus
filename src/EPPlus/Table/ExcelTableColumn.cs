@@ -202,7 +202,7 @@ namespace OfficeOpenXml.Table
                 if (_slicer == null)
                 {
                     var wb = _tbl.WorkSheet.Workbook;
-                    if (wb.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerTableUri}']"))
+                    if (wb.ExistsNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerTableUri}']"))
                     {
                         foreach (var ws in wb.Worksheets)
                         {

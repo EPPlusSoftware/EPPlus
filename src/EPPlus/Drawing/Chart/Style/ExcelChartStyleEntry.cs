@@ -254,11 +254,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             get
             {
-                return ExistNode($"{_fillPath}/a:noFill") ||
-                       ExistNode($"{_fillPath}/a:solidFill") ||
-                       ExistNode($"{_fillPath}/a:gradFill") ||
-                       ExistNode($"{_fillPath}/a:pattFill") ||
-                       ExistNode($"{_fillPath}/a:blipFill");
+                return ExistsNode($"{_fillPath}/a:noFill") ||
+                       ExistsNode($"{_fillPath}/a:solidFill") ||
+                       ExistsNode($"{_fillPath}/a:gradFill") ||
+                       ExistsNode($"{_fillPath}/a:pattFill") ||
+                       ExistsNode($"{_fillPath}/a:blipFill");
             }
         }
         /// <summary>
@@ -268,7 +268,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             get
             {
-                return ExistNode(_borderPath);
+                return ExistsNode(_borderPath);
             }
         }
         /// <summary>
@@ -278,7 +278,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             get
             {
-                return ExistNode(_effectPath);
+                return ExistsNode(_effectPath);
             }
         }
         /// <summary>
@@ -288,7 +288,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             get
             {
-                return ExistNode(_scene3DPath) || ExistNode(_sp3DPath);
+                return ExistsNode(_scene3DPath) || ExistsNode(_sp3DPath);
             }
         }
 
@@ -299,7 +299,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             get
             {
-                return ExistNode(_defaultTextBodyPath);
+                return ExistsNode(_defaultTextBodyPath);
             }
         }
         /// <summary>
@@ -309,7 +309,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             get
             {
-                return ExistNode(_defaultTextRunPath);
+                return ExistsNode(_defaultTextRunPath);
             }
         }
     }
