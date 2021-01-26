@@ -251,7 +251,6 @@ namespace OfficeOpenXml.Style.Table
                 }
             }
         }
-
     }
 }
 

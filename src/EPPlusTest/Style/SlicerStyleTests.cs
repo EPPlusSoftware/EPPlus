@@ -63,7 +63,7 @@ namespace EPPlusTest.Style
         [TestMethod]
         public void AddSlicerStyle()
         {
-            var ws = _pck.Workbook.Worksheets.Add("TableStyle");
+            var ws = _pck.Workbook.Worksheets.Add("SlicerStyleAdd");
             var s=_pck.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyle1");
             s.WholeTable.Style.Font.Color.SetColor(Color.LightGray);
             s.HeaderRow.Style.Fill.BackgroundColor.SetColor(Color.DarkGray);
@@ -82,7 +82,7 @@ namespace EPPlusTest.Style
             var slicer = tbl.Columns[0].AddSlicer();
             slicer.SetPosition(100, 100);
             slicer.StyleName = "CustomSlicerStyle1";
-
+            
             //Assert
             Assert.AreEqual("CustomSlicerStyle1", slicer.StyleName);
             Assert.AreEqual(Color.LightGray.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
@@ -97,14 +97,48 @@ namespace EPPlusTest.Style
             Assert.AreEqual(Color.LightGoldenrodYellow.ToArgb(), s.HoveredUnselectedItemWithData.Style.Fill.BackgroundColor.Color.Value.ToArgb());
         }
         [TestMethod]
+        public void AddSlicerStyleFromTemplate()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SlicerStyleTemplate");
+            var s = _pck.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyleFromTemplate", eSlicerStyle.Dark1);
+
+            s.WholeTable.Style.Font.Name = "Arial";
+            s.HeaderRow.Style.Font.Italic = true;
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
+            var slicer = tbl.Columns[0].AddSlicer();
+            slicer.SetPosition(100, 100);
+            slicer.StyleName = "CustomSlicerStyleFromTemplate";
+
+        }
+        [TestMethod]
+        public void AddSlicerStyleFromOther()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SlicerStyleCopyOther");
+            var s = _pck.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyleToCopy", eSlicerStyle.Other2);
+
+            var sc= _pck.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyleCopy", s);
+
+            sc.SelectedItemWithData.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Background2);
+            sc.SelectedItemWithData.Style.Fill.PatternType = ExcelFillStyle.LightGray;
+
+            LoadTestdata(ws);
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table3");
+            var slicer = tbl.Columns[0].AddSlicer();
+            slicer.SetPosition(100, 100);
+            slicer.StyleName = "CustomSlicerStyleCopy";
+        }
+
+        [TestMethod]
         public void ReadSlicerStyle()
         {
             using (var p = OpenTemplatePackage("SlicerStyleRead.xlsx"))
             {
-                Assert.AreEqual(1, p.Workbook.Styles.SlicerStyles.Count);
                 var s = p.Workbook.Styles.SlicerStyles["CustomSlicerStyle1"];
-                Assert.AreEqual("CustomSlicerStyle1", s.Name);
+                if (s == null) Assert.Inconclusive("Custom style does not exists");
 
+                Assert.AreEqual("CustomSlicerStyle1", s.Name);
                 //Assert
                 Assert.AreEqual(Color.LightGray.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
                 Assert.AreEqual(Color.DarkGray.ToArgb(), s.HeaderRow.Style.Fill.BackgroundColor.Color.Value.ToArgb());

@@ -10,10 +10,14 @@
  *************************************************************************************************
   01/20/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer.Style
@@ -25,7 +29,7 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
     {
         ExcelStyles _styles;
         internal Dictionary<eSlicerStyleElement, ExcelSlicerStyleElement> _dicSlicer = new Dictionary<eSlicerStyleElement, ExcelSlicerStyleElement>();
-        internal Dictionary<eTableStyleElement, ExcelTableStyleElement> _dicTable = new Dictionary<eTableStyleElement, ExcelTableStyleElement>();
+        internal Dictionary<eTableStyleElement, ExcelSlicerTableStyleElement> _dicTable = new Dictionary<eTableStyleElement, ExcelSlicerTableStyleElement>();
         XmlNode _tableStyleNode;
         internal ExcelSlicerNamedStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, XmlNode tableStyleNode, ExcelStyles styles) : base(nameSpaceManager, topNode)
         {
@@ -42,7 +46,7 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
                     if (node is XmlElement e)
                     {
                         var type = e.GetAttribute("type").ToEnum(eTableStyleElement.WholeTable);
-                        _dicTable.Add(type, new ExcelTableStyleElement(nameSpaceManager, node, styles, type));
+                        _dicTable.Add(type, new ExcelSlicerTableStyleElement(nameSpaceManager, node, styles, type));
                     }
                 }
             }
@@ -58,14 +62,14 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
                 }
             }
         }
-        private ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element)
+        private ExcelSlicerTableStyleElement GetTableStyleElement(eTableStyleElement element)
         {
             if (_dicTable.ContainsKey(element))
             {
                 return _dicTable[element];
             }
-            ExcelTableStyleElement item;
-            item = new ExcelTableStyleElement(NameSpaceManager, _tableStyleNode, _styles, element);
+            ExcelSlicerTableStyleElement item;
+            item = new ExcelSlicerTableStyleElement(NameSpaceManager, _tableStyleNode, _styles, element);
             _dicTable.Add(element, item);
             return item;
         }
@@ -102,7 +106,7 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
         /// <summary>
         /// Applies to the entire content of a table or pivot table
         /// </summary>
-        public ExcelTableStyleElement WholeTable
+        public ExcelSlicerTableStyleElement WholeTable
         {
             get
             {
@@ -112,7 +116,7 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
         /// <summary>
         /// Applies to the header row of a table or pivot table
         /// </summary>
-        public ExcelTableStyleElement HeaderRow
+        public ExcelSlicerTableStyleElement HeaderRow
         {
             get
             {
@@ -202,5 +206,62 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
             }
         }
 
+        internal void SetFromTemplate(ExcelSlicerNamedStyle templateStyle)
+        {
+            foreach (var s in templateStyle._dicTable.Values)
+            {
+                var element = GetTableStyleElement(s.Type);
+                element.Style = (ExcelDxfStyle)s.Style.Clone();
+            }
+            foreach (var s in templateStyle._dicSlicer.Values)
+            {
+                var element = GetSlicerStyleElement(s.Type);
+                element.Style = (ExcelDxfStyle)s.Style.Clone();
+            }
+        }
+        internal void SetFromTemplate(eSlicerStyle templateStyle)
+        {
+            LoadTableTemplate("SlicerStyles", templateStyle.ToString());
+        }
+        private void LoadTableTemplate(string folder, string styleName)
+        {
+            var zipStream = ZipHelper.OpenZipResource();
+            ZipEntry entry;
+            while ((entry = zipStream.GetNextEntry()) != null)
+            {
+                if (entry.IsDirectory || !entry.FileName.EndsWith(".xml") || entry.UncompressedSize <= 0 || !entry.FileName.StartsWith(folder)) continue;
+
+                var name = new FileInfo(entry.FileName).Name;
+                name = name.Substring(0, name.Length - 4);
+                if (name.Equals(styleName, StringComparison.OrdinalIgnoreCase))
+                {
+                    var xmlContent = ZipHelper.UncompressEntry(zipStream, entry);
+                    var xml = new XmlDocument();
+                    xml.LoadXml(xmlContent);
+
+                    foreach (XmlElement elem in xml.DocumentElement.ChildNodes)
+                    {
+                        var dxfXml = elem.InnerXml;
+                        var tblType = elem.GetAttribute("name").ToEnum<eTableStyleElement>();
+                        if(tblType==null)
+                        {
+                            var slicerType= elem.GetAttribute("name").ToEnum<eSlicerStyleElement>();
+                            if(slicerType.HasValue)
+                            {
+                                var se = GetSlicerStyleElement(slicerType.Value);
+                                var dxf = new ExcelDxfStyle(NameSpaceManager, elem.FirstChild, _styles);
+                                se.Style = dxf;
+                            }
+                        }
+                        else
+                        {
+                            var te = GetTableStyleElement(tblType.Value);
+                            var dxf = new ExcelDxfStyle(NameSpaceManager, elem.FirstChild, _styles);
+                            te.Style = dxf;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

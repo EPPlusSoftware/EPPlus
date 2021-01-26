@@ -819,6 +819,7 @@ namespace OfficeOpenXml
         }
         public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name)
         {
+            ValidateTableStyleName(name);
             var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
             node.SetAttribute("table", "0");
             var s = new ExcelPivotTableNamedStyle(NameSpaceManager, node, this)
@@ -843,6 +844,7 @@ namespace OfficeOpenXml
 
         public ExcelTableNamedStyle CreateTableStyle(string name)
         {
+            ValidateTableStyleName(name);
             var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
             node.SetAttribute("pivot", "0");
             var s = new ExcelTableNamedStyle(NameSpaceManager, node, this)
@@ -867,6 +869,7 @@ namespace OfficeOpenXml
 
         public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name)
         {
+            ValidateTableStyleName(name);
             var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
             var s = new ExcelTableAndPivotTableNamedStyle(NameSpaceManager, node, this)
             {
@@ -897,10 +900,7 @@ namespace OfficeOpenXml
 
         public ExcelSlicerNamedStyle CreateSlicerStyle(string name)
         {
-            if (SlicerStyles.ExistsKey(name) || TableStyles.ExistsKey(name))
-            {
-                throw new InvalidOperationException("Name already exists");
-            }
+            ValidateTableStyleName(name);
 
             //Create the matching table style
             var tableStyleNode = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
@@ -933,7 +933,33 @@ namespace OfficeOpenXml
             SlicerStyles.Add(name, s);
             return s;
         }
+        public ExcelSlicerNamedStyle CreateSlicerStyle(string name, eSlicerStyle templateStyle)
+        {
+            var s = CreateSlicerStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+        HashSet<string> tableStyleNames=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private void ValidateTableStyleName(string name)
+        {
+            if(tableStyleNames.Count==0)
+            {
+                Enum.GetNames(typeof(TableStyles)).Select(x => tableStyleNames.Add("TableStyle"+x));
+                Enum.GetNames(typeof(PivotTableStyles)).Select(x => tableStyleNames.Add("PivotTableStyle" + x));
+                Enum.GetNames(typeof(eSlicerStyle)).Select(x => tableStyleNames.Add("SlicerStyle" + x));
+            }
+            if(tableStyleNames.Contains(name) || TableStyles.ExistsKey(name) || SlicerStyles.ExistsKey(name))
+            {
+                throw (new ArgumentException("Table style name is not unique", "name"));
+            }
+        }
 
+        public ExcelSlicerNamedStyle CreateSlicerStyle(string name, ExcelSlicerNamedStyle templateStyle)
+        {
+            var s = CreateSlicerStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
         /// <summary>
         /// Update the changes to the Style.Xml file inside the package.
         /// This will remove any unused styles from the collections.

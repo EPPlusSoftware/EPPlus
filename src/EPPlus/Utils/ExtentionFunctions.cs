@@ -28,6 +28,24 @@ namespace OfficeOpenXml.Utils.Extensions
             var s = enumValue.ToString();
             return s.Substring(0, 1).ToLower() + s.Substring(1);
         }
+        internal static T? ToEnum<T>(this string s) where T : struct
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(s)) return null;
+                if (!Enum.GetNames(typeof(T)).Any(x => x.Equals(s, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return null;
+                }
+                return (T)Enum.Parse(typeof(T), s, true);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
         internal static T ToEnum<T>(this string s, T defaultValue) where T : struct
         {
             try
