@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Export.ToDataTable
                     ;
                 var v = _sheet.GetValue(row, col);
                 if (row == _range.End.Row && v == null) throw new InvalidOperationException(string.Format("Column with index {0} does not contain any values", col));
-                var type = v.GetType();
+                var type = v == null ? typeof(Nullable) : v.GetType();
 
                 // check mapping
                 var mapping = _options.Mappings.GetByRangeIndex(columnIndex);
