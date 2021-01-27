@@ -135,7 +135,7 @@ namespace OfficeOpenXml
                 {
                     if (token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
-                        var a = new ExcelFormulaAddress(token.Value);
+                        var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
                         f += a.GetOffset(row - StartRow, column - StartCol, true);                            
                     }
                     else

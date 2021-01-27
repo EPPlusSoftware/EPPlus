@@ -503,5 +503,45 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual(1, ws._sharedFormulas.Count);
             }
         }
+        [TestMethod]
+        public void ValidateMultiAddress_b1_b5_c4()
+        {
+            var a1 = new ExcelAddress("b1:b5:c4");
+
+            Assert.AreEqual(1, a1.Start.Row);
+            Assert.AreEqual(2, a1.Start.Column);
+            Assert.AreEqual(5, a1.End.Row);
+            Assert.AreEqual(3, a1.End.Column);
+        }
+        [TestMethod]
+        public void ValidateMultiAddress_b4_b1_c4()
+        {
+            var a1 = new ExcelAddress("b4:b3:c5");
+
+            Assert.AreEqual(3, a1.Start.Row);
+            Assert.AreEqual(2, a1.Start.Column);
+            Assert.AreEqual(5, a1.End.Row);
+            Assert.AreEqual(3, a1.End.Column);
+        }
+        [TestMethod]
+        public void ValidateMultiAddress_F5_G2_F7_G8()
+        {
+            var a1 = new ExcelAddress("F5:G2:F7:G8");
+
+            Assert.AreEqual(2, a1.Start.Row);
+            Assert.AreEqual(6, a1.Start.Column);
+            Assert.AreEqual(8, a1.End.Row);
+            Assert.AreEqual(7, a1.End.Column);
+        }
+        [TestMethod]
+        public void ValidateMultiAddress_G8_F7_G2_F5()
+        {
+            var a1 = new ExcelAddress("G8:F7:G2:F5");
+
+            Assert.AreEqual(2, a1.Start.Row);
+            Assert.AreEqual(6, a1.Start.Column);
+            Assert.AreEqual(8, a1.End.Row);
+            Assert.AreEqual(7, a1.End.Column);
+        }
     }
 }
