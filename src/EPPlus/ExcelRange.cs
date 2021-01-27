@@ -65,7 +65,12 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    base.Address = Address;
+                    SetAddress(Address, _workbook, _worksheet.Name);
+                    ChangeAddress();
+                }
+                if((_fromRow < 1 || _fromCol < 1) && Address.Equals("#REF!", StringComparison.InvariantCulture)==false)
+                {
+                    throw (new InvalidOperationException("Address is not valid."));
                 }
                 _rtc = null;
                 return this;

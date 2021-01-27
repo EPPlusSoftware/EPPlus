@@ -1735,5 +1735,13 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Ticket90_2()
+        {
+            using (var p = OpenTemplatePackage("s70.xlsx"))
+            {
+                p.Workbook.Calculate();
+            }
+        }        
     }
 }
