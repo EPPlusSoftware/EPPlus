@@ -51,6 +51,14 @@ namespace OfficeOpenXml.Style.Dxf
         /// <param name="path">The Xpath</param>
         protected internal abstract void CreateNodes(XmlHelper helper, string path);
         /// <summary>
+        /// Sets the values from an XmlHelper instance. 
+        /// </summary>
+        /// <param name="helper">The helper</param>
+        protected internal virtual void SetValuesFromXml(XmlHelper helper)
+        {
+
+        }
+        /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns></returns>
@@ -177,7 +185,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         protected internal bool AllowChange { get; set; }
 
-        internal ExcelDxfColor GetColor(XmlHelperInstance helper, string path)
+        internal ExcelDxfColor GetColor(XmlHelper helper, string path)
         {
             ExcelDxfColor ret = new ExcelDxfColor(_styles);
             ret.Theme = (eThemeSchemeColor?)helper.GetXmlNodeIntNull(path + "/@theme");

@@ -139,5 +139,17 @@ namespace OfficeOpenXml.Style.Dxf
         {
             return new ExcelDxfNumberFormat(_styles) { NumFmtID = NumFmtID, Format = Format };
         }
+        protected internal override void SetValuesFromXml(XmlHelper helper)
+        {
+            if (helper.ExistsNode("d:numFmt"))
+            {
+                NumFmtID = helper.GetXmlNodeInt("d:numFmt/@numFmtId");
+                Format = helper.GetXmlNodeString("d:numFmt/@formatCode");
+                if (NumFmtID < 164 && string.IsNullOrEmpty(Format))
+                {
+                    Format = ExcelNumberFormat.GetFromBuildInFromID(NumFmtID);
+                }
+            }
+        }
     }
 }

@@ -33,31 +33,9 @@ namespace OfficeOpenXml.Style.Dxf
             if (topNode != null)
             {
                 _helper = new XmlHelperInstance(nameSpaceManager, topNode);
-                if (_helper.ExistsNode("d:numFmt"))
-                {
-                    NumberFormat.NumFmtID = _helper.GetXmlNodeInt("d:numFmt/@numFmtId");
-                    NumberFormat.Format = _helper.GetXmlNodeString("d:numFmt/@formatCode");
-                    if (NumberFormat.NumFmtID < 164 && string.IsNullOrEmpty(NumberFormat.Format))
-                    {
-                        NumberFormat.Format = ExcelNumberFormat.GetFromBuildInFromID(NumberFormat.NumFmtID);
-                    }
-                }
-                if (_helper.ExistsNode("d:border"))
-                {
-                    Border.Left = GetBorderItem(_helper, "d:border/d:left");
-                    Border.Right = GetBorderItem(_helper, "d:border/d:right");
-                    Border.Bottom = GetBorderItem(_helper, "d:border/d:bottom");
-                    Border.Top = GetBorderItem(_helper, "d:border/d:top");
-                    Border.Vertical = GetBorderItem(_helper, "d:border/d:vertical");
-                    Border.Horizontal = GetBorderItem(_helper, "d:border/d:horizontal");
-                }
-
-                if (_helper.ExistsNode("d:fill"))
-                {
-                    Fill.PatternType = GetPatternTypeEnum(_helper.GetXmlNodeString("d:fill/d:patternFill/@patternType"));
-                    Fill.BackgroundColor = GetColor(_helper, "d:fill/d:patternFill/d:bgColor/");
-                    Fill.PatternColor = GetColor(_helper, "d:fill/d:patternFill/d:fgColor/");
-                }
+                NumberFormat.SetValuesFromXml(_helper);
+                Border.SetValuesFromXml(_helper);
+                Fill.SetValuesFromXml(_helper);
             }
             else
             {
@@ -65,46 +43,6 @@ namespace OfficeOpenXml.Style.Dxf
             }
             _helper.SchemaNodeOrder = new string[] { "font", "numFmt", "fill", "border" };
         }
-        private ExcelDxfBorderItem GetBorderItem(XmlHelperInstance helper, string path)
-        {
-            ExcelDxfBorderItem bi = new ExcelDxfBorderItem(_styles);
-            var exists = _helper.ExistsNode(path);
-            if(exists)
-            {
-                var style = helper.GetXmlNodeString(path + "/@style");
-                bi.Style = GetBorderStyleEnum(style);
-                bi.Color = GetColor(helper, path + "/d:color");
-            }
-            return bi;
-        }
-        private static ExcelBorderStyle GetBorderStyleEnum(string style)
-        {
-            if (style == "") return ExcelBorderStyle.Hair;
-            string sInStyle = style.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + style.Substring(1, style.Length - 1);
-            try
-            {
-                return (ExcelBorderStyle)Enum.Parse(typeof(ExcelBorderStyle), sInStyle);
-            }
-            catch
-            {
-                return ExcelBorderStyle.None;
-            }
-
-        }
-        internal static ExcelFillStyle GetPatternTypeEnum(string patternType)
-        {
-            if (patternType == "") return ExcelFillStyle.None;
-            patternType = patternType.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + patternType.Substring(1, patternType.Length - 1);
-            try
-            {
-                return (ExcelFillStyle)Enum.Parse(typeof(ExcelFillStyle), patternType);
-            }
-            catch
-            {
-                return ExcelFillStyle.None;
-            }
-        }
-
         internal virtual int DxfId { get; set; } = int.MinValue;
         /// <summary>
         /// Numberformat formatting settings

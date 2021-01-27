@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -147,5 +148,44 @@ namespace OfficeOpenXml.Style.Dxf
                 Horizontal = (ExcelDxfBorderItem)Horizontal.Clone(),
             };
         }
+        protected internal override void SetValuesFromXml(XmlHelper helper)
+        {
+            if (helper.ExistsNode("d:border"))
+            {
+                Left = GetBorderItem(helper, "d:border/d:left");
+                Right = GetBorderItem(helper, "d:border/d:right");
+                Bottom = GetBorderItem(helper, "d:border/d:bottom");
+                Top = GetBorderItem(helper, "d:border/d:top");
+                Vertical = GetBorderItem(helper, "d:border/d:vertical");
+                Horizontal = GetBorderItem(helper, "d:border/d:horizontal");
+            }
+        }
+        private ExcelDxfBorderItem GetBorderItem(XmlHelper helper, string path)
+        {
+            ExcelDxfBorderItem bi = new ExcelDxfBorderItem(_styles);
+            var exists = helper.ExistsNode(path);
+            if (exists)
+            {
+                var style = helper.GetXmlNodeString(path + "/@style");
+                bi.Style = GetBorderStyleEnum(style);
+                bi.Color = GetColor(helper, path + "/d:color");
+            }
+            return bi;
+        }
+        private static ExcelBorderStyle GetBorderStyleEnum(string style)
+        {
+            if (style == "") return ExcelBorderStyle.Hair;
+            string sInStyle = style.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + style.Substring(1, style.Length - 1);
+            try
+            {
+                return (ExcelBorderStyle)Enum.Parse(typeof(ExcelBorderStyle), sInStyle);
+            }
+            catch
+            {
+                return ExcelBorderStyle.None;
+            }
+
+        }
+
     }
 }

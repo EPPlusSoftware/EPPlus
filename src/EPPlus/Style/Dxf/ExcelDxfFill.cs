@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml;
+using System.Globalization;
 
 namespace OfficeOpenXml.Style.Dxf
 {
@@ -29,11 +30,27 @@ namespace OfficeOpenXml.Style.Dxf
         {
             PatternColor = new ExcelDxfColor(styles);
             BackgroundColor = new ExcelDxfColor(styles);
+            Gradient = null;
         }
+        ExcelFillStyle? _patternType;
         /// <summary>
         /// The pattern tyle
         /// </summary>
-        public ExcelFillStyle? PatternType { get; set; }
+        public ExcelFillStyle? PatternType 
+        { 
+            get
+            {
+                return _patternType;
+            }
+            set
+            {
+                if(Style==eDxfFillStyle.GradientFill)
+                {
+                    throw new InvalidOperationException("Cant set Pattern Type when Style is set to GradientFill");
+                }
+                _patternType = value;
+            }
+        }
         /// <summary>
         /// The color of the pattern
         /// </summary>
@@ -52,6 +69,34 @@ namespace OfficeOpenXml.Style.Dxf
                 return GetAsString(PatternType) + "|" + (PatternColor == null ? "" : PatternColor.Id) + "|" + (BackgroundColor == null ? "" : BackgroundColor.Id);
             }
         }
+        public eDxfFillStyle Style
+        {
+            get
+            {
+                return Gradient==null ? eDxfFillStyle.PatternFill : eDxfFillStyle.GradientFill;
+            }
+            set
+            {
+                if(value==eDxfFillStyle.PatternFill && Gradient!=null)
+                {
+                    PatternColor = new ExcelDxfColor(_styles);
+                    BackgroundColor = new ExcelDxfColor(_styles);
+                    Gradient = null;
+                }
+                else if(value == eDxfFillStyle.PatternFill && Gradient == null)
+                {
+                    PatternType = null;
+                    PatternColor = null;
+                    BackgroundColor = null;
+                    Gradient = new ExcelDxfGradientFill(_styles); 
+                }
+            }
+        }
+        public ExcelDxfGradientFill Gradient
+        {
+            get;
+            internal set;
+        }
         /// <summary>
         /// Creates the the xml node
         /// </summary>
@@ -60,9 +105,16 @@ namespace OfficeOpenXml.Style.Dxf
         protected internal override void CreateNodes(XmlHelper helper, string path)
         {
             helper.CreateNode(path);
-            SetValueEnum(helper, path + "/d:patternFill/@patternType", PatternType);
-            SetValueColor(helper, path + "/d:patternFill/d:fgColor", PatternColor);
-            SetValueColor(helper, path + "/d:patternFill/d:bgColor", BackgroundColor);
+            if(Style==eDxfFillStyle.PatternFill)
+            {
+                SetValueEnum(helper, path + "/d:patternFill/@patternType", PatternType);
+                SetValueColor(helper, path + "/d:patternFill/d:fgColor", PatternColor);
+                SetValueColor(helper, path + "/d:patternFill/d:bgColor", BackgroundColor);
+            }
+            else
+            {
+                Gradient.CreateNodes(helper, path);
+            }
         }
         /// <summary>
         /// If the object has a value
@@ -71,16 +123,30 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get 
             {
-                return  PatternType != null ||
-                        PatternColor.HasValue ||
-                        BackgroundColor.HasValue;
+                if(Style==eDxfFillStyle.PatternFill)
+                {
+                    return PatternType != null ||
+                            PatternColor.HasValue ||
+                            BackgroundColor.HasValue;
+                }
+                else
+                {
+                    return Gradient.HasValue;
+                }
             }
         }
         public override void Clear()
         {
-            PatternType = null;
-            PatternColor.Clear();
-            BackgroundColor.Clear();
+            if (Style == eDxfFillStyle.PatternFill)
+            {
+                PatternType = null;
+                PatternColor.Clear();
+                BackgroundColor.Clear();
+            }
+            else
+            {
+                Gradient.Clear();
+            }
         }
         /// <summary>
         /// Clone the object
@@ -89,6 +155,37 @@ namespace OfficeOpenXml.Style.Dxf
         protected internal override DxfStyleBase Clone()
         {
             return new ExcelDxfFill(_styles) {PatternType=PatternType, PatternColor=(ExcelDxfColor)PatternColor.Clone(), BackgroundColor= (ExcelDxfColor)BackgroundColor.Clone()};
+        }
+        protected internal override void SetValuesFromXml(XmlHelper helper)
+        {
+            if (helper.ExistsNode("d:fill/d:patternFill"))
+            {
+                PatternType = GetPatternTypeEnum(helper.GetXmlNodeString("d:fill/d:patternFill/@patternType"));
+                BackgroundColor = GetColor(helper, "d:fill/d:patternFill/d:bgColor/");
+                PatternColor = GetColor(helper, "d:fill/d:patternFill/d:fgColor/");
+                Gradient = null;
+            }
+            else if (helper.ExistsNode("d:fill/d:gradientFill"))
+            {
+                PatternType = null;
+                BackgroundColor = null;
+                PatternColor = null;
+                Gradient = new ExcelDxfGradientFill(_styles);
+                Gradient.SetValuesFromXml(helper);
+            }
+        }
+        internal static ExcelFillStyle GetPatternTypeEnum(string patternType)
+        {
+            if (patternType == "") return ExcelFillStyle.None;
+            patternType = patternType.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + patternType.Substring(1, patternType.Length - 1);
+            try
+            {
+                return (ExcelFillStyle)Enum.Parse(typeof(ExcelFillStyle), patternType);
+            }
+            catch
+            {
+                return ExcelFillStyle.None;
+            }
         }
     }
 }
