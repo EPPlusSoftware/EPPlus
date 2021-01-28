@@ -24,16 +24,59 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             if (searchedValue.Contains("*") || searchedValue.Contains("?"))
             {
-                var regexPattern = Regex.Escape(searchedValue);
-                regexPattern = string.Format("^{0}$", regexPattern);
-                regexPattern = regexPattern.Replace(@"\*", ".*");
-                regexPattern = regexPattern.Replace(@"\?", ".");
+                var regexPattern = BuildRegex(searchedValue, candidate);
                 if (Regex.IsMatch(candidate, regexPattern))
                 {
                     return 0;
                 }
             }
             return base.CompareStringToString(candidate, searchedValue);
+        }
+
+        private string BuildRegex(string searchedValue, string candidate)
+        {
+            var result = new StringBuilder();
+            var regexPattern = Regex.Escape(searchedValue);
+            regexPattern = regexPattern.Replace("\\*", "*");
+            regexPattern = regexPattern.Replace("\\?", "?");
+            regexPattern = string.Format("^{0}$", regexPattern);
+            var lastIsTilde = false;
+            foreach(var ch in regexPattern)
+            {
+                if(ch == '~')
+                {
+                    lastIsTilde = true;
+                    continue;
+                }
+                if(ch == '*')
+                {
+                    if(lastIsTilde)
+                    {
+                        result.Append("\\*");
+                    }
+                    else
+                    {
+                        result.Append(".*");
+                    }
+                }
+                else if(ch == '?')
+                {
+                    if (lastIsTilde)
+                    {
+                        result.Append("\\?");
+                    }
+                    else
+                    {
+                        result.Append('.');
+                    }
+                }
+                else
+                {
+                    result.Append(ch);
+                }
+                lastIsTilde = false;
+            }
+            return result.ToString();
         }
     }
 }
