@@ -70,6 +70,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         result.Append('.');
                     }
                 }
+                else if(lastIsTilde)
+                {
+                    result.Append("~" + ch);
+                }
                 else
                 {
                     result.Append(ch);
