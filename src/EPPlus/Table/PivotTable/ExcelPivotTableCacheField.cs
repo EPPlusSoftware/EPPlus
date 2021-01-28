@@ -765,9 +765,11 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var range = _cache.SourceRange;
             var column = range._fromCol + Index;
-            var toRow = range._toRow;
             var hs = new HashSet<object>(new InvariantObjectComparer());
             var ws = range.Worksheet;
+            var dimensionToRow = ws.Dimension?._toRow ?? range._fromRow + 1;
+            var toRow = range._toRow < dimensionToRow ? range._toRow : dimensionToRow;
+
             //Get unique values.
             for (int row = range._fromRow + 1; row <= toRow; row++)
             {

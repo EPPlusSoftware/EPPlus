@@ -202,10 +202,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 else
                 {
                     var ws = r.Worksheet;
-                    var name = ws.GetValue(r._fromRow, col).ToString();
+                    var name = ws.GetValue(r._fromRow, col)?.ToString();
                     ExcelPivotTableCacheField field;
                     if (_fields==null || ix>=_fields?.Count)
                     {
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            throw new InvalidOperationException($"Pivot Cache with id {CacheId} is invalid . Contains reference to an column with empty header");
+                        }
                         field = CreateField(name, ix);
                         field.TopNode.InnerXml = "<sharedItems/>";
                         foreach(var pt in _pivotTables)
@@ -218,9 +222,11 @@ namespace OfficeOpenXml.Table.PivotTable
                         field=_fields[ix];
                         field.SharedItems.Clear();
                     }
-                    field.Name = name;
+                    if(!string.IsNullOrEmpty(name)) field.Name = name;
                     var hs = new HashSet<object>();
-                    for (int row = r._fromRow + 1; row <= r._toRow; row++)
+                    var dimensionToRow = ws.Dimension?._toRow ?? r._fromRow + 1;
+                    var toRow = r._toRow < dimensionToRow ? r._toRow : dimensionToRow;
+                    for (int row = r._fromRow + 1; row <= toRow; row++)
                     {
                         ExcelPivotTableCacheField.AddSharedItemToHashSet(hs, ws.GetValue(row, col));
                     }

@@ -1594,11 +1594,11 @@ namespace EPPlusTest
         public void Issue269()
         {
             var data = new List<TestDTO>();
-            
+
             using (var p = new ExcelPackage())
             {
                 var sheet = p.Workbook.Worksheets.Add("Sheet1");
-                var r = sheet.Cells["A1"].LoadFromCollection(data,false);
+                var r = sheet.Cells["A1"].LoadFromCollection(data, false);
                 Assert.IsNull(r);
             }
         }
@@ -1617,7 +1617,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("XML in Cells.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];                
+                var ws = p.Workbook.Worksheets[0];
                 var cell = ws.Cells["D43"];
                 cell.Value = cell.Value + " ";
 
@@ -1626,7 +1626,7 @@ namespace EPPlusTest
                 rtx.VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
 
                 ws.Cells["D43:E44"].Value = new object[,] { { "Cell1", "Cell2" }, { "Cell21", "Cell22" } };
-                
+
                 SaveAndCleanup(p);
             }
         }
@@ -1647,16 +1647,16 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets["Stacked Logs"];
                 //Insert 2 rows extending the data validations. 
-                ws.InsertRow(4,2,4);                
+                ws.InsertRow(4, 2, 4);
 
                 //Get the data validation of choice.
                 var dv = ws.DataValidations[0].As.ListValidation;
-                
+
                 //Adjust the formula using the R1C1 translator...
                 var formula = dv.Formula.ExcelFormula;
-                var r1c1Formula = OfficeOpenXml.Core.R1C1Translator.ToR1C1Formula(formula, dv.Address.Start.Row, dv.Address.Start.Column);                
+                var r1c1Formula = OfficeOpenXml.Core.R1C1Translator.ToR1C1Formula(formula, dv.Address.Start.Row, dv.Address.Start.Column);
                 //Add one row to the formula
-                var formulaRowPlus1 = OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(r1c1Formula, dv.Address.Start.Row+1, dv.Address.Start.Column);
+                var formulaRowPlus1 = OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(r1c1Formula, dv.Address.Start.Row + 1, dv.Address.Start.Column);
 
                 SaveAndCleanup(p);
             }
@@ -1731,7 +1731,7 @@ namespace EPPlusTest
                 p.Workbook.FormulaParserManager.DetachLogger();
                 var result = sheet.Cells["R5"].Value;
                 ExcelAddress a = new ExcelAddress();
-                
+
                 SaveAndCleanup(p);
             }
         }
@@ -1741,7 +1741,7 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage("s70.xlsx"))
             {
                 p.Workbook.Calculate();
-                //Assert.AreEqual(7D, p.Workbook.Worksheets[0].Cells["P1"].Value);
+                Assert.AreEqual(7D, p.Workbook.Worksheets[0].Cells["P1"].Value);
                 Assert.AreEqual(1D, p.Workbook.Worksheets[0].Cells["P2"].Value);
                 Assert.AreEqual(0D, p.Workbook.Worksheets[0].Cells["P3"].Value);
             }
@@ -1753,7 +1753,7 @@ namespace EPPlusTest
             {
                 p.Workbook.CreateVBAProject();
                 p.Save();
-            }            
+            }
         }
     }
 }
