@@ -168,6 +168,7 @@ namespace OfficeOpenXml
         public ExcelAddressBase(string address, ExcelWorkbook wb=null, string wsName=null)
         {
             SetAddress(address, wb, wsName);
+            if (string.IsNullOrEmpty(_ws)) _ws = wsName;
         }
         /// <summary>
         /// Creates an Address object

@@ -1741,7 +1741,19 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage("s70.xlsx"))
             {
                 p.Workbook.Calculate();
+                //Assert.AreEqual(7D, p.Workbook.Worksheets[0].Cells["P1"].Value);
+                Assert.AreEqual(1D, p.Workbook.Worksheets[0].Cells["P2"].Value);
+                Assert.AreEqual(0D, p.Workbook.Worksheets[0].Cells["P3"].Value);
             }
-        }        
+        }
+        [TestMethod]
+        public void Issue287()
+        {
+            using (var p = OpenTemplatePackage("issue287.xlsm"))
+            {
+                p.Workbook.CreateVBAProject();
+                p.Save();
+            }            
+        }
     }
 }
