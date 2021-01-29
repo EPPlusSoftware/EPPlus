@@ -22,6 +22,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Style.Table
 {
+    /// <summary>
+    /// A base class for custom named table styles
+    /// </summary>
     public abstract class ExcelTableNamedStyleBase : XmlHelper
     {
         protected ExcelStyles _styles;
@@ -54,11 +57,6 @@ namespace OfficeOpenXml.Style.Table
                                     type == eTableStyleElement.SecondColumnStripe ||
                                     type == eTableStyleElement.SecondRowStripe;
         }
-
-        /// <summary>
-        /// If a table style is applied for a table/pivot table or both
-        /// </summary>
-        public abstract eTableNamedStyleType TableNamedStyleType { get; }
         protected ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element)
         {
             if (_dic.ContainsKey(element))
@@ -77,6 +75,9 @@ namespace OfficeOpenXml.Style.Table
             _dic.Add(element, item);
             return item;
         }
+        /// <summary>
+        /// If a table style is applied for a table/pivot table or both
+        /// </summary>
         public abstract eTableNamedStyleAppliesTo AppliesTo
         {
             get;

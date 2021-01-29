@@ -15,7 +15,7 @@ using System.Xml;
 namespace OfficeOpenXml.Style.Table
 {
     /// <summary>
-    /// A named table style that applies to both tables and pivot tables
+    /// A custom named table style that applies to both tables and pivot tables
     /// </summary>
     public class ExcelTableAndPivotTableNamedStyle : ExcelPivotTableNamedStyle
     {
@@ -62,15 +62,5 @@ namespace OfficeOpenXml.Style.Table
                 return GetTableStyleElement(eTableStyleElement.LastTotalCell);
             }
         }
-        /// <summary>
-        /// If a table style is applied for a table/pivot table or both
-        /// </summary>
-        public override eTableNamedStyleType TableNamedStyleType
-        {
-            get
-            {
-                return eTableNamedStyleType.PivotTableAndTable;
-            }
-        }       
     }
 }

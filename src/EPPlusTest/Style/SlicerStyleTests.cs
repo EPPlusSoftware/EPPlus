@@ -111,6 +111,13 @@ namespace EPPlusTest.Style
             slicer.SetPosition(100, 100);
             slicer.StyleName = "CustomSlicerStyleFromTemplate";
 
+            //Assert
+            Assert.AreEqual(eDxfFillStyle.GradientFill, s.HoveredSelectedItemWithData.Style.Fill.Style);
+            Assert.AreEqual(2, s.HoveredSelectedItemWithData.Style.Fill.Gradient.Colors.Count);
+            Assert.AreEqual(0, s.HoveredSelectedItemWithData.Style.Fill.Gradient.Colors[0].Position);
+            Assert.AreEqual(Color.FromArgb(0xFF, 0XF8, 0XE1, 0X62), s.HoveredSelectedItemWithData.Style.Fill.Gradient.Colors[0].Color.Color);
+            Assert.AreEqual(Color.FromArgb(0xFF, 0XFC, 0XF7, 0XE0), s.HoveredSelectedItemWithData.Style.Fill.Gradient.Colors[1].Color.Color);
+            Assert.AreEqual(100, s.HoveredSelectedItemWithData.Style.Fill.Gradient.Colors[1].Position);
         }
         [TestMethod]
         public void AddSlicerStyleFromOther()
@@ -120,6 +127,7 @@ namespace EPPlusTest.Style
 
             var sc= _pck.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyleCopy", s);
 
+            sc.SelectedItemWithData.Style.Fill.Style = eDxfFillStyle.PatternFill;
             sc.SelectedItemWithData.Style.Fill.BackgroundColor.SetColor(eThemeSchemeColor.Background2);
             sc.SelectedItemWithData.Style.Fill.PatternType = ExcelFillStyle.LightGray;
 
@@ -128,7 +136,37 @@ namespace EPPlusTest.Style
             var slicer = tbl.Columns[0].AddSlicer();
             slicer.SetPosition(100, 100);
             slicer.StyleName = "CustomSlicerStyleCopy";
+
+            Assert.AreEqual(eThemeSchemeColor.Background2, sc.SelectedItemWithData.Style.Fill.BackgroundColor.Theme);
+            Assert.AreEqual(ExcelFillStyle.LightGray, sc.SelectedItemWithData.Style.Fill.PatternType);
         }
+
+        [TestMethod]
+        public void AddSlicerStyleFromOtherNewPackage()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SlicerStyleCopyOtherPck");
+            var s = _pck.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyleToCopyOther", eSlicerStyle.Other2);
+
+            var fmt = "#,##0.0";
+            s.HoveredUnselectedItemWithNoData.Style.NumberFormat.Format = fmt;
+            s.WholeTable.Style.Font.Name = "Arial";
+
+            using (var p = new ExcelPackage())
+            {
+                var sc = p.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyleCopyPck", s);
+                ws=p.Workbook.Worksheets.Add("CopiedSlicerStyle");
+                LoadTestdata(ws);
+                var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table3");
+                var slicer = tbl.Columns[0].AddSlicer();
+                slicer.SetPosition(100, 100);
+                slicer.StyleName = "CustomSlicerStyleCopyPck";
+
+                Assert.AreEqual(fmt, sc.HoveredUnselectedItemWithNoData.Style.NumberFormat.Format);
+
+                SaveWorkbook("SlicerStyleNewPackage.Xlsx", p);
+            }
+        }
+
 
         [TestMethod]
         public void ReadSlicerStyle()
@@ -139,6 +177,7 @@ namespace EPPlusTest.Style
                 if (s == null) Assert.Inconclusive("Custom style does not exists");
 
                 Assert.AreEqual("CustomSlicerStyle1", s.Name);
+
                 //Assert
                 Assert.AreEqual(Color.LightGray.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
                 Assert.AreEqual(Color.DarkGray.ToArgb(), s.HeaderRow.Style.Fill.BackgroundColor.Color.Value.ToArgb());
@@ -152,163 +191,6 @@ namespace EPPlusTest.Style
                 Assert.AreEqual(Color.LightGoldenrodYellow.ToArgb(), s.HoveredUnselectedItemWithData.Style.Fill.BackgroundColor.Color.Value.ToArgb());
             }
         }
-        //[TestMethod]
-        //public void AddPivotTableStyle()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("PivotTableStyle");
-        //    var s = _pck.Workbook.Styles.CreatePivotTableStyle("CustomPivotTableStyle1");
-        //    s.WholeTable.Style.Font.Color.SetColor(Color.DarkBlue);
-        //    s.FirstRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //    s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightGreen);
-        //    s.FirstRowStripe.BandSize = 2;
-        //    s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //    s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
-        //    s.SecondRowStripe.BandSize = 3;
-        //    LoadTestdata(ws);
-        //    var pt = ws.PivotTables.Add(ws.Cells["G2"], ws.Cells["A1:D101"], "PivotTable1");
-
-        //    pt.StyleName = "CustomPivotTableStyle1";
-        //}
-        //[TestMethod]
-        //public void ReadPivotTableStyle()
-        //{
-        //    using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
-        //    {
-        //        Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
-        //        var s = p.Workbook.Styles.TableStyles["CustomPivotTableStyle1"].As.PivotTableStyle;
-        //        Assert.AreEqual("CustomPivotTableStyle1", s.Name);
-
-        //        //Assert
-        //        Assert.AreEqual(Color.DarkBlue.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
-
-        //        Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
-        //        Assert.AreEqual(Color.LightGreen.ToArgb(), s.FirstRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-        //        Assert.AreEqual(2, s.FirstRowStripe.BandSize);
-
-        //        Assert.AreEqual(ExcelFillStyle.Solid, s.SecondRowStripe.Style.Fill.PatternType);
-        //        Assert.AreEqual(Color.LightGray.ToArgb(), s.SecondRowStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-        //        Assert.AreEqual(3, s.SecondRowStripe.BandSize);
-        //    }
-        //}
-        //[TestMethod]
-        //public void AddTableAndPivotTableStyle()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("SharedTableStyle");
-        //    var s = _pck.Workbook.Styles.CreateTableAndPivotTableStyle("CustomTableAndPivotTableStyle1");
-        //    s.WholeTable.Style.Font.Color.SetColor(Color.DarkMagenta);
-
-        //    s.FirstColumnStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;            
-        //    s.FirstColumnStripe.Style.Fill.BackgroundColor.SetColor(Color.LightCyan);
-        //    s.FirstColumnStripe.BandSize = 2;
-
-        //    s.SecondColumnStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //    s.SecondColumnStripe.Style.Fill.BackgroundColor.SetColor(Color.LightPink);
-        //    s.SecondColumnStripe.BandSize = 2;
-
-        //    LoadTestdata(ws);
-        //    var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table2");
-        //    tbl.StyleName = "CustomTableAndPivotTableStyle1";
-
-        //    var pt = ws.PivotTables.Add(ws.Cells["G2"], tbl, "PivotTable2");
-        //    pt.RowFields.Add(pt.Fields[0]);
-        //    pt.DataFields.Add(pt.Fields[3]);
-        //    pt.ShowRowStripes = true;
-        //    pt.StyleName = "CustomTableAndPivotTableStyle1";
-        //}
-        //[TestMethod]
-        //public void ReadTableAndPivotTableStyle()
-        //{
-        //    using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
-        //    {
-        //        Assert.AreEqual(3, p.Workbook.Styles.TableStyles.Count);
-        //        var s = p.Workbook.Styles.TableStyles["CustomTableAndPivotTableStyle1"].As.TableAndPivotTableStyle;
-        //        Assert.AreEqual("CustomTableAndPivotTableStyle1", s.Name);
-
-        //        //Assert
-        //        Assert.AreEqual(Color.DarkMagenta.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
-
-        //        Assert.AreEqual(ExcelFillStyle.Solid, s.FirstColumnStripe.Style.Fill.PatternType);
-        //        Assert.AreEqual(Color.LightCyan.ToArgb(), s.FirstColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-        //        Assert.AreEqual(2, s.FirstColumnStripe.BandSize);
-
-        //        Assert.AreEqual(ExcelFillStyle.Solid, s.SecondColumnStripe.Style.Fill.PatternType);
-        //        Assert.AreEqual(Color.LightPink.ToArgb(), s.SecondColumnStripe.Style.Fill.BackgroundColor.Color.Value.ToArgb());
-        //        Assert.AreEqual(2, s.SecondColumnStripe.BandSize);
-        //    }
-        //}
-
-        //[TestMethod]
-        //public void AlterTableStyle()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("TableRowStyle");
-        //    LoadTestdata(ws);
-        //    var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table3");
-        //    var ns = _pck.Workbook.Styles.CreateNamedStyle("TableCellStyle2");
-        //    ns.Style.Font.Color.SetColor(Color.Red);
-        //    //var s = _pck.Workbook.Styles.CreateTableStyle("CustomTableStyle1");
-        //    //s.HeaderRow.Style.Font.Color.SetColor(Color.Red);
-        //    //s.FirstRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //    //s.FirstRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-        //    //s.SecondRowStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        //    //s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightYellow);
-
-
-        //    tbl.TableStyle = OfficeOpenXml.Table.TableStyles.None;
-        //    //tbl.HeaderRowStyleName = "TableCellStyle2";
-        //    tbl.Range.Offset(0, 0, 1, tbl.Range.Columns).StyleName= "TableCellStyle2";
-        //    ////tbl.StyleName = "CustomTableStyle1";
-        //    ////tbl.HeaderRowStyle.Border.Bottom.Style=ExcelBorderStyle.Dashed;
-        //    ////tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
-        //    //tbl.DataStyle.Font.Color.SetColor(Color.Red);
-        //    //tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
-        //}
-
-        //[TestMethod]
-        //public void CopyTableRowStyle()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
-        //    LoadTestdata(ws);
-        //    var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
-
-        //    tbl.HeaderRowStyle.Border.Bottom.Style=ExcelBorderStyle.Dashed;
-        //    tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
-        //    tbl.DataStyle.Font.Color.SetColor(Color.Red);
-        //    tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
-
-        //    var wsCopy = _pck.Workbook.Worksheets.Add("CopyTableRowStyleCopy", ws);
-
-        //    Assert.AreEqual(ExcelBorderStyle.Dashed, tbl.HeaderRowStyle.Border.Bottom.Style);
-        //    Assert.AreEqual(Color.Black.ToArgb(),tbl.HeaderRowStyle.Border.Bottom.Color.Color.Value.ToArgb());
-        //    Assert.AreEqual(Color.Red.ToArgb(), tbl.DataStyle.Font.Color.Color.Value.ToArgb());
-        //    Assert.AreEqual(Color.Green.ToArgb(), tbl.Columns[0].DataStyle.Font.Color.Color.Value.ToArgb());
-
-        //}
-        //[TestMethod]
-        //public void CopyTableRowStyleNewPackage()
-        //{
-        //    using (var p1 = new ExcelPackage())
-        //    {
-        //        var ws = p1.Workbook.Worksheets.Add("CopyTableRowStyleSource");
-        //        LoadTestdata(ws);
-        //        var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table4");
-
-        //        tbl.HeaderRowStyle.Border.Bottom.Style = ExcelBorderStyle.Dashed;
-        //        tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
-        //        tbl.DataStyle.Font.Color.SetColor(Color.Red);
-        //        tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
-
-        //        using (var p2 = new ExcelPackage())
-        //        {
-        //            var wsCopy = p2.Workbook.Worksheets.Add("CopyTableRowStyleCopy", ws);
-
-        //            Assert.AreEqual(ExcelBorderStyle.Dashed, tbl.HeaderRowStyle.Border.Bottom.Style);
-        //            Assert.AreEqual(Color.Black.ToArgb(), tbl.HeaderRowStyle.Border.Bottom.Color.Color.Value.ToArgb());
-        //            Assert.AreEqual(Color.Red.ToArgb(), tbl.DataStyle.Font.Color.Color.Value.ToArgb());
-        //            Assert.AreEqual(Color.Green.ToArgb(), tbl.Columns[0].DataStyle.Font.Color.Color.Value.ToArgb());
-        //            SaveWorkbook("TableDxfCopy.xlsx", p2);
-        //        }
-        //    }
-        //}
     }
 }
 

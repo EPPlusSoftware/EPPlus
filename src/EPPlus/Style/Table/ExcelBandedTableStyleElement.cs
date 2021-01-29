@@ -16,6 +16,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Style
 {
+    /// <summary>
+    /// A style element for a custom table style with band size
+    /// </summary>
     public class ExcelBandedTableStyleElement : ExcelTableStyleElement        
     {
         internal ExcelBandedTableStyleElement(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, eTableStyleElement type) : 

@@ -13,7 +13,7 @@
 namespace OfficeOpenXml.Style
 {
     /// <summary>
-    /// Custom style element for a pivot table
+    /// Custom style element for a table / pivot table 
     /// </summary>
     public enum eTableStyleElement
     {

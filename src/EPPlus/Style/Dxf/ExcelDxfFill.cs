@@ -66,7 +66,14 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return GetAsString(PatternType) + "|" + (PatternColor == null ? "" : PatternColor.Id) + "|" + (BackgroundColor == null ? "" : BackgroundColor.Id);
+                if (Style == eDxfFillStyle.PatternFill)
+                {
+                    return GetAsString(PatternType) + "|" + (PatternColor == null ? "" : PatternColor.Id) + "|" + (BackgroundColor == null ? "" : BackgroundColor.Id);
+                }
+                else
+                {
+                    return Gradient.Id;
+                }
             }
         }
         public eDxfFillStyle Style
@@ -154,7 +161,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfFill(_styles) {PatternType=PatternType, PatternColor=(ExcelDxfColor)PatternColor.Clone(), BackgroundColor= (ExcelDxfColor)BackgroundColor.Clone()};
+            return new ExcelDxfFill(_styles) {PatternType=PatternType, PatternColor=(ExcelDxfColor)PatternColor?.Clone(), BackgroundColor= (ExcelDxfColor)BackgroundColor?.Clone(), Gradient=(ExcelDxfGradientFill)Gradient?.Clone()};
         }
         protected internal override void SetValuesFromXml(XmlHelper helper)
         {

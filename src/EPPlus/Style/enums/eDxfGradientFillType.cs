@@ -8,22 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  01/29/2021         EPPlus Software AB       EPPlus 5.6
  *************************************************************************************************/
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Style
 {
     /// <summary>
-    /// Fill style for a differential style
+    /// Type of gradient fill
     /// </summary>
-    public enum eDxfFillStyle
+    public enum eDxfGradientFillType
     {
         /// <summary>
-        /// Fill using the selected pattern and color
+        /// Linear gradient type. Linear gradient type means that the transition from one color to the next is along a line.
         /// </summary>
-        PatternFill,
+        Linear,
         /// <summary>
-        /// A gradient fill using multiple colors.        
+        /// Path gradient type. Path gradient type means the that the transition from one color to the next is a rectangle, defined by coordinates.
         /// </summary>
-        GradientFill
+        Path
     }
 }

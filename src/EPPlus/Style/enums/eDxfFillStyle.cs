@@ -8,26 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
+  01/29/2021         EPPlus Software AB       EPPlus 5.6
  *************************************************************************************************/
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Style
 {
     /// <summary>
-    /// The type of custom named style for tables and pivot tables
+    /// Fill style for a differential style
     /// </summary>
-    public enum eTableNamedStyleType
+    public enum eDxfFillStyle
     {
         /// <summary>
-        /// A custom named style for tables
+        /// Fill using the selected pattern and color
         /// </summary>
-        Table,
+        PatternFill,
         /// <summary>
-        /// A custom named style for  pivot tables
+        /// A gradient fill using multiple colors.        
         /// </summary>
-        PivotTable,
-        /// <summary>
-        /// A custom named style for tables and  pivot tables
-        /// </summary>
-        PivotTableAndTable
+        GradientFill
     }
 }

@@ -25,7 +25,7 @@ using System.Xml;
 namespace OfficeOpenXml.Style.Table
 {
     /// <summary>
-    /// A named table style that applies to tables only
+    /// A custom named table style that applies to tables only
     /// </summary>
     public class ExcelTableNamedStyle : ExcelTableNamedStyleBase
     {
@@ -70,17 +70,6 @@ namespace OfficeOpenXml.Style.Table
             get
             {
                 return eTableNamedStyleAppliesTo.Tables;
-            }
-        }
-
-        /// <summary>
-        /// If a table style is applied for a table/pivot table or both
-        /// </summary>
-        public override eTableNamedStyleType TableNamedStyleType
-        {
-            get
-            {
-                return eTableNamedStyleType.Table;
             }
         }
     }

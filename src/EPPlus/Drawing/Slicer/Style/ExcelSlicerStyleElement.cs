@@ -17,6 +17,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Slicer.Style
 {
+    /// <summary>
+    /// A style element for a custom slicer style 
+    /// </summary>
     public class ExcelSlicerStyleElement : XmlHelper
     {
         ExcelStyles _styles;
@@ -26,6 +29,9 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
             Type = type;
         }
         ExcelDxfStyle _style = null;
+        /// <summary>
+        /// Access to style settings
+        /// </summary>
         public ExcelDxfStyle Style
         {
             get
@@ -41,6 +47,9 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
                 _style = value;
             }
         }
+        /// <summary>
+        /// The type of the slicer element that this style is applied to.
+        /// </summary>
         public eSlicerStyleElement Type
         {
             get;

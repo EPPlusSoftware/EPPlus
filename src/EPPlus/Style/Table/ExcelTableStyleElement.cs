@@ -17,6 +17,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Style
 {
+    /// <summary>
+    /// A style element for a custom table style 
+    /// </summary>
     public class ExcelTableStyleElement : XmlHelper
     {
         ExcelStyles _styles;
@@ -26,6 +29,9 @@ namespace OfficeOpenXml.Style
             Type = type;
         }
         ExcelDxfStyleLimitedFont _style = null;
+        /// <summary>
+        /// Access to style properties
+        /// </summary>
         public ExcelDxfStyleLimitedFont Style
         {
             get
@@ -41,6 +47,9 @@ namespace OfficeOpenXml.Style
                 _style = value;
             }
         }
+        /// <summary>
+        /// The type of table style element for a custom table style.
+        /// </summary>
         public eTableStyleElement Type
         {
             get;

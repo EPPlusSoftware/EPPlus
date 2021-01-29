@@ -15,7 +15,7 @@ using System.Xml;
 namespace OfficeOpenXml.Style.Table
 {
     /// <summary>
-    /// A named table style that applies to pivot tables only
+    /// A custom named table style that applies to pivot tables only
     /// </summary>
     public class ExcelPivotTableNamedStyle : ExcelTableNamedStyleBase
     {
@@ -181,16 +181,6 @@ namespace OfficeOpenXml.Style.Table
             get
             {
                 return GetTableStyleElement(eTableStyleElement.ThirdRowSubheading);
-            }
-        }
-        /// <summary>
-        /// If a table style is applied for a table/pivot table or both
-        /// </summary>
-        public override eTableNamedStyleType TableNamedStyleType
-        {
-            get
-            {
-                return eTableNamedStyleType.PivotTable;
             }
         }
     }

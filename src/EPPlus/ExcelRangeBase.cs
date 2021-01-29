@@ -389,7 +389,7 @@ namespace OfficeOpenXml
         }
         #region Public Properties
         /// <summary>
-        /// The styleobject for the range.
+        /// The style object for the range.
         /// </summary>
         public ExcelStyle Style
         {

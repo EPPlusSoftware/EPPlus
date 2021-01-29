@@ -17,6 +17,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Style
 {
+    /// <summary>
+    /// A style element for a custom slicer style with band
+    /// </summary>
     public class ExcelSlicerTableStyleElement : XmlHelper
     {
         ExcelStyles _styles;
@@ -26,6 +29,9 @@ namespace OfficeOpenXml.Style
             Type = type;
         }
         ExcelDxfStyle _style = null;
+        /// <summary>
+        /// Access to style settings
+        /// </summary>
         public ExcelDxfStyle Style
         {
             get
@@ -41,6 +47,9 @@ namespace OfficeOpenXml.Style
                 _style = value;
             }
         }
+        /// <summary>
+        /// The type of custom style element for a table style
+        /// </summary>
         public eTableStyleElement Type
         {
             get;
