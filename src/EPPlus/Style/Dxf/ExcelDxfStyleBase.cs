@@ -23,12 +23,12 @@ namespace OfficeOpenXml.Style.Dxf
         internal XmlHelperInstance _helper;            
         //internal protected string _dxfIdPath;
 
-        internal ExcelDxfStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(styles)
+        internal ExcelDxfStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
         {
             //_dxfIdPath = dxfIdPath;
-            NumberFormat = new ExcelDxfNumberFormat(_styles);
-            Border = new ExcelDxfBorderBase(_styles);
-            Fill = new ExcelDxfFill(_styles);
+            NumberFormat = new ExcelDxfNumberFormat(_styles, callback);
+            Border = new ExcelDxfBorderBase(_styles, callback);
+            Fill = new ExcelDxfFill(_styles, callback);
 
             if (topNode != null)
             {
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Style.Dxf
                     Fill = Fill,
                     NumberFormat = NumberFormat,
                     DxfId = DxfId,
-                    Font = new ExcelDxfFont(_styles),
+                    Font = new ExcelDxfFont(_styles, _callback),
                     _helper = _helper
                 };
                 ns.Font.GetValuesFromXml(_helper);
@@ -124,13 +124,13 @@ namespace OfficeOpenXml.Style.Dxf
             }
             else
             {
-                var ns = new ExcelDxfStyleLimitedFont(_styles.NameSpaceManager, null, _styles)
+                var ns = new ExcelDxfStyleLimitedFont(_styles.NameSpaceManager, null, _styles, _callback)
                 {
                     Border = Border,
                     Fill = Fill,
                     NumberFormat = NumberFormat,
                     DxfId = DxfId,
-                    Font = new ExcelDxfFontBase(_styles),
+                    Font = new ExcelDxfFontBase(_styles,_callback),
                     _helper = _helper
                 };
                 ns.Font.GetValuesFromXml(_helper);

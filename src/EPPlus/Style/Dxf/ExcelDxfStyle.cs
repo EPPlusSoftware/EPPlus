@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/28/2020         EPPlus Software AB       EPPlus 5.6
  *************************************************************************************************/
+using System;
 using System.Xml;
 namespace OfficeOpenXml.Style.Dxf
 {
@@ -19,14 +20,20 @@ namespace OfficeOpenXml.Style.Dxf
     public class ExcelDxfStyle : ExcelDxfStyleBase
     {
         internal ExcelDxfStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) 
-            : base(nameSpaceManager,topNode, styles)
+            : this(nameSpaceManager,topNode, styles, null)
         {
-            Font = new ExcelDxfFont(styles);
+        }
+        internal ExcelDxfStyle(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
+            : base(nameSpaceManager, topNode, styles, callback)
+        {
+            Font = new ExcelDxfFont(styles, callback);
             if (topNode != null)
             {
                 Font.GetValuesFromXml(_helper);
             }
+
         }
+
         /// <summary>
         /// Font formatting settings
         /// </summary>

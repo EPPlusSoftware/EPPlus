@@ -24,15 +24,15 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfBorderBase : DxfStyleBase
     {
-        internal ExcelDxfBorderBase(ExcelStyles styles)
-            : base(styles)
+        internal ExcelDxfBorderBase(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
+            : base(styles, callback)
         {
-            Left=new ExcelDxfBorderItem(_styles);
-            Right = new ExcelDxfBorderItem(_styles);
-            Top = new ExcelDxfBorderItem(_styles);
-            Bottom = new ExcelDxfBorderItem(_styles);
-            Vertical = new ExcelDxfBorderItem(_styles);
-            Horizontal = new ExcelDxfBorderItem(_styles);
+            Left = new ExcelDxfBorderItem(_styles, eStyleClass.BorderLeft, callback);
+            Right = new ExcelDxfBorderItem(_styles, eStyleClass.BorderRight, callback);
+            Top = new ExcelDxfBorderItem(_styles, eStyleClass.BorderTop, callback);
+            Bottom = new ExcelDxfBorderItem(_styles, eStyleClass.BorderBottom, callback);
+            Vertical = new ExcelDxfBorderItem(_styles, eStyleClass.Border, callback);
+            Horizontal = new ExcelDxfBorderItem(_styles, eStyleClass.Border, callback);
         }
         /// <summary>
         /// Left border style
@@ -138,7 +138,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfBorderBase(_styles) 
+            return new ExcelDxfBorderBase(_styles, _callback) 
             { 
                 Bottom = (ExcelDxfBorderItem)Bottom.Clone(), 
                 Top= (ExcelDxfBorderItem)Top.Clone(), 
@@ -152,23 +152,23 @@ namespace OfficeOpenXml.Style.Dxf
         {
             if (helper.ExistsNode("d:border"))
             {
-                Left = GetBorderItem(helper, "d:border/d:left");
-                Right = GetBorderItem(helper, "d:border/d:right");
-                Bottom = GetBorderItem(helper, "d:border/d:bottom");
-                Top = GetBorderItem(helper, "d:border/d:top");
-                Vertical = GetBorderItem(helper, "d:border/d:vertical");
-                Horizontal = GetBorderItem(helper, "d:border/d:horizontal");
+                Left = GetBorderItem(helper, "d:border/d:left", eStyleClass.BorderLeft);
+                Right = GetBorderItem(helper, "d:border/d:right", eStyleClass.BorderLeft);
+                Bottom = GetBorderItem(helper, "d:border/d:bottom", eStyleClass.BorderLeft);
+                Top = GetBorderItem(helper, "d:border/d:top", eStyleClass.BorderLeft);
+                Vertical = GetBorderItem(helper, "d:border/d:vertical", eStyleClass.Border);
+                Horizontal = GetBorderItem(helper, "d:border/d:horizontal", eStyleClass.Border);
             }
         }
-        private ExcelDxfBorderItem GetBorderItem(XmlHelper helper, string path)
+        private ExcelDxfBorderItem GetBorderItem(XmlHelper helper, string path, eStyleClass styleClass)
         {
-            ExcelDxfBorderItem bi = new ExcelDxfBorderItem(_styles);
+            ExcelDxfBorderItem bi = new ExcelDxfBorderItem(_styles, styleClass, _callback);
             var exists = helper.ExistsNode(path);
             if (exists)
             {
                 var style = helper.GetXmlNodeString(path + "/@style");
                 bi.Style = GetBorderStyleEnum(style);
-                bi.Color = GetColor(helper, path + "/d:color");
+                bi.Color = GetColor(helper, path + "/d:color", styleClass);
             }
             return bi;
         }

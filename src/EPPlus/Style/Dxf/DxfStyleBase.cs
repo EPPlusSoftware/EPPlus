@@ -22,9 +22,11 @@ namespace OfficeOpenXml.Style.Dxf
     public abstract class DxfStyleBase
     {
         internal ExcelStyles _styles;
-        internal DxfStyleBase(ExcelStyles styles)
+        internal Action<eStyleClass, eStyleProperty, object> _callback;
+        internal DxfStyleBase(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
         {
             _styles = styles;
+            _callback = callback;
             AllowChange = false; //Don't touch this value in the styles.xml (by default). When Dxfs is fully implemented this can be removed.
         }
         /// <summary>
@@ -180,9 +182,9 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         protected internal bool AllowChange { get; set; }
 
-        internal ExcelDxfColor GetColor(XmlHelper helper, string path)
+        internal ExcelDxfColor GetColor(XmlHelper helper, string path, eStyleClass styleClass)
         {
-            ExcelDxfColor ret = new ExcelDxfColor(_styles);
+            ExcelDxfColor ret = new ExcelDxfColor(_styles, styleClass, _callback);
             ret.Theme = (eThemeSchemeColor?)helper.GetXmlNodeIntNull(path + "/@theme");
             ret.Index = helper.GetXmlNodeIntNull(path + "/@indexed");
             string rgb = helper.GetXmlNodeString(path + "/@rgb");

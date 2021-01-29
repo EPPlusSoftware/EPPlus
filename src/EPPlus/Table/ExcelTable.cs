@@ -77,8 +77,8 @@ namespace OfficeOpenXml.Table
             TopNode = TableXml.DocumentElement;
             SchemaNodeOrder = new string[] { "autoFilter", "tableColumns", "tableStyleInfo" };
             InitStyles(WorkSheet.Workbook.Styles);
-            TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles);
-            HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles);
+            TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+            HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
         }
 
         private string GetStartXml(string name, int tblId)

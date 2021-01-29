@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/29/2021         EPPlus Software AB       EPPlus 5.6
  *************************************************************************************************/
+using System;
+
 namespace OfficeOpenXml.Style.Dxf
 {
     /// <summary>
@@ -17,11 +19,12 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfGradientFillColor : DxfStyleBase
     {
-        internal ExcelDxfGradientFillColor(ExcelStyles styles, double position)
-            : base(styles)
+        internal ExcelDxfGradientFillColor(ExcelStyles styles, double position, Action<eStyleClass, eStyleProperty, object> callback)
+            : base(styles, callback)
         {
             Position = position;
-            Color = new ExcelDxfColor(styles);
+            var styleClass = position==0 ? eStyleClass.FillGradientColor1 : eStyleClass.FillGradientColor2;
+            Color = new ExcelDxfColor(styles, styleClass, callback);
         }
         /// <summary>
         /// The position of the color 
@@ -64,7 +67,7 @@ namespace OfficeOpenXml.Style.Dxf
 
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfGradientFillColor(_styles, Position)
+            return new ExcelDxfGradientFillColor(_styles, Position, _callback)
             {
                 Color = (ExcelDxfColor)Color.Clone()
             };

@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfNumberFormat : DxfStyleBase
     {
-        internal ExcelDxfNumberFormat(ExcelStyles styles) : base(styles)
+        internal ExcelDxfNumberFormat(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
         {
 
         }
@@ -71,6 +71,7 @@ namespace OfficeOpenXml.Style.Dxf
             internal set
             {
                 _numFmtID = value;
+                _callback?.Invoke(eStyleClass.Numberformat, eStyleProperty.Format, value);
             }
         }
         string _format="";
@@ -87,6 +88,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 _format = value;
                 NumFmtID = ExcelNumberFormat.GetFromBuildIdFromFormat(value);
+                _callback?.Invoke(eStyleClass.Numberformat, eStyleProperty.Format, value);
             }
         }
 
@@ -137,7 +139,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfNumberFormat(_styles) { NumFmtID = NumFmtID, Format = Format };
+            return new ExcelDxfNumberFormat(_styles, _callback) { NumFmtID = NumFmtID, Format = Format };
         }
         protected internal override void SetValuesFromXml(XmlHelper helper)
         {

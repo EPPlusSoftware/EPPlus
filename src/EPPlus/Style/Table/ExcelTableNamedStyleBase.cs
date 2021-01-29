@@ -244,7 +244,7 @@ namespace OfficeOpenXml.Style.Table
                     {
                         var type = elem.GetAttribute("name").ToEnum(eTableStyleElement.WholeTable);
                         var dxfXml = elem.InnerXml;
-                        var dxf = new ExcelDxfStyleLimitedFont(NameSpaceManager, elem.FirstChild, _styles);
+                        var dxf = new ExcelDxfStyleLimitedFont(NameSpaceManager, elem.FirstChild, _styles, null);
 
                         var te = GetTableStyleElement(type);
                         te.Style = dxf;

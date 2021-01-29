@@ -1447,7 +1447,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return new ExcelDxfStyleLimitedFont(NameSpaceManager, null, this);
+                return new ExcelDxfStyleLimitedFont(NameSpaceManager, null, this, null);
             }
         }
         internal ExcelDxfStyle GetDxf(int? dxfId)

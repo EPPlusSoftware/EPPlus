@@ -26,30 +26,91 @@ namespace OfficeOpenXml.Style.Dxf
     public class ExcelDxfColor : DxfStyleBase
 
     {
-        internal ExcelDxfColor(ExcelStyles styles) : base(styles)
+        eStyleClass _styleClass;
+        internal ExcelDxfColor(ExcelStyles styles, eStyleClass styleClass, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
         {
-
+            _styleClass = styleClass;
         }
+        eThemeSchemeColor? _theme=null;
         /// <summary>
         /// Gets or sets a theme color
         /// </summary>
-        public eThemeSchemeColor? Theme { get; set; }
+        public eThemeSchemeColor? Theme 
+        { 
+            get
+            {
+                return _theme;
+            }
+            set
+            {
+                _theme = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.Theme, value);
+            }
+        }
+        int? _index;
         /// <summary>
         /// Gets or sets an indexed color
         /// </summary>
-        public int? Index { get; set; }
+        public int? Index
+        {
+            get
+            {
+                return _index;
+            }
+            set
+            {
+                _index = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.IndexedColor, value);
+            }
+        }
+        bool? _auto;
         /// <summary>
         /// Gets or sets the color to automativ
         /// </summary>
-        public bool? Auto { get; set; }
+        public bool? Auto
+        {
+            get
+            {
+                return _auto;
+            }
+            set
+            {
+                _auto = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.AutoColor, value);
+            }
+        }
+        double? _tint;
         /// <summary>
         /// Gets or sets the Tint value for the color
         /// </summary>
-        public double? Tint { get; set; }
+        public double? Tint
+        {
+            get
+            {
+                return _tint;
+            }
+            set
+            {
+                _tint = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.Tint, value);
+            }
+        }
+        Color? _color;
         /// <summary>
         /// Sets the color.
         /// </summary>
-        public Color? Color { get; set; }
+        public Color? Color 
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.Color, value);
+            }
+        }
         /// <summary>
         /// The Id
         /// </summary>
@@ -106,7 +167,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfColor(_styles) { Theme = Theme, Index = Index, Color = Color, Auto = Auto, Tint = Tint };
+            return new ExcelDxfColor(_styles, _styleClass, _callback) { Theme = Theme, Index = Index, Color = Color, Auto = Auto, Tint = Tint };
         }
         /// <summary>
         /// If the object has a value

@@ -62,7 +62,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
                     default:
                         // Not supported 
                         return CreateResult(eErrorType.Num);
-                        break;
                 }
             }
             if (DateTimeFormatInfo.CurrentInfo == null)

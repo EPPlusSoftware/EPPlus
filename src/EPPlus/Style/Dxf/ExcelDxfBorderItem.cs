@@ -23,18 +23,31 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfBorderItem : DxfStyleBase
     {
-        internal ExcelDxfBorderItem(ExcelStyles styles) :
-            base(styles)
+        eStyleClass _styleClass;
+        internal ExcelDxfBorderItem(ExcelStyles styles, eStyleClass styleClass, Action<eStyleClass, eStyleProperty, object> callback) :
+            base(styles, callback)
         {
-            Color=new ExcelDxfColor(styles);
+            _styleClass = styleClass;
+            Color =new ExcelDxfColor(styles, _styleClass, callback);
         }
+        ExcelBorderStyle? _style;
         /// <summary>
         /// The border style
         /// </summary>
-        public ExcelBorderStyle? Style { get; set;}
-        /// <summary>
-        /// The color of the border
-        /// </summary>
+        public ExcelBorderStyle? Style
+        {
+            get
+            {
+                return _style;
+            }
+            set
+            {
+                _style = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.Style, value);
+            }
+        }        /// <summary>
+                 /// The color of the border
+                 /// </summary>
         public ExcelDxfColor Color { get; internal set; }
 
         /// <summary>
@@ -79,7 +92,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfBorderItem(_styles) { Style = Style, Color = Color };
+            return new ExcelDxfBorderItem(_styles,_styleClass, _callback) { Style = Style, Color = Color };
         }
     }
 }

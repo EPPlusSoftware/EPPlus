@@ -356,7 +356,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_style == null)
             {
-                _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, null, _worksheet.Workbook.Styles/*, "../@dxfId"*/);
+                _style = new ExcelDxfStyleLimitedFont(NameSpaceManager, null, _worksheet.Workbook.Styles, null);
             }
             return _style;
         }

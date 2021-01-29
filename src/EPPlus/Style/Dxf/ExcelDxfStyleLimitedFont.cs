@@ -19,10 +19,10 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfStyleLimitedFont : ExcelDxfStyleBase
     {
-        internal ExcelDxfStyleLimitedFont(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles)
-            : base(nameSpaceManager, topNode, styles)
+        internal ExcelDxfStyleLimitedFont(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
+            : base(nameSpaceManager, topNode, styles, callback)
         {
-            Font = new ExcelDxfFont(styles);
+            Font = new ExcelDxfFont(styles, _callback);
             if (topNode != null)
             {
                 Font.GetValuesFromXml(_helper);
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            var s = new ExcelDxfStyleLimitedFont(_helper.NameSpaceManager, null, _styles/*, _dxfIdPath*/)
+            var s = new ExcelDxfStyleLimitedFont(_helper.NameSpaceManager, null, _styles, _callback)
             {
                 Font = (ExcelDxfFont)Font.Clone(),
                 NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),

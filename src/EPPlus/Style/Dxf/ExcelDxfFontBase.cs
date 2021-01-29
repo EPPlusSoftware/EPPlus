@@ -26,39 +26,79 @@ namespace OfficeOpenXml.Style.Dxf
     /// </summary>
     public class ExcelDxfFontBase : DxfStyleBase
     {
-        internal ExcelDxfFontBase(ExcelStyles styles)
-            : base(styles)
+        internal ExcelDxfFontBase(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
+            : base(styles, callback)
         {
-            Color = new ExcelDxfColor(styles);
+            Color = new ExcelDxfColor(styles, eStyleClass.Font, callback);
         }
+        bool? _bold;
         /// <summary>
         /// Font bold
         /// </summary>
         public bool? Bold
         {
-            get;
-            set;
+            get
+            {
+                return _bold;
+            }
+            set
+            {
+                _bold = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Bold, value);
+            }
         }
+        bool? _italic;
         /// <summary>
         /// Font Italic
         /// </summary>
         public bool? Italic
         {
-            get;
-            set;
+            get
+            {
+                return _italic;
+            }
+            set
+            {
+                _italic = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Italic, value);
+            }
         }
+        bool? _strike;
         /// <summary>
         /// Font-Strikeout
         /// </summary>
-        public bool? Strike { get; set; }
+        public bool? Strike
+        {
+            get
+            {
+                return _strike;
+            }
+            set
+            {
+                _strike = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Strike, value);
+            }
+        }
         /// <summary>
         /// The color of the text
         /// </summary>
         public ExcelDxfColor Color { get; set; }
+        ExcelUnderLineType? _underline;
         /// <summary>
         /// The underline type
         /// </summary>
-        public ExcelUnderLineType? Underline { get; set; }
+        public ExcelUnderLineType? Underline
+        {
+            get
+            {
+                return _underline;
+            }
+            set
+            {
+                _underline = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.UnderlineType, value);
+            }
+        }
 
         /// <summary>
         /// The id
@@ -113,7 +153,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfFontBase(_styles) { Bold = Bold, Color = (ExcelDxfColor)Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
+            return new ExcelDxfFontBase(_styles, _callback) { Bold = Bold, Color = (ExcelDxfColor)Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
         }
 
         internal void GetValuesFromXml(XmlHelperInstance helper)
@@ -124,7 +164,7 @@ namespace OfficeOpenXml.Style.Dxf
                 Italic = helper.GetXmlNodeBoolNullableWithVal("d:font/d:i");
                 Strike = helper.GetXmlNodeBoolNullableWithVal("d:font/d:strike");
                 Underline = GetUnderLine(helper);
-                Color = GetColor(helper, "d:font/d:color");
+                Color = GetColor(helper, "d:font/d:color", eStyleClass.Font);
             }
         }
 
@@ -150,35 +190,135 @@ namespace OfficeOpenXml.Style.Dxf
     }
     public class ExcelDxfFont : ExcelDxfFontBase
     {
-        internal ExcelDxfFont(ExcelStyles styles)
-           : base(styles)
+        internal ExcelDxfFont(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
+           : base(styles, callback)
         {
         }
+        float? _size;
         /// <summary>
         /// The font size 
         /// </summary>
-        public float? Size { get; set; }
+        public float? Size
+        {
+            get
+            {
+                return _size;
+            }
+            set
+            {
+                _size = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Size, value);
+            }
+        }
+        string _name;
         /// <summary>
         /// The name of the font
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Name, value);
+            }
+        }
+        int? _family;
         /// <summary>
         /// Font family 
         /// </summary>
-        public int? Family { get; set; }
+        public int? Family
+        {
+            get
+            {
+                return _family;
+            }
+            set
+            {
+                _family = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Family, value);
+            }
+        }
+        ExcelVerticalAlignmentFont _verticalAlign = ExcelVerticalAlignmentFont.None;
         /// <summary>
         /// Font-Vertical Align
         /// </summary>
         public ExcelVerticalAlignmentFont VerticalAlign
         {
-            get;
-            set;
-        } = ExcelVerticalAlignmentFont.None;
-        public bool? Outline { get; set; }
-        public bool? Shadow { get; set; }
-        public bool? Condense { get; set; }
-        public bool? Extend { get; set; }
-        public eThemeFontCollectionType? Scheme { get; set; }
+            get
+            {
+                return _verticalAlign;
+            }
+            set
+            {
+                _verticalAlign = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.VerticalAlign, value);
+            }
+        }
+        bool? _outline;
+        public bool? Outline
+        {
+            get
+            {
+                return _outline;
+            }
+            set
+            {
+                _outline = value;                
+            }
+        }
+        bool? _shadow;
+        public bool? Shadow
+        {
+            get
+            {
+                return _shadow;
+            }
+            set
+            {
+                _shadow = value;
+            }
+        }
+        bool? _condense;
+        public bool? Condense 
+        {
+            get
+            {
+                return _condense;
+            }
+            set
+            {
+                _condense = value;
+            }
+        }
+        bool? _extend;
+        public bool? Extend
+        {
+            get
+            {
+                return _extend;
+            }
+            set
+            {
+                _extend = value;
+            }
+        }
+        eThemeFontCollectionType? _scheme;
+        public eThemeFontCollectionType? Scheme
+        {
+            get
+            {
+                return _scheme;
+            }
+            set
+            {
+                _scheme = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Scheme, value);
+            }
+        }
         protected internal override string Id
         {
             get
@@ -192,7 +332,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <returns>A new instance of the object</returns>
         protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfFont(_styles) 
+            return new ExcelDxfFont(_styles, _callback) 
             {
                 Name = Name,
                 Size = Size,
