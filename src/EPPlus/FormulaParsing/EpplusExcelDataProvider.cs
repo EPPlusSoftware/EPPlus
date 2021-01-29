@@ -347,7 +347,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override IRangeInfo GetRange(string worksheet, int row, int column, string address)
         {
-            var addr = new ExcelAddress(worksheet, address);
+            var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {
                 addr = ConvertToA1C1(addr);
@@ -360,7 +360,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override IRangeInfo GetRange(string worksheet, string address)
         {
-            var addr = new ExcelAddress(worksheet, address);
+            var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {
                 addr = ConvertToA1C1(addr);
@@ -372,7 +372,7 @@ namespace OfficeOpenXml.FormulaParsing
             return new RangeInfo(ws, addr);
         }
 
-        private ExcelAddress ConvertToA1C1(ExcelAddress addr)
+        private ExcelAddress ConvertToA1C1(ExcelAddressBase addr)
         {
             //Convert the Table-style Address to an A1C1 address
             addr.SetRCFromTable(_package, addr);
