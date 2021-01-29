@@ -1276,7 +1276,8 @@ namespace OfficeOpenXml
 			stream.PutNextEntry(fileName);
 
 			var cache = new StringBuilder();
-			var sw = new StreamWriter(stream);
+			var utf8Encoder = System.Text.Encoding.GetEncoding("UTF-8", new System.Text.EncoderReplacementFallback(string.Empty), new System.Text.DecoderReplacementFallback(string.Empty));
+			var sw = new StreamWriter(stream, utf8Encoder);
 			cache.AppendFormat("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"{0}\" uniqueCount=\"{0}\">", _sharedStrings.Count);
 			foreach (string t in _sharedStrings.Keys)
 			{
