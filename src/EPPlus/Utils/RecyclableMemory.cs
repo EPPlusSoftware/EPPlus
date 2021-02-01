@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace OfficeOpenXml.Utils
 {
-	internal static class RecyclableMemory
+	public static class RecyclableMemory
 	{
 #if !NET35
 		private static Microsoft.IO.RecyclableMemoryStreamManager _memoryManager;
@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Utils
 			_memoryManager = recyclableMemoryStreamManager;
 		}
 #endif
-		public static MemoryStream GetStream()
+		internal static MemoryStream GetStream()
 		{
 #if NET35
 			return new MemoryStream();
@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Utils
 #endif
 		}
 
-		public static MemoryStream GetStream(byte[] array)
+		internal static MemoryStream GetStream(byte[] array)
 		{
 #if NET35
 			return new MemoryStream(array);
@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Utils
 #endif
 		}
 
-		public static MemoryStream GetStream(int capacity)
+		internal static MemoryStream GetStream(int capacity)
 		{
 #if NET35
 			return new MemoryStream(capacity);
