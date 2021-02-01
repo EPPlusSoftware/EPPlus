@@ -632,6 +632,19 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void MaxShouldHandleEmptyRange()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A5"].Formula = "MAX(A1:A4)";
+                sheet.Calculate();
+                var value = sheet.Cells["A5"].Value;
+                Assert.AreEqual(0d, value);
+            }
+        }
+
+        [TestMethod]
         public void MaxaShouldCalculateCorrectResult()
         {
             var func = new Maxa();
@@ -676,6 +689,19 @@ namespace EPPlusTest.Excel.Functions
             args.ElementAt(1).SetExcelStateFlag(ExcelCellState.HiddenCell);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(3d, result.Result);
+        }
+
+        [TestMethod]
+        public void MinShouldHandleEmptyRange()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A5"].Formula = "MIN(A1:A4)";
+                sheet.Calculate();
+                var value = sheet.Cells["A5"].Value;
+                Assert.AreEqual(0d, value);
+            }
         }
 
         [TestMethod]
