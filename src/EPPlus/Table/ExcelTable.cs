@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Table
         {
             TopNode = TableXml.DocumentElement;
             SchemaNodeOrder = new string[] { "autoFilter", "tableColumns", "tableStyleInfo" };
-            InitStyles(WorkSheet.Workbook.Styles);
+            InitDxf(WorkSheet.Workbook.Styles, this, null);
             TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
         }
@@ -444,6 +444,7 @@ namespace OfficeOpenXml.Table
                             _cols[i].Name = v;
                         }
                     }
+                    HeaderRowStyle.SetStyle();
                 }
                 else
                 {
@@ -570,6 +571,7 @@ namespace OfficeOpenXml.Table
                     if (value)
                     {
                         SetXmlNodeString(TOTALSROWCOUNT_PATH, "1");
+                        TotalsRowStyle.SetStyle();
                     }
                     else
                     {

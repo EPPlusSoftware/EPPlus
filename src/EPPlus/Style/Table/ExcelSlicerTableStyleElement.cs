@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Style
             {
                 if (_style == null)
                 {
-                    _style = _styles.GetDxf(GetXmlNodeIntNull("@dxfId"));
+                    _style = _styles.GetDxf(GetXmlNodeIntNull("@dxfId"), null);
                 }
                 return _style;
             }

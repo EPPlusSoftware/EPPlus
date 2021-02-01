@@ -159,7 +159,16 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
-
+        internal override void SetStyle()
+        {
+            if (_callback!=null && _lst.Count > 0)
+            {
+                foreach (var c in _lst)
+                {
+                    c.SetStyle();
+                }
+            }
+        }
         protected internal override DxfStyleBase Clone()
         {
             var ret = new ExcelDxfGradientFillColorCollection(_styles, _callback);

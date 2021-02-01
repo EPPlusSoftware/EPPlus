@@ -63,14 +63,6 @@ namespace EPPlusTest.Style
             }
         }
         [TestMethod]
-        public void VerifyColumnStyle()
-        {
-            using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
-            {
-                Assert.AreEqual(7, p.Workbook.Styles.TableStyles.Count);
-            }
-        }
-        [TestMethod]
         public void AddTableStyle()
         {
             var ws = _pck.Workbook.Worksheets.Add("TableStyle");
@@ -130,8 +122,9 @@ namespace EPPlusTest.Style
         {
             using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
             {
-                var s = p.Workbook.Styles.TableStyles["CustomTableStyle1"].As.TableStyle;
+                var s = p.Workbook.Styles.TableStyles["CustomTableStyle1"];
                 if (s == null) Assert.Inconclusive("CustomTableStyle1 does not exists in workbook");
+                Assert.IsNotNull(s.As.TableStyle);
                 Assert.AreEqual("CustomTableStyle1", s.Name);
 
                 //Assert
@@ -200,6 +193,8 @@ namespace EPPlusTest.Style
         {
             var ws = _pck.Workbook.Worksheets.Add("SharedTableStyle");
             var s = _pck.Workbook.Styles.CreateTableAndPivotTableStyle("CustomTableAndPivotTableStyle1");
+            if (s == null) Assert.Inconclusive("CustomTableAndPivotTableStyle1 does not exists in workbook");
+
             s.WholeTable.Style.Font.Color.SetColor(Color.DarkMagenta);
 
             s.FirstColumnStripe.Style.Fill.PatternType = ExcelFillStyle.Solid;            
@@ -226,6 +221,7 @@ namespace EPPlusTest.Style
             using (var p = OpenTemplatePackage("TableStyleRead.xlsx"))
             {
                 var s = p.Workbook.Styles.TableStyles["CustomTableAndPivotTableStyle1"];
+                if (s == null) Assert.Inconclusive("CustomTableAndPivotTableStyle1 style is not present in the workbook");
                 var tpts =s.As.TableAndPivotTableStyle;
                 Assert.AreEqual("CustomTableAndPivotTableStyle1", tpts.Name);
 
@@ -261,12 +257,20 @@ namespace EPPlusTest.Style
         {
             var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
             LoadTestdata(ws);
-            var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table5");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table5");
 
             tbl.HeaderRowStyle.Border.Bottom.Style=ExcelBorderStyle.Dashed;
             tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
+            tbl.HeaderRowStyle.Border.Top.Style = ExcelBorderStyle.Dashed;
+            tbl.HeaderRowStyle.Border.Top.Color.SetColor(Color.Black);
+
             tbl.DataStyle.Font.Color.SetColor(Color.Red);
             tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
+            tbl.TotalsRowStyle.Font.Size = 15;
+            tbl.TotalsRowStyle.Font.Color.SetColor(eThemeSchemeColor.Accent5);
+            tbl.ShowTotal = true;
+            tbl.Columns[1].TotalsRowFunction = RowFunctions.Sum;
+            tbl.Columns[1].TotalsRowStyle.NumberFormat.Format = "#,##0.00";
 
             var wsCopy = _pck.Workbook.Worksheets.Add("CopyTableRowStyleCopy", ws);
 
@@ -283,12 +287,17 @@ namespace EPPlusTest.Style
             {
                 var ws = p1.Workbook.Worksheets.Add("CopyTableRowStyleSource");
                 LoadTestdata(ws);
-                var tbl = ws.Tables.Add(ws.Cells["A1:D101"], "Table6");
-
+                var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
                 tbl.HeaderRowStyle.Border.Bottom.Style = ExcelBorderStyle.Dashed;
                 tbl.HeaderRowStyle.Border.Bottom.Color.SetColor(Color.Black);
                 tbl.DataStyle.Font.Color.SetColor(Color.Red);
                 tbl.Columns[0].DataStyle.Font.Color.SetColor(Color.Green);
+                tbl.Columns[1].TotalsRowFunction = RowFunctions.Sum;
+                tbl.TotalsRowStyle.Font.Size = 15;
+                tbl.TotalsRowStyle.Font.Color.SetColor(eThemeSchemeColor.Accent5);
+                tbl.ShowTotal = true;
+                tbl.Columns[1].DataStyle.NumberFormat.Format = "#,##0.00";
+                tbl.Columns[1].TotalsRowStyle.NumberFormat.Format = "#,##0.00";
 
                 using (var p2 = new ExcelPackage())
                 {

@@ -56,6 +56,11 @@ namespace OfficeOpenXml.Style.Dxf
 
         }
         /// <summary>
+        /// Set the cell style values from the dxf using the callback method.
+        /// </summary>
+        internal abstract void SetStyle();
+
+        /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns></returns>

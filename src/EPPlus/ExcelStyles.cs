@@ -1450,7 +1450,7 @@ namespace OfficeOpenXml
                 return new ExcelDxfStyleLimitedFont(NameSpaceManager, null, this, null);
             }
         }
-        internal ExcelDxfStyle GetDxf(int? dxfId)
+        internal ExcelDxfStyle GetDxf(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
         {
             if(dxfId.HasValue && dxfId < Dxfs.Count)
             {
@@ -1458,7 +1458,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return new ExcelDxfStyle(NameSpaceManager, null, this);
+                return new ExcelDxfStyle(NameSpaceManager, null, this, callback);
             }
         }
         internal ExcelDxfStyle GetDxfSlicer(int? dxfId)

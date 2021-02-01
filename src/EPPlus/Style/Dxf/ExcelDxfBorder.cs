@@ -108,6 +108,17 @@ namespace OfficeOpenXml.Style.Dxf
             Vertical.CreateNodes(helper, path + "/d:vertical");
             Horizontal.CreateNodes(helper, path + "/d:horizontal");
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                Left.SetStyle();
+                Right.SetStyle();
+                Top.SetStyle();
+                Bottom.SetStyle();
+            }
+        }
+
         /// <summary>
         /// If the object has a value
         /// </summary>

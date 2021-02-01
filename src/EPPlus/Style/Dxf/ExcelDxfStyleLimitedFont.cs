@@ -61,6 +61,14 @@ namespace OfficeOpenXml.Style.Dxf
                 return Font.HasValue || base.HasValue;
             }
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                base.SetStyle();
+                Font.SetStyle();
+            }
+        }
         public override void Clear()
         {
             base.Clear();

@@ -161,6 +161,17 @@ namespace OfficeOpenXml.Style.Dxf
             Index = null;
             Auto = true;
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                _callback.Invoke(_styleClass, eStyleProperty.Color, _color);
+                _callback.Invoke(_styleClass, eStyleProperty.Theme, _theme);
+                _callback.Invoke(_styleClass, eStyleProperty.IndexedColor, _index);
+                _callback.Invoke(_styleClass, eStyleProperty.AutoColor, _auto);
+                _callback.Invoke(_styleClass, eStyleProperty.Tint, _tint);
+            }
+        }
         /// <summary>
         /// Clone the object
         /// </summary>

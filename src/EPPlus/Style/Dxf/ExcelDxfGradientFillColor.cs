@@ -80,5 +80,9 @@ namespace OfficeOpenXml.Style.Dxf
             SetValue(stopHelper, "@position", Position / 100);
             SetValueColor(stopHelper, "d:color", Color);
         }
+        internal override void SetStyle()
+        {
+            Color.SetStyle();
+        }
     }
 }

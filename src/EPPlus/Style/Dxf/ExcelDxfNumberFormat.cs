@@ -71,7 +71,6 @@ namespace OfficeOpenXml.Style.Dxf
             internal set
             {
                 _numFmtID = value;
-                _callback?.Invoke(eStyleClass.Numberformat, eStyleProperty.Format, value);
             }
         }
         string _format="";
@@ -151,6 +150,13 @@ namespace OfficeOpenXml.Style.Dxf
                 {
                     Format = ExcelNumberFormat.GetFromBuildInFromID(NumFmtID);
                 }
+            }
+        }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                _callback?.Invoke(eStyleClass.Numberformat, eStyleProperty.Format, _format);
             }
         }
     }

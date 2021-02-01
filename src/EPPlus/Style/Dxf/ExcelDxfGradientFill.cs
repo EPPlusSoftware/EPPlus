@@ -166,6 +166,23 @@ namespace OfficeOpenXml.Style.Dxf
                 c.CreateNodes(gradHelper, "");
             }
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                _callback?.Invoke(eStyleClass.GradientFill, eStyleProperty.GradientType, _gradientType);
+                _callback?.Invoke(eStyleClass.GradientFill, eStyleProperty.GradientDegree, _degree);
+                _callback?.Invoke(eStyleClass.GradientFill, eStyleProperty.GradientTop, _top);
+                _callback?.Invoke(eStyleClass.GradientFill, eStyleProperty.GradientBottom, _bottom);
+                _callback?.Invoke(eStyleClass.GradientFill, eStyleProperty.GradientLeft, _left);
+                _callback?.Invoke(eStyleClass.GradientFill, eStyleProperty.GradientRight, _right);
+                foreach (var c in Colors)
+                {
+                    c.SetStyle();
+                }
+            }
+        }
+
         protected internal override void SetValuesFromXml(XmlHelper helper)
         {
             GradientType = helper.GetXmlNodeString("d:fill/d:gradientFill/@type").ToEnum<eDxfGradientFillType>();

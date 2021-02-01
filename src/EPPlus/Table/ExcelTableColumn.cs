@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Table
             base(ns, topNode)
         {
             _tbl = tbl;
-            InitStyles(tbl.WorkSheet.Workbook.Styles);
+            InitDxf(tbl.WorkSheet.Workbook.Styles, null, this);
             Position = pos;
         }
         /// <summary>

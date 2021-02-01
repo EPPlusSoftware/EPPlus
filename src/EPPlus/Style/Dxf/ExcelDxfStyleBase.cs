@@ -79,6 +79,16 @@ namespace OfficeOpenXml.Style.Dxf
             if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
             if (Border.HasValue) Border.CreateNodes(helper, "d:border");
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                NumberFormat.SetStyle();
+                Border.SetStyle();
+                Fill.SetStyle();
+            }
+        }
+
         /// <summary>
         /// If the object has a value
         /// </summary>

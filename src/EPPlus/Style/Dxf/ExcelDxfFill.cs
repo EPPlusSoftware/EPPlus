@@ -49,6 +49,7 @@ namespace OfficeOpenXml.Style.Dxf
                     throw new InvalidOperationException("Cant set Pattern Type when Style is set to GradientFill");
                 }
                 _patternType = value;
+                _callback?.Invoke(eStyleClass.Fill, eStyleProperty.PatternType, value);
             }
         }
         /// <summary>
@@ -162,6 +163,22 @@ namespace OfficeOpenXml.Style.Dxf
         protected internal override DxfStyleBase Clone()
         {
             return new ExcelDxfFill(_styles, _callback) {PatternType=PatternType, PatternColor=(ExcelDxfColor)PatternColor?.Clone(), BackgroundColor= (ExcelDxfColor)BackgroundColor?.Clone(), Gradient=(ExcelDxfGradientFill)Gradient?.Clone()};
+        }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                if (Style == eDxfFillStyle.PatternFill)
+                {
+                    _callback?.Invoke(eStyleClass.Fill, eStyleProperty.PatternType, _patternType);
+                    PatternColor.SetStyle();
+                    BackgroundColor.SetStyle();
+                }
+                else
+                {
+                    Gradient.SetStyle();
+                }
+            }
         }
         protected internal override void SetValuesFromXml(XmlHelper helper)
         {

@@ -86,6 +86,14 @@ namespace OfficeOpenXml.Style.Dxf
             Style = null;
             Color.Clear();
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                _callback.Invoke(_styleClass, eStyleProperty.Style, _style);
+                Color.SetStyle();
+            }
+        }
         /// <summary>
         /// Clone the object
         /// </summary>

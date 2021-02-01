@@ -56,6 +56,16 @@ namespace OfficeOpenXml.Style.Dxf
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
             base.CreateNodes(helper, path);
         }
+
+        internal override void SetStyle()
+        {
+            if (_callback!=null)
+            {
+                base.SetStyle();
+                Font.SetStyle();
+            }
+        }
+
         public override bool HasValue
         {
             get
@@ -70,5 +80,6 @@ namespace OfficeOpenXml.Style.Dxf
                 return Font.Id + base.Id;
             }
         }
+
     }
 }
