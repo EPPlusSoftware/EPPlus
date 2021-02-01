@@ -409,6 +409,7 @@ namespace OfficeOpenXml.Utils
             }
             return s;
         }
+
         #region internal cache objects
         internal static TextInfo _invariantTextInfo = CultureInfo.InvariantCulture.TextInfo;
         internal static CompareInfo _invariantCompareInfo = CompareInfo.GetCompareInfo(CultureInfo.InvariantCulture.Name);  //TODO:Check that it works

@@ -142,5 +142,72 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             return (number > 0d && sign < 0);
         }
+
+        internal static double RoundToSignificantFig(double number, double nSignificantFigures)
+        {
+            return RoundToSignificantFig(number, nSignificantFigures, true);
+        }
+
+        internal static double RoundToSignificantFig(double number, double nSignificantFigures, bool awayFromMidpoint)
+        {
+            var isNegative = false;
+            if(number < 0d)
+            {
+                number *= -1;
+                isNegative = true;
+            }
+            var nFiguresIntPart = GetNumberOfDigitsIntPart(number);
+            var nLeadingZeroDecimals = GetNumberOfLeadingZeroDecimals(number);
+            var nFiguresDecimalPart = nSignificantFigures - nFiguresIntPart - nLeadingZeroDecimals;
+            if (number < 1d)
+            {
+                nFiguresDecimalPart -= nLeadingZeroDecimals;
+            }
+            var tmp = number * System.Math.Pow(10, nFiguresDecimalPart + nLeadingZeroDecimals);
+            var e = awayFromMidpoint? tmp + 0.5 : tmp;
+            if(awayFromMidpoint)
+            { 
+                if ((float)e == (float)System.Math.Ceiling(tmp))
+                {
+                    var f = System.Math.Ceiling(tmp);
+                    var h = (int)f - 2;
+                    if (h % 2 != 0)
+                    {
+                        e = e - 1;
+                    }
+                }
+            }
+            var intVersion = System.Math.Floor(e);
+            double divideBy = System.Math.Pow(10, nFiguresDecimalPart + nLeadingZeroDecimals);
+            var result = intVersion / divideBy;
+            return isNegative ? result * -1 : result;
+        }
+
+        /// <summary>
+        /// Count the number of digits left of the decimal point
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        internal static double GetNumberOfDigitsIntPart(double n)
+        {
+            var tmp = n;
+            int nFiguresIntPart;
+            for (nFiguresIntPart = 0; tmp >= 1; ++nFiguresIntPart)
+                tmp = tmp / 10;
+            return nFiguresIntPart;
+        }
+
+        private static double GetNumberOfLeadingZeroDecimals(double n)
+        {
+            if (n == 0) return 0;
+            var tmp = n;
+            var result = 0;
+            while (tmp < 1d)
+            {
+                tmp *= 10;
+                result++;
+            }
+            return result - 1;
+        }
     }
 }

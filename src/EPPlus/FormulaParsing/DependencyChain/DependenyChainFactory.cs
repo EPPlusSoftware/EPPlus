@@ -167,13 +167,13 @@ namespace OfficeOpenXml.FormulaParsing
                 var t = f.Tokens[f.tokenIx];
                 if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                 {
-                    var adr = new ExcelFormulaAddress(t.Value);
+                    var adr = new ExcelFormulaAddress(t.Value, ws);
                     if (adr.Table != null)
                     {
                         adr.SetRCFromTable(ws._package, new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column));
                     }
 
-                    if (adr.WorkSheetName == null && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
+                    if (adr.WorkSheetName.Equals(ws.Name, StringComparison.OrdinalIgnoreCase) && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
                     {
                         var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
                         f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
@@ -339,7 +339,7 @@ namespace OfficeOpenXml.FormulaParsing
                             foreach (var par in stack)
                             {
                                 if (ExcelAddressBase.GetCellID(par.ws.SheetId, par.iterator.Row, par.iterator.Column) == id ||
-                                    ExcelAddressBase.GetCellID(par.ws.SheetId, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
+                                    ExcelAddressBase.GetCellID(par.SheetID, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
                                     if (options.AllowCircularReferences == false)
                                     {

@@ -705,7 +705,7 @@ namespace EPPlusTest
             using (var pck = OpenPackage("Drawingread.xlsx"))
             {
                 var ws = pck.Workbook.Worksheets["Shapes"];
-                if(ws==null) Assert.Inconclusive("Shapes worksheet is missing");
+                if (ws == null) Assert.Inconclusive("Shapes worksheet is missing");
 
                 var wsShapes = pck.Workbook.Worksheets.Add("Copy Shapes", ws);
                 Assert.AreEqual(187, wsShapes.Drawings.Count);

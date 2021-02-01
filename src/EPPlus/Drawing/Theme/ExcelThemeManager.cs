@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -112,7 +113,7 @@ namespace OfficeOpenXml.Drawing.Theme
             if (CurrentTheme == null)
             {
                 var uri = new Uri("/xl/theme/theme1.xml", UriKind.Relative);
-                var part = _wb._package.ZipPackage.CreatePart(uri, ExcelPackage.schemaTheme);
+                var part = _wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeTheme);
                 themeXml.Save(part.GetStream());
                 var rel = _wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaThemeRelationships);
                 _theme = new ExcelTheme(_wb, rel);

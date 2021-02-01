@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing
     {
         internal delegate void SetWidthCallback();
         SetWidthCallback _setWidthCallback;
-        internal ExcelDrawingCoordinate(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback) :
+        internal ExcelDrawingCoordinate(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback=null) :
             base(ns, node)
         {
             _setWidthCallback = setWidthCallback;
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 SetXmlNodeString(xPath, value.ToString());
-                _setWidthCallback();
+                if(_setWidthCallback != null) _setWidthCallback();
             }
         }
         const string yPath = "@y";
@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 SetXmlNodeString(yPath, value.ToString());
-                _setWidthCallback();
+                if (_setWidthCallback != null) _setWidthCallback();
             }
         }
     }

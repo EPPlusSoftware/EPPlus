@@ -340,5 +340,61 @@ namespace EPPlusTest.Table
                 }
             }
         }
+        [TestMethod]
+        public void AddRowShouldAdjustSubtotals()
+        {
+            using (var package = OpenPackage("TableAdjustSubtotals.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Tables");
+
+                // headers
+                sheet.Cells["A1"].Value = "Month";
+                sheet.Cells["B1"].Value = "Sales";
+                sheet.Cells["C1"].Value = "VAT";
+                sheet.Cells["D1"].Value = "Total";
+
+                var rnd = new Random();
+                for (var row = 2; row < 12; row++)
+                {
+                    sheet.Cells[row, 1].Value = new DateTimeFormatInfo().GetMonthName(row);
+                    sheet.Cells[row, 2].Value = rnd.Next(10000, 100000);
+                    sheet.Cells[row, 3].Formula = $"B{row} * 0.25";
+                    sheet.Cells[row, 4].Formula = $"B{row} + C{row}";
+                }
+                sheet.Cells["B2:D13"].Style.Numberformat.Format = "€#,##0.00";
+
+                var range = sheet.Cells["A1:D11"];
+
+                // create the table
+                var table = sheet.Tables.Add(range, "myTable");
+                // configure the table
+                table.ShowHeader = true;
+                table.ShowFirstColumn = true;
+                table.ShowFilter = false;
+                table.TableStyle = TableStyles.Dark2;
+                // add a totals row under the data
+                table.ShowTotal = true;
+                table.Columns[1].TotalsRowFunction = RowFunctions.Sum;
+                table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
+                table.Columns[3].TotalsRowFunction = RowFunctions.Sum;
+
+
+
+                // insert rows
+                var rowRange = table.AddRow();
+                var newRowIx = rowRange.Start.Row;
+                sheet.Cells[newRowIx, 1].Value = new DateTimeFormatInfo().GetMonthName(newRowIx);
+                sheet.Cells[newRowIx, 2].Value = rnd.Next(10000, 100000);
+                sheet.Cells[newRowIx, 3].Formula = $"B{newRowIx} * 0.25";
+                sheet.Cells[newRowIx, 4].Formula = $"B{newRowIx} + C{newRowIx}";
+
+                // Calculate all the formulas including the totals row.
+                sheet.Calculate();
+                sheet.Cells.AutoFitColumns();
+
+                SaveAndCleanup(package);
+            }
+
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace OfficeOpenXml
         internal XmlHelper _commentHelper;
         private string _text;
         internal ExcelComment(XmlNamespaceManager ns, XmlNode commentTopNode, ExcelRangeBase cell)
-            : base(null, cell, cell.Worksheet.VmlDrawingsComments.NameSpaceManager)
+            : base(null, cell, cell.Worksheet.VmlDrawings.NameSpaceManager)
         {
             //_commentHelper = new XmlHelper(ns, commentTopNode);
             _commentHelper = XmlHelperFactory.Create(ns, commentTopNode);
@@ -41,10 +41,10 @@ namespace OfficeOpenXml
             }
             if (!cell.Worksheet._vmlDrawings.ContainsKey(cell.Start.Row, cell.Start.Column))
             {
-                cell.Worksheet._vmlDrawings.Add(cell);
+                cell.Worksheet._vmlDrawings.AddComment(cell);
             }
 
-            TopNode = cell.Worksheet.VmlDrawingsComments[cell.Start.Row, cell.Start.Column].TopNode;
+            TopNode = cell.Worksheet.VmlDrawings[cell.Start.Row, cell.Start.Column].TopNode;
             RichText = new ExcelRichTextCollection(ns,textElem);
             var tNode = textElem.SelectSingleNode("d:t", ns);
             if (tNode != null)

@@ -90,6 +90,17 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(field);
             return field;
         }
+        internal ExcelPivotTableField AddField(int index)
+        {
+            //Pivot field
+            XmlElement fieldNode = CreateFieldNode(_table);
+            fieldNode.InnerXml = "<items/>";
+
+            var field = new ExcelPivotTableField(_table.NameSpaceManager, fieldNode, _table, _table.Fields.Count, index);
+
+            _list.Add(field);
+            return field;
+        }
 
         private XmlElement CreateFieldNode(ExcelPivotTable tbl)
         {
@@ -113,6 +124,10 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The new calculated field</returns>
         public ExcelPivotTableField AddCalculatedField(string name, string formula)
         {            
+            if(_list.Exists(x=>x.Name.Equals(name,StringComparison.OrdinalIgnoreCase)))
+            {
+                throw (new InvalidOperationException($"Field with name {name} already exists in the collection"));
+            }
             var cache = _table.CacheDefinition._cacheReference;
             var cacheField = cache.AddFormula(name, formula);
 

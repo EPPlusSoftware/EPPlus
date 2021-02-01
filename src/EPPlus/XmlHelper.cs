@@ -62,6 +62,19 @@ namespace OfficeOpenXml
         {
             SchemaNodeOrder = CopyToSchemaNodeOrder(schemaNodeOrder, newItems);
         }
+
+        internal void SetBoolNode(string path, bool value)
+        {
+            if(value)
+            {
+                CreateNode(path);
+            }
+            else
+            {
+                DeleteNode(path);
+            }
+        }
+
         /// <summary>
         /// Adds a new array to the end of SchemaNodeOrder
         /// </summary>
@@ -96,6 +109,14 @@ namespace OfficeOpenXml
             else
                 return CreateNode(path, false);
         }
+        internal XmlNode CreateNode(XmlNode node, string path)
+        {
+            if (path == "")
+                return node;
+            else
+                return CreateNode(node, path, false, false,"");
+        }
+
         /// <summary>
         /// Create the node path. Nodes are inserted according to the Schema node order
         /// </summary>
@@ -106,7 +127,15 @@ namespace OfficeOpenXml
         /// <returns></returns>
         internal XmlNode CreateNode(string path, bool insertFirst, bool addNew = false, string exitName = "")
         {
-            XmlNode node = TopNode;
+            return CreateNode(TopNode, path, insertFirst, addNew, exitName);
+        }
+        protected XmlNode CreateAlternateContentNode(string elementName, string requires)
+        {
+            return CreateNode(TopNode, elementName, false, false,"", requires);
+        }
+
+        private XmlNode CreateNode(XmlNode node, string path, bool insertFirst, bool addNew, string exitName, string alternateContentRequires=null)
+        {
             XmlNode prependNode = null;
             int lastUsedOrderIndex = 0;
             if (path.StartsWith("/")) path = path.Substring(1);
@@ -165,6 +194,16 @@ namespace OfficeOpenXml
                                 subNode = node.OwnerDocument.CreateElement(nodePrefix, nodeName, nameSpaceURI);
                             }
                         }
+                        if(string.IsNullOrEmpty(alternateContentRequires)==false)
+                        {
+                            var altNode = node.OwnerDocument.CreateElement("AlternateContent", ExcelPackage.schemaMarkupCompatibility);
+                            var choiceNode = node.OwnerDocument.CreateElement("Choice", ExcelPackage.schemaMarkupCompatibility);
+                            altNode.AppendChild(choiceNode);
+                            choiceNode.SetAttribute("Requires", alternateContentRequires);
+                            choiceNode.AppendChild(subNode);
+                            subNode=altNode;
+                        }
+
                         if (prependNode != null)
                         {
                             node.InsertBefore(subNode, prependNode);
@@ -196,6 +235,7 @@ namespace OfficeOpenXml
             }
             return node;
         }
+
         internal bool CreateNodeUntil(string path, string untilNodeName, out XmlNode spPrNode)
         {
             spPrNode = CreateNode(path, false, false, untilNodeName);
@@ -556,9 +596,18 @@ namespace OfficeOpenXml
                 return null;
             }
             XmlNode prependNode = null;
-            foreach (XmlNode childNode in node.ChildNodes)
+            foreach(XmlNode childNode in node.ChildNodes)
             {
-                int childPos = GetNodePos(childNode.Name, index);
+                string checkNodeName;
+                if (childNode.LocalName=="AlternateContent") //AlternateContent contains the node that should be in the correnct order. For example AlternateContent/Choice/controls
+                {
+                    checkNodeName = childNode.FirstChild?.FirstChild?.Name;
+                }
+                else
+                {
+                    checkNodeName = childNode.Name;
+                }
+                int childPos = GetNodePos(checkNodeName, index);
                 if (childPos > -1)  //Found?
                 {
                     if (childPos > ix) //Position is before
@@ -660,7 +709,7 @@ namespace OfficeOpenXml
         {
             TopNode.ParentNode.RemoveChild(TopNode);
         }
-        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null)
+        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="")
         {
             if (d == null)
             {
@@ -668,7 +717,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
+                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture) + suffix);
             }
         }
         internal void SetXmlNodeInt(string path, int? d, CultureInfo ci = null, bool allowNegative = true)
@@ -729,6 +778,11 @@ namespace OfficeOpenXml
         {
             SetXmlNodeString(TopNode, path, value ? "1" : "0", false, false);
         }
+        internal void SetXmlNodeBoolVml(string path, bool value)
+        {
+            SetXmlNodeString(TopNode, path, value ? "t" : "f", false, false);
+        }
+
         internal void SetXmlNodeBool(string path, bool value, bool removeIf)
         {
             if (value == removeIf)
@@ -841,7 +895,7 @@ namespace OfficeOpenXml
         internal bool GetXmlNodeBool(string path, bool blankValue)
         {
             string value = GetXmlNodeString(path);
-            if (value == "1" || value == "-1" || value.Equals("true", StringComparison.OrdinalIgnoreCase))
+            if (value == "1" || value == "-1" || value.StartsWith("t", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

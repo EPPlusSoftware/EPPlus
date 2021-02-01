@@ -51,12 +51,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             {
                 startDate.Day = 30;
             }
-            return GetDaysBetweenDates(startDate, endDate, 360);
+            return GetDaysBetweenDates(startDate, endDate, (int)DaysPerYear);
         }
 
         public double GetCoupdays(FinancialDay start, FinancialDay end, int frequency)
         {
-            return 360/frequency;
+            return DaysPerYear / frequency;
         }
+
+        public double DaysPerYear { get { return 360d; } }
     }
 }

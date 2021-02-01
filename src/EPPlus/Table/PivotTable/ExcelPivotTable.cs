@@ -27,11 +27,15 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    public struct PivotNull
+    {
+    }
     /// <summary>
     /// An Excel Pivottable
     /// </summary>
     public class ExcelPivotTable : XmlHelper
     {
+        public static PivotNull PivotNullValue = new PivotNull();
         internal ExcelPivotTable(Packaging.ZipPackageRelationship rel, ExcelWorksheet sheet) : 
             base(sheet.NameSpaceManager)
         {
@@ -149,7 +153,7 @@ namespace OfficeOpenXml.Table.PivotTable
             PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
             init();
 
-            Part = pck.CreatePart(PivotTableUri, ExcelPackage.schemaPivotTable);
+            Part = pck.CreatePart(PivotTableUri, ContentTypes.contentTypePivotTable);
             PivotTableXml.Save(Part.GetStream());
 
             //Worksheet-Pivottable relationship
@@ -904,7 +908,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     try
                     {
-                        _tableStyle = (TableStyles)Enum.Parse(typeof(TableStyles), value.Substring(10, value.Length - 10), true);
+                        if(Enum.GetNames(typeof(TableStyles)).Any(x=>x.Equals(value.Substring(10, value.Length - 10), StringComparison.OrdinalIgnoreCase)))
+                        {
+                            _tableStyle = (TableStyles)Enum.Parse(typeof(TableStyles), value.Substring(10, value.Length - 10), true);
+                        }
+                        else
+                        {
+                            _tableStyle = TableStyles.Custom;
+                        }
                     }
                     catch
                     {

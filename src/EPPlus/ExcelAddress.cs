@@ -164,9 +164,11 @@ namespace OfficeOpenXml
         /// </summary>
         /// <remarks>Examples of addresses are "A1" "B1:C2" "A:A" "1:1" "A1:E2,G3:G5" </remarks>
         /// <param name="address">The Excel Address</param>
-        public ExcelAddressBase(string address)
+        /// <ws></ws>
+        public ExcelAddressBase(string address, ExcelWorkbook wb=null, string wsName=null)
         {
-            SetAddress(address);
+            SetAddress(address, wb, wsName);
+            if (string.IsNullOrEmpty(_ws)) _ws = wsName;
         }
         /// <summary>
         /// Creates an Address object
@@ -177,7 +179,7 @@ namespace OfficeOpenXml
         /// <param name="referenceAddress">The address</param>
         public ExcelAddressBase(string address, ExcelPackage pck, ExcelAddressBase referenceAddress)
         {
-            SetAddress(address);
+            SetAddress(address, null, null);
             SetRCFromTable(pck, referenceAddress);
         }
 
@@ -318,14 +320,14 @@ namespace OfficeOpenXml
             }
             else
             {
-                SetAddress(address);
+                SetAddress(address, null, null);
             }
         }
         /// <summary>
         /// Sets the address
         /// </summary>
         /// <param name="address">the address</param>
-        protected internal void SetAddress(string address)
+        protected internal void SetAddress(string address, ExcelWorkbook wb, string wsName)
         {
             address = address.Trim();
             if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(address, "'") || Utils.ConvertUtil._invariantCompareInfo.IsPrefix(address, "["))
@@ -346,7 +348,7 @@ namespace OfficeOpenXml
             else
             {
                 //Simple address
-                GetRowColFromAddress(_address, out _fromRow, out _fromCol, out _toRow, out  _toCol, out _fromRowFixed, out _fromColFixed,  out _toRowFixed, out _toColFixed);
+                GetRowColFromAddress(_address, out _fromRow, out _fromCol, out _toRow, out  _toCol, out _fromRowFixed, out _fromColFixed,  out _toRowFixed, out _toColFixed, wb, wsName);
                 _start = null;
                 _end = null;
             }
@@ -477,7 +479,7 @@ namespace OfficeOpenXml
 
                 if (_address.IndexOf("'!")>=0 || ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
-                    address += string.Format("'{0}'!", _ws);
+                    address += string.Format("'{0}'!", _ws.Replace("'","''"));
                 }
                 else
                 {
@@ -499,7 +501,7 @@ namespace OfficeOpenXml
             {
                 if (_start == null)
                 {
-                    _start = new ExcelCellAddress(_fromRow, _fromCol);
+                    _start = new ExcelCellAddress(_fromRow, _fromCol, _fromRowFixed, _fromColFixed);
                 }
                 return _start;
             }
@@ -515,7 +517,7 @@ namespace OfficeOpenXml
             {
                 if (_end == null)
                 {
-                    _end = new ExcelCellAddress(_toRow, _toCol);
+                    _end = new ExcelCellAddress(_toRow, _toCol, _toRowFixed, _toColFixed);
                 }
                 return _end;
             }
@@ -545,7 +547,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The full address including the worksheet
         /// </summary>
-        internal string FullAddress
+        public string FullAddress
         {
             get
             {
@@ -1523,6 +1525,41 @@ namespace OfficeOpenXml
                    _toRow > ExcelPackage.MaxRows ||
                    _toCol > ExcelPackage.MaxColumns);
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is ExcelAddressBase a)
+            {
+                if (Addresses==null || a.Addresses==null)
+                {
+                    if (Addresses?.Count > 1 || a.Addresses?.Count > 1) return false;
+                    return IsEqual(this, a);
+                }
+                else
+                {
+                    for(int i=0;i<Addresses.Count;i++)
+                    {
+                        if (IsEqual(Addresses[i], a.Addresses[i]) == false)
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+            else
+            {
+                return _address == obj.ToString();
+            }
+        }
+
+        private bool IsEqual(ExcelAddressBase a1, ExcelAddressBase a2)
+        {
+            return a1._fromRow == a2._fromRow &&
+                    a1._toRow == a2._toRow &&
+                    a1._fromCol == a2._fromCol &&
+                    a1._toCol == a2._toCol;
+        }
+
     }
     /// <summary>
     /// Range address with the address property readonly
@@ -1595,7 +1632,7 @@ namespace OfficeOpenXml
             }
             set
             {                
-                SetAddress(value);
+                SetAddress(value, null, null);
                 ChangeAddress();
             }
         }
@@ -1629,8 +1666,8 @@ namespace OfficeOpenXml
         /// Creates an Address object
         /// </summary>
         /// <param name="address">The formula address</param>
-        public ExcelFormulaAddress(string address)
-            : base(address)
+        public ExcelFormulaAddress(string address, ExcelWorksheet worksheet)
+            : base(address, worksheet?.Workbook, worksheet?.Name)
         {
             SetFixed();
         }
@@ -1706,7 +1743,7 @@ namespace OfficeOpenXml
             }
             set
             {                
-                SetAddress(value);
+                SetAddress(value, null, null);
                 ChangeAddress();
                 SetFixed();
             }

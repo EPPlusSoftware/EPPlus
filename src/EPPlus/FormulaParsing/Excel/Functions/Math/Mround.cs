@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var number = ArgToDecimal(arguments, 0);
+            var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
             var significance = ArgToDecimal(arguments, 1);
             if ((number > 0 && significance < 0) || (number < 0 && significance > 0)) return CreateResult(eErrorType.Num);
             return CreateResult(RoundingHelper.Round(number, significance, RoundingHelper.Direction.Nearest), DataType.Decimal);

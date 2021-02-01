@@ -726,7 +726,16 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         internal static ExcelChart GetChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {
-            XmlNode chartNode = node.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart", drawings.NameSpaceManager);
+            XmlNode chartNode;
+            if (parent==null)
+            {
+                chartNode = node.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart", drawings.NameSpaceManager);
+            }
+            else
+            {
+                chartNode = node.SelectSingleNode("a:graphic/a:graphicData/c:chart", drawings.NameSpaceManager);
+            }
+            
             if (chartNode != null)
             {
                 var drawingRelation = drawings.Part.GetRelationship(chartNode.Attributes["r:id"].Value);

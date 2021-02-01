@@ -66,5 +66,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
             double ret = GammaHelper.regularizedGammaQ(0.5, x * x, 1.0e-15, 10000);
             return x < 0 ? 2 - ret : ret;
         }
+
+        public static double Erfcinv(double p)
+        {
+            if (p >= 2)
+                return -100;
+            if (p <= 0)
+                return 100;
+            var pp = (p < 1) ? p : 2 - p;
+            var t = System.Math.Sqrt(-2 * System.Math.Log(pp / 2));
+            var x = -0.70711 * ((2.30753 + t * 0.27061) /
+                            (1 + t * (0.99229 + t * 0.04481)) - t);
+            double err;
+            for (var j = 0; j < 2; j++)
+            {
+                err = Erfc(x) - pp;
+                x += err / (1.12837916709551257 * System.Math.Exp(-x * x) - x * err);
+            }
+            return (p < 1) ? x : -x;
+        }
     }
 }

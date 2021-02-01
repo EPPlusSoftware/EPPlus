@@ -96,5 +96,59 @@ namespace EPPlusTest.Core.Range
             p.VerticalAlign = OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None;
             Assert.AreEqual(p.VerticalAlign, OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None);
         }
+        [TestMethod]
+        public void ValidateIsRichTextValuesAndTexts()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("RichText");
+                var v = "Player's taunt success & you attack them";
+                ws.Cells["A1"].Value = v;
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    Assert.AreEqual(v, ws.Cells["A1"].Value);
+                    ws.Cells["A1"].IsRichText = true;
+                    Assert.AreEqual(v, ws.Cells["A1"].Value);
+                    Assert.AreEqual(v, ws.Cells["A1"].RichText.Text);
+                    ws.Cells["A1"].IsRichText = false;
+                    Assert.AreEqual(v, ws.Cells["A1"].Value);
+
+                    p2.Save();
+                }
+            }
+        }
+        [TestMethod]
+        public void ValidateRichTextOverwriteByArray()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("RichTextOverwriteArray");
+            for(int row=1;row<10;row++)
+            {
+                for (int col = 1; col < 10; col++)
+                {
+                    ws.Cells[row, col].RichText.Text = $"Cell {ExcelCellBase.GetAddress(row,col)}";
+                }
+            }
+
+            var array = new object[,] { { "Overwrite cell 1-1", "Overwrite cell 1-2" }, { "Overwrite cell 2-1", "Overwrite cell 2-2" } };
+
+            ws.Cells["C3:D4"].Value = array;
+
+            Assert.IsTrue(ws.Cells["C2"].IsRichText);
+            Assert.IsTrue(ws.Cells["E3"].IsRichText);
+            Assert.IsTrue(ws.Cells["A4"].IsRichText);
+            Assert.IsTrue(ws.Cells["C5"].IsRichText);
+
+            Assert.IsFalse(ws.Cells["C3"].IsRichText);
+            Assert.IsFalse(ws.Cells["D4"].IsRichText);
+
+            Assert.AreEqual("Cell C2", ws.Cells["C2"].Value);
+            Assert.AreEqual("Overwrite cell 1-1", ws.Cells["C3"].Value);
+            Assert.AreEqual("Overwrite cell 2-2", ws.Cells["D4"].Value);
+            Assert.AreEqual("Cell A4", ws.Cells["A4"].Value);
+            Assert.AreEqual("Cell D5", ws.Cells["D5"].Value);
+        }
+
     }
 }

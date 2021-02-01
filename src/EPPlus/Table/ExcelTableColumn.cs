@@ -81,7 +81,11 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeString("@name", v);
                 if (_tbl.ShowHeader)
                 {
-                    _tbl.WorkSheet.SetValue(_tbl.Address._fromRow, _tbl.Address._fromCol + this.Position, value);
+                    var cellValue = _tbl.WorkSheet.GetValue(_tbl.Address._fromRow, _tbl.Address._fromCol + Position);
+                    if (v.Equals(cellValue?.ToString(),StringComparison.CurrentCultureIgnoreCase)==false)
+                    {
+                        _tbl.WorkSheet.SetValue(_tbl.Address._fromRow, _tbl.Address._fromCol + Position, value);
+                    }
                 }
                 _tbl.WorkSheet.SetTableTotalFunction(_tbl, this);
             }
@@ -146,7 +150,10 @@ namespace OfficeOpenXml.Table
             }
             set
             {
-                if (value.StartsWith("=")) value = value.Substring(1, value.Length - 1);
+                if(!string.IsNullOrEmpty(value))
+                {
+                    if (value.StartsWith("=")) value = value.Substring(1, value.Length - 1);
+                }
                 SetXmlNodeString("@totalsRowFunction", "custom");                
                 SetXmlNodeString(TOTALSROWFORMULA_PATH, value);
                 _tbl.WorkSheet.SetTableTotalFunction(_tbl, this);

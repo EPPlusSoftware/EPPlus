@@ -31,17 +31,25 @@ namespace OfficeOpenXml
         }
 
         private int _row;
+        private bool _isRowFixed;
         private int _column;
+        private bool _isColumnFixed;
         private string _address;
         /// <summary>
         /// Initializes a new instance of the ExcelCellAddress class.
         /// </summary>
         /// <param name="row">The row.</param>
         /// <param name="column">The column.</param>
-        public ExcelCellAddress(int row, int column)
+        /// <param name="isRowFixed">If the row is fixed, prefixed with $</param>
+        /// <param name="isColumnFixed">If the column is fixed, prefixed with $</param>
+        public ExcelCellAddress(int row, int column, bool isRowFixed = false, bool isColumnFixed = false)
         {
-            this.Row = row;
-            this.Column = column;
+            Row = row;
+            Column = column;
+            _isRowFixed = isRowFixed;
+            _isColumnFixed = isColumnFixed;
+
+
         }
         /// <summary>
         /// Initializes a new instance of the ExcelCellAddress class.
@@ -49,7 +57,7 @@ namespace OfficeOpenXml
         ///<param name="address">The address</param>
         public ExcelCellAddress(string address)
         {
-            this.Address = address; 
+            Address = address; 
         }
         /// <summary>
         /// Row
@@ -107,13 +115,28 @@ namespace OfficeOpenXml
             internal set
             {
                 _address = value;
-                ExcelCellBase.GetRowColFromAddress(_address, out _row, out _column);
+                ExcelCellBase.GetRowColFromAddress(_address, out _row, out _column,out _isRowFixed, out _isColumnFixed);
             }
         }
-        /// <summary>
-        /// If the address is an invalid reference (#REF!)
-        /// </summary>
-        public bool IsRef
+        public bool IsRowFixed 
+        { 
+            get
+            {
+                return _isRowFixed;
+            }
+        }
+        public bool IsColumnFixed
+        {
+            get
+            {
+                return _isColumnFixed;
+            }
+        }
+
+    /// <summary>
+    /// If the address is an invalid reference (#REF!)
+    /// </summary>
+    public bool IsRef
         {
             get
             {

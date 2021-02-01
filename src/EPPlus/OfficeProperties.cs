@@ -16,7 +16,7 @@ using System.IO;
 using System.Globalization;
 using OfficeOpenXml.Utils;
 using System.Linq;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml

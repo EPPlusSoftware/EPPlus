@@ -30,7 +30,7 @@ using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
-
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Filter;
@@ -40,6 +40,7 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Drawing.Controls;
 
 namespace OfficeOpenXml
 {
@@ -134,7 +135,7 @@ namespace OfficeOpenXml
                 {
                     if (token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
-                        var a = new ExcelFormulaAddress(token.Value);
+                        var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
                         f += a.GetOffset(row - StartRow, column - StartCol, true);                            
                     }
                     else
@@ -158,7 +159,6 @@ namespace OfficeOpenXml
                 };
             }
         }
-
         /// <summary>
         /// Removes all formulas within the entire worksheet, but keeps the calculated values.
         /// </summary>
@@ -387,6 +387,7 @@ namespace OfficeOpenXml
         internal Dictionary<int, Formulas> _sharedFormulas = new Dictionary<int, Formulas>();
         internal int _minCol = ExcelPackage.MaxColumns;
         internal int _maxCol = 0;
+        internal int _nextControlId;
         #region Worksheet Private Properties
         internal ExcelPackage _package;
         private Uri _worksheetUri;
@@ -415,7 +416,7 @@ namespace OfficeOpenXml
                               eWorkSheetHidden? hide) :
             base(ns, null)
         {
-            SchemaNodeOrder = new string[] { "sheetPr", "tabColor", "outlinePr", "pageSetUpPr", "dimension", "sheetViews", "sheetFormatPr", "cols", "sheetData", "sheetProtection", "protectedRanges", "scenarios", "autoFilter", "sortState", "dataConsolidate", "customSheetViews", "customSheetViews", "mergeCells", "phoneticPr", "conditionalFormatting", "dataValidations", "hyperlinks", "printOptions", "pageMargins", "pageSetup", "headerFooter", "linePrint", "rowBreaks", "colBreaks", "customProperties", "cellWatches", "ignoredErrors", "smartTags", "drawing", "legacyDrawing", "legacyDrawingHF", "picture", "oleObjects", "activeXControls", "webPublishItems", "tableParts", "extLst" };
+            SchemaNodeOrder = new string[] { "sheetPr", "tabColor", "outlinePr", "pageSetUpPr", "dimension", "sheetViews", "sheetFormatPr", "cols", "sheetData", "sheetProtection", "protectedRanges", "scenarios", "autoFilter", "sortState", "dataConsolidate", "customSheetViews", "customSheetViews", "mergeCells", "phoneticPr", "conditionalFormatting", "dataValidations", "hyperlinks", "printOptions", "pageMargins", "pageSetup", "headerFooter", "linePrint", "rowBreaks", "colBreaks", "customProperties", "cellWatches", "ignoredErrors", "smartTags", "drawing", "legacyDrawing", "legacyDrawingHF", "picture", "oleObjects", "controls", "webPublishItems", "tableParts", "extLst" };
             _package = excelPackage;
             _relationshipID = relID;
             _worksheetUri = uriWorksheet;
@@ -434,7 +435,7 @@ namespace OfficeOpenXml
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
             _hyperLinks = new CellStore<Uri>();
-
+            _nextControlId = (PositionId + 1) * 1024 + 1;
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             CreateXml();
@@ -938,11 +939,11 @@ namespace OfficeOpenXml
                 return (_worksheetXml);
             }
         }
-        internal ExcelVmlDrawingCommentCollection _vmlDrawings = null;
+        internal ExcelVmlDrawingCollection _vmlDrawings = null;
         /// <summary>
         /// Vml drawings. underlaying object for comments
         /// </summary>
-        internal ExcelVmlDrawingCommentCollection VmlDrawingsComments
+        internal ExcelVmlDrawingCollection VmlDrawings
         {
             get
             {
@@ -1021,7 +1022,7 @@ namespace OfficeOpenXml
             var relIdNode = _worksheetXml.DocumentElement.SelectSingleNode("d:legacyDrawing/@r:id", NameSpaceManager);
             if (relIdNode == null)
             {
-                _vmlDrawings = new ExcelVmlDrawingCommentCollection(_package, this, null);
+                _vmlDrawings = new ExcelVmlDrawingCollection(this, null);
             }
             else
             {
@@ -1030,7 +1031,7 @@ namespace OfficeOpenXml
                     var rel = Part.GetRelationship(relIdNode.Value);
                     var vmlUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
 
-                    _vmlDrawings = new ExcelVmlDrawingCommentCollection(_package, this, vmlUri);
+                    _vmlDrawings = new ExcelVmlDrawingCollection(this, vmlUri);
                     _vmlDrawings.RelId = rel.Id;
                 }
             }
@@ -1425,6 +1426,30 @@ namespace OfficeOpenXml
                     break;
                 }
             }
+        }
+
+        internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r)
+        {
+            XmlDocument xml = new XmlDocument();
+            var v = GetValueInner(row, col);
+            var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
+            if (v != null)
+            {
+                if (isRt)
+                {
+                    XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v.ToString() + "</d:si>", Encoding.UTF8);
+                }
+                else
+                {
+                    xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" ><d:r><d:t>" + OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(v.ToString()) + "</d:t></d:r></d:si>");
+                }
+            }
+            else
+            {
+                xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" />");
+            }
+            var rtc = new ExcelRichTextCollection(NameSpaceManager, xml.SelectSingleNode("d:si", NameSpaceManager), r);
+            return rtc;
         }
 
         private ExcelHyperLink GetHyperlinkFromRef(XmlReader xr, string refTag, int fromRow = 0, int toRow = 0, int fromCol = 0, int toCol = 0)
@@ -2289,7 +2314,7 @@ namespace OfficeOpenXml
 
             if (_worksheetXml != null)
             {
-
+                SaveDrawings();
                 if (!(this is ExcelChartsheet))
                 {
                     // save the header & footer (if defined)
@@ -2314,6 +2339,7 @@ namespace OfficeOpenXml
                     }
 
                     SaveComments();
+                    SaveVmlDrawings();
                     SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
@@ -2321,7 +2347,10 @@ namespace OfficeOpenXml
                     SaveSlicers();
                 }
             }
+        }
 
+        private void SaveDrawings()
+        {
             if (Drawings.UriDrawing != null)
             {
                 if (Drawings.Count == 0)
@@ -2334,23 +2363,43 @@ namespace OfficeOpenXml
                     foreach (ExcelDrawing d in Drawings)
                     {
                         d.AdjustPositionAndSize();
-                        if (d is ExcelChart)
-                        {
-                            ExcelChart c = (ExcelChart)d;
-                            c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
-                        }
-                        else if(d is ExcelSlicer<ExcelTableSlicerCache> s)
-                        {
-                            s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-                        }
-                        else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
-                        {
-                            p.Cache.UpdateItemsXml();
-                            p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
-                        }
+                        HandleSaveForIndividualDrawings(d);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
-                    Drawings.DrawingXml.Save(partPack.GetStream(FileMode.Create, FileAccess.Write));
+                    var stream = partPack.GetStream(FileMode.Create, FileAccess.Write);
+                    var xr = new XmlTextWriter(stream, Encoding.UTF8);
+                    xr.Formatting = Formatting.None;
+
+                    Drawings.DrawingXml.Save(xr);
+                }
+            }
+        }
+
+        private static void HandleSaveForIndividualDrawings(ExcelDrawing d)
+        {
+            if (d is ExcelChart c)
+            {
+                c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+            else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
+            {
+                s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+            else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
+            {
+                p.Cache.UpdateItemsXml();
+                p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
+            }
+            else if (d is ExcelControl ctrl)
+            {
+                ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
+                ctrl.UpdateXml();
+            }
+            if (d is ExcelGroupShape grp)
+            {
+                foreach (var sd in grp.Drawings)
+                {
+                    HandleSaveForIndividualDrawings(sd);
                 }
             }
         }
@@ -2489,9 +2538,12 @@ namespace OfficeOpenXml
                     if (_comments.Uri != null)
                     {
                         Part.DeleteRelationship(_comments.RelId);
-                        _package.ZipPackage.DeletePart(_comments.Uri);                        
+                        _package.ZipPackage.DeletePart(_comments.Uri);
                     }
-                    RemoveLegacyDrawingRel(VmlDrawingsComments.RelId);
+                    if (VmlDrawings.Count == 0)
+                    {
+                        RemoveLegacyDrawingRel(VmlDrawings.RelId);
+                    }
                 }
                 else
                 {
@@ -2500,23 +2552,27 @@ namespace OfficeOpenXml
                         var id = SheetId;
                         _comments.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/comments{0}.xml", ref id); //Issue 236-Part already exists fix
                     }
-                    if(_comments.Part==null)
+                    if (_comments.Part == null)
                     {
                         _comments.Part = _package.ZipPackage.CreatePart(_comments.Uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml", _package.Compression);
-                        var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _comments.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships+"/comments");
+                        var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _comments.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/comments");
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
             }
+        }
 
+        private void SaveVmlDrawings()
+        {
             if (_vmlDrawings != null)
             {
                 if (_vmlDrawings.Count == 0)
                 {
-                    if (_vmlDrawings.Uri != null)
+                    if (_vmlDrawings.Part!=null)
                     {
                         Part.DeleteRelationship(_vmlDrawings.RelId);
                         _package.ZipPackage.DeletePart(_vmlDrawings.Uri);
+                        DeleteNode($"d:legacyDrawing[@r:id='{_vmlDrawings.RelId}']");
                     }
                 }
                 else
@@ -2533,6 +2589,17 @@ namespace OfficeOpenXml
                         SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
                         _vmlDrawings.RelId = rel.Id;
                     }
+                    
+                    //Save an related image to drawing fills
+                    foreach (var d in _vmlDrawings)
+                    {
+                        if(d is ExcelVmlDrawingControl c)
+                        if (c._fill?._patternPictureSettings?._image != null)
+                        {
+                            c._fill._patternPictureSettings.SaveImage();
+                        }
+                    }
+
                     _vmlDrawings.VmlDrawingXml.Save(_vmlDrawings.Part.GetStream(FileMode.Create));
                 }
             }
@@ -3790,7 +3857,18 @@ namespace OfficeOpenXml
         {
             return obj.WorksheetXml.OuterXml.GetHashCode();
         }
-
+        ControlsCollectionInternal _controls=null;
+        internal ControlsCollectionInternal Controls
+        {
+            get
+            {
+                if(_controls==null)
+                {
+                    _controls = new ControlsCollectionInternal(NameSpaceManager, TopNode);
+                }
+                return _controls;
+            }
+        }
         #region Worksheet internal Accessor
         /// <summary>
         /// Get accessor of sheet value
@@ -3867,8 +3945,8 @@ namespace OfficeOpenXml
             
             _values.SetValueRange_Value(fromRow, fromColumn, values);
             //Clearout formulas and flags, for example the rich text flag.
-            _formulas.Clear(fromRow, fromColumn, fromRow + values.GetUpperBound(0), fromColumn + values.GetUpperBound(1)); 
-            _flags.Clear(fromRow, fromColumn, fromRow + values.GetUpperBound(0), fromColumn + values.GetUpperBound(1));    
+            _formulas.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1); 
+            _flags.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1)+1);    
         }
 
         /// <summary>
@@ -3931,6 +4009,35 @@ namespace OfficeOpenXml
                 }
             }
             SlicerXmlSources.Remove(xmlSource);
+        }
+
+        internal XmlNode CreateControlContainerNode()
+        {
+            var node = GetNode("mc:AlternateContent/mc:Choice[@Requires='x14']");
+            XmlNode controlsNode;
+            if (node == null)
+            {
+                node = CreateAlternateContentNode("d:controls", "x14");
+                controlsNode = node.ChildNodes[0].ChildNodes[0];
+            }
+            else
+            {
+                controlsNode = node.SelectSingleNode("d:controls", NameSpaceManager);
+                if (controlsNode == null)
+                {
+                    var f = XmlHelperFactory.Create(NameSpaceManager, node);
+                    return f.CreateNode("d:controls");
+                }
+            }
+
+            var xh = XmlHelperFactory.Create(NameSpaceManager, controlsNode);
+            var altNode = (XmlElement)xh.CreateNode("mc:AlternateContent", false, true);
+            
+            xh = XmlHelperFactory.Create(NameSpaceManager, altNode);
+            var ctrlContainerNode=(XmlElement)xh.CreateNode("mc:Choice");
+            ctrlContainerNode.SetAttribute("Requires", "x14");
+
+            return ctrlContainerNode;
         }
         #endregion
     }  // END class Worksheet

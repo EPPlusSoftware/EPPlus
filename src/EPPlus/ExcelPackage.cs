@@ -26,6 +26,7 @@ using OfficeOpenXml.Compatibility;
 using System.Text;
 using OfficeOpenXml.Packaging;
 using System.Diagnostics;
+using OfficeOpenXml.Constants;
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -169,19 +170,15 @@ namespace OfficeOpenXml
         internal const string schemaHyperlink = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
         internal const string schemaComment = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
         internal const string schemaImage = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
-        internal const string schemaTheme = @"application/vnd.openxmlformats-officedocument.theme+xml";
         internal const string schemaThemeRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme";
 
         internal const string schemaChartStyle = "http://schemas.microsoft.com/office/drawing/2012/chartStyle";
 
         //Chart styling
-        internal const string contentTypeChartStyle = "application/vnd.ms-office.chartstyle+xml";        
         internal const string schemaChartStyleRelationships = "http://schemas.microsoft.com/office/2011/relationships/chartStyle";
-        internal const string contentTypeChartColorStyle = "application/vnd.ms-office.chartcolorstyle+xml";
         internal const string schemaChartColorStyleRelationships = "http://schemas.microsoft.com/office/2011/relationships/chartColorStyle";
 
         internal const string schemaThemeOverrideRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/themeOverride";
-        internal const string contentTypeThemeOverride = "application/vnd.openxmlformats-officedocument.themeOverride+xml";
 
         //Office properties
         internal const string schemaCore = @"http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
@@ -199,19 +196,6 @@ namespace OfficeOpenXml
         internal const string schemaXr = "http://schemas.microsoft.com/office/spreadsheetml/2014/revision";
         internal const string schemaXr2 = "http://schemas.microsoft.com/office/spreadsheetml/2015/revision2";
 
-        //Pivottables
-        internal const string schemaPivotTable = @"application/vnd.openxmlformats-officedocument.spreadsheetml.pivotTable+xml";
-        internal const string schemaPivotCacheDefinition = @"application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheDefinition+xml";
-        internal const string schemaPivotCacheRecords = @"application/vnd.openxmlformats-officedocument.spreadsheetml.pivotCacheRecords+xml";
-
-        //VBA
-        internal const string schemaVBA = @"application/vnd.ms-office.vbaProject";
-        internal const string schemaVBASignature = @"application/vnd.ms-office.vbaProjectSignature";
-
-        internal const string contentTypeWorkbookDefault = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml";
-        internal const string contentTypeWorkbookMacroEnabled = "application/vnd.ms-excel.sheet.macroEnabled.main+xml";
-        internal const string contentTypeSharedString = @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml";
-
         //Chart Ex
         internal const string schemaMc2006 = "http://schemas.openxmlformats.org/markup-compatibility/2006";
         internal const string schemaChartExMain = "http://schemas.microsoft.com/office/drawing/2014/chartex";
@@ -219,7 +203,6 @@ namespace OfficeOpenXml
         internal const string schemaChartEx2015_10_21 = "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex";
         internal const string schemaChartEx2016_5_10 = "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex";
         internal const string schemaChartExRelationships = "http://schemas.microsoft.com/office/2014/relationships/chartEx";
-        internal const string contentTypeChartEx = "application/vnd.ms-office.chartex+xml";
 
         internal const string schemaSlicer = "http://schemas.microsoft.com/office/drawing/2012/slicer";
         internal const string schemaDrawings2010 = "http://schemas.microsoft.com/office/drawing/2010/main";
@@ -231,6 +214,7 @@ namespace OfficeOpenXml
         internal const string schemaThreadedComment = "http://schemas.microsoft.com/office/2017/10/relationships/threadedComment";
         //Persons
         internal const string schemaPersonsRelationShips = "http://schemas.microsoft.com/office/2017/10/relationships/person";
+
         //Package reference
         private Packaging.ZipPackage _zipPackage;
 		internal ExcelWorkbook _workbook;
@@ -720,9 +704,9 @@ namespace OfficeOpenXml
             NameTable nt = new NameTable();
             var ns = new XmlNamespaceManager(nt);
             ns.AddNamespace(string.Empty, ExcelPackage.schemaMain);
-            ns.AddNamespace("d", ExcelPackage.schemaMain);            
-            ns.AddNamespace("r", ExcelPackage.schemaRelationships);
-            ns.AddNamespace("c", ExcelPackage.schemaChart);
+            ns.AddNamespace("d", schemaMain);            
+            ns.AddNamespace("r", schemaRelationships);
+            ns.AddNamespace("c", schemaChart);
             ns.AddNamespace("vt", schemaVt);
             // extended properties (app.xml)
             ns.AddNamespace("xp", schemaExtended);
@@ -742,7 +726,8 @@ namespace OfficeOpenXml
             ns.AddNamespace("xr2", schemaXr2);
             ns.AddNamespace("mc", schemaMarkupCompatibility);
             ns.AddNamespace("tc", schemaThreadedComments);
-            
+            ns.AddNamespace("a14", schemaDrawings2010);
+            ns.AddNamespace("xdr", schemaSheetDrawings);
             return ns;
         }
 		
@@ -771,18 +756,18 @@ namespace OfficeOpenXml
             Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
             if(Workbook.VbaProject==null)
             {
-                if (part.ContentType != contentTypeWorkbookDefault)
+                if (part.ContentType != ContentTypes.contentTypeWorkbookDefault)
                 {
-                    part = _zipPackage.CreatePart(uri, contentTypeWorkbookDefault, Compression);
+                    part = _zipPackage.CreatePart(uri, ContentTypes.contentTypeWorkbookDefault, Compression);
                 }
             }
             else
             {
-                if (part.ContentType != contentTypeWorkbookMacroEnabled)
+                if (part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
                 {
                     var rels = part.GetRelationships();
                     _zipPackage.DeletePart(uri);
-                    part = ZipPackage.CreatePart(uri, contentTypeWorkbookMacroEnabled);
+                    part = ZipPackage.CreatePart(uri, ContentTypes.contentTypeWorkbookMacroEnabled);
                     foreach (ZipPackageRelationship rel in rels)
                     {
                         ZipPackage.DeleteRelationship(rel.Id);

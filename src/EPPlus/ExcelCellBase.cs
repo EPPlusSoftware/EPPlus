@@ -133,20 +133,15 @@ namespace OfficeOpenXml
         /// <param name="fixedFromColumn">Is the from column fixed?</param>
         /// <param name="fixedToRow">Is the to row fixed?</param>
         /// <param name="fixedToColumn">Is the to column fixed?</param>
+        /// <param name="ws">The worksheet for the formula</param>
         /// <returns></returns>
-        internal static bool GetRowColFromAddress(string CellAddress, out int FromRow, out int FromColumn, out int ToRow, out int ToColumn, out bool fixedFromRow, out bool fixedFromColumn, out bool fixedToRow, out bool fixedToColumn)
+        internal static bool GetRowColFromAddress(string CellAddress, out int FromRow, out int FromColumn, out int ToRow, out int ToColumn, out bool fixedFromRow, out bool fixedFromColumn, out bool fixedToRow, out bool fixedToColumn, ExcelWorkbook wb=null, string wsName = null)
         {
             bool ret;
             if (CellAddress.IndexOf('[') > 0) //External reference or reference to Table or Pivottable.
             {
-                FromRow = -1;
-                FromColumn = -1;
-                ToRow = -1;
-                ToColumn = -1;
-                fixedFromRow = false;
-                fixedFromColumn = false;
-                fixedToRow = false;
-                fixedToColumn = false;
+                FromRow = FromColumn = ToRow = ToColumn = -1;
+                fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
                 return false;
             }
 
@@ -170,48 +165,206 @@ namespace OfficeOpenXml
                 string[] cells = CellAddress.Split(':');
                 if(cells.Length>2)
                 {
-                    throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                    //throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                    ret = true;
+                    FromRow = ExcelPackage.MaxRows;
+                    FromColumn = ExcelPackage.MaxColumns;
+                    ToRow = -1;
+                    ToColumn = -1;
+                    fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
+
+                    foreach (var cell in cells)
+                    {
+                        if (IsCellAddress(cell))
+                        {
+                            if (GetRowCol(cell, out int row, out int col, false, out bool fixedRow, out bool fixedCol) == false)
+                            {
+                                FromRow = FromColumn = ToRow = ToColumn = -1;
+                                fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
+                                return false;
+                            }
+
+                            SetFromRowCol(ref FromColumn, ref fixedFromColumn, col, fixedCol);
+                            SetToRowCol(ref ToColumn, ref fixedToColumn, col, fixedCol);
+                            SetFromRowCol(ref FromRow, ref fixedFromRow, row, fixedRow);
+                            SetToRowCol(ref ToRow, ref fixedToRow, row, fixedRow);
+                        }
+                        else
+                        {
+                            if (wb == null || wsName==null)
+                            {
+                                FromRow = FromColumn = ToRow = ToColumn = -1;
+                                fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
+                                return false;
+                            }
+                            else
+                            {                              
+                                if(wb.Names.ContainsKey(cell))
+                                {
+                                    var n = wb.Names[cell];
+                                    if(n._fromRow>0 && n._fromCol>0)
+                                    {
+                                        SetFromRowCol(ref FromColumn, ref fixedFromColumn, n._fromCol, n._fromColFixed);
+                                        SetToRowCol(ref ToColumn, ref fixedToColumn, n._toCol, n._toColFixed);
+                                        SetFromRowCol(ref FromRow, ref fixedFromRow, n._fromRow, n._fromRowFixed);
+                                        SetToRowCol(ref ToRow, ref fixedToRow, n._toRow, n._toRowFixed);
+                                    }
+                                    else
+                                    {
+                                        FromRow = FromColumn = ToRow = ToColumn = -1;
+                                        fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    var ws = wb.Worksheets[wsName];
+                                    if (ws == null)
+                                    {
+                                        if (ws.Names.ContainsKey(cell))
+                                        {
+                                            var n = wb.Names[cell];
+                                            if (n._fromRow > 0 && n._fromCol > 0)
+                                            {
+                                                SetFromRowCol(ref FromColumn, ref fixedFromColumn, n._fromCol, n._fromColFixed);
+                                                SetToRowCol(ref ToColumn, ref fixedToColumn, n._toCol, n._toColFixed);
+                                                SetFromRowCol(ref FromRow, ref fixedFromRow, n._fromRow, n._fromRowFixed);
+                                                SetToRowCol(ref ToRow, ref fixedToRow, n._toRow, n._toRowFixed);
+                                            }
+                                            else
+                                            {
+                                                FromRow = FromColumn = ToRow = ToColumn = -1;
+                                                fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
+                                                return false;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            var tbl = ws.Tables[cell];
+                                            if (tbl == null)
+                                            {
+                                                FromRow = FromColumn = ToRow = ToColumn = -1;
+                                                fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
+                                                return false;
+                                            }
+                                            else
+                                            {
+                                                SetFromRowCol(ref FromColumn, ref fixedFromColumn, tbl.Range._fromCol, tbl.Range._fromColFixed);
+                                                SetToRowCol(ref ToColumn, ref fixedToColumn, tbl.Range._toCol, tbl.Range._toColFixed);
+                                                SetFromRowCol(ref FromRow, ref fixedFromRow, tbl.Range._fromRow, tbl.Range._fromRowFixed);
+                                                SetToRowCol(ref ToRow, ref fixedToRow, tbl.Range._toRow, tbl.Range._toRowFixed);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 else
                 {
                     if (IsCellAddress(cells[0]) != IsCellAddress(cells[1]))
                     {
-                        throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                        //throw new InvalidOperationException($"Address is not valid {CellAddress}");
+                        FromColumn = ToColumn = FromRow = ToRow = -1;
+                        fixedFromRow = fixedFromColumn = fixedToRow = fixedToColumn = false;
+                        return false;
                     }
-                }
-                ret = GetRowColFromAddress(cells[0], out FromRow, out FromColumn, out fixedFromRow, out fixedFromColumn);
-                if (ret)
-                    ret = GetRowColFromAddress(cells[1], out ToRow, out ToColumn, out fixedToRow, out fixedToColumn);
-                else
-                {
-                    GetRowColFromAddress(cells[1], out ToRow, out ToColumn, out fixedToRow, out fixedToColumn);
-                }
 
-                if (FromColumn <= 0)
-                    FromColumn = 1;
-                if (FromRow <= 0)
-                    FromRow = 1;
-                if (ToColumn <= 0)
-                    ToColumn = ExcelPackage.MaxColumns;
-                if (ToRow <= 0)
-                    ToRow = ExcelPackage.MaxRows;
+                    ret = GetRowCol(cells[0], out FromRow, out FromColumn, false, out fixedFromRow, out fixedFromColumn);
+                    if (ret)
+                        ret = GetRowCol(cells[1], out ToRow, out ToColumn, false, out fixedToRow, out fixedToColumn);
+                    else
+                    {
+                        GetRowCol(cells[1], out ToRow, out ToColumn, false, out fixedToRow, out fixedToColumn);
+                    }
+                    if (FromColumn <= 0)
+                        FromColumn = 1;
+                    if (FromRow <= 0)
+                        FromRow = 1;
+                    if (ToColumn <= 0)
+                        ToColumn = ExcelPackage.MaxColumns;
+                    if (ToRow <= 0)
+                        ToRow = ExcelPackage.MaxRows;
+
+                }
             }
             return ret;
         }
 
+
+        private static void SetFromRowCol(ref int FromRowCol, ref bool fixedFromRowCol, int rowCol, bool fixedRowCol)
+        {
+            if (rowCol < FromRowCol)
+            {
+                FromRowCol = rowCol;
+                fixedFromRowCol = fixedRowCol;
+            }
+        }
+        private static void SetToRowCol(ref int toRowCol, ref bool fixedToRowCol, int rowCol, bool fixedRowCol)
+        {
+            if (rowCol > toRowCol)
+            {
+                toRowCol = rowCol;
+                fixedToRowCol = fixedRowCol;
+            }
+        }
+
+        //private static void SetToColumn(ref int ToColumn, ref bool fixedToColumn, int col, bool fixedCol)
+        //{
+        //    if (col > ToColumn)
+        //    {
+        //        ToColumn = col;
+        //        fixedToColumn = fixedCol;
+        //    }
+        //}
+
+        //private static void SetFromColumn(ref int FromColumn, ref bool fixedFromColumn, int col, bool fixedCol)
+        //{
+        //    if (col < FromColumn)
+        //    {
+        //        FromColumn = col;
+        //        fixedFromColumn = fixedCol;
+        //    }
+        //}
+
+        /// <summary>
+        /// Validates that the address has the format cccNNNN...
+        /// </summary>
+        /// <param name="cellAddress"></param>
+        /// <returns></returns>
         private static bool IsCellAddress(string cellAddress)
         {
-            char start;
-            if (cellAddress[0]=='$')
+            int  alpha = 0;
+            bool num = false;
+            for(int i=0;i<cellAddress.Length;i++)
             {
-                start = cellAddress.ToUpper()[1];
+                var c = cellAddress[i];
+                if (c != '$')
+                {                    
+                    if(c >= 'A' && c <= 'Z')
+                    {
+                        alpha++;
+                        if(alpha > 3 || num)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (c >= '0' && c <= '9')
+                    {
+                        if(alpha==0)
+                        {
+                            return false;
+                        }
+                        num = true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
-            else
-            {
-                start = cellAddress.ToUpper()[0];
-            }
-            var end = cellAddress[cellAddress.Length-1];
-            return (start >= 'A' && start <= 'Z' && end >= '0' && end <= '9');
+            return num;
         }
 
         /// <summary>
@@ -667,7 +820,7 @@ namespace OfficeOpenXml
             }
             return true;
         }
-
+        
         private static bool IsCol(char c)
         {
             return c >= 'A' && c <= 'Z';

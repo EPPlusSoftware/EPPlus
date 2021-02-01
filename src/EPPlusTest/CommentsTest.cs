@@ -122,7 +122,8 @@ namespace EPPlusTest
 
                 ws.InsertRow(1, 1);
 
-                Assert.AreEqual("A2", ws.Cells["A2"].Comment.Address);
+                Assert.AreEqual("A2", ws.Cells["A2"].Comment.Address);                
+                Assert.IsNull(ws.Cells["A1"].Comment);
                 //Throws a null reference exception
                 ws.Comments.Remove(ws.Cells["A2"].Comment);
 

@@ -58,58 +58,52 @@ namespace OfficeOpenXml.Table.PivotTable
                 return GetXmlNodeString(_sourceNamePath);
             }
         }
-        internal ExcelRangeBase _sourceRange = null;
         internal ExcelRangeBase SourceRange 
         { 
             get
             {
-                if (_sourceRange == null)
+                ExcelRangeBase sourceRange=null;
+                if (CacheSource == eSourceType.Worksheet)
                 {
-                    if (CacheSource == eSourceType.Worksheet)
+                    var ws = _wb.Worksheets[GetXmlNodeString(_sourceWorksheetPath)];
+                    if (ws == null) //Not worksheet, check name or table name
                     {
-                        var ws = _wb.Worksheets[GetXmlNodeString(_sourceWorksheetPath)];
-                        if (ws == null) //Not worksheet, check name or table name
+                        var name = GetXmlNodeString(_sourceNamePath);
+                        foreach (var n in _wb.Names)
                         {
-                            var name = GetXmlNodeString(_sourceNamePath);
-                            foreach (var n in _wb.Names)
+                            if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
                             {
-                                if (name.Equals(n.Name, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    _sourceRange = n;
-                                    return _sourceRange;
-                                }
-                            }
-                            foreach (var w in _wb.Worksheets)
-                            {
-                                _sourceRange = GetRangeByName(w, name);
-                                if (_sourceRange != null) break;
+                                sourceRange = n;
+                                return sourceRange;
                             }
                         }
-                        else
+                        foreach (var w in _wb.Worksheets)
                         {
-                            var address = Ref;
-                            if (string.IsNullOrEmpty(address))
-                            {
-                                var name = SourceName;
-                                _sourceRange = GetRangeByName(ws, name);
-                            }
-                            else
-                            {
-                                _sourceRange = ws.Cells[address];
-                            }
+                            sourceRange = GetRangeByName(w, name);
+                            if (sourceRange != null) break;
                         }
                     }
                     else
                     {
-                        throw (new ArgumentException("The cache source is not a worksheet"));
+                        var address = Ref;
+                        if (string.IsNullOrEmpty(address))
+                        {
+                            var name = SourceName;
+                            sourceRange = GetRangeByName(ws, name);
+                        }
+                        else
+                        {
+                            sourceRange = ws.Cells[address];
+                        }
                     }
                 }
-                return _sourceRange;
+                else
+                {
+                    throw (new ArgumentException("The cache source is not a worksheet"));
+                }
+                return sourceRange;
             }
-            set
-            {
-                _sourceRange = value;
-            }
+
         }
         private ExcelRangeBase GetRangeByName(ExcelWorksheet w, string name)
         {
@@ -208,20 +202,31 @@ namespace OfficeOpenXml.Table.PivotTable
                 else
                 {
                     var ws = r.Worksheet;
-                    var name = ws.GetValue(r._fromRow, col).ToString();
+                    var name = ws.GetValue(r._fromRow, col)?.ToString();
                     ExcelPivotTableCacheField field;
                     if (_fields==null || ix>=_fields?.Count)
                     {
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            throw new InvalidOperationException($"Pivot Cache with id {CacheId} is invalid . Contains reference to an column with empty header");
+                        }
                         field = CreateField(name, ix);
+                        field.TopNode.InnerXml = "<sharedItems/>";
+                        foreach(var pt in _pivotTables)
+                        {
+                            pt.Fields.AddField(ix);
+                        }
                     }
                     else
                     {
                         field=_fields[ix];
                         field.SharedItems.Clear();
                     }
-                    field.Name = name;
+                    if(!string.IsNullOrEmpty(name)) field.Name = name;
                     var hs = new HashSet<object>();
-                    for (int row = r._fromRow + 1; row <= r._toRow; row++)
+                    var dimensionToRow = ws.Dimension?._toRow ?? r._fromRow + 1;
+                    var toRow = r._toRow < dimensionToRow ? r._toRow : dimensionToRow;
+                    for (int row = r._fromRow + 1; row <= toRow; row++)
                     {
                         ExcelPivotTableCacheField.AddSharedItemToHashSet(hs, ws.GetValue(row, col));
                     }
@@ -288,7 +293,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             var c = CacheId;
             CacheDefinitionUri = GetNewUri(pck, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref c);
-            Part = pck.CreatePart(CacheDefinitionUri, ExcelPackage.schemaPivotCacheDefinition);
+            Part = pck.CreatePart(CacheDefinitionUri, ContentTypes.contentTypePivotCacheDefinition);
 
             AddRecordsXml();
 
@@ -309,7 +314,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else
             {
-                recPart = pck.CreatePart(CacheRecordUri, ExcelPackage.schemaPivotCacheRecords); 
+                recPart = pck.CreatePart(CacheRecordUri, ContentTypes.contentTypePivotCacheRecords); 
             }
             cacheRecord.Save(recPart.GetStream(FileMode.Create, FileAccess.Write));
         }
@@ -468,8 +473,9 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 cacheFieldNode.SetAttribute("databaseField", "0");
             }
+            
             cacheTopNode.AppendChild(cacheFieldNode);
-
+            
             return new ExcelPivotTableCacheField(NameSpaceManager, cacheFieldNode, this, index);
         }
 

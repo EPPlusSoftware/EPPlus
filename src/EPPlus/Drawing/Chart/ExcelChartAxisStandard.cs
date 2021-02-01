@@ -13,7 +13,7 @@
 using System;
 using System.Xml;
 using System.Globalization;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing.Chart
 {
     public sealed class ExcelChartAxisStandard : ExcelChartAxis

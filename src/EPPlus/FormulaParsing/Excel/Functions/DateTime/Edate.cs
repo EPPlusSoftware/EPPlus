@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2, eErrorType.Value);
+            ValidateArguments(arguments, 2);
             var dateSerial = ArgToDecimal(arguments, 0);
             var date = System.DateTime.FromOADate(dateSerial);
             var nMonthsToAdd = ArgToInt(arguments, 1);

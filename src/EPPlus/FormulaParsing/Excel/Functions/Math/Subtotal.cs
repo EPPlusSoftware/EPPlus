@@ -77,7 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             var funcNum = ArgToInt(arguments, 0);
             if (context.Scopes.Current.Parent != null && context.Scopes.Current.Parent.IsSubtotal)
             {
-                return CreateResult(0d, DataType.Decimal);
+                return CreateResult(0d, DataType.Empty);
             }
             var actualArgs = arguments.Skip(1);
             ExcelFunction function = null;

@@ -116,6 +116,22 @@ namespace EPPlusTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap VmlPatternImage
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return (Bitmap)Image.FromFile(path + "\\Resources\\VmlPatternImage.png");
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static MemoryStream VectorDrawing
         {
             get

@@ -18,12 +18,14 @@ using System.Xml;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
@@ -36,8 +38,8 @@ namespace OfficeOpenXml.Drawing
     {
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
-        internal XmlNode _topNode;
         internal string _topPath, _nvPrPath, _hyperLinkPath;
+        internal string _topPathUngrouped, _nvPrPathUngrouped;
         internal int _id;
         internal const float STANDARD_DPI = 96;
         /// <summary>
@@ -49,7 +51,9 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public const int EMU_PER_POINT = 12700;
         public const int EMU_PER_CM = 360000;
+        public const int EMU_PER_MM = 3600000;
         public const int EMU_PER_US_INCH = 914400;
+        public const int EMU_PER_PICA = EMU_PER_US_INCH / 6;
 
         internal double _width = double.MinValue, _height = double.MinValue, _top = double.MinValue, _left = double.MinValue;
         internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill", "grpFill", "blipFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d" };
@@ -62,15 +66,24 @@ namespace OfficeOpenXml.Drawing
             _parent = parent;
             if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
             {
-                _topNode = node;
-                _id = drawings.Worksheet.Workbook._nextDrawingID++;
-                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "nvSpPr", "nvCxnSpPr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
+                TopNode = node;
+                
+                if(DrawingType==eDrawingType.Control || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
+                {
+                    _id = drawings.Worksheet._nextControlId++;
+                }
+                else
+                {
+                    _id = drawings.Worksheet.Workbook._nextDrawingId++;
+                }
+
+                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ","grpSp", "nvSpPr", "nvCxnSpPr", "nvGraphicFramePr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
+                _topPathUngrouped = topPath;
+                _nvPrPathUngrouped = nvPrPath;
                 if (_parent == null)
                 {
-                    _topPath = topPath;
-                    _nvPrPath = _topPath + "/" + nvPrPath;
-                    _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
-                    CellAnchor = GetAnchoreFromName(node.LocalName);
+                    AdjustXPathsForGrouping(false);
+                    CellAnchor = GetAnchorFromName(node.LocalName);
                     SetPositionProperties(drawings, node);
                     GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
 
@@ -101,42 +114,112 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    _topPath = "";
-                    _nvPrPath = nvPrPath;
-                    _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
+                    AdjustXPathsForGrouping(true);
+                    SetPositionProperties(drawings, node);
+                    GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
                 }
             }   
         }
 
-
-        private void SetPositionProperties(ExcelDrawings drawings, XmlNode node)
+        internal virtual void AdjustXPathsForGrouping(bool group)
         {
-            XmlNode posNode = node.SelectSingleNode("xdr:from", drawings.NameSpaceManager);
-            if (posNode != null)
+            if(group)
             {
-                From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                _topPath = _topPathUngrouped.IndexOf("/") > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf("/")+1) : "";
+                if(_topPath=="")
+                {
+                    _nvPrPath = _nvPrPathUngrouped;
+                }
+                else
+                {
+                    _nvPrPath = _topPath + "/" + _nvPrPathUngrouped;
+                }
             }
             else
             {
-                posNode = node.SelectSingleNode("xdr:pos", drawings.NameSpaceManager);
+                _topPath = _topPathUngrouped;
+                _nvPrPath = _topPath + "/" + _nvPrPathUngrouped;
+            }
+            _hyperLinkPath = $"{_nvPrPath}/a:hlinkClick";
+        }
+
+        internal void SetGroupChild(XmlNode offNode, XmlNode extNode)
+        {
+            CellAnchor = eEditAs.Absolute;
+
+            From = null;
+            To = null;
+            Position = new ExcelDrawingCoordinate(NameSpaceManager, offNode, GetPositionSize);
+            Size = new ExcelDrawingSize(NameSpaceManager, extNode, GetPositionSize);
+        }
+
+        private void SetPositionProperties(ExcelDrawings drawings, XmlNode node)
+        {
+            if (_parent == null) //Top level drawing
+            {
+                XmlNode posNode = node.SelectSingleNode("xdr:from", drawings.NameSpaceManager);
+                if (posNode != null)
+                {
+                    From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                }
+                else
+                {
+                    posNode = node.SelectSingleNode("xdr:pos", drawings.NameSpaceManager);
+                    if (posNode != null)
+                    {
+                        Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
+                    }
+                }
+                posNode = node.SelectSingleNode("xdr:to", drawings.NameSpaceManager);
+                if (posNode != null)
+                {
+                    To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                }
+                else
+                {
+                    To = null;
+                    posNode = node.SelectSingleNode("xdr:ext", drawings.NameSpaceManager);
+                    if (posNode != null)
+                    {
+                        Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
+                    }
+                }
+            }
+            else //Child to Group shape
+            {
+                From = null;
+                To = null;
+                XmlNode posNode = GetXFrameNode(node, "a:off");
                 if (posNode != null)
                 {
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
-            }
-            posNode = node.SelectSingleNode("xdr:to", drawings.NameSpaceManager);
-            if (posNode != null)
-            {
-                To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
-            }
-            else
-            {
-                To = null;
-                posNode = node.SelectSingleNode("xdr:ext", drawings.NameSpaceManager);
+
+                posNode = GetXFrameNode(node, "a:ext");
                 if (posNode != null)
                 {
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
+            }
+        }
+
+        private XmlNode GetXFrameNode(XmlNode node, string child)
+        {
+            if(node.LocalName == "AlternateContent")
+            {
+                node = node.ChildNodes[0].ChildNodes[0];
+            }
+            if (node.LocalName == "grpSp")
+            {
+                return node.SelectSingleNode($"xdr:grpSpPr/a:xfrm/{child}", NameSpaceManager);
+            }
+            else if (node.LocalName == "graphicFrame")
+            {
+                return node.SelectSingleNode($"xdr:xfrm/{child}", NameSpaceManager);
+            }
+            else
+            {
+                return node.SelectSingleNode($"xdr:spPr/a:xfrm/{child}", NameSpaceManager);
             }
         }
 
@@ -184,7 +267,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal static eEditAs GetAnchoreFromName(string topElementName)
+        internal static eEditAs GetAnchorFromName(string topElementName)
         {
             switch (topElementName)
             {
@@ -209,7 +292,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The name of the drawing object
         /// </summary>
-        public string Name 
+        public virtual string Name 
         {
             get
             {
@@ -287,6 +370,10 @@ namespace OfficeOpenXml.Drawing
             {
                 try
                 {
+                    if (_parent!=null && DrawingType == eDrawingType.Control)
+                    {
+                        return ((ExcelControl)this).GetCellAnchorFromWorksheetXml();
+                    }
                     if (CellAnchor == eEditAs.TwoCell)
                     {
                         string s = GetXmlNodeString("@editAs");
@@ -311,7 +398,18 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                if (CellAnchor == eEditAs.TwoCell)
+                if(_parent!=null)
+                {
+                    if(DrawingType==eDrawingType.Control)
+                    {
+                        ((ExcelControl)this).SetCellAnchor(value);
+                    }
+                    else
+                    {
+                        throw (new InvalidOperationException("EditAs can't be set when a drawing is a part of a group."));
+                    }
+                }
+                else if (CellAnchor == eEditAs.TwoCell)
                 {
                     string s = value.ToString();
                     SetXmlNodeString("@editAs", s.Substring(0, 1).ToLower(CultureInfo.InvariantCulture) + s.Substring(1, s.Length - 1));
@@ -326,7 +424,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Lock drawing
         /// </summary>
-        public bool Locked
+        public virtual bool Locked
         {
             get
             {
@@ -341,7 +439,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Print drawing with sheet
         /// </summary>
-        public bool Print
+        public virtual bool Print
         {
             get
             {
@@ -448,28 +546,42 @@ namespace OfficeOpenXml.Drawing
         {
             if (node.ChildNodes.Count < 3) return null; //Invalid formatted anchor node, ignore
             XmlElement drawNode = (XmlElement)node.ChildNodes[2];
+            return GetDrawingFromNode(drawings, node, drawNode);
+        }
+
+        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent=null)
+        {
             switch (drawNode.LocalName)
             {
                 case "sp":
-                    return new ExcelShape(drawings, node);
+                    var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
+                    var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
+                    if (control != null)
+                    {
+                        return ControlFactory.GetControl(drawings, drawNode, control, parent);
+                    }
+                    else
+                    {
+                        return new ExcelShape(drawings, node, parent);
+                    }
                 case "pic":
-                    return new ExcelPicture(drawings, node);
+                    return new ExcelPicture(drawings, node, parent);
                 case "graphicFrame":
-                    return ExcelChart.GetChart(drawings, node);
+                    return ExcelChart.GetChart(drawings, node, parent);
                 case "grpSp":
-                    return new ExcelGroupShape(drawings, node);
+                    return new ExcelGroupShape(drawings, node, parent);
                 case "cxnSp":
-                    return new ExcelConnectionShape(drawings, node);
+                    return new ExcelConnectionShape(drawings, node, parent);
                 case "contentPart":
                     //Not handled yet, return as standard drawing below
                     break;
-                case "AlternateContent":                    
+                case "AlternateContent":
                     XmlElement choice = drawNode.FirstChild as XmlElement;
-                    if(choice!=null && choice.LocalName=="Choice")
+                    if (choice != null && choice.LocalName == "Choice")
                     {
                         var req = choice.GetAttribute("Requires");  //NOTE:Can be space sparated. Might have to implement functinality for this.
                         var ns = drawNode.GetAttribute($"xmlns:{req}");
-                        if(ns=="")
+                        if (ns == "")
                         {
                             ns = choice.GetAttribute($"xmlns:{req}");
                         }
@@ -478,13 +590,13 @@ namespace OfficeOpenXml.Drawing
                             case ExcelPackage.schemaChartEx2015_9_8:
                             case ExcelPackage.schemaChartEx2015_10_21:
                             case ExcelPackage.schemaChartEx2016_5_10:
-                                return ExcelChart.GetChartEx(drawings, node);
+                                return ExcelChart.GetChartEx(drawings, node, parent);
                             case ExcelPackage.schemaSlicer:
-                                return new ExcelTableSlicer(drawings, node);
+                                return new ExcelTableSlicer(drawings, node, parent);
                             case ExcelPackage.schemaDrawings2010:
                                 if (choice.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/@uri", drawings.NameSpaceManager)?.Value == ExcelPackage.schemaSlicer2010)
                                 {
-                                    return new ExcelPivotTableSlicer(drawings, node);
+                                    return new ExcelPivotTableSlicer(drawings, node, parent);
                                 }
                                 break;
 
@@ -492,8 +604,19 @@ namespace OfficeOpenXml.Drawing
                     }
                     break;
             }
-            return new ExcelDrawing(drawings, node, "","");
+            return new ExcelDrawing(drawings, node, "", "");
         }
+
+        private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
+        {
+            var idNode = drawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr/@id", nameSpaceManager);
+            if(idNode!=null)
+            {
+                return int.Parse(idNode.Value);
+            }
+            return -1;
+        }
+
         internal int Id
         {
             get { return _id; }
@@ -659,65 +782,80 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                ExcelWorksheet ws = _drawings.Worksheet;
-                decimal mdw = ws.Workbook.MaxFontWidth;
-                double prevPix = 0;
-                double pix = GetRowHeight(1) / 0.75;
-                int row = 2;
-                while (pix < pixels)
-                {
-                    prevPix = pix;
-                    pix += (int)(GetRowHeight(row++) / 0.75);
-                }
-
-                if (pix == pixels)
-                {
-                    From.Row = row - 1;
-                    From.RowOff = 0;
-                }
-                else
-                {
-                    From.Row = row - 2;
-                    From.RowOff = (int)(pixels - prevPix) * EMU_PER_PIXEL;
-                }
+                CalcRowFromPixelTop(pixels, out int row, out int rowOff);
+                From.Row = row;
+                From.RowOff = rowOff;
             }
             _top = pixels;
             _doNotAdjust = false;
         }
+
+        internal void CalcRowFromPixelTop(double pixels, out int row, out int rowOff)
+        {
+            ExcelWorksheet ws = _drawings.Worksheet;
+            decimal mdw = ws.Workbook.MaxFontWidth;
+            double prevPix = 0;
+            double pix = GetRowHeight(1) / 0.75;
+            int r = 2;
+            while (pix < pixels)
+            {
+                prevPix = pix;
+                pix += (int)(GetRowHeight(r++) / 0.75);
+            }
+
+            if (pix == pixels)
+            {
+                row = r - 1;
+                rowOff = 0;
+            }
+            else
+            {
+                row = r - 2;
+                rowOff = (int)(pixels - prevPix) * EMU_PER_PIXEL;
+            }
+        }
+
         internal void SetPixelLeft(double pixels)
         {
+            _doNotAdjust = true;
             if (CellAnchor == eEditAs.Absolute)
             {
                 Position.X = (int)(pixels * EMU_PER_PIXEL);
             }
             else
             {
-                _doNotAdjust = true;
-                ExcelWorksheet ws = _drawings.Worksheet;
-                decimal mdw = ws.Workbook.MaxFontWidth;
-                double prevPix = 0;
-                double pix = (int)decimal.Truncate(((256 * GetColumnWidth(1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
-                int col = 2;
-
-                while (pix < pixels)
-                {
-                    prevPix = pix;
-                    pix += (int)decimal.Truncate(((256 * GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
-                }
-                if (pix == pixels)
-                {
-                    From.Column = col - 1;
-                    From.ColumnOff = 0;
-                }
-                else
-                {
-                    From.Column = col - 2;
-                    From.ColumnOff = (int)(pixels - prevPix) * EMU_PER_PIXEL;
-                }
-                _doNotAdjust = false;
+                CalcColFromPixelLeft(pixels, out int col, out int colOff);
+                From.Column = col;
+                From.ColumnOff = colOff;
             }
+            _doNotAdjust = false;
 
             _left = pixels;
+        }
+        internal void CalcColFromPixelLeft(double pixels, out int column, out int columnOff)
+        {
+
+            ExcelWorksheet ws = _drawings.Worksheet;
+            decimal mdw = ws.Workbook.MaxFontWidth;
+            double prevPix = 0;
+            double pix = (int)decimal.Truncate(((256 * GetColumnWidth(1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            int col = 2;
+
+            while (pix < pixels)
+            {
+                prevPix = pix;
+                pix += (int)decimal.Truncate(((256 * GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            }
+            if (pix == pixels)
+            {
+                column = col - 1;
+                columnOff = 0;
+            }
+            else
+            {
+                column = col - 2;
+                columnOff = (int)(pixels - prevPix) * EMU_PER_PIXEL;
+            }
         }
         internal void SetPixelHeight(double pixels)
         {
@@ -739,13 +877,18 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        private void GetToRowFromPixels(double pixels, float dpi, out int toRow, out int rowOff)
+        internal void GetToRowFromPixels(double pixels, float dpi, out int toRow, out int rowOff, int fromRow=-1, int fromRowOff=-1)
         {
+            if(fromRow<0)
+            {
+                fromRow = From.Row;
+                fromRowOff = From.RowOff;
+            }
             ExcelWorksheet ws = _drawings.Worksheet;
             pixels = pixels / (dpi / STANDARD_DPI);
-            var pixOff = pixels - ((GetRowHeight(From.Row + 1) / 0.75) - (From.RowOff / (double)EMU_PER_PIXEL));
+            var pixOff = pixels - ((GetRowHeight(fromRow + 1) / 0.75) - (fromRowOff / (double)EMU_PER_PIXEL));
             double prevPixOff = pixels;
-            int row = From.Row + 1;
+            int row = fromRow + 1;
 
             while (pixOff >= 0)
             {
@@ -753,9 +896,9 @@ namespace OfficeOpenXml.Drawing
                 pixOff -= (GetRowHeight(++row) / 0.75);
             }
             toRow = row - 1;
-            if (From.Row == toRow)
+            if (fromRow == toRow)
             {
-                rowOff = (int)(From.RowOff + (pixels) * EMU_PER_PIXEL);
+                rowOff = (int)(fromRowOff + (pixels) * EMU_PER_PIXEL);
             }
             else
             {
@@ -784,15 +927,19 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal void GetToColumnFromPixels(double pixels, float dpi, out int col, out double prevRowOff)
+        internal void GetToColumnFromPixels(double pixels, float dpi, out int col, out double prevRowOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
-
+            if(fromColumn<0)
+            {
+                fromColumn = From.Column;
+                fromColumnOff = From.ColumnOff;
+            }
             pixels = pixels / (dpi / STANDARD_DPI);
-            double pixOff = pixels - (double)(decimal.Truncate(((256 * GetColumnWidth(From.Column + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - From.ColumnOff / EMU_PER_PIXEL);
-            prevRowOff = From.ColumnOff / EMU_PER_PIXEL + pixels;
-            col = From.Column + 2;
+            double pixOff = pixels - (double)(decimal.Truncate(((256 * GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
+            prevRowOff = fromColumnOff / EMU_PER_PIXEL + pixels;
+            col = fromColumn + 2;
             while (pixOff >= 0)
             {
                 prevRowOff = pixOff;
@@ -809,13 +956,29 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PixelLeft">Left pixel</param>
         public void SetPosition(int PixelTop, int PixelLeft)
         {
+            SetPosition(PixelTop, PixelLeft, true);
+        }
+        internal void SetPosition(int PixelTop, int PixelLeft, bool adjustChildren)
+        {
             _doNotAdjust = true;
             if (_width == int.MinValue)
             {
                 _width = GetPixelWidth();
                 _height = GetPixelHeight();
             }
-
+            if(adjustChildren && DrawingType == eDrawingType.GroupShape)
+            {
+                if(_left== int.MinValue)
+                {
+                    _left = GetPixelLeft();
+                    _top = GetPixelTop();
+                }
+                var grp = (ExcelGroupShape)this;
+                foreach(var d in grp.Drawings)
+                {
+                    d.SetPosition((int)(d._top + (PixelTop - _top)), (int)(d._left + (PixelLeft - _left)));
+                }
+            }
             SetPixelTop(PixelTop);
             SetPixelLeft(PixelLeft);
 
@@ -831,7 +994,7 @@ namespace OfficeOpenXml.Drawing
         public eEditAs CellAnchor
         {
             get;
-            private set;
+            protected set;
         }
         /// <summary>
         /// This will change the cell anchor type, move and resize the drawing.
@@ -853,6 +1016,10 @@ namespace OfficeOpenXml.Drawing
         /// <param name="type">The cell anchor type to change to</param>
         public void ChangeCellAnchor(eEditAs type)
         {
+            if(DrawingType==eDrawingType.Control)
+            {
+                throw new InvalidOperationException("Controls can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
+            }
             GetPositionSize();
             //Save the positions
             var top = _top;
@@ -1001,6 +1168,87 @@ namespace OfficeOpenXml.Drawing
         {
             _drawings.BringToFront(this);
         }
+        /// <summary>
+        /// Group the drawing together with a list of other drawings. 
+        /// <seealso cref="UnGroup(bool)"/>
+        /// <seealso cref="ParentGroup"/>
+        /// </summary>
+        /// <param name="drawing">The drawings to group</param>
+        /// <returns>The group shape</returns>
+        public ExcelGroupShape Group(params ExcelDrawing[] drawing)
+        {
+            ExcelGroupShape grp = _parent;
+            foreach(var d in drawing)
+            {
+                ExcelGroupShape.Validate(d, _drawings, grp);
+                if (d._parent != null) grp = d._parent;
+            }
+            if (grp == null)
+            {
+                grp = _drawings.AddGroupDrawing();
+            }
+            
+            grp.Drawings.AddDrawing(this);
+
+            foreach (var d in drawing)
+            {
+                grp.Drawings.AddDrawing(d);
+            }
+
+            grp.SetPositionAndSizeFromChildren();
+            return grp;
+        }
+        internal XmlElement GetFrmxNode(XmlNode node)
+        {
+            if(node.LocalName == "AlternateContent")
+            {
+                node = node.FirstChild.FirstChild;
+            }
+
+            if(node.LocalName == "sp" || node.LocalName == "pic" || node.LocalName == "cxnSp")
+            {
+                return (XmlElement)CreateNode(node, "xdr:spPr/a:xfrm");
+            }
+            else if(node.LocalName == "graphicFrame")
+            {
+                return (XmlElement)CreateNode(node, "xdr:xfrm"); 
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Will ungroup this drawing or the entire group, if this drawing is grouped together with other drawings.
+        /// If this drawings is not grouped an InvalidOperationException will be returned.
+        /// </summary>
+        /// <param name="ungroupThisItemOnly">If true this drawing will be removed from the group. 
+        /// If it is false, the whole group will be disbanded. If true only this drawing will be removed.
+        /// </param>
+        public void UnGroup(bool ungroupThisItemOnly=true)
+        {
+            if(_parent==null)
+            {
+                throw new InvalidOperationException("Can not ungroup this drawing. This drawing is not part of a group");
+            }
+            if(ungroupThisItemOnly)
+            {
+                _parent.Drawings.Remove(this);
+            }
+            else
+            {
+                _parent.Drawings.Clear();
+            }           
+        }
+        /// <summary>
+        /// If the drawing is grouped this property contains the Group drawing containing the group.
+        /// Otherwise this property is null
+        /// </summary>
+        public ExcelGroupShape ParentGroup
+        { 
+            get
+            {
+                return _parent;
+            }
+        }
         internal virtual void DeleteMe()
         {
             TopNode.ParentNode.RemoveChild(TopNode);            
@@ -1011,7 +1259,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public virtual void Dispose()
         {
-            _topNode = null;
+            TopNode = null;
         }
         internal void GetPositionSize()
         {
@@ -1040,6 +1288,22 @@ namespace OfficeOpenXml.Drawing
                 SetPixelWidth(_width);
             }
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
+        }
+        internal protected XmlElement CreateShapeNode()
+        {
+            XmlElement shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
+            shapeNode.SetAttribute("macro", "");
+            shapeNode.SetAttribute("textlink", "");
+            TopNode.AppendChild(shapeNode);
+            return shapeNode;
+        }
+        internal protected XmlElement CreateClientData()
+        {
+            XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
+            clientDataNode.SetAttribute("fPrintsWithSheet", "0");
+            TopNode.ChildNodes[2].ChildNodes[0].ChildNodes[0].AppendChild(clientDataNode);
+            TopNode.AppendChild(clientDataNode);
+            return clientDataNode;
         }
         string IPictureContainer.ImageHash { get; set; }
         Uri IPictureContainer.UriPic { get; set; }

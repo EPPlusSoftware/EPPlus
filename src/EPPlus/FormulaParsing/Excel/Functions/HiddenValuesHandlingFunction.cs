@@ -23,6 +23,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// </summary>
     public abstract class HiddenValuesHandlingFunction : ExcelFunction
     {
+        public HiddenValuesHandlingFunction()
+        {
+            IgnoreErrors = true;
+        }
         /// <summary>
         /// Set to true or false to indicate whether the function should ignore hidden values.
         /// </summary>
@@ -32,9 +36,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             set;
         }
 
+        /// <summary>
+        /// Set to true to indicate whether the function should ignore error values
+        /// </summary>
+        public bool IgnoreErrors
+        {
+            get; set;
+        }
+
         protected override IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            return ArgsToDoubleEnumerable(arguments, context, true);
+            return ArgsToDoubleEnumerable(arguments, context, IgnoreErrors);
         }
 
         protected IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreErrors)
@@ -53,11 +65,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         protected bool ShouldIgnore(ExcelDataProvider.ICellInfo c, ParsingContext context)
         {
-            return CellStateHelper.ShouldIgnore(IgnoreHiddenValues, c, context);
+            if(CellStateHelper.ShouldIgnore(IgnoreHiddenValues, c, context))
+            {
+                return true;
+            }
+            if(IgnoreErrors && c.IsExcelError)
+            {
+                return true;
+            }
+            return false;
         }
         protected bool ShouldIgnore(FunctionArgument arg)
         {
             if (IgnoreHiddenValues && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell))
+            {
+                return true;
+            }
+            if(IgnoreErrors && arg.ValueIsExcelError)
             {
                 return true;
             }

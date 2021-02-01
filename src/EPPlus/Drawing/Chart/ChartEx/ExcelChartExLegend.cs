@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml.Utils.Extentions;
+﻿using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;

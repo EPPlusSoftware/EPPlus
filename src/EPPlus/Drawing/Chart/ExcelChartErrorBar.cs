@@ -16,7 +16,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>

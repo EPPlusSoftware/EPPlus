@@ -21,6 +21,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     {
         public virtual CompileResult Create(object obj)
         {
+            return Create(obj, 0);
+        }
+
+        public virtual CompileResult Create(object obj, int excelAddressReferenceId)
+        {
             if ((obj is ExcelDataProvider.INameInfo))
             {
                 obj = ((ExcelDataProvider.INameInfo)obj).Value;
@@ -32,27 +37,27 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             if (obj == null) return new CompileResult(null, DataType.Empty);
             if (obj.GetType().Equals(typeof(string)))
             {
-                return new CompileResult(obj, DataType.String);
+                return new CompileResult(obj, DataType.String, excelAddressReferenceId);
             }
             if (obj.GetType().Equals(typeof(double)) || obj is decimal || obj is float)
             {
-                return new CompileResult(obj, DataType.Decimal);
+                return new CompileResult(obj, DataType.Decimal, excelAddressReferenceId);
             }
             if (obj.GetType().Equals(typeof(int)) || obj is long || obj is short)
             {
-                return new CompileResult(obj, DataType.Integer);
+                return new CompileResult(obj, DataType.Integer, excelAddressReferenceId);
             }
             if (obj.GetType().Equals(typeof(bool)))
             {
-                return new CompileResult(obj, DataType.Boolean);
+                return new CompileResult(obj, DataType.Boolean, excelAddressReferenceId);
             }
             if (obj.GetType().Equals(typeof (ExcelErrorValue)))
             {
-                return new CompileResult(obj, DataType.ExcelError);
+                return new CompileResult(obj, DataType.ExcelError, excelAddressReferenceId);
             }
             if (obj.GetType().Equals(typeof(System.DateTime)))
             {
-                return new CompileResult(((System.DateTime)obj).ToOADate(), DataType.Date);
+                return new CompileResult(((System.DateTime)obj).ToOADate(), DataType.Date, excelAddressReferenceId);
             }
             throw new ArgumentException("Non supported type " + obj.GetType().FullName);
         }

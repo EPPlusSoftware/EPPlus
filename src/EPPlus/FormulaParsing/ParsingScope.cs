@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing
         public RangeAddress Address { get; private set; }
 
         /// <summary>
-        /// True if the current scope is a Subtotal function beeing executed.
+        /// True if the current scope is a Subtotal function being executed.
         /// </summary>
         public bool IsSubtotal { get; set; }
 

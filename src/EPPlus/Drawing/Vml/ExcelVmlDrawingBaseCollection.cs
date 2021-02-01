@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Collections;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -23,7 +24,9 @@ namespace OfficeOpenXml.Drawing.Vml
     /// </summary>
     public class ExcelVmlDrawingBaseCollection
     {        
-        internal ExcelVmlDrawingBaseCollection(ExcelPackage pck, ExcelWorksheet ws, Uri uri)
+        protected internal ExcelPackage _package;
+        protected internal ExcelWorksheet _ws;
+        internal ExcelVmlDrawingBaseCollection(ExcelWorksheet ws, Uri uri, string worksheetRelIdPath)
         {
             VmlDrawingXml = new XmlDocument();
             VmlDrawingXml.PreserveWhitespace = false;
@@ -34,13 +37,15 @@ namespace OfficeOpenXml.Drawing.Vml
             NameSpaceManager.AddNamespace("o", ExcelPackage.schemaMicrosoftOffice);
             NameSpaceManager.AddNamespace("x", ExcelPackage.schemaMicrosoftExcel);
             Uri = uri;
+            _package = ws.Workbook._package;
+            _ws = ws;
             if (uri == null)
             {
-                Part = null;
+                var id = _ws.SheetId;
             }
             else
             {
-                Part=pck.ZipPackage.GetPart(uri);
+                Part=_package.ZipPackage.GetPart(uri);
                 XmlHelper.LoadXmlSafe(VmlDrawingXml, Part.GetStream()); 
             }
         }

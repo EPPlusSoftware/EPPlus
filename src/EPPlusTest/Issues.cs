@@ -44,6 +44,9 @@ using System.Globalization;
 using OfficeOpenXml.Drawing;
 using System.Threading;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Threading.Tasks;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace EPPlusTest
 {
@@ -1325,7 +1328,7 @@ namespace EPPlusTest
         }
         [TestMethod]
         public void Issue34()
-        {            
+        {
             using (var p = OpenTemplatePackage("Issue34.xlsx"))
             {
                 SaveAndCleanup(p);
@@ -1343,7 +1346,7 @@ namespace EPPlusTest
                 Assert.IsNotNull(p.Workbook.Worksheets[1].PivotTables[0].CacheDefinition);
                 var s1 = pt.Fields[0].AddSlicer();
                 s1.SetPosition(0, 500);
-                var s2=pt.Fields["OpenDate"].AddSlicer();
+                var s2 = pt.Fields["OpenDate"].AddSlicer();
                 pt.Fields["Distance"].Format = "#,##0.00";
                 pt.Fields["Distance"].AddSlicer();
                 s2.SetPosition(0, 500 + (int)s1._width);
@@ -1356,7 +1359,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue195_PivotTable()
         {
-            using (var p=OpenTemplatePackage("Issue195.xlsx"))
+            using (var p = OpenTemplatePackage("Issue195.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[1];
                 SaveAndCleanup(p);
@@ -1365,7 +1368,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue45()
         {
-            using (var p=OpenPackage("LinkIssue.xlsx",true))
+            using (var p = OpenPackage("LinkIssue.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1:A2"].Value = 1;
@@ -1405,7 +1408,7 @@ namespace EPPlusTest
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.Cells["A5"].Value = "Test";
-                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset+1);
+                worksheet.InsertRow(START_ROW + CustomTemplateRowsOffset, rowCount - 1, CustomTemplateRowsOffset + 1);
                 Assert.AreEqual("Test", worksheet.Cells["A34004"].Value);
                 //for (int k = START_ROW+CustomTemplateRowsOffset; k < rowCount; k++)
                 //{
@@ -1448,6 +1451,308 @@ namespace EPPlusTest
                 Assert.IsNull(ws.Cells["C71812"].Value);
                 Assert.IsNull(ws.Cells["C77667"].Value);
                 Assert.AreEqual(0D, ws.Cells["C77668"].Value);
+            }
+        }
+        [TestMethod]
+        public void InflateIssue()
+        {
+            using (var p = OpenPackage("inflateStart.xlsx", true))
+            {
+                var worksheet = p.Workbook.Worksheets.Add("Test");
+                for (int i = 1; i <= 10; i++)
+                {
+                    worksheet.Cells[1, i].Hyperlink = new Uri("https://epplussoftware.com");
+                    worksheet.Cells[1, i].Value = "Url " + worksheet.Cells[1, i].Address;
+                }
+                p.Save();
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        p.Save();
+                    }
+                    SaveWorkbook("Inflate.xlsx", p2);
+                }
+            }
+        }
+        [TestMethod]
+        public void DrawingSetFont()
+        {
+            using (var p = OpenPackage("DrawingSetFromFont.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Drawing1");
+                var shape = ws.Drawings.AddShape("x", eShapeStyle.Rect);
+                shape.Font.SetFromFont(new Font("Arial", 20));
+                shape.Text = "Font";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue_258()
+        {
+            using (var package = OpenTemplatePackage("Test.xlsx"))
+            {
+                var overviewSheet = package.Workbook.Worksheets["Overview"];
+                if (overviewSheet != null)
+                    package.Workbook.Worksheets.Delete(overviewSheet);
+                overviewSheet = package.Workbook.Worksheets.Add("Overview");
+                var serverSheet = package.Workbook.Worksheets["Servers"];
+                var serverPivot = overviewSheet.PivotTables.Add(overviewSheet.Cells["A4"], serverSheet.Cells[serverSheet.Dimension.Address], "ServerPivot");
+                var serverNameField = serverPivot.Fields["Name"];
+                serverPivot.RowFields.Add(serverNameField);
+                var standardBackupField = serverPivot.Fields["StandardBackup"];
+                serverPivot.PageFields.Add(standardBackupField);
+                standardBackupField.Items.Refresh();
+                var items = standardBackupField.Items;
+                items.SelectSingleItem(1); // <===== this one is to select only the "false" condition
+                SaveWorkbook("Issue248.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void Issue_243()
+        {
+            using (var p = OpenPackage("formula.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("formula");
+                ws.Cells["A1"].Value = "column1";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["A3"].Value = 2;
+                ws.Cells["A4"].Value = 3;
+
+                var tbl = ws.Tables.Add(ws.Cells["A1:A4"], "Table1");
+
+                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1[#data]\"))";
+                ws.Calculate();
+                Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
+
+                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1\"))";
+                ws.Calculate();
+                Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void IssueCommentInsert()
+        {
+
+            using (var p = OpenPackage("comment.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("CommentInsert");
+                ws.Cells["A2"].AddComment("na", "test");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                ws.InsertRow(2, 1);
+                ws.Cells["A3"].Insert(eShiftTypeInsert.Right);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue261()
+        {
+            using (var p = OpenTemplatePackage("issue261.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["data"];
+                ws.Cells["A1"].Value = "test";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue260()
+        {
+            using (var p = OpenTemplatePackage("issue260.xlsx"))
+            {
+                var workbook = p.Workbook;
+                Console.WriteLine(workbook.Worksheets.Count);
+            }
+        }
+        [TestMethod]
+        public void Issue268()
+        {
+            using (var p = OpenPackage("Issue268.xlsx", true))
+            {
+                ExcelWorksheet formSheet = CreateFormSheet(p);
+                var r1 = formSheet.Drawings.AddCheckBoxControl("OptionSingleRoom");
+                r1.Text = "Single Room";
+                r1.LinkedCell = formSheet.Cells["G7"];
+                r1.SetPosition(5, 0, 1, 0);
+                var tableSheet = p.Workbook.Worksheets.Add("Table");
+                ExcelRange tableRange = formSheet.Cells[10, 20, 30, 22];
+                ExcelTable faultsTable = formSheet.Tables.Add(tableRange, "FaultsTable");
+                faultsTable.StyleName = "None";
+                SaveAndCleanup(p);
+            }
+        }
+        private static ExcelWorksheet CreateFormSheet(ExcelPackage package)
+        {
+            var formSheet = package.Workbook.Worksheets.Add("Form");
+            formSheet.Cells["A1"].Value = "Room booking";
+            formSheet.Cells["A1"].Style.Font.Size = 18;
+            formSheet.Cells["A1"].Style.Font.Bold = true;
+            return formSheet;
+        }
+        [TestMethod]
+        public void Issue269()
+        {
+            var data = new List<TestDTO>();
+
+            using (var p = new ExcelPackage())
+            {
+                var sheet = p.Workbook.Worksheets.Add("Sheet1");
+                var r = sheet.Cells["A1"].LoadFromCollection(data, false);
+                Assert.IsNull(r);
+            }
+        }
+        [TestMethod]
+        public void Issue272()
+        {
+            using (var p = OpenTemplatePackage("Issue272.xlsx"))
+            {
+                var workbook = p.Workbook;
+                Console.WriteLine(workbook.Worksheets.Count);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void IssueS84()
+        {
+            using (var p = OpenTemplatePackage("XML in Cells.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var cell = ws.Cells["D43"];
+                cell.Value = cell.Value + " ";
+
+                ExcelRichText rtx = cell.RichText.Add("a");
+
+                rtx.VerticalAlign = ExcelVerticalAlignmentFont.Superscript;
+
+                ws.Cells["D43:E44"].Value = new object[,] { { "Cell1", "Cell2" }, { "Cell21", "Cell22" } };
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void IssueS80()
+        {
+            using (var p = OpenTemplatePackage("Example - CANNOT OPEN EPPLUS.xlsx"))
+            {
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
+                new ExcelAddress("f");
+            }
+        }
+        [TestMethod]
+        public void IssueS91()
+        {
+            using (var p = OpenTemplatePackage("Tagging Template V14.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Stacked Logs"];
+                //Insert 2 rows extending the data validations. 
+                ws.InsertRow(4, 2, 4);
+
+                //Get the data validation of choice.
+                var dv = ws.DataValidations[0].As.ListValidation;
+
+                //Adjust the formula using the R1C1 translator...
+                var formula = dv.Formula.ExcelFormula;
+                var r1c1Formula = OfficeOpenXml.Core.R1C1Translator.ToR1C1Formula(formula, dv.Address.Start.Row, dv.Address.Start.Column);
+                //Add one row to the formula
+                var formulaRowPlus1 = OfficeOpenXml.Core.R1C1Translator.FromR1C1Formula(r1c1Formula, dv.Address.Start.Row + 1, dv.Address.Start.Column);
+
+                SaveAndCleanup(p);
+            }
+        }
+        public class Test
+        {
+            public int Value1 { get; set; }
+            public int Value2 { get; set; }
+            public int Value3 { get; set; }
+
+        }
+        [TestMethod]
+        public void Issue284()
+        {
+            //1
+            var report1 = new List<Test>
+            {
+                new Test{ Value1 = 1, Value2= 2, Value3=3 },
+                new Test{ Value1 = 2, Value2= 3, Value3=4 },
+                new Test{ Value1 = 5, Value2= 6, Value3=7 }
+            };
+
+            //3
+            var report2 = new List<Test>
+            {
+                new Test{ Value1 = 0, Value2= 0, Value3=0 },
+                new Test{ Value1 = 0, Value2= 0, Value3=0 },
+                new Test{ Value1 = 0, Value2= 0, Value3=0 }
+            };
+
+            //4
+            var report3 = new List<Test>
+            {
+                new Test{ Value1 = 3, Value2= 3, Value3=3 },
+                new Test{ Value1 = 3, Value2= 3, Value3=3 },
+                new Test{ Value1 = 3, Value2= 3, Value3=3 }
+            };
+
+
+            string workingDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            using (var excelFile = OpenTemplatePackage("issue284.xlsx"))
+            {
+                //Data1
+                var worksheet = excelFile.Workbook.Worksheets["Test1"];
+                ExcelRangeBase location = worksheet.Cells["A1"].LoadFromCollection(Collection: report1, PrintHeaders: true);
+                worksheet.Tables.Add(location, "mytestTbl");
+
+                //Data2
+                worksheet = excelFile.Workbook.Worksheets["Test2"];
+                location = worksheet.Cells["A1"].LoadFromCollection(Collection: report2, PrintHeaders: true);
+                worksheet.Tables.Add(location, "mytestsureTbl");
+
+                //Data3
+                location = worksheet.Cells["K1"].LoadFromCollection(Collection: report3, PrintHeaders: true);
+                worksheet.Tables.Add(location, "Test3");
+
+                var wsFirst = excelFile.Workbook.Worksheets["Test1"];
+
+                wsFirst.Select();
+                SaveAndCleanup(excelFile);
+            }
+        }
+        [TestMethod]
+        public void Ticket90()
+        {
+            using (var p = OpenTemplatePackage("Example - Calculate.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets["Others"];
+                var fi = new FileInfo(@"c:\Temp\countiflog.txt");
+                p.Workbook.FormulaParserManager.AttachLogger(fi);
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel);
+                p.Workbook.FormulaParserManager.DetachLogger();
+                var result = sheet.Cells["R5"].Value;
+                ExcelAddress a = new ExcelAddress();
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Ticket90_2()
+        {
+            using (var p = OpenTemplatePackage("s70.xlsx"))
+            {
+                p.Workbook.Calculate();
+                Assert.AreEqual(7D, p.Workbook.Worksheets[0].Cells["P1"].Value);
+                Assert.AreEqual(1D, p.Workbook.Worksheets[0].Cells["P2"].Value);
+                Assert.AreEqual(0D, p.Workbook.Worksheets[0].Cells["P3"].Value);
+            }
+        }
+        [TestMethod]
+        public void Issue287()
+        {
+            using (var p = OpenTemplatePackage("issue287.xlsm"))
+            {
+                p.Workbook.CreateVBAProject();
+                p.Save();
             }
         }
     }

@@ -25,6 +25,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -60,9 +61,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["unicode"] = new Unicode();
             Functions["unichar"] = new Unichar();
             Functions["numbervalue"] = new NumberValue();
+            Functions["dollar"] = new Dollar();
             // Numbers
             Functions["int"] = new CInt();
             // Math
+            Functions["aggregate"] = new Aggregate();
             Functions["abs"] = new Abs();
             Functions["asin"] = new Asin();
             Functions["asinh"] = new Asinh();
@@ -90,6 +93,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["iso.ceiling"] = new IsoCeiling();
             Functions["combin"] = new Combin();
             Functions["combina"] = new Combina();
+            Functions["permut"] = new Permut();
+            Functions["permutationa"] = new Permutationa();
             Functions["count"] = new Count();
             Functions["counta"] = new CountA();
             Functions["countblank"] = new CountBlank();
@@ -114,7 +119,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["sumx2py2"] = new SumX2pY2();
             Functions["seriessum"] = new Seriessum();
             Functions["stdev"] = new Stdev();
+            Functions["stdeva"] = new Stdeva();
             Functions["stdevp"] = new StdevP();
+            Functions["stdevpa"] = new Stdevpa();
             Functions["stdev.s"] = new StdevDotS();
             Functions["stdev.p"] = new StdevDotP();
             Functions["subtotal"] = new Subtotal();
@@ -131,6 +138,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["mode"] = new Mode();
             Functions["mode.sngl"] = new ModeSngl();
             Functions["mround"] = new Mround();
+            Functions["multinomial"] = new Multinomial();
             Functions["average"] = new Average();
             Functions["averagea"] = new AverageA();
             Functions["averageif"] = new AverageIf();
@@ -145,8 +153,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["rank.avg"] = new RankAvg();
             Functions["percentile"] = new Percentile();
             Functions["percentile.inc"] = new PercentileInc();
+            Functions["percentile.exc"] = new PercentileExc();
+            Functions["quartile"] = new Quartile();
+            Functions["quartile.inc"] = new QuartileInc();
+            Functions["quartile.exc"] = new QuartileExc();
             Functions["percentrank"] = new Percentrank();
             Functions["percentrank.inc"] = new PercentrankInc();
+            Functions["percentrank.exc"] = new PercentrankExc();
             Functions["quotient"] = new Quotient();
             Functions["trunc"] = new Trunc();
             Functions["tan"] = new Tan();
@@ -156,15 +169,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["atanh"] = new Atanh();
             Functions["acos"] = new Acos();
             Functions["acosh"] = new Acosh();
+            Functions["covar"] = new Covar();
+            Functions["covariance.p"] = new CovarianceP();
+            Functions["covariance.s"] = new CovarianceS();
             Functions["var"] = new Var();
+            Functions["vara"] = new Vara();
             Functions["var.s"] = new VarDotS();
             Functions["varp"] = new VarP();
+            Functions["varpa"] = new Varpa();
             Functions["var.p"] = new VarDotP();
             Functions["large"] = new Large();
             Functions["small"] = new Small();
             Functions["degrees"] = new Degrees();
             Functions["odd"] = new Odd();
             Functions["even"] = new Even();
+            // Statistical
+            Functions["confidence.norm"] = new ConfidenceNorm();
+            Functions["confidence"] = new Confidence();
+            Functions["confidence.t"] = new ConfidenceT();
+            Functions["devsq"] = new Devsq();
+            Functions["avedev"] = new Avedev();
+            Functions["gamma"] = new Gamma();
+            Functions["gammaln"] = new Gammaln();
+            Functions["gammaln.precise"] = new GammalnPrecise();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -180,6 +207,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["na"] = new Na();
             Functions["n"] = new N();
             Functions["type"] = new TypeFunction();
+            Functions["sheet"] = new Sheet();
             // Logical
             Functions["if"] = new If();
             Functions["ifs"] = new Ifs();
@@ -193,6 +221,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["true"] = new True();
             Functions["false"] = new False();
             Functions["switch"] = new Switch();
+            Functions["xor"] = new Xor();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["hlookup"] = new HLookup();
@@ -209,6 +238,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["offset"] = new Offset();
             // Date
             Functions["date"] = new Date();
+            Functions["datedif"] = new DateDif();
             Functions["today"] = new Today();
             Functions["now"] = new Now();
             Functions["day"] = new Day();
@@ -245,6 +275,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             //Finance
             Functions["cumipmt"] = new Cumipmt();
             Functions["cumprinc"] = new Cumprinc();
+            Functions["dollarde"] = new DollarDe();
+            Functions["dollarfr"] = new DollarFr();
+            Functions["db"] = new Db();
             Functions["ddb"] = new Ddb();
             Functions["effect"] = new Effect();
             Functions["fvschedule"] = new FvSchedule();
@@ -274,7 +307,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["couppcd"] = new Couppcd();
             Functions["price"] = new Price();
             Functions["yield"] = new Yield();
+            Functions["yieldmat"] = new Yieldmat();
             Functions["duration"] = new Duration();
+            Functions["mduration"] = new Mduration();
+            Functions["intrate"] = new Intrate();
             Functions["disc"] = new Disc();
             //Engineering
             Functions["bitand"] = new BitAnd();
@@ -304,6 +340,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["besselj"] = new BesselJ();
             Functions["besselk"] = new BesselK();
             Functions["bessely"] = new BesselY();
+            Functions["complex"] = new Complex();
         }
     }
 }

@@ -13,7 +13,7 @@
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

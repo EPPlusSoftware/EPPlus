@@ -23,13 +23,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     Category = ExcelFunctionCategory.Statistical,
     EPPlusVersion = "5.2",
     Description = "Returns the Mode (the most frequently occurring value) of a list of supplied numbers ")]
-    internal class Mode : ExcelFunction
+    internal class Mode : HiddenValuesHandlingFunction
     {
+        public Mode()
+        {
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             if (arguments.Count() > 255) return CreateResult(eErrorType.Value);
-            var numbers = ArgsToDoubleEnumerable(false, false, arguments, context);
+            var numbers = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
             var counts = new Dictionary<double, int>();
             double? maxCountValue = default;
             foreach(var number in numbers)

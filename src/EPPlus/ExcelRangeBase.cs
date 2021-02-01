@@ -685,7 +685,7 @@ namespace OfficeOpenXml
                     {
                         if (_worksheet._flags.GetFlagValue(row, col, CellFlags.RichText))
                         {
-                            v[row - addr._fromRow, col - addr._fromCol] = GetRichText(row, col).Text;
+                            v[row - addr._fromRow, col - addr._fromCol] = _worksheet.GetRichText(row, col, this).Text;
                         }
                         else
                         {
@@ -1099,18 +1099,30 @@ namespace OfficeOpenXml
                 if (value == null || value.Trim() == "")
                 {
                     //Set the cells to null
-                    _worksheet.Cells[ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol)].Value = null;
-                }
-                else if (Addresses == null)
-                {
-                    Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol), this, false);
+                    Value = null;
                 }
                 else
                 {
-                    Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, _fromRow, _fromCol), new ExcelAddress(WorkSheetName, FirstAddress), false);
-                    foreach (var address in Addresses)
+                    var formula = TranslateFromR1C1(value, _fromRow, _fromCol);
+                    if (_fromRow == _toRow && _fromCol == _toCol)
                     {
-                        Set_SharedFormula(this, ExcelCellBase.TranslateFromR1C1(value, address.Start.Row, address.Start.Column), address, false);
+                        Set_Formula(this, formula, _fromRow, _fromCol);
+                    }
+                    else if (HasOffSheetReference(formula))
+                    {
+                        Set_Formula_Range(this, formula);
+                    }
+                    else
+                    {
+                        Set_SharedFormula(this, formula, this, false);
+                        if (Addresses != null)
+                        {
+                            foreach (var address in Addresses)
+                            {
+                                formula = TranslateFromR1C1(value, address._fromRow, address._fromCol);
+                                Set_SharedFormula(this, formula, address, false);
+                            }
+                        }
                     }
                 }
             }
@@ -1223,7 +1235,7 @@ namespace OfficeOpenXml
                     if(tbl==null)
                     {
                         _worksheet.AutoFilterAddress = this;
-                        var result = _worksheet.Names.Add("_xlnm._FilterDatabase", this);
+                        var result = _worksheet.Names.AddName("_xlnm._FilterDatabase", this);
                         result.IsNameHidden = true;
                     }
                     else
@@ -1271,9 +1283,27 @@ namespace OfficeOpenXml
             }
             set
             {
-                _changePropMethod(this, _setIsRichTextDelegate, value);
+                var isRT = IsRichText;
+                if (isRT != value)
+                {
+                    if (value)
+                    {
+                        RichText.Text = Text;
+                    }
+                    else
+                    {
+                        Value = RichText.Text;
+                    }
+                    SetIsRichTextFlag(value);
+                }
             }
         }
+
+        internal void SetIsRichTextFlag(bool value)
+        {
+            _changePropMethod(this, _setIsRichTextDelegate, value);
+        }
+
         /// <summary>
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>
@@ -1329,8 +1359,8 @@ namespace OfficeOpenXml
         /// </summary>
         protected internal ExcelRichTextCollection _rtc = null;
         /// <summary>
-        /// Cell value is richtext formatted. 
-        /// Richtext-property only apply to the left-top cell of the range.
+        /// The cell value is rich text formatted. 
+        /// The RichText-property only apply to the left-top cell of the range.
         /// </summary>
         public ExcelRichTextCollection RichText
         {
@@ -1339,35 +1369,12 @@ namespace OfficeOpenXml
                 IsRangeValid("richtext");
                 if (_rtc == null)
                 {
-                    _rtc = GetRichText(_fromRow, _fromCol);
+                    _rtc = _worksheet.GetRichText(_fromRow, _fromCol, this);
                 }
                 return _rtc;
             }
         }
 
-        private ExcelRichTextCollection GetRichText(int row, int col)
-        {
-            XmlDocument xml = new XmlDocument();
-            var v = _worksheet.GetValueInner(row, col);
-            var isRt = _worksheet._flags.GetFlagValue(row, col, CellFlags.RichText);
-            if (v != null)
-            {
-                if (isRt)
-                {
-                    XmlHelper.LoadXmlSafe(xml, "<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" >" + v.ToString() + "</d:si>", Encoding.UTF8);
-                }
-                else
-                {
-                    xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" ><d:r><d:t>" + OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(v.ToString()) + "</d:t></d:r></d:si>");
-                }
-            }
-            else
-            {
-                xml.LoadXml("<d:si xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" />");
-            }
-            var rtc = new ExcelRichTextCollection(_worksheet.NameSpaceManager, xml.SelectSingleNode("d:si", _worksheet.NameSpaceManager), this);
-            return rtc;
-        }
         /// <summary>
         /// Returns the comment object of the first cell in the range
         /// </summary>

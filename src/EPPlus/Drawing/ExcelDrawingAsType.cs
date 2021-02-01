@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Slicer;
 using System;
 
@@ -49,7 +50,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
         /// <summary>
-        /// Returns return the drawing as a picture/image. 
+        /// Returns the drawing as a picture/image. 
         /// If this drawing is not a picture, null will be returned
         /// </summary>
         /// <returns>The drawing as a picture</returns>
@@ -83,6 +84,24 @@ namespace OfficeOpenXml.Drawing
                     _slicerAsType = new ExcelSlicerAsType(_drawing);
                 }
                 return _slicerAsType;
+            }
+        }
+
+        ExcelControlAsType _controlAsType;
+
+        /// <summary>
+        /// Helps to cast drawings to controls. Use the properties of this class to cast to the various specific control types.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelControlAsType Control
+        {
+            get
+            {
+                if(_controlAsType == null)
+                {
+                    _controlAsType = new ExcelControlAsType(_drawing);
+                }
+                return _controlAsType;
             }
         }
     }

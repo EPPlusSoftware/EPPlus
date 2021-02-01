@@ -11,7 +11,7 @@
   04/16/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {

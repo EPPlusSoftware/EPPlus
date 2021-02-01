@@ -446,7 +446,7 @@ namespace OfficeOpenXml
                     var vmlNode = _ws.WorksheetXml.SelectSingleNode("d:worksheet/d:legacyDrawingHF/@r:id", NameSpaceManager);
                     if (vmlNode == null)
                     {
-                        _vmlDrawingsHF = new ExcelVmlDrawingPictureCollection(_ws._package, _ws, null);
+                        _vmlDrawingsHF = new ExcelVmlDrawingPictureCollection(_ws, null);
                     }
                     else
                     {
@@ -455,7 +455,7 @@ namespace OfficeOpenXml
                             var rel = _ws.Part.GetRelationship(vmlNode.Value);
                             var vmlUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
 
-                            _vmlDrawingsHF = new ExcelVmlDrawingPictureCollection(_ws._package, _ws, vmlUri);
+                            _vmlDrawingsHF = new ExcelVmlDrawingPictureCollection(_ws, vmlUri);
                             _vmlDrawingsHF.RelId = rel.Id;
                         }
                     }
@@ -511,7 +511,7 @@ namespace OfficeOpenXml
             {
                 if (_vmlDrawingsHF.Count == 0)
                 {
-                    if (_vmlDrawingsHF.Uri != null)
+                    if (_vmlDrawingsHF.Part != null)
                     {
                         _ws.Part.DeleteRelationship(_vmlDrawingsHF.RelId);
                         _ws._package.ZipPackage.DeletePart(_vmlDrawingsHF.Uri);
@@ -533,6 +533,17 @@ namespace OfficeOpenXml
                         {
                             rel = _vmlDrawingsHF.Part.CreateRelationship(UriHelper.GetRelativeUri(_vmlDrawingsHF.Uri, draw.ImageUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                             draw.RelId = rel.Id;
+                        }
+                    }
+                    else
+                    {
+                        foreach (ExcelVmlDrawingPicture draw in _vmlDrawingsHF)
+                        {
+                            if (string.IsNullOrEmpty(draw.RelId))
+                            {
+                                var rel = _vmlDrawingsHF.Part.CreateRelationship(UriHelper.GetRelativeUri(_vmlDrawingsHF.Uri, draw.ImageUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                                draw.RelId = rel.Id;
+                            }
                         }
                     }
                     _vmlDrawingsHF.VmlDrawingXml.Save(_vmlDrawingsHF.Part.GetStream());

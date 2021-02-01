@@ -45,6 +45,12 @@ namespace OfficeOpenXml.LoadFunctions
         /// </summary>
         protected TableStyles TableStyle { get; set; }
 
+        protected bool ShowFirstColumn { get; set; }
+
+        protected bool ShowLastColumn { get; set; }
+
+        protected bool ShowTotal { get; set; }
+
         /// <summary>
         /// Returns how many rows there are in the range (header row not included)
         /// </summary>
@@ -57,7 +63,12 @@ namespace OfficeOpenXml.LoadFunctions
         /// <returns></returns>
         protected abstract int GetNumberOfColumns();
 
-        protected abstract void LoadInternal(object[,] values);
+        protected virtual void PostProcessTable(ExcelTable table, ExcelRangeBase range)
+        {
+
+        }
+
+        protected abstract void LoadInternal(object[,] values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
 
         /// <summary>
         /// Loads the data into the worksheet
@@ -68,14 +79,32 @@ namespace OfficeOpenXml.LoadFunctions
             var nRows = PrintHeaders ? GetNumberOfRows() + 1 : GetNumberOfRows();
             var nCols = GetNumberOfColumns();
             var values = new object[nRows, nCols];
-            LoadInternal(values);
+            LoadInternal(values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
             var ws = Range.Worksheet;
-            ws.SetRangeValueInner(Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1, values);
-            
+            if(formulaCells != null && formulaCells.Keys.Count > 0)
+            {
+                SetValuesAndFormulas(nRows, nCols, values, formulaCells, ws);
+            }
+            else
+            {
+                ws.SetRangeValueInner(Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1, values);
+            }
+
+
             //Must have at least 1 row, if header is shown
             if (nRows == 1 && PrintHeaders)
             {
                 nRows++;
+            }
+            // set number formats
+            foreach (var col in columnFormats.Keys)
+            {
+                ws.Cells[Range._fromRow, Range._fromCol + col, Range._fromRow + nRows - 1, Range._fromCol + col].Style.Numberformat.Format = columnFormats[col];
+            }
+
+            if(nRows==0)
+            {
+                return null;
             }
 
             var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
@@ -85,9 +114,57 @@ namespace OfficeOpenXml.LoadFunctions
                 var tbl = ws.Tables.Add(r, "");
                 tbl.ShowHeader = PrintHeaders;
                 tbl.TableStyle = TableStyle;
+                tbl.ShowFirstColumn = ShowFirstColumn;
+                tbl.ShowLastColumn = ShowLastColumn;
+                tbl.ShowTotal = ShowTotal;
+                PostProcessTable(tbl, r);
             }
 
             return r;
+        }
+
+        private void SetValuesAndFormulas(int nRows, int nCols, object[,] values, Dictionary<int, FormulaCell> formulaCells, ExcelWorksheet ws)
+        {
+            for (var col = 0; col < nCols; col++)
+            {
+                if (formulaCells.ContainsKey(col))
+                {
+                    var row = 0;
+                    if (PrintHeaders)
+                    {
+                        var header = values[0, col];
+                        ws.SetValue(Range._fromRow, Range._fromCol + col, header);
+                        row++;
+                    }
+                    var columnFormula = formulaCells[col];
+                    var fromRow = Range._fromRow + row;
+                    var rangeCol = Range._fromCol + col;
+                    var toRow = Range._fromRow + nRows - 1;
+                    var formulaRange = ws.Cells[fromRow, rangeCol, toRow, rangeCol];
+                    if (!string.IsNullOrEmpty(columnFormula.Formula))
+                    {
+                        formulaRange.Formula = columnFormula.Formula;
+                    }
+                    else
+                    {
+                        formulaRange.FormulaR1C1 = columnFormula.FormulaR1C1;
+                    }
+                }
+                else
+                {
+                    object[,] columnValues = new object[nRows, 1];
+                    for (var ix = 0; ix < nRows; ix++)
+                    {
+                        var item = values[ix, col];
+                        columnValues[ix, 0] = item;
+                    }
+                    var fromRow = Range._fromRow;
+                    var rangeCol = Range._fromCol + col;
+                    var toRow = Range._fromRow + nRows - 1;
+                    ws.SetRangeValueInner(fromRow, rangeCol, toRow, rangeCol, columnValues);
+                }
+
+            }
         }
     }
 }

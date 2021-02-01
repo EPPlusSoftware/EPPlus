@@ -40,6 +40,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -145,6 +146,34 @@ namespace EPPlusTest.Excel.Functions
             var args = FunctionsHelper.CreateArgs(6, 5);
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(252d, result.Result);
+        }
+
+        [TestMethod]
+        public void PermutationaShouldReturnCorrectResult()
+        {
+            var func = new Permutationa();
+
+            var args = FunctionsHelper.CreateArgs(6, 6);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(46656d, result.Result);
+
+            args = FunctionsHelper.CreateArgs(10, 6);
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1000000d, result.Result);
+        }
+
+        [TestMethod]
+        public void PermutShouldReturnCorrectResult()
+        {
+            var func = new Permut();
+
+            var args = FunctionsHelper.CreateArgs(6, 6);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(720d, result.Result);
+
+            args = FunctionsHelper.CreateArgs(10, 6);
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(151200d, result.Result);
         }
 
         [TestMethod]
@@ -517,6 +546,32 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void StdevaShouldCalculateCorrectResult()
+        {
+            var func = new Stdeva();
+            var args = FunctionsHelper.CreateArgs(1, 3, 5, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.7078d, System.Math.Round((double)result.Result, 4));
+
+            args = FunctionsHelper.CreateArgs(1, 3, 5, 2, true, "text");
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.7889d, System.Math.Round((double)result.Result, 4));
+        }
+
+        [TestMethod]
+        public void StdevpaShouldCalculateCorrectResult()
+        {
+            var func = new Stdevpa();
+            var args = FunctionsHelper.CreateArgs(1, 3, 5, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.479d, System.Math.Round((double)result.Result, 4));
+
+            args = FunctionsHelper.CreateArgs(1, 3, 5, 2, true, "text");
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1.633d, System.Math.Round((double)result.Result, 4));
+        }
+
+        [TestMethod]
         public void StdevShouldIgnoreHiddenValuesWhenIgnoreHiddenValuesIsSet()
         {
             var func = new Stdev();
@@ -883,6 +938,32 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void VaraShouldReturnCorrectResult()
+        {
+            var func = new Vara();
+            var args = FunctionsHelper.CreateArgs(1, 3, 5, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(2.9167d, System.Math.Round((double)result.Result, 4));
+
+            args = FunctionsHelper.CreateArgs(1, 3, 5, 2, true, "text");
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(3.2d, System.Math.Round((double)result.Result, 4));
+        }
+
+        [TestMethod]
+        public void VarpaShouldReturnCorrectResult()
+        {
+            var func = new Varpa();
+            var args = FunctionsHelper.CreateArgs(1, 3, 5, 2);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(2.1875, System.Math.Round((double)result.Result, 4));
+
+            args = FunctionsHelper.CreateArgs(1, 3, 5, 2, true, "text");
+            result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(2.6667d, System.Math.Round((double)result.Result, 4));
+        }
+
+        [TestMethod]
         public void VarDotSShouldReturnCorrectResult()
         {
             var func = new VarDotS();
@@ -1207,12 +1288,13 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(120d, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void FactShouldThrowWhenNegativeNumber()
+        [TestMethod]
+        public void FactShouldReturnErrorNegativeNumber()
         {
             var func = new Fact();
             var args = FunctionsHelper.CreateArgs(-1);
-            func.Execute(args, _parsingContext);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
@@ -1242,12 +1324,13 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(2, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void QuotientShouldThrowWhenDenomIs0()
+        [TestMethod]
+        public void QuotientShouldReturnErrorDenomIs0()
         {
             var func = new Quotient();
             var args = FunctionsHelper.CreateArgs(1, 0);
-            func.Execute(args, _parsingContext);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
@@ -1268,12 +1351,13 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(3d, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void LargeShouldThrowIfIndexOutOfBounds()
+        [TestMethod]
+        public void LargeShouldReturnErrorIfIndexOutOfBounds()
         {
             var func = new Large();
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 6);
             var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
@@ -1294,20 +1378,22 @@ namespace EPPlusTest.Excel.Functions
             Assert.AreEqual(2d, result.Result);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
+        [TestMethod]
         public void SmallShouldThrowIfIndexOutOfBounds()
         {
             var func = new Small();
             var args = FunctionsHelper.CreateArgs(FunctionsHelper.CreateArgs(4, 1, 2, 3), 6);
             var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
-        [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]
-        public void MedianShouldThrowIfNoArgs()
+        [TestMethod]
+        public void MedianShouldReturnErrorIfNoArgs()
         {
             var func = new Median();
             var args = FunctionsHelper.Empty();
-            func.Execute(args, _parsingContext);
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(DataType.ExcelError, result.DataType);
         }
 
         [TestMethod]
@@ -1572,6 +1658,38 @@ namespace EPPlusTest.Excel.Functions
             }
         }
 
+        [TestMethod] 
+        public void PercentrankExc_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 4;
+                sheet.Cells["A4"].Value = 6.5;
+                sheet.Cells["A5"].Value = 8;
+                sheet.Cells["A6"].Value = 9;
+                sheet.Cells["A7"].Value = 10;
+                sheet.Cells["A8"].Value = 12;
+                sheet.Cells["A9"].Value = 14;
+                sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,6.5)";
+                sheet.Calculate();
+                var result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(0.4, result);
+
+                sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,7,5)";
+                sheet.Calculate();
+                result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(0.43333, result);
+
+                sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,18)";
+                sheet.Calculate();
+                result = sheet.Cells["B1"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result);
+            }
+        }
+
         [TestMethod]
         public void Percentile_Test1()
         {
@@ -1645,6 +1763,124 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void PercentileExc_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["A4"].Value = 4;
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,0.2)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(1d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,60%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,50%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(2.5d, result);
+
+                sheet.Cells["A10"].Formula = "PERCENTILE.EXC(A1:A4,95%)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Num), result);
+            }
+        }
+
+        [TestMethod]
+        public void Quartile_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 6;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 5;
+                sheet.Cells["A7"].Value = 0;
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,0)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(0d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,1)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(1.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7, 2)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,3)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(4.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE(A1:A7,4)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(6d, result);
+            }
+        }
+
+        [TestMethod]
+        public void QuartileInc_Test1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 6;
+                sheet.Cells["A4"].Value = 4;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 5;
+                sheet.Cells["A7"].Value = 0;
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,0)";
+                sheet.Calculate();
+                var result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(0d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,1)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(1.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7, 2)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(3d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,3)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(4.5d, result);
+
+                sheet.Cells["A10"].Formula = "QUARTILE.INC(A1:A7,4)";
+                sheet.Calculate();
+                result = sheet.Cells["A10"].Value;
+                Assert.AreEqual(6d, result);
+            }
+        }
+
+        [TestMethod]
         public void ModeShouldReturnCorrectResult()
         {
             using (var package = new ExcelPackage())
@@ -1679,6 +1915,71 @@ namespace EPPlusTest.Excel.Functions
                 sheet.Cells["B1"].Formula = "MODE.SNGL(A1:A6)";
                 sheet.Calculate();
                 Assert.AreEqual(1d, sheet.Cells["B1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void MultinomialShouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 3;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 5;
+                sheet.Cells["B1"].Formula = "MULTINOMIAL(A1:A4)";
+                sheet.Calculate();
+                Assert.AreEqual(27720d, sheet.Cells["B1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void CovarShouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 3;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 5;
+                sheet.Cells["B1"].Value = 2;
+                sheet.Cells["B2"].Value = 6;
+                sheet.Cells["B3"].Value = 2;
+                sheet.Cells["B4"].Value = 8;
+
+                sheet.Cells["C1"].Formula = "COVAR(A1:A4, B1:B4)";
+                sheet.Calculate();
+                Assert.AreEqual(1.625d, sheet.Cells["C1"].Value);
+
+                sheet.Cells["C1"].Formula = "COVARIANCE.P(A1:A4, B1:B4)";
+                sheet.Calculate();
+                Assert.AreEqual(1.625d, sheet.Cells["C1"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void CovarianceSshouldReturnCorrectResult()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 3;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["A4"].Value = 5;
+                sheet.Cells["B1"].Value = 2;
+                sheet.Cells["B2"].Value = 6;
+                sheet.Cells["B3"].Value = 2;
+                sheet.Cells["B4"].Value = 8;
+
+                sheet.Cells["C1"].Formula = "COVARIANCE.S(A1:A4, B1:B4)";
+                sheet.Calculate();
+                Assert.AreEqual(2.16667d, System.Math.Round((double)sheet.Cells["C1"].Value, 5));
             }
         }
     }

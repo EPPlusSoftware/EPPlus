@@ -13,7 +13,7 @@
 using OfficeOpenXml.Drawing.Style;
 using OfficeOpenXml.Drawing.Style.Effect;
 using System.Xml;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Interfaces;

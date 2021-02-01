@@ -14,57 +14,57 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
-        /// <summary>
-        /// The size of the drawing 
-        /// </summary>
-        public class ExcelDrawingSize : XmlHelper
+    /// <summary>
+    /// The size of the drawing 
+    /// </summary>
+    public class ExcelDrawingSize : XmlHelper
+    {
+        internal delegate void SetWidthCallback();
+        SetWidthCallback _setWidthCallback;
+        internal ExcelDrawingSize(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback=null) :
+            base (ns,node)
         {
-            internal delegate void SetWidthCallback();
-            SetWidthCallback _setWidthCallback;
-            internal ExcelDrawingSize(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback) :
-                base (ns,node)
+            _setWidthCallback = setWidthCallback;
+        }
+        const string colOffPath = "@cy";
+        /// <summary>
+        /// Column Offset
+        /// 
+        /// EMU units   1cm         =   1/360000 
+        ///             1US inch    =   1/914400
+        ///             1pixel      =   1/9525
+        /// </summary>
+        public long Height
+        {
+            get
             {
-                _setWidthCallback = setWidthCallback;
+                return GetXmlNodeLong(colOffPath);
             }
-            const string colOffPath = "@cy";
-            /// <summary>
-            /// Column Offset
-            /// 
-            /// EMU units   1cm         =   1/360000 
-            ///             1US inch    =   1/914400
-            ///             1pixel      =   1/9525
-            /// </summary>
-            public long Height
+            set
             {
-                get
-                {
-                    return GetXmlNodeLong(colOffPath);
-                }
-                set
-                {
-                    SetXmlNodeString(colOffPath, value.ToString());
-                    _setWidthCallback();
-                }
-            }
-            const string rowOffPath = "@cx";
-            /// <summary>
-            /// Row Offset
-            /// 
-            /// EMU units   1cm         =   1/360000 
-            ///             1US inch    =   1/914400
-            ///             1pixel      =   1/9525
-            /// </summary>
-            public long Width
-            {
-                get
-                {
-                    return GetXmlNodeLong(rowOffPath);
-                }
-                set
-                {
-                    SetXmlNodeString(rowOffPath, value.ToString());
-                    _setWidthCallback();
-                }
+                SetXmlNodeString(colOffPath, value.ToString());
+                if (_setWidthCallback != null) _setWidthCallback();
             }
         }
+        const string rowOffPath = "@cx";
+        /// <summary>
+        /// Row Offset
+        /// 
+        /// EMU units   1cm         =   1/360000 
+        ///             1US inch    =   1/914400
+        ///             1pixel      =   1/9525
+        /// </summary>
+        public long Width
+        {
+            get
+            {
+                return GetXmlNodeLong(rowOffPath);
+            }
+            set
+            {
+                SetXmlNodeString(rowOffPath, value.ToString());
+                if (_setWidthCallback != null) _setWidthCallback();
+            }
+        }
+    }
 }

@@ -12,7 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.Utils.Extentions;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Xml;
 

@@ -147,6 +147,26 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         }
 
         [TestMethod]
+        public void CompileSingleCellReferenceWithRichTextValue()
+        {
+            var parsingContext = ParsingContext.Create();
+            var file = new FileInfo("filename.xlsx");
+            using (var package = new ExcelPackage(file))
+            using (var sheet = package.Workbook.Worksheets.Add("NewSheet"))
+            using (var excelDataProvider = new EpplusExcelDataProvider(package))
+            {
+                sheet.Cells[1, 1].RichText.Text = "Value";
+                var rangeAddressFactory = new RangeAddressFactory(excelDataProvider);
+                using (parsingContext.Scopes.NewScope(rangeAddressFactory.Create("NewSheet", 3, 3)))
+                {
+                    var expression = new ExcelAddressExpression("A1", excelDataProvider, parsingContext);
+                    var result = expression.Compile();
+                    Assert.AreEqual("Value", result.Result);
+                }
+            }
+        }
+
+        [TestMethod]
         public void CompileSingleCellReferenceResolveToRange()
         {
             var parsingContext = ParsingContext.Create();

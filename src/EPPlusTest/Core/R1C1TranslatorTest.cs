@@ -148,6 +148,18 @@ namespace EPPlusTest.Core
             var formula = ExcelCellBase.TranslateFromR1C1(formulaR1C1, 1, 2);
             Assert.AreEqual("SUM(Sheet1!A:A)", formula); // also fails: formula == "Sum(A:A)"
         }
+        [TestMethod]
+        public void FromR1C1ShouldHandleDoubleQuotes()
+        {
+            var v1= ExcelCellBase.TranslateFromR1C1("\" \"\" \"", 1, 2);
+            Assert.AreEqual("\" \"\" \"", v1);           
+        }
+        [TestMethod]
+        public void ToR1C1ShouldHandleDoubleQuotes()
+        {
+            var v1 = ExcelCellBase.TranslateToR1C1("\" \"\" \"", 1, 2);
+            Assert.AreEqual("\" \"\" \"", v1);
+        }
         private static void AssertAddresses(string r1c1, string expectedAddress)
         {
             var address = R1C1Translator.FromR1C1(r1c1, 3, 2);  //From Cell B2

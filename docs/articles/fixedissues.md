@@ -1,5 +1,85 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.5.2
+### Fixed issues
+* Fixed a bug in ExpressionEvaluator that caused search criteria's starting with a wildcard character to cause an Exception.
+* Setting cell value via an array overwriting rich text causes invalid cell content.
+* Removed invalid handling of defined names on load if the name contained a link to an external workbook.
+* Dependency chain referenced the wrong worksheet in some cases when a formula had off-sheet references when checking for circular references.
+* Table headers with rich text caused corrupt workbook.
+* Fixed error handling and handling of single cell addresses in COUNTIFS function
+* Downgraded .NET 5 referenced packages for .NET standard 2.0 and 2.1 build.
+
+## Version 5.5.1
+### Features
+* 10 new functions:
+	* COMPLEX
+	* DEVSQ
+	* AVEDEV 
+	* GAMMALN 
+	* GAMMALN.PRECISE
+	* GAMMA
+	* DB 
+	* SHEET
+	* INTRATE
+	* MDURATION
+### Fixed issues
+* LoadFromCollection thrown an exception if collection was empty and PrintHeaders was false
+* Adding controls after an table was added caused an corrupt workbook.
+* PrecisionAndRoundingStrategy.Excel doesn't work in range -1 to 1
+* EPPlus no longer validate defined names on load.
+* Setting the IsRichText property to true don't convert the value to Rich text properly.
+* Xml formatting issue on Saving DrawingXml. Thanks to ZaL133 for pull request.
+
+## Version 5.5.0
+### Features
+* Form Controls
+	* Buttons
+	* Drop-Downs
+	* List Boxes
+	* Check Boxes
+	* Radio Buttons
+	* Spin Buttons
+	* Scroll Bars
+	* Labels
+	* Group Boxes 
+* Group/Ungroup drawing object via the ExcelDrawing.Group and ExcelDrawing.Ungroup methods
+* New attribute support for LoadFromCollection. See https://github.com/EPPlusSoftware/EPPlus/wiki/LoadFromCollection-using-Attributes
+* 20 new functions 
+	* AGGREGATE
+	* PERCENTILE.EXC
+	* DATEDIF
+	* QUARTILE.EXC
+	* STDEVA
+	* STDEVPA
+	* VARA 
+	* VARPA
+	* COVAR 
+	* COVARIANCE.P
+	* COVARIANCE.S
+	* RANK
+	* DOLLAR
+	* DOLLARDE
+	* DOLLARFR
+	* PERMUT 
+	* PERMUTATIONA
+	* XOR
+	* MULTINOMIAL
+	* YIELDMAT
+
+### Fixed issues & minor fixes
+* Round methods can now use only 15 sigificant figures with calculation option - PrecisionAndRoundingStrategy  
+* R1C1 causes corrupt worksheet if used as shared formula with off-sheet reference. 
+* Using double qoutes in R1C1 didn't encode correctly.
+* Altering fields on a table connected to a pivot table causes the pivot table to become corrupt.
+* Pivot tables with a boolean column and a filter got corrupt on save. 
+* Deleting a worksheet and adding it again with the same name causes a crash on save if the worksheet is referenced by a pivot table. This happends due to the SourceRange property still referencing the deleted worksheet.
+* Changed ExcelAddressBase.FullName to public
+* Reference table name only in indirect formula did not work.
+* Replaced MemoryStrem internally with Microsoft.IO.RecyclableMemoryStream. Thanks to LIFEfreedom.
+* Referencing a single cell with rich text from a formula returned an invalid value.
+* Reverted .NET 5.0 references for .NET standard 2.0 and 2.1, to be compatible with Azure Functions.
+
 ## Version 5.4.2
 ### Fixed issues
 * .NET 5.0 to Nuget package.

@@ -23,15 +23,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "4",
         Description = "Returns the Kth LARGEST value from a list of supplied numbers, for a given value K")]
-    internal class Large : ExcelFunction
+    internal class Large : HiddenValuesHandlingFunction
     {
+        public Large()
+        {
+            IgnoreHiddenValues = false;
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var args = arguments.ElementAt(0);
             var index = ArgToInt(arguments, 1) - 1;
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> {args}, context);
-            ThrowExcelErrorValueExceptionIf(() => index < 0 || index >= values.Count(), eErrorType.Num);
+            if (index < 0 || index >= values.Count()) return CreateResult(eErrorType.Num);
             var result = values.OrderByDescending(x => x).ElementAt(index);
             return CreateResult(result, DataType.Decimal);
         }

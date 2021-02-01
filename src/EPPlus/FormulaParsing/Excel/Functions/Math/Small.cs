@@ -23,15 +23,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "4",
         Description = "Returns the Kth SMALLEST value from a list of supplied numbers, for a given value K")]
-    internal class Small : ExcelFunction
+    internal class Small : HiddenValuesHandlingFunction
     {
+        public Small()
+        {
+            IgnoreHiddenValues = false;
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var args = arguments.ElementAt(0);
             var index = ArgToInt(arguments, 1) - 1;
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { args }, context);
-            ThrowExcelErrorValueExceptionIf(() => index < 0 || index >= values.Count(), eErrorType.Num);
+            if (index < 0 || index >= values.Count()) return CreateResult(eErrorType.Num);
             var result = values.OrderBy(x => x).ElementAt(index);
             return CreateResult(result, DataType.Decimal);
         }

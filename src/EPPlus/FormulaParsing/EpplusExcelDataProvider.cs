@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Table;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -215,7 +216,17 @@ namespace OfficeOpenXml.FormulaParsing
 
             public object Value
             {
-                get { return _values.Value._value; }
+                get 
+                { 
+                    if(_ws._flags.GetFlagValue(_values.Row, _values.Column, CellFlags.RichText))
+                    {
+                        return _ws.GetRichText(_values.Row, _values.Column, null).Text;
+                    }
+                    else
+                    {
+                        return _values.Value._value;
+                    }
+                }
             }
             
             public double ValueDouble
@@ -278,6 +289,11 @@ namespace OfficeOpenXml.FormulaParsing
             _rangeAddressFactory = new RangeAddressFactory(this);
         }
 
+        public override IEnumerable<string> GetWorksheets()
+        {
+            return _package.Workbook.Worksheets.Select(x => x.Name);
+        }
+
         public override ExcelNamedRangeCollection GetWorksheetNames(string worksheet)
         {
             var ws=_package.Workbook.Worksheets[worksheet];
@@ -289,6 +305,32 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 return null;
             }
+        }
+
+        public override int GetWorksheetIndex(string worksheetName)
+        {
+            for (var ix = 1; ix <= _package.Workbook.Worksheets.Count; ix++)
+            {
+                var ws = _package.Workbook.Worksheets[ix - 1];
+                if (string.Compare(worksheetName, ws.Name, true) == 0)
+                {
+                    return ix;
+                }
+            }
+            return -1;
+        }
+
+        public override ExcelTable GetExcelTable(string name)
+        {
+            foreach (var ws in _package.Workbook.Worksheets)
+            {
+                if (ws is ExcelChartsheet) continue;
+                if (ws.Tables._tableNames.ContainsKey(name))
+                {
+                    return ws.Tables[name];
+                }
+            }
+            return null;
         }
 
         public override ExcelNamedRangeCollection GetWorkbookNameValues()
@@ -305,7 +347,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override IRangeInfo GetRange(string worksheet, int row, int column, string address)
         {
-            var addr = new ExcelAddress(worksheet, address);
+            var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {
                 addr = ConvertToA1C1(addr);
@@ -318,7 +360,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override IRangeInfo GetRange(string worksheet, string address)
         {
-            var addr = new ExcelAddress(worksheet, address);
+            var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {
                 addr = ConvertToA1C1(addr);
@@ -330,7 +372,7 @@ namespace OfficeOpenXml.FormulaParsing
             return new RangeInfo(ws, addr);
         }
 
-        private ExcelAddress ConvertToA1C1(ExcelAddress addr)
+        private ExcelAddress ConvertToA1C1(ExcelAddressBase addr)
         {
             //Convert the Table-style Address to an A1C1 address
             addr.SetRCFromTable(_package, addr);
@@ -369,12 +411,20 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
-                    var wsName = _package.Workbook.Worksheets[name];
-                    if(wsName == null)
+                    var tbl = ws.Tables[name];
+                    if (tbl != null)
                     {
-                        return null;
+                        nameItem = new ExcelNamedRange(name, ws, ws, tbl.DataRange.Address, -1);
                     }
-                    nameItem = new ExcelNamedRange(name, ws,wsName, "A:XFD", -1);
+                    else
+                    {
+                        var wsName = _package.Workbook.Worksheets[name];
+                        if (wsName == null)
+                        {
+                            return null;
+                        }
+                        nameItem = new ExcelNamedRange(name, ws, wsName, "A:XFD", -1);
+                    }
                 }
             }
             id = ExcelAddressBase.GetCellID(nameItem.LocalSheetId, nameItem.Index, 0);

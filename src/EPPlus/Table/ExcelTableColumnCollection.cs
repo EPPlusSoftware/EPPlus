@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Table
                 {
                     _cols[i].Position = i;
                 }
-                _colNames = _cols.ToDictionary(x => x.Name, y => y.Id);
+                _colNames = _cols.ToDictionary(x => x.Name, y => y.Position);
                 return range;
             }
         }
@@ -199,7 +199,7 @@ namespace OfficeOpenXml.Table
                 {
                     _cols[i].Position = i;
                 }
-                _colNames = _cols.ToDictionary(x => x.Name, y => y.Id);
+                _colNames = _cols.ToDictionary(x => x.Name, y => y.Position);
 
                 return range;
             }

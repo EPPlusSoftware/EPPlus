@@ -149,5 +149,27 @@ namespace EPPlusTest.Table.PivotTable
             var countField = pivotTable.Fields["Text"];
             pivotTable.ColumnFields.Add(countField);
         }
+        [TestMethod]
+        public void ValidatePivotTableCacheAfterDeletedWorksheet()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                ExcelWorksheet wsData = p1.Workbook.Worksheets.Add("DataDeleted");
+                ExcelWorksheet wsPivot = p1.Workbook.Worksheets.Add("PivotDeleted");
+                LoadTestdata(wsData);
+                var dataRange = wsData.Cells[wsData.Dimension.Address.ToString()];
+                var pivotTable = wsPivot.PivotTables.Add(wsPivot.Cells["A3"], dataRange, "PivotDeleted");
+                p1.Save();
+                using(var p2=new ExcelPackage(p1.Stream))
+                {
+                    p2.Workbook.Worksheets.Delete("DataDeleted");
+                    wsData = p2.Workbook.Worksheets.Add("DataDeleted");
+                    LoadTestdata(wsData);
+
+                    SaveWorkbook("pivotDeletedWorksheet.xlsx", p2);
+                }
+            }
+
+        }
     }
 }

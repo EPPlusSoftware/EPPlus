@@ -25,10 +25,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the variance of a supplied set of values (which represent an entire population) ")]
     internal class VarP : HiddenValuesHandlingFunction
     {
+        public VarP() : base()
+        {
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var args = ArgsToDoubleEnumerable(IgnoreHiddenValues, false, arguments, context);
+            var args = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
             return new CompileResult(VarMethods.VarP(args), DataType.Decimal);
         }
     }
