@@ -445,6 +445,10 @@ namespace OfficeOpenXml.Table
                         }
                     }
                     HeaderRowStyle.SetStyle();
+                    foreach (var c in Columns)
+                    {
+                        c.HeaderRowStyle.SetStyle();
+                    }
                 }
                 else
                 {
@@ -572,6 +576,10 @@ namespace OfficeOpenXml.Table
                     {
                         SetXmlNodeString(TOTALSROWCOUNT_PATH, "1");
                         TotalsRowStyle.SetStyle();
+                        foreach (var c in Columns)
+                        {
+                            c.TotalsRowStyle.SetStyle();
+                        }
                     }
                     else
                     {
@@ -791,7 +799,7 @@ namespace OfficeOpenXml.Table
         /// <returns></returns>
         public ExcelRangeBase AddRow(int rows = 1)
         {
-            return  InsertRow(int.MaxValue, rows);
+            return InsertRow(int.MaxValue, rows);
         }
         /// <summary>
         /// Inserts one or more rows before the specified position in the table.
@@ -826,9 +834,9 @@ namespace OfficeOpenXml.Table
             
             if(range._toRow > _address._toRow)
             {
-                Address = _address.AddRow(_address._toRow, rows);
-
+                Address = _address.AddRow(_address._toRow, rows);                
             }
+            
             return range;
         }
         /// <summary>

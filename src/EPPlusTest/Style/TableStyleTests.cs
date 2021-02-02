@@ -75,8 +75,7 @@ namespace EPPlusTest.Style
 
             LoadTestdata(ws);
             var tbl=ws.Tables.Add(ws.Cells["A1:D101"], "Table1");            
-            tbl.StyleName = "CustomTableStyle1";
-
+            tbl.StyleName = "CustomTableStyle1";            
             //Assert
             Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
             Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
