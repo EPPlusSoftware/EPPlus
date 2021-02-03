@@ -284,7 +284,7 @@ namespace OfficeOpenXml
 				_package.ZipPackage.DeletePart(SharedStringsUri); //Remove the part, it is recreated when saved.
 			}
 		}
-		internal void GetDefinedNames()
+		internal void	GetDefinedNames()
 		{
 			XmlNodeList nl = WorkbookXml.SelectNodes("//d:definedNames/d:definedName", NameSpaceManager);
 			if (nl != null)
@@ -1487,7 +1487,7 @@ namespace OfficeOpenXml
 				pivotCaches.AppendChild(item);
 			}
 
-			if (cacheReference.CacheSource == eSourceType.Worksheet && cacheReference.SourceRange!=null)
+			if (cacheReference.CacheSource == eSourceType.Worksheet)
 			{
 				var fullAddress = cacheReference.SourceRange.FullAddress;
 				if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
