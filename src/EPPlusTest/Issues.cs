@@ -1755,5 +1755,15 @@ namespace EPPlusTest
                 p.Save();
             }
         }
+        [TestMethod]
+        public void Issue299()
+        {
+            using (var p = OpenTemplatePackage("Issue299.xlsm"))
+            {
+                ExcelWorksheet sheet = p.Workbook.Worksheets.First();
+                sheet.Cells[13, 2].AddComment("my comment", "A.Shawky");//this line throws exception starting from EPPlus v5.5.0
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
