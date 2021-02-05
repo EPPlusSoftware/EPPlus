@@ -81,5 +81,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(5d, _worksheet.Cells["A4"].Value);
         }
+
+        [TestMethod]
+        public void Index_Match()
+        {
+            _worksheet.Cells["A1"].Value = "key1";
+            _worksheet.Cells["A2"].Value = "value1";
+            _worksheet.Cells["B1"].Value = "key2";
+
+            _worksheet.Cells["B2"].Formula = "INDEX(B:B,MATCH(\"key1\",A:A,FALSE),1)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual("value1", _worksheet.Cells["B2"].Value);
+        }
     }
 }
