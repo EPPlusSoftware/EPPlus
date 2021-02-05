@@ -462,14 +462,34 @@ namespace OfficeOpenXml.Style.XmlAccess
             if(styleProperty==eStyleProperty.Style)
             {
                 excelBorderItem.Style = (ExcelBorderStyle)value;
+                return;
             }
-            else if (styleProperty == eStyleProperty.Color || styleProperty== eStyleProperty.Tint || styleProperty==eStyleProperty.IndexedColor)
+
+            //Check that we have an style
+            if (excelBorderItem.Style == ExcelBorderStyle.None)
             {
-                if (excelBorderItem.Style == ExcelBorderStyle.None)
-                {
-                    throw(new Exception("Can't set bordercolor when style is not set."));
-                }
+                throw (new InvalidOperationException("Can't set bordercolor when style is not set."));
+            }
+
+            if (styleProperty == eStyleProperty.Color)
+            {
                 excelBorderItem.Color.Rgb = value.ToString();
+            }
+            else if(styleProperty == eStyleProperty.Theme)
+            {
+                excelBorderItem.Color.Theme = (eThemeSchemeColor?)value;
+            }
+            else if (styleProperty == eStyleProperty.IndexedColor)
+            {
+                excelBorderItem.Color.Indexed = (int)value;
+            }
+            else if (styleProperty == eStyleProperty.Tint)
+            {
+                excelBorderItem.Color.Tint = (decimal)value;
+            }
+            else if (styleProperty == eStyleProperty.AutoColor)
+            {
+                excelBorderItem.Color.Auto = (bool)value;
             }
         }
 

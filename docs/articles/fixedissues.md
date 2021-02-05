@@ -1,5 +1,18 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.5.3
+### Fixed issues
+* Min and Max could not handle empty ranges. They now returns 0 like Excel does if the range is empty.
+* Added fallback for encoding of unknown unicode characters when saving shared strings. Thanks to SamSaint.
+* ExcelTableColumnCollection.Insert used an invalid key when creating the name dictionary. Thanks Meigyoku-Thmn
+* Fixed  ' object reference not set to an instance of an object ' if a middle column cell is null in the ToDataTable method. Thanks to Mengfw
+* Added support for handling multiple colons in addresses, e.g. a1:a5:b3
+* Fixed handling of the tilde(~) char in WildcardValueMatcher when not being an escape character. Used by If functions.
+* Setting styles over empty columns caused cell to be removed in some cases.
+* Having pivot table shared items with both null and empty string causes an exception on load.
+* Defined names referencing non-existing worksheets caused crash on load.
+* Exposed static method RecyclableMemory.SetRecyclableMemoryStreamManager. Thanks to LIFEfreedom.
+
 ## Version 5.5.2
 ### Fixed issues
 * Fixed a bug in ExpressionEvaluator that caused search criteria's starting with a wildcard character to cause an Exception.

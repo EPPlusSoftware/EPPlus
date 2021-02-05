@@ -320,7 +320,7 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             if (_nextID == 0)
             {
-                foreach (ExcelVmlDrawingComment draw in this)
+                foreach (ExcelVmlDrawingBase draw in this)
                 {
                     if (draw.Id.Length > 3 && draw.Id.StartsWith("vml"))
                     {

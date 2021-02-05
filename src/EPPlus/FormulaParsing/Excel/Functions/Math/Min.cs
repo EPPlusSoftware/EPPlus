@@ -34,6 +34,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             ValidateArguments(arguments, 1);
             var values = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
+            if(!values.Any())
+            {
+                return CreateResult(0d, DataType.Decimal);
+            }
             return CreateResult(values.Min(), DataType.Decimal);
         }
     }

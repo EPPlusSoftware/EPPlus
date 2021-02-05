@@ -75,8 +75,7 @@ namespace EPPlusTest.Style
 
             LoadTestdata(ws);
             var tbl=ws.Tables.Add(ws.Cells["A1:D101"], "Table1");            
-            tbl.StyleName = "CustomTableStyle1";
-
+            tbl.StyleName = "CustomTableStyle1";            
             //Assert
             Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);
             Assert.AreEqual(Color.Red.ToArgb(), s.WholeTable.Style.Font.Color.Color.Value.ToArgb());
@@ -310,8 +309,77 @@ namespace EPPlusTest.Style
                     SaveWorkbook("TableDxfCopy.xlsx", p2);
                 }
             }
+        }     
+        [TestMethod]
+        public void SetStyleWhenAddingRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
+            LoadTestdata(ws);
+
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+
+            tbl.DataStyle.Font.Italic=true;
+            tbl.AddRow(2);
+
+            Assert.IsTrue(ws.Cells["A101"].Style.Font.Italic);
+            Assert.IsTrue(ws.Cells["D102"].Style.Font.Italic);
         }
+        [TestMethod]
+        public void SetStyleWhenInsertingRowFirst()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
+            LoadTestdata(ws);
+
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+
+            tbl.ShowHeader = false      ; 
+            tbl.DataStyle.Font.Strike = true;
+            tbl.InsertRow(0, 3);
+
+            Assert.IsTrue(ws.Cells["A2"].Style.Font.Strike);
+            Assert.IsTrue(ws.Cells["D3"].Style.Font.Strike);
+        }
+        [TestMethod]
+        public void SetStyleWhenInsertingColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CopyTableColumnStyleSource");
+            LoadTestdata(ws);
+
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+
+            tbl.ShowHeader = true;
+            tbl.ShowTotal = true;
+            tbl.HeaderRowStyle.Border.Bottom.Style = ExcelBorderStyle.DashDotDot;
+            tbl.HeaderRowStyle.Border.Bottom.Color.Auto = true;
+            tbl.DataStyle.Font.Italic = true;
+            tbl.TotalsRowStyle.Border.Top.Style = ExcelBorderStyle.Dashed;
+            tbl.TotalsRowStyle.Border.Top.Color.Theme = eThemeSchemeColor.Accent6;
+            tbl.Columns.Insert(2,3);
+
+            Assert.IsTrue(ws.Cells["C1"].Style.Border.Bottom.Color.Auto);
+            Assert.AreEqual(ExcelBorderStyle.DashDotDot,ws.Cells["D1"].Style.Border.Bottom.Style);
+            Assert.IsTrue(ws.Cells["C50"].Style.Font.Italic);
+            Assert.IsTrue(ws.Cells["D100"].Style.Font.Italic);
+            Assert.AreEqual(ExcelBorderStyle.Dashed, tbl.TotalsRowStyle.Border.Top.Style);
+            Assert.AreEqual(eThemeSchemeColor.Accent6, tbl.TotalsRowStyle.Border.Top.Color.Theme);
+
+        }
+        [TestMethod]
+        public void SetStyleWhenInsertingColumnFirst()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
+            LoadTestdata(ws);
+
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+            
+            tbl.DataStyle.Font.Strike = true;
+            tbl.InsertRow(0, 3);
+
+            Assert.IsTrue(ws.Cells["A2"].Style.Font.Strike);
+            Assert.IsTrue(ws.Cells["D3"].Style.Font.Strike);
+        }
+
     }
 }
 
-
+    

@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Table
             }
         }
 
-        void SetHeaderStyle(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+        internal void SetHeaderStyle(eStyleClass styleClass, eStyleProperty styleProperty, object value)
         {
             if ((_table ?? _tableColumn.Table).ShowHeader == false || value==null) return;
             ExcelRangeBase headerRange;
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Table
             SetStyle(headerRange, styleClass, styleProperty, value);
         }
 
-        void SetDataStyle(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+        internal void SetDataStyle(eStyleClass styleClass, eStyleProperty styleProperty, object value)
         {
             if (value == null) return;
             ExcelRangeBase range;
@@ -105,7 +105,7 @@ namespace OfficeOpenXml.Table
             }
             SetStyle(range, styleClass, styleProperty, value);
         }
-        void SetTotalsStyle(eStyleClass styleClass, eStyleProperty styleProperty, object value)
+        internal void SetTotalsStyle(eStyleClass styleClass, eStyleProperty styleProperty, object value)
         {
             if ((_table??_tableColumn.Table).ShowTotal == false || value==null) return;
             ExcelRangeBase totalRange;

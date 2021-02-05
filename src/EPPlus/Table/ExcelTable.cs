@@ -445,6 +445,10 @@ namespace OfficeOpenXml.Table
                         }
                     }
                     HeaderRowStyle.SetStyle();
+                    foreach (var c in Columns)
+                    {
+                        c.HeaderRowStyle.SetStyle();
+                    }
                 }
                 else
                 {
@@ -572,6 +576,10 @@ namespace OfficeOpenXml.Table
                     {
                         SetXmlNodeString(TOTALSROWCOUNT_PATH, "1");
                         TotalsRowStyle.SetStyle();
+                        foreach (var c in Columns)
+                        {
+                            c.TotalsRowStyle.SetStyle();
+                        }
                     }
                     else
                     {
@@ -791,7 +799,7 @@ namespace OfficeOpenXml.Table
         /// <returns></returns>
         public ExcelRangeBase AddRow(int rows = 1)
         {
-            return  InsertRow(int.MaxValue, rows);
+            return InsertRow(int.MaxValue, rows);
         }
         /// <summary>
         /// Inserts one or more rows before the specified position in the table.
@@ -822,15 +830,51 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
 
-            WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);            
-            
-            if(range._toRow > _address._toRow)
+            WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
+
+            int copyFromRow = position==1 ? DataRange._fromRow + rows : _address._fromRow + position - 1;
+            if (range._toRow > _address._toRow)
             {
                 Address = _address.AddRow(_address._toRow, rows);
-
             }
+            CopyStylesFromRow(address, copyFromRow);    //Separate copy instead of using Insert paramter 3 as the first row should not copy the styles from the header row.
+
             return range;
         }
+
+        private void CopyStylesFromRow(string address, int copyRow)
+        {
+            var range = WorkSheet.Cells[address];
+            for (var col = range._fromCol; col <= range._toCol; col++)
+            {
+                var styleId = WorkSheet.Cells[copyRow, col].StyleID;
+                if (styleId != 0)
+                {
+                    for (int row = range._fromRow; row <= range._toRow; row++)
+                    {
+
+                        WorkSheet.SetStyleInner(row, col, styleId);
+                    }
+                }
+            }
+        }
+        private void CopyStylesFromColumn(string address, int copyColumn)
+        {
+            var range = WorkSheet.Cells[address];
+            for (int row = range._fromRow; row <= range._toRow; row++)
+            {
+                var styleId = WorkSheet.Cells[row, copyColumn].StyleID;
+                if (styleId != 0)
+                {
+                for (var col = range._fromCol; col <= range._toCol; col++)
+                {
+
+                        WorkSheet.SetStyleInner(row, col, styleId);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Deletes one or more rows at the specified position in the table.
         /// </summary>
@@ -892,8 +936,9 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow, _address._fromCol + position, _address._toRow, _address._fromCol + position + columns - 1);
             var range = new ExcelRangeBase(WorkSheet, address);
 
-            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, false);
+            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, true);
 
+            var copyFromCol = position == 0 ? position + columns : position-1;
             if (position == 0)
             {
                 Address = new ExcelAddressBase(_address._fromRow, _address._fromCol - columns, _address._toRow, _address._toCol);
@@ -902,7 +947,7 @@ namespace OfficeOpenXml.Table
             {
                 Address = _address.AddColumn(_address._toCol, columns);
             }
-
+            
             return range;
         }
         /// <summary>
