@@ -83,17 +83,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-        public void Index_Match()
+        public void Index_SameColumn()
         {
-            _worksheet.Cells["A1"].Value = "key1";
-            _worksheet.Cells["A2"].Value = "value1";
-            _worksheet.Cells["B1"].Value = "key2";
-
-            _worksheet.Cells["B2"].Formula = "INDEX(B:B,MATCH(\"key1\",A:A,FALSE),1)";
+            _worksheet.Cells["A1"].Value = "value";
+            _worksheet.Cells["A2"].Formula = "INDEX(A:A,1,1)";
 
             _worksheet.Calculate();
 
-            Assert.AreEqual("value1", _worksheet.Cells["B2"].Value);
+            Assert.AreEqual("value", _worksheet.Cells["A2"].Value);
         }
     }
 }
