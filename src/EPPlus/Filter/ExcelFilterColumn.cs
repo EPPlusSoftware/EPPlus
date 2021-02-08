@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Filter
             }
             set
             {
-                SetXmlNodeBool(_showButtonPath, value, false);
+                SetXmlNodeBool(_showButtonPath, value, true);
             }
         }
 
