@@ -81,5 +81,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(5d, _worksheet.Cells["A4"].Value);
         }
+
+        [TestMethod]
+        public void Index_SameColumn()
+        {
+            _worksheet.Cells["A1"].Value = "value";
+            _worksheet.Cells["A2"].Formula = "INDEX(A:A,1,1)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual("value", _worksheet.Cells["A2"].Value);
+        }
     }
 }
