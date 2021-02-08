@@ -313,10 +313,10 @@ namespace EPPlusTest.Style
         [TestMethod]
         public void SetStyleWhenAddingRow()
         {
-            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
+            var ws = _pck.Workbook.Worksheets.Add("SetStyleWhenAddingRow");
             LoadTestdata(ws);
 
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table7");
 
             tbl.DataStyle.Font.Italic=true;
             tbl.AddRow(2);
@@ -327,12 +327,12 @@ namespace EPPlusTest.Style
         [TestMethod]
         public void SetStyleWhenInsertingRowFirst()
         {
-            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
+            var ws = _pck.Workbook.Worksheets.Add("SetStyleWhenInsertingRowFirst");
             LoadTestdata(ws);
 
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table8");
 
-            tbl.ShowHeader = false      ; 
+            tbl.ShowHeader = false; 
             tbl.DataStyle.Font.Strike = true;
             tbl.InsertRow(0, 3);
 
@@ -342,10 +342,10 @@ namespace EPPlusTest.Style
         [TestMethod]
         public void SetStyleWhenInsertingColumn()
         {
-            var ws = _pck.Workbook.Worksheets.Add("CopyTableColumnStyleSource");
+            var ws = _pck.Workbook.Worksheets.Add("SetStyleWhenInsertingColumn");
             LoadTestdata(ws);
 
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table9");
 
             tbl.ShowHeader = true;
             tbl.ShowTotal = true;
@@ -362,15 +362,14 @@ namespace EPPlusTest.Style
             Assert.IsTrue(ws.Cells["D100"].Style.Font.Italic);
             Assert.AreEqual(ExcelBorderStyle.Dashed, tbl.TotalsRowStyle.Border.Top.Style);
             Assert.AreEqual(eThemeSchemeColor.Accent6, tbl.TotalsRowStyle.Border.Top.Color.Theme);
-
         }
         [TestMethod]
         public void SetStyleWhenInsertingColumnFirst()
         {
-            var ws = _pck.Workbook.Worksheets.Add("CopyTableRowStyleSource");
+            var ws = _pck.Workbook.Worksheets.Add("SetStyleWhenInsertingColumnFirst");
             LoadTestdata(ws);
 
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table6");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table10");
             
             tbl.DataStyle.Font.Strike = true;
             tbl.InsertRow(0, 3);

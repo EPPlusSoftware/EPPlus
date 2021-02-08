@@ -832,10 +832,10 @@ namespace OfficeOpenXml.Table
 
             WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
 
-            int copyFromRow = position==1 ? DataRange._fromRow + rows : _address._fromRow + position - 1;
+            int copyFromRow = position==1 ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
             if (range._toRow > _address._toRow)
             {
-                Address = _address.AddRow(_address._toRow, rows);
+                Address = _address.AddRow(_address._toRow, rows);                
             }
             CopyStylesFromRow(address, copyFromRow);    //Separate copy instead of using Insert paramter 3 as the first row should not copy the styles from the header row.
 
