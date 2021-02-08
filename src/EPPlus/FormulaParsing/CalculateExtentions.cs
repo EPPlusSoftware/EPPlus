@@ -157,6 +157,7 @@ namespace OfficeOpenXml
             var dc = DependencyChainFactory.Create(range, options);
             CalcChain(range._workbook, parser, dc, options);
         }
+
         /// <summary>
         /// Calculate all formulas in the current range
         /// </summary>

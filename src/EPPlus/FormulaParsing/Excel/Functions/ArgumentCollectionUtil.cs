@@ -36,9 +36,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             _objectEnumerableArgConverter = objectEnumerableArgConverter;
         }
 
-        public virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric = false)
         {
-            return _doubleEnumerableArgConverter.ConvertArgs(ignoreHidden, ignoreErrors, arguments, context);
+            return _doubleEnumerableArgConverter.ConvertArgs(ignoreHidden, ignoreErrors, arguments, context, ignoreNonNumeric);
         }
 
         public virtual IEnumerable<object> ArgsToObjectEnumerable(bool ignoreHidden,

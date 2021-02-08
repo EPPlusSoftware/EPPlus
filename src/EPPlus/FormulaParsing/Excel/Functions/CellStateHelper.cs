@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System;
 using System.Linq;
 
@@ -29,6 +30,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, ExcelDataProvider.ICellInfo c, ParsingContext context)
         {
+            return ShouldIgnore(ignoreHiddenValues, false, c, context);
+        }
+
+        internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ExcelDataProvider.ICellInfo c, ParsingContext context)
+        {
+            if (ignoreNonNumeric && !ConvertUtil.IsNumeric(c.Value)) return true;
             return (ignoreHiddenValues && c.IsHiddenRow) || (context.Scopes.Current.IsSubtotal && IsSubTotal(c));
         }
 
