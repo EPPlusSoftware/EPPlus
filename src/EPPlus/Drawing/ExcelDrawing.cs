@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(group)
             {
-                _topPath = _topPathUngrouped.IndexOf("/") > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf("/")+1) : "";
+                _topPath = _topPathUngrouped.IndexOf('/') > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf('/')+1) : "";
                 if(_topPath=="")
                 {
                     _nvPrPath = _nvPrPathUngrouped;

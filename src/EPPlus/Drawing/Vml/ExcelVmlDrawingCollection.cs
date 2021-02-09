@@ -322,7 +322,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 foreach (ExcelVmlDrawingBase draw in this)
                 {
-                    if (draw.Id.Length > 3 && draw.Id.StartsWith("vml"))
+                    if (draw.Id.Length > 3 && draw.Id.StartsWith("vml", StringComparison.OrdinalIgnoreCase))
                     {
                         int id;
                         if (int.TryParse(draw.Id.Substring(3, draw.Id.Length - 3), System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out id))

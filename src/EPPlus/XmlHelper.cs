@@ -138,7 +138,7 @@ namespace OfficeOpenXml
         {
             XmlNode prependNode = null;
             int lastUsedOrderIndex = 0;
-            if (path.StartsWith("/")) path = path.Substring(1);
+            if (path.StartsWith("/", StringComparison.OrdinalIgnoreCase)) path = path.Substring(1);
             var subPaths = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < subPaths.Length; i++)
             {
@@ -171,7 +171,7 @@ namespace OfficeOpenXml
                         nameSpaceURI = "";
                         nodeName = nameSplit[0];
                     }
-                    if (subPath.StartsWith("@"))
+                    if (subPath.StartsWith("@", StringComparison.OrdinalIgnoreCase))
                     {
                         XmlAttribute addedAtt = node.OwnerDocument.CreateAttribute(subPath.Substring(1, subPath.Length - 1), nameSpaceURI);  //nameSpaceURI
                         node.Attributes.Append(addedAtt);
@@ -394,7 +394,7 @@ namespace OfficeOpenXml
                 if (subPath.Length > 0)
                 {
                     // Check if the subPath is an attribute (with or without value)
-                    if (subPath.StartsWith("@"))
+                    if (subPath.StartsWith("@", StringComparison.OrdinalIgnoreCase))
                     {
                         // @attribute										--> Create attribute
                         // @attribute=''								--> Remove attribute
@@ -475,10 +475,10 @@ namespace OfficeOpenXml
                             }
 
                             // Check if we have a criteria part in the node name
-                            if (nodeName.IndexOf("[") > 0)
+                            if (nodeName.IndexOf('[') > 0)
                             {
                                 // remove the criteria from the node name
-                                nodeName = nodeName.Substring(0, nodeName.IndexOf("["));
+                                nodeName = nodeName.Substring(0, nodeName.IndexOf('['));
                             }
 
                             if (nodePrefix == string.Empty)
@@ -639,7 +639,7 @@ namespace OfficeOpenXml
 
         private int GetNodePos(string nodeName, int startIndex)
         {
-            int ix = nodeName.IndexOf(":");
+            int ix = nodeName.IndexOf(':');
             if (ix > 0)
             {
                 nodeName = nodeName.Substring(ix + 1, nodeName.Length - (ix + 1));

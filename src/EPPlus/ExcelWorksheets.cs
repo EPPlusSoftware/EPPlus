@@ -295,15 +295,15 @@ namespace OfficeOpenXml
             //remove invalid characters
             if (ValidateName(Name))
             {
-                if (Name.IndexOf(':') > -1) Name = Name.Replace(":", " ");
-                if (Name.IndexOf('/') > -1) Name = Name.Replace("/", " ");
-                if (Name.IndexOf('\\') > -1) Name = Name.Replace("\\", " ");
-                if (Name.IndexOf('?') > -1) Name = Name.Replace("?", " ");
-                if (Name.IndexOf('[') > -1) Name = Name.Replace("[", " ");
-                if (Name.IndexOf(']') > -1) Name = Name.Replace("]", " ");
+                if (Name.IndexOf(':') > -1) Name = Name.Replace(':', ' ');
+                if (Name.IndexOf('/') > -1) Name = Name.Replace('/', ' ');
+                if (Name.IndexOf('\\') > -1) Name = Name.Replace('\\', ' ');
+                if (Name.IndexOf('?') > -1) Name = Name.Replace('?', ' ');
+                if (Name.IndexOf('[') > -1) Name = Name.Replace('[', ' ');
+                if (Name.IndexOf(']') > -1) Name = Name.Replace(']', ' ');
             }
 
-            if (Name.StartsWith("'") || Name.EndsWith("'"))
+            if (Name.StartsWith("'", StringComparison.OrdinalIgnoreCase) || Name.EndsWith("'", StringComparison.OrdinalIgnoreCase))
             {
                 throw new ArgumentException("The worksheet name can not start or end with an apostrophe (').", "Name");
             }

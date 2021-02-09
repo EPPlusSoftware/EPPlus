@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             var tokenList = tokens.ToList();
             //Address with worksheet-string before  /JK
-            if (token.StartsWith("!") && tokenList[tokenList.Count-1].TokenTypeIsSet(TokenType.String))
+            if (token.StartsWith("!", StringComparison.OrdinalIgnoreCase) && tokenList[tokenList.Count-1].TokenTypeIsSet(TokenType.String))
             {
                 string addr = "";
                 var i = tokenList.Count - 2;

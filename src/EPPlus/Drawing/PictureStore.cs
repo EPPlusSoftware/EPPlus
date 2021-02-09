@@ -176,7 +176,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal static ePictureType GetPictureType(string extension)
         {
-            if (extension.StartsWith("."))
+            if (extension.StartsWith(".", StringComparison.OrdinalIgnoreCase))
                 extension = extension.Substring(1);
 
             switch (extension.ToLower(CultureInfo.InvariantCulture))
@@ -203,7 +203,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal static string GetContentType(string extension)
         {
-            if (extension.StartsWith("."))
+            if (extension.StartsWith(".", StringComparison.OrdinalIgnoreCase))
                 extension = extension.Substring(1);
 
             switch (extension.ToLower(CultureInfo.InvariantCulture))

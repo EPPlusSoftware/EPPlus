@@ -52,8 +52,8 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             if (string.IsNullOrEmpty(c)) return Color.Empty;
             try
-            {
-                if (c.IndexOf("[") > 0)
+            {                
+                if (c.IndexOf("[", StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     c = c.Substring(0, c.IndexOf("[")).Trim();
                 }

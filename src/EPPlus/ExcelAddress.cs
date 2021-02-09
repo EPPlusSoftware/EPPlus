@@ -115,10 +115,10 @@ namespace OfficeOpenXml
         internal static bool IsTableAddress(string address)
         {
             SplitAddress(address, out string wb, out string ws, out string intAddress);
-            var lPos = intAddress.IndexOf("[");
+            var lPos = intAddress.IndexOf('[');
             if(lPos >= 0) 
             {
-                var rPos= intAddress.IndexOf("]",lPos);
+                var rPos= intAddress.IndexOf(']',lPos);
                 if(rPos>lPos)
                 {
                     var c=intAddress[lPos+1];
@@ -366,22 +366,22 @@ namespace OfficeOpenXml
             int pos;
             if (address[0] == '[')
             {
-                pos = address.IndexOf("]");
+                pos = address.IndexOf(']');
                 _wb = address.Substring(1, pos - 1);                
-                _ws = address.Substring(pos + 1);
+                _ws = address.Substring(pos + 1);                
             }
             else
             {
                 _wb = "";
                 _ws = address;
             }
-            if(_ws.StartsWith("'"))
+            if(_ws.StartsWith("'", StringComparison.OrdinalIgnoreCase))
             {
-                pos = _ws.IndexOf("'",1);
+                pos = _ws.IndexOf("'",1, StringComparison.OrdinalIgnoreCase);
                 while(pos>0 && pos+1<_ws.Length && _ws[pos+1]=='\'')
                 {
                     _ws = _ws.Substring(0, pos) + _ws.Substring(pos+1);
-                    pos = _ws.IndexOf("'", pos+1);
+                    pos = _ws.IndexOf("'", pos+1, StringComparison.OrdinalIgnoreCase);
                 }
                 if (pos>0)
                 {
@@ -398,11 +398,11 @@ namespace OfficeOpenXml
                         _address = _ws.Substring(pos + 2);
                     }
                     _ws = _ws.Substring(1, pos-1);
-                    pos = _address.IndexOf(":'");
+                    pos = _address.IndexOf(":'", StringComparison.OrdinalIgnoreCase);
                     if(pos>0)
                     {
                         var a1 = _address.Substring(0,pos);
-                        pos = _address.LastIndexOf("\'!");
+                        pos = _address.LastIndexOf("\'!", StringComparison.OrdinalIgnoreCase);
                         if (pos > 0)
                         {
                             var a2 = _address.Substring(pos+2);
@@ -412,7 +412,7 @@ namespace OfficeOpenXml
                     return;
                 }
             }
-            pos = _ws.IndexOf("!");
+            pos = _ws.IndexOf('!');
 
             if (pos==0)
             {
@@ -477,7 +477,7 @@ namespace OfficeOpenXml
                     address = "[" + _wb + "]";
                 }
 
-                if (_address.IndexOf("'!")>=0 || ExcelWorksheet.NameNeedsApostrophes(_ws))
+                if (_address.IndexOf("'!", StringComparison.OrdinalIgnoreCase) >=0 || ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
                     address += string.Format("'{0}'!", _ws.Replace("'","''"));
                 }
@@ -753,7 +753,7 @@ namespace OfficeOpenXml
                 Table.Name = first;
                 foreach (var s in bracketParts)
                 {
-                    if(s.IndexOf("[")<0)
+                    if(s.IndexOf('[')<0)
                     {
                         switch(s.ToLower(CultureInfo.InvariantCulture))                
                         {
@@ -1066,7 +1066,7 @@ namespace OfficeOpenXml
 
         private static bool IsR1C1(string address)
         {
-            if (address.StartsWith("!"))
+            if (address.StartsWith("!", StringComparison.OrdinalIgnoreCase))
             {
                 address = address.Substring(1);
             }
@@ -1181,8 +1181,8 @@ namespace OfficeOpenXml
                     {
                         if (text.Length>0 && text[0] == '[')
                         {
-                            wb = text.Substring(1, text.IndexOf("]") - 1);
-                            ws = text.Substring(text.IndexOf("]") + 1);
+                            wb = text.Substring(1, text.IndexOf(']') - 1);
+                            ws = text.Substring(text.IndexOf(']') + 1);
                         }
                         else
                         {
@@ -1505,12 +1505,12 @@ namespace OfficeOpenXml
         }
         private static string GetString(string address, int ix, out int endIx)
         {
-            var strIx = address.IndexOf("''");
+            var strIx = address.IndexOf("''", StringComparison.OrdinalIgnoreCase);
             var prevStrIx = ix;
             while(strIx > -1) 
             {
                 prevStrIx = strIx;
-                strIx = address.IndexOf("''");
+                strIx = address.IndexOf("''", StringComparison.OrdinalIgnoreCase);
             }
             endIx = address.IndexOf("'");
             return address.Substring(ix, endIx - ix).Replace("''","'");
@@ -1688,7 +1688,7 @@ namespace OfficeOpenXml
 
         private void SetFixed()
         {
-            if (Address.IndexOf("[") >= 0) return;
+            if (Address.IndexOf('[') >= 0) return;
             var address=FirstAddress;
             if(_fromRow==_toRow && _fromCol==_toCol)
             {

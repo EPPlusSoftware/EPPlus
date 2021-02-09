@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
                 // older versions of Excel (pre 2007) adds "_xlfn." in front of some function names for compatibility reasons.
                 // EPPlus implements most of these functions, so we just remove this.
-                if (funcName.StartsWith("_xlfn.")) funcName = funcName.Replace("_xlfn.", string.Empty);
+                if (funcName.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) funcName = funcName.Replace("_xlfn.", string.Empty);
 
                 var function = _parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
                 if (function == null)

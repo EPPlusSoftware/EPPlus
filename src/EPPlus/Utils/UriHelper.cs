@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Utils
     {
         internal static Uri ResolvePartUri(Uri sourceUri, Uri targetUri)
         {
-            if (targetUri.OriginalString.StartsWith("/") || targetUri.OriginalString.Contains("://"))
+            if (targetUri.OriginalString.StartsWith("/", StringComparison.OrdinalIgnoreCase) || targetUri.OriginalString.Contains("://"))
             {
                 return targetUri;
             }

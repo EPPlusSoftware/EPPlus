@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
         private static string SimplifyFwdSlashPath(string path)
         {
-            if (path.StartsWith("./")) path = path.Substring(2);
+            if (path.StartsWith("./", StringComparison.OrdinalIgnoreCase)) path = path.Substring(2);
             path = path.Replace("/./", "/");
 
             // Replace foo/anything/../bar with foo/bar
@@ -152,7 +152,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             pathName = pathName.Replace('\\', '/');
 
             // trim all leading slashes
-            while (pathName.StartsWith("/")) pathName = pathName.Substring(1);
+            while (pathName.StartsWith("/", StringComparison.OrdinalIgnoreCase)) pathName = pathName.Substring(1);
 
             return SimplifyFwdSlashPath(pathName);
         }
