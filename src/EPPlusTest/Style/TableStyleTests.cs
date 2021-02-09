@@ -383,7 +383,7 @@ namespace EPPlusTest.Style
             var ws = _pck.Workbook.Worksheets.Add("SetStyleInsertingColumnFirstNH");
             LoadTestdata(ws);
 
-            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table10");
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table11");
 
             tbl.DataStyle.Font.Strike = true;
             tbl.ShowHeader = false;
