@@ -1756,15 +1756,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue307()
-        {
-            using (var p = OpenTemplatePackage("Classeur1.xlsx"))
-            {
-                Assert.AreEqual(1, p.Workbook.Worksheets.Count);
-            }
-        }
-
-        [TestMethod]
         public void Issue299()
         {
             using (var p = OpenTemplatePackage("Issue299.xlsm"))

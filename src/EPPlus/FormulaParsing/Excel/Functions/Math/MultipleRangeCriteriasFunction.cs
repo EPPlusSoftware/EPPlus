@@ -64,10 +64,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             for (var row = rangeInfo.Address._fromRow; row <= toRow; row++)
             {
-                if(row > 5)
-                {
-                    int i = 0;
-                }
                 for (var col = rangeInfo.Address._fromCol; col <= rangeInfo.Address._toCol; col++)
                 {
                     var candidate = rangeInfo.GetValue(row, col);
