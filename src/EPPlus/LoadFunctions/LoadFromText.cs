@@ -154,8 +154,8 @@ namespace OfficeOpenXml.LoadFunctions
             var lines = Regex.Split(text, EOL);
             for (int i = 0; i < lines.Length; i++)
             {
-                if (EOL == "\n" && lines[i].EndsWith("\r")) lines[i] = lines[i].Substring(0, lines[i].Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
-                if (EOL == "\r" && lines[i].StartsWith("\n")) lines[i] = lines[i].Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
+                if (EOL == "\n" && lines[i].EndsWith("\r", StringComparison.OrdinalIgnoreCase)) lines[i] = lines[i].Substring(0, lines[i].Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
+                if (EOL == "\r" && lines[i].StartsWith("\n", StringComparison.OrdinalIgnoreCase)) lines[i] = lines[i].Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
             }
             return lines;
         }
@@ -178,8 +178,8 @@ namespace OfficeOpenXml.LoadFunctions
                     if (IsEOL(text, i, eol))
                     {
                         var s = text.Substring(prevLineStart, i - prevLineStart);
-                        if (eol == "\n" && s.EndsWith("\r")) s = s.Substring(0, s.Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
-                        if (eol == "\r" && s.StartsWith("\n")) s = s.Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
+                        if (eol == "\n" && s.EndsWith("\r", StringComparison.OrdinalIgnoreCase)) s = s.Substring(0, s.Length - 1); //If EOL char is lf and last chart cr then we remove the trailing cr.
+                        if (eol == "\r" && s.StartsWith("\n", StringComparison.OrdinalIgnoreCase)) s = s.Substring(1); //If EOL char is cr and last chart lf then we remove the heading lf.
                         list.Add(s);
                         i += eol.Length - 1;
                         prevLineStart = i + 1;

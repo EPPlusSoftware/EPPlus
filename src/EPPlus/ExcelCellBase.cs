@@ -675,7 +675,7 @@ namespace OfficeOpenXml
                     wsForAddress = worksheetName;
                 }
             }
-            if (address.IndexOf("!") == -1 || address == "#REF!")
+            if (address.IndexOf('!') == -1 || address == "#REF!")
             {
                 if (fullRowCol)
                 {
@@ -889,7 +889,7 @@ namespace OfficeOpenXml
 
                         if (!string.IsNullOrEmpty(address._ws)) //The address has worksheet.
                         {
-                            if(t.Value.IndexOf("'!")>=0)
+                            if(t.Value.IndexOf("'!", StringComparison.OrdinalIgnoreCase) >=0)
                             {
                                 f += $"'{address._ws}'!";
                             }
@@ -1036,7 +1036,7 @@ namespace OfficeOpenXml
 
                         if (!string.IsNullOrEmpty(address._ws)) //The address has worksheet.
                         {
-                            if (t.Value.IndexOf("'!") >= 0)
+                            if (t.Value.IndexOf("'!", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
                                 f += $"'{address._ws}'!";
                             }

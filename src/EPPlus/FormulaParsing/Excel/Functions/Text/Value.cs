@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 val = val.TrimEnd('%');
                 isPercentage = true;
             }
-            if(val.StartsWith("(") && val.EndsWith(")"))
+            if(val.StartsWith("(", StringComparison.OrdinalIgnoreCase) && val.EndsWith(")", StringComparison.OrdinalIgnoreCase))
             {
                 var numCandidate = val.Substring(1, val.Length - 2);
                 if(double.TryParse(numCandidate, NumberStyles.Any, _cultureInfo, out double tmp))

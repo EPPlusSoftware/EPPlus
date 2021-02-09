@@ -148,5 +148,27 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.IsTrue(ws.Cells["A1"].Formula == "");
             }
         }
+        [TestMethod]
+        public void AddAutofilterForMergedCells()
+        {
+            using (var p = OpenPackage("AutofilterMerge.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("AutoFilter");
+                ws.Cells["A1"].Value = "Col1";
+                ws.Cells["B1"].Value = "Col2";
+                ws.Cells["C1"].Value = "Col3";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["B2"].Value = 10;
+                ws.Cells["C2"].Value = 100;
+                ws.Cells["A3"].Value = 2;
+                ws.Cells["B3"].Value = 20;
+                ws.Cells["C3"].Value = 200;
+                ws.Cells["A1:B1"].Merge = true;
+                ws.Cells["A1:C3"].AutoFilter = true;
+                ws.AutoFilter.Columns.AddValueFilterColumn(0);
+                ws.AutoFilter.Columns[0].ShowButton = false;
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

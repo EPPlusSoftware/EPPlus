@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Drawing.Chart
            SchemaNodeOrder = new string[] { "idx", "order", "tx", "spPr", "marker", "invertIfNegative", "pictureOptions", "explosion", "dPt", "dLbls", "trendline","errBars", "cat", "val", "xVal", "yVal", "smooth","shape", "bubbleSize", "bubble3D", "numRef", "numLit", "strRef", "strLit", "formatCode", "ptCount", "pt" };
 
            if (_chart.ChartNode.LocalName=="scatterChart" ||
-               _chart.ChartNode.LocalName.StartsWith("bubble"))
+               _chart.ChartNode.LocalName.StartsWith("bubble", StringComparison.OrdinalIgnoreCase))
            {
                _seriesTopPath = "c:yVal";
                _xSeriesTopPath = "c:xVal";
@@ -147,8 +147,8 @@ namespace OfficeOpenXml.Drawing.Chart
            set
            {
                 value = value.Trim();
-                if (value.StartsWith("=")) value = value.Substring(1);
-                if (value.StartsWith("{") && value.EndsWith("}"))
+                if (value.StartsWith("=", StringComparison.OrdinalIgnoreCase)) value = value.Substring(1);
+                if (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase))
                 {
                     GetLitValues(value, out double[] numLit, out string[] strLit);
                     if(strLit!=null)
@@ -184,8 +184,8 @@ namespace OfficeOpenXml.Drawing.Chart
            set
            {
                 _xSeries = value.Trim();
-                if (_xSeries.StartsWith("=")) _xSeries = _xSeries.Substring(1);
-                if (value.StartsWith("{") && value.EndsWith("}"))
+                if (_xSeries.StartsWith("=", StringComparison.OrdinalIgnoreCase)) _xSeries = _xSeries.Substring(1);
+                if (value.StartsWith("{", StringComparison.OrdinalIgnoreCase) && value.EndsWith("}", StringComparison.OrdinalIgnoreCase))
                 {
                     GetLitValues(_xSeries, out double[] numLit, out string[] strLit);
                     NumberLiteralsX = numLit;
@@ -306,7 +306,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private void SetXSerieFunction()
         {
-            if (_xSeriesPath.IndexOf("c:numRef") > 0)
+            if (_xSeriesPath.IndexOf("c:numRef", StringComparison.OrdinalIgnoreCase) > 0)
             {
                 XmlNode cache = TopNode.SelectSingleNode(string.Format("{0}/c:numRef/c:numCache", _xSeriesTopPath), NameSpaceManager);
                 if (cache != null)

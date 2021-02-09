@@ -69,11 +69,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 if (_sourceElement != null) _sourceElement.ParentNode.RemoveChild(_sourceElement);
 
                 value = value.Trim();
-                if (value.StartsWith("=")) value = value.Substring(1);
+                if (value.StartsWith("=" , StringComparison.OrdinalIgnoreCase)) value = value.Substring(1);
 
-                if (value.StartsWith("{"))
+                if (value.StartsWith("{", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (!value.EndsWith("}")) throw new ArgumentException("ValueSource", "Invalid format:Litteral values must begin and end with a curly bracket");
+                    if (!value.EndsWith("}", StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("ValueSource", "Invalid format:Litteral values must begin and end with a curly bracket");
                     CreateNumLit(value);
                 }
                 else

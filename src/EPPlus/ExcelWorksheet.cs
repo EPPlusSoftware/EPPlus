@@ -1254,7 +1254,7 @@ namespace OfficeOpenXml
         private string GetSheetDataTag(string s)
         {
             if (s.Length < 3) throw (new InvalidDataException("sheetData Tag not found"));
-            return s.Substring(1, s.Length - 2).Replace("/","");            
+            return s.Substring(1, s.Length - 2).Replace("/","");
         }
 
         private void GetBlockPos(string xml, string tag, ref int start, ref int end)
@@ -1371,7 +1371,7 @@ namespace OfficeOpenXml
                             var rel = Part.GetRelationship(rId);
                             if (rel.TargetUri == null)
                             {
-                                if(rel.Target.StartsWith("#") && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
+                                if(rel.Target.StartsWith("#", StringComparison.OrdinalIgnoreCase) && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
                                 {
                                     var a = new ExcelAddressBase(rel.Target.Substring(1));
                                     hl = new ExcelHyperLink(a.FullAddress, string.IsNullOrEmpty(a.WorkSheetName)?a.Address:a.WorkSheetName);

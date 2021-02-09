@@ -1402,7 +1402,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 if (f.IndexOf(':') == 1)
                     f= f.Substring(2);
 
-                if (f.StartsWith("/"))
+                if (f.StartsWith("/", StringComparison.OrdinalIgnoreCase))
                     f= f.Substring(1);
 
                 // String.Contains is not available on .NET CF 2.0

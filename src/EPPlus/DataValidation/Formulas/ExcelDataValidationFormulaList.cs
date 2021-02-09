@@ -166,7 +166,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
             var @value = GetXmlNodeString(_formulaPath);
             if (!string.IsNullOrEmpty(@value))
             {
-                if (@value.StartsWith("\"") && @value.EndsWith("\""))
+                if (@value.StartsWith("\"", StringComparison.OrdinalIgnoreCase) && @value.EndsWith("\"", StringComparison.OrdinalIgnoreCase))
                 {
                     @value = @value.TrimStart('"').TrimEnd('"');
                     var items = @value.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);

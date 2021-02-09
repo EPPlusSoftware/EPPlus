@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     public class DoubleEnumerableArgConverter : CollectionFlattener<ExcelDoubleCellValue>
     {
-        public virtual IEnumerable<ExcelDoubleCellValue> ConvertArgs(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public virtual IEnumerable<ExcelDoubleCellValue> ConvertArgs(bool ignoreHidden, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric = false)
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>
                 {
@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                         foreach (var cell in arg.ValueAsRangeInfo)
                         {
                             if(!ignoreErrors && cell.IsExcelError) throw new ExcelErrorValueException(ExcelErrorValue.Parse(cell.Value.ToString()));
-                            if (!CellStateHelper.ShouldIgnore(ignoreHidden, cell, context) && ConvertUtil.IsNumericOrDate(cell.Value))
+                            if (!CellStateHelper.ShouldIgnore(ignoreHidden, ignoreNonNumeric, cell, context) && ConvertUtil.IsNumericOrDate(cell.Value))
                             {
                                 var val = new ExcelDoubleCellValue(cell.ValueDouble, cell.Row);
                                 argList.Add(val);

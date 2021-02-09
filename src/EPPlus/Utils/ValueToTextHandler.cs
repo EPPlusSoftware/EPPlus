@@ -157,6 +157,10 @@ namespace OfficeOpenXml.Utils
                     {
                         return s.Substring(1);
                     }
+                    else if(s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && split[1].StartsWith("(", StringComparison.OrdinalIgnoreCase) && split[1].EndsWith(")", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return s.Substring(1);
+                    }
                     return s;
                 }
                 else
@@ -166,7 +170,15 @@ namespace OfficeOpenXml.Utils
             }
             else
             {
-                return d.ToString(format, nf.Culture);
+                var s = d.ToString(format, nf.Culture);
+                if (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.EndsWith(")", StringComparison.OrdinalIgnoreCase))
+                {
+                    return s.Substring(1);
+                }
+                else
+                {
+                    return s;
+                }
             }
         }
 

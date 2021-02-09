@@ -152,7 +152,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
                 else
                 {
-                    if(col.StartsWith("#")) col=col.Substring(1,col.Length-1);
+                    if(col.StartsWith("#", StringComparison.OrdinalIgnoreCase)) col=col.Substring(1,col.Length-1);
                     int res;
                     if (int.TryParse(col,System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out res))
                     {
@@ -233,7 +233,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
                 else
                 {
-                    if (col.StartsWith("#")) col = col.Substring(1, col.Length - 1);
+                    if (col.StartsWith("#", StringComparison.OrdinalIgnoreCase)) col = col.Substring(1, col.Length - 1);
                     int res;
                     if (int.TryParse(col, System.Globalization.NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out res))
                     {

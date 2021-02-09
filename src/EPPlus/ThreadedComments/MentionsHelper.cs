@@ -35,7 +35,7 @@ namespace OfficeOpenXml.ThreadedComments
                 var format = "{" + index + "}";
                 while (str.IndexOf(format) > -1)
                 {
-                    var placeHolderPos = str.IndexOf("{" + index + "}");
+                    var placeHolderPos = str.IndexOf("{" + index + "}", StringComparison.OrdinalIgnoreCase);
                     var regex = new Regex(@"\{" + index + @"\}");
                     str = regex.Replace(str, "@" + person.DisplayName, 1);
 

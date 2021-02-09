@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     throw new OverflowException("overflow while creating filename");
 
                 int n = 1;
-                int r = f.LastIndexOf(".");
+                int r = f.LastIndexOf(".", StringComparison.OrdinalIgnoreCase);
 
                 if (r == -1)
                 {

@@ -155,7 +155,7 @@ namespace OfficeOpenXml.VBA
                 int pos=0;
                 while(pos+9<code.Length && code.Substring(pos,9)=="Attribute")
                 {
-                    int linePos=code.IndexOf("\r\n",pos);
+                    int linePos=code.IndexOf("\r\n",pos, StringComparison.OrdinalIgnoreCase);
                     string[] lineSplit;
                     if(linePos>0)
                     {
@@ -172,8 +172,8 @@ namespace OfficeOpenXml.VBA
                             new ExcelVbaModuleAttribute()
                         {
                             Name = lineSplit[0].Trim(),
-                            DataType = lineSplit[1].StartsWith("\"") ? eAttributeDataType.String : eAttributeDataType.NonString,
-                            Value = lineSplit[1].StartsWith("\"") ? lineSplit[1].Substring(1, lineSplit[1].Length - 2) : lineSplit[1]
+                            DataType = lineSplit[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase) ? eAttributeDataType.String : eAttributeDataType.NonString,
+                            Value = lineSplit[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase) ? lineSplit[1].Substring(1, lineSplit[1].Length - 2) : lineSplit[1]
                         };
                         modul.Attributes._list.Add(attr);
                     }
@@ -190,14 +190,14 @@ namespace OfficeOpenXml.VBA
             var lines = Regex.Split(ProjectStreamText, "\r\n");
             foreach (string line in lines)
             {
-                if (line.StartsWith("["))
+                if (line.StartsWith("[", StringComparison.OrdinalIgnoreCase))
                 {
 
                 }
                 else
                 {
                     var split = line.Split('=');
-                    if (split.Length > 1 && split[1].Length > 1 && split[1].StartsWith("\"")) //Remove any double qouates
+                    if (split.Length > 1 && split[1].Length > 1 && split[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase)) //Remove any double qouates
                     {
                         split[1] = split[1].Substring(1, split[1].Length - 2);
                     }
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.VBA
                             ProjectID = split[1];
                             break;
                         case "Document":
-                            string mn = split[1].Substring(0, split[1].IndexOf("/&H"));
+                            string mn = split[1].Substring(0, split[1].IndexOf("/&H", StringComparison.OrdinalIgnoreCase));
                             Modules[mn].Type = eModuleType.Document;
                             break;
                         case "Package":

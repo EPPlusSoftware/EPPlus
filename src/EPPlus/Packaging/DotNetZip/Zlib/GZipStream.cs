@@ -187,13 +187,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
                 if (_disposed) throw new ObjectDisposedException("GZipStream");
                 _FileName = value;
                 if (_FileName == null) return;
-                if (_FileName.IndexOf("/") != -1)
+                if (_FileName.IndexOf("/", StringComparison.OrdinalIgnoreCase) != -1)
                 {
                     _FileName = _FileName.Replace("/", "\\");
                 }
                 if (_FileName.EndsWith("\\"))
                     throw new Exception("Illegal filename");
-                if (_FileName.IndexOf("\\") != -1)
+                if (_FileName.IndexOf("\\", StringComparison.OrdinalIgnoreCase) != -1)
                 {
                     // trim any leading path
                     _FileName = Path.GetFileName(_FileName);

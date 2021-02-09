@@ -1002,7 +1002,7 @@ namespace OfficeOpenXml.Packaging.Ionic
             s = NormalizeCriteriaExpression(s);
 
             // no spaces in the criteria is shorthand for filename glob
-            if (s.IndexOf(" ") == -1)
+            if (s.IndexOf(" ", StringComparison.OrdinalIgnoreCase) == -1)
                 s = "name = " + s;
 
             // split the expression into tokens
@@ -1155,7 +1155,7 @@ namespace OfficeOpenXml.Packaging.Ionic
 
                             // handle single-quoted filespecs (used to include
                             // spaces in filename patterns)
-                            if (m.StartsWith("'") && m.EndsWith("'"))
+                            if (m.StartsWith("'", StringComparison.OrdinalIgnoreCase) && m.EndsWith("'", StringComparison.OrdinalIgnoreCase))
                             {
                                 // trim off leading and trailing single quotes and
                                 // revert the control characters to spaces.

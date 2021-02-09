@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         private void SetArgAndPercentage(string arg)
         {
-            var pIndex = arg.IndexOf("%");
+            var pIndex = arg.IndexOf("%", StringComparison.OrdinalIgnoreCase);
             if(pIndex > 0)
             {
                 _arg = arg.Substring(0, pIndex).Replace(" ", "");

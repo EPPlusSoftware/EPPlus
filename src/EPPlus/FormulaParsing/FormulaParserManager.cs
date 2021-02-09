@@ -15,7 +15,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.FormulaParsing.Utilities;
 namespace OfficeOpenXml.FormulaParsing
@@ -144,6 +146,46 @@ namespace OfficeOpenXml.FormulaParsing
         public void DetachLogger()
         {
             _parser.Configure(c => c.DetachLogger());
+        }
+
+        public IEnumerable<IFormulaCellInfo> GetCalculationChain(ExcelRangeBase range)
+        {
+            Require.That(range).IsNotNull();
+            return GetCalculationChain(range, null);
+        }
+
+        public IEnumerable<IFormulaCellInfo> GetCalculationChain(ExcelRangeBase range, ExcelCalculationOption options)
+        {
+            Require.That(range).IsNotNull();
+            Init(range.Worksheet.Workbook);
+            _parser.InitNewCalc();
+            var opt = options != null ? options : new ExcelCalculationOption();
+            var dc = DependencyChainFactory.Create(range, opt);
+            var result = new List<IFormulaCellInfo>();
+            foreach(var co in dc.CalcOrder)
+            {
+                var fc = dc.list[co];
+                var adr = new ExcelAddress(fc.Row, fc.Column, fc.Row, fc.Column);
+                var fi = new FormulaCellInfo(fc.ws.Name, adr.Address, fc.Formula);
+                result.Add(fi);
+            }
+            return result;
+        }
+
+        private static void Init(ExcelWorkbook workbook)
+        {
+            workbook._formulaTokens = new CellStore<List<Token>>(); ;
+            foreach (var ws in workbook.Worksheets)
+            {
+                if (!(ws is ExcelChartsheet))
+                {
+                    if (ws._formulaTokens != null)
+                    {
+                        ws._formulaTokens.Dispose();
+                    }
+                    ws._formulaTokens = new CellStore<List<Token>>();
+                }
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
         private static bool IsNegativeNumber(string candidate, int fromBase)
         {
             if (string.IsNullOrEmpty(candidate)) return false;
-            return candidate.Length >= 10 && candidate.ToUpper().StartsWith(fromBase == 16 ? "F" : "7");
+            return candidate.Length >= 10 && candidate.ToUpper().StartsWith(fromBase == 16 ? "F" : "7", StringComparison.OrdinalIgnoreCase);
         }
 
         public static double ParseDecFromString(string number, int fromBase)
