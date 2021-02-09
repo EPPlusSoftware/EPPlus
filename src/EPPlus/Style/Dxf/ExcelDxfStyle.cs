@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Style.Dxf
 
         internal override void SetStyle()
         {
-            if (_callback!=null)
+            if (_callback!=null && HasValue)
             {
                 base.SetStyle();
                 Font.SetStyle();

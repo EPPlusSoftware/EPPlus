@@ -454,6 +454,7 @@ namespace OfficeOpenXml.Table
                 {
                     SetXmlNodeString(HEADERROWCOUNT_PATH, "0");
                     DeleteAllNode(AUTOFILTER_ADDRESS_PATH);
+                    DataStyle.SetStyle();
                 }
             }
         }
@@ -584,6 +585,7 @@ namespace OfficeOpenXml.Table
                     else
                     {
                         DeleteNode(TOTALSROWCOUNT_PATH);
+                        DataStyle.SetStyle();
                     }
                     WriteAutoFilter(value);
                 }
@@ -817,6 +819,7 @@ namespace OfficeOpenXml.Table
             {
                 throw new ArgumentException("position", "rows can't be negative");
             }
+            var isFirstRow = position == 0;
             var subtact = ShowTotal ? 2 : 1;
             if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtact)
             {
@@ -826,13 +829,13 @@ namespace OfficeOpenXml.Table
             {
                 throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
             }
-            position++;
+            if(ShowHeader) position++;
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
 
             WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
 
-            int copyFromRow = position==1 ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
+            int copyFromRow = isFirstRow ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
             if (range._toRow > _address._toRow)
             {
                 Address = _address.AddRow(_address._toRow, rows);                

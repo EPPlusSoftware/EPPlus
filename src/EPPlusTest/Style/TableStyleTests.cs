@@ -377,7 +377,21 @@ namespace EPPlusTest.Style
             Assert.IsTrue(ws.Cells["A2"].Style.Font.Strike);
             Assert.IsTrue(ws.Cells["D3"].Style.Font.Strike);
         }
+        [TestMethod]
+        public void SetStyleWhenInsertingColumnFirstNoHeader()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SetStyleInsertingColumnFirstNH");
+            LoadTestdata(ws);
 
+            var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "Table10");
+
+            tbl.DataStyle.Font.Strike = true;
+            tbl.ShowHeader = false;
+            tbl.InsertRow(0, 3);
+
+            Assert.IsTrue(ws.Cells["A1"].Style.Font.Strike);
+            Assert.IsTrue(ws.Cells["D3"].Style.Font.Strike);
+        }
     }
 }
 
