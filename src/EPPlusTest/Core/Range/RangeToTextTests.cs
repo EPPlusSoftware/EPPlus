@@ -520,7 +520,7 @@ namespace EPPlusTest.Core.Range
 
         #endregion
         [TestMethod]
-        public void TextFormatParatheses()
+        public void TextFormatParentheses()
         {
             using (var p = new ExcelPackage())
             {
