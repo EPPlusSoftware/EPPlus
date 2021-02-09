@@ -100,6 +100,22 @@ namespace EPPlusTest.FormulaParsing
 
             }
         }
+
+        [TestMethod]
+        public void ShouldReturnCalcChain()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Formula = "SUM(A2:A3)";
+                sheet.Cells["A2"].Formula = "1+2";
+                sheet.Cells["A3"].Formula = "MIN(1,2)";
+                var dc = package.Workbook.FormulaParserManager.GetCalculationChain(sheet.Cells["A1"]);
+                Assert.AreEqual(3, dc.Count());
+                Assert.AreEqual("A1", dc.Last().Address);
+
+            }
+        }
         
         //[TestMethod]
         //public void ShouldFindAndParseCondFormat()
