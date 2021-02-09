@@ -519,5 +519,21 @@ namespace EPPlusTest.Core.Range
         }
 
         #endregion
+        [TestMethod]
+        public void TextFormatParatheses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = -100;
+                ws.Cells["A1"].Style.Numberformat.Format = "(#,##0)";
+
+                Assert.AreEqual("(100)", ws.Cells["A1"].Text);
+                ws.Cells["A1"].Style.Numberformat.Format = "#,##0;(#,##0)";
+                Assert.AreEqual("(100)", ws.Cells["A1"].Text);
+                ws.Cells["A1"].Style.Numberformat.Format = "#,##0;(#,##0);-";
+                Assert.AreEqual("(100)", ws.Cells["A1"].Text);
+            }
+        }
     }
 }
