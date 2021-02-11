@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -64,7 +65,14 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                SetXmlNodeString("@type", value.ToPivotAreaTypeString());
+                if(value==ePivotAreaType.Normal)
+                {
+                    ((XmlElement)TopNode).RemoveAttribute("@type");
+                }
+                else
+                {
+                    SetXmlNodeString("@type", value.ToPivotAreaTypeString());
+                }
             }
         }
         /// <summary>
@@ -109,6 +117,10 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
+                if(value && (PivotAreaType==ePivotAreaType.Data || PivotAreaType == ePivotAreaType.Normal /*|| PivotAreaType==ePivotAreaType.Origin */|| PivotAreaType==ePivotAreaType.TopEnd))
+                {
+                    throw (new InvalidOperationException());
+                }
                 SetXmlNodeBool("@labelOnly", value);
             }
         }
@@ -176,6 +188,10 @@ namespace OfficeOpenXml.Table.PivotTable
             get
             {
                 return GetXmlNodeString("@offset");
+            }
+            internal set
+            {
+                SetXmlNodeString("@offset", value, true);
             }
         }
         /// <summary>

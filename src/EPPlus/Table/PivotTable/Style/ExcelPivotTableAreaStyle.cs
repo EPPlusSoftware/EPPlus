@@ -21,10 +21,11 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableAreaStyle : ExcelPivotArea
     {
         ExcelStyles _styles;
-        internal ExcelPivotTableAreaStyle(XmlNamespaceManager nsm, XmlNode topNode, ExcelStyles styles) :
+        internal ExcelPivotTableAreaStyle(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
             base(nsm, topNode)
         {
-            _styles = styles;
+            _styles = pt.WorkSheet.Workbook.Styles;
+            References = new ExcelPivotAreaReferenceCollection(nsm, topNode, pt);
         }
         public ExcelPivotAreaReferenceCollection References
         {

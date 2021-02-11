@@ -387,8 +387,7 @@ namespace EPPlusTest.Style
 
             tbl.DataStyle.Font.Strike = true;
             tbl.ShowHeader = false;
-            tbl.InsertRow(0, 3);
-
+            tbl.InsertRow(0, 3);            
             Assert.IsTrue(ws.Cells["A1"].Style.Font.Strike);
             Assert.IsTrue(ws.Cells["D3"].Style.Font.Strike);
         }

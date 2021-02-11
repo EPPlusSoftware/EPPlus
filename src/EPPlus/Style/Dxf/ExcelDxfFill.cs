@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Style.Dxf
                     BackgroundColor = new ExcelDxfColor(_styles, eStyleClass.FillBackgroundColor, _callback);
                     Gradient = null;
                 }
-                else if(value == eDxfFillStyle.PatternFill && Gradient == null)
+                else if(value == eDxfFillStyle.GradientFill && Gradient == null)
                 {
                     PatternType = null;
                     PatternColor = null;

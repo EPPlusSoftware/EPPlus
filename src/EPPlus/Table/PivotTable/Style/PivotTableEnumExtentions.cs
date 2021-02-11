@@ -22,6 +22,10 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return ePivotAreaType.FieldButton;
             }
+            if(value=="topRight")
+            {
+                return ePivotAreaType.TopEnd;
+            }
             else
             {
                 return value.ToEnum(ePivotAreaType.Normal);

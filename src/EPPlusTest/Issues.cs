@@ -1756,6 +1756,15 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void Issue309()
+        {
+            using (var p = OpenTemplatePackage("test1.xlsx"))
+            {
+                p.Save();
+            }
+        }
+
+        [TestMethod]
         public void Issue274()
         {
             using(var p=OpenPackage("Issue274.xlsx", true))

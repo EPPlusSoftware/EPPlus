@@ -17,41 +17,41 @@ namespace OfficeOpenXml.Table.PivotTable
 
             }
         }
-        ExcelPivotTableAreaStyle _all = null;
-        /// <summary>
-        /// Refers to styling for the entire pivot table
-        /// </summary>
-        public ExcelPivotTableAreaStyle All
-        {
-            get
-            {
-                if(_all==null)
-                {
-                    _all = Areas.Add(ePivotAreaType.All);
-                    _all.DataOnly = false;
-                    _all.LabelOnly = false;
-                    _all.GrandRow = true;
-                    _all.GrandColumn = true;
-                }
-                return _all;
-            }
-        }
-        ExcelPivotTableAreaStyle _labels = null;
-        public ExcelPivotTableAreaStyle Labels
-        {
-            get
-            {
-                if (_labels == null)
-                {
-                    _labels = Areas.Add(ePivotAreaType.All);
-                    _labels.DataOnly = false;
-                    _labels.LabelOnly = true;
-                    _labels.GrandRow = true;
-                    _labels.GrandColumn = true;
-                }
-                return _labels;
-            }
-        }
+        //ExcelPivotTableAreaStyle _all = null;
+        ///// <summary>
+        ///// Refers to styling for the entire pivot table
+        ///// </summary>
+        //public ExcelPivotTableAreaStyle All
+        //{
+        //    get
+        //    {
+        //        if(_all==null)
+        //        {
+        //            _all = Areas.Add(ePivotAreaType.All);
+        //            _all.DataOnly = false;
+        //            _all.LabelOnly = false;
+        //            _all.GrandRow = true;
+        //            _all.GrandColumn = true;
+        //        }
+        //        return _all;
+        //    }
+        //}
+        //ExcelPivotTableAreaStyle _labels = null;
+        //public ExcelPivotTableAreaStyle Labels
+        //{
+        //    get
+        //    {
+        //        if (_labels == null)
+        //        {
+        //            _labels = Areas.Add(ePivotAreaType.All);
+        //            _labels.DataOnly = false;
+        //            _labels.LabelOnly = true;
+        //            _labels.GrandRow = true;
+        //            _labels.GrandColumn = true;
+        //        }
+        //        return _labels;
+        //    }
+        //}
         //ExcelPivotTableAreaStyle _columnLabels = null;
         //public ExcelPivotTableAreaStyle ColumnLabels
         //{
@@ -128,23 +128,23 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        ExcelPivotTableAreaStyle _origin = null;
-        public ExcelPivotTableAreaStyle Origin
-        {
-            get
-            {
-                if (_origin == null)
-                {
-                    _origin = Areas.Add(ePivotAreaType.Origin);
-                    _origin.DataOnly = false;
-                    _origin.LabelOnly = true;
-                    _origin.FieldIndex = 0;
-                    _origin.FieldPosition = 0;
+        //ExcelPivotTableAreaStyle _origin = null;
+        //public ExcelPivotTableAreaStyle Origin
+        //{
+        //    get
+        //    {
+        //        if (_origin == null)
+        //        {
+        //            _origin = Areas.Add(ePivotAreaType.Origin);
+        //            _origin.DataOnly = false;
+        //            _origin.LabelOnly = true;
+        //            _origin.FieldIndex = 0;
+        //            _origin.FieldPosition = 0;
 
-                }
-                return _origin;
-            }
-        }
+        //        }
+        //        return _origin;
+        //    }
+        //}
         ExcelPivotTableAreaStyle _columnHeaders = null;
         public ExcelPivotTableAreaStyle ColumnHeaders
         {
