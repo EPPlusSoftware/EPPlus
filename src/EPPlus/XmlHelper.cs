@@ -125,6 +125,13 @@ namespace OfficeOpenXml
             else
                 return CreateNode(node, path, false, false,"");
         }
+        internal XmlNode CreateNode(XmlNode node, string path, bool addNew)
+        {
+            if (path == "")
+                return node;
+            else
+                return CreateNode(node, path, false, addNew, "");
+        }
 
         /// <summary>
         /// Create the node path. Nodes are inserted according to the Schema node order
@@ -738,6 +745,21 @@ namespace OfficeOpenXml
             else
             {
                 if(allowNegative==false && d.Value<0)
+                {
+                    throw new ArgumentException("Negative value not permitted");
+                }
+                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
+            }
+        }
+        internal void SetXmlNodeLong(string path, long? d, CultureInfo ci = null, bool allowNegative = true)
+        {
+            if (d == null)
+            {
+                DeleteNode(path);
+            }
+            else
+            {
+                if (allowNegative == false && d.Value < 0)
                 {
                     throw new ArgumentException("Negative value not permitted");
                 }

@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         /// <summary>
-        /// If the data values in the data area are included.
+        /// If the data values in the data area are included. Setting this property to true will set <see cref="LabelOnly"/> to false.
         /// <seealso cref="LabelOnly"/>
         /// </summary>
         public bool DataOnly 
@@ -102,11 +102,19 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
+                if (value && (PivotAreaType == ePivotAreaType.Data || PivotAreaType == ePivotAreaType.Normal || PivotAreaType == ePivotAreaType.Origin || PivotAreaType == ePivotAreaType.TopEnd))
+                {
+                    throw (new InvalidOperationException("Can't set LabelOnly to True for the PivotAreaType"));
+                }
+                if (value && LabelOnly)
+                {
+                    LabelOnly = false;
+                }
                 SetXmlNodeBool("@dataOnly", value);
             }
         }
         /// <summary>
-        /// If the item labels are included. 
+        /// If the item labels are included. Setting this property to true will set <see cref="DataOnly"/> to false.
         /// <seealso cref="DataOnly"/>
         /// </summary>
         public bool LabelOnly
@@ -117,9 +125,13 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                if(value && (PivotAreaType==ePivotAreaType.Data || PivotAreaType == ePivotAreaType.Normal /*|| PivotAreaType==ePivotAreaType.Origin */|| PivotAreaType==ePivotAreaType.TopEnd))
+                //if(value && (PivotAreaType==ePivotAreaType.Data || PivotAreaType == ePivotAreaType.Normal || PivotAreaType==ePivotAreaType.Origin || PivotAreaType==ePivotAreaType.TopEnd))
+                //{
+                //    throw (new InvalidOperationException("Can't set LabelOnly to True for the PivotAreaType"));
+                //}
+                if(value && DataOnly)
                 {
-                    throw (new InvalidOperationException());
+                    DataOnly = false;
                 }
                 SetXmlNodeBool("@labelOnly", value);
             }

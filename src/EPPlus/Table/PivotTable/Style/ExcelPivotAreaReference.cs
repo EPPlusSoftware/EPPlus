@@ -55,6 +55,10 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                 }
             }
+            else if(fieldIndex==-2)
+            {
+                SetXmlNodeLong("@field", 4294967294);
+            }
         }
         internal int FieldIndex
         { 
@@ -97,7 +101,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get
             {
-                return GetXmlNodeBool("@byPosition ");
+                return GetXmlNodeBool("@byPosition");
             }
             set
             {
@@ -105,5 +109,179 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         public List<object> Values { get; } = new List<object>();
+        public bool DefaultSubtotal 
+        { 
+            get
+            {
+                return GetXmlNodeBool("@defaultSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@defaultSubtotal", value);
+            }
+        }
+        public bool AvgSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@avgSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@avgSubtotal", value);
+            }
+        }
+        public bool CountSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@countSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@countSubtotal", value);
+            }
+        }
+        public bool CountASubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@countASubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@countASubtotal", value);
+            }
+        }
+        public bool MaxSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@maxSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@maxSubtotal", value);
+            }
+        }
+        public bool MinSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@minSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@minSubtotal", value);
+            }
+        }
+        public bool ProductSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@productSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@productSubtotal", value);
+            }
+        }
+        public bool StdDevPSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@StdDevPSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@StdDevPSubtotal", value);
+            }
+        }
+        public bool StdDevSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@StdDevSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@StdDevSubtotal", value);
+            }
+        }
+        public bool SumSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@sumSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@sumSubtotal", value);
+            }
+        }
+        public bool VarPSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@varPSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@varPSubtotal", value);
+            }
+        }
+        public bool VarSubtotal
+        {
+            get
+            {
+                return GetXmlNodeBool("@varSubtotal");
+            }
+            set
+            {
+                SetXmlNodeBool("@varSubtotal", value);
+            }
+        }
+        internal void SetFunction(DataFieldFunctions function)
+        {
+            switch(function)
+            {
+                case DataFieldFunctions.Average:
+                    AvgSubtotal = true;
+                    break;
+                case DataFieldFunctions.Count:
+                    CountSubtotal = true;
+                    break;
+                case DataFieldFunctions.CountNums:
+                    CountASubtotal = true;
+                    break;
+                case DataFieldFunctions.Max:
+                    MaxSubtotal = true;
+                    break;
+                case DataFieldFunctions.Min:
+                    MinSubtotal = true;
+                    break;
+                case DataFieldFunctions.Product:
+                    ProductSubtotal = true;
+                    break;
+                case DataFieldFunctions.StdDevP:
+                    StdDevPSubtotal = true;
+                    break;
+                case DataFieldFunctions.StdDev:
+                    StdDevSubtotal = true;
+                    break;
+                case DataFieldFunctions.Sum:
+                    SumSubtotal = true;
+                    break;
+                case DataFieldFunctions.VarP:
+                    VarPSubtotal = true;
+                    break;
+                case DataFieldFunctions.Var:
+                    VarSubtotal = true;
+                    break;
+                default:
+                    DefaultSubtotal = true;
+                    break;
+            }
+        }
     }
 }

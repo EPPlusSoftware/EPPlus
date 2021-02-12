@@ -1763,6 +1763,14 @@ namespace EPPlusTest
                 p.Save();
             }
         }
+        [TestMethod]
+        public void Issue_s106()
+        {
+            using (var p = OpenTemplatePackage("Tagging Template V15.xlsx"))
+            {
+                p.Workbook.Calculate();
+            }
+        }
 
         [TestMethod]
         public void Issue274()

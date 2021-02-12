@@ -102,15 +102,83 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(s);
             return s;
         }
-        public ExcelPivotTableAreaStyle AddWholeTable(bool labels=true, bool data=true)
+        public ExcelPivotTableAreaStyle AddWholeTable()
+        {
+            return AddAll(false, false);
+        }
+        public ExcelPivotTableAreaStyle AddAllLabels()
+        {
+            return AddAll(true, false);
+        }
+        public ExcelPivotTableAreaStyle AddLabel(params ExcelPivotTableField[] fields)
+        {
+            var s=Add();
+            s.LabelOnly = true;
+            s.FieldPosition = 0;
+            s.Outline = false;
+            foreach (var field in fields)
+            {
+                s.References.Add(field);
+            }
+            return s;
+        }
+        public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
+        {
+            var s = Add();
+            s.LabelOnly = false;
+            s.FieldPosition = 0;
+            s.Outline = false;
+            foreach (var field in fields)
+            {
+                s.References.Add(field);
+            }
+            return s;
+        }
+        public ExcelPivotTableAreaStyle AddDataTotal(params ExcelPivotTableField[] fields)
+        {
+            var s = Add();
+            s.LabelOnly = false;
+            s.FieldPosition = 0;
+            s.Outline = false;            
+            s.References.Add(_pt, -2);
+            foreach (var field in fields)
+            {
+                var r = s.References.Add(_pt, field.Index);
+                r.SetFunction(DataFieldFunctions.None); //None will be translated to default subtotal
+            }
+            return s;
+        }
+        public ExcelPivotTableAreaStyle AddLabelTotal(params ExcelPivotTableField[] fields)
+        {
+            var s = Add();
+            s.LabelOnly = true;
+            s.FieldPosition = 0;
+            s.Outline = false;
+            s.References.Add(_pt, -2);
+            foreach (var field in fields)
+            {
+                var r = s.References.Add(_pt, field.Index);
+                r.SetFunction(DataFieldFunctions.None); //None will be translated to default subtotal
+            }
+            return s;
+        }
+
+
+        public ExcelPivotTableAreaStyle AddAllData()
+        {
+            return AddAll(false, true);
+        }
+
+        internal ExcelPivotTableAreaStyle AddAll(bool labels, bool data)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
             {
                 PivotAreaType = ePivotAreaType.All,
-                LabelOnly = !labels,
-                DataOnly = !data                
+                LabelOnly = labels,
+                DataOnly = data                
             };
+            _list.Add(s);
             return s;
         }
         /// <summary>
@@ -118,7 +186,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         /// <param name="axis">The axis for the field buttons</param>
         /// <returns></returns>
-        internal ExcelPivotTableAreaStyle AddButton(ePivotTableAxis axis)
+        internal ExcelPivotTableAreaStyle AddButtonField(ePivotTableAxis axis)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)

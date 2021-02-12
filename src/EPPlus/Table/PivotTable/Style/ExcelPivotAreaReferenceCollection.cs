@@ -31,13 +31,18 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        public void Add(ExcelPivotTableField field)
+        public ExcelPivotAreaReference Add(ExcelPivotTableField field)
         {
-            var n = _xmlHelper.CreateNode("d:references", false, true);
-            n.InnerXml = $"<reference xmlns=\"{ExcelPackage.schemaMain}\"/>";
-            _list.Add(
-                new ExcelPivotAreaReference(_xmlHelper.NameSpaceManager, n.FirstChild, field._pivotTable, field.Index)
-           );
+            return Add(field._pivotTable, field.Index);
         }
+        public ExcelPivotAreaReference Add(ExcelPivotTable pivotTable, int fieldIndex)
+        {
+            var n = _xmlHelper.CreateNode("d:references");
+            var rn=_xmlHelper.CreateNode(n, "d:reference", true);
+            var r =new ExcelPivotAreaReference(_xmlHelper.NameSpaceManager, rn, pivotTable, fieldIndex);            
+            _list.Add(r);
+            return r;
+        }
+
     }
 }
