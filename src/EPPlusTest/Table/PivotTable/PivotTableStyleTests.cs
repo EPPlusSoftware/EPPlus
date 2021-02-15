@@ -63,7 +63,6 @@ namespace EPPlusTest.Table.PivotTable
         {
             var ws = _pck.Workbook.Worksheets.Add("StylePageFieldLabel");
             var pt = CreatePivotTable(ws);
-
             var s = pt.Styling.Areas.AddLabel(pt.PageFields[0]);
             s.Style.Font.Color.SetColor(Color.Green);
         }
@@ -101,17 +100,47 @@ namespace EPPlusTest.Table.PivotTable
             s.Style.Font.Name = "Times New Roman";
         }
         [TestMethod]
-        public void AddPivotDataRowColumnTotal()
+        public void AddPivotData()
         {
-            var ws = _pck.Workbook.Worksheets.Add("StyleRowFieldDataTot");
+            var ws = _pck.Workbook.Worksheets.Add("StyleData");
             var pt = CreatePivotTable(ws);
 
-            var s = pt.Styling.Areas.AddDataTotal(pt.RowFields[0]);
-
+            var s = pt.Styling.Areas.AddData(pt.Fields[0], pt.Fields[1]);
+            //s.GrandRow = true;
+            //s.GrandColumn = true;
+            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.BackgroundColor.SetColor(Color.Red);
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
             s.Style.Font.Name = "Times New Roman";
         }
+        [TestMethod]
+        public void AddPivotDataGrandColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StyleDataGrandColumn");
+            var pt = CreatePivotTable(ws);
+
+            var s = pt.Styling.Areas.AddData(pt.Fields[0], pt.Fields[1]);
+            s.GrandColumn = true;
+            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+            s.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Single;
+            s.Style.Font.Name = "Times New Roman";
+        }
+        [TestMethod]
+        public void AddPivotDataGrandRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StyleDataGrandRow");
+            var pt = CreatePivotTable(ws);
+
+            var s = pt.Styling.Areas.AddData();
+            s.GrandRow = true;
+            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+            s.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Single;
+            s.Style.Font.Name = "Times New Roman";
+        }
+
         [TestMethod]
         public void AddPivotLabelRowColumnTotal()
         {
@@ -119,7 +148,6 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
 
             var s = pt.Styling.Areas.AddLabelTotal(pt.RowFields[0]);
-
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
             s.Style.Font.Name = "Times New Roman";
@@ -127,12 +155,46 @@ namespace EPPlusTest.Table.PivotTable
 
 
         [TestMethod]
-        public void AddPivotData()
+        public void AddPivotAllData()
         {
             var ws = _pck.Workbook.Worksheets.Add("StyleAllData");
             var pt = CreatePivotTable(ws);
 
             var s = pt.Styling.Areas.AddAllData();
+            s.Style.Font.Color.SetColor(Color.Blue);
+        }
+        [TestMethod]
+        public void AddPivotDataItemByIndex()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotDataItemIndex");
+            var pt = CreatePivotTable(ws);
+
+            pt.CacheDefinition.Refresh();
+            var s = pt.Styling.Areas.AddDataForItemReference(true, pt.Fields[0], pt.Fields[1]);
+            s.References[0].AddReferenceByIndex(1);
+            s.References[1].AddReferenceByIndex(0);
+            s.References[2].AddReferenceByIndex(0);
+            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.BackgroundColor.SetColor(Color.Red);
+            s.Outline = true;
+            //s.Axis = ePivotTableAxis.RowAxis;
+            s.Style.Font.Color.SetColor(Color.Blue);
+        }
+        [TestMethod]
+        public void AddPivotDataItemByValue()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotDataItemValue");
+            var pt = CreatePivotTable(ws);
+
+            pt.CacheDefinition.Refresh();
+            var s = pt.Styling.Areas.AddDataForItemReference(true, pt.Fields[0], pt.Fields[1]);
+            s.References[0].AddReferenceByValue("Stock");
+            s.References[1].AddReferenceByValue("Apple");
+            s.References[2].AddReferenceByValue("Groceries");
+            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.BackgroundColor.SetColor(Color.Red);
+            s.Outline = true;
+            //s.Axis = ePivotTableAxis.RowAxis;
             s.Style.Font.Color.SetColor(Color.Blue);
         }
 

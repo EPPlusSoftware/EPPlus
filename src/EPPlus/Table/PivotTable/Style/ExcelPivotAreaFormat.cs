@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return GetXmlNodeString("@type").ToPivotAreaType();
             }
-            set
+            internal set
             {
                 if(value==ePivotAreaType.Normal)
                 {

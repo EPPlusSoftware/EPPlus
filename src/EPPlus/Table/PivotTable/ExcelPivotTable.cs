@@ -25,6 +25,8 @@ using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Style.Dxf;
+using System.IO;
+using System.Globalization;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -1108,6 +1110,87 @@ namespace OfficeOpenXml.Table.PivotTable
             if (value >= _newFilterId)
             {
                 _newFilterId = value + 1;
+            }
+        }
+
+        internal void Save()
+        {
+            if (DataFields.Count > 1)
+            {
+                XmlElement parentNode;
+                if (DataOnRows == true)
+                {
+                    parentNode = PivotTableXml.SelectSingleNode("//d:rowFields", NameSpaceManager) as XmlElement;
+                    if (parentNode == null)
+                    {
+                        CreateNode("d:rowFields");
+                        parentNode = PivotTableXml.SelectSingleNode("//d:rowFields", NameSpaceManager) as XmlElement;
+                    }
+                }
+                else
+                {
+                    parentNode = PivotTableXml.SelectSingleNode("//d:colFields", NameSpaceManager) as XmlElement;
+                    if (parentNode == null)
+                    {
+                        CreateNode("d:colFields");
+                        parentNode = PivotTableXml.SelectSingleNode("//d:colFields", NameSpaceManager) as XmlElement;
+                    }
+                }
+
+                if (parentNode.SelectSingleNode("d:field[@ x= \"-2\"]", NameSpaceManager) == null)
+                {
+                    XmlElement fieldNode = PivotTableXml.CreateElement("field", ExcelPackage.schemaMain);
+                    fieldNode.SetAttribute("x", "-2");
+                    parentNode.AppendChild(fieldNode);
+                }
+            }
+
+            SetXmlNodeString("d:location/@ref", Address.Address);
+
+            foreach (var field in Fields)
+            {
+                field.SaveToXml();
+            }
+
+            foreach (var df in DataFields)
+            {
+                if (string.IsNullOrEmpty(df.Name))
+                {
+
+                    string name;
+                    if (df.Function == DataFieldFunctions.None)
+                    {
+                        name = df.Field.Name; //Name must be set or Excel will crash on rename.                                
+                    }
+                    else
+                    {
+                        name = df.Function.ToString() + " of " + df.Field.Name; //Name must be set or Excel will crash on rename.
+                    }
+
+                    //Make sure name is unique
+                    var newName = name;
+                    var i = 2;
+                    while (DataFields.ExistsDfName(newName, df))
+                    {
+                        newName = name + (i++).ToString(CultureInfo.InvariantCulture);
+                    }
+                    df.Name = newName;
+                }
+            }
+
+            UpdatePivotTableStyles();
+
+            PivotTableXml.Save(Part.GetStream(FileMode.Create));
+        }
+
+        private void UpdatePivotTableStyles()
+        {
+            foreach(ExcelPivotTableAreaStyle a in Styling.Areas)
+            {
+                foreach(ExcelPivotAreaReference r in a.References)
+                {
+                    r.UpdateXml();
+                }
             }
         }
     }

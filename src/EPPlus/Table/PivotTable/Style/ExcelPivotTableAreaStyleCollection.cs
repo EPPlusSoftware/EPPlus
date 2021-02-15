@@ -12,7 +12,7 @@ namespace OfficeOpenXml.Table.PivotTable
         ExcelStyles _styles;
         XmlHelper _xmlHelper;
         ExcelPivotTable _pt;
-        internal ExcelPivotTableAreaStyleCollection(ExcelPivotTable pt)
+        public ExcelPivotTableAreaStyleCollection(ExcelPivotTable pt)
         {
             _pt = pt;
             _styles = pt.WorkSheet.Workbook.Styles;
@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, node, _pt);
             }
         }
-        internal ExcelPivotTableAreaStyle Add()
+        public ExcelPivotTableAreaStyle Add()
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt);
@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         /// <param name="offset">Offset from the left cell. -1 will refer to all cells </param>
         /// <returns></returns>
-        internal ExcelPivotTableAreaStyle AddTopEnd(int offset = -1)
+        public ExcelPivotTableAreaStyle AddTopEnd(int offset = -1)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         /// <param name="offset">Offset from the left cell. -1 will refer to all cells </param>
         /// <returns></returns>
-        internal ExcelPivotTableAreaStyle AddTopStart(int offset = -1)
+        public ExcelPivotTableAreaStyle AddTopStart(int offset = -1)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
@@ -94,9 +94,13 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 s.Axis = ePivotTableAxis.ColumnAxis;
             }
-            else if (field.IsPageField)
+            else if (field.IsRowField)
             {
                 s.Axis = ePivotTableAxis.RowAxis;
+            }
+            else if (field.IsPageField)
+            {
+                s.Axis = ePivotTableAxis.PageAxis;
             }
 
             _list.Add(s);
@@ -122,47 +126,52 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return s;
         }
-        public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
+        public ExcelPivotTableAreaStyle AddDataForItemReference(bool addDataFieldReference,params ExcelPivotTableField[] fields)
         {
             var s = Add();
             s.LabelOnly = false;
             s.FieldPosition = 0;
             s.Outline = false;
-            foreach (var field in fields)
+            if (addDataFieldReference)
             {
-                s.References.Add(field);
+                s.References.Add(_pt, -2);
             }
-            return s;
-        }
-        public ExcelPivotTableAreaStyle AddDataTotal(params ExcelPivotTableField[] fields)
-        {
-            var s = Add();
-            s.LabelOnly = false;
-            s.FieldPosition = 0;
-            s.Outline = false;            
-            s.References.Add(_pt, -2);
             foreach (var field in fields)
             {
                 var r = s.References.Add(_pt, field.Index);
-                r.SetFunction(DataFieldFunctions.None); //None will be translated to default subtotal
             }
             return s;
         }
-        public ExcelPivotTableAreaStyle AddLabelTotal(params ExcelPivotTableField[] fields)
+
+        public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
+        {
+            var s = Add();
+            s.PivotAreaType = ePivotAreaType.Data;
+            s.LabelOnly = false;
+            s.FieldPosition = 0;
+            s.Outline = false;
+            foreach (var field in fields)
+            {
+                var r = s.References.Add(_pt, field.Index);
+            }
+            return s;
+        }
+        public ExcelPivotTableAreaStyle AddLabelForItemReference(bool addDataFieldReference, params ExcelPivotTableField[] fields)
         {
             var s = Add();
             s.LabelOnly = true;
             s.FieldPosition = 0;
             s.Outline = false;
-            s.References.Add(_pt, -2);
+            if (addDataFieldReference)
+            {
+                s.References.Add(_pt, -2);
+            }
             foreach (var field in fields)
             {
                 var r = s.References.Add(_pt, field.Index);
-                r.SetFunction(DataFieldFunctions.None); //None will be translated to default subtotal
             }
             return s;
         }
-
 
         public ExcelPivotTableAreaStyle AddAllData()
         {

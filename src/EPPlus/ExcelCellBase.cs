@@ -994,7 +994,7 @@ namespace OfficeOpenXml
                 rowIncrement = 0;
             }
 
-            return UpdateFormulaReferncesPrivate(formula, range, effectedRange, currentSheet, modifiedSheet, setFixed, rowIncrement, colIncrement);
+            return UpdateFormulaReferencesPrivate(formula, range, effectedRange, currentSheet, modifiedSheet, setFixed, rowIncrement, colIncrement);
         }
         internal static string UpdateFormulaReferences(string formula, ExcelAddressBase range, ExcelAddressBase effectedRange, eShiftTypeDelete shift, string currentSheet, string modifiedSheet, bool setFixed = false)
         {
@@ -1011,9 +1011,9 @@ namespace OfficeOpenXml
                 rowIncrement = 0;
             }
 
-            return UpdateFormulaReferncesPrivate(formula, range, effectedRange, currentSheet, modifiedSheet, setFixed, rowIncrement, colIncrement);
+            return UpdateFormulaReferencesPrivate(formula, range, effectedRange, currentSheet, modifiedSheet, setFixed, rowIncrement, colIncrement);
         }
-        private static string UpdateFormulaReferncesPrivate(string formula, ExcelAddressBase range, ExcelAddressBase effectedRange, string currentSheet, string modifiedSheet, bool setFixed, int rowIncrement, int colIncrement)
+        private static string UpdateFormulaReferencesPrivate(string formula, ExcelAddressBase range, ExcelAddressBase effectedRange, string currentSheet, string modifiedSheet, bool setFixed, int rowIncrement, int colIncrement)
         {
             try
             {

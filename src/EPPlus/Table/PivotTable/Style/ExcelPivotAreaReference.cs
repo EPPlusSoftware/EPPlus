@@ -10,13 +10,18 @@
  *************************************************************************************************
   12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using OfficeOpenXml.Core;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
-
+using System.Linq;
 namespace OfficeOpenXml.Table.PivotTable
 {
+    public struct PivotReference
+    {
+        public int Index { get; set; }
+        public object Value { get; set; }
+    }
     public class ExcelPivotAreaReference : XmlHelper
     {
         [Flags]
@@ -50,7 +55,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         var ix = int.Parse(n.Attributes["x"].Value);
                         if (ix < items.Count)
                         {
-                            Values.Add(items[ix]);
+                            Refereces.Add(new PivotReference() { Index = ix, Value=items[ix] });
                         }
                     }
                 }
@@ -108,7 +113,58 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@byPosition", value);
             }
         }
-        public List<object> Values { get; } = new List<object>();
+        public void AddReferenceByValue(object value)
+        {
+            if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
+            {
+                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
+                var index = items.GetIndexByValue(value);
+                if (index >= 0)
+                {
+                    Refereces.Add(new PivotReference() { Index = index, Value = value });
+                }
+            }
+            else
+            {
+                string s = value.ToString();
+                var index = _pt.DataFields._list.FindIndex(x => x.Name.Equals(s, StringComparison.OrdinalIgnoreCase) || x.Field.Name.Equals(s, StringComparison.OrdinalIgnoreCase));
+                if(index>=0)
+                {
+                    Refereces.Add(new PivotReference() { Index = index, Value = s });
+                }
+            }
+        }
+        public void AddReferenceByIndex(int index)
+        {
+            if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
+            {
+                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
+                if (items.Count > index)
+                {
+                    Refereces.Add(new PivotReference() { Index = index, Value = items[index] });
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException("Index is out of range in cache Items.");
+                } 
+            }
+            else
+            {
+                if(index >= 0 && index <_pt.DataFields.Count)
+                {
+                    Refereces.Add(new PivotReference() { Index = index });
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException("Index is out of range for referencing data field.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// References to the pivot table cache or within the table.
+        /// </summary>
+        public List<PivotReference> Refereces { get; } = new List<PivotReference>();
         public bool DefaultSubtotal 
         { 
             get
@@ -282,6 +338,42 @@ namespace OfficeOpenXml.Table.PivotTable
                     DefaultSubtotal = true;
                     break;
             }
+        }
+        internal void UpdateXml()
+        {
+            if(FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
+            {
+                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
+                foreach (var r in Refereces)
+                {
+                    if (r.Index >= 0 && r.Index <= items.Count && r.Value.Equals(items[r.Index]))
+                    {
+                        var n = (XmlElement)CreateNode("d:x", false, true);
+                        n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));
+                    }
+                    else
+                    {
+                        var ix = items.GetIndexByValue(r.Value);
+                        if(ix>=0)
+                        {
+                            var n = (XmlElement)CreateNode("d:x", false, true);
+                            n.SetAttribute("v", ix.ToString(CultureInfo.InvariantCulture));
+                        }
+                    }
+                }
+            }
+            else if(FieldIndex<0) //Reference Data fields
+            {
+                foreach (var r in Refereces)
+                {
+                    if (r.Index >= 0 && r.Index < _pt.DataFields.Count)
+                    {
+                        var n = (XmlElement)CreateNode("d:x", false, true);
+                        n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));
+                    }
+                }
+            }
+
         }
     }
 }

@@ -2745,69 +2745,7 @@ namespace OfficeOpenXml
         {
             foreach (var pt in PivotTables)
             {
-                if (pt.DataFields.Count > 1)
-                {
-                    XmlElement parentNode;
-                    if(pt.DataOnRows==true)
-                    {
-                        parentNode =  pt.PivotTableXml.SelectSingleNode("//d:rowFields", pt.NameSpaceManager) as XmlElement;
-                        if (parentNode == null)
-                        {
-                            pt.CreateNode("d:rowFields");
-                            parentNode = pt.PivotTableXml.SelectSingleNode("//d:rowFields", pt.NameSpaceManager) as XmlElement;
-                        }
-                    }
-                    else
-                    {
-                        parentNode =  pt.PivotTableXml.SelectSingleNode("//d:colFields", pt.NameSpaceManager) as XmlElement;
-                        if (parentNode == null)
-                        {
-                            pt.CreateNode("d:colFields");
-                            parentNode = pt.PivotTableXml.SelectSingleNode("//d:colFields", pt.NameSpaceManager) as XmlElement;
-                        }
-                    }
-
-                    if (parentNode.SelectSingleNode("d:field[@ x= \"-2\"]", pt.NameSpaceManager) == null)
-                    {
-                        XmlElement fieldNode = pt.PivotTableXml.CreateElement("field", ExcelPackage.schemaMain);
-                        fieldNode.SetAttribute("x", "-2");
-                        parentNode.AppendChild(fieldNode);
-                    }
-                }
-
-                pt.SetXmlNodeString("d:location/@ref", pt.Address.Address);
-
-                foreach(var field in pt.Fields)
-                {
-                    field.SaveToXml();
-                }
-
-                foreach (var df in pt.DataFields)
-                {
-                    if (string.IsNullOrEmpty(df.Name))
-                    {
-
-                        string name;
-                        if (df.Function == DataFieldFunctions.None)
-                        {
-                            name = df.Field.Name; //Name must be set or Excel will crash on rename.                                
-                        }
-                        else
-                        {
-                            name = df.Function.ToString() + " of " + df.Field.Name; //Name must be set or Excel will crash on rename.
-                        }
-
-                        //Make sure name is unique
-                        var newName = name;
-                        var i = 2;
-                        while (pt.DataFields.ExistsDfName(newName, df))
-                        {
-                            newName = name + (i++).ToString(CultureInfo.InvariantCulture);
-                        }
-                        df.Name = newName;
-                    }
-                }
-                pt.PivotTableXml.Save(pt.Part.GetStream(FileMode.Create));
+                pt.Save();
             }
         }
 
