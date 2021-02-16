@@ -145,20 +145,17 @@ namespace OfficeOpenXml.Style.Dxf
         {
             foreach (var pt in ws.PivotTables)
             {
-                if (pt.Styling != null)
+                for(int i= 0; i< pt.Styles.Count;i++)
                 {
-                    for(int i= 0; i< pt.Styling.Areas.Count;i++)
+                    var pas = pt.Styles[i];
+                    if (pas.Style.HasValue)
                     {
-                        var pas = pt.Styling.Areas[i];
-                        if (pas.Style.HasValue)
-                        {
-                            pas.DxfId = AddDxfNode(styles.Dxfs, dxfsNode, pas.Style);
-                        }
-                        else
-                        {
-                            pt.Styling.Areas._list.Remove(pas);   //No dxf style set. We remove the area.
-                            i--;
-                        }
+                        pas.DxfId = AddDxfNode(styles.Dxfs, dxfsNode, pas.Style);
+                    }
+                    else
+                    {
+                        pt.Styles._list.Remove(pas);   //No dxf style set. We remove the area.
+                        i--;
                     }
                 }
             }

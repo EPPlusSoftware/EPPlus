@@ -39,8 +39,8 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (_style == null)
                 {
-                    _style=new ExcelDxfStyle(NameSpaceManager, TopNode, _styles/*, "../@dxfId"*/);
-                    _style.DxfId = GetXmlNodeInt("../@dxfId");
+                    var dxfId= GetXmlNodeIntNull("../@dxfId");
+                    _style = _styles.GetDxf(dxfId, null);
                 }
                 return _style;
             }

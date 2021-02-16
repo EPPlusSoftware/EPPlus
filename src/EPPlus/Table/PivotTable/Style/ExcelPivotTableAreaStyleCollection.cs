@@ -19,6 +19,7 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (XmlNode node in pt.GetNodes("d:formats/d:format/d:pivotArea"))
             {
                 var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, node, _pt);
+                _list.Add(s);
             }
         }
         public ExcelPivotTableAreaStyle Add()
@@ -106,6 +107,10 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(s);
             return s;
         }
+        /// <summary>
+        /// Adds a style that affects the whole table.
+        /// </summary>
+        /// <returns>The style object used to set the styles</returns>
         public ExcelPivotTableAreaStyle AddWholeTable()
         {
             return AddAll(false, false);
@@ -114,6 +119,11 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             return AddAll(true, false);
         }
+        /// <summary>
+        /// Adds a style for labels of a pivot table
+        /// </summary>
+        /// <param name="fields">The pivot table field that style affects</param>
+        /// <returns></returns>
         public ExcelPivotTableAreaStyle AddLabel(params ExcelPivotTableField[] fields)
         {
             var s=Add();
@@ -126,7 +136,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return s;
         }
-        public ExcelPivotTableAreaStyle AddDataForItemReference(bool addDataFieldReference,params ExcelPivotTableField[] fields)
+        public ExcelPivotTableAreaStyle AddDataForCellReference(bool addDataFieldReference,params ExcelPivotTableField[] fields)
         {
             var s = Add();
             s.LabelOnly = false;
@@ -143,6 +153,11 @@ namespace OfficeOpenXml.Table.PivotTable
             return s;
         }
 
+        /// <summary>
+        /// Adds a style for the data area of a pivot table
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
         {
             var s = Add();
@@ -156,7 +171,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return s;
         }
-        public ExcelPivotTableAreaStyle AddLabelForItemReference(bool addDataFieldReference, params ExcelPivotTableField[] fields)
+        public ExcelPivotTableAreaStyle AddLabelForCellReference(bool addDataFieldReference, params ExcelPivotTableField[] fields)
         {
             var s = Add();
             s.LabelOnly = true;
@@ -191,11 +206,11 @@ namespace OfficeOpenXml.Table.PivotTable
             return s;
         }
         /// <summary>
-        /// Adds a style the filter boxes.
+        /// Adds a style for filter boxes.
         /// </summary>
         /// <param name="axis">The axis for the field buttons</param>
         /// <returns></returns>
-        internal ExcelPivotTableAreaStyle AddButtonField(ePivotTableAxis axis)
+        public ExcelPivotTableAreaStyle AddButtonField(ePivotTableAxis axis)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)

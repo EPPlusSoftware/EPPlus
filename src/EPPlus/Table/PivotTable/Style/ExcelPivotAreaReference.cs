@@ -24,56 +24,70 @@ namespace OfficeOpenXml.Table.PivotTable
     }
     public class ExcelPivotAreaReference : XmlHelper
     {
-        [Flags]
-        internal enum ePivotSubTotalFunction
-        {
-            AvgSubtotal = 0x1,
-            CountASubtotal = 0x2,
-            CountSubtotal = 0x4,
-            MaxSubtotal = 0x8,
-            MinSubtotal = 0x10,
-            ProductSubtotal = 0x20,
-            StdDevPSubtotal = 0x40,
-            StdDevSubtotal = 0x80,
-            SumSubtotal = 0x100,
-            VarPSubtotal = 0x200,
-            VarSubtotal = 0x400
-        }
         ExcelPivotTable _pt;
         internal ExcelPivotAreaReference(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, int fieldIndex=-1) : base(nsm, topNode)
         {
             _pt = pt;
-            if (fieldIndex >= 0)
+            if(fieldIndex!=-1)
             {
                 FieldIndex = fieldIndex;
-                var cache=Field.Cache;
+            }
+
+            if (FieldIndex >= 0)
+            {
+                var cache = Field.Cache;
                 var items = cache.SharedItems.Count > 0 ? cache.SharedItems : cache.GroupItems;
                 foreach (XmlNode n in topNode.ChildNodes)
                 {
                     if (n.LocalName == "x")
                     {
-                        var ix = int.Parse(n.Attributes["x"].Value);
+                        var ix = int.Parse(n.Attributes["v"].Value);
                         if (ix < items.Count)
                         {
-                            Refereces.Add(new PivotReference() { Index = ix, Value=items[ix] });
+                            References.Add(new PivotReference() { Index = ix, Value = items[ix] });
                         }
                     }
                 }
             }
-            else if(fieldIndex==-2)
+            else
             {
-                SetXmlNodeLong("@field", 4294967294);
+                foreach (XmlNode n in topNode.ChildNodes)
+                {
+                    if (n.LocalName == "x")
+                    {
+                        var ix = int.Parse(n.Attributes["v"].Value);
+                        if (ix < pt.DataFields.Count)
+                        {
+                            References.Add(new PivotReference() { Index = ix, Value = pt.DataFields[ix].Name });
+                        }
+                    }
+                }
             }
         }
         internal int FieldIndex
         { 
             get
             {
-                return GetXmlNodeInt("@field");
+                var v=GetXmlNodeLong("@field");
+                if(v > int.MaxValue)
+                {
+                    return -2;
+                }
+                else
+                {
+                    return (int)v;
+                }
             }
             set
             {
-                SetXmlNodeInt("@field", value);
+                if(value<0)
+                {
+                    SetXmlNodeLong("@field", 4294967294);
+                }
+                else
+                {
+                    SetXmlNodeInt("@field", value);
+                }
             }
         }
         /// <summary>
@@ -121,7 +135,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var index = items.GetIndexByValue(value);
                 if (index >= 0)
                 {
-                    Refereces.Add(new PivotReference() { Index = index, Value = value });
+                    References.Add(new PivotReference() { Index = index, Value = value });
                 }
             }
             else
@@ -130,7 +144,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var index = _pt.DataFields._list.FindIndex(x => x.Name.Equals(s, StringComparison.OrdinalIgnoreCase) || x.Field.Name.Equals(s, StringComparison.OrdinalIgnoreCase));
                 if(index>=0)
                 {
-                    Refereces.Add(new PivotReference() { Index = index, Value = s });
+                    References.Add(new PivotReference() { Index = index, Value = s });
                 }
             }
         }
@@ -141,22 +155,22 @@ namespace OfficeOpenXml.Table.PivotTable
                 var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
                 if (items.Count > index)
                 {
-                    Refereces.Add(new PivotReference() { Index = index, Value = items[index] });
+                    References.Add(new PivotReference() { Index = index, Value = items[index] });
                 }
                 else
                 {
-                    throw new IndexOutOfRangeException("Index is out of range in cache Items.");
+                    throw new IndexOutOfRangeException("Index is out of range in cache Items. Please make sure the pivot table cache has been refreshed.");
                 } 
             }
             else
             {
                 if(index >= 0 && index <_pt.DataFields.Count)
                 {
-                    Refereces.Add(new PivotReference() { Index = index });
+                    References.Add(new PivotReference() { Index = index });
                 }
                 else
                 {
-                    throw new IndexOutOfRangeException("Index is out of range for referencing data field.");
+                    throw new IndexOutOfRangeException("Index is out of range for referenced data field.");
                 }
             }
         }
@@ -164,7 +178,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// References to the pivot table cache or within the table.
         /// </summary>
-        public List<PivotReference> Refereces { get; } = new List<PivotReference>();
+        public List<PivotReference> References { get; } = new List<PivotReference>();
         public bool DefaultSubtotal 
         { 
             get
@@ -344,7 +358,7 @@ namespace OfficeOpenXml.Table.PivotTable
             if(FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
             {
                 var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
-                foreach (var r in Refereces)
+                foreach (var r in References)
                 {
                     if (r.Index >= 0 && r.Index <= items.Count && r.Value.Equals(items[r.Index]))
                     {
@@ -364,7 +378,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else if(FieldIndex<0) //Reference Data fields
             {
-                foreach (var r in Refereces)
+                foreach (var r in References)
                 {
                     if (r.Index >= 0 && r.Index < _pt.DataFields.Count)
                     {

@@ -619,28 +619,13 @@ namespace OfficeOpenXml.Core.Worksheet
                     if (colFrom.TotalsRowStyle.HasValue) colTo.TotalsRowStyle = (ExcelDxfStyle)colFrom.TotalsRowStyle.Clone();
                 }
             }
-
-            //foreach (var tbl in added.Tables)
-            //{
-            //    tbl.HeaderRowDxfId = dxfStyleCashe[tbl.HeaderRowDxfId.ToString()];
-            //    tbl.HeaderRowBorderDxfId = dxfStyleCashe[tbl.HeaderRowBorderDxfId.ToString()];
-            //    tbl.DataDxfId = dxfStyleCashe[tbl.DataDxfId.ToString()];
-            //    tbl.TableBorderDxfId = dxfStyleCashe[tbl.TableBorderDxfId.ToString()];
-            //    tbl.TotalsRowDxfId = dxfStyleCashe[tbl.TotalsRowDxfId.ToString()];
-            //    foreach (var c in tbl.Columns)
-            //    {
-            //        c.HeaderRowDxfId = dxfStyleCashe[c.HeaderRowDxfId.ToString()];
-            //        c.DataDxfId = dxfStyleCashe[c.DataDxfId.ToString()];
-            //        c.TotalsRowDxfId = dxfStyleCashe[c.TotalsRowDxfId.ToString()];
-            //    }
-            //}
         }
         private static void CopyDxfStylesPivotTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
         {
             //Table formats
             foreach (var pt in copy.PivotTables)
             {
-                foreach(var a in pt.Styling.Areas._list)
+                foreach(var a in pt.Styles._list)
                 {
                     AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, a.Style.DxfId);
                 }                
@@ -648,7 +633,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             foreach (var pt in added.PivotTables)
             {
-                foreach (var a in pt.Styling.Areas._list)
+                foreach (var a in pt.Styles._list)
                 {
                     a.Style.DxfId= dxfStyleCashe[a.Style.DxfId.ToString()];
                 }

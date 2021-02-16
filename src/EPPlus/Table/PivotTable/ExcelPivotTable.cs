@@ -106,6 +106,8 @@ namespace OfficeOpenXml.Table.PivotTable
                     DataFields.AddInternal(dataField);
                 }
             }
+
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
         }
         /// <summary>
         /// Add a new pivottable
@@ -124,6 +126,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheId = pivotTableCache.CacheId;
             
             LoadFields();
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
         }
         /// <summary>
         /// Add a new pivottable
@@ -142,6 +145,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheId = CacheDefinition._cacheReference.CacheId;
 
             LoadFields();
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
         }
 
         private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId)
@@ -171,7 +175,6 @@ namespace OfficeOpenXml.Table.PivotTable
         private void Init()
         {
             SchemaNodeOrder = new string[] { "location", "pivotFields", "rowFields", "rowItems", "colFields", "colItems", "pageFields", "dataFields",  "formats", "conditionalFormats", "chartFormats", "pivotHierarchies", "pivotTableStyleInfo", "filters", "rowHierarchiesUsage", "colHierarchiesUsage", "extLst" };
-            Styling = new ExcelPivotTableStyle(this);
         }
         private void LoadFields()
         {
@@ -185,6 +188,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 fld.LoadItems();
                 Fields.AddInternal(fld);
             }
+           
         }
         private string GetStartXml(string name, ExcelAddressBase address, int fields)
         {
@@ -209,7 +213,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         }
-        public ExcelPivotTableStyle Styling 
+        public ExcelPivotTableAreaStyleCollection Styles
         { 
             get;
             private set;
@@ -1185,7 +1189,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void UpdatePivotTableStyles()
         {
-            foreach(ExcelPivotTableAreaStyle a in Styling.Areas)
+            foreach(ExcelPivotTableAreaStyle a in Styles)
             {
                 foreach(ExcelPivotAreaReference r in a.References)
                 {

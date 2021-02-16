@@ -23,12 +23,9 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _xmlHelper = XmlHelperFactory.Create(nsm, topNode);
             _pt = pt;
-            foreach (XmlNode n in topNode.ChildNodes)
+            foreach (XmlNode n in _xmlHelper.GetNodes("d:references/d:reference"))
             {
-                if (n.LocalName == "reference")
-                {
-                    _list.Add(new ExcelPivotAreaReference(nsm, n, pt));
-                }
+                _list.Add(new ExcelPivotAreaReference(nsm, n, pt));
             }
         }
         public ExcelPivotAreaReference Add(ExcelPivotTableField field)
