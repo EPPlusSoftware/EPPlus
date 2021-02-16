@@ -1757,9 +1757,7 @@ namespace EPPlusTest
         }
         [TestMethod]
         public void Issue309()
-        {
             using (var p = OpenTemplatePackage("test1.xlsx"))
-            {
                 p.Save();
             }
         }
@@ -1769,10 +1767,6 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage("Tagging Template V15.xlsx"))
             {
                 p.Workbook.Calculate();
-            }
-        }
-
-        [TestMethod]
         public void Issue274()
         {
             using(var p=OpenPackage("Issue274.xlsx", true))

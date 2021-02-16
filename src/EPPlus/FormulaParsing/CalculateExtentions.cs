@@ -220,10 +220,6 @@ namespace OfficeOpenXml
                     }
                     Thread.Sleep(0);
                 }
-                catch (FormatException fe)
-                {
-                    throw (fe);
-                }
                 catch(CircularReferenceException cre)
                 {
                     throw cre;
