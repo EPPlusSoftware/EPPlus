@@ -1,5 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.5.4
+### Fixed issues
+* Formula calculation returns 0 in some cases when Excel returns null/empty in for example the MIN and MAX functions
+* Fixed a bug in SUMIFS function that occured with more than 3 criterias
+* The INDEX function could not handle that the range covered the cell containing the formula.
+* AutoFilter.ShowButton property did not work.
+* Number format "(#,##0)" got incorrectly formatted with a "-" prefix in the ExcelRange.Text property.
+* Load using some CultureInfo did not work properly due to different StringComparation behavior.
+
+
 ## Version 5.5.3
 ### Fixed issues
 * Min and Max could not handle empty ranges. They now returns 0 like Excel does if the range is empty.
