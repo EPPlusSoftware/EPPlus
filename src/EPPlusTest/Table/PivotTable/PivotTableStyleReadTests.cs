@@ -93,8 +93,8 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(ePivotAreaType.Normal, s.PivotAreaType);
             Assert.IsTrue(s.LabelOnly);
             Assert.IsFalse(s.DataOnly);
-            Assert.AreEqual(1, s.References.Count);
-            Assert.AreEqual(pt.PageFields[0].Index, s.References[0].FieldIndex);
+            Assert.AreEqual(1, s.AppliesTo.Count);
+            Assert.AreEqual(pt.PageFields[0].Index, s.AppliesTo[0].FieldIndex);
 
             Assert.AreEqual(Color.Green.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());
         }
@@ -108,8 +108,8 @@ namespace EPPlusTest.Table.PivotTable
 
             Assert.IsTrue(s.LabelOnly);
             Assert.IsFalse(s.DataOnly);
-            Assert.AreEqual(1, s.References.Count);
-            Assert.AreEqual(pt.ColumnFields[0].Index, s.References[0].FieldIndex);
+            Assert.AreEqual(1, s.AppliesTo.Count);
+            Assert.AreEqual(pt.ColumnFields[0].Index, s.AppliesTo[0].FieldIndex);
 
             Assert.AreEqual(Color.Indigo.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());
         }
@@ -125,13 +125,13 @@ namespace EPPlusTest.Table.PivotTable
             Assert.IsTrue(s.LabelOnly);
             Assert.IsFalse(s.DataOnly);
 
-            Assert.AreEqual(2, s.References.Count);
-            Assert.AreEqual(1, s.References[0].References.Count);
-            Assert.AreEqual(0, s.References[0].References[0].Index);
+            Assert.AreEqual(2, s.AppliesTo.Count);
+            Assert.AreEqual(1, s.AppliesTo[0].CacheItems.Count);
+            Assert.AreEqual(0, s.AppliesTo[0].CacheItems[0].Index);
 
-            Assert.AreEqual(2, s.References[1].References.Count);
-            Assert.AreEqual(0, s.References[1].References[0].Index);
-            Assert.AreEqual(1, s.References[1].References[1].Index);
+            Assert.AreEqual(2, s.AppliesTo[1].CacheItems.Count);
+            Assert.AreEqual(0, s.AppliesTo[1].CacheItems[0].Index);
+            Assert.AreEqual(1, s.AppliesTo[1].CacheItems[1].Index);
 
             Assert.AreEqual(Color.Indigo.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());
         }
@@ -147,8 +147,8 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(ePivotAreaType.Normal, s.PivotAreaType);
             Assert.IsTrue(s.LabelOnly);
             Assert.IsFalse(s.DataOnly);
-            Assert.AreEqual(1, s.References.Count);
-            Assert.AreEqual(pt.RowFields[0].Index, s.References[0].FieldIndex);
+            Assert.AreEqual(1, s.AppliesTo.Count);
+            Assert.AreEqual(pt.RowFields[0].Index, s.AppliesTo[0].FieldIndex);
 
             Assert.IsTrue(s.Style.Font.Italic.Value);
             Assert.IsTrue(s.Style.Font.Strike.Value);
@@ -165,8 +165,8 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(ePivotAreaType.Data, s.PivotAreaType);
             Assert.IsTrue(s.DataOnly);
             Assert.IsFalse(s.LabelOnly);
-            Assert.AreEqual(1, s.References.Count);
-            Assert.AreEqual(pt.RowFields[0].Index, s.References[0].FieldIndex);
+            Assert.AreEqual(1, s.AppliesTo.Count);
+            Assert.AreEqual(pt.RowFields[0].Index, s.AppliesTo[0].FieldIndex);
 
             Assert.IsTrue(s.Style.Font.Italic.Value);
             Assert.IsTrue(s.Style.Font.Strike.Value);
@@ -180,9 +180,9 @@ namespace EPPlusTest.Table.PivotTable
 
             var s = pt.Styles[0];
 
-            Assert.AreEqual(2, s.References.Count);
-            Assert.AreEqual(pt.Fields[0].Index, s.References[0].FieldIndex);
-            Assert.AreEqual(pt.Fields[1].Index, s.References[1].FieldIndex);
+            Assert.AreEqual(2, s.AppliesTo.Count);
+            Assert.AreEqual(pt.Fields[0].Index, s.AppliesTo[0].FieldIndex);
+            Assert.AreEqual(pt.Fields[1].Index, s.AppliesTo[1].FieldIndex);
 
             Assert.AreEqual(s.Style.Fill.Style, eDxfFillStyle.PatternFill);
             Assert.AreEqual(Color.Red.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
@@ -198,9 +198,9 @@ namespace EPPlusTest.Table.PivotTable
 
             var s = pt.Styles[0];
 
-            Assert.AreEqual(2, s.References.Count);
-            Assert.AreEqual(pt.Fields[0].Index, s.References[0].FieldIndex);
-            Assert.AreEqual(pt.Fields[1].Index, s.References[1].FieldIndex);
+            Assert.AreEqual(2, s.AppliesTo.Count);
+            Assert.AreEqual(pt.Fields[0].Index, s.AppliesTo[0].FieldIndex);
+            Assert.AreEqual(pt.Fields[1].Index, s.AppliesTo[1].FieldIndex);
             Assert.IsTrue(s.GrandColumn);
             Assert.AreEqual(s.Style.Fill.Style, OfficeOpenXml.Style.eDxfFillStyle.PatternFill);
             Assert.AreEqual(Color.LightGray.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
@@ -234,7 +234,7 @@ namespace EPPlusTest.Table.PivotTable
 
             Assert.IsTrue(s.LabelOnly);
             Assert.IsFalse(s.DataOnly);
-            Assert.AreEqual(pt.RowFields[0].Index, s.References[0].FieldIndex);
+            Assert.AreEqual(pt.RowFields[0].Index, s.AppliesTo[0].FieldIndex);
 
             Assert.IsTrue(s.GrandRow);
             Assert.IsTrue(s.Style.Font.Italic.Value);
@@ -249,9 +249,9 @@ namespace EPPlusTest.Table.PivotTable
 
             var s = pt.Styles[0];
 
-            Assert.AreEqual(-2, s.References[0].FieldIndex);
-            Assert.AreEqual(pt.RowFields[0].Index, s.References[1].FieldIndex);
-            Assert.AreEqual(1, s.References[0].References[0].Index);
+            Assert.AreEqual(-2, s.AppliesTo[0].FieldIndex);
+            Assert.AreEqual(pt.RowFields[0].Index, s.AppliesTo[1].FieldIndex);
+            Assert.AreEqual(1, s.AppliesTo[0].CacheItems[0].Index);
 
             Assert.IsTrue(s.GrandRow);
             Assert.IsTrue(s.Style.Font.Italic.Value);

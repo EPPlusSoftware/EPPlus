@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 _list.Add(new ExcelPivotAreaReference(nsm, n, pt));
             }
+            DataFields = new ExcelPivotAreaDataFieldReference(nsm, topNode, pt, -2);
         }
         public ExcelPivotAreaReference Add(ExcelPivotTableField field)
         {
@@ -40,6 +41,9 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(r);
             return r;
         }
-
+        public ExcelPivotAreaDataFieldReference DataFields
+        { 
+            get; 
+        }
     }
 }

@@ -1191,7 +1191,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             foreach(ExcelPivotTableAreaStyle a in Styles)
             {
-                foreach(ExcelPivotAreaReference r in a.References)
+                foreach(ExcelPivotAreaReference r in a.AppliesTo)
                 {
                     r.UpdateXml();
                 }

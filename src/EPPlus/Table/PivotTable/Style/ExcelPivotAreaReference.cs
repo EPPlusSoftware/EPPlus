@@ -15,24 +15,23 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
 using System.Linq;
+using OfficeOpenXml.Core;
+
 namespace OfficeOpenXml.Table.PivotTable
 {
     public struct PivotReference
     {
-        public int Index { get; set; }
-        public object Value { get; set; }
+        public int Index { get; internal set; }
+        public object Value { get; internal set; }
     }
-    public class ExcelPivotAreaReference : XmlHelper
+    public class ExcelPivotAreaReference : ExcelPivotAreaReferenceBase
     {
-        ExcelPivotTable _pt;
-        internal ExcelPivotAreaReference(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, int fieldIndex=-1) : base(nsm, topNode)
+        internal ExcelPivotAreaReference(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, int fieldIndex = -1) : base(nsm, topNode, pt)
         {
-            _pt = pt;
-            if(fieldIndex!=-1)
+            if (fieldIndex != -1)
             {
                 FieldIndex = fieldIndex;
             }
-
             if (FieldIndex >= 0)
             {
                 var cache = Field.Cache;
@@ -44,25 +43,137 @@ namespace OfficeOpenXml.Table.PivotTable
                         var ix = int.Parse(n.Attributes["v"].Value);
                         if (ix < items.Count)
                         {
-                            References.Add(new PivotReference() { Index = ix, Value = items[ix] });
+                            CacheItems.Add(new PivotReference() { Index = ix, Value = items[ix] });
                         }
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// The pivot table field referenced
+        /// </summary>
+        public ExcelPivotTableField Field
+        {
+            get
+            {
+                if (FieldIndex >= 0)
+                {
+                    return _pt.Fields[FieldIndex];
+                }
+                return null;
+            }
+        }
+        /// <summary>
+        /// References to the pivot table cache or within the table.
+        /// </summary>
+        public List<PivotReference> CacheItems { get; } = new List<PivotReference>();
+        public void AddItemByIndex(int index)
+        {
+            {
+                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
+                if (items.Count > index)
+                {
+                    CacheItems.Add(new PivotReference() { Index = index, Value = items[index] });
+                }
+                else
+                {
+                    throw new IndexOutOfRangeException("Index is out of range in cache Items. Please make sure the pivot table cache has been refreshed.");
+                }
+            }
+        }
+        public void AddItemByValue(object value)
+        {
+            var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
+            var index = items.GetIndexByValue(value);
+            if (index >= 0)
+            {
+                CacheItems.Add(new PivotReference() { Index = index, Value = value });
+            }
+        }
+        internal override void UpdateXml()
+        {
+            if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
+            {
+                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
+                foreach (var r in CacheItems)
+                {
+                    if (r.Index >= 0 && r.Index <= items.Count && r.Value.Equals(items[r.Index]))
+                    {
+                        var n = (XmlElement)CreateNode("d:x", false, true);
+                        n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));
+                    }
+                    else
+                    {
+                        var ix = items.GetIndexByValue(r.Value);
+                        if (ix >= 0)
+                        {
+                            var n = (XmlElement)CreateNode("d:x", false, true);
+                            n.SetAttribute("v", ix.ToString(CultureInfo.InvariantCulture));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public class ExcelPivotAreaDataFieldReference : ExcelPivotAreaReferenceBase
+    {
+        internal ExcelPivotAreaDataFieldReference(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, int fieldIndex = -1) : base(nsm, topNode, pt)
+        {
+            foreach (XmlNode n in topNode.ChildNodes)
+            {
+                if (n.LocalName == "x")
+                {
+                    var ix = int.Parse(n.Attributes["v"].Value);
+                    if (ix < pt.DataFields.Count)
+                    {
+                        DataFields.Add(pt.DataFields[ix]);
+                    }
+                }
+            }
+        }
+        public EPPlusReadOnlyList<ExcelPivotTableDataField> DataFields { get; } = new EPPlusReadOnlyList<ExcelPivotTableDataField>();
+        public void AddReferenceByIndex(int index)
+        {
+            if (index >= 0 && index < _pt.DataFields.Count)
+            {
+                DataFields.Add(_pt.DataFields[index]);
             }
             else
             {
-                foreach (XmlNode n in topNode.ChildNodes)
-                {
-                    if (n.LocalName == "x")
-                    {
-                        var ix = int.Parse(n.Attributes["v"].Value);
-                        if (ix < pt.DataFields.Count)
-                        {
-                            References.Add(new PivotReference() { Index = ix, Value = pt.DataFields[ix].Name });
-                        }
-                    }
-                }
+                throw new IndexOutOfRangeException("Index is out of range for referenced data field.");
             }
+        }
+        public void AddDataField(ExcelPivotTableDataField field)
+        {
+            if (field == null)
+            {
+                throw new ArgumentNullException("The pivot table field must not be null.");
+            }
+            if (field.Field._pivotTable != _pt)
+            {
+                throw new ArgumentException("The pivot table field is from another pivot table.");
+            }
+            DataFields.Add(field);
+        }
+
+        internal override void UpdateXml()
+        {
+            foreach (ExcelPivotTableDataField r in DataFields)
+            {
+                if (r.Field.IsDataField)
+                {
+                    var n = (XmlElement)CreateNode("d:x", false, true);
+                    n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));
+                }
+            }            
+        }
+    }
+    public abstract class ExcelPivotAreaReferenceBase : XmlHelper
+    {
+        internal protected ExcelPivotTable _pt;
+        internal ExcelPivotAreaReferenceBase(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) : base(nsm, topNode)
+        {
+            _pt = pt;
         }
         internal int FieldIndex
         { 
@@ -90,21 +201,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
-        /// <summary>
-        /// The pivot table field referenced
-        /// </summary>
-        public ExcelPivotTableField Field 
-        { 
+        public bool Selected 
+        {
             get
             {
-                if(FieldIndex >= 0)
-                {
-                    return _pt.Fields[FieldIndex];
-                }
-                return null;
+                return GetXmlNodeBool("@selected", true);
+            }
+            set
+            {
+                SetXmlNodeBool("@selected", value);
             }
         }
-        public bool Selected { get; set; } = true;
         internal bool Relative 
         { 
             get
@@ -127,58 +234,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@byPosition", value);
             }
         }
-        public void AddReferenceByValue(object value)
-        {
-            if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
-            {
-                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
-                var index = items.GetIndexByValue(value);
-                if (index >= 0)
-                {
-                    References.Add(new PivotReference() { Index = index, Value = value });
-                }
-            }
-            else
-            {
-                string s = value.ToString();
-                var index = _pt.DataFields._list.FindIndex(x => x.Name.Equals(s, StringComparison.OrdinalIgnoreCase) || x.Field.Name.Equals(s, StringComparison.OrdinalIgnoreCase));
-                if(index>=0)
-                {
-                    References.Add(new PivotReference() { Index = index, Value = s });
-                }
-            }
-        }
-        public void AddReferenceByIndex(int index)
-        {
-            if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
-            {
-                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
-                if (items.Count > index)
-                {
-                    References.Add(new PivotReference() { Index = index, Value = items[index] });
-                }
-                else
-                {
-                    throw new IndexOutOfRangeException("Index is out of range in cache Items. Please make sure the pivot table cache has been refreshed.");
-                } 
-            }
-            else
-            {
-                if(index >= 0 && index <_pt.DataFields.Count)
-                {
-                    References.Add(new PivotReference() { Index = index });
-                }
-                else
-                {
-                    throw new IndexOutOfRangeException("Index is out of range for referenced data field.");
-                }
-            }
-        }
-
-        /// <summary>
-        /// References to the pivot table cache or within the table.
-        /// </summary>
-        public List<PivotReference> References { get; } = new List<PivotReference>();
+        internal abstract void UpdateXml();
         public bool DefaultSubtotal 
         { 
             get
@@ -352,42 +408,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     DefaultSubtotal = true;
                     break;
             }
-        }
-        internal void UpdateXml()
-        {
-            if(FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
-            {
-                var items = Field.Cache.SharedItems.Count == 0 ? Field.Cache.GroupItems : Field.Cache.SharedItems;
-                foreach (var r in References)
-                {
-                    if (r.Index >= 0 && r.Index <= items.Count && r.Value.Equals(items[r.Index]))
-                    {
-                        var n = (XmlElement)CreateNode("d:x", false, true);
-                        n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));
-                    }
-                    else
-                    {
-                        var ix = items.GetIndexByValue(r.Value);
-                        if(ix>=0)
-                        {
-                            var n = (XmlElement)CreateNode("d:x", false, true);
-                            n.SetAttribute("v", ix.ToString(CultureInfo.InvariantCulture));
-                        }
-                    }
-                }
-            }
-            else if(FieldIndex<0) //Reference Data fields
-            {
-                foreach (var r in References)
-                {
-                    if (r.Index >= 0 && r.Index < _pt.DataFields.Count)
-                    {
-                        var n = (XmlElement)CreateNode("d:x", false, true);
-                        n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));
-                    }
-                }
-            }
-
         }
     }
 }

@@ -375,6 +375,11 @@ namespace OfficeOpenXml
                 _list = _list.Where(x => x != null).ToList();
             }
         }
+        internal struct metaDataReferences
+        {
+            int cm;
+            int vm;
+        }
         internal CellStoreValue _values;
         internal CellStore<object> _formulas;
         internal FlagCellStore _flags;

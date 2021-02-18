@@ -33,9 +33,17 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// Adds a style for the top right cells of the pivot table, to the right of any filter button, if reading order i set to Left-To-Right. 
         /// </summary>
-        /// <param name="offset">Offset from the left cell. -1 will refer to all cells </param>
         /// <returns></returns>
-        public ExcelPivotTableAreaStyle AddTopEnd(int offset = -1)
+        public ExcelPivotTableAreaStyle AddTopEnd()
+        {
+            return AddTopEnd(null);
+        }
+        /// <summary>
+        /// Adds a style for the top right cells of the pivot table, to the right of any filter button, if reading order i set to Left-To-Right. 
+        /// </summary>
+        /// <param name="offsetAddress">Offset address from the top-left cell to the right of any filter button. The top-left cell is refereced as A1. For example, B1:C1 will reference the second and third cell of the first row of the area. "null" will mean all cells</param>
+        /// <returns></returns>
+        public ExcelPivotTableAreaStyle AddTopEnd(string offsetAddress=null)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
@@ -43,9 +51,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 PivotAreaType = ePivotAreaType.TopEnd,
 
             };
-            if (offset >= 0)
+            if (offsetAddress != null)
             {
-                s.Offset = ExcelCellBase.GetAddress(1, offset + 1);
+                if(ExcelCellBase.IsSimpleAddress(offsetAddress)==false)
+                {
+                    throw new ArgumentException("Offset address must be a valid address", "offsetAddress");
+                }
+                s.Offset = offsetAddress;
             }
             _list.Add(s);
             return s;
@@ -53,9 +65,9 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// Adds a style for the top left cells of the pivot table, if reading order i set to Left-To-Right
         /// </summary>
-        /// <param name="offset">Offset from the left cell. -1 will refer to all cells </param>
+        /// <param name="offsetAddress">Offset address from the left cell. The top-left cell is refereced as A1. For example, B1:C1 will reference the second and third cell of the first row of the area. "null" will mean all cells </param>
         /// <returns></returns>
-        public ExcelPivotTableAreaStyle AddTopStart(int offset = -1)
+        public ExcelPivotTableAreaStyle AddTopStart(string offsetAddress = null)
         {
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
@@ -66,17 +78,21 @@ namespace OfficeOpenXml.Table.PivotTable
                 LabelOnly = true,
                 DataOnly = false
             };
-            if (offset >= 0)
+            if (offsetAddress != null)
             {
-                s.Offset = ExcelCellBase.GetAddress(1, offset + 1);
+                if (ExcelCellBase.IsSimpleAddress(offsetAddress) == false)
+                {
+                    throw new ArgumentException("Offset address must be a valid address", "offsetAddress");
+                }
+                s.Offset = offsetAddress;
             }
             _list.Add(s);
             return s;
         }
         /// <summary>
-        /// Adds a style the filter boxes.
+        /// Adds a style for the filter box.
         /// </summary>
-        /// <param name="field">Offset from the left cell. -1 will refer to all cells </param>
+        /// <param name="field">The field with the box to style</param>
         /// <returns></returns>
         public ExcelPivotTableAreaStyle AddButtonField(ExcelPivotTableField field)
         {
@@ -132,23 +148,19 @@ namespace OfficeOpenXml.Table.PivotTable
             s.Outline = false;
             foreach (var field in fields)
             {
-                s.References.Add(field);
+                s.AppliesTo.Add(field);
             }
             return s;
         }
-        public ExcelPivotTableAreaStyle AddDataForCellReference(bool addDataFieldReference,params ExcelPivotTableField[] fields)
+        public ExcelPivotTableAreaStyle AddDataForCellReference(params ExcelPivotTableField[] fields)
         {
             var s = Add();
             s.LabelOnly = false;
             s.FieldPosition = 0;
             s.Outline = false;
-            if (addDataFieldReference)
-            {
-                s.References.Add(_pt, -2);
-            }
             foreach (var field in fields)
             {
-                var r = s.References.Add(_pt, field.Index);
+                var r = s.AppliesTo.Add(_pt, field.Index);
             }
             return s;
         }
@@ -167,7 +179,7 @@ namespace OfficeOpenXml.Table.PivotTable
             s.Outline = false;
             foreach (var field in fields)
             {
-                var r = s.References.Add(_pt, field.Index);
+                var r = s.AppliesTo.Add(_pt, field.Index);
             }
             return s;
         }
@@ -179,11 +191,11 @@ namespace OfficeOpenXml.Table.PivotTable
             s.Outline = false;
             if (addDataFieldReference)
             {
-                s.References.Add(_pt, -2);
+                s.AppliesTo.Add(_pt, -2);
             }
             foreach (var field in fields)
             {
-                var r = s.References.Add(_pt, field.Index);
+                var r = s.AppliesTo.Add(_pt, field.Index);
             }
             return s;
         }

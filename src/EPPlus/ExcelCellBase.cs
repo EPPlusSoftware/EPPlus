@@ -710,6 +710,22 @@ namespace OfficeOpenXml
         }
         #endregion
         #region IsValidCellAddress
+        public static bool IsSimpleAddress(string address)
+        {
+            var split = address.Split(':');
+            if(split.Length>2)
+            {
+                return false;
+            }
+            foreach(var cell in split)
+            {
+                if(!IsCellAddress(cell))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         /// <summary>
         /// Returns true if the cell address is valid
         /// </summary>
