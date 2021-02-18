@@ -25,9 +25,9 @@ namespace OfficeOpenXml.Table.PivotTable
             base(nsm, topNode)
         {
             _styles = pt.WorkSheet.Workbook.Styles;
-            AppliesTo = new ExcelPivotAreaReferenceCollection(nsm, topNode, pt);
+            Conditions = new ExcelPivotAreaStyleConditions(nsm, topNode, pt);
         }
-        public ExcelPivotAreaReferenceCollection AppliesTo
+        public ExcelPivotAreaStyleConditions Conditions
         {
             get;
         }

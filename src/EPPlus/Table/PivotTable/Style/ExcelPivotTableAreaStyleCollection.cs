@@ -148,22 +148,22 @@ namespace OfficeOpenXml.Table.PivotTable
             s.Outline = false;
             foreach (var field in fields)
             {
-                s.AppliesTo.Add(field);
+                s.Conditions.Fields.Add(field);
             }
             return s;
         }
-        public ExcelPivotTableAreaStyle AddDataForCellReference(params ExcelPivotTableField[] fields)
-        {
-            var s = Add();
-            s.LabelOnly = false;
-            s.FieldPosition = 0;
-            s.Outline = false;
-            foreach (var field in fields)
-            {
-                var r = s.AppliesTo.Add(_pt, field.Index);
-            }
-            return s;
-        }
+        //public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
+        //{
+        //    var s = Add();
+        //    s.LabelOnly = false;
+        //    s.FieldPosition = 0;
+        //    s.Outline = false;
+        //    foreach (var field in fields)
+        //    {
+        //        var r = s.AppliesTo.Add(_pt, field.Index);
+        //    }
+        //    return s;
+        //}
 
         /// <summary>
         /// Adds a style for the data area of a pivot table
@@ -179,23 +179,7 @@ namespace OfficeOpenXml.Table.PivotTable
             s.Outline = false;
             foreach (var field in fields)
             {
-                var r = s.AppliesTo.Add(_pt, field.Index);
-            }
-            return s;
-        }
-        public ExcelPivotTableAreaStyle AddLabelForCellReference(bool addDataFieldReference, params ExcelPivotTableField[] fields)
-        {
-            var s = Add();
-            s.LabelOnly = true;
-            s.FieldPosition = 0;
-            s.Outline = false;
-            if (addDataFieldReference)
-            {
-                s.AppliesTo.Add(_pt, -2);
-            }
-            foreach (var field in fields)
-            {
-                var r = s.AppliesTo.Add(_pt, field.Index);
+                var r = s.Conditions.Fields.Add(_pt, field.Index);
             }
             return s;
         }

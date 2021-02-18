@@ -96,10 +96,10 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
             pt.DataOnRows = false;
             pt.CacheDefinition.Refresh();
-            var s = pt.Styles.AddLabelForCellReference(true,pt.ColumnFields[0]);
-            s.AppliesTo[0].AddItemByIndex(0);
-            s.AppliesTo[1].AddItemByIndex(0);
-            s.AppliesTo[1].AddItemByIndex(1);
+            var s = pt.Styles.AddLabel(pt.ColumnFields[0]);
+            s.Conditions.DataFields.Add(0);
+            s.Conditions.Fields[0].AddItemByIndex(0);
+            s.Conditions.Fields[0].AddItemByIndex(1);
             s.Style.Font.Color.SetColor(Color.Indigo);
         }
 
@@ -184,8 +184,8 @@ namespace EPPlusTest.Table.PivotTable
             var ws = _pck.Workbook.Worksheets.Add("StyleRowFieldLabelTotDf1");
             var pt = CreatePivotTable(ws);
 
-            var s = pt.Styles.AddLabelForCellReference(true, pt.RowFields[0]);
-            s.AppliesTo[0].AddItemByIndex(1);
+            var s = pt.Styles.AddLabel(pt.RowFields[0]);
+            s.Conditions.DataFields.Add(1);
             s.GrandRow = true;
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
@@ -198,8 +198,8 @@ namespace EPPlusTest.Table.PivotTable
             var ws = _pck.Workbook.Worksheets.Add("StyleRowFieldDf2");
             var pt = CreatePivotTable(ws);
 
-            var s = pt.Styles.AddLabelForCellReference(true, pt.RowFields[0]);
-            s.AppliesTo[0].AddItemByIndex(1);
+            var s = pt.Styles.AddLabel(pt.RowFields[0]);
+            s.Conditions.DataFields.Add(1);
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
             s.Style.Font.Name = "Times New Roman";
@@ -211,9 +211,9 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
 
             pt.CacheDefinition.Refresh();
-            var s = pt.Styles.AddLabelForCellReference(true, pt.RowFields[0]);
-            s.AppliesTo[0].AddItemByIndex(1);
-            s.AppliesTo[1].AddItemByValue("Screwdriver");
+            var s = pt.Styles.AddLabel(pt.RowFields[0]);
+            s.Conditions.DataFields.Add(1);
+            s.Conditions.Fields[0].AddItemByValue("Screwdriver");
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
             s.Style.Font.Name = "Times New Roman";
@@ -226,9 +226,9 @@ namespace EPPlusTest.Table.PivotTable
 
             pt.CacheDefinition.Refresh();
             var s = pt.Styles.AddData(pt.Fields[0], pt.Fields[1]);
-            s.AppliesTo.DataFields.AddReferenceByIndex(0);
-            s.AppliesTo[0].AddItemByIndex(0);
-            s.AppliesTo[1].AddItemByIndex(0);
+            s.Conditions.DataFields.Add(0);
+            s.Conditions.Fields[0].AddItemByIndex(0);
+            s.Conditions.Fields[1].AddItemByIndex(0);
             s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
             s.Style.Fill.BackgroundColor.SetColor(Color.Red);
             s.Outline = true;
@@ -242,10 +242,10 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
 
             pt.CacheDefinition.Refresh();
-            var s = pt.Styles.AddDataForCellReference(pt.Fields[0], pt.Fields[1]);
-            s.AppliesTo[0].AddItemByValue("Stock");
-            s.AppliesTo[1].AddItemByValue("Apple");
-            s.AppliesTo[2].AddItemByValue("Groceries");
+            var s = pt.Styles.AddData(pt.Fields[0], pt.Fields[1]);
+            s.Conditions.DataFields.Add(pt.DataFields[1]);
+            s.Conditions.Fields[0].AddItemByValue("Apple");
+            s.Conditions.Fields[1].AddItemByValue("Groceries");
             s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
             s.Style.Fill.BackgroundColor.SetColor(Color.Red);
             s.Outline = true;

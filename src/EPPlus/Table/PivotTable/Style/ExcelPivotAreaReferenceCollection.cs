@@ -23,11 +23,6 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _xmlHelper = XmlHelperFactory.Create(nsm, topNode);
             _pt = pt;
-            foreach (XmlNode n in _xmlHelper.GetNodes("d:references/d:reference"))
-            {
-                _list.Add(new ExcelPivotAreaReference(nsm, n, pt));
-            }
-            DataFields = new ExcelPivotAreaDataFieldReference(nsm, topNode, pt, -2);
         }
         public ExcelPivotAreaReference Add(ExcelPivotTableField field)
         {
@@ -40,10 +35,6 @@ namespace OfficeOpenXml.Table.PivotTable
             var r =new ExcelPivotAreaReference(_xmlHelper.NameSpaceManager, rn, pivotTable, fieldIndex);            
             _list.Add(r);
             return r;
-        }
-        public ExcelPivotAreaDataFieldReference DataFields
-        { 
-            get; 
         }
     }
 }

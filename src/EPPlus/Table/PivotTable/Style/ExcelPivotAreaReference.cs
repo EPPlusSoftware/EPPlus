@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Xml;
 using System.Linq;
 using OfficeOpenXml.Core;
+using System.Collections;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -115,35 +116,56 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
     }
-    public class ExcelPivotAreaDataFieldReference : ExcelPivotAreaReferenceBase
+    public class ExcelPivotAreaDataFieldReference : ExcelPivotAreaReferenceBase, IEnumerable<ExcelPivotTableDataField>
     {
+        List<ExcelPivotTableDataField> _dataFields = new List<ExcelPivotTableDataField>();
         internal ExcelPivotAreaDataFieldReference(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, int fieldIndex = -1) : base(nsm, topNode, pt)
         {
-            foreach (XmlNode n in topNode.ChildNodes)
+            if(TopNode.LocalName=="reference")
             {
-                if (n.LocalName == "x")
+                foreach (XmlNode c in TopNode.ChildNodes)
                 {
-                    var ix = int.Parse(n.Attributes["v"].Value);
-                    if (ix < pt.DataFields.Count)
+                    if (c.LocalName == "x")
                     {
-                        DataFields.Add(pt.DataFields[ix]);
+                        var ix = int.Parse(c.Attributes["v"].Value);
+                        if (ix < pt.DataFields.Count)
+                        {
+                            _dataFields.Add(pt.DataFields[ix]);
+                        }
                     }
                 }
             }
         }
-        public EPPlusReadOnlyList<ExcelPivotTableDataField> DataFields { get; } = new EPPlusReadOnlyList<ExcelPivotTableDataField>();
-        public void AddReferenceByIndex(int index)
+        public ExcelPivotTableDataField this[int index]
+        {
+            get
+            {
+                return _dataFields[index];
+            }
+        }
+        public int Count 
+        { 
+            get
+            {
+                return _dataFields.Count;
+            }
+        }
+        internal void AddInternal(ExcelPivotTableDataField item)
+        {
+            _dataFields.Add(item);
+        }
+        public void Add(int index)
         {
             if (index >= 0 && index < _pt.DataFields.Count)
             {
-                DataFields.Add(_pt.DataFields[index]);
+                _dataFields.Add(_pt.DataFields[index]);
             }
             else
             {
                 throw new IndexOutOfRangeException("Index is out of range for referenced data field.");
             }
         }
-        public void AddDataField(ExcelPivotTableDataField field)
+        public void Add(ExcelPivotTableDataField field)
         {
             if (field == null)
             {
@@ -153,19 +175,52 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 throw new ArgumentException("The pivot table field is from another pivot table.");
             }
-            DataFields.Add(field);
+            _dataFields.Add(field);
         }
 
         internal override void UpdateXml()
         {
-            foreach (ExcelPivotTableDataField r in DataFields)
+            if(_dataFields.Count==0)
+            {
+                if(TopNode.LocalName == "reference")
+                {
+                    TopNode.ParentNode.RemoveChild(TopNode);
+                }
+                return;
+            }
+            else
+            {
+                if (TopNode.LocalName == "pivotArea")
+                {
+                    var n = CreateNode("d:references");
+                    var rn = (XmlElement)CreateNode(n, "d:reference", true);
+                    rn.SetAttribute("field", "4294967294");
+                    TopNode = rn;
+                }
+            }
+
+            foreach (ExcelPivotTableDataField r in _dataFields)
             {
                 if (r.Field.IsDataField)
                 {
-                    var n = (XmlElement)CreateNode("d:x", false, true);
-                    n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));
+                    var ix = _pt.DataFields._list.IndexOf(r);
+                    if (ix >= 0)
+                    {
+                        var n = (XmlElement)CreateNode("d:x", false, true);
+                        n.SetAttribute("v", ix.ToString(CultureInfo.InvariantCulture));
+                    }
                 }
             }            
+        }
+
+        public IEnumerator<ExcelPivotTableDataField> GetEnumerator()
+        {
+            return ((IEnumerable<ExcelPivotTableDataField>)_dataFields).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)_dataFields).GetEnumerator();
         }
     }
     public abstract class ExcelPivotAreaReferenceBase : XmlHelper
