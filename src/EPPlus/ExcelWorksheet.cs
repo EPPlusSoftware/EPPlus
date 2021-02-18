@@ -53,32 +53,6 @@ namespace OfficeOpenXml
         ArrayFormula = 0x8
     }
     /// <summary>
-    /// Represents an Excel Chartsheet and provides access to its properties and methods
-    /// </summary>
-    public class ExcelChartsheet : ExcelWorksheet
-    {
-        //ExcelDrawings draws;
-        internal ExcelChartsheet(XmlNamespaceManager ns, ExcelPackage pck, string relID, Uri uriWorksheet, string sheetName, int sheetID, int positionID, eWorkSheetHidden? hidden, eChartType chartType, ExcelPivotTable pivotTableSource ) :
-            base(ns, pck, relID, uriWorksheet, sheetName, sheetID, positionID, hidden)
-        {
-            Drawings.AddAllChartTypes("Chart 1", chartType, pivotTableSource, eEditAs.Absolute);
-        }
-        internal ExcelChartsheet(XmlNamespaceManager ns, ExcelPackage pck, string relID, Uri uriWorksheet, string sheetName, int sheetID, int positionID, eWorkSheetHidden? hidden) :
-            base(ns, pck, relID, uriWorksheet, sheetName, sheetID, positionID, hidden)
-        {
-        }
-        /// <summary>
-        /// The worksheet chart object
-        /// </summary>
-        public ExcelChart Chart 
-        {
-            get
-            {
-                return (ExcelChart)Drawings[0];
-            }
-        }
-    }
-    /// <summary>
 	/// Represents an Excel worksheet and provides access to its properties and methods
 	/// </summary>
     public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable
@@ -158,6 +132,14 @@ namespace OfficeOpenXml
                     StartCol = StartCol
                 };
             }
+        }
+        /// <summary>
+        /// Keeps track of meta data referencing cells or values.
+        /// </summary>
+        internal struct MetaDataReference
+        {
+            internal int cm;
+            internal int vm;
         }
         /// <summary>
         /// Removes all formulas within the entire worksheet, but keeps the calculated values.
@@ -388,6 +370,7 @@ namespace OfficeOpenXml
         internal CellStore<Uri> _hyperLinks;
         internal CellStore<int> _commentsStore;
         internal CellStore<int> _threadedCommentsStore;
+        internal CellStore<MetaDataReference> _metadataStore;
 
         internal Dictionary<int, Formulas> _sharedFormulas = new Dictionary<int, Formulas>();
         internal int _minCol = ExcelPackage.MaxColumns;
@@ -437,6 +420,7 @@ namespace OfficeOpenXml
             _values = new CellStoreValue();
             _formulas = new CellStore<object>();
             _flags = new FlagCellStore();
+            _metadataStore = new CellStore<MetaDataReference>();
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
             _hyperLinks = new CellStore<Uri>();
@@ -1511,8 +1495,6 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "c")
                 {
-                    //if (cell != null) cellList.Add(cell);
-                    //cell = new ExcelCell(this, xr.GetAttribute("r"));
                     var r = xr.GetAttribute("r");
                     if (r == null)
                     {
@@ -1548,6 +1530,21 @@ namespace OfficeOpenXml
                     {
                         style = 0;
                     }
+                    //Meta data. Meta data is only preserved by EPPlus at this point
+                    var cm = xr.GetAttribute("cm");
+                    var vm = xr.GetAttribute("vm");
+                    if (cm != null || vm != null)
+                    {                          
+                        _metadataStore.SetValue(
+                            address._fromRow,
+                            address._fromCol,
+                            new MetaDataReference()
+                            {
+                                cm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm),
+                                vm = string.IsNullOrEmpty(vm) ? 0 : int.Parse(vm)
+                            });
+                    };
+
                     xr.Read();
                 }
                 else if (xr.LocalName == "v")
@@ -2957,7 +2954,7 @@ namespace OfficeOpenXml
             ExcelStyleCollection<ExcelXfs> cellXfs = _package.Workbook.Styles.CellXfs;
 
             int row = -1;
-
+            string mdAttr = "";
             var sheetDataTag = prefix + "sheetData";
             var cTag = prefix + "c";
             var fTag = prefix + "f";
@@ -2971,6 +2968,7 @@ namespace OfficeOpenXml
             
             FixSharedFormulas(); //Fixes Issue #32
 
+            var hasMd = _metadataStore.HasValues;
             columnStyles = new Dictionary<int, int>();
             var cse = new CellStoreEnumerator<ExcelValue>(_values, 1, 0, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             while (cse.Next())
@@ -2988,6 +2986,22 @@ namespace OfficeOpenXml
                     }
                     object v = val._value;
                     object formula = _formulas.GetValue(cse.Row, cse.Column);
+                    if(hasMd)
+                    {
+                        mdAttr = "";
+                        if (_metadataStore.Exists(cse.Row, cse.Column))
+                        {
+                            MetaDataReference md= _metadataStore.GetValue(cse.Row, cse.Column);
+                            if (md.cm>0)
+                            {
+                                mdAttr=$" cm=\"{md.cm}\"";
+                            }
+                            if(md.vm>0)
+                            {
+                                mdAttr = $" vm=\"{md.vm}\"";
+                            }
+                        }
+                    }
                     if (formula is int sfId)
                     {
                         if(!_sharedFormulas.ContainsKey(sfId))
@@ -3001,21 +3015,21 @@ namespace OfficeOpenXml
                             {
                                 if (f.IsArray)
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{f.Address}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
                                 else
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
 
                             }
                             else if (f.IsArray)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"/>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{mdAttr}/>");
                             }
                             else
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><f t=\"shared\" si=\"{sfId}\"/>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><f t=\"shared\" si=\"{sfId}\"/>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                         else
@@ -3023,25 +3037,25 @@ namespace OfficeOpenXml
                             // We can also have a single cell array formula
                             if (f.IsArray)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
                             }
                             else
                             {
-                                cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{GetCellType(v, true)}>");
+                                cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>");
                                 cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                     }
                     else if (formula != null && formula.ToString() != "")
                     {
-                        cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}>");
+                        cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>");
                         cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(formula.ToString())}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                     }
                     else
                     {
                         if (v == null && styleID > 0)
                         {
-                            cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"/>");
+                            cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{mdAttr}/>");
                         }
                         else if (v != null)
                         {
@@ -3056,7 +3070,7 @@ namespace OfficeOpenXml
                             if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
                             {
                                 //string sv = GetValueForXml(v);
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v)}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v)}{mdAttr}>");
                                 cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                             else
@@ -3080,7 +3094,7 @@ namespace OfficeOpenXml
                                 {
                                     ix = ss[s].pos;
                                 }
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\" t=\"s\">");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\" t=\"s\"{mdAttr}>");
                                 cache.Append($"<{vTag}>{ix}</{vTag}></{cTag}>");
                             }
                         }
@@ -3736,6 +3750,7 @@ namespace OfficeOpenXml
             DisposeInternal(_hyperLinks);
             DisposeInternal(_commentsStore);
             DisposeInternal(_formulaTokens);
+            DisposeInternal(_metadataStore);
 
             _values = null;
             _formulas = null;
@@ -3743,6 +3758,7 @@ namespace OfficeOpenXml
             _hyperLinks = null;
             _commentsStore = null;
             _formulaTokens = null;
+            _metadataStore = null;
 
             _package = null;
             _pivotTables = null;
@@ -3889,7 +3905,8 @@ namespace OfficeOpenXml
             _values.SetValueRange_Value(fromRow, fromColumn, values);
             //Clearout formulas and flags, for example the rich text flag.
             _formulas.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1); 
-            _flags.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1)+1);    
+            _flags.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1)+1);
+            _metadataStore.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1);
         }
 
         /// <summary>

@@ -69,6 +69,13 @@ namespace OfficeOpenXml.Core.CellStore
             }
             _columnIndex = null;
         }
+        internal bool HasValues
+        {
+            get
+            {
+                return _values.Count > 0;
+            }
+        }
         internal int GetClosestColumnPosition(int column)
         {
             var pos = GetColumnPosition(column);
@@ -1515,6 +1522,5 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
-
     }
 }

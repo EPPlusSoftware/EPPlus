@@ -35,7 +35,8 @@ namespace OfficeOpenXml.Core
             internal ExcelComment Comment { get; set; }
             internal ExcelThreadedCommentThread ThreadedComment { get; set; }
             internal Byte Flag { get; set; }
-        }
+            internal ExcelWorksheet.MetaDataReference MetaData{ get; set; }
+    }
 
         internal static void Copy(ExcelRangeBase sourceRange, ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
         {
@@ -122,6 +123,12 @@ namespace OfficeOpenXml.Core
                         }
                         cell.StyleID = i;
                     }
+                }
+
+                var md = new ExcelWorksheet.MetaDataReference();
+                if (worksheet._metadataStore.Exists(row, col, ref md))
+                {
+                    cell.MetaData=md;
                 }
 
                 if (worksheet._hyperLinks.Exists(row, col, ref hl))
@@ -221,6 +228,11 @@ namespace OfficeOpenXml.Core
                 {
                     destination._worksheet._flags.SetValue(cell.Row, cell.Column, cell.Flag);
                 }
+
+                if(cell.MetaData.cm > 0 || cell.MetaData.vm > 0)
+                {
+                    destination._worksheet._metadataStore.SetValue(cell.Row, cell.Column, cell.MetaData);
+                }
             }
         }
 
@@ -234,6 +246,7 @@ namespace OfficeOpenXml.Core
             Destination._worksheet._flags.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
             Destination._worksheet._commentsStore.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
             Destination._worksheet._threadedCommentsStore.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
+            Destination._worksheet._metadataStore.Clear(Destination._fromRow, Destination._fromCol, rows, cols);
         }
 
         private static Dictionary<int, ExcelAddress> GetCopiedMergedCells(ExcelRangeBase sourceRange, ExcelRangeBase Destination)

@@ -238,6 +238,7 @@ namespace OfficeOpenXml
             if (sfi != null) range._worksheet._formulas.SetValue(row, col, string.Empty);
             range._worksheet.SetValueInner(row, col, value);
             range._worksheet._flags.Clear(row, col, 1, 1);
+            range._worksheet._metadataStore.Clear(row, col, 1, 1);
         }
         private static void Set_Formula(ExcelRangeBase range, object value, int row, int col)
         {
@@ -2008,6 +2009,7 @@ namespace OfficeOpenXml
             {
                 _worksheet._formulas.Delete(fromRow, fromCol, rows, cols, shift);
                 _worksheet._flags.Delete(fromRow, fromCol, rows, cols, shift);
+                _worksheet._metadataStore.Delete(fromRow, fromCol, rows, cols, shift);
             }
             if (clearHyperLinksComments)
             {
@@ -2260,6 +2262,8 @@ namespace OfficeOpenXml
             var formulas = GetItems(_worksheet._formulas, _fromRow, _fromCol, _toRow, _toCol);
             var hyperLinks = GetItems(_worksheet._hyperLinks, _fromRow, _fromCol, _toRow, _toCol);
             var comments = GetItems(_worksheet._commentsStore, _fromRow, _fromCol, _toRow, _toCol);
+            var metaData = GetItems(_worksheet._metadataStore, _fromRow, _fromCol, _toRow, _toCol);
+
             //Sort the values and styles.
             _worksheet._values.Clear(_fromRow, _fromCol, _toRow - _fromRow + 1, cols);
             for (var r = 0; r < l.Count; r++)
@@ -2276,6 +2280,12 @@ namespace OfficeOpenXml
                     {
                         _worksheet._flags.SetValue(row, col, flags[addr]);
                     }
+                    //Move metadata
+                    if (metaData.ContainsKey(addr))
+                    {
+                        _worksheet._metadataStore.SetValue(row, col, metaData[addr]);
+                    }
+
                     //Move formulas
                     if (formulas.ContainsKey(addr))
                     {

@@ -684,6 +684,11 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 added._flags.SetValue(row, col, fl);
             }
+            ExcelWorksheet.MetaDataReference md = new ExcelWorksheet.MetaDataReference();
+            if (Copy._metadataStore.Exists(row, col, ref md))
+            {
+                added._metadataStore.SetValue(row, col, md);
+            }
 
             var v = Copy._formulas.GetValue(row, col);
             if (v != null)

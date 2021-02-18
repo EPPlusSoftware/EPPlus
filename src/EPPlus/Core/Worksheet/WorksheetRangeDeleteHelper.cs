@@ -193,6 +193,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._values.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._formulas.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._flags.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._metadataStore.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._commentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._threadedCommentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._vmlDrawings?._drawingsCellStore.Delete(rowFrom, columnFrom, rows, columns, true);
@@ -224,6 +225,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._values.DeleteShiftLeft(fromAddress);
             ws._formulas.DeleteShiftLeft(fromAddress);
             ws._flags.DeleteShiftLeft(fromAddress);
+            ws._metadataStore.DeleteShiftLeft(fromAddress);
             ws._commentsStore.DeleteShiftLeft(fromAddress);
             ws._threadedCommentsStore.DeleteShiftLeft(fromAddress);
             ws._vmlDrawings?._drawingsCellStore.DeleteShiftLeft(fromAddress);
