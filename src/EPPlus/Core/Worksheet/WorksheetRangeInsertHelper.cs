@@ -755,6 +755,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._threadedCommentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
             ws._flags.Insert(rowFrom, columnFrom, rows, columns);
+            ws._metadataStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._vmlDrawings?._drawingsCellStore.Insert(rowFrom, columnFrom, rows, columns);
 
             if(rows==0||columns==0)
@@ -780,6 +781,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._threadedCommentsStore.InsertShiftRight(fromAddress);
             ws._hyperLinks.InsertShiftRight(fromAddress);
             ws._flags.InsertShiftRight(fromAddress);
+            ws._metadataStore.InsertShiftRight(fromAddress);
             ws._vmlDrawings?._drawingsCellStore.InsertShiftRight(fromAddress);
 
             ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._fromRow, fromAddress._toRow);
