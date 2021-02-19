@@ -130,9 +130,9 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual("Price", s.Conditions.DataFields[0].Name);
 
             Assert.AreEqual(1, s.Conditions.Fields.Count);
-            Assert.AreEqual(2, s.Conditions.Fields[0].CacheItems.Count);
-            Assert.AreEqual(0, s.Conditions.Fields[0].CacheItems[0].Index);
-            Assert.AreEqual(1, s.Conditions.Fields[0].CacheItems[1].Index);
+            Assert.AreEqual(2, s.Conditions.Fields[0].Items.Count);
+            Assert.AreEqual(0, s.Conditions.Fields[0].Items[0].Index);
+            Assert.AreEqual(1, s.Conditions.Fields[0].Items[1].Index);
 
             Assert.AreEqual(Color.Indigo.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());
         }
@@ -288,136 +288,166 @@ namespace EPPlusTest.Table.PivotTable
 
             Assert.AreEqual(1, s.Conditions.DataFields.Count);
             Assert.AreEqual(1, s.Conditions.Fields.Count);
-            Assert.AreEqual(1, s.Conditions.Fields[0].CacheItems.Count);
+            Assert.AreEqual(1, s.Conditions.Fields[0].Items.Count);
             Assert.AreEqual(pt.RowFields[0].Index, s.Conditions.Fields[0].FieldIndex);
             Assert.AreEqual("Stock", s.Conditions.DataFields[0].Name);
 
             Assert.AreEqual("Stock", s.Conditions.DataFields[0].Name);
 
-            Assert.AreEqual("Screwdriver", s.Conditions.Fields[0].CacheItems[0].Value);
+            Assert.AreEqual("Screwdriver", s.Conditions.Fields[0].Items[0].Value);
 
             Assert.IsTrue(s.Style.Font.Italic.Value);
             Assert.IsTrue(s.Style.Font.Strike.Value);
             Assert.AreEqual("Times New Roman", s.Style.Font.Name);
 
         }
-        //[TestMethod]
-        //public void AddPivotDataItemByIndex()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("PivotDataItemIndex");
-        //    var pt = CreatePivotTable(ws);
+        [TestMethod]
+        public void ReadPivotDataItemByIndex()
+        {
+            var ws = TryGetWorksheet(_pck, "PivotDataItemIndex");
+            var pt = ws.PivotTables[0];
 
-        //    pt.CacheDefinition.Refresh();
-        //    var s = pt.Styles.AddDataForCellReference(true, pt.Fields[0], pt.Fields[1]);
-        //    s.References[0].AddReferenceByIndex(1);
-        //    s.References[1].AddReferenceByIndex(0);
-        //    s.References[2].AddReferenceByIndex(0);
-        //    s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
-        //    s.Style.Fill.BackgroundColor.SetColor(Color.Red);
-        //    s.Outline = true;
-        //    //s.Axis = ePivotTableAxis.RowAxis;
-        //    s.Style.Font.Color.SetColor(Color.Blue);
-        //}
-        //[TestMethod]
-        //public void AddPivotDataItemByValue()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("PivotDataItemValue");
-        //    var pt = CreatePivotTable(ws);
+            var s = pt.Styles[0];
 
-        //    pt.CacheDefinition.Refresh();
-        //    var s = pt.Styles.AddDataForCellReference(true, pt.Fields[0], pt.Fields[1]);
-        //    s.References[0].AddReferenceByValue("Stock");
-        //    s.References[1].AddReferenceByValue("Apple");
-        //    s.References[2].AddReferenceByValue("Groceries");
-        //    s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
-        //    s.Style.Fill.BackgroundColor.SetColor(Color.Red);
-        //    s.Outline = true;
-        //    //s.Axis = ePivotTableAxis.RowAxis;
-        //    s.Style.Font.Color.SetColor(Color.Blue);
-        //}
+            Assert.AreEqual(1, s.Conditions.DataFields.Count);
+            Assert.AreEqual(2, s.Conditions.Fields.Count);
+            Assert.AreEqual(1, s.Conditions.Fields[0].Items.Count);
+            Assert.AreEqual(1, s.Conditions.Fields[1].Items.Count);
+            Assert.AreEqual(0, s.Conditions.Fields[0].FieldIndex);
+            Assert.AreEqual(1, s.Conditions.Fields[1].FieldIndex);
 
-        //[TestMethod]
-        //public void AddButtonField()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleFieldPage");
-        //    var pt = CreatePivotTable(ws);
+            Assert.AreEqual(0, s.Conditions.Fields[0].Items[0].Index);
+            Assert.AreEqual(0, s.Conditions.Fields[1].Items[0].Index);
 
-        //    var s = pt.Styles.AddButtonField(pt.Fields[4]);
-        //    s.Style.Font.Color.SetColor(Color.Pink);
-        //}
+            Assert.AreEqual(eDxfFillStyle.PatternFill, s.Style.Fill.Style);
+            Assert.AreEqual(Color.Red.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());            
+            Assert.IsTrue(s.Outline);
+            Assert.AreEqual(Color.Blue.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());            
+        }
+        [TestMethod]
+        public void ReadPivotDataItemByValue()
+        {
+            var ws = TryGetWorksheet(_pck, "PivotDataItemValue");
+            var pt = ws.PivotTables[0];
 
-        //[TestMethod]
-        //public void AddButtonRowAxis()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleButtonRowAxis");
-        //    var pt = CreatePivotTable(ws);
+            var s = pt.Styles[0];
 
-        //    var s = pt.Styles.AddButtonField(ePivotTableAxis.RowAxis);
-        //    s.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.DoubleAccounting;
-        //}
-        //[TestMethod]
-        //public void AddButtonColumnAxis()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleButtonColumnAxis");
-        //    var pt = CreatePivotTable(ws);
+            Assert.AreEqual(1, s.Conditions.DataFields.Count);
+            Assert.AreEqual(2, s.Conditions.Fields.Count);
+            Assert.AreEqual(1, s.Conditions.Fields[0].Items.Count);
+            Assert.AreEqual(1, s.Conditions.Fields[1].Items.Count);
+            Assert.AreEqual("Apple", s.Conditions.Fields[0].Items[0].Value);
+            Assert.AreEqual("Groceries", s.Conditions.Fields[1].Items[0].Value);
+            Assert.AreEqual("Stock", s.Conditions.DataFields[0].Field.Name);
 
-        //    var s3 = pt.Styles.AddButtonField(ePivotTableAxis.ColumnAxis);
-        //    s3.Style.Font.Italic = true;
-        //}
-        //[TestMethod]
-        //public void AddButtonPageAxis()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleButtonPageAxis");
-        //    var pt = CreatePivotTable(ws);
+            Assert.AreEqual(eDxfFillStyle.PatternFill, s.Style.Fill.Style);
+            Assert.AreEqual(Color.Red.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+            Assert.IsTrue(s.Outline);
+            Assert.AreEqual(Color.Blue.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());
+        }
 
-        //    var s4 = pt.Styles.AddButtonField(ePivotTableAxis.PageAxis);
-        //    s4.Style.Font.Color.SetColor(Color.ForestGreen);
-        //}
+        [TestMethod]
+        public void ReadFieldButton()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleFieldPage");
+            var pt = ws.PivotTables[0];
 
+            var s = pt.Styles[0];
 
-        //[TestMethod]
-        //public void AddTopStart()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleTopStart");
-        //    var pt = CreatePivotTable(ws);
+            Assert.AreEqual(ePivotAreaType.FieldButton, s.PivotAreaType);
+            Assert.AreEqual(0, s.Conditions.DataFields.Count);
+            Assert.AreEqual(4, s.FieldIndex);
 
-        //    //Top Left cells 
-        //    var styleTopLeft = pt.Styles.AddTopStart();
-        //    styleTopLeft.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-        //    styleTopLeft.Style.Fill.BackgroundColor.SetColor(Color.Red);
-        //}
-        //[TestMethod]
-        //public void AddTopStartOffset0()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleTopStartOffset0");
-        //    var pt = CreatePivotTable(ws);
+            Assert.AreEqual(Color.Pink.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());
+        }
 
-        //    //Top Left cells 
-        //    var styleTopLeft = pt.Styles.AddTopStart(0);
-        //    styleTopLeft.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-        //    styleTopLeft.Style.Fill.BackgroundColor.SetColor(Color.Blue);
-        //}
+        [TestMethod]
+        public void ReadButtonRowAxis()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleButtonRowAxis");
+            var pt = ws.PivotTables[0];
 
-        //[TestMethod]
-        //public void AddTopEnd()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleTopEnd");
-        //    var pt = CreatePivotTable(ws);
+            var s = pt.Styles[0];
 
-        //    var styleTopRight2 = pt.Styles.AddTopEnd();
-        //    styleTopRight2.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-        //    styleTopRight2.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-        //}
-        //[TestMethod]
-        //public void AddTopEndOffset1()
-        //{
-        //    var ws = _pck.Workbook.Worksheets.Add("StyleTopEndOffset1");
-        //    var pt = CreatePivotTable(ws);
+            Assert.AreEqual(ePivotAreaType.FieldButton, s.PivotAreaType);
+            Assert.AreEqual(ePivotTableAxis.RowAxis, s.Axis);
+            Assert.AreEqual(ExcelUnderLineType.DoubleAccounting, s.Style.Font.Underline);
+        }
+        [TestMethod]
+        public void ReadButtonColumnAxis()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleButtonColumnAxis");
+            var pt = ws.PivotTables[0];
 
-        //    var styleTopRight2 = pt.Styles.AddTopEnd(1);
-        //    styleTopRight2.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-        //    styleTopRight2.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
-        //}
+            var s = pt.Styles[0];
+
+            Assert.AreEqual(ePivotAreaType.FieldButton, s.PivotAreaType);
+            Assert.AreEqual(ePivotTableAxis.ColumnAxis, s.Axis);
+            
+            Assert.IsTrue(s.Style.Font.Italic.Value);
+        }
+        [TestMethod]
+        public void ReadButtonPageAxis()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleButtonPageAxis");
+            var pt = ws.PivotTables[0];
+            var s = pt.Styles[0];
+
+            Assert.AreEqual(ePivotAreaType.FieldButton, s.PivotAreaType);
+            Assert.AreEqual(ePivotTableAxis.PageAxis, s.Axis);
+
+            Assert.AreEqual(Color.ForestGreen.ToArgb(), s.Style.Font.Color.Color.Value.ToArgb());
+
+       }
+        [TestMethod]
+        public void ReadTopStart()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleTopStart");
+            var pt = ws.PivotTables[0];
+            var s = pt.Styles[0];
+
+            //Top Left cells 
+            Assert.AreEqual(ePivotAreaType.Origin, s.PivotAreaType);
+            Assert.AreEqual(eDxfFillStyle.PatternFill, s.Style.Fill.Style);
+            Assert.AreEqual(Color.Red.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+        }
+        [TestMethod]
+        public void ReadTopStartOffset0()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleTopStartOffset0");
+            var pt = ws.PivotTables[0];
+            var s = pt.Styles[0];
+
+            //Top Left cells
+            Assert.AreEqual(ePivotAreaType.Origin, s.PivotAreaType);
+            Assert.AreEqual("A1", s.Offset);
+            Assert.AreEqual(eDxfFillStyle.PatternFill, s.Style.Fill.Style);
+            Assert.AreEqual(Color.Blue.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+        }
+
+        [TestMethod]
+        public void AddTopEnd()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleTopEnd");
+            var pt = ws.PivotTables[0];
+            var s = pt.Styles[0];
+
+            Assert.AreEqual(ePivotAreaType.TopEnd, s.PivotAreaType);
+            Assert.AreEqual(eDxfFillStyle.PatternFill, s.Style.Fill.Style);
+            Assert.AreEqual(Color.Yellow.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+        }
+        [TestMethod]
+        public void AddTopEndOffset1()
+        {
+            var ws = TryGetWorksheet(_pck, "StyleTopEndOffset1");
+            var pt = ws.PivotTables[0];
+            var s = pt.Styles[0];
+
+            Assert.AreEqual(ePivotAreaType.TopEnd, s.PivotAreaType);
+            Assert.AreEqual("A1", s.Offset);
+            Assert.AreEqual(eDxfFillStyle.PatternFill, s.Style.Fill.Style);
+            Assert.AreEqual(Color.Yellow.ToArgb(), s.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+        }
 
     }
 }

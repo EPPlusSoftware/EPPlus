@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
@@ -98,8 +99,8 @@ namespace EPPlusTest.Table.PivotTable
             pt.CacheDefinition.Refresh();
             var s = pt.Styles.AddLabel(pt.ColumnFields[0]);
             s.Conditions.DataFields.Add(0);
-            s.Conditions.Fields[0].AddItemByIndex(0);
-            s.Conditions.Fields[0].AddItemByIndex(1);
+            s.Conditions.Fields[0].Items.Add(0);
+            s.Conditions.Fields[0].Items.Add(1);
             s.Style.Font.Color.SetColor(Color.Indigo);
         }
 
@@ -133,7 +134,7 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
 
             var s = pt.Styles.AddData(pt.Fields[0], pt.Fields[1]);
-            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.Style = eDxfFillStyle.PatternFill;
             s.Style.Fill.BackgroundColor.SetColor(Color.Red);
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
@@ -147,9 +148,9 @@ namespace EPPlusTest.Table.PivotTable
 
             var s = pt.Styles.AddData(pt.Fields[0], pt.Fields[1]);
             s.GrandColumn = true;
-            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.Style = eDxfFillStyle.PatternFill;
             s.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
-            s.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Single;
+            s.Style.Font.Underline = ExcelUnderLineType.Single;
             s.Style.Font.Name = "Times New Roman";
         }
         [TestMethod]
@@ -160,9 +161,9 @@ namespace EPPlusTest.Table.PivotTable
 
             var s = pt.Styles.AddData();
             s.GrandRow = true;
-            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Style.Fill.Style = eDxfFillStyle.PatternFill;
             s.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
-            s.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.Single;
+            s.Style.Font.Underline = ExcelUnderLineType.Single;
             s.Style.Font.Name = "Times New Roman";
         }
 
@@ -213,7 +214,7 @@ namespace EPPlusTest.Table.PivotTable
             pt.CacheDefinition.Refresh();
             var s = pt.Styles.AddLabel(pt.RowFields[0]);
             s.Conditions.DataFields.Add(1);
-            s.Conditions.Fields[0].AddItemByValue("Screwdriver");
+            s.Conditions.Fields[0].Items.AddByValue("Screwdriver");
             s.Style.Font.Italic = true;
             s.Style.Font.Strike = true;
             s.Style.Font.Name = "Times New Roman";
@@ -227,9 +228,9 @@ namespace EPPlusTest.Table.PivotTable
             pt.CacheDefinition.Refresh();
             var s = pt.Styles.AddData(pt.Fields[0], pt.Fields[1]);
             s.Conditions.DataFields.Add(0);
-            s.Conditions.Fields[0].AddItemByIndex(0);
-            s.Conditions.Fields[1].AddItemByIndex(0);
-            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Conditions.Fields[0].Items.Add(0);
+            s.Conditions.Fields[1].Items.Add(0);
+            s.Style.Fill.Style = eDxfFillStyle.PatternFill;
             s.Style.Fill.BackgroundColor.SetColor(Color.Red);
             s.Outline = true;
             //s.Axis = ePivotTableAxis.RowAxis;
@@ -244,9 +245,9 @@ namespace EPPlusTest.Table.PivotTable
             pt.CacheDefinition.Refresh();
             var s = pt.Styles.AddData(pt.Fields[0], pt.Fields[1]);
             s.Conditions.DataFields.Add(pt.DataFields[1]);
-            s.Conditions.Fields[0].AddItemByValue("Apple");
-            s.Conditions.Fields[1].AddItemByValue("Groceries");
-            s.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.PatternFill;
+            s.Conditions.Fields[0].Items.AddByValue("Apple");
+            s.Conditions.Fields[1].Items.AddByValue("Groceries");
+            s.Style.Fill.Style = eDxfFillStyle.PatternFill;
             s.Style.Fill.BackgroundColor.SetColor(Color.Red);
             s.Outline = true;
             //s.Axis = ePivotTableAxis.RowAxis;
@@ -270,7 +271,7 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
 
             var s = pt.Styles.AddButtonField(ePivotTableAxis.RowAxis);
-            s.Style.Font.Underline = OfficeOpenXml.Style.ExcelUnderLineType.DoubleAccounting;
+            s.Style.Font.Underline = ExcelUnderLineType.DoubleAccounting;
         }
         [TestMethod]
         public void AddButtonColumnAxis()
@@ -300,7 +301,7 @@ namespace EPPlusTest.Table.PivotTable
 
             //Top Left cells 
             var styleTopLeft = pt.Styles.AddTopStart();
-            styleTopLeft.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            styleTopLeft.Style.Fill.PatternType = ExcelFillStyle.Solid;
             styleTopLeft.Style.Fill.BackgroundColor.SetColor(Color.Red);
         }
         [TestMethod]
@@ -311,7 +312,7 @@ namespace EPPlusTest.Table.PivotTable
 
             //Top Left cells 
             var styleTopLeft = pt.Styles.AddTopStart("A1");
-            styleTopLeft.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            styleTopLeft.Style.Fill.PatternType = ExcelFillStyle.Solid;
             styleTopLeft.Style.Fill.BackgroundColor.SetColor(Color.Blue);
         }
 
@@ -322,7 +323,7 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
 
             var styleTopRight2 = pt.Styles.AddTopEnd();
-            styleTopRight2.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            styleTopRight2.Style.Fill.PatternType = ExcelFillStyle.Solid;
             styleTopRight2.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
         }
         [TestMethod]
@@ -332,10 +333,9 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
 
             var styleTopRight2 = pt.Styles.AddTopEnd("A1");
-            styleTopRight2.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-            styleTopRight2.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+            styleTopRight2.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            styleTopRight2.Style.Fill.BackgroundColor.SetColor(Color.Yellow);            
         }
-
     }
 }
 

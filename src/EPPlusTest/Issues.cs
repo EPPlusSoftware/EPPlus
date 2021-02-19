@@ -1951,15 +1951,5 @@ namespace EPPlusTest
                 await pck.SaveAsAsync(fi);
             }
         }
-        [TestMethod]
-        public void CellMetaDataIssue()
-        {
-            using (var p = OpenTemplatePackage("MetaData.xlsx"))
-            {
-                ExcelWorksheet sheet = p.Workbook.Worksheets.First();
-                sheet.InsertRow(1, 1);
-                SaveAndCleanup(p);
-            }
-        }
     }
 }

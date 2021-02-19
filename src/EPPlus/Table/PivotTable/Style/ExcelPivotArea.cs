@@ -125,10 +125,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                //if(value && (PivotAreaType==ePivotAreaType.Data || PivotAreaType == ePivotAreaType.Normal || PivotAreaType==ePivotAreaType.Origin || PivotAreaType==ePivotAreaType.TopEnd))
-                //{
-                //    throw (new InvalidOperationException("Can't set LabelOnly to True for the PivotAreaType"));
-                //}
                 if(value && DataOnly)
                 {
                     DataOnly = false;

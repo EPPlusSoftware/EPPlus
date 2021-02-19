@@ -11,6 +11,7 @@
   12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -19,7 +20,7 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         XmlHelper _xmlHelper;
         ExcelPivotTable _pt;
-        public ExcelPivotAreaReferenceCollection(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt)
+        internal ExcelPivotAreaReferenceCollection(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt)
         {
             _xmlHelper = XmlHelperFactory.Create(nsm, topNode);
             _pt = pt;
@@ -32,6 +33,10 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var n = _xmlHelper.CreateNode("d:references");
             var rn=_xmlHelper.CreateNode(n, "d:reference", true);
+            if(pivotTable!=_pt)
+            {
+                throw new InvalidOperationException("The pivot table field is from another pivot table.");
+            }
             var r =new ExcelPivotAreaReference(_xmlHelper.NameSpaceManager, rn, pivotTable, fieldIndex);            
             _list.Add(r);
             return r;

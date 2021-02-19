@@ -178,5 +178,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _list[Index];
             }
         }
+        /// <summary>
+        /// Returns the zero-based index of the item.
+        /// </summary>
+        /// <param name="item">The item</param>
+        /// <returns>the zero-based index of the item in the list</returns>
+        internal int IndexOf(T item)
+        {
+            return _list.IndexOf(item);
+        }
     }
 }

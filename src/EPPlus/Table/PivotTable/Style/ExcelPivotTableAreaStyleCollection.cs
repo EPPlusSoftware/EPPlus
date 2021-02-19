@@ -101,7 +101,6 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 PivotAreaType = ePivotAreaType.FieldButton,
                 FieldIndex = field.Index,
-                FieldPosition = 0,
                 LabelOnly = true,
                 DataOnly = false,
                 Outline = false
@@ -110,14 +109,17 @@ namespace OfficeOpenXml.Table.PivotTable
             if (field.IsColumnField)
             {
                 s.Axis = ePivotTableAxis.ColumnAxis;
+                s.FieldPosition = _pt.ColumnFields.IndexOf(field);
             }
             else if (field.IsRowField)
             {
                 s.Axis = ePivotTableAxis.RowAxis;
+                s.FieldPosition = _pt.RowFields.IndexOf(field);
             }
             else if (field.IsPageField)
             {
                 s.Axis = ePivotTableAxis.PageAxis;
+                s.FieldPosition = _pt.PageFields.IndexOf(field);
             }
 
             _list.Add(s);
@@ -205,15 +207,20 @@ namespace OfficeOpenXml.Table.PivotTable
         /// Adds a style for filter boxes.
         /// </summary>
         /// <param name="axis">The axis for the field buttons</param>
+        /// <param name="index">The zero-based index in the axis collection</param>
         /// <returns></returns>
-        public ExcelPivotTableAreaStyle AddButtonField(ePivotTableAxis axis)
+        public ExcelPivotTableAreaStyle AddButtonField(ePivotTableAxis axis, int index=0)
         {
+            if(index <0)
+            {
+                throw new ArgumentException("Index must be positive", "index");
+            }
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
             {
                 PivotAreaType = ePivotAreaType.FieldButton,
                 FieldIndex = 0,
-                FieldPosition = 0,
+                FieldPosition = index,
                 LabelOnly = true,
                 DataOnly = false,
                 Outline = false,
