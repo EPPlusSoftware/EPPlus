@@ -116,7 +116,30 @@ namespace EPPlusTest.FormulaParsing
 
             }
         }
-        
+        [TestMethod]
+        public void ValidateCalcChainCrossWorkSheet()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws1 = package.Workbook.Worksheets.Add("sheet1");
+                var ws2 = package.Workbook.Worksheets.Add("sheet2");
+                ws1.Cells["A1"].Formula = "sheet2!A1+A2";
+                ws1.Cells["A2"].Formula = "1+2";
+                ws2.Cells["A1"].Formula = "1+1";
+                var dc=package.Workbook.FormulaParserManager.GetCalculationChain(ws1.Cells["A1"]);
+                Assert.AreEqual(3, dc.Count());
+
+                Assert.AreEqual("sheet2", dc.ElementAt(0).Worksheet);
+                Assert.AreEqual("A1", dc.ElementAt(0).Address);
+
+                Assert.AreEqual("sheet1", dc.ElementAt(1).Worksheet);
+                Assert.AreEqual("A2", dc.ElementAt(1).Address);
+
+                Assert.AreEqual("sheet1", dc.ElementAt(2).Worksheet);
+                Assert.AreEqual("A1", dc.ElementAt(2).Address);
+
+            }
+        }
         //[TestMethod]
         //public void ShouldFindAndParseCondFormat()
         //{
