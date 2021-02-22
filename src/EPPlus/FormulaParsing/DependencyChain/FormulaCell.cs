@@ -29,6 +29,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal int tokenIx = 0;
         internal int addressIx = 0;
         internal CellStoreEnumerator<object> iterator;
+        internal ExcelWorksheet iteratorWs;
         internal ExcelWorksheet ws;
     }
 }

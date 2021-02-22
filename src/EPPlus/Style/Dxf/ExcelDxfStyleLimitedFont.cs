@@ -54,6 +54,9 @@ namespace OfficeOpenXml.Style.Dxf
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
             base.CreateNodes(helper, path);
         }
+        /// <summary>
+        /// If the object has any properties set
+        /// </summary>
         public override bool HasValue
         {
             get
@@ -69,6 +72,9 @@ namespace OfficeOpenXml.Style.Dxf
                 Font.SetStyle();
             }
         }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             base.Clear();

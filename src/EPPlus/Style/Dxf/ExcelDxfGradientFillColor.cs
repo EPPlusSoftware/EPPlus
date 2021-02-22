@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Style.Dxf
         public ExcelDxfColor Color { get; internal set; }
 
         /// <summary>
-        /// If the style has any value set
+        /// If the object has any properties set
         /// </summary>
         public override bool HasValue
         {

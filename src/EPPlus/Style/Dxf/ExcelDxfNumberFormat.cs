@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Style.Dxf
             SetValue(helper, path + "/@formatCode", Format);
         }
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
         public override bool HasValue
         {
@@ -127,6 +127,9 @@ namespace OfficeOpenXml.Style.Dxf
                 return !string.IsNullOrEmpty(Format) && NumFmtID!=0; 
             }
         }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             Format = null;

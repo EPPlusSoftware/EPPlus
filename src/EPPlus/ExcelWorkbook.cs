@@ -1487,7 +1487,7 @@ namespace OfficeOpenXml
 				pivotCaches.AppendChild(item);
 			}
 
-			if (cacheReference.CacheSource == eSourceType.Worksheet)
+			if (cacheReference.CacheSource == eSourceType.Worksheet && cacheReference.SourceRange!=null)
 			{
 				var fullAddress = cacheReference.SourceRange.FullAddress;
 				if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))

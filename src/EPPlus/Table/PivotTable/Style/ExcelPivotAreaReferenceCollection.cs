@@ -16,6 +16,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// A collection of pivot area references. A pivot area reference is a reference to a column, row field or a data field
+    /// </summary>
     public class ExcelPivotAreaReferenceCollection : EPPlusReadOnlyList<ExcelPivotAreaReference>
     {
         XmlHelper _xmlHelper;
@@ -25,10 +28,21 @@ namespace OfficeOpenXml.Table.PivotTable
             _xmlHelper = XmlHelperFactory.Create(nsm, topNode);
             _pt = pt;
         }
+        /// <summary>
+        /// Adds a pivot table field to the collection. The field is usually a column or row field
+        /// </summary>
+        /// <param name="field">The column or row field</param>
+        /// <returns>The pivot area reference</returns>
         public ExcelPivotAreaReference Add(ExcelPivotTableField field)
         {
             return Add(field._pivotTable, field.Index);
         }
+        /// <summary>
+        /// Adds a pivot table field to the collection. The field is usually a column or row field
+        /// </summary>
+        /// <param name="pivotTable">The pivot table</param>
+        /// <param name="fieldIndex">The index of the pivot table field</param>
+        /// <returns></returns>
         public ExcelPivotAreaReference Add(ExcelPivotTable pivotTable, int fieldIndex)
         {
             var n = _xmlHelper.CreateNode("d:references");

@@ -14,6 +14,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// Base class for pivot area references
+    /// </summary>
     public abstract class ExcelPivotAreaReferenceBase : XmlHelper
     {
         internal protected ExcelPivotTable _pt;
@@ -47,6 +50,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+        /// <summary>
+        /// If this field has selection. This property is used when the pivot table is in outline view. It is also used when both header and data cells have selection.
+        /// </summary>
         public bool Selected 
         {
             get
@@ -58,6 +64,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@selected", value);
             }
         }
+        /// <summary>
+        /// If the item is referred to by a relative reference rather than an absolute reference.
+        /// </summary>
         internal bool Relative 
         { 
             get
@@ -69,6 +78,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@relative", value);
             }
         }
+        /// <summary>
+        /// Whether the item is referred to by position rather than item index.
+        /// </summary>
         internal bool ByPosition 
         {
             get
@@ -81,6 +93,9 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         internal abstract void UpdateXml();
+        /// <summary>
+        /// If the default subtotal is included in the filter.
+        /// </summary>
         public bool DefaultSubtotal 
         { 
             get
@@ -92,6 +107,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@defaultSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the Average aggregation function is included in the filter.
+        /// </summary>
         public bool AvgSubtotal
         {
             get
@@ -103,6 +121,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@avgSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the Count aggregation function is included in the filter.
+        /// </summary>
         public bool CountSubtotal
         {
             get
@@ -114,6 +135,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@countSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the CountA aggregation function is included in the filter.
+        /// </summary>
         public bool CountASubtotal
         {
             get
@@ -125,6 +149,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@countASubtotal", value);
             }
         }
+        /// <summary>
+        /// If the Maximum aggregation function is included in the filter.
+        /// </summary>
         public bool MaxSubtotal
         {
             get
@@ -136,6 +163,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@maxSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the Minimum aggregation function is included in the filter.
+        /// </summary>
         public bool MinSubtotal
         {
             get
@@ -147,6 +177,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@minSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the Product aggregation function is included in the filter.
+        /// </summary>
         public bool ProductSubtotal
         {
             get
@@ -158,6 +191,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@productSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the population standard deviation aggregation function is included in the filter.
+        /// </summary>
         public bool StdDevPSubtotal
         {
             get
@@ -169,6 +205,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@StdDevPSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the standard deviation aggregation function is included in the filter.
+        /// </summary>
         public bool StdDevSubtotal
         {
             get
@@ -180,6 +219,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@StdDevSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the sum aggregation function is included in the filter.
+        /// </summary>
         public bool SumSubtotal
         {
             get
@@ -191,6 +233,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@sumSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the population variance aggregation function is included in the filter.
+        /// </summary>
         public bool VarPSubtotal
         {
             get
@@ -202,6 +247,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@varPSubtotal", value);
             }
         }
+        /// <summary>
+        /// If the variance aggregation function is included in the filter.
+        /// </summary>
         public bool VarSubtotal
         {
             get

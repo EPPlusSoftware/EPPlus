@@ -28,6 +28,9 @@ namespace OfficeOpenXml.Style.Dxf
             Colors = new ExcelDxfGradientFillColorCollection(styles, callback);
         }
 
+        /// <summary>
+        /// If the object has any properties set
+        /// </summary>
         public override bool HasValue
         {
             get
@@ -43,6 +46,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         } 
 
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             Degree = null;
@@ -52,6 +58,9 @@ namespace OfficeOpenXml.Style.Dxf
             Bottom = null;
             Colors.Clear();
         }
+        /// <summary>
+        /// A collection of colors and percents for the gradient fill
+        /// </summary>
         public ExcelDxfGradientFillColorCollection Colors 
         { 
             get;
@@ -70,6 +79,9 @@ namespace OfficeOpenXml.Style.Dxf
             };
         }
         eDxfGradientFillType? _gradientType;
+        /// <summary>
+        /// Type of gradient fill
+        /// </summary>
         public eDxfGradientFillType? GradientType 
         { 
             get
@@ -83,6 +95,10 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         double? _degree;
+
+        /// <summary>
+        /// Angle of the linear gradient
+        /// </summary>
         public double? Degree
         {
             get
@@ -96,6 +112,10 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         double? _left;
+
+        /// <summary>
+        /// The left position of the inner rectangle (color 1). 
+        /// </summary>
         public double? Left
         {
             get
@@ -110,6 +130,9 @@ namespace OfficeOpenXml.Style.Dxf
         }
 
         double? _right;
+        /// <summary>
+        /// The right position of the inner rectangle (color 1). 
+        /// </summary>
         public double? Right
         {
             get
@@ -124,6 +147,9 @@ namespace OfficeOpenXml.Style.Dxf
         }
 
         double? _top;
+        /// <summary>
+        /// The top position of the inner rectangle (color 1). 
+        /// </summary>
         public double? Top
         {
             get
@@ -137,6 +163,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         double? _bottom;
+        /// <summary>
+        /// The bottom position of the inner rectangle (color 1). 
+        /// </summary>
         public double? Bottom
         {
             get

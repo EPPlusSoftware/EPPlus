@@ -20,6 +20,9 @@ using System.Collections;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// A reference to a field in a pivot area 
+    /// </summary>
     public class ExcelPivotAreaReference : ExcelPivotAreaReferenceBase
     {
         internal ExcelPivotAreaReference(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, int fieldIndex = -1) : base(nsm, topNode, pt)
@@ -38,7 +41,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         var ix = int.Parse(n.Attributes["v"].Value);
                         if (ix < Field.Items.Count)
                         {
-                            Items.Add(new PivotCacheItemReference() { Index = ix, Value = Field.Items[ix].Value });
+                            Items.Add(new PivotItemReference() { Index = ix, Value = Field.Items[ix].Value });
                         }
                     }
                 }
@@ -67,7 +70,7 @@ namespace OfficeOpenXml.Table.PivotTable
             if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
             {
                 var items = Field.Items;
-                foreach (PivotCacheItemReference r in Items)
+                foreach (PivotItemReference r in Items)
                 {
                     if (r.Index >= 0 && r.Index <= items.Count && r.Value.Equals(items[r.Index]))
                     {

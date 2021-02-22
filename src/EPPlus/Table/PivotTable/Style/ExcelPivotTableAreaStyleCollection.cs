@@ -7,12 +7,15 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// A collection of pivot areas used for styling a pivot table.
+    /// </summary>
     public class ExcelPivotTableAreaStyleCollection : EPPlusReadOnlyList<ExcelPivotTableAreaStyle>
     {
         ExcelStyles _styles;
         XmlHelper _xmlHelper;
         ExcelPivotTable _pt;
-        public ExcelPivotTableAreaStyleCollection(ExcelPivotTable pt)
+        internal ExcelPivotTableAreaStyleCollection(ExcelPivotTable pt)
         {
             _pt = pt;
             _styles = pt.WorkSheet.Workbook.Styles;
@@ -22,6 +25,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 _list.Add(s);
             }
         }
+        /// <summary>
+        /// Adds a pivot area style for labels or data.
+        /// </summary>
+        /// <returns></returns>
         public ExcelPivotTableAreaStyle Add()
         {
             var formatNode = GetTopNode();
@@ -31,7 +38,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         /// <summary>
-        /// Adds a style for the top right cells of the pivot table, to the right of any filter button, if reading order i set to Left-To-Right. 
+        /// Adds a pivot area style for the top right cells of the pivot table, to the right of any filter button, if reading order i set to Left-To-Right. 
         /// </summary>
         /// <returns></returns>
         public ExcelPivotTableAreaStyle AddTopEnd()
@@ -126,19 +133,45 @@ namespace OfficeOpenXml.Table.PivotTable
             return s;
         }
         /// <summary>
-        /// Adds a style that affects the whole table.
+        /// Adds a pivot area style that affects the whole table.
         /// </summary>
         /// <returns>The style object used to set the styles</returns>
         public ExcelPivotTableAreaStyle AddWholeTable()
         {
             return AddAll(false, false);
         }
+        /// <summary>
+        /// Adds a pivot area style that affects all labels
+        /// </summary>
+        /// <returns>The style object used to set the styles</returns>
         public ExcelPivotTableAreaStyle AddAllLabels()
         {
             return AddAll(true, false);
         }
         /// <summary>
-        /// Adds a style for labels of a pivot table
+        /// Adds a pivot area style that affects all data cells
+        /// </summary>
+        /// <returns>The style object used to set the styles</returns>
+        public ExcelPivotTableAreaStyle AddAllData()
+        {
+            return AddAll(false, true);
+        }
+
+        internal ExcelPivotTableAreaStyle AddAll(bool labels, bool data)
+        {
+            var formatNode = GetTopNode();
+            var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
+            {
+                PivotAreaType = ePivotAreaType.All,
+                LabelOnly = labels,
+                DataOnly = data
+            };
+            _list.Add(s);
+            return s;
+        }
+
+        /// <summary>
+        /// Adds a style for the labels of a pivot table
         /// </summary>
         /// <param name="fields">The pivot table field that style affects</param>
         /// <returns></returns>
@@ -154,19 +187,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return s;
         }
-        //public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
-        //{
-        //    var s = Add();
-        //    s.LabelOnly = false;
-        //    s.FieldPosition = 0;
-        //    s.Outline = false;
-        //    foreach (var field in fields)
-        //    {
-        //        var r = s.AppliesTo.Add(_pt, field.Index);
-        //    }
-        //    return s;
-        //}
-
         /// <summary>
         /// Adds a style for the data area of a pivot table
         /// </summary>
@@ -186,23 +206,6 @@ namespace OfficeOpenXml.Table.PivotTable
             return s;
         }
 
-        public ExcelPivotTableAreaStyle AddAllData()
-        {
-            return AddAll(false, true);
-        }
-
-        internal ExcelPivotTableAreaStyle AddAll(bool labels, bool data)
-        {
-            var formatNode = GetTopNode();
-            var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
-            {
-                PivotAreaType = ePivotAreaType.All,
-                LabelOnly = labels,
-                DataOnly = data                
-            };
-            _list.Add(s);
-            return s;
-        }
         /// <summary>
         /// Adds a style for filter boxes.
         /// </summary>

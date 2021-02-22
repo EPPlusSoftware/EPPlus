@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Style.Dxf
             return new ExcelDxfColor(_styles, _styleClass, _callback) { Theme = Theme, Index = Index, Color = Color, Auto = Auto, Tint = Tint };
         }
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
         public override bool HasValue
         {
@@ -194,6 +194,9 @@ namespace OfficeOpenXml.Style.Dxf
                        Color != null;
             }
         }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             Theme = null;

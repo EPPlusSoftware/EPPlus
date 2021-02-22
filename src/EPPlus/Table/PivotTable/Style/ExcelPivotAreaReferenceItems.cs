@@ -16,7 +16,10 @@ using System.Linq;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
-    public class ExcelPivotAreaReferenceItems : EPPlusReadOnlyList<PivotCacheItemReference>
+    /// <summary>
+    /// A list of pivot item refernces
+    /// </summary>
+    public class ExcelPivotAreaReferenceItems : EPPlusReadOnlyList<PivotItemReference>
     {
         private ExcelPivotAreaReference _reference;
         internal ExcelPivotAreaReferenceItems(ExcelPivotAreaReference reference)
@@ -33,7 +36,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var items = _reference.Field.Cache.SharedItems.Count == 0 ? _reference.Field.Cache.GroupItems : _reference.Field.Cache.SharedItems;
                 if (items.Count > index)
                 {
-                    Add(new PivotCacheItemReference() { Index = index, Value = items[index] });
+                    Add(new PivotItemReference() { Index = index, Value = items[index] });
                 }
                 else
                 {
@@ -51,7 +54,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var index = _reference.Field.Items._list.FindIndex(x => x.Value.Equals(value));
             if (index >= 0)
             {
-                Add(new PivotCacheItemReference() { Index = index, Value = value });
+                Add(new PivotItemReference() { Index = index, Value = value });
                 return true;
             }
             return false;

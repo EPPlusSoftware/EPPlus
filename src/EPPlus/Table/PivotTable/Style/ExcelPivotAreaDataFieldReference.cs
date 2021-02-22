@@ -18,6 +18,9 @@ using System.Collections;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// A collection of data fields used in a pivot area selection
+    /// </summary>
     public class ExcelPivotAreaDataFieldReference : ExcelPivotAreaReferenceBase, IEnumerable<ExcelPivotTableDataField>
     {
         List<ExcelPivotTableDataField> _dataFields = new List<ExcelPivotTableDataField>();
@@ -38,6 +41,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+        /// <summary>
+        /// The indexer
+        /// </summary>
+        /// <param name="index">The zero-based index of the collection</param>
+        /// <returns></returns>
         public ExcelPivotTableDataField this[int index]
         {
             get
@@ -45,6 +53,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 return _dataFields[index];
             }
         }
+        /// <summary>
+        /// Number of items in the collection
+        /// </summary>
         public int Count 
         { 
             get
@@ -56,6 +67,10 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _dataFields.Add(item);
         }
+        /// <summary>
+        /// Adds the data field at the specific index
+        /// </summary>
+        /// <param name="index"></param>
         public void Add(int index)
         {
             if (index >= 0 && index < _pt.DataFields.Count)
@@ -67,6 +82,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 throw new IndexOutOfRangeException("Index is out of range for referenced data field.");
             }
         }
+        /// <summary>
+        /// Adds a data field from the pivot table to the pivot area
+        /// </summary>
+        /// <param name="field"></param>
         public void Add(ExcelPivotTableDataField field)
         {
             if (field == null)
@@ -114,12 +133,19 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }            
         }
-
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ExcelPivotTableDataField> GetEnumerator()
         {
             return ((IEnumerable<ExcelPivotTableDataField>)_dataFields).GetEnumerator();
         }
 
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
+        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)_dataFields).GetEnumerator();

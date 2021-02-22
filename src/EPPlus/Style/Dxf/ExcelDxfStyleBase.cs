@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Style.Dxf
         }
 
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
         public override bool HasValue
         {
@@ -99,6 +99,9 @@ namespace OfficeOpenXml.Style.Dxf
                 return  NumberFormat.HasValue || Fill.HasValue || Border.HasValue; 
             }
         }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             NumberFormat.Clear();

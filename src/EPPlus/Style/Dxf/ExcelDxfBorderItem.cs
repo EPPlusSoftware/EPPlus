@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueColor(helper, path + "/d:color", Color);
         }
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
         public override bool HasValue
         {
@@ -81,6 +81,9 @@ namespace OfficeOpenXml.Style.Dxf
                 return Style != null || Color.HasValue;
             }
         }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             Style = null;

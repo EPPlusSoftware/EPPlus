@@ -77,6 +77,9 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
+        /// <summary>
+        /// Fill style for a differential style record
+        /// </summary>
         public eDxfFillStyle Style
         {
             get
@@ -125,7 +128,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
         public override bool HasValue
         {

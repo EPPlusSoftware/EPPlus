@@ -90,7 +90,7 @@ namespace OfficeOpenXml.FormulaParsing
             var id = ExcelCellBase.GetCellID(ws==null?0:ws.SheetId, name.Index, 0);
             if (!depChain.index.ContainsKey(id))
             {
-                var f = new FormulaCell() { SheetID = ws == null ? 0 : ws.SheetId, Row = name.Index, Column = 0, Formula=name.NameFormula };
+                var f = new FormulaCell() { ws=ws,SheetID = ws == null ? 0 : ws.SheetId, Row = name.Index, Column = 0, Formula=name.NameFormula };
                 if (!string.IsNullOrEmpty(f.Formula))
                 {
                     f.Tokens = lexer.Tokenize(f.Formula, (ws==null ? null : ws.Name)).ToList();
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static void GetChain(DependencyChain depChain, ILexer lexer, ExcelWorksheet ws, string formula, ExcelCalculationOption options)
         {
-            var f = new FormulaCell() { SheetID = ws.SheetId, Row = -1, Column = -1 };
+            var f = new FormulaCell() { ws = ws, SheetID = ws.SheetId, Row = -1, Column = -1 };
             f.Formula = formula;
             if (!string.IsNullOrEmpty(f.Formula))
             {
@@ -129,7 +129,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var id = ExcelCellBase.GetCellID(ws.SheetId, fs.Row, fs.Column);
                 if (!depChain.index.ContainsKey(id))
                 {
-                    var f = new FormulaCell() { SheetID = ws.SheetId, Row = fs.Row, Column = fs.Column };
+                    var f = new FormulaCell() { ws = ws, SheetID = ws.SheetId, Row = fs.Row, Column = fs.Column };
                     if (fs.Value is int)
                     {
                         f.Formula = ws._sharedFormulas[(int)fs.Value].GetFormula(fs.Row, fs.Column, ws.Name);
@@ -168,6 +168,7 @@ namespace OfficeOpenXml.FormulaParsing
                 if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                 {
                     var adr = new ExcelFormulaAddress(t.Value, f.ws??ws);
+handleAddress:
                     if (adr.Table != null)
                     {
                         adr.SetRCFromTable(ws._package, new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column));
@@ -186,23 +187,23 @@ namespace OfficeOpenXml.FormulaParsing
                     {                        
                         if (string.IsNullOrEmpty(adr.WorkSheetName))
                         {
-                            if (f.ws == null)
+                            if (f.iteratorWs == null)
                             {
-                                f.ws = ws;
+                                f.iteratorWs = ws;
                             }
                             else if (f.ws.SheetId != f.SheetID)
                             {
-                                f.ws = wb.Worksheets.GetBySheetID(f.SheetID);
+                                f.iteratorWs = wb.Worksheets.GetBySheetID(f.SheetID);
                             }
                         }
                         else
                         {
-                            f.ws = wb.Worksheets[adr.WorkSheetName];
+                            f.iteratorWs = wb.Worksheets[adr.WorkSheetName];
                         }
 
-                        if (f.ws != null)
+                        if (f.iteratorWs != null)
                         {
-                            f.iterator = new CellStoreEnumerator<object>(f.ws._formulas, adr.Start.Row, adr.Start.Column, adr.End.Row, adr.End.Column);
+                            f.iterator = new CellStoreEnumerator<object>(f.iteratorWs._formulas, adr.Start.Row, adr.Start.Column, adr.End.Row, adr.End.Column);
                             goto iterateCells;
                         }
                     }
@@ -230,7 +231,7 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             name = null;
                         }
-                        if(name != null) f.ws = name.Worksheet;                        
+                        if(name != null) f.iteratorWs = name.Worksheet;                        
                     }
                     else if (wb.Names.ContainsKey(adrName))
                     {
@@ -252,7 +253,8 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             if (name.NameValue == null)
                             {
-                                f.iterator = new CellStoreEnumerator<object>(f.ws._formulas, name.Start.Row,
+                                f.iteratorWs = name.Worksheet;
+                                f.iterator= new CellStoreEnumerator<object>(f.iteratorWs._formulas, name.Start.Row,
                                     name.Start.Column, name.End.Row, name.End.Column);
                                 goto iterateCells;
                             }
@@ -265,7 +267,8 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 var rf = new FormulaCell() { SheetID = name.LocalSheetId, Row = name.Index, Column = 0 };
                                 rf.Formula = name.NameFormula;
-                                rf.Tokens = name.LocalSheetId == -1 ? lexer.Tokenize(rf.Formula).ToList() : lexer.Tokenize(rf.Formula, wb.Worksheets.GetBySheetID(name.LocalSheetId).Name).ToList();
+                                rf.iteratorWs = wb.Worksheets.GetBySheetID(name.LocalSheetId);
+                                rf.Tokens = name.LocalSheetId == -1 ? lexer.Tokenize(rf.Formula).ToList() : lexer.Tokenize(rf.Formula, rf.iteratorWs.Name).ToList();
                                 
                                 depChain.Add(rf);
                                 stack.Push(f);
@@ -303,25 +306,24 @@ namespace OfficeOpenXml.FormulaParsing
             }
             return;
         iterateCells:
-
             while (f.iterator != null && f.iterator.Next())
             {
                 var v = f.iterator.Value;
                 if (v == null || v.ToString().Trim() == "") continue;
-                var id = ExcelAddressBase.GetCellID(f.ws.SheetId, f.iterator.Row, f.iterator.Column);
+                var id = ExcelAddressBase.GetCellID(f.iteratorWs.SheetId, f.iterator.Row, f.iterator.Column);
                 if (!depChain.index.ContainsKey(id))
                 {
-                    var rf = new FormulaCell() { SheetID = f.ws.SheetId, Row = f.iterator.Row, Column = f.iterator.Column };
+                    var rf = new FormulaCell() { SheetID = f.iteratorWs.SheetId, Row = f.iterator.Row, Column = f.iterator.Column };
                     if (f.iterator.Value is int)
                     {
-                        rf.Formula = f.ws._sharedFormulas[(int)v].GetFormula(f.iterator.Row, f.iterator.Column, ws.Name);
+                        rf.Formula = f.iteratorWs._sharedFormulas[(int)v].GetFormula(f.iterator.Row, f.iterator.Column, f.iteratorWs.Name);
                     }
                     else
                     {
                         rf.Formula = v.ToString();
                     }
-                    rf.ws = f.ws;
-                    rf.Tokens = lexer.Tokenize(rf.Formula, f.ws.Name).ToList();
+                    rf.ws = f.iteratorWs;
+                    rf.Tokens = lexer.Tokenize(rf.Formula, f.iteratorWs.Name).ToList();
                     ws._formulaTokens.SetValue(rf.Row, rf.Column, rf.Tokens);
                     depChain.Add(rf);
                     stack.Push(f);
@@ -338,7 +340,7 @@ namespace OfficeOpenXml.FormulaParsing
                             //Check for circular references
                             foreach (var par in stack)
                             {
-                                if (ExcelAddressBase.GetCellID(par.ws.SheetId, par.iterator.Row, par.iterator.Column) == id ||
+                                if (ExcelAddressBase.GetCellID(par.iteratorWs.SheetId, par.iterator.Row, par.iterator.Column) == id ||
                                     ExcelAddressBase.GetCellID(par.SheetID, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
                                     if (options.AllowCircularReferences == false)

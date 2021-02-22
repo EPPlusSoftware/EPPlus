@@ -13,9 +13,18 @@
 
 namespace OfficeOpenXml.Table.PivotTable
 {
-    public struct PivotCacheItemReference
+    /// <summary>
+    /// A reference to a pivot table value item
+    /// </summary>
+    public struct PivotItemReference
     {
+        /// <summary>
+        /// The index of the item in items of the pivot table field
+        /// </summary>
         public int Index { get; internal set; }
+        /// <summary>
+        /// The value of the item
+        /// </summary>
         public object Value { get; internal set; }
     }
 }

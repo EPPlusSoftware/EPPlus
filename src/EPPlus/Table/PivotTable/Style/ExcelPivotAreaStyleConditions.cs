@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotAreaStyleConditions
     {
-        public ExcelPivotAreaStyleConditions(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt)
+        internal ExcelPivotAreaStyleConditions(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt)
         {
             Fields = new ExcelPivotAreaReferenceCollection(nsm, topNode, pt);
             var xh = XmlHelperFactory.Create(nsm, topNode);

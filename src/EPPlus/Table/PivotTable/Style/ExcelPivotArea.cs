@@ -161,7 +161,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// If any indexes refer to fields or items in the Pivot cache and not the view.
+        /// If any indexes refers to fields or items in the pivot cache and not the view.
         /// </summary>
         public bool CacheIndex
         {
@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// A Reference that specifies a subset of the selection area. Points are relative to the top left of the selection area.
+        /// A reference that specifies a subset of the selection area. Points are relative to the top left of the selection area.
         /// </summary>
         public string Offset
         {

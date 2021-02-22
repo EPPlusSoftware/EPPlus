@@ -137,7 +137,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         /// <summary>
-        /// If the font has a value
+        /// If the object has any properties set
         /// </summary>
         public override bool HasValue
         {
@@ -150,6 +150,9 @@ namespace OfficeOpenXml.Style.Dxf
                        Color.HasValue;
             }
         }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             Bold = null;

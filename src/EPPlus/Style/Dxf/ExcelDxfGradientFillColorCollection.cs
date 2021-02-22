@@ -27,11 +27,19 @@ namespace OfficeOpenXml.Style.Dxf
         {
             
         }
+        /// <summary>
+        /// Get the enumerator
+        /// </summary>
+        /// <returns>The enumerator</returns>
         public IEnumerator<ExcelDxfGradientFillColor> GetEnumerator()
         {
             return _lst.GetEnumerator();
         }
 
+        /// <summary>
+        /// Get the enumerator
+        /// </summary>
+        /// <returns>The enumerator</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _lst.GetEnumerator();

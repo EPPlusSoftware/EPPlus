@@ -14,9 +14,9 @@ using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
-    public static class PivotTableEnumExtentions
+    internal static class PivotTableEnumExtentions
     {
-        public static ePivotAreaType ToPivotAreaType(this string value)
+        internal static ePivotAreaType ToPivotAreaType(this string value)
         {
             if(value == "button")
             {
@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 return value.ToEnum(ePivotAreaType.Normal);
             }
         }
-        public static string ToPivotAreaTypeString(this ePivotAreaType value)
+        internal static string ToPivotAreaTypeString(this ePivotAreaType value)
         {
             if (value == ePivotAreaType.FieldButton)
             {
@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        public static ePivotTableAxis ToPivotTableAxis(this string value)
+        internal static ePivotTableAxis ToPivotTableAxis(this string value)
         {
             switch(value)
             {
@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     return ePivotTableAxis.None;
             }
         }
-        public static string ToPivotTableAxisString(this ePivotTableAxis value)
+        internal static string ToPivotTableAxisString(this ePivotTableAxis value)
         {
             switch (value)
             {

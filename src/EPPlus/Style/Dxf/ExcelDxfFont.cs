@@ -178,6 +178,9 @@ namespace OfficeOpenXml.Style.Dxf
                 VerticalAlign=VerticalAlign
             };
         }
+        /// <summary>
+        /// If the object has any properties set
+        /// </summary>
         public override bool HasValue
         {
             get
@@ -195,6 +198,9 @@ namespace OfficeOpenXml.Style.Dxf
 ;
             }
         }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
         public override void Clear()
         {
             base.Clear();

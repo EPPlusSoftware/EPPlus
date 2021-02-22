@@ -66,6 +66,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
+        /// <summary>
+        /// If the object has any properties set
+        /// </summary>
         public override bool HasValue
         {
             get

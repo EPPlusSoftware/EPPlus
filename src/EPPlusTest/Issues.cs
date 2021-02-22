@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -1757,15 +1757,15 @@ namespace EPPlusTest
         }
         [TestMethod]
         public void Issue309()
-        { 
+        {
             using (var p = OpenTemplatePackage("test1.xlsx"))
-            { 
+            {
                 p.Save();
             }
         }
         public void Issue274()
         {
-            using(var p=OpenPackage("Issue274.xlsx", true))
+            using (var p = OpenPackage("Issue274.xlsx", true))
             {
                 var worksheet = p.Workbook.Worksheets.Add("PayrollData");
 
@@ -1918,37 +1918,6 @@ namespace EPPlusTest
                 //sb.AppendLine("End Sub");
                 //p.Workbook.CodeModule.Code = sb.ToString();
                 SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public async Task Issue290()
-        {
-            using (ExcelPackage pck = new ExcelPackage())
-            {
-                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("customer");
-                ws.Cells["A1"].Value = "First Name";
-                ws.Cells["B1"].Value = "Last Name";
-                ws.Cells["C1"].Value = "Address1";
-                ws.Cells["D1"].Value = "Address2";
-                ws.Cells["E1"].Value = "City";
-                ws.Cells["F1"].Value = "State";
-                ws.Cells["G1"].Value = "Zip";
-                ws.Cells["H1"].Value = "Phone";
-
-                for(int col=9;col<32;col++)
-                {
-                    ws.Cells[ExcelCellBase.GetAddress(1,col)].Value = ExcelCellBase.GetAddress(1, col);
-                }
-
-                //keep writing data to I, J, K, L, etc
-
-                ws.Cells["AF1"].Value = "Hire Date";
-                ws.Cells["AG1"].Value = "Manager Name";
-                ws.Cells["AH1"].Value = "Manager Hire Date";
-                ws.Cells["AI1"].Value = "Simlcam Number";
-
-                FileInfo fi = new FileInfo("C:\\Test\\EPPlusWorkbook.xlsx");
-                await pck.SaveAsAsync(fi);
             }
         }
     }
