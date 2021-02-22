@@ -1775,5 +1775,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void PivotInsertIssue()
+        {
+            using (var p = OpenTemplatePackage("pivot_table_test.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets.First(pr => pr.Name == "Sheet1");
+                sheet1.InsertRow(3, 1);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
