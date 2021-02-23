@@ -1,5 +1,12 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.5.5
+### Fixed issues
+* Dependency chain sometimes drops refererences when cross-worksheet addresses are used with defined names in the formula parser.
+* ExcelWorksheetView ShowHeaders had an incorrect default value causing it not to work.
+* Fixed issue when EPPlus crashes on load if a pivot table uses an external source.
+* EPPlus will now preserve the 'cm' and 'vm' attributes of the sheet xml - 'c' element
+
 ## Version 5.5.4
 ### Fixed issues
 * Formula calculation returns 0 in some cases when Excel returns null/empty in for example the MIN and MAX functions

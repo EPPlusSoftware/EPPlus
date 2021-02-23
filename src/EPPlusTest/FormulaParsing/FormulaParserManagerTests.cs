@@ -140,6 +140,39 @@ namespace EPPlusTest.FormulaParsing
 
             }
         }
+        [TestMethod]
+        public void ValidateCalcChainCrossWorkSheet2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws1 = package.Workbook.Worksheets.Add("sheet1");
+                var ws2 = package.Workbook.Worksheets.Add("sheet2");
+                var ws3 = package.Workbook.Worksheets.Add("sheet3");
+                ws1.Cells["A1"].Formula = "1+C3";
+                ws1.SetFormula(3,3, "1+1");
+                ws2.Cells["A2"].Formula = "1+2";
+                ws2.Cells["A1"].Formula = "1+A2";
+                ws3.Cells["A1"].Formula = "sheet1!A1-A2+sheet2!A1";
+                ws3.SetValue("A2", 1);
+                var dc = package.Workbook.FormulaParserManager.GetCalculationChain(ws3.Cells["A1"]);
+                Assert.AreEqual(5, dc.Count());
+
+                Assert.AreEqual("sheet1", dc.ElementAt(0).Worksheet);
+                Assert.AreEqual("C3", dc.ElementAt(0).Address);
+
+                Assert.AreEqual("sheet1", dc.ElementAt(1).Worksheet);
+                Assert.AreEqual("A1", dc.ElementAt(1).Address);
+
+                Assert.AreEqual("sheet2", dc.ElementAt(2).Worksheet);
+                Assert.AreEqual("A2", dc.ElementAt(2).Address);
+
+                Assert.AreEqual("sheet2", dc.ElementAt(3).Worksheet);
+                Assert.AreEqual("A1", dc.ElementAt(3).Address);
+
+                Assert.AreEqual("sheet3", dc.ElementAt(4).Worksheet);
+                Assert.AreEqual("A1", dc.ElementAt(4).Address);
+            }
+        }
         //[TestMethod]
         //public void ShouldFindAndParseCondFormat()
         //{
