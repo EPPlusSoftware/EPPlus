@@ -20,7 +20,7 @@ namespace EPPlusTest.Table.PivotTable
         public static void Init(TestContext context)
         {
             InitBase();
-            _pck = OpenTemplatePackage("PivotTableReadStyle.xlsx");
+            _pck = OpenPackage("PivotTableReadStyle.xlsx");
         }
         [ClassCleanup]
         public static void Cleanup()
