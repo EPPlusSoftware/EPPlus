@@ -15,7 +15,7 @@ using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
-    /// Defines the pivot area effected by a style
+    /// Defines the pivot area affected by a style
     /// </summary>
     public enum ePivotAreaType
     {

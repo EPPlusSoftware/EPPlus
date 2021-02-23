@@ -15,7 +15,7 @@ using System.Xml;
 namespace OfficeOpenXml.Style.Dxf
 {
     /// <summary>
-    /// Differential formatting record used in conditional formatting
+    /// Differential formatting record with limited font settings
     /// </summary>
     public class ExcelDxfStyleLimitedFont : ExcelDxfStyleBase
     {

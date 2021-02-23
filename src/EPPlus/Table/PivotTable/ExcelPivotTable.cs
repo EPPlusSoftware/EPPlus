@@ -21,12 +21,12 @@ using OfficeOpenXml.Packaging;
 using System.Linq;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
-using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Style.Dxf;
 using System.IO;
 using System.Globalization;
+using OfficeOpenXml.Table.PivotTable.Filter;
 
 namespace OfficeOpenXml.Table.PivotTable
 {

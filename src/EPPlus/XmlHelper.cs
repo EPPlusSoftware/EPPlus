@@ -56,7 +56,7 @@ namespace OfficeOpenXml
         /// <param name="schemaNodeOrder">The order to start from </param>
         /// <param name="newItems">The new items</param>
         /// <returns>The new order</returns>
-        protected internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems)
+        internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems)
         {
             SchemaNodeOrder = CopyToSchemaNodeOrder(schemaNodeOrder, newItems);
         }
@@ -79,7 +79,7 @@ namespace OfficeOpenXml
         /// <param name="schemaNodeOrder">The order to start from </param>
         /// <param name="newItems">The new items</param>
         /// <param name="levels">Positions that defines levels in the xpath</param>
-        protected internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems, int[] levels)
+        internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems, int[] levels)
         {
             _levels = levels;
             SchemaNodeOrder = CopyToSchemaNodeOrder(schemaNodeOrder, newItems);
@@ -145,7 +145,7 @@ namespace OfficeOpenXml
         {
             return CreateNode(TopNode, path, insertFirst, addNew, exitName);
         }
-        protected XmlNode CreateAlternateContentNode(string elementName, string requires)
+        internal XmlNode CreateAlternateContentNode(string elementName, string requires)
         {
             return CreateNode(TopNode, elementName, false, false,"", requires);
         }
@@ -1239,7 +1239,7 @@ namespace OfficeOpenXml
                 LoadXmlSafe(xmlDoc, stream);
             }
         }
-        internal protected void CreatespPrNode(string nodePath = "c:spPr", bool withLine = true)
+        internal void CreatespPrNode(string nodePath = "c:spPr", bool withLine = true)
         {
             if (!ExistsNode(nodePath))
             {

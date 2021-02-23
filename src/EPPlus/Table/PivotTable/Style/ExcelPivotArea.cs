@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         /// <summary>
-        /// The pivot area effected.
+        /// The pivot area type that affecting the selection.
         /// </summary>
         public ePivotAreaType PivotAreaType
         {
@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// The region of the PivotTable effected.
+        /// The region of the PivotTable affected.
         /// </summary>
         public ePivotTableAxis Axis 
         { 
@@ -189,7 +189,8 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// A reference that specifies a subset of the selection area. Points are relative to the top left of the selection area.
+        /// A address in A1C1 format that specifies a subset of the selection area. Points are relative to the top left of the selection area.
+        /// The first cell is referenced as A1. For example, B1:C1 reference the second and third column of the first row of the pivot area.
         /// </summary>
         public string Offset
         {

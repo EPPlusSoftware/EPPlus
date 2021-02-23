@@ -54,7 +54,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         /// <summary>
         /// Gives access to the differencial styling (DXF) for the rule.
         /// </summary>
-        ExcelDxfStyleLimitedFont Style { get; }
+        ExcelDxfStyleConditionalFormatting Style { get; }
 
         /// <summary>
         /// Indicates that the conditional formatting is associated with a PivotTable

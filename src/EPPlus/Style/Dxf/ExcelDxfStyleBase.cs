@@ -150,5 +150,26 @@ namespace OfficeOpenXml.Style.Dxf
                 return ns;
             }
         }
+        internal ExcelDxfStyleConditionalFormatting ToDxfConditionalFormattingStyle()
+        {
+            if (this is ExcelDxfStyleConditionalFormatting s)
+            {
+                return s;
+            }
+            else
+            {
+                var ns = new ExcelDxfStyleConditionalFormatting(_styles.NameSpaceManager, null, _styles, _callback)
+                {
+                    Border = Border,
+                    Fill = Fill,
+                    NumberFormat = NumberFormat,
+                    DxfId = DxfId,
+                    Font = new ExcelDxfFontBase(_styles, _callback),
+                    _helper = _helper
+                };
+                ns.Font.GetValuesFromXml(_helper);
+                return ns;
+            }
+        }
     }
 }
