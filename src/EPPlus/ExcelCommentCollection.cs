@@ -27,7 +27,7 @@ namespace OfficeOpenXml
     public class ExcelCommentCollection : IEnumerable, IDisposable
     {
         //internal RangeCollection _comments;
-        List<ExcelComment> _list=new List<ExcelComment>();
+        internal List<ExcelComment> _list=new List<ExcelComment>();
         List<int> _listIndex = new List<int>();
 
         internal ExcelCommentCollection(ExcelPackage pck, ExcelWorksheet ws, XmlNamespaceManager ns)
@@ -265,7 +265,9 @@ namespace OfficeOpenXml
             {
                 comment.TopNode.ParentNode.RemoveChild(comment.TopNode); //Remove VML
                 comment._commentHelper.TopNode.ParentNode.RemoveChild(comment._commentHelper.TopNode); //Remove Comment
-
+                var ix = _list.IndexOf(comment);
+                _list[ix] = null;
+                _listIndex.Remove(ix);
             }
         }
         /// <summary>

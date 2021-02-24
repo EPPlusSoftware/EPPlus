@@ -1389,7 +1389,7 @@ namespace OfficeOpenXml
                 {
                     if (_worksheet._commentsStore.Exists(_fromRow, _fromCol, ref i))
                     {
-                        return _worksheet._comments[i] as ExcelComment;
+                        return _worksheet._comments._list[i];
                     }
                 }
                 return null;

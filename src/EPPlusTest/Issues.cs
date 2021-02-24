@@ -1763,6 +1763,7 @@ namespace EPPlusTest
                 p.Save();
             }
         }
+        [TestMethod]
         public void Issue274()
         {
             using (var p = OpenPackage("Issue274.xlsx", true))
@@ -1917,6 +1918,17 @@ namespace EPPlusTest
                 //sb.AppendLine("    ActiveSheet.PivotTables(\"ByEmployee\").PivotFields(\"HomeOffice\").ShowDetail = False");
                 //sb.AppendLine("End Sub");
                 //p.Workbook.CodeModule.Code = sb.ToString();
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void DeleteCommentIssue()
+        {
+            using (var p = OpenTemplatePackage("CommentDelete.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["S3"];
+                ws.DeleteRow(2);
+                ws.DeleteRow(2);
                 SaveAndCleanup(p);
             }
         }
