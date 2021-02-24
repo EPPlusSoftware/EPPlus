@@ -390,7 +390,7 @@ namespace OfficeOpenXml
         }
         #region Public Properties
         /// <summary>
-        /// The styleobject for the range.
+        /// The style object for the range.
         /// </summary>
         public ExcelStyle Style
         {
@@ -1325,7 +1325,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Delete the range from the worksheet and shift effected cells in the selected direction.
+        /// Delete the range from the worksheet and shift affected cells in the selected direction.
         /// </summary>
         /// <param name="shift">The direction that the cells will shift.</param>
         public void Delete(eShiftTypeDelete shift)

@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Drawing
             if (isInit==false)
             {
                 isInit = true;
-                if (!ExistNode(_xPath))
+                if (!ExistsNode(_xPath))
                 {
                     X = 0;
                     Y = 0;

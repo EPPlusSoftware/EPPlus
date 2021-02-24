@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                 ContentType = contentType;
             }
             SourceRectangle = new ExcelDrawingRectangle(_xml, "a:srcRect/", 0);
-            Stretch = _xml.ExistNode("a:stretch");
+            Stretch = _xml.ExistsNode("a:stretch");
             if (Stretch)
             {
                 StretchOffset = new ExcelDrawingRectangle(_xml, "a:stretch/a:fillRect/", 0);

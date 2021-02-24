@@ -75,6 +75,22 @@ namespace OfficeOpenXml.Table.PivotTable
             _field.PageFieldSettings.SelectedItem = -1;
         }
         /// <summary>
+        /// Set the ShowDetails for all items.
+        /// </summary>
+        /// <param name="isExpanded">The value of true is set all items to be expanded. The value of false set all items to be collapsed</param>
+        public void ShowDetails(bool isExpanded=true)
+        {
+            if(!(_field.IsRowField || _field.IsColumnField))
+            {
+                //TODO: Add exception
+            }
+            if (_list.Count == 0) Refresh();
+            foreach (var item in _list)
+            {
+                item.ShowDetails= isExpanded;
+            }
+        }
+        /// <summary>
         /// Hide all items except the item at the supplied index
         /// </summary>
         public void SelectSingleItem(int index)
@@ -161,6 +177,15 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 return _list[Index];
             }
+        }
+        /// <summary>
+        /// Returns the zero-based index of the item.
+        /// </summary>
+        /// <param name="item">The item</param>
+        /// <returns>the zero-based index of the item in the list</returns>
+        internal int IndexOf(T item)
+        {
+            return _list.IndexOf(item);
         }
     }
 }

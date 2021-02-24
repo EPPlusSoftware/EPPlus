@@ -17,7 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace EPPlusTest.Table.PivotTable.Filter
+namespace OfficeOpenXml.Table.PivotTable.Filter
 {
     public abstract class ExcelPivotTableFilterBaseCollection : IEnumerable<ExcelPivotTableFilter>
     {

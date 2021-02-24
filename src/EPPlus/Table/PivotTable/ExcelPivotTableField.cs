@@ -21,10 +21,10 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing;
 using System.Text;
 using System.Collections;
-using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Table.PivotTable.Filter;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -661,7 +661,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get 
             {
-                if (_slicer == null && _pivotTable.WorkSheet.Workbook.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
+                if (_slicer == null && _pivotTable.WorkSheet.Workbook.ExistsNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerPivotTableUri}']"))
                 {
                     foreach (var ws in _pivotTable.WorkSheet.Workbook.Worksheets)
                     {

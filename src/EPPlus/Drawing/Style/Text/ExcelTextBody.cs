@@ -298,11 +298,11 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                if (ExistNode($"{_path}/a:normAutofit"))
+                if (ExistsNode($"{_path}/a:normAutofit"))
                 {
                     return eTextAutofit.NormalAutofit;
                 }
-                else if (ExistNode($"{_path}/a:spAutoFit"))
+                else if (ExistsNode($"{_path}/a:spAutoFit"))
                 {
                     return eTextAutofit.ShapeAutofit;
                 }

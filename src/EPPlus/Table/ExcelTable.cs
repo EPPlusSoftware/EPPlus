@@ -23,6 +23,7 @@ using OfficeOpenXml.Core.Worksheet;
 using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
+using OfficeOpenXml.Style.Dxf;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -32,7 +33,7 @@ namespace OfficeOpenXml.Table
     /// <summary>
     /// An Excel Table
     /// </summary>
-    public class ExcelTable : XmlHelper, IEqualityComparer<ExcelTable>
+    public class ExcelTable : ExcelTableDxfBase, IEqualityComparer<ExcelTable>
     {
         internal ExcelTable(Packaging.ZipPackageRelationship rel, ExcelWorksheet sheet) : 
             base(sheet.NameSpaceManager)
@@ -57,7 +58,6 @@ namespace OfficeOpenXml.Table
 
             TableXml = new XmlDocument();
             LoadXmlSafe(TableXml, GetStartXml(name, tblId), Encoding.UTF8); 
-            TopNode = TableXml.DocumentElement;
 
             Init();
 
@@ -76,6 +76,9 @@ namespace OfficeOpenXml.Table
         {
             TopNode = TableXml.DocumentElement;
             SchemaNodeOrder = new string[] { "autoFilter", "tableColumns", "tableStyleInfo" };
+            InitDxf(WorkSheet.Workbook.Styles, this, null);
+            TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+            HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -441,11 +444,17 @@ namespace OfficeOpenXml.Table
                             _cols[i].Name = v;
                         }
                     }
+                    HeaderRowStyle.SetStyle();
+                    foreach (var c in Columns)
+                    {
+                        c.HeaderRowStyle.SetStyle();
+                    }
                 }
                 else
                 {
                     SetXmlNodeString(HEADERROWCOUNT_PATH, "0");
                     DeleteAllNode(AUTOFILTER_ADDRESS_PATH);
+                    DataStyle.SetStyle();
                 }
             }
         }
@@ -567,10 +576,16 @@ namespace OfficeOpenXml.Table
                     if (value)
                     {
                         SetXmlNodeString(TOTALSROWCOUNT_PATH, "1");
+                        TotalsRowStyle.SetStyle();
+                        foreach (var c in Columns)
+                        {
+                            c.TotalsRowStyle.SetStyle();
+                        }
                     }
                     else
                     {
                         DeleteNode(TOTALSROWCOUNT_PATH);
+                        DataStyle.SetStyle();
                     }
                     WriteAutoFilter(value);
                 }
@@ -760,7 +775,6 @@ namespace OfficeOpenXml.Table
 
             }
         }
-
         /// <summary>
         /// Checkes if two tables are the same
         /// </summary>
@@ -787,7 +801,7 @@ namespace OfficeOpenXml.Table
         /// <returns></returns>
         public ExcelRangeBase AddRow(int rows = 1)
         {
-            return  InsertRow(int.MaxValue, rows);
+            return InsertRow(int.MaxValue, rows);
         }
         /// <summary>
         /// Inserts one or more rows before the specified position in the table.
@@ -805,6 +819,7 @@ namespace OfficeOpenXml.Table
             {
                 throw new ArgumentException("position", "rows can't be negative");
             }
+            var isFirstRow = position == 0;
             var subtact = ShowTotal ? 2 : 1;
             if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtact)
             {
@@ -814,19 +829,55 @@ namespace OfficeOpenXml.Table
             {
                 throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
             }
-            position++;
+            if(ShowHeader) position++;
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
 
-            WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);            
-            
-            if(range._toRow > _address._toRow)
-            {
-                Address = _address.AddRow(_address._toRow, rows);
+            WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
 
+            int copyFromRow = isFirstRow ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
+            if (range._toRow > _address._toRow)
+            {
+                Address = _address.AddRow(_address._toRow, rows);                
             }
+            CopyStylesFromRow(address, copyFromRow);    //Separate copy instead of using Insert paramter 3 as the first row should not copy the styles from the header row.
+
             return range;
         }
+
+        private void CopyStylesFromRow(string address, int copyRow)
+        {
+            var range = WorkSheet.Cells[address];
+            for (var col = range._fromCol; col <= range._toCol; col++)
+            {
+                var styleId = WorkSheet.Cells[copyRow, col].StyleID;
+                if (styleId != 0)
+                {
+                    for (int row = range._fromRow; row <= range._toRow; row++)
+                    {
+
+                        WorkSheet.SetStyleInner(row, col, styleId);
+                    }
+                }
+            }
+        }
+        private void CopyStylesFromColumn(string address, int copyColumn)
+        {
+            var range = WorkSheet.Cells[address];
+            for (int row = range._fromRow; row <= range._toRow; row++)
+            {
+                var styleId = WorkSheet.Cells[row, copyColumn].StyleID;
+                if (styleId != 0)
+                {
+                for (var col = range._fromCol; col <= range._toCol; col++)
+                {
+
+                        WorkSheet.SetStyleInner(row, col, styleId);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Deletes one or more rows at the specified position in the table.
         /// </summary>
@@ -888,8 +939,9 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow, _address._fromCol + position, _address._toRow, _address._fromCol + position + columns - 1);
             var range = new ExcelRangeBase(WorkSheet, address);
 
-            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, false);
+            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, true);
 
+            var copyFromCol = position == 0 ? position + columns : position-1;
             if (position == 0)
             {
                 Address = new ExcelAddressBase(_address._fromRow, _address._fromCol - columns, _address._toRow, _address._toCol);
@@ -898,7 +950,7 @@ namespace OfficeOpenXml.Table
             {
                 Address = _address.AddColumn(_address._toCol, columns);
             }
-
+            
             return range;
         }
         /// <summary>
@@ -930,5 +982,29 @@ namespace OfficeOpenXml.Table
 
             return range;
         }
+        internal int? HeaderRowBorderDxfId
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@headerRowBorderDxfId");
+            }
+            set
+            {
+                SetXmlNodeInt("@headerRowBorderDxfId", value);
+            }
+        }
+        public ExcelDxfBorderBase HeaderRowBorderStyle { get; set; }
+        internal int? TableBorderDxfId
+        {
+            get
+            {
+                return GetXmlNodeIntNull("@tableBorderDxfId");
+            }
+            set
+            {
+                SetXmlNodeInt("@tableBorderDxfId", value);
+            }
+        }
+        public ExcelDxfBorderBase TableBorderStyle { get; set; }
     }
 }

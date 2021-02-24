@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Drawing.Chart
             var np = string.Format(_xSeriesPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:numRef");
             var sp= string.Format(_xSeriesPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:strRef");
 
-            if(ExistNode(sp))
+            if(ExistsNode(sp))
             {
                 _xSeriesPath = sp;
             }

@@ -285,25 +285,25 @@ namespace OfficeOpenXml.Drawing.Chart
             Series.Init(chart, ns, node, isPivot, base.Series._list);
 
             //Up bars
-            if (ExistNode(_upBarPath))
+            if (ExistsNode(_upBarPath))
             {
                 _upBar = new ExcelChartStyleItem(ns, node, this, _upBarPath, RemoveUpBar);
             }
 
             //Down bars
-            if (ExistNode(_downBarPath))
+            if (ExistsNode(_downBarPath))
             {
                 _downBar = new ExcelChartStyleItem(ns, node, this, _downBarPath, RemoveDownBar);
             }
 
             //Drop lines
-            if (ExistNode(_dropLinesPath))
+            if (ExistsNode(_dropLinesPath))
             {
                 _dropLines = new ExcelChartStyleItem(ns, node, this, _dropLinesPath, RemoveDropLines);
             }
 
             //High / low lines
-            if (ExistNode(_hiLowLinesPath))
+            if (ExistsNode(_hiLowLinesPath))
             {
                 _hiLowLines = new ExcelChartStyleItem(ns, node, this, _hiLowLinesPath, RemoveHiLowLines);
             }

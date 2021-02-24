@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                if(ExistNode("cx:nf"))
+                if(ExistsNode("cx:nf"))
                 {
                     return GetXmlNodeString("cx:nf");
                 }
@@ -97,7 +97,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         { 
             get
             {
-                if (ExistNode("cx:nf"))
+                if (ExistsNode("cx:nf"))
                 {
                     return GetXmlNodeString("cx:nf/@dir").ToEnum<eFormulaDirection>(eFormulaDirection.Column);
                 }

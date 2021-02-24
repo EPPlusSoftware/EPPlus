@@ -835,7 +835,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else
                 {
-                    if (!_chartXmlHelper.ExistNode("../../../c:style"))
+                    if (!_chartXmlHelper.ExistsNode("../../../c:style"))
                     {
                         XmlElement element = ChartXml.CreateElement("c:style", ExcelPackage.schemaChart);
                         element.SetAttribute("val", ((int)value).ToString());

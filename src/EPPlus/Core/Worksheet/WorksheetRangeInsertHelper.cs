@@ -56,11 +56,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
 
                 var range = ws.Cells[rowFrom, 1, rowFrom+rows-1, ExcelPackage.MaxColumns];
-                var effectedAddress = GetEffectedRange(range, eShiftTypeInsert.Down);
-                InsertFilterAddress(range, effectedAddress, eShiftTypeInsert.Down);
-                InsertSparkLinesAddress(range, eShiftTypeInsert.Down, effectedAddress);
-                InsertDataValidation(range, eShiftTypeInsert.Down, effectedAddress, ws);
-                InsertConditionalFormatting(range, eShiftTypeInsert.Down, effectedAddress, ws);
+                var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
+                InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
+                InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
+                InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws);
+                InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws);
                 
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
@@ -106,11 +106,11 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                 }
                 var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
-                var effectedAddress = GetEffectedRange(range, eShiftTypeInsert.Right);
-                InsertFilterAddress(range, effectedAddress, eShiftTypeInsert.Right);
-                InsertSparkLinesAddress(range, eShiftTypeInsert.Right, effectedAddress);
-                InsertDataValidation(range, eShiftTypeInsert.Right, effectedAddress, ws);
-                InsertConditionalFormatting(range, eShiftTypeInsert.Right, effectedAddress, ws);
+                var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Right);
+                InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Right);
+                InsertSparkLinesAddress(range, eShiftTypeInsert.Right, affectedAddress);
+                InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws);
+                InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws);
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
@@ -120,8 +120,8 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             ValidateInsert(range, shift);
 
-            var effectedAddress = GetEffectedRange(range, shift);
-            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), true);
+            var effectedAddress = GetAffectedRange(range, shift);
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetAffectedRange(range, shift, 1), true);
 
             var ws = range.Worksheet;
             lock (ws)
@@ -451,7 +451,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static ExcelAddressBase GetEffectedRange(ExcelRangeBase range, eShiftTypeInsert shift, int? start=null)
+        private static ExcelAddressBase GetAffectedRange(ExcelRangeBase range, eShiftTypeInsert shift, int? start=null)
         {
             if (shift == eShiftTypeInsert.Down)
             {                

@@ -19,7 +19,7 @@ using System;
 using System.Globalization;
 using System.Xml;
 
-namespace EPPlusTest.Table.PivotTable.Filter
+namespace OfficeOpenXml.Table.PivotTable.Filter
 {
     /// <summary>
     /// Defines a pivot table filter

@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Drawing.Style.ThreeD
             else if(hasInit==false)
             {
                 hasInit = true;
-                if (!ExistNode(_cameraPath))
+                if (!ExistsNode(_cameraPath))
                 {
                     Camera.CameraType = ePresetCameraType.OrthographicFront;
                     LightRig.RigType = eRigPresetType.ThreePt;

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -21,15 +22,17 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// The border style of a drawing in a differential formatting record
     /// </summary>
-    public class ExcelDxfBorderBase : DxfStyleBase<ExcelDxfBorderBase>
+    public class ExcelDxfBorderBase : DxfStyleBase
     {
-        internal ExcelDxfBorderBase(ExcelStyles styles)
-            : base(styles)
+        internal ExcelDxfBorderBase(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
+            : base(styles, callback)
         {
-            Left=new ExcelDxfBorderItem(_styles);
-            Right = new ExcelDxfBorderItem(_styles);
-            Top = new ExcelDxfBorderItem(_styles);
-            Bottom = new ExcelDxfBorderItem(_styles);
+            Left = new ExcelDxfBorderItem(_styles, eStyleClass.BorderLeft, callback);
+            Right = new ExcelDxfBorderItem(_styles, eStyleClass.BorderRight, callback);
+            Top = new ExcelDxfBorderItem(_styles, eStyleClass.BorderTop, callback);
+            Bottom = new ExcelDxfBorderItem(_styles, eStyleClass.BorderBottom, callback);
+            Vertical = new ExcelDxfBorderItem(_styles, eStyleClass.Border, callback);
+            Horizontal = new ExcelDxfBorderItem(_styles, eStyleClass.Border, callback);
         }
         /// <summary>
         /// Left border style
@@ -63,6 +66,22 @@ namespace OfficeOpenXml.Style.Dxf
             get;
             internal set;
         }
+        /// <summary>
+        /// Horizontal border style
+        /// </summary>
+        public ExcelDxfBorderItem Horizontal
+        {
+            get;
+            internal set;
+        }
+        /// <summary>
+        /// Vertical border style
+        /// </summary>
+        public ExcelDxfBorderItem Vertical
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// The Id
@@ -71,7 +90,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return Top.Id + Bottom.Id + Left.Id + Right.Id/* + Diagonal.Id + GetAsString(DiagonalUp) + GetAsString(DiagonalDown)*/;
+                return Top.Id + Bottom.Id + Left.Id + Right.Id + Vertical.Id + Horizontal.Id;
             }
         }
 
@@ -86,27 +105,101 @@ namespace OfficeOpenXml.Style.Dxf
             Right.CreateNodes(helper, path + "/d:right");
             Top.CreateNodes(helper, path + "/d:top");
             Bottom.CreateNodes(helper, path + "/d:bottom");
+            Vertical.CreateNodes(helper, path + "/d:vertical");
+            Horizontal.CreateNodes(helper, path + "/d:horizontal");
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                Left.SetStyle();
+                Right.SetStyle();
+                Top.SetStyle();
+                Bottom.SetStyle();
+            }
+        }
+
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get 
             {
                 return Left.HasValue ||
                     Right.HasValue ||
                     Top.HasValue ||
-                    Bottom.HasValue;
+                    Bottom.HasValue||
+                    Vertical.HasValue ||
+                    Horizontal.HasValue;
             }
+        }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
+        public override void Clear()
+        {
+            Left.Clear();
+            Right.Clear();
+            Top.Clear();
+            Bottom.Clear();
+            Vertical.Clear();
+            Horizontal.Clear();
         }
         /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfBorderBase Clone()
+        protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfBorderBase(_styles) { Bottom = Bottom.Clone(), Top=Top.Clone(), Left=Left.Clone(), Right=Right.Clone() };
+            return new ExcelDxfBorderBase(_styles, _callback) 
+            { 
+                Bottom = (ExcelDxfBorderItem)Bottom.Clone(), 
+                Top= (ExcelDxfBorderItem)Top.Clone(), 
+                Left= (ExcelDxfBorderItem)Left.Clone(), 
+                Right= (ExcelDxfBorderItem)Right.Clone(),
+                Vertical = (ExcelDxfBorderItem)Vertical.Clone(),
+                Horizontal = (ExcelDxfBorderItem)Horizontal.Clone(),
+            };
         }
+        protected internal override void SetValuesFromXml(XmlHelper helper)
+        {
+            if (helper.ExistsNode("d:border"))
+            {
+                Left = GetBorderItem(helper, "d:border/d:left", eStyleClass.BorderLeft);
+                Right = GetBorderItem(helper, "d:border/d:right", eStyleClass.BorderLeft);
+                Bottom = GetBorderItem(helper, "d:border/d:bottom", eStyleClass.BorderLeft);
+                Top = GetBorderItem(helper, "d:border/d:top", eStyleClass.BorderLeft);
+                Vertical = GetBorderItem(helper, "d:border/d:vertical", eStyleClass.Border);
+                Horizontal = GetBorderItem(helper, "d:border/d:horizontal", eStyleClass.Border);
+            }
+        }
+        private ExcelDxfBorderItem GetBorderItem(XmlHelper helper, string path, eStyleClass styleClass)
+        {
+            ExcelDxfBorderItem bi = new ExcelDxfBorderItem(_styles, styleClass, _callback);
+            var exists = helper.ExistsNode(path);
+            if (exists)
+            {
+                var style = helper.GetXmlNodeString(path + "/@style");
+                bi.Style = GetBorderStyleEnum(style);
+                bi.Color = GetColor(helper, path + "/d:color", styleClass);
+            }
+            return bi;
+        }
+        private static ExcelBorderStyle GetBorderStyleEnum(string style)
+        {
+            if (style == "") return ExcelBorderStyle.Hair;
+            string sInStyle = style.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + style.Substring(1, style.Length - 1);
+            try
+            {
+                return (ExcelBorderStyle)Enum.Parse(typeof(ExcelBorderStyle), sInStyle);
+            }
+            catch
+            {
+                return ExcelBorderStyle.None;
+            }
+
+        }
+
     }
 }

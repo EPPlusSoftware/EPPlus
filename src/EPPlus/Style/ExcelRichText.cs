@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return ExistNode(BOLD_PATH);
+                return ExistsNode(BOLD_PATH);
             }
             set
             {
@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Style
             get
             {
                 //return GetXmlNodeBool(ITALIC_PATH, false);
-                return ExistNode(ITALIC_PATH);
+                return ExistsNode(ITALIC_PATH);
             }
             set
             {
@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return ExistNode(STRIKE_PATH);
+                return ExistsNode(STRIKE_PATH);
             }
             set
             {
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                return ExistNode(UNDERLINE_PATH);
+                return ExistsNode(UNDERLINE_PATH);
             }
             set
             {

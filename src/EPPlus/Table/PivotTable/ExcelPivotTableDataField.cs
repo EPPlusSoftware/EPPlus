@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Xml;
-using EPPlusTest.Table.PivotTable.Filter;
 using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Table.PivotTable

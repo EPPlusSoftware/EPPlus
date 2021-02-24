@@ -23,13 +23,14 @@ namespace OfficeOpenXml.Table
     /// <summary>
     /// A table column
     /// </summary>
-    public class ExcelTableColumn : XmlHelper
+    public class ExcelTableColumn : ExcelTableDxfBase
     {
         internal ExcelTable _tbl;
         internal ExcelTableColumn(XmlNamespaceManager ns, XmlNode topNode, ExcelTable tbl, int pos) :
             base(ns, topNode)
         {
             _tbl = tbl;
+            InitDxf(tbl.WorkSheet.Workbook.Styles, null, this);
             Position = pos;
         }
         /// <summary>
@@ -201,7 +202,7 @@ namespace OfficeOpenXml.Table
                 if (_slicer == null)
                 {
                     var wb = _tbl.WorkSheet.Workbook;
-                    if (wb.ExistNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerTableUri}']"))
+                    if (wb.ExistsNode($"d:extLst/d:ext[@uri='{ExtLstUris.WorkbookSlicerTableUri}']"))
                     {
                         foreach (var ws in wb.Worksheets)
                         {

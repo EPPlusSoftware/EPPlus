@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Xml;
 
-namespace EPPlusTest.Table.PivotTable.Filter
+namespace OfficeOpenXml.Table.PivotTable.Filter
 {
     /// <summary>
     /// A collection of pivot filters for a pivot table

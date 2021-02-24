@@ -21,9 +21,9 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// A numberformat in a differential formatting record
     /// </summary>
-    public class ExcelDxfNumberFormat : DxfStyleBase<ExcelDxfNumberFormat>
+    public class ExcelDxfNumberFormat : DxfStyleBase
     {
-        internal ExcelDxfNumberFormat(ExcelStyles styles) : base(styles)
+        internal ExcelDxfNumberFormat(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
         {
 
         }
@@ -87,6 +87,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 _format = value;
                 NumFmtID = ExcelNumberFormat.GetFromBuildIdFromFormat(value);
+                _callback?.Invoke(eStyleClass.Numberformat, eStyleProperty.Format, value);
             }
         }
 
@@ -117,22 +118,49 @@ namespace OfficeOpenXml.Style.Dxf
             SetValue(helper, path + "/@formatCode", Format);
         }
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get 
             { 
-                return !string.IsNullOrEmpty(Format); 
+                return !string.IsNullOrEmpty(Format) && NumFmtID!=0; 
             }
+        }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
+        public override void Clear()
+        {
+            Format = null;
+            NumFmtID = int.MinValue;
         }
         /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfNumberFormat Clone()
+        protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfNumberFormat(_styles) { NumFmtID = NumFmtID, Format = Format };
+            return new ExcelDxfNumberFormat(_styles, _callback) { NumFmtID = NumFmtID, Format = Format };
+        }
+        protected internal override void SetValuesFromXml(XmlHelper helper)
+        {
+            if (helper.ExistsNode("d:numFmt"))
+            {
+                NumFmtID = helper.GetXmlNodeInt("d:numFmt/@numFmtId");
+                Format = helper.GetXmlNodeString("d:numFmt/@formatCode");
+                if (NumFmtID < 164 && string.IsNullOrEmpty(Format))
+                {
+                    Format = ExcelNumberFormat.GetFromBuildInFromID(NumFmtID);
+                }
+            }
+        }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                _callback?.Invoke(eStyleClass.Numberformat, eStyleProperty.Format, _format);
+            }
         }
     }
 }

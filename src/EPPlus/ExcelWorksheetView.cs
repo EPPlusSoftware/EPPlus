@@ -394,7 +394,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetXmlNodeBool("@showRowColHeaders");
+                return GetXmlNodeBool("@showRowColHeaders", true);
             }
             set
             {

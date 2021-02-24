@@ -12,16 +12,14 @@
  *************************************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Style;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml
 {
@@ -58,7 +56,7 @@ namespace OfficeOpenXml
         /// <param name="schemaNodeOrder">The order to start from </param>
         /// <param name="newItems">The new items</param>
         /// <returns>The new order</returns>
-        protected internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems)
+        internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems)
         {
             SchemaNodeOrder = CopyToSchemaNodeOrder(schemaNodeOrder, newItems);
         }
@@ -81,7 +79,7 @@ namespace OfficeOpenXml
         /// <param name="schemaNodeOrder">The order to start from </param>
         /// <param name="newItems">The new items</param>
         /// <param name="levels">Positions that defines levels in the xpath</param>
-        protected internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems, int[] levels)
+        internal void AddSchemaNodeOrder(string[] schemaNodeOrder, string[] newItems, int[] levels)
         {
             _levels = levels;
             SchemaNodeOrder = CopyToSchemaNodeOrder(schemaNodeOrder, newItems);
@@ -101,7 +99,18 @@ namespace OfficeOpenXml
                 return newOrder;
             }
         }
-
+        private void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute=null)
+        {
+            toElement.InnerXml = fromElement.InnerXml;
+            if (ignoreAttribute == null) return;
+            foreach (XmlAttribute a in fromElement.Attributes)
+            {
+                if (ignoreAttribute.Contains(a.Name))
+                {
+                    toElement.SetAttribute(a.Name, a.Value);
+                }
+            }
+        }
         internal XmlNode CreateNode(string path)
         {
             if (path == "")
@@ -116,6 +125,13 @@ namespace OfficeOpenXml
             else
                 return CreateNode(node, path, false, false,"");
         }
+        internal XmlNode CreateNode(XmlNode node, string path, bool addNew)
+        {
+            if (path == "")
+                return node;
+            else
+                return CreateNode(node, path, false, addNew, "");
+        }
 
         /// <summary>
         /// Create the node path. Nodes are inserted according to the Schema node order
@@ -129,7 +145,7 @@ namespace OfficeOpenXml
         {
             return CreateNode(TopNode, path, insertFirst, addNew, exitName);
         }
-        protected XmlNode CreateAlternateContentNode(string elementName, string requires)
+        internal XmlNode CreateAlternateContentNode(string elementName, string requires)
         {
             return CreateNode(TopNode, elementName, false, false,"", requires);
         }
@@ -735,6 +751,21 @@ namespace OfficeOpenXml
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }
+        internal void SetXmlNodeLong(string path, long? d, CultureInfo ci = null, bool allowNegative = true)
+        {
+            if (d == null)
+            {
+                DeleteNode(path);
+            }
+            else
+            {
+                if (allowNegative == false && d.Value < 0)
+                {
+                    throw new ArgumentException("Negative value not permitted");
+                }
+                SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
+            }
+        }
 
         internal void SetXmlNodeString(string path, string value)
         {
@@ -868,7 +899,7 @@ namespace OfficeOpenXml
                 DeleteNode(path);
             }
         }
-        internal bool ExistNode(string path)
+        internal bool ExistsNode(string path)
         {
             if (TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
             {
@@ -887,6 +918,23 @@ namespace OfficeOpenXml
                 return null;
             }
             return GetXmlNodeBool(path);
+        }
+        internal bool? GetXmlNodeBoolNullableWithVal(string path)
+        {
+            var node = GetNode(path);
+            if (node==null)
+            {
+                return null;
+            }
+            var value = node.Attributes["val"];
+            if (value==null)
+            {
+                return true;
+            }       
+            else
+            {
+                return value.Value == "1" || value.Value == "-1" || value.Value.StartsWith("t", StringComparison.OrdinalIgnoreCase);
+            }
         }
         internal bool GetXmlNodeBool(string path)
         {
@@ -1092,6 +1140,19 @@ namespace OfficeOpenXml
             }
             return uri;
         }
+        internal T? GetXmlEnumNull<T>(string path, T? defaultValue=null) where T : struct, Enum
+        {
+            var v = GetXmlNodeString(path);
+            if(string.IsNullOrEmpty(v))
+            {
+                return defaultValue;
+            }
+            else
+            {
+                return v.ToEnum(default(T));
+            }
+        }
+
         internal double? GetXmlNodePercentage(string path)
         {
             double d;
@@ -1178,9 +1239,9 @@ namespace OfficeOpenXml
                 LoadXmlSafe(xmlDoc, stream);
             }
         }
-        internal protected void CreatespPrNode(string nodePath = "c:spPr", bool withLine = true)
+        internal void CreatespPrNode(string nodePath = "c:spPr", bool withLine = true)
         {
-            if (!ExistNode(nodePath))
+            if (!ExistsNode(nodePath))
             {
                 var node = CreateNode(nodePath);
                 if (withLine)

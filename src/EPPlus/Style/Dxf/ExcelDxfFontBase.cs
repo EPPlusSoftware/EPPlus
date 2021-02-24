@@ -16,58 +16,89 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml;
+using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Style.Dxf
 {
     /// <summary>
     /// A base class for differential formatting font styles
     /// </summary>
-    public class ExcelDxfFontBase : DxfStyleBase<ExcelDxfFontBase>
+    public class ExcelDxfFontBase : DxfStyleBase
     {
-        internal ExcelDxfFontBase(ExcelStyles styles)
-            : base(styles)
+        internal ExcelDxfFontBase(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
+            : base(styles, callback)
         {
-            Color = new ExcelDxfColor(styles);
+            Color = new ExcelDxfColor(styles, eStyleClass.Font, callback);
         }
+        bool? _bold;
         /// <summary>
         /// Font bold
         /// </summary>
         public bool? Bold
         {
-            get;
-            set;
+            get
+            {
+                return _bold;
+            }
+            set
+            {
+                _bold = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Bold, value);
+            }
         }
+        bool? _italic;
         /// <summary>
         /// Font Italic
         /// </summary>
         public bool? Italic
         {
-            get;
-            set;
+            get
+            {
+                return _italic;
+            }
+            set
+            {
+                _italic = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Italic, value);
+            }
         }
+        bool? _strike;
         /// <summary>
         /// Font-Strikeout
         /// </summary>
-        public bool? Strike { get; set; }
-        //public float? Size { get; set; }
+        public bool? Strike
+        {
+            get
+            {
+                return _strike;
+            }
+            set
+            {
+                _strike = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.Strike, value);
+            }
+        }
         /// <summary>
         /// The color of the text
         /// </summary>
         public ExcelDxfColor Color { get; set; }
-        //public string Name { get; set; }
-        //public int? Family { get; set; }
-        ///// <summary>
-        ///// Font-Vertical Align
-        ///// </summary>
-        //public ExcelVerticalAlignmentFont? VerticalAlign
-        //{
-        //    get;
-        //    set;
-        //}
+        ExcelUnderLineType? _underline;
         /// <summary>
         /// The underline type
         /// </summary>
-        public ExcelUnderLineType? Underline { get; set; }
+        public ExcelUnderLineType? Underline
+        {
+            get
+            {
+                return _underline;
+            }
+            set
+            {
+                _underline = value;
+                _callback?.Invoke(eStyleClass.Font, eStyleProperty.UnderlineType, value);
+            }
+        }
 
         /// <summary>
         /// The id
@@ -76,7 +107,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color ==null ? "" : Color.Id) + "|" /*+ GetAsString(VerticalAlign) + "|"*/ + GetAsString(Underline);
+                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color == null ? "" : Color.Id) + "|" + GetAsString(Underline);
             }
         }
 
@@ -90,14 +121,25 @@ namespace OfficeOpenXml.Style.Dxf
             helper.CreateNode(path);
             SetValueBool(helper, path + "/d:b/@val", Bold);
             SetValueBool(helper, path + "/d:i/@val", Italic);
-            SetValueBool(helper, path + "/d:strike", Strike);
-            SetValue(helper, path + "/d:u/@val", Underline);
+            SetValueBool(helper, path + "/d:strike/@val", Strike);
+            SetValue(helper, path + "/d:u/@val", Underline==null?null:Underline.ToEnumString());
             SetValueColor(helper, path + "/d:color", Color);
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                _callback.Invoke(eStyleClass.Font, eStyleProperty.Bold, _bold);
+                _callback.Invoke(eStyleClass.Font, eStyleProperty.Italic, _italic);
+                _callback.Invoke(eStyleClass.Font, eStyleProperty.Strike, _strike);
+                _callback.Invoke(eStyleClass.Font, eStyleProperty.UnderlineType, Underline);
+                Color.SetStyle();
+            }
+        }
         /// <summary>
-        /// If the font has a value
+        /// If the object has any properties set
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get
             {
@@ -109,12 +151,55 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         /// <summary>
+        /// Clears all properties
+        /// </summary>
+        public override void Clear()
+        {
+            Bold = null;
+            Italic = null;
+            Strike = null;
+            Underline = null;
+            Color.Clear();
+        }
+        /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfFontBase Clone()
+        protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfFontBase(_styles) { Bold = Bold, Color = Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
+            return new ExcelDxfFontBase(_styles, _callback) { Bold = Bold, Color = (ExcelDxfColor)Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
+        }
+
+        internal void GetValuesFromXml(XmlHelperInstance helper)
+        {
+            if (helper.ExistsNode("d:font"))
+            {
+                Bold = helper.GetXmlNodeBoolNullableWithVal("d:font/d:b");
+                Italic = helper.GetXmlNodeBoolNullableWithVal("d:font/d:i");
+                Strike = helper.GetXmlNodeBoolNullableWithVal("d:font/d:strike");
+                Underline = GetUnderLine(helper);
+                Color = GetColor(helper, "d:font/d:color", eStyleClass.Font);
+            }
+        }
+
+        private ExcelUnderLineType? GetUnderLine(XmlHelperInstance helper)
+        {
+            if (helper.ExistsNode("d:font/d:u"))
+            {
+                var v = helper.GetXmlNodeString("d:font/d:u/@val");
+                if (string.IsNullOrEmpty(v))
+                {
+                    return ExcelUnderLineType.Single;
+                }
+                else
+                {
+                    return GetUnderLineEnum(v);
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

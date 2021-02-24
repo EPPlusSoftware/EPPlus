@@ -160,7 +160,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return ExistNode("d:fileSharing/@hashValue");
+                return ExistsNode("d:fileSharing/@hashValue");
             }
         }
         /// <summary>

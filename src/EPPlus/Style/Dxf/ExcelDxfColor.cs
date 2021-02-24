@@ -23,39 +23,100 @@ namespace OfficeOpenXml.Style.Dxf
     /// <summary>
     /// A color in a differential formatting record
     /// </summary>
-    public class ExcelDxfColor : DxfStyleBase<ExcelDxfColor>
+    public class ExcelDxfColor : DxfStyleBase
 
     {
-        internal ExcelDxfColor(ExcelStyles styles) : base(styles)
+        eStyleClass _styleClass;
+        internal ExcelDxfColor(ExcelStyles styles, eStyleClass styleClass, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
         {
-
+            _styleClass = styleClass;
         }
+        eThemeSchemeColor? _theme=null;
         /// <summary>
         /// Gets or sets a theme color
         /// </summary>
-        public eThemeSchemeColor? Theme { get; set; }
+        public eThemeSchemeColor? Theme 
+        { 
+            get
+            {
+                return _theme;
+            }
+            set
+            {
+                _theme = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.Theme, value);
+            }
+        }
+        int? _index;
         /// <summary>
         /// Gets or sets an indexed color
         /// </summary>
-        public int? Index { get; set; }
+        public int? Index
+        {
+            get
+            {
+                return _index;
+            }
+            set
+            {
+                _index = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.IndexedColor, value);
+            }
+        }
+        bool? _auto;
         /// <summary>
         /// Gets or sets the color to automativ
         /// </summary>
-        public bool? Auto { get; set; }
+        public bool? Auto
+        {
+            get
+            {
+                return _auto;
+            }
+            set
+            {
+                _auto = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.AutoColor, value);
+            }
+        }
+        double? _tint;
         /// <summary>
         /// Gets or sets the Tint value for the color
         /// </summary>
-        public double? Tint { get; set; }
+        public double? Tint
+        {
+            get
+            {
+                return _tint;
+            }
+            set
+            {
+                _tint = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.Tint, value);
+            }
+        }
+        Color? _color;
         /// <summary>
         /// Sets the color.
         /// </summary>
-        public Color? Color { get; set; }
+        public Color? Color 
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                _callback?.Invoke(_styleClass, eStyleProperty.Color, value);
+            }
+        }
         /// <summary>
         /// The Id
         /// </summary>
         protected internal override string Id
         {
-            get { return GetAsString(Theme) + "|" + GetAsString(Index) + "|" + GetAsString(Auto) + "|" + GetAsString(Tint) + "|" + GetAsString(Color==null ? "" : ((Color)Color.Value).ToArgb().ToString("x")); }
+            get { return GetAsString(Theme) + "|" + GetAsString(Index) + "|" + GetAsString(Auto) + "|" + GetAsString(Tint) + "|" + GetAsString(Color==null ? "" : Color.Value.ToArgb().ToString("x")); }
         }
         /// <summary>
         /// Set the color of the drawing
@@ -100,18 +161,29 @@ namespace OfficeOpenXml.Style.Dxf
             Index = null;
             Auto = true;
         }
+        internal override void SetStyle()
+        {
+            if (_callback != null)
+            {
+                _callback.Invoke(_styleClass, eStyleProperty.Color, _color);
+                _callback.Invoke(_styleClass, eStyleProperty.Theme, _theme);
+                _callback.Invoke(_styleClass, eStyleProperty.IndexedColor, _index);
+                _callback.Invoke(_styleClass, eStyleProperty.AutoColor, _auto);
+                _callback.Invoke(_styleClass, eStyleProperty.Tint, _tint);
+            }
+        }
         /// <summary>
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override ExcelDxfColor Clone()
+        protected internal override DxfStyleBase Clone()
         {
-            return new ExcelDxfColor(_styles) { Theme = Theme, Index = Index, Color = Color, Auto = Auto, Tint = Tint };
+            return new ExcelDxfColor(_styles, _styleClass, _callback) { Theme = Theme, Index = Index, Color = Color, Auto = Auto, Tint = Tint };
         }
         /// <summary>
-        /// If the object has a value
+        /// If the object has any properties set
         /// </summary>
-        protected internal override bool HasValue
+        public override bool HasValue
         {
             get
             {
@@ -121,6 +193,17 @@ namespace OfficeOpenXml.Style.Dxf
                        Tint != null ||
                        Color != null;
             }
+        }
+        /// <summary>
+        /// Clears all properties
+        /// </summary>
+        public override void Clear()
+        {
+            Theme = null;
+            Index = null;
+            Auto = null;
+            Tint = null;
+            Color = null;
         }
         /// <summary>
         /// Creates the the xml node

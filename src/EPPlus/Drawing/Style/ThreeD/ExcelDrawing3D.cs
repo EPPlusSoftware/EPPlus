@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Drawing.Style.ThreeD
             {
                 if (isInit == false)
                 {
-                    if (!ExistNode(_sp3dPath))
+                    if (!ExistsNode(_sp3dPath))
                     {
                         CreateNode(_sp3dPath);
                         Scene.InitXml(false);

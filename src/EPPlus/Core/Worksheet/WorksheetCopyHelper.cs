@@ -26,6 +26,7 @@ using OfficeOpenXml.VBA;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Style.Dxf;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -195,7 +196,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //Copy dfx styles used in conditional formatting.
             if (!sameWorkbook)
             {
-                CopyDxfStylesConditionalFormatting(Copy, added);
+                CopyDxfStyles(Copy, added);
             }
 
             added._package.DoAdjustDrawings = doAdjust;
@@ -589,23 +590,67 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-
-
-        private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet Copy, ExcelWorksheet added)
+        private static void CopyDxfStyles(ExcelWorksheet copy, ExcelWorksheet added)
         {
             var dxfStyleCashe = new Dictionary<string, int>();
-            for (var i = 0; i < Copy.ConditionalFormatting.Count; i++)
+            CopyDxfStylesTables(copy, added, dxfStyleCashe);
+            CopyDxfStylesPivotTables(copy, added, dxfStyleCashe);
+            CopyDxfStylesConditionalFormatting(copy, added, dxfStyleCashe);
+        }
+
+        private static void CopyDxfStylesTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
+        {
+            //Table formats
+            for(int i=0;i<copy.Tables.Count; i++)
             {
-                var cfSource = Copy.ConditionalFormatting[i];
+                var tblFrom = copy.Tables[i];
+                var tblTo = added.Tables[i];
+                if (tblFrom.HeaderRowStyle.HasValue) tblTo.HeaderRowStyle = (ExcelDxfStyle)tblFrom.HeaderRowStyle.Clone();
+                if (tblFrom.HeaderRowBorderStyle.HasValue) tblTo.HeaderRowBorderStyle = (ExcelDxfBorderBase)tblFrom.HeaderRowBorderStyle.Clone();
+                if (tblFrom.DataStyle.HasValue) tblTo.DataStyle = (ExcelDxfStyle)tblFrom.DataStyle.Clone();
+                if (tblFrom.TableBorderStyle.HasValue) tblTo.TableBorderStyle = (ExcelDxfBorderBase)tblFrom.TableBorderStyle.Clone();
+                if (tblFrom.TotalsRowStyle.HasValue) tblTo.TotalsRowStyle = (ExcelDxfStyle)tblFrom.TotalsRowStyle.Clone();
+                for (int c=0;c < tblFrom.Columns.Count;c++)
+                {
+                    var colFrom = tblFrom.Columns[c];
+                    var colTo = tblTo.Columns[c];
+                    if (colFrom.HeaderRowStyle.HasValue) colTo.HeaderRowStyle = (ExcelDxfStyle)colFrom.HeaderRowStyle.Clone();
+                    if (colFrom.DataStyle.HasValue) colTo.DataStyle = (ExcelDxfStyle)colFrom.DataStyle.Clone();
+                    if (colFrom.TotalsRowStyle.HasValue) colTo.TotalsRowStyle = (ExcelDxfStyle)colFrom.TotalsRowStyle.Clone();
+                }
+            }
+        }
+        private static void CopyDxfStylesPivotTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
+        {
+            //Table formats
+            foreach (var pt in copy.PivotTables)
+            {
+                foreach(var a in pt.Styles._list)
+                {
+                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, a.Style.DxfId);
+                }                
+            }
+
+            foreach (var pt in added.PivotTables)
+            {
+                foreach (var a in pt.Styles._list)
+                {
+                    a.Style.DxfId= dxfStyleCashe[a.Style.DxfId.ToString()];
+                }
+            }
+        }
+
+        private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
+        {
+            //Conditional Formatting
+            for (var i = 0; i < copy.ConditionalFormatting.Count; i++)
+            {
+                var cfSource = copy.ConditionalFormatting[i];
                 var dxfElement = ((XmlElement)cfSource.Node);
                 var dxfId = dxfElement.GetAttribute("dxfId");
                 if (ConvertUtil.TryParseIntString(dxfId, out int dxfIdInt))
                 {
-                    if (!dxfStyleCashe.ContainsKey(dxfId))
-                    {
-                        var s = added.Workbook.Styles.CloneDxfStyle(Copy.Workbook.Styles, dxfIdInt);
-                        dxfStyleCashe.Add(dxfId, s);
-                    }
+                    AppendDxf(copy.Workbook.Styles, added.Workbook.Styles, dxfStyleCashe, dxfIdInt);
                 }
             }
             var nodes = added.WorksheetXml.SelectNodes("//d:conditionalFormatting/d:cfRule", added.NameSpaceManager);
@@ -616,6 +661,16 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     cfRule.SetAttribute("dxfId", dxfStyleCashe[dxfId].ToString());
                 }
+            }
+        }
+
+        private static void AppendDxf(ExcelStyles stylesFrom, ExcelStyles stylesTo, Dictionary<string, int> dxfStyleCashe, int dxfId)
+        {
+            if (dxfId < 0) return;
+            if (!dxfStyleCashe.ContainsKey(dxfId.ToString()))
+            {
+                var s = DxfStyleHandler.CloneDxfStyle(stylesFrom, stylesTo, dxfId, ExcelStyles.DxfsPath);
+                dxfStyleCashe.Add(dxfId.ToString(), s);
             }
         }
 

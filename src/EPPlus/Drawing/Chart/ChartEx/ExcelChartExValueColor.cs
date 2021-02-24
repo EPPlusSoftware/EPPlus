@@ -53,11 +53,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                if(ExistNode($"{_positionPath}/cx:number"))
+                if(ExistsNode($"{_positionPath}/cx:number"))
                 {
                     return eColorValuePositionType.Number;
                 }
-                else if(ExistNode($"{_positionPath}/cx:percent"))
+                else if(ExistsNode($"{_positionPath}/cx:percent"))
                 {
                     return eColorValuePositionType.Percent;
                 }

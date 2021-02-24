@@ -430,7 +430,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return ExistNode(_majorGridlinesPath);
+                return ExistsNode(_majorGridlinesPath);
             }
         }
         /// <summary>
@@ -440,7 +440,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                return ExistNode(_minorGridlinesPath);
+                return ExistsNode(_minorGridlinesPath);
             }
         }        
         /// <summary> 

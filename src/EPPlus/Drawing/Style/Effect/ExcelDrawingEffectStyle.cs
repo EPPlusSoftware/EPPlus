@@ -185,7 +185,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
                 {
                     return (XmlElement)TopNode;
                 }
-                if (ExistNode(_path))
+                if (ExistsNode(_path))
                 {
                     return (XmlElement)GetNode(_path);
                 }
@@ -199,7 +199,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return ExistNode(_innerShadowPath);
+                return ExistsNode(_innerShadowPath);
             }
         }
         /// <summary>
@@ -209,7 +209,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return ExistNode(_outerShadowPath);
+                return ExistsNode(_outerShadowPath);
             }
         }
         /// <summary>
@@ -219,7 +219,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return ExistNode(_presetShadowPath);
+                return ExistsNode(_presetShadowPath);
             }
         }
         /// <summary>
@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return ExistNode(_blurPath);
+                return ExistsNode(_blurPath);
             }
         }
         /// <summary>
@@ -239,7 +239,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return ExistNode(_glowPath);
+                return ExistsNode(_glowPath);
             }
         }
         /// <summary>
@@ -249,7 +249,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return ExistNode(_fillOverlayPath);
+                return ExistsNode(_fillOverlayPath);
             }
         }
 

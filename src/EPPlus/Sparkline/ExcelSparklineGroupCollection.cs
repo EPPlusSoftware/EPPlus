@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Sparkline
         private ExcelSparklineGroup NewSparklineGroup()
         {
             var xh = new XmlHelperInstance(_ws.NameSpaceManager, _ws.WorksheetXml); //SelectSingleNode("/d:worksheet", _ws.NameSpaceManager)
-            if (!xh.ExistNode(_extPath + _searchPath))
+            if (!xh.ExistsNode(_extPath + _searchPath))
             {
                 var ext = xh.CreateNode(_extPath, false, true);
                 if (ext.Attributes["uri"] == null)

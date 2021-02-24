@@ -1756,12 +1756,167 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue299()
+        public void Issue309()
         {
-            using (var p = OpenTemplatePackage("Issue299.xlsm"))
+            using (var p = OpenTemplatePackage("test1.xlsx"))
             {
-                ExcelWorksheet sheet = p.Workbook.Worksheets.First();
-                sheet.Cells[13, 2].AddComment("my comment", "A.Shawky");//this line throws exception starting from EPPlus v5.5.0
+                p.Save();
+            }
+        }
+        public void Issue274()
+        {
+            using (var p = OpenPackage("Issue274.xlsx", true))
+            {
+                var worksheet = p.Workbook.Worksheets.Add("PayrollData");
+
+                //Add the headers
+                worksheet.Cells[1, 1].Value = "Employee";
+                worksheet.Cells[1, 2].Value = "HomeOffice";
+                worksheet.Cells[1, 3].Value = "JobNo";
+                worksheet.Cells[1, 4].Value = "Ordinary";
+                worksheet.Cells[1, 5].Value = "TimeHalf";
+                worksheet.Cells[1, 6].Value = "DoubleTime";
+                worksheet.Cells[1, 7].Value = "ProductiveHrs";
+                worksheet.Cells[1, 8].Value = "NonProductiveHrs";
+
+
+                int cnt = 2;
+                worksheet.Cells[cnt, 1].Value = "Steve";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "SW001";
+                worksheet.Cells[cnt, 4].Value = 12.0;
+                worksheet.Cells[cnt, 5].Value = 6.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 18.0;
+                worksheet.Cells[cnt, 8].Value = 0.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Steve";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "SW002";
+                worksheet.Cells[cnt, 4].Value = 7.0;
+                worksheet.Cells[cnt, 5].Value = 0.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 7.0;
+                worksheet.Cells[cnt, 8].Value = 0.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Steve";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "Admin";
+                worksheet.Cells[cnt, 4].Value = 4.0;
+                worksheet.Cells[cnt, 5].Value = 0.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 0.0;
+                worksheet.Cells[cnt, 8].Value = 4.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Peter";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "SW001";
+                worksheet.Cells[cnt, 4].Value = 12.0;
+                worksheet.Cells[cnt, 5].Value = 6.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 18.0;
+                worksheet.Cells[cnt, 8].Value = 0.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Peter";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "SW002";
+                worksheet.Cells[cnt, 4].Value = 7.0;
+                worksheet.Cells[cnt, 5].Value = 0.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 7.0;
+                worksheet.Cells[cnt, 8].Value = 0.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Peter";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "Admin";
+                worksheet.Cells[cnt, 4].Value = 4.0;
+                worksheet.Cells[cnt, 5].Value = 0.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 0.0;
+                worksheet.Cells[cnt, 8].Value = 4.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Brian";
+                worksheet.Cells[cnt, 2].Value = "Sydney";
+                worksheet.Cells[cnt, 3].Value = "SW001";
+                worksheet.Cells[cnt, 4].Value = 12.0;
+                worksheet.Cells[cnt, 5].Value = 6.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 18.0;
+                worksheet.Cells[cnt, 8].Value = 0.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Brian";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "SW002";
+                worksheet.Cells[cnt, 4].Value = 7.0;
+                worksheet.Cells[cnt, 5].Value = 0.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 7.0;
+                worksheet.Cells[cnt, 8].Value = 0.0;
+                cnt++;
+                worksheet.Cells[cnt, 1].Value = "Brian";
+                worksheet.Cells[cnt, 2].Value = "Binda";
+                worksheet.Cells[cnt, 3].Value = "Admin";
+                worksheet.Cells[cnt, 4].Value = 4.0;
+                worksheet.Cells[cnt, 5].Value = 0.0;
+                worksheet.Cells[cnt, 6].Value = 0.0;
+                worksheet.Cells[cnt, 7].Value = 0.0;
+                worksheet.Cells[cnt, 8].Value = 4.0;
+
+                cnt--;
+                using (var range = worksheet.Cells[1, 1, 1, 8])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(Color.DarkBlue);
+                    range.Style.Font.Color.SetColor(Color.White);
+                }
+                var dataRange = worksheet.Cells[1, 1, cnt, 8];
+                ExcelTableCollection tblcollection = worksheet.Tables;
+                ExcelTable table = tblcollection.Add(dataRange, "payrolldata");
+                table.ShowHeader = true;
+                table.ShowFilter = true;
+                var wsPivot = p.Workbook.Worksheets.Add("Employee-Job");
+                var pivotTable = wsPivot.PivotTables.Add(wsPivot.Cells["A3"], dataRange, "ByEmployee");
+                pivotTable.RowFields.Add(pivotTable.Fields["Employee"]);
+                var rowField1 = pivotTable.RowFields.Add(pivotTable.Fields["HomeOffice"]);
+                var rowField2 = pivotTable.RowFields.Add(pivotTable.Fields["JobNo"]);
+                var calcField1 = pivotTable.Fields.AddCalculatedField("Productive", "'ProductiveHrs'/('ProductiveHrs'+'NonProductiveHrs')*100");
+                calcField1.Format = "#,##0";
+                ExcelPivotTableDataField dataField;
+                dataField = pivotTable.DataFields.Add(pivotTable.Fields["Productive"]);
+                dataField.Format = "#,##0.0";
+                dataField.Name = "Productive2";
+
+                dataField = pivotTable.DataFields.Add(pivotTable.Fields["Ordinary"]);
+                dataField.Format = "#,##0.0";
+                dataField = pivotTable.DataFields.Add(pivotTable.Fields["TimeHalf"]);
+                dataField.Format = "#,##0.0";
+                dataField = pivotTable.DataFields.Add(pivotTable.Fields["DoubleTime"]);
+                dataField.Format = "#,##0.0";
+                dataField = pivotTable.DataFields.Add(pivotTable.Fields["ProductiveHrs"]);
+                dataField.Format = "#,##0.0";
+                dataField = pivotTable.DataFields.Add(pivotTable.Fields["NonProductiveHrs"]);
+                dataField.Format = "#,##0.0";
+                pivotTable.DataOnRows = false;
+                pivotTable.Compact = true;
+                pivotTable.CompactData = true;
+                pivotTable.OutlineData = true;
+                //pivotTable.ShowDrill = true;
+                //pivotTable.CacheDefinition.Refresh();
+                pivotTable.Fields["Employee"].Items.ShowDetails(false);
+                rowField1.Items.ShowDetails(false);
+                worksheet.Cells.AutoFitColumns(0);
+
+                // create macro's to collapse pivot table
+
+                //p.Workbook.CreateVBAProject();
+                //var sb = new StringBuilder();
+                //sb.AppendLine("Private Sub Workbook_Open()");
+                //sb.AppendLine("    Sheets(\"Employee-Job\").Select");
+                //sb.AppendLine("    ActiveSheet.PivotTables(\"ByEmployee\").PivotFields(\"Employee\").ShowDetail = False");
+                //sb.AppendLine("    ActiveSheet.PivotTables(\"ByEmployee\").PivotFields(\"HomeOffice\").ShowDetail = False");
+                //sb.AppendLine("End Sub");
+                //p.Workbook.CodeModule.Code = sb.ToString();
                 SaveAndCleanup(p);
             }
         }

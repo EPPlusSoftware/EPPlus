@@ -144,15 +144,15 @@ namespace OfficeOpenXml.Drawing.Theme
         {
             get
             {
-                if (ExistNode(BevelPath))
+                if (ExistsNode(BevelPath))
                 {
                     return eLineJoin.Bevel;
                 }
-                else if (ExistNode(RoundPath))
+                else if (ExistsNode(RoundPath))
                 {
                     return eLineJoin.Round;
                 }
-                else if (ExistNode(MiterPath))
+                else if (ExistsNode(MiterPath))
                 {
                     return eLineJoin.Miter;
                 }

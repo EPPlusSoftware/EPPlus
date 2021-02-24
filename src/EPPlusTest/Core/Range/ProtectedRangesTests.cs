@@ -90,7 +90,7 @@ namespace EPPlusTest.Core.Range
                 ws.ProtectedRanges.Remove(ws.ProtectedRanges[0]);
                 //Assert
                 Assert.AreEqual(0, ws.ProtectedRanges.Count);
-                Assert.IsFalse(ws.ProtectedRanges.ExistNode("d:protectedRanges"));
+                Assert.IsFalse(ws.ProtectedRanges.ExistsNode("d:protectedRanges"));
             }
         }
         [TestMethod]
@@ -104,7 +104,7 @@ namespace EPPlusTest.Core.Range
                 ws.ProtectedRanges.RemoveAt(0);
                 //Assert
                 Assert.AreEqual(0, ws.ProtectedRanges.Count);
-                Assert.IsFalse(ws.ProtectedRanges.ExistNode("d:protectedRanges"));
+                Assert.IsFalse(ws.ProtectedRanges.ExistsNode("d:protectedRanges"));
             }
         }
         [TestMethod]
@@ -120,7 +120,7 @@ namespace EPPlusTest.Core.Range
                 ws.ProtectedRanges.Clear();
                 //Assert
                 Assert.AreEqual(0, ws.ProtectedRanges.Count);
-                Assert.IsFalse(ws.ProtectedRanges.ExistNode("d:protectedRanges"));
+                Assert.IsFalse(ws.ProtectedRanges.ExistsNode("d:protectedRanges"));
             }
         }
 

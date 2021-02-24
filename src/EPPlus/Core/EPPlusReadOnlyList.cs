@@ -12,15 +12,15 @@ namespace OfficeOpenXml.Core
     public class EPPlusReadOnlyList<T> : IEnumerable<T>
     {
         internal List<T> _list=new List<T>();
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return _list.GetEnumerator();
+        }
         public IEnumerator GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
         public T this[int index]
         {
             get

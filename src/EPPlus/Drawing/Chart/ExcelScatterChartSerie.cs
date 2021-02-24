@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (IsMarkersAllowed())
             {
-                return ExistNode("c:marker");
+                return ExistsNode("c:marker");
             }
             return false;
         }

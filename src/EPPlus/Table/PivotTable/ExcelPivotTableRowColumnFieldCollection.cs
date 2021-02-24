@@ -15,7 +15,7 @@ using System;
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
-    /// Collection class for Row and column fields in a Pivottable 
+    /// Collection class for row and column fields in a Pivottable 
     /// </summary>
     public class ExcelPivotTableRowColumnFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>
     {

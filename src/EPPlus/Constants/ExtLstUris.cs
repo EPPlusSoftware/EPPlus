@@ -41,6 +41,10 @@ namespace OfficeOpenXml.Constants
         //Slicer in worksheet
         internal const string WorksheetSlicerPivotTableUri = "{A8765BA9-456A-4dab-B4F3-ACF838C121DE}";        
         internal const string WorksheetSlicerTableUri = "{3A4CF648-6AED-40f4-86FF-DC5316D8AED3}";
+
+        //Slicer styles
+        internal const string SlicerStylesDxfCollectionUri = "{46F421CA-312F-682f-3DD2-61675219B42D}";
+        internal const string SlicerStylesUri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}";
     }
 }
 

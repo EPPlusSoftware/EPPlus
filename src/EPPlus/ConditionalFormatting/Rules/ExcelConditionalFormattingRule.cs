@@ -104,7 +104,7 @@ namespace OfficeOpenXml.ConditionalFormatting
       if (DxfId >= 0 && DxfId < worksheet.Workbook.Styles.Dxfs.Count)
       {
           worksheet.Workbook.Styles.Dxfs[DxfId].AllowChange = true;  //This Id is referenced by CF, so we can use it when we save.
-          _style = worksheet.Workbook.Styles.Dxfs[DxfId].Clone();    //Clone, so it can be altered without effecting other dxf styles
+          _style = ((ExcelDxfStyleBase)worksheet.Workbook.Styles.Dxfs[DxfId].Clone()).ToDxfConditionalFormattingStyle();    //Clone, so it can be altered without affecting other dxf styles
       }
     }
 
@@ -356,7 +356,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             if (_style == null)
             {
-                _style = new ExcelDxfStyleConditionalFormatting(NameSpaceManager, null, _worksheet.Workbook.Styles);
+                _style = new ExcelDxfStyleConditionalFormatting(NameSpaceManager, null, _worksheet.Workbook.Styles, null);
             }
             return _style;
         }
@@ -621,6 +621,9 @@ namespace OfficeOpenXml.ConditionalFormatting
     }
 
     private ExcelConditionalFormattingAsType _as = null;
+    /// <summary>
+    /// Provides access to type conversion for all conditional formatting rules.
+    /// </summary>
     public ExcelConditionalFormattingAsType As 
     { 
         get

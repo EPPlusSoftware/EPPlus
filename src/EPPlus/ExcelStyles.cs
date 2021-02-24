@@ -23,32 +23,37 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style.Table;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing.Slicer.Style;
+using OfficeOpenXml.Table;
 
 namespace OfficeOpenXml
 {
-	/// <summary>
-	/// Containts all shared cell styles for a workbook
-	/// </summary>
+    /// <summary>
+    /// Containts all shared cell styles for a workbook
+    /// </summary>
     public sealed class ExcelStyles : XmlHelper
     {
-        const string NumberFormatsPath = "d:styleSheet/d:numFmts";
-        const string FontsPath = "d:styleSheet/d:fonts";
-        const string FillsPath = "d:styleSheet/d:fills";
-        const string BordersPath = "d:styleSheet/d:borders";
-        const string CellStyleXfsPath = "d:styleSheet/d:cellStyleXfs";
-        const string CellXfsPath = "d:styleSheet/d:cellXfs";
-        const string CellStylesPath = "d:styleSheet/d:cellStyles";
-        const string dxfsPath = "d:styleSheet/d:dxfs";
-
-        //internal Dictionary<int, ExcelXfs> Styles = new Dictionary<int, ExcelXfs>();
+        const string NumberFormatsPath = "d:numFmts";
+        const string FontsPath = "d:fonts";
+        const string FillsPath = "d:fills";
+        const string BordersPath = "d:borders";
+        const string CellStyleXfsPath = "d:cellStyleXfs";
+        const string CellXfsPath = "d:cellXfs";
+        const string CellStylesPath = "d:cellStyles";
+        const string TableStylesPath = "d:tableStyles";
+        internal const string DxfsPath = "d:dxfs";
+        internal const string DxfSlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesDxfCollectionUri + "']/x14:dxfs";
+        const string SlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesUri + "']/x14:slicerStyles";
         XmlDocument _styleXml;
         ExcelWorkbook _wb;
         XmlNamespaceManager _nameSpaceManager;
         internal int _nextDfxNumFmtID = 164;
         internal ExcelStyles(XmlNamespaceManager NameSpaceManager, XmlDocument xml, ExcelWorkbook wb) :
-            base(NameSpaceManager, xml)
-        {       
-            _styleXml=xml;
+            base(NameSpaceManager, xml.DocumentElement)
+        {
+            _styleXml = xml;
             _wb = wb;
             _nameSpaceManager = NameSpaceManager;
             SchemaNodeOrder = new string[] { "numFmts", "fonts", "fills", "borders", "cellStyleXfs", "cellXfs", "cellStyles", "dxfs" };
@@ -61,19 +66,19 @@ namespace OfficeOpenXml
         {
             //NumberFormats
             ExcelNumberFormatXml.AddBuildIn(NameSpaceManager, NumberFormats);
-            XmlNode numNode = _styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
+            XmlNode numNode = GetNode(NumberFormatsPath);
             if (numNode != null)
             {
                 foreach (XmlNode n in numNode)
                 {
                     ExcelNumberFormatXml nf = new ExcelNumberFormatXml(_nameSpaceManager, n);
                     NumberFormats.Add(nf.Id, nf);
-                    if (nf.NumFmtId >= NumberFormats.NextId) NumberFormats.NextId=nf.NumFmtId+1;
+                    if (nf.NumFmtId >= NumberFormats.NextId) NumberFormats.NextId = nf.NumFmtId + 1;
                 }
             }
 
             //Fonts
-            XmlNode fontNode = _styleXml.SelectSingleNode(FontsPath, _nameSpaceManager);
+            XmlNode fontNode = GetNode(FontsPath);
             foreach (XmlNode n in fontNode)
             {
                 ExcelFontXml f = new ExcelFontXml(_nameSpaceManager, n);
@@ -81,7 +86,7 @@ namespace OfficeOpenXml
             }
 
             //Fills
-            XmlNode fillNode = _styleXml.SelectSingleNode(FillsPath, _nameSpaceManager);
+            XmlNode fillNode = GetNode(FillsPath);
             foreach (XmlNode n in fillNode)
             {
                 ExcelFillXml f;
@@ -97,7 +102,7 @@ namespace OfficeOpenXml
             }
 
             //Borders
-            XmlNode borderNode = _styleXml.SelectSingleNode(BordersPath, _nameSpaceManager);
+            XmlNode borderNode = GetNode(BordersPath);
             foreach (XmlNode n in borderNode)
             {
                 ExcelBorderXml b = new ExcelBorderXml(_nameSpaceManager, n);
@@ -105,7 +110,7 @@ namespace OfficeOpenXml
             }
 
             //cellStyleXfs
-            XmlNode styleXfsNode = _styleXml.SelectSingleNode(CellStyleXfsPath, _nameSpaceManager);
+            XmlNode styleXfsNode = GetNode(CellStyleXfsPath);
             if (styleXfsNode != null)
             {
                 foreach (XmlNode n in styleXfsNode)
@@ -115,7 +120,7 @@ namespace OfficeOpenXml
                 }
             }
 
-            XmlNode styleNode = _styleXml.SelectSingleNode(CellXfsPath, _nameSpaceManager);
+            XmlNode styleNode = GetNode(CellXfsPath);
             for (int i = 0; i < styleNode.ChildNodes.Count; i++)
             {
                 XmlNode n = styleNode.ChildNodes[i];
@@ -124,7 +129,7 @@ namespace OfficeOpenXml
             }
 
             //cellStyle
-            XmlNode namedStyleNode = _styleXml.SelectSingleNode(CellStylesPath, _nameSpaceManager);
+            XmlNode namedStyleNode = GetNode(CellStylesPath);
             if (namedStyleNode != null)
             {
                 foreach (XmlNode n in namedStyleNode)
@@ -134,14 +139,77 @@ namespace OfficeOpenXml
                 }
             }
 
-            //dxfsPath
-            XmlNode dxfsNode = _styleXml.SelectSingleNode(dxfsPath, _nameSpaceManager);
-            if (dxfsNode != null)
+            DxfStyleHandler.Load(_wb, this, Dxfs, DxfsPath);
+            LoadTableStyles();
+            LoadSlicerStyles();
+        }
+
+        private void LoadSlicerStyles()
+        {
+            //Slicer Styles
+            XmlNode slicerStylesNode = GetNode(SlicerStylesPath);
+            if (slicerStylesNode != null)
             {
-                foreach (XmlNode x in dxfsNode)
+                DxfStyleHandler.Load(_wb, this, DxfsSlicers, DxfSlicerStylesPath);    //Slicer styles have their own dxf collection inside the extLst.
+                foreach (XmlNode n in slicerStylesNode)
                 {
-                    ExcelDxfStyleConditionalFormatting item = new ExcelDxfStyleConditionalFormatting(_nameSpaceManager, x, this);
-                    Dxfs.Add(item.Id, item);
+                    var name = n.Attributes["name"]?.Value;
+                    XmlNode tableStyleNode;
+                    if (_slicerTableStyleNodes.ContainsKey(name))
+                    {
+                        tableStyleNode = _slicerTableStyleNodes[name];
+                    }
+                    else if(TableStyles._dic.ContainsKey(name))
+                    {
+                        tableStyleNode = TableStyles[name].TopNode;
+                    }
+                    else
+                    {
+                        tableStyleNode = null;
+                    }
+                    var item = new ExcelSlicerNamedStyle(_nameSpaceManager, n, tableStyleNode, this);
+                    SlicerStyles.Add(item.Name, item);
+                }
+
+            }
+        }
+
+        private void LoadTableStyles()
+        {
+            //Table Styles
+            XmlNode tableStyleNode = GetNode(TableStylesPath);
+            if (tableStyleNode != null)
+            {
+                foreach (XmlNode n in tableStyleNode)
+                {
+                    ExcelTableNamedStyleBase item;
+                    var pivot = !(n.Attributes["pivot"]?.Value == "0");
+                    var table = !(n.Attributes["table"]?.Value == "0");
+                    if (pivot || table)
+                    {
+                        if (pivot==false)
+                        {
+                            item = new ExcelTableNamedStyle(_nameSpaceManager, n, this);
+                        }
+                        else if (table==false)
+                        {
+                            item = new ExcelPivotTableNamedStyle(_nameSpaceManager, n, this);
+                        }
+                        else
+                        {
+                            item = new ExcelTableAndPivotTableNamedStyle(_nameSpaceManager, n, this);
+                        }
+                        TableStyles.Add(item.Name, item);
+                    }
+                    else
+                    {
+                        //Styles for slicers and timelines. Timelines are currently unsupported.
+                        var name = n.Attributes["name"]?.Value;
+                        if (string.IsNullOrEmpty(name) == false)
+                        {
+                            _slicerTableStyleNodes.Add(name, n);
+                        }
+                    }
                 }
             }
         }
@@ -165,7 +233,7 @@ namespace OfficeOpenXml
             }
         }
 
-        internal ExcelStyle GetStyleObject(int Id,int PositionID, string Address)
+        internal ExcelStyle GetStyleObject(int Id, int PositionID, string Address)
         {
             if (Id < 0) Id = 0;
             return new ExcelStyle(this, PropertyChange, PositionID, Address, Id);
@@ -228,7 +296,7 @@ namespace OfficeOpenXml
             var rowCache = new Dictionary<int, int>(address.End.Row - address.Start.Row + 1);
             var colCache = new Dictionary<int, ExcelValue>(address.End.Column - address.Start.Column + 1);
             var cellEnum = new CellStoreEnumerator<ExcelValue>(ws._values, address.Start.Row, address.Start.Column, address.End.Row, address.End.Column);
-            var hasEnumValue=cellEnum.Next();
+            var hasEnumValue = cellEnum.Next();
             for (int row = address._fromRow; row <= address._toRow; row++)
             {
                 for (int col = address._fromCol; col <= address._toCol; col++)
@@ -266,7 +334,7 @@ namespace OfficeOpenXml
                             else
                             {
                                 var v = ws._values.GetValue(0, col);
-                                if (v._value==null)
+                                if (v._value == null)
                                 {
                                     if (GetFromCache(colCache, col, ref s) == false)
                                     {
@@ -301,7 +369,7 @@ namespace OfficeOpenXml
                     }
                     if (styleCashe.ContainsKey(s))
                     {
-                        ws._values.SetValue(row,col,new ExcelValue { _value = value._value, _styleId = styleCashe[s] });
+                        ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = styleCashe[s] });
                     }
                     else
                     {
@@ -310,14 +378,14 @@ namespace OfficeOpenXml
                         styleCashe.Add(s, newId);
                         ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = newId });
                     }
-                }            
+                }
             }
         }
 
         private bool GetFromCache(Dictionary<int, ExcelValue> colCache, int col, ref int s)
         {
             var c = col;
-            while(!colCache.ContainsKey(--c))
+            while (!colCache.ContainsKey(--c))
             {
                 if (c <= 0) return false;
             }
@@ -568,7 +636,7 @@ namespace OfficeOpenXml
         }
         internal int GetStyleId(ExcelWorksheet ws, int row, int col)
         {
-            int v=0;
+            int v = 0;
             if (ws.ExistsStyleInner(row, col, ref v))
             {
                 return v;
@@ -583,12 +651,12 @@ namespace OfficeOpenXml
                 {
                     if (ws.ExistsStyleInner(0, col, ref v))
                     {
-                        return v; 
+                        return v;
                     }
-                    else 
+                    else
                     {
-                        int r=0,c=col;
-                        if(ws._values.PrevCell(ref r,ref c))
+                        int r = 0, c = col;
+                        if (ws._values.PrevCell(ref r, ref c))
                         {
                             //var column=ws.GetValueInner(0,c) as ExcelColumn;
                             var val = ws._values.GetValue(0, c);
@@ -608,10 +676,10 @@ namespace OfficeOpenXml
                             return 0;
                         }
                     }
-                        
+
                 }
             }
-            
+
         }
         /// <summary>
         /// Handles property changes on Named styles.
@@ -626,7 +694,7 @@ namespace OfficeOpenXml
             if (index >= 0)
             {
                 int newId = CellStyleXfs[NamedStyles[index].StyleXfId].GetNewID(CellStyleXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
-                int prevIx=NamedStyles[index].StyleXfId;
+                int prevIx = NamedStyles[index].StyleXfId;
                 NamedStyles[index].StyleXfId = newId;
                 NamedStyles[index].Style.Index = newId;
 
@@ -666,14 +734,23 @@ namespace OfficeOpenXml
         /// </summary>
         public ExcelStyleCollection<ExcelXfs> CellXfs = new ExcelStyleCollection<ExcelXfs>();
         /// <summary>
-        /// Contain all named styles for that package
+        /// Contain all named styles for the package
         /// </summary>
         public ExcelStyleCollection<ExcelNamedStyleXml> NamedStyles = new ExcelStyleCollection<ExcelNamedStyleXml>();
         /// <summary>
-        /// Contain all differential formatting styles for the package
+        /// Contain all table styles for the package. Tables styles can be used to customly format tables and pivot tables.
         /// </summary>
-        public ExcelStyleCollection<ExcelDxfStyleConditionalFormatting> Dxfs = new ExcelStyleCollection<ExcelDxfStyleConditionalFormatting>();
-        
+        public ExcelNamedStyleCollection<ExcelTableNamedStyleBase> TableStyles = new ExcelNamedStyleCollection<ExcelTableNamedStyleBase>();
+        /// <summary>
+        /// Contain all slicer styles for the package. Tables styles can be used to customly format tables and pivot tables.
+        /// </summary>
+        public ExcelNamedStyleCollection<ExcelSlicerNamedStyle> SlicerStyles = new ExcelNamedStyleCollection<ExcelSlicerNamedStyle>();
+        /// <summary>
+        /// Contain differential formatting styles for the package. This collection does not contain style records for slicers.
+        /// </summary>
+        public ExcelStyleCollection<ExcelDxfStyleBase> Dxfs = new ExcelStyleCollection<ExcelDxfStyleBase>();
+        internal ExcelStyleCollection<ExcelDxfStyleBase> DxfsSlicers = new ExcelStyleCollection<ExcelDxfStyleBase>();
+        internal Dictionary<string, XmlNode> _slicerTableStyleNodes = new Dictionary<string, XmlNode>(StringComparer.InvariantCultureIgnoreCase);
         internal string Id
         {
             get { return ""; }
@@ -740,6 +817,149 @@ namespace OfficeOpenXml
             style.Style.SetIndex(ix);
             return style;
         }
+        public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name)
+        {
+            ValidateTableStyleName(name);
+            var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
+            node.SetAttribute("table", "0");
+            var s = new ExcelPivotTableNamedStyle(NameSpaceManager, node, this)
+            {
+                Name = name
+            };
+            TableStyles.Add(name, s);
+            return s;
+        }
+        public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name, PivotTableStyles templateStyle)
+        {
+            var s = CreatePivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+        public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+        {
+            var s = CreatePivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
+        public ExcelTableNamedStyle CreateTableStyle(string name)
+        {
+            ValidateTableStyleName(name);
+            var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
+            node.SetAttribute("pivot", "0");
+            var s = new ExcelTableNamedStyle(NameSpaceManager, node, this)
+            {
+                Name = name
+            };
+            TableStyles.Add(name, s);
+            return s;
+        }
+        public ExcelTableNamedStyle CreateTableStyle(string name, TableStyles templateStyle)
+        {
+            var s = CreateTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+        public ExcelTableNamedStyle CreateTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+        {
+            var s = CreateTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name)
+        {
+            ValidateTableStyleName(name);
+            var node = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
+            var s = new ExcelTableAndPivotTableNamedStyle(NameSpaceManager, node, this)
+            {
+                Name = name
+            };
+            TableStyles.Add(name, s);
+            return s;
+        }
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, TableStyles templateStyle)
+        {
+            var s = CreateTableAndPivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, PivotTableStyles templateStyle)
+        {
+            var s = CreateTableAndPivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+        public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+        {
+            var s = CreateTableAndPivotTableStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+
+        public ExcelSlicerNamedStyle CreateSlicerStyle(string name)
+        {
+            ValidateTableStyleName(name);
+
+            //Create the matching table style
+            var tableStyleNode = (XmlElement)CreateNode("d:tableStyles/d:tableStyle", false, true);
+            tableStyleNode.SetAttribute("table", "0");
+            tableStyleNode.SetAttribute("pivot", "0");
+            tableStyleNode.SetAttribute("name", name);
+            _slicerTableStyleNodes.Add(name, tableStyleNode);
+
+            //The dxfs collection must be created before the slicer styles collection
+            GetOrCreateExtLstSubNode(ExtLstUris.SlicerStylesDxfCollectionUri, "x14");
+
+            var extNode = GetOrCreateExtLstSubNode(ExtLstUris.SlicerStylesUri, "x14");
+            var extHelper = XmlHelperFactory.Create(NameSpaceManager, extNode);
+            if (extNode.ChildNodes.Count==0)
+            {
+                var slicersNode=(XmlElement)extHelper.CreateNode("x14:slicerStyles", false, true);
+                slicersNode.SetAttribute("defaultSlicerStyle", "SlicerStyleLight1");    //defaultSlicerStyle is required
+                extHelper.TopNode = slicersNode;
+            }
+            else
+            {
+                extHelper.TopNode = extNode.FirstChild;
+            }
+            var node = (XmlElement)extHelper.CreateNode("x14:slicerStyle", false, true);
+
+             var s = new ExcelSlicerNamedStyle(NameSpaceManager, node, tableStyleNode, this)
+            {
+                Name = name
+            };
+            SlicerStyles.Add(name, s);
+            return s;
+        }
+        public ExcelSlicerNamedStyle CreateSlicerStyle(string name, eSlicerStyle templateStyle)
+        {
+            var s = CreateSlicerStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
+        HashSet<string> tableStyleNames=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private void ValidateTableStyleName(string name)
+        {
+            if(tableStyleNames.Count==0)
+            {
+                Enum.GetNames(typeof(TableStyles)).Select(x => tableStyleNames.Add("TableStyle"+x));
+                Enum.GetNames(typeof(PivotTableStyles)).Select(x => tableStyleNames.Add("PivotTableStyle" + x));
+                Enum.GetNames(typeof(eSlicerStyle)).Select(x => tableStyleNames.Add("SlicerStyle" + x));
+            }
+            if(tableStyleNames.Contains(name) || TableStyles.ExistsKey(name) || SlicerStyles.ExistsKey(name))
+            {
+                throw (new ArgumentException("Table style name is not unique", "name"));
+            }
+        }
+
+        public ExcelSlicerNamedStyle CreateSlicerStyle(string name, ExcelSlicerNamedStyle templateStyle)
+        {
+            var s = CreateSlicerStyle(name);
+            s.SetFromTemplate(templateStyle);
+            return s;
+        }
         /// <summary>
         /// Update the changes to the Style.Xml file inside the package.
         /// This will remove any unused styles from the collections.
@@ -749,24 +969,23 @@ namespace OfficeOpenXml
             RemoveUnusedStyles();
 
             //NumberFormat
-            XmlNode nfNode=_styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
+            XmlNode nfNode = GetNode(NumberFormatsPath); 
             if (nfNode == null)
             {
-                CreateNode(NumberFormatsPath, true);
-                nfNode = _styleXml.SelectSingleNode(NumberFormatsPath, _nameSpaceManager);
+                nfNode = CreateNode(NumberFormatsPath, true);
             }
             else
             {
-                nfNode.RemoveAll();                
+                nfNode.RemoveAll();
             }
 
             int count = 0;
             int normalIx = NamedStyles.FindIndexByBuildInId(0);
-            if(normalIx<0)
+            if (normalIx < 0)
             {
                 normalIx = NamedStyles.FindIndexById("normal");
             }
-            if (NamedStyles.Count > 0 && normalIx>=0 && NamedStyles[normalIx].Style.Numberformat.NumFmtID >= 164)
+            if (NamedStyles.Count > 0 && normalIx >= 0 && NamedStyles[normalIx].Style.Numberformat.NumFmtID >= 164)
             {
                 ExcelNumberFormatXml nf = NumberFormats[NumberFormats.FindIndexById(NamedStyles[normalIx].Style.Numberformat.Id)];
                 nfNode.AppendChild(nf.CreateXmlNode(_styleXml.CreateElement("numFmt", ExcelPackage.schemaMain)));
@@ -787,7 +1006,7 @@ namespace OfficeOpenXml
                         }
                         foreach (var df in pt.DataFields)
                         {
-                            if(df.NumFmtId<0 && df.Field.NumFmtId.HasValue)
+                            if (df.NumFmtId < 0 && df.Field.NumFmtId.HasValue)
                             {
                                 df.NumFmtId = df.Field.NumFmtId.Value;
                             }
@@ -798,19 +1017,19 @@ namespace OfficeOpenXml
 
             foreach (ExcelNumberFormatXml nf in NumberFormats)
             {
-                if(!nf.BuildIn /*&& nf.newID<0*/) //Buildin formats are not updated.
+                if (!nf.BuildIn /*&& nf.newID<0*/) //Buildin formats are not updated.
                 {
                     nfNode.AppendChild(nf.CreateXmlNode(_styleXml.CreateElement("numFmt", ExcelPackage.schemaMain)));
                     nf.newID = count;
                     count++;
                 }
             }
-            
+
             (nfNode as XmlElement).SetAttribute("count", count.ToString());
 
             //Font
-            count=0;
-            XmlNode fntNode = _styleXml.SelectSingleNode(FontsPath, _nameSpaceManager);
+            count = 0;
+            XmlNode fntNode = GetNode(FontsPath);
             fntNode.RemoveAll();
 
             //Normal should be first in the collection
@@ -835,7 +1054,7 @@ namespace OfficeOpenXml
 
             //Fills
             count = 0;
-            XmlNode fillsNode = _styleXml.SelectSingleNode(FillsPath, _nameSpaceManager);
+            XmlNode fillsNode = GetNode(FillsPath);
             fillsNode.RemoveAll();
             Fills[0].useCnt = 1;    //Must exist (none);  
             Fills[1].useCnt = 1;    //Must exist (gray125);
@@ -853,7 +1072,7 @@ namespace OfficeOpenXml
 
             //Borders
             count = 0;
-            XmlNode bordersNode = _styleXml.SelectSingleNode(BordersPath, _nameSpaceManager);
+            XmlNode bordersNode = GetNode(BordersPath);
             bordersNode.RemoveAll();
             Borders[0].useCnt = 1;    //Must exist blank;
             foreach (ExcelBorderXml border in Borders)
@@ -867,11 +1086,10 @@ namespace OfficeOpenXml
             }
             (bordersNode as XmlElement).SetAttribute("count", count.ToString());
 
-            XmlNode styleXfsNode = _styleXml.SelectSingleNode(CellStyleXfsPath, _nameSpaceManager);
+            XmlNode styleXfsNode = GetNode(CellStyleXfsPath);
             if (styleXfsNode == null && NamedStyles.Count > 0)
             {
-                CreateNode(CellStyleXfsPath);
-                styleXfsNode = _styleXml.SelectSingleNode(CellStyleXfsPath, _nameSpaceManager);
+                styleXfsNode=CreateNode(CellStyleXfsPath);
             }
             if (NamedStyles.Count > 0)
             {
@@ -880,12 +1098,12 @@ namespace OfficeOpenXml
             //NamedStyles
             count = normalIx > -1 ? 1 : 0;  //If we have a normal style, we make sure it's added first.
 
-            XmlNode cellStyleNode = _styleXml.SelectSingleNode(CellStylesPath, _nameSpaceManager);
-            if(cellStyleNode!=null)
+            XmlNode cellStyleNode = GetNode(CellStylesPath);
+            if (cellStyleNode != null)
             {
                 cellStyleNode.RemoveAll();
             }
-            XmlNode cellXfsNode = _styleXml.SelectSingleNode(CellXfsPath, _nameSpaceManager);
+            XmlNode cellXfsNode = GetNode(CellXfsPath);
             cellXfsNode.RemoveAll();
 
             if (NamedStyles.Count > 0 && normalIx >= 0)
@@ -905,7 +1123,7 @@ namespace OfficeOpenXml
                 }
                 cellStyleNode.AppendChild(style.CreateXmlNode(_styleXml.CreateElement("cellStyle", ExcelPackage.schemaMain)));
             }
-            if (cellStyleNode!=null) (cellStyleNode as XmlElement).SetAttribute("count", count.ToString());
+            if (cellStyleNode != null) (cellStyleNode as XmlElement).SetAttribute("count", count.ToString());
             if (styleXfsNode != null) (styleXfsNode as XmlElement).SetAttribute("count", count.ToString());
 
             //CellStyle
@@ -922,32 +1140,7 @@ namespace OfficeOpenXml
             }
             (cellXfsNode as XmlElement).SetAttribute("count", count.ToString());
 
-            //Set dxf styling for conditional Formatting
-            XmlNode dxfsNode = _styleXml.SelectSingleNode(dxfsPath, _nameSpaceManager);
-            foreach (var ws in _wb.Worksheets)
-            {
-                if (ws is ExcelChartsheet) continue;
-                foreach (var cf in ws.ConditionalFormatting)
-                {
-                    if (cf.Style.HasValue)
-                    {
-                        int ix = Dxfs.FindIndexById(cf.Style.Id);
-                        if (ix < 0)
-                        {
-                            ((ExcelConditionalFormattingRule)cf).DxfId = Dxfs.Count;
-                            Dxfs.Add(cf.Style.Id, cf.Style);
-                            var elem = ((XmlDocument)TopNode).CreateElement("d", "dxf", ExcelPackage.schemaMain);
-                            cf.Style.CreateNodes(new XmlHelperInstance(NameSpaceManager, elem), "");
-                            dxfsNode.AppendChild(elem);
-                        }
-                        else
-                        {
-                            ((ExcelConditionalFormattingRule)cf).DxfId = ix;
-                        }
-                    }
-                }
-            }
-            if (dxfsNode != null) (dxfsNode as XmlElement).SetAttribute("count", Dxfs.Count.ToString());
+            DxfStyleHandler.UpdateDxfXml(_wb);
         }
 
         private int? GetNumFormatId(string format)
@@ -1245,24 +1438,40 @@ namespace OfficeOpenXml
                 return index;
             }
         }
-        internal int CloneDxfStyle(ExcelStyles style, int styleID)
+
+        internal ExcelDxfStyleLimitedFont GetDxfLimitedFont(int? dxfId)
         {
-            var copy = style.Dxfs[styleID];
-            var ix = Dxfs.FindIndexById(copy.Id);
-            if(ix<0)
+            if (dxfId.HasValue && dxfId < Dxfs.Count)
             {
-                var parent = GetNode(dxfsPath);
-                var node = _styleXml.CreateElement("d:dxf", ExcelPackage.schemaMain);
-                parent.AppendChild(node);
-                node.InnerXml = copy._helper.TopNode.InnerXml;
-                var dxf = new ExcelDxfStyleConditionalFormatting(_nameSpaceManager, node, this);
-                Dxfs.Add(copy.Id, dxf);
-                return Dxfs.Count - 1;
+                return Dxfs[dxfId.Value].ToDxfLimitedStyle();
             }
             else
             {
-                return ix;
+                return new ExcelDxfStyleLimitedFont(NameSpaceManager, null, this, null);
             }
         }
+        internal ExcelDxfStyle GetDxf(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+        {
+            if(dxfId.HasValue && dxfId < Dxfs.Count)
+            {
+                return Dxfs[dxfId.Value].ToDxfStyle();
+            }
+            else
+            {
+                return new ExcelDxfStyle(NameSpaceManager, null, this, callback);
+            }
+        }
+        internal ExcelDxfStyle GetDxfSlicer(int? dxfId)
+        {
+            if (dxfId.HasValue && dxfId < DxfsSlicers.Count)
+            {
+                return DxfsSlicers[dxfId.Value].ToDxfStyle();
+            }
+            else
+            {
+                return new ExcelDxfStyle(NameSpaceManager, null, this);
+            }
+        }
+
     }
 }
