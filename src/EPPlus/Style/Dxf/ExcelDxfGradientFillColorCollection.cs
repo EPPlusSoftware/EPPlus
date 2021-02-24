@@ -79,12 +79,8 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 throw new ArgumentOutOfRangeException("position","Must be a value between 0 and 100");
             }
-            //Multiple position colors can exist. Remove validation.
-            //if(_lst.Any(x=>x.Position==position))
-            //{
-            //    throw new ArgumentOutOfRangeException("position", "Position already exists in the collection.");
-            //}
             var color = new ExcelDxfGradientFillColor(_styles, position, _callback);
+            color.Color.Auto = true;
             _lst.Add(color);
             return color;
         }
