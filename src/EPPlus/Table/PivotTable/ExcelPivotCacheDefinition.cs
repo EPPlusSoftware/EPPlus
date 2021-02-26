@@ -56,13 +56,13 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             _cacheReference._pivotTables.Add(pivotTable);
         }
-        internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, ExcelRangeBase sourceAddress)
+        internal ExcelPivotCacheDefinition(XmlNamespaceManager nsm, ExcelPivotTable pivotTable, ExcelRangeBase sourceRange)
         {
             PivotTable = pivotTable;
             _wb = PivotTable.WorkSheet.Workbook;
             _nsm = nsm;
             _cacheReference = new PivotTableCacheInternal(nsm, _wb);
-            _cacheReference.InitNew(pivotTable, sourceAddress, null);
+            _cacheReference.InitNew(pivotTable, sourceRange, null);
             _wb.AddPivotTableCache(_cacheReference);
             Relationship = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
         }
@@ -153,6 +153,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     throw (new ArgumentException("Can not change the number of columns(fields) in the SourceRange"));
                 }
+
                 if (value.FullAddress == SourceRange.FullAddress) return; //Same
                 if (_wb.GetPivotCacheFromAddress(value.FullAddress, out PivotTableCacheInternal cache))
                 {
@@ -164,8 +165,16 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else if (_cacheReference._pivotTables.Count == 1)
                 {
-                    _cacheReference.SetXmlNodeString(_sourceWorksheetPath, value.Worksheet.Name);
-                    _cacheReference.SetXmlNodeString(_sourceAddressPath, value.FirstAddress);
+                    string sourceName = SourceRange.GetName();
+                    if (string.IsNullOrEmpty(sourceName))
+                    {
+                        _cacheReference.SetXmlNodeString(_sourceWorksheetPath, value.Worksheet.Name);
+                        _cacheReference.SetXmlNodeString(_sourceAddressPath, value.FirstAddress);
+                    }
+                    else
+                    {
+                        _cacheReference.SetXmlNodeString(_sourceNamePath, sourceName);
+                    }
                     _sourceRange = value;
                 }
                 else

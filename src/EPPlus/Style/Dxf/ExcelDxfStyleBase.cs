@@ -26,14 +26,12 @@ namespace OfficeOpenXml.Style.Dxf
         internal ExcelDxfStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback) : base(styles, callback)
         {
             //_dxfIdPath = dxfIdPath;
-            NumberFormat = new ExcelDxfNumberFormat(_styles, callback);
             Border = new ExcelDxfBorderBase(_styles, callback);
             Fill = new ExcelDxfFill(_styles, callback);
 
             if (topNode != null)
             {
                 _helper = new XmlHelperInstance(nameSpaceManager, topNode);
-                NumberFormat.SetValuesFromXml(_helper);
                 Border.SetValuesFromXml(_helper);
                 Fill.SetValuesFromXml(_helper);
             }
@@ -44,10 +42,6 @@ namespace OfficeOpenXml.Style.Dxf
             _helper.SchemaNodeOrder = new string[] { "font", "numFmt", "fill", "border" };
         }
         internal virtual int DxfId { get; set; } = int.MinValue;
-        /// <summary>
-        /// Numberformat formatting settings
-        /// </summary>
-        public ExcelDxfNumberFormat NumberFormat { get; set; }
         /// <summary>
         /// Fill formatting settings
         /// </summary>
@@ -63,7 +57,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return NumberFormat.Id + Border.Id + Fill.Id +
+                return Border.Id + Fill.Id +
                     (AllowChange ? "" : DxfId.ToString());
             }
         }
@@ -75,7 +69,6 @@ namespace OfficeOpenXml.Style.Dxf
         /// <param name="path">The XPath</param>
         protected internal override void CreateNodes(XmlHelper helper, string path)
         {
-            if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
             if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
             if (Border.HasValue) Border.CreateNodes(helper, "d:border");
         }
@@ -83,7 +76,6 @@ namespace OfficeOpenXml.Style.Dxf
         {
             if (_callback != null)
             {
-                NumberFormat.SetStyle();
                 Border.SetStyle();
                 Fill.SetStyle();
             }
@@ -96,7 +88,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get 
             {
-                return  NumberFormat.HasValue || Fill.HasValue || Border.HasValue; 
+                return  Fill.HasValue || Border.HasValue; 
             }
         }
         /// <summary>
@@ -104,28 +96,67 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         public override void Clear()
         {
-            NumberFormat.Clear();
             Fill.Clear();
             Border.Clear();
         }
         internal ExcelDxfStyle ToDxfStyle()
         {
-            if(this is ExcelDxfStyle s)
+            if (this is ExcelDxfStyle s)
             {
                 return s;
             }
             else
             {
-                var ns = new ExcelDxfStyle(_styles.NameSpaceManager, null, _styles)
+                var ns = new ExcelDxfStyle(_styles.NameSpaceManager, null, _styles, null)
                 {
                     Border = Border,
                     Fill = Fill,
-                    NumberFormat = NumberFormat,
+                    DxfId = DxfId,
+                    Font = new ExcelDxfFont(_styles, _callback),
+                    NumberFormat = new ExcelDxfNumberFormat(_styles, _callback),
+                    _helper = _helper
+                };
+                ns.Font.SetValuesFromXml(_helper);
+                return ns;
+            }
+        }
+        internal ExcelDxfSlicerStyle ToDxfSlicerStyle()
+        {
+            if (this is ExcelDxfSlicerStyle s)
+            {
+                return s;
+            }
+            else
+            {
+                var ns = new ExcelDxfSlicerStyle(_styles.NameSpaceManager, null, _styles, null)
+                {
+                    Border = Border,
+                    Fill = Fill,
                     DxfId = DxfId,
                     Font = new ExcelDxfFont(_styles, _callback),
                     _helper = _helper
                 };
-                ns.Font.GetValuesFromXml(_helper);
+                ns.Font.SetValuesFromXml(_helper);
+                return ns;
+            }
+        }
+        internal ExcelDxfTableStyle ToDxfTableStyle()
+        {
+            if(this is ExcelDxfTableStyle s)
+            {
+                return s;
+            }
+            else
+            {
+                var ns = new ExcelDxfTableStyle(_styles.NameSpaceManager, null, _styles)
+                {
+                    Border = Border,
+                    Fill = Fill,
+                    DxfId = DxfId,
+                    Font = new ExcelDxfFont(_styles, _callback),
+                    _helper = _helper
+                };
+                ns.Font.SetValuesFromXml(_helper);
                 return ns;
             }
         }
@@ -141,12 +172,11 @@ namespace OfficeOpenXml.Style.Dxf
                 {
                     Border = Border,
                     Fill = Fill,
-                    NumberFormat = NumberFormat,
                     DxfId = DxfId,
                     Font = new ExcelDxfFontBase(_styles,_callback),
                     _helper = _helper
                 };
-                ns.Font.GetValuesFromXml(_helper);
+                ns.Font.SetValuesFromXml(_helper);
                 return ns;
             }
         }
@@ -162,12 +192,13 @@ namespace OfficeOpenXml.Style.Dxf
                 {
                     Border = Border,
                     Fill = Fill,
-                    NumberFormat = NumberFormat,
+                    NumberFormat = new ExcelDxfNumberFormat(_styles, _callback),
                     DxfId = DxfId,
                     Font = new ExcelDxfFontBase(_styles, _callback),
                     _helper = _helper
                 };
-                ns.Font.GetValuesFromXml(_helper);
+                ns.NumberFormat.SetValuesFromXml(_helper);
+                ns.Font.SetValuesFromXml(_helper);
                 return ns;
             }
         }

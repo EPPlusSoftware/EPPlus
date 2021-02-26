@@ -28,17 +28,17 @@ namespace OfficeOpenXml.Style
             _styles = styles;
             Type = type;
         }
-        ExcelDxfStyle _style = null;
+        ExcelDxfSlicerStyle _style = null;
         /// <summary>
         /// Access to style settings
         /// </summary>
-        public ExcelDxfStyle Style
+        public ExcelDxfSlicerStyle Style
         {
             get
             {
                 if (_style == null)
                 {
-                    _style = _styles.GetDxf(GetXmlNodeIntNull("@dxfId"), null);
+                    _style = _styles.GetDxfSlicer(GetXmlNodeIntNull("@dxfId"), null);
                 }
                 return _style;
             }

@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Style.Dxf
             {
                 foreach (XmlNode x in dxfsNode)
                 {
-                    var item = new ExcelDxfStyle(styles.NameSpaceManager, x, styles);
+                    var item = new ExcelDxfStyle(styles.NameSpaceManager, x, styles, null);
                     dxfs.Add(item.Id, item);
                 }
             }
@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Style.Dxf
                 var node = stylesTo.TopNode.OwnerDocument.CreateElement("d:dxf", ExcelPackage.schemaMain);
                 parent.AppendChild(node);
                 node.InnerXml = copy._helper.TopNode.InnerXml;                
-                var dxf = new ExcelDxfStyle(stylesTo.NameSpaceManager, node, stylesTo);
+                var dxf = new ExcelDxfStyle(stylesTo.NameSpaceManager, node, stylesTo, null);
                 stylesTo.Dxfs.Add(copy.Id, dxf);
                 return stylesTo.Dxfs.Count - 1;
             }
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Style.Dxf
                     borderStyle.CreateNodes(new XmlHelperInstance(styles.NameSpaceManager, elem), "d:border");
                     dxfsNode.AppendChild(elem);
                     var dxfId = styles.Dxfs.Count;
-                    styles.Dxfs.Add(borderStyle.Id, new ExcelDxfStyle(styles.NameSpaceManager, elem, styles) { Border = borderStyle });
+                    styles.Dxfs.Add(borderStyle.Id, new ExcelDxfTableStyle(styles.NameSpaceManager, elem, styles) { Border = borderStyle });
                     return styles.Dxfs.Count - 1;
                 }
                 else

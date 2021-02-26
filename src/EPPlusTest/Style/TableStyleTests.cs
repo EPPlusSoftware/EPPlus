@@ -269,7 +269,7 @@ namespace EPPlusTest.Style
             tbl.TotalsRowStyle.Font.Color.SetColor(eThemeSchemeColor.Accent5);
             tbl.ShowTotal = true;
             tbl.Columns[1].TotalsRowFunction = RowFunctions.Sum;
-            tbl.Columns[1].TotalsRowStyle.NumberFormat.Format = "#,##0.00";
+            //tbl.Columns[1].TotalsRowStyle.NumberFormat.Format = "#,##0.00";
 
             var wsCopy = _pck.Workbook.Worksheets.Add("CopyTableRowStyleCopy", ws);
 

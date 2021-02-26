@@ -169,8 +169,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             return new ExcelDxfFontBase(_styles, _callback) { Bold = Bold, Color = (ExcelDxfColor)Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
         }
-
-        internal void GetValuesFromXml(XmlHelperInstance helper)
+        protected internal override void SetValuesFromXml(XmlHelper helper)
         {
             if (helper.ExistsNode("d:font"))
             {
@@ -182,7 +181,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        private ExcelUnderLineType? GetUnderLine(XmlHelperInstance helper)
+        private ExcelUnderLineType? GetUnderLine(XmlHelper helper)
         {
             if (helper.ExistsNode("d:font/d:u"))
             {

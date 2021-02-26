@@ -25,13 +25,13 @@ namespace OfficeOpenXml.Style.Dxf
             Font = new ExcelDxfFont(styles, _callback);
             if (topNode != null)
             {
-                Font.GetValuesFromXml(_helper);
+                Font.SetValuesFromXml(_helper);
             }
         }
         /// <summary>
         /// Font formatting settings
         /// </summary>
-        public ExcelDxfFontBase Font { get; set; }
+        public ExcelDxfFontBase Font { get; internal set; }
 
         /// <summary>
         /// Clone the object
@@ -42,7 +42,6 @@ namespace OfficeOpenXml.Style.Dxf
             var s = new ExcelDxfStyleLimitedFont(_helper.NameSpaceManager, null, _styles, _callback)
             {
                 Font = (ExcelDxfFont)Font.Clone(),
-                NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),
                 Fill = (ExcelDxfFill)Fill.Clone(),
                 Border = (ExcelDxfBorderBase)Border.Clone()
             };

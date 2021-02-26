@@ -211,12 +211,12 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
             foreach (var s in templateStyle._dicTable.Values)
             {
                 var element = GetTableStyleElement(s.Type);
-                element.Style = (ExcelDxfStyle)s.Style.Clone();
+                element.Style = (ExcelDxfSlicerStyle)s.Style.Clone();
             }
             foreach (var s in templateStyle._dicSlicer.Values)
             {
                 var element = GetSlicerStyleElement(s.Type);
-                element.Style = (ExcelDxfStyle)s.Style.Clone();
+                element.Style = (ExcelDxfSlicerStyle)s.Style.Clone();
             }
         }
         internal void SetFromTemplate(eSlicerStyle templateStyle)
@@ -249,14 +249,14 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
                             if(slicerType.HasValue)
                             {
                                 var se = GetSlicerStyleElement(slicerType.Value);
-                                var dxf = new ExcelDxfStyle(NameSpaceManager, elem.FirstChild, _styles);
+                                var dxf = new ExcelDxfSlicerStyle(NameSpaceManager, elem.FirstChild, _styles, null);
                                 se.Style = dxf;
                             }
                         }
                         else
                         {
                             var te = GetTableStyleElement(tblType.Value);
-                            var dxf = new ExcelDxfStyle(NameSpaceManager, elem.FirstChild, _styles);
+                            var dxf = new ExcelDxfSlicerStyle(NameSpaceManager, elem.FirstChild, _styles, null);
                             te.Style = dxf;
                         }
                     }

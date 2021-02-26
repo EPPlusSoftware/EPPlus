@@ -950,7 +950,7 @@ namespace OfficeOpenXml
             }
             if(tableStyleNames.Contains(name) || TableStyles.ExistsKey(name) || SlicerStyles.ExistsKey(name))
             {
-                throw (new ArgumentException("Table style name is not unique", "name"));
+                throw (new ArgumentException($"Table style name is not unique : {name}", "name"));
             }
         }
 
@@ -1461,15 +1461,38 @@ namespace OfficeOpenXml
                 return new ExcelDxfStyle(NameSpaceManager, null, this, callback);
             }
         }
-        internal ExcelDxfStyle GetDxfSlicer(int? dxfId)
+        internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
         {
-            if (dxfId.HasValue && dxfId < DxfsSlicers.Count)
+            if (dxfId.HasValue && dxfId < Dxfs.Count)
             {
-                return DxfsSlicers[dxfId.Value].ToDxfStyle();
+                return Dxfs[dxfId.Value].ToDxfSlicerStyle();
             }
             else
             {
-                return new ExcelDxfStyle(NameSpaceManager, null, this);
+                return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, callback);
+            }
+        }
+        internal ExcelDxfTableStyle GetDxfTable(int? dxfId, Action<eStyleClass, eStyleProperty, object> callback)
+        {
+            if (dxfId.HasValue && dxfId < Dxfs.Count)
+            {
+                return Dxfs[dxfId.Value].ToDxfTableStyle();
+            }
+            else
+            {
+                return new ExcelDxfTableStyle(NameSpaceManager, null, this, callback);
+            }
+        }
+
+        internal ExcelDxfSlicerStyle GetDxfSlicer(int? dxfId)
+        {
+            if (dxfId.HasValue && dxfId < DxfsSlicers.Count)
+            {
+                return DxfsSlicers[dxfId.Value].ToDxfSlicerStyle();
+            }
+            else
+            {
+                return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, null);
             }
         }
 

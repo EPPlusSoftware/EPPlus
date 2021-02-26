@@ -67,13 +67,19 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 Name = GetNewTableName();
             }
-            if(Source.Rows<2)
+            ValidateAdd(Range, Source, Name);
+            return Add(new ExcelPivotTable(_ws, Range, Source, Name, _ws.Workbook._nextPivotTableID++));
+        }
+
+        private void ValidateAdd(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
+        {
+            if (Source.Rows < 2)
             {
                 throw (new ArgumentException("The Range must contain at least 2 rows", "Source"));
             }
             if (Range.WorkSheetName != _ws.Name)
             {
-                throw(new Exception("The Range must be in the current worksheet"));
+                throw (new Exception("The Range must be in the current worksheet"));
             }
             else if (_ws.Workbook.ExistsTableName(Name))
             {
@@ -86,15 +92,15 @@ namespace OfficeOpenXml.Table.PivotTable
                     throw (new ArgumentException(string.Format("Table range collides with table {0}", t.Name)));
                 }
             }
-            for(int i= 0;i < Source.Columns;i++)
+            for (int i = 0; i < Source.Columns; i++)
             {
-                if(Source.Offset(0,i,1,1).Value==null)
+                if (Source.Offset(0, i, 1, 1).Value == null)
                 {
                     throw (new ArgumentException("First row of source range should contain the field headers and can't have blank cells.", "Source"));
                 }
             }
-            return Add(new ExcelPivotTable(_ws, Range, Source, Name, _ws.Workbook._nextPivotTableID++));
         }
+
         /// <summary>
         /// Create a pivottable on the supplied range
         /// </summary>
@@ -108,7 +114,12 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 throw new ArgumentException("The table must be in the same package as the pivottable", "Source");
             }
-            return Add(Range, Source.Range, Name);
+            if (string.IsNullOrEmpty(Name))
+            {
+                Name = GetNewTableName();
+            }
+            ValidateAdd(Range, Source.Range, Name);
+            return Add(new ExcelPivotTable(_ws, Range, Source.Range, Name, _ws.Workbook._nextPivotTableID++));
         }
         /// <summary>
         /// Create a pivottable on the supplied range

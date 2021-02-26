@@ -2342,5 +2342,26 @@ namespace OfficeOpenXml
             var v = (ExcelValue)value;
             list[index] = new ExcelValue { _value = v._value, _styleId = v._styleId };
         }
+        /// <summary>
+        /// If the range is a name or a table, return the name.
+        /// </summary>
+        /// <returns></returns>
+        internal string GetName()
+        {
+            if (this is ExcelNamedRange n)
+            {
+                return n.Name;
+            }
+            else
+            {
+                var t = Worksheet.Tables.GetFromRange(this);
+                if (t != null)
+                {
+                    return t.Name;
+                }
+            }
+            return null;
+        }
+
     }
 }

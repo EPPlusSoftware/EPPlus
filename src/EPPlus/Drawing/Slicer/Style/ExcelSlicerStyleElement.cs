@@ -28,11 +28,11 @@ namespace OfficeOpenXml.Drawing.Slicer.Style
             _styles = styles;
             Type = type;
         }
-        ExcelDxfStyle _style = null;
+        ExcelDxfSlicerStyle _style = null;
         /// <summary>
         /// Access to style settings
         /// </summary>
-        public ExcelDxfStyle Style
+        public ExcelDxfSlicerStyle Style
         {
             get
             {

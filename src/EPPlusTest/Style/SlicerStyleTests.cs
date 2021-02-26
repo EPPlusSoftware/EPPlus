@@ -148,8 +148,6 @@ namespace EPPlusTest.Style
             var ws = _pck.Workbook.Worksheets.Add("SlicerStyleCopyOtherPck");
             var s = _pck.Workbook.Styles.CreateSlicerStyle("CustomSlicerStyleToCopyOther", eSlicerStyle.Other2);
 
-            var fmt = "#,##0.0";
-            s.HoveredUnselectedItemWithNoData.Style.NumberFormat.Format = fmt;
             s.WholeTable.Style.Font.Name = "Arial";
 
             using (var p = new ExcelPackage())
@@ -162,7 +160,7 @@ namespace EPPlusTest.Style
                 slicer.SetPosition(100, 100);
                 slicer.StyleName = "CustomSlicerStyleCopyPck";
 
-                Assert.AreEqual(fmt, sc.HoveredUnselectedItemWithNoData.Style.NumberFormat.Format);
+              //  Assert.AreEqual(fmt, sc.HoveredUnselectedItemWithNoData.Style.NumberFormat.Format);
 
                 SaveWorkbook("SlicerStyleNewPackage.Xlsx", p);
             }

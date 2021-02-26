@@ -1162,27 +1162,27 @@ namespace OfficeOpenXml
 					var r = cache.SourceRange;
 					if (r != null)              //Source does not exist
 					{
-						ExcelTable t = null;
-						if (r.IsName)
-						{
-							//Named range, set name
-							cache.SetSourceName(((ExcelNamedRange)r).Name);
-						}
-						else
-						{
-							var ws = Worksheets[r.WorkSheetName];
-							t = ws.Tables.GetFromRange(r);
-							if (t == null)
-							{
-								//Address
-								cache.SetSourceAddress(r.Address);
-							}
-							else
-							{
-								//Table, set name
-								cache.SetSourceName(t.Name);
-							}
-						}
+						ExcelTable t = r.Worksheet.Tables.GetFromRange(r); ;
+						//if (r.IsName)
+						//{
+						//	//Named range, set name
+						//	cache.SetSourceName(((ExcelNamedRange)r).Name);
+						//}
+						//else
+						//{
+						//	var ws = Worksheets[r.WorkSheetName];
+						//	t = ws.Tables.GetFromRange(r);
+						//	if (t == null)
+						//	{
+						//		//Address
+						//		cache.SetSourceAddress(r.Address);
+						//	}
+						//	else
+						//	{
+						//		//Table, set name
+						//		cache.SetSourceName(t.Name);
+						//	}
+						//}
 
 						var fields =
 							cache.CacheDefinitionXml.SelectNodes(
@@ -1489,16 +1489,25 @@ namespace OfficeOpenXml
 
 			if (cacheReference.CacheSource == eSourceType.Worksheet && cacheReference.SourceRange!=null)
 			{
-				var fullAddress = cacheReference.SourceRange.FullAddress;
-				if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
+				string address;
+				if(string.IsNullOrEmpty(cacheReference.SourceName))
+                {
+					address = cacheReference.SourceRange.FullAddress;
+				}
+				else
+                {
+					address = cacheReference.SourceName;
+				}
+				
+				if (_pivotTableCaches.TryGetValue(address, out PivotTableCacheRangeInfo cacheInfo))
 				{
 					cacheInfo.PivotCaches.Add(cacheReference);
 				}
 				else
 				{
-					_pivotTableCaches.Add(fullAddress, new PivotTableCacheRangeInfo()
+					_pivotTableCaches.Add(address, new PivotTableCacheRangeInfo()
 					{
-						Address = fullAddress,
+						Address = address,
 						PivotCaches = new List<PivotTableCacheInternal>() { cacheReference }
 					});
 				}

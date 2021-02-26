@@ -226,9 +226,10 @@ namespace OfficeOpenXml.Style.Dxf
             SetValue(helper, path + "/d:family/@val", Family);
             SetValue(helper, path + "/d:vertAlign/@val", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
         }
-        internal new void GetValuesFromXml(XmlHelperInstance helper)
+        protected internal override void SetValuesFromXml(XmlHelper helper)
         {
-            base.GetValuesFromXml(helper);
+            base.SetValuesFromXml(helper);
+
             Name = helper.GetXmlNodeString("d:font/d:name/@val");
             Size = helper.GetXmlNodeIntNull("d:font/d:sz/@val");
             Condense = helper.GetXmlNodeBoolNullable("d:font/d:condense/@val");

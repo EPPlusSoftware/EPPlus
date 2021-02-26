@@ -118,7 +118,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="name"></param>
         /// <param name="tblId"></param>
         internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, PivotTableCacheInternal pivotTableCache, string name, int tblId) :
-            base(sheet.NameSpaceManager)
+        base(sheet.NameSpaceManager)
         {
             CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId);
 

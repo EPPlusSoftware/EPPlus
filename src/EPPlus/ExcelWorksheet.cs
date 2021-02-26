@@ -406,6 +406,7 @@ namespace OfficeOpenXml
             _name = sheetName;
             _sheetID = sheetID;
             _positionId = positionID;
+
             if (hide.HasValue)
             {
                 Hidden = hide.Value;

@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return GetXmlNodeString(_sourceNamePath);
             }
-        }
+        }        
         internal ExcelRangeBase SourceRange 
         { 
             get
@@ -110,7 +110,9 @@ namespace OfficeOpenXml.Table.PivotTable
             if (w is ExcelChartsheet) return null;
             if (w.Tables._tableNames.ContainsKey(name))
             {
-                return w.Cells[w.Tables[name].Address.Address];
+                var t = w.Tables[name];
+                var toRow = t.ShowTotal ? t.Address._toRow - 1 : t.Address._toRow;
+                return w.Cells[t.Address._fromRow, t.Address._fromCol, toRow, t.Address._toCol];
             }
             foreach (var n in w.Names)
             {
@@ -285,8 +287,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 CacheDefinitionXml = new XmlDocument();
                 CacheDefinitionXml.LoadXml(xml);
                 TopNode = CacheDefinitionXml.DocumentElement;
-                SetXmlNodeString(_sourceWorksheetPath, sourceAddress.WorkSheetName);
-                SetXmlNodeString(_sourceAddressPath, sourceAddress.Address);
+                
+                string sourceName = SourceRange.GetName();
+                if (string.IsNullOrEmpty(sourceName))
+                {
+                    SetXmlNodeString(_sourceWorksheetPath, sourceAddress.WorkSheetName);
+                    SetXmlNodeString(_sourceAddressPath, sourceAddress.Address);
+                }
+                else
+                {
+                    SetXmlNodeString(_sourceNamePath, sourceName);
+                }
             }
 
             CacheId = _wb.GetNewPivotCacheId();
@@ -318,20 +329,28 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             cacheRecord.Save(recPart.GetStream(FileMode.Create, FileAccess.Write));
         }
-        private string GetStartXml(ExcelWorksheet sourceWorksheet, ExcelRangeBase sourceAddress)
+        private string GetStartXml(ExcelWorksheet sourceWorksheet, ExcelRangeBase sourceRange)
         {
             string xml = "<pivotCacheDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"\" refreshOnLoad=\"1\" refreshedBy=\"SomeUser\" refreshedDate=\"40504.582403125001\" createdVersion=\"6\" refreshedVersion=\"6\" recordCount=\"5\" upgradeOnRefresh=\"1\">";
 
             xml += "<cacheSource type=\"worksheet\">";
-            xml += string.Format("<worksheetSource ref=\"{0}\" sheet=\"{1}\" /> ", sourceAddress.Address, sourceAddress.WorkSheetName);
-            xml += "</cacheSource>";
-            xml += string.Format("<cacheFields count=\"{0}\">", sourceAddress._toCol - sourceAddress._fromCol + 1);
-            for (int col = sourceAddress._fromCol; col <= sourceAddress._toCol; col++)
+            var sourceName = sourceRange.GetName();
+            if (string.IsNullOrEmpty(sourceName))
             {
-                var name = sourceWorksheet?.GetValueInner(sourceAddress._fromRow, col);
+                xml += string.Format("<worksheetSource ref=\"{0}\" sheet=\"{1}\" /> ", sourceRange.Address, sourceRange.WorkSheetName);
+            }
+            else
+            {
+                xml += string.Format("<worksheetSource name=\"{0}\" /> ", sourceName);
+            }
+            xml += "</cacheSource>";
+            xml += string.Format("<cacheFields count=\"{0}\">", sourceRange._toCol - sourceRange._fromCol + 1);
+            for (int col = sourceRange._fromCol; col <= sourceRange._toCol; col++)
+            {
+                var name = sourceWorksheet?.GetValueInner(sourceRange._fromRow, col);
                 if (name == null || name.ToString() == "")
                 {
-                    xml += string.Format("<cacheField name=\"Column{0}\" numFmtId=\"0\">", col - sourceAddress._fromCol + 1);
+                    xml += string.Format("<cacheField name=\"Column{0}\" numFmtId=\"0\">", col - sourceRange._fromCol + 1);
                 }
                 else
                 {
