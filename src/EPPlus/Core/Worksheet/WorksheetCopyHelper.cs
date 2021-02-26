@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     pck.Workbook.VbaProject.Modules.Add(new ExcelVBAModule(added.CodeNameChange) { Name = wsName, Code = copy.CodeModule.Code, Attributes = pck.Workbook.VbaProject.GetDocumentAttributes(name, "0{00020820-0000-0000-C000-000000000046}"), Type = eModuleType.Document, HelpContext = 0 });
                     copy.CodeModuleName = wsName;
                 }
-
+                
                 worksheets._worksheets.Add(worksheets.Count, added);
 
                 //Remove any relation to printersettings.
@@ -390,6 +390,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             e.SetAttribute("id", ExcelPackage.schemaRelationships, newVmlRel.Id);
+            added.LoadComments();
         }
 
         private static void CopySheetNames(ExcelWorksheet Copy, ExcelWorksheet added)
@@ -747,6 +748,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     wbDest.ThreadedCommentPersons.Add(p.DisplayName, p.UserId, p.ProviderId, p.Id);
                 }
             }
+            added.LoadThreadedComments();
         }
         private static void CopyHeaderFooterPictures(ExcelWorksheet Copy, ExcelWorksheet added)
         {

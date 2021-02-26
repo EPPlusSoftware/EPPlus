@@ -357,11 +357,6 @@ namespace OfficeOpenXml
                 _list = _list.Where(x => x != null).ToList();
             }
         }
-        internal struct metaDataReferences
-        {
-            int cm;
-            int vm;
-        }
         internal CellStoreValue _values;
         internal CellStore<object> _formulas;
         internal FlagCellStore _flags;
@@ -428,7 +423,18 @@ namespace OfficeOpenXml
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             CreateXml();
-            TopNode = _worksheetXml.DocumentElement;            
+            TopNode = _worksheetXml.DocumentElement;
+            LoadComments();
+            LoadThreadedComments();
+        }
+        internal void LoadComments()
+        {
+            CreateVmlCollection();
+            _comments = new ExcelCommentCollection(_package, this, NameSpaceManager);
+        }
+        internal void LoadThreadedComments()
+        {
+            _threadedComments = new ExcelWorksheetThreadedComments(Workbook.ThreadedCommentPersons, this);
         }
 
         #endregion
@@ -952,11 +958,6 @@ namespace OfficeOpenXml
             get
             {
                 CheckSheetType();
-                if (_comments == null)
-                {
-                    CreateVmlCollection();
-                    _comments = new ExcelCommentCollection(_package, this, NameSpaceManager);
-                }
                 return _comments;
             }
         }
@@ -968,10 +969,6 @@ namespace OfficeOpenXml
             get
             {
                 CheckSheetType();
-                if(_threadedComments == null)
-                {
-                    _threadedComments = new ExcelWorksheetThreadedComments(Workbook.ThreadedCommentPersons, this);
-                }
                 return _threadedComments;
             }
         }

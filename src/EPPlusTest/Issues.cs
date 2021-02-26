@@ -1932,5 +1932,18 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void DeleteWorksheetIssue()
+        {
+            using (var p = OpenTemplatePackage("CommentDelete.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["S3"];
+                ws.DeleteRow(2);
+                p.Workbook.Worksheets.Delete(ws);
+                //ws.DeleteRow(2);
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
