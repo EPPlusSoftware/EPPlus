@@ -600,7 +600,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void LoadItems()
         {
             _items = new ExcelPivotTableFieldItemsCollection(this);
-            if (Cache.DatabaseField == false) return;
+            if (Cache.DatabaseField == false && (IsColumnField == false && IsRowField == false && IsRowField == false)) return;
             EPPlusReadOnlyList<object> cacheItems;
             if (Cache.Grouping == null)
             {

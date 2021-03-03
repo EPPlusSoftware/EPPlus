@@ -103,6 +103,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns></returns>
         public ExcelPivotTableAreaStyle AddButtonField(ExcelPivotTableField field)
         {
+            if (field==null) throw (new ArgumentException("Field can't be null"));
             var formatNode = GetTopNode();
             var s = new ExcelPivotTableAreaStyle(_styles.NameSpaceManager, formatNode.FirstChild, _pt)
             {
@@ -177,7 +178,8 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns></returns>
         public ExcelPivotTableAreaStyle AddLabel(params ExcelPivotTableField[] fields)
         {
-            var s=Add();
+            if (fields.Any(x => x == null)) throw (new ArgumentException("Field in array can't be null"));
+            var s =Add();
             s.LabelOnly = true;
             s.FieldPosition = 0;
             s.Outline = false;
@@ -194,6 +196,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns></returns>
         public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
         {
+            if (fields.Any(x => x == null)) throw (new ArgumentException("Field in array can't be null"));
             var s = Add();
             s.PivotAreaType = ePivotAreaType.Data;
             s.LabelOnly = false;

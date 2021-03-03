@@ -10,8 +10,10 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -146,6 +148,30 @@ namespace OfficeOpenXml.Style.Dxf
             Vertical.Clear();
             Horizontal.Clear();
         }
+
+        public void BorderAround(ExcelBorderStyle borderStyle = ExcelBorderStyle.Thin, eThemeSchemeColor themeColor=eThemeSchemeColor.Accent1)
+        {
+            Top.Style = borderStyle;
+            Top.Color.SetColor(themeColor);
+            Right.Style = borderStyle;
+            Right.Color.SetColor(themeColor);
+            Bottom.Style = borderStyle;
+            Bottom.Color.SetColor(themeColor);
+            Left.Style = borderStyle;
+            Left.Color.SetColor(themeColor);
+        }
+        public void BorderAround(ExcelBorderStyle borderStyle, Color color)
+        {
+            Top.Style = borderStyle;
+            Top.Color.SetColor(color);
+            Right.Style = borderStyle;
+            Right.Color.SetColor(color);
+            Bottom.Style = borderStyle;
+            Bottom.Color.SetColor(color);
+            Left.Style = borderStyle;
+            Left.Color.SetColor(color);
+        }
+
         /// <summary>
         /// Clone the object
         /// </summary>

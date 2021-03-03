@@ -20,15 +20,16 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotArea : XmlHelper
     {
-        internal ExcelPivotArea(XmlNamespaceManager nsm, XmlNode topNode) : 
+        ExcelPivotTable _pt;
+        internal ExcelPivotArea(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) : 
             base(nsm, topNode)
         {
-
+            _pt = pt;
         }
         /// <summary>
-        /// The field referenced. A negative value is no field
+        /// The field referenced. -2 means refers to values.
         /// </summary>
-        internal int FieldIndex
+        public int? FieldIndex
         { 
             get
             {
@@ -36,24 +37,42 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
+                if(!((value >= -2 && value< _pt.Fields.Count)))
+                {
+                    throw new InvalidOperationException("Field index out out of range. Field index must be -2 (values) or within the index of the PivotTable's Fields collection");
+                }
                 SetXmlNodeInt("@field", value);
             }
         }
         /// <summary>
-        /// Position of the field within the axis to which this rule applies. A negative value is no field position
+        /// Position of the field within the axis to which this rule applies. 
         /// </summary>
-        internal int FieldPosition 
+        public int? FieldPosition 
         {
             get
             {
-                return GetXmlNodeInt("@fieldPosition");
+                return GetXmlNodeIntNull("@fieldPosition");
             }
             set
             {
+                if (value < 0 || value>255) throw new InvalidOperationException("FieldPosition cant be negative and may not exceed 255");
                 SetXmlNodeInt("@fieldPosition", value);
             }
         }
-
+        /// <summary>
+        /// If the pivot area referes to the "Σ Values" field in the column or row fields.
+        /// </summary>
+        public bool IsValuesField
+        {
+            get
+            {
+                return FieldIndex == -2;
+            }
+            set
+            {
+                FieldIndex = -2;
+            }
+        }
         /// <summary>
         /// The pivot area type that affecting the selection.
         /// </summary>
@@ -110,7 +129,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     LabelOnly = false;
                 }
-                SetXmlNodeBool("@dataOnly", value);
+                SetXmlNodeBool("@dataOnly", value, true);
             }
         }
         /// <summary>
@@ -175,7 +194,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// Indicating whether the pivot table area referes to an area that is in outline mode.
+        /// Indicating whether the pivot table area refers to an area that is in outline mode.
         /// </summary>
         public bool Outline
         {

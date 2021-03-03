@@ -222,7 +222,7 @@ namespace OfficeOpenXml.Style.Dxf
             SetValueBool(helper, path + "/d:outline/@val", Outline);
             SetValueBool(helper, path + "/d:shadow/@val", Shadow);
             SetValue(helper, path + "/d:name/@val", Name);
-            SetValue(helper, path + "/d:size/@val", Size);
+            SetValue(helper, path + "/d:sz/@val", Size);
             SetValue(helper, path + "/d:family/@val", Family);
             SetValue(helper, path + "/d:vertAlign/@val", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
         }

@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         ExcelStyles _styles;
         internal ExcelPivotTableAreaStyle(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
-            base(nsm, topNode)
+            base(nsm, topNode, pt)
         {
             _styles = pt.WorkSheet.Workbook.Styles;
             Conditions = new ExcelPivotAreaStyleConditions(nsm, topNode, pt);

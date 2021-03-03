@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     else
                     {
-                        var ix = items._list.FindIndex(x=>x.Value.Equals(r.Value));
+                        var ix = items._list.FindIndex(x => (x.Value != null && (x.Value.Equals(r.Value)) || (x.Text != null && x.Text.Equals(r.Value))));
                         if (ix >= 0)
                         {
                             var n = (XmlElement)CreateNode("d:x", false, true);

@@ -880,6 +880,11 @@ namespace OfficeOpenXml
         }
         public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, TableStyles templateStyle)
         {
+            if (templateStyle == Table.TableStyles.Custom)
+            {
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´PivotTableStyles´ overload of this method.", nameof(templateStyle));
+            }
+
             var s = CreateTableAndPivotTableStyle(name);
             s.SetFromTemplate(templateStyle);
             return s;
@@ -887,6 +892,11 @@ namespace OfficeOpenXml
 
         public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, PivotTableStyles templateStyle)
         {
+            if (templateStyle == PivotTableStyles.Custom)
+            {
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´ExcelTableNamedStyleBase´ overload of this method.", nameof(templateStyle));
+            }
+
             var s = CreateTableAndPivotTableStyle(name);
             s.SetFromTemplate(templateStyle);
             return s;
@@ -935,6 +945,10 @@ namespace OfficeOpenXml
         }
         public ExcelSlicerNamedStyle CreateSlicerStyle(string name, eSlicerStyle templateStyle)
         {
+            if(templateStyle==eSlicerStyle.Custom)
+            {
+                throw new ArgumentException("Cant use template style Custom. To use a custom style, please use the ´ExcelSlicerNamedStyle´ overload of this method.", nameof(templateStyle));
+            }
             var s = CreateSlicerStyle(name);
             s.SetFromTemplate(templateStyle);
             return s;
@@ -1495,6 +1509,5 @@ namespace OfficeOpenXml
                 return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, null);
             }
         }
-
     }
 }

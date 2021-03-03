@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -57,6 +57,7 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this);
             LoadFields();
 
+            var pos = 0;
             //Add row fields.
             foreach (XmlElement rowElem in TopNode.SelectNodes("d:rowFields/d:field", NameSpaceManager))
             {
@@ -66,10 +67,16 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else
                 {
+                    if(x==-2)
+                    {
+                        ValuesFieldPosition = pos;
+                    }
                     rowElem.ParentNode.RemoveChild(rowElem);
                 }
+                pos++;
             }
 
+            pos = 0;
             ////Add column fields.
             foreach (XmlElement colElem in TopNode.SelectNodes("d:colFields/d:field", NameSpaceManager))
             {
@@ -79,8 +86,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else
                 {
+                    if (x == -2)
+                    {
+                        ValuesFieldPosition = pos;
+                    }
                     colElem.ParentNode.RemoveChild(colElem);
                 }
+                pos++;
             }
 
             //Add Page elements
@@ -307,6 +319,17 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@dataOnRows", value);
             }
         }
+        /// <summary>
+        /// The position of the values in the row- or column- fields list. Position is dependent on <see cref="DataOnRows"/>.
+        /// If DataOnRows is true then the position is within the <see cref="ColumnFields"/> collection,
+        /// a value of false the position is within the <see cref="RowFields" /> collection.
+        /// A negative value or a value out of range of the add the "Σ values" field to the end of the collection.
+        /// </summary>
+        public int ValuesFieldPosition
+        {
+            get;
+            set;
+        } = -1;
         /// <summary>
         /// if true apply legacy table autoformat number format properties.
         /// </summary>
@@ -1122,6 +1145,7 @@ namespace OfficeOpenXml.Table.PivotTable
             if (DataFields.Count > 1)
             {
                 XmlElement parentNode;
+                int fields;
                 if (DataOnRows == true)
                 {
                     parentNode = PivotTableXml.SelectSingleNode("//d:rowFields", NameSpaceManager) as XmlElement;
@@ -1130,6 +1154,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         CreateNode("d:rowFields");
                         parentNode = PivotTableXml.SelectSingleNode("//d:rowFields", NameSpaceManager) as XmlElement;
                     }
+                    fields = RowFields.Count;
                 }
                 else
                 {
@@ -1139,13 +1164,21 @@ namespace OfficeOpenXml.Table.PivotTable
                         CreateNode("d:colFields");
                         parentNode = PivotTableXml.SelectSingleNode("//d:colFields", NameSpaceManager) as XmlElement;
                     }
+                    fields = ColumnFields.Count;
                 }
 
                 if (parentNode.SelectSingleNode("d:field[@ x= \"-2\"]", NameSpaceManager) == null)
                 {
                     XmlElement fieldNode = PivotTableXml.CreateElement("field", ExcelPackage.schemaMain);
                     fieldNode.SetAttribute("x", "-2");
-                    parentNode.AppendChild(fieldNode);
+                    if (ValuesFieldPosition >= 0 && ValuesFieldPosition < fields)
+                    {
+                        parentNode.InsertBefore(fieldNode, parentNode.ChildNodes[ValuesFieldPosition]);
+                    }
+                    else
+                    {
+                        parentNode.AppendChild(fieldNode);
+                    }
                 }
             }
 

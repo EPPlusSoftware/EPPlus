@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Table.PivotTable
             return _cache._cacheLookup.ContainsKey(value);
         }
         /// <summary>
-        /// Get the item with the value supplied. If the value don't not exist, null is returned
+        /// Get the item with the value supplied. If the value does not exist, null is returned.
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The pivot table field</returns>
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Table.PivotTable
             return null;
         }
         /// <summary>
-        /// Get the index of the item with the value supplied. If the value don't not exist, -1 is returned
+        /// Get the index of the item with the value supplied. If the value does not exist, null is returned.
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The index of the item</returns>
