@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         public override CompileResult Compile()
         {
-            double result = _compiledValue.HasValue ? _compiledValue.Value : double.Parse(ExpressionString, CultureInfo.InvariantCulture);
+            double result = _compiledValue ?? double.Parse(ExpressionString, CultureInfo.InvariantCulture);
             result = _negate ? result * -1 : result;
             return new CompileResult(result, DataType.Integer);
         }
