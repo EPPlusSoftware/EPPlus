@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                if(!((value >= -2 && value< _pt.Fields.Count)))
+                if(value != null && !(value >= -2 && value< _pt.Fields.Count))
                 {
                     throw new InvalidOperationException("Field index out out of range. Field index must be -2 (values) or within the index of the PivotTable's Fields collection");
                 }
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
-                if (value < 0 || value>255) throw new InvalidOperationException("FieldPosition cant be negative and may not exceed 255");
+                if (value != null &&  (value < 0 || value > 255)) throw new InvalidOperationException("FieldPosition cant be negative and may not exceed 255");
                 SetXmlNodeInt("@fieldPosition", value);
             }
         }

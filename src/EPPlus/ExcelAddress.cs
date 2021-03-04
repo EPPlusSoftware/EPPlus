@@ -1666,6 +1666,7 @@ namespace OfficeOpenXml
         /// Creates an Address object
         /// </summary>
         /// <param name="address">The formula address</param>
+        /// <param name="worksheet">The worksheet</param>
         public ExcelFormulaAddress(string address, ExcelWorksheet worksheet)
             : base(address, worksheet?.Workbook, worksheet?.Name)
         {

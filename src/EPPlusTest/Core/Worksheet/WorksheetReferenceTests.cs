@@ -89,7 +89,6 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("Hello, world!", sheet1.Cells[2, 2].Value);
             }
         }
-
         [TestMethod]
         public void CrossSheetInsertRowAfterReferencesHasNoEffect()
         {
@@ -233,7 +232,7 @@ namespace EPPlusTest.Core.Worksheet
                 sheet1.Names.Add("DefinedName1", sheet1.Cells["A1"]);
 
                 package.Save();
-                using(var p2 = new ExcelPackage(package.Stream))
+                using (var p2 = new ExcelPackage(package.Stream))
                 {
                     sheet1 = package.Workbook.Worksheets[sheetName];
                     Assert.IsNotNull(sheet1);
@@ -243,7 +242,24 @@ namespace EPPlusTest.Core.Worksheet
                 }
             }
         }
+        [TestMethod]
+        public void VerifyAddressFullAddress()
+        {
+            using (var package = new ExcelPackage())
+            {
+                //var ws1 = package.Workbook.Worksheets.Add("sheet1");
+                //var n = ws1.Names.Add("Name1", ws1.Cells["A1:B5"]);
+                //n.Address = "A2:D6";
+                //Assert.AreEqual("sheet1!A2:D6", n.FullAddress);
+                //Assert.AreEqual("sheet1!$A$2:$D$6", n.FullAddressAbsolute);
+                var ws1 = package.Workbook.Worksheets.Add("sheet1");
+                var n = package.Workbook.Names.Add("Name1", ws1.Cells["A1:B5"]);
+                n.Address = "A2:D6";
+                Assert.AreEqual("sheet1!A2:D6", n.FullAddress);
+                Assert.AreEqual("sheet1!$A$2:$D$6", n.FullAddressAbsolute);
 
 
+            }
+        }
     }
 }

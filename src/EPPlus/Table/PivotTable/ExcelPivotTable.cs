@@ -714,7 +714,19 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// A boolean that indicates if the field next to the data field in the PivotTable should be displayed in the same column of the spreadsheet
+        /// Sets all pivot table fields <see cref="ExcelPivotTableField.Compact"/> property to the value supplied.
+        /// </summary>
+        /// <param name="value">The the value for the Compact property.</param>
+        public void SetCompact(bool value=true)
+        {
+            Compact = value;
+            foreach(var f in Fields)
+            {
+                f.Compact = value;
+            }
+        }
+        /// <summary>
+        /// A boolean that indicates if the field next to the data field in the PivotTable should be displayed in the same column of the spreadsheet.
         /// </summary>
         public bool CompactData
         {
