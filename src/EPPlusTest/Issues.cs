@@ -1943,6 +1943,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s117()
+        {
+            using (var p = OpenTemplatePackage("s117.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Sheet1"];
+                ws.Calculate();
+            }
+        }
 
     }
 }

@@ -110,7 +110,25 @@ namespace OfficeOpenXml
                     if (token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
-                        f += a.GetOffset(row - StartRow, column - StartCol, true);                            
+                        if (a.IsFullColumn)
+                        {
+                            if (a.IsFullRow)
+                            {
+                                f += token.Value;
+                            }
+                            else    
+                            {
+                                f += a.GetOffset(0, column - StartCol, true);
+                            }
+                        }
+                        else if (a.IsFullRow)
+                        {
+                            f += a.GetOffset(row - StartRow, 0, true);
+                        }
+                        else
+                        {
+                            f += a.GetOffset(row - StartRow, column - StartCol, true);
+                        }
                     }
                     else
                     {
