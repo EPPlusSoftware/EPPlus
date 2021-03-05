@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Filter
             stringPos += anyChars;
             if (stringPos > value.Length) return false;
 
-            int foundPos = value.ToLowerInvariant().IndexOf(tokens[tokenPos].ToLowerInvariant(), stringPos);
+            int foundPos = value.IndexOf(tokens[tokenPos], stringPos, StringComparison.CurrentCultureIgnoreCase);
             while (foundPos>=0)
             {
                 bool match;
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Filter
                     match = MatchTokenList(value, tokens, foundPos + tokens[tokenPos].Length, tokenPos + 1);
                     if (match) return true;
                 }
-                foundPos = value.ToLowerInvariant().IndexOf(tokens[tokenPos].ToLowerInvariant(), foundPos+1);
+                foundPos = value.IndexOf(tokens[tokenPos], foundPos+1, StringComparison.CurrentCultureIgnoreCase);
             }
             return false;
         }
