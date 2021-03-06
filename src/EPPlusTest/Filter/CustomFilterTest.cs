@@ -84,6 +84,30 @@ namespace EPPlusTest.Filter
             Assert.AreEqual(false, ws.Row(33).Hidden);
         }
         [TestMethod]
+        public void CustomContains()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("StartsWith");
+            LoadTestdata(ws);
+            for (int row = 2; row <= ws.Dimension.Rows; row++)
+            {
+                if (row % 10 == 0)
+                {
+                    ws.Cells[row, 3].Value = ws.Cells[row, 3].Value.ToString().Replace("Value", "value");
+                }
+            }
+
+            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            var col = ws.AutoFilter.Columns.AddCustomFilterColumn(2);
+            col.Filters.Add(new ExcelFilterCustomItem("*value*"));
+            col.And = false;
+            ws.AutoFilter.ApplyFilter();
+
+            for (int row = 2; row <= ws.Dimension.Rows; row++)
+            {
+                Assert.AreEqual(false, ws.Row(row).Hidden);
+            }
+        }
+        [TestMethod]
         public void CustomNumericEqualOrGreaterThanOrEqual()
         {
             var ws = _pck.Workbook.Worksheets.Add("NumberEqOrGrEq");
