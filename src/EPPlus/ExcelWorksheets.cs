@@ -371,7 +371,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Index">The position of the worksheet in the workbook</param>
         public void Delete(int Index)
-        {
+        {            
             /*
             * Hack to prefetch all the drawings,
             * so that all the images are referenced, 
@@ -424,13 +424,16 @@ namespace OfficeOpenXml
             _worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
             ReindexWorksheetDictionary();
             //If the active sheet is deleted, set the first tab as active.
-            if (_pck.Workbook.View.ActiveTab >= _pck.Workbook.Worksheets.Count)
+            if (_pck.Workbook.Worksheets.Count > 0)
             {
-                _pck.Workbook.View.ActiveTab = _pck.Workbook.View.ActiveTab - 1;
-            }
-            if (_pck.Workbook.View.ActiveTab == worksheet.SheetId)
-            {
-                _pck.Workbook.Worksheets[_pck._worksheetAdd].View.TabSelected = true;
+                if (_pck.Workbook.View.ActiveTab > _pck.Workbook.Worksheets.Count)
+                {
+                    _pck.Workbook.View.ActiveTab = _pck.Workbook.View.ActiveTab - 1;
+                }
+                if (_pck.Workbook.View.ActiveTab == worksheet.SheetId)
+                {
+                    _pck.Workbook.Worksheets[_pck._worksheetAdd].View.TabSelected = true;
+                }
             }
         }
 

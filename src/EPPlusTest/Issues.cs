@@ -1927,8 +1927,17 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage("CommentDelete.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["S3"];
+                ws.Comments[0].RichText.Add("T");
+                ws.Comments[0].RichText.Add("x");
+                var ws2 = p.Workbook.Worksheets.Add("Copied S3", ws);
+                ws.InsertRow(2,1);
                 ws.DeleteRow(2);
-                ws.DeleteRow(2);
+                ws2.DeleteRow(2);
+                ws.InsertRow(2, 2);
+                var c = ws2.Comments;   // Access the comment collection to force loading it. Otherwise Exception!
+                int dummy = c.Count;    // to load!
+                p.Workbook.Worksheets.Delete(ws);
+                p.Workbook.Worksheets.Delete(ws2);
                 SaveAndCleanup(p);
             }
         }
@@ -1938,7 +1947,10 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage("CommentDelete.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["S3"];
-                ws.DeleteRow(2);
+                var c = ws.Comments; // Access the comment collection to force loading it. Otherwise Exception!
+                int dummy = c.Count; // to load!
+                //ws.DeleteRow(2);
+                dummy = c.Count; // to load!
                 p.Workbook.Worksheets.Delete(ws);
                 SaveAndCleanup(p);
             }
@@ -1946,12 +1958,14 @@ namespace EPPlusTest
         [TestMethod]
         public void s117()
         {
-            using (var p = OpenTemplatePackage("s117.xlsx"))
+            using (var p = OpenTemplatePackage("notworking.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["Sheet1"];
-                ws.Calculate();
+                var cell = ws.Cells[1, 7];
+                cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                SaveAndCleanup(p);
             }
         }
-
     }
 }

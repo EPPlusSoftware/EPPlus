@@ -2014,7 +2014,7 @@ namespace OfficeOpenXml
             if (clearHyperLinksComments)
             {
                 _worksheet._hyperLinks.Delete(fromRow, fromCol, rows, cols, shift);
-                _worksheet._commentsStore.Delete(fromRow, fromCol, rows, cols, shift);
+                DeleteComments(Range);
             }
 
             //Clear multi addresses as well
@@ -2024,6 +2024,20 @@ namespace OfficeOpenXml
                 {
                     DeleteMe(sub, shift, clearValues, clearFlagsAndformulas, clearMergedCells, clearHyperLinksComments);
                 }
+            }
+        }
+
+        private void DeleteComments(ExcelAddressBase Range)
+        {
+            var deleted=new List<int>();
+            var cse = new CellStoreEnumerator<int>(_worksheet._commentsStore, Range._fromRow, Range._fromCol, Range._toRow, Range._toCol);
+            while (cse.Next())
+            {
+                deleted.Add(cse.Value);
+            }
+            foreach(var i in deleted)
+            {
+                _worksheet.Comments.RemoveAt(i);
             }
         }
 
