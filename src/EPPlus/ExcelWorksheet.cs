@@ -1223,12 +1223,11 @@ namespace OfficeOpenXml
                     if (sr.Peek() != -1)        //Now find the end tag </sheetdata> so we can add the end of the xml document
                     {
                         /**** Fixes issue 14788. Fix by Philip Garrett ****/
-                        long endSeekStart = end;
 
-                        while (endSeekStart >= 0)
+                        long endSeekStart = Math.Max(end - BLOCKSIZE, 0);
+                        while (endSeekStart < stream.Length)
                         {
-                            endSeekStart = Math.Max(endSeekStart - BLOCKSIZE, 0);
-                            int size = (int)(end - endSeekStart);
+                            int size = stream.Length - endSeekStart < BLOCKSIZE ? (int)(stream.Length - endSeekStart) : BLOCKSIZE;
                             stream.Seek(endSeekStart, SeekOrigin.Begin);
                             block = new char[size];
                             sr = new StreamReader(stream);
@@ -1241,6 +1240,7 @@ namespace OfficeOpenXml
                             {
                                 break;
                             }
+                            endSeekStart += size;
                         }
                     }
                     endMatch = Regex.Match(s, string.Format("(</[^>]*{0}[^>]*>)", "sheetData"));
