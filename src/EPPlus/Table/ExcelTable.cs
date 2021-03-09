@@ -808,8 +808,9 @@ namespace OfficeOpenXml.Table
         /// </summary>
         /// <param name="position">The position in the table where the row will be inserted. Default is in the end of the table. 0 will insert the row at the top. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
         /// <param name="rows">Number of rows to insert.</param>
+        /// <param name="copyStyles">Copy styles from the row above. If inserting a row at position 0, the first row will be used as a template.</param>
         /// <returns>The inserted range</returns>
-        public ExcelRangeBase InsertRow(int position, int rows=1)
+        public ExcelRangeBase InsertRow(int position, int rows=1, bool copyStyles=true)
         {
             if(position < 0)
             {
@@ -835,12 +836,15 @@ namespace OfficeOpenXml.Table
 
             WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
 
-            int copyFromRow = isFirstRow ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
-            if (range._toRow > _address._toRow)
+            if (copyStyles)
             {
-                Address = _address.AddRow(_address._toRow, rows);                
+                int copyFromRow = isFirstRow ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
+                if (range._toRow > _address._toRow)
+                {
+                    Address = _address.AddRow(_address._toRow, rows);
+                }
+                CopyStylesFromRow(address, copyFromRow);    //Separate copy instead of using Insert paramter 3 as the first row should not copy the styles from the header row.
             }
-            CopyStylesFromRow(address, copyFromRow);    //Separate copy instead of using Insert paramter 3 as the first row should not copy the styles from the header row.
 
             return range;
         }
@@ -914,8 +918,9 @@ namespace OfficeOpenXml.Table
         /// </summary>
         /// <param name="position">The position in the table where the column will be inserted. 0 will insert the column at the leftmost. Any value larger than the number of rows in the table will insert a row at the bottom of the table.</param>
         /// <param name="columns">Number of rows to insert.</param>
+        /// <param name="copyStyles">Copy styles from the column to the left.</param>
         /// <returns>The inserted range</returns>
-        internal ExcelRangeBase InsertColumn(int position, int columns)
+        internal ExcelRangeBase InsertColumn(int position, int columns, bool copyStyles=false)
         {
             if (position < 0)
             {
@@ -925,7 +930,7 @@ namespace OfficeOpenXml.Table
             {
                 throw new ArgumentException("columns", "columns can't be negative");
             }
-
+            var isFirstColumn = position == 0;
             if (position >= ExcelPackage.MaxColumns || position > _address._fromCol + position + columns - 1)
             {
                 position = _address.Columns;
@@ -941,7 +946,6 @@ namespace OfficeOpenXml.Table
 
             WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, true);
 
-            var copyFromCol = position == 0 ? position + columns : position-1;
             if (position == 0)
             {
                 Address = new ExcelAddressBase(_address._fromRow, _address._fromCol - columns, _address._toRow, _address._toCol);
@@ -951,6 +955,12 @@ namespace OfficeOpenXml.Table
                 Address = _address.AddColumn(_address._toCol, columns);
             }
             
+            if(copyStyles && isFirstColumn==false)
+            {
+                var copyFromCol = _address._fromCol + position - 1;
+                CopyStylesFromColumn(address, copyFromCol);
+            }
+
             return range;
         }
         /// <summary>

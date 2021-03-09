@@ -1955,17 +1955,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void s117()
-        {
-            using (var p = OpenTemplatePackage("notworking.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets["Sheet1"];
-                var cell = ws.Cells[1, 7];
-                cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                cell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
-                SaveAndCleanup(p);
-            }
-        }
     }
 }

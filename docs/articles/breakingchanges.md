@@ -55,3 +55,7 @@ Misspelled property `ExcelCalculationOption.AllowCirculareReferences` has been r
 Misspelled property `ColumGrandTotals` has been removed. Please use `ColumnGrandTotals`
 Pivot tables will always have the flag to be refreshed on load set.
 Pivot table filter classes moved to correct namespace --> OfficeOpenXml.Table.PivotTable
+
+### Breaking Change From EPPlus 5.6
+Inserting rows in tables will by default copy any style from the row before. 
+The ExcelRange.Cells indexer will not permit accessing other worksheets using the string address overload (for example sheet1.Cells["sheet2.A1"]).
