@@ -35,11 +35,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             List<double> sumRange;
             if(valueRange != null)
             {
-                sumRange = ArgsToDoubleEnumerableZeroPadded(true, valueRange, context).ToList();
+                sumRange = ArgsToDoubleEnumerableZeroPadded(false, valueRange, context).ToList();
             }
             else
             {
-                sumRange = ArgsToDoubleEnumerable(true, new List<FunctionArgument> { functionArguments[0] }, context).Select(x => (double)x).ToList();
+                sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { functionArguments[0] }, context).Select(x => (double)x).ToList();
             } 
             var argRanges = new List<ExcelDataProvider.IRangeInfo>();
             var criterias = new List<string>();
