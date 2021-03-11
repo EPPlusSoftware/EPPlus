@@ -129,13 +129,21 @@ namespace OfficeOpenXml
             }
 
             //cellStyle
+            int count = 0;
             XmlNode namedStyleNode = GetNode(CellStylesPath);
             if (namedStyleNode != null)
             {
                 foreach (XmlNode n in namedStyleNode)
                 {
-                    ExcelNamedStyleXml item = new ExcelNamedStyleXml(_nameSpaceManager, n, this);
-                    NamedStyles.Add(item.Name, item);
+                    if (count++ < 50)
+                    {
+                        ExcelNamedStyleXml item = new ExcelNamedStyleXml(_nameSpaceManager, n, this);
+                        NamedStyles.Add(item.Name, item);
+                    }   
+                    else
+                    {
+
+                    }
                 }
             }
 
@@ -1119,11 +1127,13 @@ namespace OfficeOpenXml
             }
             XmlNode cellXfsNode = GetNode(CellXfsPath);
             cellXfsNode.RemoveAll();
-
+            int xfsCount = 0;
             if (NamedStyles.Count > 0 && normalIx >= 0)
             {
                 NamedStyles[normalIx].newID = 0;
                 AddNamedStyle(0, styleXfsNode, cellXfsNode, NamedStyles[normalIx]);
+                cellXfsNode.AppendChild(CellStyleXfs[0].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+                xfsCount++;
             }
             foreach (ExcelNamedStyleXml style in NamedStyles)
             {
@@ -1147,8 +1157,8 @@ namespace OfficeOpenXml
                 if (xf.useCnt > 0 && !(normalIx >= 0 && NamedStyles[normalIx].StyleXfId == xfix))
                 {
                     cellXfsNode.AppendChild(xf.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
-                    xf.newID = count;
-                    count++;
+                    xf.newID = xfsCount;
+                    xfsCount++;
                 }
                 xfix++;
             }
@@ -1191,18 +1201,18 @@ namespace OfficeOpenXml
             styleXfs.newID = id;
             styleXfs.XfId = style.StyleXfId;
 
-            var ix = CellXfs.FindIndexById(styleXfs.Id);
-            if (ix < 0)
-            {
-                cellXfsNode.AppendChild(styleXfs.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
-            }
-            else
-            {
-                if(id<0) CellXfs[ix].XfId = id;
-                cellXfsNode.AppendChild(CellXfs[ix].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
-                CellXfs[ix].useCnt = 0;
-                CellXfs[ix].newID = id;
-            }
+            //var ix = CellXfs.FindIndexById(styleXfs.Id);
+            //if (ix < 0)
+            //{
+            //    cellXfsNode.AppendChild(styleXfs.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+            //}
+            //else
+            //{
+            //    if (id < 0) CellXfs[ix].XfId = id;
+            //    cellXfsNode.AppendChild(CellXfs[ix].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+            //    CellXfs[ix].useCnt = 0;
+            //    CellXfs[ix].newID = id;
+            //}
 
             if (style.XfId >= 0)
                 style.XfId = CellXfs[style.XfId].newID;

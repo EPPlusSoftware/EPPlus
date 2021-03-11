@@ -2652,6 +2652,7 @@ namespace OfficeOpenXml
                             else
                             {
                                 col.Name = n;
+                                SetValueInner(tbl.Address._fromRow, colNum, ConvertUtil.ExcelDecodeString(col.Name));
                             }
                         }
                         else

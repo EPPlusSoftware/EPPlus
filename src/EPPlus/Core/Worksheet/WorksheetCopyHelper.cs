@@ -402,11 +402,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (name.WorkSheetName == Copy.Name)
                     {
-                        newName = added.Names.AddName(name.Name, added.Cells[name.FirstAddress]);
+                        newName = added.Names.AddName(name.Name, added.Cells[name.LocalAddress]);
                     }
                     else
                     {
-                        newName = added.Names.AddName(name.Name, added.Workbook.Worksheets[name.WorkSheetName].Cells[name.FirstAddress]);
+                        newName = added.Names.AddName(name.Name, added.Workbook.Worksheets[name.WorkSheetName].Cells[name.LocalAddress]);
                     }
                 }
                 else if (!string.IsNullOrEmpty(name.NameFormula))

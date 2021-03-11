@@ -65,6 +65,14 @@ namespace OfficeOpenXml
                 }
                 else
                 {
+                    if(Address.IndexOfAny(new char[] { '\'', '[', '!' })>=0)
+                    {
+                        var a = new ExcelAddress(Address);
+                        if(a.WorkSheetName!=null && a.WorkSheetName.Equals(_worksheet.Name, StringComparison.InvariantCulture)==false)
+                        {
+                            throw new InvalidOperationException($"The worksheet address {Address} is not within the worksheet {_worksheet.Name}");
+                        }
+                    }
                     SetAddress(Address, _workbook, _worksheet.Name);
                     ChangeAddress();
                 }

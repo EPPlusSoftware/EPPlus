@@ -232,7 +232,9 @@ namespace OfficeOpenXml.Table
         /// Sets a calculated column Formula.
         /// Be carefull with this property since it is not validated. 
         /// <example>
-        /// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);
+        /// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);  //Reference within the current row
+        /// tbl.Columns[9].CalculatedColumnFormula = string.Format("MyDataTable[[#Headers],[{0}]]",tbl.Columns[9].Name);  //Reference to a column header
+        /// tbl.Columns[9].CalculatedColumnFormula = string.Format("MyDataTable[[#Totals],[{0}]]",tbl.Columns[9].Name);  //Reference to a column total        
         /// </example>
         /// </summary>
         public string CalculatedColumnFormula

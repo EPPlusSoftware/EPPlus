@@ -201,9 +201,9 @@ namespace OfficeOpenXml.Style.Dxf
                 Gradient.SetValuesFromXml(helper);
             }
         }
-        internal static ExcelFillStyle GetPatternTypeEnum(string patternType)
+        internal static ExcelFillStyle? GetPatternTypeEnum(string patternType)
         {
-            if (patternType == "") return ExcelFillStyle.None;
+            if (string.IsNullOrEmpty(patternType)) return null;
             patternType = patternType.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + patternType.Substring(1, patternType.Length - 1);
             try
             {
@@ -211,7 +211,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
             catch
             {
-                return ExcelFillStyle.None;
+                return null;
             }
         }
     }

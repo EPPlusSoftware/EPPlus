@@ -114,7 +114,7 @@ namespace OfficeOpenXml
                 {
                     throw(new ArgumentOutOfRangeException("Comment index out of range"));
                 }
-                return _list[_listIndex[Index]] as ExcelComment;
+                return _list[_listIndex[Index]];
             }
         }
         /// <summary>
@@ -218,6 +218,10 @@ namespace OfficeOpenXml
                 Worksheet._commentsStore.Delete(comment.Range._fromRow, comment.Range._fromCol, 1, 1, shift);
                 _list[i]=null;
                 _listIndex.Remove(i);
+                //if(_listIndex.Count==0)
+                //{
+                //    _list.Clear();
+                //}
             }
             else
             {
@@ -308,6 +312,7 @@ namespace OfficeOpenXml
         {
             Remove(this[Index]);
         }
+
         #region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()

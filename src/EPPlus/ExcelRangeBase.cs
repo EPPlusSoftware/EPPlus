@@ -2037,7 +2037,7 @@ namespace OfficeOpenXml
             }
             foreach(var i in deleted)
             {
-                _worksheet.Comments.RemoveAt(i);
+                _worksheet.Comments.Remove(_worksheet.Comments._list[i]);
             }
         }
 

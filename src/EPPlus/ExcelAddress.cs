@@ -300,7 +300,6 @@ namespace OfficeOpenXml
             return c == ExcelAddressBase.eAddressCollition.Equal ||
                    c == ExcelAddressBase.eAddressCollition.Inside;
         }
-
         /// <summary>
         /// Address is an defined name
         /// </summary>
@@ -326,7 +325,9 @@ namespace OfficeOpenXml
         /// <summary>
         /// Sets the address
         /// </summary>
-        /// <param name="address">the address</param>
+        /// <param name="address">The address</param>
+        /// <param name="wb"></param>
+        /// <param name="wsName"></param>
         protected internal void SetAddress(string address, ExcelWorkbook wb, string wsName)
         {
             address = address.Trim();

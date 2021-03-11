@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             Name = GetXmlNodeString(namePath);
             BuildInId = GetXmlNodeInt(buildInIdPath);
             CustomBuildin = GetXmlNodeBool(customBuiltinPath);
-
+            Uid= GetXmlNodeString(uidPath);
             _styles = styles;
             _style = new ExcelStyle(styles, styles.NamedStylePropertyChange, -1, Name, _styleXfId);
         }
@@ -118,14 +118,16 @@ namespace OfficeOpenXml.Style.XmlAccess
                 _style = value;
             }
         }
-
+        const string uidPath="@xr:uid";
+        internal string Uid { get; set; }
         internal override XmlNode CreateXmlNode(XmlNode topNode)
         {
             TopNode = topNode;
             SetXmlNodeString(namePath, _name);
-            SetXmlNodeString("@xfId", _styles.CellStyleXfs[StyleXfId].newID.ToString());
-            if (BuildInId>=0) SetXmlNodeString("@builtinId", BuildInId.ToString());
+            SetXmlNodeString(idPath, _styles.CellStyleXfs[StyleXfId].newID.ToString());
+            if (BuildInId>=0) SetXmlNodeString(buildInIdPath, BuildInId.ToString());
             if(CustomBuildin) SetXmlNodeBool(customBuiltinPath, true);
+            if (!string.IsNullOrEmpty(Uid)) SetXmlNodeString(uidPath, Uid);
             return TopNode;            
         }
     }

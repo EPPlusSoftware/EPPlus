@@ -1955,5 +1955,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue294()
+        {
+            using (var p = OpenTemplatePackage("test_excel_workbook_before2-xl.xlsx"))
+            {
+                var s = p.Workbook.Styles.NamedStyles.Count;
+                var ws = p.Workbook.Worksheets["Summary"];
+                p.Save();
+            }
+        }
+
     }
 }

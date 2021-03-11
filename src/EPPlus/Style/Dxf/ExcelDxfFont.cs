@@ -228,10 +228,11 @@ namespace OfficeOpenXml.Style.Dxf
         }
         protected internal override void SetValuesFromXml(XmlHelper helper)
         {
+            Size = helper.GetXmlNodeIntNull("d:font/d:sz/@val");
+
             base.SetValuesFromXml(helper);
 
             Name = helper.GetXmlNodeString("d:font/d:name/@val");
-            Size = helper.GetXmlNodeIntNull("d:font/d:sz/@val");
             Condense = helper.GetXmlNodeBoolNullable("d:font/d:condense/@val");
             Extend = helper.GetXmlNodeBoolNullable("d:font/d:extend/@val");
             Outline = helper.GetXmlNodeBoolNullable("d:font/d:outline/@val");
