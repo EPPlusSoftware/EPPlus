@@ -18,6 +18,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
+using System;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -350,7 +351,7 @@ namespace OfficeOpenXml.FormulaParsing
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {
-                addr = ConvertToA1C1(addr);
+                addr = ConvertToA1C1(addr, new ExcelAddressBase(row, column, row, column));
             }
             //SetCurrentWorksheet(addr.WorkSheet); 
             var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
@@ -358,12 +359,13 @@ namespace OfficeOpenXml.FormulaParsing
             //return new CellsStoreEnumerator<object>(ws._values, addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
             return new RangeInfo(ws, addr);
         }
+        [Obsolete("Please use GetRange(string, row, column, address)")]
         public override IRangeInfo GetRange(string worksheet, string address)
         {
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {
-                addr = ConvertToA1C1(addr);
+                addr = ConvertToA1C1(addr, addr);
             }
             //SetCurrentWorksheet(addr.WorkSheet); 
             var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
@@ -372,10 +374,10 @@ namespace OfficeOpenXml.FormulaParsing
             return new RangeInfo(ws, addr);
         }
 
-        private ExcelAddress ConvertToA1C1(ExcelAddressBase addr)
+        private ExcelAddress ConvertToA1C1(ExcelAddressBase addr, ExcelAddressBase refAddress)
         {
             //Convert the Table-style Address to an A1C1 address
-            addr.SetRCFromTable(_package, addr);
+            addr.SetRCFromTable(_package, refAddress);
             var a = new ExcelAddress(addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
             a._ws = addr._ws;            
             return a;

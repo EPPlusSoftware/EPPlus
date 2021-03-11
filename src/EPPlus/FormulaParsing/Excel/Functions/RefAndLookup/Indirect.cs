@@ -52,7 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 ws = context.Scopes.Current.Address.Worksheet;
             }
-            var result = context.ExcelDataProvider.GetRange(ws, address);
+            var result = context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, address);
             if (result.IsEmpty)
             {
                 return CompileResult.Empty;
