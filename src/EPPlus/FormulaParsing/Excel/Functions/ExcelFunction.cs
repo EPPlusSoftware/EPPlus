@@ -467,7 +467,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, ExcelDataProvider.IRangeInfo rangeInfo, ParsingContext context)
         {
             var startRow = rangeInfo.Address.Start.Row;
-            var endRow = rangeInfo.Address.End.Row > rangeInfo.Worksheet.Dimension.Rows ? rangeInfo.Worksheet.Dimension.Rows : rangeInfo.Address.End.Row;
+            var endRow = rangeInfo.Address.End.Row > rangeInfo.Worksheet.Dimension._toRow ? rangeInfo.Worksheet.Dimension._toRow : rangeInfo.Address.End.Row;
             var funcArg = new FunctionArgument(rangeInfo);
             var result = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
             var dict = new Dictionary<int, double>();

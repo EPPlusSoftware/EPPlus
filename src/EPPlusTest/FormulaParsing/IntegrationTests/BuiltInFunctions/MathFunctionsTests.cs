@@ -660,5 +660,27 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 Assert.AreEqual(0d, sheet.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void SumIfsTest()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["C6"].Value = 4;
+                sheet.Cells["C7"].Value = 2;
+                sheet.Cells["C8"].Value = 28;
+                sheet.Cells["D6"].Value = 3;
+                sheet.Cells["D7"].Value = 2;
+                sheet.Cells["D8"].Value = 4;
+                sheet.Cells["E6"].Value = 10;
+                sheet.Cells["E7"].Value = 20;
+                sheet.Cells["E8"].Value = 30;
+
+                sheet.Cells["E9"].Formula = "SUMIFS(E6:E8;D6:D8;\" > 2\";C6:C8;28)";
+                sheet.Calculate();
+                Assert.AreEqual(30d, sheet.Cells["E9"].Value);
+            }
+        }
     }
 }

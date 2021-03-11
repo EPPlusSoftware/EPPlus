@@ -40,11 +40,20 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             var result = string.Empty;
             if (!string.IsNullOrEmpty(expr))
             {
-                if (expr.Length > 1 && !char.IsLetterOrDigit(expr[0]) && !char.IsLetterOrDigit(expr[1])) 
-                    result = expr.Substring(0, 2);
-                else if (expr.Length > 0 && !char.IsLetterOrDigit(expr[0])) 
+                expr = expr.Trim();
+                if (expr.Length > 1 && !char.IsLetterOrDigit(expr[0]) && !char.IsLetterOrDigit(expr[1]))
+                {
+                    if (char.IsWhiteSpace(expr[1]))
+                        result = expr.Substring(0, 1);
+                    else
+                        result = expr.Substring(0, 2);
+                }
+                else if (expr.Length > 0 && !char.IsLetterOrDigit(expr[0]))
+                {
                     result = expr.Substring(0, 1);
+                }
             }
+            
             return result;
         }
 

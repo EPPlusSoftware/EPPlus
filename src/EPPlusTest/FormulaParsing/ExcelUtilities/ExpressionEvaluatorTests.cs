@@ -335,6 +335,15 @@ namespace EPPlusTest
             result = _evaluator.Evaluate("b", "<a");
             Assert.IsFalse(result);
         }
+
+        [TestMethod]
+        public void EvaluateCharacterWithSpaceBetweenOperatorAndCharacter()
+        {
+            var result = _evaluator.Evaluate("b", "> a");
+            Assert.IsTrue(result);
+            result = _evaluator.Evaluate("b", "< a");
+            Assert.IsFalse(result);
+        }
 #endregion
     }
 }
