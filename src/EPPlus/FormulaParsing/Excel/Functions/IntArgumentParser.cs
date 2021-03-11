@@ -21,14 +21,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     public class IntArgumentParser : ArgumentParser
     {
+
+        private readonly RoundingMethod _roundingMethod;
+
         public override object Parse(object obj)
+        {
+            return Parse(obj, RoundingMethod.Convert);
+        }
+
+        public override object Parse(object obj, RoundingMethod roundingMethod)
         {
             Require.That(obj).Named("argument").IsNotNull();
             int result;
             if (obj is ExcelDataProvider.IRangeInfo)
             {
                 var r = ((ExcelDataProvider.IRangeInfo)obj).FirstOrDefault();
-                return r == null ? 0 : Convert.ToInt32(r.ValueDouble);
+                return r == null ? 0 : ConvertToInt(r.ValueDouble, roundingMethod);
             }
             var objType = obj.GetType();
             if (objType == typeof(int))
@@ -37,13 +45,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             if (objType == typeof(double) || objType == typeof(decimal))
             {
-                return Convert.ToInt32(obj);
+                return ConvertToInt(obj, roundingMethod);
             }
             if (!int.TryParse(obj.ToString(), out result))
             {
                 throw new ExcelErrorValueException(ExcelErrorValue.Create(eErrorType.Value));
             }
             return result;
+        }
+
+        private int ConvertToInt(object obj, RoundingMethod roundingMethod)
+        {
+            var objType = obj.GetType();
+            if (roundingMethod == RoundingMethod.Convert)
+            {
+                return Convert.ToInt32(obj);
+            }
+            else if (objType == typeof(double))
+            {
+                return Convert.ToInt32(System.Math.Floor((double)obj));
+            }
+            else
+            {
+                return Convert.ToInt32(System.Math.Floor((decimal)obj));
+            }
         }
     }
 }

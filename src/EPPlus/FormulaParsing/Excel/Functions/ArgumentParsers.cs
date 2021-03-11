@@ -48,5 +48,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             return _parsers[dataType];
         }
+
+        public ArgumentParser GetParser(DataType dataType, RoundingMethod roundingMethod)
+        {
+            if (!_parsers.ContainsKey(dataType))
+            {
+                lock (_syncRoot)
+                {
+                    if (!_parsers.ContainsKey(dataType))
+                    {
+                        _parsers.Add(dataType, _parserFactory.CreateArgumentParser(dataType, roundingMethod));
+                    }
+                }
+            }
+            return _parsers[dataType];
+        }
     }
 }

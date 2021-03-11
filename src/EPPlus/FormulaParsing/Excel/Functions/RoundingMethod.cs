@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,19 +8,20 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  03/10/2021         EPPlus Software AB       EPPlus 5.6
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    public abstract class ArgumentParser
+    public enum RoundingMethod
     {
-        public abstract object Parse(object obj);
-
-        public abstract object Parse(object obj, RoundingMethod roundingMethod);
+        /// <summary>
+        /// Round decimal number to int using Convert.ToInt32
+        /// </summary>
+        Convert,
+        /// <summary>
+        /// Round decimal number to int using Math.Floor
+        /// </summary>
+        Floor
     }
 }

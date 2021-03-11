@@ -37,5 +37,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             return result;
         }
+
+        public override object Parse(object obj, RoundingMethod roundingMethod)
+        {
+            return Parse(obj);
+        }
     }
 }

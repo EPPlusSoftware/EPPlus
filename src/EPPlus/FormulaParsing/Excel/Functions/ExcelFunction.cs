@@ -197,6 +197,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based
+        /// <paramref name="index"/> as an integer.
+        /// </summary>
+        /// <param name="arguments"></param>
+        /// <param name="index"></param>
+        /// <param name="roundingMethod"></param>
+        /// <returns>Value of the argument as an integer.</returns>
+        /// <exception cref="ExcelErrorValueException"></exception>
+        protected int ArgToInt(IEnumerable<FunctionArgument> arguments, int index, RoundingMethod roundingMethod)
+        {
+            var val = arguments.ElementAt(index).ValueFirst;
+            return (int)_argumentParsers.GetParser(DataType.Integer).Parse(val, roundingMethod);
+        }
+
+        /// <summary>
+        /// Returns the value of the argument att the position of the 0-based
         /// <paramref name="index"/> as a string.
         /// </summary>
         /// <param name="arguments"></param>

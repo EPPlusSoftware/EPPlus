@@ -47,5 +47,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 throw new ExcelErrorValueException(ExcelErrorValue.Create(eErrorType.Value));
             }
         }
+
+        public override object Parse(object obj, RoundingMethod roundingMethod)
+        {
+            return Parse(obj);
+        }
     }
 }
