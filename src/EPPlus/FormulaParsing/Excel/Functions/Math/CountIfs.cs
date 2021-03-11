@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     var addressString = ArgToAddress(arguments, ix, context);
                     var address = new ExcelAddress(addressString);
                     var ws = string.IsNullOrEmpty(address.WorkSheetName) ? context.Scopes.Current.Address.Worksheet : address.WorkSheetName;
-                    rangeInfo = context.ExcelDataProvider.GetRange(ws, address.Address);
+                    rangeInfo = context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, address.Address);
                 }
                 argRanges.Add(rangeInfo);
                 var value = functionArguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
