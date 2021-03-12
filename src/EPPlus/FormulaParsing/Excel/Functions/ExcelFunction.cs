@@ -483,14 +483,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             var startRow = rangeInfo.Address.Start.Row;
             var endRow = rangeInfo.Address.End.Row > rangeInfo.Worksheet.Dimension._toRow ? rangeInfo.Worksheet.Dimension._toRow : rangeInfo.Address.End.Row;
+            var startCol = rangeInfo.Address.Start.Column;
+            var endCol = rangeInfo.Address.End.Column > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.End.Column;
+            var horizontal = (startRow == endRow && rangeInfo.Address._fromCol < rangeInfo.Address._toCol);
             var funcArg = new FunctionArgument(rangeInfo);
             var result = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
             var dict = new Dictionary<int, double>();
-            result.ToList().ForEach(x => dict.Add(x.CellRow.Value, x.Value));
+            result.ToList().ForEach(x => dict.Add(horizontal ? x.CellCol.Value : x.CellRow.Value, x.Value));
             var resultList = new List<double>();
-            for (var row = startRow; row <= endRow; row++)
+            var from = horizontal ? startCol : startRow;
+            var to = horizontal ? endCol : endRow;
+            for (var row = from; row <= to; row++)
             {
-                if(dict.ContainsKey(row))
+                if (dict.ContainsKey(row))
                 {
                     resultList.Add(dict[row]);
                 }

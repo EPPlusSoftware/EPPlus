@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                             if(!ignoreErrors && cell.IsExcelError) throw new ExcelErrorValueException(ExcelErrorValue.Parse(cell.Value.ToString()));
                             if (!CellStateHelper.ShouldIgnore(ignoreHidden, ignoreNonNumeric, cell, context) && ConvertUtil.IsNumericOrDate(cell.Value))
                             {
-                                var val = new ExcelDoubleCellValue(cell.ValueDouble, cell.Row);
+                                var val = new ExcelDoubleCellValue(cell.ValueDouble, cell.Row, cell.Column);
                                 argList.Add(val);
                             }       
                         }
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     {
                         if((!ignoreHidden && cell.IsHiddenRow) || !cell.IsHiddenRow)
                         {
-                            var val = new ExcelDoubleCellValue(cell.ValueDoubleLogical, cell.Row);
+                            var val = new ExcelDoubleCellValue(cell.ValueDoubleLogical, cell.Row, cell.Column);
                             argList.Add(val);
                         }
                         

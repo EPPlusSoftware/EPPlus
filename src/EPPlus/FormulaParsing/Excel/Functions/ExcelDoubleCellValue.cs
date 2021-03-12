@@ -23,15 +23,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             Value = val;
             CellRow = default(int?);
+            CellCol = default(int?);
         }
 
-        public ExcelDoubleCellValue(double val, int cellRow)
+        public ExcelDoubleCellValue(double val, int cellRow, int cellCol)
         {
             Value = val;
             CellRow = cellRow;
+            CellCol = cellCol;
         }
 
         public int? CellRow;
+
+        public int? CellCol;
 
         public double Value;
 
