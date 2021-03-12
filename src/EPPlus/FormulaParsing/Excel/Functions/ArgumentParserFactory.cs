@@ -34,20 +34,5 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     throw new InvalidOperationException("non supported argument parser type " + dataType.ToString());
             }
         }
-
-        public virtual ArgumentParser CreateArgumentParser(DataType dataType, RoundingMethod roundingMethod)
-        {
-            switch (dataType)
-            {
-                case DataType.Integer:
-                    return new IntArgumentParser();
-                case DataType.Boolean:
-                    return new BoolArgumentParser();
-                case DataType.Decimal:
-                    return new DoubleArgumentParser();
-                default:
-                    throw new InvalidOperationException("non supported argument parser type " + dataType.ToString());
-            }
-        }
     }
 }
