@@ -284,7 +284,7 @@ namespace OfficeOpenXml
 				_package.ZipPackage.DeletePart(SharedStringsUri); //Remove the part, it is recreated when saved.
 			}
 		}
-		internal void	GetDefinedNames()
+		internal void GetDefinedNames()
 		{
 			XmlNodeList nl = WorkbookXml.SelectNodes("//d:definedNames/d:definedName", NameSpaceManager);
 			if (nl != null)
@@ -1080,8 +1080,11 @@ namespace OfficeOpenXml
 
 			UpdateDefinedNamesXml();
 
-			//Updates the Workbook Xml, so must be before saving the wookbook part 
-			SavePivotTableCaches();
+			if (HasLoadedPivotTables)
+			{
+				//Updates the Workbook Xml, so must be before saving the wookbook part 
+				SavePivotTableCaches();
+			}
 
 			// save the workbook
 			if (_workbookXml != null)
@@ -1579,7 +1582,22 @@ namespace OfficeOpenXml
 			}
 		}
 
-		internal void ReadAllPivotTables()
+        public bool HasLoadedPivotTables 
+		{ 
+			get
+			{
+				if (_worksheets == null) return false;
+				foreach(var ws in _worksheets)
+                {
+					if(ws.HasLoadedPivotTables==true)
+                    {
+						return true;
+                    }
+                }
+				return false;
+			}
+		}
+        internal void ReadAllPivotTables()
 		{
 			if (_nextPivotTableID > 0) return;
 			_nextPivotTableID = 1;

@@ -143,6 +143,7 @@ namespace OfficeOpenXml.Style.Dxf
 
         private static void UpdateDxfXmlPivotTables(ExcelStyles styles, XmlNode dxfsNode, ExcelWorksheet ws)
         {
+            if (ws.HasLoadedPivotTables == false) return;
             foreach (var pt in ws.PivotTables)
             {
                 for(int i= 0; i< pt.Styles.Count;i++)

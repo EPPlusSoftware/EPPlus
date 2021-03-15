@@ -1017,7 +1017,7 @@ namespace OfficeOpenXml
             //Add pivot Table formatting.
             foreach (var ws in _wb.Worksheets)
             {
-                if (!(ws is ExcelChartsheet))
+                if (!(ws is ExcelChartsheet) && ws.HasLoadedPivotTables)
                 {
                     foreach (var pt in ws.PivotTables)
                     {

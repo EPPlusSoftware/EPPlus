@@ -303,8 +303,6 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(4, shape.From.Column);
             Assert.AreEqual(0, shape.From.ColumnOff);
         }
-
-
         [TestMethod]
         public void DeleteRangeWithDrawingPartialShiftLeft()
         {

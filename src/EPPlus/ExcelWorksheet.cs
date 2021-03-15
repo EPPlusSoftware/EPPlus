@@ -1481,9 +1481,10 @@ namespace OfficeOpenXml
 
             while (!xr.EOF)
             {
-                while (xr.NodeType == XmlNodeType.EndElement)
+                while (xr.NodeType == XmlNodeType.EndElement || xr.NodeType == XmlNodeType.None)
                 {
                     xr.Read();
+                    if (xr.EOF) return;
                     continue;
                 }
                 if (xr.LocalName == "row")
@@ -1572,7 +1573,7 @@ namespace OfficeOpenXml
                 else if (xr.LocalName == "f")
                 {
                     string t = xr.GetAttribute("t");
-                    if (t == null)
+                    if (t == null || t=="normal")
                     {
                         _formulas.SetValue(address._fromRow, address._fromCol, ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString()));
                         SetValueInner(address._fromRow, address._fromCol, null);
@@ -1608,6 +1609,11 @@ namespace OfficeOpenXml
                         SetValueInner(address._fromRow, address._fromCol, null);
                         _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = aAddress, StartRow = address._fromRow, StartCol = address._fromCol, IsArray = true });
                         _flags.SetFlagValue(address._fromRow, address._fromCol, true, CellFlags.ArrayFormula);
+                    }
+                    else if (t=="dataTable") //Unsupported
+                    {
+                        //TODO:Add support.
+                        xr.Read();
                     }
                     else // ??? some other type
                     {
@@ -2361,7 +2367,7 @@ namespace OfficeOpenXml
                     SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
-                    SavePivotTables();
+                    if(HasLoadedPivotTables) SavePivotTables();
                     SaveSlicers();
                 }
             }
@@ -3557,6 +3563,13 @@ namespace OfficeOpenXml
                     if (Workbook._nextPivotTableID == int.MinValue) Workbook.ReadAllPivotTables();
                 }
                 return _pivotTables;
+            }
+        }
+        internal bool HasLoadedPivotTables
+        { 
+            get
+            {
+                return _pivotTables != null;
             }
         }
         private ExcelConditionalFormattingCollection _conditionalFormatting = null;
