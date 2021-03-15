@@ -1,5 +1,30 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.6.0
+### Features
+* Custom table styles.
+*   Create and modify names table styles that can be applied to tables and pivot tables.
+*   Create and modify named slicer styles
+* Pivot table styling using pivot areas.
+* Enhanced table styling
+* Added three new style properties to the ExcelTable and ExcelTableColumn
+*   HeaderRowStyle
+*   DataStyle 
+*   TotalsRowStyle
+
+### Fixed issues
+* Using references to tables in formulas did not work correctly in some cases.
+* Functions SUMIFS and AVERAGEIFS ignored hidden cells.
+* SUMIFS could not handle horizontal ranges.
+* SUMIFS-ExpressionEvaluator could not handle space between operator and criteria. Usage of the Dimension.End.Rows property led to premature stoppage in some cases
+* INDEX function should round decimal numbers to integers using floor.
+* Calculating shared formulas referencing full columns or full rows gives #ref! on all cells but the first 
+* Loading worksheets from QXlsx failed.
+* Deleting rows with comments throwed an exception in some cases.
+* Deleting worksheets with comments throwed an exception in some cases.
+* Removed validation for negative less that -60 in Drawing.SetPosition for RowOffset and ColumnOffset
+
+
 ## Version 5.5.5
 ### Fixed issues
 * Dependency chain sometimes drops refererences when cross-worksheet addresses are used with defined names in the formula parser.

@@ -1087,15 +1087,6 @@ namespace OfficeOpenXml.Drawing
         /// <param name="ColumnOffsetPixels">Offset in pixels</param>
         public void SetPosition(int Row, int RowOffsetPixels, int Column, int ColumnOffsetPixels)
         {
-            if (RowOffsetPixels < -1000)
-            {
-                throw new ArgumentException("Minimum negative offset is -1000.", nameof(RowOffsetPixels));
-            }
-            if (ColumnOffsetPixels < -1000)
-            {
-                throw new ArgumentException("Minimum negative offset is -1000.", nameof(ColumnOffsetPixels));
-            }
-
             _doNotAdjust = true;
 
             if (_width == int.MinValue)

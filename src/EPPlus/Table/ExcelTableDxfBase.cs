@@ -7,6 +7,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table
 {
+    /// <summary>
+    /// Base class for handling differnetial style records for tables.
+    /// </summary>
     public class ExcelTableDxfBase : XmlHelper
     {
         private ExcelTable _table=null;
@@ -48,6 +51,9 @@ namespace OfficeOpenXml.Table
             }
         }
 
+        /// <summary>
+        /// Style applied on the header range of a table. 
+        /// </summary>
         public ExcelDxfStyle HeaderRowStyle { get; internal set; }
         internal int? DataDxfId
         {
@@ -60,7 +66,16 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@dataDxfId", value);
             }
         }
+        /// <summary>
+        /// Style applied on the data range of a table. 
+        /// </summary>
         public ExcelDxfStyle DataStyle { get; internal set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <summary>
+        /// Style applied on the total row range of a table. 
+        /// </summary>
         public ExcelDxfStyle TotalsRowStyle { get;  internal set; }
         internal int? TotalsRowDxfId
         {
