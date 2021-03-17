@@ -733,7 +733,7 @@ namespace OfficeOpenXml
         /// <returns>Return true if the address is valid</returns>
         public static bool IsValidAddress(string address)
         {
-            if (address.LastIndexOf('!') > 0)
+            if (address.LastIndexOf('!', address.Length-2) > 0)   //Last char can be ! if address is set to #REF!, so use Lengh - 2 as start.
             {
                 address = address.Substring(address.LastIndexOf('!') + 1);
             }

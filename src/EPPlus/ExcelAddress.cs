@@ -1320,7 +1320,7 @@ namespace OfficeOpenXml
         { 
             get
             {
-                var ix = _address.LastIndexOf('!');
+                var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from 
                 if (ix>=0)
                 {
                     return _address.Substring(ix + 1);
