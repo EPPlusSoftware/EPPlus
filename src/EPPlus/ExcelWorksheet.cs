@@ -3036,7 +3036,7 @@ namespace OfficeOpenXml
                             }
                             if(md.vm>0)
                             {
-                                mdAttr = $" vm=\"{md.vm}\"";
+                                mdAttr += $" vm=\"{md.vm}\"";
                             }
                         }
                     }
