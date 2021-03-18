@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             for (int i = removeIndex.Count - 1; i >= 0; i--)
             {
-                ws._mergedCells._list.RemoveAt(removeIndex[i]);
+                ws._mergedCells._list[removeIndex[i]] = null;
             }
         }
         internal static void FixMergedCellsColumn(ExcelWorksheet ws, int column, int columns, bool delete, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
@@ -135,7 +135,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             for (int i = removeIndex.Count - 1; i >= 0; i--)
             {
-                ws._mergedCells._list.RemoveAt(removeIndex[i]);
+                ws._mergedCells._list[removeIndex[i]]=null;
             }
         }
         internal static void AdjustDrawingsRow(ExcelWorksheet ws, int rowFrom, int rows, int colFrom=0, int colTo=ExcelPackage.MaxColumns)

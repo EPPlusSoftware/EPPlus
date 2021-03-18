@@ -456,6 +456,25 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
         [TestMethod]
+        public void ValidateDeleteEntireMergeCells()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B2:D3"].Merge = true;
+                Assert.AreEqual(1, ws.MergedCells.Count);
+                Assert.AreEqual("B2:D3", ws.MergedCells[0]);
+                Assert.IsTrue(ws.Cells["B2"].Merge);
+                Assert.IsTrue(ws.Cells["D3"].Merge);
+                ws.Cells["B2:D3"].Delete(eShiftTypeDelete.Up);
+                Assert.AreEqual(1, ws.MergedCells.Count);
+                Assert.IsFalse(ws.Cells["B2"].Merge);
+                Assert.IsFalse(ws.Cells["D3"].Merge);
+                Assert.IsNull(ws.MergedCells[0]);
+            }
+        }
+
+        [TestMethod]
         public void ValidateInsertIntoMergedCellsPartialRightShouldNotThrowsException()
         {
             using (var p = new ExcelPackage())
