@@ -1965,5 +1965,18 @@ namespace EPPlusTest
                 p.Save();
             }
         }
+        [TestMethod]
+        public void Issue333_2()
+        {
+            using (var p = OpenTemplatePackage("issue333-2.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[1];
+                Assert.IsFalse(string.IsNullOrEmpty(sheet.Cells[8, 1].Formula));
+                Assert.IsFalse(string.IsNullOrEmpty(sheet.Cells[9, 1].Formula));
+                Assert.IsFalse(string.IsNullOrEmpty(sheet.Cells[9, 2].Formula));
+                Assert.IsFalse(string.IsNullOrEmpty(sheet.Cells[32, 2].Formula));
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

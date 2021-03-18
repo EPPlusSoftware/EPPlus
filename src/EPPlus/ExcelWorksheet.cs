@@ -137,7 +137,6 @@ namespace OfficeOpenXml
                 }
                 return f;
             }
-
             internal Formulas Clone()
             {
                 return new Formulas(_tokenizer)
@@ -1575,9 +1574,12 @@ namespace OfficeOpenXml
                     string t = xr.GetAttribute("t");
                     if (t == null || t=="normal")
                     {
-                        _formulas.SetValue(address._fromRow, address._fromCol, ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString()));
+                        var formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
+                        if (!string.IsNullOrEmpty(formula))
+                        {
+                            _formulas.SetValue(address._fromRow, address._fromCol, formula);
+                        }
                         SetValueInner(address._fromRow, address._fromCol, null);
-                        //formulaList.Add(cell);
                     }
                     else if (t == "shared")
                     {
@@ -1602,13 +1604,14 @@ namespace OfficeOpenXml
                     }
                     else if (t == "array") //TODO: Array functions are not support yet. Read the formula for the start cell only.
                     {
-                        string aAddress = xr.GetAttribute("ref");
+                        string refAddress = xr.GetAttribute("ref");
                         string formula = xr.ReadElementContentAsString();
                         var afIndex = GetMaxShareFunctionIndex(true);
-                        _formulas.SetValue(address._fromRow, address._fromCol, afIndex);
-                        SetValueInner(address._fromRow, address._fromCol, null);
-                        _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = aAddress, StartRow = address._fromRow, StartCol = address._fromCol, IsArray = true });
-                        _flags.SetFlagValue(address._fromRow, address._fromCol, true, CellFlags.ArrayFormula);
+                        if(!string.IsNullOrEmpty(refAddress))
+                        {
+                            WriteArrayFormulaRange(refAddress, afIndex);
+                        }
+                        _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = refAddress, StartRow = address._fromRow, StartCol = address._fromCol, IsArray = true });
                     }
                     else if (t=="dataTable") //Unsupported
                     {
@@ -1652,7 +1655,19 @@ namespace OfficeOpenXml
                 }
             }
         }
-
+        private void WriteArrayFormulaRange(string address, int index)
+        {
+            var refAddress = new ExcelAddressBase(address);
+            for (int r = refAddress._fromRow; r <= refAddress._toRow; r++)
+            {
+                for (int c = refAddress._fromCol; c <= refAddress._toCol; c++)
+                {
+                    _formulas.SetValue(r, c, index);
+                    SetValueInner(r, c, null);
+                    _flags.SetFlagValue(r, c, true, CellFlags.ArrayFormula);
+                }
+            }
+        }
         private bool DoAddRow(XmlReader xr)
         {
             var c = xr.GetAttribute("r") == null ? 0 : 1;
