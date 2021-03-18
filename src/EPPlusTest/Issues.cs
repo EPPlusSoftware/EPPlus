@@ -1978,5 +1978,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void S107()
+        {
+            using (var p = OpenTemplatePackage("2021-03-18 - Styling issues.xlsm"))
+            {
+                p.Save();
+                var p2 = new ExcelPackage(p.Stream);
+                p2.SaveAs(new FileInfo(p.File.DirectoryName + "\\Test.xlsm"));
+            }
+        }
+
     }
 }

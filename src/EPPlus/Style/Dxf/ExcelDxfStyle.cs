@@ -71,16 +71,17 @@ namespace OfficeOpenXml.Style.Dxf
         protected internal override void CreateNodes(XmlHelper helper, string path)
         {
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
-            base.CreateNodes(helper, path);
             if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
+            if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
+            if (Border.HasValue) Border.CreateNodes(helper, "d:border");
         }
         internal override void SetStyle()
         {
             if (_callback != null)
             {
+                NumberFormat.SetStyle();
                 base.SetStyle();
                 Font.SetStyle();
-                NumberFormat.SetStyle();
             }
         }
         /// <summary>
