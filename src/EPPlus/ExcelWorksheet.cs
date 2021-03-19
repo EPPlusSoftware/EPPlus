@@ -3944,14 +3944,63 @@ namespace OfficeOpenXml
         /// <param name="toRow">end row</param>
         /// <param name="toColumn">end column</param>
         /// <param name="values">set values</param>
-        internal void SetRangeValueInner(int fromRow, int fromColumn, int toRow, int toColumn, object[,] values)
+        /// <param name="setHyperLinkFromValue">If the value is of type Uri or ExcelHyperlink the Hyperlink property is set.</param>
+        internal void SetRangeValueInner(int fromRow, int fromColumn, int toRow, int toColumn, object[,] values, bool setHyperLinkFromValue)
         {
-            
-            _values.SetValueRange_Value(fromRow, fromColumn, values);
+            if (setHyperLinkFromValue)
+            {
+                SetValuesWithHyperLink(fromRow, fromColumn, values);
+            }
+            else
+            {
+                _values.SetValueRange_Value(fromRow, fromColumn, values);
+            }
             //Clearout formulas and flags, for example the rich text flag.
             _formulas.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1); 
             _flags.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1)+1);
             _metadataStore.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1);
+        }
+
+        private void SetValuesWithHyperLink(int fromRow, int fromColumn, object[,] values)
+        {
+            var rowBound = values.GetUpperBound(0);
+            var colBound = values.GetUpperBound(1);
+
+            for (int r = 0; r <= rowBound; r++)
+            {
+                for (int c = 0; c <= colBound; c++)
+                {
+                    var v = values[r, c];
+                    var row = fromRow + r;
+                    var col = fromColumn + c;
+                    if (v==null)
+                    {
+                        _values.SetValue_Value(row, col, v);
+                        continue;
+                    }
+                    var t = v.GetType();
+                    if (t == typeof(Uri) || t == typeof(ExcelHyperLink))
+                    {
+                        _hyperLinks.SetValue(row, col, (Uri)v);
+                        if (v is ExcelHyperLink hl)
+                        {
+                            SetValueInner(row, col, hl.Display);
+                        }
+                        else
+                        {
+                            var cv = GetValueInner(row, col);
+                            if (cv == null || cv.ToString() == "")
+                            {
+                                SetValueInner(row, col, ((Uri)v).OriginalString);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _values.SetValue_Value(row, col, v);
+                    }
+                }
+            }
         }
 
         /// <summary>

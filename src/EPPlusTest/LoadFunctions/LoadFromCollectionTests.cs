@@ -43,7 +43,7 @@ using OfficeOpenXml.Table;
 namespace EPPlusTest.LoadFunctions
 {
     [TestClass]
-    public class LoadFromCollectionTests
+    public class LoadFromCollectionTests : TestBase
     {
         internal abstract class BaseClass
         {
@@ -69,6 +69,7 @@ namespace EPPlusTest.LoadFunctions
             public string Id { get; set; }
             [System.ComponentModel.Description("MyName")]
             public string Name { get; set; }
+            [EpplusTableColumn(Order = 3)]
             public int Number { get; set; }
         }
 
@@ -77,6 +78,28 @@ namespace EPPlusTest.LoadFunctions
             public string IdOfThisInstance { get; set; }
 
             public string CamelCased_And_Underscored { get; set; }
+        }
+
+        internal class UrlClass : BClass
+        {
+            [EpplusIgnore]
+            public string EMailAddress { get; set; }
+            [EpplusTableColumn(Order = 5, Header = "My Mail To")]
+            public ExcelHyperLink MailTo
+            {
+                get
+                {
+                    var url = new ExcelHyperLink("mailto:" + EMailAddress);
+                    url.Display = Name;
+                    return url;
+                }
+            }
+            [EpplusTableColumn(Order = 4)]
+            public Uri Url
+            {
+                get;
+                set;
+            }
         }
 
         [TestMethod]
@@ -366,5 +389,35 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("TestName 2", sheet.Cells["B3"].Value);
             }
         }
+        [TestMethod]
+        public void ShouldSetHyperlinkForURIs()
+        {
+            var items = new List<UrlClass>()
+            {
+                new UrlClass{Id="1", Name="Person 1", EMailAddress="person1@somewhe.re"},
+                new UrlClass{Id="2", Name="Person 2", EMailAddress="person2@somewhe.re"},
+                new UrlClass{Id="2", Name="Person with Url", EMailAddress="person2@somewhe.re", Url=new Uri("https://epplussoftware.com")},
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionUrls.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
+
+                Assert.AreEqual("MyId", sheet.Cells["A1"].Value);
+                Assert.AreEqual("MyName", sheet.Cells["B1"].Value);
+                Assert.AreEqual("Number", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Url", sheet.Cells["D1"].Value);
+                Assert.AreEqual("My Mail To", sheet.Cells["E1"].Value);
+
+                Assert.AreEqual("1", sheet.Cells["A2"].Value);
+                Assert.AreEqual("Person 2", sheet.Cells["B3"].Value);
+                Assert.IsInstanceOfType(sheet.Cells["E3"].Hyperlink, typeof(ExcelHyperLink));
+                Assert.AreEqual("Person 2", sheet.Cells["E3"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }

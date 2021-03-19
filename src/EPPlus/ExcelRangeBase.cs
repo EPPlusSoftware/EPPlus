@@ -191,7 +191,7 @@ namespace OfficeOpenXml
                 if (value is object[,] && (valueMethod == Set_Value || valueMethod == Set_StyleID))
                 {
                     // only simple set value is supported for bulk copy
-                    _worksheet.SetRangeValueInner(address.Start.Row, address.Start.Column, address.End.Row, address.End.Column, (object[,])value);
+                    _worksheet.SetRangeValueInner(address.Start.Row, address.Start.Column, address.End.Row, address.End.Column, (object[,])value, false);
                 }
                 else
                 {

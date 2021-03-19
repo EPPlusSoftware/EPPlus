@@ -87,7 +87,7 @@ namespace OfficeOpenXml.LoadFunctions
             }
             else
             {
-                ws.SetRangeValueInner(Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1, values);
+                ws.SetRangeValueInner(Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1, values, true);
             }
 
 
@@ -161,7 +161,7 @@ namespace OfficeOpenXml.LoadFunctions
                     var fromRow = Range._fromRow;
                     var rangeCol = Range._fromCol + col;
                     var toRow = Range._fromRow + nRows - 1;
-                    ws.SetRangeValueInner(fromRow, rangeCol, toRow, rangeCol, columnValues);
+                    ws.SetRangeValueInner(fromRow, rangeCol, toRow, rangeCol, columnValues, true);
                 }
 
             }
