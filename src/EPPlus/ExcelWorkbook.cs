@@ -1091,7 +1091,11 @@ namespace OfficeOpenXml
 			{
 				if(Worksheets[_package._worksheetAdd].Hidden!=eWorkSheetHidden.Visible)
 				{
-					View.FirstSheet = Worksheets.GetFirstVisibleSheetIndex();
+					var ix = Worksheets.GetFirstVisibleSheetIndex();
+					if (ix > View.FirstSheet)
+					{
+						View.FirstSheet = ix;
+					}
 				}
 				_package.SavePart(WorkbookUri, _workbookXml);
 			}

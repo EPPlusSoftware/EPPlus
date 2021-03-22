@@ -1,5 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.6.1
+### Fixed issues & minor features
+* Styles xml could get corrupt in some cases as the numFmt dxf element was created in the wrong order according to the schema.
+* Merged cells could get index out of range if deleting a merged area.
+* LoadFromCollection will now set the cell's Hyperlink property for class members of type Uri or ExcelHyperlink.
+* EPPlus will now preserve the 'aca' and 'ca' attributes for array formulas.
+* ExcelRange.Formula and ExcelRange.FormulaR1C1 didn't return a value for array formulas except for the first cell in the range.
+* Defined names containing #REF! throw an exception when copying a worksheet.
+* Worksheet.FirstSheet property was set to the first sheet visible, if worksheet with position 0 was hidden.
+
 ## Version 5.6.0
 ### Features
 * Custom table styles.

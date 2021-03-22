@@ -157,6 +157,8 @@ namespace OfficeOpenXml
         {
             internal int cm;
             internal int vm;
+            internal bool aca;
+            internal bool ca;
         }
         /// <summary>
         /// Removes all formulas within the entire worksheet, but keeps the calculated values.
@@ -1605,12 +1607,27 @@ namespace OfficeOpenXml
                     else if (t == "array") //TODO: Array functions are not support yet. Read the formula for the start cell only.
                     {
                         string refAddress = xr.GetAttribute("ref");
+                        var aca = xr.GetAttribute("aca");
+                        var ca = xr.GetAttribute("ca");
                         string formula = xr.ReadElementContentAsString();
                         var afIndex = GetMaxShareFunctionIndex(true);
-                        if(!string.IsNullOrEmpty(refAddress))
+                        if (!string.IsNullOrEmpty(refAddress))
                         {
                             WriteArrayFormulaRange(refAddress, afIndex);
                         }
+                        //Meta data and formula settings. Meta data is only preserved by EPPlus at this point
+                        if (aca != null || ca != null)
+                        {
+                            var md = _metadataStore.GetValue(row, col);
+                            md.aca = aca == "1";
+                            md.ca = ca == "1";
+                            _metadataStore.SetValue(
+                                row,
+                                col,
+                                md);
+                        };
+
+
                         _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = refAddress, StartRow = address._fromRow, StartCol = address._fromCol, IsArray = true });
                     }
                     else if (t=="dataTable") //Unsupported
@@ -3072,15 +3089,33 @@ namespace OfficeOpenXml
                         }
                         else
                         {
+                            //Set calc attributes for array formula. We preserve them from load only at this point.
+                            var mdAttrForFTag = "";
+                            if (hasMd)
+                            {
+                                if (_metadataStore.Exists(cse.Row, cse.Column))
+                                {
+                                    MetaDataReference md = _metadataStore.GetValue(cse.Row, cse.Column);
+                                    if (md.aca)
+                                    {
+                                        mdAttrForFTag = $" aca=\"1\"";
+                                    }
+                                    if (md.ca)
+                                    {
+                                        mdAttrForFTag += $" ca=\"1\"";
+                                    }
+                                }
+                            }
+
                             // We can also have a single cell array formula
                             if (f.IsArray)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
                             }
                             else
                             {
                                 cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>");
-                                cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{fTag}{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                     }

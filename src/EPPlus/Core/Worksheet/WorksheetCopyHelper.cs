@@ -145,6 +145,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();
+            bool hasMetadata = Copy._metadataStore.HasValues;
             //Cells
             int row, col;
             var val = new CellStoreEnumerator<ExcelValue>(Copy._values);
@@ -176,7 +177,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    styleID = CopyValues(Copy, added, row, col);
+                    styleID = CopyValues(Copy, added, row, col, hasMetadata);
                 }
                 if (!sameWorkbook)
                 {
@@ -675,7 +676,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col)
+        private static int CopyValues(ExcelWorksheet Copy, ExcelWorksheet added, int row, int col, bool hasMetadata)
         {
             var valueCore = Copy.GetCoreValueInner(row, col);
             added.SetValueStyleIdInner(row, col, valueCore._value, valueCore._styleId);
@@ -685,10 +686,13 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 added._flags.SetValue(row, col, fl);
             }
-            ExcelWorksheet.MetaDataReference md = new ExcelWorksheet.MetaDataReference();
-            if (Copy._metadataStore.Exists(row, col, ref md))
+            if (hasMetadata)
             {
-                added._metadataStore.SetValue(row, col, md);
+                ExcelWorksheet.MetaDataReference md = new ExcelWorksheet.MetaDataReference();
+                if (Copy._metadataStore.Exists(row, col, ref md))
+                {
+                    added._metadataStore.SetValue(row, col, md);
+                }
             }
 
             var v = Copy._formulas.GetValue(row, col);

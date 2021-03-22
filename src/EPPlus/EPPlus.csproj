@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.6.0.0</AssemblyVersion>
-    <FileVersion>5.6.0.0</FileVersion>
-    <Version>5.6.0</Version>
+    <AssemblyVersion>5.6.1.0</AssemblyVersion>
+    <FileVersion>5.6.1.0</FileVersion>
+    <Version>5.6.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,13 +18,16 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-      EPPlus 5.6.0
+      EPPlus 5.6.1
       IMPORTAT NOTICE!
       From version 5 EPPlus changes the licence model using a dual license, Polyform Non Commercial / Commercial license.
       EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
       Commercial licenses can be purchased from https://epplussoftware.com
       This applies to EPPlus version 5 and later. Previous versions are still licensed LGPL.
 
+      ## Version 5.6.1
+      * Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+      
       ## Version 5.6.0
       * Custom table styles.
       *   Create and modify custom table styles that can be applied to tables and pivot tables.
@@ -35,7 +38,7 @@
       *   HeaderRowStyle
       *   DataStyle
       *   TotalsRowStyle
-      * Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+      * Bug fixes.
 
       ## Version 5.5.5
       * Bug fixes.
@@ -151,9 +154,10 @@
       A list of fixed issues can be found here https://epplussoftware.com/docs/5.6/articles/fixedissues.html
 
       Version history
+      5.6.1 20210322 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.6.0 20210315 Custom table styles. Pivot table styling. Table styling enhancements.
-      5.5.5 20210223 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-      5.5.4 20210216 Minor bug fixes. 
+      5.5.5 20210223 Minor bug fixes.
+      5.5.4 20210216 Minor bug fixes.
       5.5.3 20210206 Minor bug fixes.
       5.5.2 20210118 Minor bug fixes.
       5.5.1 20210111 Minor features and bug fixes.
