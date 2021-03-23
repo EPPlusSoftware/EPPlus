@@ -13,14 +13,14 @@
 ## Version 5.6.0
 ### Features
 * Custom table styles.
-*   Create and modify names table styles that can be applied to tables and pivot tables.
-*   Create and modify named slicer styles
+	* Create and modify names table styles that can be applied to tables and pivot tables.
+	* Create and modify named slicer styles
 * Pivot table styling using pivot areas.
 * Enhanced table styling
 * Added three new style properties to the ExcelTable and ExcelTableColumn
-*   HeaderRowStyle
-*   DataStyle 
-*   TotalsRowStyle
+	* HeaderRowStyle
+	* DataStyle 
+	* TotalsRowStyle
 
 ### Fixed issues
 * Using references to tables in formulas did not work correctly in some cases.
