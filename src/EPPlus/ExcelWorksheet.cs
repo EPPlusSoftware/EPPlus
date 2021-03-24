@@ -3110,14 +3110,7 @@ namespace OfficeOpenXml
                                 {
                                     fElement = "";
                                 }
-                                //if (v==null)
-                                //{
-                                //    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
-                                //}
-                                //else
-                                //{
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
-                                //}
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                             else
                             {
