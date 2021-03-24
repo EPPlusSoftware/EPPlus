@@ -23,6 +23,7 @@ namespace OfficeOpenXml.Table.PivotTable
         Difference,
         /// <summary>
         /// The field is shown as the index.
+        /// ((Cell Value) x (Grand Total of Grand Totals)) / ((Grand Row Total) x (Grand Column Total))
         /// </summary>
         Index, 
         /// <summary>
@@ -52,6 +53,33 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The field is shown as the running total in the the table
         /// </summary>
-        RunTotal,        
+        RunTotal,
+        /// <summary>
+        /// The field is shown as the percentage of the parent row total
+        /// </summary>
+        PercentOfParentRow,
+        /// <summary>
+        /// The field is shown as the percentage of the parent column total
+        /// </summary>
+        PercentOfParentCol,
+        /// <summary>
+        /// The field is shown as the percentage of the parent total
+        /// </summary>
+        PercentOfParent,
+        /// <summary>
+        /// The field is shown as the rank ascending.
+        /// Lists the smallest item in the field as 1, and each larger value with a higher rank value.
+        /// </summary>
+        RankAscending,
+        /// <summary>
+        /// The field is shown as the rank descending.
+        /// Lists the largest item in the field as 1, and each smaller value with a higher rank value.
+        /// </summary>
+        RankDescending,
+        /// <summary>
+        /// The field is shown as the percentage of the running total
+        /// </summary>
+        PercentOfRunningTotal
+
     }
 }

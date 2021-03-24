@@ -1129,7 +1129,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Set the hyperlink property for a range of cells
+        /// Set the Hyperlink property for a range of cells
         /// </summary>
         public Uri Hyperlink
         {
@@ -1143,6 +1143,51 @@ namespace OfficeOpenXml
                 _changePropMethod(this, _setHyperLinkDelegate, value);
             }
         }
+        /// <summary>
+        /// Sets the hyperlink property
+        /// </summary>
+        /// <param name="uri">The URI to set</param>
+        public void SetHyperlink(Uri uri)
+        {
+            Hyperlink = uri;
+        }
+        /// <summary>
+        /// Sets the Hyperlink property using the ExcelHyperLink class.
+        /// </summary>
+        /// <param name="uri">The <see cref="ExcelHyperLink"/> uri to set</param>
+        public void SetHyperlink(ExcelHyperLink uri)
+        {
+            Hyperlink = uri;
+        }
+        /// <summary>
+        /// Sets the Hyperlink property to an url within the workbook.
+        /// </summary>
+        /// <param name="range">A reference within the same workbook</param>
+        /// <param name="display">The displayed text in the cell</param>f
+        public void SetHyperlink(ExcelRange range, string display)
+        {
+            if(range==null)
+            {
+                throw (new ArgumentNullException("The range must not be null.", nameof(range)));
+            }
+            if (range.Worksheet.Workbook!=Worksheet.Workbook)
+            {
+                throw (new ArgumentException("The range must be within this package.", nameof(range)));
+            }
+            if(string.IsNullOrEmpty(display))
+            {
+                display = range.Address;
+            }
+            if(string.IsNullOrEmpty(range.WorkSheetName) || range.WorkSheetName.Equals(WorkSheetName ?? "", StringComparison.OrdinalIgnoreCase))
+            {
+                Hyperlink = new ExcelHyperLink(range.Address, display);
+            }
+            else
+            {
+                Hyperlink = new ExcelHyperLink(range.FullAddress, display);
+            }
+        }
+
         /// <summary>
         /// If the cells in the range are merged.
         /// </summary>
