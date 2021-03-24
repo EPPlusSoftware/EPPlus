@@ -2018,26 +2018,5 @@ namespace EPPlusTest
                 ws.Cells["B2:F2"].Merge = true;
             }
         }
-        [TestMethod]
-        public void Issue340()
-        {
-            //var str = "a net�work meta-analysis";
-            //using (var p = OpenPackage("InvalidChar.xlsx"))
-            //{
-            //    var sheet = p.Workbook.Worksheets.Add("Dataset");
-            //    sheet.SetValue(1, 2, str);
-            //    SaveAndCleanup(p);
-            //}
-            var str = "a net�work meta-analysis";
-            var path = @"C:\temp\EPPlus_Filter_Out_Invalid_Xml_Chars.xlsx";
-            var stream = new MemoryStream();
-            using (var excelPackage = new ExcelPackage())
-            {
-                var sheet = excelPackage.Workbook.Worksheets.Add("Dataset");
-                sheet.SetValue(1, 2, str);
-                stream.Position = 0;
-                excelPackage.SaveAs(new FileInfo(path));
-            }
-        }
     }
 }
