@@ -1988,6 +1988,56 @@ namespace EPPlusTest
                 p2.SaveAs(new FileInfo(p.File.DirectoryName + "\\Test.xlsm"));
             }
         }
+        [TestMethod]
+        public void S127()
+        {
+            using (var p = OpenTemplatePackage("Tagging Template V15 - New Format.xlsx"))
+            {
+                SaveWorkbook("Tagging Template V15 - New Format2.xlsx",p);
+            }
+        }
+        [TestMethod]
+        public void MergeIssue()
+        {
+            using (var p = OpenTemplatePackage("MergeIssue.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["s7"];
+                ws.Cells["B2:F2"].Merge = false;
+                ws.Cells["B2:F12"].Clear();
+                ws.Cells["B2:F2"].Merge = true;
 
+                ws.Cells["B2:F12"].Merge = false;
+                ws.Cells["B2:F12"].Clear();
+
+                ws.Cells["B2:F12"].Merge = true;
+                ws.Cells["B1:F12"].Clear();
+
+                ws.Cells["B2:F2"].Merge = true;
+                ws.Cells["B2:F2"].Merge = false;
+                ws.Cells["B2:F12"].Clear();
+                ws.Cells["B2:F2"].Merge = true;
+            }
+        }
+        [TestMethod]
+        public void Issue340()
+        {
+            //var str = "a net�work meta-analysis";
+            //using (var p = OpenPackage("InvalidChar.xlsx"))
+            //{
+            //    var sheet = p.Workbook.Worksheets.Add("Dataset");
+            //    sheet.SetValue(1, 2, str);
+            //    SaveAndCleanup(p);
+            //}
+            var str = "a net�work meta-analysis";
+            var path = @"C:\temp\EPPlus_Filter_Out_Invalid_Xml_Chars.xlsx";
+            var stream = new MemoryStream();
+            using (var excelPackage = new ExcelPackage())
+            {
+                var sheet = excelPackage.Workbook.Worksheets.Add("Dataset");
+                sheet.SetValue(1, 2, str);
+                stream.Position = 0;
+                excelPackage.SaveAs(new FileInfo(path));
+            }
+        }
     }
 }

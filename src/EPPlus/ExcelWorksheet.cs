@@ -1574,6 +1574,21 @@ namespace OfficeOpenXml
                 else if (xr.LocalName == "f")
                 {
                     string t = xr.GetAttribute("t");
+
+                    var aca = xr.GetAttribute("aca");
+                    var ca = xr.GetAttribute("ca");
+                    //Meta data and formula settings. Meta data is only preserved by EPPlus at this point
+                    if (aca != null || ca != null)
+                    {
+                        var md = _metadataStore.GetValue(row, col);
+                        md.aca = aca == "1";
+                        md.ca = ca == "1";
+                        _metadataStore.SetValue(
+                            row,
+                            col,
+                            md);
+                    }
+
                     if (t == null || t=="normal")
                     {
                         var formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
@@ -1604,29 +1619,15 @@ namespace OfficeOpenXml
                             xr.Read();  //Something is wrong in the sheet, read next
                         }
                     }
-                    else if (t == "array") //TODO: Array functions are not support yet. Read the formula for the start cell only.
+                    else if (t == "array") 
                     {
                         string refAddress = xr.GetAttribute("ref");
-                        var aca = xr.GetAttribute("aca");
-                        var ca = xr.GetAttribute("ca");
                         string formula = xr.ReadElementContentAsString();
                         var afIndex = GetMaxShareFunctionIndex(true);
                         if (!string.IsNullOrEmpty(refAddress))
                         {
                             WriteArrayFormulaRange(refAddress, afIndex);
                         }
-                        //Meta data and formula settings. Meta data is only preserved by EPPlus at this point
-                        if (aca != null || ca != null)
-                        {
-                            var md = _metadataStore.GetValue(row, col);
-                            md.aca = aca == "1";
-                            md.ca = ca == "1";
-                            _metadataStore.SetValue(
-                                row,
-                                col,
-                                md);
-                        };
-
 
                         _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = refAddress, StartRow = address._fromRow, StartCol = address._fromCol, IsArray = true });
                     }
@@ -3010,6 +3011,7 @@ namespace OfficeOpenXml
 
             int row = -1;
             string mdAttr = "";
+            string mdAttrForFTag = "";
             var sheetDataTag = prefix + "sheetData";
             var cTag = prefix + "c";
             var fTag = prefix + "f";
@@ -3064,49 +3066,59 @@ namespace OfficeOpenXml
                             throw (new InvalidDataException($"SharedFormulaId {sfId} not found on Worksheet {Name} cell {cse.CellAddress}, SharedFormulas Count {_sharedFormulas.Count}"));
                         }
                         var f = _sharedFormulas[sfId];
+
+                        //Set calc attributes for array formula. We preserve them from load only at this point.
+                        if (hasMd)
+                        {
+                            mdAttrForFTag = "";
+                            if (_metadataStore.Exists(cse.Row, cse.Column))
+                            {
+                                MetaDataReference md = _metadataStore.GetValue(cse.Row, cse.Column);
+                                if (md.aca)
+                                {
+                                    mdAttrForFTag = $" aca=\"1\"";
+                                }
+                                if (md.ca)
+                                {
+                                    mdAttrForFTag += $" ca=\"1\"";
+                                }
+                            }
+                        }
+
                         if (f.Address.IndexOf(':') > 0)
                         {
                             if (f.StartCol == cse.Column && f.StartRow == cse.Row)
                             {
                                 if (f.IsArray)
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
                                 else
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\">{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
 
                             }
                             else if (f.IsArray)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{mdAttr}/>");
+                                string fElement;
+                                if(string.IsNullOrEmpty(mdAttrForFTag)==false)
+                                {
+                                    fElement = $"<{fTag} {mdAttrForFTag}/>"; 
+                                }
+                                else
+                                {
+                                    fElement = "";
+                                }
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                             else
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><f t=\"shared\" si=\"{sfId}\"/>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><f t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}/>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                         else
                         {
-                            //Set calc attributes for array formula. We preserve them from load only at this point.
-                            var mdAttrForFTag = "";
-                            if (hasMd)
-                            {
-                                if (_metadataStore.Exists(cse.Row, cse.Column))
-                                {
-                                    MetaDataReference md = _metadataStore.GetValue(cse.Row, cse.Column);
-                                    if (md.aca)
-                                    {
-                                        mdAttrForFTag = $" aca=\"1\"";
-                                    }
-                                    if (md.ca)
-                                    {
-                                        mdAttrForFTag += $" ca=\"1\"";
-                                    }
-                                }
-                            }
-
                             // We can also have a single cell array formula
                             if (f.IsArray)
                             {
