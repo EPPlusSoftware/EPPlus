@@ -3099,7 +3099,7 @@ namespace OfficeOpenXml
                                 }
 
                             }
-                            else if (f.IsArray)
+                            else if (f.IsArray) 
                             {
                                 string fElement;
                                 if(string.IsNullOrEmpty(mdAttrForFTag)==false)
@@ -3108,7 +3108,7 @@ namespace OfficeOpenXml
                                 }
                                 else
                                 {
-                                    fElement = "";
+                                    fElement = $"";
                                 }
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
