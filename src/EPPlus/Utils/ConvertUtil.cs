@@ -222,6 +222,10 @@ namespace OfficeOpenXml.Utils
                 {
                     sw.Write("_x00{0}_", (t[i] < 0xf ? "0" : "") + ((int)t[i]).ToString("X"));
                 }
+                else if(t[i]>0xFFFD)
+                {
+                    sw.Write($"_x{((int)t[i]).ToString("X")}_");
+                }
                 else
                 {
                     sw.Write(t[i]);
@@ -254,6 +258,10 @@ namespace OfficeOpenXml.Utils
                 if (t[i] <= 0x1f && ((t[i] != '\n' && encodeTabLF == false) || encodeTabLF)) //Not Tab, CR or LF
                 {
                     sb.AppendFormat("_x00{0}_", (t[i] <= 0xf ? "0" : "") + ((int)t[i]).ToString("X"));
+                }
+                else if (t[i] > 0xFFFD)
+                {
+                    sb.Append($"_x{((int)t[i]).ToString("X")}_");
                 }
                 else
                 {

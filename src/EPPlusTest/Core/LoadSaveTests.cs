@@ -105,6 +105,26 @@ namespace EPPlusTest.Core
 
                 s1.Cells[1, 1, 3, 2].LoadFromDataTable(dt, true, OfficeOpenXml.Table.TableStyles.None);
             }
-        }            
+        }
+
+        [TestMethod]
+        public void VerifyInvalidXmlUnicodeChar()
+        {
+            string s1 = "String with \ufffe char";
+            string s2 = "Second string with \uffff char";
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("Sheet1");
+                ws.SetValue(1, 1, s1);
+                ws.SetValue(2, 1, s2);
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    Assert.AreEqual(s1, p2.Workbook.Worksheets[0].Cells["A1"].Value);
+                    Assert.AreEqual(s2, p2.Workbook.Worksheets[0].Cells["A2"].Value);
+                }
+            }
+        }
     }
 }
