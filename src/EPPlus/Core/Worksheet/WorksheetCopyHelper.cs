@@ -316,10 +316,13 @@ namespace OfficeOpenXml.Core.Worksheet
                         {
                             s.Series = ExcelAddressBase.GetFullAddress(added.Name, a.LocalAddress);
                         }
-                        a = new ExcelAddressBase(s.XSeries);
-                        if (a.WorkSheetName.Equals(Copy.Name))
+                        if (string.IsNullOrEmpty(s.XSeries) == false)
                         {
-                            s.XSeries = ExcelAddressBase.GetFullAddress(added.Name, a.LocalAddress);
+                            a = new ExcelAddressBase(s.XSeries);
+                            if (a.WorkSheetName.Equals(Copy.Name))
+                            {
+                                s.XSeries = ExcelAddressBase.GetFullAddress(added.Name, a.LocalAddress);
+                            }
                         }
                     }
                 }

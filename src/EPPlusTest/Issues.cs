@@ -2018,5 +2018,37 @@ namespace EPPlusTest
                 ws.Cells["B2:F2"].Merge = true;
             }
         }
+
+        [TestMethod]
+        public void DefinedNamesAddressIssue()
+        {
+            using (var p = OpenPackage("defnames.xlsx"))
+            {
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+
+                var name = ws1.Names.Add("Name2", ws1.Cells["B1:C5"]);
+                Assert.AreEqual("Sheet1", name.Worksheet.Name);
+                name.Address = "Sheet3!B2:C6";
+                Assert.IsNull(name.Worksheet);
+                Assert.AreEqual("Sheet3" ,name.WorkSheetName);
+
+            }
+        }
+        [TestMethod]
+        public void Issue341()
+        {
+            using (var package = OpenTemplatePackage("Base_debug.xlsx"))
+            {
+                using (var atomic_sheet_package = OpenTemplatePackage("Test_debug.xlsx"))
+                {
+                    var s = atomic_sheet_package.Workbook.Worksheets["Test3"];
+                    var s_copy = package.Workbook.Worksheets.Add("Test3", s); // Exception on this line
+                    s_copy.Drawings[0].As.Chart.LineChart.Series[0].XSeries = "A1:a15";
+                    atomic_sheet_package.Save();
+                }
+                package.Save();
+            }
+        }
     }
 }
