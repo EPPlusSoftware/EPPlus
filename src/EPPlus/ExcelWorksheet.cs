@@ -2417,8 +2417,9 @@ namespace OfficeOpenXml
                 }
                 else
                 {
+                    ExcelDrawing.ResetWidthRowCache();
                     foreach (ExcelDrawing d in Drawings)
-                    {
+                    {                        
                         d.AdjustPositionAndSize();
                         HandleSaveForIndividualDrawings(d);
                     }

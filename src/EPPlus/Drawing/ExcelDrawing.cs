@@ -622,6 +622,11 @@ namespace OfficeOpenXml.Drawing
             get { return _id; }
         }
         #region "Internal sizing functions"
+        static Dictionary<int, double> _rowHeights = new Dictionary<int, double>();
+        internal static void ResetWidthRowCache()
+        {
+            _rowHeights = new Dictionary<int, double>();
+        }
         internal int GetPixelLeft()
         {
             int pix;
@@ -656,7 +661,11 @@ namespace OfficeOpenXml.Drawing
                 pix = 0;
                 for (int row = 0; row < From.Row; row++)
                 {
-                    pix += (int)(GetRowHeight(row + 1) / 0.75);
+                    if(!_rowHeights.ContainsKey(row))
+                    {
+                        _rowHeights.Add(row, GetRowHeight(row + 1));
+                    }
+                    pix += (int)(_rowHeights[row] / 0.75);
                 }
                 pix += From.RowOff / EMU_PER_PIXEL;
             }
@@ -745,7 +754,7 @@ namespace OfficeOpenXml.Drawing
                 return GetRowHeightFromCellFonts(row, ws);
             }
         }
-
+        static Dictionary<int, double> _textHeights=new Dictionary<int, double>();
         private double GetRowHeightFromCellFonts(int row, ExcelWorksheet ws)
         {
             var dh = ws.DefaultRowHeight;
@@ -759,7 +768,17 @@ namespace OfficeOpenXml.Drawing
                 {
                     var xfs = styles.CellXfs[cse.Value._styleId];
                     var f = styles.Fonts[xfs.FontId];
-                    var rh = ExcelFontXml.GetFontHeight(f.Name, f.Size) * 0.75;
+                    double rh;
+                    if (_textHeights.ContainsKey(cse.Value._styleId))
+                    {
+                        rh = _textHeights[cse.Value._styleId];
+                    }
+                    else
+                    {
+                        rh = ExcelFontXml.GetFontHeight(f.Name, f.Size) * 0.75;
+                        _textHeights.Add(cse.Value._styleId, rh);
+                    }
+                                        
                     if (rh > height)
                     {
                         height = rh;
