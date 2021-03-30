@@ -301,11 +301,18 @@ namespace EPPlusTest.Style
                 using (var p2 = new ExcelPackage())
                 {
                     var wsCopy = p2.Workbook.Worksheets.Add("CopyTableRowStyleCopy", ws);
-
+                    var tblCopy = wsCopy.Tables[0];
                     Assert.AreEqual(ExcelBorderStyle.Dashed, tbl.HeaderRowStyle.Border.Bottom.Style);
                     Assert.AreEqual(Color.Black.ToArgb(), tbl.HeaderRowStyle.Border.Bottom.Color.Color.Value.ToArgb());
                     Assert.AreEqual(Color.Red.ToArgb(), tbl.DataStyle.Font.Color.Color.Value.ToArgb());
                     Assert.AreEqual(Color.Green.ToArgb(), tbl.Columns[0].DataStyle.Font.Color.Color.Value.ToArgb());
+
+                    Assert.AreEqual(ExcelBorderStyle.Dashed, tblCopy.HeaderRowStyle.Border.Bottom.Style);
+                    Assert.AreEqual(Color.Black.ToArgb(), tblCopy.HeaderRowStyle.Border.Bottom.Color.Color.Value.ToArgb());
+                    Assert.AreEqual(Color.Red.ToArgb(), tblCopy.DataStyle.Font.Color.Color.Value.ToArgb());
+                    Assert.AreEqual(Color.Green.ToArgb(), tblCopy.Columns[0].DataStyle.Font.Color.Color.Value.ToArgb());
+                    Assert.AreEqual(tbl.Name, tblCopy.Name); //Keep name if this table does not exist in the workbook.
+
                     SaveWorkbook("TableDxfCopy.xlsx", p2);
                 }
             }

@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Utils
             {
                 nf = styles.NumberFormats[0].FormatTranslator;  //nf should never be null. If so set to General, Issue 173
             }
-            if (nf.Culture != null) nf.Culture = cultureInfo;
+            if (nf.Culture == null) nf.Culture = cultureInfo;
 
             string format, textFormat;
             if (forWidthCalc)
