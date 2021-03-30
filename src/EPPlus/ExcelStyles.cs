@@ -1204,7 +1204,7 @@ namespace OfficeOpenXml
             }
             foreach (ExcelNamedStyleXml style in NamedStyles)
             {
-                if (!style.Name.Equals("normal", StringComparison.OrdinalIgnoreCase))
+                if (style.BuildInId!=0)                    
                 {
                     AddNamedStyle(count++, styleXfsNode, cellXfsNode, style);
                 }
