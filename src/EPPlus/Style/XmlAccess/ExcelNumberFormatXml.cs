@@ -220,16 +220,19 @@ namespace OfficeOpenXml.Style.XmlAccess
             {
                 get
                 {
-                    if (_ci == null)
-                    {
-                        return CultureInfo.CurrentCulture;
-                    }
-                    return _ci;
+                    return _ci ?? CultureInfo.CurrentCulture;
                 }
                 set
                 {
                     _ci = value;
                 }
+            }
+            internal bool HasCulture 
+            { 
+                get 
+                { 
+                    return _ci != null; 
+                } 
             }
             internal eFormatType DataType { get; private set; }
             internal string NetTextFormatForWidth { get; private set; }
@@ -527,10 +530,6 @@ namespace OfficeOpenXml.Style.XmlAccess
                 {
                     NetFormat = format;
                     NetTextFormat = text;
-                }
-                if (Culture == null)
-                {
-                    Culture = CultureInfo.CurrentCulture;
                 }
             }
 

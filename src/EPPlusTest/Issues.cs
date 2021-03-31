@@ -2050,18 +2050,14 @@ namespace EPPlusTest
                 package.Save();
             }
         }
-
         [TestMethod]
-        public void Issue138()
+        public void Issue347_2()
         {
-            using (var package = new ExcelPackage(new FileInfo(@"c:\Temp\Issue138\validation.xlsx")))
+            using (var p = OpenTemplatePackage("i347.xlsx"))
             {
-                var val = package.Workbook.Worksheets[0].DataValidations.First().As.CustomValidation;
-                val.Formula.ExcelFormula = "SUM(A1)";
-                var val2 = package.Workbook.Worksheets[0].DataValidations.First().As.CustomValidation;
-                var ms = new MemoryStream();
-                package.SaveAs(ms);
+                SaveAndCleanup(p);
             }
         }
+
     }
 }
