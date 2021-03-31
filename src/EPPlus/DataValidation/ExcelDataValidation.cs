@@ -106,6 +106,11 @@ namespace OfficeOpenXml.DataValidation
 
         internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
 
+        internal virtual void RegisterFormulaListener(DataValidationFormulaListener listener)
+        {
+
+        }
+
         private string GetSqRefPath()
         {
             return InternalValidationType == InternalValidationType.DataValidation ? _sqrefPath : _sqrefPathExt;
@@ -124,7 +129,7 @@ namespace OfficeOpenXml.DataValidation
         private void InitNodeOrder(ExcelDataValidationType validationType)
         {
             // set schema node order
-            if(validationType == ExcelDataValidationType.List)
+            if(validationType == ExcelDataValidationType.List || validationType == ExcelDataValidationType.Custom)
             {
                 if(InternalValidationType == InternalValidationType.DataValidation)
                 {
@@ -329,7 +334,10 @@ namespace OfficeOpenXml.DataValidation
                 {
                     DeleteNode(_errorStylePath);
                 }
-                SetXmlNodeString(_errorStylePath, value.ToString());
+                else
+                {
+                    SetXmlNodeString(_errorStylePath, value.ToString());
+                }
             }
         }
 
@@ -387,9 +395,17 @@ namespace OfficeOpenXml.DataValidation
             {
                 return GetXmlNodeString(_errorTitlePath);
             }
+
             set
             {
-                SetXmlNodeString(_errorTitlePath, value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    DeleteNode(_errorTitlePath);
+                }
+                else
+                {
+                    SetXmlNodeString(_errorTitlePath, value.ToString());
+                }
             }
         }
 
@@ -404,7 +420,14 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
-                SetXmlNodeString(_errorPath, value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    DeleteNode(_errorPath);
+                }
+                else
+                {
+                    SetXmlNodeString(_errorPath, value.ToString());
+                }
             }
         }
 

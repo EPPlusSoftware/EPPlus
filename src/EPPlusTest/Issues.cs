@@ -2050,5 +2050,18 @@ namespace EPPlusTest
                 package.Save();
             }
         }
+
+        [TestMethod]
+        public void Issue138()
+        {
+            using (var package = new ExcelPackage(new FileInfo(@"c:\Temp\Issue138\validation.xlsx")))
+            {
+                var val = package.Workbook.Worksheets[0].DataValidations.First().As.CustomValidation;
+                val.Formula.ExcelFormula = "SUM(A1)";
+                var val2 = package.Workbook.Worksheets[0].DataValidations.First().As.CustomValidation;
+                var ms = new MemoryStream();
+                package.SaveAs(ms);
+            }
+        }
     }
 }

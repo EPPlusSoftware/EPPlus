@@ -54,7 +54,7 @@ namespace OfficeOpenXml.DataValidation
                 case eDataValidationType.Time:
                     return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
                 case eDataValidationType.Custom:
-                    return new ExcelDataValidationCustom(worksheet, uid, address, type, itemElementNode);
+                    return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
                 default:
                     throw new InvalidOperationException("Non supported validationtype: " + type.Type.ToString());
             }
@@ -68,6 +68,16 @@ namespace OfficeOpenXml.DataValidation
             }
             // extLst
             return new ExcelDataValidationExtList(worksheet, uid, address, type, itemElementNode);
+        }
+
+        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormula> CreateCustomValidation(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+        {
+            if (internalType == InternalValidationType.DataValidation)
+            {
+                return new ExcelDataValidationCustom(worksheet, uid, address, type, itemElementNode);
+            }
+            // extLst
+            return new ExcelDataValidationExtCustom(worksheet, uid, address, type, itemElementNode);
         }
 
     }
