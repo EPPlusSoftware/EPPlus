@@ -68,5 +68,10 @@ namespace OfficeOpenXml.DataValidation
         {
             Formula = new ExcelDataValidationFormulaList(NameSpaceManager, TopNode, GetFormula1Path(), uid);
         }
+
+        internal override void RegisterFormulaListener(DataValidationFormulaListener listener)
+        {
+            ((ExcelDataValidationFormulaList)Formula).RegisterFormulaListener(listener);
+        }
     }
 }
