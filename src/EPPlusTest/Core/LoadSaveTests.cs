@@ -48,7 +48,7 @@ namespace EPPlusTest.Core
         {
             using (var p = new ExcelPackage())
             {
-                var ws=p.Workbook.Worksheets.Add("SaveTwice");
+                var ws = p.Workbook.Worksheets.Add("SaveTwice");
                 p.Workbook.Properties.Application = "EPPlus";
                 ws.Cells["A1"].Value = "A1";
                 p.Workbook.Properties.Title = "EPPlus";

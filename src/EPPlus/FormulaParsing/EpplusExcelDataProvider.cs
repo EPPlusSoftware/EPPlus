@@ -61,6 +61,13 @@ namespace OfficeOpenXml.FormulaParsing
                 return ((_toRow - _fromRow) + 1) * ((_toCol - _fromCol) + 1);
             }
 
+            public bool IsRef
+            {
+                get
+                {
+                    return _ws == null || _fromRow < 0 || _toRow < 0;
+                }
+            }
             public bool IsEmpty
             {
                 get
@@ -344,7 +351,14 @@ namespace OfficeOpenXml.FormulaParsing
             SetCurrentWorksheet(worksheet);
             var wsName = string.IsNullOrEmpty(worksheet) ? _currentWorksheet.Name : worksheet;
             var ws = _package.Workbook.Worksheets[wsName];
-            return new RangeInfo(ws, fromRow, fromCol, toRow, toCol);
+            if (ws == null)
+            {
+                throw new ArgumentException("Invalid worksheet or address");
+            }
+            else
+            {
+                return new RangeInfo(ws, fromRow, fromCol, toRow, toCol);
+            }
         }
         public override IRangeInfo GetRange(string worksheet, int row, int column, string address)
         {
@@ -357,7 +371,14 @@ namespace OfficeOpenXml.FormulaParsing
             var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
             var ws = _package.Workbook.Worksheets[wsName];
             //return new CellsStoreEnumerator<object>(ws._values, addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
-            return new RangeInfo(ws, addr);
+            if (ws == null)
+            {
+                throw new ArgumentException("Invalid worksheet or address");
+            }
+            else
+            {
+                return new RangeInfo(ws, addr);
+            }
         }
         [Obsolete("Please use GetRange(string, row, column, address)")]
         public override IRangeInfo GetRange(string worksheet, string address)
@@ -370,8 +391,14 @@ namespace OfficeOpenXml.FormulaParsing
             //SetCurrentWorksheet(addr.WorkSheet); 
             var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
             var ws = _package.Workbook.Worksheets[wsName];
-            //return new CellsStoreEnumerator<object>(ws._values, addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
-            return new RangeInfo(ws, addr);
+            if (ws == null)
+            {
+                throw new ArgumentException("Invalid worksheet or address");
+            }
+            else
+            {
+                return new RangeInfo(ws, addr);
+            }
         }
 
         private ExcelAddress ConvertToA1C1(ExcelAddressBase addr, ExcelAddressBase refAddress)
