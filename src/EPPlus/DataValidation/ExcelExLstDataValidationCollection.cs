@@ -43,6 +43,7 @@ namespace OfficeOpenXml.DataValidation
                     var typeSchema = node.Attributes["type"] != null ? node.Attributes["type"].Value : "";
                     var type = ExcelDataValidationType.GetBySchemaName(typeSchema);
                     var val = ExcelDataValidationFactory.Create(type, worksheet, address, node, InternalValidationType.ExtLst, uid);
+                    val.RegisterFormulaListener(_formulaListener);
                     val.Uid = uid;
                     _validations.Add(val);
                 }

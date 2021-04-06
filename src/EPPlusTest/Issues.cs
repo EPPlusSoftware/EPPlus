@@ -2050,5 +2050,14 @@ namespace EPPlusTest
                 package.Save();
             }
         }
+        [TestMethod]
+        public void Issue347_2()
+        {
+            using (var p = OpenTemplatePackage("i347.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

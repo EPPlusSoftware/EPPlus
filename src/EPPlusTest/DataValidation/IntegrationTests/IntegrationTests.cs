@@ -164,6 +164,24 @@ namespace EPPlusTest.DataValidation.IntegrationTests
         }
 
         [TestMethod]
+        public void ShouldMoveCustomValidationToExtListWhenReferringOtherWorksheet()
+        {
+            var sheet1 = _unitTestPackage.Workbook.Worksheets.Add("Sheet1");
+            var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("Sheet2");
+
+            sheet1.Cells["A1"].Value = "Bar";
+            sheet2.Cells["A1"].Value = "Foo";
+            var v = sheet1.Cells["A1"].DataValidation.AddCustomDataValidation();
+            v.ShowErrorMessage = true;
+            v.ShowInputMessage = true;
+            v.AllowBlank = false;
+            v.Formula.ExcelFormula = "IF(AND(Sheet2!A1=\"Foo\",A1=\"Bar\"),TRUE,FALSE)";
+            
+
+            SaveWorkbook("MoveToExtLst_Custom.xlsx", _unitTestPackage);
+        }
+
+        [TestMethod]
         public void ShoulAddListValidationOnSameWorksheet()
         {
             var sheet1 = _package.Workbook.Worksheets.Add("extlist_sheet1");

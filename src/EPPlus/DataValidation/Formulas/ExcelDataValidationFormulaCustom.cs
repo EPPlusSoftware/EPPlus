@@ -27,6 +27,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
         public ExcelDataValidationFormulaCustom(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
             : base(namespaceManager, topNode, formulaPath, validationUid)
         {
+            SchemaNodeOrder = new string[] { "formula1", "sqref" };
             var value = GetXmlNodeString(formulaPath);
             if (!string.IsNullOrEmpty(value))
             {
@@ -47,7 +48,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
 
         internal override void ResetValue()
         {
-            ExcelFormula = null;
+            
         }
     }
 }

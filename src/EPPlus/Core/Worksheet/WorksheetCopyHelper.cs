@@ -433,19 +433,28 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 string xml = tbl.TableXml.OuterXml;
                 string name;
-                if (prevName == "")
+
+                if (Copy.Workbook == added.Workbook || added.Workbook.ExistsTableName(tbl.Name))
                 {
-                    name = Copy.Tables.GetNewTableName();
+                    if (prevName == "")
+                    {
+                        name = Copy.Tables.GetNewTableName();
+                    }
+                    else
+                    {
+                        int ix = int.Parse(prevName.Substring(5)) + 1;
+                        name = string.Format("Table{0}", ix);
+                        while (added._package.Workbook.ExistsPivotTableName(name))
+                        {
+                            name = string.Format("Table{0}", ++ix);
+                        }
+                    }
                 }
                 else
                 {
-                    int ix = int.Parse(prevName.Substring(5)) + 1;
-                    name = string.Format("Table{0}", ix);
-                    while (added._package.Workbook.ExistsPivotTableName(name))
-                    {
-                        name = string.Format("Table{0}", ++ix);
-                    }
+                    name = tbl.Name;
                 }
+
                 //ensure the _nextTableID value has been initialized - Pull request by WillR
                 added.Workbook.ReadAllTables();
 

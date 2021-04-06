@@ -84,6 +84,7 @@ namespace OfficeOpenXml.DataValidation
 
                     var type = ExcelDataValidationType.GetBySchemaName(typeSchema);
                     var validation = ExcelDataValidationFactory.Create(type, worksheet, addr, node, InternalValidationType.DataValidation, uid);
+                    validation.RegisterFormulaListener(_formulaListener);
                     validation.Uid = uid;
                     _validations.Add(validation);
                 }
@@ -354,6 +355,18 @@ namespace OfficeOpenXml.DataValidation
             ValidateAddress(address);
             EnsureRootElementExists();
             var item = new ExcelDataValidationCustom(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Custom);
+            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
+            _validations.Add(item);
+            OnValidationCountChanged();
+            return item;
+        }
+
+        internal IExcelDataValidationCustom AddCustomValidation(string address, string uid)
+        {
+            ValidateAddress(address);
+            EnsureRootElementExists();
+            var item = new ExcelDataValidationCustom(_worksheet, uid, address, ExcelDataValidationType.Custom);
+            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
