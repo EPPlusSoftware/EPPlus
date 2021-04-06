@@ -111,10 +111,6 @@ namespace OfficeOpenXml.DataValidation.Formulas
                     ResetValue();
                     State = FormulaState.Formula;
                 }
-                if (value != null && value.Length > 255)
-                {
-                    throw new InvalidOperationException("The length of a DataValidation formula cannot exceed 255 characters");
-                }
                 var oldValue = _formula;
                 _formula = value;
                 SetXmlNodeString(FormulaPath, value);
