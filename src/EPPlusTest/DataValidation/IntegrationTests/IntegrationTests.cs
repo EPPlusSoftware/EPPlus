@@ -31,6 +31,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.DataValidation;
 using System.IO;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation.Exceptions;
 
 namespace EPPlusTest.DataValidation.IntegrationTests
 {
@@ -152,15 +153,26 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet2");
 
             var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
-            v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
             v.ShowErrorMessage = true;
             v.ShowInputMessage = true;
             v.AllowBlank = true;
+            v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
 
             sheet2.Cells["A1"].Value = "option1";
             sheet2.Cells["A2"].Value = "option2";
 
             SaveWorkbook("MoveToExtLst.xlsx", _unitTestPackage);
+        }
+
+        [TestMethod, ExpectedException(typeof(DataValidationStaleException))]
+        public void ShoulThrowExceptionIfValidationInStaleState()
+        {
+            var sheet1 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet1");
+            var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet2");
+
+            var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
+            v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
+            v.AllowBlank = true;
         }
 
         [TestMethod]
@@ -205,11 +217,11 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet2");
 
             var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
-            v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
-            v.Formula.ExcelFormula = "B1:B2";
             v.ShowErrorMessage = true;
             v.ShowInputMessage = true;
             v.AllowBlank = true;
+            v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
+            v.Formula.ExcelFormula = "B1:B2";
 
             sheet1.Cells["B1"].Value = "option1";
             sheet1.Cells["B2"].Value = "option2";
