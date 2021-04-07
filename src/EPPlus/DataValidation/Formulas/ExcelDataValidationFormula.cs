@@ -96,6 +96,13 @@ namespace OfficeOpenXml.DataValidation.Formulas
             set;
         }
 
+        private int MeasureFormulaLength(string formula)
+        {
+            if (string.IsNullOrEmpty(formula)) return 0;
+            formula = formula.Replace("_xlfn.", string.Empty).Replace("_xlws.", string.Empty);
+            return formula.Length;
+        }
+
         /// <summary>
         /// A formula which output must match the current validation type
         /// </summary>
@@ -112,7 +119,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
                     ResetValue();
                     State = FormulaState.Formula;
                 }
-                if (value != null && value.Length > 255)
+                if (value != null && MeasureFormulaLength(value) > 255)
                 {
                     throw new DataValidationFormulaTooLongException("The length of a DataValidation formula cannot exceed 255 characters");
                 }
