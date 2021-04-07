@@ -1,5 +1,18 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.6.2
+### Fixed issues
+* InvalidOperationException is thrown if Data Validation formula length exceeds 255 characters due to added _xlfn/_xlws prefixes. 
+* Pivot tables with row/column fields of a enum type corrupted the pivot cache.
+* Reading conditional formatting from a workbook causes font and number formats to clear
+* Custom data validation could not handle formula reference to other worksheet.
+* Normal buildin style causes corruption when a style named Normal exists.
+* Optimize handling of image sizing and positioning on save and resizing.
+* Exception on copying worksheet with a chart that has no valid X Series.
+* Match function could not handle named ranges in the range argument.
+* Preserve table names when copying worksheet to a new workbook. 
+* Number formats with localization did not set the culture code correctly.
+
 ## Version 5.6.1
 ### Fixed issues & minor features
 * Styles xml could get corrupt in some cases as the numFmt dxf element was created in the wrong order according to the schema.
