@@ -48,6 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 if(table != null)
                 {
                     var ri = new RangeInfo(table.WorkSheet, table.Address);
+                    cache.Add(cacheId, ri.Address.FullAddress);
                     return new CompileResult(ri, DataType.Enumerable, cacheId);
                 }
                 return new CompileResult(eErrorType.Name);
@@ -61,6 +62,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 var range = (ExcelDataProvider.IRangeInfo)name.Value;
                 if (range.IsMulti)
                 {
+                    cache.Add(cacheId, range.Address.FullAddress);
                     return new CompileResult(name.Value, DataType.Enumerable, cacheId);
                 }
                 else
