@@ -31,6 +31,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.DataValidation.Exceptions;
 
 namespace EPPlusTest.DataValidation
 {
@@ -59,7 +60,7 @@ namespace EPPlusTest.DataValidation
             Assert.IsNotNull(validation.Formula);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException), AllowDerivedTypes = true)]
         public void CustomValidation_ShouldThrowExceptionIfFormulaIsTooLong()
         {
             // Arrange

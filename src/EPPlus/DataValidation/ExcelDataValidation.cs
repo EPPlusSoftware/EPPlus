@@ -20,6 +20,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Exceptions;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -103,6 +104,34 @@ namespace OfficeOpenXml.DataValidation
             Address = new ExcelAddress(address);
             
         }
+
+        private bool _isStale = false;
+
+        /// <summary>
+        /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
+        /// </summary>
+        bool IExcelDataValidation.IsStale
+        {
+            get
+            {
+                return _isStale;
+            }
+        }
+
+        internal void SetStale()
+        {
+            _isStale = true;
+        }
+
+        private void CheckIfStale()
+        {
+            if (_isStale)
+            {
+                throw new DataValidationStaleException("This instance of Data validation is stale. Ensure that you set all other properties before you set the Formula.ExcelFormula property. See https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions for more details.");
+            }
+        }
+
+
 
         internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
 
@@ -254,6 +283,7 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
+                CheckIfStale();
                 if (string.IsNullOrEmpty(value)) throw new ArgumentNullException("Uid");
                 var uid = value.TrimStart('{').TrimEnd('}');
                 SetXmlNodeString(_uidPath, "{" + uid + "}");
@@ -310,6 +340,7 @@ namespace OfficeOpenXml.DataValidation
                 {
                     throw new InvalidOperationException("The current validation type does not allow operator to be set");
                 }
+                CheckIfStale();
                 SetXmlNodeString(_operatorPath, value.ToString());
             }
         }
@@ -336,6 +367,7 @@ namespace OfficeOpenXml.DataValidation
                 }
                 else
                 {
+                    CheckIfStale();
                     SetXmlNodeString(_errorStylePath, value.ToString());
                 }
             }
@@ -352,6 +384,7 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
+                CheckIfStale();
                 SetNullableBoolValue(_allowBlankPath, value);
             }
         }
@@ -367,6 +400,7 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
+                CheckIfStale();
                 SetNullableBoolValue(_showInputMessagePath, value);
             }
         }
@@ -382,6 +416,7 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
+                CheckIfStale();
                 SetNullableBoolValue(_showErrorMessagePath, value);
             }
         }
@@ -404,6 +439,7 @@ namespace OfficeOpenXml.DataValidation
                 }
                 else
                 {
+                    CheckIfStale();
                     SetXmlNodeString(_errorTitlePath, value.ToString());
                 }
             }
@@ -426,6 +462,7 @@ namespace OfficeOpenXml.DataValidation
                 }
                 else
                 {
+                    CheckIfStale();
                     SetXmlNodeString(_errorPath, value.ToString());
                 }
             }
@@ -442,6 +479,7 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
+                CheckIfStale();
                 SetXmlNodeString(_promptTitlePath, value);
             }
         }
@@ -457,6 +495,7 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
+                CheckIfStale();
                 SetXmlNodeString(_promptPath, value);
             }
         }

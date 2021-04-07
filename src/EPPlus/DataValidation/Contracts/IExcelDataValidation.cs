@@ -73,9 +73,18 @@ namespace OfficeOpenXml.DataValidation.Contracts
         /// <summary>
         /// Validates the state of the validation.
         /// </summary>
-        
-        ExcelDataValidationAsType As { get; }
         void Validate();
+
+        /// <summary>
+        /// Use this property to cast an instance of <see cref="IExcelDataValidation"/> to its subtype, see <see cref="ExcelDataValidationAsType"/>.
+        /// </summary>
+        ExcelDataValidationAsType As { get; }
+
+        /// <summary>
+        /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
+        /// </summary>
+        bool IsStale { get; }
+       
 
 
     }

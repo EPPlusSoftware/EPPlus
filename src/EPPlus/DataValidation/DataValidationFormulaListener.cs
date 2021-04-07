@@ -38,6 +38,7 @@ namespace OfficeOpenXml.DataValidation
                         extValidation.ErrorTitle = validation.ErrorTitle;
                         extValidation.ShowErrorMessage = validation.ShowErrorMessage;
                         extValidation.Formula.ExcelFormula = e.NewValue;
+                        listValidation.SetStale();
                         _dataValidations.Remove(listValidation);
                         _dataValidations.DataValidationsExt.AddValidation(extValidation);
                     }
@@ -51,6 +52,7 @@ namespace OfficeOpenXml.DataValidation
                         extValidation.ErrorTitle = validation.ErrorTitle;
                         extValidation.ShowErrorMessage = validation.ShowErrorMessage;
                         extValidation.Formula.ExcelFormula = e.NewValue;
+                        customValidation.SetStale();
                         _dataValidations.Remove(customValidation);
                         _dataValidations.DataValidationsExt.AddValidation(extValidation);
                     }
@@ -73,6 +75,7 @@ namespace OfficeOpenXml.DataValidation
                         dataValidation.ErrorTitle = validation.ErrorTitle;
                         dataValidation.ShowErrorMessage = validation.ShowErrorMessage;
                         dataValidation.Formula.ExcelFormula = e.NewValue;
+                        listValidation.SetStale();
                         _dataValidations.DataValidationsExt.Remove(listValidation);
                     }
                     else if (validation.ValidationType == ExcelDataValidationType.Custom)
@@ -86,6 +89,7 @@ namespace OfficeOpenXml.DataValidation
                         dataValidation.ErrorTitle = validation.ErrorTitle;
                         dataValidation.ShowErrorMessage = validation.ShowErrorMessage;
                         dataValidation.Formula.ExcelFormula = e.NewValue;
+                        customValidation.SetStale();
                         _dataValidations.DataValidationsExt.Remove(customValidation);
                     }
                 }
