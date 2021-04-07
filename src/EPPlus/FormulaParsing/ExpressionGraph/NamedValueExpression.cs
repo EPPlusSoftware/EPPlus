@@ -36,11 +36,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             var cache = _parsingContext.AddressCache;
             var cacheId = cache.GetNewId();
             
-            if(!cache.Add(cacheId, ExpressionString))
-            {
-                throw new InvalidOperationException("Catastropic error occurred, address caching failed");
-            }
-
             if (name == null)
             {
                 // check if there is a table with the name
@@ -51,6 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     cache.Add(cacheId, ri.Address.FullAddress);
                     return new CompileResult(ri, DataType.Enumerable, cacheId);
                 }
+
                 return new CompileResult(eErrorType.Name);
             }
             if (name.Value==null)
@@ -60,9 +56,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             if (name.Value is ExcelDataProvider.IRangeInfo)
             {
                 var range = (ExcelDataProvider.IRangeInfo)name.Value;
+                cache.Add(cacheId, range.Address.FullAddress);
                 if (range.IsMulti)
                 {
-                    cache.Add(cacheId, range.Address.FullAddress);
                     return new CompileResult(name.Value, DataType.Enumerable, cacheId);
                 }
                 else

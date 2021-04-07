@@ -2058,6 +2058,52 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-
+        [TestMethod]
+        public void Issue353()
+        {
+            using (var p = OpenTemplatePackage("HeaderFooterTest (1).xlsx"))
+            {
+                ExcelWorksheet worksheet = p.Workbook.Worksheets[0]; 
+                Assert.IsFalse(worksheet.HeaderFooter.differentFirst); 
+                Assert.IsFalse(worksheet.HeaderFooter.differentOddEven);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue354()
+        {
+            using (var p = OpenTemplatePackage("i354.xlsx"))
+            {
+                var ws1=p.Workbook.Worksheets[0];
+                var ws2 = p.Workbook.Worksheets[2];
+                var pt = ws1.PivotTables.Add(ws1.Cells["A2"], ws2.Cells["A1:E3005"], "pt");
+                ws2.Cells["B2"].Value = eDateGroupBy.Years;
+                ws2.Cells["B3"].Value = eDateGroupBy.Months;
+                pt.ColumnFields.Add(pt.Fields[1]);
+                pt.RowFields.Add(pt.Fields[4]);
+                pt.Fields[4].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void MatchNamedRangeIssue()
+        {
+            using (var p = OpenTemplatePackage("MatchIssue141.xlsx"))
+            {
+                var worksheet = p.Workbook.Worksheets["TVaR"];
+                //foreach (var cell in worksheet.Cells)
+                //{
+                //try
+                //{
+                worksheet.Cells["V5"].Calculate();
+                worksheet.Cells["V5"].Value = worksheet.Cells["V5"].Value;
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //}
+                //}
+                //SaveAndCleanup(9)
+            }
+        }
     }
 }

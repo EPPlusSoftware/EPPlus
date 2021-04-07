@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Core
             for(var ix = 0; ix < tokens.Length; ix++)
             {
                 var token = tokens[ix];
-                if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.NameValue) || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
+                if (token.TokenTypeIsSet(TokenType.ExcelAddress) /*|| token.TokenTypeIsSet(TokenType.NameValue)*/ || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
                 {
                     var part = FromR1C1(token.Value, row, col);
                     tokens[ix] = tokens[ix].CloneWithNewValue(part);
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Core
             for (var ix = 0; ix < tokens.Length; ix++)
             {
                 var token = tokens[ix];
-                if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.NameValue) || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
+                if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
                 {
                     var part = ToR1C1(new ExcelAddressBase(token.Value), row, col);
                     tokens[ix] = tokens[ix].CloneWithNewValue(part);

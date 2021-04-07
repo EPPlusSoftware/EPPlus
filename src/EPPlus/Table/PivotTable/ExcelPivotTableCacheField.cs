@@ -308,7 +308,14 @@ namespace OfficeOpenXml.Table.PivotTable
                         case TypeCode.Decimal:
                         case TypeCode.Double:
                         case TypeCode.Single:
-                            AppendItem(shNode, "n", ConvertUtil.GetValueForXml(si, false));
+                            if (t.IsEnum)
+                            {
+                                AppendItem(shNode, "s", si.ToString());
+                            }
+                            else
+                            {
+                                AppendItem(shNode, "n", ConvertUtil.GetValueForXml(si, false));
+                            }
                             break;
                         case TypeCode.DateTime:
                             var d = ((DateTime)si);
@@ -380,7 +387,14 @@ namespace OfficeOpenXml.Table.PivotTable
                         case TypeCode.Int16:
                         case TypeCode.Int32:
                         case TypeCode.Int64:
-                            flags |= (DataTypeFlags.Number|DataTypeFlags.Int);
+                            if(t.IsEnum)
+                            {
+                                flags |= DataTypeFlags.String;
+                            }
+                            else
+                            {
+                                flags |= (DataTypeFlags.Number | DataTypeFlags.Int);
+                            }
                             break;
                         case TypeCode.Decimal:
                         case TypeCode.Double:

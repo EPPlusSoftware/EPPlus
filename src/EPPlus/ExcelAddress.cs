@@ -1071,9 +1071,10 @@ namespace OfficeOpenXml
 
         private static bool IsR1C1(string address)
         {
-            if (address.StartsWith("!", StringComparison.OrdinalIgnoreCase))
+            var start = address.LastIndexOf("!", address.Length-1, StringComparison.OrdinalIgnoreCase);
+            if (start>=0)
             {
-                address = address.Substring(1);
+                address = address.Substring(start + 1);
             }
             address = address.ToUpper();
             if (string.IsNullOrEmpty(address) || (address[0]!='R' && address[0]!='C'))
