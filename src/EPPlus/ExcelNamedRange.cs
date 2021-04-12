@@ -67,7 +67,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    return _sheet.PositionId-_workbook._package._worksheetAdd;
+                    return _sheet.IndexInList;
                 }
             }
         }

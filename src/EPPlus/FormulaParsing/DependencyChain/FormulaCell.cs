@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing
     internal class FormulaCell
     {
         internal int Index { get; set; }
-        internal int SheetID { get; set; }
+        internal int wsIndex { get; set; }
         internal int Row { get; set; }
         internal int Column { get; set; }
         internal string Formula { get; set; }

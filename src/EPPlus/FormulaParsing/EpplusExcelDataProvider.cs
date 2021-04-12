@@ -19,6 +19,7 @@ using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
 using System;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -52,8 +53,11 @@ namespace OfficeOpenXml.FormulaParsing
                 _toRow = address._toRow;
                 _toCol = address._toCol;
                 _address = address;
-                _values = new CellStoreEnumerator<ExcelValue>(_ws._values, _fromRow, _fromCol, _toRow, _toCol);
-                _cell = new CellInfo(_ws, _values);
+                if (_ws != null && _ws.IsDisposed == false)
+                {
+                    _values = new CellStoreEnumerator<ExcelValue>(_ws._values, _fromRow, _fromCol, _toRow, _toCol);
+                    _cell = new CellInfo(_ws, _values);
+                }
             }
 
             public int GetNCells()
@@ -76,6 +80,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         return false;
                     }
+                    else if (_values == null) return true;
                     else if (_values.Next())
                     {
                         _values.Reset();
@@ -93,6 +98,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     if (_cellCount == 0)
                     {
+                        if (_values == null) return false;
                         if (_values.Next() && _values.Next())
                         {
                             _values.Reset();
@@ -139,6 +145,7 @@ namespace OfficeOpenXml.FormulaParsing
 
             public bool MoveNext()
             {
+                if (_values == null) return false;
                 _cellCount++;
                 return _values.MoveNext();
             }
@@ -146,12 +153,13 @@ namespace OfficeOpenXml.FormulaParsing
             public void Reset()
             {
                 _cellCount = 0;
-                _values.Init();
+                _values?.Init();
             }
 
 
             public bool NextCell()
             {
+                if (_values == null) return false;
                 _cellCount++;
                 return _values.MoveNext();
             }
@@ -174,11 +182,12 @@ namespace OfficeOpenXml.FormulaParsing
 
             public object GetValue(int row, int col)
             {
-                return _ws.GetValue(row, col);
+                return _ws?.GetValue(row, col);
             }
 
             public object GetOffset(int rowOffset, int colOffset)
             {
+                if (_values == null) return null;
                 if (_values.Row < _fromRow || _values.Column < _fromCol)
                 {
                     return _ws.GetValue(_fromRow + rowOffset, _fromCol + colOffset);
@@ -353,7 +362,7 @@ namespace OfficeOpenXml.FormulaParsing
             var ws = _package.Workbook.Worksheets[wsName];
             if (ws == null)
             {
-                throw new ArgumentException("Invalid worksheet or address");
+                throw new ExcelErrorValueException(eErrorType.Ref);
             }
             else
             {
@@ -370,10 +379,9 @@ namespace OfficeOpenXml.FormulaParsing
             //SetCurrentWorksheet(addr.WorkSheet); 
             var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
             var ws = _package.Workbook.Worksheets[wsName];
-            //return new CellsStoreEnumerator<object>(ws._values, addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
             if (ws == null)
             {
-                throw new ArgumentException("Invalid worksheet or address");
+                throw new ExcelErrorValueException(eErrorType.Ref);
             }
             else
             {
@@ -393,7 +401,7 @@ namespace OfficeOpenXml.FormulaParsing
             var ws = _package.Workbook.Worksheets[wsName];
             if (ws == null)
             {
-                throw new ArgumentException("Invalid worksheet or address");
+                throw new ExcelErrorValueException(eErrorType.Ref);
             }
             else
             {

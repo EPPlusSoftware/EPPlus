@@ -1167,29 +1167,9 @@ namespace OfficeOpenXml
 					}
 					//Rewrite the pivottable address again if any rows or columns have been inserted or deleted
 					var r = cache.SourceRange;
-					if (r != null)              //Source does not exist
+					if (r != null && r.Worksheet!=null)              //Source does not exist
 					{
 						ExcelTable t = r.Worksheet.Tables.GetFromRange(r); ;
-						//if (r.IsName)
-						//{
-						//	//Named range, set name
-						//	cache.SetSourceName(((ExcelNamedRange)r).Name);
-						//}
-						//else
-						//{
-						//	var ws = Worksheets[r.WorkSheetName];
-						//	t = ws.Tables.GetFromRange(r);
-						//	if (t == null)
-						//	{
-						//		//Address
-						//		cache.SetSourceAddress(r.Address);
-						//	}
-						//	else
-						//	{
-						//		//Table, set name
-						//		cache.SetSourceName(t.Name);
-						//	}
-						//}
 
 						var fields =
 							cache.CacheDefinitionXml.SelectNodes(
