@@ -527,6 +527,13 @@ namespace OfficeOpenXml
         /// The position of the worksheet.
         /// </summary>
         internal int PositionId { get { return (_positionId); } set { _positionId = value; } }
+        internal int IndexInList 
+        { 
+            get 
+            {
+                if (_package==null) return -1;
+                return (_positionId - _package._worksheetAdd); 
+            }}
         #region Worksheet Public Properties
         /// <summary>
         /// The index in the worksheets collection
@@ -3794,7 +3801,7 @@ namespace OfficeOpenXml
         }
         internal string GetFormula(int row, int col)
         {
-            var v = _formulas.GetValue(row, col);
+            var v = _formulas?.GetValue(row, col);
             if (v is int)
             {
                 return _sharedFormulas[(int)v].GetFormula(row, col, Name);
@@ -3810,7 +3817,7 @@ namespace OfficeOpenXml
         }
         internal string GetFormulaR1C1(int row, int col)
         {
-            var v = _formulas.GetValue(row, col);
+            var v = _formulas?.GetValue(row, col);
             if (v is int)
             {
                 var sf = _sharedFormulas[(int)v];
@@ -3866,6 +3873,9 @@ namespace OfficeOpenXml
             _conditionalFormatting = null;
             _dataValidation = null;
             _drawings = null;
+
+            _sheetID = -1;
+            _positionId = -1;
         }
 
         /// <summary>
@@ -3921,6 +3931,14 @@ namespace OfficeOpenXml
                     _controls = new ControlsCollectionInternal(NameSpaceManager, TopNode);
                 }
                 return _controls;
+            }
+        }
+
+        internal bool IsDisposed 
+        { 
+            get
+            {
+                return _values == null;
             }
         }
         #region Worksheet internal Accessor

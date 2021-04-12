@@ -62,7 +62,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     return new CompileResult(name.Value, DataType.Enumerable, cacheId);
                 }
                 else
-                {
+                {                    
                     if (range.IsEmpty)
                     {
                         return new CompileResult(null, DataType.Empty, cacheId);
