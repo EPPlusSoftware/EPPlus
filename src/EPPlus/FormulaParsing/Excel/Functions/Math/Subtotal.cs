@@ -69,6 +69,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             base.BeforeInvoke(context);
             context.Scopes.Current.IsSubtotal = true;
+            var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.Worksheet, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
+            if (!context.SubtotalAddresses.Contains(cellId))
+            {
+                context.SubtotalAddresses.Add(cellId);
+            }
         }
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

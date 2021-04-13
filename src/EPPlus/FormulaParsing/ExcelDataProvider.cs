@@ -47,6 +47,8 @@ namespace OfficeOpenXml.FormulaParsing
             string Address { get; }
             int Row { get; }
             int Column { get; }
+
+            ulong Id { get; }
             string Formula { get;  }
             object Value { get; }
             double ValueDouble { get; }
@@ -127,6 +129,15 @@ namespace OfficeOpenXml.FormulaParsing
         /// <param name="col"></param>
         /// <returns></returns>
         public abstract object GetCellValue(string sheetName, int row, int col);
+
+        /// <summary>
+        /// Creates a cell id, representing the full address of a cell.
+        /// </summary>
+        /// <param name="sheetName">Name of the worksheet</param>
+        /// <param name="row">Row ix</param>
+        /// <param name="col">Column Index</param>
+        /// <returns>An <see cref="ulong"/> representing the addrss</returns>
+        public abstract ulong GetCellId(string sheetName, int row, int col);
 
         ///// <summary>
         ///// Sets the value on the cell

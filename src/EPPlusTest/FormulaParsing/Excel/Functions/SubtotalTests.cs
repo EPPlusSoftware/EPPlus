@@ -263,5 +263,33 @@ namespace EPPlusTest.Excel.Functions
             var result = func.Execute(args, _context);
             Assert.AreEqual(200d, result.Result);
         }
+
+        [TestMethod]
+        public void ShouldHandleMultipleLevelsOfSubtotals()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet3 = package.Workbook.Worksheets.Add("sheet3");
+                sheet3.Cells["A1"].Value = 26959.64;
+                sheet3.Cells["A2"].Value = 82272d;
+                sheet3.Cells["A3"].Formula = "SUBTOTAL(9,A1:A2)";
+                sheet3.Cells["A4"].Formula = "SUBTOTAL(9,A1:A3)";
+                
+                var sheet2 = package.Workbook.Worksheets.Add("sheet2");
+                sheet2.Cells["A1"].Formula = "sheet3!A4";
+                package.Workbook.Calculate();
+                Assert.AreEqual(109231.64d, sheet2.Cells["A1"].Value);
+
+                sheet3.Cells["A3"].Formula = "SUBTOTAL(8,A1:A2)";
+                sheet3.Cells["A4"].Formula = "SUBTOTAL(8,A1:A3)";
+                package.Workbook.Calculate();
+                Assert.AreEqual(27656.18, sheet2.Cells["A1"].Value);
+
+                sheet3.Cells["A3"].Formula = "SUBTOTAL(7,A1:A2)";
+                sheet3.Cells["A4"].Formula = "SUBTOTAL(7,A1:A3)";
+                package.Workbook.Calculate();
+                Assert.AreEqual(39111.7448d, Math.Round((double)sheet2.Cells["A1"].Value, 4));
+            }
+        }
     }
 }
