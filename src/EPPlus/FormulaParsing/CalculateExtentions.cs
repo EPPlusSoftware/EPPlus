@@ -211,8 +211,17 @@ namespace OfficeOpenXml
                 var item = dc.list[ix];
                 try
                 {
-                    var ws = wb.Worksheets.GetBySheetID(item.SheetID);
-                    var v = parser.ParseCell(item.Tokens, ws == null ? "" : ws.Name, item.Row, item.Column);
+                    object v;
+                    if (item.wsIndex >= 0 && item.wsIndex < wb.Worksheets.Count)
+                    {
+                        var ws = wb.Worksheets[item.wsIndex];
+                        v = parser.ParseCell(item.Tokens, ws == null ? "" : ws.Name, item.Row, item.Column);
+                    }
+                    else
+                    {
+                        v = ExcelErrorValue.Create(eErrorType.Ref);
+                    }
+                    
                     SetValue(wb, item, v);
                     if (debug)
                     {
@@ -250,19 +259,19 @@ namespace OfficeOpenXml
         {
             if (item.Column == 0)
             {
-                if (item.SheetID <= 0)
+                if (item.wsIndex < 0)
                 {
                     workbook.Names[item.Row].NameValue = v;
                 }
                 else
                 {
-                    var sh = workbook.Worksheets.GetBySheetID(item.SheetID);
+                    var sh = workbook.Worksheets[item.wsIndex];
                     sh.Names[item.Row].NameValue = v;
                 }
             }
             else
             {
-                var sheet = workbook.Worksheets.GetBySheetID(item.SheetID);
+                var sheet = workbook.Worksheets[item.wsIndex];
                 sheet.SetValueInner(item.Row, item.Column, v);
             }
         }

@@ -75,6 +75,10 @@ namespace OfficeOpenXml
             {
                 SetRCFromTable(_workbook._package, null);
             }
+            if(string.IsNullOrEmpty(_ws)==false && (_worksheet==null || !_worksheet.Name.Equals(_ws, StringComparison.OrdinalIgnoreCase)))
+            {
+                _worksheet = _workbook.Worksheets[_ws];
+            }
             SetDelegate();
         }
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :

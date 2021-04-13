@@ -263,7 +263,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 var deletedSf = new List<int>();
                 foreach (var sf in ws._sharedFormulas.Values)
                 {
-                    if (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    //Do not convert array formulas.
+                    if (sf.IsArray == false && (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0))
                     {
                         if (ConvertEffectedSharedFormulaIfReferenceWithinRange(ws, range, sf, wsUpdate.Name))
                         {

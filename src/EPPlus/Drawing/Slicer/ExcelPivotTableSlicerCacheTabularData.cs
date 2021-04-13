@@ -140,7 +140,10 @@ namespace OfficeOpenXml.Drawing.Slicer
                 }
             }
 
-            PivotCacheId = _cache._field._pivotTable.CacheId;
+            if (PivotCacheId < 0)
+            {
+                PivotCacheId = _cache._field._pivotTable.CacheId;
+            }
             var dataNode = (XmlElement)CreateNode(_topPath+"/x14:items");
             dataNode.SetAttribute("count", x.ToString());
             dataNode.InnerXml = sb.ToString();

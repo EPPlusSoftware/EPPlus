@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -188,11 +189,19 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("@subtotal", v);
             }
         }
-        public void SetShowDataAs(eShowDataAs showDataAs)
+        ExcelPivotTableDataFieldShowDataAs _showDataAs = null;
+        public ExcelPivotTableDataFieldShowDataAs ShowDataAs
         {
-
+            get
+            {
+                if (_showDataAs == null)
+                {
+                    _showDataAs = new ExcelPivotTableDataFieldShowDataAs(this);
+                }
+                return _showDataAs;
+            }
         }
-        public eShowDataAs ShowDataAs
+        internal eShowDataAs ShowDataAsInternal
         {
             get
             {
@@ -206,11 +215,16 @@ namespace OfficeOpenXml.Table.PivotTable
                     return (eShowDataAs)Enum.Parse(typeof(eShowDataAs), s, true);
                 }
             }
-            internal set
+            set
             {
-                string v = value.ToString();
-                v = v.Substring(0, 1).ToLower() + v.Substring(1);
-                SetXmlNodeString("@showDataAs", v);
+                if(value==eShowDataAs.Normal)
+                {
+                    DeleteNode("@showDataAs");
+                }
+                else
+                {
+                    SetXmlNodeString("@showDataAs", value.ToEnumString());
+                }
             }
         }
     }

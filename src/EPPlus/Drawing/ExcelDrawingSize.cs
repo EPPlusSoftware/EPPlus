@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Drawing
             _setWidthCallback = setWidthCallback;
         }
         const string colOffPath = "@cy";
+        long _height=long.MinValue;
         /// <summary>
         /// Column Offset
         /// 
@@ -38,15 +39,24 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeLong(colOffPath);
+                if (_height == long.MinValue)
+                {
+                    _height=GetXmlNodeLong(colOffPath);
+                }
+                return _height;
             }
             set
             {
-                SetXmlNodeString(colOffPath, value.ToString());
-                if (_setWidthCallback != null) _setWidthCallback();
+                if(value != Height)
+                {
+                    _height = value;
+                    SetXmlNodeString(colOffPath, value.ToString());
+                    if (_setWidthCallback != null) _setWidthCallback();
+                }
             }
         }
         const string rowOffPath = "@cx";
+        long _width = long.MinValue;
         /// <summary>
         /// Row Offset
         /// 
@@ -58,12 +68,20 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeLong(rowOffPath);
+                if (_width == long.MinValue)
+                {
+                    _width = GetXmlNodeLong(rowOffPath);
+                }
+                return _width;                
             }
             set
             {
-                SetXmlNodeString(rowOffPath, value.ToString());
-                if (_setWidthCallback != null) _setWidthCallback();
+                if (value != Width)
+                {
+                    _width = value;
+                    SetXmlNodeString(rowOffPath, value.ToString());
+                    if (_setWidthCallback != null) _setWidthCallback();
+                }
             }
         }
     }

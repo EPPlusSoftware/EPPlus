@@ -107,7 +107,7 @@ namespace OfficeOpenXml
                 }
             }
         }
-		private ExcelWorksheet _worksheet;
+        private ExcelWorksheet _worksheet;
 
 		#region ExcelWorksheetView Constructor
 		/// <summary>

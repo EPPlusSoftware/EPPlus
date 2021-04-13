@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                             _field = pt.Fields.Where(x => x.Cache.Name == SourceName).FirstOrDefault();
                         }
 
-                        PivotTables.Add(pt);
+                        PivotTables._list.Add(pt);
                     }
                 }
             }

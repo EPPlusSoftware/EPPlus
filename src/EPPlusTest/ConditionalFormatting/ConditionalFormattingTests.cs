@@ -307,6 +307,35 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void VerifyReadStyling()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf=ws.ConditionalFormatting.AddBetween(ws.Cells["A1:A3"]);
+                cf.Formula = "1";
+                cf.Formula2 = "2";
+
+                string expectedFormat = "#,##0";
+                cf.Style.Font.Bold = true;
+                cf.Style.Font.Italic = true;
+                cf.Style.Font.Color.SetColor(Color.Red);
+                cf.Style.NumberFormat.Format = expectedFormat;
+
+                p.Save();
+
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.Between;
+                    Assert.IsTrue(cf.Style.Font.Bold.Value);
+                    Assert.IsTrue(cf.Style.Font.Italic.Value);
+                    Assert.AreEqual(Color.Red.ToArgb(),cf.Style.Font.Color.Color.Value.ToArgb());
+                    Assert.AreEqual(expectedFormat, cf.Style.NumberFormat.Format);
+                }
+            }
+        }
 
     }
 }

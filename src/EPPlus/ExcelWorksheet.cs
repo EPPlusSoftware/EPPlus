@@ -527,6 +527,13 @@ namespace OfficeOpenXml
         /// The position of the worksheet.
         /// </summary>
         internal int PositionId { get { return (_positionId); } set { _positionId = value; } }
+        internal int IndexInList 
+        { 
+            get 
+            {
+                if (_package==null) return -1;
+                return (_positionId - _package._worksheetAdd); 
+            }}
         #region Worksheet Public Properties
         /// <summary>
         /// The index in the worksheets collection
@@ -2417,8 +2424,9 @@ namespace OfficeOpenXml
                 }
                 else
                 {
+                    ExcelDrawing.ResetWidthRowCache();
                     foreach (ExcelDrawing d in Drawings)
-                    {
+                    {                        
                         d.AdjustPositionAndSize();
                         HandleSaveForIndividualDrawings(d);
                     }
@@ -2436,7 +2444,9 @@ namespace OfficeOpenXml
         {
             if (d is ExcelChart c)
             {
-                c.ChartXml.Save(c.Part.GetStream(FileMode.Create, FileAccess.Write));
+                var xr = new XmlTextWriter(c.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                xr.Formatting = Formatting.None;
+                c.ChartXml.Save(xr);
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {
@@ -3099,7 +3109,7 @@ namespace OfficeOpenXml
                                 }
 
                             }
-                            else if (f.IsArray)
+                            else if (f.IsArray) 
                             {
                                 string fElement;
                                 if(string.IsNullOrEmpty(mdAttrForFTag)==false)
@@ -3108,7 +3118,7 @@ namespace OfficeOpenXml
                                 }
                                 else
                                 {
-                                    fElement = "";
+                                    fElement = $"";
                                 }
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
@@ -3791,7 +3801,7 @@ namespace OfficeOpenXml
         }
         internal string GetFormula(int row, int col)
         {
-            var v = _formulas.GetValue(row, col);
+            var v = _formulas?.GetValue(row, col);
             if (v is int)
             {
                 return _sharedFormulas[(int)v].GetFormula(row, col, Name);
@@ -3807,7 +3817,7 @@ namespace OfficeOpenXml
         }
         internal string GetFormulaR1C1(int row, int col)
         {
-            var v = _formulas.GetValue(row, col);
+            var v = _formulas?.GetValue(row, col);
             if (v is int)
             {
                 var sf = _sharedFormulas[(int)v];
@@ -3863,6 +3873,9 @@ namespace OfficeOpenXml
             _conditionalFormatting = null;
             _dataValidation = null;
             _drawings = null;
+
+            _sheetID = -1;
+            _positionId = -1;
         }
 
         /// <summary>
@@ -3918,6 +3931,14 @@ namespace OfficeOpenXml
                     _controls = new ControlsCollectionInternal(NameSpaceManager, TopNode);
                 }
                 return _controls;
+            }
+        }
+
+        internal bool IsDisposed 
+        { 
+            get
+            {
+                return _values == null;
             }
         }
         #region Worksheet internal Accessor
