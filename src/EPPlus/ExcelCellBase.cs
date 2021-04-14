@@ -28,26 +28,26 @@ namespace OfficeOpenXml
         /// <summary>
         /// Get the sheet, row and column from the CellID
         /// </summary>
-        /// <param name="cellID"></param>
+        /// <param name="cellId"></param>
         /// <param name="sheet"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        static internal void SplitCellID(ulong cellID, out int sheet, out int row, out int col)
+        static internal void SplitCellId(ulong cellId, out int sheet, out int row, out int col)
         {
-            sheet = (int)(cellID % 0x8000);
-            col = ((int)(cellID >> 15) & 0x3FF);
-            row = ((int)(cellID >> 29));
+            sheet = (int)(cellId % 0x8000);
+            col = ((int)(cellId >> 15) & 0x3FF);
+            row = ((int)(cellId >> 29));
         }
         /// <summary>
         /// Get the cellID for the cell. 
         /// </summary>
-        /// <param name="SheetID"></param>
+        /// <param name="sheetId"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        internal static ulong GetCellID(int SheetID, int row, int col)
+        internal static ulong GetCellId(int sheetId, int row, int col)
         {
-            return ((ulong)SheetID) + (((ulong)col) << 15) + (((ulong)row) << 29);
+            return ((ulong)sheetId) + (((ulong)col) << 15) + (((ulong)row) << 29);
         }
         #endregion
         #region "Formula Functions"

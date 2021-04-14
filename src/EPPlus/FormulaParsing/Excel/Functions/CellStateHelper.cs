@@ -18,14 +18,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     internal static class CellStateHelper
     {
-        private static bool IsSubTotal(ExcelDataProvider.ICellInfo c)
+        private static bool IsSubTotal(ExcelDataProvider.ICellInfo c, ParsingContext context)
         {
-            var tokens = c.Tokens;
-            if (tokens == null) return false;
-            return c.Tokens.Any(token => 
-                token.TokenTypeIsSet(LexicalAnalysis.TokenType.Function) 
-                && (token.Value.Equals("SUBTOTAL", StringComparison.OrdinalIgnoreCase) || token.Value.Equals("AGGREGATE", StringComparison.OrdinalIgnoreCase))
-                );
+            return (context.Scopes.Current.IsSubtotal && context.SubtotalAddresses.Contains(c.Id));
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, ExcelDataProvider.ICellInfo c, ParsingContext context)
@@ -36,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ExcelDataProvider.ICellInfo c, ParsingContext context)
         {
             if (ignoreNonNumeric && !ConvertUtil.IsNumeric(c.Value)) return true;
-            return (ignoreHiddenValues && c.IsHiddenRow) || (context.Scopes.Current.IsSubtotal && IsSubTotal(c));
+            return (ignoreHiddenValues && c.IsHiddenRow) || IsSubTotal(c, context);
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, FunctionArgument arg, ParsingContext context)

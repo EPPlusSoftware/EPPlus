@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             list.Add(f);
             f.Index = list.Count - 1;
-            index.Add(ExcelCellBase.GetCellID(f.wsIndex, f.Row, f.Column), f.Index);
+            index.Add(ExcelCellBase.GetCellId(f.wsIndex, f.Row, f.Column), f.Index);
         }
     }
 }

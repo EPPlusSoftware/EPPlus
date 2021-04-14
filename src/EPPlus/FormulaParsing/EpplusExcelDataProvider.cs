@@ -283,6 +283,13 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
 
+            public ulong Id
+            {
+                get
+                {
+                    return ExcelCellBase.GetCellId(_ws.IndexInList, _values.Row, _values.Column);
+                }
+            }
         }
         public class NameInfo : ExcelDataProvider.INameInfo
         {
@@ -464,7 +471,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
-            id = ExcelAddressBase.GetCellID(nameItem.LocalSheetId, nameItem.Index, 0);
+            id = ExcelAddressBase.GetCellId(nameItem.LocalSheetId, nameItem.Index, 0);
 
             if (_names.ContainsKey(id))
             {
@@ -522,6 +529,14 @@ namespace OfficeOpenXml.FormulaParsing
         {
             SetCurrentWorksheet(sheetName);
             return _currentWorksheet.GetValueInner(row, col);
+        }
+
+        public override ulong GetCellId(string sheetName, int row, int col)
+        {
+            if (string.IsNullOrEmpty(sheetName)) return 0;
+            var worksheet = _package.Workbook.Worksheets[sheetName];
+            var wsIx = worksheet != null ? worksheet.IndexInList : 0;
+            return ExcelCellBase.GetCellId(wsIx, row, col);
         }
 
         public override ExcelCellAddress GetDimensionEnd(string worksheet)

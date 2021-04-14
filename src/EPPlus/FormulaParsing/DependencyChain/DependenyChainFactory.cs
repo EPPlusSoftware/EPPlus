@@ -87,7 +87,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static void GetChain(DependencyChain depChain, ILexer lexer, ExcelNamedRange name, ExcelCalculationOption options)
         {
             var ws = name.Worksheet;
-            var id = ExcelCellBase.GetCellID(ws==null || ws.IsDisposed ? -1 : ws.IndexInList, name.Index, 0);
+            var id = ExcelCellBase.GetCellId(ws==null || ws.IsDisposed ? -1 : ws.IndexInList, name.Index, 0);
             if (!depChain.index.ContainsKey(id))
             {
                 var f = new FormulaCell() { ws=ws, wsIndex = (ws == null ? -1 : ws.IndexInList), Row = name.Index, Column = 0, Formula=name.NameFormula };
@@ -126,7 +126,7 @@ namespace OfficeOpenXml.FormulaParsing
             while (fs.Next())
             {
                 if (fs.Value == null || fs.Value.ToString().Trim() == "") continue;
-                var id = ExcelCellBase.GetCellID(ws.IndexInList, fs.Row, fs.Column);
+                var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
                 if (!depChain.index.ContainsKey(id))
                 {
                     var f = new FormulaCell() { ws = ws, wsIndex = ws.IndexInList, Row = fs.Row, Column = fs.Column };
@@ -264,7 +264,7 @@ handleAddress:
                         }
                         else
                         {
-                            var id = ExcelAddressBase.GetCellID(name.LocalSheetId, name.Index, 0);
+                            var id = ExcelAddressBase.GetCellId(name.LocalSheetId, name.Index, 0);
 
                             if (!depChain.index.ContainsKey(id))
                             {
@@ -288,7 +288,7 @@ handleAddress:
                                     //Check for circular references
                                     foreach (var par in stack)
                                     {
-                                        if (ExcelAddressBase.GetCellID(par.wsIndex, par.Row, par.Column) == id && !options.AllowCircularReferences)
+                                        if (ExcelAddressBase.GetCellId(par.wsIndex, par.Row, par.Column) == id && !options.AllowCircularReferences)
                                         {
                                             var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
                                             f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);
@@ -316,7 +316,7 @@ handleAddress:
             {
                 var v = f.iterator.Value;
                 if (v == null || v.ToString().Trim() == "") continue;
-                var id = ExcelAddressBase.GetCellID(f.iteratorWs.IndexInList, f.iterator.Row, f.iterator.Column);
+                var id = ExcelAddressBase.GetCellId(f.iteratorWs.IndexInList, f.iterator.Row, f.iterator.Column);
                 if (!depChain.index.ContainsKey(id))
                 {
                     var rf = new FormulaCell() { wsIndex = f.iteratorWs.IndexInList, Row = f.iterator.Row, Column = f.iterator.Column };
@@ -346,8 +346,8 @@ handleAddress:
                             //Check for circular references
                             foreach (var par in stack)
                             {
-                                if (ExcelAddressBase.GetCellID(par.iteratorWs.IndexInList, par.iterator.Row, par.iterator.Column) == id ||
-                                    ExcelAddressBase.GetCellID(par.wsIndex, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
+                                if (ExcelAddressBase.GetCellId(par.iteratorWs.IndexInList, par.iterator.Row, par.iterator.Column) == id ||
+                                    ExcelAddressBase.GetCellId(par.wsIndex, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
                                     if (options.AllowCircularReferences == false)
                                     {

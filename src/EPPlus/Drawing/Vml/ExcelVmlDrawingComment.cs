@@ -403,7 +403,7 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                return ExcelCellBase.GetCellID(Range.Worksheet.SheetId, Range.Start.Row, Range.Start.Column);
+                return ExcelCellBase.GetCellId(Range.Worksheet.SheetId, Range.Start.Row, Range.Start.Column);
             }
             set
             {
