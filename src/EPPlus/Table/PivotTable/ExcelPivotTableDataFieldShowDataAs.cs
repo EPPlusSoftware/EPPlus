@@ -35,6 +35,9 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _dataField = dataField;
         }
+        /// <summary>
+        /// Sets the show data as to type Normal. This removes the Show data as setting.
+        /// </summary>
         public void SetNormal()
         {
             _dataField.ShowDataAsInternal = eShowDataAs.Normal;
@@ -42,24 +45,38 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataField.BaseItem = 0;
         }
 
+        /// <summary>
+        /// Sets the show data as to type Percent Of Total
+        /// </summary>
         public void SetPercentOfTotal()
         {
             _dataField.ShowDataAsInternal = eShowDataAs.PercentOfTotal;
             _dataField.BaseField = 0;
             _dataField.BaseItem = 0;
         }
+        /// <summary>
+        /// Sets the show data as to type Percent Of Row
+        /// </summary>
         public void SetPercentOfRow()
         {
             _dataField.ShowDataAsInternal = eShowDataAs.PercentOfRow;
             _dataField.BaseField = 0;
             _dataField.BaseItem = 0;
         }
+        /// <summary>
+        /// Sets the show data as to type Percent Of Column
+        /// </summary>
         public void SetPercentOfColumn()
         {
-            _dataField.ShowDataAsInternal = eShowDataAs.PercentOfCol;
+            _dataField.ShowDataAsInternal = eShowDataAs.PercentOfColumn;
             _dataField.BaseField = 0;
             _dataField.BaseItem = 0;
-        }        
+        }
+        /// <summary>
+        /// Sets the show data as to type Percent
+        /// <param name="baseField">The base field to use</param>
+        /// <param name="baseItem">The index of the item to use within the <see cref="ExcelPivotTableField.Items"/> collection of the base field</param>
+        /// </summary>
         public void SetPercent(ExcelPivotTableField baseField, int baseItem)
         {
             Validate(baseField, baseItem);
@@ -67,6 +84,11 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataField.BaseField = baseField.Index;
             _dataField.BaseItem = baseItem;
         }
+        /// <summary>
+        /// Sets the show data as to type Percent
+        /// <param name="baseField">The base field to use</param>
+        /// <param name="baseItem">The previous or next field</param>
+        /// </summary>
         public void SetPercent(ExcelPivotTableField baseField, ePrevNextPivotItem baseItem)
         {
             Validate(baseField);
@@ -75,6 +97,10 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataField.BaseItem = (int)baseItem;
         }
 
+        /// <summary>
+        /// Sets the show data as to type Percent Of Parent
+        /// <param name="baseField">The base field to use</param>
+        /// </summary>
         public void SetPercentParent(ExcelPivotTableField baseField)
         {
             Validate(baseField);
@@ -83,6 +109,9 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataField.BaseItem = 0;
         }
 
+        /// <summary>
+        /// Sets the show data as to type Index
+        /// </summary>
         public void SetIndex()
         {
             _dataField.ShowDataAsInternal = eShowDataAs.Index;
@@ -90,13 +119,22 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataField.BaseItem = 0;
         }
 
+        /// <summary>
+        /// Sets the show data as to type Running Total
+        /// </summary>
+        /// <param name="baseField">The base field to use</param>
         public void SetRunningTotal(ExcelPivotTableField baseField)
         {
             Validate(baseField);
-            _dataField.ShowDataAsInternal = eShowDataAs.RunTotal;
+            _dataField.ShowDataAsInternal = eShowDataAs.RunningTotal;
             _dataField.BaseField = baseField.Index;
             _dataField.BaseItem = 0;
         }
+        /// <summary>
+        /// Sets the show data as to type Difference
+        /// </summary>
+        /// <param name="baseField">The base field to use</param>
+        /// <param name="baseItem">The index of the item to use within the <see cref="ExcelPivotTableField.Items"/> collection of the base field</param>
         public void SetDifference(ExcelPivotTableField baseField, int baseItem)
         {
             Validate(baseField, baseItem);
@@ -104,6 +142,11 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataField.BaseField = baseField.Index;
             _dataField.BaseItem = baseItem;
         }
+        /// <summary>
+        /// Sets the show data as to type Difference
+        /// </summary>
+        /// <param name="baseField">The base field to use</param>
+        /// <param name="baseItem">The previous or next field</param>
         public void SetDifference(ExcelPivotTableField baseField, ePrevNextPivotItem baseItem)
         {
             Validate(baseField);
@@ -112,23 +155,80 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataField.BaseItem = (int)baseItem;
         }
 
+        /// <summary>
+        /// Sets the show data as to type Percent Of Total
+        /// <param name="baseField">The base field to use</param>
+        /// <param name="baseItem">The index of the item to use within the <see cref="ExcelPivotTableField.Items"/> collection of the base field</param>
+        /// </summary>
+        public void SetPercentageDifference(ExcelPivotTableField baseField, int baseItem)
+        {
+            Validate(baseField);
+            _dataField.ShowDataAsInternal = eShowDataAs.PercentDifference;
+            _dataField.BaseField = baseField.Index;
+            _dataField.BaseItem = baseItem;
+        }
+        /// <summary>
+        /// Sets the show data as to type Percent Of Total
+        /// <param name="baseField">The base field to use</param>
+        /// <param name="baseItem">The previous or next field</param>
+        /// </summary>
         public void SetPercentageDifference(ExcelPivotTableField baseField, ePrevNextPivotItem baseItem)
         {
             Validate(baseField);
-            _dataField.ShowDataAsInternal = eShowDataAs.PercentDiff;
+            _dataField.ShowDataAsInternal = eShowDataAs.PercentDifference;
             _dataField.BaseField = baseField.Index;
             _dataField.BaseItem = (int)baseItem;
         }
 
+        /// <summary>
+        /// Sets the show data as to type Percent Of Parent Row
+        /// </summary>
         public void SetPercentParentRow()
         {
             _dataField.ShowDataAsInternal = eShowDataAs.PercentOfParentRow;
         }
+        /// <summary>
+        /// Sets the show data as to type Percent Of Parent Column
+        /// </summary>
         public void SetPercentParentColumn()
         {
-            _dataField.ShowDataAsInternal = eShowDataAs.PercentOfParentCol;
+            _dataField.ShowDataAsInternal = eShowDataAs.PercentOfParentColumn;
         }
-
+        /// <summary>
+        /// Sets the show data as to type Percent Of Running Total
+        /// </summary>
+        public void SetPercentOfRunningTotal(ExcelPivotTableField baseField)
+        {
+            Validate(baseField);
+            _dataField.ShowDataAsInternal = eShowDataAs.PercentOfRunningTotal;
+            _dataField.BaseField = baseField.Index;
+            _dataField.BaseItem = 0;
+        }
+        /// <summary>
+        /// Sets the show data as to type Rank Ascending
+        /// <param name="baseField">The base field to use</param>
+        /// </summary>
+        public void SetRankAscending(ExcelPivotTableField baseField)
+        {
+            Validate(baseField);
+            _dataField.ShowDataAsInternal = eShowDataAs.RankAscending;
+            _dataField.BaseField = baseField.Index;
+            _dataField.BaseItem = 0;
+        }
+        /// <summary>
+        /// Sets the show data as to type Rank Descending
+        /// <param name="baseField">The base field to use</param>
+        /// </summary>
+        public void SetRankDescending(ExcelPivotTableField baseField)
+        {
+            Validate(baseField);
+            _dataField.ShowDataAsInternal = eShowDataAs.RankDescending;
+            _dataField.BaseField = baseField.Index;
+            _dataField.BaseItem = 0;
+        }
+        /// <summary>
+        /// The value of the "Show Data As" setting
+        /// </summary>
         public eShowDataAs Value
         {
             get

@@ -208,12 +208,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 string s = GetXmlNodeString("@showDataAs");
                 if (s == "")
                 {
-                    return eShowDataAs.Normal;
+                    s = GetXmlNodeString("d:extLst/d:ext[@uri='{E15A36E0-9728-4e99-A89B-3F7291B0FE68}']/x14:dataField/@pivotShowAs");
+                    if (s == "")
+                    {
+                        return eShowDataAs.Normal;
+                    }
                 }
-                else
-                {
-                    return (eShowDataAs)Enum.Parse(typeof(eShowDataAs), s, true);
-                }
+                return s.ToShowDataAs();
             }
             set
             {
@@ -223,9 +224,32 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else
                 {
-                    SetXmlNodeString("@showDataAs", value.ToEnumString());
+                    if(IsShowDataAsExtLst(value))
+                    {
+                        DeleteNode("@showDataAs");
+                        var extNode = GetOrCreateExtLstSubNode("{E15A36E0-9728-4e99-A89B-3F7291B0FE68}", "x14");
+                        var extNodeHelper = XmlHelperFactory.Create(NameSpaceManager, extNode);
+
+                        extNodeHelper.SetXmlNodeString("x14:dataField/@pivotShowAs", value.ToEnumString());
+                    }
+                    else
+                    {
+                        DeleteNode("d:extLst/d:ext[@url='{E15A36E0-9728-4e99-A89B-3F7291B0FE68}']");
+                        SetXmlNodeString("@showDataAs", value.FromShowDataAs());
+                    }
                 }
             }
+        }
+
+        private bool IsShowDataAsExtLst(eShowDataAs value)
+        {
+            return
+               value == eShowDataAs.PercentOfParent ||
+               value == eShowDataAs.PercentOfParentColumn ||
+               value == eShowDataAs.PercentOfParentRow ||
+               value == eShowDataAs.RankAscending ||
+               value == eShowDataAs.RankDescending ||
+               value == eShowDataAs.PercentOfRunningTotal;
         }
     }
 }

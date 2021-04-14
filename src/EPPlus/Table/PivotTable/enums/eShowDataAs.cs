@@ -37,11 +37,11 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The field is shown as the percentage difference from a value.
         /// </summary>
-        PercentDiff, 
+        PercentDifference, 
         /// <summary>
         /// The field is shown as the percentage of the column.
         /// </summary>
-        PercentOfCol,
+        PercentOfColumn,
         /// <summary>
         /// The field is shown as the percentage of the row
         /// </summary>
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The field is shown as the running total in the the table
         /// </summary>
-        RunTotal,
+        RunningTotal,
         /// <summary>
         /// The field is shown as the percentage of the parent row total
         /// </summary>
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The field is shown as the percentage of the parent column total
         /// </summary>
-        PercentOfParentCol,
+        PercentOfParentColumn,
         /// <summary>
         /// The field is shown as the percentage of the parent total
         /// </summary>

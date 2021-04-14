@@ -52,7 +52,7 @@ namespace EPPlusTest.Table.PivotTable
         public static void Cleanup()
         {
             SaveAndCleanup(_pck);
-        }
+        }        
         [TestMethod]
         public void ShowAsPercentOfTotal()
         {
@@ -86,7 +86,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(eShowDataAs.PercentOfRow, df.ShowDataAs.Value);
         }
         [TestMethod]
-        public void ShowAsPercentOfParentCol()
+        public void ShowAsPercentOfCol()
         {
             var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPercCol");
 
@@ -99,15 +99,15 @@ namespace EPPlusTest.Table.PivotTable
             tbl.DataOnRows = false;
             tbl.GridDropZones = false;
 
-            Assert.AreEqual(eShowDataAs.PercentOfCol, df.ShowDataAs.Value);
+            Assert.AreEqual(eShowDataAs.PercentOfColumn, df.ShowDataAs.Value);
         }
         [TestMethod]
         public void ShowAsPercent()
         {
-            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPercPar");
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPerc");
 
             LoadTestdata(ws);
-            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTablePercPar");
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTablePerc");
             var rf = tbl.RowFields.Add(tbl.Fields[1]);
             var df = tbl.DataFields.Add(tbl.Fields[3]);
             df.Function = DataFieldFunctions.Sum;
@@ -157,6 +157,26 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual((int)ePrevNextPivotItem.Previous, df.BaseItem);
         }
         [TestMethod]
+        public void ShowAsPercentageDifference()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPercDiff");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTablePercDiff");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = DataFieldFunctions.Sum;
+            rf.Items.Refresh();
+            df.ShowDataAs.SetPercentageDifference(rf, ePrevNextPivotItem.Previous);
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+
+            Assert.AreEqual(eShowDataAs.PercentDifference, df.ShowDataAs.Value);
+            Assert.AreEqual(rf.Index, df.BaseField);
+            Assert.AreEqual((int)ePrevNextPivotItem.Previous, df.BaseItem);
+        }
+
+        [TestMethod]
         public void ShowAsRunningTotal()
         {
             var ws = _pck.Workbook.Worksheets.Add("ShowDataAsRunningTotal");
@@ -170,8 +190,101 @@ namespace EPPlusTest.Table.PivotTable
             tbl.DataOnRows = false;
             tbl.GridDropZones = false;
 
-            Assert.AreEqual(eShowDataAs.RunTotal, df.ShowDataAs.Value);
+            Assert.AreEqual(eShowDataAs.RunningTotal, df.ShowDataAs.Value);
             Assert.AreEqual(rf.Index, df.BaseField);
+        }
+        [TestMethod]
+        public void ShowAsPercentOfParent()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPercentOfParent");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTablePercParent");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = DataFieldFunctions.Sum;
+            df.ShowDataAs.SetPercentParent(rf);
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+
+            Assert.AreEqual(eShowDataAs.PercentOfParent, df.ShowDataAs.Value);
+        }
+        [TestMethod]
+        public void ShowAsPercentOfParentRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPercentOfParentRow");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTablePercentOfParentRow");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = DataFieldFunctions.Sum;
+            df.ShowDataAs.SetPercentParentRow();
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+
+            Assert.AreEqual(eShowDataAs.PercentOfParentRow, df.ShowDataAs.Value);
+        }
+        [TestMethod]
+        public void ShowAsPercentOfParentCol()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPercentOfParentCol");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTablePercentOfParentRow");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.Function = DataFieldFunctions.Sum;
+            df.ShowDataAs.SetPercentParentColumn();
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+
+            Assert.AreEqual(eShowDataAs.PercentOfParentColumn, df.ShowDataAs.Value);
+        }
+        [TestMethod]
+        public void ShowAsPercentOfRunningTotal()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsPercentOfRunningTotal");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTablePercentOfParentRow");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.ShowDataAs.SetPercentOfRunningTotal(rf);
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+
+            Assert.AreEqual(eShowDataAs.PercentOfRunningTotal, df.ShowDataAs.Value);
+        }
+        [TestMethod]
+        public void ShowAsRankAscending()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsRankAscending");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTableRankAscending");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.ShowDataAs.SetRankAscending(rf);
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+
+            Assert.AreEqual(eShowDataAs.RankAscending, df.ShowDataAs.Value);
+        }
+        [TestMethod]
+        public void ShowAsRankDescending()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ShowDataAsRankDescending");
+
+            LoadTestdata(ws);
+            var tbl = ws.PivotTables.Add(ws.Cells["F1"], ws.Cells["A1:D100"], "PivotTableRankDescending");
+            var rf = tbl.RowFields.Add(tbl.Fields[1]);
+            var df = tbl.DataFields.Add(tbl.Fields[3]);
+            df.ShowDataAs.SetRankDescending(rf);
+            tbl.DataOnRows = false;
+            tbl.GridDropZones = false;
+
+            Assert.AreEqual(eShowDataAs.RankDescending, df.ShowDataAs.Value);
         }
     }
 }
