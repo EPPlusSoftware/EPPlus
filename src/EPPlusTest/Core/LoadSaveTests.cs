@@ -52,11 +52,9 @@ namespace EPPlusTest.Core
                 p.Workbook.Properties.Application = "EPPlus";
                 ws.Cells["A1"].Value = "A1";
                 p.Workbook.Properties.Title = "EPPlus";
-                //p.Save();
-                p.SaveAs(new System.IO.FileInfo(@"c:\temp\Save1.xlsx"));
+                p.Save();
                 var length = p.Stream.Length;
                 var b = p.GetAsByteArray();
-                System.IO.File.WriteAllBytes(@"c:\temp\Save2.xlsx", b);
                 Assert.AreEqual(length, b.Length);
             }
         }
