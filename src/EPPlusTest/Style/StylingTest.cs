@@ -180,6 +180,30 @@ namespace EPPlusTest.Style
                 Thread.CurrentThread.CurrentCulture = prevCi;
             }
         }
+        [TestMethod]
+        public void NormalStyleIssue()
+        {
+            using (var p = OpenPackage("NormalShouldReflectToEmptyCells.xlsx", true))
+            {
+                ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
+                normal.Font.Name = "Calibri";
+                normal.Font.Size = 10;
+                normal.Fill.PatternType = ExcelFillStyle.Solid;
+                normal.Fill.BackgroundColor.SetColor(Color.LightGray);
+                p.Workbook.Styles.NamedStyles[0].CustomBuildin = true;
+
+                ExcelWorksheet ws = p.Workbook.Worksheets.Add("test");
+                Assert.AreEqual("Calibri", normal.Font.Name);
+                Assert.AreEqual(10, normal.Font.Size);
+                //p.Workbook.Styles.UpdateXml();
+                Assert.AreEqual("Calibri", normal.Font.Name);
+                Assert.AreEqual(10, normal.Font.Size);
+                ws.DefaultRowHeight = 12.75;
+                ws.SetValue(1, 1, "test");
+                Assert.AreEqual(10, ws.Cells["A1"].Style.Font.Size);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
