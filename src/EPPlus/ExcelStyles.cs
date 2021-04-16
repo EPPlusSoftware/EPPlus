@@ -135,15 +135,8 @@ namespace OfficeOpenXml
             {
                 foreach (XmlNode n in namedStyleNode)
                 {
-                    if (count++ < 50)
-                    {
-                        ExcelNamedStyleXml item = new ExcelNamedStyleXml(_nameSpaceManager, n, this);
-                        NamedStyles.Add(item.Name, item);
-                    }   
-                    else
-                    {
-
-                    }
+                    ExcelNamedStyleXml item = new ExcelNamedStyleXml(_nameSpaceManager, n, this);
+                    NamedStyles.Add(item.Name, item);
                 }
             }
 
@@ -1057,8 +1050,166 @@ namespace OfficeOpenXml
         {
             RemoveUnusedStyles();
 
+            int normalIx = GetNormalStyleIndex();
+
+            UpdateNumberFormatXml(normalIx);
+            UpdateFontXml(normalIx);
+            UpdateFillXml();
+            UpdateBorderXml();
+            UpdateNamedStylesAndXfs(normalIx);
+
+            DxfStyleHandler.UpdateDxfXml(_wb);
+        }
+
+        private void UpdateNamedStylesAndXfs(int normalIx)
+        {
+            //Create the cellStyleXfs element            
+            XmlNode styleXfsNode = GetNode(CellStyleXfsPath);
+            if (styleXfsNode == null)
+            {
+                styleXfsNode = CreateNode(CellStyleXfsPath);
+            }
+            else
+            {
+                styleXfsNode?.RemoveAll();
+            }
+            //NamedStyles
+            int count = normalIx > -1 ? 1 : 0;  //If we have a normal style, we make sure it's added first.
+
+            XmlNode cellStyleNode = GetNode(CellStylesPath);
+            if (cellStyleNode != null)
+            {
+                cellStyleNode.RemoveAll();
+            }
+            
+            XmlNode cellXfsNode = GetNode(CellXfsPath);
+            cellXfsNode.RemoveAll();
+            int xfsCount = 0;
+            if (NamedStyles.Count > 0 && normalIx >= 0)
+            {
+                NamedStyles[normalIx].newID = 0;
+                AddNamedStyle(0, styleXfsNode, cellXfsNode, NamedStyles[normalIx]);
+                cellXfsNode.AppendChild(CellStyleXfs[NamedStyles[normalIx].StyleXfId].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+                xfsCount++;
+            }
+            foreach (ExcelNamedStyleXml style in NamedStyles)
+            {
+                if (style.BuildInId != 0)
+                {
+                    AddNamedStyle(count++, styleXfsNode, cellXfsNode, style);
+                }
+                else
+                {
+                    style.newID = 0;
+                }
+                cellStyleNode.AppendChild(style.CreateXmlNode(_styleXml.CreateElement("cellStyle", ExcelPackage.schemaMain)));
+            }
+            if (cellStyleNode != null) (cellStyleNode as XmlElement).SetAttribute("count", count.ToString());
+            if (styleXfsNode != null) (styleXfsNode as XmlElement).SetAttribute("count", count.ToString());
+
+            //CellStyle
+            int xfix = 0;
+            foreach (ExcelXfs xf in CellXfs)
+            {
+                if (xf.useCnt > 0 && !(xfix==0 && normalIx >= 0))
+                {
+                    cellXfsNode.AppendChild(xf.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+                    xf.newID = xfsCount;
+                    xfsCount++;
+                }
+                xfix++;
+            }
+            (cellXfsNode as XmlElement).SetAttribute("count", count.ToString());
+
+        }
+
+        private void UpdateBorderXml()
+        {
+            //Borders
+            int count = 0;
+            XmlNode bordersNode = GetNode(BordersPath);
+            bordersNode.RemoveAll();
+            Borders[0].useCnt = 1;    //Must exist blank;
+            foreach (ExcelBorderXml border in Borders)
+            {
+                if (border.useCnt > 0)
+                {
+                    bordersNode.AppendChild(border.CreateXmlNode(_styleXml.CreateElement("border", ExcelPackage.schemaMain)));
+                    border.newID = count;
+                    count++;
+                }
+            }
+            (bordersNode as XmlElement).SetAttribute("count", count.ToString());
+        }
+
+        private int UpdateFillXml()
+        {
+            //Fills
+            int count = 0;
+            XmlNode fillsNode = GetNode(FillsPath);
+            fillsNode.RemoveAll();
+            Fills[0].useCnt = 1;    //Must exist (none);  
+            Fills[1].useCnt = 1;    //Must exist (gray125);
+            foreach (ExcelFillXml fill in Fills)
+            {
+                if (fill.useCnt > 0)
+                {
+                    fillsNode.AppendChild(fill.CreateXmlNode(_styleXml.CreateElement("fill", ExcelPackage.schemaMain)));
+                    fill.newID = count;
+                    count++;
+                }
+            }
+
+            (fillsNode as XmlElement).SetAttribute("count", count.ToString());
+            return count;
+        }
+
+        private int GetNormalStyleIndex()
+        {
+            int normalIx = NamedStyles.FindIndexByBuildInId(0);
+
+            if (normalIx < 0)
+            {
+                normalIx = NamedStyles.FindIndexById("normal");
+            }
+
+            return normalIx;
+        }
+
+        private void UpdateFontXml(int normalIx)
+        {
+            //Font
+            int count = 0;
+            XmlNode fntNode = GetNode(FontsPath);
+            fntNode.RemoveAll();
+            int nfIx = -1;
+            //Normal should be first in the collection
+            if (NamedStyles.Count > 0 && normalIx >= 0 && NamedStyles[normalIx].Style.Font.Index >= 0)
+            {
+                nfIx = NamedStyles[normalIx].Style.Font.Index;
+                ExcelFontXml fnt = Fonts[nfIx];
+                fntNode.AppendChild(fnt.CreateXmlNode(_styleXml.CreateElement("font", ExcelPackage.schemaMain)));
+                fnt.newID = count++;
+            }
+
+            int ix = 0;
+            foreach (ExcelFontXml fnt in Fonts)
+            {
+                if (fnt.useCnt > 0 && ix!=nfIx)
+                {
+                    fntNode.AppendChild(fnt.CreateXmlNode(_styleXml.CreateElement("font", ExcelPackage.schemaMain)));
+                    fnt.newID = count;
+                    count++;
+                }
+                ix++;
+            }
+            (fntNode as XmlElement).SetAttribute("count", count.ToString());
+        }
+
+        private void UpdateNumberFormatXml(int normalIx)
+        {
             //NumberFormat
-            XmlNode nfNode = GetNode(NumberFormatsPath); 
+            XmlNode nfNode = GetNode(NumberFormatsPath);
             if (nfNode == null)
             {
                 nfNode = CreateNode(NumberFormatsPath, true);
@@ -1069,11 +1220,6 @@ namespace OfficeOpenXml
             }
 
             int count = 0;
-            int normalIx = NamedStyles.FindIndexByBuildInId(0);
-            if (normalIx < 0)
-            {
-                normalIx = NamedStyles.FindIndexById("normal");
-            }
             if (NamedStyles.Count > 0 && normalIx >= 0 && NamedStyles[normalIx].Style.Numberformat.NumFmtID >= 164)
             {
                 ExcelNumberFormatXml nf = NumberFormats[NumberFormats.FindIndexById(NamedStyles[normalIx].Style.Numberformat.Id)];
@@ -1115,123 +1261,6 @@ namespace OfficeOpenXml
             }
 
             (nfNode as XmlElement).SetAttribute("count", count.ToString());
-
-            //Font
-            count = 0;
-            XmlNode fntNode = GetNode(FontsPath);
-            fntNode.RemoveAll();
-
-            //Normal should be first in the collection
-            if (NamedStyles.Count > 0 && normalIx >= 0 && NamedStyles[normalIx].Style.Font.Index > 0)
-            {
-                ExcelFontXml fnt = Fonts[NamedStyles[normalIx].Style.Font.Index];
-                fntNode.AppendChild(fnt.CreateXmlNode(_styleXml.CreateElement("font", ExcelPackage.schemaMain)));
-                fnt.newID = count++;
-            }
-
-            foreach (ExcelFontXml fnt in Fonts)
-            {
-                if (fnt.useCnt > 0/* && fnt.newID<0*/)
-                {
-                    fntNode.AppendChild(fnt.CreateXmlNode(_styleXml.CreateElement("font", ExcelPackage.schemaMain)));
-                    fnt.newID = count;
-                    count++;
-                }
-            }
-            (fntNode as XmlElement).SetAttribute("count", count.ToString());
-
-
-            //Fills
-            count = 0;
-            XmlNode fillsNode = GetNode(FillsPath);
-            fillsNode.RemoveAll();
-            Fills[0].useCnt = 1;    //Must exist (none);  
-            Fills[1].useCnt = 1;    //Must exist (gray125);
-            foreach (ExcelFillXml fill in Fills)
-            {
-                if (fill.useCnt > 0)
-                {
-                    fillsNode.AppendChild(fill.CreateXmlNode(_styleXml.CreateElement("fill", ExcelPackage.schemaMain)));
-                    fill.newID = count;
-                    count++;
-                }
-            }
-
-            (fillsNode as XmlElement).SetAttribute("count", count.ToString());
-
-            //Borders
-            count = 0;
-            XmlNode bordersNode = GetNode(BordersPath);
-            bordersNode.RemoveAll();
-            Borders[0].useCnt = 1;    //Must exist blank;
-            foreach (ExcelBorderXml border in Borders)
-            {
-                if (border.useCnt > 0)
-                {
-                    bordersNode.AppendChild(border.CreateXmlNode(_styleXml.CreateElement("border", ExcelPackage.schemaMain)));
-                    border.newID = count;
-                    count++;
-                }
-            }
-            (bordersNode as XmlElement).SetAttribute("count", count.ToString());
-
-            XmlNode styleXfsNode = GetNode(CellStyleXfsPath);
-            if (styleXfsNode == null && NamedStyles.Count > 0)
-            {
-                styleXfsNode=CreateNode(CellStyleXfsPath);
-            }
-            if (NamedStyles.Count > 0)
-            {
-                styleXfsNode.RemoveAll();
-            }
-            //NamedStyles
-            count = normalIx > -1 ? 1 : 0;  //If we have a normal style, we make sure it's added first.
-
-            XmlNode cellStyleNode = GetNode(CellStylesPath);
-            if (cellStyleNode != null)
-            {
-                cellStyleNode.RemoveAll();
-            }
-            XmlNode cellXfsNode = GetNode(CellXfsPath);
-            cellXfsNode.RemoveAll();
-            int xfsCount = 0;
-            if (NamedStyles.Count > 0 && normalIx >= 0)
-            {
-                NamedStyles[normalIx].newID = 0;
-                AddNamedStyle(0, styleXfsNode, cellXfsNode, NamedStyles[normalIx]);
-                cellXfsNode.AppendChild(CellStyleXfs[0].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
-                xfsCount++;
-            }
-            foreach (ExcelNamedStyleXml style in NamedStyles)
-            {
-                if (style.BuildInId!=0)                    
-                {
-                    AddNamedStyle(count++, styleXfsNode, cellXfsNode, style);
-                }
-                else
-                {
-                    style.newID = 0;
-                }
-                cellStyleNode.AppendChild(style.CreateXmlNode(_styleXml.CreateElement("cellStyle", ExcelPackage.schemaMain)));
-            }
-            if (cellStyleNode != null) (cellStyleNode as XmlElement).SetAttribute("count", count.ToString());
-            if (styleXfsNode != null) (styleXfsNode as XmlElement).SetAttribute("count", count.ToString());
-
-            //CellStyle
-            int xfix = 0;
-            foreach (ExcelXfs xf in CellXfs)
-            {
-                if (xf.useCnt > 0 && !(normalIx >= 0 && NamedStyles[normalIx].StyleXfId == xfix))
-                {
-                    cellXfsNode.AppendChild(xf.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
-                    xf.newID = xfsCount;
-                    xfsCount++;
-                }
-                xfix++;
-            }
-            (cellXfsNode as XmlElement).SetAttribute("count", count.ToString());
-
-            DxfStyleHandler.UpdateDxfXml(_wb);
         }
 
         private int? GetNumFormatId(string format)
@@ -1267,19 +1296,6 @@ namespace OfficeOpenXml
             styleXfsNode.AppendChild(styleXfs.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain), true));
             styleXfs.newID = id;
             styleXfs.XfId = style.StyleXfId;
-
-            //var ix = CellXfs.FindIndexById(styleXfs.Id);
-            //if (ix < 0)
-            //{
-            //    cellXfsNode.AppendChild(styleXfs.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
-            //}
-            //else
-            //{
-            //    if (id < 0) CellXfs[ix].XfId = id;
-            //    cellXfsNode.AppendChild(CellXfs[ix].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
-            //    CellXfs[ix].useCnt = 0;
-            //    CellXfs[ix].newID = id;
-            //}
 
             if (style.XfId >= 0)
                 style.XfId = CellXfs[style.XfId].newID;
@@ -1586,5 +1602,6 @@ namespace OfficeOpenXml
                 return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, null);
             }
         }
+
     }
 }

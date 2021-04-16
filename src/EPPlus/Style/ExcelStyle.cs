@@ -26,10 +26,27 @@ namespace OfficeOpenXml.Style
             base(styles, ChangedEvent, positionID, Address)
         {
             Index = xfsId;
+            Styles = styles;
+            PositionID = positionID;
             ExcelXfs xfs;
             if (positionID > -1)
             {
-                xfs = _styles.CellXfs[xfsId];
+                if(xfsId==0)
+                {
+                    var id = _styles.NamedStyles.FindIndexByBuildInId(0);
+                    if(id>-1 && id < _styles.CellStyleXfs.Count)
+                    {
+                        xfs = _styles.CellStyleXfs[_styles.NamedStyles[id].StyleXfId];
+                    }
+                    else
+                    {
+                        xfs = _styles.CellXfs[0];
+                    }
+                }
+                else
+                {
+                    xfs = _styles.CellXfs[xfsId];
+                }
             }
             else
             {
@@ -40,8 +57,6 @@ namespace OfficeOpenXml.Style
                 }
                 xfs = _styles.CellStyleXfs[xfsId];
             }
-            Styles = styles;
-            PositionID = positionID;
             Numberformat = new ExcelNumberFormat(styles, ChangedEvent, PositionID, Address, xfs.NumberFormatId);
             Font = new ExcelFont(styles, ChangedEvent, PositionID, Address, xfs.FontId);
             Fill = new ExcelFill(styles, ChangedEvent, PositionID, Address, xfs.FillId);

@@ -55,7 +55,6 @@ namespace EPPlusTest.Core
                 p.Save();
                 var length = p.Stream.Length;
                 var b = p.GetAsByteArray();
-
                 Assert.AreEqual(length, b.Length);
             }
         }

@@ -2424,9 +2424,9 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    ExcelDrawing.ResetWidthRowCache();
+                    RowHeightCache = new Dictionary<int, double>();
                     foreach (ExcelDrawing d in Drawings)
-                    {                        
+                    {
                         d.AdjustPositionAndSize();
                         HandleSaveForIndividualDrawings(d);
                     }
@@ -3569,6 +3569,7 @@ namespace OfficeOpenXml
             }
         }
 
+        internal Dictionary<int, double> RowHeightCache { get; set; } = new Dictionary<int, double>();
         ExcelDrawings _drawings = null;
         /// <summary>
         /// Collection of drawing-objects like shapes, images and charts

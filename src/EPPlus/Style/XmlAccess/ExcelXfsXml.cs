@@ -744,7 +744,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             {
                 XfId = int.MinValue;
             }
-            var doSetXfId = (!isCellStyleXsf && XfId > int.MinValue && _styles.CellStyleXfs.Count > 0 && _styles.CellStyleXfs[XfId].newID > int.MinValue);
+            var doSetXfId = (!isCellStyleXsf && XfId > int.MinValue && _styles.CellStyleXfs.Count > 0 && _styles.CellStyleXfs[XfId].newID > 0);
             if (_numFmtId >= 0)
             {
                 SetXmlNodeString("@numFmtId", _numFmtId.ToString());

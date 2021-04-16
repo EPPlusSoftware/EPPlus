@@ -622,11 +622,6 @@ namespace OfficeOpenXml.Drawing
             get { return _id; }
         }
         #region "Internal sizing functions"
-        static Dictionary<int, double> _rowHeights = new Dictionary<int, double>();
-        internal static void ResetWidthRowCache()
-        {
-            _rowHeights = new Dictionary<int, double>();
-        }
         internal int GetPixelLeft()
         {
             int pix;
@@ -659,13 +654,17 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 pix = 0;
+                var cache = _drawings.Worksheet.RowHeightCache;
                 for (int row = 0; row < From.Row; row++)
                 {
-                    if(!_rowHeights.ContainsKey(row))
+                    lock (cache)
                     {
-                        _rowHeights.Add(row, GetRowHeight(row + 1));
+                        if (!cache.ContainsKey(row))
+                        {
+                            cache.Add(row, GetRowHeight(row + 1));
+                        }
                     }
-                    pix += (int)(_rowHeights[row] / 0.75);
+                    pix += (int)(cache[row] / 0.75);
                 }
                 pix += From.RowOff / EMU_PER_PIXEL;
             }

@@ -1,12 +1,21 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.6.3
+### Fixed issues
+* Changing the Normal style does not reflect correctly to cells with no style. 
+* Formula calculation does not ignore nested SUBTOTAL values when more than one level.
+* Reading a workbook with a pivot table slicer can cause the document to be corrupt on save
+* Invalid handling in the RowHeightCache for resizing drawings caused KeyNotFoundException in some cases.
+* Reverted Microsoft.Extensions.Configuration.Json for .NET standard 2.0 to 2.1.1 for support with ASP.NET Mvc Core 2.1
+* The calculation DependencyChain caused an unhandled exception with workbook defined names and when having references to deleted worksheets.
+
 ## Version 5.6.2
 ### Fixed issues
 * InvalidOperationException is thrown if Data Validation formula length exceeds 255 characters due to added _xlfn/_xlws prefixes. 
-* Pivot tables with row/column fields of a enum type corrupted the pivot cache.
-* Reading conditional formatting from a workbook causes font and number formats to clear
+* Pivot tables with row/column fields of an enum type corrupted the pivot cache.
+* Reading conditional formatting from a workbook causes fonts and number formats to clear
 * Custom data validation could not handle formula reference to other worksheet.
-* Normal buildin style causes corruption when a style named Normal exists.
+* Normal build in style causes corruption when a style named Normal exists.
 * Optimize handling of image sizing and positioning on save and resizing.
 * Exception on copying worksheet with a chart that has no valid X Series.
 * Match function could not handle named ranges in the range argument.
