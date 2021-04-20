@@ -680,7 +680,6 @@ namespace OfficeOpenXml
 
                     _workbook = new ExcelWorkbook(this, nsm);
 
-                    _workbook.GetExternalReferences();
                     _workbook.GetDefinedNames();
                     _workbook.LoadPivotTableCaches();
 

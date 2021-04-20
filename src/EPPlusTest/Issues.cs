@@ -80,7 +80,7 @@ namespace EPPlusTest
                 Assert.AreEqual("02.02.10.008.3", ws.Cells["A1"].Text);
                 ws.Dispose();
             }
-        }
+        }   
         [TestMethod]
         public void Issue15031()
         {

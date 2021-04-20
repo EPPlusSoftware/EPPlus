@@ -34,6 +34,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Drawing;
 using System.Net.Mime;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Core.ExternalReferences;
 
 namespace OfficeOpenXml
 {
@@ -498,6 +499,23 @@ namespace OfficeOpenXml
 				return _names;
 			}
 		}
+		ExcelExternalReferenceCollection _externalReferences=null;
+		/// <summary>
+		/// A collection of the references to external workbooks and it's cached data.
+		/// </summary>
+		public ExcelExternalReferenceCollection ExternalReferences
+		{
+			get
+            {
+				if(_externalReferences==null)
+                {
+					_externalReferences = new ExcelExternalReferenceCollection(this);
+
+				}
+				return _externalReferences;
+
+			}
+        }
 		#region Workbook Properties
 		decimal _standardFontWidth = decimal.MinValue;
 		string _fontID = "";
@@ -1507,35 +1525,7 @@ namespace OfficeOpenXml
 			DeleteNode(path, true);
 			Part.DeleteRelationship(relId);
 		}
-		internal List<string> _externalReferences = new List<string>();
 		//internal bool _isCalculated=false;
-		internal void GetExternalReferences()
-		{
-			XmlNodeList nl = WorkbookXml.SelectNodes("//d:externalReferences/d:externalReference", NameSpaceManager);
-			if (nl != null)
-			{
-				foreach (XmlElement elem in nl)
-				{
-					string rID = elem.GetAttribute("r:id");
-					var rel = Part.GetRelationship(rID);
-					var part = _package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
-					XmlDocument xmlExtRef = new XmlDocument();
-					LoadXmlSafe(xmlExtRef, part.GetStream());
-
-					XmlElement book = xmlExtRef.SelectSingleNode("//d:externalBook", NameSpaceManager) as XmlElement;
-					if (book != null)
-					{
-						string rId_ExtRef = book.GetAttribute("r:id");
-						var rel_extRef = part.GetRelationship(rId_ExtRef);
-						if (rel_extRef != null)
-						{
-							_externalReferences.Add(rel_extRef.TargetUri.OriginalString);
-						}
-
-					}
-				}
-			}
-		}
 		/// <summary>
 		/// Disposes the workbooks
 		/// </summary>

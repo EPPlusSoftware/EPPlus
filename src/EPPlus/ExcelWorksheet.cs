@@ -1756,92 +1756,22 @@ namespace OfficeOpenXml
 
         private void SetValueFromXml(XmlReader xr, string type, int styleID, int row, int col)
         {
-            //XmlNode vnode = colNode.SelectSingleNode("d:v", NameSpaceManager);
-            //if (vnode == null) return null;
+            var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
             if (type == "s")
             {
-                int ix = xr.ReadElementContentAsInt();
+                var ix = (int)v;
                 SetValueInner(row, col, _package.Workbook._sharedStringsList[ix].Text);
                 if (_package.Workbook._sharedStringsList[ix].isRichText)
                 {
                     _flags.SetFlagValue(row, col, true, CellFlags.RichText);
                 }
             }
-            else if (type == "str")
-            {
-                SetValueInner(row, col, ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString()));
-            }
-            else if (type == "b")
-            {
-                SetValueInner(row, col, (xr.ReadElementContentAsString() != "0"));
-            }
-            else if (type == "e")
-            {
-                SetValueInner(row, col, GetErrorType(xr.ReadElementContentAsString()));
-            }
             else
             {
-                string v = xr.ReadElementContentAsString();
-                var nf = Workbook.Styles.CellXfs[styleID].NumberFormatId;
-                if ((nf >= 14 && nf <= 22) || (nf >= 45 && nf <= 47))
-                {
-                    double res;
-                    if (double.TryParse(v, NumberStyles.Any, CultureInfo.InvariantCulture, out res))
-                    {
-                        if (Workbook.Date1904)
-                        {
-                            res += ExcelWorkbook.date1904Offset;
-                        }
-                        if (res >= -657435.0 && res < 2958465.9999999)
-                        {
-                            SetValueInner(row, col, DateTime.FromOADate(res));
-                        }
-                        else
-                        {
-                            SetValueInner(row, col, res);
-                        }
-                    }
-                    else
-                    {
-                        SetValueInner(row, col, v);
-                    }
-                }
-                else
-                {
-                    double d;
-                    if (double.TryParse(v, NumberStyles.Any, CultureInfo.InvariantCulture, out d))
-                    {
-                        SetValueInner(row, col, d);
-                    }
-                    else
-                    {
-                        SetValueInner(row, col, double.NaN);
-                    }
-                }
+                SetValueInner(row, col, v);
             }
         }
 
-        private object GetErrorType(string v)
-        {
-            return ExcelErrorValue.Parse(ConvertUtil._invariantTextInfo.ToUpper(v));
-            //switch(v.ToUpper())
-            //{
-            //    case "#DIV/0!":
-            //        return new ExcelErrorValue.cre(eErrorType.Div0);
-            //    case "#REF!":
-            //        return new ExcelErrorValue(eErrorType.Ref);
-            //    case "#N/A":
-            //        return new ExcelErrorValue(eErrorType.NA);
-            //    case "#NAME?":
-            //        return new ExcelErrorValue(eErrorType.Name);
-            //    case "#NULL!":
-            //        return new ExcelErrorValue(eErrorType.Null);
-            //    case "#NUM!":
-            //        return new ExcelErrorValue(eErrorType.Num);
-            //    default:
-            //        return new ExcelErrorValue(eErrorType.Value);
-            //}
-        }
         //private string GetSharedString(int stringID)
         //{
         //    string retValue = null;

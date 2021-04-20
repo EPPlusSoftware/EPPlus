@@ -336,6 +336,19 @@ namespace EPPlusTest.ConditionalFormatting
                 }
             }
         }
+        [TestMethod]
+        public void VerifyExpression()
+        {
+            using (var p = OpenPackage("cf.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(new ExcelAddress("$1:$1048576"));
+                cf.Formula = "IsError(A1)";
+                cf.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                cf.Style.Fill.BackgroundColor.SetColor(Color.Red);
+                SaveAndCleanup(p); 
+            }
+        }
 
     }
 }

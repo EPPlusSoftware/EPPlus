@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Core
         {
             _list.Clear();
         }
-        internal void Add(T item)
+        internal virtual void Add(T item)
         {
             _list.Add(item);
         }
