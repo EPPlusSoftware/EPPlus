@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Utils
 
 		public static void SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager recyclableMemoryStreamManager)
 		{
-			_dataInitialized = recyclableMemoryStreamManager is not null;
+			_dataInitialized = recyclableMemoryStreamManager is object;
             _memoryManager = recyclableMemoryStreamManager;
 		}
 #endif
