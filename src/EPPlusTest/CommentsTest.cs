@@ -161,9 +161,10 @@ namespace EPPlusTest
                 for (int i = 0; i < 5; i++)
                 {
                     ws.Cells[2, 2].Value = "hallo";
-                    ExcelComment comment = ws.Cells[2, 2].AddComment("hallo", "hallo");
+                    ExcelComment comment = ws.Cells[2, 2].AddComment("hallo\r\nLine 2", "hallo");
                     comment.Font.FontName = "Arial";
                     comment.AutoFit = true;
+                    
                     ExcelRange cell = ws.Cells[2, 2];
 
                     Assert.AreEqual("Arial", comment.Font.FontName);
@@ -174,8 +175,9 @@ namespace EPPlusTest
                     cell.Clear();
 
                     Assert.AreEqual(0, ws.Comments.Count);
-                    Assert.IsNull(cell.Comment);
+                    Assert.IsNull(cell.Comment);                                        
                 }
+                p.SaveAs(new FileInfo(@"c:\epplustest\testoutput\comment.xlsx"));
             }
         }
     }

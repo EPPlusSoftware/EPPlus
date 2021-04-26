@@ -3031,11 +3031,11 @@ namespace OfficeOpenXml
                             {
                                 if (f.IsArray)
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
                                 else
                                 {
-                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
 
                             }
@@ -3050,11 +3050,11 @@ namespace OfficeOpenXml
                                 {
                                     fElement = $"";
                                 }
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                             else
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><f t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}/>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><f t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}/>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                         else
@@ -3062,18 +3062,18 @@ namespace OfficeOpenXml
                             // We can also have a single cell array formula
                             if (f.IsArray)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
                             }
                             else
                             {
-                                cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>");
+                                cache.Append($"<{cTag} r=\"{f.Address}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
                                 cache.Append($"<{fTag}{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                         }
                     }
                     else if (formula != null && formula.ToString() != "")
                     {
-                        cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v, true)}{mdAttr}>");
+                        cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
                         cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(formula.ToString())}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                     }
                     else
@@ -3095,7 +3095,7 @@ namespace OfficeOpenXml
                             if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
                             {
                                 //string sv = GetValueForXml(v);
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{GetCellType(v)}{mdAttr}>");
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
                                 cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
                             else
@@ -3226,26 +3226,6 @@ namespace OfficeOpenXml
             {
                 return $"<{prefix}v>{ConvertUtil.ExcelEscapeAndEncodeString(ConvertUtil.GetValueForXml(v, Workbook.Date1904))}</{prefix}v>";
             }            
-            else
-            {
-                return "";
-            }
-        }
-
-        private string GetCellType(object v, bool allowStr=false)
-        {
-            if (v is bool)
-            {
-                return " t=\"b\"";
-            }
-            else if ((v is double && double.IsInfinity((double)v)) || v is ExcelErrorValue)
-            {
-                return " t=\"e\"";
-            }
-            else if(allowStr && v!=null && !(TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan))
-            {
-                return " t=\"str\"";
-            }
             else
             {
                 return "";

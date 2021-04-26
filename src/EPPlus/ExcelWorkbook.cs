@@ -1104,6 +1104,15 @@ namespace OfficeOpenXml
 				SavePivotTableCaches();
 			}
 
+			if(_externalReferences!=null)
+            {
+				foreach(var er in _externalReferences)
+                {
+					er.Save();
+                }
+
+			}
+
 			// save the workbook
 			if (_workbookXml != null)
 			{

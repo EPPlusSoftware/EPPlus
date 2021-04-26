@@ -476,6 +476,26 @@ namespace OfficeOpenXml.Utils
                 }
             }
         }
+        internal static string GetCellType(object v, bool allowStr = false)
+        {
+            if (v is bool)
+            {
+                return " t=\"b\"";
+            }
+            else if ((v is double && double.IsInfinity((double)v)) || v is ExcelErrorValue)
+            {
+                return " t=\"e\"";
+            }
+            else if (allowStr && v != null && !(TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan))
+            {
+                return " t=\"str\"";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         #region internal cache objects
         internal static TextInfo _invariantTextInfo = CultureInfo.InvariantCulture.TextInfo;
         internal static CompareInfo _invariantCompareInfo = CompareInfo.GetCompareInfo(CultureInfo.InvariantCulture.Name);  //TODO:Check that it works

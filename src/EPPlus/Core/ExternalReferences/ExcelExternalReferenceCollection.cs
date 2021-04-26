@@ -18,6 +18,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
         internal ExcelExternalReferenceCollection(ExcelWorkbook wb)
         {
             _wb = wb;
-            GetExternalReferences();
+            LoadExternalReferences();
         }
         internal void AddInternal(ExcelExternalReference externalReference)
         {
@@ -53,7 +54,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 return _list[index];
             }
         }
-        internal void GetExternalReferences()
+        internal void LoadExternalReferences()
         {
             XmlNodeList nl = _wb.WorkbookXml.SelectNodes("//d:externalReferences/d:externalReference", _wb.NameSpaceManager);
             if (nl != null)
@@ -71,7 +72,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                             switch (xr.Name)
                             {
                                 case "externalBook":
-                                    AddInternal(new ExcelExternalReference(_wb, xr, part));
+                                    AddInternal(new ExcelExternalReference(_wb, xr, part, elem));
                                     break;
                                 case "ddeLink":
                                 case "oleLink":
@@ -82,8 +83,63 @@ namespace OfficeOpenXml.Core.ExternalReferences
                             }
                         }
                     }
+                    xr.Close();
                 }
             }
+        }
+        public void Delete(int index)
+        {
+            if(index < 0 || index>=_list.Count)
+            {
+                throw (new ArgumentOutOfRangeException("index"));
+            }
+            Delete(_list[index]);
+        }
+        public void Delete(ExcelExternalReference externalReference)
+        {
+            var ix = _list.IndexOf(externalReference);
+            
+            _wb._package.ZipPackage.DeletePart(externalReference.Part.Uri);
+
+            BreakFormulaLinksHandler.BreakFormulaLinks(_wb, ix, true);
+            
+            var extRefs = externalReference.WorkbookElement.ParentNode;
+            extRefs?.RemoveChild(externalReference.WorkbookElement);
+            if(extRefs?.ChildNodes.Count==0)
+            {
+                extRefs.ParentNode?.RemoveChild(extRefs);
+            }
+            _list.Remove(externalReference);
+        }
+        internal int GetExternalReference(string extRef)
+        {
+            if(extRef.Any(c=>char.IsDigit(c)==false))
+            {
+                var fi = new FileInfo(extRef);
+                int ret=-1;
+                for (int ix=0;ix<_list.Count;ix++)
+                {
+                    var erFile = new FileInfo(_list[ix].ExternalReferenceUri.OriginalString);
+                    if(fi.FullName==erFile.FullName)
+                    {
+                        return ix;
+                    }
+                    else if (fi.Name==erFile.Name)
+                    {
+                        ret = ix; 
+                    }
+                }
+                return ret;
+            }
+            else
+            {
+                var ix = int.Parse(extRef)-1;
+                if(ix<_list.Count)
+                {
+                    return ix;
+                }
+            }
+            return -1;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
 {
     public class ExcelExternalReferenceCellCollection : IEnumerable<ExcelExternalCellValue>, IEnumerator<ExcelExternalCellValue>
     {
-        private CellStore<object> _values;
+        internal CellStore<object> _values;
         private CellStore<int> _metaData;
         CellStoreEnumerator<object> _valuesEnum;
 
