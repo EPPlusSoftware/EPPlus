@@ -463,7 +463,7 @@ namespace OfficeOpenXml
         {
             //TODO:fix this method to handle splits as well.
             if (Row == 1 && Column == 1) UnFreezePanes();
-            string sqRef = SelectedRange, activeCell = ActiveCell;
+            string sqRef = SelectedRange, activeCell = "A1";
             
             XmlElement paneNode = TopNode.SelectSingleNode(_paneNodePath, NameSpaceManager) as XmlElement;
             if (paneNode == null)
