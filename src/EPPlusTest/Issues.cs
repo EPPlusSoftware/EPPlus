@@ -2088,21 +2088,48 @@ namespace EPPlusTest
         [TestMethod]
         public void MatchNamedRangeIssue()
         {
-            using (var p = OpenTemplatePackage("MatchIssue141.xlsx"))
+            foreach (bool onColumns in new[] { true, false })
             {
-                var worksheet = p.Workbook.Worksheets["TVaR"];
-                //foreach (var cell in worksheet.Cells)
-                //{
-                //try
-                //{
-                worksheet.Cells["V5"].Calculate();
-                worksheet.Cells["V5"].Value = worksheet.Cells["V5"].Value;
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //}
-                //}
-                //SaveAndCleanup(9)
+                var ep = new ExcelPackage();
+                var ws = ep.Workbook.Worksheets.Add("Test");
+
+                // Header area (along with freezing the header in the view)
+                ws.Cells[1, 1, 1, 8].Style.Font.Bold = true;
+                for (int i = 1; i < 9; ++i)
+                    ws.Cells[1, i].Value = $"Test {i}";
+                ws.View.FreezePanes(2, 1);
+
+                if (onColumns)
+                {
+                    // Set the horizontal alignment on the columns themselves
+                    ws.Column(3).Style.HorizontalAlignment = ws.Column(4).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                    ws.Column(5).Style.HorizontalAlignment = ws.Column(6).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    ws.Column(7).Style.HorizontalAlignment = ws.Column(8).Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Right;
+                }
+                else
+                {
+                    // Set the horizontal alignment on the cells of the header
+                    ws.Cells[1, 3, 1, 4].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                    ws.Cells[1, 5, 1, 6].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    ws.Cells[1, 7, 1, 8].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Right;
+                }
+
+                for (int row = 2; row < 30; ++row)
+                {
+                    for (int i = 1; i < 9; ++i)
+                        ws.Cells[row, i].Value = row % 2 == 0 ? (8 * (row - 2) + i).ToString() : $"Test {8 * (row - 2) + i}";
+                    if (!onColumns)
+                    {
+                        // Set the horizontal alignment on this row's cells
+                        ws.Cells[row, 3, row, 4].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                        ws.Cells[row, 5, row, 6].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        ws.Cells[row, 7, row, 8].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Right;
+                    }
+                }
+
+                ws.Cells.AutoFitColumns(0);
+
+                ep.SaveAs(new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), $"AlignmentTest-On{(onColumns ? "Columns" : "Cells")}.xlsx")));
             }
         }
     }

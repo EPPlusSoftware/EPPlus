@@ -740,11 +740,11 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal XmlNode CreateXmlNode(XmlNode topNode, bool isCellStyleXsf)
         {
             TopNode = topNode;
-            if(XfId>=0 && XfId>=_styles.CellStyleXfs.Count) //XfId has an invalid reference. Remove it.
+            if(XfId<0 || XfId>=_styles.CellStyleXfs.Count) //XfId has an invalid reference. Remove it.
             {
                 XfId = int.MinValue;
             }
-            var doSetXfId = (!isCellStyleXsf && XfId > int.MinValue && _styles.CellStyleXfs.Count > 0 && _styles.CellStyleXfs[XfId].newID > 0);
+            var doSetXfId = (!isCellStyleXsf && XfId > int.MinValue && _styles.CellStyleXfs.Count > 0 && _styles.CellStyleXfs[XfId].newID >= 0);
             if (_numFmtId >= 0)
             {
                 SetXmlNodeString("@numFmtId", _numFmtId.ToString());
