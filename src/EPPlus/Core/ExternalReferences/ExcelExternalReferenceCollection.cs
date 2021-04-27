@@ -65,6 +65,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                     var rel = _wb.Part.GetRelationship(rID);
                     var part = _wb._package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
                     var xr = new XmlTextReader(part.GetStream());
+                    var index = 1;
                     while (xr.Read())
                     {
                         if (xr.NodeType == XmlNodeType.Element)
@@ -87,21 +88,29 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 }
             }
         }
+        /// <summary>
+        /// Delete the external link at the zero-based index.
+        /// </summary>
+        /// <param name="index">The zero-based index</param>
         public void Delete(int index)
         {
             if(index < 0 || index>=_list.Count)
             {
-                throw (new ArgumentOutOfRangeException("index"));
+                throw (new ArgumentOutOfRangeException(nameof(index)));
             }
             Delete(_list[index]);
         }
+        /// <summary>
+        /// Delete the specifik external link
+        /// </summary>
+        /// <param name="externalReference"></param>
         public void Delete(ExcelExternalReference externalReference)
         {
             var ix = _list.IndexOf(externalReference);
             
             _wb._package.ZipPackage.DeletePart(externalReference.Part.Uri);
 
-            BreakFormulaLinksHandler.BreakFormulaLinks(_wb, ix, true);
+            ExternalLinksHandler.BreakFormulaLinks(_wb, ix, true);
             
             var extRefs = externalReference.WorkbookElement.ParentNode;
             extRefs?.RemoveChild(externalReference.WorkbookElement);
@@ -111,15 +120,56 @@ namespace OfficeOpenXml.Core.ExternalReferences
             }
             _list.Remove(externalReference);
         }
+        /// <summary>
+        /// Clear all external links and break any formula links.
+        /// </summary>
+        public void Clear()
+        {
+            if (_list.Count == 0) return;
+            var extRefs = _list[0].WorkbookElement.ParentNode;
+
+            ExternalLinksHandler.BreakAllFormulaLinks(_wb);
+            while (_list.Count>0)
+            {
+                _wb._package.ZipPackage.DeletePart(_list[0].Part.Uri);
+                _list.RemoveAt(0);
+            }
+
+            extRefs?.ParentNode?.RemoveChild(extRefs);
+        }
+
         internal int GetExternalReference(string extRef)
         {
+            if (string.IsNullOrEmpty(extRef)) return -1;
             if(extRef.Any(c=>char.IsDigit(c)==false))
             {
+                if(HasWebProtocol(extRef))
+                {
+                    for (int ix = 0; ix < _list.Count; ix++)
+                    {
+                        if (extRef.Equals(_list[ix].ExternalReferenceUri.OriginalString, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return ix;
+                        }
+                    }
+                    return -1;
+                }
+                if (extRef.StartsWith("file:///")) extRef = extRef.Substring(8);
                 var fi = new FileInfo(extRef);
                 int ret=-1;
                 for (int ix=0;ix<_list.Count;ix++)
                 {
-                    var erFile = new FileInfo(_list[ix].ExternalReferenceUri.OriginalString);
+                    var fileName = _list[ix].ExternalReferenceUri.OriginalString;
+                    if(HasWebProtocol(_list[ix].ExternalReferenceUri.OriginalString))
+                    {
+                        if(fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return ix;
+                        }
+                        continue;
+                    }
+                    if (fileName.StartsWith("file:///")) fileName = fileName.Substring(8);
+                    var erFile = new FileInfo(fileName);
                     if(fi.FullName==erFile.FullName)
                     {
                         return ix;
@@ -140,6 +190,11 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 }
             }
             return -1;
+        }
+
+        private static bool HasWebProtocol(string fileName)
+        {
+            return fileName.StartsWith("http:") || fileName.StartsWith("https:") || fileName.StartsWith("ftp:");
         }
     }
 }

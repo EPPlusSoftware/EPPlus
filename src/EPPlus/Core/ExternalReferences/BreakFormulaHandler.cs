@@ -5,8 +5,51 @@ using System.Globalization;
 
 namespace OfficeOpenXml.Core.ExternalReferences
 {
-    internal static class BreakFormulaLinksHandler
+    internal static class ExternalLinksHandler
     {
+        /// <summary>
+        /// Clears all formulas leaving the value only for formulas containing external links
+        /// </summary>
+        /// <param name="wb"></param>
+        internal static void BreakAllFormulaLinks(ExcelWorkbook wb)
+        {
+            foreach (var ws in wb.Worksheets)
+            {
+                var _deletedFormulas = new List<int>();
+                foreach (var sh in ws._sharedFormulas.Values)
+                {
+                    sh.SetTokens(ws.Name);
+                    if (HasFormulaExternalReference(sh.Tokens))
+                    {
+                        ExcelCellBase.GetRowColFromAddress(sh.Address, out int fromRow, out int fromCol, out int toRow, out int toCol);
+                        ws._formulas.Clear(fromRow, fromCol, toRow - fromRow + 1, toCol - fromCol + 1);
+                        ws._formulaTokens?.Clear(fromRow, fromCol, toRow - fromRow + 1, toCol - fromCol + 1);
+                        _deletedFormulas.Add(sh.Index);
+                    }
+                }
+                _deletedFormulas.ForEach(x => ws._sharedFormulas.Remove(x));
+
+                var enumerator = new CellStoreEnumerator<object>(ws._formulas);
+                foreach (var f in enumerator)
+                {
+                    if (f is string formula)
+                    {
+                        IEnumerable<Token> t = ws._formulaTokens?.GetValue(enumerator.Row, enumerator.Column);
+                        if (t == null)
+                        {
+                            t = SourceCodeTokenizer.Default.Tokenize(formula, ws.Name);
+                        }
+                        if (HasFormulaExternalReference(t))
+                        {
+                            ws._formulas.Clear(enumerator.Row, enumerator.Column, 1, 1);
+                            ws._formulaTokens?.Clear(enumerator.Row, enumerator.Column, 1, 1);
+                        }
+                    }
+                }
+                HandleNames(wb, ws.Name, ws.Names, -1);
+            }
+            HandleNames(wb, "", wb.Names, -1);
+        }
         internal static void BreakFormulaLinks(ExcelWorkbook wb, int ix, bool delete)
         {
             foreach (var ws in wb.Worksheets)
@@ -76,7 +119,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                                 var endIx = a.Address.IndexOf(']');
                                 var extRef = a.Address.Substring(startIx + 1, endIx - startIx - 1);
                                 var extRefIx = wb.ExternalReferences.GetExternalReference(extRef);
-                                if (extRefIx == ix)
+                                if (extRefIx == ix || ix==-1) //-1 means delete all external references
                                 {
                                     deletedNames.Add(n);
                                 }
@@ -91,25 +134,49 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 else
                 {
                     var t = SourceCodeTokenizer.Default.Tokenize(n.Formula, wsName);
-                    if (HasFormulaExternalReference(wb, ix, t, out string newFormula))
+                    if (ix == -1 && HasFormulaExternalReference(t))
                     {
                         deletedNames.Add(n);
                     }
-                    else if (newFormula != n.Formula)
+                    else
                     {
-                        n.Formula = newFormula;
+                        if (HasFormulaExternalReference(wb, ix, t, out string newFormula))
+                        {
+                            //deletedNames.Add(n);
+                            n.Formula = newFormula;
+                        }
+                        else if (newFormula != n.Formula)
+                        {
+                            n.Formula = newFormula;
+                        }
                     }
                 }
             }
             deletedNames.ForEach(x => names.Remove(x.Name));
         }
-
+        private static bool HasFormulaExternalReference(IEnumerable<Token> tokens)
+        {
+            foreach (var t in tokens)
+            {
+                if (t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress) ||
+                t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.InvalidReference))
+                {
+                    var address = t.Value;
+                    if (address.StartsWith("[") || address.StartsWith("'["))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         private static bool HasFormulaExternalReference(ExcelWorkbook wb, int ix, IEnumerable<Token> tokens, out string newFormula)
         {
             newFormula = "";
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress))
+                if (t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress) ||
+                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.InvalidReference))
                 {
                     var address = t.Value;
                     if (address.StartsWith("[") || address.StartsWith("'["))
@@ -124,7 +191,11 @@ namespace OfficeOpenXml.Core.ExternalReferences
                         }
                         else if (extRefIx > ix)
                         {
-                            newFormula = address.Substring(0,startIx+1) + (extRefIx.ToString(CultureInfo.InvariantCulture)) + address.Substring(endIx);
+                            newFormula += address.Substring(0,startIx+1) + (extRefIx.ToString(CultureInfo.InvariantCulture)) + address.Substring(endIx);
+                        }
+                        else
+                        {
+                            newFormula += address;
                         }
                     }
                     else

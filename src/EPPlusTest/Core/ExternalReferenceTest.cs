@@ -79,6 +79,9 @@ namespace EPPlusTest.Core
             var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
 
             p.Workbook.ExternalReferences.Delete(0);
+            p.Workbook.ExternalReferences.Delete(8);
+            p.Workbook.ExternalReferences.Delete(5);
+
 
             SaveAndCleanup(p);
         }
@@ -98,6 +101,28 @@ namespace EPPlusTest.Core
             }
             Assert.AreEqual(104, c);
         }
+        [TestMethod]
+        public void OpenAndDeleteExternalReferences2()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
+
+            Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
+            p.Workbook.ExternalReferences.Delete(103);
+            Assert.AreEqual(203, p.Workbook.ExternalReferences.Count);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void OpenAndClearExternalReferences2()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
+
+            Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
+            p.Workbook.ExternalReferences.Clear();
+            Assert.AreEqual(0, p.Workbook.ExternalReferences.Count);
+            SaveAndCleanup(p);
+        }
+
+
         [TestMethod]
         public void OpenAndReadExternalReferences3()
         {
