@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr", shape)
         {
             XmlNode picNode = node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip", drawings.NameSpaceManager);
-            if (picNode != null)
+            if (picNode != null && picNode.Attributes["embed", ExcelPackage.schemaRelationships] != null)
             {
                 IPictureContainer container = this;
                 container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
