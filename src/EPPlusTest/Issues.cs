@@ -2131,5 +2131,17 @@ namespace EPPlusTest
                 ep.SaveAs(new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), $"AlignmentTest-On{(onColumns ? "Columns" : "Cells")}.xlsx")));
             }
         }
+        [TestMethod]
+        public void Issue382()
+        {
+            using (var p = OpenPackage("Issue382.xlsx", true))
+            {
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 9;
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Cell Value";                
+                ws.Cells.AutoFitColumns();
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

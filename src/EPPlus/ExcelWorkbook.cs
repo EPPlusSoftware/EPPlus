@@ -567,8 +567,8 @@ namespace OfficeOpenXml
 		public decimal MaxFontWidth
 		{
 			get
-			{
-				var ix = Styles.NamedStyles.FindIndexById("Normal");
+			{				
+				var ix = Styles.GetNormalStyleIndex();
 				if (ix >= 0)
 				{
 					var font = Styles.NamedStyles[ix].Style.Font;
@@ -634,7 +634,7 @@ namespace OfficeOpenXml
 				}
 				else
 				{
-					return Convert.ToDecimal(font[min].Height + (font[max].Height - font[min].Height) * ((fontSize - min) / (max - min)));
+					return Convert.ToDecimal(font[min].Width + (font[max].Width - font[min].Width) * ((fontSize - min) / (max - min)));
 				}
 			}
 		}
