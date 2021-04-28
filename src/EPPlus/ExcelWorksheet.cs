@@ -3718,22 +3718,6 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-		/// Returns the style ID given a style name.  
-		/// The style ID will be created if not found, but only if the style name exists!
-		/// </summary>
-		/// <param name="StyleName"></param>
-		/// <returns></returns>
-		internal int GetStyleID(string StyleName)
-		{
-			ExcelNamedStyleXml namedStyle=null;
-            Workbook.Styles.NamedStyles.FindById(StyleName, ref namedStyle);
-            if (namedStyle.XfId == int.MinValue)
-            {
-                namedStyle.XfId=Workbook.Styles.CellXfs.FindIndexById(namedStyle.Style.Id);
-            }
-            return namedStyle.XfId;
-		}
-        /// <summary>
         /// The workbook object
         /// </summary>
         public ExcelWorkbook Workbook
@@ -3745,7 +3729,7 @@ namespace OfficeOpenXml
         }
 
         #endregion
-        #endregion  // END Worksheet Private Methods
+        #endregion  // END <Worksheet Private Methods
 
         /// <summary>
         /// Get the next ID from a shared formula or an Array formula
