@@ -32,11 +32,11 @@ namespace EPPlusTest.Core
 
             Assert.AreEqual(1, p.Workbook.ExternalReferences.Count);
 
-            Assert.AreEqual(1D, p.Workbook.ExternalReferences[0].CachedWorksheets["sheet1"].CellValues["A2"].Value);
-            Assert.AreEqual(12D, p.Workbook.ExternalReferences[0].CachedWorksheets["sheet1"].CellValues["C3"].Value);
+            Assert.AreEqual(1D, p.Workbook.ExternalReferences[0].As.ExternalBook.CachedWorksheets["sheet1"].CellValues["A2"].Value);
+            Assert.AreEqual(12D, p.Workbook.ExternalReferences[0].As.ExternalBook.CachedWorksheets["sheet1"].CellValues["C3"].Value);
 
             var c = 0;
-            foreach(var cell in p.Workbook.ExternalReferences[0].CachedWorksheets["sheet1"].CellValues)
+            foreach(var cell in p.Workbook.ExternalReferences[0].As.ExternalBook.CachedWorksheets["sheet1"].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
@@ -65,7 +65,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual(62, p.Workbook.ExternalReferences.Count);
 
             var c = 0;
-            foreach (var cell in p.Workbook.ExternalReferences[0].CachedWorksheets[0].CellValues)
+            foreach (var cell in p.Workbook.ExternalReferences[0].As.ExternalBook.CachedWorksheets[0].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
@@ -94,7 +94,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
 
             var c = 0;
-            foreach (var cell in p.Workbook.ExternalReferences[0].CachedWorksheets[0].CellValues)
+            foreach (var cell in p.Workbook.ExternalReferences[0].As.ExternalBook.CachedWorksheets[0].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
@@ -131,12 +131,21 @@ namespace EPPlusTest.Core
             Assert.AreEqual(63, p.Workbook.ExternalReferences.Count);
 
             var c = 0;
-            foreach (var cell in p.Workbook.ExternalReferences[0].CachedWorksheets[0].CellValues)
+            foreach (var cell in p.Workbook.ExternalReferences[0].As.ExternalBook.CachedWorksheets[0].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
             }
             Assert.AreEqual(104, c);
+        }
+        [TestMethod]
+        public void OpenAndReadExternalReferencesDdeOle()
+        {
+            var p = OpenTemplatePackage("dde.xlsx");
+
+            Assert.AreEqual(3, p.Workbook.ExternalReferences.Count);
+
+            Assert.AreEqual(OfficeOpenXml.Core.ExternalReferences.eExternalLinkType.DdeLink, p.Workbook.ExternalReferences[0].ExternalLinkType);
         }
 
     }

@@ -10,17 +10,13 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Core.ExternalReferences
 {
-    public class ExcelExternalDefinedName : IExcelExternalNamedItem
+    public class ExcelExternalDdeValue
     {
-        public string Name { get; internal set; }
-        public string RefersTo { get; internal set; }
-        public int SheetId { get; internal set; }
-        public override string ToString()
-        {
-            return Name;
-        }
+        public eDdeValueType DdeValueType { get; set; } = eDdeValueType.Number;
+        public string Value { get; set; }
     }
 }

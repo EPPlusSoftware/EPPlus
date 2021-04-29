@@ -14,12 +14,12 @@ using OfficeOpenXml.Core.CellStore;
 
 namespace OfficeOpenXml.Core.ExternalReferences
 {
-    public class ExcelExternalWorksheet : IExcelNamedItem
+    public class ExcelExternalWorksheet : IExcelExternalNamedItem
     {
         internal ExcelExternalWorksheet(
             CellStore<object> values,
             CellStore<int> metaData,
-            ExcelNamedItemCollection<ExcelExternalDefinedName> definedNames)
+            ExcelExternalNamedItemCollection<ExcelExternalDefinedName> definedNames)
         {
             Names = definedNames;
             CellValues = new ExcelExternalReferenceCellCollection(values, metaData);

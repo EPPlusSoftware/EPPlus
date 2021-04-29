@@ -10,33 +10,9 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-
 namespace OfficeOpenXml.Core.ExternalReferences
 {
-    public class ExcelNamedItemCollection<T> : EPPlusReadOnlyList<T> where T : IExcelNamedItem
+    public class ExcelExternalOleItemsCollection : EPPlusReadOnlyList<ExcelExternalOleItem>
     {
-        Dictionary<string, int> _names = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-        public T this[string name]
-        {
-            get
-            {
-                if (_names.ContainsKey(name))
-                {
-                    return _list[_names[name]];
-                }
-                return default(T);
-            }
-        }
-        internal override void Add(T item)
-        {
-            _names.Add(item.Name, _list.Count);
-            base.Add(item);
-        }
-        public bool ContainsKey(string name)
-        {
-            return _names.ContainsKey(name);
-        }
     }
 }

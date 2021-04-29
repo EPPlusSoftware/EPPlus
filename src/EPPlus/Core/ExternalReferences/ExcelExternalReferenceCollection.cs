@@ -24,20 +24,20 @@ using System.Xml;
 
 namespace OfficeOpenXml.Core.ExternalReferences
 {
-    public class ExcelExternalReferenceCollection : IEnumerable<ExcelExternalReference>
+    public class ExcelExternalReferenceCollection : IEnumerable<ExcelExternalLink>
     {
-        List<ExcelExternalReference> _list=new List<ExcelExternalReference>();
+        List<ExcelExternalLink> _list=new List<ExcelExternalLink>();
         ExcelWorkbook _wb;
         internal ExcelExternalReferenceCollection(ExcelWorkbook wb)
         {
             _wb = wb;
             LoadExternalReferences();
         }
-        internal void AddInternal(ExcelExternalReference externalReference)
+        internal void AddInternal(ExcelExternalLink externalReference)
         {
             _list.Add(externalReference);
         }
-        public IEnumerator<ExcelExternalReference> GetEnumerator()
+        public IEnumerator<ExcelExternalLink> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
             return _list.GetEnumerator();
         }
         public int Count { get { return _list.Count; } }
-        public ExcelExternalReference this[int index]
+        public ExcelExternalLink this[int index]
         {
             get
             {
@@ -73,13 +73,18 @@ namespace OfficeOpenXml.Core.ExternalReferences
                             switch (xr.Name)
                             {
                                 case "externalBook":
-                                    AddInternal(new ExcelExternalReference(_wb, xr, part, elem));
+                                    AddInternal(new ExcelExternalBook(_wb, xr, part, elem));
                                     break;
                                 case "ddeLink":
+                                    AddInternal(new ExcelExternalDdeLink(_wb, xr, part, elem));
+                                    break;
                                 case "oleLink":
+                                    AddInternal(new ExcelExternalOleLink(_wb, xr, part, elem));
+                                    break;
                                 case "extLst":
-                                    break; //Unsupported
-                                default:    //If we end up here the workbook is invalid.
+
+                                    break; 
+                                default:    
                                     break;
                             }
                         }
@@ -104,14 +109,17 @@ namespace OfficeOpenXml.Core.ExternalReferences
         /// Delete the specifik external link
         /// </summary>
         /// <param name="externalReference"></param>
-        public void Delete(ExcelExternalReference externalReference)
+        public void Delete(ExcelExternalLink externalReference)
         {
             var ix = _list.IndexOf(externalReference);
             
             _wb._package.ZipPackage.DeletePart(externalReference.Part.Uri);
 
-            ExternalLinksHandler.BreakFormulaLinks(_wb, ix, true);
-            
+            if(externalReference.ExternalLinkType==eExternalLinkType.ExternalBook)
+            {
+                ExternalLinksHandler.BreakFormulaLinks(_wb, ix, true);
+            }
+
             var extRefs = externalReference.WorkbookElement.ParentNode;
             extRefs?.RemoveChild(externalReference.WorkbookElement);
             if(extRefs?.ChildNodes.Count==0)
@@ -147,9 +155,12 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 {
                     for (int ix = 0; ix < _list.Count; ix++)
                     {
-                        if (extRef.Equals(_list[ix].ExternalReferenceUri.OriginalString, StringComparison.OrdinalIgnoreCase))
+                        if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalBook)
                         {
-                            return ix;
+                            if (extRef.Equals(_list[ix].As.ExternalBook.ExternalReferenceUri.OriginalString, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return ix;
+                            }
                         }
                     }
                     return -1;
@@ -159,24 +170,28 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 int ret=-1;
                 for (int ix=0;ix<_list.Count;ix++)
                 {
-                    var fileName = _list[ix].ExternalReferenceUri.OriginalString;
-                    if(HasWebProtocol(_list[ix].ExternalReferenceUri.OriginalString))
+                    if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalBook)
                     {
-                        if(fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
+                        
+                        var fileName = _list[ix].As.ExternalBook.ExternalReferenceUri.OriginalString;
+                        if (HasWebProtocol(fileName))
+                        {
+                            if (fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return ix;
+                            }
+                            continue;
+                        }
+                        if (fileName.StartsWith("file:///")) fileName = fileName.Substring(8);
+                        var erFile = new FileInfo(fileName);
+                        if (fi.FullName == erFile.FullName)
                         {
                             return ix;
                         }
-                        continue;
-                    }
-                    if (fileName.StartsWith("file:///")) fileName = fileName.Substring(8);
-                    var erFile = new FileInfo(fileName);
-                    if(fi.FullName==erFile.FullName)
-                    {
-                        return ix;
-                    }
-                    else if (fi.Name==erFile.Name)
-                    {
-                        ret = ix; 
+                        else if (fi.Name == erFile.Name)
+                        {
+                            ret = ix;
+                        }
                     }
                 }
                 return ret;

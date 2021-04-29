@@ -1106,9 +1106,13 @@ namespace OfficeOpenXml
 
 			if(_externalReferences!=null)
             {
-				foreach(var er in _externalReferences)
+				foreach (var er in _externalReferences)
                 {
-					er.Save();
+					var sw = new StreamWriter(er.Part.GetStream(FileMode.CreateNew));
+					sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+					sw.Write("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
+					er.Save(sw);
+					sw.Write("</externalLink>");
                 }
 
 			}

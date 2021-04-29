@@ -2143,5 +2143,17 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue381()
+        {
+            using (var p = OpenTemplatePackage("Issue381.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+                Assert.AreEqual(1,ws.Drawings.Count);
+                ws.Cells.AutoFitColumns();
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

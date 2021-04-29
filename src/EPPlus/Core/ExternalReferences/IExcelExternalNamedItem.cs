@@ -13,14 +13,8 @@
 
 namespace OfficeOpenXml.Core.ExternalReferences
 {
-    public class ExcelExternalDefinedName : IExcelExternalNamedItem
+    public interface IExcelExternalNamedItem
     {
-        public string Name { get; internal set; }
-        public string RefersTo { get; internal set; }
-        public int SheetId { get; internal set; }
-        public override string ToString()
-        {
-            return Name;
-        }
+        string Name { get; }
     }
 }

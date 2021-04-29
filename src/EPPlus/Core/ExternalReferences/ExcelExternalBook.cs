@@ -22,36 +22,23 @@ using System.Xml;
 
 namespace OfficeOpenXml.Core.ExternalReferences
 {
-    public class ExcelExternalReference 
+    public class ExcelExternalBook : ExcelExternalLink
     {
         Dictionary<string, int> _sheetNames = new Dictionary<string, int>();
         Dictionary<int, CellStore<object>> _sheetValues = new Dictionary<int, CellStore<object>>();
         Dictionary<int, CellStore<int>> _sheetMetaData = new Dictionary<int, CellStore<int>>();
-        Dictionary<int, ExcelNamedItemCollection<ExcelExternalDefinedName>> _definedNamesValues = new Dictionary<int, ExcelNamedItemCollection<ExcelExternalDefinedName>>();
-        internal ExcelWorkbook _wb;
-        internal XmlElement WorkbookElement
+        Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>> _definedNamesValues = new Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>>();
+        public override eExternalLinkType ExternalLinkType
         {
-            get;
-            set;
+            get
+            {
+                return eExternalLinkType.ExternalBook;
+            }
         }
 
-        internal ZipPackagePart Part 
+        internal ExcelExternalBook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
         {
-            get;
-            set;
-        }
-        internal ZipPackageRelationship Relation
-        {
-            get;
-            set;
-        }
-        internal ExcelExternalReference(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement) 
-        {
-            if (reader.LocalName != "externalBook") return;
             var rId = reader.GetAttribute("id", ExcelPackage.schemaRelationships);
-            _wb = wb;
-            Part = part;
-            WorkbookElement = workbookElement;
             Relation = part.GetRelationship(rId);
             while (reader.Read())
             {
@@ -80,7 +67,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 }
             }
 
-            CachedWorksheets = new ExcelNamedItemCollection<ExcelExternalWorksheet>();
+            CachedWorksheets = new ExcelExternalNamedItemCollection<ExcelExternalWorksheet>();
             CachedNames = GetNames(-1);
             foreach (var sheetName in _sheetNames.Keys)
             {
@@ -91,7 +78,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                        _definedNamesValues[sheetId]) { SheetId  = sheetId, Name =sheetName});
             }
         }
-        private ExcelNamedItemCollection<ExcelExternalDefinedName> GetNames(int ix)
+        private ExcelExternalNamedItemCollection<ExcelExternalDefinedName> GetNames(int ix)
         {
             if(_definedNamesValues.ContainsKey(ix))
             {
@@ -99,10 +86,9 @@ namespace OfficeOpenXml.Core.ExternalReferences
             }
             else
             {
-                return new ExcelNamedItemCollection<ExcelExternalDefinedName>();
+                return new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
             }
         }
-
         private void ReadSheetDataSet(XmlTextReader reader, ExcelWorkbook wb)
         {
             while (reader.Read())
@@ -117,7 +103,6 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 }
             }
         }
-
         private void ReadSheetData(XmlTextReader reader, ExcelWorkbook wb)
         {
             var sheetId = int.Parse(reader.GetAttribute("sheetId"));
@@ -179,7 +164,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                         sheetId = int.Parse(sheetIdAttr);
                     }
                     
-                    ExcelNamedItemCollection<ExcelExternalDefinedName> names = _definedNamesValues[sheetId];
+                    ExcelExternalNamedItemCollection<ExcelExternalDefinedName> names = _definedNamesValues[sheetId];
 
                     var name = reader.GetAttribute("name");
                     names.Add(new ExcelExternalDefinedName() { Name = reader.GetAttribute("name"), RefersTo = reader.GetAttribute("refersTo"), SheetId = sheetId });
@@ -189,7 +174,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
         private void ReadSheetNames(XmlTextReader reader)
         {
             var ix = 0;
-            _definedNamesValues.Add(-1, new ExcelNamedItemCollection<ExcelExternalDefinedName>());
+            _definedNamesValues.Add(-1, new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>());
             while (reader.Read())
             {
                 if(reader.NodeType==XmlNodeType.EndElement && reader.Name== "sheetNames")
@@ -200,7 +185,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 {
                     _sheetValues.Add(ix, new CellStore<object>());
                     _sheetMetaData.Add(ix, new CellStore<int>());
-                    _definedNamesValues.Add(ix, new ExcelNamedItemCollection<ExcelExternalDefinedName>());
+                    _definedNamesValues.Add(ix, new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>());
                     _sheetNames.Add(reader.GetAttribute("val"), ix++);                    
 
                 }
@@ -277,21 +262,25 @@ namespace OfficeOpenXml.Core.ExternalReferences
             {
                 return base.ToString();
             }
-        }        
-        public ExcelNamedItemCollection<ExcelExternalDefinedName> CachedNames
+        }
+        internal ZipPackageRelationship Relation
+        {
+            get;
+            set;
+        }
+
+        public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> CachedNames
         {
             get;
         }
-        public ExcelNamedItemCollection<ExcelExternalWorksheet> CachedWorksheets
+        public ExcelExternalNamedItemCollection<ExcelExternalWorksheet> CachedWorksheets
         {
             get;
         }
 
-        internal void Save()
+        internal override void Save(StreamWriter sw)
         {
-            var sw = new StreamWriter(Part.GetStream(FileMode.CreateNew));            
-            sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-            sw.Write($"<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"><externalBook xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"{Relation.Id}\">");
+            sw.Write($"<externalBook xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"{Relation.Id}\">");
             sw.Write("<sheetNames>");
             foreach(var sheet in _sheetNames.OrderBy(x=>x.Value))
             {
@@ -346,7 +335,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 }
                 sw.Write("</sheetData>");
             }
-            sw.Write("</sheetDataSet></externalBook></externalLink>");
+            sw.Write("</sheetDataSet></externalBook>");
             sw.Flush();
         }
         
