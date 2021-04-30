@@ -2154,17 +2154,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void IssueRowHeight()
-        {
-            using (var p = OpenPackage("RowHeightIssue.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Row(3).Height = 3;
-                ws.Row(3).Style.Font.Bold = true;
-                SaveAndCleanup(p);
-            }
-        }
-
     }
 }
