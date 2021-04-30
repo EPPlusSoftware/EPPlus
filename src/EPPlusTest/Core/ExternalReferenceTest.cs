@@ -143,9 +143,10 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("dde.xlsx");
 
-            Assert.AreEqual(3, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(5, p.Workbook.ExternalReferences.Count);
 
             Assert.AreEqual(OfficeOpenXml.Core.ExternalReferences.eExternalLinkType.DdeLink, p.Workbook.ExternalReferences[0].ExternalLinkType);
+            SaveAndCleanup(p);
         }
 
     }

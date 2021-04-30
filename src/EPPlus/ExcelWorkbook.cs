@@ -1113,7 +1113,8 @@ namespace OfficeOpenXml
 					sw.Write("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
 					er.Save(sw);
 					sw.Write("</externalLink>");
-                }
+					sw.Flush();
+				}
 
 			}
 

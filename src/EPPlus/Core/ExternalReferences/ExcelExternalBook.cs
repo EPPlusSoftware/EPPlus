@@ -335,8 +335,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 }
                 sw.Write("</sheetData>");
             }
-            sw.Write("</sheetDataSet></externalBook>");
-            sw.Flush();
+            sw.Write("</sheetDataSet></externalBook>");            
         }
         
     }

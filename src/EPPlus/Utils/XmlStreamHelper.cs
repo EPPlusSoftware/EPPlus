@@ -8,16 +8,17 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/16/2021         EPPlus Software AB       EPPlus 5.7
+  04/30/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.ExternalReferences
+using System.Xml;
+
+namespace OfficeOpenXml.Utils
 {
-    public class ExcelExternalDdeItem 
+    internal class XmlStreamHelper
     {
-        public string Name { get; set; }
-        public bool Advise { get; set; }
-        public bool PreferPicture { get; set; }
-        public bool Ole { get; set; }
-        public ExcelExternalDdeValueCollection Values { get; } = new ExcelExternalDdeValueCollection();
+        internal static void ReadUntil(XmlTextReader reader, string elementName)
+        {
+            do { if (!reader.Read()) break; } while (!(reader.NodeType == XmlNodeType.EndElement && reader.LocalName == elementName));
+        }
     }
 }

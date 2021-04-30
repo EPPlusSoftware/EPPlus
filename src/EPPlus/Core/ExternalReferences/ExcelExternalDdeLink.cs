@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,20 +54,22 @@ namespace OfficeOpenXml.Core.ExternalReferences
         {
             while (reader.Read())
             {
-                if (reader.LocalName == "fallback")
+                if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "Fallback")
                 {
-                    reader.ReadElementContentAsString();
-                    continue;
+                    XmlStreamHelper.ReadUntil(reader, "Fallback");
                 }
                 if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "ddeItem")
                 {
                     DdeItems.Add(new ExcelExternalDdeItem()
                     {
                         Name = reader.GetAttribute("name"),
-                        Advise = XmlHelper.GetBoolFromString(reader.GetAttribute("advice")),
-                        Icon = XmlHelper.GetBoolFromString(reader.GetAttribute("icon")),
+                        Advise = XmlHelper.GetBoolFromString(reader.GetAttribute("advise")),
+                        Ole = XmlHelper.GetBoolFromString(reader.GetAttribute("ole")),
                         PreferPicture = XmlHelper.GetBoolFromString(reader.GetAttribute("preferPic")),
                     });
+                }
+                else if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName=="ddeItems")
+                {
                     break;
                 }
             }
@@ -88,7 +91,16 @@ namespace OfficeOpenXml.Core.ExternalReferences
         } = new ExcelExternalDdeItemCollection();
         internal override void Save(StreamWriter sw)
         {
-
+            sw.Write($"<ddeLink ddeTopic=\"{DdeTopic}\" ddeService=\"{DdeService}\"><ddeItems>");
+            foreach (ExcelExternalDdeItem item in DdeItems)
+            {                
+                sw.Write(string.Format("<ddeItem name=\"{0}\" {1}{2}{3}/>",
+                  item.Name,
+                  item.Advise.GetXmlAttributeValue("advise", false),
+                  item.Ole.GetXmlAttributeValue("ole", false),
+                  item.PreferPicture.GetXmlAttributeValue("preferPic", false)));
+            }
+            sw.Write("</ddeItems></ddeLink>");
         }
     }
 }
