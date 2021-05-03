@@ -22,7 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
     public class ExcelExternalReferenceCollection : IEnumerable<ExcelExternalLink>
     {
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
                             switch (xr.Name)
                             {
                                 case "externalBook":
-                                    AddInternal(new ExcelExternalBook(_wb, xr, part, elem));
+                                    AddInternal(new ExcelExternalWorkbook(_wb, xr, part, elem));
                                     break;
                                 case "ddeLink":
                                     AddInternal(new ExcelExternalDdeLink(_wb, xr, part, elem));
@@ -145,19 +145,49 @@ namespace OfficeOpenXml.Core.ExternalReferences
 
             extRefs?.ParentNode?.RemoveChild(extRefs);
         }
-
+        /// <summary>
+        /// A list of directories to look for the external files that can not be found on the path of the uri.
+        /// </summary>
+        public List<DirectoryInfo> Directories
+        {
+            get;
+        } = new List<DirectoryInfo>();
+        /// <summary>
+        /// Will load all external workbooks that can be accessed via the file system.
+        /// External workbook referenced via other protocols must be loaded manually.
+        /// </summary>
+        /// <returns>Returns false if any workbook fails to loaded otherwise true. </returns>
+        public bool LoadWorkbooks()
+        {
+            bool ret = true;
+            foreach (var link in _list)
+            {
+                if(link.ExternalLinkType==eExternalLinkType.ExternalBook)
+                {
+                    var externalWb = link.As.ExternalWorkbook;
+                    if(externalWb.Package==null)
+                    {
+                        if(externalWb.Load() == false)
+                        {
+                            ret = false;
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
         internal int GetExternalReference(string extRef)
         {
             if (string.IsNullOrEmpty(extRef)) return -1;
             if(extRef.Any(c=>char.IsDigit(c)==false))
             {
-                if(HasWebProtocol(extRef))
+                if(ExcelExternalLink.HasWebProtocol(extRef))
                 {
                     for (int ix = 0; ix < _list.Count; ix++)
                     {
                         if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalBook)
                         {
-                            if (extRef.Equals(_list[ix].As.ExternalBook.ExternalReferenceUri.OriginalString, StringComparison.OrdinalIgnoreCase))
+                            if (extRef.Equals(_list[ix].As.ExternalWorkbook.ExternalReferenceUri.OriginalString, StringComparison.OrdinalIgnoreCase))
                             {
                                 return ix;
                             }
@@ -173,8 +203,8 @@ namespace OfficeOpenXml.Core.ExternalReferences
                     if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalBook)
                     {
                         
-                        var fileName = _list[ix].As.ExternalBook.ExternalReferenceUri.OriginalString;
-                        if (HasWebProtocol(fileName))
+                        var fileName = _list[ix].As.ExternalWorkbook.ExternalReferenceUri.OriginalString;
+                        if (ExcelExternalLink.HasWebProtocol(fileName))
                         {
                             if (fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
                             {
@@ -206,10 +236,9 @@ namespace OfficeOpenXml.Core.ExternalReferences
             }
             return -1;
         }
-
-        private static bool HasWebProtocol(string fileName)
+        internal int GetIndex(ExcelExternalLink link)
         {
-            return fileName.StartsWith("http:") || fileName.StartsWith("https:") || fileName.StartsWith("ftp:");
+            return _list.IndexOf(link);
         }
     }
 }

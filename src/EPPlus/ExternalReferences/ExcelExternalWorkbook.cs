@@ -20,9 +20,9 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalBook : ExcelExternalLink
+    public class ExcelExternalWorkbook : ExcelExternalLink
     {
         Dictionary<string, int> _sheetNames = new Dictionary<string, int>();
         Dictionary<int, CellStore<object>> _sheetValues = new Dictionary<int, CellStore<object>>();
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
             }
         }
 
-        internal ExcelExternalBook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
+        internal ExcelExternalWorkbook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
         {
             var rId = reader.GetAttribute("id", ExcelPackage.schemaRelationships);
             Relation = part.GetRelationship(rId);
@@ -201,7 +201,73 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 return Relation.TargetUri;
             }
         }
-        ExcelPackage _package=null;
+        FileInfo _file=null;
+        /// <summary>
+        /// If the external reference is a file in the filesystem
+        /// </summary>
+        public FileInfo File
+        {
+            get
+            {
+                if(_file==null)
+                {
+                    var filePath = Relation?.TargetUri?.OriginalString;
+                    if (string.IsNullOrEmpty(filePath) && HasWebProtocol(filePath)) return null;
+                    if (filePath.StartsWith("file:///")) filePath = filePath.Substring(8);
+                    try
+                    {
+                        
+                        if(_wb._package.File!=null)
+                        {
+                            if (string.IsNullOrEmpty(Path.GetDirectoryName(filePath)) || Path.IsPathRooted(filePath) == false)
+                            {
+                                filePath = _wb._package.File.DirectoryName + "\\" + filePath;
+                            }
+                            else
+                            {
+                                if(Path.IsPathRooted(filePath) == true && filePath[0]==Path.DirectorySeparatorChar)
+                                {
+                                    filePath = _wb._package.File.Directory.Root.Name + filePath;
+                                }
+                            }
+                        }                        
+                        _file = new FileInfo(filePath);
+                        if(!_file.Exists && _wb.ExternalReferences.Directories.Count>0)
+                        {
+                            SetDirectoryIfExists();
+                        }
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+                return _file;
+            }
+            set
+            {
+                _file = value;
+            }
+        }
+
+        private void SetDirectoryIfExists()
+        {
+            foreach(var d in _wb.ExternalReferences.Directories)
+            {
+                var file = d.FullName;
+                if (file.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
+                {
+                    file += Path.DirectorySeparatorChar + _file.Name;
+                }
+                if(System.IO.File.Exists(file))
+                {
+                    _file = new FileInfo(file);
+                    return;
+                }
+            }
+        }
+
+        ExcelPackage _package =null;
         public ExcelPackage Package
         {
             get
@@ -215,10 +281,9 @@ namespace OfficeOpenXml.Core.ExternalReferences
         /// <returns>True if the load succeeded, otherwise false</returns>
         public bool Load()
         {
-            var fi = new FileInfo(ExternalReferenceUri.LocalPath);
-            if(fi.Exists)
+            if(File != null && File.Exists)
             {
-                _package = new ExcelPackage(fi);
+                _package = new ExcelPackage(File);
                 return true;
             }
 
@@ -256,7 +321,7 @@ namespace OfficeOpenXml.Core.ExternalReferences
         {
             if (Relation?.TargetUri != null)
             {
-                return Relation.TargetUri.ToString();
+                return ExternalLinkType.ToString() + "(" + Relation.TargetUri.ToString() + ")";
             }
             else
             {

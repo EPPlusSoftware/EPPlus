@@ -10,33 +10,31 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.CellStore;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalNamedItemCollection<T> : EPPlusReadOnlyList<T> where T : IExcelExternalNamedItem
+    public class ExcelExternalWorksheet : IExcelExternalNamedItem
     {
-        Dictionary<string, int> _names = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-        public T this[string name]
+        internal ExcelExternalWorksheet(
+            CellStore<object> values,
+            CellStore<int> metaData,
+            ExcelExternalNamedItemCollection<ExcelExternalDefinedName> definedNames)
         {
-            get
-            {
-                if (_names.ContainsKey(name))
-                {
-                    return _list[_names[name]];
-                }
-                return default(T);
-            }
+            Names = definedNames;
+            CellValues = new ExcelExternalReferenceCellCollection(values, metaData);
         }
-        internal override void Add(T item)
-        {
-            _names.Add(item.Name, _list.Count);
-            base.Add(item);
+        public int SheetId { get; set; }
+        public string Name { get; internal set; }
+        public EPPlusReadOnlyList<ExcelExternalDefinedName> Names { get; }
+        public ExcelExternalReferenceCellCollection CellValues 
+        { 
+            get; 
         }
-        public bool ContainsKey(string name)
+        public override string ToString()
         {
-            return _names.ContainsKey(name);
+            return Name;
         }
     }
 }

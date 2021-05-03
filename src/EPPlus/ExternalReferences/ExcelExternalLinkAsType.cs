@@ -10,7 +10,7 @@
  *************************************************************************************************
   04/28/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
     public class ExcelExternalLinkAsType
     {
@@ -31,11 +31,11 @@ namespace OfficeOpenXml.Core.ExternalReferences
         /// <summary>
         /// Return the external link as an external workbook. If the external link is not of type ExcelExternalBook, null is returned
         /// </summary>
-        public ExcelExternalBook ExternalBook
+        public ExcelExternalWorkbook ExternalWorkbook
         {
             get
             {
-                return _externalLink as ExcelExternalBook;
+                return _externalLink as ExcelExternalWorkbook;
             }
         }
         /// <summary>

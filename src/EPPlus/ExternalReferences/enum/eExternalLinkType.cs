@@ -10,7 +10,7 @@
  *************************************************************************************************
   04/28/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
     /// <summary>
     /// The type of external link

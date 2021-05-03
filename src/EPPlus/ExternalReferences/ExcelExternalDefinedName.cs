@@ -10,29 +10,17 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-namespace OfficeOpenXml
+
+namespace OfficeOpenXml.ExternalReferences
 {
-    public enum eDdeValueType
+    public class ExcelExternalDefinedName : IExcelExternalNamedItem
     {
-        /// <summary>
-        /// The value is a boolean.
-        /// </summary>
-        Boolean,
-        /// <summary>
-        /// The value is an error.
-        /// </summary>
-        Error,
-        /// <summary>
-        /// The value is a real number.
-        /// </summary>
-        Number,
-        /// <summary>
-        /// The value is nil.
-        /// </summary>
-        Nil,
-        /// <summary>
-        /// The value is a string.
-        /// </summary>
-        String
+        public string Name { get; internal set; }
+        public string RefersTo { get; internal set; }
+        public int SheetId { get; internal set; }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

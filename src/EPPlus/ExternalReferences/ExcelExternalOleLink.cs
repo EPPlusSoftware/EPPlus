@@ -10,47 +10,45 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalDdeLink : ExcelExternalLink
+    public class ExcelExternalOleLink : ExcelExternalLink
     {
-        internal ExcelExternalDdeLink(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement) : base (wb, reader, part, workbookElement)
+        internal ExcelExternalOleLink(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement) : base(wb, reader, part, workbookElement)
         {
-            DdeService = reader.GetAttribute("ddeService");
-            DdeTopic = reader.GetAttribute("ddeTopic");
-            
+            var rId = reader.GetAttribute("id", ExcelPackage.schemaRelationships);
+            if(!string.IsNullOrEmpty(rId))
+            {
+                Relation = part.GetRelationship(rId);
+            }
+            ProgId = reader.GetAttribute("progId");
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element)
                 {
                     switch (reader.LocalName)
                     {
-                        case "ddeItems":
-                            ReadDdeItems(reader);
+                        case "oleItems":
+                            ReadOleItems(reader);
                             break;
                     }
                 }
                 else if (reader.NodeType == XmlNodeType.EndElement)
                 {
-                    if (reader.Name == "ddeLink")
+                    if (reader.Name == "oleLink")
                     {
                         break;
                     }
                 }
             }
         }
-        private void ReadDdeItems(XmlTextReader reader)
+        private void ReadOleItems(XmlTextReader reader)
         {
             while (reader.Read())
             {
@@ -58,19 +56,15 @@ namespace OfficeOpenXml.Core.ExternalReferences
                 {
                     XmlStreamHelper.ReadUntil(reader, "Fallback");
                 }
-                if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "ddeItem")
+                if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "oleItem")
                 {
-                    DdeItems.Add(new ExcelExternalDdeItem()
+                    OleItems.Add(new ExcelExternalOleItem()
                     {
                         Name = reader.GetAttribute("name"),
                         Advise = XmlHelper.GetBoolFromString(reader.GetAttribute("advise")),
-                        Ole = XmlHelper.GetBoolFromString(reader.GetAttribute("ole")),
+                        Icon = XmlHelper.GetBoolFromString(reader.GetAttribute("icon")),
                         PreferPicture = XmlHelper.GetBoolFromString(reader.GetAttribute("preferPic")),
                     });
-                }
-                else if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName=="ddeItems")
-                {
-                    break;
                 }
             }
         }
@@ -79,29 +73,32 @@ namespace OfficeOpenXml.Core.ExternalReferences
         {
             get
             {
-                return eExternalLinkType.DdeLink;
+                return eExternalLinkType.OleLink;
             }
         }
-        public string DdeService { get; set; }
-        public string DdeTopic { get; set; }
-
-        public ExcelExternalDdeItemCollection DdeItems
+        internal ZipPackageRelationship Relation
         {
             get;
-        } = new ExcelExternalDdeItemCollection();
+            set;
+        }
+        public ExcelExternalOleItemsCollection OleItems
+        {
+            get;
+        } = new ExcelExternalOleItemsCollection();
+        public string ProgId { get; }
+
         internal override void Save(StreamWriter sw)
         {
-            sw.Write($"<ddeLink ddeTopic=\"{DdeTopic}\" ddeService=\"{DdeService}\"><ddeItems>");
-            foreach (ExcelExternalDdeItem item in DdeItems)
-            {                
-                sw.Write(string.Format("<ddeItem name=\"{0}\" {1}{2}{3}/>",
+            sw.Write($"<oleLink progId=\"{ProgId}\" r:id=\"{Relation.Id}\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><oleItems>");
+            foreach (ExcelExternalOleItem item in OleItems)
+            {
+                sw.Write(string.Format("<mc:AlternateContent><mc:Choice Requires=\"x14\"><x14:oleItem name=\"{0}\" {1}{2}{3}/></mc:Choice><mc:Fallback><oleItem name=\"{0}\" {1}{2}{3}/></mc:Fallback></mc:AlternateContent>",
                   item.Name,
                   item.Advise.GetXmlAttributeValue("advise", false),
-                  item.Ole.GetXmlAttributeValue("ole", false),
+                  item.Icon.GetXmlAttributeValue("icon", false),
                   item.PreferPicture.GetXmlAttributeValue("preferPic", false)));
             }
-            sw.Write("</ddeItems></ddeLink>");
+            sw.Write("</oleItems></oleLink>");
         }
     }
 }
-

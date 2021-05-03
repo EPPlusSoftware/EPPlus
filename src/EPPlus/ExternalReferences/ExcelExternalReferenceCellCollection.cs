@@ -15,7 +15,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
     public class ExcelExternalReferenceCellCollection : IEnumerable<ExcelExternalCellValue>, IEnumerator<ExcelExternalCellValue>
     {

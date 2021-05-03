@@ -14,7 +14,7 @@ using OfficeOpenXml.Packaging;
 using System.IO;
 using System.Xml;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
     public abstract class ExcelExternalLink
     {
@@ -50,6 +50,17 @@ namespace OfficeOpenXml.Core.ExternalReferences
         public override string ToString()
         {
             return ExternalLinkType.ToString();
+        }
+        public int Index
+        {
+            get
+            {
+                return _wb.ExternalReferences.GetIndex(this)+1;
+            }
+        }
+        internal static bool HasWebProtocol(string uriPath)
+        {
+            return uriPath.StartsWith("http:") || uriPath.StartsWith("https:") || uriPath.StartsWith("ftp:") || uriPath.StartsWith("ftps:");
         }
     }
 }

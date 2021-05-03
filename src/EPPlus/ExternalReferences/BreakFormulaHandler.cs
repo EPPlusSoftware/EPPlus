@@ -3,7 +3,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
     internal static class ExternalLinksHandler
     {

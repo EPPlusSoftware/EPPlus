@@ -10,9 +10,10 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.Core.ExternalReferences
+namespace OfficeOpenXml.ExternalReferences
 {
     public class ExcelExternalWorksheetCollection : EPPlusReadOnlyList<ExcelExternalWorksheet>
     {

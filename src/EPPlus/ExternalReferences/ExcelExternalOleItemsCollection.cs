@@ -10,20 +10,11 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.ExternalReferences
+using OfficeOpenXml.Core;
+
+namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalCellValue
+    public class ExcelExternalOleItemsCollection : EPPlusReadOnlyList<ExcelExternalOleItem>
     {
-        public string Address 
-        { 
-            get 
-            { 
-                return ExcelCellBase.GetAddress(Row, Column); 
-            } 
-        }
-        public int Row { get; internal set; }
-        public int Column { get; internal set; }
-        public object Value { get; internal set; }
-        public int MetaDataReference { get; internal set; }
     }
 }

@@ -24,17 +24,14 @@ using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Table;
 using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Drawing;
-using System.Net.Mime;
 using OfficeOpenXml.Constants;
-using OfficeOpenXml.Core.ExternalReferences;
+using OfficeOpenXml.ExternalReferences;
 
 namespace OfficeOpenXml
 {

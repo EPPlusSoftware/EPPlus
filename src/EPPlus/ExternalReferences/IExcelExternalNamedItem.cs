@@ -10,9 +10,11 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.ExternalReferences
+
+namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalDdeItemCollection : EPPlusReadOnlyList<ExcelExternalDdeItem>
+    public interface IExcelExternalNamedItem
     {
+        string Name { get; }
     }
 }

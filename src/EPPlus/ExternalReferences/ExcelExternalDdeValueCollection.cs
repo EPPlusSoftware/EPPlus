@@ -10,14 +10,13 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.ExternalReferences
+using OfficeOpenXml.Core;
+
+namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalDdeItem 
+    public class ExcelExternalDdeValueCollection : EPPlusReadOnlyList<ExcelExternalDdeValue>
     {
-        public string Name { get; set; }
-        public bool Advise { get; set; }
-        public bool PreferPicture { get; set; }
-        public bool Ole { get; set; }
-        public ExcelExternalDdeValueCollection Values { get; } = new ExcelExternalDdeValueCollection();
+        public int Rows { get; set; }
+        public int Columns { get; set; }
     }
 }
