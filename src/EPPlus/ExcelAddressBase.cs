@@ -1320,7 +1320,7 @@ namespace OfficeOpenXml
             }
         }
 
-        internal static String GetWorkbookPart(string address)
+        internal static string GetWorkbookPart(string address)
         {
             var ix = 0;
             if (address[0] == '[')
@@ -1551,6 +1551,12 @@ namespace OfficeOpenXml
                     a1._fromCol == a2._fromCol &&
                     a1._toCol == a2._toCol;
         }
-
+        public bool IsExternal
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(_wb);
+            }
+        }
     }
 }

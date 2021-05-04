@@ -20,6 +20,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
 using System;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.ExternalReferences;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -27,6 +28,7 @@ namespace OfficeOpenXml.FormulaParsing
     {
         public class RangeInfo : IRangeInfo
         {
+            ExcelExternalWorkbook _wb;
             internal ExcelWorksheet _ws;
             CellStoreEnumerator<ExcelValue> _values = null;
             int _fromRow, _toRow, _fromCol, _toCol;
@@ -392,7 +394,14 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                return new RangeInfo(ws, addr);
+                if (addr.IsExternal)
+                {
+                    return new EpplusExcelExternalRangeInfo(ws.Workbook, addr);
+                }
+                else
+                {
+                    return new RangeInfo(ws, addr);
+                }
             }
         }
         [Obsolete("Please use GetRange(string, row, column, address)")]
@@ -412,7 +421,14 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                return new RangeInfo(ws, addr);
+                if (addr.IsExternal)
+                {
+                    return new EpplusExcelExternalRangeInfo(ws.Workbook, addr);
+                }
+                else
+                {
+                    return new RangeInfo(ws, addr);
+                }
             }
         }
 
@@ -427,12 +443,67 @@ namespace OfficeOpenXml.FormulaParsing
 
         public override INameInfo GetName(string worksheet, string name)
         {
+            if(ExcelCellBase.IsExternalAddress(name))
+            {
+                return GetExternalName(name);
+            }
+            else
+            {
+                return GetLocalName(worksheet, name);
+            }
+        }
+
+        private INameInfo GetExternalName(string name)
+        {
+            var extRef = ExcelCellBase.GetWorkbookFromAddress(name);
+            var ix = _package.Workbook.ExternalReferences.GetExternalReference(extRef);
+            if (ix >= 0)
+            {
+                var externalWorkbook = _package.Workbook.ExternalReferences[ix].As.ExternalWorkbook;
+                if(externalWorkbook!=null)
+                {
+                    ExcelExternalDefinedName nameItem;
+                    var sheetName = ExcelAddressBase.GetWorksheetPart(name, "", ref ix);
+                    if(string.IsNullOrEmpty(sheetName))
+                    {
+                        if (ix > 0) name = name.Substring(ix);
+                        nameItem = externalWorkbook.CachedNames[name];
+                    }
+                    else
+                    {
+                        if(ix >= 0) name = name.Substring(ix);
+                        nameItem = externalWorkbook.CachedWorksheets[sheetName].CachedNames[name];
+                    }
+
+                    var nameAddress = nameItem.RefersTo.TrimStart('=');
+                    object value;
+                    ExcelAddressBase address = new ExcelAddressBase(nameAddress);
+                    if(address.Address=="#REF!")
+                    {
+                        value = ExcelErrorValue.Create(eErrorType.Ref);
+                    }
+                    else
+                    {
+                        value = new EpplusExcelExternalRangeInfo(externalWorkbook, null, address);
+                    }
+                    return new NameInfo()
+                    {
+                        Name = name,
+                        Value = value
+                    };
+                }
+            }
+            return null;
+        }
+
+        private INameInfo GetLocalName(string worksheet, string name)
+        {
             ExcelNamedRange nameItem;
-            ulong id;            
+            ulong id;
             ExcelWorksheet ws;
             if (string.IsNullOrEmpty(worksheet))
             {
-                if(_package._workbook.Names.ContainsKey(name))
+                if (_package._workbook.Names.ContainsKey(name))
                 {
                     nameItem = _package._workbook.Names[name];
                 }
@@ -445,7 +516,7 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 ws = _package._workbook.Worksheets[worksheet];
-                if (ws !=null && ws.Names.ContainsKey(name))
+                if (ws != null && ws.Names.ContainsKey(name))
                 {
                     nameItem = ws.Names[name];
                 }
@@ -483,7 +554,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     Id = id,
                     Name = name,
-                    Worksheet = string.IsNullOrEmpty(worksheet) ? (nameItem.Worksheet==null ? nameItem._ws : nameItem.Worksheet.Name) : worksheet, 
+                    Worksheet = string.IsNullOrEmpty(worksheet) ? (nameItem.Worksheet == null ? nameItem._ws : nameItem.Worksheet.Name) : worksheet,
                     Formula = nameItem.Formula
                 };
                 if (nameItem._fromRow > 0)
@@ -498,6 +569,7 @@ namespace OfficeOpenXml.FormulaParsing
                 return ni;
             }
         }
+
         public override IEnumerable<object> GetRangeValues(string address)
         {
             SetCurrentWorksheet(ExcelAddressInfo.Parse(address));
@@ -670,7 +742,7 @@ namespace OfficeOpenXml.FormulaParsing
                     var sheetName = ExcelAddressBase.GetWorksheetPart(address, "", ref addressStart);
                     if (extBook.CachedWorksheets.ContainsKey(sheetName) && addressStart>0)
                     {
-                        return extBook.CachedWorksheets[sheetName].Names.ContainsKey(address.Substring(addressStart));
+                        return extBook.CachedWorksheets[sheetName].CachedNames.ContainsKey(address.Substring(addressStart));
                     }
                 }
             }

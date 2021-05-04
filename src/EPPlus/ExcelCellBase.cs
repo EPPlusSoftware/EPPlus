@@ -121,6 +121,13 @@ namespace OfficeOpenXml
         {
             return GetRowColFromAddress(CellAddress, out FromRow, out FromColumn, out ToRow, out ToColumn, out _, out _, out _, out _);
         }
+
+        internal static string GetWorkbookFromAddress(string address)
+        {
+            var startIx = address.IndexOf('[');
+            var endIx = address.IndexOf(']');
+            return address.Substring(startIx + 1, endIx - startIx - 1); 
+        }
         /// <summary>
         /// Get the row/columns for a Cell-address
         /// </summary>
@@ -310,29 +317,6 @@ namespace OfficeOpenXml
             }
         }
 
-        //private static void SetToColumn(ref int ToColumn, ref bool fixedToColumn, int col, bool fixedCol)
-        //{
-        //    if (col > ToColumn)
-        //    {
-        //        ToColumn = col;
-        //        fixedToColumn = fixedCol;
-        //    }
-        //}
-
-        //private static void SetFromColumn(ref int FromColumn, ref bool fixedFromColumn, int col, bool fixedCol)
-        //{
-        //    if (col < FromColumn)
-        //    {
-        //        FromColumn = col;
-        //        fixedFromColumn = fixedCol;
-        //    }
-        //}
-
-        /// <summary>
-        /// Validates that the address has the format cccNNNN...
-        /// </summary>
-        /// <param name="cellAddress"></param>
-        /// <returns></returns>
         private static bool IsCellAddress(string cellAddress)
         {
             int  alpha = 0;
@@ -1180,7 +1164,11 @@ namespace OfficeOpenXml
             }
         }
         #endregion
-        #endregion
-        #endregion
-    }
+        internal static bool IsExternalAddress(string address)
+        {
+            return address.StartsWith("[") || address.StartsWith("'[");
+        }        
+            #endregion
+            #endregion
+        }
 }

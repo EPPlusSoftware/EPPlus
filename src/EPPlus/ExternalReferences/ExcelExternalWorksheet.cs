@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using System;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -22,12 +23,12 @@ namespace OfficeOpenXml.ExternalReferences
             CellStore<int> metaData,
             ExcelExternalNamedItemCollection<ExcelExternalDefinedName> definedNames)
         {
-            Names = definedNames;
+            CachedNames = definedNames;
             CellValues = new ExcelExternalReferenceCellCollection(values, metaData);
         }
         public int SheetId { get; set; }
         public string Name { get; internal set; }
-        public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> Names { get; }
+        public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> CachedNames { get; }
         public ExcelExternalReferenceCellCollection CellValues 
         { 
             get; 

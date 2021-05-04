@@ -105,5 +105,14 @@ namespace OfficeOpenXml.ExternalReferences
         {
             return this;
         }
+        internal CellStoreEnumerator<object> GetCellStore(int fromRow, int fromCol, int toRow, int toCol)
+        {
+            return new CellStoreEnumerator<object>(_values, fromRow, fromCol, toRow, toCol);
+        }
+        internal object GetValue(int row, int col)
+        {
+            return _values.GetValue(row, col);
+        }
+
     }
 }

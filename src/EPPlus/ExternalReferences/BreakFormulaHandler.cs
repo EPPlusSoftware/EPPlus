@@ -113,7 +113,7 @@ namespace OfficeOpenXml.ExternalReferences
                     {
                         foreach (var a in n.Addresses)
                         {
-                            if (a.Address.StartsWith("[") || a.Address.StartsWith("'["))
+                            if (ExcelCellBase.IsExternalAddress(a.Address))
                             {
                                 var startIx = a.Address.IndexOf('[');
                                 var endIx = a.Address.IndexOf(']');
