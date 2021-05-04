@@ -142,8 +142,11 @@ namespace OfficeOpenXml.ExternalReferences
                     {
                         if (HasFormulaExternalReference(wb, ix, t, out string newFormula))
                         {
-                            //deletedNames.Add(n);
-                            n.Formula = newFormula;
+                            deletedNames.Add(n);
+                            if(newFormula!="")
+                            {
+                                n.Formula = newFormula;
+                            }                            
                         }
                         else if (newFormula != n.Formula)
                         {

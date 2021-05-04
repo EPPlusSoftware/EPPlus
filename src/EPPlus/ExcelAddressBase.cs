@@ -1346,7 +1346,7 @@ namespace OfficeOpenXml
             {
                 ix = address.IndexOf(']')+1;
             }
-            if (ix > 0 && ix < address.Length)
+            if (ix >= 0 && ix < address.Length)
             {
                 if (address[ix] == '\'')
                 {
@@ -1354,10 +1354,10 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    var ixEnd = address.IndexOf('!',ix);
-                    if(ixEnd>ix)
+                    endIx = address.IndexOf('!',ix)+1;
+                    if(endIx > ix)
                     {
-                        return address.Substring(ix, ixEnd-ix);
+                        return address.Substring(ix, endIx - ix - 1);
                     }
                     else
                     {

@@ -648,6 +648,35 @@ namespace OfficeOpenXml.FormulaParsing
             _names = new Dictionary<ulong, INameInfo>(); //Reset name cache.            
         }
 
+        public override bool IsExternalName(string name)
+        {
+            if (name[0] != '[') return false;
+            var ixEnd = name.IndexOf("]");
+            if(ixEnd>0)
+            {
+                var ix = name.Substring(1,ixEnd-1);
+                var extRef=_package.Workbook.ExternalReferences.GetExternalReference(ix);
+                if (extRef < 0) return false;
+                var extBook = _package.Workbook.ExternalReferences[extRef].As.ExternalWorkbook;
+                if(extBook==null) return false;
+                var address = name.Substring(ixEnd+1);
+                if (address.StartsWith("!"))
+                {
+                    return extBook.CachedNames.ContainsKey(address.Substring(1));
+                }
+                else
+                {
+                    int addressStart = -1;
+                    var sheetName = ExcelAddressBase.GetWorksheetPart(address, "", ref addressStart);
+                    if (extBook.CachedWorksheets.ContainsKey(sheetName) && addressStart>0)
+                    {
+                        return extBook.CachedWorksheets[sheetName].Names.ContainsKey(address.Substring(addressStart));
+                    }
+                }
+            }
+            return false;
+        }
+
         //public override void SetToTableAddress(ExcelAddress address)
         //{
         //    address.SetRCFromTable(_package, address);

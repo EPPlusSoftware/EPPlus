@@ -33,10 +33,17 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if(ws!=null)
             {
-                var wsNames = _excelDataProvider.GetWorksheetNames(ws);
-                if(wsNames!=null && wsNames.ContainsKey(key))
+                if (key.StartsWith("["))
                 {
-                    return true;
+                    return _excelDataProvider.IsExternalName(key);
+                }
+                else
+                {
+                    var wsNames = _excelDataProvider.GetWorksheetNames(ws);
+                    if (wsNames != null && wsNames.ContainsKey(key))
+                    {
+                        return true;
+                    }
                 }
             }
             return _values != null && _values.ContainsKey(key);

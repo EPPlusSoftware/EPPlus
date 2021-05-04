@@ -27,7 +27,7 @@ namespace OfficeOpenXml.ExternalReferences
         }
         public int SheetId { get; set; }
         public string Name { get; internal set; }
-        public EPPlusReadOnlyList<ExcelExternalDefinedName> Names { get; }
+        public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> Names { get; }
         public ExcelExternalReferenceCellCollection CellValues 
         { 
             get; 

@@ -65,7 +65,6 @@ namespace OfficeOpenXml.ExternalReferences
                     var rel = _wb.Part.GetRelationship(rID);
                     var part = _wb._package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
                     var xr = new XmlTextReader(part.GetStream());
-                    var index = 1;
                     while (xr.Read())
                     {
                         if (xr.NodeType == XmlNodeType.Element)

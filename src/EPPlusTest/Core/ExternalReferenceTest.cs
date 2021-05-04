@@ -42,7 +42,7 @@ namespace EPPlusTest.Core
                 Assert.IsNotNull(cell.Value);
                 c++;
             }
-            Assert.AreEqual(6, c);
+            Assert.AreEqual(11, c);
 
             p.Workbook.Calculate();
         }
