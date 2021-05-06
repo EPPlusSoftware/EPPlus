@@ -114,7 +114,7 @@ namespace OfficeOpenXml.ExternalReferences
             
             _wb._package.ZipPackage.DeletePart(externalReference.Part.Uri);
 
-            if(externalReference.ExternalLinkType==eExternalLinkType.ExternalBook)
+            if(externalReference.ExternalLinkType==eExternalLinkType.ExternalWorkbook)
             {
                 ExternalLinksHandler.BreakFormulaLinks(_wb, ix, true);
             }
@@ -161,7 +161,7 @@ namespace OfficeOpenXml.ExternalReferences
             bool ret = true;
             foreach (var link in _list)
             {
-                if(link.ExternalLinkType==eExternalLinkType.ExternalBook)
+                if(link.ExternalLinkType==eExternalLinkType.ExternalWorkbook)
                 {
                     var externalWb = link.As.ExternalWorkbook;
                     if(externalWb.Package==null)
@@ -184,7 +184,7 @@ namespace OfficeOpenXml.ExternalReferences
                 {
                     for (int ix = 0; ix < _list.Count; ix++)
                     {
-                        if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalBook)
+                        if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalWorkbook)
                         {
                             if (extRef.Equals(_list[ix].As.ExternalWorkbook.ExternalReferenceUri.OriginalString, StringComparison.OrdinalIgnoreCase))
                             {
@@ -199,7 +199,7 @@ namespace OfficeOpenXml.ExternalReferences
                 int ret=-1;
                 for (int ix=0;ix<_list.Count;ix++)
                 {
-                    if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalBook)
+                    if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalWorkbook)
                     {
                         
                         var fileName = _list[ix].As.ExternalWorkbook.ExternalReferenceUri.OriginalString;

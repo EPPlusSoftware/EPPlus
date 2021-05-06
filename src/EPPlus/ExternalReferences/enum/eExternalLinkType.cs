@@ -17,7 +17,7 @@ namespace OfficeOpenXml.ExternalReferences
     /// </summary>
     public enum eExternalLinkType
     {
-        ExternalBook,
+        ExternalWorkbook,
         DdeLink,
         OleLink
     }

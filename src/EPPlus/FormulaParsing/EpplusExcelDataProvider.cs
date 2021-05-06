@@ -475,16 +475,23 @@ namespace OfficeOpenXml.FormulaParsing
                         nameItem = externalWorkbook.CachedWorksheets[sheetName].CachedNames[name];
                     }
 
-                    var nameAddress = nameItem.RefersTo.TrimStart('=');
                     object value;
-                    ExcelAddressBase address = new ExcelAddressBase(nameAddress);
-                    if(address.Address=="#REF!")
+                    if (!string.IsNullOrEmpty(nameItem.RefersTo))
                     {
-                        value = ExcelErrorValue.Create(eErrorType.Ref);
+                        var nameAddress = nameItem.RefersTo.TrimStart('=');
+                        ExcelAddressBase address = new ExcelAddressBase(nameAddress);
+                        if (address.Address == "#REF!")
+                        {
+                            value = ExcelErrorValue.Create(eErrorType.Ref);
+                        }
+                        else
+                        {
+                            value = new EpplusExcelExternalRangeInfo(externalWorkbook, null, address);
+                        }
                     }
                     else
-                    {
-                        value = new EpplusExcelExternalRangeInfo(externalWorkbook, null, address);
+                    { 
+                        value = ExcelErrorValue.Create(eErrorType.Name);
                     }
                     return new NameInfo()
                     {

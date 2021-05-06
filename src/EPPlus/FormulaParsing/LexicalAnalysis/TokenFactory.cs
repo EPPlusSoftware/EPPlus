@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             var tokenList = tokens.ToList();
             //Address with worksheet-string before  /JK
-            if (token.StartsWith("!", StringComparison.OrdinalIgnoreCase) && tokenList[tokenList.Count-1].TokenTypeIsSet(TokenType.String))
+            if (token.StartsWith("!", StringComparison.OrdinalIgnoreCase) && tokenList[tokenList.Count - 1].TokenTypeIsSet(TokenType.String))
             {
                 string addr = "";
                 var i = tokenList.Count - 2;
@@ -69,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else
                     {
-                        throw(new ArgumentException(string.Format("Invalid formula token sequence near {0}",token)));
+                        throw (new ArgumentException(string.Format("Invalid formula token sequence near {0}", token)));
                     }
                     //Remove the string tokens and content
                     tokenList.RemoveAt(tokenList.Count - 1);
@@ -80,11 +80,21 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
                 else
                 {
-                    throw(new ArgumentException(string.Format("Invalid formula token sequence near {0}",token)));
+                    throw (new ArgumentException(string.Format("Invalid formula token sequence near {0}", token)));
                 }
-                
-            }
 
+            }
+            if (string.IsNullOrEmpty(worksheet) && tokenList.Count>0)
+            {
+                if (tokenList[tokenList.Count - 1].TokenTypeIsSet(TokenType.WorksheetNameContent))
+                {
+                    worksheet = tokenList[tokenList.Count - 1].Value;
+                }
+                else if(tokenList.Count > 1 && tokenList[tokenList.Count - 1].TokenTypeIsSet(TokenType.WorksheetName) && tokenList[tokenList.Count - 2].TokenTypeIsSet(TokenType.WorksheetNameContent))
+                {
+                    worksheet = tokenList[tokenList.Count - 2].Value;
+                }
+            }
             if (tokens.Any() && tokens.Last().TokenTypeIsSet(TokenType.String))
             {
                 return new Token(token, TokenType.StringContent);

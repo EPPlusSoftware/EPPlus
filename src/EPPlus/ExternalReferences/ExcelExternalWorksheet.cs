@@ -26,8 +26,9 @@ namespace OfficeOpenXml.ExternalReferences
             CachedNames = definedNames;
             CellValues = new ExcelExternalReferenceCellCollection(values, metaData);
         }
-        public int SheetId { get; set; }
+        public int SheetId { get; internal set; }
         public string Name { get; internal set; }
+        public bool RefreshError { get; internal set; }
         public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> CachedNames { get; }
         public ExcelExternalReferenceCellCollection CellValues 
         { 

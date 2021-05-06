@@ -213,7 +213,11 @@ handleAddress:
                     string adrWb, adrWs, adrName;
                     ExcelNamedRange name;
                     ExcelAddressBase.SplitAddress(t.Value, out adrWb, out adrWs, out adrName, f.ws==null ? "" : f.ws.Name);
-                    if (!string.IsNullOrEmpty(adrWs))
+                    if(!string.IsNullOrEmpty(adrWb))
+                    {
+                        name = null; //TODO:We should build a dependency across workbooks here when external links are fully implemented. Now we only use cached values.
+                    }
+                    else if (!string.IsNullOrEmpty(adrWs))
                     {
                         if (f.ws == null)
                         {

@@ -28,11 +28,12 @@ namespace OfficeOpenXml.ExternalReferences
         Dictionary<int, CellStore<object>> _sheetValues = new Dictionary<int, CellStore<object>>();
         Dictionary<int, CellStore<int>> _sheetMetaData = new Dictionary<int, CellStore<int>>();
         Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>> _definedNamesValues = new Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>>();
+        HashSet<int> _sheetRefresh = new HashSet<int>();
         public override eExternalLinkType ExternalLinkType
         {
             get
             {
-                return eExternalLinkType.ExternalBook;
+                return eExternalLinkType.ExternalWorkbook;
             }
         }
 
@@ -75,7 +76,12 @@ namespace OfficeOpenXml.ExternalReferences
                 CachedWorksheets.Add(new ExcelExternalWorksheet(
                        _sheetValues[sheetId], 
                        _sheetMetaData[sheetId],
-                       _definedNamesValues[sheetId]) { SheetId  = sheetId, Name =sheetName});
+                       _definedNamesValues[sheetId]) 
+                { 
+                    SheetId  = sheetId, 
+                    Name =sheetName, 
+                    RefreshError=_sheetRefresh.Contains(sheetId)
+                });
             }
         }
         private ExcelExternalNamedItemCollection<ExcelExternalDefinedName> GetNames(int ix)
@@ -106,6 +112,10 @@ namespace OfficeOpenXml.ExternalReferences
         private void ReadSheetData(XmlTextReader reader, ExcelWorkbook wb)
         {
             var sheetId = int.Parse(reader.GetAttribute("sheetId"));
+            if(reader.GetAttribute("refreshError")=="1" && !_sheetRefresh.Contains(sheetId))
+            {
+                _sheetRefresh.Add(sheetId);
+            }
             CellStore<object> cellStoreValues;
             CellStore<int> cellStoreMetaData;
             cellStoreValues = _sheetValues[sheetId];
@@ -369,7 +379,7 @@ namespace OfficeOpenXml.ExternalReferences
             sw.Write("</definedNames><sheetDataSet>");
             foreach (var sheetId in _sheetValues.Keys)
             {
-                sw.Write($"<sheetData sheetId=\"{sheetId}\">");
+                sw.Write($"<sheetData sheetId=\"{sheetId}\"{(_sheetRefresh.Contains(sheetId) ? " refreshError=\"1\"" : "")}>");
                 var cellEnum = new CellStoreEnumerator<object>(_sheetValues[sheetId]);
                 var mdStore = _sheetMetaData[sheetId];
                 var r = -1;

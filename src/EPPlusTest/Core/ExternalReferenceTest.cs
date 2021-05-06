@@ -113,6 +113,32 @@ namespace EPPlusTest.Core
             SaveAndCleanup(p);
         }
         [TestMethod]
+        public void OpenAndCalculateExternalReferences1()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
+
+            p.Workbook.Calculate();
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void OpenAndCalculateExternalReferences2()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
+
+            Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
+            p.Workbook.Calculate();
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void OpenAndCalculateExternalReferences3()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText3.xlsx");
+
+            p.Workbook.Calculate();
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
         public void OpenAndClearExternalReferences2()
         {
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
