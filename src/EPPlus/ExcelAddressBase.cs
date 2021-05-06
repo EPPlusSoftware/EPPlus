@@ -1031,17 +1031,10 @@ namespace OfficeOpenXml
                     string wb, ws, intAddress;
                     if (SplitAddress(Address, out wb, out ws, out intAddress))
                     {
-                        //if (intAddress.Contains("[")) //Table reference
-                        //{
-                        //    if (IsAddress(intAddress))
-                        //    {
-                        //        return string.IsNullOrEmpty(wb) ? AddressType.InternalAddress : AddressType.ExternalAddress;
-                        //    }
-                        //    else
-                        //    {
-                        //        return string.IsNullOrEmpty(wb) ? AddressType.InternalName : AddressType.ExternalName;
-                        //    }
-                        //}
+                        if (intAddress.Contains("[")) //Table reference
+                        {
+                            return string.IsNullOrEmpty(wb) ? AddressType.InternalAddress : AddressType.ExternalAddress;
+                        }
                         if (intAddress.Contains(","))
                         {
                             intAddress = intAddress.Substring(0, intAddress.IndexOf(','));
