@@ -855,12 +855,15 @@ namespace OfficeOpenXml
 
             Bitmap b;
             Graphics g = null;
+            float dpiCorrectX, dpiCorrectY;
             try
             {
                 //Check for missing GDI+, then use WPF istead.
                 b = new Bitmap(1, 1);
                 g = Graphics.FromImage(b);
                 g.PageUnit = GraphicsUnit.Pixel;
+                dpiCorrectX = 96 / g.DpiX;
+                dpiCorrectY = 96 / g.DpiY;
             }
             catch
             {
@@ -901,12 +904,12 @@ namespace OfficeOpenXml
                 double r = styles.CellXfs[cell.StyleID].TextRotation;
                 if (r <= 0)
                 {
-                    width = (size.Width + 5) / normalSize;
+                    width = (size.Width * dpiCorrectX + 5) / normalSize;
                 }
                 else
                 {
                     r = (r <= 90 ? r : r - 90);
-                    width = (((size.Width - size.Height) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height) + 5) / normalSize;
+                    width = (((size.Width * dpiCorrectX - size.Height * dpiCorrectY) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height * dpiCorrectY) + 5) / normalSize;
                 }
 
                 foreach (var a in afAddr)
