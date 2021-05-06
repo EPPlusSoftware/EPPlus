@@ -130,15 +130,6 @@ namespace EPPlusTest.Core
             SaveAndCleanup(p);
         }
         [TestMethod]
-        public void OpenAndCalculateExternalReferences3()
-        {
-            var p = OpenTemplatePackage("ExternalReferencesText3.xlsx");
-
-            p.Workbook.Calculate();
-            SaveAndCleanup(p);
-        }
-
-        [TestMethod]
         public void OpenAndClearExternalReferences2()
         {
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
@@ -164,6 +155,14 @@ namespace EPPlusTest.Core
                 c++;
             }
             Assert.AreEqual(104, c);
+        }
+        [TestMethod]
+        public void OpenAndCalculateExternalReferences3()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText3.xlsx");
+
+            p.Workbook.Calculate();
+            SaveAndCleanup(p);
         }
         [TestMethod]
         public void OpenAndReadExternalReferencesDdeOle()

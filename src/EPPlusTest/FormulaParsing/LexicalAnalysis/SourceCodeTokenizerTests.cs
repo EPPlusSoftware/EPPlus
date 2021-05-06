@@ -382,5 +382,64 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.Integer));
             Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingParenthesis));
         }
+        [TestMethod]
+        public void TokenizeWorksheetName()
+        {
+            var input = @"sheetname!name";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(1, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
+        }
+
+        [TestMethod]
+        public void TokenizeWorksheetNameWithQuotes()
+        {
+            var input = @"'sheetname'!name";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(1, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
+        }
+        [TestMethod]
+        public void TokenizeExternalWorksheetName()
+        {
+            var input = @"[0]sheetname!name";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(1, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
+        }
+
+        [TestMethod]
+        public void TokenizeExternalWorksheetNameWithQuotes()
+        {
+            var input = @"[3]'sheetname'!name";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(1, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
+        }
+        [TestMethod]
+        public void TokenizeExternalWorkbookName()
+        {
+            var input = @"[0]!name";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(1, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
+        }
+        [TestMethod]
+        public void TokenizeExternalWorkbookInvalidRef()
+        {
+            var input = @"[0]#Ref!";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(1, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.InvalidReference));
+        }
+        [TestMethod]
+        public void TokenizeExternalWorksheetInvalidRef()
+        {
+            var input = @"[0]Sheet1!#Ref!";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(1, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.InvalidReference));
+        }
+
     }
 }

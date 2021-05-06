@@ -152,6 +152,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 return new Token(token, TokenType.ExcelAddressR1C1);
             }
+            else if(at==ExcelAddressBase.AddressType.InternalName || at == ExcelAddressBase.AddressType.ExternalName)
+            {
+                return new Token(token, TokenType.NameValue);
+            }
             return new Token(token, TokenType.Unrecognized);
 
         }

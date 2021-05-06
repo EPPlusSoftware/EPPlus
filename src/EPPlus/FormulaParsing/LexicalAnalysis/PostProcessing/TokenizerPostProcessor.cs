@@ -209,6 +209,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
             }
             else if (!relativeToken.TokenTypeIsSet(TokenType.ExcelAddress) &&
                      !relativeToken.TokenTypeIsSet(TokenType.ExcelAddressR1C1) &&
+                     !relativeToken.TokenTypeIsSet(TokenType.NameValue) &&
                      !relativeToken.TokenTypeIsSet(TokenType.InvalidReference))
             {
                 ChangeTokenTypeOnCurrentToken(TokenType.InvalidReference);
