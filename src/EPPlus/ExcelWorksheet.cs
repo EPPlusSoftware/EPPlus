@@ -321,10 +321,6 @@ namespace OfficeOpenXml
                     return _list.Count;
                 }
             }
-            internal void Remove(string Item)
-            {
-                _list.Remove(Item);
-            }
             #region IEnumerable<string> Members
 
             /// <summary>
@@ -1730,7 +1726,7 @@ namespace OfficeOpenXml
         private void UpdateMergedCells(StreamWriter sw, string prefix)
         {
             sw.Write($"<{prefix}mergeCells>");
-            foreach (string address in _mergedCells)
+            foreach (string address in _mergedCells.Distinct())
             {
                 sw.Write($"<{prefix}mergeCell ref=\"{address}\" />");
             }

@@ -473,7 +473,28 @@ namespace EPPlusTest.Core.Range.Insert
                 Assert.IsNull(ws.MergedCells[0]);
             }
         }
+        [TestMethod]
+        public void ValidateInsertMergedCellsShouldBeShifted()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B3:D3"].Merge = true;
+                ws.Cells["B3:D3"].Insert(eShiftTypeInsert.Down);
 
+                Assert.AreEqual("B4:D4", ws.MergedCells[0]);
+                Assert.IsFalse(ws.Cells["B3"].Merge);
+                Assert.IsFalse(ws.Cells["C3"].Merge);
+                Assert.IsFalse(ws.Cells["D3"].Merge);
+
+                Assert.IsTrue(ws.Cells["B4"].Merge);
+                Assert.IsTrue(ws.Cells["C4"].Merge);
+                Assert.IsTrue(ws.Cells["D4"].Merge);
+
+                ws.InsertRow(3, 1);
+                Assert.AreEqual("B5:D5", ws.MergedCells[0]);
+            }
+        }
         [TestMethod]
         public void ValidateInsertIntoMergedCellsPartialRightShouldNotThrowsException()
         {
