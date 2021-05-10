@@ -176,5 +176,53 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
+        [TestMethod]
+        public void ValidateMergedCell()
+        {
+            using (var p = OpenPackage("MergeCellsDeleteInsert.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Cells["B2:D2"].Merge = true;
+                ws.Cells["B13:D13"].Merge = true;
+                ws.Cells["B41:D41"].Merge = true;
+                ws.Cells["B42:D42"].Merge = true;
+                ws.Cells["B43:D43"].Merge = true;
+                ws.Cells["B52:D52, B42:D42, B42:D42"].Merge = true;
+                ws.Cells["B52:D52"].Merge = true;
+                ws.Cells["B79:D79"].Merge = true;
+                ws.Cells["B79:D79"].Merge = true;
+                ws.Cells["B102:D102"].Merge = true;
+                ws.Cells["B132:D132"].Merge = true;
+                ws.Cells["A42:E43"].Delete(eShiftTypeDelete.Up);
+                ws.Cells["A42:E44"].Insert(eShiftTypeInsert.Down);
+                ws.Cells["A42:E42"].Delete(eShiftTypeDelete.Up);
+
+                foreach (var addr in ws.MergedCells)
+                {
+                    if (!string.IsNullOrEmpty(addr))
+                    {
+                        var a = new ExcelAddressBase(addr);
+                        for (int r = a._fromRow; r <= a._toRow; r++)
+                        {
+                            for (int c = a._fromCol; c <= a._toCol; c++)
+                            {
+                                Assert.IsTrue(ws.Cells[r, c].Merge);
+                            }
+                        }
+                    }
+                }
+
+                p.Save();
+
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets["Merge"];
+                    ws.Cells["B41:D42"].Merge = true;
+                    p2.Save();
+                }
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
