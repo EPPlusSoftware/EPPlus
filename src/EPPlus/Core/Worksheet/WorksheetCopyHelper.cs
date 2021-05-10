@@ -135,14 +135,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //Merged cells
             foreach (var r in Copy.MergedCells)     //Issue #94
             {
-                if(string.IsNullOrEmpty(r))
-                {
-                    added.MergedCells._list.Add(null);
-                }
-                else
-                {
-                    added.MergedCells.Add(new ExcelAddress(r), false);
-                }
+                added.MergedCells.Add(new ExcelAddress(r), false);
             }
 
             //Shared Formulas   

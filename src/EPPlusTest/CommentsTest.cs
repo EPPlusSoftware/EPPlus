@@ -188,8 +188,6 @@ namespace EPPlusTest
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
                 ws.Cells[1, 1].IsRichText = true;
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
-
-                p.SaveAs(new FileInfo(@"C:\temp\comment.xlsx"));
             }
         }
 
