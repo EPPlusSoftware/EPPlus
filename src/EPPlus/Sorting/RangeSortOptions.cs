@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,22 +8,31 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  05/7/2021         EPPlus Software AB       EPPlus 5.6
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.CellStore
-{
-    /// <summary>
-    /// For cell value structure (for memory optimization of huge sheet)
-    /// </summary>
-    internal struct ExcelValue
-    {
-        internal object _value;
-        internal int _styleId;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 
-        public override string ToString()
+namespace OfficeOpenXml.Sorting
+{
+    public class RangeSortOptions : SortOptionsBase
+    {
+        private RangeSortLayer _sortLayer = null;
+
+        
+        public RangeSortLayer SortBy
         {
-            if (_value != null) return _value.ToString();
-            return "null";
+            get
+            {
+                if(_sortLayer == null)
+                    _sortLayer = new RangeSortLayer(this);
+                return _sortLayer;
+            }
         }
+
+        
     }
 }

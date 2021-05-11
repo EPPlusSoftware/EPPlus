@@ -24,6 +24,8 @@ using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
 using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Sorting;
+using System.Globalization;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -75,10 +77,11 @@ namespace OfficeOpenXml.Table
         private void Init()
         {
             TopNode = TableXml.DocumentElement;
-            SchemaNodeOrder = new string[] { "autoFilter", "tableColumns", "tableStyleInfo" };
+            SchemaNodeOrder = new string[] { "autoFilter", "sortState", "tableColumns", "tableStyleInfo" };
             InitDxf(WorkSheet.Workbook.Styles, this, null);
             TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+            _tableSorter = new TableSorter(this);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -1016,5 +1019,77 @@ namespace OfficeOpenXml.Table
             }
         }
         public ExcelDxfBorderBase TableBorderStyle { get; set; }
+
+        #region Sorting
+        private TableSorter _tableSorter = null;
+        const string SortStatePath = "d:sortState";
+        SortState _sortState = null;
+
+        public SortState SortState
+        {
+            get
+            {
+                if (_sortState == null)
+                {
+                    var node = TableXml.SelectSingleNode($"//{SortStatePath}", NameSpaceManager);
+                    if (node == null) return null;
+                    _sortState = new SortState(NameSpaceManager, node);
+                }
+                return _sortState;
+            }
+        }
+
+        internal void SetTableSortState(int[] columns, bool[] descending, CompareOptions compareOptions, Dictionary<int, string[]> customLists)
+        {
+            //Set sort state
+            var sortState = new SortState(Range.Worksheet.NameSpaceManager, this);
+            var dataRange = DataRange;
+            sortState.Ref = dataRange.Address;
+            sortState.CaseSensitive = (compareOptions == CompareOptions.IgnoreCase || compareOptions == CompareOptions.OrdinalIgnoreCase);
+            for (var ix = 0; ix < columns.Length; ix++)
+            {
+                bool? desc = null;
+                if (descending.Length > ix && descending[ix])
+                {
+                    desc = true;
+                }
+                var adr = ExcelCellBase.GetAddress(dataRange._fromRow, dataRange._fromCol + columns[ix], dataRange._toRow, dataRange._fromCol + columns[ix]);
+                if(customLists.ContainsKey(columns[ix]))
+                {
+                    sortState.SortConditions.Add(adr, desc, customLists[columns[ix]]);
+                }
+                else
+                {
+                    sortState.SortConditions.Add(adr, desc);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sorts the data in the table according to the supplied <see cref="RangeSortOptions"/>
+        /// </summary>
+        /// <param name="options"></param>
+        /// <example>
+        /// var options = new SortOptions();
+        /// options.SortBy.Column(0).ThenSortBy.Column(1, eSortDirection.Descending);
+        /// </example>
+        public void Sort(TableSortOptions options)
+        {
+            _tableSorter.Sort(options);
+        }
+
+        /// <summary>
+        /// Sorts the data in the table according to the supplied action of <see cref="RangeSortOptions"/>
+        /// </summary>
+        /// <example>
+        /// table.Sort(x =&gt; x.SortBy.Column(0).ThenSortBy.Column(1);
+        /// </example>
+        /// <param name="configuration"></param>
+        public void Sort(Action<TableSortOptions> configuration)
+        {
+            _tableSorter.Sort(configuration);
+        }
+
+        #endregion
     }
 }

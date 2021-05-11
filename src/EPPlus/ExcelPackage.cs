@@ -215,6 +215,9 @@ namespace OfficeOpenXml
         //Persons
         internal const string schemaPersonsRelationShips = "http://schemas.microsoft.com/office/2017/10/relationships/person";
 
+        // Richdata (used in worksheet.sortstate)
+        internal const string schemaRichData2 = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2";
+
         //Package reference
         private Packaging.ZipPackage _zipPackage;
 		internal ExcelWorkbook _workbook;

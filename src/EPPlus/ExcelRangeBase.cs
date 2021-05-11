@@ -41,6 +41,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Sorting;
 
 namespace OfficeOpenXml
 {
@@ -2173,61 +2174,13 @@ namespace OfficeOpenXml
             cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
         }
         #endregion
-        private struct SortItem<T>
-        {
-            internal int Row { get; set; }
-            internal T[] Items { get; set; }
-        }
-        private class Comp : IComparer<SortItem<ExcelValue>>
-        {
-            public int[] columns;
-            public bool[] descending;
-            public CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-            public CompareOptions compareOptions = CompareOptions.None;
-            public int Compare(SortItem<ExcelValue> x, SortItem<ExcelValue> y)
-            {
-                var ret = 0;
-                for (int i = 0; i < columns.Length; i++)
-                {
-                    var x1 = x.Items[columns[i]]._value;
-                    var y1 = y.Items[columns[i]]._value;
-                    var isNumX = ConvertUtil.IsNumericOrDate(x1);
-                    var isNumY = ConvertUtil.IsNumericOrDate(y1);
-                    if (isNumX && isNumY)   //Numeric Compare
-                    {
-                        var d1 = ConvertUtil.GetValueDouble(x1);
-                        var d2 = ConvertUtil.GetValueDouble(y1);
-                        if (double.IsNaN(d1))
-                        {
-                            d1 = double.MaxValue;
-                        }
-                        if (double.IsNaN(d2))
-                        {
-                            d2 = double.MaxValue;
-                        }
-                        ret = d1 < d2 ? -1 : (d1 > d2 ? 1 : 0);
-                    }
-                    else if (isNumX == false && isNumY == false)   //String Compare
-                    {
-                        var s1 = x1 == null ? "" : x1.ToString();
-                        var s2 = y1 == null ? "" : y1.ToString();
-                        ret = string.Compare(s1, s2, StringComparison.CurrentCulture);
-                    }
-                    else
-                    {
-                        ret = isNumX ? -1 : 1;
-                    }
-                    if (ret != 0) return ret * (descending[i] ? -1 : 1);
-                }
-                return 0;
-            }
-        }
+        
         /// <summary>
         /// Sort the range by value of the first column, Ascending.
         /// </summary>
         public void Sort()
         {
-            Sort(new int[] { 0 }, new bool[] { false });
+            SortInternal(new int[] { 0 }, new bool[] { false }, null, null, CompareOptions.None, null);
         }
         /// <summary>
         /// Sort the range by value of the supplied column, Ascending.
@@ -2236,7 +2189,7 @@ namespace OfficeOpenXml
         /// </summary>
         public void Sort(int column, bool descending = false)
         {
-            Sort(new int[] { column }, new bool[] { descending });
+            SortInternal(new int[] { column }, new bool[] { descending }, null, null, CompareOptions.None, null);
         }
         /// <summary>
         /// Sort the range by value
@@ -2247,126 +2200,64 @@ namespace OfficeOpenXml
         /// <param name="compareOptions">String compare option</param>
         public void Sort(int[] columns, bool[] descending = null, CultureInfo culture = null, CompareOptions compareOptions = CompareOptions.None)
         {
-            if (columns == null)
-            {
-                columns = new int[] { 0 };
-            }
-            var cols = _toCol - _fromCol + 1;
-            foreach (var c in columns)
-            {
-                if (c > cols - 1 || c < 0)
-                {
-                    throw (new ArgumentException("Can not reference columns outside the boundries of the range. Note that column reference is zero-based within the range"));
-                }
-            }
-            var e = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
-            var l = new List<SortItem<ExcelValue>>();
-            SortItem<ExcelValue> item = new SortItem<ExcelValue>();
-
-            while (e.Next())
-            {
-                if (l.Count == 0 || l[l.Count - 1].Row != e.Row)
-                {
-                    item = new SortItem<ExcelValue>() { Row = e.Row, Items = new ExcelValue[cols] };
-                    l.Add(item);
-                }
-                item.Items[e.Column - _fromCol] = e.Value;
-            }
-
-            if (descending == null)
-            {
-                descending = new bool[columns.Length];
-                for (int i = 0; i < columns.Length; i++)
-                {
-                    descending[i] = false;
-                }
-            }
-
-            var comp = new Comp();
-            comp.columns = columns;
-            comp.descending = descending;
-            comp.cultureInfo = culture ?? CultureInfo.CurrentCulture;
-            comp.compareOptions = compareOptions;
-            l.Sort(comp);
-
-            var flags = GetItems(_worksheet._flags, _fromRow, _fromCol, _toRow, _toCol);
-            var formulas = GetItems(_worksheet._formulas, _fromRow, _fromCol, _toRow, _toCol);
-            var hyperLinks = GetItems(_worksheet._hyperLinks, _fromRow, _fromCol, _toRow, _toCol);
-            var comments = GetItems(_worksheet._commentsStore, _fromRow, _fromCol, _toRow, _toCol);
-            var metaData = GetItems(_worksheet._metadataStore, _fromRow, _fromCol, _toRow, _toCol);
-
-            //Sort the values and styles.
-            _worksheet._values.Clear(_fromRow, _fromCol, _toRow - _fromRow + 1, cols);
-            for (var r = 0; r < l.Count; r++)
-            {
-                for (int c = 0; c < cols; c++)
-                {
-                    var row = _fromRow + r;
-                    var col = _fromCol + c;
-                    //_worksheet._values.SetValueSpecial(row, col, SortSetValue, l[r].Items[c]);
-                    _worksheet._values.SetValue(row, col, l[r].Items[c]);
-                    var addr = GetAddress(l[r].Row, _fromCol + c);
-                    //Move flags
-                    if (flags.ContainsKey(addr))
-                    {
-                        _worksheet._flags.SetValue(row, col, flags[addr]);
-                    }
-                    //Move metadata
-                    if (metaData.ContainsKey(addr))
-                    {
-                        _worksheet._metadataStore.SetValue(row, col, metaData[addr]);
-                    }
-
-                    //Move formulas
-                    if (formulas.ContainsKey(addr))
-                    {
-                        _worksheet._formulas.SetValue(row, col, formulas[addr]);
-                        if (formulas[addr] is int)
-                        {
-                            int sfIx = (int)formulas[addr];
-                            var startAddr = new ExcelAddress(Worksheet._sharedFormulas[sfIx].Address);
-                            var f = Worksheet._sharedFormulas[sfIx];
-                            if (startAddr._fromRow > row)
-                            {
-                                f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                                f.StartRow = row;
-                                f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow, startAddr._toCol);
-                            }
-                            else if (startAddr._toRow < row)
-                            {
-                                f.Address = ExcelCellBase.GetAddress(startAddr._fromRow, startAddr._fromCol, row, startAddr._toCol);
-                            }
-                        }
-                    }
-
-                    //Move hyperlinks
-                    if (hyperLinks.ContainsKey(addr))
-                    {
-                        _worksheet._hyperLinks.SetValue(row, col, hyperLinks[addr]);
-                    }
-
-                    //Move comments
-                    if (comments.ContainsKey(addr))
-                    {
-                        var i = comments[addr];
-                        _worksheet._commentsStore.SetValue(row, col, i);
-                        var comment = _worksheet._comments[i];
-                        comment.Reference = GetAddress(row, col);
-                    }
-                }
-            }
+            SortInternal(columns, descending, null, culture, compareOptions, null);
         }
 
-        private static Dictionary<string, T> GetItems<T>(CellStore<T> store, int fromRow, int fromCol, int toRow, int toCol)
+        /// <summary>
+        /// Sort the range by value
+        /// </summary>
+        /// <param name="columns">The column(s) to sort by within the range. Zerobased</param>
+        /// <param name="descending">Descending if true, otherwise Ascending. Default Ascending. Zerobased</param>
+        /// <param name="customLists">A Dictionary containing custom lists indexed by column</param>
+        /// <param name="culture">The CultureInfo used to compare values. A null value means CurrentCulture</param>
+        /// <param name="compareOptions">String compare option</param>
+        /// <param name="table"><see cref="ExcelTable"/> to be sorted</param>
+        internal void SortInternal(int[] columns, bool[] descending = null, Dictionary<int, string[]> customLists = null, CultureInfo culture = null, CompareOptions compareOptions = CompareOptions.None, ExcelTable table = null)
         {
-            var e = new CellStoreEnumerator<T>(store, fromRow, fromCol, toRow, toCol);
-            var l = new Dictionary<string, T>();
-            while (e.Next())
+            _worksheet._rangeSorter.Sort(this, columns, descending, culture, compareOptions, customLists);
+            if(table != null)
             {
-                l.Add(e.CellAddress, e.Value);
+                table.SetTableSortState(columns, descending, compareOptions, customLists);
             }
-            return l;
+            else
+            {
+                _worksheet._rangeSorter.SetWorksheetSortState(this, columns, descending, compareOptions);
+            }
         }
+
+        /// <summary>
+        /// Sort the range by value
+        /// </summary>
+        /// <param name="options">An instance of <see cref="RangeSortOptions"/> where sort parameters can be set</param>
+        public void Sort(SortOptionsBase options)
+        {
+            if(options.ColumnIndexes.Count > 0)
+            {
+                SortInternal(options.ColumnIndexes.ToArray(), options.Descending.ToArray(), options.CustomLists, options.Culture, options.CompareOptions);
+            }
+            else
+            {
+                Sort(new int[] { 0 }, new bool[] { false }, options.Culture, options.CompareOptions);
+            }
+        }
+
+        internal void Sort(SortOptionsBase options, ExcelTable table)
+        {
+            SortInternal(options.ColumnIndexes.ToArray(), options.Descending.ToArray(), options.CustomLists, options.Culture, options.CompareOptions, table);
+        }
+
+        /// <summary>
+        /// Sort the range by value
+        /// </summary>
+        /// <param name="configuration">An action of <see cref="RangeSortOptions"/> where sort parameters can be set.</param>
+        public void Sort(Action<RangeSortOptions> configuration)
+        {
+            var options = new RangeSortOptions();
+            configuration(options);
+            Sort(options);
+        }
+
+        
 
         private static void SortSetValue(List<ExcelValue> list, int index, object value)
         {

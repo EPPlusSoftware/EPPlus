@@ -41,6 +41,7 @@ using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Sorting;
 
 namespace OfficeOpenXml
 {
@@ -390,6 +391,7 @@ namespace OfficeOpenXml
         internal int _minCol = ExcelPackage.MaxColumns;
         internal int _maxCol = 0;
         internal int _nextControlId;
+        internal RangeSorter _rangeSorter;
         #region Worksheet Private Properties
         internal ExcelPackage _package;
         private Uri _worksheetUri;
@@ -442,6 +444,7 @@ namespace OfficeOpenXml
             _nextControlId = (PositionId + 1) * 1024 + 1;
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
+            _rangeSorter = new RangeSorter(this);
             CreateXml();
             TopNode = _worksheetXml.DocumentElement;
             LoadComments();
@@ -540,6 +543,7 @@ namespace OfficeOpenXml
         /// </summary>
         public int Index { get { return (_positionId); } }
         const string AutoFilterPath = "d:autoFilter";
+        const string SortStatePath = "d:sortState";
         /// <summary>
         /// Address for autofilter
         /// <seealso cref="ExcelRangeBase.AutoFilter" />        
@@ -590,6 +594,24 @@ namespace OfficeOpenXml
                 return _autoFilter;
             }
         }
+
+        SortState _sortState = null;
+
+        public SortState SortState
+        {
+            get
+            {
+                if(_sortState == null)
+                {
+                    CheckSheetType();
+                    var node = _worksheetXml.SelectSingleNode($"//{SortStatePath}", NameSpaceManager);
+                    if (node == null) return null;
+                    _sortState = new SortState(NameSpaceManager, node);
+                }
+                return _sortState;
+            }
+        }
+
         internal void CheckSheetType()
         {
             if (this is ExcelChartsheet)
