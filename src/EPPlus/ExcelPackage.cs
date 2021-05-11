@@ -139,6 +139,7 @@ namespace OfficeOpenXml
         internal const bool preserveWhitespace=false;
         Stream _stream = null;
         private bool _isExternalStream=false;
+        internal ExcelPackage _loadedPackage = null;
 		#region Properties
 		/// <summary>
 		/// Extention Schema types

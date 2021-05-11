@@ -27,58 +27,32 @@ namespace OfficeOpenXml.FormulaParsing
     public class EpplusExcelExternalRangeInfo : ExcelDataProvider.IRangeInfo
     {
         ExcelExternalWorkbook _externalWb;
-        internal ExcelExternalWorksheet _ws;
+        internal ExcelExternalWorksheet _externalWs;
         internal CellStoreEnumerator<object> _values = null;
         int _fromRow, _toRow, _fromCol, _toCol;
         int _cellCount = 0;
         ExcelAddressBase _address;
         ExcelDataProvider.ICellInfo _cell;
 
-        //public EpplusExcelExternalRangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol)
-        //{
-        //    var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
-        //    address._ws = ws.Name;
-        //    SetAddress(ws, address);
-        //}
-
         public EpplusExcelExternalRangeInfo(ExcelExternalWorkbook externalWb, ExcelWorkbook wb, ExcelAddressBase address)
         {
             SetAddress(wb, address, externalWb);
         }
-        public EpplusExcelExternalRangeInfo(ExcelWorkbook wb, ExcelAddressBase address)
-        {
-            SetAddress(wb, address, null);
-        }
         private void SetAddress(ExcelWorkbook wb, ExcelAddressBase address, ExcelExternalWorkbook externalWb)
         {
-            if (externalWb == null)
+            if (externalWb != null)
             {
-                var ix = wb.ExternalReferences.GetExternalReference(address._wb);
-                if (ix >= 0)
+                _externalWs = externalWb.CachedWorksheets[address.WorkSheetName];
+                _fromRow = address._fromRow;
+                _fromCol = address._fromCol;
+                _toRow = address._toRow;
+                _toCol = address._toCol;
+                _address = address;
+                if (_externalWs != null)
                 {
-                    _externalWb = wb.ExternalReferences[ix].As.ExternalWorkbook;
+                    _values = _externalWs.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
+                    _cell = new ExternalCellInfo(_externalWs, _values);
                 }
-                else
-                {
-                    _externalWb = null;
-                }
-            }
-            else
-            {
-                _externalWb = externalWb;
-            }
-
-
-            _ws = _externalWb.CachedWorksheets[address.WorkSheetName];
-            _fromRow = address._fromRow;
-            _fromCol = address._fromCol;
-            _toRow = address._toRow;
-            _toCol = address._toCol;
-            _address = address;
-            if (_ws != null)
-            {
-                _values = _ws.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
-                _cell = new ExternalCellInfo(_ws, _values);
             }
         }
 
@@ -91,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             get
             {
-                return _externalWb == null || _ws == null || _fromRow < 0 || _toRow < 0;
+                return _externalWb == null || _externalWs == null || _fromRow < 0 || _toRow < 0;
             }
         }
         public bool IsEmpty
@@ -201,7 +175,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         public object GetValue(int row, int col)
         {
-            return _ws?.CellValues.GetValue(row, col);
+            return _externalWs?.CellValues.GetValue(row, col);
         }
 
         public object GetOffset(int rowOffset, int colOffset)
@@ -209,11 +183,11 @@ namespace OfficeOpenXml.FormulaParsing
             if (_values == null) return null;
             if (_values.Row < _fromRow || _values.Column < _fromCol)
             {
-                return _ws?.CellValues.GetValue(_fromRow + rowOffset, _fromCol + colOffset);
+                return _externalWs?.CellValues.GetValue(_fromRow + rowOffset, _fromCol + colOffset);
             }
             else
             {
-                return _ws?.CellValues.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
+                return _externalWs?.CellValues.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
             }
         }
     }

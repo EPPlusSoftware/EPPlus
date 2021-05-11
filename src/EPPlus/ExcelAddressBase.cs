@@ -130,11 +130,13 @@ namespace OfficeOpenXml
         /// </summary>
         /// <remarks>Examples of addresses are "A1" "B1:C2" "A:A" "1:1" "A1:E2,G3:G5" </remarks>
         /// <param name="address">The Excel Address</param>
+        /// <param name="wb">The workbook to verify any defined names from</param>
+        /// <param name="wb">The name of the worksheet the address referes to</param>
         /// <ws></ws>
         public ExcelAddressBase(string address, ExcelWorkbook wb=null, string wsName=null)
         {
             SetAddress(address, wb, wsName);
-            if (string.IsNullOrEmpty(_ws)) _ws = wsName;
+            if (string.IsNullOrEmpty(_ws) && string.IsNullOrEmpty(_wb)) _ws = wsName;
         }
         /// <summary>
         /// Creates an Address object
@@ -322,6 +324,25 @@ namespace OfficeOpenXml
             _address = address;
             Validate();
         }
+
+        internal ExcelAddressBase ToInternalAddress()
+        {
+            if(_address.StartsWith("["))
+            {
+                var ix = _address.IndexOf("]", 1);
+                if (ix > 0)
+                {
+                    var a = _address.Substring(ix);
+                    return new ExcelAddressBase(a);
+                }
+                return this;
+            }
+            else
+            {
+                return this;
+            }
+        }
+
         /// <summary>
         /// Called when the address changes
         /// </summary>
@@ -384,8 +405,8 @@ namespace OfficeOpenXml
             if (pos==0)
             {
                 _address = _ws.Substring(1);
-                _ws = _wb;
-                _wb = "";
+                _ws = "";
+                //_wb = "";
             }
             else if (pos > -1)
             {

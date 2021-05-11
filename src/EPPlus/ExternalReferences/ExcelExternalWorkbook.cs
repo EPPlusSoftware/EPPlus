@@ -267,9 +267,10 @@ namespace OfficeOpenXml.ExternalReferences
                 var file = d.FullName;
                 if (file.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
                 {
-                    file += Path.DirectorySeparatorChar + _file.Name;
+                    file += Path.DirectorySeparatorChar;
                 }
-                if(System.IO.File.Exists(file))
+                file += _file.Name;
+                if (System.IO.File.Exists(file))
                 {
                     _file = new FileInfo(file);
                     return;
@@ -294,6 +295,7 @@ namespace OfficeOpenXml.ExternalReferences
             if(File != null && File.Exists)
             {
                 _package = new ExcelPackage(File);
+                _package._loadedPackage = _wb._package;
                 return true;
             }
 
@@ -308,6 +310,7 @@ namespace OfficeOpenXml.ExternalReferences
             if (packageFile.Exists)
             {
                 _package = new ExcelPackage(packageFile);
+                _package._loadedPackage = _wb._package;
                 return true;
             }
             return false;
@@ -318,11 +321,18 @@ namespace OfficeOpenXml.ExternalReferences
         /// <returns>True if the load succeeded, otherwise false</returns>
         public bool Load(ExcelPackage package)
         {
-            if (package == null || package.File==null)
+            if (package == null || package == _wb._package)
+            {
+                throw (new ArgumentException("The package can't be null or load itself."));
+            }
+
+            if (package.File==null)
             {
                 throw (new ArgumentException("The package must have the File property set to be added as an external reference."));
             }
+
             _package = package;
+            _package._loadedPackage = _wb._package;
 
             return true;
         }

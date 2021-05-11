@@ -381,29 +381,29 @@ namespace OfficeOpenXml.FormulaParsing
         public override IRangeInfo GetRange(string worksheet, int row, int column, string address)
         {
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
-            if (addr.Table != null)
+            if (addr.Table != null && string.IsNullOrEmpty(addr._wb))
             {
                 addr = ConvertToA1C1(addr, new ExcelAddressBase(row, column, row, column));
             }
             //SetCurrentWorksheet(addr.WorkSheet); 
-            var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
-            var ws = _package.Workbook.Worksheets[wsName];
-            if (ws == null)
-            {
-                throw new ExcelErrorValueException(eErrorType.Ref);
+            if (addr.IsExternal)
+            {                
+                return GetExternalRangeInfo(addr, addr.WorkSheetName, _package.Workbook);
             }
             else
             {
-                if (addr.IsExternal)
+                var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet?.Name : addr.WorkSheetName;
+                var ws = _package.Workbook.Worksheets[wsName];
+
+                if (ws == null)
                 {
-                    return new EpplusExcelExternalRangeInfo(ws.Workbook, addr);
+                    throw new ExcelErrorValueException(eErrorType.Ref);
                 }
-                else
-                {
-                    return new RangeInfo(ws, addr);
-                }
-            }
+
+                return new RangeInfo(ws, addr);
+            }            
         }
+
         [Obsolete("Please use GetRange(string, row, column, address)")]
         public override IRangeInfo GetRange(string worksheet, string address)
         {
@@ -412,26 +412,49 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 addr = ConvertToA1C1(addr, addr);
             }
-            //SetCurrentWorksheet(addr.WorkSheet); 
-            var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
-            var ws = _package.Workbook.Worksheets[wsName];
-            if (ws == null)
+            if (addr.IsExternal)
             {
-                throw new ExcelErrorValueException(eErrorType.Ref);
+                return GetExternalRangeInfo(addr, addr.WorkSheetName, _package.Workbook);
             }
             else
             {
-                if (addr.IsExternal)
+                var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet.Name : addr.WorkSheetName;
+                var ws = _package.Workbook.Worksheets[wsName];
+                if (ws == null)
                 {
-                    return new EpplusExcelExternalRangeInfo(ws.Workbook, addr);
+                    throw new ExcelErrorValueException(eErrorType.Ref);
                 }
-                else
-                {
-                    return new RangeInfo(ws, addr);
-                }
+
+                return new RangeInfo(ws, addr);
             }
         }
 
+        private static IRangeInfo GetExternalRangeInfo(ExcelAddressBase addr, string wsName, ExcelWorkbook wb)
+        {
+            ExcelExternalWorkbook externalWb;
+            var ix = wb.ExternalReferences.GetExternalReference(addr._wb);
+            if (ix >= 0)
+            {
+                externalWb = wb.ExternalReferences[ix].As.ExternalWorkbook;
+            }
+            else
+            {
+                throw new ExcelErrorValueException(eErrorType.Ref);
+            }
+            if (externalWb?.Package == null)
+            {
+                if(addr.Table!=null)
+                {
+                    throw new ExcelErrorValueException(eErrorType.Ref);
+                }
+                return new EpplusExcelExternalRangeInfo(externalWb, wb, addr);
+            }
+            else
+            {
+                var ws = externalWb.Package.Workbook.Worksheets[wsName];
+                return new RangeInfo(ws, addr.ToInternalAddress());
+            }
+        }
         private ExcelAddress ConvertToA1C1(ExcelAddressBase addr, ExcelAddressBase refAddress)
         {
             //Convert the Table-style Address to an A1C1 address

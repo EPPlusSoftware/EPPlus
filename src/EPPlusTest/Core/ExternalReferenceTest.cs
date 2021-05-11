@@ -43,9 +43,67 @@ namespace EPPlusTest.Core
                 c++;
             }
             Assert.AreEqual(11, c);
-
-            p.Workbook.Calculate();
         }
+
+        [TestMethod]
+        public void OpenAndCalculateExternalReferencesFromCache()
+        {
+            var p = OpenTemplatePackage("ExtRef.xlsx");
+
+            p.Workbook.ClearFormulaValues();
+            p.Workbook.Calculate();
+
+            var ws = p.Workbook.Worksheets[0];
+            Assert.AreEqual(2D, ws.Cells["E2"].Value);
+            Assert.AreEqual(4D, ws.Cells["F2"].Value);
+            Assert.AreEqual(6D, ws.Cells["G2"].Value);
+
+            Assert.AreEqual(8D, ws.Cells["E3"].Value);
+            Assert.AreEqual(16D, ws.Cells["F3"].Value);
+            Assert.AreEqual(24D, ws.Cells["G3"].Value);
+
+            Assert.AreEqual(20D, ws.Cells["H5"].Value);
+            Assert.AreEqual(117D, ws.Cells["K5"].Value);
+
+            Assert.AreEqual(111D, ws.Cells["H8"].Value);
+            Assert.IsInstanceOfType(ws.Cells["J8"].Value, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)ws.Cells["J8"].Value).Type);
+
+            Assert.AreEqual(3D, ws.Cells["E10"].Value);
+            Assert.IsInstanceOfType(ws.Cells["F10"].Value, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)ws.Cells["F10"].Value).Type);
+        }
+        [TestMethod]
+        public void OpenAndCalculateExternalReferencesFromPackage()
+        {
+            var p = OpenTemplatePackage("ExtRef.xlsx");
+
+            p.Workbook.ExternalReferences.Directories.Add(new DirectoryInfo(_testInputPathOptional));
+            p.Workbook.ExternalReferences.LoadWorkbooks();
+            p.Workbook.ClearFormulaValues();
+            p.Workbook.Calculate();
+
+            var ws = p.Workbook.Worksheets[0];
+            Assert.AreEqual(2D, ws.Cells["E2"].Value);
+            Assert.AreEqual(4D, ws.Cells["F2"].Value);
+            Assert.AreEqual(6D, ws.Cells["G2"].Value);
+
+            Assert.AreEqual(8D, ws.Cells["E3"].Value);
+            Assert.AreEqual(16D, ws.Cells["F3"].Value);
+            Assert.AreEqual(24D, ws.Cells["G3"].Value);
+
+            Assert.AreEqual(20D, ws.Cells["H5"].Value);
+            Assert.AreEqual(117D, ws.Cells["K5"].Value);
+
+            Assert.AreEqual(111D, ws.Cells["H8"].Value);
+            Assert.IsInstanceOfType(ws.Cells["J8"].Value, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)ws.Cells["J8"].Value).Type);
+
+            Assert.AreEqual(3D, ws.Cells["E10"].Value);
+            Assert.IsInstanceOfType(ws.Cells["F10"].Value, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)ws.Cells["F10"].Value).Type);
+        }
+
         [TestMethod]
         public void DeleteExternalReferences()
         {
@@ -130,6 +188,16 @@ namespace EPPlusTest.Core
             SaveAndCleanup(p);
         }
         [TestMethod]
+        public void OpenAndClearExternalReferences1()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
+
+            Assert.AreEqual(62, p.Workbook.ExternalReferences.Count);
+            p.Workbook.ExternalReferences.Clear();
+            Assert.AreEqual(0, p.Workbook.ExternalReferences.Count);
+            SaveWorkbook("ExternalReferencesText1_Cleared.xlsx", p);
+        }
+        [TestMethod]
         public void OpenAndClearExternalReferences2()
         {
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
@@ -137,8 +205,20 @@ namespace EPPlusTest.Core
             Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
             p.Workbook.ExternalReferences.Clear();
             Assert.AreEqual(0, p.Workbook.ExternalReferences.Count);
-            SaveAndCleanup(p);
+            SaveWorkbook("ExternalReferencesText2_Cleared.xlsx", p);
         }
+
+        [TestMethod]
+        public void OpenAndClearExternalReferences3()
+        {
+            var p = OpenTemplatePackage("ExternalReferencesText3.xlsx");
+
+            Assert.AreEqual(63, p.Workbook.ExternalReferences.Count);
+            p.Workbook.ExternalReferences.Clear();
+            Assert.AreEqual(0, p.Workbook.ExternalReferences.Count);
+            SaveWorkbook("ExternalReferencesText3_Cleared.xlsx", p);
+        }
+
 
 
         [TestMethod]
