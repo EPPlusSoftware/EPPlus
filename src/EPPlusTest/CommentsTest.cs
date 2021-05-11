@@ -180,5 +180,18 @@ namespace EPPlusTest
                 p.SaveAs(new FileInfo(@"c:\epplustest\testoutput\comment.xlsx"));
             }
         }
+        [TestMethod]
+        public void SettingRichTextShouldNotEffectComment()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ExcelComment comment = ws.Cells[1, 1].AddComment("My Comment", "Me");
+                Assert.IsNotNull(ws.Cells[1, 1].Comment);
+                ws.Cells[1, 1].IsRichText = true;
+                Assert.IsNotNull(ws.Cells[1, 1].Comment);
+            }
+        }
+
     }
 }

@@ -321,10 +321,6 @@ namespace OfficeOpenXml
                     return _list.Count;
                 }
             }
-            internal void Remove(string Item)
-            {
-                _list.Remove(Item);
-            }
             #region IEnumerable<string> Members
 
             /// <summary>
@@ -1730,7 +1726,7 @@ namespace OfficeOpenXml
         private void UpdateMergedCells(StreamWriter sw, string prefix)
         {
             sw.Write($"<{prefix}mergeCells>");
-            foreach (string address in _mergedCells)
+            foreach (string address in _mergedCells.Distinct())
             {
                 sw.Write($"<{prefix}mergeCell ref=\"{address}\" />");
             }
@@ -2536,7 +2532,10 @@ namespace OfficeOpenXml
                     if (_comments.Uri != null)
                     {
                         Part.DeleteRelationship(_comments.RelId);
-                        _package.ZipPackage.DeletePart(_comments.Uri);
+                        if (_package.ZipPackage.PartExists(_comments.Uri))
+                        {
+                            _package.ZipPackage.DeletePart(_comments.Uri);
+                        }
                     }
                     if (VmlDrawings.Count == 0)
                     {
@@ -2569,7 +2568,10 @@ namespace OfficeOpenXml
                     if (_vmlDrawings.Part!=null)
                     {
                         Part.DeleteRelationship(_vmlDrawings.RelId);
-                        _package.ZipPackage.DeletePart(_vmlDrawings.Uri);
+                        if (_package.ZipPackage.PartExists(_vmlDrawings.Uri))
+                        {
+                            _package.ZipPackage.DeletePart(_vmlDrawings.Uri);
+                        }
                         DeleteNode($"d:legacyDrawing[@r:id='{_vmlDrawings.RelId}']");
                     }
                 }
