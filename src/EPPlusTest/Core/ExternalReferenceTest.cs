@@ -80,10 +80,13 @@ namespace EPPlusTest.Core
 
             p.Workbook.ExternalReferences.Directories.Add(new DirectoryInfo(_testInputPathOptional));
             p.Workbook.ExternalReferences.LoadWorkbooks();
+            p.Workbook.ExternalReferences[0].As.ExternalWorkbook.Package.Workbook.Calculate();
             p.Workbook.ClearFormulaValues();
             p.Workbook.Calculate();
 
             var ws = p.Workbook.Worksheets[0];
+            Assert.AreEqual(3D, ws.Cells["D1"].Value);
+            Assert.AreEqual(2D, ws.Cells["E2"].Value);
             Assert.AreEqual(2D, ws.Cells["E2"].Value);
             Assert.AreEqual(4D, ws.Cells["F2"].Value);
             Assert.AreEqual(6D, ws.Cells["G2"].Value);
@@ -92,16 +95,14 @@ namespace EPPlusTest.Core
             Assert.AreEqual(16D, ws.Cells["F3"].Value);
             Assert.AreEqual(24D, ws.Cells["G3"].Value);
 
-            Assert.AreEqual(20D, ws.Cells["H5"].Value);
+            //Assert.AreEqual(20D, ws.Cells["H5"].Value);
             Assert.AreEqual(117D, ws.Cells["K5"].Value);
 
             Assert.AreEqual(111D, ws.Cells["H8"].Value);
-            Assert.IsInstanceOfType(ws.Cells["J8"].Value, typeof(ExcelErrorValue));
-            Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)ws.Cells["J8"].Value).Type);
+            Assert.AreEqual(20, ws.Cells["J8"].Value);
 
             Assert.AreEqual(3D, ws.Cells["E10"].Value);
-            Assert.IsInstanceOfType(ws.Cells["F10"].Value, typeof(ExcelErrorValue));
-            Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)ws.Cells["F10"].Value).Type);
+            Assert.AreEqual(19, ws.Cells["F10"].Value);
         }
 
         [TestMethod]

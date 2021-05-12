@@ -472,7 +472,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                return GetLocalName(worksheet, name);
+                return GetLocalName(_package, worksheet, name);
             }
         }
 
@@ -485,57 +485,83 @@ namespace OfficeOpenXml.FormulaParsing
                 var externalWorkbook = _package.Workbook.ExternalReferences[ix].As.ExternalWorkbook;
                 if(externalWorkbook!=null)
                 {
-                    ExcelExternalDefinedName nameItem;
-                    var sheetName = ExcelAddressBase.GetWorksheetPart(name, "", ref ix);
-                    if(string.IsNullOrEmpty(sheetName))
+                    if (externalWorkbook.Package == null)
                     {
-                        if (ix > 0) name = name.Substring(ix);
-                        nameItem = externalWorkbook.CachedNames[name];
+                        return GetNameFromCache(externalWorkbook, name);
                     }
                     else
                     {
-                        if(ix >= 0) name = name.Substring(ix);
-                        nameItem = externalWorkbook.CachedWorksheets[sheetName].CachedNames[name];
+                        name = name.Substring(name.IndexOf("]") + 1);
+                        if (name.StartsWith("!")) name = name.Substring(1);
+                        return GetLocalName(externalWorkbook.Package, "", name);
                     }
-
-                    object value;
-                    if (!string.IsNullOrEmpty(nameItem.RefersTo))
-                    {
-                        var nameAddress = nameItem.RefersTo.TrimStart('=');
-                        ExcelAddressBase address = new ExcelAddressBase(nameAddress);
-                        if (address.Address == "#REF!")
-                        {
-                            value = ExcelErrorValue.Create(eErrorType.Ref);
-                        }
-                        else
-                        {
-                            value = new EpplusExcelExternalRangeInfo(externalWorkbook, null, address);
-                        }
-                    }
-                    else
-                    { 
-                        value = ExcelErrorValue.Create(eErrorType.Name);
-                    }
-                    return new NameInfo()
-                    {
-                        Name = name,
-                        Value = value
-                    };
                 }
             }
             return null;
         }
 
-        private INameInfo GetLocalName(string worksheet, string name)
+        private static INameInfo GetNameFromCache(ExcelExternalWorkbook externalWorkbook, string name)
+        {
+            ExcelExternalDefinedName nameItem;
+
+            int ix=-1;
+            var sheetName = ExcelAddressBase.GetWorksheetPart(name, "", ref ix);
+            if (string.IsNullOrEmpty(sheetName))
+            {
+                if (ix > 0) name = name.Substring(ix);
+                nameItem = externalWorkbook.CachedNames[name];
+            }
+            else
+            {
+                if (ix >= 0) name = name.Substring(ix);
+                nameItem = externalWorkbook.CachedWorksheets[sheetName].CachedNames[name];
+            }
+
+            object value;
+            if (!string.IsNullOrEmpty(nameItem.RefersTo))
+            {
+                var nameAddress = nameItem.RefersTo.TrimStart('=');
+                ExcelAddressBase address = new ExcelAddressBase(nameAddress);
+                if (address.Address == "#REF!")
+                {
+                    value = ExcelErrorValue.Create(eErrorType.Ref);
+                }
+                else
+                {
+                    value = new EpplusExcelExternalRangeInfo(externalWorkbook, null, address);
+                }
+            }
+            else
+            {
+                value = ExcelErrorValue.Create(eErrorType.Name);
+            }
+            return new NameInfo()
+            {
+                Name = name,
+                Value = value
+            };
+        }
+
+        private INameInfo GetLocalName(ExcelPackage package, string worksheet, string name)
         {
             ExcelNamedRange nameItem;
             ulong id;
             ExcelWorksheet ws;
+            var ix = name.IndexOf('!');
+            if(ix>0)
+            {
+                var wsName=ExcelAddressBase.GetWorksheetPart(name, worksheet, ref ix);
+                if(!string.IsNullOrEmpty(wsName))
+                {
+                    name = name.Substring(ix);
+                    worksheet = wsName;
+                }
+            }
             if (string.IsNullOrEmpty(worksheet))
             {
-                if (_package._workbook.Names.ContainsKey(name))
+                if (package._workbook.Names.ContainsKey(name))
                 {
-                    nameItem = _package._workbook.Names[name];
+                    nameItem = package._workbook.Names[name];
                 }
                 else
                 {
@@ -545,14 +571,14 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                ws = _package._workbook.Worksheets[worksheet];
+                ws = package._workbook.Worksheets[worksheet];
                 if (ws != null && ws.Names.ContainsKey(name))
                 {
                     nameItem = ws.Names[name];
                 }
-                else if (_package._workbook.Names.ContainsKey(name))
+                else if (package._workbook.Names.ContainsKey(name))
                 {
-                    nameItem = _package._workbook.Names[name];
+                    nameItem = package._workbook.Names[name];
                 }
                 else
                 {
@@ -563,7 +589,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     else
                     {
-                        var wsName = _package.Workbook.Worksheets[name];
+                        var wsName = package.Workbook.Worksheets[name];
                         if (wsName == null)
                         {
                             return null;

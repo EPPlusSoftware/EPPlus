@@ -332,7 +332,7 @@ namespace OfficeOpenXml
                 var ix = _address.IndexOf("]", 1);
                 if (ix > 0)
                 {
-                    var a = _address.Substring(ix);
+                    var a = _address.Substring(ix+1);
                     return new ExcelAddressBase(a);
                 }
                 return this;
