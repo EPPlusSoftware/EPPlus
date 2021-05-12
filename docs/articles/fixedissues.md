@@ -1,5 +1,17 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.6.4
+### Fixed issues
+* Setting TableColumn.CalculatedColumnFormula doesn't set the formula correctly on the range.
+* SUMIF function could not handle arrays or ranges of criteria.
+* Fixed a bug in the Tokenizer where arrays of strings did not work properly.
+* Comments were removed from cells when the IsRichText flag was set.
+* AutoFitColumns did not calculate the font widths correctly for unknown font sizes.
+* AutoFitColumns did not take DPI settings into account.
+* Some styles did not get applied in Libre Office do to missing apply attributes on the style.
+* Merged cells could set duplicate ranges causing the workbook to be corrupt.
+* Vml documents containg unclosed &lt;BR&gt; tags failed to load.
+
 ## Version 5.6.3
 ### Fixed issues
 * Changing the Normal style does not reflect correctly to cells with no style. 
