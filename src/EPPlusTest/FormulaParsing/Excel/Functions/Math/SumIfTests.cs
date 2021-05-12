@@ -343,5 +343,60 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
                 Assert.AreEqual(1d, sheet.Cells["C1"].Value);
             }
         }
+
+        [TestMethod]
+        public void SumIfShouldHandleArrayOfCriterias()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "A";
+                sheet.Cells["A2"].Value = "B";
+                sheet.Cells["A3"].Value = "A";
+                sheet.Cells["A4"].Value = "B";
+                sheet.Cells["A5"].Value = "C";
+                sheet.Cells["A6"].Value = "B";
+
+                sheet.Cells["B1"].Value = 10;
+                sheet.Cells["B2"].Value = 20;
+                sheet.Cells["B3"].Value = 10;
+                sheet.Cells["B4"].Value = 30;
+                sheet.Cells["B5"].Value = 40;
+                sheet.Cells["B6"].Value = 10;
+
+                sheet.Cells["A9"].Formula = "SUMIF(A1:A6,{\"A\",\"C\"}, B1:B6)";
+                sheet.Calculate();
+                Assert.AreEqual(60d, sheet.Cells["A9"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void SumIfShouldHandleRangeWithCriterias()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "A";
+                sheet.Cells["A2"].Value = "B";
+                sheet.Cells["A3"].Value = "A";
+                sheet.Cells["A4"].Value = "B";
+                sheet.Cells["A5"].Value = "C";
+                sheet.Cells["A6"].Value = "B";
+
+                sheet.Cells["B1"].Value = 10;
+                sheet.Cells["B2"].Value = 20;
+                sheet.Cells["B3"].Value = 10;
+                sheet.Cells["B4"].Value = 30;
+                sheet.Cells["B5"].Value = 40;
+                sheet.Cells["B6"].Value = 10;
+
+                sheet.Cells["D9"].Value = "A";
+                sheet.Cells["E9"].Value = "C";
+
+                sheet.Cells["A9"].Formula = "SUMIF(A1:A6,D9:E9, B1:B6)";
+                sheet.Calculate();
+                Assert.AreEqual(60d, sheet.Cells["A9"].Value);
+            }
+        }
     }
 }

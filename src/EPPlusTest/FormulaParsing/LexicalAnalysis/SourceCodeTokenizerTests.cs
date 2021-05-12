@@ -124,6 +124,19 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         }
 
         [TestMethod]
+        public void ShouldCreateTokensWithStringForEnumerableCorrectly()
+        {
+            var input = "{\"1\",\"2\"}";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+
+            Assert.AreEqual(9, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.OpeningEnumerable));
+            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.String));
+            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.StringContent));
+            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingEnumerable));
+        }
+
+        [TestMethod]
         public void ShouldCreateTokensForExcelAddressCorrectly()
         {
             var input = "Text(A1)";
