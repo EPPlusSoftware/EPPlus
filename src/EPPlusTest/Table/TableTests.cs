@@ -160,6 +160,7 @@ namespace EPPlusTest.Table
             ws.Cells["B10"].Value = 9;
             ws.Cells["B11"].Value = 10;
             ws.Cells["B12"].Value = 11;
+            ws.Cells["O5"].Value = 11;
             ws.Cells["C7"].Value = "Table test";
             ws.Cells["C8"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             ws.Cells["C8"].Style.Fill.BackgroundColor.SetColor(Color.Red);
