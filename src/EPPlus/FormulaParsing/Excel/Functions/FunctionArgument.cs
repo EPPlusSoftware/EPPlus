@@ -60,6 +60,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             get { return Value != null && Value is EpplusExcelDataProvider.IRangeInfo; }
         }
 
+        public bool IsEnumerableOfFuncArgs
+        {
+            get { return Value != null && Value is IEnumerable<FunctionArgument>; }
+        }
+
+        public IEnumerable<FunctionArgument> ValueAsEnumerableOfFuncArgs
+        {
+            get { return Value as IEnumerable<FunctionArgument>; }
+        }
+
         public bool ValueIsExcelError
         {
             get { return ExcelErrorValue.Values.IsErrorValue(Value); }
