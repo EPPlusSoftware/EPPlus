@@ -383,7 +383,7 @@ namespace OfficeOpenXml.FormulaParsing
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null && string.IsNullOrEmpty(addr._wb))
             {
-                addr = ConvertToA1C1(addr, new ExcelAddressBase(row, column, row, column));
+                addr = ConvertToA1C1(_package, addr, new ExcelAddressBase(row, column, row, column));
             }
             //SetCurrentWorksheet(addr.WorkSheet); 
             if (addr.IsExternal)
@@ -410,7 +410,7 @@ namespace OfficeOpenXml.FormulaParsing
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {
-                addr = ConvertToA1C1(addr, addr);
+                addr = ConvertToA1C1(_package, addr, addr);
             }
             if (addr.IsExternal)
             {
@@ -451,14 +451,25 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                var ws = externalWb.Package.Workbook.Worksheets[wsName];
-                return new RangeInfo(ws, addr.ToInternalAddress());
+                addr = addr.ToInternalAddress();
+                ExcelWorksheet ws;
+                if (addr.Table == null)
+                {
+                    ws = externalWb.Package.Workbook.Worksheets[wsName];
+                }
+                else
+                {
+                    addr = ConvertToA1C1(externalWb.Package, addr, addr);
+                    ws = externalWb.Package.Workbook.Worksheets[addr.WorkSheetName];
+                }
+
+                return new RangeInfo(ws, addr);
             }
         }
-        private ExcelAddress ConvertToA1C1(ExcelAddressBase addr, ExcelAddressBase refAddress)
+        private static ExcelAddress ConvertToA1C1(ExcelPackage package, ExcelAddressBase addr, ExcelAddressBase refAddress)
         {
             //Convert the Table-style Address to an A1C1 address
-            addr.SetRCFromTable(_package, refAddress);
+            addr.SetRCFromTable(package, refAddress);
             var a = new ExcelAddress(addr._fromRow, addr._fromCol, addr._toRow, addr._toCol);
             a._ws = addr._ws;            
             return a;

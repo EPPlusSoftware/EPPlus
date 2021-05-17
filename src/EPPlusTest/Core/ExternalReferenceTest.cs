@@ -99,10 +99,10 @@ namespace EPPlusTest.Core
             Assert.AreEqual(117D, ws.Cells["K5"].Value);
 
             Assert.AreEqual(111D, ws.Cells["H8"].Value);
-            Assert.AreEqual(20, ws.Cells["J8"].Value);
+            Assert.AreEqual(20D, ws.Cells["J8"].Value);
 
             Assert.AreEqual(3D, ws.Cells["E10"].Value);
-            Assert.AreEqual(19, ws.Cells["F10"].Value);
+            Assert.AreEqual(19D, ws.Cells["F10"].Value);
         }
 
         [TestMethod]

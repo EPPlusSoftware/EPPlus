@@ -219,13 +219,14 @@ handleAddress:
                     }
                     else if (!string.IsNullOrEmpty(adrWs))
                     {
-                        if (f.ws == null)
+                        f.iteratorWs = wb.Worksheets[adrWs];
+                        //if (f.ws == null)
+                        //{
+                        //    f.ws = f.iteratorWs;
+                        //}
+                        if(f.iteratorWs!=null && f.iteratorWs.Names.ContainsKey(adrName))
                         {
-                            f.ws = wb.Worksheets[adrWs];
-                        }
-                        if(f.ws.Names.ContainsKey(t.Value))
-                        {
-                            name = f.ws.Names[adrName];
+                            name = f.iteratorWs.Names[adrName];
                         }
                         else if (wb.Names.ContainsKey(adrName))
                         {
@@ -350,7 +351,7 @@ handleAddress:
                             //Check for circular references
                             foreach (var par in stack)
                             {
-                                if (ExcelAddressBase.GetCellId(par.iteratorWs.IndexInList, par.iterator.Row, par.iterator.Column) == id ||
+                                if ((par.iteratorWs!=null && par.iterator!=null && ExcelCellBase.GetCellId(par.iteratorWs.IndexInList, par.iterator.Row, par.iterator.Column) == id) ||
                                     ExcelAddressBase.GetCellId(par.wsIndex, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
                                     if (options.AllowCircularReferences == false)

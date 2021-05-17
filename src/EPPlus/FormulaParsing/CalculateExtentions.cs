@@ -219,7 +219,14 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        v = ExcelErrorValue.Create(eErrorType.Ref);
+                        if(item.Column == 0 && item.Row >= 0 && item.Row < wb.Names.Count)
+                        {
+                            v = parser.ParseCell(item.Tokens, null, item.Row, item.Column);
+                        }
+                        else
+                        {
+                            v = ExcelErrorValue.Create(eErrorType.Ref);
+                        }
                     }
                     
                     SetValue(wb, item, v);
