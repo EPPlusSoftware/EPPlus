@@ -144,6 +144,302 @@ namespace EPPlusTest.Drawing.Chart
             Assert.AreEqual("{1}", serie.ErrorBars.Plus.ValuesSource);
             Assert.AreEqual("A2:A15", serie.ErrorBars.Minus.ValuesSource);
         }
+        [TestMethod]
+        public void ErrorBars_Scatter()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ErrorBarScatter");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddScatterChart("ScatterChart1", eScatterChartType.XYScatter);
+            var serie = chart.Series.Add("D2:D100", "A2:A100");
+            serie.AddErrorBars(eErrorBarType.Both, eErrorValueType.Custom);
+            serie.ErrorBars.Plus.ValuesSource = "{1}";
+            serie.ErrorBars.Minus.FormatCode = "General";
+            serie.ErrorBars.Minus.ValuesSource = "=ErrorBarScatter!$A$2:$A$15";
+            serie.ErrorBars.Minus.FormatCode = "0";
+
+            serie.ErrorBarsX.Plus.ValuesSource = "{2}";
+            serie.ErrorBarsX.Minus.FormatCode = "General";
+            serie.ErrorBarsX.Minus.ValuesSource = "=ErrorBarScatter!$A$2:$A$16";
+            serie.ErrorBarsX.Minus.FormatCode = "0";
+
+            chart.SetPosition(1, 0, 5, 0);
+
+            Assert.IsNotNull(serie.ErrorBars);
+            Assert.IsNotNull(serie.ErrorBarsX);
+            Assert.AreEqual(eErrorBarType.Both, serie.ErrorBars.BarType);
+            Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBars.ValueType);
+            Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+            Assert.AreEqual("{1}", serie.ErrorBars.Plus.ValuesSource);
+            Assert.AreEqual("ErrorBarScatter!$A$2:$A$15", serie.ErrorBars.Minus.ValuesSource);
+
+            Assert.AreEqual(eErrorBarType.Both, serie.ErrorBarsX.BarType);
+            Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBarsX.ValueType);
+            Assert.AreEqual(false, serie.ErrorBarsX.NoEndCap);
+
+            Assert.AreEqual("{2}", serie.ErrorBarsX.Plus.ValuesSource);
+            Assert.AreEqual("ErrorBarScatter!$A$2:$A$16", serie.ErrorBarsX.Minus.ValuesSource);
+        }
+        [TestMethod]
+        public void ErrorBars_ReadScatter()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("ErrorBarsScatter");
+                LoadTestdata(ws);
+
+                var chart = ws.Drawings.AddScatterChart("ScatterChart1", eScatterChartType.XYScatter);
+                var serie = chart.Series.Add("D2:D100", "A2:A100");
+                serie.AddErrorBars(eErrorBarType.Both, eErrorValueType.Custom);
+                serie.ErrorBars.Plus.ValuesSource = "{1}";
+                serie.ErrorBars.Minus.FormatCode = "General";
+                serie.ErrorBars.Minus.ValuesSource = "=ErrorBarsScatter!$A$2:$A$15";
+                serie.ErrorBars.Minus.FormatCode = "0";
+
+                serie.ErrorBarsX.Plus.ValuesSource = "{2}";
+                serie.ErrorBarsX.Minus.FormatCode = "General";
+                serie.ErrorBarsX.Minus.ValuesSource = "ErrorBarsScatter!$A$2:$A$16";
+                serie.ErrorBarsX.Minus.FormatCode = "0";
+
+                chart.SetPosition(1, 0, 5, 0);
+                p1.Save();
+                using(var p2=new ExcelPackage(p1.Stream))
+                {
+                    ws = p2.Workbook.Worksheets["ErrorBarsScatter"];
+
+                    chart = ws.Drawings[0].As.Chart.ScatterChart;
+                    serie = chart.Series[0];
+
+                    Assert.IsNotNull(serie.ErrorBars);
+                    Assert.IsNotNull(serie.ErrorBarsX);
+                    Assert.AreEqual(eErrorBarType.Both, serie.ErrorBars.BarType);
+                    Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBars.ValueType);
+                    Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+                    Assert.AreEqual("{1}", serie.ErrorBars.Plus.ValuesSource);
+                    Assert.AreEqual("ErrorBarsScatter!$A$2:$A$15", serie.ErrorBars.Minus.ValuesSource);
+
+                    Assert.AreEqual(eErrorBarType.Both, serie.ErrorBarsX.BarType);
+                    Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBarsX.ValueType);
+                    Assert.AreEqual(false, serie.ErrorBarsX.NoEndCap);
+
+                    Assert.AreEqual("{2}", serie.ErrorBarsX.Plus.ValuesSource);
+                    Assert.AreEqual("ErrorBarsScatter!$A$2:$A$16", serie.ErrorBarsX.Minus.ValuesSource);
+                }
+            }
+        }
+        [TestMethod]
+        public void ErrorBars_Bubble()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ErrorBar_Bubble");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddBubbleChart("BubbleChart1", eBubbleChartType.Bubble);
+            var serie = chart.Series.Add("D2:D100", "A2:A100");
+            serie.AddErrorBars(eErrorBarType.Both, eErrorValueType.Custom);
+            serie.ErrorBars.Plus.ValuesSource = "{1}";
+            serie.ErrorBars.Minus.FormatCode = "General";
+            serie.ErrorBars.Minus.ValuesSource = "=ErrorBar_Bubble!$A$2:$A$15";
+            serie.ErrorBars.Minus.FormatCode = "0";
+
+            serie.ErrorBarsX.Plus.ValuesSource = "{2}";
+            serie.ErrorBarsX.Minus.FormatCode = "General";
+            serie.ErrorBarsX.Minus.ValuesSource = "=ErrorBar_Bubble!$A$2:$A$16";
+            serie.ErrorBarsX.Minus.FormatCode = "0";
+
+            chart.SetPosition(1, 0, 5, 0);
+
+            Assert.IsNotNull(serie.ErrorBars);
+            Assert.IsNotNull(serie.ErrorBarsX);
+            Assert.AreEqual(eErrorBarType.Both, serie.ErrorBars.BarType);
+            Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBars.ValueType);
+            Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+            Assert.AreEqual("{1}", serie.ErrorBars.Plus.ValuesSource);
+            Assert.AreEqual("ErrorBar_Bubble!$A$2:$A$15", serie.ErrorBars.Minus.ValuesSource);
+
+            Assert.AreEqual(eErrorBarType.Both, serie.ErrorBarsX.BarType);
+            Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBarsX.ValueType);
+            Assert.AreEqual(false, serie.ErrorBarsX.NoEndCap);
+
+            Assert.AreEqual("{2}", serie.ErrorBarsX.Plus.ValuesSource);
+            Assert.AreEqual("ErrorBar_Bubble!$A$2:$A$16", serie.ErrorBarsX.Minus.ValuesSource);
+        }
+        [TestMethod]
+        public void ErrorBars_ReadBubble()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("ErrorBars");
+                LoadTestdata(ws);
+
+                var chart = ws.Drawings.AddBubbleChart("BubbleChart1", eBubbleChartType.Bubble);
+                var serie = chart.Series.Add("D2:D100", "A2:A100");
+                serie.AddErrorBars(eErrorBarType.Both, eErrorValueType.Custom);
+                serie.ErrorBars.Plus.ValuesSource = "{1}";
+                serie.ErrorBars.Minus.FormatCode = "General";
+                serie.ErrorBars.Minus.ValuesSource = "=ErrorBars!$A$2:$A$15";
+                serie.ErrorBars.Minus.FormatCode = "0";
+
+                serie.ErrorBarsX.Plus.ValuesSource = "{2}";
+                serie.ErrorBarsX.Minus.FormatCode = "General";
+                serie.ErrorBarsX.Minus.ValuesSource = "=ErrorBars!$A$2:$A$16";
+                serie.ErrorBarsX.Minus.FormatCode = "0";
+
+                chart.SetPosition(1, 0, 5, 0);
+                p1.Save();
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    ws = p2.Workbook.Worksheets["ErrorBars"];
+
+                    chart = ws.Drawings[0].As.Chart.BubbleChart;
+                    serie = chart.Series[0];
+
+                    Assert.IsNotNull(serie.ErrorBars);
+                    Assert.IsNotNull(serie.ErrorBarsX);
+                    Assert.AreEqual(eErrorBarType.Both, serie.ErrorBars.BarType);
+                    Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBars.ValueType);
+                    Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+                    Assert.AreEqual("{1}", serie.ErrorBars.Plus.ValuesSource);
+                    Assert.AreEqual("ErrorBars!$A$2:$A$15", serie.ErrorBars.Minus.ValuesSource);
+
+                    Assert.AreEqual(eErrorBarType.Both, serie.ErrorBarsX.BarType);
+                    Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBarsX.ValueType);
+                    Assert.AreEqual(false, serie.ErrorBarsX.NoEndCap);
+
+                    Assert.AreEqual("{2}", serie.ErrorBarsX.Plus.ValuesSource);
+                    Assert.AreEqual("ErrorBars!$A$2:$A$16", serie.ErrorBarsX.Minus.ValuesSource);
+                }
+            }
+        }
+        [TestMethod]
+        public void ErrorBars_Area()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ErrorBar_Area");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddAreaChart("AreaChart1", eAreaChartType.Area);
+            var serie = chart.Series.Add("D2:D100", "A2:A100");
+            serie.AddErrorBars(eErrorBarType.Both, eErrorValueType.Custom);
+            serie.ErrorBars.Plus.ValuesSource = "{1}";
+            serie.ErrorBars.Minus.FormatCode = "General";
+            serie.ErrorBars.Minus.ValuesSource = "=ErrorBar_Area!$A$2:$A$15";
+            serie.ErrorBars.Minus.FormatCode = "0";
+
+            serie.ErrorBarsX.Plus.ValuesSource = "{2}";
+            serie.ErrorBarsX.Minus.FormatCode = "General";
+            serie.ErrorBarsX.Minus.ValuesSource = "=ErrorBar_Area!$A$2:$A$16";
+            serie.ErrorBarsX.Minus.FormatCode = "0";
+
+            chart.SetPosition(1, 0, 5, 0);
+
+            Assert.IsNotNull(serie.ErrorBars);
+            Assert.IsNotNull(serie.ErrorBarsX);
+            Assert.AreEqual(eErrorBarType.Both, serie.ErrorBars.BarType);
+            Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBars.ValueType);
+            Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+            Assert.AreEqual("{1}", serie.ErrorBars.Plus.ValuesSource);
+            Assert.AreEqual("ErrorBar_Area!$A$2:$A$15", serie.ErrorBars.Minus.ValuesSource);
+
+            Assert.AreEqual(eErrorBarType.Both, serie.ErrorBarsX.BarType);
+            Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBarsX.ValueType);
+            Assert.AreEqual(false, serie.ErrorBarsX.NoEndCap);
+
+            Assert.AreEqual("{2}", serie.ErrorBarsX.Plus.ValuesSource);
+            Assert.AreEqual("ErrorBar_Area!$A$2:$A$16", serie.ErrorBarsX.Minus.ValuesSource);
+        }
+        [TestMethod]
+        public void ErrorBars_ReadArea()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("ErrorBars");
+                LoadTestdata(ws);
+
+                var chart = ws.Drawings.AddAreaChart("ScatterChart1", eAreaChartType.Area);
+                var serie = chart.Series.Add("D2:D100", "A2:A100");
+                serie.AddErrorBars(eErrorBarType.Both, eErrorValueType.Custom);
+                serie.ErrorBars.Plus.ValuesSource = "{1}";
+                serie.ErrorBars.Minus.FormatCode = "General";
+                serie.ErrorBars.Minus.ValuesSource = "=ErrorBars!$A$2:$A$15";
+                serie.ErrorBars.Minus.FormatCode = "0";
+
+                serie.ErrorBarsX.Plus.ValuesSource = "{2}";
+                serie.ErrorBarsX.Minus.FormatCode = "General";
+                serie.ErrorBarsX.Minus.ValuesSource = "=ErrorBars!$A$2:$A$16";
+                serie.ErrorBarsX.Minus.FormatCode = "0";
+
+                chart.SetPosition(1, 0, 5, 0);
+                p1.Save();
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    ws = p2.Workbook.Worksheets["ErrorBars"];
+
+                    chart = ws.Drawings[0].As.Chart.AreaChart;
+                    serie = chart.Series[0];
+
+                    Assert.IsNotNull(serie.ErrorBars);
+                    Assert.IsNotNull(serie.ErrorBarsX);
+                    Assert.AreEqual(eErrorBarType.Both, serie.ErrorBars.BarType);
+                    Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBars.ValueType);
+                    Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+                    Assert.AreEqual("{1}", serie.ErrorBars.Plus.ValuesSource);
+                    Assert.AreEqual("ErrorBars!$A$2:$A$15", serie.ErrorBars.Minus.ValuesSource);
+
+                    Assert.AreEqual(eErrorBarType.Both, serie.ErrorBarsX.BarType);
+                    Assert.AreEqual(eErrorValueType.Custom, serie.ErrorBarsX.ValueType);
+                    Assert.AreEqual(false, serie.ErrorBarsX.NoEndCap);
+
+                    Assert.AreEqual("{2}", serie.ErrorBarsX.Plus.ValuesSource);
+                    Assert.AreEqual("ErrorBars!$A$2:$A$16", serie.ErrorBarsX.Minus.ValuesSource);
+                }
+            }
+        }
+        [TestMethod]
+        public void ErrorBars_Delete()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ErrorBar_Percentage_removed");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddLineChart("LineChart1_DeletedErrorbars", eLineChartType.Line);
+            var serie = chart.Series.Add("D2:D100", "A2:A100");
+            serie.AddErrorBars(eErrorBarType.Plus, eErrorValueType.Percentage);
+            serie.ErrorBars.Value = 5;
+            chart.SetPosition(1, 0, 5, 0);
+
+            Assert.AreEqual(eErrorBarType.Plus, serie.ErrorBars.BarType);
+            Assert.AreEqual(eErrorValueType.Percentage, serie.ErrorBars.ValueType);
+            Assert.AreEqual(eErrorBarDirection.Y, serie.ErrorBars.Direction);
+            Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+            serie.ErrorBars.Remove();
+            Assert.IsNull(serie.ErrorBars);
+        }
+        [TestMethod]
+        public void ErrorBarsScatter_Delete()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ErrorBar_Scatter_removed");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddScatterChart("LineChart1_DeletedErrorbars", eScatterChartType.XYScatter);
+            var serie = chart.Series.Add("D2:D100", "A2:A100");
+            serie.AddErrorBars(eErrorBarType.Plus, eErrorValueType.Percentage);
+            Assert.IsNotNull(serie.ErrorBars);
+            Assert.IsNotNull(serie.ErrorBarsX);
+
+            serie.ErrorBars.Remove();
+            Assert.IsNull(serie.ErrorBars);
+            Assert.IsNotNull(serie.ErrorBarsX);
+
+            serie.ErrorBarsX.Remove();
+            Assert.IsNull(serie.ErrorBars);
+            Assert.IsNull(serie.ErrorBarsX);
+
+        }
 
     }
 }

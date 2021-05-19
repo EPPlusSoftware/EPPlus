@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A series for an Area Chart
     /// </summary>
-    public sealed class ExcelAreaChartSerie : ExcelChartSerieWithErrorBars, IDrawingSerieDataLabel, IDrawingChartDataPoints
+    public sealed class ExcelAreaChartSerie : ExcelChartSerieWithHorizontalErrorBars, IDrawingSerieDataLabel, IDrawingChartDataPoints
     {
         /// <summary>
         /// Default constructor
