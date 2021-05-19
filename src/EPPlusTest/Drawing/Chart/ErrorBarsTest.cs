@@ -399,5 +399,47 @@ namespace EPPlusTest.Drawing.Chart
                 }
             }
         }
+        [TestMethod]
+        public void ErrorBars_Delete()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ErrorBar_Percentage_removed");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddLineChart("LineChart1_DeletedErrorbars", eLineChartType.Line);
+            var serie = chart.Series.Add("D2:D100", "A2:A100");
+            serie.AddErrorBars(eErrorBarType.Plus, eErrorValueType.Percentage);
+            serie.ErrorBars.Value = 5;
+            chart.SetPosition(1, 0, 5, 0);
+
+            Assert.AreEqual(eErrorBarType.Plus, serie.ErrorBars.BarType);
+            Assert.AreEqual(eErrorValueType.Percentage, serie.ErrorBars.ValueType);
+            Assert.AreEqual(eErrorBarDirection.Y, serie.ErrorBars.Direction);
+            Assert.AreEqual(false, serie.ErrorBars.NoEndCap);
+
+            serie.ErrorBars.Remove();
+            Assert.IsNull(serie.ErrorBars);
+        }
+        [TestMethod]
+        public void ErrorBarsScatter_Delete()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ErrorBar_Scatter_removed");
+            LoadTestdata(ws);
+
+            var chart = ws.Drawings.AddScatterChart("LineChart1_DeletedErrorbars", eScatterChartType.XYScatter);
+            var serie = chart.Series.Add("D2:D100", "A2:A100");
+            serie.AddErrorBars(eErrorBarType.Plus, eErrorValueType.Percentage);
+            Assert.IsNotNull(serie.ErrorBars);
+            Assert.IsNotNull(serie.ErrorBarsX);
+
+            serie.ErrorBars.Remove();
+            Assert.IsNull(serie.ErrorBars);
+            Assert.IsNotNull(serie.ErrorBarsX);
+
+            serie.ErrorBarsX.Remove();
+            Assert.IsNull(serie.ErrorBars);
+            Assert.IsNull(serie.ErrorBarsX);
+
+        }
+
     }
 }
