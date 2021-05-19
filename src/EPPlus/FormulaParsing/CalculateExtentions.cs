@@ -247,7 +247,7 @@ namespace OfficeOpenXml
                 }
             }
         }
-        private static void Init(ExcelWorkbook workbook)
+        internal static void Init(ExcelWorkbook workbook)
         {
             workbook._formulaTokens = new CellStore<List<Token>>();;
             foreach (var ws in workbook.Worksheets)

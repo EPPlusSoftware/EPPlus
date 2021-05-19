@@ -18,6 +18,12 @@ namespace OfficeOpenXml.ExternalReferences
 {
     public class ExcelExternalWorksheet : IExcelExternalNamedItem
     {
+        internal ExcelExternalWorksheet()
+        {
+            CachedNames = new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
+            CellValues = new ExcelExternalReferenceCellCollection(new CellStore<object>(), new CellStore<int>());
+        }
+
         internal ExcelExternalWorksheet(
             CellStore<object> values,
             CellStore<int> metaData,

@@ -58,19 +58,19 @@ namespace OfficeOpenXml.ExternalReferences
             }
     }
     public ExcelExternalCellValue Current
+    {
+        get 
         {
-            get 
+            if (_valuesEnum == null) return null;
+            return new ExcelExternalCellValue()
             {
-                if (_valuesEnum == null) return null;
-                return new ExcelExternalCellValue()
-                {
-                    Row = _valuesEnum.Row,
-                    Column = _valuesEnum.Column,
-                    Value = _valuesEnum.Value,
-                    MetaDataReference = _metaData.GetValue(_valuesEnum.Row, _valuesEnum.Column)
-                };
-            }
+                Row = _valuesEnum.Row,
+                Column = _valuesEnum.Column,
+                Value = _valuesEnum.Value,
+                MetaDataReference = _metaData.GetValue(_valuesEnum.Row, _valuesEnum.Column)
+            };
         }
+    }
 
         object IEnumerator.Current
         {

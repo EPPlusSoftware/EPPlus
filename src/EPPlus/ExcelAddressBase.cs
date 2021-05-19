@@ -131,7 +131,7 @@ namespace OfficeOpenXml
         /// <remarks>Examples of addresses are "A1" "B1:C2" "A:A" "1:1" "A1:E2,G3:G5" </remarks>
         /// <param name="address">The Excel Address</param>
         /// <param name="wb">The workbook to verify any defined names from</param>
-        /// <param name="wb">The name of the worksheet the address referes to</param>
+        /// <param name="wsName">The name of the worksheet the address referes to</param>
         /// <ws></ws>
         public ExcelAddressBase(string address, ExcelWorkbook wb=null, string wsName=null)
         {

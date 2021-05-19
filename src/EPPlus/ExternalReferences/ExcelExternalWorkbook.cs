@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
@@ -335,6 +335,157 @@ namespace OfficeOpenXml.ExternalReferences
             _package._loadedPackage = _wb._package;
 
             return true;
+        }
+        /// <summary>
+        /// Updates the external reference cache for the external workbook. To be used a <see cref="Package"/> must be loaded via the <see cref="Load"/> method.
+        /// </summary>
+        /// <returns>True if the update was successful otherwise false</returns>
+        public bool UpdateCache()
+        {
+            if (_package == null)
+            {
+                throw (new ArgumentException("No package loaded. Please use the Load method to set the Package property"));
+            }
+
+            var lexer = _wb.FormulaParser.Lexer;
+            CachedWorksheets.Clear();
+            foreach (var ws in _wb.Worksheets)
+            {
+                CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = false });
+            }
+            foreach (var ws in _wb.Worksheets)
+            {
+                var formulas = new CellStoreEnumerator<object>(ws._formulas);
+                foreach(var f in formulas)
+                {
+                    if(f is int sfIx)
+                    {
+                        var sf = ws._sharedFormulas[sfIx];
+                        if(sf.Formula.Contains("["))
+                        {
+                            UpdateCacheForFormula(ws, sf.Formula, sf.Address);
+                        }
+                    }
+                    else
+                    {
+                        var s = f.ToString();
+                        if(s.Contains("["))
+                        {
+                            UpdateCacheForFormula(ws, s, "");
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void UpdateCacheForFormula(ExcelWorksheet ws, string formula, string address)
+        {
+            var tokens = ws.Workbook.FormulaParser.Lexer.Tokenize(formula);
+
+            foreach (var t in tokens)
+            {
+                if (t.TokenTypeIsSet(TokenType.ExcelAddress) || t.TokenTypeIsSet(TokenType.NameValue))
+                {
+                    if (ExcelCellBase.IsExternalAddress(t.Value))
+                    {
+                        ExcelAddressBase a = new ExcelAddressBase(t.Value);
+                        var ix = _wb.ExternalReferences.GetExternalReference(a._wb);
+                        if (ix == Index)
+                        {
+                            if(t.TokenTypeIsSet(TokenType.ExcelAddress))
+                            {
+                                UpdateCacheForAddress(a, address);
+                            }
+                            else
+                            {
+                                UpdateCacheForName(a);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateCacheForName(ExcelAddressBase a)
+        {
+            ExcelNamedRange name;
+            if (string.IsNullOrEmpty(a.WorkSheetName))
+            {
+                name = _package.Workbook.Names.ContainsKey(a.Address) ? _package.Workbook.Names[a.Address] : null;
+            }
+            else
+            {
+                var ws = _package.Workbook.Worksheets[a.WorkSheetName];
+                if (ws == null)
+                {
+                    name = null;
+                }
+                else
+                {
+                    name = ws.Names.ContainsKey(a.Address) ? ws.Names[a.Address] : null;
+                }
+            }
+            string referensTo;
+            if(name._fromRow>0)
+            {
+                referensTo = name.LocalAddress;
+            }
+            else
+            {
+                referensTo = "#REF!";
+            }
+            if(name.LocalSheetId < 0)
+            {
+                if (!CachedNames.ContainsKey(a.Address))
+                {
+                    CachedNames.Add(new ExcelExternalDefinedName() { Name = a.Address, RefersTo = referensTo });
+                }
+            }
+            else
+            {
+                var cws = CachedWorksheets[name.LocalSheet.Name];
+                if(cws != null)
+                {
+                    if (!CachedNames.ContainsKey(a.Address))
+                    {
+                        cws.CachedNames.Add(new ExcelExternalDefinedName() { Name = a.Address, RefersTo = referensTo, SheetId = name.LocalSheetId });
+                    }
+                }
+            }
+        }
+
+        private void UpdateCacheForAddress(ExcelAddressBase formulaAddress, string sfAddress)
+        {
+            if(string.IsNullOrEmpty(sfAddress)==false)
+            {
+                var a = new ExcelAddress(sfAddress);
+                if(formulaAddress._toColFixed==false)
+                {
+                    formulaAddress._toCol += a.Columns - 1;
+                    formulaAddress._toRow += a.Rows - 1;
+                }
+                if (string.IsNullOrEmpty(a.WorkSheetName))
+                {
+                    var ws = _package.Workbook.Worksheets[a.WorkSheetName];
+                    if (ws == null)
+                    {
+                        if (!CachedWorksheets.ContainsKey(a.WorkSheetName))
+                        {
+                            CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = true });
+                        }
+                    }
+                    else
+                    {
+                        var cws = CachedWorksheets[a.WorkSheetName];
+                        var cse = new CellStoreEnumerator<ExcelValue>(ws._values);
+                        foreach(var v in cse)
+                        {
+                            cws.CellValues[cse.Row, cse.Column].Value = v._value;
+                        }
+                    }
+                }
+            }
         }
 
         public override string ToString()
