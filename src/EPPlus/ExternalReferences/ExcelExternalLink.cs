@@ -18,20 +18,26 @@ namespace OfficeOpenXml.ExternalReferences
 {
     public abstract class ExcelExternalLink
     {
+        internal ExcelWorkbook _wb;
+        internal ExcelExternalLink(ExcelWorkbook wb)
+        {
+            _wb = wb;
+            As = new ExcelExternalLinkAsType(this);
+            Part = null;
+            WorkbookElement = null;
+        }
         internal ExcelExternalLink(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)
         {
             _wb = wb;
+            As = new ExcelExternalLinkAsType(this);
             Part = part;
             WorkbookElement = workbookElement;
-            
-            As = new ExcelExternalLinkAsType(this);
         }
         public abstract eExternalLinkType ExternalLinkType
         {
             get;
         }
         internal abstract void Save(StreamWriter sw);
-        internal ExcelWorkbook _wb;
         internal XmlElement WorkbookElement
         {
             get;

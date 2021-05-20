@@ -54,6 +54,15 @@ namespace OfficeOpenXml.ExternalReferences
                 return _list[index];
             }
         }
+        public void AddWorkbook(FileInfo file)
+        {
+            if(file == null || file.Exists==false)
+            {
+                throw (new FileNotFoundException("The file does not exist."));
+            }
+            var p = new ExcelPackage(file);
+            var wb = new ExcelExternalWorkbook(_wb, p);
+        }
         internal void LoadExternalReferences()
         {
             XmlNodeList nl = _wb.WorkbookXml.SelectNodes("//d:externalReferences/d:externalReference", _wb.NameSpaceManager);

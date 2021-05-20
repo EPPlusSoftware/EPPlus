@@ -29,14 +29,10 @@ namespace OfficeOpenXml.ExternalReferences
         Dictionary<int, CellStore<int>> _sheetMetaData = new Dictionary<int, CellStore<int>>();
         Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>> _definedNamesValues = new Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>>();
         HashSet<int> _sheetRefresh = new HashSet<int>();
-        public override eExternalLinkType ExternalLinkType
+        internal ExcelExternalWorkbook(ExcelWorkbook wb, ExcelPackage p) : base(wb)
         {
-            get
-            {
-                return eExternalLinkType.ExternalWorkbook;
-            }
+            SetPackage(p);
         }
-
         internal ExcelExternalWorkbook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
         {
             var rId = reader.GetAttribute("id", ExcelPackage.schemaRelationships);
@@ -84,6 +80,14 @@ namespace OfficeOpenXml.ExternalReferences
                 });
             }
         }
+        public override eExternalLinkType ExternalLinkType
+        {
+            get
+            {
+                return eExternalLinkType.ExternalWorkbook;
+            }
+        }
+
         private ExcelExternalNamedItemCollection<ExcelExternalDefinedName> GetNames(int ix)
         {
             if(_definedNamesValues.ContainsKey(ix))
@@ -309,8 +313,7 @@ namespace OfficeOpenXml.ExternalReferences
         {
             if (packageFile.Exists)
             {
-                _package = new ExcelPackage(packageFile);
-                _package._loadedPackage = _wb._package;
+                SetPackage(new ExcelPackage(packageFile));
                 return true;
             }
             return false;
@@ -326,29 +329,39 @@ namespace OfficeOpenXml.ExternalReferences
                 throw (new ArgumentException("The package can't be null or load itself."));
             }
 
-            if (package.File==null)
+            if (package.File == null)
             {
                 throw (new ArgumentException("The package must have the File property set to be added as an external reference."));
             }
 
-            _package = package;
-            _package._loadedPackage = _wb._package;
+            SetPackage(package);
 
             return true;
         }
+
+        private void SetPackage(ExcelPackage package)
+        {
+            _package = package;
+            _package._loadedPackage = _wb._package;
+        }
+
         /// <summary>
         /// Updates the external reference cache for the external workbook. To be used a <see cref="Package"/> must be loaded via the <see cref="Load"/> method.
         /// </summary>
         /// <returns>True if the update was successful otherwise false</returns>
         public bool UpdateCache()
-        {
+        {            
             if (_package == null)
             {
-                throw (new ArgumentException("No package loaded. Please use the Load method to set the Package property"));
+                if(Load()==false)
+                {
+                    throw (new InvalidOperationException($"Can't update cache. The file {File?.FullName} does not exist."));
+                }
             }
 
             var lexer = _wb.FormulaParser.Lexer;
             CachedWorksheets.Clear();
+            CachedNames.Clear();
             foreach (var ws in _wb.Worksheets)
             {
                 CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = false });
@@ -389,103 +402,116 @@ namespace OfficeOpenXml.ExternalReferences
                 {
                     if (ExcelCellBase.IsExternalAddress(t.Value))
                     {
-                        ExcelAddressBase a = new ExcelAddressBase(t.Value);
-                        var ix = _wb.ExternalReferences.GetExternalReference(a._wb);
-                        if (ix == Index)
+                        if(t.TokenTypeIsSet(TokenType.ExcelAddress))
                         {
-                            if(t.TokenTypeIsSet(TokenType.ExcelAddress))
+                            ExcelAddressBase a = new ExcelAddressBase(t.Value);
+                            var ix = _wb.ExternalReferences.GetExternalReference(a._wb);
+                            if (ix >= 0 && _wb.ExternalReferences[ix] == this)
                             {
                                 UpdateCacheForAddress(a, address);
                             }
-                            else
-                            {
-                                UpdateCacheForName(a);
-                            }
+                        }
+                        else
+                        {
+                            var name = t.Value.Substring(t.Value.IndexOf("]") + 1);
+                            if (name.StartsWith("!")) name = name.Substring(1);
+                            UpdateCacheForName(name);
                         }
                     }
                 }
             }
         }
 
-        private void UpdateCacheForName(ExcelAddressBase a)
+        private void UpdateCacheForName(string name)
         {
-            ExcelNamedRange name;
-            if (string.IsNullOrEmpty(a.WorkSheetName))
+            int ix = 0;
+            var wsName = ExcelAddressBase.GetWorksheetPart(name, "", ref ix);
+            if (!string.IsNullOrEmpty(wsName))
             {
-                name = _package.Workbook.Names.ContainsKey(a.Address) ? _package.Workbook.Names[a.Address] : null;
+                name = name.Substring(ix);
+            }
+
+            ExcelNamedRange namedRange;
+            if (string.IsNullOrEmpty(wsName))
+            {
+                namedRange = _package.Workbook.Names.ContainsKey(name) ? _package.Workbook.Names[name] : null;
             }
             else
             {
-                var ws = _package.Workbook.Worksheets[a.WorkSheetName];
+                var ws = _package.Workbook.Worksheets[wsName];
                 if (ws == null)
                 {
-                    name = null;
+                    namedRange = null;
                 }
                 else
                 {
-                    name = ws.Names.ContainsKey(a.Address) ? ws.Names[a.Address] : null;
+                    namedRange = ws.Names.ContainsKey(name) ? ws.Names[name] : null;
                 }
             }
-            string referensTo;
-            if(name._fromRow>0)
+            ExcelAddressBase referensTo;
+            if(namedRange._fromRow>0)
             {
-                referensTo = name.LocalAddress;
+                referensTo = new ExcelAddressBase(namedRange.LocalAddress);
             }
             else
             {
-                referensTo = "#REF!";
+                referensTo = new ExcelAddressBase("#REF!");
             }
-            if(name.LocalSheetId < 0)
+
+            if(namedRange.LocalSheetId < 0)
             {
-                if (!CachedNames.ContainsKey(a.Address))
+                if (!CachedNames.ContainsKey(name))
                 {
-                    CachedNames.Add(new ExcelExternalDefinedName() { Name = a.Address, RefersTo = referensTo });
+                    CachedNames.Add(new ExcelExternalDefinedName() { Name = name, RefersTo = referensTo.Address, SheetId=-1 });
+                    UpdateCacheForAddress(referensTo, "");
                 }
             }
             else
             {
-                var cws = CachedWorksheets[name.LocalSheet.Name];
+                var cws = CachedWorksheets[namedRange.LocalSheet.Name];
                 if(cws != null)
                 {
-                    if (!CachedNames.ContainsKey(a.Address))
+                    if (!CachedNames.ContainsKey(name))
                     {
-                        cws.CachedNames.Add(new ExcelExternalDefinedName() { Name = a.Address, RefersTo = referensTo, SheetId = name.LocalSheetId });
+                        cws.CachedNames.Add(new ExcelExternalDefinedName() { Name = name, RefersTo = referensTo.Address, SheetId = namedRange.LocalSheetId });
+                        UpdateCacheForAddress(referensTo, "");
                     }
                 }
             }
         }
-
         private void UpdateCacheForAddress(ExcelAddressBase formulaAddress, string sfAddress)
         {
-            if(string.IsNullOrEmpty(sfAddress)==false)
+            if (formulaAddress._fromRow < 0 || formulaAddress._fromCol < 0) return;
+            if (string.IsNullOrEmpty(sfAddress) == false)
             {
                 var a = new ExcelAddress(sfAddress);
-                if(formulaAddress._toColFixed==false)
+                if (formulaAddress._toColFixed == false)
                 {
                     formulaAddress._toCol += a.Columns - 1;
                     formulaAddress._toRow += a.Rows - 1;
                 }
-                if (string.IsNullOrEmpty(a.WorkSheetName))
+            }
+
+            if (!string.IsNullOrEmpty(formulaAddress.WorkSheetName))
+            {
+                var ws = _package.Workbook.Worksheets[formulaAddress.WorkSheetName];
+                if (ws == null)
                 {
-                    var ws = _package.Workbook.Worksheets[a.WorkSheetName];
-                    if (ws == null)
+                    if (!CachedWorksheets.ContainsKey(formulaAddress.WorkSheetName))
                     {
-                        if (!CachedWorksheets.ContainsKey(a.WorkSheetName))
-                        {
-                            CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = true });
-                        }
-                    }
-                    else
-                    {
-                        var cws = CachedWorksheets[a.WorkSheetName];
-                        var cse = new CellStoreEnumerator<ExcelValue>(ws._values);
-                        foreach(var v in cse)
-                        {
-                            cws.CellValues[cse.Row, cse.Column].Value = v._value;
-                        }
+                        CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = true });
                     }
                 }
-            }
+                else
+                {
+                    var cws = CachedWorksheets[formulaAddress.WorkSheetName];
+                    var cse = new CellStoreEnumerator<ExcelValue>(ws._values, formulaAddress._fromRow, formulaAddress._fromCol, formulaAddress._toRow, formulaAddress._toCol);
+                    foreach(var v in cse)
+                    {
+                        cws.CellValues._values.SetValue(cse.Row, cse.Column, v._value);
+                    }
+                }
+            }            
         }
 
         public override string ToString()

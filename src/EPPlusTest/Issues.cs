@@ -1535,7 +1535,7 @@ namespace EPPlusTest
         public void IssueCommentInsert()
         {
 
-            using (var p = OpenPackage("comment.xlsx", true))
+            using (var p = OpenPackage("CommentInsert.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("CommentInsert");
                 ws.Cells["A2"].AddComment("na", "test");

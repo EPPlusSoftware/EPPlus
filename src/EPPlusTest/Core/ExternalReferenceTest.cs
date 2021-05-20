@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Collections.Generic;
 using System.IO;
 
 namespace EPPlusTest.Core
@@ -265,5 +266,58 @@ namespace EPPlusTest.Core
             SaveAndCleanup(p);
         }
 
+        [TestMethod]
+        public void UpdateCacheShouldBeSameAsExcel()
+        {
+            var p = OpenTemplatePackage("ExtRef.xlsx");
+
+            var er = p.Workbook.ExternalReferences[0].As.ExternalWorkbook;
+            var excelCache = GetExternalCache(er);
+
+            p.Workbook.ExternalReferences[0].As.ExternalWorkbook.UpdateCache();
+            var epplusCache = GetExternalCache(er);
+
+            foreach (var key in excelCache.Keys)
+            {
+                if(epplusCache.ContainsKey(key))
+                {
+                    //Assert.AreEqual(excelCache[key], epplusCache[key]);
+                }
+                else
+                {
+                    Assert.Fail($"Key:{key} are missing in EPPlus cache.");
+                }
+            }
+
+            foreach (var key in epplusCache.Keys)
+            {
+                if (!excelCache.ContainsKey(key))
+                {
+                    Assert.Fail($"Key:{key} are missing in EPPlus cache.");
+                }
+            }
+            SaveWorkbook("ExtRef_Updated.xlsx", p);
+        }
+
+        private Dictionary<string, object> GetExternalCache(ExcelExternalWorkbook ewb)
+        {
+            var d=new Dictionary<string, object>();
+            foreach(ExcelExternalWorksheet ws in ewb.CachedWorksheets)
+            {
+                foreach(ExcelExternalCellValue v in ws.CellValues)
+                {
+                    d.Add(ws.Name + v.Address, v.Value);
+                }
+                foreach (ExcelExternalDefinedName n in ws.CachedNames)
+                {
+                    d.Add(ws.Name + n.Name, n.RefersTo);
+                }
+            }
+            foreach (ExcelExternalDefinedName n in ewb.CachedNames)
+            {
+                d.Add(n.Name, n.RefersTo);
+            }
+            return d;
+        }
     }
 }

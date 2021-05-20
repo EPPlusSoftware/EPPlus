@@ -35,6 +35,11 @@ namespace OfficeOpenXml.ExternalReferences
             _names.Add(item.Name, _list.Count);
             base.Add(item);
         }
+        internal override void Clear()
+        {
+            base.Clear();
+            _names.Clear();
+        }
         public bool ContainsKey(string name)
         {
             return _names.ContainsKey(name);

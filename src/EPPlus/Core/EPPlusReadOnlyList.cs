@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Core
                 return _list.Count;
             }
         }
-        internal void Clear()
+        internal virtual void Clear()
         {
             _list.Clear();
         }

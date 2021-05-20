@@ -1337,6 +1337,7 @@ namespace OfficeOpenXml
         { 
             get
             {
+                if (!_address.StartsWith("[")) return _address;
                 var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from 
                 if (ix>=0)
                 {
