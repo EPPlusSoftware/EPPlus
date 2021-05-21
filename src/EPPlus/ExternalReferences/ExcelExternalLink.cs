@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
 using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
@@ -22,7 +23,7 @@ namespace OfficeOpenXml.ExternalReferences
         internal ExcelExternalLink(ExcelWorkbook wb)
         {
             _wb = wb;
-            As = new ExcelExternalLinkAsType(this);
+            As = new ExcelExternalLinkAsType(this);            
             Part = null;
             WorkbookElement = null;
         }
@@ -68,5 +69,14 @@ namespace OfficeOpenXml.ExternalReferences
         {
             return uriPath.StartsWith("http:") || uriPath.StartsWith("https:") || uriPath.StartsWith("ftp:") || uriPath.StartsWith("ftps:");
         }
+        protected internal StringBuilder _errors = new StringBuilder();
+        public string ErrorsLog
+        {
+            get
+            {
+                return _errors.ToString();
+            }
+        }
+
     }
 }

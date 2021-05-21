@@ -19,6 +19,8 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Xml;
+using System.Text;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -31,8 +33,10 @@ namespace OfficeOpenXml.ExternalReferences
         HashSet<int> _sheetRefresh = new HashSet<int>();
         internal ExcelExternalWorkbook(ExcelWorkbook wb, ExcelPackage p) : base(wb)
         {
+            CachedWorksheets = new ExcelExternalNamedItemCollection<ExcelExternalWorksheet>();
+            CachedNames = new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
             SetPackage(p);
-        }
+       }
         internal ExcelExternalWorkbook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
         {
             var rId = reader.GetAttribute("id", ExcelPackage.schemaRelationships);
@@ -296,14 +300,7 @@ namespace OfficeOpenXml.ExternalReferences
         /// <returns>True if the load succeeded, otherwise false</returns>
         public bool Load()
         {
-            if(File != null && File.Exists)
-            {
-                _package = new ExcelPackage(File);
-                _package._loadedPackage = _wb._package;
-                return true;
-            }
-
-            return false;
+            return Load(File);
         }
         /// <summary>
         /// Tries to Loads the external package using the External Uri into the <see cref="Package"/> property
@@ -311,11 +308,21 @@ namespace OfficeOpenXml.ExternalReferences
         /// <returns>True if the load succeeded, otherwise false</returns>
         public bool Load(FileInfo packageFile)
         {
-            if (packageFile.Exists)
+            if (packageFile != null && packageFile.Exists)
             {
-                SetPackage(new ExcelPackage(packageFile));
+                if (packageFile.Extension.EndsWith("xlsx", StringComparison.OrdinalIgnoreCase) ||
+                   packageFile.Extension.EndsWith(".xlsm", StringComparison.OrdinalIgnoreCase) ||
+                   packageFile.Extension.EndsWith(".xlsm", StringComparison.OrdinalIgnoreCase))
+                {
+                    _errors.AppendLine("EPPlus only supports updating references to files of type xlsx, xlsm and xlst");
+                    return false;
+                }
+                _package = new ExcelPackage(packageFile);
+                _package._loadedPackage = _wb._package;
                 return true;
             }
+            _errors.AppendLine($"Loaded file does not exists {packageFile.FullName}");
+
             return false;
         }
         /// <summary>
@@ -326,12 +333,14 @@ namespace OfficeOpenXml.ExternalReferences
         {
             if (package == null || package == _wb._package)
             {
-                throw (new ArgumentException("The package can't be null or load itself."));
+                _errors.AppendLine("Load failed. The package can't be null or load itself.");
+                return false;
             }
 
             if (package.File == null)
             {
-                throw (new ArgumentException("The package must have the File property set to be added as an external reference."));
+                _errors.AppendLine("Load failed. The package must have the File property set to be added as an external reference.");
+                return false;
             }
 
             SetPackage(package);
@@ -355,17 +364,28 @@ namespace OfficeOpenXml.ExternalReferences
             {
                 if(Load()==false)
                 {
-                    throw (new InvalidOperationException($"Can't update cache. The file {File?.FullName} does not exist."));
+                     _errors.AppendLine($"Load failed. Can't update cache.");
+                    return false;
                 }
             }
 
             var lexer = _wb.FormulaParser.Lexer;
             CachedWorksheets.Clear();
             CachedNames.Clear();
+            _definedNamesValues.Clear();
+            _sheetValues.Clear();
+            _sheetMetaData.Clear();
+            _definedNamesValues.Add(-1, new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>());
             foreach (var ws in _wb.Worksheets)
             {
-                CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = false });
+                var ix = CachedWorksheets.Count;
+                _sheetNames.Add(ws.Name, ix);
+                _sheetValues.Add(ix, new CellStore<object>());
+                _sheetMetaData.Add(ix, new CellStore<int>());
+                _definedNamesValues.Add(ix, new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>());
+                CachedWorksheets.Add(new ExcelExternalWorksheet(_sheetValues[ix], _sheetMetaData[ix], _definedNamesValues[ix]) { Name = ws.Name, RefreshError = false });
             }
+
             foreach (var ws in _wb.Worksheets)
             {
                 var formulas = new CellStoreEnumerator<object>(ws._formulas);

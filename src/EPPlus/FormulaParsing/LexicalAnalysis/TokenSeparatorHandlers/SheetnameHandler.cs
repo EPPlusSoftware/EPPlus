@@ -54,8 +54,16 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                     context.AddToken(!context.CurrentTokenHasValue
                         ? new Token(string.Empty, TokenType.WorksheetNameContent)
                         : new Token(context.CurrentToken, TokenType.WorksheetNameContent));
+                }                
+                if(context.CurrentToken.StartsWith("[") &&
+                   context.CurrentToken.EndsWith("]"))
+                {
+                    context.AddToken(new Token(context.CurrentToken + "'", TokenType.WorksheetName)); //Append current token, as this can be an external reference index e.g [1]
                 }
-                context.AddToken(new Token("'", TokenType.WorksheetName));
+                else
+                {
+                    context.AddToken(new Token("'", TokenType.WorksheetName)); //Append current token, as this can be an external reference index e.g [1]
+                }
                 context.ToggleIsInSheetName();
                 context.NewToken();
                 return true;

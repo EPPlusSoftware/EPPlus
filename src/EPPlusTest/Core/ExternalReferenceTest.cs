@@ -26,7 +26,7 @@ namespace EPPlusTest.Core
             //SaveAndCleanup(_pck);
 
             //if (File.Exists(fileName)) File.Copy(fileName, dirName + "\\ExternalReferencesRead.xlsx", true);
-        }
+            }
         [TestMethod]
         public void OpenAndReadExternalReferences()
         {
@@ -281,7 +281,9 @@ namespace EPPlusTest.Core
             {
                 if(epplusCache.ContainsKey(key))
                 {
-                    //Assert.AreEqual(excelCache[key], epplusCache[key]);
+                    //We remove any single quotes as excel adds seems to add ' to all worksheet names.
+                    //We also remove any prefixing equal sign in teh GetExternalCache method.
+                    Assert.AreEqual(excelCache[key].ToString().Replace("\'","").ToString(), epplusCache[key].ToString().Replace("\'",""));
                 }
                 else
                 {
@@ -296,7 +298,52 @@ namespace EPPlusTest.Core
                     Assert.Fail($"Key:{key} are missing in EPPlus cache.");
                 }
             }
+
             SaveWorkbook("ExtRef_Updated.xlsx", p);
+        }
+
+        [TestMethod]
+        public void AddExternalReferenceShouldBeSameAsExcel()
+        {
+            var p = OpenPackage("AddedExtRef.xlsx", true);
+            var ws1=CreateWorksheet1(p);
+            var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+            
+            ws2.Cells["A1"].Value = 3;
+            ws2.Names.Add("SheetDefinedName", ws2.Cells["A1"]);
+            
+            ws1.Cells["D1"].Formula = "Sheet2!SheetDefinedName";
+            ws1.Cells["E1"].Formula = "Table1[@a]+[1]'Sheet1'!$A2";
+            ws1.Cells["F1"].Formula = "Table1[@b]+[1]'Sheet1'!$B2";
+            ws1.Cells["G1"].Formula = "Table1[@c]+[1]'Sheet1'!$C2";
+            ws1.Cells["E2"].Formula = "Table1[@a]+[1]'Sheet1'!$A3";
+            ws1.Cells["F1"].Formula = "Table1[@b]+[1]'Sheet1'!$B3";
+            ws1.Cells["G1"].Formula = "Table1[@c]+[1]'Sheet1'!$C3";
+
+            var er = p.Workbook.ExternalReferences.AddWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+
+            er.UpdateCache();
+
+            SaveAndCleanup(p);
+        }
+
+        private static ExcelWorksheet CreateWorksheet1(ExcelPackage p)
+        {
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+            ws.SetValue(1, 1, "a");
+            ws.SetValue(1, 2, "b");
+            ws.SetValue(1, 3, "c");
+            ws.SetValue(2, 1, 1D);
+            ws.SetValue(2, 2, 2D);
+            ws.SetValue(2, 3, 3D);
+            ws.SetValue(3, 1, 4D);
+            ws.SetValue(3, 2, 8D);
+            ws.SetValue(3, 3, 12D);
+
+            var tbl = ws.Tables.Add(ws.Cells["A1:C3"], "Table1");
+            //Create Table
+            tbl.TableStyle = OfficeOpenXml.Table.TableStyles.Medium2;
+            return ws;
         }
 
         private Dictionary<string, object> GetExternalCache(ExcelExternalWorkbook ewb)
@@ -310,12 +357,26 @@ namespace EPPlusTest.Core
                 }
                 foreach (ExcelExternalDefinedName n in ws.CachedNames)
                 {
-                    d.Add(ws.Name + n.Name, n.RefersTo);
+                    if (n.RefersTo.StartsWith("="))
+                    {
+                        d.Add(ws.Name + n.Name, n.RefersTo.Substring(1));
+                    }
+                    else
+                    {
+                        d.Add(ws.Name + n.Name, n.RefersTo);
+                    }
                 }
             }
             foreach (ExcelExternalDefinedName n in ewb.CachedNames)
             {
-                d.Add(n.Name, n.RefersTo);
+                if (n.RefersTo.StartsWith("="))
+                {
+                    d.Add(n.Name, n.RefersTo.Substring(1));
+                }
+                else
+                {
+                    d.Add(n.Name, n.RefersTo);
+                }
             }
             return d;
         }
