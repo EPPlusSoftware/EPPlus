@@ -32,7 +32,7 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExtRef.xlsx");
 
-            Assert.AreEqual(1, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(2, p.Workbook.ExternalReferences.Count);
 
             Assert.AreEqual(1D, p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues["A2"].Value);
             Assert.AreEqual(12D, p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues["C3"].Value);
@@ -111,7 +111,7 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExtRef.xlsx");
 
-            Assert.AreEqual(1, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(2, p.Workbook.ExternalReferences.Count);
 
             p.Workbook.ExternalReferences.Delete(0);
 
@@ -251,7 +251,7 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("dde.xlsx");
 
-            Assert.AreEqual(5, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(6, p.Workbook.ExternalReferences.Count);
 
             Assert.AreEqual(eExternalLinkType.DdeLink, p.Workbook.ExternalReferences[0].ExternalLinkType);
             p.Workbook.ExternalReferences.Directories.Add(new DirectoryInfo("c:\\epplustest\\workbooks"));
@@ -312,13 +312,13 @@ namespace EPPlusTest.Core
             ws2.Cells["A1"].Value = 3;
             ws2.Names.Add("SheetDefinedName", ws2.Cells["A1"]);
             
-            ws1.Cells["D1"].Formula = "Sheet2!SheetDefinedName";
-            ws1.Cells["E1"].Formula = "Table1[@a]+[1]'Sheet1'!$A2";
-            ws1.Cells["F1"].Formula = "Table1[@b]+[1]'Sheet1'!$B2";
-            ws1.Cells["G1"].Formula = "Table1[@c]+[1]'Sheet1'!$C2";
-            ws1.Cells["E2"].Formula = "Table1[@a]+[1]'Sheet1'!$A3";
-            ws1.Cells["F1"].Formula = "Table1[@b]+[1]'Sheet1'!$B3";
-            ws1.Cells["G1"].Formula = "Table1[@c]+[1]'Sheet1'!$C3";
+            ws1.Cells["D2"].Formula = "Sheet2!SheetDefinedName";
+            ws1.Cells["E2"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A2";
+            ws1.Cells["F2"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B2";
+            ws1.Cells["G2"].Formula = "Table1[[#This Row],[c]]+[1]Sheet1!$C2";
+            ws1.Cells["E3"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A3";
+            ws1.Cells["F3"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B3";
+            ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
 
             var er = p.Workbook.ExternalReferences.AddWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
 

@@ -1104,32 +1104,11 @@ namespace OfficeOpenXml
 
 			if(_externalReferences!=null)
             {
-				foreach (var er in _externalReferences)
-                {
-					if(er.Part==null)
-                    {
-						var ewb = er.As.ExternalWorkbook;
-						var uri = XmlHelper.GetNewUri(_package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
-						ewb.Part = _package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
-						ewb.Relation = Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
-						er.Part.CreateRelationship(((ExcelExternalWorkbook)er).Package.File.FullName, TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+                SaveExternalReferences();
+            }
 
-						var wbExtRefElement = (XmlElement)CreateNode("d:externalReferences/d:externalReference", false, true);
-						wbExtRefElement.SetAttribute("id", ExcelPackage.schemaRelationships, ewb.Relation.Id);
-					}
-					var sw = new StreamWriter(er.Part.GetStream(FileMode.CreateNew));
-					sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-					sw.Write("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
-					er.Save(sw);
-					sw.Write("</externalLink>");
-					sw.Flush();					
-					
-				}
-
-			}
-
-			// save the workbook
-			if (_workbookXml != null)
+            // save the workbook
+            if (_workbookXml != null)
 			{
 				if(Worksheets[_package._worksheetAdd].Hidden!=eWorkSheetHidden.Visible)
 				{
@@ -1196,7 +1175,33 @@ namespace OfficeOpenXml
 
 		}
 
-		private void SavePivotTableCaches()
+        private void SaveExternalReferences()
+        {
+            foreach (var er in _externalReferences)
+            {
+                if (er.Part == null)
+                {
+                    var ewb = er.As.ExternalWorkbook;
+                    var uri = GetNewUri(_package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
+                    ewb.Part = _package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
+					var extFile = ((ExcelExternalWorkbook)er).Package.File;
+					var relativeFilePath = FileHelper.GetRelativeFile(_package.File, extFile);
+					ewb.Relation = er.Part.CreateRelationship(relativeFilePath, TargetMode.External, ExcelPackage.schemaRelationships + "/externalLinkPath");
+
+                    var wbRel = Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
+                    var wbExtRefElement = (XmlElement)CreateNode("d:externalReferences/d:externalReference", false, true);
+                    wbExtRefElement.SetAttribute("id", ExcelPackage.schemaRelationships, wbRel.Id);
+                }
+                var sw = new StreamWriter(er.Part.GetStream(FileMode.CreateNew));
+                sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+                sw.Write("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
+                er.Save(sw);
+                sw.Write("</externalLink>");
+                sw.Flush();
+            }
+        }
+
+        private void SavePivotTableCaches()
 		{
 			foreach (var info in _pivotTableCaches.Values)
 			{

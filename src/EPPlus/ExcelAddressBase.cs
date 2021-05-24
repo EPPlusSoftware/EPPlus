@@ -391,6 +391,15 @@ namespace OfficeOpenXml
                         _address = _ws.Substring(pos + 2);
                     }
                     _ws = _ws.Substring(1, pos-1);
+                    if(_ws.StartsWith("["))
+                    {
+                        var ix = _ws.IndexOf("]", 1);
+                        if(ix>0)
+                        {
+                            _wb = _ws.Substring(1, ix - 1);
+                            _ws = _ws.Substring(ix+1);
+                        }
+                    }
                     pos = _address.IndexOf(":'", StringComparison.OrdinalIgnoreCase);
                     if(pos>0)
                     {

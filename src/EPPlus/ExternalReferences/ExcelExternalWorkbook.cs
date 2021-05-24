@@ -310,9 +310,9 @@ namespace OfficeOpenXml.ExternalReferences
         {
             if (packageFile != null && packageFile.Exists)
             {
-                if (packageFile.Extension.EndsWith("xlsx", StringComparison.OrdinalIgnoreCase) ||
+                if (!(packageFile.Extension.EndsWith("xlsx", StringComparison.OrdinalIgnoreCase) ||
                    packageFile.Extension.EndsWith(".xlsm", StringComparison.OrdinalIgnoreCase) ||
-                   packageFile.Extension.EndsWith(".xlsm", StringComparison.OrdinalIgnoreCase))
+                   packageFile.Extension.EndsWith(".xlst", StringComparison.OrdinalIgnoreCase)))
                 {
                     _errors.AppendLine("EPPlus only supports updating references to files of type xlsx, xlsm and xlst");
                     return false;

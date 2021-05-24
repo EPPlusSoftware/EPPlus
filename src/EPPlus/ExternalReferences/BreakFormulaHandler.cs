@@ -58,7 +58,7 @@ namespace OfficeOpenXml.ExternalReferences
                 foreach (var sh in ws._sharedFormulas.Values)
                 {
                     sh.SetTokens(ws.Name);
-                    if (HasFormulaExternalReference(wb, ix, sh.Tokens, out string newFormula))
+                    if (HasFormulaExternalReference(wb, ix, sh.Tokens, out string newFormula, false))
                     {
                         ExcelCellBase.GetRowColFromAddress(sh.Address, out int fromRow, out int fromCol, out int toRow, out int toCol);
                         ws._formulas.Clear(fromRow, fromCol, toRow - fromRow + 1, toCol - fromCol + 1);
@@ -85,7 +85,7 @@ namespace OfficeOpenXml.ExternalReferences
                         {
                             t = SourceCodeTokenizer.Default.Tokenize(formula, ws.Name);
                         }
-                        if (HasFormulaExternalReference(wb, ix, t, out string newFormula))
+                        if (HasFormulaExternalReference(wb, ix, t, out string newFormula, false))
                         {
                             ws._formulas.Clear(enumerator.Row, enumerator.Column, 1, 1);
                             ws._formulaTokens?.Clear(enumerator.Row, enumerator.Column, 1, 1);
@@ -119,9 +119,10 @@ namespace OfficeOpenXml.ExternalReferences
                                 var endIx = a.Address.IndexOf(']');
                                 var extRef = a.Address.Substring(startIx + 1, endIx - startIx - 1);
                                 var extRefIx = wb.ExternalReferences.GetExternalReference(extRef);
-                                if (extRefIx == ix || ix==-1) //-1 means delete all external references
+                                if ((extRefIx == ix || ix==-1) && extRef!="0") //-1 means delete all external references. extRef=="0" is the current workbook
                                 {
-                                    deletedNames.Add(n);
+                                    //deletedNames.Add(n);
+                                    n.Address = "#REF!";
                                 }
                                 else if (extRefIx > ix)
                                 {
@@ -134,15 +135,15 @@ namespace OfficeOpenXml.ExternalReferences
                 else
                 {
                     var t = SourceCodeTokenizer.Default.Tokenize(n.Formula, wsName);
-                    if (ix == -1 && HasFormulaExternalReference(t))
-                    {
-                        deletedNames.Add(n);
-                    }
-                    else
-                    {
-                        if (HasFormulaExternalReference(wb, ix, t, out string newFormula))
+                    //if (ix == -1 && HasFormulaExternalReference(t))
+                    //{
+                    //    //deletedNames.Add(n);
+                    //}
+                    //else
+                    //{
+                        if (HasFormulaExternalReference(wb, ix, t, out string newFormula, true))
                         {
-                            deletedNames.Add(n);
+                            //deletedNames.Add(n);
                             if(newFormula!="")
                             {
                                 n.Formula = newFormula;
@@ -152,17 +153,18 @@ namespace OfficeOpenXml.ExternalReferences
                         {
                             n.Formula = newFormula;
                         }
-                    }
+                    //}
                 }
             }
-            deletedNames.ForEach(x => names.Remove(x.Name));
+            //deletedNames.ForEach(x => names.Remove(x.Name));
         }
         private static bool HasFormulaExternalReference(IEnumerable<Token> tokens)
         {
             foreach (var t in tokens)
             {
                 if (t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress) ||
-                t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.InvalidReference))
+                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.NameValue) ||
+                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.InvalidReference))
                 {
                     var address = t.Value;
                     if (address.StartsWith("[") || address.StartsWith("'["))
@@ -173,12 +175,13 @@ namespace OfficeOpenXml.ExternalReferences
             }
             return false;
         }
-        private static bool HasFormulaExternalReference(ExcelWorkbook wb, int ix, IEnumerable<Token> tokens, out string newFormula)
+        private static bool HasFormulaExternalReference(ExcelWorkbook wb, int ix, IEnumerable<Token> tokens, out string newFormula, bool setRefError)
         {
             newFormula = "";
             foreach (var t in tokens)
             {
                 if (t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress) ||
+                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.NameValue) ||
                     t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.InvalidReference))
                 {
                     var address = t.Value;
@@ -187,18 +190,35 @@ namespace OfficeOpenXml.ExternalReferences
                         var startIx = address.IndexOf('[');
                         var endIx = address.IndexOf(']');
                         var extRef = address.Substring(startIx+1, endIx - startIx - 1);
-                        var extRefIx = wb.ExternalReferences.GetExternalReference(extRef);
-                        if (extRefIx == ix)
+                        if (extRef == "0") //Current workbook
                         {
-                            return true;
-                        }
-                        else if (extRefIx > ix)
-                        {
-                            newFormula += address.Substring(0,startIx+1) + (extRefIx.ToString(CultureInfo.InvariantCulture)) + address.Substring(endIx);
+                            newFormula += address;
                         }
                         else
                         {
-                            newFormula += address;
+                            var extRefIx = wb.ExternalReferences.GetExternalReference(extRef);
+                            if (extRefIx == ix || ix==-1)
+                            {
+                                if (setRefError)
+                                {
+                                    if (ix != 0)
+                                    {
+                                        newFormula += "#REF!";
+                                    }
+                                }
+                                else
+                                {
+                                    return true;
+                                }
+                            }
+                            else if (extRefIx > ix)
+                            {
+                                newFormula += address.Substring(0, startIx + 1) + (extRefIx.ToString(CultureInfo.InvariantCulture)) + address.Substring(endIx);
+                            }
+                            else
+                            {
+                                newFormula += address;
+                            }
                         }
                     }
                     else
