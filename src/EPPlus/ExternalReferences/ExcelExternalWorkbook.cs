@@ -375,7 +375,8 @@ namespace OfficeOpenXml.ExternalReferences
             _definedNamesValues.Clear();
             _sheetValues.Clear();
             _sheetMetaData.Clear();
-            _definedNamesValues.Add(-1, new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>());
+            _sheetNames.Clear();
+            _definedNamesValues.Add(-1, CachedNames);
             foreach (var ws in _wb.Worksheets)
             {
                 var ix = CachedWorksheets.Count;
@@ -471,7 +472,7 @@ namespace OfficeOpenXml.ExternalReferences
             ExcelAddressBase referensTo;
             if(namedRange._fromRow>0)
             {
-                referensTo = new ExcelAddressBase(namedRange.LocalAddress);
+                referensTo = new ExcelAddressBase(namedRange.WorkbookLocalAddress);
             }
             else
             {

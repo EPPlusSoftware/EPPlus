@@ -201,10 +201,7 @@ namespace OfficeOpenXml.ExternalReferences
                             {
                                 if (setRefError)
                                 {
-                                    if (ix != 0)
-                                    {
-                                        newFormula += "#REF!";
-                                    }
+                                    newFormula += "#REF!";
                                 }
                                 else
                                 {

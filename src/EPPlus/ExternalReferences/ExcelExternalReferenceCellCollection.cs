@@ -86,6 +86,7 @@ namespace OfficeOpenXml.ExternalReferences
 
         public IEnumerator<ExcelExternalCellValue> GetEnumerator()
         {
+            Reset();
             return this;
         }
 

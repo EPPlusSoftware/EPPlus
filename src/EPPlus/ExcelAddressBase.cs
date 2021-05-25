@@ -1342,13 +1342,31 @@ namespace OfficeOpenXml
             }
         }
 
+        /// <summary>
+        /// The address without the workbook or worksheet reference
+        /// </summary>
         public string LocalAddress 
         { 
             get
             {
-                if (!_address.StartsWith("[")) return _address;
                 var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from 
                 if (ix>=0)
+                {
+                    return _address.Substring(ix + 1);
+                }
+                return _address;
+            }
+        }
+        /// <summary>
+        /// The address without the workbook reference
+        /// </summary>
+        internal string WorkbookLocalAddress
+        {
+            get
+            {
+                if (!_address.StartsWith("[")) return _address;
+                var ix = _address.IndexOf("]",1);
+                if (ix >= 0)
                 {
                     return _address.Substring(ix + 1);
                 }
