@@ -11,7 +11,7 @@ namespace EPPlusTest.Core
     [TestClass]
     public class ExternalReferencesTest : TestBase
     {
-        static ExcelPackage _pck;
+        //static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -30,7 +30,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void OpenAndReadExternalReferences()
         {
-            var p = OpenTemplatePackage("ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             Assert.AreEqual(2, p.Workbook.ExternalReferences.Count);
 
@@ -49,7 +49,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void OpenAndCalculateExternalReferencesFromCache()
         {
-            var p = OpenTemplatePackage("ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             p.Workbook.ClearFormulaValues();
             p.Workbook.Calculate();
@@ -77,7 +77,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void OpenAndCalculateExternalReferencesFromPackage()
         {
-            var p = OpenTemplatePackage("ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             p.Workbook.ExternalReferences.Directories.Add(new DirectoryInfo(_testInputPathOptional));
             p.Workbook.ExternalReferences.LoadWorkbooks();
@@ -109,13 +109,13 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void DeleteExternalReferences()
         {
-            var p = OpenTemplatePackage("ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             Assert.AreEqual(2, p.Workbook.ExternalReferences.Count);
 
             p.Workbook.ExternalReferences.Delete(0);
 
-            SaveAndCleanup(p);
+            SaveWorkbook("ExtRefDeleted.xlsx",p);
         }
 
         [TestMethod]
@@ -249,7 +249,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void OpenAndReadExternalReferencesDdeOle()
         {
-            var p = OpenTemplatePackage("dde.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\dde.xlsx");
 
             Assert.AreEqual(6, p.Workbook.ExternalReferences.Count);
 
@@ -261,15 +261,15 @@ namespace EPPlusTest.Core
             Assert.AreEqual("c:\\epplustest\\workbooks\\fromwb1.xlsx", book3.File.FullName.ToLower());
             Assert.IsNotNull(book3.Package);
             var book4 = p.Workbook.ExternalReferences[4].As.ExternalWorkbook;
-            Assert.AreEqual("c:\\epplustest\\testoutput\\extref.xlsx", book4.File.FullName.ToLower());
+            Assert.AreEqual("c:\\epplustest\\workbooks\\extref.xlsx", book4.File.FullName.ToLower());
             Assert.IsNotNull(book4.Package);
-            SaveAndCleanup(p);
+            SaveWorkbook("dde.xlsx",p);
         }
 
         [TestMethod]
         public void UpdateCacheShouldBeSameAsExcel()
         {
-            var p = OpenTemplatePackage("ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             var er = p.Workbook.ExternalReferences[0].As.ExternalWorkbook;
             var excelCache = GetExternalCache(er);
