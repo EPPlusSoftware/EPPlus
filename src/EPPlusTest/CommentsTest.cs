@@ -38,14 +38,17 @@ namespace EPPlusTest
     public class CommentsTest : TestBase
     {
         static ExcelPackage _pck;
-        public CommentsTest()  
+        [ClassInitialize]
+        public static void Init(TestContext context)
         {
             _pck = OpenPackage("Comment.xlsx", true);
         }
-        ~CommentsTest()
+        [ClassCleanup]
+        public static void Cleanup()
         {
             SaveAndCleanup(_pck);
         }
+
         [TestMethod]
         public void VisibilityComments()
         {

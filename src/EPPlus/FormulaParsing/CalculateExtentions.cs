@@ -179,7 +179,7 @@ namespace OfficeOpenXml
         {
             try
             {
-                worksheet.CheckSheetType();
+                worksheet.CheckSheetTypeAndNotDisposed();
                 if(string.IsNullOrEmpty(Formula.Trim())) return null;
                 Init(worksheet.Workbook);
                 var parser = worksheet.Workbook.FormulaParser;

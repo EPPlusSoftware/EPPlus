@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal static DependencyChain Create(ExcelWorksheet ws, ExcelCalculationOption options)
         {
-            ws.CheckSheetType();
+            ws.CheckSheetTypeAndNotDisposed();
             var depChain = new DependencyChain();
 
             GetChain(depChain, ws.Workbook.FormulaParser.Lexer, ws.Cells, options);
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static DependencyChain Create(ExcelWorksheet ws, string Formula, ExcelCalculationOption options)
         {
-            ws.CheckSheetType();
+            ws.CheckSheetTypeAndNotDisposed();
             var depChain = new DependencyChain();
 
             GetChain(depChain, ws.Workbook.FormulaParser.Lexer, ws, Formula, options);

@@ -544,7 +544,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 string address = GetXmlNodeString($"{AutoFilterPath}/@ref");
                 if (address == "")
                 {
@@ -557,7 +557,7 @@ namespace OfficeOpenXml
             }
             internal set
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 if (value == null)
                 {
                     DeleteAllNode($"{AutoFilterPath}/@ref");
@@ -578,7 +578,7 @@ namespace OfficeOpenXml
             {
                 if (_autoFilter == null)
                 {
-                    CheckSheetType();
+                    CheckSheetTypeAndNotDisposed();
                     var node =_worksheetXml.SelectSingleNode($"//{AutoFilterPath}", NameSpaceManager);
                     if (node == null) return null;
                     _autoFilter = new ExcelAutoFilter(NameSpaceManager, node, this);
@@ -586,11 +586,15 @@ namespace OfficeOpenXml
                 return _autoFilter;
             }
         }
-        internal void CheckSheetType()
+        internal void CheckSheetTypeAndNotDisposed()
         {
             if (this is ExcelChartsheet)
             {
                 throw (new NotSupportedException("This property or method is not supported for a Chartsheet"));
+            }
+            if(_positionId==-1 && _values==null)
+            {
+                throw new ObjectDisposedException("ExcelWorksheet", "Worksheet has been disposed");
             }
         }
 
@@ -672,7 +676,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return _names;
             }
         }
@@ -745,7 +749,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 _defaultRowHeight = GetXmlNodeDouble("d:sheetFormatPr/@defaultRowHeight");
                 if (double.IsNaN(_defaultRowHeight) || CustomHeight == false)
                 {
@@ -755,7 +759,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 _defaultRowHeight = value;
                 if (double.IsNaN(value))
                 {
@@ -807,7 +811,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 double ret = GetXmlNodeDouble("d:sheetFormatPr/@defaultColWidth");
                 if (double.IsNaN(ret))
                 {
@@ -827,7 +831,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 SetXmlNodeString("d:sheetFormatPr/@defaultColWidth", value.ToString(CultureInfo.InvariantCulture));
 
                 if (double.IsNaN(GetXmlNodeDouble("d:sheetFormatPr/@defaultRowHeight")))
@@ -845,12 +849,12 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return GetXmlNodeBool(outLineSummaryBelowPath);
             }
             set
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 SetXmlNodeString(outLineSummaryBelowPath, value ? "1" : "0");
             }
         }
@@ -862,12 +866,12 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return GetXmlNodeBool(outLineSummaryRightPath);
             }
             set
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 SetXmlNodeString(outLineSummaryRightPath, value ? "1" : "0");
             }
         }
@@ -879,12 +883,12 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return GetXmlNodeBool(outLineApplyStylePath);
             }
             set
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 SetXmlNodeString(outLineApplyStylePath, value ? "1" : "0");
             }
         }
@@ -980,7 +984,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return _comments;
             }
         }
@@ -991,7 +995,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return _threadedComments;
             }
         }
@@ -1860,7 +1864,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return new ExcelRange(this, 1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             }
         }
@@ -1871,7 +1875,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return new ExcelRange(this, View.SelectedRange);
             }
         }
@@ -1883,7 +1887,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 return _mergedCells;
             }
         }
@@ -1894,7 +1898,7 @@ namespace OfficeOpenXml
 		/// <returns></returns>
 		public ExcelRow Row(int row)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             if (row < 1 || row > ExcelPackage.MaxRows)
             {
                 throw (new ArgumentException("Row number out of bounds"));
@@ -1909,7 +1913,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public ExcelColumn Column(int col)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             if (col < 1 || col > ExcelPackage.MaxColumns)
             {
                 throw (new ArgumentException("Column number out of bounds"));
@@ -1998,7 +2002,7 @@ namespace OfficeOpenXml
         /// <param name="SelectSheet">Make the sheet active</param>
         public void Select(string Address, bool SelectSheet)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             int fromCol, fromRow, toCol, toRow;
             //Get rows and columns and validate as well
             ExcelCellBase.GetRowColFromAddress(Address, out fromRow, out fromCol, out toRow, out toCol);
@@ -2017,7 +2021,7 @@ namespace OfficeOpenXml
         /// <param name="Address">An address range</param>
         public void Select(ExcelAddress Address)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             Select(Address, true);
         }
         /// <summary>
@@ -2028,7 +2032,7 @@ namespace OfficeOpenXml
         public void Select(ExcelAddress Address, bool SelectSheet)
         {
 
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             if (SelectSheet)
             {
                 View.TabSelected = true;
@@ -2146,7 +2150,7 @@ namespace OfficeOpenXml
         /// <returns>The value</returns>
         public object GetValue(int Row, int Column)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             var v = GetValueInner(Row, Column);
             if (v!=null)
             {
@@ -2175,7 +2179,7 @@ namespace OfficeOpenXml
         /// <returns>The value. If the value can't be converted to the specified type, the default value will be returned</returns>
         public T GetValue<T>(int Row, int Column)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             //ulong cellID=ExcelCellBase.GetCellID(SheetID, Row, Column);
             var v = GetValueInner(Row, Column);           
             if (v==null)
@@ -2200,7 +2204,7 @@ namespace OfficeOpenXml
         /// <param name="Value">The value</param>
         public void SetValue(int Row, int Column, object Value)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             if (Row < 1 || Column < 1 || Row > ExcelPackage.MaxRows && Column > ExcelPackage.MaxColumns)
             {
                 throw new ArgumentOutOfRangeException("Row or Column out of range");
@@ -2214,7 +2218,7 @@ namespace OfficeOpenXml
         /// <param name="Value">The value</param>
         public void SetValue(string Address, object Value)
         {
-            CheckSheetType();
+            CheckSheetTypeAndNotDisposed();
             int row, col;
             ExcelAddressBase.GetRowCol(Address, out row, out col, true);
             if (row < 1 || col < 1 || row > ExcelPackage.MaxRows && col > ExcelPackage.MaxColumns)
@@ -3377,7 +3381,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 int fromRow, fromCol, toRow, toCol;
                 if (_values.GetDimension(out fromRow, out fromCol, out toRow, out toCol))
                 {
@@ -3475,7 +3479,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 if (Workbook._nextTableID == int.MinValue) Workbook.ReadAllTables();
                 if (_tables == null)
                 {
@@ -3492,7 +3496,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 if (_pivotTables == null)
                 {
                     _pivotTables = new ExcelPivotTableCollection(this);
@@ -3518,7 +3522,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 if (_conditionalFormatting == null)
                 {
                     _conditionalFormatting = new ExcelConditionalFormattingCollection(this);
@@ -3536,7 +3540,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 if (_dataValidation == null)
                 {
                     _dataValidation = new ExcelDataValidationCollection(this);
@@ -3552,7 +3556,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                CheckSheetType();
+                CheckSheetTypeAndNotDisposed();
                 if (_ignoredErrors == null)
                 {
                     _ignoredErrors = new ExcelIgnoredErrorCollection(_package, this, NameSpaceManager);
