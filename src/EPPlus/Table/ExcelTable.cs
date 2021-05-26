@@ -24,6 +24,7 @@ using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
 using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Export.HtmlExport;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -79,6 +80,7 @@ namespace OfficeOpenXml.Table
             InitDxf(WorkSheet.Workbook.Styles, this, null);
             TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
+            HtmlExporter = new TableExporter(this);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -262,6 +264,8 @@ namespace OfficeOpenXml.Table
         {
             return Range.ToText();
         }
+
+        public TableExporter HtmlExporter { get; private set; }
 
         /// <summary>
         /// Converts the table range to CSV format
