@@ -30,29 +30,41 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartSerieWithErrorBars(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot) :
             base(chart, ns, node, isPivot)
         {
+            var errorNode = GetNode("c:errBars");
+            if (errorNode != null) 
+            {
+                ErrorBars = new ExcelChartErrorBars(this, errorNode);
+            }
         }
         /// <summary>
         /// A collection of error bars
         /// <seealso cref="AddErrorBars(eErrorBarType, eErrorValueType)"/>
         /// </summary>
-        public ExcelChartErrorBars ErrorBars { get; private set; } = null;
+        public ExcelChartErrorBars ErrorBars { get; internal set; } = null;
         /// <summary>
         /// Adds a errorbars to the chart serie
         /// </summary>
         /// <param name="barType"></param>
         /// <param name="valueType"></param>
-        public void AddErrorBars(eErrorBarType barType, eErrorValueType valueType)
+        public virtual void AddErrorBars(eErrorBarType barType, eErrorValueType valueType)
         {
-            if (ErrorBars == null)
-            {
-                ErrorBars = new ExcelChartErrorBars(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
-            }
-            ErrorBars.BarType = barType;
-            ErrorBars.ValueType = valueType;
-            ErrorBars.NoEndCap = false;
-
-            _chart.ApplyStyleOnPart(ErrorBars, _chart.StyleManager?.Style?.ErrorBar);
+            ErrorBars = GetNewErrorBar(barType, valueType, ErrorBars);
         }
+
+        internal ExcelChartErrorBars GetNewErrorBar(eErrorBarType barType, eErrorValueType valueType, ExcelChartErrorBars errorBars)
+        {
+            if (errorBars == null)
+            {
+                errorBars = new ExcelChartErrorBars(this);
+            }
+            errorBars.BarType = barType;
+            errorBars.ValueType = valueType;
+            errorBars.NoEndCap = false;
+
+            _chart.ApplyStyleOnPart(errorBars, _chart.StyleManager?.Style?.ErrorBar);
+            return errorBars;
+        }
+
         /// <summary>
         /// Returns true if the serie has Error Bars
         /// </summary>

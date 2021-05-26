@@ -321,10 +321,6 @@ namespace OfficeOpenXml
                     return _list.Count;
                 }
             }
-            internal void Remove(string Item)
-            {
-                _list.Remove(Item);
-            }
             #region IEnumerable<string> Members
 
             /// <summary>
@@ -1513,7 +1509,8 @@ namespace OfficeOpenXml
                         SetValueInner(row, 0, AddRow(xr, row));
                         if (xr.GetAttribute("s") != null)
                         {
-                            SetStyleInner(row, 0, int.Parse(xr.GetAttribute("s"), CultureInfo.InvariantCulture));
+                            var styleId = int.Parse(xr.GetAttribute("s"), CultureInfo.InvariantCulture);
+                            SetStyleInner(row, 0, (styleId < 0 ? 0 : styleId));
                         }
                     }
                     xr.Read();
@@ -1548,7 +1545,7 @@ namespace OfficeOpenXml
                     if (xr.GetAttribute("s") != null)
                     {
                         style = int.Parse(xr.GetAttribute("s"));
-                        SetStyleInner(address._fromRow, address._fromCol, style);
+                        SetStyleInner(address._fromRow, address._fromCol, style < 0 ? 0 : style);
                         //SetValueInner(address._fromRow, address._fromCol, null); //TODO:Better Performance ??
                     }
                     else
@@ -1729,7 +1726,7 @@ namespace OfficeOpenXml
         private void UpdateMergedCells(StreamWriter sw, string prefix)
         {
             sw.Write($"<{prefix}mergeCells>");
-            foreach (string address in _mergedCells)
+            foreach (string address in _mergedCells.Distinct())
             {
                 sw.Write($"<{prefix}mergeCell ref=\"{address}\" />");
             }
@@ -2605,7 +2602,10 @@ namespace OfficeOpenXml
                     if (_comments.Uri != null)
                     {
                         Part.DeleteRelationship(_comments.RelId);
-                        _package.ZipPackage.DeletePart(_comments.Uri);
+                        if (_package.ZipPackage.PartExists(_comments.Uri))
+                        {
+                            _package.ZipPackage.DeletePart(_comments.Uri);
+                        }
                     }
                     if (VmlDrawings.Count == 0)
                     {
@@ -2638,7 +2638,10 @@ namespace OfficeOpenXml
                     if (_vmlDrawings.Part!=null)
                     {
                         Part.DeleteRelationship(_vmlDrawings.RelId);
-                        _package.ZipPackage.DeletePart(_vmlDrawings.Uri);
+                        if (_package.ZipPackage.PartExists(_vmlDrawings.Uri))
+                        {
+                            _package.ZipPackage.DeletePart(_vmlDrawings.Uri);
+                        }
                         DeleteNode($"d:legacyDrawing[@r:id='{_vmlDrawings.RelId}']");
                     }
                 }
@@ -3367,59 +3370,9 @@ namespace OfficeOpenXml
             var s = GetStyleInner(row, 0);
             if (s > 0)
             {
-                cache.AppendFormat(" s=\"{0}\" customFormat=\"1\"", cellXfs[s].newID);
+                cache.AppendFormat(" s=\"{0}\" customFormat=\"1\"", cellXfs[s].newID < 0 ? 0 : cellXfs[s].newID);
             }
             cache.Append(">");
-        }
-        private void WriteRow(StreamWriter sw, ExcelStyleCollection<ExcelXfs> cellXfs, int prevRow, int row)
-        {
-            if (prevRow != -1) sw.Write("</row>");
-            //ulong rowID = ExcelRow.GetRowID(SheetID, row);
-            sw.Write("<row r=\"{0}\"", row);
-            RowInternal currRow = GetValueInner(row, 0) as RowInternal;
-            if (currRow!=null)
-            {
-
-                // if hidden, add hidden attribute and preserve ht/customHeight (Excel compatible)
-                if (currRow.Hidden == true)
-                {
-                    sw.Write(" hidden=\"1\"");
-                }
-                if (currRow.Height >= 0)
-                {
-                    sw.Write(string.Format(CultureInfo.InvariantCulture, " ht=\"{0}\"", currRow.Height));
-                    if (currRow.CustomHeight)
-                    {
-                        sw.Write(" customHeight=\"1\"");
-                    }
-                }
-
-                if (currRow.OutlineLevel > 0)
-                {
-                    sw.Write(" outlineLevel =\"{0}\"", currRow.OutlineLevel);
-                    if (currRow.Collapsed)
-                    {
-                        if (currRow.Hidden)
-                        {
-                            sw.Write(" collapsed=\"1\"");
-                        }
-                        else
-                        {
-                            sw.Write(" collapsed=\"1\" hidden=\"1\""); //Always hidden
-                        }
-                    }
-                }
-                if (currRow.Phonetic)
-                {
-                    sw.Write(" ph=\"1\"");
-                }
-            }
-            var s = GetStyleInner(row, 0);
-            if (s > 0)
-            {
-                sw.Write(" s=\"{0}\" customFormat=\"1\"", cellXfs[s].newID);
-            }
-            sw.Write(">");
         }
         /// <summary>
         /// Update xml with hyperlinks 
@@ -3718,22 +3671,6 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-		/// Returns the style ID given a style name.  
-		/// The style ID will be created if not found, but only if the style name exists!
-		/// </summary>
-		/// <param name="StyleName"></param>
-		/// <returns></returns>
-		internal int GetStyleID(string StyleName)
-		{
-			ExcelNamedStyleXml namedStyle=null;
-            Workbook.Styles.NamedStyles.FindById(StyleName, ref namedStyle);
-            if (namedStyle.XfId == int.MinValue)
-            {
-                namedStyle.XfId=Workbook.Styles.CellXfs.FindIndexById(namedStyle.Style.Id);
-            }
-            return namedStyle.XfId;
-		}
-        /// <summary>
         /// The workbook object
         /// </summary>
         public ExcelWorkbook Workbook
@@ -3745,7 +3682,7 @@ namespace OfficeOpenXml
         }
 
         #endregion
-        #endregion  // END Worksheet Private Methods
+        #endregion  // END <Worksheet Private Methods
 
         /// <summary>
         /// Get the next ID from a shared formula or an Array formula

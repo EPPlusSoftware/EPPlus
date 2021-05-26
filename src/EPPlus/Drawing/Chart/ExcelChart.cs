@@ -467,8 +467,21 @@ namespace OfficeOpenXml.Drawing.Chart
         protected internal bool IsTypeBubble()
         {
             return ChartType == eChartType.Bubble ||
-                    ChartType == eChartType.Bubble3DEffect;
+                   ChartType == eChartType.Bubble3DEffect;
         }
+        /// <summary>
+        /// Returns true if the chart is a scatter chart
+        /// </summary>
+        /// <returns>True if the chart is a scatter chart</returns>
+        protected internal bool IsTypeArea()
+        {
+            return  ChartType == eChartType.Area ||
+                    ChartType == eChartType.AreaStacked ||
+                    ChartType == eChartType.AreaStacked100 ||
+                    ChartType == eChartType.AreaStacked1003D ||
+                    ChartType == eChartType.AreaStacked3D;
+        }
+
         /// <summary>
         /// Returns true if the chart is a sureface chart
         /// </summary>

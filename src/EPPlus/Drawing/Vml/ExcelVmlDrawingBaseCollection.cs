@@ -16,6 +16,7 @@ using System.Text;
 using System.Xml;
 using System.Collections;
 using OfficeOpenXml.Utils;
+using System.IO;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -46,9 +47,25 @@ namespace OfficeOpenXml.Drawing.Vml
             else
             {
                 Part=_package.ZipPackage.GetPart(uri);
-                XmlHelper.LoadXmlSafe(VmlDrawingXml, Part.GetStream()); 
+                try
+                {
+                    XmlHelper.LoadXmlSafe(VmlDrawingXml, Part.GetStream());
+                }
+                catch
+                {
+                    //VML can contain unclosed br tags. Try handle this.
+                    var xml = new StreamReader(Part.GetStream()).ReadToEnd();
+                    XmlHelper.LoadXmlSafe(VmlDrawingXml, RemoveUnclosedBrTags(xml), Encoding.UTF8);
+                }
             }
         }
+
+        private string RemoveUnclosedBrTags(string xml)
+        {
+            //TODO:Vml can contain unclosed BR tags. Replace with correctly closed tag and retry. Replace this code with a better approach.
+            return xml.Replace("</br>", "").Replace("<br>", "<br/>");
+        }
+
         internal ExcelWorksheet Worksheet { get; set; }
         internal XmlDocument VmlDrawingXml { get; set; }
         internal Uri Uri { get; set; }

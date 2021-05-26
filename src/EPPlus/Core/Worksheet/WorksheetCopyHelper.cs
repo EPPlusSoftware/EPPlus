@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopyHeaderFooterPictures(copy, added);
                 
                 //Copy all relationships 
-                    if (copy.HasDrawingRelationship)
+                if (copy.HasDrawingRelationship)
                 {
                     CopySlicers(copy, added);
                     CopyDrawing(pck, nsm, copy, added);
@@ -135,7 +135,10 @@ namespace OfficeOpenXml.Core.Worksheet
             //Merged cells
             foreach (var r in Copy.MergedCells)     //Issue #94
             {
-                added.MergedCells.Add(new ExcelAddress(r), false);
+                if (r != null)
+                {
+                    added.MergedCells.Add(new ExcelAddress(r), false);
+                }
             }
 
             //Shared Formulas   

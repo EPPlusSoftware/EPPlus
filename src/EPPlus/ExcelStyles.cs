@@ -1164,7 +1164,7 @@ namespace OfficeOpenXml
             return count;
         }
 
-        private int GetNormalStyleIndex()
+        internal int GetNormalStyleIndex()
         {
             int normalIx = NamedStyles.FindIndexByBuildInId(0);
 

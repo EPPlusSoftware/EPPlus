@@ -199,7 +199,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    DeleteMe(address, false, false, true, false, false);   //Clear the range before overwriting, but not merged cells.
+                    DeleteMe(address, false, false, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
                     if (value != null)
                     {
                         for (int col = address.Start.Column; col <= address.End.Column; col++)
@@ -855,12 +855,15 @@ namespace OfficeOpenXml
 
             Bitmap b;
             Graphics g = null;
+            float dpiCorrectX, dpiCorrectY;
             try
             {
                 //Check for missing GDI+, then use WPF istead.
                 b = new Bitmap(1, 1);
                 g = Graphics.FromImage(b);
                 g.PageUnit = GraphicsUnit.Pixel;
+                dpiCorrectX = 96 / g.DpiX;
+                dpiCorrectY = 96 / g.DpiY;
             }
             catch
             {
@@ -901,12 +904,12 @@ namespace OfficeOpenXml
                 double r = styles.CellXfs[cell.StyleID].TextRotation;
                 if (r <= 0)
                 {
-                    width = (size.Width + 5) / normalSize;
+                    width = (size.Width * dpiCorrectX + 5) / normalSize;
                 }
                 else
                 {
                     r = (r <= 90 ? r : r - 90);
-                    width = (((size.Width - size.Height) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height) + 5) / normalSize;
+                    width = (((size.Width * dpiCorrectX - size.Height * dpiCorrectY) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height * dpiCorrectY) + 5) / normalSize;
                 }
 
                 foreach (var a in afAddr)
@@ -2020,7 +2023,7 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues=true, bool clearFlagsAndformulas=true, bool clearMergedCells=true, bool clearHyperLinksComments=true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues=true, bool clearFlagsAndformulas=true, bool clearMergedCells=true, bool clearHyperLinks=true, bool clearComments=true)
         {
 
             //First find the start cell
@@ -2060,18 +2063,20 @@ namespace OfficeOpenXml
                 _worksheet._flags.Delete(fromRow, fromCol, rows, cols, shift);
                 _worksheet._metadataStore.Delete(fromRow, fromCol, rows, cols, shift);
             }
-            if (clearHyperLinksComments)
+            if (clearHyperLinks)
             {
                 _worksheet._hyperLinks.Delete(fromRow, fromCol, rows, cols, shift);
+            }
+            if(clearComments)
+            {
                 DeleteComments(Range);
             }
-
             //Clear multi addresses as well
             if (Range.Addresses != null)
             {
                 foreach (var sub in Range.Addresses)
                 {
-                    DeleteMe(sub, shift, clearValues, clearFlagsAndformulas, clearMergedCells, clearHyperLinksComments);
+                    DeleteMe(sub, shift, clearValues, clearFlagsAndformulas, clearMergedCells, clearHyperLinks, clearComments);
                 }
             }
         }
@@ -2087,30 +2092,6 @@ namespace OfficeOpenXml
             foreach(var i in deleted)
             {
                 _worksheet.Comments.Remove(_worksheet.Comments._list[i]);
-            }
-        }
-
-        private void DeleteCheckMergedCells(ExcelAddressBase Range)
-        {
-            var removeItems = new List<string>();
-            foreach (var addr in Worksheet.MergedCells)
-            {
-                var addrCol = Range.Collide(new ExcelAddress(Range.WorkSheetName, addr));
-                if (addrCol != eAddressCollition.No)
-                {
-                    if (addrCol == eAddressCollition.Inside)
-                    {
-                        removeItems.Add(addr);
-                    }
-                    else
-                    {
-                        throw (new InvalidOperationException("Can't remove/overwrite a part of cells that are merged"));
-                    }
-                }
-            }
-            foreach (var item in removeItems)
-            {
-                Worksheet.MergedCells.Remove(item);
             }
         }
         #endregion

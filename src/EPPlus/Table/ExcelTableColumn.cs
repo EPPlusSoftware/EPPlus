@@ -262,7 +262,7 @@ namespace OfficeOpenXml.Table
         {
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
             int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
-            var colNum = _tbl.Address._fromRow + Position;
+            var colNum = _tbl.Address._fromCol + Position;
             string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, fromRow, colNum);
             bool needsTranslation = r1c1Formula != CalculatedColumnFormula;
 
