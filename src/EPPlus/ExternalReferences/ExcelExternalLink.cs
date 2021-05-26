@@ -11,6 +11,7 @@
   04/28/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -69,12 +70,15 @@ namespace OfficeOpenXml.ExternalReferences
         {
             return uriPath.StartsWith("http:") || uriPath.StartsWith("https:") || uriPath.StartsWith("ftp:") || uriPath.StartsWith("ftps:");
         }
-        protected internal StringBuilder _errors = new StringBuilder();
-        public string ErrorsLog
+        protected internal List<string> _errors = new List<string>();
+        /// <summary>
+        /// A list of errors that occured during load or update of the external workbook.
+        /// </summary>
+        public List<string> ErrorLog
         {
             get
             {
-                return _errors.ToString();
+                return _errors;
             }
         }
 

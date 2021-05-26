@@ -35,6 +35,7 @@ namespace OfficeOpenXml.ExternalReferences
         {
             CachedWorksheets = new ExcelExternalNamedItemCollection<ExcelExternalWorksheet>();
             CachedNames = new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
+            CacheStatus = eExternalWorkbookCacheStatus.NotUpdated;
             SetPackage(p);
        }
         internal ExcelExternalWorkbook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
@@ -67,7 +68,6 @@ namespace OfficeOpenXml.ExternalReferences
                     }
                 }
             }
-
             CachedWorksheets = new ExcelExternalNamedItemCollection<ExcelExternalWorksheet>();
             CachedNames = GetNames(-1);
             foreach (var sheetName in _sheetNames.Keys)
@@ -83,6 +83,7 @@ namespace OfficeOpenXml.ExternalReferences
                     RefreshError=_sheetRefresh.Contains(sheetId)
                 });
             }
+            CacheStatus = eExternalWorkbookCacheStatus.LoadedFromPackage;
         }
         public override eExternalLinkType ExternalLinkType
         {
@@ -287,6 +288,10 @@ namespace OfficeOpenXml.ExternalReferences
         }
 
         ExcelPackage _package =null;
+        /// <summary>
+        /// A reference to the external package, it it has been loaded.
+        /// <seealso cref="Load()"/>
+        /// </summary>
         public ExcelPackage Package
         {
             get
@@ -297,7 +302,7 @@ namespace OfficeOpenXml.ExternalReferences
         /// <summary>
         /// Tries to Loads the external package using the External Uri into the <see cref="Package"/> property
         /// </summary>
-        /// <returns>True if the load succeeded, otherwise false</returns>
+        /// <returns>True if the load succeeded, otherwise false. If false, see <see cref="ExcelExternalLink.ErrorLog"/></returns>
         public bool Load()
         {
             return Load(File);
@@ -305,7 +310,7 @@ namespace OfficeOpenXml.ExternalReferences
         /// <summary>
         /// Tries to Loads the external package using the External Uri into the <see cref="Package"/> property
         /// </summary>
-        /// <returns>True if the load succeeded, otherwise false</returns>
+        /// <returns>True if the load succeeded, otherwise false. If false, see <see cref="ExcelExternalLink.ErrorLog"/></returns>
         public bool Load(FileInfo packageFile)
         {
             if (packageFile != null && packageFile.Exists)
@@ -314,32 +319,34 @@ namespace OfficeOpenXml.ExternalReferences
                    packageFile.Extension.EndsWith(".xlsm", StringComparison.OrdinalIgnoreCase) ||
                    packageFile.Extension.EndsWith(".xlst", StringComparison.OrdinalIgnoreCase)))
                 {
-                    _errors.AppendLine("EPPlus only supports updating references to files of type xlsx, xlsm and xlst");
+                    _errors.Add("EPPlus only supports updating references to files of type xlsx, xlsm and xlst");
                     return false;
                 }
+                SetPackage(packageFile);
                 _package = new ExcelPackage(packageFile);
                 _package._loadedPackage = _wb._package;
+                _file = Package.File;
                 return true;
             }
-            _errors.AppendLine($"Loaded file does not exists {packageFile.FullName}");
+            _errors.Add($"Loaded file does not exists {packageFile.FullName}");
 
             return false;
         }
         /// <summary>
         /// Tries to Loads the external package using the External Uri into the <see cref="Package"/> property
         /// </summary>
-        /// <returns>True if the load succeeded, otherwise false</returns>
+        /// <returns>True if the load succeeded, otherwise false. If false, see <see cref="ExcelExternalLink.ErrorLog"/> and <see cref="ExcelExternalWorkbook.CacheStatus"/> of each <see cref="ExcelExternalWorkbook"/></returns>
         public bool Load(ExcelPackage package)
         {
             if (package == null || package == _wb._package)
             {
-                _errors.AppendLine("Load failed. The package can't be null or load itself.");
+                _errors.Add("Load failed. The package can't be null or load itself.");
                 return false;
             }
 
             if (package.File == null)
             {
-                _errors.AppendLine("Load failed. The package must have the File property set to be added as an external reference.");
+                _errors.Add("Load failed. The package must have the File property set to be added as an external reference.");
                 return false;
             }
 
@@ -353,9 +360,44 @@ namespace OfficeOpenXml.ExternalReferences
             _package = package;
             _package._loadedPackage = _wb._package;
         }
+        private void SetPackage(FileInfo file)
+        {
+            if(_wb._package.File.Name.Equals(file.Name, StringComparison.CurrentCultureIgnoreCase))
+            {
+                _package = _wb._package;
+                return;
+            }
+
+            if (SetPackageFromOtherReference(_wb._externalReferences, file)==false)
+            {
+                _package = new ExcelPackage(file);
+            }
+            _package._loadedPackage = _wb._package;
+        }
+
+        private bool SetPackageFromOtherReference(ExcelExternalReferenceCollection erCollection, FileInfo file)
+        {
+            if (erCollection == null) return false;
+            foreach (var er in erCollection)
+            {
+                if (er!=this && er.ExternalLinkType == eExternalLinkType.ExternalWorkbook)
+                {
+                    var wb = er.As.ExternalWorkbook;
+                    if (wb._package!=null && wb.File!=null && wb.File.Name.Equals(file.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        _package=wb._package;
+                        return true;
+                    }
+                    SetPackageFromOtherReference(wb._package?._workbook?._externalReferences, file);
+                }
+            }
+            return false;
+        }
 
         /// <summary>
-        /// Updates the external reference cache for the external workbook. To be used a <see cref="Package"/> must be loaded via the <see cref="Load"/> method.
+        /// Updates the external reference cache for the external workbook. To be used a <see cref="Package"/> must be loaded via the <see cref="Load()"/> method.
+        /// <seealso cref="CacheStatus"/>
+        /// <seealso cref="ExcelExternalLink.ErrorLog"/>
         /// </summary>
         /// <returns>True if the update was successful otherwise false</returns>
         public bool UpdateCache()
@@ -364,7 +406,8 @@ namespace OfficeOpenXml.ExternalReferences
             {
                 if(Load()==false)
                 {
-                     _errors.AppendLine($"Load failed. Can't update cache.");
+                    CacheStatus = eExternalWorkbookCacheStatus.Failed;
+                    _errors.Add($"Load failed. Can't update cache.");
                     return false;
                 }
             }
@@ -412,7 +455,12 @@ namespace OfficeOpenXml.ExternalReferences
             }
             return true;
         }
-
+        /// <summary>
+        /// The status of the cache. If the <see cref="UpdateCache" />method fails this status is set to <see cref="eExternalWorkbookCacheStatus.Failed" />
+        /// <seealso cref="UpdateCache"/>
+        /// <seealso cref="ExcelExternalLink.ErrorLog"/>
+        /// </summary>
+        public eExternalWorkbookCacheStatus CacheStatus { get; private set; }
         private void UpdateCacheForFormula(ExcelWorksheet ws, string formula, string address)
         {
             var tokens = ws.Workbook.FormulaParser.Lexer.Tokenize(formula);
@@ -563,6 +611,15 @@ namespace OfficeOpenXml.ExternalReferences
 
         internal override void Save(StreamWriter sw)
         {
+            //If sheet names is 0, no update has been performed. Update the cache.
+            if(_sheetNames.Count==0)
+            {
+                if(UpdateCache()==false || _sheetNames.Count == 0)
+                {
+                    throw (new InvalidDataException($"External reference {File.FullName} can't be updated saved. Make sure it contains at least one worksheet. For any errors please check the ErrorLog property of the object after UpdateCache has been called."));
+                }
+            }
+
             sw.Write($"<externalBook xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"{Relation.Id}\">");
             sw.Write("<sheetNames>");
             foreach(var sheet in _sheetNames.OrderBy(x=>x.Value))
@@ -619,7 +676,6 @@ namespace OfficeOpenXml.ExternalReferences
                 sw.Write("</sheetData>");
             }
             sw.Write("</sheetDataSet></externalBook>");            
-        }
-        
+        }        
     }
 }

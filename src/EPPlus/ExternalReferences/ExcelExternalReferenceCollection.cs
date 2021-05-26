@@ -10,10 +10,6 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-using OfficeOpenXml;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -54,7 +50,12 @@ namespace OfficeOpenXml.ExternalReferences
                 return _list[index];
             }
         }
-        public ExcelExternalWorkbook AddWorkbook(FileInfo file)
+        /// <summary>
+        /// Adds an external reference to another workbook. 
+        /// </summary>
+        /// <param name="file">The location of the external workbook. The external workbook must of type .xlsx, .xlsm or xlst</param>
+        /// <returns>The <see cref="ExcelExternalWorkbook"/> object</returns>
+        public ExcelExternalWorkbook AddExternalWorkbook(FileInfo file)
         {
             if(file == null || file.Exists==false)
             {
@@ -249,6 +250,22 @@ namespace OfficeOpenXml.ExternalReferences
         internal int GetIndex(ExcelExternalLink link)
         {
             return _list.IndexOf(link);
+        }
+
+        public bool UpdateCaches()
+        {
+            var ret = true;
+            foreach(var er in _list)
+            {
+                if(er.ExternalLinkType==eExternalLinkType.ExternalWorkbook)
+                {
+                    if(er.As.ExternalWorkbook.UpdateCache()==false)
+                    {
+                        ret = false;
+                    }
+                }
+            }
+            return ret;
         }
     }
 }

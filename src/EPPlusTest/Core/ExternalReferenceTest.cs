@@ -319,15 +319,42 @@ namespace EPPlusTest.Core
             ws1.Cells["E3"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A3";
             ws1.Cells["F3"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B3";
             ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
-            var er = p.Workbook.ExternalReferences.AddWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+            var er = p.Workbook.ExternalReferences.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
             
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
 
             er.UpdateCache();
             ws1.Calculate();
-
+            p.Workbook.ExternalReferences.UpdateCaches();
 
             Assert.AreEqual(2220D, ws1.Cells["G5"].Value);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void AddExternalWorkbookNoUpdate()
+        {
+            var p = OpenPackage("AddedExtRefNoUpdate.xlsx", true);
+            var ws1 = CreateWorksheet1(p);
+            var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+
+            ws2.Cells["A1"].Value = 3;
+            ws2.Names.Add("SheetDefinedName", ws2.Cells["A1"]);
+
+            ws1.Cells["D2"].Formula = "Sheet2!SheetDefinedName";
+            ws1.Cells["E2"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A2";
+            ws1.Cells["F2"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B2";
+            ws1.Cells["G2"].Formula = "Table1[[#This Row],[c]]+[1]Sheet1!$C2";
+            ws1.Cells["E3"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A3";
+            ws1.Cells["F3"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B3";
+            ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
+            var er = p.Workbook.ExternalReferences.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+
+            ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
+
+            //er.UpdateCache();
+            //ws1.Calculate();
+
+
             SaveAndCleanup(p);
         }
 

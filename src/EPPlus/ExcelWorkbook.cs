@@ -497,7 +497,7 @@ namespace OfficeOpenXml
 				return _names;
 			}
 		}
-		ExcelExternalReferenceCollection _externalReferences=null;
+		internal ExcelExternalReferenceCollection _externalReferences=null;
 		/// <summary>
 		/// A collection of the references to external workbooks and it's cached data.
 		/// </summary>

@@ -39,7 +39,7 @@ namespace OfficeOpenXml
         List<ExcelNamedRange> _list = new List<ExcelNamedRange>();
         Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         /// <summary>
-        /// Add a new named range
+        /// Adds a new named range
         /// </summary>
         /// <param name="Name">The name</param>
         /// <param name="Range">The range</param>
@@ -54,7 +54,7 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Add the name without validation as Excel allows some names on load that is not permitted in the GUI
+        /// Adds the name without validation as Excel allows some names on load that is not permitted in the GUI
         /// </summary>
         /// <param name="Name">The Name</param>
         /// <param name="Range">The Range</param>
@@ -93,8 +93,8 @@ namespace OfficeOpenXml
         /// <summary>
         /// Add a defined name referencing value
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="value"></param>
+        /// <param name="Name">The name</param>
+        /// <param name="value">The value for the name</param>
         /// <returns></returns>
         public ExcelNamedRange AddValue(string Name, object value)
         {
