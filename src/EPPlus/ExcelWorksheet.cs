@@ -2117,20 +2117,20 @@ namespace OfficeOpenXml
 
 #region InsertRow
         /// <summary>
-        /// Inserts a new row into the spreadsheet.  Existing rows below the position are 
-        /// shifted down.  All formula are updated to take account of the new row.
+        /// Inserts new rows into the spreadsheet.  Existing rows below the position are 
+        /// shifted down.  All formula are updated to take account of the new row(s).
         /// </summary>
-        /// <param name="rowFrom">The position of the new row</param>
+        /// <param name="rowFrom">The position of the new row(s)</param>
         /// <param name="rows">Number of rows to insert</param>
         public void InsertRow(int rowFrom, int rows)
         {
             InsertRow(rowFrom, rows, 0);
         }
         /// <summary>
-		/// Inserts a new row into the spreadsheet.  Existing rows below the position are 
-		/// shifted down.  All formula are updated to take account of the new row.
+		/// Inserts new rows into the spreadsheet.  Existing rows below the position are 
+		/// shifted down.  All formula are updated to take account of the new row(s).
 		/// </summary>
-        /// <param name="rowFrom">The position of the new row</param>
+        /// <param name="rowFrom">The position of the new row(s)</param>
         /// <param name="rows">Number of rows to insert.</param>
         /// <param name="copyStylesFromRow">Copy Styles from this row. Applied to all inserted rows</param>
 		public void InsertRow(int rowFrom, int rows, int copyStylesFromRow)
@@ -2138,20 +2138,20 @@ namespace OfficeOpenXml
             WorksheetRangeInsertHelper.InsertRow(this, rowFrom, rows, copyStylesFromRow);
         }
         /// <summary>
-        /// Inserts a new column into the spreadsheet.  Existing columns below the position are 
-        /// shifted down.  All formula are updated to take account of the new column.
+        /// Inserts new columns into the spreadsheet.  Existing columns below the position are 
+        /// shifted down.  All formula are updated to take account of the new column(s).
         /// </summary>
-        /// <param name="columnFrom">The position of the new column</param>
+        /// <param name="columnFrom">The position of the new column(s)</param>
         /// <param name="columns">Number of columns to insert</param>        
         public void InsertColumn(int columnFrom, int columns)
         {
             InsertColumn(columnFrom, columns, 0);
         }
         ///<summary>
-        /// Inserts a new column into the spreadsheet.  Existing column to the left are 
-        /// shifted.  All formula are updated to take account of the new column.
+        /// Inserts new columns into the spreadsheet.  Existing column to the left are 
+        /// shifted.  All formula are updated to take account of the new column(s).
         /// </summary>
-        /// <param name="columnFrom">The position of the new column</param>
+        /// <param name="columnFrom">The position of the new column(s)</param>
         /// <param name="columns">Number of columns to insert.</param>
         /// <param name="copyStylesFromColumn">Copy Styles from this column. Applied to all inserted columns</param>
         public void InsertColumn(int columnFrom, int columns, int copyStylesFromColumn)
@@ -2169,7 +2169,7 @@ namespace OfficeOpenXml
             DeleteRow(row, 1);
         }
         /// <summary>
-        /// Delete the specified row from the worksheet.
+        /// Delete the specified rows from the worksheet.
         /// </summary>
         /// <param name="rowFrom">The start row</param>
         /// <param name="rows">Number of rows to delete</param>
@@ -2179,11 +2179,12 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Deletes the specified row from the worksheet.
+        /// Deletes the specified rows from the worksheet.
         /// </summary>
         /// <param name="rowFrom">The number of the start row to be deleted</param>
         /// <param name="rows">Number of rows to delete</param>
         /// <param name="shiftOtherRowsUp">Not used. Rows are always shifted</param>
+        [Obsolete("Use the two-parameter method instead")]
         public void DeleteRow(int rowFrom, int rows, bool shiftOtherRowsUp)
         {
             DeleteRow(rowFrom, rows);
@@ -2199,7 +2200,7 @@ namespace OfficeOpenXml
             DeleteColumn(column,1);
         }
         /// <summary>
-        /// Delete the specified column from the worksheet.
+        /// Delete the specified columns from the worksheet.
         /// </summary>
         /// <param name="columnFrom">The start column</param>
         /// <param name="columns">Number of columns to delete</param>
