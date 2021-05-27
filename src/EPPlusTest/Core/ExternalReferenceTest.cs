@@ -16,6 +16,12 @@ namespace EPPlusTest.Core
         public static void Init(TestContext context)
         {
             //_pck = OpenPackage("ExternalReferences.xlsx", true);
+            var outDir = _worksheetPath + "ExternalReferences";
+            if (!Directory.Exists(outDir)) Directory.CreateDirectory(outDir);
+            foreach (var f in Directory.GetFiles(_testInputPath + "ExternalReferences"))
+            {
+                File.Copy(f, outDir+"\\"+new FileInfo(f).Name,true);
+            }            
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -254,17 +260,16 @@ namespace EPPlusTest.Core
             Assert.AreEqual(6, p.Workbook.ExternalReferences.Count);
 
             Assert.AreEqual(eExternalLinkType.DdeLink, p.Workbook.ExternalReferences[0].ExternalLinkType);
-            p.Workbook.ExternalReferences.Directories.Add(new DirectoryInfo("c:\\epplustest\\workbooks"));
             p.Workbook.ExternalReferences.LoadWorkbooks();
 
             var book3 = p.Workbook.ExternalReferences[3].As.ExternalWorkbook;
-            Assert.AreEqual("c:\\epplustest\\workbooks\\fromwb1.xlsx", book3.File.FullName.ToLower());
+            Assert.AreEqual(p.File.DirectoryName+"\\fromwb1.xlsx", book3.File.FullName, true);
             Assert.IsNotNull(book3.Package);
             var book4 = p.Workbook.ExternalReferences[4].As.ExternalWorkbook;
-            Assert.AreEqual("c:\\epplustest\\workbooks\\extref.xlsx", book4.File.FullName.ToLower());
+            Assert.AreEqual(p.File.DirectoryName + "\\extref.xlsx", book4.File.FullName, true);
             Assert.IsNotNull(book4.Package);
             SaveWorkbook("dde.xlsx",p);
-        }
+            }
 
         [TestMethod]
         public void UpdateCacheShouldBeSameAsExcel()
