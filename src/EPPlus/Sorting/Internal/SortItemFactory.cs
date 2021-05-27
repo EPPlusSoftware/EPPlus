@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/7/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,24 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting.Internal
 {
-    internal class SortItem<T> : SortItemBase<T>
+    internal static class SortItemFactory
     {
-        internal int Row { get; set; }
-        
+        internal static List<SortItem<ExcelValue>> Create(ExcelRangeBase range)
+        {
+            var e = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
+            var sortItems = new List<SortItem<ExcelValue>>();
+            SortItem<ExcelValue> item = new SortItem<ExcelValue>();
+            var cols = range._toCol - range._fromCol + 1;
+            while (e.Next())
+            {
+                if (sortItems.Count == 0 || sortItems[sortItems.Count - 1].Row != e.Row)
+                {
+                    item = new SortItem<ExcelValue>() { Row = e.Row, Items = new ExcelValue[cols] };
+                    sortItems.Add(item);
+                }
+                item.Items[e.Column - range._fromCol] = e.Value;
+            }
+            return sortItems;
+        }
     }
 }

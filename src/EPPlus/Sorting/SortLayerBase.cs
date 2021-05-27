@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/7/2021         EPPlus Software AB       EPPlus 5.6
+  05/07/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -26,6 +26,7 @@ namespace OfficeOpenXml.Sorting
 
         private readonly SortOptionsBase _options;
         private int _column = -1;
+        private int _row = -1;
 
         protected void SetColumn(int column)
         {
@@ -38,6 +39,20 @@ namespace OfficeOpenXml.Sorting
         {
             _column = column;
             _options.ColumnIndexes.Add(column);
+            _options.Descending.Add((direction == eSortDirection.Descending));
+        }
+
+        protected void SetRow(int row)
+        {
+            _row = row;
+            _options.RowIndexes.Add(row);
+            _options.Descending.Add(false);
+        }
+
+        protected void SetRow(int row, eSortDirection direction)
+        {
+            _row = row;
+            _options.RowIndexes.Add(row);
             _options.Descending.Add((direction == eSortDirection.Descending));
         }
 

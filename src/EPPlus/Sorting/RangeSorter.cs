@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/7/2021         EPPlus Software AB       EPPlus 5.6
+  05/7/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Sorting.Internal;
@@ -31,23 +31,8 @@ namespace OfficeOpenXml.Sorting
 
         private readonly ExcelWorksheet _worksheet;
 
-        private static Dictionary<string, T> GetItems<T>(ExcelRangeBase r, CellStore<T> store, int fromRow, int fromCol, int toRow, int toCol)
+        private void ValidateColumnArray(ExcelRangeBase range, int[] columns)
         {
-            var e = new CellStoreEnumerator<T>(store, r._fromRow, r._fromCol, r._toRow, r._toCol);
-            var l = new Dictionary<string, T>();
-            while (e.Next())
-            {
-                l.Add(e.CellAddress, e.Value);
-            }
-            return l;
-        }
-
-        public void Sort(ExcelRangeBase range, int[] columns, bool[] descending = null, CultureInfo culture = null, CompareOptions compareOptions = CompareOptions.None, Dictionary<int, string[]> customLists = null)
-        {
-            if (columns == null)
-            {
-                columns = new int[] { 0 };
-            }
             var cols = range._toCol - range._fromCol + 1;
             foreach (var c in columns)
             {
@@ -56,43 +41,89 @@ namespace OfficeOpenXml.Sorting
                     throw (new ArgumentException("Can not reference columns outside the boundries of the range. Note that column reference is zero-based within the range"));
                 }
             }
-            var e = new CellStoreEnumerator<ExcelValue>(_worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
-            var sortItems = new List<SortItem<ExcelValue>>();
-            SortItem<ExcelValue> item = new SortItem<ExcelValue>();
+        }
 
-            while (e.Next())
+        private void ValidateRowsArray(ExcelRangeBase range, int[] rows)
+        {
+            var nRows = range._toRow - range._fromRow + 1;
+            foreach (var r in rows)
             {
-                if (sortItems.Count == 0 || sortItems[sortItems.Count - 1].Row != e.Row)
+                if (r > nRows - 1 || r < 0)
                 {
-                    item = new SortItem<ExcelValue>() { Row = e.Row, Items = new ExcelValue[cols] };
-                    sortItems.Add(item);
+                    throw (new ArgumentException("Can not reference rows outside the boundries of the range. Note that row reference is zero-based within the range"));
                 }
-                item.Items[e.Column - range._fromCol] = e.Value;
             }
+        }
 
+        private bool[] CreateDefaultDescendingArray(int[] sortParams)
+        {
+            var descending = new bool[sortParams.Length];
+            for (int i = 0; i < sortParams.Length; i++)
+            {
+                descending[i] = false;
+            }
+            return descending;
+        }
+
+        public void Sort(
+            ExcelRangeBase range, 
+            int[] columns, 
+            bool[] descending = null, 
+            CultureInfo culture = null, 
+            CompareOptions compareOptions = CompareOptions.None, 
+            Dictionary<int, string[]> customLists = null)
+        {
+            if (columns == null)
+            {
+                columns = new int[] { 0 };
+            }
+            ValidateColumnArray(range, columns);
             if (descending == null)
             {
-                descending = new bool[columns.Length];
-                for (int i = 0; i < columns.Length; i++)
-                {
-                    descending[i] = false;
-                }
+                descending = CreateDefaultDescendingArray(columns);
             }
-
+            var sortItems = SortItemFactory.Create(range);
             var comp = new EPPlusSortComparer(columns, descending, customLists, culture ?? CultureInfo.CurrentCulture, compareOptions);
             sortItems.Sort(comp);
+            var wsd = new RangeWorksheetData(range);
 
-            var flags = GetItems(range, _worksheet._flags, range._fromRow, range._fromCol, range._toRow, range._toCol);
-            var formulas = GetItems(range, _worksheet._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
-            var hyperLinks = GetItems(range, _worksheet._hyperLinks, range._fromRow, range._fromCol, range._toRow, range._toCol);
-            var comments = GetItems(range, _worksheet._commentsStore, range._fromRow, range._fromCol, range._toRow, range._toCol);
-            var metaData = GetItems(range, _worksheet._metadataStore, range._fromRow, range._fromCol, range._toRow, range._toCol);
+            ApplySortedRange(range, sortItems, wsd);
+        }
 
+        public void SortLeftToRight(
+            ExcelRangeBase range,
+            int[] rows,
+            bool[] descending,
+            CultureInfo culture,
+            CompareOptions compareOptions = CompareOptions.None,
+            Dictionary<int, string[]> customLists = null
+            )
+        {
+            if (rows == null)
+            {
+                rows = new int[] { 0 };
+            }
+            ValidateRowsArray(range, rows);
+            if (descending == null)
+            {
+                descending = CreateDefaultDescendingArray(rows);
+            }
+            var sortItems = SortItemLeftToRightFactory.Create(range);
+            var comp = new EPPlusSortComparerLeftToRight(rows, descending, customLists, culture ?? CultureInfo.CurrentCulture, compareOptions);
+            sortItems.Sort(comp);
+            var wsd = new RangeWorksheetData(range);
+
+            ApplySortedRange(range, sortItems, wsd);
+        }
+
+        private void ApplySortedRange(ExcelRangeBase range, List<SortItem<ExcelValue>> sortItems, RangeWorksheetData wsd)
+        {
             //Sort the values and styles.
-            _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, cols);
+            var nColumnsInRange = range._toCol - range._fromCol + 1;
+            _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, nColumnsInRange);
             for (var r = 0; r < sortItems.Count; r++)
             {
-                for (int c = 0; c < cols; c++)
+                for (int c = 0; c < nColumnsInRange; c++)
                 {
                     var row = range._fromRow + r;
                     var col = range._fromCol + c;
@@ -100,70 +131,129 @@ namespace OfficeOpenXml.Sorting
                     _worksheet._values.SetValue(row, col, sortItems[r].Items[c]);
                     var addr = ExcelCellBase.GetAddress(sortItems[r].Row, range._fromCol + c);
                     //Move flags
-                    if (flags.ContainsKey(addr))
-                    {
-                        _worksheet._flags.SetValue(row, col, flags[addr]);
-                    }
+                    HandleFlags(wsd, row, col, addr);
                     //Move metadata
-                    if (metaData.ContainsKey(addr))
-                    {
-                        _worksheet._metadataStore.SetValue(row, col, metaData[addr]);
-                    }
+                    HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    if (formulas.ContainsKey(addr))
-                    {
-                        _worksheet._formulas.SetValue(row, col, formulas[addr]);
-                        if (formulas[addr] is int)
-                        {
-                            int sfIx = (int)formulas[addr];
-                            var startAddr = new ExcelAddress(_worksheet._sharedFormulas[sfIx].Address);
-                            var f = _worksheet._sharedFormulas[sfIx];
-                            if (startAddr._fromRow > row)
-                            {
-                                f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                                f.StartRow = row;
-                                f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow, startAddr._toCol);
-                            }
-                            else if (startAddr._toRow < row)
-                            {
-                                f.Address = ExcelCellBase.GetAddress(startAddr._fromRow, startAddr._fromCol, row, startAddr._toCol);
-                            }
-                        }
-                    }
+                    HandleFormula(wsd, row, col, addr);
 
                     //Move hyperlinks
-                    if (hyperLinks.ContainsKey(addr))
-                    {
-                        _worksheet._hyperLinks.SetValue(row, col, hyperLinks[addr]);
-                    }
+                    HandleHyperlink(wsd, row, col, addr);
 
                     //Move comments
-                    if (comments.ContainsKey(addr))
+                    HandleComment(wsd, row, col, addr);
+                }
+            }
+        }
+
+        private void ApplySortedRange(ExcelRangeBase range, List<SortItemLeftToRight<ExcelValue>> sortItems, RangeWorksheetData wsd)
+        {
+            //Sort the values and styles.
+            var nRowsInRange = range._toRow - range._fromRow + 1;
+            _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, range._toCol);
+            for (var c = 0; c < sortItems.Count; c++)
+            {
+                for (int r = 0; r < nRowsInRange; r++)
+                {
+                    var row = range._fromRow + r;
+                    var col = range._fromCol + c;
+                    //_worksheet._values.SetValueSpecial(row, col, SortSetValue, l[r].Items[c]);
+                    _worksheet._values.SetValue(row, col, sortItems[c].Items[r]);
+                    var addr = ExcelCellBase.GetAddress(range._fromRow + r, sortItems[c].Column);
+                    //Move flags
+                    HandleFlags(wsd, row, col, addr);
+                    //Move metadata
+                    HandleMetadata(wsd, row, col, addr);
+
+                    //Move formulas
+                    HandleFormula(wsd, row, col, addr);
+
+                    //Move hyperlinks
+                    HandleHyperlink(wsd, row, col, addr);
+
+                    //Move comments
+                    HandleComment(wsd, row, col, addr);
+                }
+            }
+        }
+
+        private void HandleHyperlink(RangeWorksheetData wsd, int row, int col, string addr)
+        {
+            if (wsd.Hyperlinks.ContainsKey(addr))
+            {
+                _worksheet._hyperLinks.SetValue(row, col, wsd.Hyperlinks[addr]);
+            }
+        }
+
+        private void HandleMetadata(RangeWorksheetData wsd, int row, int col, string addr)
+        {
+            if (wsd.Metadata.ContainsKey(addr))
+            {
+                _worksheet._metadataStore.SetValue(row, col, wsd.Metadata[addr]);
+            }
+        }
+
+        private void HandleFlags(RangeWorksheetData wsd, int row, int col, string addr)
+        {
+            if (wsd.Flags.ContainsKey(addr))
+            {
+                _worksheet._flags.SetValue(row, col, wsd.Flags[addr]);
+            }
+        }
+
+        private void HandleComment(RangeWorksheetData wsd, int row, int col, string addr)
+        {
+            if (wsd.Comments.ContainsKey(addr))
+            {
+                var i = wsd.Comments[addr];
+                _worksheet._commentsStore.SetValue(row, col, i);
+                var comment = _worksheet._comments[i];
+                comment.Reference = ExcelCellBase.GetAddress(row, col);
+            }
+        }
+
+        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr)
+        {
+            if (wsd.Formulas.ContainsKey(addr))
+            {
+                _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
+                if (wsd.Formulas[addr] is int)
+                {
+                    int sfIx = (int)wsd.Formulas[addr];
+                    var startAddr = new ExcelAddress(_worksheet._sharedFormulas[sfIx].Address);
+                    var f = _worksheet._sharedFormulas[sfIx];
+                    if (startAddr._fromRow > row)
                     {
-                        var i = comments[addr];
-                        _worksheet._commentsStore.SetValue(row, col, i);
-                        var comment = _worksheet._comments[i];
-                        comment.Reference = ExcelCellBase.GetAddress(row, col);
+                        f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
+                        f.StartRow = row;
+                        f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow, startAddr._toCol);
+                    }
+                    else if (startAddr._toRow < row)
+                    {
+                        f.Address = ExcelCellBase.GetAddress(startAddr._fromRow, startAddr._fromCol, row, startAddr._toCol);
                     }
                 }
             }
         }
 
-        internal void SetWorksheetSortState(ExcelRangeBase range, int[] columns, bool[] descending, CompareOptions compareOptions)
+        internal void SetWorksheetSortState(ExcelRangeBase range, int[] columnsOrRows, bool[] descending, CompareOptions compareOptions, bool leftToRight)
         {
             //Set sort state
             var sortState = new SortState(_worksheet.NameSpaceManager, _worksheet);
-            sortState.Ref = range.Address; 
+            sortState.Ref = range.Address;
+            sortState.ColumnSort = leftToRight;
             sortState.CaseSensitive = (compareOptions == CompareOptions.IgnoreCase || compareOptions == CompareOptions.OrdinalIgnoreCase);
-            for (var ix = 0; ix < columns.Length; ix++)
+            for (var ix = 0; ix < columnsOrRows.Length; ix++)
             {
                 bool? desc = null;
                 if (descending.Length > ix && descending[ix])
                 {
                     desc = true;
                 }
-                var adr = ExcelCellBase.GetAddress(range._fromRow, range._fromCol + columns[ix], range._toRow, range._fromCol + columns[ix]);
+                var adr = leftToRight ?
+                    ExcelCellBase.GetAddress(range._fromRow + columnsOrRows[ix], range._fromCol, range._fromRow + columnsOrRows[ix], range._toCol) :
+                    ExcelCellBase.GetAddress(range._fromRow, range._fromCol + columnsOrRows[ix], range._toRow, range._fromCol + columnsOrRows[ix]);
                 sortState.SortConditions.Add(adr, desc);
             }
         }

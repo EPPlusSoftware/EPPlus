@@ -1082,9 +1082,9 @@ namespace OfficeOpenXml.Table
         /// Sorts the data in the table according to the supplied action of <see cref="RangeSortOptions"/>
         /// </summary>
         /// <example>
-        /// table.Sort(x =&gt; x.SortBy.Column(0).ThenSortBy.Column(1);
+        /// table.Sort(x =&gt; x.SortBy.Column(0).ThenSortBy.Column(1, eSortDirection.Descending);
         /// </example>
-        /// <param name="configuration"></param>
+        /// <param name="configuration">An action with parameters for sorting</param>
         public void Sort(Action<TableSortOptions> configuration)
         {
             _tableSorter.Sort(configuration);

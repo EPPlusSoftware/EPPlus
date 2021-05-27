@@ -20,27 +20,27 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting.Internal
 {
-    internal class EPPlusSortComparer : EPPlusSortComparerBase<SortItem<ExcelValue>, ExcelValue>
+    internal class EPPlusSortComparerLeftToRight : EPPlusSortComparerBase<SortItemLeftToRight<ExcelValue>, ExcelValue>
     {
-        public EPPlusSortComparer(int[] columns, bool[] descending, Dictionary<int, string[]> customLists, CultureInfo culture = null, CompareOptions compareOptions = CompareOptions.None)
+        public EPPlusSortComparerLeftToRight(int[] rows, bool[] descending, Dictionary<int, string[]> customLists, CultureInfo culture = null, CompareOptions compareOptions = CompareOptions.None)
             : base(descending, customLists, culture, compareOptions)
         {
-            _columns = columns;
+            _rows = rows;
         }
 
-        private readonly int[] _columns;
-        
-        public override int Compare(SortItem<ExcelValue> x, SortItem<ExcelValue> y)
+        private readonly int[] _rows;
+
+        public override int Compare(SortItemLeftToRight<ExcelValue> x, SortItemLeftToRight<ExcelValue> y)
         {
             var ret = 0;
-            for (int i = 0; i < _columns.Length; i++)
+            for (int i = 0; i < _rows.Length; i++)
             {
-                var x1 = x.Items[_columns[i]]._value;
-                var y1 = y.Items[_columns[i]]._value;
-                if(CustomLists != null && CustomLists.ContainsKey(_columns[i]))
+                var x1 = x.Items[_rows[i]]._value;
+                var y1 = y.Items[_rows[i]]._value;
+                if (CustomLists != null && CustomLists.ContainsKey(_rows[i]))
                 {
-                    var weight1 = GetSortWeightByCustomList(x1.ToString(), CustomLists[_columns[i]]);
-                    var weight2 = GetSortWeightByCustomList(y1.ToString(), CustomLists[_columns[i]]);
+                    var weight1 = GetSortWeightByCustomList(x1.ToString(), CustomLists[_rows[i]]);
+                    var weight2 = GetSortWeightByCustomList(y1.ToString(), CustomLists[_rows[i]]);
                     ret = weight1.CompareTo(weight2);
                 }
                 else
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Sorting.Internal
                         ret = isNumX ? -1 : 1;
                     }
                 }
-                
+
                 if (ret != 0) return ret * (Descending[i] ? -1 : 1);
             }
             return 0;

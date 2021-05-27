@@ -17,40 +17,38 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting
 {
-    /// <summary>
-    /// This class represents
-    /// </summary>
-    public class RangeSortLayer : SortLayerBase
+    public class RangeLeftToRightSortLayer : SortLayerBase
     {
-        internal RangeSortLayer(RangeSortOptions options)
+        internal RangeLeftToRightSortLayer(RangeSortOptions options)
             : base(options)
         {
+            options.LeftToRight = true;
             _options = options;
         }
 
         private readonly RangeSortOptions _options;
 
         /// <summary>
-        /// Sorts by the column that corresponds to the <paramref name="column"/> (zerobased) with ascending sort direction
+        /// Sorts by the column that corresponds to the <paramref name="row"/> (zerobased) with ascending sort direction
         /// </summary>
-        /// <param name="column">The column to sort</param>
-        /// <returns>A <see cref="RangeSortLayerBuilder"/> for adding more sort criterias</returns>
-        public virtual RangeSortLayerBuilder Column(int column)
+        /// <param name="row">The row to sort on</param>
+        /// <returns>A <see cref="RangeLeftToRightSortLayerBuilder"/> for adding more sort criterias</returns>
+        public virtual RangeLeftToRightSortLayerBuilder Row(int row)
         {
-            SetColumn(column);
-            return new RangeSortLayerBuilder(_options, this);
+            SetColumn(row);
+            return new RangeLeftToRightSortLayerBuilder(_options, this);
         }
 
         /// <summary>
-        /// Sorts by the column that corresponds to the <paramref name="column"/> (zerobased) using the supplied sort direction.
+        /// Sorts by the column that corresponds to the <paramref name="row"/> (zerobased) using the supplied sort direction.
         /// </summary>
-        /// <param name="column">The column to sort</param>
+        /// <param name="row">The column to sort on</param>
         /// <param name="direction">Ascending or Descending sort</param>
-        /// <returns>A <see cref="RangeSortLayerBuilder"/> for adding more sort criterias</returns>
-        public RangeSortLayerBuilder Column(int column, eSortDirection direction)
+        /// <returns>A <see cref="RangeLeftToRightSortLayerBuilder"/> for adding more sort criterias</returns>
+        public RangeLeftToRightSortLayerBuilder Row(int row, eSortDirection direction)
         {
-            SetColumn(column, direction);
-            return new RangeSortLayerBuilder(_options, this);
+            SetColumn(row, direction);
+            return new RangeLeftToRightSortLayerBuilder(_options, this);
         }
     }
 }

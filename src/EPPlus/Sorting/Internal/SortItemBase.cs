@@ -17,9 +17,8 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting.Internal
 {
-    internal class SortItem<T> : SortItemBase<T>
+    internal abstract class SortItemBase<T>
     {
-        internal int Row { get; set; }
-        
+        internal T[] Items { get; set; }
     }
 }

@@ -2212,16 +2212,32 @@ namespace OfficeOpenXml
         /// <param name="culture">The CultureInfo used to compare values. A null value means CurrentCulture</param>
         /// <param name="compareOptions">String compare option</param>
         /// <param name="table"><see cref="ExcelTable"/> to be sorted</param>
-        internal void SortInternal(int[] columns, bool[] descending = null, Dictionary<int, string[]> customLists = null, CultureInfo culture = null, CompareOptions compareOptions = CompareOptions.None, ExcelTable table = null)
+        /// <param name="leftToRight">Indicates if the range should be sorted left to right (by column) instead of top-down (by row)</param>
+        internal void SortInternal(
+            int[] columns, 
+            bool[] descending = null, 
+            Dictionary<int, string[]> customLists = null, 
+            CultureInfo culture = null, 
+            CompareOptions compareOptions = CompareOptions.None, 
+            ExcelTable table = null,
+            bool leftToRight = false)
         {
-            _worksheet._rangeSorter.Sort(this, columns, descending, culture, compareOptions, customLists);
+            if(leftToRight)
+            {
+                _worksheet._rangeSorter.SortLeftToRight(this, columns, descending, culture, compareOptions, customLists);
+            }
+            else
+            {
+                _worksheet._rangeSorter.Sort(this, columns, descending, culture, compareOptions, customLists);
+            }
+            
             if(table != null)
             {
                 table.SetTableSortState(columns, descending, compareOptions, customLists);
             }
             else
             {
-                _worksheet._rangeSorter.SetWorksheetSortState(this, columns, descending, compareOptions);
+                _worksheet._rangeSorter.SetWorksheetSortState(this, columns, descending, compareOptions, leftToRight);
             }
         }
 
@@ -2229,11 +2245,11 @@ namespace OfficeOpenXml
         /// Sort the range by value
         /// </summary>
         /// <param name="options">An instance of <see cref="RangeSortOptions"/> where sort parameters can be set</param>
-        public void Sort(SortOptionsBase options)
+        internal void SortInternal(SortOptionsBase options)
         {
             if(options.ColumnIndexes.Count > 0)
             {
-                SortInternal(options.ColumnIndexes.ToArray(), options.Descending.ToArray(), options.CustomLists, options.Culture, options.CompareOptions);
+                SortInternal(options.ColumnIndexes.ToArray(), options.Descending.ToArray(), options.CustomLists, options.Culture, options.CompareOptions, null, options.LeftToRight);
             }
             else
             {
@@ -2254,10 +2270,17 @@ namespace OfficeOpenXml
         {
             var options = new RangeSortOptions();
             configuration(options);
-            Sort(options);
+            SortInternal(options);
         }
 
-        
+        /// <summary>
+        /// Sort the range by value
+        /// </summary>
+        /// <param name="options"><see cref="RangeSortOptions">Options</see> for the sort</param>
+        public void Sort(RangeSortOptions options)
+        {
+            SortInternal(options);
+        }
 
         private static void SortSetValue(List<ExcelValue> list, int index, object value)
         {

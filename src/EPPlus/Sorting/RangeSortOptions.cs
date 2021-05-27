@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/7/2021         EPPlus Software AB       EPPlus 5.6
+  05/07/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -21,8 +21,11 @@ namespace OfficeOpenXml.Sorting
     public class RangeSortOptions : SortOptionsBase
     {
         private RangeSortLayer _sortLayer = null;
+        private RangeLeftToRightSortLayer _sortLayerLeftToRight = null;
 
         
+
+
         public RangeSortLayer SortBy
         {
             get
@@ -33,6 +36,14 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
-        
+        public RangeLeftToRightSortLayer SortLeftToRightBy
+        {
+            get
+            {
+                if (_sortLayerLeftToRight == null)
+                    _sortLayerLeftToRight = new RangeLeftToRightSortLayer(this);
+                return _sortLayerLeftToRight;
+            }
+        }
     }
 }

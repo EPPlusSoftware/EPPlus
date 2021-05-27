@@ -18,24 +18,27 @@ using System.Text;
 namespace OfficeOpenXml.Sorting
 {
     /// <summary>
-    /// This class is used to build multiple search parameters for rowbased sorting.
+    /// This class is used to build multiple search parameters for columnbased sorting.
     /// </summary>
-    public class RangeSortLayerBuilder
+    public class RangeLeftToRightSortLayerBuilder
     {
-        internal RangeSortLayerBuilder(RangeSortOptions options, RangeSortLayer sortLayer)
+        internal RangeLeftToRightSortLayerBuilder(RangeSortOptions options, RangeLeftToRightSortLayer sortLayer)
         {
             _options = options;
             _sortLayer = sortLayer;
         }
 
         private readonly RangeSortOptions _options;
-        private readonly RangeSortLayer _sortLayer;
+        private readonly RangeLeftToRightSortLayer _sortLayer;
 
-        public virtual RangeSortLayer ThenSortBy
+        /// <summary>
+        /// Adds a new <see cref="RangeLeftToRightSortLayer">sort layer</see>
+        /// </summary>
+        public virtual RangeLeftToRightSortLayer ThenSortBy
         {
             get
             {
-                return new RangeSortLayer(_options);
+                return new RangeLeftToRightSortLayer(_options);
             }
         }
 
@@ -43,8 +46,8 @@ namespace OfficeOpenXml.Sorting
         /// Use a custom list for sorting on the current Sort layer.
         /// </summary>
         /// <param name="values">An array of strings defining the sort order</param>
-        /// <returns>A <see cref="RangeSortLayerBuilder"/></returns>
-        public RangeSortLayerBuilder UsingCustomList(params string[] values)
+        /// <returns>A <see cref="RangeLeftToRightSortLayerBuilder"/></returns>
+        public RangeLeftToRightSortLayerBuilder UsingCustomList(params string[] values)
         {
             _sortLayer.SetCustomList(values);
             return this;
