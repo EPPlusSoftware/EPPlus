@@ -2154,5 +2154,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void ReadIssue()
+        {
+            using (var p = OpenTemplatePackage("cf.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+            }
+        }
+
     }
 }
