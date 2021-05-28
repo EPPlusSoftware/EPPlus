@@ -78,5 +78,34 @@ namespace OfficeOpenXml.Utils
             }
             return result.ToString();
         }
+
+        internal static string ShiftAddressColumnsInFormula(string worksheetName, string formula, int currentColumn, int newColumn)
+        {
+            if (string.IsNullOrEmpty(formula)) return formula;
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
+            if (!tokens.Any(x => x.TokenTypeIsSet(TokenType.ExcelAddress))) return formula;
+            var resultTokens = new List<Token>();
+            foreach (var token in tokens)
+            {
+                if (!token.TokenTypeIsSet(TokenType.ExcelAddress))
+                {
+                    resultTokens.Add(token);
+                }
+                else
+                {
+                    var addresses = new List<ExcelCellAddress>();
+                    var adr = new ExcelAddressBase(token.Value);
+                    var newAdr = adr.AddColumn(currentColumn, newColumn, true);
+                    var newToken = new Token(newAdr.FullAddress, TokenType.ExcelAddress);
+                    resultTokens.Add(newToken);
+                }
+            }
+            var result = new StringBuilder();
+            foreach (var token in resultTokens)
+            {
+                result.Append(token.Value);
+            }
+            return result.ToString();
+        }
     }
 }

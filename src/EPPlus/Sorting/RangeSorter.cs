@@ -136,7 +136,7 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr);
+                    HandleFormula(wsd, row, col, addr, sortItems[r].Row, col);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
@@ -167,7 +167,7 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr);
+                    HandleFormula(wsd, row, col, addr, row, sortItems[c].Column);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
@@ -213,12 +213,20 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
-        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr)
+        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol)
         {
             if (wsd.Formulas.ContainsKey(addr))
             {
                 _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
-                if (wsd.Formulas[addr] is int)
+                if(wsd.Formulas[addr] is string)
+                {
+                    var formula = wsd.Formulas[addr].ToString();
+                    var newFormula = initialRow != row ?
+                        AddressUtility.ShiftAddressRowsInFormula(string.Empty, formula, initialRow, row - initialRow) :
+                        AddressUtility.ShiftAddressColumnsInFormula(string.Empty, formula, initialCol, col - initialCol);
+                    _worksheet._formulas.SetValue(row, col, newFormula);
+                }
+                else if (wsd.Formulas[addr] is int)
                 {
                     int sfIx = (int)wsd.Formulas[addr];
                     var startAddr = new ExcelAddress(_worksheet._sharedFormulas[sfIx].Address);
