@@ -38,6 +38,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTableField(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTable table, int index, int baseIndex) :
             base(ns, topNode)
         {
+            SchemaNodeOrder = new string[] { "items","autoSortScope" };
             Index = index;
             BaseIndex = baseIndex;
             _pivotTable = table;
@@ -257,6 +258,50 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+
+        /// <summary>
+        /// Set auto sort on a data field for this field.
+        /// </summary>
+        /// <param name="dataField"></param>
+        public void SetAutoSort(ExcelPivotTableDataField dataField)
+        {
+            var node = CreateNode("d:autoSortScope/d:pivotArea");
+            if (AutoSort == null)
+            {
+                AutoSort = new ExcelPivotAreaAutoSort(NameSpaceManager, TopNode, _pivotTable);
+                AutoSort.FieldPosition = 0;
+                AutoSort.Outline = false;
+                AutoSort.DataOnly = false;
+            }
+
+            AutoSort.DeleteNode("d:references");
+            AutoSort.Conditions.Fields.Clear();
+            AutoSort.Conditions.DataFields.Clear();
+            AutoSort.Conditions.DataFields.Add(dataField);
+            AutoSort.Conditions.DataFields.UpdateXml();
+        }
+        /// <summary>
+        /// Remove auto sort and set the <see cref="AutoSort"/> property to null
+        /// </summary>
+        public void RemoveAutoSort()
+        {
+            if (AutoSort !=null)
+            {
+                AutoSort.DeleteNode("d:autoSortScope");
+                AutoSort = null;
+            }
+        }
+
+        /// <summary>
+        /// Auto sort for a field. Sort is set on a data field for a row/column field.
+        /// Use <see cref="SetAutoSort(ExcelPivotTableDataField)"/> to set auto sort 
+        /// Use <seealso cref="RemoveAutoSort"/> to remove auto sort and set this property to null
+        /// </summary>
+        public ExcelPivotAreaAutoSort AutoSort
+        {
+            get;
+            private set;
+        }
         /// <summary>
         /// A boolean that indicates whether manual filter is in inclusive mode
         /// </summary>
@@ -341,7 +386,9 @@ namespace OfficeOpenXml.Table.PivotTable
                             count++;
                         }
                     }
-                    TopNode.InnerXml = string.Format("<items count=\"{0}\">{1}</items>", count, innerXml);
+                    SetXmlNodeInt("d:items/@count", count);
+                    var itemsNode=GetNode("d:items");
+                    itemsNode.InnerXml = innerXml;
                 }
             }
         }

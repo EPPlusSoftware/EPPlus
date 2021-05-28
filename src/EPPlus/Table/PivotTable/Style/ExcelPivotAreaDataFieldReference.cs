@@ -133,6 +133,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }            
         }
+        internal void Clear()
+        {
+            _dataFields.Clear();
+        }
         /// <summary>
         /// Gets the enumerator
         /// </summary>
