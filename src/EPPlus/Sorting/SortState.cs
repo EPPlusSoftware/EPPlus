@@ -63,6 +63,9 @@ namespace OfficeOpenXml.Sorting
         private string _refPath = "@ref";
 
         private readonly SortConditionCollection _sortConditions;
+        /// <summary>
+        /// The preserved sort conditions of the sort state.
+        /// </summary>
         public SortConditionCollection SortConditions
         {
             get

@@ -18,6 +18,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Sorting
 {
+    /// <summary>
+    /// Represents a sort condition within a sort
+    /// </summary>
     public class SortCondition : XmlHelper
     {
         public SortCondition(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
@@ -28,6 +31,9 @@ namespace OfficeOpenXml.Sorting
         private string _refPath = "@ref";
         private string _customListPath = "@customList";
 
+        /// <summary>
+        /// Sort direction of this condition. If false - ascending, if true - descending.
+        /// </summary>
         public bool Descending
         {
             get
@@ -40,6 +46,9 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
+        /// <summary>
+        /// Address of the range used by this condition.
+        /// </summary>
         public string Ref 
         {
             get
@@ -52,6 +61,9 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
+        /// <summary>
+        /// A custom list of strings that defines the sort order for this condition.
+        /// </summary>
         public string[] CustomList
         {
             get

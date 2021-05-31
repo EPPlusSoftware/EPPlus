@@ -18,8 +18,14 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting
 {
+    /// <summary>
+    /// Base class for Sort options.
+    /// </summary>
     public abstract class SortOptionsBase
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SortOptionsBase()
         {
             ColumnIndexes = new List<int>();

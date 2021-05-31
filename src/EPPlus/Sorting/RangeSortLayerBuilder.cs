@@ -31,6 +31,9 @@ namespace OfficeOpenXml.Sorting
         private readonly RangeSortOptions _options;
         private readonly RangeSortLayer _sortLayer;
 
+        /// <summary>
+        /// Adds a new Sort layer to the sort options (i.e. the sort).
+        /// </summary>
         public virtual RangeSortLayer ThenSortBy
         {
             get

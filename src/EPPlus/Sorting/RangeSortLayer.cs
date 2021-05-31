@@ -18,7 +18,7 @@ using System.Text;
 namespace OfficeOpenXml.Sorting
 {
     /// <summary>
-    /// This class represents
+    /// This class represents a condition in a sort.
     /// </summary>
     public class RangeSortLayer : SortLayerBase
     {

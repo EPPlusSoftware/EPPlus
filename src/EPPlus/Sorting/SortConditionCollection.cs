@@ -19,6 +19,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Sorting
 {
+    /// <summary>
+    /// A collection of <see cref="SortCondition"/>s.
+    /// </summary>
     public class SortConditionCollection : XmlHelper, IEnumerable<SortCondition>
     {
         internal SortConditionCollection(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
@@ -47,6 +50,11 @@ namespace OfficeOpenXml.Sorting
             return _sortConditions.GetEnumerator();
         }
 
+        /// <summary>
+        /// Adds a new condition to the collection.
+        /// </summary>
+        /// <param name="ref">Address of the range used by this condition.</param>
+        /// <param name="decending">If true - descending sort order, if false or null - ascending sort order.</param>
         internal void Add(string @ref, bool? decending = null)
         {
             if (_sortConditions.Count > 63) throw new ArgumentException("Too many sort conditions added, max number of conditions is 64");
@@ -61,6 +69,12 @@ namespace OfficeOpenXml.Sorting
             _sortConditions.Add(condition);
         }
 
+        /// <summary>
+        /// Adds a new condition to the collection.
+        /// </summary>
+        /// <param name="ref">Address of the range used by this condition.</param>
+        /// <param name="decending">If true - descending sort order, if false or null - ascending sort order.</param>
+        /// <param name="customList">A custom list of strings that defines the sort order for this condition.</param>
         internal void Add(string @ref, bool? decending, string[] customList = null)
         {
             if (_sortConditions.Count > 63) throw new ArgumentException("Too many sort conditions added, max number of conditions is 64");

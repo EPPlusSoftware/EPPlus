@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Sorting
         /// <summary>
         /// Sorts by the column that corresponds to the <paramref name="columnName"/> ith ascending sort direction
         /// </summary>
-        /// <param name="columnName">The name of the column to sort, see <see cref="ExcelTableColumn.Name"/>.</param>
+        /// <param name="columnName">The name of the column to sort, see <see cref="OfficeOpenXml.Table.ExcelTableColumn.Name"/>.</param>
         /// <returns>A <see cref="TableSortLayerBuilder"/> for adding more sort criterias</returns>
         public TableSortLayerBuilder ColumnNamed(string columnName)
         {
@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Sorting
         /// <summary>
         /// Sorts by the column that corresponds to the <paramref name="columnName"/> using the supplied sort direction.
         /// </summary>
-        /// <param name="columnName">Name of the column to sort, see <see cref="ExcelTableColumn.Name"/></param>
+        /// <param name="columnName">Name of the column to sort, see <see cref="OfficeOpenXml.Table.ExcelTableColumn.Name"/></param>
         /// <param name="direction">Ascending or Descending sort</param>
         /// <returns>A <see cref="TableSortLayerBuilder"/> for adding more sort criterias</returns>
         public TableSortLayerBuilder ColumnNamed(string columnName, eSortDirection direction)

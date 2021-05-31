@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -331,7 +332,10 @@ namespace EPPlusTest.Sorting
 
                 sheet.Cells["A1:C3"].Sort(x => x.SortLeftToRightBy.Row(0));
 
+                Assert.AreEqual(1, sheet.Cells[1, 1].Value);
+                Assert.AreEqual(2, sheet.Cells[1, 2].Value);
                 Assert.AreEqual("SUM(A1:A2)", sheet.Cells[3, 1].Formula);
+                Assert.AreEqual("SUM(B1:B2)", sheet.Cells[3, 2].Formula);
             }
         }
 
@@ -356,6 +360,68 @@ namespace EPPlusTest.Sorting
                 Assert.AreEqual("S", sheet.Cells[1, 1].Value);
                 Assert.AreEqual("M", sheet.Cells[1, 2].Value);
                 Assert.AreEqual("L", sheet.Cells[1, 5].Value);
+                Assert.AreEqual(4, sheet.Cells[2, 1].Value);
+                Assert.AreEqual(1, sheet.Cells[2, 2].Value);
+                Assert.AreEqual(5, sheet.Cells[2, 5].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldSortLeftToRightUsingCustomListNonFluent()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells[1, 1].Value = "S";
+                sheet.Cells[1, 2].Value = "M";
+                sheet.Cells[1, 3].Value = "M";
+                sheet.Cells[1, 4].Value = "L";
+                sheet.Cells[1, 5].Value = "L";
+                sheet.Cells[2, 1].Value = 4;
+                sheet.Cells[2, 2].Value = 3;
+                sheet.Cells[2, 3].Value = 1;
+                sheet.Cells[2, 4].Value = 2;
+                sheet.Cells[2, 5].Value = 5;
+                var options = RangeSortOptions.Create();
+                var builder = options.SortLeftToRightBy.Row(0).UsingCustomList("S", "M", "L");
+                builder.ThenSortBy.Row(1);
+                sheet.Cells["A1:E2"].Sort(options);
+
+                Assert.AreEqual("S", sheet.Cells[1, 1].Value);
+                Assert.AreEqual("M", sheet.Cells[1, 2].Value);
+                Assert.AreEqual("L", sheet.Cells[1, 5].Value);
+                Assert.AreEqual(4, sheet.Cells[2, 1].Value);
+                Assert.AreEqual(1, sheet.Cells[2, 2].Value);
+                Assert.AreEqual(5, sheet.Cells[2, 5].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldIgnoreCaseWithCustomList()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells[1, 1].Value = "s";
+                sheet.Cells[1, 2].Value = "m";
+                sheet.Cells[1, 3].Value = "m";
+                sheet.Cells[1, 4].Value = "L";
+                sheet.Cells[1, 5].Value = "l";
+                sheet.Cells[2, 1].Value = 4;
+                sheet.Cells[2, 2].Value = 1;
+                sheet.Cells[2, 3].Value = 3;
+                sheet.Cells[2, 4].Value = 2;
+                sheet.Cells[2, 5].Value = 5;
+                sheet.Cells["A1:E2"].Sort(x =>
+                {
+                    x.CompareOptions = CompareOptions.IgnoreCase;
+                    x.SortLeftToRightBy.Row(0).UsingCustomList("S", "M", "L").ThenSortBy.Row(1);
+                });
+
+                Assert.AreEqual("s", sheet.Cells[1, 1].Value);
+                Assert.AreEqual("m", sheet.Cells[1, 2].Value);
+                Assert.AreEqual("L", sheet.Cells[1, 4].Value);
+                Assert.AreEqual("l", sheet.Cells[1, 5].Value);
                 Assert.AreEqual(4, sheet.Cells[2, 1].Value);
                 Assert.AreEqual(1, sheet.Cells[2, 2].Value);
                 Assert.AreEqual(5, sheet.Cells[2, 5].Value);

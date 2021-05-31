@@ -17,6 +17,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting
 {
+    /// <summary>
+    /// Base class for sort layers
+    /// </summary>
     public abstract class SortLayerBase
     {
         internal SortLayerBase(SortOptionsBase options)

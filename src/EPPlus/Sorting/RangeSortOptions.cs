@@ -18,14 +18,32 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting
 {
+    /// <summary>
+    /// Sort options for sorting a range.
+    /// </summary>
     public class RangeSortOptions : SortOptionsBase
     {
         private RangeSortLayer _sortLayer = null;
         private RangeLeftToRightSortLayer _sortLayerLeftToRight = null;
 
-        
+        internal RangeSortOptions()
+        {
+
+        }
+
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        /// <returns></returns>
+        public static RangeSortOptions Create()
+        {
+            return new RangeSortOptions();
+        }
 
 
+        /// <summary>
+        /// Creates the first sort layer (i.e. the first sort condition) for a row based/top to bottom sort.
+        /// </summary>
         public RangeSortLayer SortBy
         {
             get
@@ -36,6 +54,9 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
+        /// <summary>
+        /// Creates the first sort layer (i.e. the first sort condition) for a column based/left to right sort.
+        /// </summary>
         public RangeLeftToRightSortLayer SortLeftToRightBy
         {
             get

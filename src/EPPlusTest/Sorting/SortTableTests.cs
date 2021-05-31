@@ -4,6 +4,7 @@ using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -129,6 +130,8 @@ namespace EPPlusTest.Sorting
                 Assert.AreEqual("M", sheet.Cells[5, 1].Value);
                 Assert.AreEqual("L", sheet.Cells[6, 1].Value);
                 Assert.AreEqual("XL", sheet.Cells[7, 1].Value);
+
+                package.SaveAs(new FileInfo(@"c:\Temp\TableSort2.xlsx"));
             }
         }
     }
