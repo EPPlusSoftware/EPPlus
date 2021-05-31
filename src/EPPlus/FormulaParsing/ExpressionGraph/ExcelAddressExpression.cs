@@ -87,7 +87,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 throw new InvalidOperationException("Catastropic error occurred, address caching failed");
             }
-            var compileResult = CompileRangeValues();
+                var compileResult = CompileRangeValues();
             compileResult.ExcelAddressReferenceId = cacheId;
             return compileResult;
         }

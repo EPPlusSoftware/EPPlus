@@ -35,8 +35,20 @@ using OfficeOpenXml;
 namespace EPPlusTest
 {
     [TestClass]
-    public class CommentsTest
+    public class CommentsTest : TestBase
     {
+        static ExcelPackage _pck;
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            _pck = OpenPackage("Comment.xlsx", true);
+        }
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            SaveAndCleanup(_pck);
+        }
+
         [TestMethod]
         public void VisibilityComments()
         {
@@ -155,27 +167,25 @@ namespace EPPlusTest
         [TestMethod]
         public void RangeShouldClearComment()
         {
-            using (var p = new ExcelPackage())
+            var ws = _pck.Workbook.Worksheets.Add("Sheet1");
+            for (int i = 0; i < 5; i++)
             {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                for (int i = 0; i < 5; i++)
-                {
-                    ws.Cells[2, 2].Value = "hallo";
-                    ExcelComment comment = ws.Cells[2, 2].AddComment("hallo", "hallo");
-                    comment.Font.FontName = "Arial";
-                    comment.AutoFit = true;
-                    ExcelRange cell = ws.Cells[2, 2];
+                ws.Cells[2, 2].Value = "hallo";
+                ExcelComment comment = ws.Cells[2, 2].AddComment("hallo\r\nLine 2", "hallo");
+                comment.Font.FontName = "Arial";
+                comment.AutoFit = true;
+                    
+                ExcelRange cell = ws.Cells[2, 2];
 
-                    Assert.AreEqual("Arial", comment.Font.FontName);
-                    Assert.IsTrue(comment.AutoFit);
-                    Assert.AreEqual(1, ws.Comments.Count);
-                    Assert.IsNotNull(cell.Comment);
+                Assert.AreEqual("Arial", comment.Font.FontName);
+                Assert.IsTrue(comment.AutoFit);
+                Assert.AreEqual(1, ws.Comments.Count);
+                Assert.IsNotNull(cell.Comment);
 
-                    cell.Clear();
+                cell.Clear();
 
-                    Assert.AreEqual(0, ws.Comments.Count);
-                    Assert.IsNull(cell.Comment);
-                }
+                Assert.AreEqual(0, ws.Comments.Count);
+                Assert.IsNull(cell.Comment);                                        
             }
         }
         [TestMethod]

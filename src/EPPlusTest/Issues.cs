@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -80,7 +80,7 @@ namespace EPPlusTest
                 Assert.AreEqual("02.02.10.008.3", ws.Cells["A1"].Text);
                 ws.Dispose();
             }
-        }
+        }   
         [TestMethod]
         public void Issue15031()
         {
@@ -1535,7 +1535,7 @@ namespace EPPlusTest
         public void IssueCommentInsert()
         {
 
-            using (var p = OpenPackage("comment.xlsx", true))
+            using (var p = OpenPackage("CommentInsert.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("CommentInsert");
                 ws.Cells["A2"].AddComment("na", "test");
@@ -2019,9 +2019,8 @@ namespace EPPlusTest
             }
         }
 
-        [TestMethod]
         public void DefinedNamesAddressIssue()
-        {
+        { 
             using (var p = OpenPackage("defnames.xlsx"))
             {
                 var ws1 = p.Workbook.Worksheets.Add("Sheet1");
@@ -2086,7 +2085,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void MatchNamedRangeIssue()
+        public void StyleIssueLibreOffice()
         {
             foreach (bool onColumns in new[] { true, false })
             {
