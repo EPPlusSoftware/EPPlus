@@ -1221,7 +1221,7 @@ namespace OfficeOpenXml
             {
                 string s = sb.ToString();
                 string xml = s.Substring(0, startmMatch.Index);
-                var tag = GetSheetDataTag(startmMatch.Value);
+                 var tag = GetSheetDataTag(startmMatch.Value);
                 if (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(startmMatch.Value, "/>"))        //Empty sheetdata
                 {
                     xml += s.Substring(startmMatch.Index, s.Length - startmMatch.Index);
