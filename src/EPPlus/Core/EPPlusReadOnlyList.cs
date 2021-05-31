@@ -48,11 +48,11 @@ namespace OfficeOpenXml.Core
                 return _list.Count;
             }
         }
-        internal void Clear()
+        internal virtual void Clear()
         {
             _list.Clear();
         }
-        internal void Add(T item)
+        internal virtual void Add(T item)
         {
             _list.Add(item);
         }

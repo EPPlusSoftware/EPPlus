@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Core.Worksheet
     {
         internal static void DeleteRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
-            ws.CheckSheetType();
+            ws.CheckSheetTypeAndNotDisposed();
             ValidateRow(rowFrom, rows);
             lock (ws)
             {

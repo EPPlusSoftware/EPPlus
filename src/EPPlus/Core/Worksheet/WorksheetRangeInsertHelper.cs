@@ -716,7 +716,7 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         private static void ValidateInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
-            ws.CheckSheetType();
+            ws.CheckSheetTypeAndNotDisposed();
             var d = ws.Dimension;
 
             if (columnFrom < 1)
@@ -733,7 +733,7 @@ namespace OfficeOpenXml.Core.Worksheet
         #region private methods
         private static void ValidateInsertRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
-            ws.CheckSheetType();
+            ws.CheckSheetTypeAndNotDisposed();
             var d = ws.Dimension;
 
             if (rowFrom < 1)
