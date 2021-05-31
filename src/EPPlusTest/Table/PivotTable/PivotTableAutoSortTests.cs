@@ -102,6 +102,80 @@ namespace EPPlusTest.Table.PivotTable
             rf.Items.Refresh();
             reference.Items.Add(2);
         }
+        [TestMethod]
+        public void ReadAutoSort()
+        {
+            using(var p1=new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("PivotSameAutoClear");
+                var r = LoadItemData(ws);
+                ws.Tables.Add(r, "Table1");
 
+                var pivot1 = ws.PivotTables.Add(ws.Cells["A1"], p1.Workbook.Worksheets[0].Tables[0].Range, "Pivot2");
+                var rf = pivot1.RowFields.Add(pivot1.Fields[0]);
+                var cf = pivot1.ColumnFields.Add(pivot1.Fields[1]);
+                var df = pivot1.DataFields.Add(pivot1.Fields[3]);
+                cf.SetAutoSort(df, eSortType.Descending);
+                var reference = cf.AutoSort.Conditions.Fields.Add(rf);
+                rf.Items.Refresh();
+                reference.Items.Add(2);
+
+                Assert.IsNotNull(cf.AutoSort);
+
+                p1.Save();
+
+                using(var p2=new ExcelPackage(p1.Stream))
+                {
+                    var ws1 = p1.Workbook.Worksheets[0];
+                    var pivot2 = ws.PivotTables[0];
+
+                    Assert.AreEqual(1, pivot2.ColumnFields.Count);
+                    Assert.AreEqual(1, pivot2.RowFields.Count);
+                    Assert.AreEqual(1, pivot2.DataFields.Count);
+                    Assert.IsNotNull(pivot2.ColumnFields[0].AutoSort);
+                    Assert.AreEqual(1, pivot2.ColumnFields[0].AutoSort.Conditions.DataFields.Count);
+                    Assert.AreEqual(1, pivot2.ColumnFields[0].AutoSort.Conditions.Fields.Count);
+                }
+
+            }
+        }
+        [TestMethod]
+        public void RemoveAutoSort()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("PivotSameAutoClear");
+                var r = LoadItemData(ws);
+                ws.Tables.Add(r, "Table1");
+
+                var pivot1 = ws.PivotTables.Add(ws.Cells["A1"], p1.Workbook.Worksheets[0].Tables[0].Range, "Pivot2");
+                var rf = pivot1.RowFields.Add(pivot1.Fields[0]);
+                var cf = pivot1.ColumnFields.Add(pivot1.Fields[1]);
+                var df = pivot1.DataFields.Add(pivot1.Fields[3]);
+                cf.SetAutoSort(df, eSortType.Descending);
+                var reference = cf.AutoSort.Conditions.Fields.Add(rf);
+                rf.Items.Refresh();
+                reference.Items.Add(2);
+
+                Assert.IsNotNull(cf.AutoSort);
+
+                p1.Save();
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    var ws1 = p1.Workbook.Worksheets[0];
+                    var pivot2 = ws.PivotTables[0];
+
+                    Assert.AreEqual(1, pivot2.ColumnFields.Count);
+                    Assert.AreEqual(1, pivot2.RowFields.Count);
+                    Assert.AreEqual(1, pivot2.DataFields.Count);
+                    Assert.IsNotNull(pivot2.ColumnFields[0].AutoSort);
+
+                    pivot2.ColumnFields[0].RemoveAutoSort();
+                    Assert.IsNull(pivot2.ColumnFields[0].AutoSort);
+                }
+
+            }
+        }
     }
 }
