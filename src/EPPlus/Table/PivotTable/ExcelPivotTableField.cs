@@ -266,6 +266,10 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="sortType">Sort ascending or descending</param>
         public void SetAutoSort(ExcelPivotTableDataField dataField, eSortType sortType=eSortType.Ascending)
         {
+            if(dataField.Field._pivotTable!=_pivotTable)
+            {
+                throw (new ArgumentException("The dataField is from another pivot table"));
+            }
             Sort = sortType;
             var node = CreateNode("d:autoSortScope/d:pivotArea");
             if (AutoSort == null)

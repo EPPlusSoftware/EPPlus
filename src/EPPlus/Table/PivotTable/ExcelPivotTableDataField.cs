@@ -230,7 +230,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         var extNode = GetOrCreateExtLstSubNode("{E15A36E0-9728-4e99-A89B-3F7291B0FE68}", "x14");
                         var extNodeHelper = XmlHelperFactory.Create(NameSpaceManager, extNode);
 
-                        extNodeHelper.SetXmlNodeString("x14:dataField/@pivotShowAs", value.ToEnumString());
+                        extNodeHelper.SetXmlNodeString("x14:dataField/@pivotShowAs", value.FromShowDataAs());
                     }
                     else
                     {
