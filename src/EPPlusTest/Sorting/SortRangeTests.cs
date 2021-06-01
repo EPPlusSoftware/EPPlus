@@ -4,6 +4,7 @@ using OfficeOpenXml.Sorting;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -425,6 +426,47 @@ namespace EPPlusTest.Sorting
                 Assert.AreEqual(4, sheet.Cells[2, 1].Value);
                 Assert.AreEqual(1, sheet.Cells[2, 2].Value);
                 Assert.AreEqual(5, sheet.Cells[2, 5].Value);
+            }
+        }
+
+        [TestMethod]
+        public void NullValuesShouldBeLastAscending()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells[1, 1].Value = 4;
+                sheet.Cells[2, 1].Value = 1;
+                sheet.Cells[3, 1].Value = null;
+                sheet.Cells[4, 1].Value = 2;
+                sheet.Cells[5, 1].Value = 5;
+                sheet.Cells["A1:A5"].Sort(x => x.SortBy.Column(0));
+
+                Assert.AreEqual(1, sheet.Cells[1, 1].Value);
+                Assert.AreEqual(2, sheet.Cells[2, 1].Value);
+                Assert.AreEqual(5, sheet.Cells[4, 1].Value);
+                Assert.IsNull(sheet.Cells[5, 1].Value);
+            }
+        }
+
+        [TestMethod]
+        public void NullValuesShouldBeLastDecending()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells[1, 1].Value = 4;
+                sheet.Cells[2, 1].Value = 1;
+                sheet.Cells[3, 1].Value = null;
+                sheet.Cells[4, 1].Value = 2;
+                sheet.Cells[5, 1].Value = 5;
+                var a5 = sheet.Cells["A5"].Value;
+                sheet.Cells["A1:A5"].Sort(x => x.SortBy.Column(0, eSortDirection.Descending));
+
+                Assert.AreEqual(5, sheet.Cells[1, 1].Value);
+                Assert.AreEqual(4, sheet.Cells[2, 1].Value);
+                Assert.AreEqual(1, sheet.Cells[4, 1].Value);
+                Assert.IsNull(sheet.Cells[5, 1].Value);
             }
         }
     }
