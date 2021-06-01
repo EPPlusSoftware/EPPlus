@@ -186,6 +186,8 @@ namespace OfficeOpenXml.Table.PivotTable
         public void SetPercentParentRow()
         {
             _dataField.ShowDataAsInternal = eShowDataAs.PercentOfParentRow;
+            _dataField.BaseField = 0;
+            _dataField.BaseItem = 0;
         }
         /// <summary>
         /// Sets the show data as to type Percent Of Parent Column
@@ -193,6 +195,8 @@ namespace OfficeOpenXml.Table.PivotTable
         public void SetPercentParentColumn()
         {
             _dataField.ShowDataAsInternal = eShowDataAs.PercentOfParentColumn;
+            _dataField.BaseField = 0;
+            _dataField.BaseItem = 0;
         }
         /// <summary>
         /// Sets the show data as to type Percent Of Running Total
