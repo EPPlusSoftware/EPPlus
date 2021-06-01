@@ -75,6 +75,39 @@ namespace OfficeOpenXml.Table.PivotTable
                     return "";
             }
         }
+        internal static string FromShowDataAs(this eShowDataAs value)
+        {
+            string text = value.ToString();
+            switch (value)
+            {
+                case eShowDataAs.PercentDifference:
+                    return "percentDiff";
+                case eShowDataAs.PercentOfColumn:
+                    return "percentOfCol";
+                case eShowDataAs.PercentOfParentColumn:
+                    return "percentOfParentCol";
+                case eShowDataAs.RunningTotal:
+                    return "runTotal";
+                default:
+                    return value.ToEnumString();
+            }
+        }
+        internal static eShowDataAs ToShowDataAs(this string text)
+        {
+            switch (text)
+            {
+                case "percentDiff":
+                    return eShowDataAs.PercentDifference;
+                case "percentOfCol":
+                    return eShowDataAs.PercentOfColumn;
+                case "percentOfParentCol":
+                    return eShowDataAs.PercentOfParentColumn;
+                case "runTotal":
+                    return eShowDataAs.RunningTotal;
+                default:
+                    return text.ToEnum(eShowDataAs.Normal);
+            }
+        }
 
     }
 }

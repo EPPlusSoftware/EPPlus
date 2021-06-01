@@ -778,6 +778,7 @@ namespace OfficeOpenXml.Table.PivotTable
         private void UpdateSharedItems()
         {
             var range = _cache.SourceRange;
+            if (range == null) return;
             var column = range._fromCol + Index;
             var hs = new HashSet<object>(new InvariantObjectComparer());
             var ws = range.Worksheet;

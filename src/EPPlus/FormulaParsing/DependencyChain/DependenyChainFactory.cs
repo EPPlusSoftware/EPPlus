@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal static DependencyChain Create(ExcelWorksheet ws, ExcelCalculationOption options)
         {
-            ws.CheckSheetType();
+            ws.CheckSheetTypeAndNotDisposed();
             var depChain = new DependencyChain();
 
             GetChain(depChain, ws.Workbook.FormulaParser.Lexer, ws.Cells, options);
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static DependencyChain Create(ExcelWorksheet ws, string Formula, ExcelCalculationOption options)
         {
-            ws.CheckSheetType();
+            ws.CheckSheetTypeAndNotDisposed();
             var depChain = new DependencyChain();
 
             GetChain(depChain, ws.Workbook.FormulaParser.Lexer, ws, Formula, options);
@@ -213,15 +213,20 @@ handleAddress:
                     string adrWb, adrWs, adrName;
                     ExcelNamedRange name;
                     ExcelAddressBase.SplitAddress(t.Value, out adrWb, out adrWs, out adrName, f.ws==null ? "" : f.ws.Name);
-                    if (!string.IsNullOrEmpty(adrWs))
+                    if(!string.IsNullOrEmpty(adrWb))
                     {
-                        if (f.ws == null)
+                        name = null; //TODO:We should build a dependency across workbooks here when external links are fully implemented. Now we only use cached values.
+                    }
+                    else if (!string.IsNullOrEmpty(adrWs))
+                    {
+                        f.iteratorWs = wb.Worksheets[adrWs];
+                        //if (f.ws == null)
+                        //{
+                        //    f.ws = f.iteratorWs;
+                        //}
+                        if(f.iteratorWs!=null && f.iteratorWs.Names.ContainsKey(adrName))
                         {
-                            f.ws = wb.Worksheets[adrWs];
-                        }
-                        if(f.ws.Names.ContainsKey(t.Value))
-                        {
-                            name = f.ws.Names[adrName];
+                            name = f.iteratorWs.Names[adrName];
                         }
                         else if (wb.Names.ContainsKey(adrName))
                         {
@@ -346,7 +351,7 @@ handleAddress:
                             //Check for circular references
                             foreach (var par in stack)
                             {
-                                if (ExcelAddressBase.GetCellId(par.iteratorWs.IndexInList, par.iterator.Row, par.iterator.Column) == id ||
+                                if ((par.iteratorWs!=null && par.iterator!=null && ExcelCellBase.GetCellId(par.iteratorWs.IndexInList, par.iterator.Row, par.iterator.Column) == id) ||
                                     ExcelAddressBase.GetCellId(par.wsIndex, par.Row, par.Column) == id)  //This is only neccesary for the first cell in the chain.
                                 {
                                     if (options.AllowCircularReferences == false)

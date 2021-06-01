@@ -31,10 +31,25 @@ namespace OfficeOpenXml.FormulaParsing
 
         public virtual bool IsNamedValue(string key, string ws)
         {
-            if(ws!=null)
+            if (key.StartsWith("[0]"))
+            {
+                if(key.Length>3&&key[3]=='!')
+                {
+                    key = key.Substring(4);
+                }
+                else
+                {
+                    key = key.Substring(3);
+                }
+            }
+            if (key.StartsWith("["))
+            {
+                return _excelDataProvider.IsExternalName(key);
+            }
+            else if (ws!=null)
             {
                 var wsNames = _excelDataProvider.GetWorksheetNames(ws);
-                if(wsNames!=null && wsNames.ContainsKey(key))
+                if (wsNames != null && wsNames.ContainsKey(key))
                 {
                     return true;
                 }
