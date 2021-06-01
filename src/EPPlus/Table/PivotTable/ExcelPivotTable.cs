@@ -1228,7 +1228,6 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             UpdatePivotTableStyles();
-
             PivotTableXml.Save(Part.GetStream(FileMode.Create));
         }
 
@@ -1236,11 +1235,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             foreach (ExcelPivotTableAreaStyle a in Styles)
             {
-                a.Conditions.DataFields.UpdateXml();
-                foreach (ExcelPivotAreaReference r in a.Conditions.Fields)
-                {
-                    r.UpdateXml();
-                }
+                a.Conditions.UpdateXml();
             }
         }
     }

@@ -262,13 +262,15 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// Set auto sort on a data field for this field.
         /// </summary>
-        /// <param name="dataField"></param>
-        public void SetAutoSort(ExcelPivotTableDataField dataField)
+        /// <param name="dataField">The data field to sort on</param>
+        /// <param name="sortType">Sort ascending or descending</param>
+        public void SetAutoSort(ExcelPivotTableDataField dataField, eSortType sortType=eSortType.Ascending)
         {
+            Sort = sortType;
             var node = CreateNode("d:autoSortScope/d:pivotArea");
             if (AutoSort == null)
             {
-                AutoSort = new ExcelPivotAreaAutoSort(NameSpaceManager, TopNode, _pivotTable);
+                AutoSort = new ExcelPivotAreaAutoSort(NameSpaceManager, node, _pivotTable);
                 AutoSort.FieldPosition = 0;
                 AutoSort.Outline = false;
                 AutoSort.DataOnly = false;
@@ -278,7 +280,6 @@ namespace OfficeOpenXml.Table.PivotTable
             AutoSort.Conditions.Fields.Clear();
             AutoSort.Conditions.DataFields.Clear();
             AutoSort.Conditions.DataFields.Add(dataField);
-            AutoSort.Conditions.DataFields.UpdateXml();
         }
         /// <summary>
         /// Remove auto sort and set the <see cref="AutoSort"/> property to null
@@ -942,6 +943,10 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var sb = new StringBuilder();
             var cacheLookup = _pivotTable.CacheDefinition._cacheReference.Fields[Index]._cacheLookup;
+            if(AutoSort!=null)
+            {
+                AutoSort.Conditions.UpdateXml();
+            }
             if (cacheLookup == null) return "";
             if (cacheLookup.Count==0)
             {
