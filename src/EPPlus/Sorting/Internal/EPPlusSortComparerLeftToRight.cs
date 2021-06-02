@@ -37,6 +37,8 @@ namespace OfficeOpenXml.Sorting.Internal
             {
                 var x1 = x.Items[_rows[i]]._value;
                 var y1 = y.Items[_rows[i]]._value;
+                if (x1 == null && y1 != null) return 1;
+                if (x1 != null && y1 == null) return -1;
                 if (CustomLists != null && CustomLists.ContainsKey(_rows[i]))
                 {
                     var weight1 = GetSortWeightByCustomList(x1.ToString(), CustomLists[_rows[i]]);
