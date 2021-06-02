@@ -11,6 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -92,6 +94,31 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             return false;
         }
 
+        /// <summary>
+        /// Returns true if any of the supplied expressions evaluates to true
+        /// </summary>
+        /// <param name="left">The object to evaluate</param>
+        /// <param name="expressions">The expressions to evaluate the object against</param>
+        /// <returns>True if any of the supplied expressions evaluates to true</returns>
+        public bool Evaluate(object left, IEnumerable<string> expressions)
+        {
+            if (expressions == null || !expressions.Any()) return false;
+            foreach(var expression in expressions)
+            {
+                if(Evaluate(left, expression))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns true if the supplied expression evaluates to true
+        /// </summary>
+        /// <param name="left">The object to evaluate</param>
+        /// <param name="expression">The expressions to evaluate the object against</param>
+        /// <returns></returns>
         public bool Evaluate(object left, string expression)
         {
             if (expression == string.Empty)

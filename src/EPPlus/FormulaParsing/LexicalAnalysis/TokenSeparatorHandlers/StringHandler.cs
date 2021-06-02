@@ -42,6 +42,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                 {
                     context.AppendToCurrentToken(c);
                     context.ToggleIsInString();
+                    context.AddToken(tokenSeparator);
+                    context.NewToken();
                     return true;
                 }
                 if (context.LastToken != null && context.LastToken.Value.TokenTypeIsSet(TokenType.String))

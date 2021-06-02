@@ -35,8 +35,20 @@ using OfficeOpenXml;
 namespace EPPlusTest
 {
     [TestClass]
-    public class CommentsTest
+    public class CommentsTest : TestBase
     {
+        static ExcelPackage _pck;
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            _pck = OpenPackage("Comment.xlsx", true);
+        }
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            SaveAndCleanup(_pck);
+        }
+
         [TestMethod]
         public void VisibilityComments()
         {
@@ -155,28 +167,39 @@ namespace EPPlusTest
         [TestMethod]
         public void RangeShouldClearComment()
         {
+            var ws = _pck.Workbook.Worksheets.Add("Sheet1");
+            for (int i = 0; i < 5; i++)
+            {
+                ws.Cells[2, 2].Value = "hallo";
+                ExcelComment comment = ws.Cells[2, 2].AddComment("hallo\r\nLine 2", "hallo");
+                comment.Font.FontName = "Arial";
+                comment.AutoFit = true;
+                    
+                ExcelRange cell = ws.Cells[2, 2];
+
+                Assert.AreEqual("Arial", comment.Font.FontName);
+                Assert.IsTrue(comment.AutoFit);
+                Assert.AreEqual(1, ws.Comments.Count);
+                Assert.IsNotNull(cell.Comment);
+
+                cell.Clear();
+
+                Assert.AreEqual(0, ws.Comments.Count);
+                Assert.IsNull(cell.Comment);                                        
+            }
+        }
+        [TestMethod]
+        public void SettingRichTextShouldNotEffectComment()
+        {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                for (int i = 0; i < 5; i++)
-                {
-                    ws.Cells[2, 2].Value = "hallo";
-                    ExcelComment comment = ws.Cells[2, 2].AddComment("hallo", "hallo");
-                    comment.Font.FontName = "Arial";
-                    comment.AutoFit = true;
-                    ExcelRange cell = ws.Cells[2, 2];
-
-                    Assert.AreEqual("Arial", comment.Font.FontName);
-                    Assert.IsTrue(comment.AutoFit);
-                    Assert.AreEqual(1, ws.Comments.Count);
-                    Assert.IsNotNull(cell.Comment);
-
-                    cell.Clear();
-
-                    Assert.AreEqual(0, ws.Comments.Count);
-                    Assert.IsNull(cell.Comment);
-                }
+                ExcelComment comment = ws.Cells[1, 1].AddComment("My Comment", "Me");
+                Assert.IsNotNull(ws.Cells[1, 1].Comment);
+                ws.Cells[1, 1].IsRichText = true;
+                Assert.IsNotNull(ws.Cells[1, 1].Comment);
             }
         }
+
     }
 }

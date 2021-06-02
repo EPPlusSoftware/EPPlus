@@ -122,6 +122,13 @@ namespace OfficeOpenXml.Core.CellStore
                 return count;
             }
         }
+
+        internal int Capacity
+        {
+            get => _values.Capacity;
+            set => _values.Capacity = value;
+        }
+
         internal bool GetDimension(out int fromRow, out int fromCol, out int toRow, out int toCol)
         {
             if (ColumnCount == 0)

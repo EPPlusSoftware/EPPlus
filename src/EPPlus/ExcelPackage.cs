@@ -136,9 +136,11 @@ namespace OfficeOpenXml
     /// </remarks>
 	public sealed partial class ExcelPackage : IDisposable
 	{
+        internal bool _isDisposed = false;
         internal const bool preserveWhitespace=false;
         Stream _stream = null;
         private bool _isExternalStream=false;
+        internal ExcelPackage _loadedPackage = null;
 		#region Properties
 		/// <summary>
 		/// Extention Schema types
@@ -673,6 +675,7 @@ namespace OfficeOpenXml
 		{
 			get
 			{
+                CheckNotDisposed();
                 if (_workbook == null)
                 {
                     if(IsLicenseSet()==false)
@@ -683,7 +686,6 @@ namespace OfficeOpenXml
 
                     _workbook = new ExcelWorkbook(this, nsm);
 
-                    _workbook.GetExternalReferences();
                     _workbook.GetDefinedNames();
                     _workbook.LoadPivotTableCaches();
 
@@ -795,7 +797,7 @@ namespace OfficeOpenXml
 		{
             if(_zipPackage != null)
             {
-		        if (_isExternalStream==false && _stream != null && (_stream.CanRead || _stream.CanWrite))
+                if (_isExternalStream==false && _stream != null && (_stream.CanRead || _stream.CanWrite))
                 {
                     CloseStream();
                 }
@@ -809,7 +811,8 @@ namespace OfficeOpenXml
                 _workbook = null;
                 _stream = null;
                 _workbook = null;
-                    
+
+                _isDisposed = true;
                 if (Settings.DoGarbageCollectOnDispose)
                 {
                     GC.Collect();
@@ -827,6 +830,7 @@ namespace OfficeOpenXml
         /// </summary>
         public void Save()
         {
+            CheckNotDisposed();
             try
             {
                 if (_stream is MemoryStream && _stream.Length > 0)
@@ -1112,6 +1116,7 @@ namespace OfficeOpenXml
         }
         internal byte[] GetAsByteArray(bool save)
         {
+            CheckNotDisposed();
             if (save)
             {
                 Workbook.Save();
@@ -1140,6 +1145,14 @@ namespace OfficeOpenXml
             Stream.Seek(pos, SeekOrigin.Begin);
             Stream.Close();
             return byRet;
+        }
+
+        private void CheckNotDisposed()
+        {
+            if(_isDisposed)
+            {
+                throw (new ObjectDisposedException("ExcelPackage", "Package has been disposed"));
+            }
         }
         #endregion
         /// <summary>
@@ -1233,6 +1246,7 @@ namespace OfficeOpenXml
                 _stream = null;
             }
             _isExternalStream = true;
+            _isDisposed = false;
         }
 
         static object _lock=new object();

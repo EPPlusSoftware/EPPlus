@@ -624,10 +624,54 @@ namespace EPPlusTest.Core.Range.Delete
             }
         }
 
+        [TestMethod]
+        public void ValidateDeleteMergedCellsShouldShiftUp()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B3:D4"].Merge = true;
+                ws.Cells["A1:D1"].Delete(eShiftTypeDelete.Up);
 
+                Assert.AreEqual("B2:D3", ws.MergedCells[0]);
+                Assert.IsFalse(ws.Cells["B4"].Merge);
+                Assert.IsFalse(ws.Cells["C4"].Merge);
+                Assert.IsFalse(ws.Cells["D4"].Merge);
 
+                Assert.IsTrue(ws.Cells["B2"].Merge);
+                Assert.IsTrue(ws.Cells["C2"].Merge);
+                Assert.IsTrue(ws.Cells["D2"].Merge);
+                Assert.IsTrue(ws.Cells["B3"].Merge);
+                Assert.IsTrue(ws.Cells["C3"].Merge);
+                Assert.IsTrue(ws.Cells["D3"].Merge);
 
+                ws.DeleteRow(1);
+                Assert.AreEqual("B1:D2", ws.MergedCells[0]);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteMergedCellsShouldBeNull()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("MergedCells");
+                ws.Cells["B3:D3"].Merge = true;
+                ws.Cells["B3:D3"].Delete(eShiftTypeDelete.Up);
 
+                Assert.IsFalse(ws.Cells["B3"].Merge);
+                Assert.IsFalse(ws.Cells["C3"].Merge);
+                Assert.IsFalse(ws.Cells["D3"].Merge);
+                Assert.IsNull(ws.MergedCells[0]);
+
+                ws.Cells["B3:D3"].Merge = true;
+
+                ws.DeleteRow(3);
+                Assert.IsFalse(ws.Cells["B3"].Merge);
+                Assert.IsFalse(ws.Cells["C3"].Merge);
+                Assert.IsFalse(ws.Cells["D3"].Merge);
+                Assert.IsNull(ws.MergedCells[1]);
+            }
+        }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void ValidateDeleteFromTablePartialLeftThrowsException()

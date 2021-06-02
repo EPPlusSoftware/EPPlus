@@ -332,10 +332,13 @@ namespace OfficeOpenXml.Core.Worksheet
             //Validate merged Cells
             foreach (var a in range.Worksheet.MergedCells)
             {
-                var mc = new ExcelAddressBase(a);
-                if (effectedAddress.Collide(mc) == ExcelAddressBase.eAddressCollition.Partly)
+                if (!string.IsNullOrEmpty(a))
                 {
-                    throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with merged range {a}");
+                    var mc = new ExcelAddressBase(a);
+                    if (effectedAddress.Collide(mc) == ExcelAddressBase.eAddressCollition.Partly)
+                    {
+                        throw new InvalidOperationException($"Can't {(insert ? "insert into" : "delete from")} the range. Cells collide with merged range {a}");
+                    }
                 }
             }
 

@@ -152,6 +152,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public async Task SaveAsync(CancellationToken cancellationToken = default)
         {
+            CheckNotDisposed();
             try
             {
                 if (_stream is MemoryStream && _stream.Length > 0)
@@ -370,6 +371,7 @@ namespace OfficeOpenXml
 
         internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {
+            CheckNotDisposed();
             if (save)
             {
                 Workbook.Save();

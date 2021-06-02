@@ -46,12 +46,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             ValidateArguments(arguments, 2);
             var argRange = ArgToRangeInfo(arguments, 0);
-            var criteria = arguments.ElementAt(1).ValueFirst != null ? ArgToString(arguments, 1) : null;
+
+            // Criteria can either be a string or an array of strings
+            var criteria = GetCriteria(arguments.ElementAt(1));
             var retVal = 0d;
             if (argRange == null)
             {
                 var val = arguments.ElementAt(0).Value;
-                if (criteria != default(string) && _evaluator.Evaluate(val, criteria))
+                if (_evaluator.Evaluate(val, criteria))
                 {
                     var sumRange = ArgToRangeInfo(arguments, 2);
                     retVal = arguments.Count() > 2
@@ -71,12 +73,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return CreateResult(retVal, DataType.Decimal);
         }
 
-        private double CalculateWithSumRange(ExcelDataProvider.IRangeInfo range, string criteria, ExcelDataProvider.IRangeInfo sumRange, ParsingContext context)
+        private IEnumerable<string> GetCriteria(FunctionArgument criteriaArg)
+        {
+            var criteria = new List<string>();
+            if (criteriaArg.IsEnumerableOfFuncArgs)
+            {
+                foreach (var arg in criteriaArg.ValueAsEnumerableOfFuncArgs)
+                {
+                    criteria.Add(arg.ValueFirstString);
+                }
+            }
+            else if (criteriaArg.IsExcelRange)
+            {
+                foreach (var cell in criteriaArg.ValueAsRangeInfo)
+                {
+                    if (cell.Value != null)
+                    {
+                        criteria.Add(cell.Value.ToString());
+                    }
+                }
+            }
+            else
+            {
+                criteria.Add(criteriaArg.ValueFirst != null ? criteriaArg.ValueFirst.ToString() : null);
+            }
+            return criteria;
+        }
+
+        private double CalculateWithSumRange(ExcelDataProvider.IRangeInfo range, IEnumerable<string> criteria, ExcelDataProvider.IRangeInfo sumRange, ParsingContext context)
         {
             var retVal = 0d;
             foreach (var cell in range)
             {
-                if (criteria != default(string) && _evaluator.Evaluate(cell.Value, criteria))
+                if (_evaluator.Evaluate(cell.Value, criteria))
                 {
                     var rowOffset = cell.Row - range.Address._fromRow;
                     var columnOffset = cell.Column - range.Address._fromCol;
@@ -95,12 +124,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return retVal;
         }
 
-        private double CalculateSingleRange(ExcelDataProvider.IRangeInfo range, string expression, ParsingContext context)
+        private double CalculateSingleRange(ExcelDataProvider.IRangeInfo range, IEnumerable<string> expressions, ParsingContext context)
         {
             var retVal = 0d;
             foreach (var candidate in range)
             {
-                if (expression != default(string) && IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expression) && IsNumeric(candidate.Value))
+                if (IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expressions) && IsNumeric(candidate.Value))
                 {
                     if (candidate.IsExcelError)
                     {

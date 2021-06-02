@@ -123,7 +123,7 @@ namespace OfficeOpenXml.DataValidation
             _isStale = true;
         }
 
-        private void CheckIfStale()
+        protected void CheckIfStale()
         {
             if (_isStale)
             {
@@ -166,6 +166,7 @@ namespace OfficeOpenXml.DataValidation
                         "uid",
                         "type",
                         "errorStyle",
+                        "showDropDown",
                         "allowBlank",
                         "showInputMessage",
                         "showErrorMessage",
@@ -183,6 +184,7 @@ namespace OfficeOpenXml.DataValidation
                         "uid",
                         "type",
                         "errorStyle",
+                        "showDropDown",
                         "allowBlank",
                         "showInputMessage",
                         "showErrorMessage",
@@ -231,7 +233,7 @@ namespace OfficeOpenXml.DataValidation
             return address;
         }
 
-        private void SetNullableBoolValue(string path, bool? val)
+        protected void SetNullableBoolValue(string path, bool? val)
         {
             if (val.HasValue)
             {

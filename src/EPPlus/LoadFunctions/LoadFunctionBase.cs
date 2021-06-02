@@ -79,6 +79,12 @@ namespace OfficeOpenXml.LoadFunctions
             var nRows = PrintHeaders ? GetNumberOfRows() + 1 : GetNumberOfRows();
             var nCols = GetNumberOfColumns();
             var values = new object[nRows, nCols];
+
+            if(Range.Worksheet._values.Capacity < values.Length)
+            {
+                Range.Worksheet._values.Capacity = values.Length;
+            }
+
             LoadInternal(values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
             var ws = Range.Worksheet;
             if(formulaCells != null && formulaCells.Keys.Count > 0)
