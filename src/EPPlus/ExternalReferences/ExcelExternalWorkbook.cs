@@ -21,6 +21,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Xml;
 using System.Text;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing.Chart;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -401,10 +402,10 @@ namespace OfficeOpenXml.ExternalReferences
         /// </summary>
         /// <returns>True if the update was successful otherwise false</returns>
         public bool UpdateCache()
-        {            
+        {
             if (_package == null)
             {
-                if(Load()==false)
+                if (Load() == false)
                 {
                     CacheStatus = eExternalWorkbookCacheStatus.Failed;
                     _errors.Add($"Load failed. Can't update cache.");
@@ -420,7 +421,7 @@ namespace OfficeOpenXml.ExternalReferences
             _sheetMetaData.Clear();
             _sheetNames.Clear();
             _definedNamesValues.Add(-1, CachedNames);
-            foreach (var ws in _wb.Worksheets)
+            foreach (var ws in _package.Workbook.Worksheets)
             {
                 var ix = CachedWorksheets.Count;
                 _sheetNames.Add(ws.Name, ix);
@@ -430,40 +431,93 @@ namespace OfficeOpenXml.ExternalReferences
                 CachedWorksheets.Add(new ExcelExternalWorksheet(_sheetValues[ix], _sheetMetaData[ix], _definedNamesValues[ix]) { Name = ws.Name, RefreshError = false });
             }
 
+            UpdateCacheFromCells();
+            UpdateCacheFromNames(_wb, _wb.Names);
+            return true;
+        }
+
+        private void UpdateCacheFromCells()
+        {
             foreach (var ws in _wb.Worksheets)
             {
                 var formulas = new CellStoreEnumerator<object>(ws._formulas);
-                foreach(var f in formulas)
+                foreach (var f in formulas)
                 {
-                    if(f is int sfIx)
+                    if (f is int sfIx)
                     {
                         var sf = ws._sharedFormulas[sfIx];
-                        if(sf.Formula.Contains("["))
+                        if (sf.Formula.Contains("["))
                         {
-                            UpdateCacheForFormula(ws, sf.Formula, sf.Address);
+                            UpdateCacheForFormula(_wb, sf.Formula, sf.Address);
                         }
                     }
                     else
                     {
                         var s = f.ToString();
-                        if(s.Contains("["))
+                        if (s.Contains("["))
                         {
-                            UpdateCacheForFormula(ws, s, "");
+                            UpdateCacheForFormula(_wb, s, "");
+                        }
+                    }
+                }
+                UpdateCacheFromNames(_wb, ws.Names);
+
+                //Update cache for chart references.
+                foreach(var d in ws.Drawings)
+                {
+                    if(d is ExcelChart c)
+                    {
+                        foreach(var s in c.Series)
+                        {
+                            if(s.Series.Contains("["))
+                            {
+                                var a = new ExcelAddressBase(s.Series);
+                                if (a.IsExternal)
+                                {
+                                    UpdateCacheForAddress(a, "");
+                                }
+                            }
+                            if (s.XSeries.Contains("["))
+                            {
+                                var a = new ExcelAddressBase(s.XSeries);
+                                if (a.IsExternal)
+                                {
+                                    UpdateCacheForAddress(a, "");
+                                }
+                            }
                         }
                     }
                 }
             }
-            return true;
         }
+
+        private void UpdateCacheFromNames(ExcelWorkbook wb, ExcelNamedRangeCollection names)
+        {
+            foreach (var n in names)
+            {
+                if (string.IsNullOrEmpty(n.NameFormula))
+                {
+                    if (n.IsExternal)
+                    {
+                        UpdateCacheForAddress(n, "");
+                    }
+                }
+                else
+                {
+                    UpdateCacheForFormula(wb, n.NameFormula, "");
+                }
+            }
+        }
+
         /// <summary>
         /// The status of the cache. If the <see cref="UpdateCache" />method fails this status is set to <see cref="eExternalWorkbookCacheStatus.Failed" />
         /// <seealso cref="UpdateCache"/>
         /// <seealso cref="ExcelExternalLink.ErrorLog"/>
         /// </summary>
         public eExternalWorkbookCacheStatus CacheStatus { get; private set; }
-        private void UpdateCacheForFormula(ExcelWorksheet ws, string formula, string address)
+        private void UpdateCacheForFormula(ExcelWorkbook wb, string formula, string address)
         {
-            var tokens = ws.Workbook.FormulaParser.Lexer.Tokenize(formula);
+            var tokens = wb.FormulaParser.Lexer.Tokenize(formula);
 
             foreach (var t in tokens)
             {
@@ -574,10 +628,13 @@ namespace OfficeOpenXml.ExternalReferences
                 else
                 {
                     var cws = CachedWorksheets[formulaAddress.WorkSheetName];
-                    var cse = new CellStoreEnumerator<ExcelValue>(ws._values, formulaAddress._fromRow, formulaAddress._fromCol, formulaAddress._toRow, formulaAddress._toCol);
-                    foreach(var v in cse)
+                    if (cws != null)
                     {
-                        cws.CellValues._values.SetValue(cse.Row, cse.Column, v._value);
+                        var cse = new CellStoreEnumerator<ExcelValue>(ws._values, formulaAddress._fromRow, formulaAddress._fromCol, formulaAddress._toRow, formulaAddress._toCol);
+                        foreach (var v in cse)
+                        {
+                            cws.CellValues._values.SetValue(cse.Row, cse.Column, v._value);
+                        }
                     }
                 }
             }            
