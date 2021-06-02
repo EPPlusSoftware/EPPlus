@@ -469,5 +469,41 @@ namespace EPPlusTest.Sorting
                 Assert.IsNull(sheet.Cells[5, 1].Value);
             }
         }
+
+        [TestMethod]
+        public void Left2RightNullValuesShouldBeLastAscending()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells[1, 1].Value = 4;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[1, 3].Value = null;
+                sheet.Cells[2, 1].Value = 2;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Cells[2, 3].Value = 5;
+                sheet.Cells["A1:A5"].Sort(x => x.SortLeftToRightBy.Row(0));
+
+                Assert.IsNull(sheet.Cells[1, 3].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Left2RightNullValuesShouldBeLastDecending()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells[1, 1].Value = 4;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[1, 3].Value = null;
+                sheet.Cells[2, 1].Value = 2;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Cells[2, 3].Value = 5;
+                sheet.Cells["A1:A5"].Sort(x => x.SortLeftToRightBy.Row(0, eSortDirection.Descending));
+
+                Assert.IsNull(sheet.Cells[1, 3].Value);
+            }
+        }
     }
 }
