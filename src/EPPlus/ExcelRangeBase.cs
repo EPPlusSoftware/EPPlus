@@ -2250,11 +2250,11 @@ namespace OfficeOpenXml
         {
             if(leftToRight)
             {
-                _worksheet._rangeSorter.SortLeftToRight(this, columns, descending, culture, compareOptions, customLists);
+                _worksheet._rangeSorter.SortLeftToRight(this, columns, ref descending, culture, compareOptions, customLists);
             }
             else
             {
-                _worksheet._rangeSorter.Sort(this, columns, descending, culture, compareOptions, customLists);
+                _worksheet._rangeSorter.Sort(this, columns, ref descending, culture, compareOptions, customLists);
             }
             
             if(table != null)

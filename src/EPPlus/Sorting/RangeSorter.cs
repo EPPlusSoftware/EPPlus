@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Sorting
         public void Sort(
             ExcelRangeBase range, 
             int[] columns, 
-            bool[] descending = null, 
+            ref bool[] descending, 
             CultureInfo culture = null, 
             CompareOptions compareOptions = CompareOptions.None, 
             Dictionary<int, string[]> customLists = null)
@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Sorting
         public void SortLeftToRight(
             ExcelRangeBase range,
             int[] rows,
-            bool[] descending,
+            ref bool[] descending,
             CultureInfo culture,
             CompareOptions compareOptions = CompareOptions.None,
             Dictionary<int, string[]> customLists = null

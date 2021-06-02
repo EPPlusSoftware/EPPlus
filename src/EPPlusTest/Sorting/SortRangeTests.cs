@@ -33,6 +33,18 @@ namespace EPPlusTest.Sorting
         }
 
         [TestMethod]
+        public void ShouldHandleEmptyDescendingArray()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                int[] sortColumns = new int[1];
+                sortColumns[0] = 0;
+                sheet.Cells["A2:A30864"].Sort(sortColumns);
+            }
+        }
+
+        [TestMethod]
         public void ShouldSortMultipleColumns()
         {
             using (var package = new ExcelPackage())
