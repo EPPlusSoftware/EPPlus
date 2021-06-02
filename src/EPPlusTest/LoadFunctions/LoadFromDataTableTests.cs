@@ -136,5 +136,42 @@ namespace EPPlusTest.LoadFunctions
             Assert.AreEqual("Id", _worksheet.Cells["A1"].Value);
             Assert.AreEqual("1", _worksheet.Cells["A2"].Value);
         }
+
+        [TestMethod]
+        public void ShouldSetDbNullToNull()
+        {
+            _table.Rows.Add("1", DBNull.Value);
+            _worksheet.Cells["A1"].LoadFromDataTable(_table, c =>
+            {
+                c.PrintHeaders = true;
+                c.TableStyle = TableStyles.Dark1;
+            });
+            Assert.IsNull(_worksheet.Cells["B2"].Value);
+        }
+
+        [TestMethod]
+        public void ShouldSetNullToNull()
+        {
+            _table.Rows.Add("1", null);
+            _worksheet.Cells["A1"].LoadFromDataTable(_table, c =>
+            {
+                c.PrintHeaders = true;
+                c.TableStyle = TableStyles.Dark1;
+            });
+            Assert.IsNull(_worksheet.Cells["B2"].Value);
+        }
+
+        [TestMethod]
+        public void ShouldReplaceWithNullIfDbNull()
+        {
+            _table.Rows.Add("1", null);
+            _worksheet.Cells["B2"].Value = 2;
+            _worksheet.Cells["A1"].LoadFromDataTable(_table, c =>
+            {
+                c.PrintHeaders = true;
+                c.TableStyle = TableStyles.Dark1;
+            });
+            Assert.IsNull(_worksheet.Cells["B2"].Value);
+        }
     }
 }
