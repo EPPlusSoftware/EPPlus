@@ -384,6 +384,7 @@ namespace OfficeOpenXml
         internal CellStore<MetaDataReference> _metadataStore;
 
         internal Dictionary<int, Formulas> _sharedFormulas = new Dictionary<int, Formulas>();
+        internal RangeSorter _rangeSorter;
         internal int _minCol = ExcelPackage.MaxColumns;
         internal int _maxCol = 0;
         internal int _nextControlId;
@@ -438,6 +439,8 @@ namespace OfficeOpenXml
             _hyperLinks = new CellStore<Uri>();
             _nextControlId = (PositionId + 1) * 1024 + 1;
             _names = new ExcelNamedRangeCollection(Workbook, this);
+
+            _rangeSorter = new RangeSorter(this);
 
             CreateXml();
             TopNode = _worksheetXml.DocumentElement;
@@ -541,6 +544,8 @@ namespace OfficeOpenXml
         /// Address for autofilter
         /// <seealso cref="ExcelRangeBase.AutoFilter" />        
         /// </summary>
+        /// 
+        const string SortStatePath = "d:sortState";
         public ExcelAddressBase AutoFilterAddress
         {
             get
@@ -587,7 +592,8 @@ namespace OfficeOpenXml
                 return _autoFilter;
             }
         }
-                SortState _sortState = null;
+        
+        SortState _sortState = null;
 
         public SortState SortState
         {
@@ -595,7 +601,7 @@ namespace OfficeOpenXml
             {
                 if(_sortState == null)
                 {
-                    CheckSheetType();
+                    CheckSheetTypeAndNotDisposed();
                     var node = _worksheetXml.SelectSingleNode($"//{SortStatePath}", NameSpaceManager);
                     if (node == null) return null;
                     _sortState = new SortState(NameSpaceManager, node);
