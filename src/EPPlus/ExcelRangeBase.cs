@@ -2263,7 +2263,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                _worksheet._rangeSorter.SetWorksheetSortState(this, columns, descending, compareOptions, leftToRight);
+                _worksheet._rangeSorter.SetWorksheetSortState(this, columns, descending, compareOptions, leftToRight, customLists);
             }
         }
 

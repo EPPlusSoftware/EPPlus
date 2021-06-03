@@ -113,7 +113,7 @@ namespace EPPlusTest.Sorting
             var options = new RangeSortOptions();
             options
                 .SortBy.Column(0)
-                .ThenSortBy.Column(3, eSortDirection.Descending)
+                .ThenSortBy.Column(3, eSortOrder.Descending)
                 .ThenSortBy.Column(2);
             Assert.AreEqual(3, options.ColumnIndexes.Count);
             Assert.AreEqual(3, options.Descending.Count);
@@ -144,7 +144,7 @@ namespace EPPlusTest.Sorting
 
                 sheet.Cells["A1:C4"].Sort(options => options
                                                         .SortBy.Column(0)
-                                                        .ThenSortBy.Column(2, eSortDirection.Descending));
+                                                        .ThenSortBy.Column(2, eSortOrder.Descending));
                 Assert.IsNotNull(sheet.SortState);
                 Assert.AreEqual(2, sheet.SortState.SortConditions.Count());
                 Assert.IsTrue(sheet.SortState.SortConditions.Last().Descending);
@@ -169,7 +169,7 @@ namespace EPPlusTest.Sorting
                 sheet.Cells[3, 2].Value = 1;
                 sheet.Cells[4, 2].Value = 1;
 
-                sheet.Cells["A1:B4"].Sort(x => x.SortBy.Column(0).UsingCustomList("Red", "Yellow", "Blue").ThenSortBy.Column(1));
+                sheet.Cells[1, 1, 4, 2].Sort(x => x.SortBy.Column(0).UsingCustomList("Red", "Yellow", "Blue").ThenSortBy.Column(1));
 
                 Assert.AreEqual("Red", sheet.Cells[1, 1].Value);
                 Assert.AreEqual("Yellow", sheet.Cells[2, 1].Value);
@@ -473,7 +473,7 @@ namespace EPPlusTest.Sorting
                 sheet.Cells[4, 1].Value = 2;
                 sheet.Cells[5, 1].Value = 5;
                 var a5 = sheet.Cells["A5"].Value;
-                sheet.Cells["A1:A5"].Sort(x => x.SortBy.Column(0, eSortDirection.Descending));
+                sheet.Cells["A1:A5"].Sort(x => x.SortBy.Column(0, eSortOrder.Descending));
 
                 Assert.AreEqual(5, sheet.Cells[1, 1].Value);
                 Assert.AreEqual(4, sheet.Cells[2, 1].Value);
@@ -512,7 +512,7 @@ namespace EPPlusTest.Sorting
                 sheet.Cells[2, 1].Value = 2;
                 sheet.Cells[2, 2].Value = 5;
                 sheet.Cells[2, 3].Value = 5;
-                sheet.Cells["A1:A5"].Sort(x => x.SortLeftToRightBy.Row(0, eSortDirection.Descending));
+                sheet.Cells["A1:A5"].Sort(x => x.SortLeftToRightBy.Row(0, eSortOrder.Descending));
 
                 Assert.IsNull(sheet.Cells[1, 3].Value);
             }

@@ -42,11 +42,11 @@ namespace OfficeOpenXml.Sorting
         /// Sorts by the column that corresponds to the <paramref name="column"/> (zerobased) using the supplied sort direction.
         /// </summary>
         /// <param name="column">The column to sort</param>
-        /// <param name="direction">Ascending or Descending sort</param>
+        /// <param name="sortOrder">Ascending or Descending sort</param>
         /// <returns>A <see cref="TableSortLayerBuilder"/> for adding more sort criterias</returns>
-        public TableSortLayerBuilder Column(int column, eSortDirection direction)
+        public TableSortLayerBuilder Column(int column, eSortOrder sortOrder)
         {
-            SetColumn(column, direction);
+            SetColumn(column, sortOrder);
             return new TableSortLayerBuilder(_options, this);
         }
 
@@ -66,12 +66,12 @@ namespace OfficeOpenXml.Sorting
         /// Sorts by the column that corresponds to the <paramref name="columnName"/> using the supplied sort direction.
         /// </summary>
         /// <param name="columnName">Name of the column to sort, see <see cref="OfficeOpenXml.Table.ExcelTableColumn.Name"/></param>
-        /// <param name="direction">Ascending or Descending sort</param>
+        /// <param name="sortOrder">Ascending or Descending sort</param>
         /// <returns>A <see cref="TableSortLayerBuilder"/> for adding more sort criterias</returns>
-        public TableSortLayerBuilder ColumnNamed(string columnName, eSortDirection direction)
+        public TableSortLayerBuilder ColumnNamed(string columnName, eSortOrder sortOrder)
         {
             var ix = _options.GetColumnNameIndex(columnName);
-            SetColumn(ix, direction);
+            SetColumn(ix, sortOrder);
             return new TableSortLayerBuilder(_options, this);
         }
     }

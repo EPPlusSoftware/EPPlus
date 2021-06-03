@@ -245,7 +245,7 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
-        internal void SetWorksheetSortState(ExcelRangeBase range, int[] columnsOrRows, bool[] descending, CompareOptions compareOptions, bool leftToRight)
+        internal void SetWorksheetSortState(ExcelRangeBase range, int[] columnsOrRows, bool[] descending, CompareOptions compareOptions, bool leftToRight, Dictionary<int, string[]> customLists)
         {
             //Set sort state
             var sortState = new SortState(_worksheet.NameSpaceManager, _worksheet);
@@ -262,7 +262,14 @@ namespace OfficeOpenXml.Sorting
                 var adr = leftToRight ?
                     ExcelCellBase.GetAddress(range._fromRow + columnsOrRows[ix], range._fromCol, range._fromRow + columnsOrRows[ix], range._toCol) :
                     ExcelCellBase.GetAddress(range._fromRow, range._fromCol + columnsOrRows[ix], range._toRow, range._fromCol + columnsOrRows[ix]);
-                sortState.SortConditions.Add(adr, desc);
+                if (customLists != null && customLists.ContainsKey(columnsOrRows[ix]))
+                {
+                    sortState.SortConditions.Add(adr, desc, customLists[columnsOrRows[ix]]);
+                }
+                else
+                {
+                    sortState.SortConditions.Add(adr, desc);
+                }
             }
         }
     }

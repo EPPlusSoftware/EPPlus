@@ -43,11 +43,11 @@ namespace OfficeOpenXml.Sorting
         /// Sorts by the column that corresponds to the <paramref name="row"/> (zerobased) using the supplied sort direction.
         /// </summary>
         /// <param name="row">The column to sort on</param>
-        /// <param name="direction">Ascending or Descending sort</param>
+        /// <param name="sortOrder">Ascending or Descending sort</param>
         /// <returns>A <see cref="RangeLeftToRightSortLayerBuilder"/> for adding more sort criterias</returns>
-        public RangeLeftToRightSortLayerBuilder Row(int row, eSortDirection direction)
+        public RangeLeftToRightSortLayerBuilder Row(int row, eSortOrder sortOrder)
         {
-            SetColumn(row, direction);
+            SetColumn(row, sortOrder);
             return new RangeLeftToRightSortLayerBuilder(_options, this);
         }
     }

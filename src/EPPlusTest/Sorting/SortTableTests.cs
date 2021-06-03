@@ -111,7 +111,7 @@ namespace EPPlusTest.Sorting
                 var table = sheet.Tables.Add(sheet.Cells["A1:C7"], "myTable");
 
                 table.Sort(x => x.SortBy.ColumnNamed("Size").UsingCustomList("S", "M", "L", "XL")
-                                    .ThenSortBy.ColumnNamed("Price", eSortDirection.Descending)
+                                    .ThenSortBy.ColumnNamed("Price", eSortOrder.Descending)
                                     .ThenSortBy.Column(2).UsingCustomList("Blue", "Yellow"));
 
 

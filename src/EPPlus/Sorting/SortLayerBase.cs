@@ -38,11 +38,11 @@ namespace OfficeOpenXml.Sorting
             _options.Descending.Add(false);
         }
 
-        protected void SetColumn(int column, eSortDirection direction)
+        protected void SetColumn(int column, eSortOrder sortOrder)
         {
             _column = column;
             _options.ColumnIndexes.Add(column);
-            _options.Descending.Add((direction == eSortDirection.Descending));
+            _options.Descending.Add((sortOrder == eSortOrder.Descending));
         }
 
         protected void SetRow(int row)
@@ -52,11 +52,11 @@ namespace OfficeOpenXml.Sorting
             _options.Descending.Add(false);
         }
 
-        protected void SetRow(int row, eSortDirection direction)
+        protected void SetRow(int row, eSortOrder sortOrder)
         {
             _row = row;
             _options.RowIndexes.Add(row);
-            _options.Descending.Add((direction == eSortDirection.Descending));
+            _options.Descending.Add((sortOrder == eSortOrder.Descending));
         }
 
         internal void SetCustomList(params string[] values)
