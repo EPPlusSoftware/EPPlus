@@ -782,14 +782,17 @@ namespace OfficeOpenXml
             style = new ExcelNamedStyleXml(NameSpaceManager, this);
             int xfIdCopy, positionID;
             ExcelStyles styles;
+            bool isTemplateNamedStyle;
             if (Template == null)
             {
                 xfIdCopy = 0;
                 positionID = -1;
                 styles = this;
+                isTemplateNamedStyle = false;
             }
             else
             {
+                isTemplateNamedStyle = Template.PositionID == -1;
                 if (Template.PositionID < 0 && Template.Styles==this)
                 {
                     xfIdCopy = Template.Index;
@@ -799,17 +802,17 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    xfIdCopy = Template.XfId;
+                    xfIdCopy = Template.Index;
                     positionID = -1;
                     styles = Template.Styles;
                 }
             }
             //Clone namedstyle
-            int styleXfId = CloneStyle(styles, xfIdCopy, true);
+            int styleXfId = CloneStyle(styles, xfIdCopy, true, false, isTemplateNamedStyle);
             //Close cells style
             CellStyleXfs[styleXfId].XfId = CellStyleXfs.Count-1;
-            int xfid = CloneStyle(styles, xfIdCopy, true, true); //Always add a new style (We create a new named style here)
-            CellXfs[xfid].XfId = styleXfId;
+            //int xfid = CloneStyle(styles, xfIdCopy, true, true, ); //Always add a new style (We create a new named style here)
+            //CellXfs[xfid].XfId = styleXfId;
             style.Style = new ExcelStyle(this, NamedStylePropertyChange, positionID, name, styleXfId);
             style.StyleXfId = styleXfId;
             
@@ -1402,18 +1405,18 @@ namespace OfficeOpenXml
 
         internal int CloneStyle(ExcelStyles style, int styleID)
         {
-            return CloneStyle(style, styleID, false, false);
+            return CloneStyle(style, styleID, false, false, false);
         }
         internal int CloneStyle(ExcelStyles style, int styleID, bool isNamedStyle)
         {
-            return CloneStyle(style, styleID, isNamedStyle, false);
+            return CloneStyle(style, styleID, isNamedStyle, false, isNamedStyle);
         }
-        internal int CloneStyle(ExcelStyles style, int styleID, bool isNamedStyle, bool allwaysAddCellXfs)
+        internal int CloneStyle(ExcelStyles style, int styleID, bool isNamedStyle, bool allwaysAddCellXfs, bool isCellStyleXfs)
         {
             ExcelXfs xfs;
             lock (style)
             {
-                if (isNamedStyle)
+                if (isCellStyleXfs)
                 {
                     xfs = style.CellStyleXfs[styleID];
                 }
@@ -1497,13 +1500,7 @@ namespace OfficeOpenXml
                 //Named style reference
                 if (xfs.XfId > 0)
                 {
-                    var id = style.CellStyleXfs[xfs.XfId].Id;
-                    var newId = CellStyleXfs.FindIndexById(id);
-                    if (newId >= 0)
-                    {
-                        newXfs.XfId = newId;
-                    }
-                    else if(style._wb!=_wb && allwaysAddCellXfs==false) //Not the same workbook, copy the namedstyle to the workbook or match the id
+                    if(style._wb!=_wb && allwaysAddCellXfs==false) //Not the same workbook, copy the namedstyle to the workbook or match the id
                     {
                         var nsFind = style.NamedStyles.ToDictionary(d => (d.StyleXfId));
                         if (nsFind.ContainsKey(xfs.XfId))
@@ -1518,6 +1515,15 @@ namespace OfficeOpenXml
                                 var ns = CreateNamedStyle(st.Name, st.Style);
                                 newXfs.XfId = NamedStyles.Count - 1;
                             }
+                        }
+                    }
+                    else
+                    {
+                        var id = style.CellStyleXfs[xfs.XfId].Id;
+                        var newId = CellStyleXfs.FindIndexById(id);
+                        if (newId >= 0)
+                        {
+                            newXfs.XfId = newId;
                         }
                     }
                 }

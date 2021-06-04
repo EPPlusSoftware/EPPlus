@@ -2161,6 +2161,58 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets[0];
             }
         }
+        [TestMethod]
+        public void TableCalculatedColumn()
+        {
+            using (var p = new ExcelPackage(new FileInfo($"c:\\epplustest\\Workbooks\\x.xlsx")))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var tbl = ws.Tables[0];
+
+                tbl.Columns["CS Available"].CalculatedColumnFormula = "LabTable[[#This Row],[Sq Ft]]*LabTable[[#This Row],[CS Utilization]]";
+                p.SaveAs(new FileInfo($"c:\\epplustest\\TestOutput\\x.xlsx"));
+            }
+        }
+        [TestMethod]
+        public void Issue407_1()
+        {
+            using (var p = OpenTemplatePackage("TestStyles_MoreCellStyleXfsThanCellXfs.xlsx"))
+            {
+                var p2 = new ExcelPackage();
+                var ws = p2.Workbook.Worksheets.Add("Copied Style", p.Workbook.Worksheets["StylesTestSheet"]);
+
+                SaveWorkbook("Issue407_1.xlsx", p2);
+            }
+        }
+        [TestMethod]
+        public void Issue407_2()
+        {
+            using (var p = OpenTemplatePackage("TestStyles_MinimalWithNamedStyles.xlsx"))
+            {
+                var p2 = new ExcelPackage();
+                var ws = p.Workbook.Worksheets["StylesTestSheet"];
+                
+                Assert.AreEqual("Normal", ws.Cells["A1"].StyleName);
+                Assert.AreEqual("MyCustomCellStyle", ws.Cells["A2"].StyleName);
+                Assert.AreEqual("Normal", ws.Cells["A3"].StyleName);
+                Assert.AreEqual("MyCalculationStyle", ws.Cells["A4"].StyleName);
+                
+                Assert.AreEqual("Normal", ws.Cells["B1"].StyleName);
+                Assert.AreEqual("MyBoldStyle1", ws.Cells["B2"].StyleName);
+                Assert.AreEqual("MyBoldStyle2", ws.Cells["B3"].StyleName);
+                ws = p2.Workbook.Worksheets.Add("Copied Style", p.Workbook.Worksheets["StylesTestSheet"]);
+                Assert.AreEqual("Normal", ws.Cells["A1"].StyleName);
+                Assert.AreEqual("MyCustomCellStyle", ws.Cells["A2"].StyleName);
+                Assert.AreEqual("Normal", ws.Cells["A3"].StyleName);
+                Assert.AreEqual("MyCalculationStyle", ws.Cells["A4"].StyleName);
+
+                Assert.AreEqual("Normal", ws.Cells["B1"].StyleName);
+                Assert.AreEqual("MyBoldStyle1", ws.Cells["B2"].StyleName);
+                Assert.AreEqual("MyBoldStyle2", ws.Cells["B3"].StyleName);
+
+                SaveWorkbook("Issue407_2.xlsx", p2);
+            }
+        }
 
     }
 }

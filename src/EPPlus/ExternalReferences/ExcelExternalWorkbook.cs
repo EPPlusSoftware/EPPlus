@@ -212,13 +212,18 @@ namespace OfficeOpenXml.ExternalReferences
             }
         }
         /// <summary>
-        /// An Uri to the external reference
+        /// The Uri to the external reference
         /// </summary>
         public Uri ExternalReferenceUri
         {
             get
             {
-                return Relation.TargetUri;
+                return Relation?.TargetUri;
+            }
+            set
+            {
+                Relation.TargetUri = value;
+                _file = null;
             }
         }
         FileInfo _file=null;
@@ -232,7 +237,7 @@ namespace OfficeOpenXml.ExternalReferences
                 if(_file==null)
                 {
                     var filePath = Relation?.TargetUri?.OriginalString;
-                    if (string.IsNullOrEmpty(filePath) && HasWebProtocol(filePath)) return null;
+                    if (string.IsNullOrEmpty(filePath) || HasWebProtocol(filePath)) return null;
                     if (filePath.StartsWith("file:///")) filePath = filePath.Substring(8);
                     try
                     {
@@ -360,6 +365,7 @@ namespace OfficeOpenXml.ExternalReferences
         {
             _package = package;
             _package._loadedPackage = _wb._package;
+            _file = _package.File;
         }
         private void SetPackage(FileInfo file)
         {
@@ -374,6 +380,7 @@ namespace OfficeOpenXml.ExternalReferences
                 _package = new ExcelPackage(file);
             }
             _package._loadedPackage = _wb._package;
+            _file = file;
         }
 
         private bool SetPackageFromOtherReference(ExcelExternalReferenceCollection erCollection, FileInfo file)
@@ -433,6 +440,7 @@ namespace OfficeOpenXml.ExternalReferences
 
             UpdateCacheFromCells();
             UpdateCacheFromNames(_wb, _wb.Names);
+            CacheStatus = eExternalWorkbookCacheStatus.Updated;
             return true;
         }
 
@@ -511,6 +519,7 @@ namespace OfficeOpenXml.ExternalReferences
 
         /// <summary>
         /// The status of the cache. If the <see cref="UpdateCache" />method fails this status is set to <see cref="eExternalWorkbookCacheStatus.Failed" />
+        /// If cache status is set to NotUpdated, the cache will be updated when the package is saved.
         /// <seealso cref="UpdateCache"/>
         /// <seealso cref="ExcelExternalLink.ErrorLog"/>
         /// </summary>
@@ -668,6 +677,10 @@ namespace OfficeOpenXml.ExternalReferences
 
         internal override void Save(StreamWriter sw)
         {
+            if(File==null && Relation?.TargetUri==null)
+            {
+                throw new InvalidOperationException($"External reference with Index {Index} has no File or Uri set");
+            }
             //If sheet names is 0, no update has been performed. Update the cache.
             if(_sheetNames.Count==0)
             {
