@@ -356,9 +356,20 @@ namespace EPPlusTest.Core
 
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
 
-            //er.UpdateCache();
-            //ws1.Calculate();
+            SaveAndCleanup(p);
+        }
 
+        [TestMethod]
+        public void AddExternalWorkbookWithChartCache()
+        {
+            var p = OpenPackage("AddedExtRefChart.xlsx", true);
+            var ws = p.Workbook.Worksheets.Add("SheetWithChart");
+
+            var er = p.Workbook.ExternalReferences.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+            var chart = ws.Drawings.AddLineChart("line1", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
+            var serie = chart.Series.Add("[1]Sheet1!A2:A3", "[1]Sheet1!B2:B3");
+            er.UpdateCache();
+            serie.CreateCache();
 
             SaveAndCleanup(p);
         }

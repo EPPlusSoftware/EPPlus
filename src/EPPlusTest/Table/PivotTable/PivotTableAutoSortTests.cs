@@ -54,8 +54,8 @@ namespace EPPlusTest.Table.PivotTable
         public void SetAutoSortDataAndColumnField1()
         {
             var ws = _pck.Workbook.Worksheets.Add("PivotSameAutoSortDescendingCF1");
-            var p1 = ws.PivotTables.Add(ws.Cells["A1"], _pck.Workbook.Worksheets[0].Tables[0].Range, "Pivot2");
-            var rf = p1.RowFields.Add(p1.Fields[0]);
+            var p1 = ws.PivotTables.Add(ws.Cells["A1"], _pck.Workbook.Worksheets[0].Tables[0].Range, "Pivot2");            
+            var rf = p1.RowFields.Add(p1.Fields[0]);            
             var cf = p1.ColumnFields.Add(p1.Fields[1]);
             var df = p1.DataFields.Add(p1.Fields[3]);
             rf.SetAutoSort(df, eSortType.Descending);

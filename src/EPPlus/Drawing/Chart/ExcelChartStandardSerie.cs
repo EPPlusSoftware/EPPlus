@@ -541,9 +541,62 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (ExcelCellBase.IsValidAddress(address))
             {
-                var ws = _chart.WorkSheet;
-                var range = ws.Cells[address];
-                var v = range.FirstOrDefault()?.Value;
+                var addr = new ExcelAddressBase(address);
+                object v;
+                var wb = _chart.WorkSheet.Workbook;
+                if (addr.IsExternal)
+                {
+                    var erIx = wb.ExternalReferences.GetExternalReference(addr._wb);
+                    if(erIx>=0)
+                    {
+                        var er = wb.ExternalReferences[erIx].As.ExternalWorkbook;
+                        if(er.Package!=null)
+                        {
+                            var ws = er.Package.Workbook.Worksheets[addr.WorkSheetName];
+                            var range = ws.Cells[addr.LocalAddress];
+                            v = range.FirstOrDefault()?.Value;
+                        }
+                        else
+                        {
+                            var ws = er.CachedWorksheets[addr.WorkSheetName];
+                            if(ws==null)
+                            {
+                                v = null;
+                            }
+                            else
+                            {
+                                //Get the first value in the cached range.
+                                v = ws.CellValues[addr._fromRow, addr._fromCol];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        v = null;
+                    }
+                }
+                else 
+                {
+                    ExcelWorksheet ws;
+                    if (string.IsNullOrEmpty(addr.WorkSheetName))
+                    {
+                        ws = _chart.WorkSheet;
+                    }
+                    else
+                    {
+                        ws = _chart.WorkSheet.Workbook.Worksheets[addr.WorkSheetName];
+                    }
+                    if (ws == null)
+                    {
+                        v = null;
+                    }
+                    else
+                    {
+                        var range = ws.Cells[address];
+                        v = range.FirstOrDefault()?.Value;
+                    }
+                }
+                
 
                 string cachePath;
                 bool isNum;
