@@ -753,7 +753,7 @@ namespace OfficeOpenXml.Drawing
                 return GetRowHeightFromCellFonts(row, ws);
             }
         }
-        static Dictionary<int, double> _textHeights=new Dictionary<int, double>();
+        Dictionary<int, double> _textHeights=new Dictionary<int, double>();
         private double GetRowHeightFromCellFonts(int row, ExcelWorksheet ws)
         {
             var dh = ws.DefaultRowHeight;

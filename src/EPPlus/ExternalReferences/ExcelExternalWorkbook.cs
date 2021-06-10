@@ -329,9 +329,6 @@ namespace OfficeOpenXml.ExternalReferences
                     return false;
                 }
                 SetPackage(packageFile);
-                _package = new ExcelPackage(packageFile);
-                _package._loadedPackage = _wb._package;
-                _file = Package.File;
                 return true;
             }
             _errors.Add($"Loaded file does not exists {packageFile.FullName}");
@@ -381,6 +378,9 @@ namespace OfficeOpenXml.ExternalReferences
             }
             _package._loadedPackage = _wb._package;
             _file = file;
+
+            Relation.Target = "file:///" + file.FullName;
+            Relation.TargetUri = new Uri(Relation.Target);
         }
 
         private bool SetPackageFromOtherReference(ExcelExternalReferenceCollection erCollection, FileInfo file)

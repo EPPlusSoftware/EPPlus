@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ExcelDataProvider.ICellInfo c, ParsingContext context)
         {
-            if (ignoreNonNumeric && !ConvertUtil.IsNumeric(c.Value)) return true;
+            if (ignoreNonNumeric && !ConvertUtil.IsNumericOrDate(c.Value)) return true;
             return (ignoreHiddenValues && c.IsHiddenRow) || IsSubTotal(c, context);
         }
 

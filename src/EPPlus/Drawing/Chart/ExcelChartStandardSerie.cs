@@ -448,12 +448,48 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         private void CreateCache(string address, XmlNode node)
         {
-            var ws = _chart.WorkSheet;
-            var range = ws.Cells[address];
+            //var ws = _chart.WorkSheet;
+            var wb = _chart.WorkSheet.Workbook;
+            var addr = new ExcelAddressBase(address);
+            if (addr.IsExternal)
+            {
+                var erIx = wb.ExternalReferences.GetExternalReference(addr._wb);
+                if (erIx >= 0 && wb.ExternalReferences[erIx].ExternalLinkType == ExternalReferences.eExternalLinkType.ExternalWorkbook)
+                {
+                    var er = wb.ExternalReferences[erIx].As.ExternalWorkbook;
+                    if (er.Package == null)
+                    {
+                        CreateCacheFromExternalCache(node, er, addr);
+                    }
+                    else
+                    {
+                        CreateCacheFromRange(node, er.Package.Workbook.Worksheets[addr.WorkSheetName]?.Cells[addr.LocalAddress]);
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                var ws = string.IsNullOrEmpty(addr.WorkSheetName) ? _chart.WorkSheet : _chart.WorkSheet.Workbook.Worksheets[addr.WorkSheetName];
+                if (ws == null) //Worksheet does not exist, exit
+                {
+                    return;
+                }
+                CreateCacheFromRange(node, ws.Cells[address]);
+            }
+            
+        }
+
+        private void CreateCacheFromRange(XmlNode node, ExcelRangeBase range)
+        {
+            if (range == null) return;
             var startRow = range._fromRow;
             var items = 0;
-            var cse = new CellStoreEnumerator<ExcelValue>(ws._values);
-            while(cse.Next())
+            var cse = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, startRow,range._fromCol, range._toRow, range._toCol);
+            while (cse.Next())
             {
                 var v = cse.Value._value;
                 if (v != null)
@@ -462,13 +498,40 @@ namespace OfficeOpenXml.Drawing.Chart
                     var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
                     node.AppendChild(ptNode);
                     ptNode.SetAttribute("idx", (cse.Row - startRow).ToString(CultureInfo.InvariantCulture));
-                    ptNode.InnerXml = $"<c:v>{Utils.ConvertUtil.GetValueForXml(d, ws.Workbook.Date1904)}</c:v>";
+                    ptNode.InnerXml = $"<c:v>{Utils.ConvertUtil.GetValueForXml(d, range.Worksheet.Workbook.Date1904)}</c:v>";
                     items++;
-                }                
+                }
             }
 
             var countNode = node.SelectSingleNode("c:ptCount", NameSpaceManager) as XmlElement;
-            if(countNode != null)
+            if (countNode != null)
+            {
+                countNode.SetAttribute("val", items.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+        private void CreateCacheFromExternalCache(XmlNode node, ExternalReferences.ExcelExternalWorkbook er, ExcelAddressBase addr)
+        {
+            var ews = er.CachedWorksheets[addr.WorkSheetName];
+            if (ews == null) return;
+            var startRow = addr._fromRow;
+            var items = 0;
+            var cse = new CellStoreEnumerator<object>(ews.CellValues._values, startRow, addr._fromCol, addr._toRow, addr._toCol);
+            while (cse.Next())
+            {
+                var v = cse.Value;
+                if (v != null)
+                {
+                    var d = Utils.ConvertUtil.GetValueDouble(v);
+                    var ptNode = node.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
+                    node.AppendChild(ptNode);
+                    ptNode.SetAttribute("idx", (cse.Row - startRow).ToString(CultureInfo.InvariantCulture));
+                    ptNode.InnerXml = $"<c:v>{Utils.ConvertUtil.GetValueForXml(d, er._wb.Date1904)}</c:v>";
+                    items++;
+                }
+            }
+
+            var countNode = node.SelectSingleNode("c:ptCount", NameSpaceManager) as XmlElement;
+            if (countNode != null)
             {
                 countNode.SetAttribute("val", items.ToString(CultureInfo.InvariantCulture));
             }

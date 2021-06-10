@@ -33,7 +33,7 @@ using Microsoft.Extensions.Configuration;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Represents an Excel 2007/2010 XLSX file package.  
+    /// Represents an Excel XLSX file package.  
     /// This is the top-level object to access all parts of the document.
     /// </summary>
     /// <remarks>

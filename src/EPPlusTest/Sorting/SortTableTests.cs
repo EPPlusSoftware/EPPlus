@@ -131,7 +131,7 @@ namespace EPPlusTest.Sorting
                 Assert.AreEqual("L", sheet.Cells[6, 1].Value);
                 Assert.AreEqual("XL", sheet.Cells[7, 1].Value);
 
-                package.SaveAs(new FileInfo(@"c:\Temp\TableSort2.xlsx"));
+                //package.SaveAs(new FileInfo(@"c:\Temp\TableSort2.xlsx"));
             }
         }
     }

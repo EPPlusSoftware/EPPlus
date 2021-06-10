@@ -105,22 +105,22 @@ namespace OfficeOpenXml.ExternalReferences
             }
         }
         /// <summary>
-        /// Delete the external link at the zero-based index.
+        /// Removes the external link at the zero-based index. If the external reference is an workbook any formula links are broken.
         /// </summary>
         /// <param name="index">The zero-based index</param>
-        public void Delete(int index)
+        public void RemoveAt(int index)
         {
             if(index < 0 || index>=_list.Count)
             {
                 throw (new ArgumentOutOfRangeException(nameof(index)));
             }
-            Delete(_list[index]);
+            Remove(_list[index]);
         }
         /// <summary>
-        /// Delete the specifik external link
+        /// Removes the external link from the package.If the external reference is an workbook any formula links are broken.
         /// </summary>
         /// <param name="externalReference"></param>
-        public void Delete(ExcelExternalLink externalReference)
+        public void Remove(ExcelExternalLink externalReference)
         {
             var ix = _list.IndexOf(externalReference);
             

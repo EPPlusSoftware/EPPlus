@@ -47,6 +47,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.Drawing.Chart;
 
 namespace EPPlusTest
 {
@@ -2162,18 +2163,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void TableCalculatedColumn()
-        {
-            using (var p = new ExcelPackage(new FileInfo($"c:\\epplustest\\Workbooks\\x.xlsx")))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var tbl = ws.Tables[0];
-
-                tbl.Columns["CS Available"].CalculatedColumnFormula = "LabTable[[#This Row],[Sq Ft]]*LabTable[[#This Row],[CS Utilization]]";
-                p.SaveAs(new FileInfo($"c:\\epplustest\\TestOutput\\x.xlsx"));
-            }
-        }
-        [TestMethod]
         public void Issue407_1()
         {
             using (var p = OpenTemplatePackage("TestStyles_MoreCellStyleXfsThanCellXfs.xlsx"))
@@ -2213,6 +2202,35 @@ namespace EPPlusTest
                 SaveWorkbook("Issue407_2.xlsx", p2);
             }
         }
+        [TestMethod]
+        public void s185()
+        {
+            using (var p = OpenTemplatePackage("s185.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var chart = ws.Drawings[0] as ExcelLineChart;
 
+                Assert.AreEqual(4887, chart.PlotArea.ChartTypes[1].Series[0].NumberOfItems);
+            }
+        }
+        [TestMethod]
+        public void GetNamedRangeAddressAfterRowInsert()
+        {
+            using (var pck = OpenTemplatePackage("TestWbk_SingleNamedRange.xlsx"))
+            {
+                // Get the worksheet containing the named range
+                var ws = pck.Workbook.Worksheets["Sheet1"];
+                // Get the named range
+                var namedRange = ws.Names["MyValues"];
+                // Check that the named range exists with the expected address
+                Assert.AreEqual("Sheet1!$A$1:$A$9", namedRange.FullAddress);
+                Assert.AreEqual("Sheet1!$A$1:$A$9", namedRange.Address); // This line is currently failing
+                                                                  // Insert a row in the middle of the range
+                ws.InsertRow(5, 1);
+                // Check that the named range's address has been correctly updated
+                Assert.AreEqual("Sheet1!$A$1:$A$10", namedRange.FullAddress);
+                Assert.AreEqual("Sheet1!$A$1:$A$10", namedRange.Address);
+            }
+        }
     }
 }

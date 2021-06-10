@@ -119,7 +119,7 @@ namespace EPPlusTest.Core
 
             Assert.AreEqual(2, p.Workbook.ExternalReferences.Count);
 
-            p.Workbook.ExternalReferences.Delete(0);
+            p.Workbook.ExternalReferences.RemoveAt(0);
 
             SaveWorkbook("ExtRefDeleted.xlsx",p);
         }
@@ -145,9 +145,9 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
 
-            p.Workbook.ExternalReferences.Delete(0);
-            p.Workbook.ExternalReferences.Delete(8);
-            p.Workbook.ExternalReferences.Delete(5);
+            p.Workbook.ExternalReferences.RemoveAt(0);
+            p.Workbook.ExternalReferences.RemoveAt(8);
+            p.Workbook.ExternalReferences.RemoveAt(5);
 
 
             SaveAndCleanup(p);
@@ -174,7 +174,7 @@ namespace EPPlusTest.Core
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
 
             Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
-            p.Workbook.ExternalReferences.Delete(103);
+            p.Workbook.ExternalReferences.RemoveAt(103);
             Assert.AreEqual(203, p.Workbook.ExternalReferences.Count);
             SaveAndCleanup(p);
         }

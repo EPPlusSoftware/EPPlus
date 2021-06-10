@@ -2653,7 +2653,7 @@ namespace OfficeOpenXml
                 if (tbl.ShowHeader || tbl.ShowTotal)
                 {
                     int colNum = tbl.Address._fromCol;
-                    var colVal = new HashSet<string>();
+                    var colVal = new HashSet<string>(StringComparer.CurrentCultureIgnoreCase);
                     foreach (var col in tbl.Columns)
                     {                        
                         string n=col.Name.ToLowerInvariant();
