@@ -650,14 +650,7 @@ namespace OfficeOpenXml
             var wsForAddress = "";
             if (!string.IsNullOrEmpty(worksheetName))
             {
-                if(ExcelWorksheet.NameNeedsApostrophes(worksheetName))
-                {
-                    wsForAddress = "'"+worksheetName.Replace("'", "''") + "'";   //Makesure addresses handle single qoutes
-                }
-                else
-                {
-                    wsForAddress = worksheetName;
-                }
+                wsForAddress = GetQuotedWorksheetName(worksheetName);
             }
             if (address.IndexOf('!') == -1 || address == "#REF!")
             {
@@ -691,6 +684,21 @@ namespace OfficeOpenXml
                 }
             }
             return address;
+        }
+
+        internal static string GetQuotedWorksheetName(string worksheetName)
+        {
+            string wsForAddress;
+            if (ExcelWorksheet.NameNeedsApostrophes(worksheetName))
+            {
+                wsForAddress = "'" + worksheetName.Replace("'", "''") + "'";   //Makesure addresses handle single qoutes
+            }
+            else
+            {
+                wsForAddress = worksheetName;
+            }
+
+            return wsForAddress;
         }
         #endregion
         #region IsValidCellAddress

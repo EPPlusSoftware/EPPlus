@@ -129,7 +129,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 AppendSharedItems(shNode);
             }
             var noTypes = GetNoOfTypes(flags);
-            if (noTypes > 1 && flags != (DataTypeFlags.Int | DataTypeFlags.Number) && SharedItems.Count > 1)
+            if (noTypes > 1 && 
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) && 
+                SharedItems.Count > 1)
             {
                 if ((flags & DataTypeFlags.String) == DataTypeFlags.String ||
                     (flags & DataTypeFlags.String) == DataTypeFlags.Empty)

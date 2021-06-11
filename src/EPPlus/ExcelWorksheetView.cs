@@ -67,7 +67,11 @@ namespace OfficeOpenXml
                     }
                 }
             }
-
+            public int ActiveCellId
+            {
+                get;
+                set;
+            }
             private void CreateSelectionElement()
             {
  	            _selectionNode=TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
@@ -155,22 +159,6 @@ namespace OfficeOpenXml
 			}
 		}
 		#endregion
-		#region TabSelected
-        private XmlElement _selectionNode = null;
-        private XmlElement SelectionNode
-        {
-            get
-            {
-                _selectionNode = SheetViewElement.SelectSingleNode("//d:selection", _worksheet.NameSpaceManager) as XmlElement;
-                if (_selectionNode == null)
-                {
-                    _selectionNode = _worksheet.WorksheetXml.CreateElement("selection", ExcelPackage.schemaMain);
-                    SheetViewElement.AppendChild(_selectionNode);
-                }
-                return _selectionNode;
-            }
-        }
-        #endregion
         #region Public Methods & Properties
         /// <summary>
         /// The active cell. Single cell address.                

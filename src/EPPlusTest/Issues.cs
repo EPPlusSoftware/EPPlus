@@ -2232,5 +2232,20 @@ namespace EPPlusTest
                 Assert.AreEqual("Sheet1!$A$1:$A$10", namedRange.Address);
             }
         }
+        [TestMethod]
+        public void Issue410()
+        {
+            using (var package = OpenTemplatePackage("test-in.xlsx"))
+            {
+                var wb = package.Workbook;
+                var worksheet = wb.Worksheets.Add("Pivot Tables");
+                var table = wb.Worksheets[0].Tables["Table1"];
+                ExcelPivotTable pt = worksheet.PivotTables.Add(worksheet.Cells["A1"], table, "PT1");
+                pt.RowFields.Add(pt.Fields["ColC"]);
+                pt.DataFields.Add(pt.Fields["ColB"]);
+                SaveWorkbook("test-out.xlsx", package);
+            }
+        }
     }
 }
+

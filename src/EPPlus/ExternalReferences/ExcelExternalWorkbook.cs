@@ -272,6 +272,10 @@ namespace OfficeOpenXml.ExternalReferences
             set
             {
                 _file = value;
+                if(_package!=null)
+                {
+                    _package.File = File;
+                }
             }
         }
 
@@ -545,9 +549,24 @@ namespace OfficeOpenXml.ExternalReferences
                         }
                         else
                         {
-                            var name = t.Value.Substring(t.Value.IndexOf("]") + 1);
-                            if (name.StartsWith("!")) name = name.Substring(1);
-                            UpdateCacheForName(name);
+                            ExcelAddressBase.SplitAddress(t.Value, out string wbRef, out string wsRef, out string nameRef);
+                            if (!string.IsNullOrEmpty(wbRef))
+                            {
+                                var ix = _wb.ExternalReferences.GetExternalReference(wbRef);
+                                if (ix >= 0 && _wb.ExternalReferences[ix] == this)
+                                {
+                                    string name;
+                                    if(string.IsNullOrEmpty(wsRef))
+                                    {
+                                        name = nameRef;
+                                    }
+                                    else
+                                    {
+                                        name = ExcelCellBase.GetQuotedWorksheetName(wsRef)+"!"+nameRef;
+                                    }
+                                    UpdateCacheForName(name);
+                                }
+                            }
                         }
                     }
                 }
@@ -581,7 +600,7 @@ namespace OfficeOpenXml.ExternalReferences
                 }
             }
             ExcelAddressBase referensTo;
-            if(namedRange._fromRow>0)
+            if(namedRange != null && namedRange._fromRow>0)
             {
                 referensTo = new ExcelAddressBase(namedRange.WorkbookLocalAddress);
             }
@@ -590,7 +609,7 @@ namespace OfficeOpenXml.ExternalReferences
                 referensTo = new ExcelAddressBase("#REF!");
             }
 
-            if(namedRange.LocalSheetId < 0)
+            if(namedRange==null || namedRange.LocalSheetId < 0)
             {
                 if (!CachedNames.ContainsKey(name))
                 {
@@ -603,7 +622,7 @@ namespace OfficeOpenXml.ExternalReferences
                 var cws = CachedWorksheets[namedRange.LocalSheet.Name];
                 if(cws != null)
                 {
-                    if (!CachedNames.ContainsKey(name))
+                    if (!cws.CachedNames.ContainsKey(name))
                     {
                         cws.CachedNames.Add(new ExcelExternalDefinedName() { Name = name, RefersTo = referensTo.Address, SheetId = namedRange.LocalSheetId });
                         UpdateCacheForAddress(referensTo, "");
@@ -613,7 +632,7 @@ namespace OfficeOpenXml.ExternalReferences
         }
         private void UpdateCacheForAddress(ExcelAddressBase formulaAddress, string sfAddress)
         {
-            if (formulaAddress._fromRow < 0 || formulaAddress._fromCol < 0) return;
+            if (formulaAddress==null && formulaAddress._fromRow < 0 || formulaAddress._fromCol < 0) return;
             if (string.IsNullOrEmpty(sfAddress) == false)
             {
                 var a = new ExcelAddress(sfAddress);

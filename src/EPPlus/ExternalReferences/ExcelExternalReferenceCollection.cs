@@ -213,23 +213,22 @@ namespace OfficeOpenXml.ExternalReferences
                 {
                     if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalWorkbook)
                     {
-                        
-                        var fileName = _list[ix].As.ExternalWorkbook.ExternalReferenceUri.OriginalString;
-                        if (ExcelExternalLink.HasWebProtocol(fileName))
+
+                        var wb = _list[ix].As.ExternalWorkbook;
+                        if(wb.File==null)
                         {
-                            if (fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
+                            var fileName = wb.ExternalReferenceUri?.OriginalString;
+                            if (ExcelExternalLink.HasWebProtocol(fileName))
                             {
-                                return ix;
+                                if (fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return ix;
+                                }
+                                continue;
                             }
-                            continue;
                         }
-                        if (fileName.StartsWith("file:///")) fileName = fileName.Substring(8);
-                        var erFile = new FileInfo(fileName);
-                        if (fi.FullName == erFile.FullName)
-                        {
-                            return ix;
-                        }
-                        else if (fi.Name == erFile.Name)
+
+                        if (fi.Name.Equals(wb.File.Name, StringComparison.OrdinalIgnoreCase))
                         {
                             ret = ix;
                         }

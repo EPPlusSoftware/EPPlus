@@ -1388,13 +1388,17 @@ namespace OfficeOpenXml
         internal static string GetWorkbookPart(string address)
         {
             var ix = 0;
-            if (address[0] == '[')
+            if(address[ix]=='\'')
             {
-                ix = address.IndexOf(']') + 1;
-                if (ix > 0)
+                ix++;
+            }
+            if (address[ix] == '[')
+            {
+                var endIx = address.LastIndexOf(']');
+                if (endIx > 0)
                 {
-                    return address.Substring(1, ix - 2);
-                }
+                    return address.Substring(ix+1, endIx - ix - 1);
+                }   
             }
             return "";
         }
@@ -1407,7 +1411,7 @@ namespace OfficeOpenXml
         {
             if(address=="") return defaultWorkSheet;
             var ix = 0;
-            if (address[0] == '[')
+            if (address[0] == '[' || address.StartsWith("'["))
             {
                 ix = address.IndexOf(']')+1;
             }
@@ -1420,10 +1424,15 @@ namespace OfficeOpenXml
                 else
                 {
                     endIx = address.IndexOf('!',ix)+1;
+                    var subtrLen = 1;
+                    if(endIx>0 && address[endIx-2]=='\'')
+                    {
+                        subtrLen++;
+                    }
                     if(endIx > ix)
                     {
-                        return address.Substring(ix, endIx - ix - 1);
-                    }
+                        return address.Substring(ix, endIx - ix - subtrLen);
+                    }   
                     else
                     {
                         return defaultWorkSheet;
@@ -1562,16 +1571,28 @@ namespace OfficeOpenXml
         }
         private static string GetString(string address, int ix, out int endIx)
         {
-            var strIx = address.IndexOf("''", StringComparison.OrdinalIgnoreCase);
+            var strIx = address.IndexOf("''", ix);
             var prevStrIx = ix;
-            while(strIx > -1) 
+            while (strIx > -1)
             {
                 prevStrIx = strIx;
-                strIx = address.IndexOf("''", StringComparison.OrdinalIgnoreCase);
+                strIx = address.IndexOf("''", strIx+1);
             }
-            endIx = address.IndexOf("'");
-            return address.Substring(ix, endIx - ix).Replace("''","'");
+            endIx = address.IndexOf("'", prevStrIx+1);
+            return address.Substring(ix, endIx - ix).Replace("''", "'");
         }
+        //private static string GetString(string address, int ix, out int endIx)
+        //{
+        //    var strIx = address.IndexOf("''");
+        //    int prevStrIx=strIx;
+        //    while (strIx > -1) 
+        //    {
+        //        prevStrIx = strIx + 2;
+        //        strIx = address.IndexOf("''", prevStrIx);
+        //    }
+        //    endIx = address.IndexOf("'", strIx+1);
+        //    return address.Substring(ix, endIx - ix).Replace("''","'");
+        //}
 
         internal bool IsValidRowCol()
         {
