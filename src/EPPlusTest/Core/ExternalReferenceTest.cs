@@ -356,6 +356,7 @@ namespace EPPlusTest.Core
 
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
             ws1.Cells["G6"].Formula = $"'[FromWB1.xlsx]Sheet1'!FromF2*[FromWB1.xlsx]Sheet1!H6";
+            ws1.Cells["G7"].Formula = $"'[c:/epplusTest/Testoutput/externalreferences/FromWB1.xlsx]Sheet1'!FromF2*[FromWB1.xlsx]Sheet1!H6";
 
             SaveAndCleanup(p);
         }

@@ -207,32 +207,39 @@ namespace OfficeOpenXml.ExternalReferences
                     return -1;
                 }
                 if (extRef.StartsWith("file:///")) extRef = extRef.Substring(8);
-                var fi = new FileInfo(extRef);
-                int ret=-1;
-                for (int ix=0;ix<_list.Count;ix++)
+                try
                 {
-                    if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalWorkbook)
+                    var fi = new FileInfo(extRef);
+                    int ret = -1;
+                    for (int ix = 0; ix < _list.Count; ix++)
                     {
-
-                        var wb = _list[ix].As.ExternalWorkbook;
-                        if(wb.File==null)
+                        if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalWorkbook)
                         {
-                            var fileName = wb.ExternalReferenceUri?.OriginalString;
-                            if (ExcelExternalLink.HasWebProtocol(fileName))
+
+                            var wb = _list[ix].As.ExternalWorkbook;
+                            if (wb.File == null)
                             {
-                                if (fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
+                                var fileName = wb.ExternalReferenceUri?.OriginalString;
+                                if (ExcelExternalLink.HasWebProtocol(fileName))
                                 {
-                                    return ix;
+                                    if (fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        return ix;
+                                    }
+                                    continue;
                                 }
-                                continue;
+                            }
+
+                            if (fi.Name.Equals(wb.File.Name, StringComparison.OrdinalIgnoreCase))
+                            {
+                                ret = ix;
                             }
                         }
-
-                        if (fi.Name.Equals(wb.File.Name, StringComparison.OrdinalIgnoreCase))
-                        {
-                            ret = ix;
-                        }
                     }
+                }
+                catch   //If the FileInfo is 
+                {
+                    return -1;
                 }
                 return ret;
             }
