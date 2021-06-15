@@ -871,6 +871,9 @@ namespace OfficeOpenXml
                 return;
             }
 
+            // This will call GDI+, and the result isn't cached.
+            // Calling this in the tight loop below is very slow.
+            var stringFormat = StringFormat.GenericDefault;
             foreach (var cell in this)
             {
                 if (_worksheet.Column(cell.Start.Column).Hidden)    //Issue 15338
@@ -899,7 +902,7 @@ namespace OfficeOpenXml
                 var textForWidth = cell.TextForWidth;
                 var t = textForWidth + (ind > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', ind) : "");
                 if (t.Length > 32000) t = t.Substring(0, 32000); //Issue
-                var size = g.MeasureString(t, f, 10000, StringFormat.GenericDefault);
+                var size = g.MeasureString(t, f, 10000, stringFormat);
 
                 double width;
                 double r = styles.CellXfs[cell.StyleID].TextRotation;
