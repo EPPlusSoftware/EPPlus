@@ -2289,9 +2289,23 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Sort the range by value
+        /// Sort the range by value. Supports top-down and left to right sort.
         /// </summary>
         /// <param name="configuration">An action of <see cref="RangeSortOptions"/> where sort parameters can be set.</param>
+        /// <example>
+        /// // 1. ort rows (top-down)
+        /// 
+        /// // The Column function takes the zero based column index in the range
+        /// worksheet.Cells["A1:D15"].Sort(x => x.SortBy.Column(0).ThenSortBy.Column(1, eSortOrder.Descending));
+        /// 
+        /// // 2. Sort columns(left to right)
+        /// // The Row function takes the zero based row index in the range
+        /// worksheet.Cells["A1:D15"].Sort(x => x.SortLeftToRightBy.Row(0));
+        /// 
+        /// // 3. Sort using a custom list
+        /// worksheet.Cells["A1:D15"].Sort(x => x.SortBy.Column(0).UsingCustomList("S", "M", "L", "XL"));
+        /// worksheet.Cells["A1:D15"].Sort(x => x.SortLeftToRightBy.Row(0).UsingCustomList("S", "M", "L", "XL"));
+        /// </example>
         public void Sort(Action<RangeSortOptions> configuration)
         {
             var options = new RangeSortOptions();
@@ -2300,9 +2314,17 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Sort the range by value
+        /// Sort the range by value. Use RangeSortOptions.Create() to create an instance of the sort options, then
+        /// use the <see cref="RangeSortOptions.SortBy"/> or <see cref="RangeSortOptions.SortLeftToRightBy"/> properties to build up your sort parameters.
         /// </summary>
         /// <param name="options"><see cref="RangeSortOptions">Options</see> for the sort</param>
+        /// <example>
+        /// var options = RangeSortOptions.Create();
+        /// var builder = options.SortBy.Column(0);
+        /// builder.ThenSortBy.Column(2).UsingCustomList("S", "M", "L", "XL");
+        /// builder.ThenSortBy.Column(3);
+        /// worksheet.Cells["A1:D15"].Sort(options);
+        /// </example>
         public void Sort(RangeSortOptions options)
         {
             SortInternal(options);
