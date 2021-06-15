@@ -15,9 +15,17 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// A collection of external worksheets
+    /// </summary>
     public class ExcelExternalWorksheetCollection : EPPlusReadOnlyList<ExcelExternalWorksheet>
     {
         Dictionary<string, int> _sheetNames=new Dictionary<string, int>();
+        /// <summary>
+        /// The indexer to reference the external worksheet objects 
+        /// </summary>
+        /// <param name="name">The name of the worksheet</param>
+        /// <returns></returns>
         public ExcelExternalWorksheet this[string name]
         {
             get

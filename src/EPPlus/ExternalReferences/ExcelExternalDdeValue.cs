@@ -14,9 +14,18 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Represents a value for a DDE item.
+    /// </summary>
     public class ExcelExternalDdeValue
     {
-        public eDdeValueType DdeValueType { get; set; } = eDdeValueType.Number;
-        public string Value { get; set; }
+        /// <summary>
+        /// The data type of the value
+        /// </summary>
+        public eDdeValueType DdeValueType { get; internal set; } = eDdeValueType.Number;
+        /// <summary>
+        /// The value of the item
+        /// </summary>
+        public string Value { get; internal set; }
     }
 }

@@ -118,7 +118,7 @@ namespace OfficeOpenXml.ExternalReferences
                                 var startIx = a.Address.IndexOf('[');
                                 var endIx = a.Address.IndexOf(']');
                                 var extRef = a.Address.Substring(startIx + 1, endIx - startIx - 1);
-                                var extRefIx = wb.ExternalReferences.GetExternalReference(extRef);
+                                var extRefIx = wb.ExternalLinks.GetExternalLink(extRef);
                                 if ((extRefIx == ix || ix==-1) && extRef!="0") //-1 means delete all external references. extRef=="0" is the current workbook
                                 {
                                     //deletedNames.Add(n);
@@ -196,7 +196,7 @@ namespace OfficeOpenXml.ExternalReferences
                         }
                         else
                         {
-                            var extRefIx = wb.ExternalReferences.GetExternalReference(extRef);
+                            var extRefIx = wb.ExternalLinks.GetExternalLink(extRef);
                             if (extRefIx == ix || ix==-1)
                             {
                                 if (setRefError)

@@ -20,18 +20,18 @@ using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalReferenceCollection : IEnumerable<ExcelExternalLink>
+    public class ExcelExternalLinksCollection : IEnumerable<ExcelExternalLink>
     {
         List<ExcelExternalLink> _list=new List<ExcelExternalLink>();
         ExcelWorkbook _wb;
-        internal ExcelExternalReferenceCollection(ExcelWorkbook wb)
+        internal ExcelExternalLinksCollection(ExcelWorkbook wb)
         {
             _wb = wb;
             LoadExternalReferences();
         }
-        internal void AddInternal(ExcelExternalLink externalReference)
+        internal void AddInternal(ExcelExternalLink externalLink)
         {
-            _list.Add(externalReference);
+            _list.Add(externalLink);
         }
         public IEnumerator<ExcelExternalLink> GetEnumerator()
         {
@@ -119,25 +119,25 @@ namespace OfficeOpenXml.ExternalReferences
         /// <summary>
         /// Removes the external link from the package.If the external reference is an workbook any formula links are broken.
         /// </summary>
-        /// <param name="externalReference"></param>
-        public void Remove(ExcelExternalLink externalReference)
+        /// <param name="externalLink"></param>
+        public void Remove(ExcelExternalLink externalLink)
         {
-            var ix = _list.IndexOf(externalReference);
+            var ix = _list.IndexOf(externalLink);
             
-            _wb._package.ZipPackage.DeletePart(externalReference.Part.Uri);
+            _wb._package.ZipPackage.DeletePart(externalLink.Part.Uri);
 
-            if(externalReference.ExternalLinkType==eExternalLinkType.ExternalWorkbook)
+            if(externalLink.ExternalLinkType==eExternalLinkType.ExternalWorkbook)
             {
                 ExternalLinksHandler.BreakFormulaLinks(_wb, ix, true);
             }
 
-            var extRefs = externalReference.WorkbookElement.ParentNode;
-            extRefs?.RemoveChild(externalReference.WorkbookElement);
+            var extRefs = externalLink.WorkbookElement.ParentNode;
+            extRefs?.RemoveChild(externalLink.WorkbookElement);
             if(extRefs?.ChildNodes.Count==0)
             {
                 extRefs.ParentNode?.RemoveChild(extRefs);
             }
-            _list.Remove(externalReference);
+            _list.Remove(externalLink);
         }
         /// <summary>
         /// Clear all external links and break any formula links.
@@ -187,7 +187,7 @@ namespace OfficeOpenXml.ExternalReferences
             }
             return ret;
         }
-        internal int GetExternalReference(string extRef)
+        internal int GetExternalLink(string extRef)
         {
             if (string.IsNullOrEmpty(extRef)) return -1;
             if(extRef.Any(c=>char.IsDigit(c)==false))
@@ -198,7 +198,7 @@ namespace OfficeOpenXml.ExternalReferences
                     {
                         if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalWorkbook)
                         {
-                            if (extRef.Equals(_list[ix].As.ExternalWorkbook.ExternalReferenceUri.OriginalString, StringComparison.OrdinalIgnoreCase))
+                            if (extRef.Equals(_list[ix].As.ExternalWorkbook.ExternalLinkUri.OriginalString, StringComparison.OrdinalIgnoreCase))
                             {
                                 return ix;
                             }
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.ExternalReferences
                             var wb = _list[ix].As.ExternalWorkbook;
                             if (wb.File == null)
                             {
-                                var fileName = wb.ExternalReferenceUri?.OriginalString;
+                                var fileName = wb.ExternalLinkUri?.OriginalString;
                                 if (ExcelExternalLink.HasWebProtocol(fileName))
                                 {
                                     if (fileName.Equals(extRef, StringComparison.OrdinalIgnoreCase))
@@ -258,7 +258,10 @@ namespace OfficeOpenXml.ExternalReferences
         {
             return _list.IndexOf(link);
         }
-
+        /// <summary>
+        /// Updates the value cache for any external workbook in the collection. The link must be an workbook and of type xlsx, xlsm or xlst.
+        /// </summary>
+        /// <returns>True if all updates succeeded, otherwise false. Any errors can be found on the External links. <seealso cref="ExcelExternalLink.ErrorLog"/></returns>
         public bool UpdateCaches()
         {
             var ret = true;

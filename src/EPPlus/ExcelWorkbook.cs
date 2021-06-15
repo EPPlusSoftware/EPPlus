@@ -497,20 +497,21 @@ namespace OfficeOpenXml
 				return _names;
 			}
 		}
-		internal ExcelExternalReferenceCollection _externalReferences=null;
+		internal ExcelExternalLinksCollection _externalLinks=null;
 		/// <summary>
-		/// A collection of the references to external workbooks and it's cached data.
+		/// A collection of links to external workbooks and it's cached data.
+		/// This collection can also contain DDE and OLE links. DDE and OLE are readonly and can not be added.
 		/// </summary>
-		public ExcelExternalReferenceCollection ExternalReferences
+		public ExcelExternalLinksCollection ExternalLinks
 		{
 			get
             {
-				if(_externalReferences==null)
+				if(_externalLinks==null)
                 {
-					_externalReferences = new ExcelExternalReferenceCollection(this);
+					_externalLinks = new ExcelExternalLinksCollection(this);
 
 				}
-				return _externalReferences;
+				return _externalLinks;
 
 			}
         }
@@ -1102,9 +1103,9 @@ namespace OfficeOpenXml
 				SavePivotTableCaches();
 			}
 
-			if(_externalReferences!=null)
+			if(_externalLinks!=null)
             {
-                SaveExternalReferences();
+                SaveExternalLinks();
             }
 
             // save the workbook
@@ -1175,9 +1176,9 @@ namespace OfficeOpenXml
 
 		}
 
-        private void SaveExternalReferences()
+        private void SaveExternalLinks()
         {
-            foreach (var er in _externalReferences)
+            foreach (var er in _externalLinks)
             {
                 if (er.Part == null)
                 {

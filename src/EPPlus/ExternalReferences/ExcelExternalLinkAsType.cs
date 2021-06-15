@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Provides a simple way to type cast <see cref="ExcelExternalLink"/> object top its top level class.
+    /// </summary>
     public class ExcelExternalLinkAsType
     {
         ExcelExternalLink _externalLink;
@@ -29,7 +32,7 @@ namespace OfficeOpenXml.ExternalReferences
             return _externalLink as T;
         }
         /// <summary>
-        /// Return the external link as an external workbook. If the external link is not of type ExcelExternalBook, null is returned
+        /// Return the external link as an external workbook. If the external link is not of type <see cref="ExcelExternalBook" />, null is returned
         /// </summary>
         public ExcelExternalWorkbook ExternalWorkbook
         {

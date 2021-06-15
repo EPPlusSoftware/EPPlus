@@ -12,8 +12,14 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Represents a cell value of an external worksheets cell.
+    /// </summary>
     public class ExcelExternalCellValue
     {
+        /// <summary>
+        /// The address of the cell
+        /// </summary>
         public string Address 
         { 
             get 
@@ -21,9 +27,21 @@ namespace OfficeOpenXml.ExternalReferences
                 return ExcelCellBase.GetAddress(Row, Column); 
             } 
         }
+        /// <summary>
+        /// The row of the cell
+        /// </summary>
         public int Row { get; internal set; }
+        /// <summary>
+        /// The column of the cell
+        /// </summary>
         public int Column { get; internal set; }
+        /// <summary>
+        /// The value of the cell
+        /// </summary>
         public object Value { get; internal set; }
+        /// <summary>
+        /// A reference index to meta data for the cell
+        /// </summary>
         public int MetaDataReference { get; internal set; }
     }
 }

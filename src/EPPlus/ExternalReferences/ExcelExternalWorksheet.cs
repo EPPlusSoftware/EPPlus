@@ -16,12 +16,15 @@ using System;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// A representation of an external cached worksheet.
+    /// </summary>
     public class ExcelExternalWorksheet : IExcelExternalNamedItem
     {
         internal ExcelExternalWorksheet()
         {
             CachedNames = new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
-            CellValues = new ExcelExternalReferenceCellCollection(new CellStore<object>(), new CellStore<int>());
+            CellValues = new ExcelExternalCellCollection(new CellStore<object>(), new CellStore<int>());
         }
 
         internal ExcelExternalWorksheet(
@@ -30,13 +33,28 @@ namespace OfficeOpenXml.ExternalReferences
             ExcelExternalNamedItemCollection<ExcelExternalDefinedName> definedNames)
         {
             CachedNames = definedNames;
-            CellValues = new ExcelExternalReferenceCellCollection(values, metaData);
+            CellValues = new ExcelExternalCellCollection(values, metaData);
         }
+        /// <summary>
+        /// The sheet id
+        /// </summary>
         public int SheetId { get; internal set; }
+        /// <summary>
+        /// The name of the worksheet.
+        /// </summary>
         public string Name { get; internal set; }
+        /// <summary>
+        /// If errors have occured on the last update of the cached values.
+        /// </summary>
         public bool RefreshError { get; internal set; }
+        /// <summary>
+        /// A collection of cached names for an external worksheet
+        /// </summary>
         public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> CachedNames { get; }
-        public ExcelExternalReferenceCellCollection CellValues 
+        /// <summary>
+        /// Cached cell values for the worksheet. Only cells referenced in the workbook are stored in the cache.
+        /// </summary>
+        public ExcelExternalCellCollection CellValues 
         { 
             get; 
         }

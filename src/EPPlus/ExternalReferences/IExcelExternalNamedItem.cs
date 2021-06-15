@@ -13,8 +13,14 @@
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// An interface for an external object that contains a name
+    /// </summary>
     public interface IExcelExternalNamedItem
     {
+        /// <summary>
+        /// The name
+        /// </summary>
         string Name { get; }
     }
 }

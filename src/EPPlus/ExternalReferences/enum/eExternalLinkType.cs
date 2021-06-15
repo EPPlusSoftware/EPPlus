@@ -17,8 +17,17 @@ namespace OfficeOpenXml.ExternalReferences
     /// </summary>
     public enum eExternalLinkType
     {
+        /// <summary>
+        /// The external link is of type <see cref="ExcelExternalWorkbook" />
+        /// </summary>
         ExternalWorkbook,
+        /// <summary>
+        /// The external link is of type <see cref="ExcelExternalDdeLink" />
+        /// </summary>
         DdeLink,
+        /// <summary>
+        /// The external link is of type <see cref="ExcelExternalOleLink" />
+        /// </summary>
         OleLink
     }
 }
