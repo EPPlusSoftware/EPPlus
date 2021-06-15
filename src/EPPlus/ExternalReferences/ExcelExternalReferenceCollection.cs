@@ -207,10 +207,11 @@ namespace OfficeOpenXml.ExternalReferences
                     return -1;
                 }
                 if (extRef.StartsWith("file:///")) extRef = extRef.Substring(8);
+
+                int ret = -1;
                 try
                 {
                     var fi = new FileInfo(extRef);
-                    int ret = -1;
                     for (int ix = 0; ix < _list.Count; ix++)
                     {
                         if (_list[ix].ExternalLinkType == eExternalLinkType.ExternalWorkbook)
