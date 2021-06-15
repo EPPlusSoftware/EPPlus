@@ -432,10 +432,10 @@ namespace OfficeOpenXml.FormulaParsing
         private static IRangeInfo GetExternalRangeInfo(ExcelAddressBase addr, string wsName, ExcelWorkbook wb)
         {
             ExcelExternalWorkbook externalWb;
-            var ix = wb.ExternalReferences.GetExternalReference(addr._wb);
+            var ix = wb.ExternalLinks.GetExternalLink(addr._wb);
             if (ix >= 0)
             {
-                externalWb = wb.ExternalReferences[ix].As.ExternalWorkbook;
+                externalWb = wb.ExternalLinks[ix].As.ExternalWorkbook;
             }
             else
             {
@@ -490,10 +490,10 @@ namespace OfficeOpenXml.FormulaParsing
         private INameInfo GetExternalName(string name)
         {
             var extRef = ExcelCellBase.GetWorkbookFromAddress(name);
-            var ix = _package.Workbook.ExternalReferences.GetExternalReference(extRef);
+            var ix = _package.Workbook.ExternalLinks.GetExternalLink(extRef);
             if (ix >= 0)
             {
-                var externalWorkbook = _package.Workbook.ExternalReferences[ix].As.ExternalWorkbook;
+                var externalWorkbook = _package.Workbook.ExternalLinks[ix].As.ExternalWorkbook;
                 if(externalWorkbook!=null)
                 {
                     if (externalWorkbook.Package == null)
@@ -794,9 +794,9 @@ namespace OfficeOpenXml.FormulaParsing
             if(ixEnd>0)
             {
                 var ix = name.Substring(1,ixEnd-1);
-                var extRef=_package.Workbook.ExternalReferences.GetExternalReference(ix);
+                var extRef=_package.Workbook.ExternalLinks.GetExternalLink(ix);
                 if (extRef < 0) return false;
-                var extBook = _package.Workbook.ExternalReferences[extRef].As.ExternalWorkbook;
+                var extBook = _package.Workbook.ExternalLinks[extRef].As.ExternalWorkbook;
                 if(extBook==null) return false;
                 var address = name.Substring(ixEnd+1);
                 if (address.StartsWith("!"))

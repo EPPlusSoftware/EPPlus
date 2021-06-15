@@ -1,5 +1,29 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.7.0
+### Fixed issues
+### Features
+* External References
+	* Adding, removing and break links to external workbooks.
+	* Updating external workbook value/defined name caches.
+	* Using external workbook caches in the formula parser.
+	* Using loaded external package (workbook) in the formula parser.
+* Enhances sorting support.
+	* Pivot table auto sort - Sort on data fields using pivot areas.
+	* Sort state in tables and auto filters. 
+	* Left-to-right sorting and sorting with custom lists.
+
+* Support for Show Data As on pivot table data field
+### Fixed issues
+* Support for ErrorBars on both X and Y axis on scatter, bubble and area charts.
+* Copying a worksheet to a new package fails with named styles in some cases. 
+* When having multiple identical named styles (with the same styles set) only the first is copied.
+* Handling of DBNull.Value in LoadFromDataTable function now works as expected.
+* Added HideDropDown property to Data validation of type list.
+* Added better exception messages for access to a package that has been disposed.
+* Handling drawing objects had a concurrency when the size and position were asjusted.
+* Pivot table caches with numeric/int and null values got corrupt due to an incorrect value on the containsMixedTypes attribute.
+
 ## Version 5.6.4
 ### Fixed issues
 * Setting TableColumn.CalculatedColumnFormula doesn't set the formula correctly on the range.

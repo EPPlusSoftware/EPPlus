@@ -12,12 +12,30 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Represents a DDE link. This class is read-only.
+    /// </summary>
     public class ExcelExternalDdeItem 
     {
-        public string Name { get; set; }
-        public bool Advise { get; set; }
-        public bool PreferPicture { get; set; }
-        public bool Ole { get; set; }
+        /// <summary>
+        /// The name of the DDE link item
+        /// </summary>
+        public string Name { get; internal set; }
+        /// <summary>
+        /// If the linked object should notify the application when the external data changes.
+        /// </summary>
+        public bool Advise { get; internal set; }
+        /// <summary>
+        /// If the linked object is represented by an image.
+        /// </summary>
+        public bool PreferPicture { get; internal set; }
+        /// <summary>
+        /// If this is item uses an ole technology.
+        /// </summary>
+        public bool Ole { get; internal set; }
+        /// <summary>
+        /// A collection of DDE values
+        /// </summary>
         public ExcelExternalDdeValueCollection Values { get; } = new ExcelExternalDdeValueCollection();
     }
 }

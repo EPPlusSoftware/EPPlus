@@ -9,19 +9,19 @@ using System.IO;
 namespace EPPlusTest.Core
 {
     [TestClass]
-    public class ExternalReferencesTest : TestBase
+    public class ExternalLinksTest : TestBase
     {
         //static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
             //_pck = OpenPackage("ExternalReferences.xlsx", true);
-            var outDir = _worksheetPath + "ExternalReferences";
+            var outDir = _worksheetPath + "ExternalLink";
             if (!Directory.Exists(outDir)) Directory.CreateDirectory(outDir);
             foreach (var f in Directory.GetFiles(_testInputPath + "ExternalReferences"))
             {
                 File.Copy(f, outDir+"\\"+new FileInfo(f).Name,true);
-            }            
+            }
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -34,17 +34,17 @@ namespace EPPlusTest.Core
             //if (File.Exists(fileName)) File.Copy(fileName, dirName + "\\ExternalReferencesRead.xlsx", true);
             }
         [TestMethod]
-        public void OpenAndReadExternalReferences()
+        public void OpenAndReadExternalLink()
         {
-            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalLink\\ExtRef.xlsx");
 
-            Assert.AreEqual(2, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(2, p.Workbook.ExternalLinks.Count);
 
-            Assert.AreEqual(1D, p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues["A2"].Value);
-            Assert.AreEqual(12D, p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues["C3"].Value);
+            Assert.AreEqual(1D, p.Workbook.ExternalLinks[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues["A2"].Value);
+            Assert.AreEqual(12D, p.Workbook.ExternalLinks[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues["C3"].Value);
 
             var c = 0;
-            foreach(var cell in p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues)
+            foreach(var cell in p.Workbook.ExternalLinks[0].As.ExternalWorkbook.CachedWorksheets["sheet1"].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
@@ -53,9 +53,9 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
-        public void OpenAndCalculateExternalReferencesFromCache()
+        public void OpenAndCalculateExternalLinkFromCache()
         {
-            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalLink\\ExtRef.xlsx");
 
             p.Workbook.ClearFormulaValues();
             p.Workbook.Calculate();
@@ -81,13 +81,13 @@ namespace EPPlusTest.Core
             Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)ws.Cells["F10"].Value).Type);
         }
         [TestMethod]
-        public void OpenAndCalculateExternalReferencesFromPackage()
+        public void OpenAndCalculateExternalLinkFromPackage()
         {
-            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalLinks\\ExtRef.xlsx");
 
-            p.Workbook.ExternalReferences.Directories.Add(new DirectoryInfo(_testInputPathOptional));
-            p.Workbook.ExternalReferences.LoadWorkbooks();
-            p.Workbook.ExternalReferences[0].As.ExternalWorkbook.Package.Workbook.Calculate();
+            p.Workbook.ExternalLinks.Directories.Add(new DirectoryInfo(_testInputPathOptional));
+            p.Workbook.ExternalLinks.LoadWorkbooks();
+            p.Workbook.ExternalLinks[0].As.ExternalWorkbook.Package.Workbook.Calculate();
             p.Workbook.ClearFormulaValues();
             p.Workbook.Calculate();
 
@@ -113,13 +113,13 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
-        public void DeleteExternalReferences()
+        public void DeleteExternalLink()
         {
-            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalLinks\\ExtRef.xlsx");
 
-            Assert.AreEqual(2, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(2, p.Workbook.ExternalLinks.Count);
 
-            p.Workbook.ExternalReferences.RemoveAt(0);
+            p.Workbook.ExternalLinks.RemoveAt(0);
 
             SaveWorkbook("ExtRefDeleted.xlsx",p);
         }
@@ -129,10 +129,10 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
 
-            Assert.AreEqual(62, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(62, p.Workbook.ExternalLinks.Count);
 
             var c = 0;
-            foreach (var cell in p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets[0].CellValues)
+            foreach (var cell in p.Workbook.ExternalLinks[0].As.ExternalWorkbook.CachedWorksheets[0].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
@@ -141,27 +141,27 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
-        public void DeleteExternalReferences1()
+        public void DeleteExternalLinks1()
         {
             var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
 
-            p.Workbook.ExternalReferences.RemoveAt(0);
-            p.Workbook.ExternalReferences.RemoveAt(8);
-            p.Workbook.ExternalReferences.RemoveAt(5);
+            p.Workbook.ExternalLinks.RemoveAt(0);
+            p.Workbook.ExternalLinks.RemoveAt(8);
+            p.Workbook.ExternalLinks.RemoveAt(5);
 
 
             SaveAndCleanup(p);
         }
 
         [TestMethod]
-        public void OpenAndReadExternalReferences2()
+        public void OpenAndReadExternalLinks2()
         {
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
 
-            Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(204, p.Workbook.ExternalLinks.Count);
 
             var c = 0;
-            foreach (var cell in p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets[0].CellValues)
+            foreach (var cell in p.Workbook.ExternalLinks[0].As.ExternalWorkbook.CachedWorksheets[0].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
@@ -169,17 +169,17 @@ namespace EPPlusTest.Core
             Assert.AreEqual(104, c);
         }
         [TestMethod]
-        public void OpenAndDeleteExternalReferences2()
+        public void OpenAndDeleteExternalLinks2()
         {
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
 
-            Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
-            p.Workbook.ExternalReferences.RemoveAt(103);
-            Assert.AreEqual(203, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(204, p.Workbook.ExternalLinks.Count);
+            p.Workbook.ExternalLinks.RemoveAt(103);
+            Assert.AreEqual(203, p.Workbook.ExternalLinks.Count);
             SaveAndCleanup(p);
         }
         [TestMethod]
-        public void OpenAndCalculateExternalReferences1()
+        public void OpenAndCalculateExternalLinks1()
         {
             var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
 
@@ -187,57 +187,57 @@ namespace EPPlusTest.Core
             SaveAndCleanup(p);
         }
         [TestMethod]
-        public void OpenAndCalculateExternalReferences2()
+        public void OpenAndCalculateExternalLinks2()
         {
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
 
-            Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(204, p.Workbook.ExternalLinks.Count);
             p.Workbook.Calculate();
             SaveAndCleanup(p);
         }
         [TestMethod]
-        public void OpenAndClearExternalReferences1()
+        public void OpenAndClearExternalLinks1()
         {
             var p = OpenTemplatePackage("ExternalReferencesText1.xlsx");
 
-            Assert.AreEqual(62, p.Workbook.ExternalReferences.Count);
-            p.Workbook.ExternalReferences.Clear();
-            Assert.AreEqual(0, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(62, p.Workbook.ExternalLinks.Count);
+            p.Workbook.ExternalLinks.Clear();
+            Assert.AreEqual(0, p.Workbook.ExternalLinks.Count);
             SaveWorkbook("ExternalReferencesText1_Cleared.xlsx", p);
         }
         [TestMethod]
-        public void OpenAndClearExternalReferences2()
+        public void OpenAndClearExternalLinks2()
         {
             var p = OpenTemplatePackage("ExternalReferencesText2.xlsx");
 
-            Assert.AreEqual(204, p.Workbook.ExternalReferences.Count);
-            p.Workbook.ExternalReferences.Clear();
-            Assert.AreEqual(0, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(204, p.Workbook.ExternalLinks.Count);
+            p.Workbook.ExternalLinks.Clear();
+            Assert.AreEqual(0, p.Workbook.ExternalLinks.Count);
             SaveWorkbook("ExternalReferencesText2_Cleared.xlsx", p);
         }
 
         [TestMethod]
-        public void OpenAndClearExternalReferences3()
+        public void OpenAndClearExternalLinks3()
         {
             var p = OpenTemplatePackage("ExternalReferencesText3.xlsx");
 
-            Assert.AreEqual(63, p.Workbook.ExternalReferences.Count);
-            p.Workbook.ExternalReferences.Clear();
-            Assert.AreEqual(0, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(63, p.Workbook.ExternalLinks.Count);
+            p.Workbook.ExternalLinks.Clear();
+            Assert.AreEqual(0, p.Workbook.ExternalLinks.Count);
             SaveWorkbook("ExternalReferencesText3_Cleared.xlsx", p);
         }
 
 
 
         [TestMethod]
-        public void OpenAndReadExternalReferences3()
+        public void OpenAndReadExternalLinks3()
         {
             var p = OpenTemplatePackage("ExternalReferencesText3.xlsx");
 
-            Assert.AreEqual(63, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(63, p.Workbook.ExternalLinks.Count);
 
             var c = 0;
-            foreach (var cell in p.Workbook.ExternalReferences[0].As.ExternalWorkbook.CachedWorksheets[0].CellValues)
+            foreach (var cell in p.Workbook.ExternalLinks[0].As.ExternalWorkbook.CachedWorksheets[0].CellValues)
             {
                 Assert.IsNotNull(cell.Value);
                 c++;
@@ -245,7 +245,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual(104, c);
         }
         [TestMethod]
-        public void OpenAndCalculateExternalReferences3()
+        public void OpenAndCalculateExternalLink3()
         {
             var p = OpenTemplatePackage("ExternalReferencesText3.xlsx");
 
@@ -253,19 +253,19 @@ namespace EPPlusTest.Core
             SaveAndCleanup(p);
         }
         [TestMethod]
-        public void OpenAndReadExternalReferencesDdeOle()
+        public void OpenAndReadExternalLinkDdeOle()
         {
             var p = OpenTemplatePackage("ExternalReferences\\dde.xlsx");
 
-            Assert.AreEqual(6, p.Workbook.ExternalReferences.Count);
+            Assert.AreEqual(6, p.Workbook.ExternalLinks.Count);
 
-            Assert.AreEqual(eExternalLinkType.DdeLink, p.Workbook.ExternalReferences[0].ExternalLinkType);
-            p.Workbook.ExternalReferences.LoadWorkbooks();
+            Assert.AreEqual(eExternalLinkType.DdeLink, p.Workbook.ExternalLinks[0].ExternalLinkType);
+            p.Workbook.ExternalLinks.LoadWorkbooks();
 
-            var book3 = p.Workbook.ExternalReferences[3].As.ExternalWorkbook;
+            var book3 = p.Workbook.ExternalLinks[3].As.ExternalWorkbook;
             Assert.AreEqual(p.File.DirectoryName+"\\fromwb1.xlsx", book3.File.FullName, true);
             Assert.IsNotNull(book3.Package);
-            var book4 = p.Workbook.ExternalReferences[4].As.ExternalWorkbook;
+            var book4 = p.Workbook.ExternalLinks[4].As.ExternalWorkbook;
             Assert.AreEqual(p.File.DirectoryName + "\\extref.xlsx", book4.File.FullName, true);
             Assert.IsNotNull(book4.Package);
             SaveWorkbook("dde.xlsx",p);
@@ -276,10 +276,10 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
-            var er = p.Workbook.ExternalReferences[0].As.ExternalWorkbook;
+            var er = p.Workbook.ExternalLinks[0].As.ExternalWorkbook;
             var excelCache = GetExternalCache(er);
 
-            p.Workbook.ExternalReferences[0].As.ExternalWorkbook.UpdateCache();
+            p.Workbook.ExternalLinks[0].As.ExternalWorkbook.UpdateCache();
             var epplusCache = GetExternalCache(er);
 
             foreach (var key in excelCache.Keys)
@@ -308,7 +308,7 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
-        public void AddExternalReferenceShouldBeSameAsExcel()
+        public void AddExternalLinkShouldBeSameAsExcel()
         {
             var p = OpenPackage("AddedExtRef.xlsx", true);
             var ws1=CreateWorksheet1(p);
@@ -324,13 +324,13 @@ namespace EPPlusTest.Core
             ws1.Cells["E3"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A3";
             ws1.Cells["F3"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B3";
             ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
-            var er = p.Workbook.ExternalReferences.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+            var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
             
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
 
             er.UpdateCache();
             ws1.Calculate();
-            p.Workbook.ExternalReferences.UpdateCaches();
+            p.Workbook.ExternalLinks.UpdateCaches();
 
             Assert.AreEqual(2220D, ws1.Cells["G5"].Value);
             SaveAndCleanup(p);
@@ -352,7 +352,7 @@ namespace EPPlusTest.Core
             ws1.Cells["E3"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A3";
             ws1.Cells["F3"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B3";
             ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
-            var er = p.Workbook.ExternalReferences.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+            var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
 
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
             ws1.Cells["G6"].Formula = $"'[FromWB1.xlsx]Sheet1'!FromF2*[FromWB1.xlsx]Sheet1!H6";
@@ -367,7 +367,7 @@ namespace EPPlusTest.Core
             var p = OpenPackage("AddedExtRefChart.xlsx", true);
             var ws = p.Workbook.Worksheets.Add("SheetWithChart");
 
-            var er = p.Workbook.ExternalReferences.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+            var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
             var chart = ws.Drawings.AddLineChart("line1", OfficeOpenXml.Drawing.Chart.eLineChartType.Line);
             var serie = chart.Series.Add("[1]Sheet1!A2:A3", "[1]Sheet1!B2:B3");
             er.UpdateCache();

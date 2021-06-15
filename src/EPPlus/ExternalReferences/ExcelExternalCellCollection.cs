@@ -17,13 +17,17 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.ExternalReferences
 {
-    public class ExcelExternalReferenceCellCollection : IEnumerable<ExcelExternalCellValue>, IEnumerator<ExcelExternalCellValue>
+    /// <summary>
+    /// A collection of <see cref="ExcelExternalCellValue" />
+    /// </summary>
+    public class ExcelExternalCellCollection
+        : IEnumerable<ExcelExternalCellValue>, IEnumerator<ExcelExternalCellValue>
     {
         internal CellStore<object> _values;
         private CellStore<int> _metaData;
         CellStoreEnumerator<object> _valuesEnum;
 
-        internal ExcelExternalReferenceCellCollection(CellStore<object> values, CellStore<int> metaData)
+        internal ExcelExternalCellCollection(CellStore<object> values, CellStore<int> metaData)
         {
             _values = values;
             _metaData = metaData;

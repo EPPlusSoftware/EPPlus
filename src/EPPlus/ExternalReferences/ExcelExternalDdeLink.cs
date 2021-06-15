@@ -23,6 +23,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Represents an external DDE link.
+    /// </summary>
     public class ExcelExternalDdeLink : ExcelExternalLink
     {
         internal ExcelExternalDdeLink(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement) : base (wb, reader, part, workbookElement)
@@ -75,6 +78,9 @@ namespace OfficeOpenXml.ExternalReferences
             }
         }
 
+        /// <summary>
+        /// The type of external link
+        /// </summary>
         public override eExternalLinkType ExternalLinkType
         {
             get
@@ -82,9 +88,18 @@ namespace OfficeOpenXml.ExternalReferences
                 return eExternalLinkType.DdeLink;
             }
         }
-        public string DdeService { get; set; }
-        public string DdeTopic { get; set; }
+        /// <summary>
+        /// Service name for the DDE connection
+        /// </summary>
+        public string DdeService { get; internal set; }
+        /// <summary>
+        /// Topic for DDE server. 
+        /// </summary>
+        public string DdeTopic { get; internal set; }
 
+        /// <summary>
+        /// A collection of <see cref="ExcelExternalDdeItem" />
+        /// </summary>
         public ExcelExternalDdeItemCollection DdeItems
         {
             get;

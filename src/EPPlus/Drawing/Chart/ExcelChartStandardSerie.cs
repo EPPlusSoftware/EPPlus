@@ -453,10 +453,10 @@ namespace OfficeOpenXml.Drawing.Chart
             var addr = new ExcelAddressBase(address);
             if (addr.IsExternal)
             {
-                var erIx = wb.ExternalReferences.GetExternalReference(addr._wb);
-                if (erIx >= 0 && wb.ExternalReferences[erIx].ExternalLinkType == ExternalReferences.eExternalLinkType.ExternalWorkbook)
+                var erIx = wb.ExternalLinks.GetExternalLink(addr._wb);
+                if (erIx >= 0 && wb.ExternalLinks[erIx].ExternalLinkType == ExternalReferences.eExternalLinkType.ExternalWorkbook)
                 {
-                    var er = wb.ExternalReferences[erIx].As.ExternalWorkbook;
+                    var er = wb.ExternalLinks[erIx].As.ExternalWorkbook;
                     if (er.Package == null)
                     {
                         CreateCacheFromExternalCache(node, er, addr);
@@ -546,10 +546,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 var wb = _chart.WorkSheet.Workbook;
                 if (addr.IsExternal)
                 {
-                    var erIx = wb.ExternalReferences.GetExternalReference(addr._wb);
+                    var erIx = wb.ExternalLinks.GetExternalLink(addr._wb);
                     if(erIx>=0)
                     {
-                        var er = wb.ExternalReferences[erIx].As.ExternalWorkbook;
+                        var er = wb.ExternalLinks[erIx].As.ExternalWorkbook;
                         if(er.Package!=null)
                         {
                             var ws = er.Package.Workbook.Worksheets[addr.WorkSheetName];

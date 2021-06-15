@@ -14,6 +14,9 @@ using OfficeOpenXml.Core;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// A collection of <see cref="ExcelExternalDdeValue" />
+    /// </summary>
     public class ExcelExternalDdeValueCollection : EPPlusReadOnlyList<ExcelExternalDdeValue>
     {
         public int Rows { get; set; }

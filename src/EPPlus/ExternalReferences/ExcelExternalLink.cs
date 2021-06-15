@@ -18,6 +18,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Base class for external references
+    /// </summary>
     public abstract class ExcelExternalLink
     {
         internal ExcelWorkbook _wb;
@@ -35,6 +38,9 @@ namespace OfficeOpenXml.ExternalReferences
             Part = part;
             WorkbookElement = workbookElement;
         }
+        /// <summary>
+        /// The type of external link
+        /// </summary>
         public abstract eExternalLinkType ExternalLinkType
         {
             get;
@@ -51,19 +57,32 @@ namespace OfficeOpenXml.ExternalReferences
             get;
             set;
         }
+        /// <summary>
+        /// Provides an easy way to type cast the object to it's top level class
+        /// </summary>
         public ExcelExternalLinkAsType As
         {
             get;
         }
+        /// <summary>
+        /// Returns the string representation of the object.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return ExternalLinkType.ToString();
         }
+        /// <summary>
+        /// The index of the external link. The index can be used in formulas between brackets to reference this link.
+        /// </summary>
+        /// <example>
+        /// <code>worksheet.Cells["A1"].Formula="'[1]Sheet1'!A1"</code>
+        /// </example>
         public int Index
         {
             get
             {
-                return _wb.ExternalReferences.GetIndex(this)+1;
+                return _wb.ExternalLinks.GetIndex(this)+1;
             }
         }
         internal static bool HasWebProtocol(string uriPath)

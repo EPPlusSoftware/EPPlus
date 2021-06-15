@@ -18,6 +18,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Represents an external DDE link.
+    /// </summary>
     public class ExcelExternalOleLink : ExcelExternalLink
     {
         internal ExcelExternalOleLink(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement) : base(wb, reader, part, workbookElement)
@@ -69,6 +72,9 @@ namespace OfficeOpenXml.ExternalReferences
             }
         }
 
+        /// <summary>
+        /// The type of external link.
+        /// </summary>
         public override eExternalLinkType ExternalLinkType
         {
             get
@@ -81,10 +87,16 @@ namespace OfficeOpenXml.ExternalReferences
             get;
             set;
         }
+        /// <summary>
+        /// A collection of OLE items
+        /// </summary>
         public ExcelExternalOleItemsCollection OleItems
         {
             get;
         } = new ExcelExternalOleItemsCollection();
+        /// <summary>
+        /// The id for the connection. This is the ProgID of the OLE object
+        /// </summary>
         public string ProgId { get; }
 
         internal override void Save(StreamWriter sw)

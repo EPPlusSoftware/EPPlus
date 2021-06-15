@@ -212,9 +212,9 @@ namespace OfficeOpenXml.ExternalReferences
             }
         }
         /// <summary>
-        /// The Uri to the external reference
+        /// The Uri to the external workbook. This property will be set by the <see cref="File"/> property on save, if it has been set.
         /// </summary>
-        public Uri ExternalReferenceUri
+        public Uri ExternalLinkUri
         {
             get
             {
@@ -257,7 +257,7 @@ namespace OfficeOpenXml.ExternalReferences
                             }
                         }                        
                         _file = new FileInfo(filePath);
-                        if(!_file.Exists && _wb.ExternalReferences.Directories.Count>0)
+                        if(!_file.Exists && _wb.ExternalLinks.Directories.Count>0)
                         {
                             SetDirectoryIfExists();
                         }
@@ -281,7 +281,7 @@ namespace OfficeOpenXml.ExternalReferences
 
         private void SetDirectoryIfExists()
         {
-            foreach(var d in _wb.ExternalReferences.Directories)
+            foreach(var d in _wb.ExternalLinks.Directories)
             {
                 var file = d.FullName;
                 if (file.EndsWith(Path.DirectorySeparatorChar.ToString()) == false)
@@ -376,7 +376,7 @@ namespace OfficeOpenXml.ExternalReferences
                 return;
             }
 
-            if (SetPackageFromOtherReference(_wb._externalReferences, file)==false)
+            if (SetPackageFromOtherReference(_wb._externalLinks, file)==false)
             {
                 _package = new ExcelPackage(file);
             }
@@ -387,7 +387,7 @@ namespace OfficeOpenXml.ExternalReferences
             Relation.TargetUri = new Uri(Relation.Target);
         }
 
-        private bool SetPackageFromOtherReference(ExcelExternalReferenceCollection erCollection, FileInfo file)
+        private bool SetPackageFromOtherReference(ExcelExternalLinksCollection erCollection, FileInfo file)
         {
             if (erCollection == null) return false;
             foreach (var er in erCollection)
@@ -400,7 +400,7 @@ namespace OfficeOpenXml.ExternalReferences
                         _package=wb._package;
                         return true;
                     }
-                    SetPackageFromOtherReference(wb._package?._workbook?._externalReferences, file);
+                    SetPackageFromOtherReference(wb._package?._workbook?._externalLinks, file);
                 }
             }
             return false;
@@ -541,8 +541,8 @@ namespace OfficeOpenXml.ExternalReferences
                         if(t.TokenTypeIsSet(TokenType.ExcelAddress))
                         {
                             ExcelAddressBase a = new ExcelAddressBase(t.Value);
-                            var ix = _wb.ExternalReferences.GetExternalReference(a._wb);
-                            if (ix >= 0 && _wb.ExternalReferences[ix] == this)
+                            var ix = _wb.ExternalLinks.GetExternalLink(a._wb);
+                            if (ix >= 0 && _wb.ExternalLinks[ix] == this)
                             {
                                 UpdateCacheForAddress(a, address);
                             }
@@ -552,8 +552,8 @@ namespace OfficeOpenXml.ExternalReferences
                             ExcelAddressBase.SplitAddress(t.Value, out string wbRef, out string wsRef, out string nameRef);
                             if (!string.IsNullOrEmpty(wbRef))
                             {
-                                var ix = _wb.ExternalReferences.GetExternalReference(wbRef);
-                                if (ix >= 0 && _wb.ExternalReferences[ix] == this)
+                                var ix = _wb.ExternalLinks.GetExternalLink(wbRef);
+                                if (ix >= 0 && _wb.ExternalLinks[ix] == this)
                                 {
                                     string name;
                                     if(string.IsNullOrEmpty(wsRef))
@@ -685,10 +685,16 @@ namespace OfficeOpenXml.ExternalReferences
             set;
         }
 
+        /// <summary>
+        /// A collection of cached defined names in the external workbook
+        /// </summary>
         public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> CachedNames
         {
             get;
         }
+        /// <summary>
+        /// A collection of cached worksheets in the external workbook
+        /// </summary>
         public ExcelExternalNamedItemCollection<ExcelExternalWorksheet> CachedWorksheets
         {
             get;
