@@ -55,7 +55,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void OpenAndCalculateExternalLinkFromCache()
         {
-            var p = OpenTemplatePackage("ExternalLink\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             p.Workbook.ClearFormulaValues();
             p.Workbook.Calculate();
@@ -83,7 +83,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void OpenAndCalculateExternalLinkFromPackage()
         {
-            var p = OpenTemplatePackage("ExternalLinks\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             p.Workbook.ExternalLinks.Directories.Add(new DirectoryInfo(_testInputPathOptional));
             p.Workbook.ExternalLinks.LoadWorkbooks();
@@ -115,7 +115,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void DeleteExternalLink()
         {
-            var p = OpenTemplatePackage("ExternalLinks\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             Assert.AreEqual(2, p.Workbook.ExternalLinks.Count);
 
