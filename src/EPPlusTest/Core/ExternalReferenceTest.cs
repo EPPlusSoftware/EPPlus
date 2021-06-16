@@ -16,7 +16,7 @@ namespace EPPlusTest.Core
         public static void Init(TestContext context)
         {
             //_pck = OpenPackage("ExternalReferences.xlsx", true);
-            var outDir = _worksheetPath + "ExternalLink";
+            var outDir = _worksheetPath + "ExternalReferences";
             if (!Directory.Exists(outDir)) Directory.CreateDirectory(outDir);
             foreach (var f in Directory.GetFiles(_testInputPath + "ExternalReferences"))
             {
@@ -36,7 +36,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void OpenAndReadExternalLink()
         {
-            var p = OpenTemplatePackage("ExternalLink\\ExtRef.xlsx");
+            var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
             Assert.AreEqual(2, p.Workbook.ExternalLinks.Count);
 
@@ -102,7 +102,6 @@ namespace EPPlusTest.Core
             Assert.AreEqual(16D, ws.Cells["F3"].Value);
             Assert.AreEqual(24D, ws.Cells["G3"].Value);
 
-            //Assert.AreEqual(20D, ws.Cells["H5"].Value);
             Assert.AreEqual(117D, ws.Cells["K5"].Value);
 
             Assert.AreEqual(111D, ws.Cells["H8"].Value);
