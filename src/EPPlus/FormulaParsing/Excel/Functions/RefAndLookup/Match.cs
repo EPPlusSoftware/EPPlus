@@ -73,6 +73,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
             while (navigator.MoveNext());
+
+            if (matchType == MatchType.ExactMatch && !lastValidIndex.HasValue)
+                return CreateResult(eErrorType.NA);
+
             return CreateResult(lastValidIndex, DataType.Integer);
         }
 
