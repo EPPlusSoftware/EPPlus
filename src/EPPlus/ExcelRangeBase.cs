@@ -2292,8 +2292,9 @@ namespace OfficeOpenXml
         /// Sort the range by value. Supports top-down and left to right sort.
         /// </summary>
         /// <param name="configuration">An action of <see cref="RangeSortOptions"/> where sort parameters can be set.</param>
-        /// <example>
-        /// // 1. ort rows (top-down)
+        /// <example> 
+        /// <code>
+        /// // 1. Sort rows (top-down)
         /// 
         /// // The Column function takes the zero based column index in the range
         /// worksheet.Cells["A1:D15"].Sort(x => x.SortBy.Column(0).ThenSortBy.Column(1, eSortOrder.Descending));
@@ -2305,6 +2306,7 @@ namespace OfficeOpenXml
         /// // 3. Sort using a custom list
         /// worksheet.Cells["A1:D15"].Sort(x => x.SortBy.Column(0).UsingCustomList("S", "M", "L", "XL"));
         /// worksheet.Cells["A1:D15"].Sort(x => x.SortLeftToRightBy.Row(0).UsingCustomList("S", "M", "L", "XL"));
+        /// </code>
         /// </example>
         public void Sort(Action<RangeSortOptions> configuration)
         {
@@ -2318,12 +2320,14 @@ namespace OfficeOpenXml
         /// use the <see cref="RangeSortOptions.SortBy"/> or <see cref="RangeSortOptions.SortLeftToRightBy"/> properties to build up your sort parameters.
         /// </summary>
         /// <param name="options"><see cref="RangeSortOptions">Options</see> for the sort</param>
-        /// <example>
+        /// <example> 
+        /// <code>
         /// var options = RangeSortOptions.Create();
         /// var builder = options.SortBy.Column(0);
         /// builder.ThenSortBy.Column(2).UsingCustomList("S", "M", "L", "XL");
         /// builder.ThenSortBy.Column(3);
         /// worksheet.Cells["A1:D15"].Sort(options);
+        /// </code>
         /// </example>
         public void Sort(RangeSortOptions options)
         {

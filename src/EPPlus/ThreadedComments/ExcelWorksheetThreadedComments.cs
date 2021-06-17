@@ -32,6 +32,7 @@ namespace OfficeOpenXml.ThreadedComments
             Persons = persons;
             _worksheet = worksheet;
             _package = worksheet._package;
+            _worksheet._threadedCommentsStore = new Core.CellStore.CellStore<int>();
             LoadThreads();
         }
 

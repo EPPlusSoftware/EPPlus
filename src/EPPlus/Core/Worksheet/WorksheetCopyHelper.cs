@@ -732,7 +732,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //First copy the drawing XML
             string xml = copy.ThreadedComments.ThreadedCommentsXml.InnerXml;
             var ix = added.SheetId;
-            var tcUri = UriHelper.ResolvePartUri(added.WorksheetUri, XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/threadedComments/threadedcomment{0}.xml", ref ix));
+            var tcUri = UriHelper.ResolvePartUri(added.WorksheetUri, XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/threadedComments/threadedComment{0}.xml", ref ix));
 
             var part = added._package.ZipPackage.CreatePart(tcUri, "application/vnd.ms-excel.threadedcomments+xml", added._package.Compression);
 
@@ -743,6 +743,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //Add the relationship ID to the worksheet xml.
             added.Part.CreateRelationship(tcUri, Packaging.TargetMode.Internal, ExcelPackage.schemaThreadedComment);
 
+            added.LoadThreadedComments();
             foreach (var t in added.ThreadedComments._threads)
             {
                 for (int i = 0; i < t.Comments.Count; i++)
@@ -767,7 +768,6 @@ namespace OfficeOpenXml.Core.Worksheet
                     wbDest.ThreadedCommentPersons.Add(p.DisplayName, p.UserId, p.ProviderId, p.Id);
                 }
             }
-            added.LoadThreadedComments();
         }
         private static void CopyHeaderFooterPictures(ExcelWorksheet Copy, ExcelWorksheet added)
         {
