@@ -58,7 +58,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 pck.ZipPackage.Flush();
 
                 //Create a relation to the workbook
-                string relID = worksheets.CreateWorkbookRel(name, sheetID, uriWorksheet, false);
+                string relID = worksheets.CreateWorkbookRel(name, sheetID, uriWorksheet, false, null);
 
                 ExcelWorksheet added = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, worksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
 

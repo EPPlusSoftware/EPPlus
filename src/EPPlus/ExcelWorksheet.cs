@@ -473,7 +473,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The unique identifier for the worksheet.
         /// </summary>
-        internal int SheetId { get { return (_sheetID); } }
+        internal int SheetId { get { return (_sheetID); } set { _sheetID = value; } }
 
         internal static bool NameNeedsApostrophes(string ws)
         {

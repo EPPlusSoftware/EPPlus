@@ -2246,6 +2246,16 @@ namespace EPPlusTest
                 SaveWorkbook("test-out.xlsx", package);
             }
         }
+        [TestMethod]
+        public void Issue415()
+        {
+            using (var package = OpenTemplatePackage("Issue415.xlsm"))
+            {
+                var wb = package.Workbook;
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
 

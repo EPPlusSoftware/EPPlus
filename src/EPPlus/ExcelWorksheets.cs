@@ -62,13 +62,19 @@ namespace OfficeOpenXml
                     string relId = sheetNode.Attributes.GetNamedItem("id", ExcelPackage.schemaRelationships).Value;
                     int sheetID = Convert.ToInt32(sheetNode.Attributes["sheetId"].Value);
 
-                    if (!String.IsNullOrEmpty(relId))
+                    if (string.IsNullOrEmpty(relId))
+                    {
+                        var ws = AddSheet(name, false, null, null, (XmlElement)sheetNode);
+                        ws.SheetId = sheetID;
+                        //_worksheets.Add(ix, ws);
+                    }
+                    else
                     {
                         var sheetRelation = pck.Workbook.Part.GetRelationship(relId);
                         Uri uriWorksheet = UriHelper.ResolvePartUri(pck.Workbook.WorkbookUri, sheetRelation.TargetUri);
 
-                        //add the worksheet
                         int positionID = ix + _pck._worksheetAdd;
+                        //add the worksheet
                         if (sheetRelation.RelationshipType.EndsWith("chartsheet"))
                         {
                             _worksheets.Add(ix, new ExcelChartsheet(_namespaceManager, _pck, relId, uriWorksheet, name, sheetID, positionID, null));
@@ -77,8 +83,8 @@ namespace OfficeOpenXml
                         {
                             _worksheets.Add(ix, new ExcelWorksheet(_namespaceManager, _pck, relId, uriWorksheet, name, sheetID, positionID, null));
                         }
-                        ix++;
                     }
+                    ix++;
                 }
             }
         }
@@ -135,8 +141,8 @@ namespace OfficeOpenXml
             ExcelWorksheet worksheet = AddSheet(Name, false, null);
             return worksheet;
         }
-        private ExcelWorksheet AddSheet(string Name, bool isChart, eChartType? chartType, ExcelPivotTable pivotTableSource = null)
-        {
+        private ExcelWorksheet AddSheet(string Name, bool isChart, eChartType? chartType, ExcelPivotTable pivotTableSource = null, XmlElement sheetElement=null)
+        {   
             lock (_worksheets)
             {
                 Name = ValidateFixSheetName(Name);
@@ -153,7 +159,7 @@ namespace OfficeOpenXml
                 worksheetXml.Save(streamWorksheet);
                 _pck.ZipPackage.Flush();
 
-                string rel = CreateWorkbookRel(Name, sheetID, uriWorksheet, isChart);
+                string rel = CreateWorkbookRel(Name, sheetID, uriWorksheet, isChart, sheetElement);
 
                 int positionID = _worksheets.Count + _pck._worksheetAdd;
                 ExcelWorksheet worksheet;
@@ -246,19 +252,22 @@ namespace OfficeOpenXml
         }
 
 
-        internal string CreateWorkbookRel(string Name, int sheetID, Uri uriWorksheet, bool isChart)
+        internal string CreateWorkbookRel(string Name, int sheetID, Uri uriWorksheet, bool isChart, XmlElement sheetElement)
         {
             //Create the relationship between the workbook and the new worksheet
             var rel = _pck.Workbook.Part.CreateRelationship(UriHelper.GetRelativeUri(_pck.Workbook.WorkbookUri, uriWorksheet), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/" + (isChart ? "chartsheet" : "worksheet"));
             _pck.ZipPackage.Flush();
 
             //Create the new sheet node
-            XmlElement worksheetNode = _pck.Workbook.WorkbookXml.CreateElement("sheet", ExcelPackage.schemaMain);
-            worksheetNode.SetAttribute("name", Name);
-            worksheetNode.SetAttribute("sheetId", sheetID.ToString());
-            worksheetNode.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
+            if(sheetElement==null)
+            {
+                sheetElement = _pck.Workbook.WorkbookXml.CreateElement("sheet", ExcelPackage.schemaMain);
+                sheetElement.SetAttribute("name", Name);
+                sheetElement.SetAttribute("sheetId", sheetID.ToString());
+                TopNode.AppendChild(sheetElement);
+            }
+            sheetElement.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
 
-            TopNode.AppendChild(worksheetNode);
             return rel.Id;
         }
 

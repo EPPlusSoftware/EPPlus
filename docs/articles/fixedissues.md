@@ -3,17 +3,17 @@
 ## Version 5.7.0
 ### Fixed issues
 ### Features
-* External References
+* External links
 	* Adding, removing and break links to external workbooks.
 	* Updating external workbook value/defined name caches.
 	* Using external workbook caches in the formula parser.
-	* Using loaded external package (workbook) in the formula parser.
-* Enhances sorting support.
+	* Using loaded external packages (workbooks) in the formula parser.
+* Enhanced sorting 
 	* Pivot table auto sort - Sort on data fields using pivot areas.
 	* Sort state in tables and auto filters. 
 	* Left-to-right sorting and sorting with custom lists.
 
-* Support for Show Data As on pivot table data field
+* Support for Show Data As on pivot table data fields
 ### Fixed issues
 * Support for ErrorBars on both X and Y axis on scatter, bubble and area charts.
 * Copying a worksheet to a new package fails with named styles in some cases. 
