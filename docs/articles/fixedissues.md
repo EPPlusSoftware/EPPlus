@@ -1,7 +1,6 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
 ## Version 5.7.0
-### Fixed issues
 ### Features
 * External links
 	* Adding, removing and break links to external workbooks.

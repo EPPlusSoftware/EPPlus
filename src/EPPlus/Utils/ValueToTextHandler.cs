@@ -144,14 +144,14 @@ namespace OfficeOpenXml.Utils
         {
             var split = format.Split(';');
             if (split.Length == 3)
-            {
+            {                
                 if(d>0)
                 {
-                    return d.ToString(split[0], overrideCultureInfo ?? nf.Culture);
+                    return FormatNumberExcel(d, split[0], overrideCultureInfo ?? nf.Culture);
                 }
                 else if(d<0)
                 {
-                    var s=d.ToString(split[1], overrideCultureInfo ?? nf.Culture);
+                    var s= FormatNumberExcel(d, split[1], overrideCultureInfo ?? nf.Culture);
                     if(s.StartsWith("--") && split[1].StartsWith("-"))
                     {
                         return s.Substring(1);
@@ -164,12 +164,12 @@ namespace OfficeOpenXml.Utils
                 }
                 else
                 {
-                    return d.ToString(split[2], overrideCultureInfo ?? nf.Culture);
+                    return FormatNumberExcel(d, split[2], overrideCultureInfo ?? nf.Culture);
                 }
             }
             else
             {
-                var s = d.ToString(format, overrideCultureInfo ?? nf.Culture);
+                var s = FormatNumberExcel(d, format, overrideCultureInfo ?? nf.Culture);
                 if (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.EndsWith(")", StringComparison.OrdinalIgnoreCase))
                 {
                     return s.Substring(1);
@@ -178,6 +178,18 @@ namespace OfficeOpenXml.Utils
                 {
                     return s;
                 }
+            }
+        }
+
+        private static string FormatNumberExcel(double d, string format, CultureInfo cultureInfo)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                return null;
+            }
+            else
+            {
+                return d.ToString(format, cultureInfo);
             }
         }
 

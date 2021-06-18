@@ -2255,6 +2255,16 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void Issue417()
+        {
+            using (var package = OpenTemplatePackage("Issue417.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                Assert.AreEqual("0", ws.Cells["A1"].Text);
+                Assert.AreEqual(null, ws.Cells["A2"].Text);
+            }
+        }
 
     }
 }
