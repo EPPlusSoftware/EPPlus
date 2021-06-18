@@ -2265,6 +2265,15 @@ namespace EPPlusTest
                 Assert.AreEqual(null, ws.Cells["A2"].Text);
             }
         }
+        [TestMethod]
+        public void Issue395()
+        {
+            using (var package = OpenTemplatePackage("Issue395.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
 
     }
 }
