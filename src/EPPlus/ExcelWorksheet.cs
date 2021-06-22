@@ -634,7 +634,7 @@ namespace OfficeOpenXml
                     XmlNode node = TopNode.SelectSingleNode("d:sheetViews/d:sheetView", NameSpaceManager);
                     if (node == null)
                     {
-                        CreateNode("d:sheetViews/d:sheetView");     //this one shouls always exist. but check anyway
+                        CreateNode("d:sheetViews/d:sheetView");     //this one should always exist. but check anyway
                         node = TopNode.SelectSingleNode("d:sheetViews/d:sheetView", NameSpaceManager);
                     }
                     _sheetView = new ExcelWorksheetView(NameSpaceManager, node, this);

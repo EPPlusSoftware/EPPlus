@@ -72,5 +72,17 @@ namespace EPPlusTest.Core.Worksheet
 
             Assert.AreEqual("", ws.View.TopLeftCell);
         }
+        [TestMethod]
+        public void SplitPanges()
+        {
+            using (var p = OpenTemplatePackage("SplitRead.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.IsNotNull(ws.View);
+                Assert.IsNotNull(ws.View.PaneSettings);
+                Assert.AreEqual(ePaneState.Frozen, ws.View.PaneSettings.State);
+                Assert.AreEqual(4, ws.View.Panes.Length);
+            }
+        }
     }
 }

@@ -10,18 +10,160 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Xml;
 
 namespace OfficeOpenXml
 {
-	/// <summary>
-	/// Represents the different view states of the worksheet
-	/// </summary>
-	public class ExcelWorksheetView : XmlHelper
+    public enum ePaneState
+    {
+        /// <summary>
+        /// Panes are frozen, but were not split being frozen.In this state, when the panes are unfrozen again, a single pane results, with no split. In this state, the split bars are not adjustable.
+        /// </summary>
+        Frozen,
+        /// <summary>
+        /// Frozen Split
+        /// Panes are frozen and were split before being frozen. In this state, when the panes are unfrozen again, the split remains, but is adjustable.
+        /// </summary>
+        FrozenSplit,
+        /// <summary>
+        /// Panes are split, but not frozen.In this state, the split bars are adjustable by the user.
+        /// </summary>
+        Split
+    }
+    public enum ePanePosition
+    {
+        /// <summary>
+        /// Bottom Left Pane.
+        /// Used when worksheet view has both vertical and horizontal splits.
+        /// Also used when the worksheet is horizontaly split only, specifying this is the bottom pane.
+        /// </summary>
+        BottomLeft,
+        /// <summary>
+        /// Bottom Right Pane. 
+        /// This property is only used when the worksheet has both vertical and horizontal splits.
+        /// </summary>
+        BottomRight,
+        /// <summary>
+        /// Top Left Pane.
+        /// Used when worksheet view has both vertical and horizontal splits.
+        /// Also used when the worksheet is horizontaly split only, specifying this is the top pane.
+        /// </summary>
+        TopLeft,
+        /// <summary>
+        /// Top Right Pane
+        /// Used when the worksheet view has both vertical and horizontal splits.
+        /// </summary>
+        TopRight
+    }
+
+    /// <summary>
+    /// Represents the different view states of the worksheet
+    /// </summary>
+    public class ExcelWorksheetView : XmlHelper
 	{
         /// <summary>
-        /// The worksheet panes after a freeze or split.
+        /// Defines general properties for the panes, if the worksheet is frozen or split.
+        /// </summary>
+        public class ExcelWorksheetViewPaneSettings : XmlHelper
+        {
+            internal ExcelWorksheetViewPaneSettings(XmlNamespaceManager ns, XmlNode topNode) :
+                base(ns, topNode)
+            {
+            }
+            public ePaneState State
+            {
+                get
+                {
+                    return GetXmlEnumNull<ePaneState>("@state", ePaneState.Split).Value;
+                }
+                internal set
+                {
+                    SetXmlNodeString("@state", value.ToEnumString());
+                }
+            }
+            /// <summary>
+            /// The active pane
+            /// </summary>
+            public ePanePosition ActivePanePosition
+            {
+                get
+                {
+                    return GetXmlEnumNull<ePanePosition>("@activePane", ePanePosition.TopLeft).Value;
+                }
+                set
+                {
+                    SetXmlNodeString("@activePane", value.ToEnumString());
+                }
+            }
+
+            /// <summary>
+            /// The horizontal position of the split. 1/20 of a point if the pane is split. Number of columns in the top pane if this pane is frozen.
+            /// </summary>
+            public double XSplit 
+            { 
+                get
+                {
+                    return GetXmlNodeDouble("@xSplit");
+                }
+                set
+                {
+                    SetXmlNodeDouble("@xSplit", value);
+                }
+            }
+            /// <summary>
+            /// The vertical position of the split. 1/20 of a point if the pane is split. Number of rows in the left pane if this pane is frozen.
+            /// </summary>
+            public double YSplit 
+            { 
+                get
+                {
+                    return GetXmlNodeDouble("@ySplit");
+                }
+                set
+                {
+                    SetXmlNodeDouble("@ySplit", value);
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string TopLeftCell 
+            { 
+                get
+                {
+                    return GetXmlNodeString("@topLeftCell");
+                }
+                set
+                {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        DeleteNode("@topLeftCell");
+                    }
+                    else if (ExcelCellBase.IsValidCellAddress(value))
+                    {
+                        SetXmlNodeString("@topLeftCell", value);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("The value must be a value cell address");
+                    }
+                }
+            }
+            internal static XmlNode CreatePaneElement(XmlNamespaceManager nameSpaceManager, XmlNode topNode)
+            {
+                var node = topNode.SelectSingleNode("d:pane", nameSpaceManager);
+                if (node==null)
+                {
+                    node = topNode.OwnerDocument.CreateElement("pane", ExcelPackage.schemaMain);
+                    topNode.PrependChild(node);
+                }
+                return topNode;
+            }
+        }
+        /// <summary>
+        /// The selection properties for panes after a freeze or split.
         /// </summary>
         public class ExcelWorksheetPanes : XmlHelper
         {
@@ -67,6 +209,19 @@ namespace OfficeOpenXml
                     }
                 }
             }
+            /// <summary>
+            /// The position of the pane.
+            /// </summary>
+            public ePanePosition Position
+            {
+                get
+                {
+                    return GetXmlEnumNull<ePanePosition>("@pane", ePanePosition.TopLeft).Value;
+                }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
             public int ActiveCellId
             {
                 get;
@@ -74,7 +229,7 @@ namespace OfficeOpenXml
             }
             private void CreateSelectionElement()
             {
- 	            _selectionNode=TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
+ 	            _selectionNode = TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
                 TopNode.AppendChild(_selectionNode);
                 TopNode=_selectionNode;             
             }
@@ -110,6 +265,7 @@ namespace OfficeOpenXml
                     }
                 }
             }
+
         }
         private ExcelWorksheet _worksheet;
 
@@ -122,13 +278,31 @@ namespace OfficeOpenXml
         /// <param name="xlWorksheet"></param>
 		internal ExcelWorksheetView(XmlNamespaceManager ns, XmlNode node,  ExcelWorksheet xlWorksheet) :
             base(ns, node)
-		{
+        {
             _worksheet = xlWorksheet;
             SchemaNodeOrder = new string[] { "sheetViews", "sheetView", "pane", "selection" };
-            Panes = LoadPanes(); 
-		}
+            if (_paneSettings == null)
+            {
+                _paneSettings = new ExcelWorksheetViewPaneSettings(NameSpaceManager, TopNode);
+            }
+            SetPaneSettings();
+            Panes = LoadPanes();
+        }
 
-		#endregion
+        private void SetPaneSettings()
+        {
+            var n = GetNode("d:pane");
+            if (n == null)
+            {
+                PaneSettings = null;
+            }
+            else
+            {
+                PaneSettings = new ExcelWorksheetViewPaneSettings(NameSpaceManager, n);
+            }
+        }
+
+        #endregion
         private ExcelWorksheetPanes[] LoadPanes()
         {
             XmlNodeList nodes = TopNode.SelectNodes("//d:selection", NameSpaceManager);
@@ -244,6 +418,15 @@ namespace OfficeOpenXml
                     ActiveCell = new ExcelCellAddress(sd._fromRow, sd._fromCol).Address;
                 }
             }
+        }
+        ExcelWorksheetViewPaneSettings _paneSettings = null;
+        /// <summary>
+        /// Contains settings for the active pane
+        /// </summary>
+        public ExcelWorksheetViewPaneSettings PaneSettings
+        {
+            get;
+            private set;
         }
 
         private bool IsActiveCellInSelection(ExcelAddressBase ac, ExcelAddressBase sd)
@@ -450,26 +633,44 @@ namespace OfficeOpenXml
         public void FreezePanes(int Row, int Column)
         {
             //TODO:fix this method to handle splits as well.
-            if (Row == 1 && Column == 1) UnFreezePanes();
-            string sqRef = SelectedRange, activeCell = ActiveCell;
-            
-            XmlElement paneNode = TopNode.SelectSingleNode(_paneNodePath, NameSpaceManager) as XmlElement;
-            if (paneNode == null)
+            if (Row == 1 && Column == 1)
             {
-                CreateNode(_paneNodePath);
-                paneNode = TopNode.SelectSingleNode(_paneNodePath, NameSpaceManager) as XmlElement;
+                UnFreezePanes();
+                return;
             }
-            paneNode.RemoveAll();   //Clear all attributes
-            if (Column > 1) paneNode.SetAttribute("xSplit", (Column - 1).ToString());
-            if (Row > 1) paneNode.SetAttribute("ySplit", (Row - 1).ToString());
-            paneNode.SetAttribute("topLeftCell", ExcelCellBase.GetAddress(Row, Column));
-            paneNode.SetAttribute("state", "frozen");
+            string sqRef = SelectedRange, activeCell = ActiveCell;
+            bool isSplit;
+            if(PaneSettings==null)
+            {
+                var node = ExcelWorksheetViewPaneSettings.CreatePaneElement(NameSpaceManager, TopNode);
+                PaneSettings = new ExcelWorksheetViewPaneSettings(NameSpaceManager, node);
+                isSplit = false;
+            }
+            else
+            {
+
+                isSplit = PaneSettings.State != ePaneState.Frozen;
+                PaneSettings.TopNode.RemoveAll();
+            }
+            
+            //if (paneNode == null)
+            //{
+            //    CreateNode(_paneNodePath);
+            //    paneNode = TopNode.SelectSingleNode(_paneNodePath, NameSpaceManager) as XmlElement;
+            //}
+            //paneNode.RemoveAll();   //Clear all attributes
+            if (Column > 1) PaneSettings.XSplit = Column - 1;
+            if (Row > 1) PaneSettings.YSplit = Row - 1;
+            PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(Row, Column);
+            PaneSettings.State = isSplit ? ePaneState.FrozenSplit : ePaneState.Frozen;
 
             RemoveSelection();
 
+            var paneNode = PaneSettings.TopNode;
             if (Row > 1 && Column==1)
             {
-                paneNode.SetAttribute("activePane", "bottomLeft");
+                PaneSettings.ActivePanePosition = ePanePosition.BottomLeft;
+                //paneNode.SetAttribute("activePane", "bottomLeft");
                 XmlElement sel=TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
                 sel.SetAttribute("pane", "bottomLeft");
                 if (activeCell != "") sel.SetAttribute("activeCell", activeCell);
@@ -479,7 +680,8 @@ namespace OfficeOpenXml
             }
             else if (Column > 1 && Row == 1)
             {
-                paneNode.SetAttribute("activePane", "topRight");
+                PaneSettings.ActivePanePosition = ePanePosition.TopRight;
+                //paneNode.SetAttribute("activePane", "topRight");
                 XmlElement sel = TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
                 sel.SetAttribute("pane", "topRight");
                 if (activeCell != "") sel.SetAttribute("activeCell", activeCell);
@@ -488,7 +690,8 @@ namespace OfficeOpenXml
             }
             else
             {
-                paneNode.SetAttribute("activePane", "bottomRight");
+                //paneNode.SetAttribute("activePane", "bottomRight");
+                PaneSettings.ActivePanePosition = ePanePosition.BottomRight;
                 XmlElement sel1 = TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
                 sel1.SetAttribute("pane", "topRight");
                 string cell = ExcelCellBase.GetAddress(1, Column);
@@ -511,6 +714,10 @@ namespace OfficeOpenXml
 
             }
             Panes=LoadPanes();
+        }
+        public void SplitPanes(int Row, int Column)
+        {
+
         }
         private void RemoveSelection()
         {
@@ -535,7 +742,8 @@ namespace OfficeOpenXml
             }
             RemoveSelection();
 
-            Panes=LoadPanes();
+            PaneSettings = null;
+            Panes = new ExcelWorksheetPanes[] { new ExcelWorksheetPanes(NameSpaceManager, TopNode) };
 
             SelectedRange = sqRef;
             ActiveCell = activeCell;
