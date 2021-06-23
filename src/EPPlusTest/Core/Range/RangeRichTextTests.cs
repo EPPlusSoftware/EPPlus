@@ -3,8 +3,10 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range
@@ -149,6 +151,37 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual("Cell A4", ws.Cells["A4"].Value);
             Assert.AreEqual("Cell D5", ws.Cells["D5"].Value);
         }
+        [TestMethod]
+        public void IsRichTextShouldKeepValues()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("IsRichTextKeepValues");
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            ws.Cells["A1"].Value = "Cell A1";
+            ws.Cells["B1"].Value = "Cell B1";
+            ws.Cells["A2"].Value = 2;
+            ws.Cells["B2"].Value = 3.2;
 
+            ws.Cells["A1:B2"].IsRichText=true;
+
+            Assert.IsTrue(ws.Cells["A1"].IsRichText);
+            Assert.IsTrue(ws.Cells["B1"].IsRichText);
+            Assert.IsTrue(ws.Cells["A2"].IsRichText);
+            Assert.IsTrue(ws.Cells["B2"].IsRichText);
+
+            Assert.AreEqual("Cell A1", ws.Cells["A1"].Value);
+            Assert.AreEqual("Cell B1", ws.Cells["B1"].Value);
+            Assert.AreEqual("2", ws.Cells["A2"].Value);
+            Assert.AreEqual("3.2", ws.Cells["B2"].Value);
+
+            ws.Cells["A1:B2"].IsRichText = false;
+
+            Assert.AreEqual("Cell A1", ws.Cells["A1"].Value);
+            Assert.AreEqual("Cell B1", ws.Cells["B1"].Value);
+            Assert.AreEqual("2", ws.Cells["A2"].Value);
+            Assert.AreEqual("3.2", ws.Cells["B2"].Value);
+
+            Thread.CurrentThread.CurrentCulture = ci;
+        }
     }
 }

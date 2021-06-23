@@ -200,7 +200,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    DeleteMe(address, false, false, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
+                    if(valueMethod!=Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
                     if (value != null)
                     {
                         for (int col = address.Start.Column; col <= address.End.Column; col++)
@@ -331,7 +331,23 @@ namespace OfficeOpenXml
         }
         private static void Set_IsRichText(ExcelRangeBase range, object value, int row, int col)
         {
-            range._worksheet._flags.SetFlagValue(row, col, (bool)value, CellFlags.RichText);
+            var b = (bool)value;
+            var ws = range.Worksheet;
+            var isRT = ws._flags.GetFlagValue(row, col, CellFlags.RichText); 
+            if (isRT != b)
+            {   
+                var rt = ws.GetRichText(row, col, ws.Cells[row,col]);
+                if (b)
+                {
+                    rt.Text = ValueToTextHandler.GetFormattedText(ws.GetValue(row, col), ws.Workbook, ws.GetStyleInner(row, col), false);
+                }
+                else
+                {
+                    Set_Value(range, rt.Text, row, col);
+                }
+
+                range._worksheet._flags.SetFlagValue(row, col, (bool)value, CellFlags.RichText);
+            }
         }
         private static void Exists_Comment(ExcelRangeBase range, object value, int row, int col)
         {
@@ -747,7 +763,14 @@ namespace OfficeOpenXml
         {
             get
             {
-                return ValueToTextHandler.GetFormattedText(Value, _workbook, StyleID , false);
+                if (IsSingleCell || IsName)
+                {
+                    return ValueToTextHandler.GetFormattedText(Value, _workbook, StyleID, false);
+                }
+                else
+                {
+                    return ValueToTextHandler.GetFormattedText(_worksheet.GetValue(_fromRow, _fromCol), _workbook, StyleID, false);
+                }
             }
         }
         /// <summary>
@@ -1336,20 +1359,8 @@ namespace OfficeOpenXml
                 return _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
             }
             set
-            {
-                var isRT = IsRichText;
-                if (isRT != value)
-                {
-                    if (value)
-                    {
-                        RichText.Text = Text;
-                    }
-                    else
-                    {
-                        Value = RichText.Text;
-                    }
-                    SetIsRichTextFlag(value);
-                }
+            {                
+               SetIsRichTextFlag(value);
             }
         }
 
@@ -2024,7 +2035,7 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues=true, bool clearFlagsAndformulas=true, bool clearMergedCells=true, bool clearHyperLinks=true, bool clearComments=true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues=true, bool clearFormulas = true, bool clearFlags=true, bool clearMergedCells=true, bool clearHyperLinks=true, bool clearComments=true)
         {
 
             //First find the start cell
@@ -2058,9 +2069,13 @@ namespace OfficeOpenXml
             {
                 _worksheet._values.Delete(fromRow, fromCol, rows, cols, shift);
             }
-            if(clearFlagsAndformulas)
+            if (clearFormulas)
             {
                 _worksheet._formulas.Delete(fromRow, fromCol, rows, cols, shift);
+            }
+
+            if (clearFlags)
+            {
                 _worksheet._flags.Delete(fromRow, fromCol, rows, cols, shift);
                 _worksheet._metadataStore.Delete(fromRow, fromCol, rows, cols, shift);
             }
@@ -2077,7 +2092,7 @@ namespace OfficeOpenXml
             {
                 foreach (var sub in Range.Addresses)
                 {
-                    DeleteMe(sub, shift, clearValues, clearFlagsAndformulas, clearMergedCells, clearHyperLinks, clearComments);
+                    DeleteMe(sub, shift, clearValues, clearFormulas, clearFlags, clearMergedCells, clearHyperLinks, clearComments);
                 }
             }
         }
