@@ -2274,7 +2274,31 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void Issue418()
+        {
+            using (var p = OpenPackage("issue418.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Test");
 
+                var mergetest = ws.Cells[2, 1, 2, 5];
+                mergetest.IsRichText = true;
+                mergetest.Merge = true;
+                mergetest.Style.WrapText = true;
+
+                var t1 = mergetest.RichText.Add($"Text 1", true);
+                t1.Size = 16;
+                t1.Bold = true;
+
+                var t2 = mergetest.RichText.Add($"Text 2", true);
+                t2.Size = 12;
+                t2.Bold = false;
+
+                ws.Row(2).Height = 50;
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
