@@ -753,7 +753,7 @@ namespace OfficeOpenXml
                         return;
                     }
                 }
-                for (int i = PositionId -1; i >= 0; i++)
+                for (int i = PositionId -1; i >= 0; i--)
                 {
                     if (worksheets[i + _package._worksheetAdd].Hidden == eWorkSheetHidden.Visible)
                     {

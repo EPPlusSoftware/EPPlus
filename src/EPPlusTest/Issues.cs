@@ -81,7 +81,7 @@ namespace EPPlusTest
                 Assert.AreEqual("02.02.10.008.3", ws.Cells["A1"].Text);
                 ws.Dispose();
             }
-        }   
+        }
         [TestMethod]
         public void Issue15031()
         {
@@ -1931,7 +1931,7 @@ namespace EPPlusTest
                 ws.Comments[0].RichText.Add("T");
                 ws.Comments[0].RichText.Add("x");
                 var ws2 = p.Workbook.Worksheets.Add("Copied S3", ws);
-                ws.InsertRow(2,1);
+                ws.InsertRow(2, 1);
                 ws.DeleteRow(2);
                 ws2.DeleteRow(2);
                 ws.InsertRow(2, 2);
@@ -1994,7 +1994,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("Tagging Template V15 - New Format.xlsx"))
             {
-                SaveWorkbook("Tagging Template V15 - New Format2.xlsx",p);
+                SaveWorkbook("Tagging Template V15 - New Format2.xlsx", p);
             }
         }
         [TestMethod]
@@ -2021,7 +2021,7 @@ namespace EPPlusTest
         }
 
         public void DefinedNamesAddressIssue()
-        { 
+        {
             using (var p = OpenPackage("defnames.xlsx"))
             {
                 var ws1 = p.Workbook.Worksheets.Add("Sheet1");
@@ -2031,7 +2031,7 @@ namespace EPPlusTest
                 Assert.AreEqual("Sheet1", name.Worksheet.Name);
                 name.Address = "Sheet3!B2:C6";
                 Assert.IsNull(name.Worksheet);
-                Assert.AreEqual("Sheet3" ,name.WorkSheetName);
+                Assert.AreEqual("Sheet3", name.WorkSheetName);
 
             }
         }
@@ -2063,8 +2063,8 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("HeaderFooterTest (1).xlsx"))
             {
-                ExcelWorksheet worksheet = p.Workbook.Worksheets[0]; 
-                Assert.IsFalse(worksheet.HeaderFooter.differentFirst); 
+                ExcelWorksheet worksheet = p.Workbook.Worksheets[0];
+                Assert.IsFalse(worksheet.HeaderFooter.differentFirst);
                 Assert.IsFalse(worksheet.HeaderFooter.differentOddEven);
                 SaveAndCleanup(p);
             }
@@ -2074,7 +2074,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("i354.xlsx"))
             {
-                var ws1=p.Workbook.Worksheets[0];
+                var ws1 = p.Workbook.Worksheets[0];
                 var ws2 = p.Workbook.Worksheets[2];
                 var pt = ws1.PivotTables.Add(ws1.Cells["A2"], ws2.Cells["A1:E3005"], "pt");
                 ws2.Cells["B2"].Value = eDateGroupBy.Years;
@@ -2139,7 +2139,7 @@ namespace EPPlusTest
             {
                 p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 9;
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = "Cell Value";                
+                ws.Cells["A1"].Value = "Cell Value";
                 ws.Cells.AutoFitColumns();
                 SaveAndCleanup(p);
             }
@@ -2180,12 +2180,12 @@ namespace EPPlusTest
             {
                 var p2 = new ExcelPackage();
                 var ws = p.Workbook.Worksheets["StylesTestSheet"];
-                
+
                 Assert.AreEqual("Normal", ws.Cells["A1"].StyleName);
                 Assert.AreEqual("MyCustomCellStyle", ws.Cells["A2"].StyleName);
                 Assert.AreEqual("Normal", ws.Cells["A3"].StyleName);
                 Assert.AreEqual("MyCalculationStyle", ws.Cells["A4"].StyleName);
-                
+
                 Assert.AreEqual("Normal", ws.Cells["B1"].StyleName);
                 Assert.AreEqual("MyBoldStyle1", ws.Cells["B2"].StyleName);
                 Assert.AreEqual("MyBoldStyle2", ws.Cells["B3"].StyleName);
@@ -2225,7 +2225,7 @@ namespace EPPlusTest
                 // Check that the named range exists with the expected address
                 Assert.AreEqual("Sheet1!$A$1:$A$9", namedRange.FullAddress);
                 Assert.AreEqual("Sheet1!$A$1:$A$9", namedRange.Address); // This line is currently failing
-                                                                  // Insert a row in the middle of the range
+                                                                         // Insert a row in the middle of the range
                 ws.InsertRow(5, 1);
                 // Check that the named range's address has been correctly updated
                 Assert.AreEqual("Sheet1!$A$1:$A$10", namedRange.FullAddress);
@@ -2299,6 +2299,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void IssueHidden()
+        {
+            using (var p = OpenTemplatePackage("workbook.xlsx"))
+            {
+                p.Workbook.Worksheets[p.Workbook.Worksheets.Count - 2].Hidden = eWorkSheetHidden.Hidden;
+                p.Workbook.Worksheets[p.Workbook.Worksheets.Count - 1].Hidden = eWorkSheetHidden.Hidden;
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
-
