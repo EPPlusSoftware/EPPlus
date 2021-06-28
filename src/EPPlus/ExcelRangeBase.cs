@@ -894,12 +894,41 @@ namespace OfficeOpenXml
                 return;
             }
 
+            #region MeasureString memoization
+            // This will call GDI+, and the result isn't cached.
+            // Calling this in the tight loop below is very slow.
+            var stringFormat = StringFormat.GenericDefault;
+
+            // Sheets usually contain plenty of duplicates
+            // Measurestring is very slow, so memoizing yields massive performance benefits.
+            // We use the string hash rather than the string to reduce memory load and lookup/compare cost.
+            // This means columns can be wrongly calculated on hash collisions. Hash collisions are rare,
+            // and they might not affect the size calculation anyway.
+
+            // To support implementations without Tuple/ValueTuple,
+            // as well as reduce som overhead, we combine our two
+            // 32-bit keys in a single 64-bit value
+            var measureCache = new Dictionary<ulong, SizeF>();
+
+            SizeF MeasureString(string t, int fntID)
+            {
+                ulong key = ((ulong)t.GetHashCode() << 32) | (ulong)fntID;
+                if (!measureCache.TryGetValue(key, out var size))
+                {
+                    size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                    measureCache.Add(key, size);
+                }
+
+                return size;
+            }
+            #endregion
+
             foreach (var cell in this)
             {
                 if (_worksheet.Column(cell.Start.Column).Hidden)    //Issue 15338
                     continue;
 
-                if (cell.Merge == true || cell.Style.WrapText) continue;
+                if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
                 var fntID = styles.CellXfs[cell.StyleID].FontId;
                 Font f;
                 if (fontCache.ContainsKey(fntID))
@@ -922,7 +951,7 @@ namespace OfficeOpenXml
                 var textForWidth = cell.TextForWidth;
                 var t = textForWidth + (ind > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', ind) : "");
                 if (t.Length > 32000) t = t.Substring(0, 32000); //Issue
-                var size = g.MeasureString(t, f, 10000, StringFormat.GenericDefault);
+                var size = MeasureString(t, fntID);
 
                 double width;
                 double r = styles.CellXfs[cell.StyleID].TextRotation;

@@ -310,7 +310,7 @@ namespace OfficeOpenXml
         protected internal void SetAddress(string address, ExcelWorkbook wb, string wsName)
         {
             address = address.Trim();
-            if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(address, "'") || Utils.ConvertUtil._invariantCompareInfo.IsPrefix(address, "["))
+            if (address.Length > 0 && (address[0] == '\'' || address[0] == '['))
             {
                 SetWbWs(address);
             }

@@ -263,14 +263,18 @@ namespace OfficeOpenXml.Table
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
             int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
             var colNum = _tbl.Address._fromCol + Position;
-            string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, fromRow, colNum);
+            SetFormulaCells(fromRow, toRow, colNum);
+        }
+
+        internal void SetFormulaCells(int fromRow, int toRow, int colNum)
+        {
+            string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
             bool needsTranslation = r1c1Formula != CalculatedColumnFormula;
 
             for (int row = fromRow; row <= toRow; row++)
             {
                 _tbl.WorkSheet.SetFormula(row, colNum, needsTranslation ? ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum) : r1c1Formula);
             }
-
         }
     }
 }

@@ -430,10 +430,17 @@ namespace EPPlusTest.Table
 
                 var formula = "mytable[[#this row],[Sales]]+mytable[[#this row],[VAT]]";
                 table.Columns[4].CalculatedColumnFormula = formula;
+                
+                //Assert
                 Assert.AreEqual(formula, table.Columns[4].CalculatedColumnFormula);
                 Assert.AreEqual(formula, sheet.Cells["G2"].Formula);
                 Assert.AreEqual(formula, sheet.Cells["G3"].Formula);
                 Assert.AreEqual(formula, sheet.Cells["G11"].Formula);
+
+                table.AddRow(3);
+                Assert.AreEqual(formula, sheet.Cells["G13"].Formula);
+
+
                 SaveAndCleanup(package);
             }
         }

@@ -839,6 +839,8 @@ namespace OfficeOpenXml.Table
 
             WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
 
+            ExtendCalculatedFormulas(range);
+
             if (copyStyles)
             {
                 int copyFromRow = isFirstRow ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
@@ -850,6 +852,17 @@ namespace OfficeOpenXml.Table
             }
 
             return range;
+        }
+
+        private void ExtendCalculatedFormulas(ExcelRangeBase range)
+        {
+            foreach(var c in Columns)
+            {
+                if(!string.IsNullOrEmpty(c.CalculatedColumnFormula))
+                {
+                    c.SetFormulaCells(range._fromRow, range._toRow, range._fromCol + c.Position);
+                }
+            }
         }
 
         private void CopyStylesFromRow(string address, int copyRow)
