@@ -928,7 +928,7 @@ namespace OfficeOpenXml
                 if (_worksheet.Column(cell.Start.Column).Hidden)    //Issue 15338
                     continue;
 
-                if (cell.Merge == true || cell.Style.WrapText) continue;
+                if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
                 var fntID = styles.CellXfs[cell.StyleID].FontId;
                 Font f;
                 if (fontCache.ContainsKey(fntID))
