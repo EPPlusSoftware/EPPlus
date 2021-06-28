@@ -73,16 +73,54 @@ namespace EPPlusTest.Core.Worksheet
             Assert.AreEqual("", ws.View.TopLeftCell);
         }
         [TestMethod]
-        public void SplitPanges()
+        public void ReadFrozenPanes()
         {
-            using (var p = OpenTemplatePackage("SplitRead.xlsx"))
+            using (var p = OpenTemplatePackage("FrozenRead.xlsx"))
             {
+                //Worksheet 1
                 var ws = p.Workbook.Worksheets[0];
                 Assert.IsNotNull(ws.View);
                 Assert.IsNotNull(ws.View.PaneSettings);
                 Assert.AreEqual(ePaneState.Frozen, ws.View.PaneSettings.State);
                 Assert.AreEqual(4, ws.View.Panes.Length);
+                Assert.AreEqual("H56" ,ws.View.PaneSettings.TopLeftCell);
+                Assert.AreEqual(7D, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(7D, ws.View.PaneSettings.XSplit);
+
+                //Worksheet 2
+                ws = p.Workbook.Worksheets[1];
+                Assert.IsNotNull(ws.View);
+                Assert.IsNotNull(ws.View.PaneSettings);
+                Assert.AreEqual(ePaneState.Frozen, ws.View.PaneSettings.State);
+                Assert.AreEqual(ePanePosition.BottomRight, ws.View.PaneSettings.ActivePanePosition);
+                Assert.AreEqual(3, ws.View.Panes.Length);
+                Assert.AreEqual("D8", ws.View.PaneSettings.TopLeftCell);
+                Assert.AreEqual(7D, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(3D, ws.View.PaneSettings.XSplit);
             }
+        }
+        [TestMethod]
+        public void ReadSplitPanes()
+        {
+            using (var p = OpenTemplatePackage("SplitPanes.xlsx"))
+            {
+                //Worksheet 1
+                var ws = p.Workbook.Worksheets[0];
+                Assert.IsNotNull(ws.View);
+                Assert.IsNotNull(ws.View.PaneSettings);
+                Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+                Assert.AreEqual(4, ws.View.Panes.Length);
+
+                Assert.AreEqual(4230, ws.View.PaneSettings.XSplit);
+                Assert.AreEqual(3300, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(3300, ws.Column(1).Width);
+            }
+        }
+        [TestMethod]
+        public void SplitPanes()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanes");
+            ws.View.SplitPanes(1, 1);
         }
     }
 }

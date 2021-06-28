@@ -109,7 +109,7 @@ namespace OfficeOpenXml
                 }
                 set
                 {
-                    SetXmlNodeDouble("@xSplit", value);
+                    SetXmlNodeDouble("@xSplit", value, false);
                 }
             }
             /// <summary>
@@ -123,7 +123,7 @@ namespace OfficeOpenXml
                 }
                 set
                 {
-                    SetXmlNodeDouble("@ySplit", value);
+                    SetXmlNodeDouble("@ySplit", value, false);
                 }
             }
             /// <summary>
@@ -715,10 +715,52 @@ namespace OfficeOpenXml
             }
             Panes=LoadPanes();
         }
-        public void SplitPanes(int Row, int Column)
+        public void SplitPanes(int rowsTop, int columnsLeft)
         {
+            var c= GetTopLeftCell();
+            if (columnsLeft > 0)
+            {
+                PaneSettings.XSplit = Convert.ToDouble(GetVisibleColumnWidth(c.Column, columnsLeft)) * 15;
+            }
+            if(rowsTop > 0)
+            {
+                PaneSettings.YSplit = Convert.ToDouble(GetVisibleRowWidth(c.Row, rowsTop)) * 15D;
+            }
+        }
+
+        private ExcelCellAddress GetTopLeftCell()
+        {
+            if(string.IsNullOrEmpty(PaneSettings?.TopLeftCell))
+            {
+                return new ExcelCellAddress();
+            }
+            else
+            {
+                return new ExcelCellAddress(PaneSettings.TopLeftCell);
+            }
+        }
+
+        private decimal GetVisibleColumnWidth(int topCol, int cols)
+        {
+            decimal mdw = _worksheet.Workbook.MaxFontWidth;
+            decimal width = 0;
+            for(var c=0;c < cols;c++)
+            {
+                width += _worksheet.GetColumnWidthPixels(topCol+c, mdw);
+            }
+            return width;
+        }
+        private decimal GetVisibleRowWidth(int leftRow, int rows)
+        {
+            decimal height = 0;
+            for (var r = 0; r < rows; r++)
+            {
+                height += Convert.ToDecimal(_worksheet.GetRowHeight(leftRow + r)) / 0.75M;
+            }
+            return height;
 
         }
+
         private void RemoveSelection()
         {
             //Find selection nodes and remove them            

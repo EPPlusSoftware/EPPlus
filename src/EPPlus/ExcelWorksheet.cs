@@ -667,6 +667,24 @@ namespace OfficeOpenXml
             }
         }
 
+        internal int GetColumnWidthPixels(int col, decimal mdw)
+        {
+            return (int)decimal.Truncate(((256 * GetColumnWidth(col + 1) + decimal.Truncate(128 / mdw)) / 256) * mdw);
+        }
+
+        internal decimal GetColumnWidth(int col)
+        {
+            var column = GetValueInner(0, col) as ExcelColumn;
+            if (column == null)   //Check that the column exists
+            {
+                return (decimal)DefaultColWidth;
+            }
+            else
+            {
+                return (decimal)Column(col).VisualWidth;
+            }
+        }
+
         private void ChangeNames(string value)
         {
             //Renames name in this Worksheet;
@@ -739,6 +757,72 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        internal double GetRowHeight(int row)
+        {
+            object o = null;
+            if (ExistsValueInner(row, 0, ref o) && o != null)   //Check that the row exists
+            {
+                var internalRow = (RowInternal)o;
+                if (internalRow.Hidden)
+                {
+                    return 0;
+                }
+                else if (internalRow.Height >= 0 && internalRow.CustomHeight)
+                {
+                    return internalRow.Height;
+                }
+                else
+                {
+                    return GetRowHeightFromCellFonts(row);
+                }
+            }
+            else
+            {
+                //The row exists, check largest font in row
+
+                /**** Default row height is assumed here. Excel calcualtes the row height from the larges font on the line. The formula to this calculation is undocumented, so currently its implemented with constants... ****/
+                return GetRowHeightFromCellFonts(row);
+            }
+        }
+        Dictionary<int, double> _textHeights = new Dictionary<int, double>();
+        private double GetRowHeightFromCellFonts(int row)
+        {
+            var dh = DefaultRowHeight;
+            if (double.IsNaN(dh) || CustomHeight == false)
+            {
+                var height = dh;
+
+                var cse = new CellStoreEnumerator<ExcelValue>(_values, row, 0, row, ExcelPackage.MaxColumns);
+                var styles = Workbook.Styles;
+                while (cse.Next())
+                {
+                    var xfs = styles.CellXfs[cse.Value._styleId];
+                    var f = styles.Fonts[xfs.FontId];
+                    double rh;
+                    if (_textHeights.ContainsKey(cse.Value._styleId))
+                    {
+                        rh = _textHeights[cse.Value._styleId];
+                    }
+                    else
+                    {
+                        rh = ExcelFontXml.GetFontHeight(f.Name, f.Size) * 0.75;
+                        _textHeights.Add(cse.Value._styleId, rh);
+                    }
+
+                    if (rh > height)
+                    {
+                        height = rh;
+                    }
+                }
+                return height;
+            }
+            else
+            {
+                return dh;
+            }
+        }
+
 
         private void DeactivateTab()
         {
