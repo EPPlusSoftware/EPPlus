@@ -120,7 +120,9 @@ namespace EPPlusTest.Core.Worksheet
         public void SplitPanes()
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanes");
-            ws.View.SplitPanes(1, 1);
+            ws.View.SplitPanes(2, 2);
+
+            ws.View.ActiveCell = "C3";
         }
     }
 }

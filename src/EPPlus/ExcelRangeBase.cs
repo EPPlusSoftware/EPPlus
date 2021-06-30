@@ -867,7 +867,8 @@ namespace OfficeOpenXml
             }
 
             var styles = _worksheet.Workbook.Styles;
-            var nf = styles.Fonts[styles.CellXfs[0].FontId];
+            var normalStyleIx = styles.GetNormalStyleIndex();
+            var nf = styles.Fonts[normalStyleIx < 0 ? 0 : normalStyleIx] ;
             var fs = FontStyle.Regular;
             if (nf.Bold) fs |= FontStyle.Bold;
             if (nf.UnderLine) fs |= FontStyle.Underline;
@@ -878,7 +879,7 @@ namespace OfficeOpenXml
             var normalSize = Convert.ToSingle(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
 
             Bitmap b;
-            Graphics g = null;
+            Graphics g;
             float dpiCorrectX, dpiCorrectY;
             try
             {
