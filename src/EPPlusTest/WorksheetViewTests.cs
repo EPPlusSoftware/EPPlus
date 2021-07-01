@@ -117,12 +117,53 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
         [TestMethod]
-        public void SplitPanes()
+        public void SplitPanesBoth()
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanes");
+            ws.View.TopLeftCell = "G200";
             ws.View.SplitPanes(2, 2);
+            ws.View.ActiveCell = "B2";
+        }
+        [TestMethod]
+        public void SplitPanesRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesRow");
+            ws.View.TopLeftCell = "A200";
+            ws.View.SplitPanes(2, 1);
+            ws.View.ActiveCell = "A201";
+            ws.View.Panes[0].ActiveCell = "A5";
+            ws.View.PaneSettings.TopLeftCell = "A182";
+        }
 
-            ws.View.ActiveCell = "C3";
+        [TestMethod]
+        public void SplitPanesColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesColumn");
+            ws.View.TopLeftCell = "A200";
+            ws.View.SplitPanes(0, 2);
+            ws.View.ActiveCell = "A201";
+            ws.View.Panes[0].ActiveCell = "A5";
+        }
+
+        [TestMethod]
+        public void SplitPanesNormal()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48");
+            //_pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 48;
+            ws.View.TopLeftCell = "G200";
+            ws.View.SplitPanes(3, 3);
+            ws.View.TopLeftPane.ActiveCell = "B2";
+        }
+        [TestMethod]
+        public void SplitPanesNormal48WiderRowHeader()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48RH");
+            //_pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
+            ws.View.TopLeftCell = "G2";
+            ws.View.SplitPanes(3, 3);
+            ws.View.ActiveCell = "B2";
         }
     }
 }
