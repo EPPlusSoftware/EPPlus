@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 
                 var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
-                var effectedAddress = GetEffectedRange(range, eShiftTypeDelete.Up);
+                var effectedAddress = GetAffectedRange(range, eShiftTypeDelete.Up);
                 DeleteDataValidations(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteConditionalFormatting(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Up);
@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
 
                 var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
-                var effectedAddress = GetEffectedRange(range, eShiftTypeDelete.Left);
+                var effectedAddress = GetAffectedRange(range, eShiftTypeDelete.Left);
                 DeleteDataValidations(range, eShiftTypeDelete.Left, ws, effectedAddress);
                 DeleteConditionalFormatting(range, eShiftTypeDelete.Left, ws, effectedAddress);
 
@@ -350,8 +350,8 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             ValidateDelete(range, shift);
 
-            var effectedAddress = GetEffectedRange(range, shift);
-            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetEffectedRange(range, shift, 1), false);
+            var effectedAddress = GetAffectedRange(range, shift);
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetAffectedRange(range, shift, 1), false);
             
             var ws = range.Worksheet;
             lock (ws)
@@ -774,7 +774,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static ExcelAddressBase GetEffectedRange(ExcelRangeBase range, eShiftTypeDelete shift, int? start = null)
+        private static ExcelAddressBase GetAffectedRange(ExcelRangeBase range, eShiftTypeDelete shift, int? start = null)
         {
             if (shift == eShiftTypeDelete.Up)
             {

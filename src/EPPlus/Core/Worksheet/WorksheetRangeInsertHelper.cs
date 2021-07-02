@@ -470,7 +470,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 return new ExcelAddressBase(range._fromRow, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             }
         }
-
+    
         private static void CopyStylesFromColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             //Copy style from another column?
