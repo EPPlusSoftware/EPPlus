@@ -155,6 +155,21 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        public void DataValidations_ShouldNotThrowIfAllowBlankIsSet()
+        {
+            var validation = _sheet.DataValidations.AddListValidation("A1");
+            validation.AllowBlank = true;
+            validation.Validate();
+        }
+
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        public void DataValidations_ShouldThrowIfAllowBlankIsNotSet()
+        {
+            var validation = _sheet.DataValidations.AddListValidation("A1");
+            validation.Validate();
+        }
+
+        [TestMethod]
         public void ExcelDataValidation_ShouldReplaceLastPartInWholeColumnRangeWithMaxNumberOfRowsOneColumn()
         {
             // Act

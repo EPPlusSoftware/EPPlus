@@ -253,7 +253,7 @@ namespace OfficeOpenXml.DataValidation
         {
             var address = Address.Address;
             // validate Formula1
-            if (string.IsNullOrEmpty(Formula1Internal))
+            if (string.IsNullOrEmpty(Formula1Internal) && !(AllowBlank ?? false))
             {
                 throw new InvalidOperationException("Validation of " + address + " failed: Formula1 cannot be empty");
             }
