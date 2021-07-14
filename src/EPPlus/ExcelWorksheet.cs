@@ -924,16 +924,20 @@ namespace OfficeOpenXml
                 if (double.IsNaN(ret))
                 {
                     var mfw = Convert.ToDouble(Workbook.MaxFontWidth);
-                    var widthPx = mfw * 7;
-                    var margin = Math.Truncate(mfw / 4 + 0.999) * 2 + 1;
-                    if (margin < 5) margin = 5;
-                    while (Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100 < 8)
-                    {
-                        widthPx++;
-                    }
-                    widthPx = widthPx % 8 == 0 ? widthPx : 8 - widthPx % 8 + widthPx;
-                    var width = Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100;
-                    return Math.Truncate((width * mfw + margin) / mfw * 256) / 256;
+                    var widthPx = mfw * 8 + 8;
+                    //var widthPx = mfw * 7;
+                    //var margin = Math.Truncate(mfw / 4 + 0.999) * 2 + 1;
+                    //if (margin < 5) margin = 5;
+                    //while (Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100 < 8)
+                    //{
+                    //    widthPx++;
+                    //}
+                    //widthPx = widthPx % 8 == 0 ? widthPx : 8 - widthPx % 8 + widthPx;
+                    //var width = Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100;
+                    //return Math.Truncate((width * mfw + margin) / mfw * 256) / 256;
+                    var width = Math.Truncate((widthPx-5) / mfw * 100 + 0.5) / 100;
+                    return Math.Truncate((width * mfw+5) / mfw * 256) / 256;
+
                 }
                 return ret;
             }

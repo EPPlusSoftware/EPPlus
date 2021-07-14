@@ -156,10 +156,10 @@ namespace EPPlusTest.Core.Worksheet
             ws.View.TopLeftPane.ActiveCell = "B2";
         }
         [TestMethod]
-        public void SplitPanesNormal48WiderRowHeader()
+        public void SplitPanesNormal11Ariel()
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48RH");
-            //_pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
             _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
             ws.View.TopLeftCell = "G2";
             ws.View.SplitPanes(3, 3);
