@@ -2309,5 +2309,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue430()
+        {
+            using (var p = OpenTemplatePackage("issue430.xlsx"))
+            {
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
