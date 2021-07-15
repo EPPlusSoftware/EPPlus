@@ -2318,5 +2318,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void VbaIssueLoad()
+        {
+            using (var p = OpenTemplatePackage("MavenUAP-1.xlsm"))
+            {
+                var workbook = p.Workbook;
+                var vba = p.Workbook.VbaProject;
+                SaveAndCleanup(p);
+            }
+        }        
     }
 }
