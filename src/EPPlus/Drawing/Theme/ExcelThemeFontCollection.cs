@@ -15,6 +15,7 @@ using OfficeOpenXml.Drawing.Style.Font;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Theme
@@ -65,6 +66,68 @@ namespace OfficeOpenXml.Drawing.Theme
             _lst.Add(f);
             return f;
         }
+        /// <summary>
+        /// Removes the item from the collection
+        /// </summary>
+        /// <param name="index">The index of the item to remove</param>
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= _lst.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            Remove(_lst[index]);
+        }
+        /// <summary>
+        /// Removes the item from the collection
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        public void Remove(ExcelDrawingFontBase item)
+        {
+            if (item is ExcelDrawingFontSpecial sf)
+            {
+                throw new InvalidOperationException("Cant remove this type of font.");
+            }
+            item.TopNode.ParentNode.RemoveChild(item.TopNode);
+            _lst.Remove(item);
+        }
+
+        /// <summary>
+        /// Set the latin font of the collection
+        /// </summary>
+        /// <param name="typeface">The typeface, or name of the font</param>
+        public void SetLatinFont(string typeface)
+        {
+            SetSpecialFont(typeface, eFontType.Latin);
+        }
+        /// <summary>
+        /// Set the complex font of the collection
+        /// </summary>
+        /// <param name="typeface">The typeface, or name of the font</param>
+        public void SetComplexFont(string typeface)
+        {
+            SetSpecialFont(typeface, eFontType.Complex);
+        }
+        /// <summary>
+        /// Set the East Asian font of the collection
+        /// </summary>
+        /// <param name="typeface">The typeface, or name of the font</param>
+        public void SetEastAsianFont(string typeface)
+        {
+            SetSpecialFont(typeface, eFontType.EastAsian);
+        }
+
+        private void SetSpecialFont(string typeface, eFontType fontType)
+        {
+            var f = _lst.Where((x => x is ExcelDrawingFontSpecial sf && sf.Type == fontType)).FirstOrDefault();
+            if (f == null)
+            {
+                f = AddSpecialFont(fontType, typeface);
+            }
+
+            f.Typeface = typeface;
+        }
+
         /// <summary>
         /// Adds a special font to the fonts collection
         /// </summary>

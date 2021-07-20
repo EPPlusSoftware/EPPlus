@@ -411,6 +411,29 @@ namespace EPPlusTest.Drawing
             LoadTestdata(ws); 
             SaveWorkbook("ThemeWoodTypeBlipFill.xlsx", _pck);
         }
+        [TestMethod]
+        public void ChangeFontOnDefaultTheme()
+        {
+            _pck = new ExcelPackage();
+            _pck.Workbook.ThemeManager.CreateDefaultTheme();
+
+            var theme = _pck.Workbook.ThemeManager.CurrentTheme;
+            Assert.AreEqual("Calibri Light", theme.FontScheme.MajorFont[0].Typeface);
+            Assert.AreEqual("Calibri", theme.FontScheme.MinorFont[0].Typeface);
+            theme.Name = "My custom theme";
+            theme.FontScheme.MajorFont.SetLatinFont("Arial");
+            theme.FontScheme.MinorFont.SetLatinFont("Arial");
+
+            Assert.AreEqual("Arial", theme.FontScheme.MajorFont[0].Typeface);
+            Assert.AreEqual("Arial", theme.FontScheme.MinorFont[0].Typeface);
+
+            //Set normal font to arial
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+
+            _pck.Workbook.Worksheets.Add("Sheet1");
+            SaveWorkbook("DefaultTheme.xlsx", _pck);
+        }
+
         #endregion
     }
 }   
