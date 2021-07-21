@@ -429,8 +429,13 @@ namespace EPPlusTest.Drawing
 
             //Set normal font to arial
             _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+            var ns=_pck.Workbook.Styles.CreateNamedStyle("New Style With Arial");
+            ns.Style.Font.Size = 12;
 
-            _pck.Workbook.Worksheets.Add("Sheet1");
+            var ws=_pck.Workbook.Worksheets.Add("Sheet1");
+            ws.Cells["A1"].Value = 1;
+            ws.Cells["A2"].Value = 2;
+            ws.Cells["A2"].StyleName = "New Style With Arial";
             SaveWorkbook("DefaultTheme.xlsx", _pck);
         }
 

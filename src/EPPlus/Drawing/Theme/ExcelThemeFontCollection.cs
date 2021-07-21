@@ -26,9 +26,11 @@ namespace OfficeOpenXml.Drawing.Theme
     public class ExcelThemeFontCollection : XmlHelper, IEnumerable<ExcelDrawingFontBase>
     {
         List<ExcelDrawingFontBase> _lst = new List<ExcelDrawingFontBase>();
-        internal ExcelThemeFontCollection(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager,topNode)
+        ExcelPackage _pck;
+        internal ExcelThemeFontCollection(ExcelPackage pck, XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager,topNode)
         {
-            foreach(XmlNode node in topNode.ChildNodes)
+            _pck = pck;
+            foreach (XmlNode node in topNode.ChildNodes)
             {
                 if(node.LocalName=="font")
                 {
@@ -98,7 +100,11 @@ namespace OfficeOpenXml.Drawing.Theme
         /// <param name="typeface">The typeface, or name of the font</param>
         public void SetLatinFont(string typeface)
         {
-            SetSpecialFont(typeface, eFontType.Latin);
+            if (_pck.Workbook.Styles.Fonts.Count > 0 && string.IsNullOrEmpty(typeface)==false)
+            {
+                _pck.Workbook.Styles.Fonts[0].Name = typeface;
+            }
+            SetSpecialFont(typeface, eFontType.Latin);            
         }
         /// <summary>
         /// Set the complex font of the collection
