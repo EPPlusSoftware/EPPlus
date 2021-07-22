@@ -2336,6 +2336,21 @@ namespace EPPlusTest
                 var vba = p.Workbook.VbaProject;
                 SaveAndCleanup(p);
             }
-        }        
+        }
+        [TestMethod]
+        public void Issue440()
+        {
+            using (var p = OpenTemplatePackage("issue440.xlsx"))
+            {
+                var wb = p.Workbook;
+                var worksheet = wb.Worksheets.Add("Pivot Tables");
+                var table = wb.Worksheets[0].Tables["Table1"];
+                ExcelPivotTable pt = worksheet.PivotTables.Add(worksheet.Cells["A1"], table, "PT1");
+                pt.RowFields.Add(pt.Fields["ColC"]);
+                pt.DataFields.Add(pt.Fields["ColB"]);
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
