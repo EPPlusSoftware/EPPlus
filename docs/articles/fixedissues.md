@@ -1,5 +1,12 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.7.2
+### Fixed issues
+* Pivot cache fields that contains both int's and float's corrupts the pivot cache.
+* Added new methods to themes major- and minor- font collection - SetLatinFont, SetComplexFont, SetEastAsianFont, Remove and RemoveAt.
+* Null or non existing external references to images on picture objects causes save to crash.
+* VBA projects with the "dir" stream containing the unhandled value 0x4a, caused the workbook to become corrupt.
+* Defined names with prefix and external reference throw a NullReference on load.
 ## Version 5.7.1
 ### Fixed issues
 * Using a number format with AM/PM resulted in an output of AM or PM only.
