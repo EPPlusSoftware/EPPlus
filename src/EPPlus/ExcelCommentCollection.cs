@@ -288,13 +288,13 @@ namespace OfficeOpenXml
             foreach (ExcelComment comment in _list.Where(x => x != null))
             {
                 var address = new ExcelAddressBase(comment.Address);
-                if (rows > 0 && address._fromRow >= fromRow && 
-                    address._fromCol >= fromCol && address._toCol <=toCol)
+                if (rows > 0 && address._fromRow >= fromRow &&
+                    address._fromCol >= fromCol && address._toCol <= toCol)
                 {
                     comment.Reference = comment.Range.AddRow(fromRow, rows).Address;
                 }
-                if(columns>0 && address._fromCol >= fromCol &&
-                    address._fromRow >= fromRow && address._toRow <= toRow)
+                if(columns>0 && address._fromRow >= fromRow &&
+                    address._fromCol >= fromCol && address._toCol <= toCol)
                 {
                     comment.Reference = comment.Range.AddColumn(fromCol, columns).Address;
                 }

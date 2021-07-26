@@ -2351,6 +2351,24 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue441()
+        {
+            using (var pck = OpenPackage("issue441.xlsx", true))
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var commentAddress = "B2";
+                wks.Comments.Add(wks.Cells[commentAddress], "This is a comment.", "author");
+                wks.Cells[commentAddress].Value = "This cell contains a comment.";
 
+                wks.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+                commentAddress = "C2";
+                Assert.AreEqual(1, wks.Comments.Count);
+                Assert.AreEqual("This is a comment.", wks.Comments[0].Text);
+                Assert.AreEqual("This cell contains a comment.", wks.Cells[commentAddress].GetValue<string>());
+                Assert.AreEqual(commentAddress, wks.Comments[0].Address);
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }
