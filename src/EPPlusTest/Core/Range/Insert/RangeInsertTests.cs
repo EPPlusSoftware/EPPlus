@@ -809,6 +809,16 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("B2:E2,C3:F4,B5:E5", any.Address.Address);
         }
+        [TestMethod]
+        public void ValidateDatavalidationShiftRight_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("dvright");
+            var any = ws.DataValidations.AddAnyValidation("B2");
+
+            ws.Cells["B2:C5"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("D2", ws.DataValidations[0].Address.Address);
+        }
 
         [TestMethod]
         public void ValidateDatavalPartialShiftRight_Bottom()

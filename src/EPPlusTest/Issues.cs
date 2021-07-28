@@ -2370,5 +2370,33 @@ namespace EPPlusTest
                 SaveAndCleanup(pck);
             }
         }
+        [TestMethod]
+        public void Issue442()
+        {
+            using (var pck = OpenPackage("issue442.xlsx", true))
+            {
+                // Add a sheet with data validation in cell B2
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dataValidationList = wks.DataValidations.AddListValidation("B2");
+                var values = dataValidationList.Formula.Values;
+                values.Add("Yes");
+                values.Add("No");
+                wks.Cells["B2"].Value = "Yes";
+
+                // Confirm this was added in the right place
+                Assert.AreEqual("Yes", wks.Cells["B2"].GetValue<string>());
+                Assert.AreEqual("B2", wks.DataValidations[0].Address.Address);
+
+                // Insert cells to shift this data validation to the right
+                wks.Cells["B2:C5"].Insert(eShiftTypeInsert.Right);
+
+                // Check the data validation has been moved to the right place
+                Assert.AreEqual("Yes", wks.Cells["D2"].GetValue<string>());
+                Assert.AreEqual("D2", wks.DataValidations[0].Address.Address);
+                
+                SaveAndCleanup(pck);
+            }
+        }
+
     }
 }

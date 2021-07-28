@@ -276,16 +276,13 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static ExcelAddressBase InsertSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
         {
-            if (address.CollideFullRowOrColumn(range))
+            if (address.CollideFullColumn(range._fromCol, range._toCol) && (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
             {
-                if (range.CollideFullColumn(address._fromCol, address._toCol))
-                {
-                    return address.AddColumn(range._fromCol, range.Columns);
-                }
-                else
-                {
-                    return address.AddRow(range._fromRow, range.Rows);
-                }
+                return address.AddRow(range._fromRow, range.Rows);
+            }
+            else if (address.CollideFullRow(range._fromRow, range._toRow) && (shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn))
+            {
+                return address.AddColumn(range._fromCol, range.Columns);
             }
             else
             {
