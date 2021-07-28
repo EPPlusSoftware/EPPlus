@@ -2309,5 +2309,94 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue430()
+        {
+            using (var p = OpenTemplatePackage("issue430.xlsx"))
+            {
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue435()
+        {
+            using (var p = OpenTemplatePackage("issue435.xlsx"))
+            {
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void VbaIssueLoad()
+        {
+            using (var p = OpenTemplatePackage("PlantillaDefectivo-NotWorking.xlsm"))
+            {
+                var workbook = p.Workbook;
+                var vba = p.Workbook.VbaProject;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue440()
+        {
+            using (var p = OpenTemplatePackage("issue440.xlsx"))
+            {
+                var wb = p.Workbook;
+                var worksheet = wb.Worksheets.Add("Pivot Tables");
+                var table = wb.Worksheets[0].Tables["Table1"];
+                ExcelPivotTable pt = worksheet.PivotTables.Add(worksheet.Cells["A1"], table, "PT1");
+                pt.RowFields.Add(pt.Fields["ColC"]);
+                pt.DataFields.Add(pt.Fields["ColB"]);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue441()
+        {
+            using (var pck = OpenPackage("issue441.xlsx", true))
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var commentAddress = "B2";
+                wks.Comments.Add(wks.Cells[commentAddress], "This is a comment.", "author");
+                wks.Cells[commentAddress].Value = "This cell contains a comment.";
+
+                wks.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+                commentAddress = "C2";
+                Assert.AreEqual(1, wks.Comments.Count);
+                Assert.AreEqual("This is a comment.", wks.Comments[0].Text);
+                Assert.AreEqual("This cell contains a comment.", wks.Cells[commentAddress].GetValue<string>());
+                Assert.AreEqual(commentAddress, wks.Comments[0].Address);
+                SaveAndCleanup(pck);
+            }
+        }
+        [TestMethod]
+        public void Issue442()
+        {
+            using (var pck = OpenPackage("issue442.xlsx", true))
+            {
+                // Add a sheet with data validation in cell B2
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dataValidationList = wks.DataValidations.AddListValidation("B2");
+                var values = dataValidationList.Formula.Values;
+                values.Add("Yes");
+                values.Add("No");
+                wks.Cells["B2"].Value = "Yes";
+
+                // Confirm this was added in the right place
+                Assert.AreEqual("Yes", wks.Cells["B2"].GetValue<string>());
+                Assert.AreEqual("B2", wks.DataValidations[0].Address.Address);
+
+                // Insert cells to shift this data validation to the right
+                wks.Cells["B2:C5"].Insert(eShiftTypeInsert.Right);
+
+                // Check the data validation has been moved to the right place
+                Assert.AreEqual("Yes", wks.Cells["D2"].GetValue<string>());
+                Assert.AreEqual("D2", wks.DataValidations[0].Address.Address);
+                
+                SaveAndCleanup(pck);
+            }
+        }
+
     }
 }

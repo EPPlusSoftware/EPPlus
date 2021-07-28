@@ -809,6 +809,16 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("B2:E2,C3:F4,B5:E5", any.Address.Address);
         }
+        [TestMethod]
+        public void ValidateDatavalidationShiftRight_Inside()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("dvright");
+            var any = ws.DataValidations.AddAnyValidation("B2");
+
+            ws.Cells["B2:C5"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual("D2", ws.DataValidations[0].Address.Address);
+        }
 
         [TestMethod]
         public void ValidateDatavalPartialShiftRight_Bottom()
@@ -1071,6 +1081,21 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("B2:F5,E3:F5", cf.Address.Address);
         }
 
+        [TestMethod]
+        public void ValidateCommentsShouldShiftRightOnInsertIntoRange()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("InsertRightComment");
+            var commentAddress = "B2";
+            ws.Comments.Add(ws.Cells[commentAddress], "This is a comment.", "author");
+            ws.Cells[commentAddress].Value = "This cell contains a comment.";
 
+            ws.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+            commentAddress = "C2";
+
+            Assert.AreEqual(1, ws.Comments.Count);
+            Assert.AreEqual("This is a comment.", ws.Comments[0].Text);
+            Assert.AreEqual("This cell contains a comment.", ws.Cells[commentAddress].GetValue<string>());
+            Assert.AreEqual(commentAddress, ws.Comments[0].Address);
+        }
     }
 }

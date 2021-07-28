@@ -1274,6 +1274,10 @@ namespace OfficeOpenXml
                 var addressChar = address[i];
                 if (addressChar == '\'')
                 {
+                    if(i>0 && isText==false && address.Length>i+1 && address[i - 1] == ' ' && address[i+1] != '\'')
+                    {
+                        return true;
+                    }
                     isText = !isText;
                 }
                 else if (isText == false && addressChar == '[')

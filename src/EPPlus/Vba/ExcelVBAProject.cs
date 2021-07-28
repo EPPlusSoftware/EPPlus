@@ -208,20 +208,32 @@ namespace OfficeOpenXml.VBA
                             break;
                         case "Document":
                             string mn = split[1].Substring(0, split[1].IndexOf("/&H", StringComparison.OrdinalIgnoreCase));
-                            Modules[mn].Type = eModuleType.Document;
+                            if (Modules.Exists(mn))
+                            {
+                                Modules[mn].Type = eModuleType.Document;
+                            }
                             break;
                         case "Package":
                             prevPackage = split[1];
                             break;
                         case "BaseClass":
-                            Modules[split[1]].Type = eModuleType.Designer;
-                            Modules[split[1]].ClassID = prevPackage;
+                            if (Modules.Exists(split[1]))
+                            {
+                                Modules[split[1]].Type = eModuleType.Designer;
+                                Modules[split[1]].ClassID = prevPackage;
+                            }
                             break;
                         case "Module":
-                            Modules[split[1]].Type = eModuleType.Module;
+                            if (Modules.Exists(split[1]))
+                            {
+                                Modules[split[1]].Type = eModuleType.Module;
+                            }
                             break;
                         case "Class":
-                            Modules[split[1]].Type = eModuleType.Class;
+                            if (Modules.Exists(split[1]))
+                            {
+                                Modules[split[1]].Type = eModuleType.Class;
+                            }
                             break;
                         case "HelpFile":
                         case "Name":
@@ -532,6 +544,7 @@ namespace OfficeOpenXml.VBA
                             currentModule.Private = true;
                             break;
                         default:
+                            br.ReadBytes((int)size);
                             break;
                     }
                 }

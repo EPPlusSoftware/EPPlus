@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_fontScheme == null)
                 {
-                    _fontScheme = new ExcelFontScheme(NameSpaceManager, TopNode.SelectSingleNode(_fontSchemePath, NameSpaceManager));
+                    _fontScheme = new ExcelFontScheme(_pck,NameSpaceManager, TopNode.SelectSingleNode(_fontSchemePath, NameSpaceManager));
                 }
                 return _fontScheme;
             }

@@ -509,17 +509,17 @@ namespace OfficeOpenXml.Style.XmlAccess
                 //Add qoutes
                 if (DataType == eFormatType.DateTime) SetDecimal(lstDec, sb); //Remove?
 
-                // AM/PM format
-                if (containsAmPm)
-                {
-                    format += "tt";
-                }
-
 
                 if (format == "")
                     format = sb.ToString();
                 else
                     text = sb.ToString();
+
+                // AM/PM format
+                if (containsAmPm)
+                {
+                    format += "tt";
+                }
 
                 if (forColWidth)
                 {

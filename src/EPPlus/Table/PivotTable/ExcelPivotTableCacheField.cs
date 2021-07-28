@@ -40,7 +40,8 @@ namespace OfficeOpenXml.Table.PivotTable
             Number = 0x8,
             DateTime = 0x10,
             Boolean = 0x20,
-            Error = 0x30
+            Error = 0x30,
+            Float = 0x40,
         }
         internal PivotTableCacheInternal _cache;
         internal ExcelPivotTableCacheField(XmlNamespaceManager nsm, XmlNode topNode, PivotTableCacheInternal cache, int index) : base(nsm, topNode)
@@ -131,7 +132,10 @@ namespace OfficeOpenXml.Table.PivotTable
             var noTypes = GetNoOfTypes(flags);
             if (noTypes > 1 && 
                 flags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) && 
+                flags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float | DataTypeFlags.Empty) &&
                 SharedItems.Count > 1)
             {
                 if ((flags & DataTypeFlags.String) == DataTypeFlags.String ||
@@ -255,7 +259,8 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 shNode.SetAttribute("containsNumber", "1");
             }
-            if ((flags & DataTypeFlags.Int) == DataTypeFlags.Int)
+            if ((flags & DataTypeFlags.Int) == DataTypeFlags.Int &&
+                (flags & DataTypeFlags.Float) != DataTypeFlags.Float)
             {
                 shNode.SetAttribute("containsInteger", "1");
             }
@@ -403,11 +408,15 @@ namespace OfficeOpenXml.Table.PivotTable
                         case TypeCode.Double:
                         case TypeCode.Single:
                             flags |= (DataTypeFlags.Number);
-                            if((flags&DataTypeFlags.Int)!= DataTypeFlags.Int && (Convert.ToDouble(si)%1==0))
+                            if ((flags & DataTypeFlags.Int) != DataTypeFlags.Int && (Convert.ToDouble(si) % 1 == 0))
                             {
                                 flags |= DataTypeFlags.Int;
                             }
-                            break;
+                            else if ((flags & DataTypeFlags.Float) != DataTypeFlags.Float && (Convert.ToDouble(si) % 1 != 0))
+                            {
+                                flags |= DataTypeFlags.Float;
+                            }
+                                break;
                         case TypeCode.DateTime:
                             flags |= DataTypeFlags.DateTime;
                             break;

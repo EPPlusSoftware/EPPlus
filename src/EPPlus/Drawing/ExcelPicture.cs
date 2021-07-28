@@ -52,10 +52,18 @@ namespace OfficeOpenXml.Drawing
                 container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
                 container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
-                Part = drawings.Part.Package.GetPart(container.UriPic);
                 var extension = Path.GetExtension(container.UriPic.OriginalString);
                 ContentType = PictureStore.GetContentType(extension);
-
+                if (drawings.Part.Package.PartExists(container.UriPic))
+                {
+                    Part = drawings.Part.Package.GetPart(container.UriPic);
+                }
+                else
+                {
+                    Part = null;
+                    _image = null;
+                    return;
+                }
 #if (Core)
                 try
                 {

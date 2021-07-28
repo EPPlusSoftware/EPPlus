@@ -1697,6 +1697,19 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void ValudateDateTextWithAMPM()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("dateText");
+                ws.Cells["A1"].Value = new DateTime(2021, 7, 6, 9, 29, 0);
+                ws.Cells["A1"].Style.Numberformat.Format = "[$-0409]M/d/yyyy h:mm AM/PM";
+
+                Assert.AreEqual("7/6/2021 9:29 AM", ws.Cells["A1"].Text);
+            }
+        }
+
+        [TestMethod]
         public void CopyWorkSheetWithInsertInSharedFormula()
         {
             using (ExcelPackage package = new ExcelPackage())
