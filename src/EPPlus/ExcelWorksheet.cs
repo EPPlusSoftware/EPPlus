@@ -924,20 +924,43 @@ namespace OfficeOpenXml
                 if (double.IsNaN(ret))
                 {
                     var mfw = Convert.ToDouble(Workbook.MaxFontWidth);
-                    var widthPx = mfw * 8 + 8;
-                    //var widthPx = mfw * 7;
-                    //var margin = Math.Truncate(mfw / 4 + 0.999) * 2 + 1;
-                    //if (margin < 5) margin = 5;
-                    //while (Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100 < 8)
-                    //{
-                    //    widthPx++;
-                    //}
-                    //widthPx = widthPx % 8 == 0 ? widthPx : 8 - widthPx % 8 + widthPx;
-                    //var width = Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100;
-                    //return Math.Truncate((width * mfw + margin) / mfw * 256) / 256;
-                    var width = Math.Truncate((widthPx-5) / mfw * 100 + 0.5) / 100;
-                    return Math.Truncate((width * mfw+5) / mfw * 256) / 256;
+                    var margin = 5d;
+                    var width = Math.Truncate((8 * mfw + margin) / mfw * 256d) / 256d;
+                    var widthPx = Math.Truncate(((256d * width + Math.Truncate(128d / mfw)) / 256d) * mfw);
+                    var widthPxAdj = widthPx + (8 - (widthPx % 8));
 
+                    var styles = _package.Workbook.Styles; 
+                    var size = styles.NamedStyles[styles.GetNormalStyleIndex()].Style.Font.Size;
+                    var sub = 0;
+                    if (size > 250)
+                    {
+                        sub = 12;
+                    }
+                    else if (size > 120)
+                    {
+                        sub = 6;
+                    }
+                    else if (size > 100)
+                    {
+                        sub = 5;
+                    }
+                    else if (size > 80)
+                    {
+                        sub = 4;
+                    }
+                    else if (size > 60)
+                    {
+                        sub = 3;
+                    }
+                    else if (mfw >= 28)
+                    {
+                        sub = 2;
+                    }
+                    else if (mfw >= 14)
+                    {
+                        sub = 1;
+                    }
+                    return Math.Truncate(widthPxAdj / (mfw-sub) * 256d) / 256d;
                 }
                 return ret;
             }
