@@ -774,12 +774,12 @@ namespace OfficeOpenXml
 
         private static void ValidateRows(int Row, int Column)
         {
-            if (Row < 1 || Row > ExcelPackage.MaxRows - 1)
+            if (Row < 0 || Row > ExcelPackage.MaxRows - 1)
             {
                 throw new ArgumentOutOfRangeException($"Row must not be negative, zero or exceed {ExcelPackage.MaxRows - 1}");
             }
 
-            if (Column < 1 || Column > ExcelPackage.MaxColumns - 1)
+            if (Column < 0 || Column > ExcelPackage.MaxColumns - 1)
             {
                 throw new ArgumentOutOfRangeException($"Column must not be negative, zero or exceed {ExcelPackage.MaxColumns - 1}");
             }

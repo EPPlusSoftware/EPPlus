@@ -929,37 +929,9 @@ namespace OfficeOpenXml
                     var widthPx = Math.Truncate(((256d * width + Math.Truncate(128d / mfw)) / 256d) * mfw);
                     var widthPxAdj = widthPx + (8 - (widthPx % 8));
 
-                    var styles = _package.Workbook.Styles; 
+                    var styles = _package.Workbook.Styles;
                     var size = styles.NamedStyles[styles.GetNormalStyleIndex()].Style.Font.Size;
-                    var sub = 0;
-                    if (size > 250)
-                    {
-                        sub = 12;
-                    }
-                    else if (size > 120)
-                    {
-                        sub = 6;
-                    }
-                    else if (size > 100)
-                    {
-                        sub = 5;
-                    }
-                    else if (size > 80)
-                    {
-                        sub = 4;
-                    }
-                    else if (size > 60)
-                    {
-                        sub = 3;
-                    }
-                    else if (mfw >= 28)
-                    {
-                        sub = 2;
-                    }
-                    else if (mfw >= 14)
-                    {
-                        sub = 1;
-                    }
+                    var sub = Math.Truncate(widthPxAdj / 120);
                     return Math.Truncate(widthPxAdj / (mfw-sub) * 256d) / 256d;
                 }
                 return ret;

@@ -31,24 +31,121 @@ namespace EPPlusTest.Core
                 ws.Column(2).Width = ws.DefaultColWidth;
                 SaveAndCleanup(p);
             }
+        }        
+        [TestMethod, Ignore]
+        public void ValidateWidthHeeboLight()
+        {
+            CreateNormalFontsFiles("Heebo Light");
         }
-        [TestMethod]
+        [TestMethod, Ignore]
+        public void ValidateWidthVerdana()
+        {
+            CreateNormalFontsFiles("Verdana");
+        }
+        [TestMethod, Ignore]
         public void ValidateWidthArial()
         {
-            foreach(var size in new int[] {6,8,9,10,11,12,14,16,18,20,24,26,28,30,32,36,38,40,42,44,48,72,96,128,256})
+            CreateNormalFontsFiles("Arial");
+        }
+        [TestMethod, Ignore]
+        public void ValidateWidthCalibri()
+        {
+            CreateNormalFontsFiles("Calibri");
+        }
+        [TestMethod, Ignore]
+        public void ValidateWidthTimesNewRoman()
+        {
+            CreateNormalFontsFiles("Times New Roman");
+        }        
+        private static void CreateNormalFontsFiles(string fontName)
+        {
+            var fontNameNoSpace = fontName.Replace(" ", "");
+            foreach (var size in new int[] { 6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 48, 72, 96, 128, 256 })
             {
-                using (var p = OpenPackage($"ColumnWidth\\columnWidthArial{size}.xlsx", true))
+                using (var p = OpenPackage($"ColumnWidth\\columnWidth{fontNameNoSpace}{size}.xlsx", true))
                 {
-                    var ws = p.Workbook.Worksheets.Add($"arial{size}");
-                    p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+                    var ws = p.Workbook.Worksheets.Add($"{fontNameNoSpace}{size}");
+                    p.Workbook.Styles.NamedStyles[0].Style.Font.Name = fontName;
                     p.Workbook.Styles.NamedStyles[0].Style.Font.Size = size;
-
-                    //var expectedWidth = 9.140625D;
-                    //Assert.AreEqual(expectedWidth, ws.DefaultColWidth);
 
                     ws.Column(2).Width = ws.DefaultColWidth;
                     SaveAndCleanup(p);
                 }
+            }
+        }
+
+        //[TestMethod]
+        //public void ValidateWidthArial()
+        //{
+        //    foreach(var size in new int[] {6,8,9,10,11,12,14,16,18,20,24,26,28,30,32,34,36,38,40,42,44,48,72,96,128,256})
+        //    {
+        //        using (var p = OpenPackage($"ColumnWidth\\columnWidthArial{size}.xlsx", true))
+        //        {
+        //            var ws = p.Workbook.Worksheets.Add($"Arial{size}");
+        //            p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+        //            p.Workbook.Styles.NamedStyles[0].Style.Font.Size = size;
+
+        //            //var expectedWidth = 9.140625D;
+        //            //Assert.AreEqual(expectedWidth, ws.DefaultColWidth);
+
+        //            ws.Column(2).Width = ws.DefaultColWidth;
+        //            SaveAndCleanup(p);
+        //        }
+        //    }
+        //}        
+        //[TestMethod]
+        //public void ValidateWidthCalibri()
+        //{
+        //    foreach (var size in new int[] { 6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 26, 28, 30, 32, 36, 38, 40, 42, 44, 48, 72, 96, 128, 256 })
+        //    {
+        //        using (var p = OpenPackage($"ColumnWidth\\columnWidthCalibri{size}.xlsx", true))
+        //        {
+        //            var ws = p.Workbook.Worksheets.Add($"Calibri{size}");
+        //            p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Calibri";
+        //            p.Workbook.Styles.NamedStyles[0].Style.Font.Size = size;
+
+        //            //var expectedWidth = 9.140625D;
+        //            //Assert.AreEqual(expectedWidth, ws.DefaultColWidth);
+
+        //            ws.Column(2).Width = ws.DefaultColWidth;
+        //            SaveAndCleanup(p);
+        //        }
+        //    }
+        //}
+        //[TestMethod]
+        //public void ValidateWidthTimesNewRoman()
+        //{
+        //    foreach (var size in new int[] { 6, 8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 26, 28, 30, 32, 36, 38, 40, 42, 44, 48, 72 })
+        //    {
+        //        using (var p = OpenPackage($"ColumnWidth\\columnWidthTimesNewRoman{size}.xlsx", true))
+        //        {
+        //            var ws = p.Workbook.Worksheets.Add($"TimesNewRoman{size}");
+        //            p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Times New Roman";
+        //            p.Workbook.Styles.NamedStyles[0].Style.Font.Size = size;
+
+        //            //var expectedWidth = 9.140625D;
+        //            //Assert.AreEqual(expectedWidth, ws.DefaultColWidth);
+
+        //            ws.Column(2).Width = ws.DefaultColWidth;
+        //            SaveAndCleanup(p);
+        //        }
+        //    }
+        //}
+
+        [TestMethod]
+        public void ValidateAutoFitWidthNormalArial28()
+        {
+            using (var p = OpenPackage($"columnWidthArial28.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add($"arial28");
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 28;
+
+                ws.Cells["A1"].Value = "12345678";
+                ws.Column(1).AutoFit();
+
+                ws.Column(2).Width = ws.DefaultColWidth;
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
