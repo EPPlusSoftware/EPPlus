@@ -21,7 +21,7 @@ namespace OfficeOpenXml.VBA
         /// Constructor.
         /// Defaults ReferenceRecordID to 0xD
         /// </summary>
-        internal ExcelVbaReference()
+        public ExcelVbaReference()
         {
             ReferenceRecordID = 0xD;
         }
