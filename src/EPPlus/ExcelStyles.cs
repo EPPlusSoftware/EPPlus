@@ -785,10 +785,10 @@ namespace OfficeOpenXml
             bool isTemplateNamedStyle;
             if (Template == null)
             {
-                xfIdCopy = 0;
+                xfIdCopy = _wb.Styles.GetNormalStyle().StyleXfId;
                 positionID = -1;
                 styles = this;
-                isTemplateNamedStyle = false;
+                isTemplateNamedStyle = true;
             }
             else
             {

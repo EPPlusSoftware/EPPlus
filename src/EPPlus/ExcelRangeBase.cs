@@ -867,7 +867,9 @@ namespace OfficeOpenXml
             }
 
             var styles = _worksheet.Workbook.Styles;
-            var nf = styles.Fonts[styles.CellXfs[0].FontId];
+            var normalXfId = styles.GetNormalStyle().StyleXfId;
+            if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
+            var nf = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
             var fs = FontStyle.Regular;
             if (nf.Bold) fs |= FontStyle.Bold;
             if (nf.UnderLine) fs |= FontStyle.Underline;
