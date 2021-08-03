@@ -816,7 +816,7 @@ namespace OfficeOpenXml
                 var nf = styles.NamedStyles[normalStyleIx < 0 ? 0 : normalStyleIx].Style.Font;
                 var defaultWidth = ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size);
                 var widthCharRH = c.Row < 1000 ? 3 : c.Row.ToString(CultureInfo.InvariantCulture).Length;
-                var margin = (Math.Round(defaultWidth / 10) * (widthCharRH + 2));
+                var margin = 5;
                 PaneSettings.XSplit = (Convert.ToDouble(GetVisibleColumnWidth(c.Column, columnsLeft - 1) + (defaultWidth * widthCharRH) + margin)) * 15D;
             }
             if (rowsTop > 1)

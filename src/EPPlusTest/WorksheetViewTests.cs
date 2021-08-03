@@ -146,22 +146,22 @@ namespace EPPlusTest.Core.Worksheet
         }
 
         [TestMethod]
-        public void SplitPanesNormal()
+        public void SplitPanesNormal18()
         {
-            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48");
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal18");
             //_pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
-            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 48;
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 18;
             ws.View.TopLeftCell = "G200";
             ws.View.SplitPanes(3, 3);
             ws.View.TopLeftPane.ActiveCell = "B2";
         }
         [TestMethod]
-        public void SplitPanesNormal11Ariel()
+        public void SplitPanesNormal11Arial()
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48RH");
             _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
             _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
-            ws.View.TopLeftCell = "G2";
+            ws.View.TopLeftCell = "G20000";
             ws.View.SplitPanes(3, 3);
             ws.View.ActiveCell = "B2";
         }

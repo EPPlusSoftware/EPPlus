@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Encryption
                 }
                 else
                 {
-                    throw (new InvalidDataException("The stream is not an valid/supported encrypted document."));
+                    throw (new InvalidDataException("The stream is not a valid/supported encrypted document."));
                 }
             }
             catch// (Exception ex)

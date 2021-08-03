@@ -2397,6 +2397,5 @@ namespace EPPlusTest
                 SaveAndCleanup(pck);
             }
         }
-
     }
 }
