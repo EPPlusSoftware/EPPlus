@@ -126,7 +126,7 @@ namespace OfficeOpenXml.LoadFunctions
                             QCount = 0;
                         }
                     }
-                    if (QCount > 1 && (v != "" && QCount == 2))
+                    if (QCount > 1)
                     {
                         v += new string(_format.TextQualifier, QCount / 2);
                     }
@@ -192,15 +192,15 @@ namespace OfficeOpenXml.LoadFunctions
                 throw (new ArgumentException(string.Format("Text delimiter is not closed in line : {0}", list.Count)));
             }
 
-            if (prevLineStart >= Format.EOL.Length && IsEOL(text, prevLineStart - Format.EOL.Length, Format.EOL))
-            {
-                //list.Add(text.Substring(prevLineStart- Format.EOL.Length, Format.EOL.Length));
-                list.Add("");
-            }
-            else
-            {
+            //if (text.Length >= Format.EOL.Length && IsEOL(text, text.Length-2, Format.EOL))
+            //{
+            //    //list.Add(text.Substring(prevLineStart- Format.EOL.Length, Format.EOL.Length));
+            //    list.Add("");
+            //}
+            //else
+            //{
                 list.Add(text.Substring(prevLineStart));
-            }
+            //}
             return list.ToArray();
         }
         private bool IsEOL(string text, int ix, string eol)
