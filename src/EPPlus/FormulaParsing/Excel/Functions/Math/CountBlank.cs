@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
@@ -30,9 +31,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             ValidateArguments(arguments, 1);
             var arg = arguments.First();
-            if(!arg.IsExcelRange)throw new InvalidOperationException("CountBlank only support ranges as arguments");
-            var result = arg.ValueAsRangeInfo.GetNCells();
-            foreach (var cell in arg.ValueAsRangeInfo)
+            if(!arg.IsExcelRange && arg.ExcelAddressReferenceId <= 0)throw new InvalidOperationException("CountBlank only support ranges as arguments");
+            var result = 0;
+            IRangeInfo range;
+            if(arg.IsExcelRange)
+            {
+                range = arg.ValueAsRangeInfo;
+                result =  arg.ValueAsRangeInfo.GetNCells();
+            }
+            else
+            {
+                var worksheet = context.Scopes.Current.Address.Worksheet;
+                var address = context.AddressCache.Get(arg.ExcelAddressReferenceId);
+                var excelAddress = new ExcelAddressBase(address);
+                if(!string.IsNullOrEmpty(excelAddress.WorkSheetName))
+                {
+                    worksheet = excelAddress.WorkSheetName;
+                }
+                range = context.ExcelDataProvider.GetRange(worksheet, excelAddress.Address);
+                result = range.GetNCells();
+            }
+            foreach (var cell in range)
             {
                 if (!(cell.Value == null || cell.Value.ToString() == string.Empty))
                 {
