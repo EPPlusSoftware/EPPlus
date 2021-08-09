@@ -80,5 +80,12 @@ namespace OfficeOpenXml.Style.Dxf
             base.Clear();
             Font.Clear();
         }
+        protected internal override string Id
+        {
+            get
+            {
+                return base.Id + Font.Id;                    
+            }
+        }
     }
 }

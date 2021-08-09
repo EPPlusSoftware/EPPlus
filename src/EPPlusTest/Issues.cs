@@ -2397,5 +2397,13 @@ namespace EPPlusTest
                 SaveAndCleanup(pck);
             }
         }
+        [TestMethod]
+        public void s224()
+        {
+            using (var p = OpenTemplatePackage("s224.xltx"))
+            {
+                SaveWorkbook("s224.xlsx", p);
+            }
+        }
     }
 }
