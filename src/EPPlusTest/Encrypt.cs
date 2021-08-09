@@ -155,5 +155,24 @@ namespace EPPlusTest
             }
             p.Save();
         }
+
+        [TestMethod]
+        public void ValidateStaticEnryptionMethods()
+        {
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.Worksheets.Add("Sheet1");
+                p.Save();
+
+                var ep = ExcelEncryption.EncryptPackage(p.Stream, "EPPlus");
+                var dp = ExcelEncryption.DecryptPackage(ep, "EPPlus");
+
+                using(var p2=new ExcelPackage(dp))
+                {
+                    Assert.AreEqual(p.Workbook.Worksheets.Count, p2.Workbook.Worksheets.Count);
+                    Assert.AreEqual(p.Workbook.Worksheets[0].Name, p2.Workbook.Worksheets[0].Name);
+                }
+            }
+        }
     }
 }
