@@ -1097,5 +1097,50 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("This cell contains a comment.", ws.Cells[commentAddress].GetValue<string>());
             Assert.AreEqual(commentAddress, ws.Comments[0].Address);
         }
+        [TestMethod]
+        public void ValidateCommentsShouldNotShiftRightOnInsertIntoRange()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("InsertRightComment2");
+            var commentAddress = "B4";
+            ws.Comments.Add(ws.Cells[commentAddress], "This is a comment.", "author");
+            ws.Cells[commentAddress].Value = "This cell contains a comment.";
+
+            ws.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual(1, ws.Comments.Count);
+            Assert.AreEqual("This is a comment.", ws.Comments[0].Text);
+            Assert.AreEqual("This cell contains a comment.", ws.Cells[commentAddress].GetValue<string>());
+            Assert.AreEqual(commentAddress, ws.Comments[0].Address);
+        }
+        [TestMethod]
+        public void ValidateThreadedCommentsShouldShiftRightOnInsertIntoRange()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("InsertRightTC");
+            var commentAddress = "B2";
+            ws.ThreadedComments.Add(commentAddress);
+            ws.Cells[commentAddress].Value = "This cell contains a threaded comment.";
+
+            ws.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+            commentAddress = "C2";
+
+            Assert.AreEqual(1, ws.ThreadedComments.Count);
+            Assert.AreEqual("This cell contains a threaded comment.", ws.Cells[commentAddress].GetValue<string>());
+            Assert.AreEqual(commentAddress, ws.ThreadedComments[0].CellAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateThreadedCommentsShouldNotShiftRightOnInsertIntoRange()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("InsertRightTC2");
+            var commentAddress = "B4";
+            ws.ThreadedComments.Add(commentAddress);
+            ws.Cells[commentAddress].Value = "This cell contains a threaded comment.";
+
+            ws.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+
+            Assert.AreEqual(1, ws.ThreadedComments.Count);
+            Assert.AreEqual("This cell contains a threaded comment.", ws.Cells[commentAddress].GetValue<string>());
+            Assert.AreEqual(commentAddress, ws.ThreadedComments[0].CellAddress.Address);
+        }
+
     }
 }

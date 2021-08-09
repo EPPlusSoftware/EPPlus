@@ -2405,5 +2405,39 @@ namespace EPPlusTest
                 SaveWorkbook("s224.xlsx", p);
             }
         }
+        [TestMethod]
+        public void InsertCellsNextToComment()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                // Create a comment in cell B2
+                var commentAddress = "B2";
+                wks.Comments.Add(wks.Cells[commentAddress], "This is a comment.", "author");
+                wks.Cells[commentAddress].Value = "This cell contains a comment.";
+
+                // Create another comment in cell B10
+                var commentAddress2 = "B10";
+                wks.Comments.Add(wks.Cells[commentAddress2], "This is another comment.", "author");
+                wks.Cells[commentAddress2].Value = "This cell contains another comment.";
+
+                // Insert cells so the first comment is now in C2
+                wks.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+                commentAddress = "C2";
+
+                // Check that both the cell value and the comment was correctly moved
+                Assert.AreEqual(2, wks.Comments.Count);
+                Assert.AreEqual("This is a comment.", wks.Comments[0].Text);
+                Assert.AreEqual("This cell contains a comment.", wks.Cells[commentAddress].GetValue<string>());
+                Assert.AreEqual(commentAddress, wks.Comments[0].Address);
+
+                // Check that the second comment hasn't moved
+                Assert.AreEqual("This is another comment.", wks.Comments[1].Text);
+                Assert.AreEqual("This cell contains another comment.", wks.Cells[commentAddress2].GetValue<string>());
+                Assert.AreEqual(commentAddress2, wks.Comments[1].Address);
+
+            }
+        }
     }
 }

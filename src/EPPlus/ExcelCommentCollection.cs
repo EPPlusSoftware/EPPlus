@@ -293,10 +293,10 @@ namespace OfficeOpenXml
                 {
                     comment.Reference = comment.Range.AddRow(fromRow, rows).Address;
                 }
-                if(columns>0 && address._fromRow >= fromRow &&
-                    address._fromCol >= fromCol && address._toCol <= toCol)
+                if(columns>0 && address._fromCol >= fromCol &&
+                    address._fromRow >= fromRow && address._toRow <= toRow)
                 {
-                    comment.Reference = comment.Range.AddColumn(fromCol, columns).Address;
+                        comment.Reference = comment.Range.AddColumn(fromCol, columns).Address;
                 }
             }
         }
