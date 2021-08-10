@@ -1273,6 +1273,7 @@ namespace OfficeOpenXml
             set
             {
                 IsRangeValid("merging");
+                ValidateMergePossible();
                 _worksheet.MergedCells.Clear(this);
                 if (value)
                 {
@@ -1299,6 +1300,18 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private void ValidateMergePossible()
+        {
+            foreach(var t in _worksheet.Tables)
+            {
+                if(Collide(t.Address)!=eAddressCollition.No)
+                {
+                    throw (new InvalidOperationException($"Cant merge range. The merge is within table {t.Name}"));
+                }
+            }
+        }
+
         /// <summary>
         /// Set an autofilter for the range
         /// </summary>
