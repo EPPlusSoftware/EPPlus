@@ -1,5 +1,20 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+
+## Version 5.7.3
+### Fixed issues & minor features
+* Add static methods to ExcelEncryption to encrypt and decrypt raw packages
+	* ExcelEncryption.EncryptPackage
+	* ExcelEncryption.DecryptPackage
+* Conditional formatting lost some styles and added hair borders to empty border elements.
+* COUNTBLANK and other functions using the ExpressionEvaluator don't handle time values correctly.
+* COUNTBLANK does not handle cached addresses correctly.
+* LoadFromText and SaveToTest did not work correctly with apostrophes.
+* Changing the font of the normal style and then create a new named style did not inherit the font correctly.
+* Data validations were shifted down instead of right when inserting cells into a range
+* Comments and threaded comments were not shifted correctly to the right when inserting cells.
+* EPPlus will now throw an exception if merging a range that overlaps a table.
+
 ## Version 5.7.2
 ### Fixed issues
 * Pivot cache fields that contains both int's and float's corrupts the pivot cache.
@@ -7,6 +22,7 @@
 * Null or non existing external references to images on picture objects causes save to crash.
 * VBA projects with the "dir" stream containing the unhandled value 0x4a, caused the workbook to become corrupt.
 * Defined names with prefix and external reference throw a NullReference on load.
+
 ## Version 5.7.1
 ### Fixed issues
 * Using a number format with AM/PM resulted in an output of AM or PM only.
