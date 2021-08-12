@@ -83,7 +83,14 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             if (!isText && v != "")
                             {
-                                throw (new Exception(string.Format("Invalid Text Qualifier in line : {0}", line)));
+                                if(v.Trim()=="")
+                                {
+                                    v = "";
+                                }
+                                else
+                                {
+                                    throw (new Exception(string.Format("Invalid Text Qualifier in line : {0}", line)));
+                                }
                             }
                             isQualifier = !isQualifier;
                             QCount += 1;
@@ -128,7 +135,11 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     if (QCount > 1)
                     {
-                        v += new string(_format.TextQualifier, QCount / 2);
+                        if(QCount > 2 && string.IsNullOrEmpty(v))
+                        {
+                            QCount--;
+                        }
+                        v += new string(_format.TextQualifier, (QCount) / 2);
                     }
                     if (lineQCount % 2 == 1)
                         throw (new Exception(string.Format("Text delimiter is not closed in line : {0}", line)));

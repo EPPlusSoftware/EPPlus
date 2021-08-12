@@ -98,5 +98,33 @@ namespace EPPlusTest.LoadFunctions
             var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString());
             Assert.AreEqual("A1:C2", r.FirstAddress);
         }
+        [TestMethod]
+        public void VerifyOneLineWithTextQualifier()
+        {
+            AddLine("\"a\",\"\"\"\", \"\"\"\"");
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(),new ExcelTextFormat { TextQualifier='\"' });
+            Assert.AreEqual("a", _worksheet.Cells[1,1].Value);
+            Assert.AreEqual("\"", _worksheet.Cells[1, 2].Value);
+            Assert.AreEqual("\"", _worksheet.Cells[1, 3].Value);
+        }
+        [TestMethod]
+        public void VerifyMultiLineWithTextQualifier()
+        {
+            AddLine("\"a\",b, \"c\"\"\"");
+            AddLine("a,\"b\", \"c\"\"\r\n\"\"\"");
+            AddLine("a,\"b\", \"c\"\"\"\"\"");
+            var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), new ExcelTextFormat { TextQualifier = '\"' });
+            Assert.AreEqual("a", _worksheet.Cells[1, 1].Value);
+            Assert.AreEqual("b", _worksheet.Cells[1, 2].Value);
+            Assert.AreEqual("c\"", _worksheet.Cells[1, 3].Value);
+
+            Assert.AreEqual("a", _worksheet.Cells[2, 1].Value);
+            Assert.AreEqual("b", _worksheet.Cells[2, 2].Value);
+            Assert.AreEqual("c\"\r\n\"", _worksheet.Cells[2, 3].Value);
+
+            Assert.AreEqual("a", _worksheet.Cells[3, 1].Value);
+            Assert.AreEqual("b", _worksheet.Cells[3, 2].Value);
+            Assert.AreEqual("c\"\"", _worksheet.Cells[3, 3].Value);
+        }
     }
 }
