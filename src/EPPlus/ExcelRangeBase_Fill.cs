@@ -54,6 +54,11 @@ namespace OfficeOpenXml
                     FillHandler.FillNumbers(_worksheet, r, r, _fromCol, _toCol, options);
                 }
             }
+
+            if (!string.IsNullOrEmpty(options.NumberFormat))
+            {
+                Style.Numberformat.Format = options.NumberFormat;
+            }
         }
         #endregion
         /// <summary>
@@ -92,6 +97,11 @@ namespace OfficeOpenXml
                 {
                     FillHandler.FillDates(_worksheet, r, r, _fromCol, _toCol, options);
                 }
+            }
+            
+            if (!string.IsNullOrEmpty(options.NumberFormat))
+            {
+                Style.Numberformat.Format = options.NumberFormat;
             }
         }
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using System;
+using System.Globalization;
+using System.Threading;
 
 namespace EPPlusTest.Core.Range.Fill
 {
@@ -57,11 +59,14 @@ namespace EPPlusTest.Core.Range.Fill
         [TestMethod]
         public void FillNumbers_RowWithStartAndStep()
         {
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             _wsNum.Cells["A10:E11"].FillNumber(x =>
             {
                 x.Direction = eFillDirection.Row;
                 x.StartValue = 3;
                 x.StepValue = 2;
+                x.NumberFormat = "#,##0.00";
             }); 
 
             //Assert
@@ -73,6 +78,8 @@ namespace EPPlusTest.Core.Range.Fill
 
             Assert.AreEqual(3D, _wsNum.Cells["A11"].Value);
             Assert.AreEqual(11D, _wsNum.Cells["E11"].Value);
+            Assert.AreEqual("11.00", _wsNum.Cells["E11"].Text);
+            Thread.CurrentThread.CurrentCulture = ci;
         }
         [TestMethod]
         public void FillNumbers_RowWithStartAndStep_EndValue()
@@ -165,11 +172,14 @@ namespace EPPlusTest.Core.Range.Fill
             Assert.AreEqual(startDate.Ticks + TimeSpan.TicksPerDay * 4, ((DateTime)_wsDate.Cells["F5"].Value).Ticks);
         }
         [TestMethod]
-        public void FillDate_Week()
+        public void FillDate_Week_WithNumberFormat()
         {
+            var ci = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             var startDate = new DateTime(2021, 2, 15);
             _wsDate.Cells["G1"].Value = startDate;
-            _wsDate.Cells["G1:H5"].FillDateTime(x=> { x.DateUnit = eDateUnit.Week;x.StartValue = startDate; });
+            _wsDate.Cells["G1:H5"].FillDateTime(x=> { x.DateUnit = eDateUnit.Week;x.StartValue = startDate;x.NumberFormat = "yyyy-MM-dd"; });
             
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["G1"].Value).Ticks);
@@ -180,6 +190,10 @@ namespace EPPlusTest.Core.Range.Fill
 
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["H1"].Value).Ticks);
             Assert.AreEqual(startDate.Ticks + TimeSpan.TicksPerDay * 28, ((DateTime)_wsDate.Cells["H5"].Value).Ticks);
+
+            Assert.AreEqual("2021-02-22", _wsDate.Cells["G2"].Text);
+
+            Thread.CurrentThread.CurrentCulture = ci;
         }
         [TestMethod]
         public void FillDate_Month_LastDayInMonth()

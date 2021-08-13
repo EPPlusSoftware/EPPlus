@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         /// </summary>
         public eCalculationMethod CalculationMethod { get; set; } = eCalculationMethod.Add;
         /// <summary>
-        /// The number format to set on the filled values
+        /// The number format to be appled to the range.
         /// </summary>
         public string NumberFormat { get; set; } = null;
     }

@@ -47,5 +47,9 @@ namespace OfficeOpenXml
         /// A list with weekdays treated as holydays.
         /// </summary>
         public HashSet<DateTime> HolidayCalendar { get; } = new HashSet<DateTime>();
+        /// <summary>
+        /// The number format to be appled to the range.
+        /// </summary>
+        public string NumberFormat { get; set; } = null;
     }
 }
