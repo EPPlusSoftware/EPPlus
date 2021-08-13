@@ -26,7 +26,7 @@ namespace EPPlusTest.Core.Range.Fill
         [TestMethod]
         public void FillNumbers_WithStartAndStep()
         {
-            _wsNum.Cells["A1:B5"].FillNumbers(3, 2);
+            _wsNum.Cells["A1:B5"].FillNumber(3, 2);
             //Assert
             Assert.AreEqual(3D, _wsNum.Cells["A1"].Value);
             Assert.AreEqual(5D, _wsNum.Cells["A2"].Value);
@@ -43,7 +43,7 @@ namespace EPPlusTest.Core.Range.Fill
             _wsNum.Cells["C1"].Value = 7D;
             _wsNum.Cells["D1"].Value = "D1";
             _wsNum.Cells["D2"].Value = "D2";
-            _wsNum.Cells["C1:D5"].FillNumbers();
+            _wsNum.Cells["C1:D5"].FillNumber();
             //Assert
             Assert.AreEqual(7D, _wsNum.Cells["C1"].Value);
             Assert.AreEqual(8D, _wsNum.Cells["C2"].Value);
@@ -57,7 +57,7 @@ namespace EPPlusTest.Core.Range.Fill
         [TestMethod]
         public void FillNumbers_RowWithStartAndStep()
         {
-            _wsNum.Cells["A10:E11"].FillNumbers(x =>
+            _wsNum.Cells["A10:E11"].FillNumber(x =>
             {
                 x.Direction = eFillDirection.Row;
                 x.StartValue = 3;
@@ -77,7 +77,7 @@ namespace EPPlusTest.Core.Range.Fill
         [TestMethod]
         public void FillNumbers_RowWithStartAndStep_EndValue()
         {
-            _wsNum.Cells["A10:E11"].FillNumbers(x =>
+            _wsNum.Cells["A10:E11"].FillNumber(x =>
             {
                 x.Direction = eFillDirection.Row;
                 x.StartValue = 3;
@@ -99,7 +99,7 @@ namespace EPPlusTest.Core.Range.Fill
         [TestMethod]
         public void FillNumbers_RowWithStartAndStepMultipy()
         {
-            _wsNum.Cells["A13:E14"].FillNumbers(x =>
+            _wsNum.Cells["A13:E14"].FillNumber(x =>
             {
                 x.CalculationMethod = eCalculationMethod.Multiply;
                 x.Direction = eFillDirection.Row;
@@ -120,7 +120,7 @@ namespace EPPlusTest.Core.Range.Fill
         public void FillDate_WithStartAndStepDay()
         {
             var startDate = new DateTime(2021, 1, 1);
-            _wsNum.Cells["A1:B5"].FillDates(new DateTime(2021,1,1));
+            _wsNum.Cells["A1:B5"].FillDateTime(new DateTime(2021,1,1));
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsNum.Cells["A1"].Value).Ticks);
             Assert.AreEqual(startDate.Ticks + TimeSpan.TicksPerDay, ((DateTime)_wsNum.Cells["A2"].Value).Ticks);
@@ -137,7 +137,7 @@ namespace EPPlusTest.Core.Range.Fill
             var startDate = new DateTime(2021, 6, 30);
             _wsDate.Cells["C1"].Value = startDate;
             _wsDate.Cells["D1"].Value = "D1";
-            _wsDate.Cells["C1:D5"].FillDates();
+            _wsDate.Cells["C1:D5"].FillDateTime();
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["C1"].Value).Ticks);
             Assert.AreEqual(startDate.Ticks + TimeSpan.TicksPerDay, ((DateTime)_wsDate.Cells["C2"].Value).Ticks);
@@ -153,7 +153,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 05, 29);
             _wsDate.Cells["E1"].Value = startDate;
-            _wsDate.Cells["E1:F5"].FillDates(startDate);
+            _wsDate.Cells["E1:F5"].FillDateTime(startDate);
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["E1"].Value).Ticks);
             Assert.AreEqual(startDate.Ticks + TimeSpan.TicksPerDay, ((DateTime)_wsDate.Cells["E2"].Value).Ticks);
@@ -169,7 +169,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 2, 15);
             _wsDate.Cells["G1"].Value = startDate;
-            _wsDate.Cells["G1:H5"].FillDates(x=> { x.DateUnit = eDateUnit.Week;x.StartValue = startDate; });
+            _wsDate.Cells["G1:H5"].FillDateTime(x=> { x.DateUnit = eDateUnit.Week;x.StartValue = startDate; });
             
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["G1"].Value).Ticks);
@@ -186,7 +186,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 2, 28);
             _wsDate.Cells["I1"].Value = startDate;
-            _wsDate.Cells["I1:J5"].FillDates(x => { x.DateUnit = eDateUnit.Month; x.StartValue = startDate; });
+            _wsDate.Cells["I1:J5"].FillDateTime(x => { x.DateUnit = eDateUnit.Month; x.StartValue = startDate; });
 
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["I1"].Value).Ticks);
@@ -203,7 +203,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 1, 31);
             _wsDate.Cells["K1"].Value = startDate;
-            _wsDate.Cells["K1:L5"].FillDates(x => { x.DateUnit = eDateUnit.Month; x.StartValue = startDate; x.WeekdaysOnly = true; });
+            _wsDate.Cells["K1:L5"].FillDateTime(x => { x.DateUnit = eDateUnit.Month; x.StartValue = startDate; x.WeekdaysOnly = true; });
 
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["K1"].Value).Ticks);
@@ -220,7 +220,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 12, 17);
             _wsDate.Cells["M1"].Value = startDate;
-            _wsDate.Cells["M1:N5"].FillDates(x => 
+            _wsDate.Cells["M1:N5"].FillDateTime(x => 
             { 
                 x.DateUnit = eDateUnit.Week; 
                 x.StartValue = startDate; 
@@ -243,7 +243,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 2, 15);
             _wsDate.Cells["O1"].Value = startDate;
-            _wsDate.Cells["O1:P5"].FillDates(x => { x.DateUnit = eDateUnit.Year; x.StartValue = startDate;x.EndValue = new DateTime(2024, 6, 30); });
+            _wsDate.Cells["O1:P5"].FillDateTime(x => { x.DateUnit = eDateUnit.Year; x.StartValue = startDate;x.EndValue = new DateTime(2024, 6, 30); });
 
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["O1"].Value).Ticks);
@@ -255,5 +255,57 @@ namespace EPPlusTest.Core.Range.Fill
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["P1"].Value).Ticks);
             Assert.IsNull(_wsDate.Cells["P5"].Value);
         }
+        [TestMethod]
+        public void FillTime_Hours()
+        {
+            var startTime = DateTime.Parse("12:00:00");
+            _wsDate.Cells["A20"].Value = startTime;
+            _wsDate.Cells["A20:B24"].FillDateTime(x => { x.DateUnit = eDateUnit.Hour; x.StartValue = startTime; });
+
+            //Assert
+            Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["A20"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerHour, ((DateTime)_wsDate.Cells["A21"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerHour * 2, ((DateTime)_wsDate.Cells["A22"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerHour * 3, ((DateTime)_wsDate.Cells["A23"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerHour * 4, ((DateTime)_wsDate.Cells["A24"].Value).Ticks);
+
+            Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["B20"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerHour * 4, ((DateTime)_wsDate.Cells["B24"].Value).Ticks);
+        }
+        [TestMethod]
+        public void FillTime_Minutes()
+        {
+            var startTime = DateTime.Parse("00:45:00");
+            _wsDate.Cells["C20"].Value = startTime;
+            _wsDate.Cells["C20:D24"].FillDateTime(x => { x.DateUnit = eDateUnit.Minute; x.StartValue = startTime; });
+
+            //Assert
+            Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["C20"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerMinute, ((DateTime)_wsDate.Cells["C21"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerMinute * 2, ((DateTime)_wsDate.Cells["C22"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerMinute * 3, ((DateTime)_wsDate.Cells["C23"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerMinute * 4, ((DateTime)_wsDate.Cells["C24"].Value).Ticks);
+
+            Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["D20"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerMinute * 4, ((DateTime)_wsDate.Cells["D24"].Value).Ticks);
+        }
+        [TestMethod]
+        public void FillTime_Seconds()
+        {
+            var startTime = DateTime.Parse("00:00:30");
+            _wsDate.Cells["E20"].Value = startTime;
+            _wsDate.Cells["E20:F24"].FillDateTime(x => { x.DateUnit = eDateUnit.Second; x.StartValue = startTime; });
+
+            //Assert
+            Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["E20"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerSecond, ((DateTime)_wsDate.Cells["E21"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerSecond * 2, ((DateTime)_wsDate.Cells["E22"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerSecond * 3, ((DateTime)_wsDate.Cells["E23"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerSecond * 4, ((DateTime)_wsDate.Cells["E24"].Value).Ticks);
+
+            Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["F20"].Value).Ticks);
+            Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerSecond * 4, ((DateTime)_wsDate.Cells["F24"].Value).Ticks);
+        }
+
     }
 }

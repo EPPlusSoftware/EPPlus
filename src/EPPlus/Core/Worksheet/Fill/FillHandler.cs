@@ -105,6 +105,18 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                             case eDateUnit.Day:
                                 value = value.Value.AddDays(options.StepValue);
                                 break;
+                            case eDateUnit.Hour:
+                                value = value.Value.AddHours(options.StepValue);
+                                break;
+                            case eDateUnit.Minute:
+                                value = value.Value.AddMinutes(options.StepValue);
+                                break;
+                            case eDateUnit.Second:
+                                value = value.Value.AddSeconds(options.StepValue);
+                                break;
+                            case eDateUnit.Ticks:
+                                value = value.Value.AddTicks(options.StepValue);
+                                break;
                         }
                         DateTime d;
                         if (options.WeekdaysOnly)

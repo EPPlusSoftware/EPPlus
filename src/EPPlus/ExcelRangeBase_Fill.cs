@@ -21,9 +21,9 @@ namespace OfficeOpenXml
         /// <summary>
         /// Fills the range by adding 1 to each cell starting from the value in the top left cell by column
         /// </summary>
-        public void FillNumbers()
+        public void FillNumber()
         {
-            FillNumbers(x => { });
+            FillNumber(x => { });
         }
         /// <summary>
         /// Fills a range by adding the step value to the start Value. If <paramref name="startValue"/> is null the first value in the row/column is used.
@@ -31,14 +31,14 @@ namespace OfficeOpenXml
         /// <param name="startValue">The start value of the first cell. If this value is null the value of the first cell is used.</param>
         /// <param name="stepValue">The value used for each step</param>
         /// <param name="direction">Direction of the fill</param>
-        public void FillNumbers(double? startValue, double stepValue=1, eFillDirection direction = eFillDirection.Column)
+        public void FillNumber(double? startValue, double stepValue=1, eFillDirection direction = eFillDirection.Column)
         {
-            FillNumbers(x => { x.StepValue = stepValue; x.StartValue = startValue; x.Direction = direction; });
+            FillNumber(x => { x.StepValue = stepValue; x.StartValue = startValue; x.Direction = direction; });
         }
-        public void FillNumbers(Action<FillNumberParams> o)
+        public void FillNumber(Action<FillNumberParams> o)
         {
             var options = new FillNumberParams();
-            o.Invoke(options);
+            o?.Invoke(options);
 
             if (options.Direction == eFillDirection.Column)
             {
@@ -59,18 +59,25 @@ namespace OfficeOpenXml
         /// <summary>
         /// Fills the range by adding 1 day to each cell starting from the value in the top left cell by column.
         /// </summary>
-        public void FillDates()
+        public void FillDateTime()
         {
-            FillDates(x => { });
+            FillDateTime(x => { });
         }
-        public void FillDates(DateTime startValue)
+        /// <summary>
+        /// Fills the range by adding 1 day to each cell per column starting from <paramref name="startValue"/>.
+        /// </summary>
+        public void FillDateTime(DateTime startValue)
         {
-            FillDates(x => x.StartValue = startValue);
+            FillDateTime(x => x.StartValue = startValue);
         }
-        public void FillDates(Action<FillDateParams> o)
+        /// <summary>
+        /// Fill the range with dates.
+        /// </summary>
+        /// <param name="o">Options how to perform the fill</param>
+        public void FillDateTime(Action<FillDateParams> o)
         {
             var options = new FillDateParams();
-            o.Invoke(options);
+            o?.Invoke(options);
 
             if (options.Direction == eFillDirection.Column)
             {

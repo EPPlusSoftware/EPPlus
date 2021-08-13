@@ -24,6 +24,7 @@ namespace OfficeOpenXml
         Day,
         Hour,
         Minute,
-        Second
+        Second,
+        Ticks
     }
 }
