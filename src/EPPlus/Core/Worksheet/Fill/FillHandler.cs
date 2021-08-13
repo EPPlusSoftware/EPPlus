@@ -50,7 +50,14 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                         {
                             value *= options.StepValue;
                         }
-                        worksheet.SetValue(r, c, value);
+                        if (options.EndValue.HasValue && options.EndValue.Value < value)
+                        {
+                            worksheet.SetValue(r, c, null);
+                        }
+                        else
+                        {
+                            worksheet.SetValue(r, c, value);
+                        }
                     }
                 }
             }
@@ -99,13 +106,23 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                                 value = value.Value.AddDays(options.StepValue);
                                 break;
                         }
+                        DateTime d;
                         if (options.WeekdaysOnly)
                         {
-                            worksheet.SetValue(r, c, GetWeekday(value.Value, options.HolidayCalendar));
+                            d = GetWeekday(value.Value, options.HolidayCalendar);
                         }
                         else
                         {
-                            worksheet.SetValue(r, c, value);
+                            d = value.Value;
+                        }
+
+                        if (options.EndValue==null || value <= options.EndValue)
+                        {
+                            worksheet.SetValue(r, c, d);
+                        }
+                        else
+                        {
+                            worksheet.SetValue(r, c, null);
                         }
                     }
                     else
@@ -115,11 +132,11 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                 }
             }
         }
-        static object GetWeekday(DateTime value, HashSet<DateTime> holyDays)
+        static DateTime GetWeekday(DateTime value, HashSet<DateTime> holyDays)
         {
             while (value.DayOfWeek == DayOfWeek.Saturday || value.DayOfWeek == DayOfWeek.Sunday || holyDays.Contains(value))
             {
-                value = value.AddDays(1);
+                value = value.AddDays(-1);
             }
             return value;
         }
