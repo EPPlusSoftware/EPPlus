@@ -2006,19 +2006,11 @@ namespace OfficeOpenXml
         /// Adds a new comment for the range.
         /// If this range contains more than one cell, the top left comment is returned by the method.
         /// </summary>
-        /// <param name="Text"></param>
-        /// <param name="Author"></param>
+        /// <param name="Text">The text for the comment</param>
+        /// <param name="Author">The author for the comment. If this property is null or blank EPPlus will set it to the identity of the ClaimsPrincipal if available otherwise to "Anonymous"</param>
         /// <returns>A reference comment of the top left cell</returns>
-        public ExcelComment AddComment(string Text, string Author)
+        public ExcelComment AddComment(string Text, string Author=null)
         {
-            if (string.IsNullOrEmpty(Author))
-            {
-#if Core
-                Author = System.Security.Claims.ClaimsPrincipal.Current.Identity.Name;
-#else
-                Author = Thread.CurrentPrincipal.Identity.Name;
-#endif
-            }
             //Check if any comments exists in the range and throw an exception
             _changePropMethod(this, _setExistsCommentDelegate, null);
             //Create the comments

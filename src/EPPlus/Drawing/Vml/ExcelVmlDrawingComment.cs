@@ -292,7 +292,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             set
             {                
-                SetXmlNodeString(TEXTBOX_STYLE_PATH, SetStyle(GetXmlNodeString(TEXTBOX_STYLE_PATH),"mso-fit-shape-to-text", value?"t":"")); 
+                SetXmlNodeString(TEXTBOX_STYLE_PATH, SetStyle(GetXmlNodeString(TEXTBOX_STYLE_PATH),"mso-fit-shape-to-text", value?"t":"f")); 
             }
         }        
         const string LOCKED_PATH = "x:ClientData/x:Locked";

@@ -18,7 +18,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Core.CellStore;
 using System.Linq;
 using OfficeOpenXml.Core;
-
+using System.Threading;
 namespace OfficeOpenXml
 {
     /// <summary>
@@ -155,10 +155,23 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="cell">The cell</param>
         /// <param name="Text">The comment text</param>
-        /// <param name="author">Author</param>
+        /// <param name="author">The author for the comment. If this property is null or blank EPPlus will set it to the identity of the ClaimsPrincipal if available otherwise to "Anonymous"</param>
         /// <returns>The comment</returns>
-        public ExcelComment Add(ExcelRangeBase cell, string Text, string author)
-        {            
+        public ExcelComment Add(ExcelRangeBase cell, string Text, string author = null)
+        {
+            if (string.IsNullOrEmpty(author))
+            {
+#if Core
+                author = System.Security.Claims.ClaimsPrincipal.Current?.Identity?.Name;
+#else
+                author = Thread.CurrentPrincipal?.Identity?.Name;
+#endif
+                if (string.IsNullOrEmpty(author))
+                {
+
+                    author = "Anonymous";
+                }
+            }
             var elem = CommentXml.CreateElement("comment", ExcelPackage.schemaMain);
             //int ix=_comments.IndexOf(ExcelAddress.GetCellID(Worksheet.SheetID, cell._fromRow, cell._fromCol));
             //Make sure the nodes come on order.
@@ -179,10 +192,7 @@ namespace OfficeOpenXml
             elem.SetAttribute("ref", cell.Start.Address);
             ExcelComment comment = new ExcelComment(NameSpaceManager, elem , cell);
             comment.RichText.Add(Text);
-            if(author!="") 
-            {
-                comment.Author=author;
-            }
+            comment.Author = author;
             _listIndex.Add(_list.Count);
             Worksheet._commentsStore.SetValue(cell.Start.Row, cell.Start.Column, _list.Count);
             _list.Add(comment);
