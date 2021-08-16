@@ -99,13 +99,13 @@ namespace OfficeOpenXml
                 return newOrder;
             }
         }
-        private void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute=null)
+        internal static void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute=null)
         {
             toElement.InnerXml = fromElement.InnerXml;
-            if (ignoreAttribute == null) return;
+            //if (ignoreAttribute == null) return;
             foreach (XmlAttribute a in fromElement.Attributes)
             {
-                if (ignoreAttribute.Contains(a.Name))
+                if (ignoreAttribute==null || !ignoreAttribute.Contains(a.Name))
                 {
                     toElement.SetAttribute(a.Name, a.Value);
                 }

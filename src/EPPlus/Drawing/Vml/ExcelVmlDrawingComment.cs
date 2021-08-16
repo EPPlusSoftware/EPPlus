@@ -166,7 +166,8 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             set
             {
-                string color = "#" + value.ToArgb().ToString("X").Substring(2, 6);
+                string color = "#" + value.ToArgb().ToString("X");
+                if (color.Length == 8) color = color.Substring(2, 6);
                 SetXmlNodeString(BACKGROUNDCOLOR_PATH, color);
                 //SetXmlNode(BACKGROUNDCOLOR2_PATH, color);
             }

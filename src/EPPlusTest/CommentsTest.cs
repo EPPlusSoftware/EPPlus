@@ -27,6 +27,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -198,6 +199,50 @@ namespace EPPlusTest
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
                 ws.Cells[1, 1].IsRichText = true;
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
+            }
+        }
+        [TestMethod]
+        public void CopyCommentInRange()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Get the comment object from the worksheet
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var comment1 = ws.Comments.Add(ws.Cells["B2"], "Test Comment");
+                comment1.BackgroundColor = Color.FromArgb(0xdcf0ff);
+                comment1.AutoFit = true;
+                comment1.Font.FontName = "Tahoma";
+                comment1.Font.Size = 9;
+                comment1.Font.Bold = true; ;
+                comment1.Font.Italic=true;
+                comment1.Font.UnderLine = true;
+                comment1.Font.Color = Color.FromArgb(0); 
+
+                // Check that the comment in B2 has a custom style
+                Assert.AreEqual("B2", comment1.Address);
+                Assert.AreEqual("dcf0ff", comment1.BackgroundColor.Name);
+                Assert.AreEqual(true, comment1.AutoFit);
+                Assert.AreEqual("Tahoma", comment1.Font.FontName);
+                Assert.AreEqual(9, comment1.Font.Size);
+                Assert.AreEqual(true, comment1.Font.Bold);
+                Assert.AreEqual(true, comment1.Font.Italic);
+                Assert.AreEqual(true, comment1.Font.UnderLine);
+                Assert.AreEqual("0", comment1.Font.Color.Name);
+
+                // Copy the comment from B2 to A2 (also checking that this works when copying a range)
+                ws.Cells["B1:B3"].Copy(ws.Cells["A1:A3"]);
+
+                // Check the comment is copied with all properties intact
+                var comment2 = ws.Comments[1];
+                Assert.AreEqual("A2", comment2.Address);
+                Assert.AreEqual(comment1.BackgroundColor.Name, comment2.BackgroundColor.Name);
+                Assert.AreEqual(comment1.AutoFit, comment2.AutoFit);
+                Assert.AreEqual(comment1.Font.FontName, comment2.Font.FontName);
+                Assert.AreEqual(comment1.Font.Size, comment2.Font.Size);
+                Assert.AreEqual(comment1.Font.Bold, comment2.Font.Bold);
+                Assert.AreEqual(comment1.Font.Italic, comment2.Font.Italic);
+                Assert.AreEqual(comment1.Font.UnderLine, comment2.Font.UnderLine);
+                Assert.AreEqual(comment1.Font.Color.Name, comment2.Font.Color.Name);
             }
         }
 
