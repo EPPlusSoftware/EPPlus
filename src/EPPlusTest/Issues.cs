@@ -2406,6 +2406,29 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void s226()
+        {
+            using (var p = new ExcelPackage())
+            {
+                const char Qualifier = '"';
+                const string SaveAddress = "A1:F3";
+                ExcelPackage.LicenseContext = LicenseContext.Commercial;
+                var sourceFile = new FileInfo(@"C:\Temp\sourceFile.csv");
+                var targetFile = new FileInfo(@"C:\Temp\targetFile.csv");
+                var textFormat = new ExcelTextFormat { TextQualifier = Qualifier };
+                var outputTextFormat = new ExcelOutputTextFormat { FirstRowIsHeader = false, TextQualifier = Qualifier };
+                using (var excelPackage = new ExcelPackage())
+                {
+                    var worksheet = excelPackage.Workbook.Worksheets.Add("Bugs");
+                    worksheet.Cells["A1"].LoadFromText(sourceFile, textFormat);
+                    using (var stream = targetFile.Open(FileMode.Create, FileAccess.Write, FileShare.Write))
+                    {
+                        worksheet.Cells[SaveAddress].SaveToText(stream, outputTextFormat);
+                    }
+                }
+            }
+        }
+        [TestMethod]
         public void InsertCellsNextToComment()
         {
             using (var pck = new ExcelPackage())
