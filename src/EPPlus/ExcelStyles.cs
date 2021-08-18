@@ -48,8 +48,10 @@ namespace OfficeOpenXml
         const string SlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesUri + "']/x14:slicerStyles";
         XmlDocument _styleXml;
         ExcelWorkbook _wb;
+        ExcelNamedStyleXml _normalStyle;
         XmlNamespaceManager _nameSpaceManager;
         internal int _nextDfxNumFmtID = 164;
+
         internal ExcelStyles(XmlNamespaceManager NameSpaceManager, XmlDocument xml, ExcelWorkbook wb) :
             base(NameSpaceManager, xml.DocumentElement)
         {
@@ -129,13 +131,16 @@ namespace OfficeOpenXml
             }
 
             //cellStyle
-            int count = 0;
             XmlNode namedStyleNode = GetNode(CellStylesPath);
             if (namedStyleNode != null)
             {
                 foreach (XmlNode n in namedStyleNode)
                 {
                     ExcelNamedStyleXml item = new ExcelNamedStyleXml(_nameSpaceManager, n, this);
+                    if(item.BuildInId==0)
+                    {
+                        _normalStyle = item;
+                    }
                     NamedStyles.Add(item.Name, item);
                 }
             }
@@ -217,21 +222,22 @@ namespace OfficeOpenXml
 
         internal ExcelNamedStyleXml GetNormalStyle()
         {
-            foreach (var style in NamedStyles)
+            if (_normalStyle == null)
             {
-                if (style.BuildInId == 0)
+                foreach (var style in NamedStyles)
                 {
-                    return style;
+                    if (style.BuildInId == 0)
+                    {
+                        _normalStyle = style;
+                        break;
+                    }
+                }
+                if (_normalStyle==null && _wb.Styles.NamedStyles.Count > 0)
+                {
+                    return _wb.Styles.NamedStyles[0];
                 }
             }
-            if (_wb.Styles.NamedStyles.Count > 0)
-            {
-                return _wb.Styles.NamedStyles[0];
-            }
-            else
-            {
-                return null;
-            }
+            return _normalStyle;
         }
 
         internal ExcelStyle GetStyleObject(int Id, int PositionID, string Address)
@@ -374,7 +380,25 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        ExcelXfs st = CellXfs[s];
+                        ExcelXfs st;
+                        if (s==0)
+                        {
+                            var ns=GetNormalStyle();   //Get the xfs id for the normal style.
+                            if (ns==null || ns.StyleXfId<0)
+                            {
+                                st = CellXfs[0];
+                            }
+                            else
+                            {
+                                st = CellStyleXfs[ns.StyleXfId];
+                            }
+
+                        }
+                        else
+                        {
+                            st = CellXfs[s];
+                        }
+
                         int newId = st.GetNewID(CellXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
                         styleCashe.Add(s, newId);
                         ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = newId });
@@ -1025,6 +1049,7 @@ namespace OfficeOpenXml
             return s;
         }
         HashSet<string> tableStyleNames=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
         private void ValidateTableStyleName(string name)
         {
             if(tableStyleNames.Count==0)
@@ -1305,7 +1330,6 @@ namespace OfficeOpenXml
             else
                 style.XfId = 0;
         }
-
         private void RemoveUnusedStyles()
         {
             CellXfs[0].useCnt = 1; //First item is allways used.

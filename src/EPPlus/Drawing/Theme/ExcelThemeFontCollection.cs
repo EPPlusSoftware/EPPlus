@@ -102,7 +102,10 @@ namespace OfficeOpenXml.Drawing.Theme
         {
             if (_pck.Workbook.Styles.Fonts.Count > 0 && string.IsNullOrEmpty(typeface)==false)
             {
+                var id = _pck.Workbook.Styles.Fonts[0].Id;
                 _pck.Workbook.Styles.Fonts[0].Name = typeface;
+                _pck.Workbook.Styles.Fonts._dic.Remove(id);
+                _pck.Workbook.Styles.Fonts._dic.Add(_pck.Workbook.Styles.Fonts[0].Id, 0);
             }
             SetSpecialFont(typeface, eFontType.Latin);            
         }

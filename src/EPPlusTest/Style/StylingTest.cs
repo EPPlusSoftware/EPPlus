@@ -227,6 +227,34 @@ namespace EPPlusTest.Style
                 SaveWorkbook("AutoFitColumnWithStyle.xlsx", p);
             }
         }
+        [TestMethod]
+        public void SetThemeFontIssue()
+        {
+            using (var p = OpenPackage("DefaultFont.xlsx", true))
+            {
+                var DefaultFont = new Font("Corbel", 10);
+                p.Workbook.ThemeManager.CreateDefaultTheme();
+                var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
+                defaultTheme.FontScheme.MajorFont.SetLatinFont(DefaultFont.Name);
+                defaultTheme.FontScheme.MinorFont.SetLatinFont(DefaultFont.Name);
+                ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
+                normal.Font.Name = DefaultFont.Name;
+                normal.Font.Size = DefaultFont.Size;
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells[1, 1].Value = 1000;
+
+                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+
+                ws.Cells[1, 1].Style.Numberformat.Format = "#,##0";
+                ws.Cells[1, 1].Style.Border.BorderAround(ExcelBorderStyle.Hair);
+
+                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
