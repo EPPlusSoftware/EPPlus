@@ -45,14 +45,14 @@ namespace OfficeOpenXml
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    FillHandler.FillNumbers(_worksheet, _fromRow, _toRow, c, c, o);
+                    FillMethods.FillNumbers(_worksheet, _fromRow, _toRow, c, c, o);
                 }
             }
             else
             {
                 for (int r = _fromRow; r <= _toRow; r++)
                 {
-                    FillHandler.FillNumbers(_worksheet, r, r, _fromCol, _toCol, o);
+                    FillMethods.FillNumbers(_worksheet, r, r, _fromCol, _toCol, o);
                 }
             }
 
@@ -89,14 +89,14 @@ namespace OfficeOpenXml
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    FillHandler.FillDates(_worksheet, _fromRow, _toRow, c, c, o);
+                    FillMethods.FillDates(_worksheet, _fromRow, _toRow, c, c, o);
                 }
             }
             else
             {
                 for (int r = _fromRow; r <= _toRow; r++)
                 {
-                    FillHandler.FillDates(_worksheet, r, r, _fromCol, _toCol, o);
+                    FillMethods.FillDates(_worksheet, r, r, _fromCol, _toCol, o);
                 }
             }
             
@@ -129,14 +129,14 @@ namespace OfficeOpenXml
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    FillHandler.FillList(_worksheet, _fromRow, _toRow, c, c, list, o);
+                    FillMethods.FillList(_worksheet, _fromRow, _toRow, c, c, list, o);
                 }
             }
             else
             {
                 for (int r = _fromRow; r <= _toRow; r++)
                 {
-                    FillHandler.FillList(_worksheet, r, r, _fromCol, _toCol, list, o);
+                    FillMethods.FillList(_worksheet, r, r, _fromCol, _toCol, list, o);
                 }
             }
 

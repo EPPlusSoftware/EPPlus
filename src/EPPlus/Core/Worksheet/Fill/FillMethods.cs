@@ -17,7 +17,7 @@ using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
-    internal class FillHandler
+    internal class FillMethods
     {
         internal static void FillNumbers(ExcelWorksheet worksheet, int fromRow, int toRow, int fromCol, int toCol, FillNumberParams options)
         {
