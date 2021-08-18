@@ -1252,5 +1252,24 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(6, ws.Column(2).Width);
             Assert.AreEqual(9.140625, ws.Column(3).Width);
         }
+        [TestMethod]
+        public void TestDeleteColumnsWithConditionalFormatting()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with conditional formatting over multiple ranges
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var cf = wks.ConditionalFormatting.AddExpression(new ExcelAddress("B:C,E:F,H:I,K:L"));
+                cf.Formula = "=($A$1=TRUE)";
+
+                // Delete columns K:L
+                wks.DeleteColumn(11, 2);
+                Assert.AreEqual("B:C,E:F,H:I", cf.Address.Address);
+                // Delete columns E:I
+                wks.DeleteColumn(5, 5);
+
+                Assert.AreEqual("B:C", cf.Address.Address);
+            }
+        }
     }
 }

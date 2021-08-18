@@ -1618,6 +1618,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
+                    if (Addresses.Count != a.Addresses.Count) return false;
                     for(int i=0;i<Addresses.Count;i++)
                     {
                         if (IsEqual(Addresses[i], a.Addresses[i]) == false)
