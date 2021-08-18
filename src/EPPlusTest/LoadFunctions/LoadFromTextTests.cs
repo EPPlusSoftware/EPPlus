@@ -113,6 +113,9 @@ namespace EPPlusTest.LoadFunctions
             AddLine("\"a\",b, \"c\"\"\"");
             AddLine("a,\"b\", \"c\"\"\r\n\"\"\"");
             AddLine("a,\"b\", \"c\"\"\"\"\"");
+            AddLine("\"d\",e, \"\"");
+            AddLine("\"\",, \"\"");
+
             var r = _worksheet.Cells["A1"].LoadFromText(_lines.ToString(), new ExcelTextFormat { TextQualifier = '\"' });
             Assert.AreEqual("a", _worksheet.Cells[1, 1].Value);
             Assert.AreEqual("b", _worksheet.Cells[1, 2].Value);
@@ -125,6 +128,14 @@ namespace EPPlusTest.LoadFunctions
             Assert.AreEqual("a", _worksheet.Cells[3, 1].Value);
             Assert.AreEqual("b", _worksheet.Cells[3, 2].Value);
             Assert.AreEqual("c\"\"", _worksheet.Cells[3, 3].Value);
+
+            Assert.AreEqual("d", _worksheet.Cells[4, 1].Value);
+            Assert.AreEqual("e", _worksheet.Cells[4, 2].Value);
+            Assert.IsNull(_worksheet.Cells[4, 3].Value);
+
+            Assert.IsNull(_worksheet.Cells[5, 1].Value);
+            Assert.IsNull(_worksheet.Cells[5, 2].Value);
+            Assert.IsNull(_worksheet.Cells[5, 3].Value);
         }
     }
 }

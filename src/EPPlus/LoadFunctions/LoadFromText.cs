@@ -135,7 +135,7 @@ namespace OfficeOpenXml.LoadFunctions
                     }
                     if (QCount > 1)
                     {
-                        if(QCount > 2 && string.IsNullOrEmpty(v))
+                        if(string.IsNullOrEmpty(v))
                         {
                             QCount--;
                         }
