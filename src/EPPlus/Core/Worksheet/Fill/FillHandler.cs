@@ -13,6 +13,7 @@
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
@@ -141,6 +142,34 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                     {
                         worksheet.SetValue(r, c, null);
                     }
+                }
+            }
+        }
+        internal static void FillList<T>(ExcelWorksheet worksheet, int fromRow, int toRow, int fromCol, int toCol,IEnumerable<T> enumList, FillListParams options)
+        {
+            var list = enumList.ToList();
+
+            if (list.Count==0)
+            {
+                worksheet.Cells[fromRow, fromCol, toRow, toCol].Clear();
+                return;
+            }
+
+            if (options.StartIndex<0 || options.StartIndex>=list.Count)
+            {
+                throw new InvalidOperationException("StartIndex must be within the list");
+            }
+
+            var ix = options.StartIndex;
+            worksheet.SetValue(fromRow, fromCol, list[ix++]);
+            if (options.Direction == eFillDirection.Column) fromRow++; else fromCol++;
+
+            for (int c = fromCol; c <= toCol; c++)
+            {
+                for (int r = fromRow; r <= toRow; r++)
+                {
+                    if (ix == list.Count) ix = 0;
+                    worksheet.SetValue(r, c, list[ix++]);
                 }
             }
         }

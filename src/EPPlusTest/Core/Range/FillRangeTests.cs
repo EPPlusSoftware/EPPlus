@@ -12,12 +12,14 @@ namespace EPPlusTest.Core.Range.Fill
         static ExcelPackage _pck;
         static ExcelWorksheet _wsNum;
         static ExcelWorksheet _wsDate;
+        static ExcelWorksheet _wsList;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
             _pck = OpenPackage("Range_Fill.xlsx", true);
             _wsNum = _pck.Workbook.Worksheets.Add("FillNumbers");
             _wsDate = _pck.Workbook.Worksheets.Add("FillDates");
+            _wsList = _pck.Workbook.Worksheets.Add("FillList");
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -320,6 +322,24 @@ namespace EPPlusTest.Core.Range.Fill
             Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["F20"].Value).Ticks);
             Assert.AreEqual(startTime.Ticks + TimeSpan.TicksPerSecond * 4, ((DateTime)_wsDate.Cells["F24"].Value).Ticks);
         }
+        [TestMethod]
+        public void FillList_Default()
+        {
+            var list = new string[] { "Monday","Tuesday","Wednesday" };
+            _wsList.Cells["A1:B5"].FillList(list);
 
+            //Assert
+            Assert.AreEqual(list[0], _wsList.GetValue(1, 1));
+            Assert.AreEqual(list[1], _wsList.GetValue(2, 1));
+            Assert.AreEqual(list[2], _wsList.GetValue(3, 1));
+            Assert.AreEqual(list[0], _wsList.GetValue(4, 1));
+            Assert.AreEqual(list[1], _wsList.GetValue(5, 1));
+
+            Assert.AreEqual(list[0], _wsList.GetValue(1, 2));
+            Assert.AreEqual(list[1], _wsList.GetValue(2, 2));
+            Assert.AreEqual(list[2], _wsList.GetValue(3, 2));
+            Assert.AreEqual(list[0], _wsList.GetValue(4, 2));
+            Assert.AreEqual(list[1], _wsList.GetValue(5, 2));
+        }
     }
 }

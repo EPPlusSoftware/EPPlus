@@ -14,13 +14,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Core.Worksheet.Fill
 {
-    public class FillDateParams
+    public class FillDateParams : FillParams
     {
         /// <summary>
         /// The start value. If null, the first value in the row/column is used. 
-        /// <seealso cref="Direction"/>
+        /// <seealso cref="FillParams.Direction"/>
         /// </summary>
         public DateTime? StartValue { get; set; } = null;
         /// <summary>
@@ -31,10 +31,6 @@ namespace OfficeOpenXml
         /// The value to add for each step. 
         /// </summary>
         public int StepValue { get; set; } = 1;
-        /// <summary>
-        /// The direction of the fill
-        /// </summary>
-        public eFillDirection Direction { get; set; } = eFillDirection.Column;
         /// <summary>
         /// The date unit added per cell
         /// </summary>
@@ -47,9 +43,5 @@ namespace OfficeOpenXml
         /// A list with weekdays treated as holydays.
         /// </summary>
         public HashSet<DateTime> HolidayCalendar { get; } = new HashSet<DateTime>();
-        /// <summary>
-        /// The number format to be appled to the range.
-        /// </summary>
-        public string NumberFormat { get; set; } = null;
     }
 }

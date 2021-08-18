@@ -12,25 +12,15 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
-    public class FillNumberParams : FillParams
+    public class FillParams
     {
         /// <summary>
-        /// The start value. If null, the first value in the row/column is used. 
-        /// <seealso cref="Direction"/>
+        /// The direction of the fill
         /// </summary>
-        public double? StartValue { get; set; } = null;
+        public eFillDirection Direction { get; set; } = eFillDirection.Column;
         /// <summary>
-        /// When this value is exceeded the fill stops
+        /// The number format to be appled to the range.
         /// </summary>
-        public double? EndValue { get; set; } = null;
-        /// <summary>
-        /// The value to use in the calculation for each step. 
-        /// <seealso cref="CalculationMethod"/>
-        /// </summary>
-        public double StepValue { get; set; } = 1;
-        /// <summary>
-        /// The calculation method to use 
-        /// </summary>
-        public eCalculationMethod CalculationMethod { get; set; } = eCalculationMethod.Add;
+        public string NumberFormat { get; set; } = null;
     }
 }

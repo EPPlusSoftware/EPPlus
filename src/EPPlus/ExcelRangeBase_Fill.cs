@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.Fill;
 using System;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml
 {
@@ -35,29 +36,29 @@ namespace OfficeOpenXml
         {
             FillNumber(x => { x.StepValue = stepValue; x.StartValue = startValue; x.Direction = direction; });
         }
-        public void FillNumber(Action<FillNumberParams> o)
+        public void FillNumber(Action<FillNumberParams> options)
         {
-            var options = new FillNumberParams();
-            o?.Invoke(options);
+            var o = new FillNumberParams();
+            options?.Invoke(o);
 
-            if (options.Direction == eFillDirection.Column)
+            if (o.Direction == eFillDirection.Column)
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    FillHandler.FillNumbers(_worksheet, _fromRow, _toRow, c, c, options);
+                    FillHandler.FillNumbers(_worksheet, _fromRow, _toRow, c, c, o);
                 }
             }
             else
             {
                 for (int r = _fromRow; r <= _toRow; r++)
                 {
-                    FillHandler.FillNumbers(_worksheet, r, r, _fromCol, _toCol, options);
+                    FillHandler.FillNumbers(_worksheet, r, r, _fromCol, _toCol, o);
                 }
             }
 
-            if (!string.IsNullOrEmpty(options.NumberFormat))
+            if (!string.IsNullOrEmpty(o.NumberFormat))
             {
-                Style.Numberformat.Format = options.NumberFormat;
+                Style.Numberformat.Format = o.NumberFormat;
             }
         }
         #endregion
@@ -78,36 +79,71 @@ namespace OfficeOpenXml
         /// <summary>
         /// Fill the range with dates.
         /// </summary>
-        /// <param name="o">Options how to perform the fill</param>
-        public void FillDateTime(Action<FillDateParams> o)
+        /// <param name="options">Options how to perform the fill</param>
+        public void FillDateTime(Action<FillDateParams> options)
         {
-            var options = new FillDateParams();
-            o?.Invoke(options);
+            var o = new FillDateParams();
+            options?.Invoke(o);
 
-            if (options.Direction == eFillDirection.Column)
+            if (o.Direction == eFillDirection.Column)
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    FillHandler.FillDates(_worksheet, _fromRow, _toRow, c, c, options);
+                    FillHandler.FillDates(_worksheet, _fromRow, _toRow, c, c, o);
                 }
             }
             else
             {
                 for (int r = _fromRow; r <= _toRow; r++)
                 {
-                    FillHandler.FillDates(_worksheet, r, r, _fromCol, _toCol, options);
+                    FillHandler.FillDates(_worksheet, r, r, _fromCol, _toCol, o);
                 }
             }
             
-            if (!string.IsNullOrEmpty(options.NumberFormat))
+            if (!string.IsNullOrEmpty(o.NumberFormat))
             {
-                Style.Numberformat.Format = options.NumberFormat;
+                Style.Numberformat.Format = o.NumberFormat;
             }
         }
-
-        public void FillString()
+        /// <summary>
+        /// Fills the range columnwise using the values in the list. 
+        /// </summary>
+        /// <typeparam name="T">Type used in the list.</typeparam>
+        /// <param name="list">The list to use.</param>
+        public void FillList<T>(IEnumerable<T> list)
         {
+            FillList(list, x=> { });
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="options"></param>
+        public void FillList<T>(IEnumerable<T> list, Action<FillListParams> options)
+        {
+            var o = new FillListParams();
+            options?.Invoke(o);
 
+            if (o.Direction == eFillDirection.Column)
+            {
+                for (int c = _fromCol; c <= _toCol; c++)
+                {
+                    FillHandler.FillList(_worksheet, _fromRow, _toRow, c, c, list, o);
+                }
+            }
+            else
+            {
+                for (int r = _fromRow; r <= _toRow; r++)
+                {
+                    FillHandler.FillList(_worksheet, r, r, _fromCol, _toCol, list, o);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(o.NumberFormat))
+            {
+                Style.Numberformat.Format = o.NumberFormat;
+            }
         }
     }
 }
