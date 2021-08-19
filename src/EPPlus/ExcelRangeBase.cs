@@ -2410,29 +2410,17 @@ namespace OfficeOpenXml
             }
             return null;
         }
-        ///// <summary>
-        ///// The address for the range
-        ///// </summary>
-        ///// <remarks>Examples of addresses are "A1" "B1:C2" "A:A" "1:1" "A1:E2,G3:G5" </remarks>
-        //public new string Address
-        //{
-        //    get
-        //    {
-        //        return base.Address;
-        //    }
-        //    set
-        //    {
-        //        base.Address = value;
-        //        if (!string.IsNullOrEmpty(_ws) && !_ws.Equals(Worksheet.Name, StringComparison.InvariantCultureIgnoreCase))
-        //        {
-        //            _worksheet = _workbook.Worksheets[_ws];
-        //            if(_worksheet==null)
-        //            {
-        //                throw (new InvalidOperationException($"Worksheet {_ws} does not exist in this workbook"));
-        //            }
-        //        }
-        //    }
-        //}
-
+        ExcelRangeColumn _entireColumn = null;
+        public ExcelRangeColumn EntireColumn
+        { 
+            get
+            {
+                if(_entireColumn==null || _entireColumn._fromCol != _fromCol || _entireColumn._toCol != _toCol)
+                {
+                    _entireColumn = new ExcelRangeColumn(_worksheet, _fromCol, _toCol);
+                }
+                return _entireColumn;
+            }
+        }
     }
 }

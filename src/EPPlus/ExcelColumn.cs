@@ -38,7 +38,7 @@ namespace OfficeOpenXml
             _width = _worksheet.DefaultColWidth;
         }
 		#endregion
-        internal int _columnMin;		
+        internal int _columnMin;
 		/// <summary>
 		/// Sets the first column the definition refers to.
 		/// </summary>
