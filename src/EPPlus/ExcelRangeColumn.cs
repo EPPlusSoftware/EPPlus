@@ -229,16 +229,28 @@ namespace OfficeOpenXml
         {
             _ws.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
         }
-        private TOut GetValue<TOut>(Func<ExcelColumn, TOut> SetValue, TOut defaultValue)
+        private TOut GetValue<TOut>(Func<ExcelColumn, TOut> getValue, TOut defaultValue)
         {
             var currentCol = _ws.GetValueInner(0, _fromCol) as ExcelColumn;
             if (currentCol == null)
             {
+                int r = 0, c = _fromCol;
+                if(_ws._values.PrevCell(ref r, ref c))
+                {
+                    if(c>0)
+                    {
+                        ExcelColumn prevCol = _ws.GetValueInner(0, c) as ExcelColumn;
+                        if (prevCol.ColumnMax>=_fromCol)
+                        {
+                            return getValue(prevCol);
+                        }
+                    }
+                }
                 return defaultValue;
             }
             else
             {
-                return SetValue(currentCol);
+                return getValue(currentCol);
             }
         }
 

@@ -239,7 +239,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _worksheet.MergedCells[ColumnMin, 0] != null;
+                return _worksheet.MergedCells[0, ColumnMin] != null;
             }
             set
             {

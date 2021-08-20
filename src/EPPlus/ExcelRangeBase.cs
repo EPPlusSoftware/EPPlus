@@ -2422,5 +2422,17 @@ namespace OfficeOpenXml
                 return _entireColumn;
             }
         }
+        ExcelRangeRow _entireRow = null;
+        public ExcelRangeRow EntireRow
+        {
+            get
+            {
+                if (_entireRow == null || _entireRow._fromRow != _fromRow || _entireRow._toRow != _toRow)
+                {
+                    _entireRow = new ExcelRangeRow(_worksheet, _fromRow, _toRow);
+                }
+                return _entireRow;
+            }
+        }
     }
 }
