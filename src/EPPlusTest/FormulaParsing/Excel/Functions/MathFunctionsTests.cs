@@ -888,12 +888,12 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
-        public void CountAShouldReturnNumberOfNonWhitespaceItems()
+        public void CountAShouldCountEmptyString()
         {
             var func = new CountA();
             var args = FunctionsHelper.CreateArgs(1d, 2m, 3, new DateTime(2012, 4, 1), "4", null, string.Empty);
             var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(5d, result.Result);
+            Assert.AreEqual(6d, result.Result);
         }
 
         [TestMethod]

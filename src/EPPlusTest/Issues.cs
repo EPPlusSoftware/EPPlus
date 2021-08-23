@@ -2439,5 +2439,45 @@ namespace EPPlusTest
 
             }
         }
+        [TestMethod]
+        public void InsertRowsIntoTable_CheckFormulasWithColumnReferences()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet, and a table with headers and a single row of data
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["B2:D3"].Value = new object[,] { { "Col1", "Col2", "Col3" }, { 1, 2, 3 } };
+                wks.Tables.Add(wks.Cells["B2:D3"], "Table1");
+
+                // Add a SUM formula on the worksheet with a reference to a table column
+                wks.Cells["C10"].Formula = "SUM(Table1[Col2])";
+                wks.Cells["C10"].Calculate();
+
+                Assert.AreEqual(2.0, wks.Cells["C3"].GetValue<double>());
+                Assert.AreEqual("SUM(Table1[Col2])", wks.Cells["C10"].Formula);
+                Assert.AreEqual(2.0, wks.Cells["C10"].GetValue<double>());
+
+                // Insert 2 rows into the worksheet to extend the table
+                wks.InsertRow(4, 2);
+
+                // Check that the formula that was in C10 (now C12) still references the column
+                Assert.AreEqual("SUM(Table1[Col2])", wks.Cells["C12"].Formula);
+            }
+        }
+        [TestMethod]
+        public void CopyWorksheetWithDynamicArrayFormula()
+        {
+
+            using (var p1 = OpenTemplatePackage("TestDynamicArrayFormula.xlsx"))
+            {
+                using(var p2=new ExcelPackage())
+                {
+                    p2.Workbook.Worksheets.Add("Sheet1", p1.Workbook.Worksheets["Sheet1"]);
+                    SaveWorkbook("DontCopyMetadataToNewWorkbook.xlsx", p2);
+                }
+            }
+
+            Assert.Inconclusive("Now try to open the file in Excel - does it tell you the file is corrupt?");
+        }
     }
 }

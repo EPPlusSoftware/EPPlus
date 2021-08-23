@@ -943,7 +943,7 @@ namespace OfficeOpenXml
                             }
                         }
 
-                        if (address == null || !address.IsValidRowCol())
+                        if (address == null || (!address.IsValidRowCol() && address.IsName==false))
                         {
                             f += "#REF!";
                         }

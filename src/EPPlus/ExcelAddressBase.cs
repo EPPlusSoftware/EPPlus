@@ -888,21 +888,47 @@ namespace OfficeOpenXml
         {
             return fromCol <= _fromCol && toCol >= _toCol;
         }
-        internal ExcelAddressBase AddRow(int row, int rows, bool setFixed=false)
+        internal ExcelAddressBase AddRow(int row, int rows, bool setFixed=false, bool setRefOnMinMax=true)
         {
             if (row > _toRow)
             {
                 return this;
             }
-            else if (row <= _fromRow)
+            var toRow = setFixed && _toRowFixed ? _toRow : _toRow + rows;
+            if (toRow < 1) return null;
+            if (row <= _fromRow)
             {
-                return new ExcelAddressBase((setFixed && _fromRowFixed ? _fromRow : _fromRow + rows), _fromCol, (setFixed && _toRowFixed ? _toRow : _toRow + rows), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                var fromRow = setFixed && _fromRowFixed ? _fromRow : _fromRow + rows;
+                if (fromRow > ExcelPackage.MaxRows) return null;
+                return new ExcelAddressBase(GetRow(fromRow, setRefOnMinMax), _fromCol, GetRow(toRow, setRefOnMinMax), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else
             {
-                return new ExcelAddressBase(_fromRow, _fromCol, (setFixed && _toRowFixed ? _toRow : _toRow + rows), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                return new ExcelAddressBase(_fromRow, _fromCol, GetRow(toRow, setRefOnMinMax), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
         }
+
+        private int GetRow(int row, bool setRefOnMinMax)
+        {
+            if (setRefOnMinMax==false)
+            {
+                if (row < 1) return 1;
+                if (row > ExcelPackage.MaxRows) return ExcelPackage.MaxRows;
+            }
+
+            return row;
+        }
+        private int GetColumn(int column, bool setRefOnMinMax)
+        {
+            if (setRefOnMinMax == false)
+            {
+                if (column < 1) return 1;
+                if (column > ExcelPackage.MaxColumns) return ExcelPackage.MaxColumns;
+            }
+
+            return column;
+        }
+
         internal ExcelAddressBase DeleteRow(int row, int rows, bool setFixed = false)
         {
             if (row > _toRow) //After
@@ -929,19 +955,21 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false)
+        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false, bool setRefOnMinMax=true)
         {
             if (col > _toCol)
             {
                 return this;
             }
-            else if (col <= _fromCol)
+            var toCol = GetColumn((setFixed && _toColFixed ? _toCol : _toCol + cols), setRefOnMinMax);
+            if (col <= _fromCol)
             {
-                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol + cols), _toRow, (setFixed && _toColFixed ? _toCol : _toCol + cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                var fromCol = GetColumn((setFixed && _fromColFixed ? _fromCol : _fromCol + cols), setRefOnMinMax);
+                return new ExcelAddressBase(_fromRow, fromCol, _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else
             {
-                return new ExcelAddressBase(_fromRow, _fromCol, _toRow, (setFixed && _toColFixed ? _toCol : _toCol + cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                return new ExcelAddressBase(_fromRow, _fromCol, _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
         }
         internal ExcelAddressBase DeleteColumn(int col, int cols, bool setFixed = false)
