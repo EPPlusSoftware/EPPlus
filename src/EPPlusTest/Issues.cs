@@ -2464,5 +2464,20 @@ namespace EPPlusTest
                 Assert.AreEqual("SUM(Table1[Col2])", wks.Cells["C12"].Formula);
             }
         }
+        [TestMethod]
+        public void CopyWorksheetWithDynamicArrayFormula()
+        {
+
+            using (var p1 = OpenTemplatePackage("TestDynamicArrayFormula.xlsx"))
+            {
+                using(var p2=new ExcelPackage())
+                {
+                    p2.Workbook.Worksheets.Add("Sheet1", p1.Workbook.Worksheets["Sheet1"]);
+                    SaveWorkbook("DontCopyMetadataToNewWorkbook.xlsx", p2);
+                }
+            }
+
+            Assert.Inconclusive("Now try to open the file in Excel - does it tell you the file is corrupt?");
+        }
     }
 }
