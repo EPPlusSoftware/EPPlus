@@ -1621,15 +1621,15 @@ namespace OfficeOpenXml
         {
             if (_fromRow == 1 && _fromCol == 1 && _toRow == ExcelPackage.MaxRows && _toCol == ExcelPackage.MaxColumns)  //Full sheet (ex ws.Cells.Value=0). Set value for A1 only to avoid hanging 
             {
-                SetValue(value, 1, 1);
+                SetValueInner(value, 1, 1);
             }
             else
             {
-                SetValue(value, _fromRow, _fromCol);
+                SetValueInner(value, _fromRow, _fromCol);
             }
         }
 
-        private void SetValue(object value, int row, int col)
+        private void SetValueInner(object value, int row, int col)
         {
             _worksheet.SetValue(row, col, value);
             _worksheet._formulas.SetValue(row, col, "");
@@ -2432,6 +2432,41 @@ namespace OfficeOpenXml
                     _entireRow = new ExcelRangeRow(_worksheet, _fromRow, _toRow);
                 }
                 return _entireRow;
+            }
+        }
+        /// <summary>
+        /// Sets the value of a cell using an offset from the top-left cell in the range.
+        /// </summary>
+        /// <param name="rowOffset">Row offset from the top-left cell in the range</param>
+        /// <param name="columnOffset">Column offset from the top-left cell in the range</param>
+        /// <param name="value">The value to set.</param>
+        public void SetValue(int rowOffset, int columnOffset, object value)
+        {
+            if (IsName)
+            {
+                ExcelNamedRange n;
+                if (_worksheet == null)
+                {
+                    n=_workbook._names[_address];
+                }
+                else
+                {
+                    
+                    n=_worksheet.Names[_address];
+                }
+                var a = new ExcelAddressBase(n.Address);
+                if (a._fromRow>0 && a._fromCol>0)
+                {
+                    _worksheet.SetValue(a._fromRow + rowOffset, a._fromCol + columnOffset, value);
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Can't set value on name {n.Name} referencing {n.Address}. Offset is not possible.");
+                }
+            }
+            else
+            {
+                _worksheet.SetValue(_fromRow + rowOffset, _fromCol + columnOffset, value);
             }
         }
     }

@@ -1217,7 +1217,10 @@ namespace OfficeOpenXml.Core.CellStore
                 else
                 {
                     var r = GetNextCell(ref row, ref c, minColPos, maxRow, maxColPos);
-                    col = _columnIndex[c].Index;
+                    if (r)
+                    {
+                        col = _columnIndex[c].Index;
+                    }
                     return r;
                 }
             }

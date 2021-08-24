@@ -1,5 +1,8 @@
-﻿using OfficeOpenXml.Style;
+﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Style;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml
 {
@@ -62,15 +65,35 @@ namespace OfficeOpenXml
             set;
         }
     }
-    public class ExcelRangeColumn : IExcelColumn
+    public class ExcelRangeColumn : IExcelColumn, IEnumerable<ExcelRangeColumn>, IEnumerator<ExcelRangeColumn>
     {
-        ExcelWorksheet _ws;
+        ExcelWorksheet _worksheet;
         internal int _fromCol, _toCol;
         internal ExcelRangeColumn(ExcelWorksheet ws, int fromCol, int toCol)
         {
-            _ws = ws;
+            _worksheet = ws;
             _fromCol = fromCol;
             _toCol = toCol;            
+        }
+        /// <summary>
+        /// The first column in the collection
+        /// </summary>
+        public int StartColumn 
+        { 
+            get
+            {
+                return _fromCol;
+            }
+        }
+        /// <summary>
+        /// The last column in the collection
+        /// </summary>
+        public int EndColumn
+        {
+            get
+            {
+                return _toCol;
+            }
         }
         public bool Collapsed 
         {
@@ -133,7 +156,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return GetValue(new Func<ExcelColumn, double>(x => x.Width), _ws.DefaultColWidth);
+                return GetValue(new Func<ExcelColumn, double>(x => x.Width), _worksheet.DefaultColWidth);
             }
             set
             {
@@ -180,7 +203,7 @@ namespace OfficeOpenXml
             {
                 string letter = ExcelCellBase.GetColumnLetter(_fromCol);
                 string endLetter = ExcelCellBase.GetColumnLetter(_toCol);
-                return _ws.Workbook.Styles.GetStyleObject(StyleID, _ws.PositionId, letter + ":" + endLetter);
+                return _worksheet.Workbook.Styles.GetStyleObject(StyleID, _worksheet.PositionId, letter + ":" + endLetter);
             }
         }
         internal string _styleName = "";
@@ -213,33 +236,49 @@ namespace OfficeOpenXml
                 SetValue(new Action<ExcelColumn, int>((x, v) => { x.StyleID = v; }), value);
             }
         }
+
+        public ExcelRangeColumn Current
+        {
+            get
+            {
+                return new ExcelRangeColumn(_worksheet, enumCol, enumCol);
+            }
+        }
+
+        object IEnumerator.Current
+        {
+            get
+            {
+                return new ExcelRangeColumn(_worksheet, enumCol, enumCol);
+            }
+        }
         #endregion
 
         public void AutoFit()
         {
-            _ws.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns();
+            _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns();
         }
 
         public void AutoFit(double MinimumWidth)
         {
-            _ws.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth);
+            _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth);
         }
 
         public void AutoFit(double MinimumWidth, double MaximumWidth)
         {
-            _ws.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
+            _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
         }
         private TOut GetValue<TOut>(Func<ExcelColumn, TOut> getValue, TOut defaultValue)
         {
-            var currentCol = _ws.GetValueInner(0, _fromCol) as ExcelColumn;
+            var currentCol = _worksheet.GetValueInner(0, _fromCol) as ExcelColumn;
             if (currentCol == null)
             {
                 int r = 0, c = _fromCol;
-                if(_ws._values.PrevCell(ref r, ref c))
+                if(_worksheet._values.PrevCell(ref r, ref c))
                 {
                     if(c>0)
                     {
-                        ExcelColumn prevCol = _ws.GetValueInner(0, c) as ExcelColumn;
+                        ExcelColumn prevCol = _worksheet.GetValueInner(0, c) as ExcelColumn;
                         if (prevCol.ColumnMax>=_fromCol)
                         {
                             return getValue(prevCol);
@@ -258,18 +297,18 @@ namespace OfficeOpenXml
         {
             var c = _fromCol;
             int r = 0;
-            ExcelColumn currentCol = _ws.GetValueInner(0, c) as ExcelColumn;
+            ExcelColumn currentCol = _worksheet.GetValueInner(0, c) as ExcelColumn;
             while (c <= _toCol)
             {
                 if (currentCol == null)
                 {
-                    currentCol = _ws.Column(c);
+                    currentCol = _worksheet.Column(c);
                 }
                 else
                 {
                     if (c < _fromCol)
                     {
-                        currentCol = _ws.Column(c);
+                        currentCol = _worksheet.Column(c);
                     }
                 }
 
@@ -279,7 +318,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    if (_ws._values.NextCell(ref r, ref c))
+                    if (_worksheet._values.NextCell(ref r, ref c))
                     {
                         if (r == 0 && c < _toCol)
                         {
@@ -299,6 +338,98 @@ namespace OfficeOpenXml
                 SetValue(currentCol, value);
 
             }
+        }
+
+        public IEnumerator<ExcelRangeColumn> GetEnumerator()
+        {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
+        }
+
+        public bool MoveNext()
+        {
+            if(_cs==null)
+            {
+                Reset();
+                return enumCol <= _toCol;
+            }
+            enumCol++;
+            if (_currentCol?.ColumnMax>=enumCol)
+            {
+                return true;
+            }
+            else
+            {
+                var c = _cs.GetValue(0, enumCol)._value as ExcelColumn;
+                if(c!=null && c.ColumnMax>=enumCol)
+                {
+                    _currentCol = c;
+                    return true;
+                }
+                if(++enumColPos<_cs.ColumnCount)
+                {
+                    enumCol = _cs._columnIndex[enumColPos].Index;
+                }
+                else
+                {
+                    return false;
+                }
+                if (enumCol <= _toCol) 
+                    return true;
+            }
+            return false;
+        }
+        CellStoreValue _cs;
+        int enumCol, enumColPos;
+        ExcelColumn _currentCol;
+        public void Reset()
+        {
+            _currentCol = null;
+            _cs = _worksheet._values;
+            if(_cs.ColumnCount>0)
+            {
+                enumCol = _fromCol;
+                enumColPos = _cs.GetColumnPosition(enumCol);
+                if(enumColPos<0)
+                {
+                    enumColPos = ~enumColPos;
+                    int r=0, c=0;
+                    if(_cs.GetPrevCell(ref r, ref c, 0, enumColPos - 1, _toCol))
+                    {
+                        if (r == 0 && c < enumColPos)
+                        {
+                            _currentCol = ((ExcelColumn)_cs.GetValue(r, c)._value);
+                            if (_currentCol.ColumnMax >= _fromCol)
+                            {
+                                enumColPos = c;
+                            }
+                            else
+                            {
+                                enumCol = _cs._columnIndex[enumColPos].Index;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        enumColPos++;
+                        enumCol = _cs._columnIndex[enumColPos].Index;
+                    }
+
+                }
+                else
+                {
+                    _currentCol = _cs.GetValue(0, _fromCol)._value as ExcelColumn; 
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

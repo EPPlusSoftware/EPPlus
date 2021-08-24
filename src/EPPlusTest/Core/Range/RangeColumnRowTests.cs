@@ -93,6 +93,23 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual("Green Fill", ws.Cells["E10"].EntireColumn.StyleName);
         }
         [TestMethod]
+        public void Row_SetStyle()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Style");
+
+            ws.Cells["C15:J20"].EntireRow.Style.Font.Color.SetAuto();
+            ws.Cells["C15:J20"].EntireRow.Style.Font.Bold = true; ;
+
+            Assert.IsTrue(ws.Cells["E15"].EntireRow.Style.Font.Color.Auto);
+            Assert.IsTrue(ws.Cells["E15"].EntireRow.Style.Font.Bold);
+            Assert.IsTrue(ws.Cells["E20"].EntireRow.Style.Font.Color.Auto);
+            Assert.IsTrue(ws.Cells["E20"].EntireRow.Style.Font.Bold);
+
+            Assert.IsFalse(ws.Cells["E21"].EntireRow.Style.Font.Color.Auto);
+            Assert.IsFalse(ws.Cells["E14"].EntireRow.Style.Font.Color.Auto);
+        }
+
+        [TestMethod]
         public void Row_SetStyleName()
         {
             var styleName = "Blue Fill";
@@ -120,6 +137,56 @@ namespace EPPlusTest.Core.Range
             Assert.IsTrue(ws.Cells["G15"].EntireRow.Phonetic);
             Assert.IsTrue(ws.Cells["H16"].EntireRow.Phonetic);
             Assert.IsTrue(ws.Cells["K19"].EntireRow.Phonetic);
+        }
+        [TestMethod]
+        public void Row_SetHidden()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Hidden");
+
+            ws.Cells["G15:K20"].EntireRow.Hidden = true;
+            ws.Cells["I17:J18"].EntireRow.Hidden = false;
+
+            Assert.IsFalse(ws.Cells["F14"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["I17"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["J18"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["L21"].EntireRow.Hidden);
+
+            Assert.IsTrue(ws.Cells["G15"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["H16"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["K19"].EntireRow.Hidden);
+        }
+        [TestMethod]
+        public void Row_SetCollapsed()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed");
+
+            ws.Cells["G15:K20"].EntireRow.Collapsed = true;
+            ws.Cells["I17:J18"].EntireRow.Collapsed = false;
+
+            Assert.IsFalse(ws.Cells["F14"].EntireRow.Collapsed);
+            Assert.IsFalse(ws.Cells["I17"].EntireRow.Collapsed);
+            Assert.IsFalse(ws.Cells["J18"].EntireRow.Collapsed);
+            Assert.IsFalse(ws.Cells["L21"].EntireRow.Collapsed);
+
+            Assert.IsTrue(ws.Cells["G15"].EntireRow.Collapsed);
+            Assert.IsTrue(ws.Cells["H16"].EntireRow.Collapsed);
+            Assert.IsTrue(ws.Cells["K19"].EntireRow.Collapsed);
+        }
+        [TestMethod]
+        public void Row_SetOutlineLevel()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_OutlineLevel");
+
+            ws.Cells["G15:K20"].EntireRow.OutlineLevel = 1;
+            ws.Cells["I17:J18"].EntireRow.OutlineLevel = 2;
+            Assert.AreEqual(0, ws.Cells["F14"].EntireRow.OutlineLevel);
+            Assert.AreEqual(2, ws.Cells["I17"].EntireRow.OutlineLevel);
+            Assert.AreEqual(2, ws.Cells["J18"].EntireRow.OutlineLevel);
+            Assert.AreEqual(0, ws.Cells["L21"].EntireRow.OutlineLevel);
+
+            Assert.AreEqual(1, ws.Cells["G15"].EntireRow.OutlineLevel);
+            Assert.AreEqual(1, ws.Cells["H16"].EntireRow.OutlineLevel);
+            Assert.AreEqual(1, ws.Cells["K19"].EntireRow.OutlineLevel);
         }
     }
 }
