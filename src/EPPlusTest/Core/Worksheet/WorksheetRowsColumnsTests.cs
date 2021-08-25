@@ -1,5 +1,6 @@
 ﻿using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Drawing;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -97,22 +98,62 @@ namespace OfficeOpenXml.Core.Worksheet
             Assert.AreEqual(11, c);
         }
         [TestMethod]
-        public void ValidateColumnsCollectionEnumerationColumn3_5()
+        public void ValidateColumnsCollectionEnumerationColumn3_7()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Columns");
+            var ws = _pck.Workbook.Worksheets.Add("Columns3_7");
 
-            ws.Columns[3, 5].Width=25;
+            ws.Columns[3, 5].Width = 25;
+            ws.Cells["F3"].Value = "Column F";
+            ws.Columns[7].Width = 20;
 
             int columns = 0;
             foreach (var column in ws.Columns[2, 10])
             {
-                if(column.StartColumn < 3 || column.StartColumn > 5)
+                if(column.StartColumn < 3 || column.StartColumn > 7)
                 {
                     Assert.Fail("Invalid columns detected in [Columns] collection");
                 }
                 columns++;
             }
-            Assert.AreEqual(3, columns);
+            Assert.AreEqual(5, columns);
+        }
+        [TestMethod]
+        public void ValidateColumnsCollectionEnumerationColumnWithGap()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ColumnsWithGap");
+
+            ws.Columns[3].Width = 25;
+            ws.Columns[8].PageBreak = true;
+
+            ws.Cells["F3"].Value = "Column F";
+
+            ws.Cells["J13"].Formula = "A1";
+            int columns = 0;
+            foreach (var column in ws.Columns[2, 10])
+            {
+                if (!(column.StartColumn == 3 || column.StartColumn == 8 || column.StartColumn == 6 || column.StartColumn == 10))
+                {
+                    Assert.Fail("Invalid columns detected in [Columns] collection");
+                }
+                
+                columns++;
+            }
+            Assert.AreEqual(4, columns);
+        }
+        [TestMethod]
+        public void ValidateColumnsRange()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ColumnsRangeProperties");
+            
+            var valueCell = "First Cell";
+            var columns = ws.Columns[2, 4];
+            columns.Range.SetCellValue(0, 0, valueCell);
+            columns.Range.Style.Fill.SetBackground(Color.Aqua, Style.ExcelFillStyle.LightTrellis);
+
+            Assert.AreEqual(valueCell, ws.Cells[1,2].Value);
+            Assert.AreEqual(valueCell, columns.Range.GetCellValue<string>(0, 0));
+            Assert.AreEqual(Style.ExcelFillStyle.LightTrellis, ws.Cells[50, 3].Style.Fill.PatternType);
+            Assert.AreEqual(Color.Aqua.ToArgb().ToString("X"), ws.Cells[50, 3].Style.Fill.BackgroundColor.Rgb);
         }
     }
 }

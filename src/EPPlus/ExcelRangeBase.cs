@@ -76,7 +76,7 @@ namespace OfficeOpenXml
             {
                 SetRCFromTable(_workbook._package, null);
             }
-            if(string.IsNullOrEmpty(_ws)==false && (_worksheet==null || !_worksheet.Name.Equals(_ws, StringComparison.OrdinalIgnoreCase)))
+            if (string.IsNullOrEmpty(_ws) == false && (_worksheet == null || !_worksheet.Name.Equals(_ws, StringComparison.OrdinalIgnoreCase)))
             {
                 _worksheet = _workbook.Worksheets[_ws];
             }
@@ -200,7 +200,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    if(valueMethod!=Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
+                    if (valueMethod != Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
                     if (value != null)
                     {
                         for (int col = address.Start.Column; col <= address.End.Column; col++)
@@ -333,10 +333,10 @@ namespace OfficeOpenXml
         {
             var b = (bool)value;
             var ws = range.Worksheet;
-            var isRT = ws._flags.GetFlagValue(row, col, CellFlags.RichText); 
+            var isRT = ws._flags.GetFlagValue(row, col, CellFlags.RichText);
             if (isRT != b)
-            {   
-                var rt = ws.GetRichText(row, col, ws.Cells[row,col]);
+            {
+                var rt = ws.GetRichText(row, col, ws.Cells[row, col]);
                 if (b)
                 {
                     rt.Text = ValueToTextHandler.GetFormattedText(ws.GetValue(row, col), ws.Workbook, ws.GetStyleInner(row, col), false);
@@ -600,7 +600,7 @@ namespace OfficeOpenXml
                 int row = 0;
                 if (_worksheet._values.PrevCell(ref row, ref col))
                 {
-                    var v=_worksheet.GetCoreValueInner(row, col);
+                    var v = _worksheet.GetCoreValueInner(row, col);
                     var column = (ExcelColumn)v._value;
                     if (column.ColumnMax >= col)
                     {
@@ -990,7 +990,7 @@ namespace OfficeOpenXml
             var iterator = new CellStoreEnumerator<ExcelValue>(_worksheet._values, 0, fromCol, 0, toCol);
             var prevCol = fromCol;
             foreach (ExcelValue val in iterator)
-            {                
+            {
                 var col = (ExcelColumn)val._value;
                 if (col.Hidden) continue;
                 col.Width = minimumWidth;
@@ -1094,13 +1094,13 @@ namespace OfficeOpenXml
             f.StartCol = range.Start.Column;
             f.StartRow = range.Start.Row;
 
-            if(range.Addresses==null)
+            if (range.Addresses == null)
             {
                 SetFormulaAddress(range, range, f);
             }
             else
             {
-                foreach(var address in range.Addresses)
+                foreach (var address in range.Addresses)
                 {
                     SetFormulaAddress(range, address, f);
                 }
@@ -1112,7 +1112,7 @@ namespace OfficeOpenXml
             for (int row = address._fromRow; row <= address._toRow; row++)
             {
                 for (int col = address._fromCol; col <= address._toCol; col++)
-                {                    
+                {
                     if (string.IsNullOrEmpty(f.Formula))
                     {
                         range._worksheet._formulas.SetValue(row, col, string.Empty);
@@ -1130,12 +1130,12 @@ namespace OfficeOpenXml
         {
             var tokenizer = SourceCodeTokenizer.Default;
             var tokens = tokenizer.Tokenize(value, WorkSheetName);
-            foreach(var t in tokens)
+            foreach (var t in tokens)
             {
-                if(t.TokenTypeIsSet(TokenType.ExcelAddress))
+                if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                 {
                     var a = new ExcelAddressBase(t.Value);
-                    if(string.IsNullOrEmpty(a.WorkSheetName)==false && a.WorkSheetName.Equals(WorkSheetName)==false)
+                    if (string.IsNullOrEmpty(a.WorkSheetName) == false && a.WorkSheetName.Equals(WorkSheetName) == false)
                     {
                         return true;
                     }
@@ -1228,19 +1228,19 @@ namespace OfficeOpenXml
         /// <param name="display">The displayed text in the cell</param>f
         public void SetHyperlink(ExcelRange range, string display)
         {
-            if(range==null)
+            if (range == null)
             {
                 throw (new ArgumentNullException("The range must not be null.", nameof(range)));
             }
-            if (range.Worksheet.Workbook!=Worksheet.Workbook)
+            if (range.Worksheet.Workbook != Worksheet.Workbook)
             {
                 throw (new ArgumentException("The range must be within this package.", nameof(range)));
             }
-            if(string.IsNullOrEmpty(display))
+            if (string.IsNullOrEmpty(display))
             {
                 display = range.Address;
             }
-            if(string.IsNullOrEmpty(range.WorkSheetName) || range.WorkSheetName.Equals(WorkSheetName ?? "", StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(range.WorkSheetName) || range.WorkSheetName.Equals(WorkSheetName ?? "", StringComparison.OrdinalIgnoreCase))
             {
                 Hyperlink = new ExcelHyperLink(range.Address, display);
             }
@@ -1303,9 +1303,9 @@ namespace OfficeOpenXml
 
         private void ValidateMergePossible()
         {
-            foreach(var t in _worksheet.Tables)
+            foreach (var t in _worksheet.Tables)
             {
-                if(Collide(t.Address)!=eAddressCollition.No)
+                if (Collide(t.Address) != eAddressCollition.No)
                 {
                     throw (new InvalidOperationException($"Cant merge range. The merge is within table {t.Name}"));
                 }
@@ -1336,7 +1336,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                IsRangeValid("autofilter");                
+                IsRangeValid("autofilter");
                 if (_worksheet.AutoFilterAddress != null)
                 {
                     var c = this.Collide(_worksheet.AutoFilterAddress);
@@ -1353,7 +1353,7 @@ namespace OfficeOpenXml
                 {
                     ValidateAutofilterDontCollide();
                     var tbl = _worksheet.Tables.GetFromRange(this);
-                    if(tbl==null)
+                    if (tbl == null)
                     {
                         _worksheet.AutoFilterAddress = this;
                         var result = _worksheet.Names.AddName("_xlnm._FilterDatabase", this);
@@ -1373,11 +1373,11 @@ namespace OfficeOpenXml
 
         private void ValidateAutofilterDontCollide()
         {
-            foreach(var tbl in _worksheet.Tables)
+            foreach (var tbl in _worksheet.Tables)
             {
                 var c = tbl.Address.Collide(this);
                 if (c == eAddressCollition.Equal) return;   //Autofilter is on a table.
-                if(c!=eAddressCollition.No)
+                if (c != eAddressCollition.No)
                 {
                     throw new InvalidOperationException($"Auto filter collides with table {tbl.Name}");
                 }
@@ -1403,8 +1403,8 @@ namespace OfficeOpenXml
                 return _worksheet._flags.GetFlagValue(_fromRow, _fromCol, CellFlags.RichText);
             }
             set
-            {                
-               SetIsRichTextFlag(value);
+            {
+                SetIsRichTextFlag(value);
             }
         }
 
@@ -1419,11 +1419,11 @@ namespace OfficeOpenXml
         /// <param name="shift">The direction that the cells will shift.</param>
         public void Insert(eShiftTypeInsert shift)
         {
-            if(shift==eShiftTypeInsert.EntireColumn)
+            if (shift == eShiftTypeInsert.EntireColumn)
             {
                 WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, _fromCol - 1);
             }
-            else if(shift==eShiftTypeInsert.EntireRow)
+            else if (shift == eShiftTypeInsert.EntireRow)
             {
                 WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, _fromRow - 1);
             }
@@ -1438,7 +1438,7 @@ namespace OfficeOpenXml
         /// <param name="shift">The direction that the cells will shift.</param>
         public void Delete(eShiftTypeDelete shift)
         {
-            if (shift == eShiftTypeDelete.EntireColumn || (_fromRow<=1 && _toRow>=ExcelPackage.MaxRows))
+            if (shift == eShiftTypeDelete.EntireColumn || (_fromRow <= 1 && _toRow >= ExcelPackage.MaxRows))
             {
                 WorksheetRangeDeleteHelper.DeleteColumn(_worksheet, _fromCol, Columns);
             }
@@ -1545,12 +1545,12 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    string fullAddress="";
+                    string fullAddress = "";
                     foreach (var a in Addresses)
                     {
-                        fullAddress +=  GetFullAddress(_worksheet.Name, a.Address)+",";
+                        fullAddress += GetFullAddress(_worksheet.Name, a.Address) + ",";
                     }
-                    return fullAddress.Substring(0,fullAddress.Length-1);
+                    return fullAddress.Substring(0, fullAddress.Length - 1);
                 }
             }
         }
@@ -1817,7 +1817,7 @@ namespace OfficeOpenXml
         public void ClearFormulas()
         {
             var formulaCells = new CellStoreEnumerator<object>(this.Worksheet._formulas, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
-            while(formulaCells.Next())
+            while (formulaCells.Next())
             {
                 formulaCells.Value = null;
             }
@@ -2009,7 +2009,7 @@ namespace OfficeOpenXml
         /// <param name="Text">The text for the comment</param>
         /// <param name="Author">The author for the comment. If this property is null or blank EPPlus will set it to the identity of the ClaimsPrincipal if available otherwise to "Anonymous"</param>
         /// <returns>A reference comment of the top left cell</returns>
-        public ExcelComment AddComment(string Text, string Author=null)
+        public ExcelComment AddComment(string Text, string Author = null)
         {
             //Check if any comments exists in the range and throw an exception
             _changePropMethod(this, _setExistsCommentDelegate, null);
@@ -2071,7 +2071,7 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues=true, bool clearFormulas = true, bool clearFlags=true, bool clearMergedCells=true, bool clearHyperLinks=true, bool clearComments=true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true)
         {
 
             //First find the start cell
@@ -2119,7 +2119,7 @@ namespace OfficeOpenXml
             {
                 _worksheet._hyperLinks.Delete(fromRow, fromCol, rows, cols, shift);
             }
-            if(clearComments)
+            if (clearComments)
             {
                 DeleteComments(Range);
             }
@@ -2135,13 +2135,13 @@ namespace OfficeOpenXml
 
         private void DeleteComments(ExcelAddressBase Range)
         {
-            var deleted=new List<int>();
+            var deleted = new List<int>();
             var cse = new CellStoreEnumerator<int>(_worksheet._commentsStore, Range._fromRow, Range._fromCol, Range._toRow, Range._toCol);
             while (cse.Next())
             {
                 deleted.Add(cse.Value);
             }
-            foreach(var i in deleted)
+            foreach (var i in deleted)
             {
                 _worksheet.Comments.Remove(_worksheet.Comments._list[i]);
             }
@@ -2197,7 +2197,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                if(cellEnum==null)
+                if (cellEnum == null)
                 {
                     return null;
                 }
@@ -2251,7 +2251,7 @@ namespace OfficeOpenXml
             cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
         }
         #endregion
-        
+
         /// <summary>
         /// Sort the range by value of the first column, Ascending.
         /// </summary>
@@ -2291,15 +2291,15 @@ namespace OfficeOpenXml
         /// <param name="table"><see cref="ExcelTable"/> to be sorted</param>
         /// <param name="leftToRight">Indicates if the range should be sorted left to right (by column) instead of top-down (by row)</param>
         internal void SortInternal(
-            int[] columns, 
-            bool[] descending = null, 
-            Dictionary<int, string[]> customLists = null, 
-            CultureInfo culture = null, 
-            CompareOptions compareOptions = CompareOptions.None, 
+            int[] columns,
+            bool[] descending = null,
+            Dictionary<int, string[]> customLists = null,
+            CultureInfo culture = null,
+            CompareOptions compareOptions = CompareOptions.None,
             ExcelTable table = null,
             bool leftToRight = false)
         {
-            if(leftToRight)
+            if (leftToRight)
             {
                 _worksheet._rangeSorter.SortLeftToRight(this, columns, ref descending, culture, compareOptions, customLists);
             }
@@ -2307,8 +2307,8 @@ namespace OfficeOpenXml
             {
                 _worksheet._rangeSorter.Sort(this, columns, ref descending, culture, compareOptions, customLists);
             }
-            
-            if(table != null)
+
+            if (table != null)
             {
                 table.SetTableSortState(columns, descending, compareOptions, customLists);
             }
@@ -2324,7 +2324,7 @@ namespace OfficeOpenXml
         /// <param name="options">An instance of <see cref="RangeSortOptions"/> where sort parameters can be set</param>
         internal void SortInternal(SortOptionsBase options)
         {
-            if(options.ColumnIndexes.Count > 0)
+            if (options.ColumnIndexes.Count > 0)
             {
                 SortInternal(options.ColumnIndexes.ToArray(), options.Descending.ToArray(), options.CustomLists, options.Culture, options.CompareOptions, null, options.LeftToRight);
             }
@@ -2412,10 +2412,10 @@ namespace OfficeOpenXml
         }
         ExcelRangeColumn _entireColumn = null;
         public ExcelRangeColumn EntireColumn
-        { 
+        {
             get
             {
-                if(_entireColumn==null || _entireColumn._fromCol != _fromCol || _entireColumn._toCol != _toCol)
+                if (_entireColumn == null || _entireColumn._fromCol != _fromCol || _entireColumn._toCol != _toCol)
                 {
                     _entireColumn = new ExcelRangeColumn(_worksheet, _fromCol, _toCol);
                 }
@@ -2435,12 +2435,46 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
+        /// Gets the value of a cell using an offset from the top-left cell in the range.
+        /// </summary>
+        /// <param name="rowOffset">Row offset from the top-left cell in the range</param>
+        /// <param name="columnOffset">Column offset from the top-left cell in the range</param>
+        public T GetCellValue<T>(int rowOffset, int columnOffset)
+        {
+            if (IsName)
+            {
+                ExcelNamedRange n;
+                if (_worksheet == null)
+                {
+                    n = _workbook._names[_address];
+                }
+                else
+                {
+
+                    n = _worksheet.Names[_address];
+                }
+                var a = new ExcelAddressBase(n.Address);
+                if (a._fromRow > 0 && a._fromCol > 0)
+                {
+                    return _worksheet.GetValue<T>(_fromRow + rowOffset, _fromCol + columnOffset);
+                }
+                else
+                {
+                    return default(T);
+                }
+            }
+            else
+            {
+                return _worksheet.GetValue<T>(_fromRow + rowOffset, _fromCol + columnOffset);
+            }
+        } 
+        /// <summary>
         /// Sets the value of a cell using an offset from the top-left cell in the range.
         /// </summary>
         /// <param name="rowOffset">Row offset from the top-left cell in the range</param>
         /// <param name="columnOffset">Column offset from the top-left cell in the range</param>
         /// <param name="value">The value to set.</param>
-        public void SetValue(int rowOffset, int columnOffset, object value)
+        public void SetCellValue(int rowOffset, int columnOffset, object value)
         {
             if (IsName)
             {
@@ -2453,7 +2487,7 @@ namespace OfficeOpenXml
                 {
                     
                     n=_worksheet.Names[_address];
-                }
+                }                
                 var a = new ExcelAddressBase(n.Address);
                 if (a._fromRow>0 && a._fromCol>0)
                 {

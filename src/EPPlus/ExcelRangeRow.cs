@@ -238,7 +238,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return new ExcelRangeBase(_worksheet, ExcelAddressBase.GetAddress(_fromRow, 1, _toRow, ExcelPackage.MaxRows));
+                return new ExcelRangeBase(_worksheet, ExcelAddressBase.GetAddress(_fromRow, 1, _toRow, ExcelPackage.MaxColumns));
             }
         }
         public ExcelRangeRow Current

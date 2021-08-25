@@ -339,6 +339,13 @@ namespace OfficeOpenXml
 
             }
         }
+        public ExcelRangeBase Range
+        {
+            get
+            {
+                return new ExcelRangeBase(_worksheet, ExcelAddressBase.GetAddress(1, _fromCol, ExcelPackage.MaxRows, _toCol));
+            }
+        }
 
         public IEnumerator<ExcelRangeColumn> GetEnumerator()
         {
@@ -367,6 +374,7 @@ namespace OfficeOpenXml
                 var c = _cs.GetValue(0, enumCol)._value as ExcelColumn;
                 if(c!=null && c.ColumnMax>=enumCol)
                 {
+                    enumColPos = _cs.GetColumnPosition(enumCol);
                     _currentCol = c;
                     return true;
                 }
@@ -398,7 +406,7 @@ namespace OfficeOpenXml
                 {
                     enumColPos = ~enumColPos;
                     int r=0, c=0;
-                    if(_cs.GetPrevCell(ref r, ref c, 0, enumColPos - 1, _toCol))
+                    if(enumColPos > 0 && _cs.GetPrevCell(ref r, ref c, 0, enumColPos - 1, _toCol))
                     {
                         if (r == 0 && c < enumColPos)
                         {
@@ -415,8 +423,8 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        enumColPos++;
                         enumCol = _cs._columnIndex[enumColPos].Index;
+                        _currentCol = _cs.GetValue(0, enumCol)._value as ExcelColumn;
                     }
 
                 }
