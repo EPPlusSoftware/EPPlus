@@ -256,7 +256,24 @@ namespace OfficeOpenXml
                 }
             }
         }
+        internal string ChangeTableName(string prevName, string name)
+        {
+            if (LocalAddress.StartsWith(prevName, StringComparison.CurrentCultureIgnoreCase))
+            {
+                var wsPart = "";
+                var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from                 
+                if (ix >= 0)
+                {
+                    wsPart=_address.Substring(0, ix);
+                }
 
+                return wsPart + name + LocalAddress.Substring(prevName.Length);
+            }
+            else
+            {
+                return _address;
+            }
+        }
         internal ExcelAddressBase Intersect(ExcelAddressBase address)
         {
             if(address._fromRow > _toRow || _toRow < address._fromRow ||
@@ -1659,7 +1676,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return _address == obj.ToString();
+                return _address == obj?.ToString();
             }
         }
 
