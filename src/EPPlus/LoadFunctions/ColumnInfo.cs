@@ -27,6 +27,8 @@ namespace OfficeOpenXml.LoadFunctions
         }
 
         public int SortOrder { get; set; }
+
+        public List<int> SortOrderLevels { get; set; }
         public int Index { get; set; }
 
         public MemberInfo MemberInfo { get; set; }
@@ -46,5 +48,16 @@ namespace OfficeOpenXml.LoadFunctions
         public string TotalsRowNumberFormat { get; set; }
 
         public string TotalsRowLabel { get; set; }
+
+        internal string Path { get; set; }
+
+        public override string ToString()
+        {
+            if(!string.IsNullOrEmpty(Header))
+            {
+                return Header;
+            }
+            return base.ToString();
+        }
     }
 }

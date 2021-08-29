@@ -43,7 +43,8 @@ namespace OfficeOpenXml.LoadFunctions
             }
             if (parameters.Members == null)
             {
-                var columns = SetupColumns();
+                var cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags);
+                var columns = cols.Setup();
                 _columns = columns.ToArray();
             }
             else
@@ -139,80 +140,7 @@ namespace OfficeOpenXml.LoadFunctions
             SetValuesAndFormulas(values, formulaCells, ref col, ref row);
         }
 
-        private List<ColumnInfo> SetupColumns()
-        {
-            var type = typeof(T);
-            var members = type.GetProperties(_bindingFlags);
-            var result = new List<ColumnInfo>();
-            if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
-            {
-                foreach (var member in members)
-                {
-                    if (member.HasPropertyOfType<EpplusIgnore>())
-                    {
-                        continue;
-                    }
-                    var sortOrder = -1;
-                    var numberFormat = string.Empty;
-                    var rowFunction = RowFunctions.None;
-                    var totalsRowNumberFormat = string.Empty;
-                    var totalsRowLabel = string.Empty;
-                    var totalsRowFormula = string.Empty;
-                    var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
-                    if (epplusColumnAttr != null)
-                    {
-                        sortOrder = epplusColumnAttr.Order;
-                        numberFormat = epplusColumnAttr.NumberFormat;
-                        rowFunction = epplusColumnAttr.TotalsRowFunction;
-                        totalsRowNumberFormat = epplusColumnAttr.TotalsRowNumberFormat;
-                        totalsRowLabel = epplusColumnAttr.TotalsRowLabel;
-                        totalsRowFormula = epplusColumnAttr.TotalsRowFormula;
-                    }
-                    result.Add(new ColumnInfo
-                    {
-                        SortOrder = sortOrder,
-                        MemberInfo = member,
-                        NumberFormat = numberFormat,
-                        TotalsRowFunction = rowFunction,
-                        TotalsRowNumberFormat = totalsRowNumberFormat,
-                        TotalsRowLabel = totalsRowLabel,
-                        TotalsRowFormula = totalsRowFormula
-                    }); ;
-                }
-                ReindexAndSortColumns(result);
-            }
-            else
-            {
-                var index = 0;
-                result = members.Select(x => new ColumnInfo { Index = index++, MemberInfo = x }).ToList();
-            }
-            var formulaColumnAttributes = type.FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
-            if (formulaColumnAttributes != null && formulaColumnAttributes.Any())
-            {
-                foreach (var attr in formulaColumnAttributes)
-                {
-                    result.Add(new ColumnInfo 
-                    { 
-                        SortOrder = attr.Order, 
-                        Header = attr.Header, 
-                        Formula = attr.Formula, 
-                        FormulaR1C1 = attr.FormulaR1C1, 
-                        NumberFormat = attr.NumberFormat,
-                        TotalsRowFunction = attr.TotalsRowFunction,
-                        TotalsRowNumberFormat = attr.TotalsRowNumberFormat
-                    });
-                }
-                ReindexAndSortColumns(result);
-            }
-            return result;
-        }
-
-        private static void ReindexAndSortColumns(List<ColumnInfo> result)
-        {
-            var index = 0;
-            result.Sort((a, b) => a.SortOrder.CompareTo(b.SortOrder));
-            result.ForEach(x => x.Index = index++);
-        }
+        
 
         private void SetValuesAndFormulas(object[,] values, Dictionary<int, FormulaCell> formulaCells, ref int col, ref int row)
         {
@@ -234,25 +162,31 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         foreach (var colInfo in _columns)
                         {
+                            if(!string.IsNullOrEmpty(colInfo.Path) && colInfo.Path.Contains("."))
+                            {
+                                values[row, col++] = GetValueByPath(item, colInfo.Path);
+                                continue;
+                            }
+                            var obj = item;
                             if (colInfo.MemberInfo != null)
                             {
                                 var member = colInfo.MemberInfo;
-                                if (_isSameType == false && item.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
+                                if (_isSameType == false && obj.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
                                 {
                                     col++;
                                     continue; //Check if the property exists if and inherited class is used
                                 }
                                 else if (member is PropertyInfo)
                                 {
-                                    values[row, col++] = ((PropertyInfo)member).GetValue(item, null);
+                                    values[row, col++] = ((PropertyInfo)member).GetValue(obj, null);
                                 }
                                 else if (member is FieldInfo)
                                 {
-                                    values[row, col++] = ((FieldInfo)member).GetValue(item);
+                                    values[row, col++] = ((FieldInfo)member).GetValue(obj);
                                 }
                                 else if (member is MethodInfo)
                                 {
-                                    values[row, col++] = ((MethodInfo)member).Invoke(item, null);
+                                    values[row, col++] = ((MethodInfo)member).Invoke(obj, null);
                                 }
                             }
                             else if (!string.IsNullOrEmpty(colInfo.Formula))
@@ -269,6 +203,19 @@ namespace OfficeOpenXml.LoadFunctions
                 row++;
             }
         }
+
+        private object GetValueByPath(object obj, string path)
+        {
+            var members = path.Split('.');
+            object o = obj;
+            foreach(var member in members)
+            {
+                var memberInfo = o.GetType().GetMember(member).First();
+                o = ((PropertyInfo)memberInfo).GetValue(o, null);
+            }
+            return o;
+        }
+        
 
         private void SetHeaders(object[,] values, Dictionary<int, string> columnFormats, ref int col, ref int row)
         {

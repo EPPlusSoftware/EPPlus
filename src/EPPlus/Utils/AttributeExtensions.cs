@@ -58,5 +58,9 @@ namespace OfficeOpenXml.Utils
             return result;
         }
 
+        internal static bool IsComplexType(this Type type)
+        {
+            return type != typeof(string) && (type.IsClass || type.IsInterface);
+        }
     }
 }
