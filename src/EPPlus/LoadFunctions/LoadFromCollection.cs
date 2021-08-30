@@ -210,8 +210,29 @@ namespace OfficeOpenXml.LoadFunctions
             object o = obj;
             foreach(var member in members)
             {
-                var memberInfo = o.GetType().GetMember(member).First();
-                o = ((PropertyInfo)memberInfo).GetValue(o, null);
+                if (o == null) return null;
+                var memberInfos = o.GetType().GetMember(member);
+                if(memberInfos == null || memberInfos.Length == 0)
+                {
+                    return null;
+                }
+                var memberInfo = memberInfos.First();
+                if(memberInfo is PropertyInfo)
+                {
+                    o = ((PropertyInfo)memberInfo).GetValue(o, null);
+                }
+                else if(memberInfo is FieldInfo)
+                {
+                    o = ((FieldInfo)memberInfo).GetValue(obj);
+                }
+                else if(memberInfo is MethodInfo)
+                {
+                    o = ((MethodInfo)memberInfo).Invoke(obj, null);
+                }
+                else
+                {
+                    throw new NotSupportedException("Invalid member: '" + memberInfo.Name + "', not supported member type '" + memberInfo.GetType().FullName + "'");
+                }
             }
             return o;
         }
