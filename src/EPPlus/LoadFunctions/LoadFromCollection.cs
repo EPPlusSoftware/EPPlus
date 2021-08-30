@@ -217,17 +217,17 @@ namespace OfficeOpenXml.LoadFunctions
                     return null;
                 }
                 var memberInfo = memberInfos.First();
-                if(memberInfo is PropertyInfo)
+                if(memberInfo is PropertyInfo pi)
                 {
-                    o = ((PropertyInfo)memberInfo).GetValue(o, null);
+                    o = pi.GetValue(o, null);
                 }
-                else if(memberInfo is FieldInfo)
+                else if(memberInfo is FieldInfo fi)
                 {
-                    o = ((FieldInfo)memberInfo).GetValue(obj);
+                    o = fi.GetValue(obj);
                 }
-                else if(memberInfo is MethodInfo)
+                else if(memberInfo is MethodInfo mi)
                 {
-                    o = ((MethodInfo)memberInfo).Invoke(obj, null);
+                    o = mi.Invoke(obj, null);
                 }
                 else
                 {

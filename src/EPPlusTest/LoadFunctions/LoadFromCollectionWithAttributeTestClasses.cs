@@ -8,6 +8,19 @@ using System.Threading.Tasks;
 namespace EPPlusTest.LoadFunctions
 {
     [EpplusTable]
+    public abstract class OrganizationBase
+    {
+        [EpplusTableColumn(Header = "Org Level 3", Order = 1)]
+        public virtual string OrgLevel3 { get; set; }
+
+        [EpplusTableColumn(Header = "Org Level 4", Order = 2)]
+        public string OrgLevel4 { get; set; }
+
+        [EpplusTableColumn(Header = "Org Level 5", Order = 3)]
+        public string OrgLevel5 { get; set; }
+    }
+
+    [EpplusTable]
     public class Organization
     {
         [EpplusTableColumn(Header = "Org Level 3", Order = 1)]
@@ -31,6 +44,12 @@ namespace EPPlusTest.LoadFunctions
 
         [EpplusTableColumn(Header = "Org Level 5", Order = 1)]
         public string OrgLevel5 { get; set; }
+    }
+
+    [EpplusTable]
+    public class OrganizationSubclass : OrganizationBase
+    {
+        public override string OrgLevel3 { get; set; }
     }
 
     [EpplusTable]
@@ -67,6 +86,19 @@ namespace EPPlusTest.LoadFunctions
 
         [EpplusNestedTableColumn(Order = 2)]
         public OrganizationReversedSortOrder Organization { get; set; }
+
+        [EpplusTableColumn(Header = "Acknowledged...", Order = 1)]
+        public bool Acknowledged { get; set; }
+    }
+
+    [EpplusTable]
+    public class OuterSubclass
+    {
+        [EpplusTableColumn(Header = nameof(ApprovedUtc), Order = 3)]
+        public DateTime? ApprovedUtc { get; set; }
+
+        [EpplusNestedTableColumn(Order = 2)]
+        public OrganizationSubclass Organization { get; set; }
 
         [EpplusTableColumn(Header = "Acknowledged...", Order = 1)]
         public bool Acknowledged { get; set; }

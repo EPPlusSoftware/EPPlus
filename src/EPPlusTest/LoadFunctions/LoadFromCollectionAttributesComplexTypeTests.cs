@@ -18,6 +18,7 @@ namespace EPPlusTest.LoadFunctions
         private List<Outer> _collection = new List<Outer>();
         private List<OuterWithHeaders> _collectionHeaders = new List<OuterWithHeaders>();
         private List<OuterReversedSortOrder> _collectionReversed = new List<OuterReversedSortOrder>();
+        private List<OuterSubclass> _collectionInheritence = new List<OuterSubclass>();
 
         [TestInitialize]
         public void Initialize()
@@ -48,6 +49,17 @@ namespace EPPlusTest.LoadFunctions
             {
                 ApprovedUtc = new DateTime(2021, 7, 1),
                 Organization = new OrganizationReversedSortOrder
+                {
+                    OrgLevel3 = "ABC",
+                    OrgLevel4 = "DEF",
+                    OrgLevel5 = "GHI"
+                },
+                Acknowledged = true
+            });
+            _collectionInheritence.Add(new OuterSubclass
+            {
+                ApprovedUtc = new DateTime(2021, 7, 1),
+                Organization = new OrganizationSubclass
                 {
                     OrgLevel3 = "ABC",
                     OrgLevel4 = "DEF",
@@ -134,6 +146,17 @@ namespace EPPlusTest.LoadFunctions
                 ws.Cells["A1"].LoadFromCollection(_collectionHeaders);
                 Assert.AreEqual("Org Level 3", ws.Cells["B1"].Value);
                 Assert.IsNull(ws.Cells["B2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldLoadFromComplexInheritence()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["A1"].LoadFromCollection(_collectionInheritence);
+                Assert.AreEqual("ABC", ws.Cells["B1"].Value);
             }
         }
     }
