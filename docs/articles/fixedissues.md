@@ -1,5 +1,18 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.7.4
+### Fixed issues
+* Metadata will now be removed from any formula copied to an external workbook to avoid corruption.
+* Renaming table now updates references in formulas.
+* ExcelNamedRange.Equals now works as expected.
+* Inserting rows that shift conditional formatting outside the worksheet now adjust addresses correctly.
+* Inserting rows into table formulas will not set the address to #REF!
+* COUNTA function will now count errors and empty strings.
+* LoadFromText and SaveToText did not handle quotes correctly.
+* Changing the font of the current theme and the normal style does not always reflect when styling empty cells.
+* Workbooks are getting corrupted when creating a pivot table where some cells have length greater than 255 characters.
+* Deleting ranges with conditional formatting with multiple addresses sometimes threw an ArgumentOutOfRangeException.
+* Copying a comment only add the text and the author, leaving any styling set on the comment.
 
 ## Version 5.7.3
 ### Fixed issues & minor features

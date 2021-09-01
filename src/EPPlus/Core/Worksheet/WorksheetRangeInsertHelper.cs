@@ -167,19 +167,46 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void InsertConditionalFormatting(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
         {
+            var delCF = new List<ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>();
             //Update Conditional formatting references
             foreach (var cf in ws.ConditionalFormatting)
             {
-                ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
+                var newAddress = InsertSplitAddress(cf.Address, range, effectedAddress, shift);
+                if(newAddress==null)
+                {
+                    delCF.Add(cf);
+                }
+                else
+                {
+                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
+                }
+            }
+
+            foreach(var cf in delCF)
+            {
+                ws.ConditionalFormatting.Remove(cf);
             }
         }
 
         private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
         {
+            var delDV = new List<DataValidation.Contracts.IExcelDataValidation>();
             //Update data validation references
             foreach (var dv in ws.DataValidations)
             {
-                ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
+                var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift);
+                if (newAddress == null)
+                {
+                    delDV.Add(dv);
+                }
+                else
+                {
+                    ((ExcelDataValidation)dv).SetAddress(newAddress.Address);
+                }
+            }
+            foreach (var dv in delDV)
+            {
+                ws.DataValidations.Remove(dv);
             }
         }
 
@@ -278,11 +305,11 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             if (address.CollideFullColumn(range._fromCol, range._toCol) && (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
             {
-                return address.AddRow(range._fromRow, range.Rows);
+                return address.AddRow(range._fromRow, range.Rows,false,false);
             }
             else if (address.CollideFullRow(range._fromRow, range._toRow) && (shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn))
             {
-                return address.AddColumn(range._fromCol, range.Columns);
+                return address.AddColumn(range._fromCol, range.Columns, false, false);
             }
             else
             {

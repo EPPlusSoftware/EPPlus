@@ -25,6 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the number of non-blanks in a supplied set of cells or values")]
     internal class CountA : HiddenValuesHandlingFunction
     {
+        public CountA() : base()
+        {
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
@@ -83,8 +87,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
         private bool ShouldCount(object value)
         {
-            if (value == null) return false;
-            return (!string.IsNullOrEmpty(value.ToString()));
+            return value != null;
         }
     }
 }

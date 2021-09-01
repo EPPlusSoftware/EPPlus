@@ -1271,5 +1271,56 @@ namespace EPPlusTest.Core.Range.Delete
                 Assert.AreEqual("B:C", cf.Address.Address);
             }
         }
+        [TestMethod]
+        public void ValidateDeleteColumnFixedAddresses()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Names.Add("TestName1", ws.Cells["$A$1"]);
+                ws.Names.Add("TestName2", ws.Cells["$B$1"]); 
+                ws.Names.Add("TestName3", ws.Cells["$C$1"]); 
+                ws.Names.Add("TestName4", ws.Cells["$B$3:$D$3"]);
+                ws.Names.Add("TestName5", ws.Cells["$A$5:$C$5"]);
+                ws.Names.Add("TestName6", ws.Cells["$B$7:$C$7"]);
+
+                //Assert
+                ws.DeleteColumn(2, 2);
+
+                //Check that the named ranges have been deleted/modified as appropriate
+                Assert.AreEqual("$A$1", ws.Names["TestName1"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName2"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName3"].LocalAddress);
+                Assert.AreEqual("$B$3", ws.Names["TestName4"].LocalAddress);
+                Assert.AreEqual("$A$5", ws.Names["TestName5"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName6"].LocalAddress);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteRowFixedAddresses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Names.Add("TestName1", ws.Cells["$A$1"]);
+                ws.Names.Add("TestName2", ws.Cells["$A$2"]);
+                ws.Names.Add("TestName3", ws.Cells["$A$3"]);
+                ws.Names.Add("TestName4", ws.Cells["$C$2:$C$4"]);
+                ws.Names.Add("TestName5", ws.Cells["$E$1:$E$3"]);
+                ws.Names.Add("TestName6", ws.Cells["$G$2:$G$3"]);
+
+                //Assert
+                ws.DeleteRow(2, 2);
+
+                //Check that the named ranges have been deleted/modified as appropriate
+                Assert.AreEqual("$A$1", ws.Names["TestName1"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName2"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName3"].LocalAddress);
+                Assert.AreEqual("$C$2", ws.Names["TestName4"].LocalAddress);
+                Assert.AreEqual("$E$1", ws.Names["TestName5"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName6"].LocalAddress);
+            }
+        }
+
     }
 }

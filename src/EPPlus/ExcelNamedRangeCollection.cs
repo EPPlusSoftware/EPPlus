@@ -50,6 +50,10 @@ namespace OfficeOpenXml
             {
                 throw (new ArgumentException("Name contains invalid characters or is not valid."));
             }
+            if(_wb!=Range._workbook)
+            {
+                throw (new InvalidOperationException("The range must be in the same package. "));
+            }
             return AddName(Name, Range);
         }
 

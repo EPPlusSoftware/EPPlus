@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The x path</param>
-        /// <param name="v">The string</param>
+        /// <param name="s">The string</param>
         internal protected void SetValue(XmlHelper helper, string path, string s)
         {
             if (string.IsNullOrEmpty(s))
