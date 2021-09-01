@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Core
             internal ExcelWorksheet.MetaDataReference MetaData{ get; set; }
     }
 
-        internal static void Copy(ExcelRangeBase sourceRange, ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
+        internal static void Copy(ExcelRangeBase sourceRange, ExcelRangeBase Destination, ExcelRangeCopyOptionFlags excelRangeCopyOptionFlags)
         {
             var copiedValue = GetCopiedValues(sourceRange, Destination, excelRangeCopyOptionFlags);
             var copiedMergedCells = GetCopiedMergedCells(sourceRange, Destination);
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.Core
 
         }
 
-        private static List<CopiedCell> GetCopiedValues(ExcelRangeBase sourceRange, ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
+        private static List<CopiedCell> GetCopiedValues(ExcelRangeBase sourceRange, ExcelRangeBase Destination, ExcelRangeCopyOptionFlags excelRangeCopyOptionFlags)
         {
             var worksheet = sourceRange._worksheet;
             var toRow = sourceRange._toRow;
@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Core
             byte flag = 0;
             Uri hl = null;
 
-            var excludeFormulas = (excelRangeCopyOptionFlags ?? 0 & ExcelRangeCopyOptionFlags.ExcludeFormulas) == ExcelRangeCopyOptionFlags.ExcludeFormulas;
+            var excludeFormulas = (EnumUtil excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeFormulas) == ExcelRangeCopyOptionFlags.ExcludeFormulas;
 
             var copiedValue = new List<CopiedCell>();
             ExcelStyles sourceStyles = worksheet.Workbook.Styles, styles = Destination._worksheet.Workbook.Styles;

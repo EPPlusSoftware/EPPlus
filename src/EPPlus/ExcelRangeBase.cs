@@ -2049,7 +2049,7 @@ namespace OfficeOpenXml
         /// <param name="excelRangeCopyOptionFlags">Cell parts that will not be copied. If Formulas are specified, the formulas will NOT be copied.</param>
         public void Copy(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
         {
-            RangeCopyHelper.Copy(this, Destination, excelRangeCopyOptionFlags);
+            RangeCopyHelper.Copy(this, Destination, excelRangeCopyOptionFlags ?? 0);
         }
 
         /// <summary>
