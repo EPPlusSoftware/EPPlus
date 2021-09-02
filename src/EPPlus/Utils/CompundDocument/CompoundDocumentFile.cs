@@ -19,12 +19,12 @@ using System.Text.RegularExpressions;
 namespace OfficeOpenXml.Utils.CompundDocument
 {
     /// <summary>
-    /// Read and write a compound document.
+    /// Reads and writes a compound documents.
     /// Read spec here https://winprotocoldoc.blob.core.windows.net/productionwindowsarchives/MS-CFB/[MS-CFB].pdf
     /// </summary>
     internal partial class CompoundDocumentFile : IDisposable
     {
-        public CompoundDocumentFile()
+        internal CompoundDocumentFile()
         {
             RootItem = new CompoundDocumentItem() { Name = "<Root>", Children=new List<CompoundDocumentItem>(), ObjectType=5 };
             minorVersion = 0x3E;
@@ -40,14 +40,14 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             
         }
-        public CompoundDocumentFile(byte[] file)
+        internal CompoundDocumentFile(byte[] file)
         {
             using (var ms = RecyclableMemory.GetStream(file))
             {
                 LoadFromMemoryStream(ms);
 			}
         }
-        public CompoundDocumentFile(MemoryStream ms)
+        internal CompoundDocumentFile(MemoryStream ms)
         {
             LoadFromMemoryStream(ms);
         }
@@ -622,7 +622,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             if (dirs.Count>0)
             {
-                //First dirtory sector goes into sector 2
+                //First directory sector goes into sector 2
                 bw.Seek((_firstDirectorySectorLocation + 1) * _sectorSize, SeekOrigin.Begin);
                 for(int i=0;i<Math.Min(_sectorSize/128,dirs.Count);i++)
                 {
@@ -709,7 +709,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 }
                 else if (bw.BaseStream.Position == (_sectorSize * 2))
                 {
-                    bw.Seek(4 * _sectorSize,SeekOrigin.Begin);    //FAT continues after initizal dir och minifat sectors.
+                    bw.Seek(4 * _sectorSize,SeekOrigin.Begin);    //FAT continues after initial dir och minifat sectors.
                 }
                 //Add to DIFAT
                 int FATSector = (int)(bw.BaseStream.Position / _sectorSize - 1);
@@ -760,7 +760,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             if (dirs.Count > dirsPerSector)
             {
                 dirSectors = GetSectors(dirs.Count, dirsPerSector);
-                noOfSectors += dirSectors - 1; //Four item per sector. Sector two is fixed for directories
+                noOfSectors += dirSectors - 1; //Four items per sector. Sector two is fixed for directories
             }
 
             //First calc fat no sectors and difat sectors from full size

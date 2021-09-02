@@ -24,9 +24,11 @@ namespace OfficeOpenXml
         /// Exclude formulas from being copied
         /// </summary>
         ExcludeFormulas = 0x1,
-        ExcludeStyles = 0x2,
-        ExcludeComments = 0x4,
-        ExcludeThreadedComments=0x8,
-        ExcludeHyperLinks=0x10
+        ExcludeFormulasAndValues = 0x2,
+        ExcludeStyles = 0x4,
+        ExcludeComments = 0x8,
+        ExcludeThreadedComments = 0x10,
+        ExcludeHyperLinks = 0x20,
+        ExcludeMergedCells = 0x30,
     }
 }

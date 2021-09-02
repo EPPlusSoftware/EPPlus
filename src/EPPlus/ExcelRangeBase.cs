@@ -2044,7 +2044,7 @@ namespace OfficeOpenXml
         /// <param name="Destination">The start cell where the range will be copied.</param>
         public void Copy(ExcelRangeBase Destination)
         {
-            RangeCopyHelper.Copy(this, Destination, null);
+            RangeCopyHelper.Copy(this, Destination, 0);
         }
 
         /// <summary>
@@ -2054,9 +2054,22 @@ namespace OfficeOpenXml
         /// <param name="excelRangeCopyOptionFlags">Cell parts that will not be copied. If Formulas are specified, the formulas will NOT be copied.</param>
         public void Copy(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
         {
-            RangeCopyHelper.Copy(this, Destination, excelRangeCopyOptionFlags ?? 0);
+            RangeCopyHelper.Copy(this, Destination, excelRangeCopyOptionFlags??0);
         }
-
+        /// <summary>
+        /// Copies the range of cells to an other range
+        /// </summary>
+        /// <param name="Destination">The start cell where the range will be copied.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell parts that will not be copied. If Formulas are specified, the formulas will NOT be copied.</param>
+        public void Copy(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        {
+            ExcelRangeCopyOptionFlags flags=0;
+            foreach (var c in excelRangeCopyOptionFlags)
+            {
+                flags |= c;
+            }
+            RangeCopyHelper.Copy(this, Destination, flags);
+        }
         /// <summary>
         /// Clear all cells
         /// </summary>

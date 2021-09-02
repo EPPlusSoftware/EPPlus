@@ -13,6 +13,7 @@
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,7 +35,7 @@ namespace OfficeOpenXml.Core
             internal Uri HyperLink { get; set; }
             internal ExcelComment Comment { get; set; }
             internal ExcelThreadedCommentThread ThreadedComment { get; set; }
-            internal Byte Flag { get; set; }
+            internal byte Flag { get; set; }
             internal ExcelWorksheet.MetaDataReference MetaData{ get; set; }
     }
 
@@ -46,6 +47,7 @@ namespace OfficeOpenXml.Core
             //Clear all existing cells; 
             int rows = sourceRange._toRow - sourceRange._fromRow + 1,
                 cols = sourceRange._toCol - sourceRange._fromCol + 1;
+
             ClearDestination(Destination, rows, cols);
 
             CopyValues(Destination, sourceRange, copiedValue);
@@ -69,7 +71,12 @@ namespace OfficeOpenXml.Core
             byte flag = 0;
             Uri hl = null;
 
-            var excludeFormulas = (EnumUtil excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeFormulas) == ExcelRangeCopyOptionFlags.ExcludeFormulas;
+            var excludeValues = (excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeFormulasAndValues) == ExcelRangeCopyOptionFlags.ExcludeFormulasAndValues;
+            var excludeFormulas = excludeValues && (excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeFormulas) == ExcelRangeCopyOptionFlags.ExcludeFormulas;
+            var excludeStyles = (excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeStyles) == ExcelRangeCopyOptionFlags.ExcludeStyles;
+            var excludeHyperlinks = (excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeHyperLinks) == ExcelRangeCopyOptionFlags.ExcludeHyperLinks;
+            var excludeComments = (excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeComments) == ExcelRangeCopyOptionFlags.ExcludeComments;
+            var excludeThreadedComments = (excelRangeCopyOptionFlags & ExcelRangeCopyOptionFlags.ExcludeThreadedComments) == ExcelRangeCopyOptionFlags.ExcludeThreadedComments;
 
             var copiedValue = new List<CopiedCell>();
             ExcelStyles sourceStyles = worksheet.Workbook.Styles, styles = Destination._worksheet.Workbook.Styles;
@@ -126,22 +133,29 @@ namespace OfficeOpenXml.Core
                 }
 
                 var md = new ExcelWorksheet.MetaDataReference();
-                if (worksheet._metadataStore.Exists(row, col, ref md))
+                if (excludeFormulas==false && worksheet._metadataStore.Exists(row, col, ref md))
                 {
                     cell.MetaData=md;
                 }
 
-                if (worksheet._hyperLinks.Exists(row, col, ref hl))
+                if (excludeHyperlinks==false && worksheet._hyperLinks.Exists(row, col, ref hl))
                 {
                     cell.HyperLink = hl;
                 }
 
-                // Will just be null if no comment exists.
-                cell.Comment = worksheet.Cells[cse.Row, cse.Column].Comment;
-                cell.ThreadedComment = worksheet.Cells[cse.Row, cse.Column].ThreadedComment;
                 if (worksheet._flags.Exists(row, col, ref flag))
                 {
                     cell.Flag = flag;
+                }
+
+                // Will just be null if no comment exists.
+                if (excludeComments == false)
+                {
+                    cell.Comment = worksheet.Cells[cse.Row, cse.Column].Comment;                    
+                }
+                if (excludeThreadedComments == false)
+                {
+                    cell.ThreadedComment = worksheet.Cells[cse.Row, cse.Column].ThreadedComment;
                 }
                 copiedValue.Add(cell);
             }
@@ -235,7 +249,6 @@ namespace OfficeOpenXml.Core
                 }
             }
         }
-
         private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
         {
             var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
