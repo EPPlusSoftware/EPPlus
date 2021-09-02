@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
@@ -159,6 +160,7 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(10, shape.To.Column);
             Assert.AreEqual(32, chart.To.Column);
         }
+
         #endregion
         #region Column Tests
         [TestMethod]
@@ -187,6 +189,6 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(12, shape.To.Column);
             Assert.AreEqual(10, chart.To.Column);
         }
-        #endregion
+        #endregion    
     }
 }
