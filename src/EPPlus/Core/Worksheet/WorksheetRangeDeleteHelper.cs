@@ -15,6 +15,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
@@ -66,7 +67,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 DeleteConditionalFormatting(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Up);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Up, effectedAddress);
-                
+
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(range, ws, rowFrom, -rows);
+
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, -rows);
             }
         }
@@ -127,10 +130,14 @@ namespace OfficeOpenXml.Core.Worksheet
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Left);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Left, effectedAddress);
 
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(range, ws, columnFrom, -columns);
+
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, -columns);
             }
         }
+
+
 
         private static void AdjustColumnMinMaxDelete(ExcelWorksheet ws, int columnFrom, int columns)
         {

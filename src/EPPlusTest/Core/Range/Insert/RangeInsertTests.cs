@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
@@ -841,6 +842,42 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("C2:F5", any.Address.Address);
         }
+        [TestMethod]
+        public void CheckDataValidationFormulaAfterInsertingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("B5:G5");
+                dv.Formula.ExcelFormula = "=(B$4=0)";
+
+                // Insert a row before the column being referenced by the CF formula
+                ws.InsertRow(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=(B$5=0)", dv.Formula.ExcelFormula);
+            }
+        }
+        [TestMethod]
+        public void CheckDataValidationFormulaAfterInsertingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("E2:E7");
+                dv.Formula.ExcelFormula = "=($D2=0)";
+
+                // Insert a column before the column being referenced by the CF formula
+                ws.InsertColumn(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=($E2=0)", dv.Formula.ExcelFormula);
+            }
+        }
         #endregion
         #region Conditional formatting
         [TestMethod]
@@ -1080,6 +1117,42 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("B2:F5,E3:F5", cf.Address.Address);
         }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterInsertingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["B5:G5"]);
+                cf.Formula = "=(B$4=0)";
+
+                // Insert a row before the column being referenced by the CF formula
+                ws.InsertRow(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                cf = ws.ConditionalFormatting[0].As.Expression;
+                Assert.AreEqual("=(B$5=0)", cf.Formula);
+            }
+        }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterInsertingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["E2:E7"]);
+                cf.Formula = "=($D2=0)";
+
+                // Insert a column before the column being referenced by the CF formula
+                ws.InsertColumn(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                cf = ws.ConditionalFormatting[0].As.Expression;
+                Assert.AreEqual("=($E2=0)", cf.Formula);
+            }
+        }
 
         [TestMethod]
         public void ValidateCommentsShouldShiftRightOnInsertIntoRange()
@@ -1141,6 +1214,5 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("This cell contains a threaded comment.", ws.Cells[commentAddress].GetValue<string>());
             Assert.AreEqual(commentAddress, ws.ThreadedComments[0].CellAddress.Address);
         }
-
     }
 }

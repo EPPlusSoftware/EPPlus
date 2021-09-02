@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
@@ -954,6 +955,43 @@ namespace EPPlusTest.Core.Range.Delete
 
             Assert.AreEqual("A2:D5", any.Address.Address);
         }
+        [TestMethod]
+        public void CheckDatavalidationFormulaAfterDeletingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("B5:G5");
+                dv.Formula.ExcelFormula = "=(B$4=0)";
+
+                // Delete a row before the column being referenced by the CF formula
+                ws.DeleteRow(2);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=(B$3=0)", dv.Formula.ExcelFormula);
+            }
+        }
+        [TestMethod]
+        public void CheckDatavalidationFormulaAfterDeletingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("E2:E7");
+                dv.Formula.ExcelFormula = "=($D2=0)";
+
+                // Delete a column before the column being referenced by the CF formula
+                ws.DeleteColumn(2);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=($C2=0)", dv.Formula.ExcelFormula);
+            }
+        }
+
         #endregion
         #region Conditional formatting
         [TestMethod]
@@ -1046,6 +1084,42 @@ namespace EPPlusTest.Core.Range.Delete
             ws.Cells["A2:A5"].Delete(eShiftTypeDelete.Left);
 
             Assert.AreEqual("A2:D5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterDeletingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["B5:G5"]);
+                cf.Formula = "=(B$4=0)";
+
+                // Delete a row before the column being referenced by the CF formula
+                ws.DeleteRow(2);
+
+                // Check the conditional formatting formula has been updated
+                cf = (IExcelConditionalFormattingExpression)ws.ConditionalFormatting[0];
+                Assert.AreEqual("=(B$3=0)", cf.Formula);
+            }
+        }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterDeletingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["E2:E7"]);
+                cf.Formula = "=($D2=0)";
+
+                // Delete a column before the column being referenced by the CF formula
+                ws.DeleteColumn(2);
+
+                // Check the conditional formatting formula has been updated
+                cf = (IExcelConditionalFormattingExpression)ws.ConditionalFormatting[0];
+                Assert.AreEqual("=($C2=0)", cf.Formula);
+            }
         }
         #endregion
 

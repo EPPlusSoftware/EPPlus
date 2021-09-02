@@ -11,8 +11,10 @@
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -61,7 +63,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws);
-                
+
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(range, ws, rowFrom, rows);
+
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
         }
@@ -111,6 +115,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Right, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws);
+
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(range, ws, columnFrom, columns);
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);

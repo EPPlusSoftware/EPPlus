@@ -48,6 +48,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace EPPlusTest
 {
@@ -2393,7 +2394,7 @@ namespace EPPlusTest
                 // Check the data validation has been moved to the right place
                 Assert.AreEqual("Yes", wks.Cells["D2"].GetValue<string>());
                 Assert.AreEqual("D2", wks.DataValidations[0].Address.Address);
-                
+
                 SaveAndCleanup(pck);
             }
         }
@@ -2467,10 +2468,9 @@ namespace EPPlusTest
         [TestMethod]
         public void CopyWorksheetWithDynamicArrayFormula()
         {
-
             using (var p1 = OpenTemplatePackage("TestDynamicArrayFormula.xlsx"))
             {
-                using(var p2=new ExcelPackage())
+                using (var p2 = new ExcelPackage())
                 {
                     p2.Workbook.Worksheets.Add("Sheet1", p1.Workbook.Worksheets["Sheet1"]);
                     SaveWorkbook("DontCopyMetadataToNewWorkbook.xlsx", p2);
