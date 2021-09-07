@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotTablePageFieldSettings  : XmlHelper
     {
-        ExcelPivotTableField _field;
+        internal ExcelPivotTableField _field;
         internal ExcelPivotTablePageFieldSettings(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTableField field, int index) :
             base(ns, topNode)
         {

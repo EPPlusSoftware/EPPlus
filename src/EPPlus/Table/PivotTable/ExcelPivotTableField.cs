@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 string v = GetXmlNodeString("@name");
                 if (v == "")
                 {
-                    return _cacheField.Name;
+                    return _cacheField?.Name;
                 }
                 else
                 {
@@ -532,6 +532,10 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 return GetXmlNodeBool("@dataField", false);
             }
+            set
+            {
+                SetXmlNodeBool("@dataField", value, false);
+            }
         }
         /// <summary>
         /// If the field is a page field.
@@ -831,7 +835,8 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if(field.Index >= pt.Fields.Count)
                     {
-                        pt.Fields.AddDateGroupField((int)f.Grouping.BaseIndex);
+                         var newField = pt.Fields.AddDateGroupField((int)f.Grouping.BaseIndex);
+                        newField._cacheField = f;
                     }
 
                     pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
