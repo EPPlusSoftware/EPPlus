@@ -151,7 +151,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     col = ws.GetValueInner(0, c) as ExcelColumn;
                     if (col._columnMax >= columnFrom)
                     {
-                        col.ColumnMax = columnFrom - 1;
+                        col.ColumnMax = Math.Max(columnFrom-1, col.ColumnMax-columns);
                     }
                 }
             }

@@ -1395,6 +1395,35 @@ namespace EPPlusTest.Core.Range.Delete
                 Assert.AreEqual("#REF!", ws.Names["TestName6"].LocalAddress);
             }
         }
+        [TestMethod]
+        public void TestColumnWidthsAfterDeletingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var col = ws.Column(3);
+                col.ColumnMax = 5;
+                col.Width = 18;
+
+                col = ws.Column(7);
+                col.ColumnMax = 9;
+                col.Width = 19;
+
+
+                // Delete column 4 & 7-8
+                ws.DeleteColumn(4, 1);
+                ws.DeleteColumn(7, 2);
+
+                //Assert
+                Assert.AreEqual(18, ws.Column(3).Width);
+                Assert.AreEqual(18, ws.Column(4).Width);
+                Assert.AreEqual(ws.DefaultColWidth, ws.Column(5).Width);
+
+                Assert.AreEqual(19, ws.Column(6).Width);
+                Assert.AreEqual(ws.DefaultColWidth, ws.Column(7).Width);
+            }
+        }
 
     }
 }

@@ -2555,5 +2555,24 @@ namespace EPPlusTest
                 SaveAndCleanup(excelPackage);
             };
         }
+        [TestMethod]
+        public void TestColumnWidthsAfterDeletingColumn()
+        {
+            using (var pck = OpenTemplatePackage("Issue480.xlsx"))
+            {
+                // Get the worksheet where columns 3-5 have a width of around 18
+                var wks = pck.Workbook.Worksheets["Sheet1"];
+
+                // Check the width of column 5
+                Assert.AreEqual(18.77734375, wks.Column(5).Width, 1E-5);
+
+                // Delete column 4
+                wks.DeleteColumn(4,3);
+
+                // Check width of column 5 (now 4) hasn't changed
+                Assert.AreEqual(18.77734375, wks.Column(3).Width, 1E-5);
+                //Assert.AreEqual(18.77734375, wks.Column(4).Width, 1E-5);
+            }
+        }
     }
 }
