@@ -21,14 +21,32 @@ namespace OfficeOpenXml
     public enum ExcelRangeCopyOptionFlags : int
     {
         /// <summary>
-        /// Exclude formulas from being copied
+        /// Exclude formulas from being copied. Only the value of the cell will be copied
         /// </summary>
         ExcludeFormulas = 0x1,
+        /// <summary>
+        /// Will exclude formulas and values from beeing copied
+        /// </summary>
         ExcludeFormulasAndValues = 0x2,
+        /// <summary>
+        /// Exclude any style for the cell. 
+        /// </summary>
         ExcludeStyles = 0x4,
+        /// <summary>
+        /// Exclude comments
+        /// </summary>
         ExcludeComments = 0x8,
+        /// <summary>
+        /// Exclude threaded comments
+        /// </summary>
         ExcludeThreadedComments = 0x10,
+        /// <summary>
+        /// Exclude hyperlinks
+        /// </summary>
         ExcludeHyperLinks = 0x20,
+        /// <summary>
+        /// Exclude threaded comments.
+        /// </summary>
         ExcludeMergedCells = 0x30,
     }
 }

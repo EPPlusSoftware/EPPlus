@@ -42,7 +42,7 @@ namespace EPPlusTest.Core.Range
             {
                 var ws = pck.Workbook.Worksheets.Add("CopyRowWise");
                 ws.Cells["A1:C3"].Value = 1;
-                ws.Cells["D3"].Formula="A1";
+                ws.Cells["D3"].Formula = "A1";
                 ws.Cells["E3"].Formula = "B2";
                 ws.Cells["F3"].Formula = "C3";
                 ws.Cells["G3"].Formula = "A$1";
@@ -267,8 +267,35 @@ namespace EPPlusTest.Core.Range
                 );
 
                 Assert.AreEqual("VLOOKUP($B$1,Sheet2!A:B,2,FALSE)", ws.Cells["A3"].Formula);
+            }
+        }
+        public void CopyValuesOnly()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
 
-            }        
+                ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeFormulas, ExcelRangeCopyOptionFlags.ExcludeStyles);
+
+                Assert.AreEqual(1, ws.Cells["B5"].Value);
+                Assert.AreEqual(2, ws.Cells["B6"].Value);
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
+                Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
+            }
+        }
+
+        private static ExcelWorksheet SetupCopyRange(ExcelPackage p)
+        {
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            ws.Cells["A1"].Value = 1;
+            ws.Cells["A2"].Formula = "=A1+1";
+            ws.Cells["A1:A2"].Style.Font.Bold = true;
+            ws.Cells["A2"].Style.Font.Italic = true;
+            ws.Calculate();
+            return ws;
         }
     }
 }
