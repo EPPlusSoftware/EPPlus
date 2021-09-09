@@ -27,7 +27,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Will exclude formulas and values from beeing copied
         /// </summary>
-        ExcludeFormulasAndValues = 0x2,
+        ExcludeValues = 0x2,
         /// <summary>
         /// Exclude any style for the cell. 
         /// </summary>

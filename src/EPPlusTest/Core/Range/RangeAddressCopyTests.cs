@@ -269,16 +269,53 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("VLOOKUP($B$1,Sheet2!A:B,2,FALSE)", ws.Cells["A3"].Formula);
             }
         }
+        [TestMethod]
         public void CopyValuesOnly()
         {
             using (var p = new ExcelPackage())
             {
                 ExcelWorksheet ws = SetupCopyRange(p);
-
+                ws.Cells["B5"].Style.Numberformat.Format = "0";
                 ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeFormulas, ExcelRangeCopyOptionFlags.ExcludeStyles);
 
                 Assert.AreEqual(1, ws.Cells["B5"].Value);
-                Assert.AreEqual(2, ws.Cells["B6"].Value);
+                Assert.AreEqual(2D, ws.Cells["B6"].Value);
+
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
+                Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
+                Assert.AreEqual("0", ws.Cells["B5"].Style.Numberformat.Format);
+            }
+        }
+        [TestMethod]
+        public void CopyStylesOnly()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                ws.Cells["B5"].Value = 5;
+                ws.Cells["B6"].Value = 7;
+                ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues);
+
+                Assert.AreEqual(5, ws.Cells["B5"].Value);
+                Assert.AreEqual(7, ws.Cells["B6"].Value);
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
+                Assert.IsTrue(ws.Cells["B5"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["B6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["B6"].Style.Font.Italic);
+            }
+        }
+        [TestMethod]
+        public void CopyCommentsOnly()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                ws.Cells["A1"].AddComment("Comment");
+                ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
+
+                Assert.AreEqual("Comment", ws.Cells["B5"].Comment.Text);
                 Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
                 Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
                 Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
@@ -291,7 +328,7 @@ namespace EPPlusTest.Core.Range
             var ws = p.Workbook.Worksheets.Add("Sheet1");
 
             ws.Cells["A1"].Value = 1;
-            ws.Cells["A2"].Formula = "=A1+1";
+            ws.Cells["A2"].Formula = "A1+1";
             ws.Cells["A1:A2"].Style.Font.Bold = true;
             ws.Cells["A2"].Style.Font.Italic = true;
             ws.Calculate();
