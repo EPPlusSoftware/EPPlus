@@ -1060,6 +1060,8 @@ namespace OfficeOpenXml.VBA
 
         internal string GetModuleNameFromWorksheet(ExcelWorksheet sheet)
         {
+            int i = sheet.PositionId;
+            
             var name = "Sheet" + i.ToString();
 
             while (this.Modules[name] != null)
