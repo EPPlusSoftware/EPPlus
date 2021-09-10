@@ -307,7 +307,34 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
-        public void CopyCommentsOnly()
+        public void CopyConditionalFormattingSameWorkbook()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                var cf1 = ws.Cells["B2:D5"].ConditionalFormatting.AddBetween();
+
+                ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
+
+                Assert.AreEqual("C2:D5,E5:G8",cf1.Address.Address);
+                //Assert.IsTrue(ws.Cells["B5:B6"].Merge);
+                //Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
+                //Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
+                //Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
+                //Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
+
+                //ws.Cells["A1:A2"].Copy(ws.Cells["C5:C6"], ExcelRangeCopyOptionFlags.ExcludeMergedCells);
+
+                //Assert.IsFalse(ws.Cells["C5:C6"].Merge);
+                //Assert.IsFalse(string.IsNullOrEmpty(ws.Cells["C6"].Formula));
+                //Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
+                //Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
+                //Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
+
+            }
+        }
+        [TestMethod]
+        public void CopyComments()
         {
             using (var p = new ExcelPackage())
             {
@@ -320,6 +347,94 @@ namespace EPPlusTest.Core.Range
                 Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
                 Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
                 Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["C5:C6"], ExcelRangeCopyOptionFlags.ExcludeComments);
+
+                Assert.IsNull(ws.Cells["C5"].Comment);
+                Assert.IsFalse(string.IsNullOrEmpty(ws.Cells["C6"].Formula));
+                Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
+            }
+        }
+        [TestMethod]
+        public void CopyThreadedComments()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                ws.Cells["A2"].AddThreadedComment();
+                ws.Cells["A2"].ThreadedComment.AddComment("1", "Threaded Comment");
+                ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
+
+                Assert.AreEqual("Threaded Comment", ws.Cells["B6"].ThreadedComment.Comments[0].Text);
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
+                Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["C5:C6"], ExcelRangeCopyOptionFlags.ExcludeThreadedComments);
+
+                Assert.IsNull(ws.Cells["C6"].ThreadedComment);
+                Assert.IsFalse(string.IsNullOrEmpty(ws.Cells["C6"].Formula));
+                Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
+            }
+        }
+
+        [TestMethod]
+        public void CopyMergedCells()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                ws.Cells["A1"].AddComment("Comment");
+                ws.Cells["A1:A2"].Merge = true;
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
+
+                Assert.IsTrue(ws.Cells["B5:B6"].Merge);
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
+                Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["C5:C6"], ExcelRangeCopyOptionFlags.ExcludeMergedCells);
+
+                Assert.IsFalse(ws.Cells["C5:C6"].Merge);
+                Assert.IsFalse(string.IsNullOrEmpty(ws.Cells["C6"].Formula));
+                Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
+
+            }
+        }
+        [TestMethod]
+        public void CopyHyperLinks()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                ws.Cells["A1"].AddComment("Comment");
+                ws.Cells["A2"].SetHyperlink(ws.Cells["C3"], "Link to C3");
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
+
+                Assert.AreEqual("Link to C3", ((ExcelHyperLink)ws.Cells["B6"].Hyperlink).Display);
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
+                Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
+
+                ws.Cells["A1:A2"].Copy(ws.Cells["C5:C6"], ExcelRangeCopyOptionFlags.ExcludeHyperLinks);
+
+                Assert.IsNull(ws.Cells["C6"].Hyperlink);
+                Assert.IsFalse(string.IsNullOrEmpty(ws.Cells["C6"].Formula));
+                Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
+
             }
         }
 

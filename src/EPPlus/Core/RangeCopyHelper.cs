@@ -80,16 +80,43 @@ namespace OfficeOpenXml.Core
         {
             foreach(var cf in _sourceRange._worksheet.ConditionalFormatting)
             {
-                if(cf.Address.Collide(_sourceRange)!=eAddressCollition.No)
+                string newAddress = "";
+                if (cf.Address.Addresses==null)
                 {
-                    var address = cf.Address.Intersect(_sourceRange);
-                    var rowOffset = address._fromRow - _sourceRange._fromRow;
-                    var colOffset = address._fromCol - _sourceRange._fromCol;
-                    address = new ExcelAddressBase(address._fromRow + rowOffset, address._fromCol + colOffset, address._toRow + rowOffset, address._toCol + colOffset);
-                    var ruleXml = cf.Node.OuterXml;
-                    
+                    newAddress = HandelCfAddress(cf, cf.Address);
+                }
+                else
+                {
+                    foreach (var a in cf.Address.Addresses)
+                    {
+                        newAddress += HandelCfAddress(cf, a);
+                    }
+                }
+                if (string.IsNullOrEmpty(newAddress) == false)
+                {
+                    if (_sourceRange._worksheet == _destination._worksheet)
+                    {
+                        cf.Address = new ExcelAddress(cf.Address + "," + newAddress);
+                    }
+                    else
+                    {
+                        _destination._worksheet.ConditionalFormatting.AddFromXml(new ExcelAddressBase(newAddress), cf.PivotTable, cf.Node.OuterXml);
+                    }                    
                 }
             }
+        }
+
+        private string HandelCfAddress(ConditionalFormatting.Contracts.IExcelConditionalFormattingRule cf, ExcelAddressBase a)
+        {
+            if (a.Collide(_sourceRange) != eAddressCollition.No)
+            {
+                var address = _sourceRange.Intersect(a);
+                var rowOffset = address._fromRow - _sourceRange._fromRow;
+                var colOffset = address._fromCol - _sourceRange._fromCol;
+                address = new ExcelAddressBase(_destination._fromRow + rowOffset, _destination._fromCol + colOffset, _destination._toRow + address.Rows, _destination._toCol + address.Columns);
+                return address.Address;
+            }
+            return "";
         }
 
         private void GetCopiedValues()

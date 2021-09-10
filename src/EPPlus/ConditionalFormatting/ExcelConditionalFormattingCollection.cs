@@ -113,21 +113,29 @@ namespace OfficeOpenXml.ConditionalFormatting
 
           // Foreach <cfRule> inside the current <conditionalFormatting>
           foreach (XmlNode cfRuleNode in cfRuleNodes)
-          {
-            // Check if @type attribute exists
-            if (cfRuleNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Type] == null)
-            {
-              throw new Exception(
-                ExcelConditionalFormattingConstants.Errors.MissingTypeAttribute);
-            }
+                    {
+                        // Check if @type attribute exists
+                        if (cfRuleNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Type] == null)
+                        {
+                            throw new Exception(
+                              ExcelConditionalFormattingConstants.Errors.MissingTypeAttribute);
+                        }
 
-            // Check if @priority attribute exists
-            if (cfRuleNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Priority] == null)
-            {
-              throw new Exception(
-                ExcelConditionalFormattingConstants.Errors.MissingPriorityAttribute);
-            }
+                        // Check if @priority attribute exists
+                        if (cfRuleNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Priority] == null)
+                        {
+                            throw new Exception(
+                              ExcelConditionalFormattingConstants.Errors.MissingPriorityAttribute);
+                        }
 
+                        AddNewCf(address, cfRuleNode);
+                    }
+                }
+      }
+    }
+
+        private void AddNewCf(ExcelAddress address, XmlNode cfRuleNode)
+        {
             // Get the <cfRule> main attributes
             string typeAttribute = ExcelConditionalFormattingHelper.GetAttributeString(
               cfRuleNode,
@@ -152,21 +160,23 @@ namespace OfficeOpenXml.ConditionalFormatting
               cfRuleNode);
 
             // Add the new rule to the list
-            if(cfRule!=null)
-              _rules.Add(cfRule);
-          }
+            if (cfRule != null)
+                _rules.Add(cfRule);
         }
-      }
-    }
-    #endregion Constructors
 
-    /****************************************************************************************/
+        internal void AddFromXml(ExcelAddressBase address, bool pivot, string ruleXml)
+        {
+            
+        }
+        #endregion Constructors
 
-    #region Methods
-    /// <summary>
-    /// 
-    /// </summary>
-    private void EnsureRootElementExists()
+        /****************************************************************************************/
+
+        #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        private void EnsureRootElementExists()
     {
       // Find the <worksheet> node
       if (_worksheet.WorksheetXml.DocumentElement == null)
