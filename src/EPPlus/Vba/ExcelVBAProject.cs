@@ -1060,17 +1060,13 @@ namespace OfficeOpenXml.VBA
 
         internal string GetModuleNameFromWorksheet(ExcelWorksheet sheet)
         {
-            var name = sheet.Name;
-            name = name.Substring(0, name.Length < 31 ? name.Length : 31);  //Maximum 31 charachters
-            if (this.Modules[name] != null || !ExcelVBAModule.IsValidModuleName(name)) //Check for valid chars, if not valid, set to sheetX.
+            var name = "Sheet" + i.ToString();
+
+            while (this.Modules[name] != null)
             {
-                int i = sheet.PositionId;
-                name = "Sheet" + i.ToString();
-                while (this.Modules[name] != null)
-                {
                     name = "Sheet" + (++i).ToString();
-                }
             }
+
             return name;
         }
 
