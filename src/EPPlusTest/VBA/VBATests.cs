@@ -130,5 +130,26 @@ namespace EPPlusTest.VBA
                 p.Workbook.VbaProject.Modules.AddModule("Mod%ule2");
             }
         }
+        [TestMethod]
+        public void CopyWorksheetWithLongName()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var wsName = "SheetWithLooooooooooooooongName";
+                var ws = p.Workbook.Worksheets.Add(wsName);
+                p.Workbook.CreateVBAProject();
+                ws.CodeModule.Code = "Sub VBA_Code\r\n\r\nEnd Sub";
+
+                var wsNameCopy = "newworksheet";
+                var newWS = p.Workbook.Worksheets.Add(wsNameCopy, ws);
+
+                Assert.AreEqual(3, p.Workbook.VbaProject.Modules.Count);
+                Assert.AreEqual("ThisWorkbook", p.Workbook.VbaProject.Modules[0].Name);
+                Assert.AreEqual(wsName, p.Workbook.VbaProject.Modules[1].Name);
+                Assert.AreEqual(wsNameCopy, p.Workbook.VbaProject.Modules[2].Name);
+
+                SaveWorkbook("vbacopy.xlsm", p);
+            }
+        }
     }
 }
