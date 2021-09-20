@@ -1214,5 +1214,36 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("This cell contains a threaded comment.", ws.Cells[commentAddress].GetValue<string>());
             Assert.AreEqual(commentAddress, ws.ThreadedComments[0].CellAddress.Address);
         }
+        [TestMethod]
+        public void ValidateTableCalculatedColumnFormulasAfterInsertRowAndInsertColumn()
+        {
+            //Test created from issue #484 - https://github.com/EPPlusSoftware/EPPlus/issues/484
+            var ws = _pck.Workbook.Worksheets.Add("InsertCalculateColumnFormula");
+
+            // Create some tables with calculated column formulas
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C15"], "Table1");
+            tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G15"], "Table2");
+            tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+            // Check the formulas have been set correctly
+            Assert.AreEqual("A12+B12", ws.Cells["C12"].Formula);
+            Assert.AreEqual("A12+F12", ws.Cells["G12"].Formula);
+            Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+            // Insert two rows above the tables
+            ws.InsertRow(5, 2);
+            // Insert one column from column D
+            ws.InsertColumn(4, 1);
+
+            // Check the formulas were updated
+            Assert.AreEqual("A14+B14", ws.Cells["C14"].Formula);
+            Assert.AreEqual("A14+G14", ws.Cells["H14"].Formula);
+            Assert.AreEqual("A15+G15", ws.Cells["H15"].Formula);
+            Assert.AreEqual("A14+B14", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A14+G14", tbl2.Columns[2].CalculatedColumnFormula);
+        }
     }
 }

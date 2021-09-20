@@ -1424,6 +1424,35 @@ namespace EPPlusTest.Core.Range.Delete
                 Assert.AreEqual(ws.DefaultColWidth, ws.Column(7).Width);
             }
         }
+        [TestMethod]
+        public void ValidateTableCalculatedColumnFormulasAfterDeleteRowAndDeleteColumn()
+        {
+            //Test created from issue #484 - https://github.com/EPPlusSoftware/EPPlus/issues/484
+            var ws = _pck.Workbook.Worksheets.Add("DeleteCalculateColumnFormula");
 
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C13"], "Table1");
+            tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G13"], "Table2");
+            tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+            // Check the formulas have been set correctly
+            Assert.AreEqual("A12+B12", ws.Cells["C12"].Formula);
+            Assert.AreEqual("A12+F12", ws.Cells["G12"].Formula);
+            Assert.AreEqual("A13+F13", ws.Cells["G13"].Formula);
+            Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+            //Delete two rows above the tables 
+            ws.DeleteRow(5, 2);
+            //Delete the column between the tables.
+            ws.DeleteColumn(4, 1);
+
+            // Check the formulas were updated
+            Assert.AreEqual("A10+B10", ws.Cells["C10"].Formula);
+            Assert.AreEqual("A10+E10", ws.Cells["F10"].Formula);
+            Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A10+E10", tbl2.Columns[2].CalculatedColumnFormula);
+        }
     }
 }

@@ -34,30 +34,22 @@ namespace OfficeOpenXml.Core.Worksheet
             ValidateInsertRow(ws, rowFrom, rows);
 
             lock (ws)
-            {               
+            {
                 InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 FixFormulasInsertRow(ws, rowFrom, rows);
 
                 WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, false);
-                
+
                 if (copyStylesFromRow > 0)
                 {
                     CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
                 }
 
-                foreach (var tbl in ws.Tables)
-                {
-                    tbl.Address = tbl.Address.AddRow(rowFrom, rows);
-                }
+                InsertRowTable(ws, rowFrom, rows);
+                InsertRowPivotTable(ws, rowFrom, rows);
 
-                foreach (var ptbl in ws.PivotTables)
-                {
-                    ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
-                    ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddRow(rowFrom, rows).Address;
-                }
-
-                var range = ws.Cells[rowFrom, 1, rowFrom+rows-1, ExcelPackage.MaxColumns];
+                var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
@@ -69,6 +61,31 @@ namespace OfficeOpenXml.Core.Worksheet
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
         }
+
+        private static void InsertRowTable(ExcelWorksheet ws, int rowFrom, int rows)
+        {
+            foreach (var tbl in ws.Tables)
+            {
+                tbl.Address = tbl.Address.AddRow(rowFrom, rows);
+                foreach (var col in tbl.Columns)
+                {
+                    if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                    {
+                        col.CalculatedColumnFormula = ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                    }
+                }
+            }
+        }
+
+        private static void InsertRowPivotTable(ExcelWorksheet ws, int rowFrom, int rows)
+        {
+            foreach (var ptbl in ws.PivotTables)
+            {
+                ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
+                ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddRow(rowFrom, rows).Address;
+            }
+        }
+
         internal static void InsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             ValidateInsertColumn(ws, columnFrom, columns);
@@ -85,30 +102,9 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 CopyStylesFromColumn(ws, columnFrom, columns, copyStylesFromColumn);
 
-                //Adjust tables
-                foreach (var tbl in ws.Tables)
-                {
-                    if (columnFrom > tbl.Address.Start.Column && columnFrom <= tbl.Address.End.Column)
-                    {
-                        InsertTableColumns(columnFrom, columns, tbl);
-                    }
+                InsertColumnTable(ws, columnFrom, columns);
+                InsertColumnPivotTable(ws, columnFrom, columns);
 
-                    tbl.Address = tbl.Address.AddColumn(columnFrom, columns);
-                }
-                foreach (var ptbl in ws.PivotTables)
-                {
-                    if (columnFrom <= ptbl.Address.End.Column)
-                    {
-                        ptbl.Address = ptbl.Address.AddColumn(columnFrom, columns);
-                    }
-                    if (columnFrom <= ptbl.CacheDefinition.SourceRange.End.Column)
-                    {
-                        if (ptbl.CacheDefinition.CacheSource == eSourceType.Worksheet)
-                        {
-                            ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddColumn(columnFrom, columns).Address;
-                        }
-                    }
-                }
                 var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Right);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Right);
@@ -122,6 +118,49 @@ namespace OfficeOpenXml.Core.Worksheet
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
             }
         }
+
+        private static void InsertColumnPivotTable(ExcelWorksheet ws, int columnFrom, int columns)
+        {
+            foreach (var ptbl in ws.PivotTables)
+            {
+                if (columnFrom <= ptbl.Address.End.Column)
+                {
+                    ptbl.Address = ptbl.Address.AddColumn(columnFrom, columns);
+                }
+                if (columnFrom <= ptbl.CacheDefinition.SourceRange.End.Column)
+                {
+                    if (ptbl.CacheDefinition.CacheSource == eSourceType.Worksheet)
+                    {
+                        ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddColumn(columnFrom, columns).Address;
+                    }
+                }
+            }
+        }
+
+        private static void InsertColumnTable(ExcelWorksheet ws, int columnFrom, int columns)
+        {
+            //Adjust tables
+            foreach (var tbl in ws.Tables)
+            {
+                if (columnFrom > tbl.Address.Start.Column && columnFrom <= tbl.Address.End.Column)
+                {
+                    InsertTableColumns(columnFrom, columns, tbl);
+                }
+
+                tbl.Address = tbl.Address.AddColumn(columnFrom, columns);
+                if (columnFrom <= tbl.Address._toCol)
+                {
+                    foreach (var col in tbl.Columns)
+                    {
+                        if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                        {
+                            col.CalculatedColumnFormula = ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, 0, columns, 0, columnFrom, ws.Name, ws.Name);
+                        }
+                    }
+                }               
+            }
+        }
+
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy)
         {
             ValidateInsert(range, shift);
