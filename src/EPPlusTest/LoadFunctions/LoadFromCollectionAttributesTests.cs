@@ -136,7 +136,6 @@ namespace EPPlusTest.LoadFunctions
                 var table = sheet.Tables[0];
                 Assert.AreEqual(TableStyles.None, table.TableStyle);
                 Assert.IsNotNull(sheet.Cells["H3"].Value);
-                package.SaveAs(new FileInfo(@"c:\temp\stylenone.xlsx"));
             }
         }
 
