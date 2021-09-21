@@ -454,5 +454,14 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.InvalidReference));
         }
 
+        [TestMethod]
+        public void TokenizeShouldHandleWorksheetNameWithSingleQuote()
+        {
+            var input = @"=VLOOKUP(J7;'Sheet 1''21'!$Q$4:$R$28;2;0)";
+            var tokens = _tokenizer.Tokenize(input).ToArray();
+            Assert.AreEqual(11, tokens.Count());
+            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.ExcelAddress));
+            Assert.AreEqual("'Sheet 1''21'!$Q$4:$R$28", tokens[5].Value);
+        }
     }
 }

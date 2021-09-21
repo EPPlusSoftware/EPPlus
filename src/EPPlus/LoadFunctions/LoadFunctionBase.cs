@@ -115,16 +115,13 @@ namespace OfficeOpenXml.LoadFunctions
 
             var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
 
-            if (TableStyle != TableStyles.None)
-            {
-                var tbl = ws.Tables.Add(r, "");
-                tbl.ShowHeader = PrintHeaders;
-                tbl.TableStyle = TableStyle;
-                tbl.ShowFirstColumn = ShowFirstColumn;
-                tbl.ShowLastColumn = ShowLastColumn;
-                tbl.ShowTotal = ShowTotal;
-                PostProcessTable(tbl, r);
-            }
+            var tbl = ws.Tables.Add(r, "");
+            tbl.ShowHeader = PrintHeaders;
+            tbl.TableStyle = TableStyle;
+            tbl.ShowFirstColumn = ShowFirstColumn;
+            tbl.ShowLastColumn = ShowLastColumn;
+            tbl.ShowTotal = ShowTotal;
+            PostProcessTable(tbl, r);
 
             return r;
         }

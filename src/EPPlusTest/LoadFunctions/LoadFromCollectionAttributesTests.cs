@@ -44,6 +44,12 @@ namespace EPPlusTest.LoadFunctions
 
     }
 
+    [EpplusTable(TableStyle = TableStyles.None, PrintHeaders = true, AutofitColumns = true, AutoCalculate = true, ShowLastColumn = true)]
+    internal class ActorTablestyleNone : Actor
+    {
+
+    }
+
     [TestClass]
     public class LoadFromCollectionAttributesTests
     {
@@ -110,6 +116,25 @@ namespace EPPlusTest.LoadFunctions
                 var r = sheet.Cells["A1"].LoadFromCollection(actors);
                 var table = sheet.Tables[0];
                 Assert.AreEqual(TableStyles.Medium1, table.TableStyle);
+                Assert.IsNotNull(sheet.Cells["H3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void TableStyleNoneShouldAutoCalc()
+        {
+            var actors = new List<ActorTablestyleNone>
+            {
+                new ActorTablestyleNone{ Salary = 256.24, Tax = 0.21, FirstName = "John", MiddleName = "Bernhard", LastName = "Doe", Birthdate = new DateTime(1950, 3, 15) },
+                new ActorTablestyleNone{ Salary = 278.55, Tax = 0.23, FirstName = "Sven", MiddleName = "Bertil", LastName = "Svensson", Birthdate = new DateTime(1962, 6, 10)},
+                new ActorTablestyleNone{ Salary = 315.34, Tax = 0.28, FirstName = "Lisa", MiddleName = "Maria", LastName = "Gonzales", Birthdate = new DateTime(1971, 10, 2)}
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(actors);
+                var table = sheet.Tables[0];
+                Assert.AreEqual(TableStyles.None, table.TableStyle);
                 Assert.IsNotNull(sheet.Cells["H3"].Value);
             }
         }
