@@ -83,13 +83,13 @@ namespace OfficeOpenXml.Core
                 string newAddress = "";
                 if (cf.Address.Addresses==null)
                 {
-                    newAddress = HandelCfAddress(cf, cf.Address);
+                    newAddress = HandelCfAddress(cf.Address);
                 }
                 else
                 {
                     foreach (var a in cf.Address.Addresses)
                     {
-                        newAddress += HandelCfAddress(cf, a);
+                        newAddress += HandelCfAddress(a);
                     }
                 }
                 if (string.IsNullOrEmpty(newAddress) == false)
@@ -100,17 +100,17 @@ namespace OfficeOpenXml.Core
                     }
                     else
                     {
-                        _destination._worksheet.ConditionalFormatting.AddFromXml(new ExcelAddressBase(newAddress), cf.PivotTable, cf.Node.OuterXml);
+                        _destination._worksheet.ConditionalFormatting.AddFromXml(new ExcelAddress(newAddress), cf.PivotTable, cf.Node.OuterXml);
                     }                    
                 }
             }
         }
 
-        private string HandelCfAddress(ConditionalFormatting.Contracts.IExcelConditionalFormattingRule cf, ExcelAddressBase a)
+        private string HandelCfAddress(ExcelAddressBase cfAddress)
         {
-            if (a.Collide(_sourceRange) != eAddressCollition.No)
+            if (cfAddress.Collide(_sourceRange) != eAddressCollition.No)
             {
-                var address = _sourceRange.Intersect(a);
+                var address = _sourceRange.Intersect(cfAddress);
                 var rowOffset = address._fromRow - _sourceRange._fromRow;
                 var colOffset = address._fromCol - _sourceRange._fromCol;
                 address = new ExcelAddressBase(_destination._fromRow + rowOffset, _destination._fromCol + colOffset, _destination._toRow + address.Rows, _destination._toCol + address.Columns);

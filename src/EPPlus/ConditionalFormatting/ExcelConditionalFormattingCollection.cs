@@ -134,7 +134,7 @@ namespace OfficeOpenXml.ConditionalFormatting
       }
     }
 
-        private void AddNewCf(ExcelAddress address, XmlNode cfRuleNode)
+        private ExcelConditionalFormattingRule AddNewCf(ExcelAddress address, XmlNode cfRuleNode)
         {
             // Get the <cfRule> main attributes
             string typeAttribute = ExcelConditionalFormattingHelper.GetAttributeString(
@@ -161,12 +161,20 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             // Add the new rule to the list
             if (cfRule != null)
+            {
                 _rules.Add(cfRule);
+                return cfRule;
+            }
+            return null;
         }
 
-        internal void AddFromXml(ExcelAddressBase address, bool pivot, string ruleXml)
+        internal void AddFromXml(ExcelAddress address, bool pivot, string ruleXml)
         {
-            
+            var cfRuleNode = (XmlElement)CreateNode(ExcelConditionalFormattingConstants.Paths.ConditionalFormatting,false, true);
+            cfRuleNode.SetAttribute("sqref", address.AddressSpaceSeparated);
+            cfRuleNode.InnerXml = ruleXml;
+            var rule = AddNewCf(address, cfRuleNode.FirstChild);
+            rule.PivotTable = pivot;
         }
         #endregion Constructors
 

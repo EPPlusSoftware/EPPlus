@@ -316,23 +316,26 @@ namespace EPPlusTest.Core.Range
 
                 ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
 
-                Assert.AreEqual("C2:D5,E5:G8",cf1.Address.Address);
-                //Assert.IsTrue(ws.Cells["B5:B6"].Merge);
-                //Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["B6"].Formula));
-                //Assert.IsFalse(ws.Cells["B5"].Style.Font.Bold);
-                //Assert.IsFalse(ws.Cells["B6"].Style.Font.Bold);
-                //Assert.IsFalse(ws.Cells["B6"].Style.Font.Italic);
-
-                //ws.Cells["A1:A2"].Copy(ws.Cells["C5:C6"], ExcelRangeCopyOptionFlags.ExcludeMergedCells);
-
-                //Assert.IsFalse(ws.Cells["C5:C6"].Merge);
-                //Assert.IsFalse(string.IsNullOrEmpty(ws.Cells["C6"].Formula));
-                //Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
-                //Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
-                //Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
-
+                Assert.AreEqual("B2:D5,F6:G8",cf1.Address.Address);
             }
         }
+        [TestMethod]
+        public void CopyConditionalFormattingNewWorksheet()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws1 = SetupCopyRange(p);
+                var cf1 = ws1.Cells["B2:D5"].ConditionalFormatting.AddBetween();
+
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
+
+                Assert.AreEqual(1, ws2.ConditionalFormatting.Count);
+                Assert.AreEqual("F6:G8", ws2.ConditionalFormatting[0].Address.Address);
+                //SaveWorkbook("cfcopy.xlsx", p);
+            }
+        }
+
         [TestMethod]
         public void CopyComments()
         {

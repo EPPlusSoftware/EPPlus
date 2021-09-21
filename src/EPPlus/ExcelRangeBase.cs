@@ -2039,9 +2039,9 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Copies the range of cells to an other range
+        /// Copies the range of cells to another range. 
         /// </summary>
-        /// <param name="Destination">The start cell where the range will be copied.</param>
+        /// <param name="Destination">The top-left cell where the range will be copied.</param>
         public void Copy(ExcelRangeBase Destination)
         {
             var helper = new RangeCopyHelper(this, Destination, 0);
