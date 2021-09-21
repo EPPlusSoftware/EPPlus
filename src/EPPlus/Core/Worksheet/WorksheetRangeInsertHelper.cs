@@ -464,6 +464,15 @@ namespace OfficeOpenXml.Core.Worksheet
                         tbl.Address = tbl.Address.AddColumn(range._fromCol, range.Columns);
                     }
                 }
+
+                //Update CalculatedColumnFormula
+                foreach (var col in tbl.Columns)
+                {
+                    if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                    {
+                        col.CalculatedColumnFormula=ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
+                    }
+                }
             }
         }
 

@@ -131,7 +131,7 @@ namespace EPPlusTest.VBA
             }
         }
         [TestMethod]
-        public void CopyWorksheetWithLongName()
+        public void ValidateModuleNameAfterCopyWorksheet()
         {
             using (var p = new ExcelPackage())
             {
@@ -140,15 +140,16 @@ namespace EPPlusTest.VBA
                 p.Workbook.CreateVBAProject();
                 ws.CodeModule.Code = "Sub VBA_Code\r\n\r\nEnd Sub";
 
-                var wsNameCopy = "newworksheet";
-                var newWS = p.Workbook.Worksheets.Add(wsNameCopy, ws);
+                var newWS1 = p.Workbook.Worksheets.Add("1newworksheet", ws);
+                var newWS2 = p.Workbook.Worksheets.Add("Sheet3", ws);
+                var newWS3 = p.Workbook.Worksheets.Add("newworksheet+1", ws);
 
-                Assert.AreEqual(3, p.Workbook.VbaProject.Modules.Count);
+                Assert.AreEqual(5, p.Workbook.VbaProject.Modules.Count);
                 Assert.AreEqual("ThisWorkbook", p.Workbook.VbaProject.Modules[0].Name);
                 Assert.AreEqual(wsName, p.Workbook.VbaProject.Modules[1].Name);
-                Assert.AreEqual(wsNameCopy, p.Workbook.VbaProject.Modules[2].Name);
-
-                SaveWorkbook("vbacopy.xlsm", p);
+                Assert.AreEqual("Sheet1", p.Workbook.VbaProject.Modules[2].Name);
+                Assert.AreEqual("Sheet3", p.Workbook.VbaProject.Modules[3].Name);
+                Assert.AreEqual("Sheet4", p.Workbook.VbaProject.Modules[4].Name);
             }
         }
     }

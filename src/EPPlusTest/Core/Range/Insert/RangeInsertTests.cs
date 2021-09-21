@@ -1221,10 +1221,10 @@ namespace EPPlusTest.Core.Range.Insert
             var ws = _pck.Workbook.Worksheets.Add("InsertCalculateColumnFormula");
 
             // Create some tables with calculated column formulas
-            var tbl1 = ws.Tables.Add(ws.Cells["A11:C15"], "Table1");
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C15"], "Table3");
             tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
 
-            var tbl2 = ws.Tables.Add(ws.Cells["E11:G15"], "Table2");
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G15"], "Table4");
             tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
 
             // Check the formulas have been set correctly
@@ -1245,5 +1245,38 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual("A14+B14", tbl1.Columns[2].CalculatedColumnFormula);
             Assert.AreEqual("A14+G14", tbl2.Columns[2].CalculatedColumnFormula);
         }
+        [TestMethod]
+        public void ValidateTableCalculatedColumnFormulasAfterInsertRange()
+        {
+            //Test created from issue #484 - https://github.com/EPPlusSoftware/EPPlus/issues/484
+            var ws = _pck.Workbook.Worksheets.Add("InsertCalcColumnFormulaRange");
+
+            // Create some tables with calculated column formulas
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C15"], "Table1");
+            tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G15"], "Table2");
+            tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+            // Check the formulas have been set correctly
+            Assert.AreEqual("A12+B12", ws.Cells["C12"].Formula);
+            Assert.AreEqual("A12+F12", ws.Cells["G12"].Formula);
+            Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+            // Insert two rows above the tables
+            ws.Cells["A2:D2"].Insert(eShiftTypeInsert.Down);
+            // Insert one column from column D
+            //ws.InsertColumn(4, 1);
+            ws.Cells["A1:A20"].Insert(eShiftTypeInsert.Right);
+
+            // Check the formulas were updated
+            Assert.AreEqual("B14+C14", ws.Cells["D14"].Formula);
+            Assert.AreEqual("B13+G12", ws.Cells["H12"].Formula);
+            Assert.AreEqual("B14+G13", ws.Cells["H13"].Formula);
+            Assert.AreEqual("B13+C13", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("B13+G12", tbl2.Columns[2].CalculatedColumnFormula);
+        }
+
     }
 }

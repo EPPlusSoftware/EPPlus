@@ -742,7 +742,22 @@ namespace OfficeOpenXml.Core.Worksheet
                         tbl.Address = tbl.Address.DeleteColumn(range._fromCol, range.Columns);
                     }
                 }
-                if(tbl.Address==null) deletedTbl.Add(tbl);
+
+                if (tbl.Address == null)
+                {
+                    deletedTbl.Add(tbl);
+                }
+                else
+                {
+                    //Update CalculatedColumnFormula
+                    foreach (var col in tbl.Columns)
+                    {
+                        if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                        {
+                            col.CalculatedColumnFormula = ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
+                        }
+                    }
+                }
             }
 
             deletedTbl.ForEach(x => ws.Tables.Delete(x));
