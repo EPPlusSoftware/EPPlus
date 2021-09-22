@@ -29,7 +29,10 @@
 using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using System.Drawing;
+
 namespace EPPlusTest.Core.Range
 {
     [TestClass]
@@ -326,13 +329,47 @@ namespace EPPlusTest.Core.Range
             {
                 ExcelWorksheet ws1 = SetupCopyRange(p);
                 var cf1 = ws1.Cells["B2:D5"].ConditionalFormatting.AddBetween();
-
+                cf1.Formula = "1";
+                cf1.Formula2 = "3";
+                cf1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cf1.Style.Fill.BackgroundColor.SetColor(Color.Red);
                 var ws2 = p.Workbook.Worksheets.Add("Sheet2");
                 ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
-
+                
                 Assert.AreEqual(1, ws2.ConditionalFormatting.Count);
-                Assert.AreEqual("F6:G8", ws2.ConditionalFormatting[0].Address.Address);
-                //SaveWorkbook("cfcopy.xlsx", p);
+                var cf2 = ws2.ConditionalFormatting[0].As.Between;
+                Assert.AreEqual("F6:G8", cf2.Address.Address);
+                Assert.AreEqual("1", cf2.Formula);
+                Assert.AreEqual("3", cf2.Formula2);
+                Assert.AreEqual(ExcelFillStyle.Solid, cf2.Style.Fill.PatternType);
+                Assert.AreEqual(Color.Red.ToArgb(), cf2.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+            }
+        }
+        [TestMethod]
+        public void CopyConditionalFormattingNewPackage()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                ExcelWorksheet ws1 = SetupCopyRange(p1);
+                var cf1 = ws1.Cells["B2:D5"].ConditionalFormatting.AddBetween();
+                cf1.Formula = "1";
+                cf1.Formula2 = "3";
+                cf1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cf1.Style.Fill.BackgroundColor.SetColor(Color.Red);
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws2 = p2.Workbook.Worksheets.Add("Sheet2");
+                    ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
+
+                    Assert.AreEqual(1, ws2.ConditionalFormatting.Count);
+                    var cf2 = ws2.ConditionalFormatting[0].As.Between;
+                    Assert.AreEqual("F6:G8", cf2.Address.Address);
+                    Assert.AreEqual("1", cf2.Formula);
+                    Assert.AreEqual("3", cf2.Formula2);
+                    Assert.AreEqual(ExcelFillStyle.Solid, cf2.Style.Fill.PatternType);
+                    Assert.AreEqual(Color.Red.ToArgb(), cf2.Style.Fill.BackgroundColor.Color.Value.ToArgb());
+                    SaveWorkbook("cfcopy.xlsx", p2);
+                }
             }
         }
 

@@ -10,8 +10,10 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils;
 using System;
@@ -101,7 +103,12 @@ namespace OfficeOpenXml.Core
                     else
                     {
                         _destination._worksheet.ConditionalFormatting.AddFromXml(new ExcelAddress(newAddress), cf.PivotTable, cf.Node.OuterXml);
-                    }                    
+                        if (cf.Style.HasValue)
+                        {
+                            var destRule = ((ExcelConditionalFormattingRule)_destination._worksheet.ConditionalFormatting[_destination._worksheet.ConditionalFormatting.Count - 1]);
+                            destRule.SetStyle((ExcelDxfStyleConditionalFormatting)cf.Style.Clone());
+                        }
+                    }
                 }
             }
         }
