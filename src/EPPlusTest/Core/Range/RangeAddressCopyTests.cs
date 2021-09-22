@@ -32,6 +32,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System.Drawing;
+using OfficeOpenXml.DataValidation;
 
 namespace EPPlusTest.Core.Range
 {
@@ -310,6 +311,75 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
+        public void CopyDataValidationsSameWorksheet()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                var dv = ws.Cells["B2:D5"].DataValidation.AddIntegerDataValidation();
+                dv.Formula.Value = 1;
+                dv.Formula2.Value = 3;
+                dv.ShowErrorMessage = true;
+                dv.ErrorStyle = OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop;
+                ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
+
+                Assert.AreEqual("B2:D5,F6:G8", dv.Address.Address);                
+            }
+        }
+        [TestMethod]
+        public void CopyDataValidationsNewWorksheet()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws1 = SetupCopyRange(p);
+                var dv = ws1.Cells["B2:D5"].DataValidation.AddIntegerDataValidation();
+                dv.Formula.Value = 1;
+                dv.Formula2.Value = 3;
+                dv.ShowErrorMessage = true;
+                dv.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
+
+                Assert.AreEqual(1, ws2.DataValidations.Count);
+                var dv2 = ws2.DataValidations[0].As.IntegerValidation;
+                Assert.AreEqual("F6:G8", dv2.Address.Address);
+                Assert.AreEqual(1, dv2.Formula.Value);
+                Assert.AreEqual(3, dv2.Formula2.Value);
+                Assert.IsTrue(dv.ShowErrorMessage.Value);
+                Assert.AreEqual(ExcelDataValidationWarningStyle.stop, dv.ErrorStyle);
+
+                SaveWorkbook("dvcopy.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void CopyDataValidationNewPackage()
+        {
+            using (var p1 = new ExcelPackage())
+            {
+                ExcelWorksheet ws1 = SetupCopyRange(p1);
+                var dv = ws1.Cells["B2:D5"].DataValidation.AddIntegerDataValidation();
+                dv.Formula.Value = 1;
+                dv.Formula2.Value = 3;
+                dv.ShowErrorMessage = true;
+                dv.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                using (var p2 = new ExcelPackage())
+                {
+                    var ws2 = p2.Workbook.Worksheets.Add("Sheet Copy");
+                    ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
+
+                    Assert.AreEqual(1, ws2.DataValidations.Count);
+                    var dv2 = ws2.DataValidations[0].As.IntegerValidation;
+                    Assert.AreEqual("F6:G8", dv2.Address.Address);
+                    Assert.AreEqual(1, dv2.Formula.Value);
+                    Assert.AreEqual(3, dv2.Formula2.Value);
+                    Assert.IsTrue(dv.ShowErrorMessage.Value);
+                    Assert.AreEqual(ExcelDataValidationWarningStyle.stop, dv.ErrorStyle);
+
+                    SaveWorkbook("dvcopy.xlsx", p2);
+                }
+            }
+        }
+        [TestMethod]
         public void CopyConditionalFormattingSameWorkbook()
         {
             using (var p = new ExcelPackage())
@@ -322,6 +392,7 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("B2:D5,F6:G8",cf1.Address.Address);
             }
         }
+
         [TestMethod]
         public void CopyConditionalFormattingNewWorksheet()
         {

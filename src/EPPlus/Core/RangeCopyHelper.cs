@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.ThreadedComments;
@@ -67,7 +68,16 @@ namespace OfficeOpenXml.Core
             ClearDestination();
 
             CopyValuesToDestination();
-            CopyConditionalFormatting();
+            
+            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDataValidations))
+            {
+                CopyDataValidations();
+            }
+
+            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeConditionalFormatting))
+            {
+                CopyConditionalFormatting();
+            }
 
             if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeMergedCells))
             {
@@ -78,6 +88,40 @@ namespace OfficeOpenXml.Core
             CopyFullRow();
         }
 
+        private void CopyDataValidations()
+        {
+            foreach (var idv in _sourceRange._worksheet.DataValidations)
+            {
+                if (idv is ExcelDataValidation dv)
+                {
+                    string newAddress = "";
+                    if (dv.Address.Addresses == null)
+                    {
+                        newAddress = HandelAddress(dv.Address);
+                    }
+                    else
+                    {
+                        foreach (var a in dv.Address.Addresses)
+                        {
+                            newAddress += HandelAddress(a);
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(newAddress) == false)
+                    {
+                        if (_sourceRange._worksheet == _destination._worksheet)
+                        {
+                            dv.SetAddress(dv.Address + "," + newAddress);
+                        }
+                        else
+                        {
+                            _destination._worksheet.DataValidations.AddCopyOfDataValidation(newAddress, dv);
+                        }
+                    }
+                }
+            }
+        }
+
         private void CopyConditionalFormatting()
         {
             foreach(var cf in _sourceRange._worksheet.ConditionalFormatting)
@@ -85,13 +129,13 @@ namespace OfficeOpenXml.Core
                 string newAddress = "";
                 if (cf.Address.Addresses==null)
                 {
-                    newAddress = HandelCfAddress(cf.Address);
+                    newAddress = HandelAddress(cf.Address);
                 }
                 else
                 {
                     foreach (var a in cf.Address.Addresses)
                     {
-                        newAddress += HandelCfAddress(a);
+                        newAddress += HandelAddress(a);
                     }
                 }
                 if (string.IsNullOrEmpty(newAddress) == false)
@@ -113,7 +157,7 @@ namespace OfficeOpenXml.Core
             }
         }
 
-        private string HandelCfAddress(ExcelAddressBase cfAddress)
+        private string HandelAddress(ExcelAddressBase cfAddress)
         {
             if (cfAddress.Collide(_sourceRange) != eAddressCollition.No)
             {

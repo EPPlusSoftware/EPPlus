@@ -48,5 +48,13 @@ namespace OfficeOpenXml
         /// Exclude threaded comments.
         /// </summary>
         ExcludeMergedCells = 0x30,
+        /// <summary>
+        /// Exclude data validations.
+        /// </summary>
+        ExcludeDataValidations = 0x40,
+        /// <summary>
+        /// Exclude conditional formatting.
+        /// </summary>
+        ExcludeConditionalFormatting = 0x80,
     }
 }
