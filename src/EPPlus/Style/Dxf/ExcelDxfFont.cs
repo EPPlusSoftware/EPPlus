@@ -151,9 +151,16 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return base.Id + "|" + GetAsString(Name) + "|" + GetAsString(Size) + "|" + GetAsString(Family) + "|" + GetAsString(VerticalAlign) + "|" + GetAsString(Outline) + "|" + GetAsString(Shadow) + "|" + GetAsString(Condense)+ "|" + GetAsString(Extend)+ "|" + GetAsString(Scheme);
+                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color == null ? "" : Color.Id) + "|" + GetAsString(Underline)
+                    + "|" + GetAsString(Name) + "|" + GetAsString(Size) + "|" + GetAsString(Family) + "|" + GetVAlign() + "|" + GetAsString(Outline) + "|" + GetAsString(Shadow) + "|" + GetAsString(Condense) + "|" + GetAsString(Extend) + "|" + GetAsString(Scheme);
             }
         }
+
+        private string GetVAlign()
+        {
+            return VerticalAlign==ExcelVerticalAlignmentFont.None ? "" : GetAsString(VerticalAlign);
+        }
+
         /// <summary>
         /// Clone the object
         /// </summary>

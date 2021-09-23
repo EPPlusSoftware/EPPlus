@@ -1918,5 +1918,36 @@ namespace EPPlusTest
                 Assert.IsNull(worksheet.Cells["A3"].Value);
             }
         }
+        [TestMethod]
+        public void RemoveFormulaFromFirstCellOfSharedFormulaWithGap()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Get the worksheet
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells["G1:G6"].Formula = "SUM(A1:F1)";
+                ws.Cells["G5"].Formula = null;
+
+                // Check that G1:G6 have formulas, except for G5
+                Assert.AreEqual("SUM(A1:F1)", ws.Cells["G1"].Formula);
+                Assert.AreEqual("SUM(A2:F2)", ws.Cells["G2"].Formula);
+                Assert.AreEqual("SUM(A3:F3)", ws.Cells["G3"].Formula);
+                Assert.AreEqual("SUM(A4:F4)", ws.Cells["G4"].Formula);
+                Assert.AreEqual("", ws.Cells["G5"].Formula);
+                Assert.AreEqual("SUM(A6:F6)", ws.Cells["G6"].Formula);
+
+                // Remove the formula from G1
+                ws.Cells["G1"].Formula = null;
+
+                // Check that the formula was removed, and the other formulas are unchanged
+                Assert.AreEqual("", ws.Cells["G1"].Formula);
+                Assert.AreEqual("SUM(A2:F2)", ws.Cells["G2"].Formula);
+                Assert.AreEqual("SUM(A3:F3)", ws.Cells["G3"].Formula);
+                Assert.AreEqual("SUM(A4:F4)", ws.Cells["G4"].Formula);
+                Assert.AreEqual("", ws.Cells["G5"].Formula);
+                Assert.AreEqual("SUM(A6:F6)", ws.Cells["G6"].Formula);
+            }
+        }
     }
 }

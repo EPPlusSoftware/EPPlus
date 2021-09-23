@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();
-            bool hasMetadata = Copy._metadataStore.HasValues;
+            bool hasMetadata = Copy._metadataStore.HasValues && sameWorkbook;
             //Cells
             int row, col;
             var val = new CellStoreEnumerator<ExcelValue>(Copy._values);

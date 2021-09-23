@@ -197,7 +197,7 @@ namespace OfficeOpenXml.Core
 
                 if (cell.Formula != null)
                 {
-                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(cell.Formula.ToString(), destination._fromRow - fromRow, destination._fromCol - fromCol, 0, 0, destination.WorkSheetName, destination.WorkSheetName, true);
+                    cell.Formula = ExcelRangeBase.UpdateFormulaReferences(cell.Formula.ToString(), destination._fromRow - fromRow, destination._fromCol - fromCol, 0, 0, destination.WorkSheetName, destination.WorkSheetName, true, true);
                     destination._worksheet._formulas.SetValue(cell.Row, cell.Column, cell.Formula);
                 }
                 if (cell.HyperLink != null)
@@ -221,7 +221,7 @@ namespace OfficeOpenXml.Core
                 }
                 else if (cell.Comment != null)
                 {
-                    destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
+                    CopyComment(destination, cell);
                 }
 
                 if (cell.Flag != 0)
@@ -234,6 +234,30 @@ namespace OfficeOpenXml.Core
                     destination._worksheet._metadataStore.SetValue(cell.Row, cell.Column, cell.MetaData);
                 }
             }
+        }
+
+        private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
+        {
+            var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
+            var offsetCol = c.Column - cell.Comment.Column;
+            var offsetRow = c.Row - cell.Comment.Row;
+            XmlHelper.CopyElement((XmlElement)cell.Comment.TopNode, (XmlElement)c.TopNode, new string[] { "Id" });
+
+            if (c.From.Column + offsetCol >= 0)
+            {
+                c.From.Column += offsetCol;
+                c.To.Column += offsetCol;
+            }
+            if (c.From.Row + offsetRow >= 0)
+            {
+                c.From.Row += offsetRow;
+                c.To.Row += offsetRow;
+            }
+            c.Row = cell.Row-1;
+            c.Column = cell.Column-1;
+
+            c._commentHelper.TopNode.InnerXml = cell.Comment._commentHelper.TopNode.InnerXml;
+            c.RichText = new Style.ExcelRichTextCollection(c._commentHelper.NameSpaceManager, c._commentHelper.GetNode("d:text"));
         }
 
         private static void ClearDestination(ExcelRangeBase Destination, int rows, int cols)

@@ -677,8 +677,8 @@ namespace OfficeOpenXml.Drawing.Controls
             }
             else
             {
-                GetToRowFromPixels(_height, STANDARD_DPI, out int row, out int rowOff, _control.From.Row, _control.From.RowOff);
-                GetToColumnFromPixels(_width, STANDARD_DPI, out int col, out double pixOff, _control.From.Column, _control.From.ColumnOff);
+                GetToRowFromPixels(_height, out int row, out int rowOff, _control.From.Row, _control.From.RowOff);
+                GetToColumnFromPixels(_width, out int col, out double pixOff, _control.From.Column, _control.From.ColumnOff);
                 _control.To.Row = row;
                 _control.To.RowOff = rowOff;
 

@@ -227,13 +227,8 @@ namespace OfficeOpenXml.Drawing
         {
             if (CellAnchor == eEditAs.OneCell)
             {
-                var dpi = STANDARD_DPI;
-                if (this is ExcelPicture pic)
-                {
-                    dpi = pic.Image.HorizontalResolution;
-                }
 
-                GetToColumnFromPixels(_width, dpi, out int col, out _);
+                GetToColumnFromPixels(_width, out int col, out _);
                 return ((From.Column > colFrom - 1 || (From.Column == colFrom - 1 && From.ColumnOff == 0)) && (col <= colTo));
             }
             else if (CellAnchor == eEditAs.TwoCell)
@@ -249,12 +244,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (CellAnchor == eEditAs.OneCell)
             {
-                var dpi = STANDARD_DPI;
-                if (this is ExcelPicture pic)
-                {
-                    dpi = pic.Image.VerticalResolution;
-                }
-                GetToRowFromPixels(_height, dpi, out int row, out int pixOff);
+                GetToRowFromPixels(_height, out int row, out int pixOff);
                 return ((From.Row > rowFrom - 1 || (From.Row == rowFrom - 1 && From.RowOff == 0)) && (row <= rowTo));
             }
             else if (CellAnchor == eEditAs.TwoCell)
@@ -798,25 +788,21 @@ namespace OfficeOpenXml.Drawing
         }
         internal void SetPixelHeight(double pixels)
         {
-            SetPixelHeight(pixels, STANDARD_DPI);
-        }
-        internal void SetPixelHeight(double pixels, float dpi)
-        {
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _doNotAdjust = true;
-                GetToRowFromPixels(pixels, dpi, out int toRow, out int pixOff);
+                GetToRowFromPixels(pixels,  out int toRow, out int pixOff);
                 To.Row = toRow;
                 To.RowOff = pixOff;
                 _doNotAdjust = false;
             }
             else
             {
-                Size.Height = (long)Math.Round(pixels / (dpi / STANDARD_DPI)) * EMU_PER_PIXEL;
+                Size.Height = (long)Math.Round(pixels * EMU_PER_PIXEL);
             }
         }
 
-        internal void GetToRowFromPixels(double pixels, float dpi, out int toRow, out int rowOff, int fromRow=-1, int fromRowOff=-1)
+        internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow=-1, int fromRowOff=-1)
         {
             if(fromRow<0)
             {
@@ -824,7 +810,6 @@ namespace OfficeOpenXml.Drawing
                 fromRowOff = From.RowOff;
             }
             ExcelWorksheet ws = _drawings.Worksheet;
-            pixels = pixels / (dpi / STANDARD_DPI);
             var pixOff = pixels - ((ws.GetRowHeight(fromRow + 1) / 0.75) - (fromRowOff / (double)EMU_PER_PIXEL));
             double prevPixOff = pixels;
             int row = fromRow + 1;
@@ -847,14 +832,10 @@ namespace OfficeOpenXml.Drawing
 
         internal void SetPixelWidth(double pixels)
         {
-            SetPixelWidth(pixels, STANDARD_DPI);
-        }
-        internal void SetPixelWidth(double pixels, float dpi)
-        {
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _doNotAdjust = true;
-                GetToColumnFromPixels(pixels, dpi, out int col, out double pixOff);
+                GetToColumnFromPixels(pixels, out int col, out double pixOff);
 
                 To.Column = col - 2;
                 To.ColumnOff = (int)(pixOff * EMU_PER_PIXEL);
@@ -862,11 +843,11 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Width = (int)Math.Round(pixels / (dpi / STANDARD_DPI)) * EMU_PER_PIXEL;
+                Size.Width = (int)Math.Round(pixels * EMU_PER_PIXEL);
             }
         }
 
-        internal void GetToColumnFromPixels(double pixels, float dpi, out int col, out double prevRowOff, int fromColumn = -1, int fromColumnOff = -1)
+        internal void GetToColumnFromPixels(double pixels, out int col, out double prevRowOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
@@ -875,7 +856,6 @@ namespace OfficeOpenXml.Drawing
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            pixels = pixels / (dpi / STANDARD_DPI);
             double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
             prevRowOff = fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
@@ -959,6 +939,7 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Controls can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
             }
+
             GetPositionSize();
             //Save the positions
             var top = _top;
@@ -967,10 +948,13 @@ namespace OfficeOpenXml.Drawing
             var height = _height;
             //Change the type
             ChangeCellAnchorTypeInternal(type);
-            
+
             //Set the position and size
-            SetPosition((int)top, (int)left);
-            SetSize((int)width, (int)height);
+            SetPixelTop(top);
+            SetPixelLeft(left);
+
+            SetPixelWidth(width);
+            SetPixelHeight(height);
         }
 
         private void ChangeCellAnchorTypeInternal(eEditAs type)
@@ -1064,8 +1048,8 @@ namespace OfficeOpenXml.Drawing
             _width = _width * ((double)Percent / 100);
             _height = _height * ((double)Percent / 100);
 
-            SetPixelWidth(_width, 96);
-            SetPixelHeight(_height, 96);
+            SetPixelWidth(_width);
+            SetPixelHeight(_height);
             _doNotAdjust = false;
         }
         /// <summary>
@@ -1189,7 +1173,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public virtual void Dispose()
         {
-            TopNode = null;
+            //TopNode = null;
         }
         internal void GetPositionSize()
         {

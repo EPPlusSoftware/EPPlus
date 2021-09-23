@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get 
             {
-                return Style != null || Color.HasValue;
+                return (Style != null && Style!=ExcelBorderStyle.None) || Color.HasValue;
             }
         }
         /// <summary>

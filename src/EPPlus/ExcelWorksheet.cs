@@ -128,7 +128,14 @@ namespace OfficeOpenXml
                         }
                         else
                         {
-                            f += a.GetOffset(row - StartRow, column - StartCol, true);
+                            if (a.Table != null)
+                            {
+                                f += token.Value;
+                            }
+                            else
+                            {
+                                f += a.GetOffset(row - StartRow, column - StartCol, true);
+                            }
                         }
                     }
                     else

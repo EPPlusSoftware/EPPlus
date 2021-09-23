@@ -290,6 +290,7 @@ namespace OfficeOpenXml.Table.PivotTable
         private void AppendSharedItems(XmlElement shNode)
         {
             int index = 0;
+            bool isLongText = false;
             foreach (var si in SharedItems)
             {
                 if (si == null || si.Equals(ExcelPivotTable.PivotNullValue))
@@ -361,11 +362,17 @@ namespace OfficeOpenXml.Table.PivotTable
                             }
                             else
                             {
-                                AppendItem(shNode, "s", si.ToString());
+                                var s = si.ToString();
+                                AppendItem(shNode, "s", s);
+                                if (s.Length > 255 && isLongText == false) isLongText = true;
                             }
                             break;
                     }
                 }
+            }
+            if (isLongText)
+            {
+                shNode.SetAttribute("longText", "1");
             }
         }
 

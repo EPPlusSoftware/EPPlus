@@ -223,6 +223,89 @@ namespace EPPlusTest.Core.Range
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void ValidateMergedCellAroundTableShouldNotThrowException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+
+                ws.Cells["A1:A2"].Merge = true;
+                ws.Cells["A3:E3"].Merge = true;
+                ws.Cells["C6:F6"].Merge = true;
+                ws.Cells["F3:F5"].Merge = true;
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateMergedCellInsideTableShouldThrowException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+
+                ws.Cells["D4:D5"].Merge = true;
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateMergedCellPartlyWithTableShouldThrowException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+
+                ws.Cells["D3:D4"].Merge = true;
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ValidateMergedCellEqualTableShouldThrowException()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+
+                ws.Cells["D4:E5"].Merge = true;
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ValidateTableAddShouldThrowExceptionMergedCellEqual()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Cells["D4:E5"].Merge = true;
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ValidateTableAddShouldThrowExceptionMergedCellInside()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Cells["D4:D5"].Merge = true;
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ValidateTableAddShouldThrowExceptionMergedCellPartly()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Cells["D3:D4"].Merge = true;
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+            }
+        }
 
     }
 }

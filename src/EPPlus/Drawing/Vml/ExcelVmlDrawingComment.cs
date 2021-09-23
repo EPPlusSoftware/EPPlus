@@ -166,7 +166,8 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             set
             {
-                string color = "#" + value.ToArgb().ToString("X").Substring(2, 6);
+                string color = "#" + value.ToArgb().ToString("X");
+                if (color.Length == 8) color = color.Substring(2, 6);
                 SetXmlNodeString(BACKGROUNDCOLOR_PATH, color);
                 //SetXmlNode(BACKGROUNDCOLOR2_PATH, color);
             }
@@ -292,7 +293,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             set
             {                
-                SetXmlNodeString(TEXTBOX_STYLE_PATH, SetStyle(GetXmlNodeString(TEXTBOX_STYLE_PATH),"mso-fit-shape-to-text", value?"t":"")); 
+                SetXmlNodeString(TEXTBOX_STYLE_PATH, SetStyle(GetXmlNodeString(TEXTBOX_STYLE_PATH),"mso-fit-shape-to-text", value?"t":"f")); 
             }
         }        
         const string LOCKED_PATH = "x:ClientData/x:Locked";

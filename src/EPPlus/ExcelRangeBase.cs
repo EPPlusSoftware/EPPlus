@@ -1273,6 +1273,7 @@ namespace OfficeOpenXml
             set
             {
                 IsRangeValid("merging");
+                ValidateMergePossible();
                 _worksheet.MergedCells.Clear(this);
                 if (value)
                 {
@@ -1299,6 +1300,18 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        private void ValidateMergePossible()
+        {
+            foreach(var t in _worksheet.Tables)
+            {
+                if(Collide(t.Address)!=eAddressCollition.No)
+                {
+                    throw (new InvalidOperationException($"Cant merge range. The merge is within table {t.Name}"));
+                }
+            }
+        }
+
         /// <summary>
         /// Set an autofilter for the range
         /// </summary>
@@ -1621,13 +1634,17 @@ namespace OfficeOpenXml
             _worksheet.SetValue(row, col, value);
             _worksheet._formulas.SetValue(row, col, "");
         }
-        internal void SetSharedFormulaID(int id)
+        internal void SetSharedFormulaID(int id, int prevId)
         {
             for (int col = _fromCol; col <= _toCol; col++)
             {
                 for (int row = _fromRow; row <= _toRow; row++)
                 {
-                    _worksheet._formulas.SetValue(row, col, id);
+                    var f = _worksheet._formulas.GetValue(row, col) as int?;
+                    if (f.HasValue && f.Value == prevId)
+                    {
+                        _worksheet._formulas.SetValue(row, col, id);
+                    }
                 }
             }
         }
@@ -1705,6 +1722,7 @@ namespace OfficeOpenXml
                     f.Address = GetAddress(fRange._fromRow, fRange._fromCol, _fromRow - 1, fRange._toCol);
                     fIsSet = true;
                 }
+                var pIx = f.Index;
                 //Left Range
                 if (fRange._fromCol < address._fromCol)
                 {
@@ -1737,7 +1755,7 @@ namespace OfficeOpenXml
                              address._toRow, address._fromCol - 1);
                     }
                     f.Formula = TranslateFromR1C1(formulaR1C1, f.StartRow, f.StartCol);
-                    _worksheet.Cells[f.Address].SetSharedFormulaID(f.Index);
+                    _worksheet.Cells[f.Address].SetSharedFormulaID(f.Index, pIx);
                 }
                 //Right Range
                 if (fRange._toCol > address._toCol)
@@ -1772,7 +1790,7 @@ namespace OfficeOpenXml
                                 address._toRow, fRange._toCol);
                     }
                     f.Formula = TranslateFromR1C1(formulaR1C1, f.StartRow, f.StartCol);
-                    _worksheet.Cells[f.Address].SetSharedFormulaID(f.Index);
+                    _worksheet.Cells[f.Address].SetSharedFormulaID(f.Index, pIx);
                 }
                 //Bottom Range
                 if (fRange._toRow > address._toRow)
@@ -1792,7 +1810,7 @@ namespace OfficeOpenXml
 
                     f.Address = ExcelCellBase.GetAddress(f.StartRow, f.StartCol,
                             fRange._toRow, fRange._toCol);
-                    _worksheet.Cells[f.Address].SetSharedFormulaID(f.Index);
+                    _worksheet.Cells[f.Address].SetSharedFormulaID(f.Index, pIx);
 
                 }
             }
@@ -1993,19 +2011,11 @@ namespace OfficeOpenXml
         /// Adds a new comment for the range.
         /// If this range contains more than one cell, the top left comment is returned by the method.
         /// </summary>
-        /// <param name="Text"></param>
-        /// <param name="Author"></param>
+        /// <param name="Text">The text for the comment</param>
+        /// <param name="Author">The author for the comment. If this property is null or blank EPPlus will set it to the identity of the ClaimsPrincipal if available otherwise to "Anonymous"</param>
         /// <returns>A reference comment of the top left cell</returns>
-        public ExcelComment AddComment(string Text, string Author)
+        public ExcelComment AddComment(string Text, string Author=null)
         {
-            if (string.IsNullOrEmpty(Author))
-            {
-#if Core
-                Author = System.Security.Claims.ClaimsPrincipal.Current.Identity.Name;
-#else
-                Author = Thread.CurrentPrincipal.Identity.Name;
-#endif
-            }
             //Check if any comments exists in the range and throw an exception
             _changePropMethod(this, _setExistsCommentDelegate, null);
             //Create the comments

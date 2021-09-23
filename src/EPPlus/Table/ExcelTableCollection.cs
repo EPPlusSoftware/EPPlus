@@ -83,6 +83,14 @@ namespace OfficeOpenXml.Table
                     throw (new ArgumentException(string.Format("Table range collides with table {0}", t.Name)));
                 }
             }
+            foreach (var mc in _ws.MergedCells)
+            {
+                if (new ExcelAddressBase(mc).Collide(Range) != ExcelAddressBase.eAddressCollition.No)
+                {
+                    throw (new ArgumentException($"Table range collides with merged range {mc}"));
+                }
+            }
+
             return Add(new ExcelTable(_ws, Range, Name, _ws.Workbook._nextTableID));
         }
 

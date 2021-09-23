@@ -421,7 +421,7 @@ namespace OfficeOpenXml
             return r;
         }
         /// <summary>
-        /// Loads a CSV file into a range starting from the top left cell.
+        /// Loads a CSV file into a range starting from the top left cell using ASCII Encoding.
         /// </summary>
         /// <param name="TextFile">The Textfile</param>
         /// <returns></returns>

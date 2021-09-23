@@ -188,6 +188,67 @@ namespace EPPlusTest.DataValidation
             // Assert
             Assert.AreEqual(string.Format("A1:B{0}", ExcelPackage.MaxRows), validation.Address.Address);
         }
+        [TestMethod]
+        public void TestInsertRowsIntoVeryLongRangeWithDataValidation()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with data validation on the whole of column A except row 1
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dvAddress = "A2:A1048576";
+                var dv = wks.DataValidations.AddCustomValidation(dvAddress);
 
+                // Check that the data validation address was set correctly
+                Assert.AreEqual(dvAddress, dv.Address.Address);
+
+                // Insert some rows into the worksheet
+                wks.InsertRow(5, 3);
+
+                // Check that the data validation rule still applies to the same range (since there's nowhere to extend it to)
+                Assert.AreEqual(dvAddress, dv.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void TestInsertRowsAboveVeryLongRangeWithDataValidation()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with data validation on the whole of column A except rows 1-10
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dvAddress = "A11:A1048576";
+                var dv = wks.DataValidations.AddAnyValidation(dvAddress);
+
+                // Check that the data validation address was set correctly
+                Assert.AreEqual(dvAddress, dv.Address.Address);
+
+                // Insert 3 rows into the worksheet above the data validation
+                wks.InsertRow(5, 3);
+
+                // Check that the data validation starts lower down, but ends in the same place
+                Assert.AreEqual("A14:A1048576", dv.Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void TestInsertRowsToPushDataValidationOffSheet()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with data validation on the last two rows of column A
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dvAddress = "A1048575:A1048576";
+                var dv = wks.DataValidations.AddCustomValidation(dvAddress);
+
+                // Check that the data validation address was set correctly
+                Assert.AreEqual(1, wks.DataValidations.Count);
+                Assert.AreEqual(dvAddress, dv.Address.Address);
+
+                // Insert enough rows into the worksheet above the data validation rule to push it off the sheet 
+                wks.InsertRow(5, 10);
+
+                // Check that the data validation rule no longer exists
+                Assert.AreEqual(0, wks.DataValidations.Count);
+            }
+        }
     }
 }
