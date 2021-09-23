@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     return new DecimalExpression((double)compileResult.Result);
                 case DataType.Enumerable:
                     var rangeInfo = compileResult.Result as ExcelDataProvider.IRangeInfo;
-                    if(rangeInfo != null)
+                    if (rangeInfo != null)
                     {
                         return new ExcelRangeExpression(rangeInfo);
                     }
