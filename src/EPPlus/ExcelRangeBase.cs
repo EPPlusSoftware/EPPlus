@@ -880,7 +880,7 @@ namespace OfficeOpenXml
             var normalSize = Convert.ToSingle(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
 
             Bitmap b;
-            Graphics g = null;
+            Graphics g;
             float dpiCorrectX, dpiCorrectY;
             try
             {

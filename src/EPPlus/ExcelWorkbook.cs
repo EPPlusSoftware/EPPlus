@@ -597,6 +597,46 @@ namespace OfficeOpenXml
 			}
 		}
 
+		internal static decimal GetHeightPixels(string fontName, float fontSize)
+		{
+			Dictionary<float, FontSizeInfo> font;
+			if (FontSize.FontHeights.ContainsKey(fontName))
+			{
+				font = FontSize.FontHeights[fontName];
+			}
+			else
+			{
+				font = FontSize.FontHeights["Calibri"];
+			}
+
+			if (font.ContainsKey(fontSize))
+			{
+				return Convert.ToDecimal(font[fontSize].Width);
+			}
+			else
+			{
+				float min = -1, max = 500;
+				foreach (var size in font)
+				{
+					if (min < size.Key && size.Key < fontSize)
+					{
+						min = size.Key;
+					}
+					if (max > size.Key && size.Key > fontSize)
+					{
+						max = size.Key;
+					}
+				}
+				if (min == max)
+				{
+					return Convert.ToDecimal(font[min].Height);
+				}
+				else
+				{
+					return Convert.ToDecimal(font[min].Height + (font[max].Height - font[min].Height) * ((fontSize - min) / (max - min)));
+				}
+			}
+		}
 		internal static decimal GetWidthPixels(string fontName, float fontSize)
 		{
 			Dictionary<float, FontSizeInfo> font;

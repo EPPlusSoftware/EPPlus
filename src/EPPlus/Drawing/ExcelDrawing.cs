@@ -227,8 +227,14 @@ namespace OfficeOpenXml.Drawing
         {
             if (CellAnchor == eEditAs.OneCell)
             {
+                var dpi = STANDARD_DPI;
+                if (this is ExcelPicture pic)
+                {
+                    dpi = pic.Image.HorizontalResolution;
+                }
 
                 GetToColumnFromPixels(_width, out int col, out _);
+                GetToColumnFromPixels(_width, dpi, out int col, out _);
                 return ((From.Column > colFrom - 1 || (From.Column == colFrom - 1 && From.ColumnOff == 0)) && (col <= colTo));
             }
             else if (CellAnchor == eEditAs.TwoCell)
@@ -245,6 +251,12 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.OneCell)
             {
                 GetToRowFromPixels(_height, out int row, out int pixOff);
+                var dpi = STANDARD_DPI;
+                if (this is ExcelPicture pic)
+                {
+                    dpi = pic.Image.VerticalResolution;
+                }
+                GetToRowFromPixels(_height, dpi, out int row, out int pixOff);
                 return ((From.Row > rowFrom - 1 || (From.Row == rowFrom - 1 && From.RowOff == 0)) && (row <= rowTo));
             }
             else if (CellAnchor == eEditAs.TwoCell)
@@ -627,7 +639,7 @@ namespace OfficeOpenXml.Drawing
                 pix = 0;
                 for (int col = 0; col < From.Column; col++)
                 {
-                    pix += (int)decimal.Truncate(((256 * GetColumnWidth(col + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                    pix += ws.GetColumnWidthPixels(col, mdw);
                 }
                 pix += From.ColumnOff / EMU_PER_PIXEL;
             }
@@ -651,7 +663,7 @@ namespace OfficeOpenXml.Drawing
                     {
                         if (!cache.ContainsKey(row))
                         {
-                            cache.Add(row, GetRowHeight(row + 1));
+                            cache.Add(row, _drawings.Worksheet.GetRowHeight(row + 1));
                         }
                     }
                     pix += (int)(cache[row] / 0.75);
@@ -671,7 +683,7 @@ namespace OfficeOpenXml.Drawing
                 pix = -From.ColumnOff / (double)EMU_PER_PIXEL;
                 for (int col = From.Column + 1; col <= To.Column; col++)
                 {
-                    pix += (double)decimal.Truncate(((256 * GetColumnWidth(col) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                    pix += (double)decimal.Truncate(((256 * ws.GetColumnWidth(col) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
                 }
                 pix += Convert.ToDouble(To.ColumnOff) / (double)EMU_PER_PIXEL;
             }
@@ -691,7 +703,7 @@ namespace OfficeOpenXml.Drawing
                 pix = -(From.RowOff / (double)EMU_PER_PIXEL);
                 for (int row = From.Row + 1; row <= To.Row; row++)
                 {
-                    pix += GetRowHeight(row) / 0.75;
+                    pix += ws.GetRowHeight(row) / 0.75;
                 }
                 pix += Convert.ToDouble(To.RowOff) / EMU_PER_PIXEL;
             }
@@ -700,85 +712,6 @@ namespace OfficeOpenXml.Drawing
                 pix = Size.Height / (double)EMU_PER_PIXEL;
             }
             return pix;
-        }
-
-        private decimal GetColumnWidth(int col)
-        {
-            ExcelWorksheet ws = _drawings.Worksheet;
-            var column = ws.GetValueInner(0, col) as ExcelColumn;
-            if (column == null)   //Check that the column exists
-            {
-                return (decimal)ws.DefaultColWidth;
-            }
-            else
-            {
-                return (decimal)ws.Column(col).VisualWidth;
-            }
-        }
-        private double GetRowHeight(int row)
-        {
-            ExcelWorksheet ws = _drawings.Worksheet;
-            object o = null;
-            if (ws.ExistsValueInner(row, 0, ref o) && o != null)   //Check that the row exists
-            {
-                var internalRow = (RowInternal)o;
-                if(internalRow.Hidden)
-                {
-                    return 0;
-                }
-                else if (internalRow.Height >= 0 && internalRow.CustomHeight)
-                {
-                    return internalRow.Height;
-                }
-                else
-                {
-                    return GetRowHeightFromCellFonts(row, ws);
-                }
-            }
-            else
-            {
-                //The row exists, check largest font in row
-
-                /**** Default row height is assumed here. Excel calcualtes the row height from the larges font on the line. The formula to this calculation is undocumented, so currently its implemented with constants... ****/
-                return GetRowHeightFromCellFonts(row, ws);
-            }
-        }
-        Dictionary<int, double> _textHeights=new Dictionary<int, double>();
-        private double GetRowHeightFromCellFonts(int row, ExcelWorksheet ws)
-        {
-            var dh = ws.DefaultRowHeight;
-            if (double.IsNaN(dh) || ws.CustomHeight==false)
-            {
-                var height = dh;
-
-                var cse = new CellStoreEnumerator<ExcelValue>(_drawings.Worksheet._values, row, 0, row, ExcelPackage.MaxColumns);
-                var styles = _drawings.Worksheet.Workbook.Styles;
-                while (cse.Next())
-                {
-                    var xfs = styles.CellXfs[cse.Value._styleId];
-                    var f = styles.Fonts[xfs.FontId];
-                    double rh;
-                    if (_textHeights.ContainsKey(cse.Value._styleId))
-                    {
-                        rh = _textHeights[cse.Value._styleId];
-                    }
-                    else
-                    {
-                        rh = ExcelFontXml.GetFontHeight(f.Name, f.Size) * 0.75;
-                        _textHeights.Add(cse.Value._styleId, rh);
-                    }
-                                        
-                    if (rh > height)
-                    {
-                        height = rh;
-                    }
-                }
-                return height;
-            }
-            else
-            {
-                return dh;
-            }
         }
 
         internal void SetPixelTop(double pixels)
@@ -803,12 +736,12 @@ namespace OfficeOpenXml.Drawing
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = GetRowHeight(1) / 0.75;
+            double pix = ws.GetRowHeight(1) / 0.75;
             int r = 2;
             while (pix < pixels)
             {
                 prevPix = pix;
-                pix += (int)(GetRowHeight(r++) / 0.75);
+                pix += (int)(ws.GetRowHeight(r++) / 0.75);
             }
 
             if (pix == pixels)
@@ -846,13 +779,13 @@ namespace OfficeOpenXml.Drawing
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = (int)decimal.Truncate(((256 * GetColumnWidth(1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            double pix = (int)decimal.Truncate(((256 * ws.GetColumnWidth(1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
             int col = 2;
 
             while (pix < pixels)
             {
                 prevPix = pix;
-                pix += (int)decimal.Truncate(((256 * GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pix += (int)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
             }
             if (pix == pixels)
             {
@@ -881,7 +814,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow=-1, int fromRowOff=-1)
+        internal void GetToRowFromPixels(double pixels, float dpi, out int toRow, out int rowOff, int fromRow=-1, int fromRowOff=-1)
         {
             if(fromRow<0)
             {
@@ -889,14 +822,15 @@ namespace OfficeOpenXml.Drawing
                 fromRowOff = From.RowOff;
             }
             ExcelWorksheet ws = _drawings.Worksheet;
-            var pixOff = pixels - ((GetRowHeight(fromRow + 1) / 0.75) - (fromRowOff / (double)EMU_PER_PIXEL));
+            pixels = pixels / (dpi / STANDARD_DPI);
+            var pixOff = pixels - ((ws.GetRowHeight(fromRow + 1) / 0.75) - (fromRowOff / (double)EMU_PER_PIXEL));
             double prevPixOff = pixels;
             int row = fromRow + 1;
 
             while (pixOff >= 0)
             {
                 prevPixOff = pixOff;
-                pixOff -= (GetRowHeight(++row) / 0.75);
+                pixOff -= (ws.GetRowHeight(++row) / 0.75);
             }
             toRow = row - 1;
             if (fromRow == toRow)
@@ -911,10 +845,15 @@ namespace OfficeOpenXml.Drawing
 
         internal void SetPixelWidth(double pixels)
         {
+            SetPixelWidth(pixels, STANDARD_DPI);
+        }
+        internal void SetPixelWidth(double pixels, float dpi)
+        {
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _doNotAdjust = true;
                 GetToColumnFromPixels(pixels, out int col, out double pixOff);
+                GetToColumnFromPixels(pixels, dpi, out int col, out double pixOff);
 
                 To.Column = col - 2;
                 To.ColumnOff = (int)(pixOff * EMU_PER_PIXEL);
@@ -922,11 +861,11 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                Size.Width = (int)Math.Round(pixels * EMU_PER_PIXEL);
+                Size.Width = (int)Math.Round(pixels / (dpi / STANDARD_DPI)) * EMU_PER_PIXEL;
             }
         }
 
-        internal void GetToColumnFromPixels(double pixels, out int col, out double prevRowOff, int fromColumn = -1, int fromColumnOff = -1)
+        internal void GetToColumnFromPixels(double pixels, float dpi, out int col, out double prevRowOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
@@ -935,13 +874,14 @@ namespace OfficeOpenXml.Drawing
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            double pixOff = pixels - (double)(decimal.Truncate(((256 * GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
+            pixels = pixels / (dpi / STANDARD_DPI);
+            double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
             prevRowOff = fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
                 prevRowOff = pixOff;
-                pixOff -= (double)decimal.Truncate(((256 * GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
             }
         }
         #endregion
@@ -1018,7 +958,6 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Controls can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
             }
-
             GetPositionSize();
             //Save the positions
             var top = _top;
@@ -1029,11 +968,8 @@ namespace OfficeOpenXml.Drawing
             ChangeCellAnchorTypeInternal(type);
 
             //Set the position and size
-            SetPixelTop(top);
-            SetPixelLeft(left);
-
-            SetPixelWidth(width);
-            SetPixelHeight(height);
+            SetPosition((int)top, (int)left);
+            SetSize((int)width, (int)height);
         }
 
         private void ChangeCellAnchorTypeInternal(eEditAs type)
