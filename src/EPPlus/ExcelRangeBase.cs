@@ -2073,6 +2073,11 @@ namespace OfficeOpenXml
             var helper = new RangeCopyHelper(this, Destination, flags);
             helper.Copy();
         }
+        /// <summary>
+        /// Copy the styles from the source range to the destination range.
+        /// If the destination range is larger than the source range, the styles of the column to the right and the row at the bottom will be expanded to the destination.
+        /// </summary>
+        /// <param name="Destination">The destination range</param>
         public void CopyStyles(ExcelRangeBase Destination)
         {
             var helper = new RangeCopyStylesHelper(this, Destination);

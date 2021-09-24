@@ -145,5 +145,10 @@ namespace OfficeOpenXml
                 Style.Numberformat.Format = o.NumberFormat;
             }
         }
+        //TODO implement.
+        //public void FillStyles(eFillDirection direction)
+        //{
+            
+        //}
     }
 }
