@@ -26,14 +26,22 @@ namespace OfficeOpenXml.LoadFunctions
         {
             get; set;
         }
-
+        /// <summary>
+        /// A custom name for the table, if created. 
+        /// The TableName must be unique within the workbook and be a valid table name.
+        /// </summary>
+        public string TableName
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// If set to another value than TableStyles.None the data will be added to a
         /// table with the specified style
         /// </summary>
-        public TableStyles TableStyle
+        public TableStyles? TableStyle
         {
             get; set;
-        }
+        } = null;
     }
 }

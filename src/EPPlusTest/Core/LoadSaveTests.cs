@@ -103,7 +103,7 @@ namespace EPPlusTest.Core
                 dt.Rows.Add(r2);
                 dt.Rows.Add(r3);
 
-                s1.Cells[1, 1, 3, 2].LoadFromDataTable(dt, true, OfficeOpenXml.Table.TableStyles.None);
+                s1.Cells[1, 1, 3, 2].LoadFromDataTable(dt, true, null);
             }
         }
 

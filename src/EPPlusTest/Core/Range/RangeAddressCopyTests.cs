@@ -548,6 +548,29 @@ namespace EPPlusTest.Core.Range
 
             }
         }
+        [TestMethod]
+        public void CopyStylesWithinWorkbook()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet ws = SetupCopyRange(p);
+                ws.Cells["B1"].Style.Font.UnderLineType=ExcelUnderLineType.Double;
+                ws.Cells["B2"].Style.Numberformat.Format = "#,##0";
+                ws.Cells["A1:B2"].CopyStyles(ws.Cells["C5:F8"]);
+
+                Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
+                Assert.IsTrue(ws.Cells["C8"].Style.Font.Bold);
+                Assert.IsFalse(ws.Cells["C9"].Style.Font.Bold);
+
+                Assert.IsFalse(ws.Cells["C5"].Style.Font.Italic);
+                Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
+                Assert.IsTrue(ws.Cells["C8"].Style.Font.Italic);
+                Assert.IsFalse(ws.Cells["C9"].Style.Font.Bold);
+
+                SaveWorkbook("styleCopy.xlsx", p);
+            }
+        }
 
         private static ExcelWorksheet SetupCopyRange(ExcelPackage p)
         {

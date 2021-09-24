@@ -2073,6 +2073,11 @@ namespace OfficeOpenXml
             var helper = new RangeCopyHelper(this, Destination, flags);
             helper.Copy();
         }
+        public void CopyStyles(ExcelRangeBase Destination)
+        {
+            var helper = new RangeCopyStylesHelper(this, Destination);
+            helper.CopyStyles();
+        }
         /// <summary>
         /// Clear all cells
         /// </summary>
