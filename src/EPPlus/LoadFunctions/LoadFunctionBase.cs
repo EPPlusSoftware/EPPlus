@@ -28,7 +28,7 @@ namespace OfficeOpenXml.LoadFunctions
             Range = range;
             PrintHeaders = parameters.PrintHeaders;
             TableStyle = parameters.TableStyle;
-            TableName = parameters.TableName.Trim();
+            TableName = parameters.TableName?.Trim();
         }
 
         /// <summary>

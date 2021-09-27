@@ -35,7 +35,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly ExcelWorksheet _worksheet;
         private readonly DataTable _dataTable;
         private readonly bool _printHeaders;
-        private readonly TableStyles? _tableStyle;
+        private TableStyles? _tableStyle;
 
         public ExcelRangeBase Load()
         {

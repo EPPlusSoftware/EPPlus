@@ -595,25 +595,25 @@ namespace EPPlusTest.Core.Range
                     ws.Cells["B2"].Style.Numberformat.Format = nf;
                     ws.Cells["A1:B2"].CopyStyles(ws2.Cells["C5:F8"]);
 
-                    //Assert.IsTrue(ws.Cells["C5"].Style.Font.Bold);
-                    //Assert.IsTrue(ws.Cells["C6"].Style.Font.Bold);
-                    //Assert.IsTrue(ws.Cells["C8"].Style.Font.Bold);
-                    //Assert.IsFalse(ws.Cells["C9"].Style.Font.Bold);
+                    Assert.IsTrue(ws2.Cells["C5"].Style.Font.Bold);
+                    Assert.IsTrue(ws2.Cells["C6"].Style.Font.Bold);
+                    Assert.IsTrue(ws2.Cells["C8"].Style.Font.Bold);
+                    Assert.IsFalse(ws2.Cells["C9"].Style.Font.Bold);
 
-                    //Assert.IsFalse(ws.Cells["C5"].Style.Font.Italic);
-                    //Assert.IsTrue(ws.Cells["C6"].Style.Font.Italic);
-                    //Assert.IsTrue(ws.Cells["C8"].Style.Font.Italic);
-                    //Assert.IsFalse(ws.Cells["C9"].Style.Font.Bold);
+                    Assert.IsFalse(ws2.Cells["C5"].Style.Font.Italic);
+                    Assert.IsTrue(ws2.Cells["C6"].Style.Font.Italic);
+                    Assert.IsTrue(ws2.Cells["C8"].Style.Font.Italic);
+                    Assert.IsFalse(ws2.Cells["C9"].Style.Font.Bold);
 
-                    //Assert.AreEqual(nf, ws.Cells["D6"].Style.Numberformat.Format);
-                    //Assert.AreEqual(nf, ws.Cells["F6"].Style.Numberformat.Format);
-                    //Assert.AreEqual(nf, ws.Cells["E8"].Style.Numberformat.Format);
-                    //Assert.AreEqual(ExcelUnderLineType.Double, ws.Cells["D5"].Style.Font.UnderLineType);
-                    //Assert.AreEqual(ExcelUnderLineType.Double, ws.Cells["F5"].Style.Font.UnderLineType);
-                    //Assert.AreEqual(ExcelUnderLineType.None, ws.Cells["D6"].Style.Font.UnderLineType);
-                    //Assert.AreEqual(ExcelUnderLineType.None, ws.Cells["F8"].Style.Font.UnderLineType);
+                    Assert.AreEqual(nf, ws2.Cells["D6"].Style.Numberformat.Format);
+                    Assert.AreEqual(nf, ws2.Cells["F6"].Style.Numberformat.Format);
+                    Assert.AreEqual(nf, ws2.Cells["E8"].Style.Numberformat.Format);
+                    Assert.AreEqual(ExcelUnderLineType.Double, ws2.Cells["D5"].Style.Font.UnderLineType);
+                    Assert.AreEqual(ExcelUnderLineType.Double, ws2.Cells["F5"].Style.Font.UnderLineType);
+                    Assert.AreEqual(ExcelUnderLineType.None, ws2.Cells["D6"].Style.Font.UnderLineType);
+                    Assert.AreEqual(ExcelUnderLineType.None, ws2.Cells["F8"].Style.Font.UnderLineType);
 
-                    //SaveWorkbook("styleCopy.xlsx", p2);
+                    SaveWorkbook("styleCopy.xlsx", p2);
                 }
             }
         }
