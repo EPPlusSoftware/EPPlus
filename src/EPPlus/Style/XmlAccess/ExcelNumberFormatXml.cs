@@ -196,13 +196,11 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
             internal class FormatPart
             {
-                //internal string NetTextFormat { get; set; }
                 internal string NetFormat { get; set; }
-                //internal string NetTextFormatForWidth { get; set; }
                 internal string NetFormatForWidth { get; set; }
                 internal string FractionFormat { get; set; }
                 internal eSystemDateFormat SpecialDateFormat { get; set; }
-                internal bool containsTextPlaceholder { get; set; } = false;
+                internal bool ContainsTextPlaceholder { get; set; } = false;
                 internal void SetFormat(string format, bool containsAmPm, bool forColWidth)
                 {
                     if (containsAmPm)
@@ -392,18 +390,6 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     Formats.Add(f);
                                 }
                                 sb = new StringBuilder();
-                                //if (DataType == eFormatType.DateTime || secCount == 3)
-                                //{
-                                //    //Add qoutes
-                                //    if (DataType == eFormatType.DateTime) SetDecimal(lstDec, sb); //Remove?
-                                //    lstDec = new List<int>();
-                                //    format = sb.ToString();
-                                //    sb = new StringBuilder();
-                                //}
-                                //else
-                                //{
-                                //    sb.Append(c);
-                                //}
                             }
                             else
                             {
@@ -528,6 +514,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                                 else if (c == '@')
                                 {
                                     sb.Append("{0}");
+                                    f.ContainsTextPlaceholder = true;
                                 }
                                 else
                                 {

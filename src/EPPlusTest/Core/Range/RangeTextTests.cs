@@ -157,5 +157,76 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("7/6/2021 9:29 AM", ws.Cells["A1"].Text);
             }
         }
+        [TestMethod]
+        public void ValidateAccountingFormatKr()
+        {
+            var prevCi = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            var fmt = "_-* #,##0\\ \"kr\"_-;\\-* #,##0\\ \"kr\"_-;_-* \"-\"\\ \"kr\"_-;_-@_-";
+            //var fmt2 = "_-* #,##0.00\\ \"kr\"_-;\\-* #,##0.00\\ \"kr\"_-;_-* \"-\"??\\ \"kr\"_-;_-@_-\"";
+
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("dateText");
+                ws.Cells["A1"].Value = 5555;
+                ws.Cells["A2"].Value = 0;
+                ws.Cells["A3"].Value = -5555;
+                ws.Cells["A4"].Value = "Text";
+                ws.Cells["A1:A4"].Style.Numberformat.Format = fmt;
+
+                Assert.AreEqual("5,555 kr", ws.Cells["A1"].Text);
+                Assert.AreEqual("- kr", ws.Cells["A2"].Text);
+                Assert.AreEqual("-5,555 kr", ws.Cells["A3"].Text);
+                Assert.AreEqual("Text", ws.Cells["A4"].Text);
+            }
+            Thread.CurrentThread.CurrentCulture = prevCi;
+        }
+        [TestMethod]
+        public void ValidateAccountingFormatKrWithDecimals()
+        {
+            var prevCi = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            var fmt = "_-* #,##0.00\\ \"kr\"_-;\\-* #,##0.00\\ \"kr\"_-;_-* \"-\"??\\ \"kr\"_-;_-@_-\"";
+
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("dateText");
+                ws.Cells["A1"].Value = 5555;
+                ws.Cells["A2"].Value = 0;
+                ws.Cells["A3"].Value = -5555;
+                ws.Cells["A4"].Value = "Text";
+                ws.Cells["A1:A4"].Style.Numberformat.Format = fmt;
+
+                Assert.AreEqual("5,555.00 kr", ws.Cells["A1"].Text);
+                Assert.AreEqual("-   kr", ws.Cells["A2"].Text);
+                Assert.AreEqual("-5,555.00 kr", ws.Cells["A3"].Text);
+                Assert.AreEqual("Text", ws.Cells["A4"].Text);
+            }
+            Thread.CurrentThread.CurrentCulture = prevCi;            
+        }
+        [TestMethod]
+        public void ValidateDateFormatWithNullAndText()
+        {
+            var prevCi = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            var fmt = "yyyy/mm/dd;;\"NULL DATE\";\"Invalid date \"@\"";
+
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("dateText");
+                ws.Cells["A1"].Value = new DateTime(2021,2,3);
+                ws.Cells["A2"].Value = 0;
+                ws.Cells["A3"].Value = -2;
+                ws.Cells["A4"].Value = "3/2";
+                ws.Cells["A1:A4"].Style.Numberformat.Format = fmt;
+
+                Assert.AreEqual("2021/02/03", ws.Cells["A1"].Text);
+                Assert.AreEqual("NULL DATE", ws.Cells["A2"].Text);
+                Assert.IsNull(ws.Cells["A3"].Text);
+                Assert.AreEqual("Invalid date 3/2", ws.Cells["A4"].Text);
+            }
+            Thread.CurrentThread.CurrentCulture = prevCi;            
+        }
+
     }
 }

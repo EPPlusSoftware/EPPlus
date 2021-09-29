@@ -95,6 +95,10 @@ namespace OfficeOpenXml.Utils
                 {
                     return null;
                 }
+                else if (string.IsNullOrEmpty(format)==false)
+                {
+                    return d.ToString(format);
+                }
             }
             else if (v is DateTime)
             {
@@ -150,9 +154,9 @@ namespace OfficeOpenXml.Utils
                     return null;
                 }
 
-                if (f.containsTextPlaceholder)
+                if (f.ContainsTextPlaceholder)
                 {
-                    return string.Format(format, v);
+                    return string.Format(format.Replace("\"",""), v);
                 }
                 else
                 {
