@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public ExcelPivotTableField Field
         {
             get;
-            private set;
+            internal set;
         }
         /// <summary>
         /// The index of the datafield

@@ -445,9 +445,12 @@ namespace OfficeOpenXml.Core.CellStore
             }
             else
             {
+                var endCol = fromCol + columns - 1;
                 fromColPos = GetClosestColumnPosition(fromCol);
-                toColPos = GetClosestColumnPosition(fromCol + columns - 1);
+                toColPos = GetClosestColumnPosition(endCol);
                 toColPos = Math.Min(toColPos, ColumnCount - 1);
+                if(fromColPos < ColumnCount && _columnIndex[fromColPos].Index < fromCol) fromColPos++;
+                if(toColPos >= 0 && toColPos < ColumnCount && _columnIndex[toColPos].Index > endCol) toColPos--;
             }
         }
 
