@@ -256,7 +256,24 @@ namespace OfficeOpenXml
                 }
             }
         }
+        internal string ChangeTableName(string prevName, string name)
+        {
+            if (LocalAddress.StartsWith(prevName, StringComparison.CurrentCultureIgnoreCase))
+            {
+                var wsPart = "";
+                var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from                 
+                if (ix >= 0)
+                {
+                    wsPart=_address.Substring(0, ix);
+                }
 
+                return wsPart + name + LocalAddress.Substring(prevName.Length);
+            }
+            else
+            {
+                return _address;
+            }
+        }
         internal ExcelAddressBase Intersect(ExcelAddressBase address)
         {
             if(address._fromRow > _toRow || _toRow < address._fromRow ||
@@ -888,34 +905,60 @@ namespace OfficeOpenXml
         {
             return fromCol <= _fromCol && toCol >= _toCol;
         }
-        internal ExcelAddressBase AddRow(int row, int rows, bool setFixed=false)
+        internal ExcelAddressBase AddRow(int row, int rows, bool setFixed=false, bool setRefOnMinMax=true)
         {
             if (row > _toRow)
             {
                 return this;
             }
-            else if (row <= _fromRow)
+            var toRow = setFixed && _toRowFixed ? _toRow : _toRow + rows;
+            if (toRow < 1) return null;
+            if (row <= _fromRow)
             {
-                return new ExcelAddressBase((setFixed && _fromRowFixed ? _fromRow : _fromRow + rows), _fromCol, (setFixed && _toRowFixed ? _toRow : _toRow + rows), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                var fromRow = setFixed && _fromRowFixed ? _fromRow : _fromRow + rows;
+                if (fromRow > ExcelPackage.MaxRows) return null;
+                return new ExcelAddressBase(GetRow(fromRow, setRefOnMinMax), _fromCol, GetRow(toRow, setRefOnMinMax), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else
             {
-                return new ExcelAddressBase(_fromRow, _fromCol, (setFixed && _toRowFixed ? _toRow : _toRow + rows), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                return new ExcelAddressBase(_fromRow, _fromCol, GetRow(toRow, setRefOnMinMax), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
         }
+
+        private int GetRow(int row, bool setRefOnMinMax)
+        {
+            if (setRefOnMinMax==false)
+            {
+                if (row < 1) return 1;
+                if (row > ExcelPackage.MaxRows) return ExcelPackage.MaxRows;
+            }
+
+            return row;
+        }
+        private int GetColumn(int column, bool setRefOnMinMax)
+        {
+            if (setRefOnMinMax == false)
+            {
+                if (column < 1) return 1;
+                if (column > ExcelPackage.MaxColumns) return ExcelPackage.MaxColumns;
+            }
+
+            return column;
+        }
+
         internal ExcelAddressBase DeleteRow(int row, int rows, bool setFixed = false)
         {
             if (row > _toRow) //After
             {
                 return this;
-            }            
+            }
+            else if (row != 0 && row <= _fromRow && row + rows > _toRow) //Inside
+            {
+                return null;
+            }
             else if (row+rows < _fromRow || (_fromRowFixed && row < _fromRow)) //Before
             {
                 return new ExcelAddressBase((setFixed && _fromRowFixed ? _fromRow : _fromRow - rows), _fromCol, (setFixed && _toRowFixed ? _toRow : _toRow - rows), _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
-            }
-            else if (row <= _fromRow && row + rows > _toRow) //Inside
-            {
-                return null;
             }
             else  //Partly
             {
@@ -929,19 +972,21 @@ namespace OfficeOpenXml
                 }
             }
         }
-        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false)
+        internal ExcelAddressBase AddColumn(int col, int cols, bool setFixed = false, bool setRefOnMinMax=true)
         {
             if (col > _toCol)
             {
                 return this;
             }
-            else if (col <= _fromCol)
+            var toCol = GetColumn((setFixed && _toColFixed ? _toCol : _toCol + cols), setRefOnMinMax);
+            if (col <= _fromCol)
             {
-                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol + cols), _toRow, (setFixed && _toColFixed ? _toCol : _toCol + cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                var fromCol = GetColumn((setFixed && _fromColFixed ? _fromCol : _fromCol + cols), setRefOnMinMax);
+                return new ExcelAddressBase(_fromRow, fromCol, _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else
             {
-                return new ExcelAddressBase(_fromRow, _fromCol, _toRow, (setFixed && _toColFixed ? _toCol : _toCol + cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
+                return new ExcelAddressBase(_fromRow, _fromCol, _toRow, toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
         }
         internal ExcelAddressBase DeleteColumn(int col, int cols, bool setFixed = false)
@@ -950,13 +995,13 @@ namespace OfficeOpenXml
             {
                 return this;
             }
-            else if (col + cols < _fromCol || (_fromColFixed && col < _fromCol)) //Before
-            {
-                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol - cols), _toRow, (setFixed && _toColFixed ? _toCol :_toCol - cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
-            }
-            else if (col <= _fromCol && col + cols > _toCol) //Inside
+            if (col!=0 && col <= _fromCol && col + cols > _toCol) //Inside
             {
                 return null;
+            }
+            else if (col + cols < _fromCol || _fromColFixed && col < _fromCol) //Before
+            {
+                return new ExcelAddressBase(_fromRow, (setFixed && _fromColFixed ? _fromCol : _fromCol - cols), _toRow, (setFixed && _toColFixed ? _toCol :_toCol - cols), _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed, WorkSheetName, _address);
             }
             else  //Partly
             {
@@ -1631,7 +1676,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return _address == obj.ToString();
+                return _address == obj?.ToString();
             }
         }
 

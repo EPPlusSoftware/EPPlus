@@ -315,6 +315,13 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void EvaluateShouldHandleLeadingEqualOperatorAndWildCard()
+        {
+            var result = _evaluator.Evaluate("TEST", "=*EST*");
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
         public void EvaluateCharacterWithOperatorExpressionEqualsSameCharacter()
         {
             var result = _evaluator.Evaluate("a", ">a");

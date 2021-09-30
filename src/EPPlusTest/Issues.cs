@@ -48,6 +48,8 @@ using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
+using Newtonsoft.Json;
 
 namespace EPPlusTest
 {
@@ -2393,7 +2395,7 @@ namespace EPPlusTest
                 // Check the data validation has been moved to the right place
                 Assert.AreEqual("Yes", wks.Cells["D2"].GetValue<string>());
                 Assert.AreEqual("D2", wks.DataValidations[0].Address.Address);
-                
+
                 SaveAndCleanup(pck);
             }
         }
@@ -2439,5 +2441,201 @@ namespace EPPlusTest
 
             }
         }
+        [TestMethod]
+        public void InsertRowsIntoTable_CheckFormulasWithColumnReferences()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet, and a table with headers and a single row of data
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["B2:D3"].Value = new object[,] { { "Col1", "Col2", "Col3" }, { 1, 2, 3 } };
+                wks.Tables.Add(wks.Cells["B2:D3"], "Table1");
+
+                // Add a SUM formula on the worksheet with a reference to a table column
+                wks.Cells["C10"].Formula = "SUM(Table1[Col2])";
+                wks.Cells["C10"].Calculate();
+
+                Assert.AreEqual(2.0, wks.Cells["C3"].GetValue<double>());
+                Assert.AreEqual("SUM(Table1[Col2])", wks.Cells["C10"].Formula);
+                Assert.AreEqual(2.0, wks.Cells["C10"].GetValue<double>());
+
+                // Insert 2 rows into the worksheet to extend the table
+                wks.InsertRow(4, 2);
+
+                // Check that the formula that was in C10 (now C12) still references the column
+                Assert.AreEqual("SUM(Table1[Col2])", wks.Cells["C12"].Formula);
+            }
+        }
+        [TestMethod]
+        public void CopyWorksheetWithDynamicArrayFormula()
+        {
+            using (var p1 = OpenTemplatePackage("TestDynamicArrayFormula.xlsx"))
+            {
+                using (var p2 = new ExcelPackage())
+                {
+                    p2.Workbook.Worksheets.Add("Sheet1", p1.Workbook.Worksheets["Sheet1"]);
+                    SaveWorkbook("DontCopyMetadataToNewWorkbook.xlsx", p2);
+                }
+            }
+
+            Assert.Inconclusive("Now try to open the file in Excel - does it tell you the file is corrupt?");
+        }
+        [TestMethod]
+        public void VbaIssue()
+        {
+            using (var p = OpenTemplatePackage("Issue479.xlsm"))
+            {
+                p.Workbook.Worksheets.Add("New Sheet");
+                SaveAndCleanup(p);
+            }
+        }
+        public static readonly Dictionary<string, string> ASSET_FIELDS = new Dictionary<string, string> { { string.Empty, "Select one..." }, { "APPRAISAL_DATE", "Appraisal Date" }, { "APPRAISAL_AREA", "Appraisal Surface" }, { "APPRAISAL_AREA_CCAA", "Appraisal Surface w/CCAA" }, { "APPRAISAL_VALUE", "Appraisal Value" }, { "AURA" + "." + "REFERENCE", "Aura ID" }, { "BATHROOMS", "Bathroom" }, { "BORROWER_ID", "Borrower ID" }, { "AREA_CCAA", "Built surface w/CCAA" }, { "CADASTRAL_REFERENCE", "Cadastral reference" }, { "DEVELOPMENT" + "." + "CLIENT_GROUP_ID", "Client Development ID" }, { "CLIENT_ID", "Client ID" }, { "YEAR_OF_CONSTRUCTION", "Construction Year" }, { "COUNTRY", "Country" }, { "CROSSING_DOCKS", "Crossing Docks" }, { "DATE_OF_DISQUALIFICATION", "Date of desaffection - Social Housing" }, { "LEADER" + "." + "REFERENCE", "Dependency Reference" }, { "DEVELOPMENT" + "." + "REFERENCE", "Development ID" }, { "ADDRESS_DOOR", "Door" }, { "DUPLEX", "Duplex" }, { "ELEVATOR", "Elevator" }, { "ADDRESS_FLOOR", "Floor" }, { "FULL_ADDRESS", "Full Address" }, { "IDUFIR", "IDUFIR" }, { "ILLEGAL_SQUATTERS", "Illegal Squatters" }, { "ORIENTATION", "Interior/Exterior" }, { "LATITUDE", "Latitude" }, { "LIEN", "Lien" }, { "LOAN_ID", "Loan ID" }, { "LONGITUDE", "Longitude" }, { "MAINTENANCE_STATUS", "Maintenance Status" }, { "MARKET_SHARE", "Market Share (%)" }, { "LEGAL_MAXIMUM_VALUE", "Max. Value - Social Housing" }, { "MAX_HEIGHT", "Maximum Height" }, { "VPO_MODULE", "Module - Social Housing" }, { "MUNICIPALITY", "Municipality" }, { "NEGATIVE_COLD", "Negative Cold" }, { "ADDRESS_NUMBER", "Number" }, { "BORROWER", "Owner" }, { "PARKINGS", "Parking" }, { "PERIMETER", "Perimeter" }, { "PLOT_AREA", "Plot Surface" }, { "POSITIVE_COLD", "Positive Cold" }, { "PROVINCE", "Province" }, { "REFERENCE", "Reference ID" }, { "REGISTRATION", "Registry" }, { "REGISTRY_ID", "Registry ID" }, { "REGISTRATION_NUMBER", "Registry Number" }, { "AREA_REGISTRY", "Registry Surface" }, { "AREA_CCAA_REGISTRY", "Registry Surface w/CCAA" }, { "RENTED", "Rented" }, { "REPEATED", "Repeated" }, { "ROOMS", "Rooms" }, { "SCOPE", "Scope" }, { "SEA_VIEWS", "Sea Views" }, { "MONTHLY_COMM_EXP_SQM", "Service Charges" }, { "SMOKE_VENT", "Smoke Ventilation" }, { "VPO", "Social Housing" }, { "DEVELOPMENT" + "." + "PROPERTY_STATUS", "Status" }, { "STOREROOMS", "Storage" }, { "ADDRESS_NAME", "Street" }, { "ASSET_SUBTYPE", "Sub-typology" }, { "AREA", "Surface" }, { "SWIMMING_POOL", "Swimming Pool" }, { "TERRACE", "Terrace" }, { "TERRACE_AREA", "Terrace Surface" }, { "ACTIVITY", "Type of activity" }, { "STATE", "Type of product" }, { "ASSET_TYPE", "Typology" }, { "USEFUL_AREA", "Useful Surface" }, { "VALUATION_TYPE", "Valuation Type" }, { "ZIP_CODE", "Zip Code" } };
+
+        public class Error { public string TypeOfError { get; set; } public int Row { get; set; } public int Col { get; set; } public List<string> Messages { get; set; } }
+
+        public class AssetField { public int Index { get; set; } public string Field { get; set; } }
+
+        [TestMethod]
+        public void Issue478()
+        {
+
+            var dataStartRow = 2;
+            var errors = JsonConvert.DeserializeObject<Error[]>("[{\"typeOfError\":\"WARNING\",\"row\":4,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":20,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":35,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":47,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":57,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":60,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":90,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":131,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":136,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":138,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":139,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]}]");
+            var assetFields = JsonConvert.DeserializeObject<AssetField[]>("[{\"index\":1,\"field\":\"Reference\"},{\"index\":15,\"field\":\"ZipCode\"},{\"index\":16,\"field\":\"Municipality\"},{\"index\":17,\"field\":\"FullAddress\"}]");
+
+            using (var excelPackage = OpenTemplatePackage("issue478.xlsx"))
+            {
+                var worksheet = excelPackage.Workbook.Worksheets["Avances"];
+                var start = worksheet.Dimension.Start;
+                var end = worksheet.Dimension.End;
+
+                // Add column of errors and warnings
+                var startMessagesColumn = end.Column + 1;
+                worksheet.InsertColumn(startMessagesColumn, 2);
+                var errorColumn = startMessagesColumn;
+                var warningColumn = startMessagesColumn + 1;
+                worksheet.Cells[(dataStartRow) - 1, errorColumn].Value = "Errors";
+                worksheet.Cells[(dataStartRow) - 1, warningColumn].Value = "Warnings";
+                foreach (var error in errors)
+                {
+                    if (error.TypeOfError == "ERROR")
+                    {
+                        //worksheet.Cells[error.Row - 1, errorColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                    else
+                    {
+                        //worksheet.Cells[error.Row - 1, warningColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                }
+
+                // Remove distinct columns from "Reference"
+                var colFieldReference = assetFields.Where(x => x.Field == "REFERENCE").Select(x => x.Index).FirstOrDefault();
+                worksheet.Cells[1, colFieldReference + 1].Value = "Reference";
+
+                var deletedColumns = 0;
+                for (int i = 1; i <= end.Column; i++)
+                {
+                    if (colFieldReference + 1 != i && errorColumn != i && warningColumn != i)
+                    {
+                        worksheet.DeleteColumn(i - deletedColumns);
+                        deletedColumns++;
+                    }
+                }
+
+                // Remove rows that do not contain errors
+                var deletedRows = 0;
+                for (int i = 1; i <= end.Row; i++)
+                {
+                    if (i < (dataStartRow - 1) || (i >= dataStartRow && !errors.Any(w => (w.Row - 1) == i)))
+                    {
+                        worksheet.DeleteRow(i - deletedRows);
+                        deletedRows++;
+                    }
+                }
+                SaveAndCleanup(excelPackage);
+            };
+        }
+        [TestMethod]
+        public void TestColumnWidthsAfterDeletingColumn()
+        {
+            using (var pck = OpenTemplatePackage("Issue480.xlsx"))
+            {
+                // Get the worksheet where columns 3-5 have a width of around 18
+                var wks = pck.Workbook.Worksheets["Sheet1"];
+
+                // Check the width of column 5
+                Assert.AreEqual(18.77734375, wks.Column(5).Width, 1E-5);
+
+                // Delete column 4
+                wks.DeleteColumn(4,3);
+
+                // Check width of column 5 (now 4) hasn't changed
+                Assert.AreEqual(18.77734375, wks.Column(3).Width, 1E-5);
+                //Assert.AreEqual(18.77734375, wks.Column(4).Width, 1E-5);
+            }
+        }
+
+        [TestMethod]
+        public void Issue484_InsertRowCalculatedColumnFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create some worksheets
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+
+                // Create some tables with calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A11:C12"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E11:G12"], "Table2");
+                tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+                // Check the formulas have been set correctly
+                Assert.AreEqual("A12+B12", ws1.Cells["C12"].Formula);
+                Assert.AreEqual("A12+F12", ws1.Cells["G12"].Formula);
+                Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+                // Delete two rows above the tables
+                ws1.DeleteRow(5, 2);
+
+                // Check the formulas were updated
+                Assert.AreEqual("A10+B10", ws1.Cells["C10"].Formula);
+                Assert.AreEqual("A10+F10", ws1.Cells["G10"].Formula);
+                Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
+            }
+        }
+        [TestMethod]
+        public void Issue484_DeleteRowCalculatedColumnFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create some worksheets
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+
+                // Create some tables with calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A11:C12"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E11:G12"], "Table2");
+                tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+                // Check the formulas have been set correctly
+                Assert.AreEqual("A12+B12", ws1.Cells["C12"].Formula);
+                Assert.AreEqual("A12+F12", ws1.Cells["G12"].Formula);
+                Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+                // Delete two rows above the tables
+                ws1.DeleteRow(5, 2);
+
+                // Check the formulas were updated
+                Assert.AreEqual("A10+B10", ws1.Cells["C10"].Formula);
+                Assert.AreEqual("A10+F10", ws1.Cells["G10"].Formula);
+                Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
+            }
+        }       
     }
-}
+}   

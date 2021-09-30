@@ -26,6 +26,8 @@ using System.IO;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Sorting;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Core.CellStore;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -187,11 +189,13 @@ namespace OfficeOpenXml.Table
                     WorkSheet.Tables._tableNames.Remove(prevName);
                     WorkSheet.Tables._tableNames.Add(value,ix);
                 }
+                var ta = new TableAdjustFormula(this);
+                ta.AdjustFormulas(prevName, value);
                 SetXmlNodeString(NAME_PATH, value);
                 SetXmlNodeString(DISPLAY_NAME_PATH, ExcelAddressUtil.GetValidName(value));
             }
         }
-
+        
         internal void DeleteMe()
         {
             if (RelationshipID != null)

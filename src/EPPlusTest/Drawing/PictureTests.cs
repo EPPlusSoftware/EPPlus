@@ -145,6 +145,5 @@ namespace EPPlusTest.Drawing
 			pic.From.Row = 0;
 			pic.From.Column = 0;
 		}
-		
 	}
 }

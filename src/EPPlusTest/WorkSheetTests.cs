@@ -1676,40 +1676,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Text()
-        {
-            using (ExcelPackage p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = new DateTime(2018, 2, 3);
-                ws.Cells["A1"].Style.Numberformat.Format = "d";
-                Assert.AreEqual("3", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "D";
-                Assert.AreEqual("3", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "M";
-                Assert.AreEqual("2", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "Y";
-                Assert.AreEqual("18", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "YY";
-                Assert.AreEqual("18", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "YYY";
-                Assert.AreEqual("2018", ws.Cells["A1"].Text);
-            }
-        }
-        [TestMethod]
-        public void ValudateDateTextWithAMPM()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var ws = package.Workbook.Worksheets.Add("dateText");
-                ws.Cells["A1"].Value = new DateTime(2021, 7, 6, 9, 29, 0);
-                ws.Cells["A1"].Style.Numberformat.Format = "[$-0409]M/d/yyyy h:mm AM/PM";
-
-                Assert.AreEqual("7/6/2021 9:29 AM", ws.Cells["A1"].Text);
-            }
-        }
-
-        [TestMethod]
         public void CopyWorkSheetWithInsertInSharedFormula()
         {
             using (ExcelPackage package = new ExcelPackage())
@@ -1916,6 +1882,37 @@ namespace EPPlusTest
                 Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
                 worksheet.ClearFormulaValues();
                 Assert.IsNull(worksheet.Cells["A3"].Value);
+            }
+        }
+        [TestMethod]
+        public void RemoveFormulaFromFirstCellOfSharedFormulaWithGap()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Get the worksheet
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells["G1:G6"].Formula = "SUM(A1:F1)";
+                ws.Cells["G5"].Formula = null;
+
+                // Check that G1:G6 have formulas, except for G5
+                Assert.AreEqual("SUM(A1:F1)", ws.Cells["G1"].Formula);
+                Assert.AreEqual("SUM(A2:F2)", ws.Cells["G2"].Formula);
+                Assert.AreEqual("SUM(A3:F3)", ws.Cells["G3"].Formula);
+                Assert.AreEqual("SUM(A4:F4)", ws.Cells["G4"].Formula);
+                Assert.AreEqual("", ws.Cells["G5"].Formula);
+                Assert.AreEqual("SUM(A6:F6)", ws.Cells["G6"].Formula);
+
+                // Remove the formula from G1
+                ws.Cells["G1"].Formula = null;
+
+                // Check that the formula was removed, and the other formulas are unchanged
+                Assert.AreEqual("", ws.Cells["G1"].Formula);
+                Assert.AreEqual("SUM(A2:F2)", ws.Cells["G2"].Formula);
+                Assert.AreEqual("SUM(A3:F3)", ws.Cells["G3"].Formula);
+                Assert.AreEqual("SUM(A4:F4)", ws.Cells["G4"].Formula);
+                Assert.AreEqual("", ws.Cells["G5"].Formula);
+                Assert.AreEqual("SUM(A6:F6)", ws.Cells["G6"].Formula);
             }
         }
     }

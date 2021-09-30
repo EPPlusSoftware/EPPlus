@@ -767,7 +767,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 ft=new ExcelNumberFormatXml.ExcelFormatTranslator(format, -1);
             }
-            return ValueToTextHandler.FormatValue(value, ft,format, ft.NetFormat, null);
+            return ValueToTextHandler.FormatValue(value,false, ft, null);
         }
         public override List<LexicalAnalysis.Token> GetRangeFormulaTokens(string worksheetName, int row, int column)
         {

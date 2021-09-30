@@ -158,29 +158,6 @@ namespace EPPlusTest.Style
             Assert.AreEqual(2, ws.Cells["A1"].Style.Font.Charset);
         }
         [TestMethod]
-        public void ValidateNumberFormatDiffExcelVsNet()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                var prevCi = Thread.CurrentThread.CurrentCulture;
-                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-                ws.SetValue(1, 1, -0.1);
-                ws.SetValue(2, 1, 0);
-                ws.SetValue(3, 1, 0.1);
-                ws.Cells["A1:A3"].Style.Numberformat.Format = "#,##0;-#,##0;-";
-                Assert.AreEqual("-0", ws.Cells["A1"].Text);
-                Assert.AreEqual("-", ws.Cells["A2"].Text);
-                Assert.AreEqual("0", ws.Cells["A3"].Text);
-
-                ws.Cells["A1:A3"].Style.Numberformat.Format = "#,##0.0;-#,##0.0;-";
-                Assert.AreEqual("-0.1", ws.Cells["A1"].Text);
-                Assert.AreEqual("-", ws.Cells["A2"].Text);
-                Assert.AreEqual("0.1", ws.Cells["A3"].Text);
-                Thread.CurrentThread.CurrentCulture = prevCi;
-            }
-        }
-        [TestMethod]
         public void NormalStyleIssue()
         {
             using (var p = OpenPackage("NormalShouldReflectToEmptyCells.xlsx", true))
