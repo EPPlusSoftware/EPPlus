@@ -10,7 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -20,7 +24,7 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableRowColumnFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>
     {
         internal string _topNode;
-        private readonly ExcelPivotTable _table;
+        internal readonly ExcelPivotTable _table;
 
         internal ExcelPivotTableRowColumnFieldCollection(ExcelPivotTable table, string topNode) :
             base()
@@ -135,5 +139,6 @@ namespace OfficeOpenXml.Table.PivotTable
             SetFlag(_list[Index], false);
             _list.RemoveAt(Index);      
         }
+
     }
 }

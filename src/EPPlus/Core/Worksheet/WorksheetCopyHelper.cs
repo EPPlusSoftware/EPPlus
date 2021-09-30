@@ -105,8 +105,17 @@ namespace OfficeOpenXml.Core.Worksheet
                 if (pck.Workbook.VbaProject != null && copy.CodeModule != null)
                 {
                     var wsName = pck.Workbook.VbaProject.GetModuleNameFromWorksheet(added);
-                    pck.Workbook.VbaProject.Modules.Add(new ExcelVBAModule(added.CodeNameChange) { Name = wsName, Code = copy.CodeModule.Code, Attributes = pck.Workbook.VbaProject.GetDocumentAttributes(name, "0{00020820-0000-0000-C000-000000000046}"), Type = eModuleType.Document, HelpContext = 0 });
-                    copy.CodeModuleName = wsName;
+                    pck.Workbook.VbaProject.Modules.Add(
+                        new ExcelVBAModule(added.CodeNameChange) 
+                        {   
+                            Name = wsName, 
+                            Code = copy.CodeModule.Code, 
+                            Attributes = pck.Workbook.VbaProject.GetDocumentAttributes(name, "0{00020820-0000-0000-C000-000000000046}"), 
+                            Type = eModuleType.Document, 
+                            HelpContext = 0 
+                        });
+                    
+                    added.CodeModuleName = wsName;
                 }
                 
                 worksheets._worksheets.Add(worksheets.Count, added);
@@ -148,7 +157,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
             Dictionary<int, int> styleCashe = new Dictionary<int, int>();
-            bool hasMetadata = Copy._metadataStore.HasValues;
+            bool hasMetadata = Copy._metadataStore.HasValues && sameWorkbook;
             //Cells
             int row, col;
             var val = new CellStoreEnumerator<ExcelValue>(Copy._values);

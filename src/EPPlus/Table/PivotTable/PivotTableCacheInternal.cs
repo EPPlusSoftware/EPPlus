@@ -192,8 +192,10 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void RefreshFields()
         {
+            var tableFields = GetTableFields();
             var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
+            bool cacheUpdated=false;
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
                 var ix = col - r._fromCol;
@@ -208,7 +210,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     ExcelPivotTableCacheField field;
                     if (_fields==null || ix>=_fields?.Count)
                     {
-                        if (!string.IsNullOrEmpty(name))
+                        if (string.IsNullOrEmpty(name))
                         {
                             throw new InvalidOperationException($"Pivot Cache with id {CacheId} is invalid . Contains reference to an column with empty header");
                         }
@@ -218,13 +220,16 @@ namespace OfficeOpenXml.Table.PivotTable
                         {
                             pt.Fields.AddField(ix);
                         }
+                        cacheUpdated = true;
                     }
                     else
                     {
                         field=_fields[ix];
                         field.SharedItems.Clear();
+                        if (cacheUpdated == false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
                     }
-                    if(!string.IsNullOrEmpty(name)) field.Name = name;
+
+                    if (!string.IsNullOrEmpty(name) && !field.Name.StartsWith(name)) field.Name = name;
                     var hs = new HashSet<object>();
                     var dimensionToRow = ws.Dimension?._toRow ?? r._fromRow + 1;
                     var toRow = r._toRow < dimensionToRow ? r._toRow : dimensionToRow;
@@ -242,9 +247,118 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             _fields = fields;
 
+            if(cacheUpdated) UpdateRowColumnPageFields(tableFields);
 
              RefreshPivotTableItems();
         }
+
+        private void UpdateRowColumnPageFields(List<List<string>> tableFields)
+        {
+            for(int tblIx=0;tblIx<_pivotTables.Count;tblIx++)
+            {
+
+                var l = tableFields[tblIx];
+                var tbl = _pivotTables[tblIx];
+                tbl.PageFields._list.ForEach(x => { x.IsPageField = false; x.Axis = ePivotFieldAxis.None; });
+                tbl.ColumnFields._list.ForEach(x => { x.IsColumnField = false; x.Axis = ePivotFieldAxis.None; });
+                tbl.RowFields._list.ForEach(x => { x.IsRowField = false; x.Axis = ePivotFieldAxis.None; });
+                tbl.DataFields._list.ForEach(x => { x.Field.IsDataField = false; x.Field.Axis = ePivotFieldAxis.None; });
+
+                ChangeIndex(tbl.PageFields, l);
+                ChangeIndex(tbl.ColumnFields, l);
+                ChangeIndex(tbl.RowFields, l);
+                for (int i = 0; i < tbl.DataFields.Count; i++)
+                {
+                    var df = tbl.DataFields[i];
+                    var prevName = l[df.Index];
+                    var newIx = _fields.FindIndex(x => x.Name.Equals(prevName, StringComparison.CurrentCultureIgnoreCase));
+                    if (newIx >= 0)
+                    {
+                        df.Index = newIx;
+                        df.Field = tbl.Fields[newIx];
+                        df.Field.IsDataField = true;
+                    }
+                    else
+                    {
+                        tbl.DataFields._list.RemoveAt(i--);
+                    }
+
+                    foreach (ExcelPivotTableAreaStyle s in tbl.Styles)
+                    {
+                        if (s.FieldIndex == df.Index)
+                        {
+                            s.FieldIndex = newIx;
+                        }
+                        foreach (ExcelPivotAreaReference c in s.Conditions.Fields)
+                        {
+                            if (c.FieldIndex == df.Index)
+                            {
+                                c.FieldIndex = newIx;
+                            }
+                        }
+                        
+                        if (s.Conditions.DataFields.FieldIndex == df.Index)
+                        {
+                            s.Conditions.DataFields.FieldIndex = newIx;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ChangeIndex(ExcelPivotTableRowColumnFieldCollection fields, List<string> prevFields)
+        {
+            var newFields = new List<ExcelPivotTableField>();
+            for (int i = 0; i < fields.Count; i++)
+            {
+                var f = fields[i];
+                var prevName = prevFields[f.Index];
+                var ix = _fields.FindIndex(x => x.Name.Equals(prevName, StringComparison.CurrentCultureIgnoreCase));
+                if (ix>=0)
+                {
+                    var fld = fields._table.Fields[ix];
+
+                    newFields.Add(fld);
+                    if(fld.PageFieldSettings!=null)
+                    {
+                        fld.PageFieldSettings.Index = ix;
+                        fld.PageFieldSettings._field = fld;
+                    }
+                    foreach(ExcelPivotTableAreaStyle s in f._pivotTable.Styles)
+                    {
+                        if(s.FieldIndex==f.Index)
+                        {
+                            s.FieldIndex = ix;
+                        }
+                        foreach(ExcelPivotAreaReference c in s.Conditions.Fields)
+                        {
+                            if(c.FieldIndex == f.Index)
+                            {
+                                c.FieldIndex = ix;
+                            }
+                        }
+                    }
+                }
+            }            
+            fields.Clear();
+            newFields.ForEach(x=>fields.Add(x));
+        }
+
+        private List<List<string>> GetTableFields()
+        {
+            var tableFields = new List<List<string>>();
+            foreach(var tbl in _pivotTables)
+            {
+                var l = new List<string>();
+                tableFields.Add(l);
+                foreach(var field in tbl.Fields.OrderBy(x=>x.Index))
+                {
+                    l.Add(field.Name.ToLower());
+                }
+            }
+            return tableFields;
+        }
+
         private void RefreshPivotTableItems()
         {
             foreach(var pt in _pivotTables)

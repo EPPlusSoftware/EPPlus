@@ -128,7 +128,14 @@ namespace OfficeOpenXml
                         }
                         else
                         {
-                            f += a.GetOffset(row - StartRow, column - StartCol, true);
+                            if (a.Table != null)
+                            {
+                                f += token.Value;
+                            }
+                            else
+                            {
+                                f += a.GetOffset(row - StartRow, column - StartCol, true);
+                            }
                         }
                     }
                     else
@@ -1225,7 +1232,7 @@ namespace OfficeOpenXml
             char[] block;
             int pos;
             StringBuilder sb = new StringBuilder();
-            Match startmMatch, endMatch;
+            Match startmMatch, endMatch=null;
             do
             {
                 int size = stream.Length < BLOCKSIZE ? (int)stream.Length : BLOCKSIZE;
@@ -1259,29 +1266,29 @@ namespace OfficeOpenXml
                     if (sr.Peek() != -1)        //Now find the end tag </sheetdata> so we can add the end of the xml document
                     {
                         //Now find the end tag for sheetData.
-                        string prevBlock = "";  
-                        long endSeekStart = Math.Max(end - BLOCKSIZE, 0);
+                        var readSize = BLOCKSIZE+100;  //We read 100 chars more than the block size to avoid having the tag in between two blocks.
+                        long endSeekStart = Math.Max(end - readSize, 0);
                         while (endSeekStart > 0)
                         {
-                            int size = stream.Length - endSeekStart < BLOCKSIZE ? (int)(stream.Length - endSeekStart) : BLOCKSIZE;
+                            int size = stream.Length - endSeekStart < readSize ? (int)(stream.Length - endSeekStart) : readSize;
                             stream.Seek(endSeekStart, SeekOrigin.Begin);
                             block = new char[size];
                             sr = new StreamReader(stream);
-                            pos = sr.ReadBlock(block, 0, size);
-                            sb = new StringBuilder();
-                            sb.Append(block, 0, pos);
-                            s = sb.ToString() + prevBlock;
+                            sr.ReadBlock(block, 0, size); 
+                            s = new string(block).TrimEnd('\0');
                             endMatch = Regex.Match(s, string.Format("(</[^>]*{0}[^>]*>)", "sheetData"));
                             if (endMatch.Success)
                             {
                                 break;
                             }
-                            prevBlock = s;
-                            endSeekStart -= size;
+                            //prevBlock = s;
+                            endSeekStart -= BLOCKSIZE;
                         }
-                        if(stream.Position<end) stream.Seek(stream.Position + BLOCKSIZE, SeekOrigin.Begin);
                     }
-                    endMatch = Regex.Match(s, string.Format("(</[^>]*{0}[^>]*>)", "sheetData"));
+                    if (endMatch == null)
+                    {
+                        endMatch = Regex.Match(s, string.Format("(</[^>]*{0}[^>]*>)", "sheetData"));
+                    }
                     xml += $"<{tag}/>" + s.Substring(endMatch.Index + endMatch.Length, s.Length - (endMatch.Index + endMatch.Length));
                 }
                 if (sr.Peek() > -1)

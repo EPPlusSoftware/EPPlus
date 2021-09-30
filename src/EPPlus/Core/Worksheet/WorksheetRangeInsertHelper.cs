@@ -11,8 +11,10 @@
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -32,39 +34,58 @@ namespace OfficeOpenXml.Core.Worksheet
             ValidateInsertRow(ws, rowFrom, rows);
 
             lock (ws)
-            {               
+            {
                 InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 FixFormulasInsertRow(ws, rowFrom, rows);
 
                 WorksheetRangeHelper.FixMergedCellsRow(ws, rowFrom, rows, false);
-                
+
                 if (copyStylesFromRow > 0)
                 {
                     CopyFromStyleRow(ws, rowFrom, rows, copyStylesFromRow);
                 }
 
-                foreach (var tbl in ws.Tables)
-                {
-                    tbl.Address = tbl.Address.AddRow(rowFrom, rows);
-                }
+                InsertRowTable(ws, rowFrom, rows);
+                InsertRowPivotTable(ws, rowFrom, rows);
 
-                foreach (var ptbl in ws.PivotTables)
-                {
-                    ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
-                    ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddRow(rowFrom, rows).Address;
-                }
-
-                var range = ws.Cells[rowFrom, 1, rowFrom+rows-1, ExcelPackage.MaxColumns];
+                var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws);
-                
+
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(range, ws, rowFrom, rows);
+
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
         }
+
+        private static void InsertRowTable(ExcelWorksheet ws, int rowFrom, int rows)
+        {
+            foreach (var tbl in ws.Tables)
+            {
+                tbl.Address = tbl.Address.AddRow(rowFrom, rows);
+                foreach (var col in tbl.Columns)
+                {
+                    if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                    {
+                        col.CalculatedColumnFormula = ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                    }
+                }
+            }
+        }
+
+        private static void InsertRowPivotTable(ExcelWorksheet ws, int rowFrom, int rows)
+        {
+            foreach (var ptbl in ws.PivotTables)
+            {
+                ptbl.Address = ptbl.Address.AddRow(rowFrom, rows);
+                ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddRow(rowFrom, rows).Address;
+            }
+        }
+
         internal static void InsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             ValidateInsertColumn(ws, columnFrom, columns);
@@ -81,30 +102,9 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 CopyStylesFromColumn(ws, columnFrom, columns, copyStylesFromColumn);
 
-                //Adjust tables
-                foreach (var tbl in ws.Tables)
-                {
-                    if (columnFrom > tbl.Address.Start.Column && columnFrom <= tbl.Address.End.Column)
-                    {
-                        InsertTableColumns(columnFrom, columns, tbl);
-                    }
+                InsertColumnTable(ws, columnFrom, columns);
+                InsertColumnPivotTable(ws, columnFrom, columns);
 
-                    tbl.Address = tbl.Address.AddColumn(columnFrom, columns);
-                }
-                foreach (var ptbl in ws.PivotTables)
-                {
-                    if (columnFrom <= ptbl.Address.End.Column)
-                    {
-                        ptbl.Address = ptbl.Address.AddColumn(columnFrom, columns);
-                    }
-                    if (columnFrom <= ptbl.CacheDefinition.SourceRange.End.Column)
-                    {
-                        if (ptbl.CacheDefinition.CacheSource == eSourceType.Worksheet)
-                        {
-                            ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddColumn(columnFrom, columns).Address;
-                        }
-                    }
-                }
                 var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Right);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Right);
@@ -112,10 +112,55 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws);
 
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(range, ws, columnFrom, columns);
+
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
             }
         }
+
+        private static void InsertColumnPivotTable(ExcelWorksheet ws, int columnFrom, int columns)
+        {
+            foreach (var ptbl in ws.PivotTables)
+            {
+                if (columnFrom <= ptbl.Address.End.Column)
+                {
+                    ptbl.Address = ptbl.Address.AddColumn(columnFrom, columns);
+                }
+                if (columnFrom <= ptbl.CacheDefinition.SourceRange.End.Column)
+                {
+                    if (ptbl.CacheDefinition.CacheSource == eSourceType.Worksheet)
+                    {
+                        ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.AddColumn(columnFrom, columns).Address;
+                    }
+                }
+            }
+        }
+
+        private static void InsertColumnTable(ExcelWorksheet ws, int columnFrom, int columns)
+        {
+            //Adjust tables
+            foreach (var tbl in ws.Tables)
+            {
+                if (columnFrom > tbl.Address.Start.Column && columnFrom <= tbl.Address.End.Column)
+                {
+                    InsertTableColumns(columnFrom, columns, tbl);
+                }
+
+                tbl.Address = tbl.Address.AddColumn(columnFrom, columns);
+                if (columnFrom <= tbl.Address._toCol)
+                {
+                    foreach (var col in tbl.Columns)
+                    {
+                        if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                        {
+                            col.CalculatedColumnFormula = ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, 0, columns, 0, columnFrom, ws.Name, ws.Name);
+                        }
+                    }
+                }               
+            }
+        }
+
         internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy)
         {
             ValidateInsert(range, shift);
@@ -167,19 +212,46 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void InsertConditionalFormatting(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
         {
+            var delCF = new List<ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>();
             //Update Conditional formatting references
             foreach (var cf in ws.ConditionalFormatting)
             {
-                ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(InsertSplitAddress(cf.Address, range, effectedAddress, shift).Address);
+                var newAddress = InsertSplitAddress(cf.Address, range, effectedAddress, shift);
+                if(newAddress==null)
+                {
+                    delCF.Add(cf);
+                }
+                else
+                {
+                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
+                }
+            }
+
+            foreach(var cf in delCF)
+            {
+                ws.ConditionalFormatting.Remove(cf);
             }
         }
 
         private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
         {
+            var delDV = new List<DataValidation.Contracts.IExcelDataValidation>();
             //Update data validation references
             foreach (var dv in ws.DataValidations)
             {
-                ((ExcelDataValidation)dv).SetAddress(InsertSplitAddress(dv.Address, range, effectedAddress, shift).Address);
+                var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift);
+                if (newAddress == null)
+                {
+                    delDV.Add(dv);
+                }
+                else
+                {
+                    ((ExcelDataValidation)dv).SetAddress(newAddress.Address);
+                }
+            }
+            foreach (var dv in delDV)
+            {
+                ws.DataValidations.Remove(dv);
             }
         }
 
@@ -278,11 +350,11 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             if (address.CollideFullColumn(range._fromCol, range._toCol) && (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
             {
-                return address.AddRow(range._fromRow, range.Rows);
+                return address.AddRow(range._fromRow, range.Rows,false,false);
             }
             else if (address.CollideFullRow(range._fromRow, range._toRow) && (shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn))
             {
-                return address.AddColumn(range._fromCol, range.Columns);
+                return address.AddColumn(range._fromCol, range.Columns, false, false);
             }
             else
             {
@@ -390,6 +462,15 @@ namespace OfficeOpenXml.Core.Worksheet
                     if (tbl.Address._fromRow >= range._fromRow && tbl.Address._toRow <= range._toRow)
                     {
                         tbl.Address = tbl.Address.AddColumn(range._fromCol, range.Columns);
+                    }
+                }
+
+                //Update CalculatedColumnFormula
+                foreach (var col in tbl.Columns)
+                {
+                    if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                    {
+                        col.CalculatedColumnFormula=ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
                     }
                 }
             }

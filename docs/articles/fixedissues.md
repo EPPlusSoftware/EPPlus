@@ -1,5 +1,33 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.7.5
+### Fixed issues
+* ExcelTable.CalculatedColumnFormula were not updated when inserting/deleting rows and columns.
+* Copying a worksheet- or adding a VBA module- with a name starting with a number caused the macro-enabled workbook to be corrupt.
+* LoadFromCollection with attributes didn't create a table if TableStyle was none.
+* Fixed LEN functions incorrect handling of cached addresses.
+* Fixed handling of worksheet names with escaped single quotes in the formula parser.
+* ExcelPicture.SetSize sets an incorrect width when having a non-default dpi on an image.
+* ExcelColumn.ColumnMax was not correctly set when deleting a column within a column span.
+* Updating a pivot cache share among multiple pivot tables did not update/remove fields if the source range fields had been altered.
+* Clearing or overwriting a cell in a shared formula range did not work correctly.
+* Formulas in conditional formatting and data validations were not updated when inserting and deleting rows and columns.
+* When deleting columns, defined names were not always correctly updated.
+* ExpressionEvaluator could not handle a leading equal operator in combination with wildcards
+
+## Version 5.7.4
+### Fixed issues
+* Metadata will now be removed from any formula copied to an external workbook to avoid corruption.
+* Renaming table now updates references in formulas.
+* ExcelNamedRange.Equals now works as expected.
+* Inserting rows that shift conditional formatting outside the worksheet now adjust addresses correctly.
+* Inserting rows into table formulas will not set the address to #REF!
+* COUNTA function will now count errors and empty strings.
+* LoadFromText and SaveToText did not handle quotes correctly.
+* Changing the font of the current theme and the normal style does not always reflect when styling empty cells.
+* Workbooks are getting corrupted when creating a pivot table where some cells have length greater than 255 characters.
+* Deleting ranges with conditional formatting with multiple addresses sometimes threw an ArgumentOutOfRangeException.
+* Copying a comment only add the text and the author, leaving any styling set on the comment.
 
 ## Version 5.7.3
 ### Fixed issues & minor features

@@ -875,8 +875,9 @@ namespace OfficeOpenXml
         /// <param name="currentSheet">The sheet that contains the formula currently being processed.</param>
         /// <param name="modifiedSheet">The sheet where cells are being inserted or deleted.</param>
         /// <param name="setFixed">Fixed address</param>
+        /// <param name="copy">If a copy operation is performed, fully fixed cells should be untoughe.</param>
         /// <returns>The updated version of the <paramref name="formula"/>.</returns>
-        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false)
+        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false, bool copy=false)
         {
             try
             {
@@ -888,7 +889,6 @@ namespace OfficeOpenXml
                     if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var address = new ExcelAddressBase(t.Value);
-
                         if ((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
                         {
                             f += address.Address;
@@ -906,8 +906,15 @@ namespace OfficeOpenXml
                                 f += $"{address._ws}!";
                             }
                         }
+
                         if (!address.IsFullColumn)
                         {
+                            if (copy && ((address._fromRowFixed && address._toRowFixed && address.IsFullRow) || (address._fromColFixed && address._toColFixed && address._fromRowFixed && address._toRowFixed)))
+                            {
+                                f += address.LocalAddress;
+                                continue;
+                            }
+
                             if (rowIncrement > 0)
                             {
                                 address = address.AddRow(afterRow, rowIncrement, setFixed);
@@ -924,8 +931,15 @@ namespace OfficeOpenXml
                                 }
                             }
                         }
+
                         if (address!=null && !address.IsFullRow)
                         {
+                            if (copy && (address._fromColFixed && address._toColFixed && address.IsFullColumn)) 
+                            {
+                                f += address.LocalAddress;
+                                continue;
+                            }
+
                             if (colIncrement > 0)
                             {
                                 address = address.AddColumn(afterColumn, colIncrement, setFixed);
@@ -943,7 +957,7 @@ namespace OfficeOpenXml
                             }
                         }
 
-                        if (address == null || !address.IsValidRowCol())
+                        if (address == null || (!address.IsValidRowCol() && address.IsName==false))
                         {
                             f += "#REF!";
                         }
