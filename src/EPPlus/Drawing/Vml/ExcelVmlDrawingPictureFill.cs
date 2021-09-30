@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 if(_image==null)
                 {
-                    var relId = GetXmlNodeString("v:fill/@o:relid");
+                    var relId = RelId;
                     if (!string.IsNullOrEmpty(relId))
                     {
                         _image = PictureStore.GetPicture(relId, this, out string contentType);
@@ -175,5 +175,12 @@ namespace OfficeOpenXml.Drawing.Vml
         string IPictureContainer.ImageHash { get; set ; }
         Uri IPictureContainer.UriPic { get; set ; }
         ZipPackageRelationship IPictureContainer.RelPic { get; set; }
+        internal string RelId 
+        { 
+            get
+            {
+                return GetXmlNodeString("v:fill/@o:relid");
+            }
+        }
     }
 }

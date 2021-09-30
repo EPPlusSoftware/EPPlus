@@ -2637,6 +2637,6 @@ namespace EPPlusTest
                 Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
                 Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
             }
-        }       
+        }
     }
 }   

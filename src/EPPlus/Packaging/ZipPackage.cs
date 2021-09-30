@@ -202,6 +202,16 @@ namespace OfficeOpenXml.Packaging
             Parts.Add(GetUriKey(part.Uri.OriginalString), part);
             return part;
         }
+        internal ZipPackagePart CreatePart(Uri partUri, ZipPackagePart sourcePart)
+        {
+            var destPart = CreatePart(partUri, sourcePart.ContentType);
+            var destStream = destPart.GetStream(FileMode.Create, FileAccess.Write);
+            var sourceStream = sourcePart.GetStream();
+            var b = sourceStream.GetBuffer();
+            destStream.Write(b, 0, b.Length);
+            destStream.Flush();
+            return destPart;
+        }
         internal ZipPackagePart GetPart(Uri partUri)
         {
             if (PartExists(partUri))

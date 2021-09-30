@@ -361,6 +361,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 e.SetAttribute("id", ExcelPackage.schemaRelationships, vmlRelation.Id);
             }
+            CopyVmlRelations(origSheet, newSheet);
         }
 
         private static void CopyComment(ExcelWorksheet Copy, ExcelWorksheet added)
@@ -407,6 +408,30 @@ namespace OfficeOpenXml.Core.Worksheet
 
             e.SetAttribute("id", ExcelPackage.schemaRelationships, newVmlRel.Id);
             added.LoadComments();
+
+            CopyVmlRelations(Copy, added);
+        }
+
+        private static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
+        {
+            if (Copy._vmlDrawings.Part == null) return;
+            foreach (var r in Copy._vmlDrawings.Part.GetRelationships())
+            {
+                var newRel = added._vmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
+                if (newRel.Id != r.Id) //Make sure the id's are the same.
+                {
+                    newRel.Id = r.Id;
+                }
+                if (Copy.Workbook != added.Workbook)
+                {
+                    var uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
+                    if (!added.Part.Package.PartExists(uri))
+                    {                        
+                        var sourcePart = Copy._package.ZipPackage.GetPart(uri);
+                        added._package.ZipPackage.CreatePart(uri, sourcePart);
+                    }
+                }
+            }
         }
 
         private static void CopySheetNames(ExcelWorksheet Copy, ExcelWorksheet added)
