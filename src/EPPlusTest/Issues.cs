@@ -2574,5 +2574,68 @@ namespace EPPlusTest
                 //Assert.AreEqual(18.77734375, wks.Column(4).Width, 1E-5);
             }
         }
+
+        [TestMethod]
+        public void Issue484_InsertRowCalculatedColumnFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create some worksheets
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+
+                // Create some tables with calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A11:C12"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E11:G12"], "Table2");
+                tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+                // Check the formulas have been set correctly
+                Assert.AreEqual("A12+B12", ws1.Cells["C12"].Formula);
+                Assert.AreEqual("A12+F12", ws1.Cells["G12"].Formula);
+                Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+                // Delete two rows above the tables
+                ws1.DeleteRow(5, 2);
+
+                // Check the formulas were updated
+                Assert.AreEqual("A10+B10", ws1.Cells["C10"].Formula);
+                Assert.AreEqual("A10+F10", ws1.Cells["G10"].Formula);
+                Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
+            }
+        }
+        [TestMethod]
+        public void Issue484_DeleteRowCalculatedColumnFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create some worksheets
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+
+                // Create some tables with calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A11:C12"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E11:G12"], "Table2");
+                tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+                // Check the formulas have been set correctly
+                Assert.AreEqual("A12+B12", ws1.Cells["C12"].Formula);
+                Assert.AreEqual("A12+F12", ws1.Cells["G12"].Formula);
+                Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+                // Delete two rows above the tables
+                ws1.DeleteRow(5, 2);
+
+                // Check the formulas were updated
+                Assert.AreEqual("A10+B10", ws1.Cells["C10"].Formula);
+                Assert.AreEqual("A10+F10", ws1.Cells["G10"].Formula);
+                Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
+            }
+        }       
     }
-}
+}   

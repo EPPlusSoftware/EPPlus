@@ -43,22 +43,22 @@ namespace OfficeOpenXml.Utils
                 nf = styles.NumberFormats[0].FormatTranslator;  //nf should never be null. If so set to General, Issue 173
             }
 
-            string format, textFormat;
+            return FormatValue(v, forWidthCalc, nf, cultureInfo);
+        }
+        internal static string FormatValue(object v, bool forWidthCalc, ExcelNumberFormatXml.ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
+        {
+            var f = nf.GetFormatPart(v);
+            string format;
             if (forWidthCalc)
             {
-                format = nf.NetFormatForWidth;
-                textFormat = nf.NetTextFormatForWidth;
+                format = f.NetFormatForWidth;
             }
             else
             {
-                format = nf.NetFormat;
-                textFormat = nf.NetTextFormat;
+                format = f.NetFormat;
             }
 
-            return FormatValue(v, nf, format, textFormat, cultureInfo);
-        }
-        internal static string FormatValue(object v, ExcelNumberFormatXml.ExcelFormatTranslator nf, string format, string textFormat, CultureInfo overrideCultureInfo)
-        {
+
             if (v is decimal || TypeCompat.IsPrimitive(v))
             {
                 double d;
@@ -73,111 +73,112 @@ namespace OfficeOpenXml.Utils
 
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.Number)
                 {
-                    if (string.IsNullOrEmpty(nf.FractionFormat))
+                    if (string.IsNullOrEmpty(f.FractionFormat))
                     {                        
-                        return FormatNumber(d, format, nf, overrideCultureInfo);
+                        return FormatNumber(d, format, overrideCultureInfo ?? nf.Culture);
                     }
                     else
                     {
-                        return nf.FormatFraction(d);
+                        return nf.FormatFraction(d, f);
                     }
                 }
                 else if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
-                    var date = DateTime.FromOADate(d);
-                    return GetDateText(date, format, nf, overrideCultureInfo);
+                    if (d > 0)
+                    {
+                        var date = DateTime.FromOADate(d);
+                        return GetDateText(date, format, f, overrideCultureInfo ?? nf.Culture);
+                    }
+                }
+
+                if (nf.Formats.Count > 2 && string.IsNullOrEmpty(f.NetFormat))
+                {
+                    return null;
+                }
+                else if (string.IsNullOrEmpty(format)==false)
+                {
+                    return d.ToString(format);
                 }
             }
             else if (v is DateTime)
             {
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
-                    return GetDateText((DateTime)v, format, nf, overrideCultureInfo);
+                    return GetDateText((DateTime)v, format, f, overrideCultureInfo ?? nf.Culture);
                 }
                 else
                 {
                     double d = ((DateTime)v).ToOADate();
-                    if (string.IsNullOrEmpty(nf.FractionFormat))
+                    if (string.IsNullOrEmpty(f.FractionFormat))
                     {
                         return d.ToString(format, nf.Culture);
                     }
                     else
                     {
-                        return nf.FormatFraction(d);
+                        return nf.FormatFraction(d, f);
                     }
+                }
+                if (nf.Formats.Count > 2 && string.IsNullOrEmpty(f.NetFormat))
+                {
+                    return null;
                 }
             }
             else if (v is TimeSpan)
             {
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
-                    return GetDateText(new DateTime(((TimeSpan)v).Ticks), format, nf, overrideCultureInfo);
+                    return GetDateText(new DateTime(((TimeSpan)v).Ticks), format,f, overrideCultureInfo);
                 }
                 else
                 {
                     double d = new DateTime(0).Add((TimeSpan)v).ToOADate();
-                    if (string.IsNullOrEmpty(nf.FractionFormat))
+                    if (string.IsNullOrEmpty(f.FractionFormat))
                     {
                         return d.ToString(format, nf.Culture);
                     }
                     else
                     {
-                        return nf.FormatFraction(d);
+                        return nf.FormatFraction(d,f);
                     }
+                }
+                
+                if (nf.Formats.Count > 2 && string.IsNullOrEmpty(f.NetFormat))
+                {
+                    return null;
                 }
             }
             else
             {
-                if (textFormat == "")
+                if (nf.Formats.Count > 3 && string.IsNullOrEmpty(f.NetFormat))
+                {
+                    return null;
+                }
+
+                if (f.ContainsTextPlaceholder)
+                {
+                    return string.Format(format.Replace("\"",""), v);
+                }
+                else
                 {
                     return v.ToString();
                 }
-                else
-                {
-                    return string.Format(textFormat, v);
-                }
             }
+
             return v.ToString();
         }
 
-        private static string FormatNumber(double d, string format, ExcelNumberFormatXml.ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
+        private static string FormatNumber(double d, string format, CultureInfo cultureInfo)
         {
-            var split = format.Split(';');
-            if (split.Length == 3)
-            {                
-                if(d>0)
-                {
-                    return FormatNumberExcel(d, split[0], overrideCultureInfo ?? nf.Culture);
-                }
-                else if(d<0)
-                {
-                    var s= FormatNumberExcel(d, split[1], overrideCultureInfo ?? nf.Culture);
-                    if(s.StartsWith("--") && split[1].StartsWith("-"))
-                    {
-                        return s.Substring(1);
-                    }
-                    else if(s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && split[1].StartsWith("(", StringComparison.OrdinalIgnoreCase) && split[1].EndsWith(")", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return s.Substring(1);
-                    }
-                    return s;
-                }
-                else
-                {
-                    return FormatNumberExcel(d, split[2], overrideCultureInfo ?? nf.Culture);
-                }
+            var s = FormatNumberExcel(d, format, cultureInfo);
+            if (string.IsNullOrEmpty(s) == false && (
+                    s.StartsWith("--") && format.StartsWith("-") ||
+                   (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.EndsWith(")", StringComparison.OrdinalIgnoreCase))))
+            {
+                return s.Substring(1);
             }
             else
             {
-                var s = FormatNumberExcel(d, format, overrideCultureInfo ?? nf.Culture);
-                if (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.EndsWith(")", StringComparison.OrdinalIgnoreCase))
-                {
-                    return s.Substring(1);
-                }
-                else
-                {
-                    return s;
-                }
+                return s;
             }
         }
 
@@ -193,17 +194,17 @@ namespace OfficeOpenXml.Utils
             }
         }
 
-        private static string GetDateText(DateTime d, string format, ExcelNumberFormatXml.ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
+        private static string GetDateText(DateTime d, string format, ExcelNumberFormatXml.ExcelFormatTranslator.FormatPart f, CultureInfo cultureInfo)
         {           
-            if (nf.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
+            if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
             {
                 return d.ToLongDateString();
             }
-            else if (nf.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongTime)
+            else if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemLongTime)
             {
                 return d.ToLongTimeString();
             }
-            else if (nf.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemShortDate)
+            else if (f.SpecialDateFormat == ExcelNumberFormatXml.ExcelFormatTranslator.eSystemDateFormat.SystemShortDate)
             {
                 return d.ToShortDateString();
             }
@@ -221,15 +222,15 @@ namespace OfficeOpenXml.Utils
             }
             else if (format.ToLower() == "y" || format.ToLower() == "yy")
             {
-                return d.ToString("yy", overrideCultureInfo ?? nf.Culture);
+                return d.ToString("yy", cultureInfo);
             }
             else if (format.ToLower() == "yyy" || format.ToLower() == "yyyy")
             {
-                return d.ToString("yyy", overrideCultureInfo ?? nf.Culture);
+                return d.ToString("yyy", cultureInfo);
             }
             else
             {
-                return d.ToString(format, overrideCultureInfo ?? nf.Culture);
+                return d.ToString(format, cultureInfo);
             }
 
         }

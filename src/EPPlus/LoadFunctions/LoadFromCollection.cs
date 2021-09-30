@@ -177,7 +177,7 @@ namespace OfficeOpenXml.LoadFunctions
                         TotalsRowNumberFormat = totalsRowNumberFormat,
                         TotalsRowLabel = totalsRowLabel,
                         TotalsRowFormula = totalsRowFormula
-                    }); ;
+                    });
                 }
                 ReindexAndSortColumns(result);
             }

@@ -24,6 +24,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
             return tokenSeparator.TokenTypeIsSet(TokenType.String) && formulaCharIndex + 1 < context.FormulaChars.Length && context.FormulaChars[formulaCharIndex + 1] == '\"';
         }
 
+        protected bool IsDoubleSingleQuote(Token tokenSeparator, int formulaCharIndex, TokenizerContext context)
+        {
+            return tokenSeparator.TokenTypeIsSet(TokenType.WorksheetName) && formulaCharIndex + 1 < context.FormulaChars.Length && context.FormulaChars[formulaCharIndex + 1] == '\'';
+        }
+
         public abstract bool Handle(char c, Token tokenSeparator, TokenizerContext context, ITokenIndexProvider tokenIndexProvider);
 
     }

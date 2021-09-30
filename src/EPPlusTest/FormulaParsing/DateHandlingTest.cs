@@ -164,23 +164,6 @@ namespace EPPlusTest.FormulaParsing
             pck2.Dispose();
         }
         [TestMethod]
-        public void NumberFormatWithLanguageCode()
-        {
-            var dt1 = new DateTime(2021, 3, 30);
-
-            ExcelPackage pck = new ExcelPackage();
-            ExcelWorksheet ws = pck.Workbook.Worksheets.Add("test");
-            ws.Cells[1, 1].Style.Numberformat.Format = "[$-en]d mmmm yyyy";
-            ws.Cells[1, 2].Style.Numberformat.Format = "[$-nl]d mmmm yyyy";
-            ws.Cells[1, 1, 1, 2].Value = dt1;
-
-            Assert.AreEqual("30 March 2021", ws.Cells[1, 1].Text);
-            Assert.AreEqual("30 maart 2021", ws.Cells[1, 2].Text);
-
-            ws.Cells.AutoFitColumns();
-        }
-
-        [TestMethod]
         public void TestDate1904SetAndRemoveSetting()
         {
             var dt1 = new DateTime(2008, 2, 29);

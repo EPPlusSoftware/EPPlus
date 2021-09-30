@@ -59,6 +59,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 case DataType.Time:
                 case DataType.Date:
                     return new DecimalExpression((double)compileResult.Result);
+                case DataType.Enumerable:
+                    var rangeInfo = compileResult.Result as ExcelDataProvider.IRangeInfo;
+                    if (rangeInfo != null)
+                    {
+                        return new ExcelRangeExpression(rangeInfo);
+                    }
+                    break;
 
             }
             return null;

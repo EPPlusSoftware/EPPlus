@@ -40,6 +40,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                     context.AppendToCurrentToken(c);
                     return true;
                 }
+                else if(IsDoubleSingleQuote(tokenSeparator, tokenIndexProvider.Index, context))
+                {
+                    tokenIndexProvider.MoveIndexPointerForward();
+                    // double single quotes inside a sheet name should be preserved
+                    context.AppendToCurrentToken(c);
+                    context.AppendToCurrentToken(c);
+                    return true;
+                }
                 if (!tokenSeparator.TokenTypeIsSet(TokenType.WorksheetName))
                 {
                     context.AppendToCurrentToken(c);

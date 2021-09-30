@@ -1676,40 +1676,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Text()
-        {
-            using (ExcelPackage p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = new DateTime(2018, 2, 3);
-                ws.Cells["A1"].Style.Numberformat.Format = "d";
-                Assert.AreEqual("3", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "D";
-                Assert.AreEqual("3", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "M";
-                Assert.AreEqual("2", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "Y";
-                Assert.AreEqual("18", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "YY";
-                Assert.AreEqual("18", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "YYY";
-                Assert.AreEqual("2018", ws.Cells["A1"].Text);
-            }
-        }
-        [TestMethod]
-        public void ValudateDateTextWithAMPM()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var ws = package.Workbook.Worksheets.Add("dateText");
-                ws.Cells["A1"].Value = new DateTime(2021, 7, 6, 9, 29, 0);
-                ws.Cells["A1"].Style.Numberformat.Format = "[$-0409]M/d/yyyy h:mm AM/PM";
-
-                Assert.AreEqual("7/6/2021 9:29 AM", ws.Cells["A1"].Text);
-            }
-        }
-
-        [TestMethod]
         public void CopyWorkSheetWithInsertInSharedFormula()
         {
             using (ExcelPackage package = new ExcelPackage())

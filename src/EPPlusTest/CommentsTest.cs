@@ -245,6 +245,22 @@ namespace EPPlusTest
                 Assert.AreEqual(comment1.Font.Color.Name, comment2.Font.Color.Name);
             }
         }
+        [TestMethod]
+        public void TestDeleteCellsWithComment()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add a sheet with comments
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Comments.Add(ws.Cells["B2"], "This is a comment.", "author");
+                Assert.AreEqual(1, ws.Comments.Count);
 
+                // Delete cells B1:B3 (including the comment in B2)
+                ws.Cells["B1:B3"].Delete(eShiftTypeDelete.Left);
+
+                // Check the comment is deleted
+                Assert.AreEqual(0, ws.Comments.Count);
+            }
+        }
     }
 }
