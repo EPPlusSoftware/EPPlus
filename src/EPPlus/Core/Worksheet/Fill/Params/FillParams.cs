@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
+    /// <summary>
+    /// Shared base class for <see cref="ExcelRangeBase"/> Fill-methods
+    /// </summary>
     public class FillParams
     {
         /// <summary>

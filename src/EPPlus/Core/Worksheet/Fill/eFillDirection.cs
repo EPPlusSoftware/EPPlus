@@ -13,7 +13,7 @@
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// The direction of the fill.
+    /// If the fill is performed Down/Up (Column) or Left/Right (Row).
     /// Also see <see cref="eFillStartPosition"/>
     /// </summary>
     public enum eFillDirection

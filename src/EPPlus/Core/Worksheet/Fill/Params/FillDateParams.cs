@@ -16,6 +16,9 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
+    /// <summary>
+    /// Parameters for the <see cref="ExcelRangeBase.FillDateTime(Action{FillDateParams})" /> method 
+    /// </summary>
     public class FillDateParams : FillParams
     {
         /// <summary>
@@ -34,7 +37,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         /// <summary>
         /// The date unit added per cell
         /// </summary>
-        public eDateUnit DateUnit { get; set; } = eDateUnit.Day;
+        public eDateTimeUnit DateUnit { get; set; } = eDateTimeUnit.Day;
         /// <summary>
         /// Only fill weekdays
         /// </summary>

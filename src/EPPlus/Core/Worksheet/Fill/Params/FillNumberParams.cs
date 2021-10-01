@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
+    /// <summary>
+    /// Parameters for the <see cref="ExcelRangeBase.FillNumber(System.Action{FillNumberParams})" /> method 
+    /// </summary>
     public class FillNumberParams : FillParams
     {
         /// <summary>

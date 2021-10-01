@@ -102,10 +102,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
             {
                 switch (options.DateUnit)
                 {
-                    case eDateUnit.Year:
+                    case eDateTimeUnit.Year:
                         value = value.Value.AddYears(options.StepValue);
                         break;
-                    case eDateUnit.Month:
+                    case eDateTimeUnit.Month:
                         if (isLastDayOfMonth)
                         {
                             value = value.Value.AddMonths(options.StepValue + 1);
@@ -116,22 +116,22 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                             value = value.Value.AddMonths(options.StepValue);
                         }
                         break;
-                    case eDateUnit.Week:
+                    case eDateTimeUnit.Week:
                         value = value.Value.AddDays(options.StepValue * 7);
                         break;
-                    case eDateUnit.Day:
+                    case eDateTimeUnit.Day:
                         value = value.Value.AddDays(options.StepValue);
                         break;
-                    case eDateUnit.Hour:
+                    case eDateTimeUnit.Hour:
                         value = value.Value.AddHours(options.StepValue);
                         break;
-                    case eDateUnit.Minute:
+                    case eDateTimeUnit.Minute:
                         value = value.Value.AddMinutes(options.StepValue);
                         break;
-                    case eDateUnit.Second:
+                    case eDateTimeUnit.Second:
                         value = value.Value.AddSeconds(options.StepValue);
                         break;
-                    case eDateUnit.Ticks:
+                    case eDateTimeUnit.Ticks:
                         value = value.Value.AddTicks(options.StepValue);
                         break;
                 }
