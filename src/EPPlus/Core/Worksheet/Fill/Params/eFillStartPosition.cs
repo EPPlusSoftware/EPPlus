@@ -10,27 +10,21 @@
  *************************************************************************************************
     08/11/2021         EPPlus Software AB       EPPlus 5.8
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.Worksheet.Fill
+namespace OfficeOpenXml
 {
-    public class FillNumberParams : FillParams
+    /// <summary>
+    /// If the fill starts from the top-left cell or the bottom-right cell.
+    /// Also see <seealso cref="eFillDirection"/>
+    /// </summary>
+    public enum eFillStartPosition
     {
         /// <summary>
-        /// The start value. If null, the first value in the row/column is used. 
-        /// <seealso cref="FillParams.Direction"/>
+        /// The fill starts from the top-left cell and fills to the left and down depending on the <see cref="eFillDirection"/>
         /// </summary>
-        public double? StartValue { get; set; } = null;
+        TopLeft,
         /// <summary>
-        /// When this value is exceeded the fill stops
+        /// The fill starts from the bottom-right cell and fills to the right and up depending on the <see cref="eFillDirection"/>
         /// </summary>
-        public double? EndValue { get; set; } = null;
-        /// <summary>
-        /// The value to use in the calculation for each step. 
-        /// <seealso cref="CalculationMethod"/>
-        /// </summary>
-        public double StepValue { get; set; } = 1;
-        /// <summary>
-        /// The calculation method to use 
-        /// </summary>
-        public eCalculationMethod CalculationMethod { get; set; } = eCalculationMethod.Add;
+        BottomRight
     }
 }

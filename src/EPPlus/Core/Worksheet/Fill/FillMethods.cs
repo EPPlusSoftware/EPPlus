@@ -19,132 +19,147 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
 {
     internal class FillMethods
     {
-        internal static void FillNumbers(ExcelWorksheet worksheet, int fromRow, int toRow, int fromCol, int toCol, FillNumberParams options)
+        internal static void FillNumber(ExcelWorksheet worksheet, int fromRow, int toRow, int fromCol, int toCol, FillNumberParams options)
         {
             object startValue;
+            GetStartCell(options, fromRow, toRow, fromCol, toCol, out int startRow, out int startCol);
             if (options.StartValue.HasValue)
             {
                 startValue = options.StartValue;
-                worksheet.SetValue(fromRow, fromCol, startValue);
+                worksheet.SetValue(startRow, startCol, startValue);
             }
             else
             {
-                startValue = worksheet.GetValue(fromRow, fromCol);
+                startValue = worksheet.GetValue(startRow, startCol);
             }
-            if (options.Direction == eFillDirection.Column) fromRow++; else fromCol++;
             var value = ConvertUtil.GetValueDouble(startValue, true, true);
-            for (int c = fromCol; c <= toCol; c++)
+
+            SkipFirstCell(ref fromRow, ref fromCol, ref toRow, ref toCol, options);
+
+            int r = startRow, c = startCol;
+            while (GetNextCell(options, fromRow, toRow, fromCol, toCol, ref r, ref c))
             {
-                for (int r = fromRow; r <= toRow; r++)
+                FillCellNumber(worksheet, options, ref value, r, c);
+            }
+        }
+
+        private static void FillCellNumber(ExcelWorksheet worksheet, FillNumberParams options, ref double value, int r, int c)
+        {
+            if (double.IsNaN(value))
+            {
+                worksheet.SetValue(r, c, null);
+            }
+            else
+            {
+                if (options.CalculationMethod == eCalculationMethod.Add)
                 {
-                    if (double.IsNaN(value))
-                    {
-                        worksheet.SetValue(r, c, null);
-                    }
-                    else
-                    {
-                        if (options.CalculationMethod == eCalculationMethod.Add)
-                        {
-                            value += options.StepValue;
-                        }
-                        else
-                        {
-                            value *= options.StepValue;
-                        }
-                        if (options.EndValue.HasValue && options.EndValue.Value < value)
-                        {
-                            worksheet.SetValue(r, c, null);
-                        }
-                        else
-                        {
-                            worksheet.SetValue(r, c, value);
-                        }
-                    }
+                    value += options.StepValue;
+                }
+                else
+                {
+                    value *= options.StepValue;
+                }
+                if (options.EndValue.HasValue && options.EndValue.Value < value)
+                {
+                    worksheet.SetValue(r, c, null);
+                }
+                else
+                {
+                    worksheet.SetValue(r, c, value);
                 }
             }
         }
-        internal static void FillDates(ExcelWorksheet worksheet, int fromRow, int toRow, int fromCol, int toCol, FillDateParams options)
+
+        internal static void FillDateTime(ExcelWorksheet worksheet, int fromRow, int toRow, int fromCol, int toCol, FillDateParams options)
         {
             object startValue;
+            GetStartCell(options, fromRow, toRow, fromCol, toCol, out int startRow, out int startCol);
             if (options.StartValue.HasValue)
             {
                 startValue = options.StartValue;
-                worksheet.SetValue(fromRow, fromCol, startValue);
+                worksheet.SetValue(startRow, startCol, startValue);
             }
             else
             {
-                startValue = worksheet.GetValue(fromRow, fromCol);
+                startValue = worksheet.GetValue(startRow, startCol);
             }
-            if (options.Direction == eFillDirection.Column) fromRow++; else fromCol++;
+            //if (options.Direction == eFillDirection.Column) fromRow++; else fromCol++;
+            SkipFirstCell(ref fromRow, ref fromCol, ref toRow, ref toCol, options);
+
             var value = ConvertUtil.GetValueDate(startValue);
             var isLastDayOfMonth = value.HasValue && value.Value.Month != value.Value.AddDays(1).Month;
-            for (int c = fromCol; c <= toCol; c++)
-            {
-                for (int r = fromRow; r <= toRow; r++)
-                {
-                    if (value.HasValue)
-                    {
-                        switch (options.DateUnit)
-                        {
-                            case eDateUnit.Year:
-                                value = value.Value.AddYears(options.StepValue);
-                                break;
-                            case eDateUnit.Month:
-                                if (isLastDayOfMonth)
-                                {
-                                    value = value.Value.AddMonths(options.StepValue + 1);
-                                    value = value.Value.AddDays(-value.Value.Day);
-                                }
-                                else
-                                {
-                                    value = value.Value.AddMonths(options.StepValue);
-                                }
-                                break;
-                            case eDateUnit.Week:
-                                value = value.Value.AddDays(options.StepValue * 7);
-                                break;
-                            case eDateUnit.Day:
-                                value = value.Value.AddDays(options.StepValue);
-                                break;
-                            case eDateUnit.Hour:
-                                value = value.Value.AddHours(options.StepValue);
-                                break;
-                            case eDateUnit.Minute:
-                                value = value.Value.AddMinutes(options.StepValue);
-                                break;
-                            case eDateUnit.Second:
-                                value = value.Value.AddSeconds(options.StepValue);
-                                break;
-                            case eDateUnit.Ticks:
-                                value = value.Value.AddTicks(options.StepValue);
-                                break;
-                        }
-                        DateTime d;
-                        if (options.WeekdaysOnly)
-                        {
-                            d = GetWeekday(value.Value, options.HolidayCalendar);
-                        }
-                        else
-                        {
-                            d = value.Value;
-                        }
 
-                        if (options.EndValue==null || value <= options.EndValue)
-                        {
-                            worksheet.SetValue(r, c, d);
-                        }
-                        else
-                        {
-                            worksheet.SetValue(r, c, null);
-                        }
-                    }
-                    else
-                    {
-                        worksheet.SetValue(r, c, null);
-                    }
-                }
+            int r = startRow, c = startCol;
+            while (GetNextCell(options, fromRow, toRow, fromCol, toCol, ref r, ref c))
+            {
+                FillCellDate(worksheet, options, ref value, isLastDayOfMonth, c, r);
             }
         }
+
+        private static void FillCellDate(ExcelWorksheet worksheet, FillDateParams options, ref DateTime? value, bool isLastDayOfMonth, int c, int r)
+        {
+            if (value.HasValue)
+            {
+                switch (options.DateUnit)
+                {
+                    case eDateUnit.Year:
+                        value = value.Value.AddYears(options.StepValue);
+                        break;
+                    case eDateUnit.Month:
+                        if (isLastDayOfMonth)
+                        {
+                            value = value.Value.AddMonths(options.StepValue + 1);
+                            value = value.Value.AddDays(-value.Value.Day);
+                        }
+                        else
+                        {
+                            value = value.Value.AddMonths(options.StepValue);
+                        }
+                        break;
+                    case eDateUnit.Week:
+                        value = value.Value.AddDays(options.StepValue * 7);
+                        break;
+                    case eDateUnit.Day:
+                        value = value.Value.AddDays(options.StepValue);
+                        break;
+                    case eDateUnit.Hour:
+                        value = value.Value.AddHours(options.StepValue);
+                        break;
+                    case eDateUnit.Minute:
+                        value = value.Value.AddMinutes(options.StepValue);
+                        break;
+                    case eDateUnit.Second:
+                        value = value.Value.AddSeconds(options.StepValue);
+                        break;
+                    case eDateUnit.Ticks:
+                        value = value.Value.AddTicks(options.StepValue);
+                        break;
+                }
+                DateTime d;
+                if (options.WeekdaysOnly)
+                {
+                    d = GetWeekday(value.Value, options.HolidayCalendar);
+                }
+                else
+                {
+                    d = value.Value;
+                }
+
+                if (options.EndValue == null || value <= options.EndValue)
+                {
+                    worksheet.SetValue(r, c, d);
+                }
+                else
+                {
+                    worksheet.SetValue(r, c, null);
+                }
+            }
+            else
+            {
+                worksheet.SetValue(r, c, null);
+            }
+        }
+
         internal static void FillList<T>(ExcelWorksheet worksheet, int fromRow, int toRow, int fromCol, int toCol,IEnumerable<T> enumList, FillListParams options)
         {
             var list = enumList.ToList();
@@ -160,19 +175,83 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                 throw new InvalidOperationException("StartIndex must be within the list");
             }
 
+            GetStartCell(options, fromRow, toRow, fromCol, toCol, out int startRow, out int startCol);
             var ix = options.StartIndex;
-            worksheet.SetValue(fromRow, fromCol, list[ix++]);
-            if (options.Direction == eFillDirection.Column) fromRow++; else fromCol++;
+            worksheet.SetValue(startRow, startCol, list[ix++]);
+            SkipFirstCell(ref fromRow, ref fromCol, ref toRow, ref toCol, options);
 
-            for (int c = fromCol; c <= toCol; c++)
+            int r = startRow, c = startCol;
+            while (GetNextCell(options, fromRow, toRow, fromCol, toCol, ref r, ref c))
             {
-                for (int r = fromRow; r <= toRow; r++)
-                {
-                    if (ix == list.Count) ix = 0;
+                if (ix == list.Count) ix = 0;
                     worksheet.SetValue(r, c, list[ix++]);
-                }
             }
         }
+        private static bool GetNextCell(FillParams options, int fromRow, int toRow, int fromCol, int toCol, ref int r, ref int c)
+        {
+            switch (options.StartPosition)
+            {
+                case eFillStartPosition.TopLeft:
+                    c++;
+                    if (c > toCol)
+                    {
+                        r++;
+                        if (r > toRow)
+                        {
+                            return false;
+                        }
+                        c = fromCol;
+                    }
+                    break;
+                default:
+                    c--;
+                    if (c < fromCol)
+                    {
+                        r--;
+                        if (r < fromRow)
+                        {
+                            return false;
+                        }
+                        c = toCol;
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        private static void GetStartCell(FillParams options, int fromRow, int toRow, int fromCol, int toCol, out int startRow, out int startCol)
+        {
+            switch (options.StartPosition)
+            {
+                case eFillStartPosition.TopLeft:
+                    startRow = fromRow;
+                    startCol = fromCol;
+                    break;
+                default:
+                    startRow = toRow;
+                    startCol = toCol;
+                    break;
+            }
+        }
+        private static void SkipFirstCell(ref int fromRow, ref int fromCol, ref int toRow, ref int toCol, FillParams options)
+        {
+            if (options.StartPosition == eFillStartPosition.TopLeft)
+            {
+                if (options.Direction == eFillDirection.Column)
+                    fromRow++;
+                else
+                    fromCol++;
+            }
+            else
+            {
+                if (options.Direction == eFillDirection.Column)
+                    toRow--;
+                else
+                    toCol--;
+            }
+
+        }
+
         static DateTime GetWeekday(DateTime value, HashSet<DateTime> holyDays)
         {
             while (value.DayOfWeek == DayOfWeek.Saturday || value.DayOfWeek == DayOfWeek.Sunday || holyDays.Contains(value))

@@ -15,6 +15,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
     public class FillParams
     {
         /// <summary>
+        /// If the fill starts from the top-left cell or the bottom right cell.
+        /// </summary>
+        public eFillStartPosition StartPosition { get; set; } = eFillStartPosition.TopLeft;
+        /// <summary>
         /// The direction of the fill
         /// </summary>
         public eFillDirection Direction { get; set; } = eFillDirection.Column;
