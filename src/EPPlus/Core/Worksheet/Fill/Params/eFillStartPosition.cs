@@ -10,24 +10,21 @@
  *************************************************************************************************
     08/11/2021         EPPlus Software AB       EPPlus 5.8
  *************************************************************************************************/
-namespace OfficeOpenXml.Core.Worksheet.Fill
+namespace OfficeOpenXml
 {
     /// <summary>
-    /// Shared base class for <see cref="ExcelRangeBase"/> Fill-methods
+    /// If the fill starts from the top-left cell or the bottom-right cell.
+    /// Also see <seealso cref="eFillDirection"/>
     /// </summary>
-    public class FillParams
+    public enum eFillStartPosition
     {
         /// <summary>
-        /// If the fill starts from the top-left cell or the bottom right cell.
+        /// The fill starts from the top-left cell and fills to the left and down depending on the <see cref="eFillDirection"/>
         /// </summary>
-        public eFillStartPosition StartPosition { get; set; } = eFillStartPosition.TopLeft;
+        TopLeft,
         /// <summary>
-        /// The direction of the fill
+        /// The fill starts from the bottom-right cell and fills to the right and up depending on the <see cref="eFillDirection"/>
         /// </summary>
-        public eFillDirection Direction { get; set; } = eFillDirection.Column;
-        /// <summary>
-        /// The number format to be appled to the range.
-        /// </summary>
-        public string NumberFormat { get; set; } = null;
+        BottomRight
     }
 }

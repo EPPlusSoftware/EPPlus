@@ -12,11 +12,14 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
+    /// <summary>
+    /// Parameters for the <see cref="ExcelRangeBase.FillNumber(System.Action{FillNumberParams})" /> method 
+    /// </summary>
     public class FillNumberParams : FillParams
     {
         /// <summary>
         /// The start value. If null, the first value in the row/column is used. 
-        /// <seealso cref="Direction"/>
+        /// <seealso cref="FillParams.Direction"/>
         /// </summary>
         public double? StartValue { get; set; } = null;
         /// <summary>

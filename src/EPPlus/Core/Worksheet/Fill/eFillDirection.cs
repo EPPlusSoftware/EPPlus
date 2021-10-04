@@ -12,9 +12,19 @@
  *************************************************************************************************/
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// If the fill is performed Down/Up (Column) or Left/Right (Row).
+    /// Also see <see cref="eFillStartPosition"/>
+    /// </summary>
     public enum eFillDirection
     {
+        /// <summary>
+        /// The fill is performed row-wise
+        /// </summary>
         Row,
+        /// <summary>
+        /// The fill is performed column-wise
+        /// </summary>
         Column
     }
 }

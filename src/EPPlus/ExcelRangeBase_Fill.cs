@@ -43,16 +43,36 @@ namespace OfficeOpenXml
 
             if (o.Direction == eFillDirection.Column)
             {
-                for (int c = _fromCol; c <= _toCol; c++)
+                if (o.StartPosition == eFillStartPosition.TopLeft)
                 {
-                    FillMethods.FillNumbers(_worksheet, _fromRow, _toRow, c, c, o);
+                    for (int c = _fromCol; c <= _toCol; c++)
+                    {
+                        FillMethods.FillNumber(_worksheet, _fromRow, _toRow, c, c, o);
+                    }
+                }
+                else
+                {
+                    for (int c = _toCol; c >= _fromCol; c--)
+                    {
+                        FillMethods.FillNumber(_worksheet, _fromRow, _toRow, c, c, o);
+                    }
                 }
             }
             else
             {
-                for (int r = _fromRow; r <= _toRow; r++)
+                if (o.StartPosition == eFillStartPosition.TopLeft)
                 {
-                    FillMethods.FillNumbers(_worksheet, r, r, _fromCol, _toCol, o);
+                    for (int r = _fromRow; r <= _toRow; r++)
+                    {
+                        FillMethods.FillNumber(_worksheet, r, r, _fromCol, _toCol, o);
+                    }
+                }
+                else
+                {
+                    for (int r = _toRow; r >= _fromRow; r--)
+                    {
+                        FillMethods.FillNumber(_worksheet, r, r, _fromCol, _toCol, o);
+                    }
                 }
             }
 
@@ -61,7 +81,8 @@ namespace OfficeOpenXml
                 Style.Numberformat.Format = o.NumberFormat;
             }
         }
-        #endregion
+         #endregion
+        #region FillDateTime
         /// <summary>
         /// Fills the range by adding 1 day to each cell starting from the value in the top left cell by column.
         /// </summary>
@@ -87,16 +108,36 @@ namespace OfficeOpenXml
 
             if (o.Direction == eFillDirection.Column)
             {
-                for (int c = _fromCol; c <= _toCol; c++)
+                if (o.StartPosition == eFillStartPosition.TopLeft)
                 {
-                    FillMethods.FillDates(_worksheet, _fromRow, _toRow, c, c, o);
+                    for (int c = _fromCol; c <= _toCol; c++)
+                    {
+                        FillMethods.FillDateTime(_worksheet, _fromRow, _toRow, c, c, o);
+                    }
+                }
+                else
+                {
+                    for (int c = _toCol; c >= _fromCol; c--)
+                    {
+                        FillMethods.FillDateTime(_worksheet, _fromRow, _toRow, c, c, o);
+                    }
                 }
             }
             else
             {
-                for (int r = _fromRow; r <= _toRow; r++)
+                if (o.StartPosition == eFillStartPosition.TopLeft)
                 {
-                    FillMethods.FillDates(_worksheet, r, r, _fromCol, _toCol, o);
+                    for (int r = _fromRow; r <= _toRow; r++)
+                    {
+                        FillMethods.FillDateTime(_worksheet, r, r, _fromCol, _toCol, o);
+                    }
+                }
+                else
+                {
+                    for (int r = _toRow; r >= _fromRow; r--)
+                    {
+                        FillMethods.FillDateTime(_worksheet, r, r, _fromCol, _toCol, o);
+                    }
                 }
             }
             
@@ -105,6 +146,8 @@ namespace OfficeOpenXml
                 Style.Numberformat.Format = o.NumberFormat;
             }
         }
+        #endregion
+        #region FillList
         /// <summary>
         /// Fills the range columnwise using the values in the list. 
         /// </summary>
@@ -127,16 +170,36 @@ namespace OfficeOpenXml
 
             if (o.Direction == eFillDirection.Column)
             {
-                for (int c = _fromCol; c <= _toCol; c++)
+                if (o.StartPosition == eFillStartPosition.TopLeft)
                 {
-                    FillMethods.FillList(_worksheet, _fromRow, _toRow, c, c, list, o);
+                    for (int c = _fromCol; c <= _toCol; c++)
+                    {
+                        FillMethods.FillList(_worksheet, _fromRow, _toRow, c, c, list, o);
+                    }
+                }
+                else
+                {
+                    for (int c = _toCol; c >= _fromCol; c--)
+                    {
+                        FillMethods.FillList(_worksheet, _fromRow, _toRow, c, c, list, o);
+                    }
                 }
             }
             else
             {
-                for (int r = _fromRow; r <= _toRow; r++)
+                if (o.StartPosition == eFillStartPosition.TopLeft)
                 {
-                    FillMethods.FillList(_worksheet, r, r, _fromCol, _toCol, list, o);
+                    for (int r = _fromRow; r <= _toRow; r++)
+                    {
+                        FillMethods.FillList(_worksheet, r, r, _fromCol, _toCol, list, o);
+                    }
+                }
+                else
+                {
+                    for (int r = _toRow; r >= _fromRow; r--)
+                    {
+                        FillMethods.FillList(_worksheet, r, r, _fromCol, _toCol, list, o);
+                    }
                 }
             }
 
@@ -145,10 +208,6 @@ namespace OfficeOpenXml
                 Style.Numberformat.Format = o.NumberFormat;
             }
         }
-        //TODO implement.
-        //public void FillStyles(eFillDirection direction)
-        //{
-            
-        //}
+        #endregion
     }
 }
