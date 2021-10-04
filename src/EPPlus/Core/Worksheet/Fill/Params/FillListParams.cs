@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Core.Worksheet.Fill
 {
+    /// <summary>
+    /// Parameters for the <see cref="ExcelRangeBase.FillList{T}(System.Collections.Generic.IEnumerable{T}, System.Action{FillListParams})" /> method 
+    /// </summary>
     public class FillListParams : FillParams
     {
         /// <summary>
