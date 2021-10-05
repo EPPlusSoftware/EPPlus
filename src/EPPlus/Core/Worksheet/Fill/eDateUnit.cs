@@ -14,17 +14,41 @@
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// The date unit for the fill
+    /// The date units for date fill operations
     /// </summary>
-    public enum eDateUnit
+    public enum eDateTimeUnit
     {
+        /// <summary>
+        /// Adds a Year
+        /// </summary>
         Year,
+        /// <summary>
+        /// Adds a Month
+        /// </summary>
         Month,
+        /// <summary>
+        /// Adds 7 Days
+        /// </summary>
         Week,
+        /// <summary>
+        /// Adds a Day
+        /// </summary>
         Day,
+        /// <summary>
+        /// Adds an Hour
+        /// </summary>
         Hour,
+        /// <summary>
+        /// Adds a Minute
+        /// </summary>
         Minute,
+        /// <summary>
+        /// Adds a Second
+        /// </summary>
         Second,
+        /// <summary>
+        /// Adds ticks
+        /// </summary>
         Ticks
     }
 }

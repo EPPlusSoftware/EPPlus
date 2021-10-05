@@ -12,9 +12,18 @@
  *************************************************************************************************/
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// Calculation Method for number fill operations
+    /// </summary>
     public enum eCalculationMethod
     {
+        /// <summary>
+        /// Add the value to the next fill
+        /// </summary>
         Add,
+        /// <summary>
+        /// Multiply the value to the next fill
+        /// </summary>
         Multiply
     }
 }
