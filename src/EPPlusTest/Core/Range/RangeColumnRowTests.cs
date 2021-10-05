@@ -53,18 +53,6 @@ namespace EPPlusTest.Core.Range
             Assert.IsFalse(ws.Cells["H1"].EntireColumn.Phonetic);
         }
 
-
-        [TestMethod]
-        public void Column_SetMerge()
-        {
-            var ws = _pck.Workbook.Worksheets.Add("Column_Merge");
-            ws.Cells["D1:G5"].EntireColumn.Merged = true;
-
-            Assert.IsFalse(ws.Cells["C1"].EntireColumn.Merged);
-            Assert.IsTrue(ws.Cells["D1"].EntireColumn.Merged);
-            Assert.IsTrue(ws.Cells["G1"].EntireColumn.Merged);
-            Assert.IsFalse(ws.Cells["H1"].EntireColumn.Merged);
-        }
         [TestMethod]
         public void Column_SetHidden()
         {
