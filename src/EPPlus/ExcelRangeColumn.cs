@@ -95,6 +95,9 @@ namespace OfficeOpenXml
                 return _toCol;
             }
         }
+        /// <summary>
+        /// If the column is collapsed in outline mode
+        /// </summary>
         public bool Collapsed 
         {
             get
@@ -106,6 +109,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<ExcelColumn, bool>((x, v) => { x.Collapsed = v; }), value);
             }
         }
+        /// <summary>
+        /// Outline level. Zero if no outline
+        /// </summary>
         public int OutlineLevel
         {
             get
@@ -117,7 +123,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<ExcelColumn, int>((x, v) => { x.OutlineLevel = v; }), value);
             }
         }
-
+        /// <summary>
+        /// True if the column should show phonetic
+        /// </summary>
         public bool Phonetic
         {
             get
@@ -129,6 +137,10 @@ namespace OfficeOpenXml
                 SetValue(new Action<ExcelColumn, bool>((x, v) => { x.Phonetic = v; }), value);
             }
         }
+        /// <summary>
+        /// Indicates that the column should resize when numbers are entered into the column to fit the size of the text.
+        /// This only applies to columns where the size has not been set.
+        /// </summary>
         public bool BestFit
         {
             get
@@ -141,6 +153,9 @@ namespace OfficeOpenXml
             }
         }
 
+        /// <summary>
+        /// If the column is hidden.
+        /// </summary>
         public bool Hidden
         {
             get
@@ -152,6 +167,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<ExcelColumn, bool>((x, v) => { x.Hidden = v; }), value);
             }
         }
+        /// <summary>
+        /// Row width of the column.
+        /// </summary>
         public double Width
         {
             get
@@ -176,20 +194,6 @@ namespace OfficeOpenXml
             set
             {
                 SetValue(new Action<ExcelColumn, bool>((x, v) => { x.PageBreak = v; }), value);
-            }
-        }
-        /// <summary>
-        /// Merges all cells of the column
-        /// </summary>
-        public bool Merged
-        {
-            get
-            {
-                return GetValue(new Func<ExcelColumn, bool>(x => x.Merged), false);
-            }
-            set
-            {
-                SetValue(new Action<ExcelColumn, bool>((x, v) => { x.Merged = v; }), value);
             }
         }
         #region ExcelColumn Style
@@ -236,7 +240,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<ExcelColumn, int>((x, v) => { x.StyleID = v; }), value);
             }
         }
-
+        /// <summary>
+        /// The current range when enumerating
+        /// </summary>
         public ExcelRangeColumn Current
         {
             get
@@ -244,7 +250,9 @@ namespace OfficeOpenXml
                 return new ExcelRangeColumn(_worksheet, enumCol, enumCol);
             }
         }
-
+        /// <summary>
+        /// The current range when enumerating
+        /// </summary>
         object IEnumerator.Current
         {
             get
@@ -254,16 +262,43 @@ namespace OfficeOpenXml
         }
         #endregion
 
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
+        /// </summary>
+        /// <remarks>
+        /// Cells containing formulas must be calculated before autofit is called.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
         public void AutoFit()
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns();
         }
 
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// </summary>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>
+        /// <param name="MinimumWidth">Minimum column width</param>
         public void AutoFit(double MinimumWidth)
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth);
         }
 
+        /// <summary>
+        /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
+        /// </summary>
+        /// <remarks>
+        /// This method will not work if you run in an environment that does not support GDI.
+        /// Cells containing formulas are ignored if no calculation is made.
+        /// Wrapped and merged cells are also ignored.
+        /// </remarks>        
+        /// <param name="MinimumWidth">Minimum column width</param>
+        /// <param name="MaximumWidth">Maximum column width</param>
         public void AutoFit(double MinimumWidth, double MaximumWidth)
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
@@ -339,6 +374,9 @@ namespace OfficeOpenXml
 
             }
         }
+        /// <summary>
+        /// Reference to the cell range of the column(s)
+        /// </summary>
         public ExcelRangeBase Range
         {
             get
@@ -346,17 +384,27 @@ namespace OfficeOpenXml
                 return new ExcelRangeBase(_worksheet, ExcelAddressBase.GetAddress(1, _fromCol, ExcelPackage.MaxRows, _toCol));
             }
         }
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
 
         public IEnumerator<ExcelRangeColumn> GetEnumerator()
         {
             return this;
         }
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this;
         }
 
+        /// <summary>
+        /// Iterate to the next row
+        /// </summary>
+        /// <returns>False if no more row exists</returns>
         public bool MoveNext()
         {
             if(_cs==null)
@@ -394,6 +442,9 @@ namespace OfficeOpenXml
         CellStoreValue _cs;
         int enumCol, enumColPos;
         ExcelColumn _currentCol;
+        /// <summary>
+        /// Reset the enumerator
+        /// </summary>
         public void Reset()
         {
             _currentCol = null;
@@ -434,7 +485,9 @@ namespace OfficeOpenXml
                 }
             }
         }
-
+        /// <summary>
+        /// Disposes this object
+        /// </summary>
         public void Dispose()
         {
             

@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Core.CellStore
     /// </summary>
     internal class CellStoreValue : CellStore<ExcelValue> 
     {
-        public CellStoreValue() :base()
+        public CellStoreValue() : base()
         {
 
         }

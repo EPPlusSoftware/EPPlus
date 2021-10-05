@@ -19,7 +19,7 @@ namespace OfficeOpenXml
         /// </summary>
         int OutlineLevel { get; set; }
         /// <summary>
-        /// Phonetic
+        /// True if the row should show phonetic
         /// </summary>
         bool Phonetic { get; set; }
         /// <summary>
@@ -30,6 +30,10 @@ namespace OfficeOpenXml
             get;
             set;
         }
+        /// <summary>
+        /// Row height in points if specified manually.
+        /// <seealso cref="CustomHeight"/>
+        /// </summary>
         double Height
         {
             get;
@@ -43,16 +47,8 @@ namespace OfficeOpenXml
             get;
             set;
         }
-        ///// <summary>
-        ///// Merges all cells of the column
-        ///// </summary>
-        //bool Merged
-        //{
-        //    get;
-        //    set;
-        //}
         /// <summary>
-        /// Merges all cells of the column
+        /// True if height is set manually
         /// </summary>
         bool CustomHeight
         {
@@ -60,6 +56,9 @@ namespace OfficeOpenXml
             set;
         }        
     }
+    /// <summary>
+    /// Represents a range of full rows
+    /// </summary>
     public class ExcelRangeRow : IExcelRow, IEnumerable<ExcelRangeRow>, IEnumerator<ExcelRangeRow>
     {
         ExcelWorksheet _worksheet;
@@ -70,6 +69,9 @@ namespace OfficeOpenXml
             _fromRow = fromRow;
             _toRow = toRow;
         }
+        /// <summary>
+        /// The first row in the collection
+        /// </summary>
         public int StartRow
         { 
             get
@@ -77,6 +79,9 @@ namespace OfficeOpenXml
                 return _fromRow;
             }
         }
+        /// <summary>
+        /// The last row in the collection
+        /// </summary>
         public int EndRow
         {
             get
@@ -84,6 +89,9 @@ namespace OfficeOpenXml
                 return _toRow;
             }
         }
+        /// <summary>
+        /// If the row is collapsed in outline mode
+        /// </summary>
         public bool Collapsed
         {
             get
@@ -95,6 +103,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<RowInternal, bool>((x, v) => { x.Collapsed = v; }), value);
             }
         }
+        /// <summary>
+        /// Outline level. Zero if no outline
+        /// </summary>
         public int OutlineLevel
         {
             get
@@ -107,6 +118,9 @@ namespace OfficeOpenXml
             }
         }
 
+        /// <summary>
+        /// True if the row should show phonetic
+        /// </summary>
         public bool Phonetic
         {
             get
@@ -118,6 +132,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<RowInternal, bool>((x, v) => { x.Phonetic = v; }), value);
             }
         }
+        /// <summary>
+        /// If the row is hidden.
+        /// </summary>
         public bool Hidden
         {
             get
@@ -129,6 +146,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<RowInternal, bool>((x, v) => { x.Hidden = v; }), value);
             }
         }
+        /// <summary>
+        /// Row height in points.
+        /// </summary>
         public double Height
         {
             get
@@ -140,6 +160,9 @@ namespace OfficeOpenXml
                 SetValue(new Action<RowInternal, double>((x, v) => { x.Height = v; }), value);
             }
         }
+        /// <summary>
+        /// True if the row height has been manually set
+        /// </summary>
         public bool CustomHeight
         {
             get
@@ -166,24 +189,10 @@ namespace OfficeOpenXml
                 SetValue(new Action<RowInternal, bool>((x, v) => { x.PageBreak = v; }), value);
             }
         }
-        ///// <summary>
-        ///// Merges all cells of the column
-        ///// </summary>
-        //public bool Merged
-        //{
-        //    get
-        //    {
-        //        return GetValue(new Func<RowInternal, bool>(x => x.), false);
-        //    }
-        //    set
-        //    {
-        //        SetValue(new Action<RowInternal, bool>((x, v) => { x.Merged = v; }), value);
-        //    }
-        //}
-        #region ExcelColumn Style
+        #region ExcelRow Style
         /// <summary>
-        /// The Style applied to the whole column(s). Only effects cells with no individual style set. 
-        /// Use Range object if you want to set specific styles.
+        /// The Style applied to the whole row(s). Only effects cells with no individual style set. 
+        /// Use the Range object if you want to set specific styles.
         /// </summary>
         public ExcelStyle Style
         {
@@ -194,7 +203,7 @@ namespace OfficeOpenXml
         }
         internal string _styleName = "";
         /// <summary>
-		/// Sets the style for the entire column using a style name.
+		/// Sets the style for the entire row using a style name.
 		/// </summary>
 		public string StyleName
         {
@@ -234,6 +243,9 @@ namespace OfficeOpenXml
                 }
             }
         }
+        /// <summary>
+        /// Reference to the cell range of the row(s)
+        /// </summary>
         public ExcelRangeBase Range
         {
             get
@@ -241,6 +253,9 @@ namespace OfficeOpenXml
                 return new ExcelRangeBase(_worksheet, ExcelAddressBase.GetAddress(_fromRow, 1, _toRow, ExcelPackage.MaxColumns));
             }
         }
+        /// <summary>
+        /// The current row object in the iteration
+        /// </summary>
         public ExcelRangeRow Current
         {
             get
@@ -249,6 +264,9 @@ namespace OfficeOpenXml
             }
         }
 
+        /// <summary>
+        /// The current row object in the iteration
+        /// </summary>
         object IEnumerator.Current
         {
             get
@@ -287,11 +305,17 @@ namespace OfficeOpenXml
             }
         }
 
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
         public IEnumerator<ExcelRangeRow> GetEnumerator()
         {
             return this;
         }
 
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this;
@@ -301,6 +325,10 @@ namespace OfficeOpenXml
         int enumRow = -1;
         int enumCol = -1;
         int minCol=-1;
+        /// <summary>
+        /// Iterate to the next row
+        /// </summary>
+        /// <returns>False if no more row exists</returns>
         public bool MoveNext()
         {
             if (minCol < 0)
@@ -312,13 +340,18 @@ namespace OfficeOpenXml
             return _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow,ExcelPackage.MaxColumns);
         }
 
+        /// <summary>
+        /// Reset the enumerator
+        /// </summary>
         public void Reset()
         {
             _cs = _worksheet._values;
             enumRow = _fromRow-1;
             minCol = 0;
         }
-
+        /// <summary>
+        /// Disposes this object
+        /// </summary>
         public void Dispose()
         {
         }

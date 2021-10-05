@@ -2216,7 +2216,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Iterate to the next cell
         /// </summary>
-        /// <returns></returns>
+        /// <returns>False if no more cells exists</returns>
         public bool MoveNext()
         {
             if (cellEnum == null)
