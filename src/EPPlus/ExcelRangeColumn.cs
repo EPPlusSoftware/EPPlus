@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// A column in a worksheet
+    /// </summary>
     interface IExcelColumn
     {
         /// <summary>
@@ -56,15 +59,10 @@ namespace OfficeOpenXml
             get;
             set;
         }
-        /// <summary>
-        /// Merges all cells of the column
-        /// </summary>
-        bool Merged
-        {
-            get;
-            set;
-        }
     }
+    /// <summary>
+    /// Represents a range of columns
+    /// </summary>
     public class ExcelRangeColumn : IExcelColumn, IEnumerable<ExcelRangeColumn>, IEnumerator<ExcelRangeColumn>
     {
         ExcelWorksheet _worksheet;

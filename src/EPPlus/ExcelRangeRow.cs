@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// A row in a worksheet
+    /// </summary>
     interface IExcelRow
     {
         /// <summary>
@@ -57,7 +60,7 @@ namespace OfficeOpenXml
         }        
     }
     /// <summary>
-    /// Represents a range of full rows
+    /// Represents a range of rows
     /// </summary>
     public class ExcelRangeRow : IExcelRow, IEnumerable<ExcelRangeRow>, IEnumerator<ExcelRangeRow>
     {

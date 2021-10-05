@@ -2416,6 +2416,10 @@ namespace OfficeOpenXml
             return null;
         }
         ExcelRangeColumn _entireColumn = null;
+        /// <summary>
+        /// A reference to the column properties for column(s= referenced by this range.
+        /// If multiple ranges are addressed (e.g a1:a2,c1:c3), only the first address is used.
+        /// </summary>
         public ExcelRangeColumn EntireColumn
         {
             get
@@ -2428,6 +2432,10 @@ namespace OfficeOpenXml
             }
         }
         ExcelRangeRow _entireRow = null;
+        /// <summary>
+        /// A reference to the row properties for row(s) referenced by this range.
+        /// If multiple ranges are addressed (e.g a1:a2,c1:c3), only the first address is used.
+        /// </summary>
         public ExcelRangeRow EntireRow
         {
             get
