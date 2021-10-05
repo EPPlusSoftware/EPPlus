@@ -8,25 +8,26 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  08/286/2021         EPPlus Software AB       EPPlus 5.7.5
+    08/11/2021         EPPlus Software AB       EPPlus 5.8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml.Core.Worksheet.Fill
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
-    public class EpplusNestedTableColumnAttribute : Attribute
+    /// <summary>
+    /// Shared base class for <see cref="ExcelRangeBase"/> Fill-methods
+    /// </summary>
+    public class FillParams
     {
         /// <summary>
-        /// Order of the columns value, default value is 0
+        /// If the fill starts from the top-left cell or the bottom right cell.
         /// </summary>
-        public int Order
-        {
-            get;
-            set;
-        }
+        public eFillStartPosition StartPosition { get; set; } = eFillStartPosition.TopLeft;
+        /// <summary>
+        /// The direction of the fill
+        /// </summary>
+        public eFillDirection Direction { get; set; } = eFillDirection.Column;
+        /// <summary>
+        /// The number format to be appled to the range.
+        /// </summary>
+        public string NumberFormat { get; set; } = null;
     }
 }

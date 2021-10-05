@@ -8,25 +8,47 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  08/286/2021         EPPlus Software AB       EPPlus 5.7.5
+    08/11/2021         EPPlus Software AB       EPPlus 5.8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
-    public class EpplusNestedTableColumnAttribute : Attribute
+    /// <summary>
+    /// The date units for date fill operations
+    /// </summary>
+    public enum eDateTimeUnit
     {
         /// <summary>
-        /// Order of the columns value, default value is 0
+        /// Adds a Year
         /// </summary>
-        public int Order
-        {
-            get;
-            set;
-        }
+        Year,
+        /// <summary>
+        /// Adds a Month
+        /// </summary>
+        Month,
+        /// <summary>
+        /// Adds 7 Days
+        /// </summary>
+        Week,
+        /// <summary>
+        /// Adds a Day
+        /// </summary>
+        Day,
+        /// <summary>
+        /// Adds an Hour
+        /// </summary>
+        Hour,
+        /// <summary>
+        /// Adds a Minute
+        /// </summary>
+        Minute,
+        /// <summary>
+        /// Adds a Second
+        /// </summary>
+        Second,
+        /// <summary>
+        /// Adds ticks
+        /// </summary>
+        Ticks
     }
 }

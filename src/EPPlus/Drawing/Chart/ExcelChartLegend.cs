@@ -11,8 +11,11 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -21,7 +24,7 @@ using OfficeOpenXml.Style;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
-    /// A chart ledger
+    /// A chart legend
     /// </summary>
     public class ExcelChartLegend : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
@@ -43,7 +46,25 @@ namespace OfficeOpenXml.Drawing.Chart
                 OVERLAY_PATH = "c:overlay/@val";
             }
             AddSchemaNodeOrder(new string[] { "legendPos","legendEntry", "layout", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
+            LoadDeletedLegends();
        }
+
+        internal XmlElement GetOrCreateEntry()
+        {
+            return (XmlElement)CreateNode("c:legendEntry");
+        }
+
+        private void LoadDeletedLegends()
+        {
+            if (this is ExcelChartExLegend) return; //Legend entries are not applicable for extended charts.
+            
+            var nodes = GetNodes("c:legendEntry");
+            foreach(XmlNode n in nodes)
+            {
+                Entries.Add(new ExcelChartLegendEntry(NameSpaceManager, n, (ExcelChartStandard)_chart));
+            }
+        }
+
         const string POSITION_PATH = "c:legendPos/@val";
         /// <summary>
         /// The position of the Legend
@@ -144,7 +165,6 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_font == null)
                 {
-
                     _font = new ExcelTextFont(_chart,NameSpaceManager, TopNode, $"{_nsPrefix}:txPr/a:p/a:pPr/a:defRPr", SchemaNodeOrder);
                 }
                 return _font;
@@ -211,6 +231,13 @@ namespace OfficeOpenXml.Drawing.Chart
             TopNode = null;
         }
         /// <summary>
+        /// A list of individual settings for legend entries.
+        /// </summary>
+        internal EPPlusReadOnlyList<ExcelChartLegendEntry> Entries
+        {
+            get;
+        } = new EPPlusReadOnlyList<ExcelChartLegendEntry>();
+        /// <summary>
         /// Adds a legend to the chart
         /// </summary>
         public virtual void Add()
@@ -239,6 +266,18 @@ namespace OfficeOpenXml.Drawing.Chart
             Font.Bold = Font.Bold; //Must be set
 
             CreatespPrNode($"{_nsPrefix}:spPr");
+        }
+
+        internal int GetPreEntryIndex(int serieIndex)
+        {
+            for (int i=0;i < Entries.Count;i++)
+            {
+                if (Entries[i].Index > serieIndex)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

@@ -8,25 +8,23 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  08/286/2021         EPPlus Software AB       EPPlus 5.7.5
+    08/11/2021         EPPlus Software AB       EPPlus 5.8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
-    public class EpplusNestedTableColumnAttribute : Attribute
+    /// <summary>
+    /// If the fill starts from the top-left cell or the bottom-right cell.
+    /// Also see <seealso cref="eFillDirection"/>
+    /// </summary>
+    public enum eFillStartPosition
     {
         /// <summary>
-        /// Order of the columns value, default value is 0
+        /// The fill starts from the top-left cell and fills to the left and down depending on the <see cref="eFillDirection"/>
         /// </summary>
-        public int Order
-        {
-            get;
-            set;
-        }
+        TopLeft,
+        /// <summary>
+        /// The fill starts from the bottom-right cell and fills to the right and up depending on the <see cref="eFillDirection"/>
+        /// </summary>
+        BottomRight
     }
 }

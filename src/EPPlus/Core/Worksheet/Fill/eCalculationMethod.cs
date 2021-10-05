@@ -8,25 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  08/286/2021         EPPlus Software AB       EPPlus 5.7.5
+    08/11/2021         EPPlus Software AB       EPPlus 5.8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
-    public class EpplusNestedTableColumnAttribute : Attribute
+    /// <summary>
+    /// Calculation Method for number fill operations
+    /// </summary>
+    public enum eCalculationMethod
     {
         /// <summary>
-        /// Order of the columns value, default value is 0
+        /// Add the value to the next fill
         /// </summary>
-        public int Order
-        {
-            get;
-            set;
-        }
+        Add,
+        /// <summary>
+        /// Multiply the value to the next fill
+        /// </summary>
+        Multiply
     }
 }

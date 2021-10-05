@@ -28,6 +28,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
+            var arg = arguments.First();
+            if(arg.ExcelAddressReferenceId > 0)
+            {
+                var addressString = ArgToAddress(arguments, 0, context);
+                var address = new ExcelAddressBase(addressString);
+                var range = context.ExcelDataProvider.GetRange(address.WorkSheetName ?? context.Scopes.Current.Address.Worksheet, address.Address);
+                var firstCell = range.FirstOrDefault();
+                if(firstCell != null && firstCell.Value != null)
+                {
+                    return CreateResult(Convert.ToDouble(firstCell.Value.ToString().Length), DataType.Integer);
+                }
+                else
+                {
+                    return CreateResult(0d, DataType.Integer);
+                }
+            }
             var length = arguments.First().ValueFirst.ToString().Length;
             return CreateResult(Convert.ToDouble(length), DataType.Integer);
         }

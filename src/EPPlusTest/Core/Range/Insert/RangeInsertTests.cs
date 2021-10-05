@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
@@ -841,6 +842,42 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("C2:F5", any.Address.Address);
         }
+        [TestMethod]
+        public void CheckDataValidationFormulaAfterInsertingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("B5:G5");
+                dv.Formula.ExcelFormula = "=(B$4=0)";
+
+                // Insert a row before the column being referenced by the CF formula
+                ws.InsertRow(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=(B$5=0)", dv.Formula.ExcelFormula);
+            }
+        }
+        [TestMethod]
+        public void CheckDataValidationFormulaAfterInsertingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("E2:E7");
+                dv.Formula.ExcelFormula = "=($D2=0)";
+
+                // Insert a column before the column being referenced by the CF formula
+                ws.InsertColumn(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=($E2=0)", dv.Formula.ExcelFormula);
+            }
+        }
         #endregion
         #region Conditional formatting
         [TestMethod]
@@ -1080,6 +1117,42 @@ namespace EPPlusTest.Core.Range.Insert
 
             Assert.AreEqual("B2:F5,E3:F5", cf.Address.Address);
         }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterInsertingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["B5:G5"]);
+                cf.Formula = "=(B$4=0)";
+
+                // Insert a row before the column being referenced by the CF formula
+                ws.InsertRow(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                cf = ws.ConditionalFormatting[0].As.Expression;
+                Assert.AreEqual("=(B$5=0)", cf.Formula);
+            }
+        }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterInsertingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["E2:E7"]);
+                cf.Formula = "=($D2=0)";
+
+                // Insert a column before the column being referenced by the CF formula
+                ws.InsertColumn(2, 1);
+
+                // Check the conditional formatting formula has been updated
+                cf = ws.ConditionalFormatting[0].As.Expression;
+                Assert.AreEqual("=($E2=0)", cf.Formula);
+            }
+        }
 
         [TestMethod]
         public void ValidateCommentsShouldShiftRightOnInsertIntoRange()
@@ -1140,6 +1213,69 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(1, ws.ThreadedComments.Count);
             Assert.AreEqual("This cell contains a threaded comment.", ws.Cells[commentAddress].GetValue<string>());
             Assert.AreEqual(commentAddress, ws.ThreadedComments[0].CellAddress.Address);
+        }
+        [TestMethod]
+        public void ValidateTableCalculatedColumnFormulasAfterInsertRowAndInsertColumn()
+        {
+            //Test created from issue #484 - https://github.com/EPPlusSoftware/EPPlus/issues/484
+            var ws = _pck.Workbook.Worksheets.Add("InsertCalculateColumnFormula");
+
+            // Create some tables with calculated column formulas
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C15"], "Table3");
+            tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G15"], "Table4");
+            tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+            // Check the formulas have been set correctly
+            Assert.AreEqual("A12+B12", ws.Cells["C12"].Formula);
+            Assert.AreEqual("A12+F12", ws.Cells["G12"].Formula);
+            Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+            // Insert two rows above the tables
+            ws.InsertRow(5, 2);
+            // Insert one column from column D
+            ws.InsertColumn(4, 1);
+
+            // Check the formulas were updated
+            Assert.AreEqual("A14+B14", ws.Cells["C14"].Formula);
+            Assert.AreEqual("A14+G14", ws.Cells["H14"].Formula);
+            Assert.AreEqual("A15+G15", ws.Cells["H15"].Formula);
+            Assert.AreEqual("A14+B14", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A14+G14", tbl2.Columns[2].CalculatedColumnFormula);
+        }
+        [TestMethod]
+        public void ValidateTableCalculatedColumnFormulasAfterInsertRange()
+        {
+            //Test created from issue #484 - https://github.com/EPPlusSoftware/EPPlus/issues/484
+            var ws = _pck.Workbook.Worksheets.Add("InsertCalcColumnFormulaRange");
+
+            // Create some tables with calculated column formulas
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C15"], "Table1");
+            tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G15"], "Table2");
+            tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+            // Check the formulas have been set correctly
+            Assert.AreEqual("A12+B12", ws.Cells["C12"].Formula);
+            Assert.AreEqual("A12+F12", ws.Cells["G12"].Formula);
+            Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+            // Insert two rows above the tables
+            ws.Cells["A2:D2"].Insert(eShiftTypeInsert.Down);
+            // Insert one column from column D
+            //ws.InsertColumn(4, 1);
+            ws.Cells["A1:A20"].Insert(eShiftTypeInsert.Right);
+
+            // Check the formulas were updated
+            Assert.AreEqual("B14+C14", ws.Cells["D14"].Formula);
+            Assert.AreEqual("B13+G12", ws.Cells["H12"].Formula);
+            Assert.AreEqual("B14+G13", ws.Cells["H13"].Formula);
+            Assert.AreEqual("B13+C13", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("B13+G12", tbl2.Columns[2].CalculatedColumnFormula);
         }
 
     }

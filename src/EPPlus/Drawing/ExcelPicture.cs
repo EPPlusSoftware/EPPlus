@@ -189,8 +189,10 @@ namespace OfficeOpenXml.Drawing
         private void SetPosDefaults(Image image)
         {
             EditAs = eEditAs.OneCell;
-            SetPixelWidth(image.Width, image.HorizontalResolution);
-            SetPixelHeight(image.Height, image.VerticalResolution);
+            var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
+            var height = image.Height / (image.VerticalResolution / STANDARD_DPI);
+            SetPixelWidth(width);
+            SetPixelHeight(height);
             _width = GetPixelWidth();
             _height = GetPixelHeight();
         }
@@ -269,15 +271,15 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                _width = Image.Width;
-                _height = Image.Height;
+                _width = Image.Width / (Image.HorizontalResolution / STANDARD_DPI);
+                _height = Image.Height / (Image.VerticalResolution / STANDARD_DPI);
 
                 _width = (int)(_width * ((double)Percent / 100));
                 _height = (int)(_height * ((double)Percent / 100));
 
                 _doNotAdjust = true;
-                SetPixelWidth(_width, Image.HorizontalResolution);
-                SetPixelHeight(_height, Image.VerticalResolution);
+                SetPixelWidth(_width);
+                SetPixelHeight(_height);
                 _doNotAdjust = false;
             }
         }
@@ -381,10 +383,10 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         public override void Dispose()
         {
-            base.Dispose();
-            Hyperlink = null;
-            _image.Dispose();
-            _image = null;            
+            //base.Dispose();
+            //Hyperlink = null;
+            //_image.Dispose();
+            //_image = null;            
         }
     }
 }

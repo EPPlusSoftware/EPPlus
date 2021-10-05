@@ -8,25 +8,19 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  08/286/2021         EPPlus Software AB       EPPlus 5.7.5
+    08/11/2021         EPPlus Software AB       EPPlus 5.8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.Attributes
+namespace OfficeOpenXml.Core.Worksheet.Fill
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
-    public class EpplusNestedTableColumnAttribute : Attribute
+    /// <summary>
+    /// Parameters for the <see cref="ExcelRangeBase.FillList{T}(System.Collections.Generic.IEnumerable{T}, System.Action{FillListParams})" /> method 
+    /// </summary>
+    public class FillListParams : FillParams
     {
         /// <summary>
-        /// Order of the columns value, default value is 0
+        /// The start index in the list. 
+        /// <seealso cref="FillParams.Direction"/>
         /// </summary>
-        public int Order
-        {
-            get;
-            set;
-        }
+        public int StartIndex { get; set; } = 0;
     }
 }
