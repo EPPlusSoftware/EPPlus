@@ -2638,5 +2638,29 @@ namespace EPPlusTest
                 Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
             }
         }
+        [TestMethod]
+        public void CopyWorksheetWithBlipFillObjects()
+        {
+            using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
+            {
+                var ws = p1.Workbook.Worksheets[0];
+                var wsCopy = p1.Workbook.Worksheets.Add("Copy",p1.Workbook.Worksheets[0]);
+                SaveAndCleanup(p1);
+            }
+        }
+        [TestMethod]
+        public void CopyWorksheetWithBlipFillObjectsCopy()
+        {
+            using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
+            {
+                var ws = p1.Workbook.Worksheets[0];
+                using(var p2 = new ExcelPackage())
+                {
+                    var wsCopy = p2.Workbook.Worksheets.Add("Copy", p1.Workbook.Worksheets[0]);
+                    SaveWorkbook("BlipFillsNewPackage.xlsx", p2);
+                }
+            }
+        }
+
     }
 }   

@@ -212,6 +212,15 @@ namespace OfficeOpenXml.Packaging
             destStream.Flush();
             return destPart;
         }
+        internal ZipPackagePart CreatePart(Uri partUri, string contentType, string xml)
+        {
+            var destPart = CreatePart(partUri, contentType);
+            var destStream = new StreamWriter(destPart.GetStream(FileMode.Create, FileAccess.Write));
+            destStream.Write(xml);
+            destStream.Flush();
+            return destPart;
+        }
+
         internal ZipPackagePart GetPart(Uri partUri)
         {
             if (PartExists(partUri))

@@ -52,6 +52,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             UriChart = uriChart;
             Part = part;
             _chartNode = chartNode;
+            _chartXmlHelper = XmlHelperFactory.Create(drawings.NameSpaceManager, chartNode);
             ChartType = GetChartType(chartNode, drawings.NameSpaceManager);
             Init();
         }
@@ -393,7 +394,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _chartXmlHelper.ExistsNode("cx:chart/cx:title");
+                return _chartXmlHelper.ExistsNode("cx:title");
             }
         }
 
@@ -404,7 +405,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             get
             {
-                return _chartXmlHelper.ExistsNode("cx:chart/cx:legend");
+                return _chartXmlHelper.ExistsNode("cx:legend");
             }
         }
         /// <summary>
