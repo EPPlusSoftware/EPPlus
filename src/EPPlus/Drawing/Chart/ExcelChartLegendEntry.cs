@@ -16,6 +16,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// An individual serie item within the chart legend
+    /// </summary>
     public class ExcelChartLegendEntry : XmlHelper
     {
         protected ExcelChartStandard _chart;
@@ -37,12 +40,18 @@ namespace OfficeOpenXml.Drawing.Chart
             _chart = chart;
             SchemaNodeOrder = new string[] { "idx", "deleted", "txPr" };
         }
+        /// <summary>
+        /// The index of the item
+        /// </summary>
         public int Index
         {
             get;
             internal set;
 
         }
+        /// <summary>
+        /// If the items has been deleted or is visible.
+        /// </summary>
         public bool Deleted
         {
             get

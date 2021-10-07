@@ -7,7 +7,6 @@ namespace EPPlusTest.Core
     [TestClass]
     public class WorksheetColumnTest : TestBase
     {
-        static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {

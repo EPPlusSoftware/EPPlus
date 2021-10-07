@@ -118,10 +118,6 @@ namespace OfficeOpenXml.Utils
                         return nf.FormatFraction(d, f);
                     }
                 }
-                if (nf.Formats.Count > 2 && string.IsNullOrEmpty(f.NetFormat))
-                {
-                    return null;
-                }
             }
             else if (v is TimeSpan)
             {

@@ -11,8 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.ThreadedComments;
@@ -467,6 +469,27 @@ namespace OfficeOpenXml.Core
 
             c._commentHelper.TopNode.InnerXml = cell.Comment._commentHelper.TopNode.InnerXml;
             c.RichText = new Style.ExcelRichTextCollection(c._commentHelper.NameSpaceManager, c._commentHelper.GetNode("d:text"));
+            //Add relation to image used for filling the comment
+            if(cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Frame ||
+              cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Tile ||
+              cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Pattern)
+            {
+                //var relId = cell.Comment.Fill.PatternPictureSettings.RelId;
+                var img = cell.Comment.Fill.PatternPictureSettings.Image;                
+                c.Fill.PatternPictureSettings.Image = img;
+                //var container = (IPictureContainer)c.Fill.PatternPictureSettings;
+                //container.UriPic=  ((IPictureContainer)cell.Comment.Fill.PatternPictureSettings).UriPic;
+                
+                //if(destination._worksheet.VmlDrawings.Uri==null)
+                //{
+                //    var ws=destination._worksheet;
+                //    var id = ws.SheetId;
+                //    var pck = ws.Workbook._package.ZipPackage;
+                //    ws.VmlDrawings.Uri = XmlHelper.GetNewUri(pck, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
+                //    ws.VmlDrawings.Part = pck.CreatePart(ws.VmlDrawings.Uri, ContentTypes.contentTypeVml, _ws._package.Compression);
+                //}
+                //c.Fill.PatternPictureSettings.SaveImage();
+            }
         }
 
         private void ClearDestination()

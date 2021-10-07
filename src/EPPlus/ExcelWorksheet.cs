@@ -42,6 +42,7 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml
 {
@@ -2454,8 +2455,8 @@ namespace OfficeOpenXml
                         DeleteNode("d:drawing");
                     }
 
-                    SaveComments();
                     SaveVmlDrawings();
+                    SaveComments();
                     SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
@@ -2681,6 +2682,14 @@ namespace OfficeOpenXml
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
+
+                foreach(ExcelComment c in _comments)
+                {
+                    if (c._fill?._patternPictureSettings?._image != null)
+                    {
+                        c._fill._patternPictureSettings.SaveImage();
+                    }
+                }
             }
         }
 
@@ -2709,7 +2718,7 @@ namespace OfficeOpenXml
                     }
                     if (_vmlDrawings.Part == null)
                     {
-                        _vmlDrawings.Part = _package.ZipPackage.CreatePart(_vmlDrawings.Uri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _package.Compression);
+                        _vmlDrawings.Part = _package.ZipPackage.CreatePart(_vmlDrawings.Uri, ContentTypes.contentTypeVml, _package.Compression);
                         var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _vmlDrawings.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
                         SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
                         _vmlDrawings.RelId = rel.Id;
@@ -2718,13 +2727,15 @@ namespace OfficeOpenXml
                     //Save an related image to drawing fills
                     foreach (var d in _vmlDrawings)
                     {
-                        if(d is ExcelVmlDrawingControl c)
-                        if (c._fill?._patternPictureSettings?._image != null)
+                        if (d is ExcelVmlDrawingControl ctr)
                         {
-                            c._fill._patternPictureSettings.SaveImage();
+                            if (ctr._fill?._patternPictureSettings?._image != null)
+                            {
+                                ctr._fill._patternPictureSettings.SaveImage();
+                            }
                         }
                     }
-
+                    
                     _vmlDrawings.VmlDrawingXml.Save(_vmlDrawings.Part.GetStream(FileMode.Create));
                 }
             }

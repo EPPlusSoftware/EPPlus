@@ -2645,6 +2645,8 @@ namespace EPPlusTest
             {
                 var ws = p1.Workbook.Worksheets[0];
                 var wsCopy = p1.Workbook.Worksheets.Add("Copy",p1.Workbook.Worksheets[0]);
+
+                ws.Cells["G4"].Copy(wsCopy.Cells["F20"]);
                 SaveAndCleanup(p1);
             }
         }
@@ -2656,11 +2658,11 @@ namespace EPPlusTest
                 var ws = p1.Workbook.Worksheets[0];
                 using(var p2 = new ExcelPackage())
                 {
-                    var wsCopy = p2.Workbook.Worksheets.Add("Copy", p1.Workbook.Worksheets[0]);
+                    var wsCopy = p2.Workbook.Worksheets.Add("Copy");
+                    ws.Cells["G4"].Copy(wsCopy.Cells["F20"]);
                     SaveWorkbook("BlipFillsNewPackage.xlsx", p2);
                 }
             }
         }
-
     }
 }   
