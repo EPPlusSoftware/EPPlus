@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
             _xSeriesStrLitPath = string.Format("{0}/c:strLit", _xSeriesTopPath);
             _xSeriesNumLitPath = string.Format("{0}/c:numLit", _xSeriesTopPath);
-       }
+       }       
        internal override void SetID(string id)
        {
            SetXmlNodeString("c:idx/@val",id);
@@ -684,6 +684,47 @@ namespace OfficeOpenXml.Drawing.Chart
             else
             {
                 return chart.Series.Count;
+            }
+        }
+        ExcelChartLegendEntry _legendEntry = null;
+        /// <summary>
+        /// A reference to the item within the legend. Returns null if no legend exists.
+        /// </summary>
+        public ExcelChartLegendEntry LegendEntry
+        {
+            get
+            {
+                if(_chart.HasLegend && _legendEntry == null)
+                {
+                    var ix = GetXmlNodeInt("c:idx/@val");
+                    _legendEntry = _chart.Legend.Entries.Where(x => x.Index == ix).FirstOrDefault();
+                    if(_legendEntry==null)
+                    {
+                        var preIx = _chart.Legend.GetPreEntryIndex(ix);
+                        XmlNode legendEntryNode;
+                        if (preIx == -1)
+                        {
+                            legendEntryNode = _chart.Legend.CreateNode("c:legendEntry", false, true);
+                        }
+                        else
+                        {
+                            legendEntryNode = _chart.ChartXml.CreateElement("c", "legendEntry", ExcelPackage.schemaChart);
+                            var refNode = _chart.Legend.Entries[preIx].TopNode;
+                            refNode.ParentNode.InsertBefore(legendEntryNode, refNode);
+                        }
+
+                        _legendEntry = new ExcelChartLegendEntry(NameSpaceManager, legendEntryNode, (ExcelChartStandard)_chart, ix);
+                        if(preIx<0)
+                        {
+                            _chart.Legend.Entries._list.Add(_legendEntry);
+                        }
+                        else
+                        {
+                            _chart.Legend.Entries._list.Insert(preIx, _legendEntry);
+                        }
+                    }
+                }
+                return _legendEntry;
             }
         }
         #region "Xml init Functions"
