@@ -676,7 +676,7 @@ namespace OfficeOpenXml
 
         internal int GetColumnWidthPixels(int col, decimal mdw)
         {
-            return (int)decimal.Truncate(((256 * GetColumnWidth(col + 1) + decimal.Truncate(128 / mdw)) / 256) * mdw);
+            return (int)decimal.Truncate(((256 * GetColumnWidth(col) + decimal.Truncate(128 / mdw)) / 256) * mdw);
         }
 
         internal decimal GetColumnWidth(int col)

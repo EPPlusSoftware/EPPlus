@@ -625,7 +625,7 @@ namespace OfficeOpenXml.Drawing
                 decimal mdw = ws.Workbook.MaxFontWidth;
 
                 pix = 0;
-                for (int col = 0; col < From.Column; col++)
+                for (int col = 1; col <= From.Column; col++)
                 {
                     pix += ws.GetColumnWidthPixels(col, mdw);
                 }

@@ -129,6 +129,7 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesRow");
             ws.View.TopLeftCell = "A200";
+            ws.Row(200).Height = 30;
             ws.View.SplitPanes(2, 1);
             ws.View.ActiveCell = "A201";
             ws.View.Panes[0].ActiveCell = "A5";
@@ -140,7 +141,8 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesColumn");
             ws.View.TopLeftCell = "A200";
-            ws.View.SplitPanes(0, 2);
+            ws.Column(1).Width = 25;
+            ws.View.SplitPanes(1, 2);
             ws.View.ActiveCell = "A201";
             ws.View.Panes[0].ActiveCell = "A5";
         }

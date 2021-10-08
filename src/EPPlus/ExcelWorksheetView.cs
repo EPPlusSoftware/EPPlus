@@ -677,7 +677,7 @@ namespace OfficeOpenXml
         public void FreezePanes(int Row, int Column)
         {
             //TODO:fix this method to handle splits as well.
-            ValidateRows(Row, Column);
+            ValidateRowsColumns(Row, Column);
 
             if (Row == 1 && Column == 1)
             {
@@ -772,14 +772,14 @@ namespace OfficeOpenXml
             }
         }
 
-        private static void ValidateRows(int Row, int Column)
+        private static void ValidateRowsColumns(int Row, int Column)
         {
-            if (Row < 0 || Row > ExcelPackage.MaxRows - 1)
+            if (Row <= 0 || Row > ExcelPackage.MaxRows - 1)
             {
                 throw new ArgumentOutOfRangeException($"Row must not be negative, zero or exceed {ExcelPackage.MaxRows - 1}");
             }
 
-            if (Column < 0 || Column > ExcelPackage.MaxColumns - 1)
+            if (Column <= 0 || Column > ExcelPackage.MaxColumns - 1)
             {
                 throw new ArgumentOutOfRangeException($"Column must not be negative, zero or exceed {ExcelPackage.MaxColumns - 1}");
             }
@@ -799,13 +799,13 @@ namespace OfficeOpenXml
             Panes = LoadPanes();
         }
         /// <summary>
-        /// Split panes
+        /// Split panes at the coordinate of the supplied row and column related to the top left visible cell.
         /// </summary>
-        /// <param name="rowsTop"></param>
-        /// <param name="columnsLeft"></param>
+        /// <param name="rowsTop">Will split the panes at the coordinats of the beginning of this row. Changing row heights after calling this method will not effect the split coordinates</param>
+        /// <param name="columnsLeft">Will split the panes at the coordinats of the beginning of this column. Changing column widths after calling this method will not effect the split coordinates</param>
         public void SplitPanes(int rowsTop, int columnsLeft)
         {
-            ValidateRows(rowsTop, columnsLeft);
+            ValidateRowsColumns(rowsTop, columnsLeft);
             SetPaneSetting();
 
             var c = GetTopLeftCell();
