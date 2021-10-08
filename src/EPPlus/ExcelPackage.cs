@@ -254,6 +254,13 @@ namespace OfficeOpenXml
             ConstructNewFile(null);
         }
         /// <summary>
+		/// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+		/// </summary>
+		/// <param name="path">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        public ExcelPackage(string path)
+            : this(new FileInfo(path))
+        { }
+        /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
         /// </summary>
         /// <param name="newFile">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
@@ -264,6 +271,14 @@ namespace OfficeOpenXml
             File = newFile;
             ConstructNewFile(password);
         }
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="path">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="password">Password for an encrypted package</param>
+        public ExcelPackage(string path, string password)
+            : this(new FileInfo(path), password)
+        { }
 		/// <summary>
 		/// Create a new instance of the ExcelPackage class based on a existing template.
 		/// If newFile exists, it will be overwritten when the Save method is called
@@ -289,6 +304,16 @@ namespace OfficeOpenXml
             File = newFile;
             CreateFromTemplate(template, password);
         }
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing template.
+        /// If newFile exists, it will be overwritten when the Save method is called
+        /// </summary>
+        /// <param name="newFilePath">The name of the Excel file to be created</param>
+        /// <param name="templatePath">The name of the Excel template to use as the basis of the new Excel file</param>
+        /// <param name="password">Password to decrypted the template</param>
+        public ExcelPackage(string newFilePath, string templatePath, string password)
+            : this(new FileInfo(newFilePath), new FileInfo(templatePath), password)
+        { }
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing template.
         /// </summary>
@@ -950,6 +975,15 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Saves the workbook to a new file
+        /// The package is closed after it has been saved        
+        /// </summary>
+        /// <param name="filePath">The file location</param>
+        public void SaveAs(string filePath)
+        {
+            SaveAs(new FileInfo(filePath));
+        }
+        /// <summary>
+        /// Saves the workbook to a new file
         /// The package is closed after it has been saved
         /// </summary>
         /// <param name="file">The file</param>
@@ -960,6 +994,17 @@ namespace OfficeOpenXml
             File = file;
             Encryption.Password = password;
             Save();
+        }
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="filePath">The file</param>
+        /// <param name="password">The password to encrypt the workbook with. 
+        /// This parameter overrides the Encryption.Password.</param>
+        public void SaveAs(string filePath, string password)
+        {
+            SaveAs(new FileInfo(filePath), password);
         }
         /// <summary>
         /// Copies the Package to the Outstream
