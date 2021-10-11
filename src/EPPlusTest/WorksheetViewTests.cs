@@ -129,7 +129,7 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesRow");
             ws.View.TopLeftCell = "A200";
-            ws.View.SplitPanes(2, 1);
+            ws.View.SplitPanes(2, 0);
             ws.View.ActiveCell = "A201";
             ws.View.Panes[0].ActiveCell = "A5";
             ws.View.PaneSettings.TopLeftCell = "A182";
@@ -150,6 +150,15 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal18");
             //_pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 18;
+            ws.View.TopLeftCell = "G200";
+            ws.View.SplitPanes(3, 3);
+            ws.View.TopLeftPane.ActiveCell = "B2";
+        }
+        [TestMethod]
+        public void SplitPanesThenRemoveSplit()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal18");
             _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 18;
             ws.View.TopLeftCell = "G200";
             ws.View.SplitPanes(3, 3);

@@ -25,35 +25,35 @@ namespace OfficeOpenXml
         /// </summary>
         ExcludeFormulas = 0x1,
         /// <summary>
-        /// Will exclude formulas and values from beeing copied
+        /// Will exclude formulas and values from being copied
         /// </summary>
         ExcludeValues = 0x2,
         /// <summary>
-        /// Exclude any style for the cell. 
+        /// Exclude styles from being copied. 
         /// </summary>
         ExcludeStyles = 0x4,
         /// <summary>
-        /// Exclude comments
+        /// Exclude comments from being copied. 
         /// </summary>
         ExcludeComments = 0x8,
         /// <summary>
-        /// Exclude threaded comments
+        /// Exclude threaded comments from being copied. 
         /// </summary>
         ExcludeThreadedComments = 0x10,
         /// <summary>
-        /// Exclude hyperlinks
+        /// Exclude hyperlinks from being copied. 
         /// </summary>
         ExcludeHyperLinks = 0x20,
         /// <summary>
-        /// Exclude threaded comments.
+        /// Exclude merged cells from being copied. 
         /// </summary>
         ExcludeMergedCells = 0x40,
         /// <summary>
-        /// Exclude data validations.
+        /// Exclude data validations from being copied. 
         /// </summary>
         ExcludeDataValidations = 0x80,
         /// <summary>
-        /// Exclude conditional formatting.
+        /// Exclude conditional formatting from being copied. 
         /// </summary>
         ExcludeConditionalFormatting = 0x100,
     }

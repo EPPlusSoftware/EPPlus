@@ -776,16 +776,16 @@ namespace OfficeOpenXml
         {
             if (Row < 0 || Row > ExcelPackage.MaxRows - 1)
             {
-                throw new ArgumentOutOfRangeException($"Row must not be negative, zero or exceed {ExcelPackage.MaxRows - 1}");
+                throw new ArgumentOutOfRangeException($"Row must not be negative or exceed {ExcelPackage.MaxRows - 1}");
             }
 
             if (Column < 0 || Column > ExcelPackage.MaxColumns - 1)
             {
-                throw new ArgumentOutOfRangeException($"Column must not be negative, zero or exceed {ExcelPackage.MaxColumns - 1}");
+                throw new ArgumentOutOfRangeException($"Column must not be negative or exceed {ExcelPackage.MaxColumns - 1}");
             }
         }
         /// <summary>
-        /// Split panes at the position,
+        /// Split panes at the position
         /// </summary>
         /// <param name="pixelsX">Horizontal pixels including the header column</param>
         /// <param name="pixelsY">Vertical pixels including the header row</param>
@@ -799,17 +799,19 @@ namespace OfficeOpenXml
             Panes = LoadPanes();
         }
         /// <summary>
-        /// Split panes
+        /// Split the window at the supplied row/column. 
+        /// The split is performed using the current width/height of the visible rows and columns, so any changes to column width or row heights after the split will not effect the split position.
+        /// To remove split call this method with zero as value of both paramerters or use <seealso cref="UnFreezePanes"/>
         /// </summary>
-        /// <param name="rowsTop"></param>
-        /// <param name="columnsLeft"></param>
+        /// <param name="rowsTop">Splits the panes at the coordinate after this visible row. Zero mean no split on row level</param>
+        /// <param name="columnsLeft">Splits the panes at the coordinate after this visible column. Zero means no split on column level.</param>
         public void SplitPanes(int rowsTop, int columnsLeft)
         {
             ValidateRows(rowsTop, columnsLeft);
             SetPaneSetting();
 
             var c = GetTopLeftCell();
-            if (columnsLeft > 1)
+            if (columnsLeft > 0)
             {
                 var styles = _worksheet.Workbook.Styles;
                 var normalStyleIx = styles.GetNormalStyleIndex();
@@ -817,18 +819,18 @@ namespace OfficeOpenXml
                 var defaultWidth = ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size);
                 var widthCharRH = c.Row < 1000 ? 3 : c.Row.ToString(CultureInfo.InvariantCulture).Length;
                 var margin = 5;
-                PaneSettings.XSplit = (Convert.ToDouble(GetVisibleColumnWidth(c.Column, columnsLeft - 1) + (defaultWidth * widthCharRH) + margin)) * 15D;
+                PaneSettings.XSplit = (Convert.ToDouble(GetVisibleColumnWidth(c.Column, columnsLeft) + (defaultWidth * widthCharRH) + margin)) * 15D;
             }
-            if (rowsTop > 1)
+            if (rowsTop > 0)
             {
-                PaneSettings.YSplit = (Convert.ToDouble(GetVisibleRowWidth(c.Row, rowsTop - 1)) + _worksheet.DefaultRowHeight / 0.75) * 15D;
+                PaneSettings.YSplit = (Convert.ToDouble(GetVisibleRowWidth(c.Row, rowsTop)) + _worksheet.DefaultRowHeight / 0.75) * 15D;
             }
-            CreateSelectionXml(rowsTop, columnsLeft, true);
+            CreateSelectionXml(rowsTop+1, columnsLeft+1, true);
             Panes = LoadPanes();
             if (rowsTop > 0 && columnsLeft > 0)
             {
                 var a = new ExcelCellAddress(string.IsNullOrEmpty(TopLeftCell) ? "A1" : TopLeftCell);
-                PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(a.Row + rowsTop - 1, a.Column + columnsLeft - 1);
+                PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(a.Row + rowsTop, a.Column + columnsLeft);
             }
         }
 
