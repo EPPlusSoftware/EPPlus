@@ -2636,6 +2636,19 @@ namespace EPPlusTest
                 Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
                 Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
             }
-        }       
+        }
+        [TestMethod]
+        public void FreezeTemplate()
+        {
+            using (var p = OpenTemplatePackage("freeze.xlsx"))
+            {
+                // Get the worksheet where columns 3-5 have a width of around 18
+                var ws = p.Workbook.Worksheets[0];
+                ws.View.FreezePanes(40, 5);
+                SaveAndCleanup(p);
+            }
+        }
+
+
     }
 }   
