@@ -4073,10 +4073,10 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col)
         {
-            return (_values.GetValue(row, col)._styleId != 0);
+            return (_values.GetValue(row, col)._styleId > 0);
         }
         /// <summary>
-        /// Existance check of sheet value
+        /// Existence check of sheet value
         /// </summary>
         /// <param name="row">row</param>
         /// <param name="col">column</param>
@@ -4088,7 +4088,7 @@ namespace OfficeOpenXml
             return (value != null);
         }
         /// <summary>
-        /// Existance check of sheet styleId
+        /// Existence check of sheet styleId
         /// </summary>
         /// <param name="row">row</param>
         /// <param name="col">column</param>
@@ -4097,7 +4097,7 @@ namespace OfficeOpenXml
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
             styleId = _values.GetValue(row, col)._styleId;
-            return (styleId != 0);
+            return (styleId > 0);
         }
         internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
         {
