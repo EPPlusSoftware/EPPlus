@@ -172,6 +172,7 @@ namespace EPPlusTest.Drawing
 			var ws = wb.Worksheets.Add("jpgBroadway16");
 			var pic = ws.Drawings.AddPicture("jpgFile3", GetResourceFile("Test1.jpg"));
 		}
+
 		[TestMethod]
 		public void AddNormalCalibri18()
 		{

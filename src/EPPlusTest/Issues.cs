@@ -2639,6 +2639,18 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void FreezeTemplate()
+        {
+            using (var p = OpenTemplatePackage("freeze.xlsx"))
+            {
+                // Get the worksheet where columns 3-5 have a width of around 18
+                var ws = p.Workbook.Worksheets[0];
+                ws.View.FreezePanes(40, 5);
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
         public void CopyWorksheetWithBlipFillObjects()
         {
             using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
@@ -2650,7 +2662,6 @@ namespace EPPlusTest
                 SaveAndCleanup(p1);
             }
         }
-        [TestMethod]
         public void CopyWorksheetWithBlipFillObjectsCopy()
         {
             using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
