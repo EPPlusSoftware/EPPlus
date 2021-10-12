@@ -9,6 +9,6 @@ namespace OfficeOpenXml.LoadFunctions.Params
     {
         public bool PrintHeaders { get; set; }
 
-        public TableStyles TableStyle { get; set; }
+        public TableStyles? TableStyle { get; set; }
     }
 }

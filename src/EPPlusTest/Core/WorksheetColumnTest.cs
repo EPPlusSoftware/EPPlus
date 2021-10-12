@@ -7,7 +7,6 @@ namespace EPPlusTest.Core
     [TestClass]
     public class WorksheetColumnTest : TestBase
     {
-        static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -97,9 +96,6 @@ namespace EPPlusTest.Core
                 var ws = p.Workbook.Worksheets.Add("arial36");
                 p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
                 p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 36;
-
-                //var expectedWidth = 9.140625D;
-                //Assert.AreEqual(expectedWidth, ws.DefaultColWidth);
 
                 ws.Column(2).Width = ws.DefaultColWidth;
                 SaveAndCleanup(p);

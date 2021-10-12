@@ -28,6 +28,7 @@ namespace OfficeOpenXml.LoadFunctions
             Range = range;
             PrintHeaders = parameters.PrintHeaders;
             TableStyle = parameters.TableStyle;
+            TableName = parameters.TableName?.Trim();
         }
 
         /// <summary>
@@ -43,7 +44,8 @@ namespace OfficeOpenXml.LoadFunctions
         /// <summary>
         /// If value is other than TableStyles.None the data will be added to a table in the worksheet.
         /// </summary>
-        protected TableStyles TableStyle { get; set; }
+        protected TableStyles? TableStyle { get; set; }
+        protected string TableName { get; set; }
 
         protected bool ShowFirstColumn { get; set; }
 
@@ -115,14 +117,16 @@ namespace OfficeOpenXml.LoadFunctions
 
             var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
 
-            var tbl = ws.Tables.Add(r, "");
-            tbl.ShowHeader = PrintHeaders;
-            tbl.TableStyle = TableStyle;
-            tbl.ShowFirstColumn = ShowFirstColumn;
-            tbl.ShowLastColumn = ShowLastColumn;
-            tbl.ShowTotal = ShowTotal;
-            PostProcessTable(tbl, r);
-
+            if (TableStyle.HasValue)
+            {
+                var tbl = ws.Tables.Add(r, TableName);
+                tbl.ShowHeader = PrintHeaders;
+                tbl.TableStyle = TableStyle.Value;
+                tbl.ShowFirstColumn = ShowFirstColumn;
+                tbl.ShowLastColumn = ShowLastColumn;
+                tbl.ShowTotal = ShowTotal;
+                PostProcessTable(tbl, r);
+            }
             return r;
         }
 

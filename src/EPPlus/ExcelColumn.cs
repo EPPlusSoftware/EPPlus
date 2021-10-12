@@ -38,7 +38,7 @@ namespace OfficeOpenXml
             _width = _worksheet.DefaultColWidth;
         }
 		#endregion
-        internal int _columnMin;		
+        internal int _columnMin;
 		/// <summary>
 		/// Sets the first column the definition refers to.
 		/// </summary>
@@ -239,7 +239,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _worksheet.MergedCells[ColumnMin, 0] != null;
+                return _worksheet.MergedCells[0, ColumnMin] != null;
             }
             set
             {

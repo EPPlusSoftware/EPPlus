@@ -118,6 +118,15 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        internal void AddCopyOfDataValidation(string address, ExcelDataValidation dv)
+        {
+            EnsureRootElementExists();
+            var node = CreateNode(DataValidationItemsPath, false,true);
+            CopyElement((XmlElement)dv.TopNode, (XmlElement)node);
+            var validation = ExcelDataValidationFactory.Create(dv.ValidationType, _worksheet, address, node, InternalValidationType.DataValidation, ExcelDataValidation.NewId());
+            _validations.Add(validation);
+        }
+
         private void EnsureRootElementExists()
         {
             var node = _worksheet.WorksheetXml.SelectSingleNode(DataValidationPath, _worksheet.NameSpaceManager);

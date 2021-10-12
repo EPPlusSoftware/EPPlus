@@ -129,8 +129,7 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesRow");
             ws.View.TopLeftCell = "A200";
-            ws.Row(200).Height = 30;
-            ws.View.SplitPanes(2, 1);
+            ws.View.SplitPanes(2, 0);
             ws.View.ActiveCell = "A201";
             ws.View.Panes[0].ActiveCell = "A5";
             ws.View.PaneSettings.TopLeftCell = "A182";
@@ -141,8 +140,7 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesColumn");
             ws.View.TopLeftCell = "A200";
-            ws.Column(1).Width = 25;
-            ws.View.SplitPanes(1, 2);
+            ws.View.SplitPanes(0, 2);
             ws.View.ActiveCell = "A201";
             ws.View.Panes[0].ActiveCell = "A5";
         }
@@ -158,6 +156,47 @@ namespace EPPlusTest.Core.Worksheet
             ws.View.TopLeftPane.ActiveCell = "B2";
         }
         [TestMethod]
+        public void SplitPanesPixelsThenRemove()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesPixelRemove");
+            ws.View.TopLeftPane.ActiveCell = "B2";
+            
+            ws.View.SplitPanesPixels(100, 100);            
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+            
+            ws.View.SplitPanesPixels(0, 0);
+            Assert.IsNull(ws.View.PaneSettings);
+        }
+        [TestMethod]
+        public void SplitPanesPixelsValidatePixls()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanes1Px");
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Calibri";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
+            ws.View.TopLeftPane.ActiveCell = "B2";
+
+            ws.View.SplitPanesPixels(1, 1);
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+            Assert.AreEqual(315, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(405, ws.View.PaneSettings.XSplit);
+
+            ws.View.SplitPanesPixels(100, 100);
+            Assert.AreEqual(1800, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(1890, ws.View.PaneSettings.XSplit);            
+        }
+        [TestMethod]
+        public void SplitPanesThenRemove()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesRemove");
+            ws.View.TopLeftPane.ActiveCell = "B2";
+
+            ws.View.SplitPanes(5, 5);
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+
+            ws.View.SplitPanes(0, 0);
+            Assert.IsNull(ws.View.PaneSettings);
+        }
+        [TestMethod]
         public void SplitPanesNormal11Arial()
         {
             var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48RH");
@@ -166,6 +205,9 @@ namespace EPPlusTest.Core.Worksheet
             ws.View.TopLeftCell = "G20000";
             ws.View.SplitPanes(3, 3);
             ws.View.ActiveCell = "B2";
+
+            Assert.AreEqual(1140, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(3915, ws.View.PaneSettings.XSplit);
         }
     }
 }

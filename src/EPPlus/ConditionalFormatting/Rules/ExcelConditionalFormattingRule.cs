@@ -639,8 +639,8 @@ namespace OfficeOpenXml.ConditionalFormatting
     /****************************************************************************************/
     internal protected void SetStyle(ExcelDxfStyleConditionalFormatting style)
     {
-       _style = Style;
-       TopNode = null;
+       _style = style;
+       DxfId = int.MinValue;
     }
   }
 }

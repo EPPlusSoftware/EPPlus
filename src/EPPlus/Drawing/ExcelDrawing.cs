@@ -595,7 +595,7 @@ namespace OfficeOpenXml.Drawing
                     break;
             }
             return new ExcelDrawing(drawings, node, "", "");
-        }
+       }
 
         private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
         {
