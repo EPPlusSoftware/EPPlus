@@ -20,6 +20,10 @@ namespace OfficeOpenXml.Core.CellStore
     /// </summary>
     internal class CellStoreValue : CellStore<ExcelValue> 
     {
+        public CellStoreValue() : base()
+        {
+
+        }
         internal void SetValueRange_Value(int row, int col, object[,] array)
         {
             var rowBound = array.GetUpperBound(0);

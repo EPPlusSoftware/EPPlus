@@ -12,6 +12,7 @@
  *************************************************************************************************/
 
 using System;
+using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.Style;
 namespace OfficeOpenXml
@@ -299,7 +300,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return _worksheet.Workbook.Styles.GetStyleObject(StyleID,_worksheet.PositionId ,Row.ToString() + ":" + Row.ToString());                
+                return _worksheet.Workbook.Styles.GetStyleObject(StyleID,_worksheet.PositionId ,Row.ToString(CultureInfo.InvariantCulture) + ":" + Row.ToString(CultureInfo.InvariantCulture));                
             }
         }
         /// <summary>

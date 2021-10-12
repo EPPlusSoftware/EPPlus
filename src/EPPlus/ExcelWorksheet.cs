@@ -3917,6 +3917,26 @@ namespace OfficeOpenXml
                 return _controls;
             }
         }
+        /// <summary>
+        /// A collection of row specific properties in the worksheet.
+        /// </summary>
+        public ExcelRowsCollection Rows
+        {
+            get
+            {
+                return new ExcelRowsCollection(this);
+            }
+        }
+        /// <summary>
+        /// A collection of column specific properties in the worksheet.
+        /// </summary>
+        public ExcelColumnCollection Columns
+        {
+            get
+            {
+                return new ExcelColumnCollection(this);
+            }
+        }
 
         internal bool IsDisposed 
         { 
