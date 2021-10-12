@@ -398,6 +398,22 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString(STYLE_PATH, value);
             }
         }
+        internal ExcelVmlDrawingFill _fill = null;
+        /// <summary>
+        /// Fill properties for the comment
+        /// </summary>
+        public ExcelVmlDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelVmlDrawingFill(Range.Worksheet.Drawings, NameSpaceManager, TopNode, SchemaNodeOrder);
+                }
+                return _fill;
+            }
+        }
+
         #region IRangeID Members
 
         ulong IRangeID.RangeID

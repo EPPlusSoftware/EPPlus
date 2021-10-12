@@ -14,7 +14,7 @@ namespace OfficeOpenXml.Drawing.Vml
         /// <summary>
         /// A semicolon separated list of colors used for gradient fill. 
         /// Each color item starts with a percent and a color. Starting from 0% and ending and 100%.
-        /// Use <see cref="SetGradientColors"> to set this property</see>
+        /// Use <seealso cref="SetGradientColors(VmlGradiantColor[])"/>  to set this property.
         /// </summary>
         public string ColorsString
         {

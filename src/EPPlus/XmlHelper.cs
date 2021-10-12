@@ -725,14 +725,22 @@ namespace OfficeOpenXml
         {
             TopNode.ParentNode.RemoveChild(TopNode);
         }
-        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="")
+        internal void SetXmlNodeDouble(string path, double? d, bool allowNegative)
         {
-            if (d == null)
+            SetXmlNodeDouble(path, d, null, "", allowNegative);
+        }
+        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="", bool allowNegative=true)
+        {
+            if (d.HasValue==false)
             {
                 DeleteNode(path);
             }
             else
             {
+                if (allowNegative==false && d.Value<0)
+                {
+                    throw new InvalidOperationException("Value can't be negative");
+                }
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture) + suffix);
             }
         }
