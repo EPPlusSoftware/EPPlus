@@ -113,10 +113,16 @@ namespace EPPlusTest.VBA
                 p.Workbook.CreateVBAProject();
                 p.Workbook.Worksheets.Add("Work!Sheet");
                 p.Workbook.Worksheets.Add("Mod=ule1");
+                p.Workbook.Worksheets.Add("_module1");
+                p.Workbook.Worksheets.Add("1module1");
+                p.Workbook.Worksheets.Add("Module_1");
 
                 Assert.AreEqual("ThisWorkbook", p.Workbook.VbaProject.Modules[0].Name);
                 Assert.AreEqual("Sheet0", p.Workbook.VbaProject.Modules[1].Name);
                 Assert.AreEqual("Sheet1", p.Workbook.VbaProject.Modules[2].Name);
+                Assert.AreEqual("Sheet2", p.Workbook.VbaProject.Modules[3].Name);
+                Assert.AreEqual("Sheet3", p.Workbook.VbaProject.Modules[4].Name);
+                Assert.AreEqual("Module_1", p.Workbook.VbaProject.Modules[5].Name);
             }
         }
         [TestMethod]
