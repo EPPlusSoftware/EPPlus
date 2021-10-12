@@ -156,13 +156,45 @@ namespace EPPlusTest.Core.Worksheet
             ws.View.TopLeftPane.ActiveCell = "B2";
         }
         [TestMethod]
-        public void SplitPanesThenRemoveSplit()
+        public void SplitPanesPixelsThenRemove()
         {
-            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal18");
-            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 18;
-            ws.View.TopLeftCell = "G200";
-            ws.View.SplitPanes(3, 3);
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesPixelRemove");
             ws.View.TopLeftPane.ActiveCell = "B2";
+            
+            ws.View.SplitPanesPixels(100, 100);            
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+            
+            ws.View.SplitPanesPixels(0, 0);
+            Assert.IsNull(ws.View.PaneSettings);
+        }
+        [TestMethod]
+        public void SplitPanesPixelsValidatePixls()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanes1Px");
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Calibri";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
+            ws.View.TopLeftPane.ActiveCell = "B2";
+
+            ws.View.SplitPanesPixels(1, 1);
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+            Assert.AreEqual(315, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(405, ws.View.PaneSettings.XSplit);
+
+            ws.View.SplitPanesPixels(100, 100);
+            Assert.AreEqual(1800, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(1890, ws.View.PaneSettings.XSplit);            
+        }
+        [TestMethod]
+        public void SplitPanesThenRemove()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesRemove");
+            ws.View.TopLeftPane.ActiveCell = "B2";
+
+            ws.View.SplitPanes(5, 5);
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+
+            ws.View.SplitPanes(0, 0);
+            Assert.IsNull(ws.View.PaneSettings);
         }
         [TestMethod]
         public void SplitPanesNormal11Arial()
@@ -173,6 +205,9 @@ namespace EPPlusTest.Core.Worksheet
             ws.View.TopLeftCell = "G20000";
             ws.View.SplitPanes(3, 3);
             ws.View.ActiveCell = "B2";
+
+            Assert.AreEqual(1140, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(3915, ws.View.PaneSettings.XSplit);
         }
     }
 }
