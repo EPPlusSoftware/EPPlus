@@ -323,7 +323,12 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 1, 31);
             _wsDate.Cells["K1"].Value = startDate;
-            _wsDate.Cells["K1:L5"].FillDateTime(x => { x.DateUnit = eDateTimeUnit.Month; x.StartValue = startDate; x.WeekdaysOnly = true; x.NumberFormat = "yyyy-mm-dd"; });
+            _wsDate.Cells["K1:L5"].FillDateTime(x => 
+            { 
+                x.DateUnit = eDateTimeUnit.Month; 
+                x.StartValue = startDate; 
+                x.SetExcludedWeekdays(DayOfWeek.Saturday, DayOfWeek.Sunday); 
+                x.NumberFormat = "yyyy-mm-dd"; });
 
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["K1"].Value).Ticks);
@@ -344,9 +349,9 @@ namespace EPPlusTest.Core.Range.Fill
             { 
                 x.DateUnit = eDateTimeUnit.Week; 
                 x.StartValue = startDate; 
-                x.WeekdaysOnly = true;
+                x.SetExcludedWeekdays(DayOfWeek.Saturday, DayOfWeek.Sunday);
                 x.NumberFormat = "yyyy-mm-dd";
-                x.HolidayCalendar.UnionWith(new DateTime[] { new DateTime(2021, 12, 24), new DateTime(2021, 12, 25), new DateTime(2021, 12, 26), new DateTime(2021, 12, 31), new DateTime(2022, 01, 01) });
+                x.SetHolidayDates( new DateTime(2021, 12, 24), new DateTime(2021, 12, 25), new DateTime(2021, 12, 26), new DateTime(2021, 12, 31), new DateTime(2022, 01, 01));
             });
 
             //Assert

@@ -345,11 +345,11 @@ namespace OfficeOpenXml
                     }
                 }
 
-                if (currentCol.ColumnMax >= _toCol)
+                if (currentCol.ColumnMax > _toCol)
                 {
-                    currentCol.ColumnMax = _toCol;
+                    AdjustColumnMaxAndCopy(currentCol, _toCol);
                 }
-                else
+                else if(currentCol.ColumnMax < _toCol)
                 {
                     if (_worksheet._values.NextCell(ref r, ref c))
                     {
@@ -372,6 +372,17 @@ namespace OfficeOpenXml
 
             }
         }
+
+        private void AdjustColumnMaxAndCopy(ExcelColumn currentCol, int newColMax)
+        {
+            if (newColMax < currentCol.ColumnMax)
+            {
+                int maxCol = currentCol.ColumnMax;
+                currentCol.ColumnMax = newColMax;
+                ExcelColumn copy = _worksheet.CopyColumn(currentCol, newColMax + 1, maxCol);
+            }
+        }
+
         /// <summary>
         /// Reference to the cell range of the column(s)
         /// </summary>

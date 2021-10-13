@@ -2662,17 +2662,12 @@ namespace EPPlusTest
                 SaveAndCleanup(p1);
             }
         }
-        public void CopyWorksheetWithBlipFillObjectsCopy()
+        [TestMethod]
+        public void s252()
         {
-            using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
+            using (var p = OpenTemplatePackage("CANNOT Open EPPlus.xlsx"))
             {
-                var ws = p1.Workbook.Worksheets[0];
-                using(var p2 = new ExcelPackage())
-                {
-                    var wsCopy = p2.Workbook.Worksheets.Add("Copy");
-                    ws.Cells["G4"].Copy(wsCopy.Cells["F20"]);
-                    SaveWorkbook("BlipFillsNewPackage.xlsx", p2);
-                }
+                var ws = p.Workbook.Worksheets[0];
             }
         }
     }

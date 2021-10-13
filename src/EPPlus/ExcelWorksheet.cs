@@ -1360,13 +1360,13 @@ namespace OfficeOpenXml
                         //Now find the end tag for sheetData.
                         var readSize = BLOCKSIZE+100;  //We read 100 chars more than the block size to avoid having the tag in between two blocks.
                         long endSeekStart = Math.Max(end - readSize, 0);
-                        while (endSeekStart > 0)
+                        do
                         {
                             int size = stream.Length - endSeekStart < readSize ? (int)(stream.Length - endSeekStart) : readSize;
                             stream.Seek(endSeekStart, SeekOrigin.Begin);
                             block = new char[size];
                             sr = new StreamReader(stream);
-                            sr.ReadBlock(block, 0, size); 
+                            sr.ReadBlock(block, 0, size);
                             s = new string(block).TrimEnd('\0');
                             endMatch = Regex.Match(s, string.Format("(</[^>]*{0}[^>]*>)", "sheetData"));
                             if (endMatch.Success)
@@ -1376,6 +1376,7 @@ namespace OfficeOpenXml
                             //prevBlock = s;
                             endSeekStart -= BLOCKSIZE;
                         }
+                        while (endSeekStart > 0);
                     }
                     if (endMatch == null)
                     {
@@ -2102,10 +2103,9 @@ namespace OfficeOpenXml
             newC.OutlineLevel = c.OutlineLevel;
             newC.Phonetic = c.Phonetic;
             newC.BestFit = c.BestFit;
-            //_columns.Add(newC);
-            SetValueInner(0, col, newC);
             newC._width = c._width;
             newC._hidden = c._hidden;
+            SetValueInner(0, col, newC);
             return newC;    
         }
         /// <summary>
