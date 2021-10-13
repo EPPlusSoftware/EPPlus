@@ -914,7 +914,7 @@ namespace OfficeOpenXml
 
             SizeF MeasureString(string t, int fntID)
             {
-                ulong key = ((ulong)t.GetHashCode() << 32) | (ulong)fntID;
+                ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
                 if (!measureCache.TryGetValue(key, out var size))
                 {
                     size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);

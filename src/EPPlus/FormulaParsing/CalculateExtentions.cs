@@ -236,14 +236,17 @@ namespace OfficeOpenXml
                     }
                     Thread.Sleep(0);
                 }
-                catch(CircularReferenceException cre)
-                {
-                    throw cre;
-                }
                 catch(Exception e)
                 {
-                    var error = ExcelErrorValue.Parse(ExcelErrorValue.Values.Value);
-                    SetValue(wb, item, error);
+                    if(e is CircularReferenceException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        var error = ExcelErrorValue.Parse(ExcelErrorValue.Values.Value);
+                        SetValue(wb, item, error);
+                    }
                 }
             }
         }

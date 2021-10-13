@@ -721,21 +721,9 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// 3D-settings
         /// </summary>
-        public ExcelView3D View3D
+        public abstract ExcelView3D View3D
         {
-            get
-            {
-                if (IsType3D())
-                {
-                    return new ExcelView3D(NameSpaceManager, ChartXml.SelectSingleNode("//cx:view3D", NameSpaceManager));
-                }
-                else
-                {
-                    return null;    //return null instead of throwing exception
-                    //throw (new Exception("Charttype does not support 3D"));
-                }
-
-            }
+            get;
         }
         internal static ExcelChart GetChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null)
         {

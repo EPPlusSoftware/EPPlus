@@ -1178,10 +1178,18 @@ namespace OfficeOpenXml
             Stream stream = packPart.GetStream();
 
 #if Core
-            var xr = XmlReader.Create(stream,new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true });
+            var xr = XmlReader.Create(stream,new XmlReaderSettings() 
+            { 
+                DtdProcessing = DtdProcessing.Prohibit, 
+                IgnoreWhitespace = true 
+            });
 #else
             var xr = new XmlTextReader(stream);
+#if NET35
             xr.ProhibitDtd = true;
+#else
+            xr.DtdProcessing = DtdProcessing.Prohibit;
+#endif
             xr.WhitespaceHandling = WhitespaceHandling.None;
 #endif
             LoadColumns(xr);    //columnXml
@@ -1950,9 +1958,9 @@ namespace OfficeOpenXml
                 return ps;
             }
         }
-        #endregion
+#endregion
 
-        #endregion // END Worksheet Public Properties
+#endregion // END Worksheet Public Properties
         ExcelSlicerXmlSources _slicerXmlSources = null;
         internal ExcelSlicerXmlSources SlicerXmlSources
         {
@@ -1966,7 +1974,7 @@ namespace OfficeOpenXml
             }
         }
 
-        #region Worksheet Public Methods
+#region Worksheet Public Methods
 
         ///// <summary>
         ///// Provides access to an individual cell within the worksheet.
@@ -2213,7 +2221,7 @@ namespace OfficeOpenXml
         {
             WorksheetRangeInsertHelper.InsertColumn(this, columnFrom, columns, copyStylesFromColumn);
         } 
-        #endregion
+#endregion
 #region DeleteRow
         /// <summary>
         /// Delete the specified row from the worksheet.
@@ -2244,7 +2252,7 @@ namespace OfficeOpenXml
         {
             DeleteRow(rowFrom, rows);
         }
-        #endregion
+#endregion
 #region Delete column
         /// <summary>
         /// Delete the specified column from the worksheet.
@@ -2263,7 +2271,7 @@ namespace OfficeOpenXml
         {
             WorksheetRangeDeleteHelper.DeleteColumn(this, columnFrom, columns);
         }
-        #endregion
+#endregion
         /// <summary>
         /// Get the cell value from thw worksheet
         /// </summary>
@@ -2377,9 +2385,9 @@ namespace OfficeOpenXml
             }
             return 0;
         }
-        #endregion
-        #endregion //End Worksheet Public Methods
-        #region Worksheet Private Methods
+#endregion
+#endregion //End Worksheet Public Methods
+#region Worksheet Private Methods
         internal void UpdateSheetNameInFormulas(string newName, int rowFrom, int rows, int columnFrom, int columns)
         {
           lock (this)
@@ -3559,7 +3567,7 @@ namespace OfficeOpenXml
             }
         }
 
-        #region Drawing
+#region Drawing
         internal bool HasDrawingRelationship
         {
             get
@@ -3584,8 +3592,8 @@ namespace OfficeOpenXml
                 return _drawings;
             }
         }
-        #endregion
-        #region SparklineGroups
+#endregion
+#region SparklineGroups
         ExcelSparklineGroupCollection _sparklineGroups = null;
         /// <summary>
         /// Collection of Sparkline-objects. 
@@ -3602,7 +3610,7 @@ namespace OfficeOpenXml
                 return _sparklineGroups;
             }
         }
-        #endregion
+#endregion
         ExcelTableCollection _tables = null;
         /// <summary>
         /// Tables defined in the worksheet.
@@ -3727,8 +3735,8 @@ namespace OfficeOpenXml
             }
         }
 
-        #endregion
-        #endregion  // END <Worksheet Private Methods
+#endregion
+#endregion  // END <Worksheet Private Methods
 
         /// <summary>
         /// Get the next ID from a shared formula or an Array formula
@@ -3945,7 +3953,7 @@ namespace OfficeOpenXml
                 return _values == null;
             }
         }
-        #region Worksheet internal Accessor
+#region Worksheet internal Accessor
         /// <summary>
         /// Get accessor of sheet value
         /// </summary>
@@ -4165,6 +4173,6 @@ namespace OfficeOpenXml
 
             return ctrlContainerNode;
         }
-        #endregion
+#endregion
     }  // END class Worksheet
 }

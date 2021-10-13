@@ -1,5 +1,4 @@
-﻿///  <v:fill color2 = "black" recolor="t" rotate="t" focus="100%" type="gradient"/>
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -9,6 +8,9 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Fill settings for a vml pattern or picture fill
+    /// </summary>
     public class ExcelVmlDrawingPictureFill : XmlHelper, IPictureContainer
     {
         ExcelVmlDrawingFill _fill;
@@ -51,7 +53,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
-        /// 
+        /// The aspect ratio 
         /// </summary>
         public eVmlAspectRatio AspectRatio 
         { 

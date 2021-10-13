@@ -635,6 +635,14 @@ namespace OfficeOpenXml
         {
             return _address;
         }
+        /// <summary>
+        /// A hash code for the current object.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         string _firstAddress;
         /// <summary>
         /// returns the first address if the address is a multi address.

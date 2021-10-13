@@ -26,7 +26,6 @@ namespace OfficeOpenXml.FormulaParsing
 {
     public class EpplusExcelExternalRangeInfo : ExcelDataProvider.IRangeInfo
     {
-        ExcelExternalWorkbook _externalWb;
         internal ExcelExternalWorksheet _externalWs;
         internal CellStoreEnumerator<object> _values = null;
         int _fromRow, _toRow, _fromCol, _toCol;
@@ -65,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             get
             {
-                return _externalWb == null || _externalWs == null || _fromRow < 0 || _toRow < 0;
+                return _externalWs == null || _fromRow < 0 || _toRow < 0;
             }
         }
         public bool IsEmpty

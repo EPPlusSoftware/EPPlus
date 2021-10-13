@@ -408,6 +408,13 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _chartXmlHelper.ExistsNode("cx:legend");
             }
         }
+        public override ExcelView3D View3D
+        {
+            get
+            {
+                return null;
+            }
+        }
         /// <summary>
         /// This property does not apply to extended charts.
         /// This property will always return eDisplayBlanksAs.Zero.

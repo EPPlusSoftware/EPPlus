@@ -448,6 +448,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="ignoreErrors">If a cell contains an error, that error will be ignored if this method is set to true</param>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
         protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
         {
@@ -460,6 +461,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
         protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
         {
@@ -472,7 +474,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
         /// <param name="arguments"></param>
-        /// <param name="context"></param>
+        /// <param name="context"></param>        
         /// <returns></returns>
         protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {

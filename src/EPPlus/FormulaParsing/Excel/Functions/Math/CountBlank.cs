@@ -41,14 +41,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             else
             {
-                var worksheet = context.Scopes.Current.Address.Worksheet;
+                var currentCell = context.Scopes.Current.Address;
+                var worksheet = currentCell.Worksheet;
                 var address = context.AddressCache.Get(arg.ExcelAddressReferenceId);
                 var excelAddress = new ExcelAddressBase(address);
                 if(!string.IsNullOrEmpty(excelAddress.WorkSheetName))
                 {
                     worksheet = excelAddress.WorkSheetName;
                 }
-                range = context.ExcelDataProvider.GetRange(worksheet, excelAddress.Address);
+                range = context.ExcelDataProvider.GetRange(worksheet, currentCell.FromRow, currentCell.FromCol, excelAddress.Address);
                 result = range.GetNCells();
             }
             foreach (var cell in range)

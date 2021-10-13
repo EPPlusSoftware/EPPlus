@@ -1,11 +1,13 @@
-﻿///  <v:fill color2 = "black" recolor="t" rotate="t" focus="100%" type="gradient"/>
-using OfficeOpenXml.Utils;
+﻿using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Fill settings for a vml drawing
+    /// </summary>
     public class ExcelVmlDrawingFill : XmlHelper
     {
         internal ExcelDrawings _drawings;

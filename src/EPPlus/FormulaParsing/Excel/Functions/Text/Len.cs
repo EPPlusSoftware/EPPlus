@@ -33,7 +33,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 var addressString = ArgToAddress(arguments, 0, context);
                 var address = new ExcelAddressBase(addressString);
-                var range = context.ExcelDataProvider.GetRange(address.WorkSheetName ?? context.Scopes.Current.Address.Worksheet, address.Address);
+                var currentCell = context.Scopes.Current.Address;
+                var range = context.ExcelDataProvider.GetRange(
+                    address.WorkSheetName ?? context.Scopes.Current.Address.Worksheet,
+                    currentCell.FromRow,
+                    currentCell.FromCol,
+                    address.Address);
                 var firstCell = range.FirstOrDefault();
                 if(firstCell != null && firstCell.Value != null)
                 {

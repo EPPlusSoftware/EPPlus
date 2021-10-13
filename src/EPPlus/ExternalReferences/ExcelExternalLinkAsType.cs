@@ -32,7 +32,7 @@ namespace OfficeOpenXml.ExternalReferences
             return _externalLink as T;
         }
         /// <summary>
-        /// Return the external link as an external workbook. If the external link is not of type <see cref="ExcelExternalBook" />, null is returned
+        /// Return the external link as an external workbook. If the external link is not of type <see cref="ExcelExternalWorkbook" />, null is returned
         /// </summary>
         public ExcelExternalWorkbook ExternalWorkbook
         {

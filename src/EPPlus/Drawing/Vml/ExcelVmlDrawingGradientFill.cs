@@ -1,9 +1,11 @@
-﻿///  <v:fill color2 = "black" recolor="t" rotate="t" focus="100%" type="gradient"/>
-using System;
+﻿using System;
 using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Fill settings for a vml gradient fill
+    /// </summary>
     public class ExcelVmlDrawingGradientFill : XmlHelper
     {
         ExcelVmlDrawingFill _fill;
