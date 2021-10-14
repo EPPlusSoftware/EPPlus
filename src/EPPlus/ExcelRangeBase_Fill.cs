@@ -28,13 +28,13 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Fills a range by adding the step value to the start Value. If <paramref name="startValue"/> is null the first value in the row/column is used.
+        /// Fill is done by column from top to bottom
         /// </summary>
         /// <param name="startValue">The start value of the first cell. If this value is null the value of the first cell is used.</param>
         /// <param name="stepValue">The value used for each step</param>
-        /// <param name="direction">Direction of the fill</param>
-        public void FillNumber(double? startValue, double stepValue=1, eFillDirection direction = eFillDirection.Column)
+        public void FillNumber(double? startValue, double stepValue=1)
         {
-            FillNumber(x => { x.StepValue = stepValue; x.StartValue = startValue; x.Direction = direction; });
+            FillNumber(x => { x.StepValue = stepValue; x.StartValue = startValue; });
         }
         public void FillNumber(Action<FillNumberParams> options)
         {
@@ -93,9 +93,14 @@ namespace OfficeOpenXml
         /// <summary>
         /// Fills the range by adding 1 day to each cell per column starting from <paramref name="startValue"/>.
         /// </summary>
-        public void FillDateTime(DateTime startValue)
+        public void FillDateTime(DateTime? startValue, eDateTimeUnit dateTimeUnit=eDateTimeUnit.Day, int stepValue = 1)
         {
-            FillDateTime(x => x.StartValue = startValue);
+            FillDateTime(x => 
+            {
+                x.StartValue = startValue;
+                x.DateTimeUnit = dateTimeUnit;
+                x.StepValue = stepValue;
+            });
         }
         /// <summary>
         /// Fill the range with dates.

@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         /// <summary>
         /// The date unit added per cell
         /// </summary>
-        public eDateTimeUnit DateUnit { get; set; } = eDateTimeUnit.Day;
+        public eDateTimeUnit DateTimeUnit { get; set; } = eDateTimeUnit.Day;
         /// <summary>
         /// Only fill weekdays
         /// </summary>
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         /// A list with weekdays treated as holydays.
         /// </summary>
         internal HashSet<DateTime> _holidayCalendar { get; } = new HashSet<DateTime>();
-        public void SetHolidayDates(params DateTime[] holidayDates)
+        public void SetExcludedDates(params DateTime[] holidayDates)
         {
             _holidayCalendar.UnionWith(holidayDates);
         }

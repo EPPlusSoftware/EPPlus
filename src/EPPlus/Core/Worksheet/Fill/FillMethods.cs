@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         {
             if (value.HasValue)
             {
-                switch (options.DateUnit)
+                switch (options.DateTimeUnit)
                 {
                     case eDateTimeUnit.Year:
                         value = value.Value.AddYears(options.StepValue);

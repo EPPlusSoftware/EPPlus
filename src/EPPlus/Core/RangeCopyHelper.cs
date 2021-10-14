@@ -166,7 +166,7 @@ namespace OfficeOpenXml.Core
                 var address = _sourceRange.Intersect(cfAddress);
                 var rowOffset = address._fromRow - _sourceRange._fromRow;
                 var colOffset = address._fromCol - _sourceRange._fromCol;
-                address = new ExcelAddressBase(_destination._fromRow + rowOffset, _destination._fromCol + colOffset, _destination._toRow + address.Rows, _destination._toCol + address.Columns);
+                address = new ExcelAddressBase(_destination._fromRow + rowOffset, _destination._fromCol + colOffset, _destination._toRow + rowOffset + address.Rows, _destination._toCol + colOffset+ address.Columns);
                 return address.Address;
             }
             return "";

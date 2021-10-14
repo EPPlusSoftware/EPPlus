@@ -382,7 +382,6 @@ namespace EPPlusTest.Core.Range.Fill
             Assert.AreEqual(new DateTime(2022, 2, 15).Ticks, ((DateTime)_wsDate.Cells["O2"].Value).Ticks);
             Assert.AreEqual(new DateTime(2023, 2, 15).Ticks, ((DateTime)_wsDate.Cells["O3"].Value).Ticks);
             Assert.AreEqual(new DateTime(2024, 2, 15).Ticks, ((DateTime)_wsDate.Cells["O4"].Value).Ticks);
-            //Assert.AreEqual(new DateTime(2025, 2, 15).Ticks, ((DateTime)_wsDate.Cells["O5"].Value).Ticks);
             Assert.IsNull(_wsDate.Cells["O5"].Value);
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["P1"].Value).Ticks);
             Assert.IsNull(_wsDate.Cells["P5"].Value);
