@@ -285,7 +285,7 @@ namespace EPPlusTest.Core.Range.Fill
 
             var startDate = new DateTime(2021, 2, 15);
             _wsDate.Cells["G1"].Value = startDate;
-            _wsDate.Cells["G1:H5"].FillDateTime(x=> { x.DateUnit = eDateTimeUnit.Week;x.StartValue = startDate;x.NumberFormat = "yyyy-MM-dd"; });
+            _wsDate.Cells["G1:H5"].FillDateTime(x=> { x.DateTimeUnit = eDateTimeUnit.Week;x.StartValue = startDate;x.NumberFormat = "yyyy-MM-dd"; });
             
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["G1"].Value).Ticks);
@@ -306,7 +306,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startDate = new DateTime(2021, 2, 28);
             _wsDate.Cells["I1"].Value = startDate;
-            _wsDate.Cells["I1:J5"].FillDateTime(x => { x.DateUnit = eDateTimeUnit.Month; x.StartValue = startDate; });
+            _wsDate.Cells["I1:J5"].FillDateTime(x => { x.DateTimeUnit = eDateTimeUnit.Month; x.StartValue = startDate; });
 
             //Assert
             Assert.AreEqual(startDate.Ticks, ((DateTime)_wsDate.Cells["I1"].Value).Ticks);
@@ -325,7 +325,7 @@ namespace EPPlusTest.Core.Range.Fill
             _wsDate.Cells["K1"].Value = startDate;
             _wsDate.Cells["K1:L5"].FillDateTime(x => 
             { 
-                x.DateUnit = eDateTimeUnit.Month; 
+                x.DateTimeUnit = eDateTimeUnit.Month; 
                 x.StartValue = startDate; 
                 x.SetExcludedWeekdays(DayOfWeek.Saturday, DayOfWeek.Sunday); 
                 x.NumberFormat = "yyyy-mm-dd"; });
@@ -347,11 +347,11 @@ namespace EPPlusTest.Core.Range.Fill
             _wsDate.Cells["M1"].Value = startDate;
             _wsDate.Cells["M1:N5"].FillDateTime(x => 
             { 
-                x.DateUnit = eDateTimeUnit.Week; 
+                x.DateTimeUnit = eDateTimeUnit.Week; 
                 x.StartValue = startDate; 
                 x.SetExcludedWeekdays(DayOfWeek.Saturday, DayOfWeek.Sunday);
                 x.NumberFormat = "yyyy-mm-dd";
-                x.SetHolidayDates( new DateTime(2021, 12, 24), new DateTime(2021, 12, 25), new DateTime(2021, 12, 26), new DateTime(2021, 12, 31), new DateTime(2022, 01, 01));
+                x.SetExcludedDates( new DateTime(2021, 12, 24), new DateTime(2021, 12, 25), new DateTime(2021, 12, 26), new DateTime(2021, 12, 31), new DateTime(2022, 01, 01));
             });
 
             //Assert
@@ -371,7 +371,7 @@ namespace EPPlusTest.Core.Range.Fill
             _wsDate.Cells["O1"].Value = startDate;
             _wsDate.Cells["O1:P5"].FillDateTime(x => 
             { 
-                x.DateUnit = eDateTimeUnit.Year; 
+                x.DateTimeUnit = eDateTimeUnit.Year; 
                 x.StartValue = startDate;
                 x.EndValue = new DateTime(2024, 6, 30); 
                 x.NumberFormat = "yyyy-mm-dd"; 
@@ -391,7 +391,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startTime = DateTime.Parse("12:00:00");
             _wsDate.Cells["A20"].Value = startTime;
-            _wsDate.Cells["A20:B24"].FillDateTime(x => { x.DateUnit = eDateTimeUnit.Hour; x.StartValue = startTime; x.NumberFormat = "hh:mm:ss"; });
+            _wsDate.Cells["A20:B24"].FillDateTime(x => { x.DateTimeUnit = eDateTimeUnit.Hour; x.StartValue = startTime; x.NumberFormat = "hh:mm:ss"; });
 
             //Assert
             Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["A20"].Value).Ticks);
@@ -408,7 +408,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startTime = DateTime.Parse("00:45:00");
             _wsDate.Cells["C20"].Value = startTime;
-            _wsDate.Cells["C20:D24"].FillDateTime(x => { x.DateUnit = eDateTimeUnit.Minute; x.StartValue = startTime; x.NumberFormat = "hh:mm:ss"; });
+            _wsDate.Cells["C20:D24"].FillDateTime(x => { x.DateTimeUnit = eDateTimeUnit.Minute; x.StartValue = startTime; x.NumberFormat = "hh:mm:ss"; });
 
             //Assert
             Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["C20"].Value).Ticks);
@@ -425,7 +425,7 @@ namespace EPPlusTest.Core.Range.Fill
         {
             var startTime = DateTime.Parse("00:00:30");
             _wsDate.Cells["E20"].Value = startTime;
-            _wsDate.Cells["E20:F24"].FillDateTime(x => { x.DateUnit = eDateTimeUnit.Second; x.StartValue = startTime; x.NumberFormat = "hh:mm:ss"; });
+            _wsDate.Cells["E20:F24"].FillDateTime(x => { x.DateTimeUnit = eDateTimeUnit.Second; x.StartValue = startTime; x.NumberFormat = "hh:mm:ss"; });
 
             //Assert
             Assert.AreEqual(startTime.Ticks, ((DateTime)_wsDate.Cells["E20"].Value).Ticks);

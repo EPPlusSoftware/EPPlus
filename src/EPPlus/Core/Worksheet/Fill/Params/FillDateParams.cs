@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         {
             _holidayCalendar.UnionWith(holidayDates);
         }
-        public void SetHolidayDates(IEnumerable<DateTime> holidayDates)
+        public void SetExcludedDates(IEnumerable<DateTime> holidayDates)
         {
             _holidayCalendar.UnionWith(holidayDates);
         }

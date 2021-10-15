@@ -88,7 +88,12 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("Columns");
 
-            ws.Cells["A1:K1"].FillNumber(1,1,eFillDirection.Row);
+            ws.Cells["A1:K1"].FillNumber(x=>
+            {
+                x.StartValue = 1;
+                x.StepValue = 1;
+                x.Direction = eFillDirection.Row;
+            });
 
             int c = 2;
             foreach (var column in ws.Columns[2, 10])
