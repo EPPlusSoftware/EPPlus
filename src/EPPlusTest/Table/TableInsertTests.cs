@@ -355,7 +355,7 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void TableAddOneColumnStartingFromA()
         {
-            using (var p = OpenPackage("AddColumn.xlsx"))
+            using (var p = OpenPackage("TestTableAdd1Column.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 var tbl = ws.Tables.Add(ws.Cells["A1:A10"], "Table1");

@@ -2052,7 +2052,7 @@ namespace OfficeOpenXml
         /// Copies the range of cells to an other range
         /// </summary>
         /// <param name="Destination">The start cell where the range will be copied.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell parts that will not be copied. If Formulas are specified, the formulas will NOT be copied.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied.</param>
         public void Copy(ExcelRangeBase Destination, ExcelRangeCopyOptionFlags? excelRangeCopyOptionFlags)
         {
             var helper = new RangeCopyHelper(this, Destination, excelRangeCopyOptionFlags ?? 0);
@@ -2062,7 +2062,7 @@ namespace OfficeOpenXml
         /// Copies the range of cells to an other range
         /// </summary>
         /// <param name="Destination">The start cell where the range will be copied.</param>
-        /// <param name="excelRangeCopyOptionFlags">Cell parts that will not be copied. If Formulas are specified, the formulas will NOT be copied.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied.</param>
         public void Copy(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
         {
             ExcelRangeCopyOptionFlags flags=0;
