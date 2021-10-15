@@ -2662,13 +2662,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p1);
             }
         }
-        [TestMethod]
-        public void s252()
-        {
-            using (var p = OpenTemplatePackage("CANNOT Open EPPlus.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-            }
-        }
     }
 }   

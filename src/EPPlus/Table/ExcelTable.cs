@@ -972,7 +972,7 @@ namespace OfficeOpenXml.Table
             }
             else if (range._toCol > _address._toCol)
             {
-                Address = _address.AddColumn(_address._toCol, columns);
+                Address = new ExcelAddressBase(_address._fromRow, _address._fromCol, _address._toRow, _address._toCol+columns);
             }
             
             if(copyStyles && isFirstColumn==false)

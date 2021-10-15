@@ -183,5 +183,23 @@ namespace EPPlusTest.Core.Range
 
             Thread.CurrentThread.CurrentCulture = ci;
         }
+
+        [TestMethod]
+        public void ValidateRichText_TextIsReflectedOnRemove()
+        {
+            var package = new OfficeOpenXml.ExcelPackage();
+            package.Workbook.Worksheets.Add("Test");
+            var range = package.Workbook.Worksheets[0].Cells[1, 1];
+            var first = range.RichText.Add("1");
+            var second = range.RichText.Add("2");
+            Assert.IsTrue(first != null);
+            Assert.IsTrue(second != null);
+            Assert.IsTrue(range.IsRichText);
+            Assert.AreEqual(2, range.RichText.Count);
+            Assert.AreEqual("12", range.Text);
+            range.RichText.Remove(second);
+            Assert.AreEqual(1, range.RichText.Count);
+            Assert.AreEqual("1", range.Text);  // FAILS as "12"
+        }
     }
 }
