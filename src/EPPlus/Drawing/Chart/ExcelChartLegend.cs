@@ -46,23 +46,70 @@ namespace OfficeOpenXml.Drawing.Chart
                 OVERLAY_PATH = "c:overlay/@val";
             }
             AddSchemaNodeOrder(new string[] { "legendPos","legendEntry", "layout", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
-            LoadDeletedLegends();
+            LoadLegendEntries();
        }
+        internal void LoadEntries()
+        {
+            if (_chart._isChartEx) return;
+            _entries = new EPPlusReadOnlyList<ExcelChartLegendEntry>();
+            var e = LoadLegendEntries();
+            for (int i = 0; i < _chart.Series.Count; i++)
+            {
+                var ix = e.FindIndex(x => x.Index == i);
+                if (ix>=0)
+                {
+                    _entries.Add(e[ix]);
+                }
+                else
+                {
+                    var entry = new ExcelChartLegendEntry(NameSpaceManager, TopNode, (ExcelChartStandard)_chart, i);
+                    _entries.Add(entry);
+                }
+            }
+        }
+        internal int GetPreEntryIndex(int serieIndex)
+        {
+            for (int i = 0; i < Entries.Count; i++)
+            {
+                if (Entries[i].Index > serieIndex && Entries[i].TopNode.LocalName== "legendEntry")
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        internal EPPlusReadOnlyList<ExcelChartLegendEntry> _entries = null;
+
+        /// <summary>
+        /// A list of individual settings for legend entries.
+        /// </summary>
+        public EPPlusReadOnlyList<ExcelChartLegendEntry> Entries
+        {
+            get
+            {
+                if(_entries==null)
+                {
+                    LoadEntries();
+                }
+                return _entries;
+            }
+        } 
 
         internal XmlElement GetOrCreateEntry()
         {
             return (XmlElement)CreateNode("c:legendEntry");
         }
 
-        private void LoadDeletedLegends()
+        internal List<ExcelChartLegendEntry> LoadLegendEntries()
         {
-            if (this is ExcelChartExLegend) return; //Legend entries are not applicable for extended charts.
-            
+            if (this is ExcelChartExLegend) return new List<ExcelChartLegendEntry>(); //Legend entries are not applicable for extended charts.
+            var entries = new List<ExcelChartLegendEntry>();
             var nodes = GetNodes("c:legendEntry");
             foreach(XmlNode n in nodes)
             {
-                Entries.Add(new ExcelChartLegendEntry(NameSpaceManager, n, (ExcelChartStandard)_chart));
+                entries.Add(new ExcelChartLegendEntry(NameSpaceManager, n, (ExcelChartStandard)_chart));
             }
+            return entries;
         }
 
         const string POSITION_PATH = "c:legendPos/@val";
@@ -231,13 +278,6 @@ namespace OfficeOpenXml.Drawing.Chart
             TopNode = null;
         }
         /// <summary>
-        /// A list of individual settings for legend entries.
-        /// </summary>
-        internal EPPlusReadOnlyList<ExcelChartLegendEntry> Entries
-        {
-            get;
-        } = new EPPlusReadOnlyList<ExcelChartLegendEntry>();
-        /// <summary>
         /// Adds a legend to the chart
         /// </summary>
         public virtual void Add()
@@ -266,18 +306,6 @@ namespace OfficeOpenXml.Drawing.Chart
             Font.Bold = Font.Bold; //Must be set
 
             CreatespPrNode($"{_nsPrefix}:spPr");
-        }
-
-        internal int GetPreEntryIndex(int serieIndex)
-        {
-            for (int i=0;i < Entries.Count;i++)
-            {
-                if (Entries[i].Index > serieIndex)
-                {
-                    return i;
-                }
-            }
-            return -1;
         }
     }
 }

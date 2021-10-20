@@ -125,10 +125,10 @@ namespace EPPlusTest.Drawing.Chart
             serie2.Header = "Serie 2-Deleted";
             serie3.Header = "Serie 3-Font Changed";
 
-            serie3.LegendEntry.Font.Fill.Style = eFillStyle.SolidFill;
-            serie3.LegendEntry.Font.Fill.SolidFill.Color.SetRgbColor(Color.Red);
+            chart.Legend.Entries[2].Font.Fill.Style = eFillStyle.SolidFill;
+            chart.Legend.Entries[2].Font.Fill.SolidFill.Color.SetRgbColor(Color.Red);
 
-            serie2.LegendEntry.Deleted = true;
+            chart.Legend.Entries[1].Deleted = true;
 
             chart.SetPosition(2, 0, 15, 0);
             chart.SetSize(1600, 900);
@@ -140,12 +140,11 @@ namespace EPPlusTest.Drawing.Chart
 
             Assert.AreEqual("Serie 1", serie1.Header);
             Assert.AreEqual("Serie 2-Deleted", serie2.Header);
-            Assert.IsTrue(serie2.LegendEntry.Deleted);
+            Assert.IsTrue(chart.Legend.Entries[1].Deleted);
             Assert.AreEqual("Serie 3-Font Changed", serie3.Header);
 
-            Assert.IsTrue(chart.Legend.Entries[0].Deleted);
-            Assert.AreEqual(eFillStyle.SolidFill,chart.Legend.Entries[1].Font.Fill.Style);
-            Assert.AreEqual(Color.Red.ToArgb(), chart.Legend.Entries[1].Font.Fill.SolidFill.Color.RgbColor.Color.ToArgb());
+            Assert.AreEqual(eFillStyle.SolidFill,chart.Legend.Entries[2].Font.Fill.Style);
+            Assert.AreEqual(Color.Red.ToArgb(), chart.Legend.Entries[2].Font.Fill.SolidFill.Color.RgbColor.Color.ToArgb());
         }
 
         [TestMethod]
@@ -164,10 +163,10 @@ namespace EPPlusTest.Drawing.Chart
                 serie2.Header = "Serie 2-Deleted";
                 serie3.Header = "Serie 3-Font Changed";
 
-                serie3.LegendEntry.Font.Fill.Style = eFillStyle.SolidFill;
-                serie3.LegendEntry.Font.Fill.SolidFill.Color.SetRgbColor(Color.Red);
+                chart.Legend.Entries[2].Font.Fill.Style = eFillStyle.SolidFill;
+                chart.Legend.Entries[2].Font.Fill.SolidFill.Color.SetRgbColor(Color.Red);
 
-                serie2.LegendEntry.Deleted = true;
+                chart.Legend.Entries[1].Deleted = true;
 
                 chart.SetPosition(2, 0, 15, 0);
                 chart.SetSize(1600, 900);
@@ -180,12 +179,11 @@ namespace EPPlusTest.Drawing.Chart
 
                 Assert.AreEqual("Serie 1", serie1.Header);
                 Assert.AreEqual("Serie 2-Deleted", serie2.Header);
-                Assert.IsTrue(serie2.LegendEntry.Deleted);
+                Assert.IsTrue(chart.Legend.Entries[1].Deleted);
                 Assert.AreEqual("Serie 3-Font Changed", serie3.Header);
 
-                Assert.IsTrue(chart.Legend.Entries[0].Deleted);
-                Assert.AreEqual(eFillStyle.SolidFill, chart.Legend.Entries[1].Font.Fill.Style);
-                Assert.AreEqual(Color.Red.ToArgb(), chart.Legend.Entries[1].Font.Fill.SolidFill.Color.RgbColor.Color.ToArgb());
+                Assert.AreEqual(eFillStyle.SolidFill, chart.Legend.Entries[2].Font.Fill.Style);
+                Assert.AreEqual(Color.Red.ToArgb(), chart.Legend.Entries[2].Font.Fill.SolidFill.Color.RgbColor.Color.ToArgb());
 
                 p1.Save();
 
@@ -205,12 +203,12 @@ namespace EPPlusTest.Drawing.Chart
 
                     Assert.AreEqual("Serie 1", serie1.Header);
                     Assert.AreEqual("Serie 2-Deleted", serie2.Header);
-                    Assert.IsTrue(serie2.LegendEntry.Deleted);
+                    Assert.IsTrue(chart.Legend.Entries[1].Deleted);
                     Assert.AreEqual("Serie 3-Font Changed", serie3.Header);
 
-                    Assert.IsTrue(chart.Legend.Entries[0].Deleted);
-                    Assert.AreEqual(eFillStyle.SolidFill, chart.Legend.Entries[1].Font.Fill.Style);
-                    Assert.AreEqual(Color.Red.ToArgb(), chart.Legend.Entries[1].Font.Fill.SolidFill.Color.RgbColor.Color.ToArgb());
+                    Assert.IsFalse(chart.Legend.Entries[0].Deleted);
+                    Assert.AreEqual(eFillStyle.SolidFill, chart.Legend.Entries[2].Font.Fill.Style);
+                    Assert.AreEqual(Color.Red.ToArgb(), chart.Legend.Entries[2].Font.Fill.SolidFill.Color.RgbColor.Color.ToArgb());
                 }
             }
         }

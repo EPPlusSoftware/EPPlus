@@ -704,7 +704,7 @@ namespace OfficeOpenXml
             PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(Row, Column);
             PaneSettings.State = isSplit ? ePaneState.FrozenSplit : ePaneState.Frozen;
 
-            CreateSelectionXml(Row + 1, Column + 1, false);
+            CreateSelectionXml(Row - 1, Column - 1, false);
             Panes = LoadPanes();
         }
 
@@ -734,7 +734,8 @@ namespace OfficeOpenXml
                 sel.SetAttribute("pane", "bottomLeft");
                 if (activeCell != "") sel.SetAttribute("activeCell", activeCell);
                 if (sqRef != "") sel.SetAttribute("sqref", sqRef);
-                sel.SetAttribute("sqref", sqRef);
+                var cell = ExcelCellBase.GetAddress(Row + 1, 1);
+                sel.SetAttribute("topLeftCell", cell);
                 TopNode.InsertAfter(sel, afterNode);
             }
             else if (Column > 0 && Row == 0)
@@ -745,6 +746,8 @@ namespace OfficeOpenXml
                 sel.SetAttribute("pane", "topRight");
                 if (activeCell != "") sel.SetAttribute("activeCell", activeCell);
                 if (sqRef != "") sel.SetAttribute("sqref", sqRef);
+                string cell = ExcelCellBase.GetAddress(1, Column + 1);
+                sel.SetAttribute("topLeftCell", cell);
                 TopNode.InsertAfter(sel, afterNode);
             }
             else
@@ -847,7 +850,7 @@ namespace OfficeOpenXml
                 var defaultWidth = ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size);
                 var widthCharRH = c.Row < 1000 ? 3 : c.Row.ToString(CultureInfo.InvariantCulture).Length;
                 var margin = 5;
-                PaneSettings.XSplit = (Convert.ToDouble(GetVisibleColumnWidth(c.Column, columnsLeft) + (defaultWidth * widthCharRH) + margin)) * 15D;
+                PaneSettings.XSplit = (Convert.ToDouble(GetVisibleColumnWidth(c.Column-1, columnsLeft) + (defaultWidth * widthCharRH) + margin)) * 15D;
             }
             if (rowsTop > 0)
             {
@@ -855,11 +858,9 @@ namespace OfficeOpenXml
             }
             CreateSelectionXml(rowsTop, columnsLeft, true);
             Panes = LoadPanes();
-            if (rowsTop > 0 && columnsLeft > 0)
-            {
-                var a = new ExcelCellAddress(string.IsNullOrEmpty(TopLeftCell) ? "A1" : TopLeftCell);
-                PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(a.Row + rowsTop, a.Column + columnsLeft);
-            }
+
+            var a = new ExcelCellAddress(string.IsNullOrEmpty(TopLeftCell) ? "A1" : TopLeftCell);
+            PaneSettings.TopLeftCell = ExcelCellBase.GetAddress(a.Row + rowsTop, a.Column + columnsLeft);
         }
 
         private void SetPaneSetting()

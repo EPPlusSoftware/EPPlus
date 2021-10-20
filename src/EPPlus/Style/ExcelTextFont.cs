@@ -240,8 +240,7 @@ namespace OfficeOpenXml.Style
             {
                 if (_fill == null)
                 {
-                    CreateTopNode();
-                    _fill = new ExcelDrawingFill(_pictureRelationDocument, NameSpaceManager, _rootNode, _path, SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_pictureRelationDocument, NameSpaceManager, _rootNode, _path, SchemaNodeOrder, CreateTopNode);
                 }
                 return _fill;
             }

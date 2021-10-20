@@ -532,9 +532,15 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 ApplyStyle(_chart.Legend, Style.Legend);
                 if(!_chart._isChartEx)
                 {
-                    foreach(ExcelChartLegendEntry e in _chart.Legend.Entries)
+                    if (_chart.Legend._entries != null)
                     {
-                        ApplyStyleFont(Style.Legend, e.Index, e, 0);
+                        foreach (ExcelChartLegendEntry e in _chart.Legend._entries)
+                        {
+                            if (e.HasValue)
+                            {
+                                ApplyStyleFont(Style.Legend, e.Index, e, 0);
+                            }
+                        }
                     }
                 }
             }

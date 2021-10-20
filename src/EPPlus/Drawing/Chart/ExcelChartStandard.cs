@@ -978,7 +978,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Legend
         /// </summary>
-        public override ExcelChartLegend Legend
+        public new ExcelChartLegend Legend
         {
             get
             {

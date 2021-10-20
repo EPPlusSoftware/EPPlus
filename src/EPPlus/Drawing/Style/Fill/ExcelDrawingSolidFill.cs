@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
     public class ExcelDrawingSolidFill : ExcelDrawingFillBase
     {
         string[] _schemaNodeOrder;
-        internal ExcelDrawingSolidFill(XmlNamespaceManager nsm, XmlNode topNode, string fillPath, string[]  schemaNodeOrder) : base(nsm, topNode, fillPath)
+        internal ExcelDrawingSolidFill(XmlNamespaceManager nsm, XmlNode topNode, string fillPath, string[]  schemaNodeOrder, Action initXml) : base(nsm, topNode, fillPath, initXml)
         {
             _schemaNodeOrder = schemaNodeOrder;
             GetXml();
@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             {
                 if (_color == null)
                 {
-                    _color = new ExcelDrawingColorManager(_nsm, _topNode, _fillPath, _schemaNodeOrder);
+                    _color = new ExcelDrawingColorManager(_nsm, _topNode, _fillPath, _schemaNodeOrder, _initXml);
                 }
                 return _color;
             }
@@ -68,6 +68,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
 
         internal override void SetXml(XmlNamespaceManager nsm, XmlNode node)
         {
+            _initXml?.Invoke();
             if (_xml == null)
             {
                 if(string.IsNullOrEmpty(_fillPath))
