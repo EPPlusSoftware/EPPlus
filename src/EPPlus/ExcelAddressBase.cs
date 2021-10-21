@@ -258,7 +258,7 @@ namespace OfficeOpenXml
         }
         internal string ChangeTableName(string prevName, string name)
         {
-            if (LocalAddress.StartsWith(prevName, StringComparison.CurrentCultureIgnoreCase))
+            if (LocalAddress.StartsWith(prevName +"[", StringComparison.CurrentCultureIgnoreCase))
             {
                 var wsPart = "";
                 var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from                 
