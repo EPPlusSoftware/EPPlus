@@ -1,4 +1,31 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.0
+### Features
+* ExcelWorksheetView.SplitPanes method added
+* ExcelRangeBase Fill method added
+	* FillNumber
+	* FillDateTime
+	* FillList
+* New collection properties for Rows and Columns
+	* ExcelWorksheet.Rows
+	* ExcelWorksheet.Columns
+	* ExcelRangeBase.EntireRow
+	* ExcelRangeBase.EntireColum
+* Support for formatting and deleting individual Chart Legend Entries.
+* Range.Copy improvments. 
+* Handle complex types in LoadFromCollection with attributes
+* The ExcelPackage constructor and the Load/Save methods will now take a string path argument as well as a FileInfo.
+
+### Fixed issues
+* Renaming table to a name which contains the old name doesn't correctly update column references
+* Range.Text did not handle empty formats like ;;; correctly.
+* Range.Text - Strings within a format with percent, 0"%", incorrectly divides by 100
+* VBA module names that started with a underscore (_) caused the ExcelWorksheet.Copy method to fail.
+* Using range.RichText.Remove did not reflect the text to Range.Text.
+* Adding a column to table with one column did not add the column.
+* ExcelRangeBase.SaveToText did not add TextQualifiers around a formatted numeric value containing the column separator.
+* Deleting cells sometimes didn't delete comments.
+* Improved handling of ranges as return values from functions in the formula calculation.
 
 ## Version 5.7.5
 ### Fixed issues
