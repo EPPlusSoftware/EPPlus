@@ -101,8 +101,8 @@ namespace OfficeOpenXml.Drawing
             offNode.SetAttribute("y", (top * ExcelDrawing.EMU_PER_PIXEL).ToString());
             offNode.SetAttribute("x", (left * ExcelDrawing.EMU_PER_PIXEL).ToString());
             var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext",_nsm);
-            extNode.SetAttribute("cy", (height * ExcelDrawing.EMU_PER_PIXEL).ToString());
-            extNode.SetAttribute("cx", (width * ExcelDrawing.EMU_PER_PIXEL).ToString());
+            extNode.SetAttribute("cy", Math.Round(height * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
+            extNode.SetAttribute("cx", Math.Round(width * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
             
             d.SetGroupChild(offNode, extNode);
             node.ParentNode.RemoveChild(node);

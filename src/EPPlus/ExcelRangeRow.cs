@@ -150,7 +150,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Row height in points.
+        /// Row height in points. Setting this property will also set <see cref="CustomHeight"/> to true.
         /// </summary>
         public double Height
         {
@@ -160,11 +160,15 @@ namespace OfficeOpenXml
             }
             set
             {
-                SetValue(new Action<RowInternal, double>((x, v) => { x.Height = v; }), value);
+                SetValue(new Action<RowInternal, double>((x, v) => 
+                { 
+                    x.Height = v;
+                    x.CustomHeight = true; 
+                }), value);
             }
         }
         /// <summary>
-        /// True if the row height has been manually set
+        /// True if the row <see cref="Height" /> has been manually set.
         /// </summary>
         public bool CustomHeight
         {

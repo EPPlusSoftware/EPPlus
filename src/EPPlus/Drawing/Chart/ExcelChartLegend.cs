@@ -62,11 +62,23 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
                 else
                 {
-                    var entry = new ExcelChartLegendEntry(NameSpaceManager, TopNode, (ExcelChartStandard)_chart, i);
-                    _entries.Add(entry);
+                    AddNewEntry(_chart.Series[i]);
                 }
             }
         }
+
+        internal void AddNewEntry(ExcelChartSerie serie)
+        {
+            var a = new ExcelAddressBase(serie.Series);
+            if (a.Rows < 1 || a.Columns < 1) return;
+            var seriesCount = (a.Rows == 1 ? a.Rows : a.Columns);
+            for (int i = 0; i < seriesCount; i++)
+            {
+                var entry = new ExcelChartLegendEntry(NameSpaceManager, TopNode, (ExcelChartStandard)_chart, _entries.Count);
+                _entries.Add(entry);
+            }
+        }
+
         internal int GetPreEntryIndex(int serieIndex)
         {
             for (int i = 0; i < Entries.Count; i++)
