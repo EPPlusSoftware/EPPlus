@@ -725,14 +725,22 @@ namespace OfficeOpenXml
         {
             TopNode.ParentNode.RemoveChild(TopNode);
         }
-        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="")
+        internal void SetXmlNodeDouble(string path, double? d, bool allowNegative)
         {
-            if (d == null)
+            SetXmlNodeDouble(path, d, null, "", allowNegative);
+        }
+        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="", bool allowNegative=true)
+        {
+            if (d.HasValue==false)
             {
                 DeleteNode(path);
             }
             else
             {
+                if (allowNegative==false && d.Value<0)
+                {
+                    throw new InvalidOperationException("Value can't be negative");
+                }
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture) + suffix);
             }
         }
@@ -1224,10 +1232,10 @@ namespace OfficeOpenXml
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             //Disable entity parsing (to aviod xmlbombs, External Entity Attacks etc).
-#if(Core)
-            settings.DtdProcessing = DtdProcessing.Prohibit;
-#else
+#if(NET35)
             settings.ProhibitDtd = true;            
+#else
+            settings.DtdProcessing = DtdProcessing.Prohibit;
 #endif
             XmlReader reader = XmlReader.Create(stream, settings);
             xmlDoc.Load(reader);

@@ -62,6 +62,10 @@ namespace EPPlusTest
                 Assert.IsFalse(a1.Comment.Visible); // Comments are by default invisible 
                 a1.Comment.Visible = true;
                 a1.Comment.Visible = false;
+                a1.Comment.Fill.Style = OfficeOpenXml.Drawing.Vml.eVmlFillType.Gradient;
+                a1.Comment.Fill.GradientSettings.SetGradientColors(
+                    new OfficeOpenXml.Drawing.Vml.VmlGradiantColor(0, Color.Red), 
+                    new OfficeOpenXml.Drawing.Vml.VmlGradiantColor(100, Color.Orange));
                 Assert.IsNotNull(a1.Comment);
                 //check style attribute
                 var stylesDict = new System.Collections.Generic.Dictionary<string, string>();

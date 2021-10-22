@@ -258,7 +258,7 @@ namespace OfficeOpenXml
         }
         internal string ChangeTableName(string prevName, string name)
         {
-            if (LocalAddress.StartsWith(prevName, StringComparison.CurrentCultureIgnoreCase))
+            if (LocalAddress.StartsWith(prevName +"[", StringComparison.CurrentCultureIgnoreCase))
             {
                 var wsPart = "";
                 var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from                 
@@ -634,6 +634,14 @@ namespace OfficeOpenXml
         public override string ToString()
         {
             return _address;
+        }
+        /// <summary>
+        /// A hash code for the current object.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
         string _firstAddress;
         /// <summary>

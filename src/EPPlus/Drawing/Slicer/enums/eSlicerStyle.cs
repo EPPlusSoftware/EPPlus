@@ -24,7 +24,7 @@ namespace OfficeOpenXml
         /// </summary>
         None,
         /// <summary>
-        /// A custom style set by the <see cref="ExcelSlicer.Style"/> property
+        /// A custom style set by the <see cref="ExcelSlicer{T}.Style"/> property
         /// </summary>
         Custom,
         /// <summary>

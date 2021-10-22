@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Style.Fill
@@ -19,6 +20,8 @@ namespace OfficeOpenXml.Drawing.Style.Fill
     /// </summary>
     public abstract class ExcelDrawingFillBase
     {
+        internal Action _initXml;
+
         /// <summary>
         /// Creates an instance of ExcelDrawingFillBase
         /// </summary>
@@ -31,8 +34,10 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         /// <param name="nsm">Namespace manager</param>
         /// <param name="topNode">The top node</param>
         /// <param name="fillPath">XPath to the fill</param>
-        internal protected ExcelDrawingFillBase(XmlNamespaceManager nsm, XmlNode topNode, string fillPath)
+        /// <param name="initXml">Xml initialize method</param>
+        internal protected ExcelDrawingFillBase(XmlNamespaceManager nsm, XmlNode topNode, string fillPath, Action initXml)
         {
+            _initXml = initXml;
             InitXml(nsm, topNode, fillPath);
         }
 

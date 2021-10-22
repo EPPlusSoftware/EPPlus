@@ -1705,7 +1705,8 @@ namespace EPPlusTest
                 //Data1
                 var worksheet = excelFile.Workbook.Worksheets["Test1"];
                 ExcelRangeBase location = worksheet.Cells["A1"].LoadFromCollection(Collection: report1, PrintHeaders: true);
-                worksheet.Tables.Add(location, "mytestTbl");
+                var t = worksheet.Tables.Add(location, "mytestTbl");
+                t.TableStyle = TableStyles.None;
 
                 //Data2
                 worksheet = excelFile.Workbook.Worksheets["Test2"];
@@ -2636,6 +2637,30 @@ namespace EPPlusTest
                 Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
                 Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
             }
-        }       
+        }
+        [TestMethod]
+        public void FreezeTemplate()
+        {
+            using (var p = OpenTemplatePackage("freeze.xlsx"))
+            {
+                // Get the worksheet where columns 3-5 have a width of around 18
+                var ws = p.Workbook.Worksheets[0];
+                ws.View.FreezePanes(40, 5);
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CopyWorksheetWithBlipFillObjects()
+        {
+            using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
+            {
+                var ws = p1.Workbook.Worksheets[0];
+                var wsCopy = p1.Workbook.Worksheets.Add("Copy",p1.Workbook.Worksheets[0]);
+
+                ws.Cells["G4"].Copy(wsCopy.Cells["F20"]);
+                SaveAndCleanup(p1);
+            }
+        }
     }
 }   

@@ -100,15 +100,15 @@ namespace OfficeOpenXml.Utils
                     return d.ToString(format);
                 }
             }
-            else if (v is DateTime)
+            else if (v is DateTime dt)
             {
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
-                    return GetDateText((DateTime)v, format, f, overrideCultureInfo ?? nf.Culture);
+                    return GetDateText(dt, format, f, overrideCultureInfo ?? nf.Culture);
                 }
                 else
                 {
-                    double d = ((DateTime)v).ToOADate();
+                    double d = (dt).ToOADate();
                     if (string.IsNullOrEmpty(f.FractionFormat))
                     {
                         return d.ToString(format, nf.Culture);
@@ -118,20 +118,16 @@ namespace OfficeOpenXml.Utils
                         return nf.FormatFraction(d, f);
                     }
                 }
-                if (nf.Formats.Count > 2 && string.IsNullOrEmpty(f.NetFormat))
-                {
-                    return null;
-                }
             }
-            else if (v is TimeSpan)
+            else if (v is TimeSpan ts)
             {
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
-                    return GetDateText(new DateTime(((TimeSpan)v).Ticks), format,f, overrideCultureInfo);
+                    return GetDateText(new DateTime(ts.Ticks), format,f, overrideCultureInfo);
                 }
                 else
                 {
-                    double d = new DateTime(0).Add((TimeSpan)v).ToOADate();
+                    double d = new DateTime(0).Add(ts).ToOADate();
                     if (string.IsNullOrEmpty(f.FractionFormat))
                     {
                         return d.ToString(format, nf.Culture);
@@ -140,12 +136,7 @@ namespace OfficeOpenXml.Utils
                     {
                         return nf.FormatFraction(d,f);
                     }
-                }
-                
-                if (nf.Formats.Count > 2 && string.IsNullOrEmpty(f.NetFormat))
-                {
-                    return null;
-                }
+                }                
             }
             else
             {

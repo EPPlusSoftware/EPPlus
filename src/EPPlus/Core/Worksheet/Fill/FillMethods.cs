@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         {
             if (value.HasValue)
             {
-                switch (options.DateUnit)
+                switch (options.DateTimeUnit)
                 {
                     case eDateTimeUnit.Year:
                         value = value.Value.AddYears(options.StepValue);
@@ -136,9 +136,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
                         break;
                 }
                 DateTime d;
-                if (options.WeekdaysOnly)
+                if (options._holidayCalendar.Count > 0 || 
+                    options._excludedWeekdays.Count > 0)
                 {
-                    d = GetWeekday(value.Value, options.HolidayCalendar);
+                    d = GetWeekday(value.Value, options);
                 }
                 else
                 {
@@ -252,9 +253,9 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
 
         }
 
-        static DateTime GetWeekday(DateTime value, HashSet<DateTime> holyDays)
+        static DateTime GetWeekday(DateTime value, FillDateParams o)
         {
-            while (value.DayOfWeek == DayOfWeek.Saturday || value.DayOfWeek == DayOfWeek.Sunday || holyDays.Contains(value))
+            while (o._excludedWeekdays.Contains(value.DayOfWeek) || o._holidayCalendar.Contains(value))
             {
                 value = value.AddDays(-1);
             }

@@ -145,5 +145,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
             var financialDays = FinancialDaysFactory.Create(Basis);
             return financialDays.GetDaysBetweenDates(this.ToDateTime(), day.ToDateTime());
         }
+        public override bool Equals(object obj)
+        {
+            if(obj is FinancialDay b)
+            {
+                return b == this;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

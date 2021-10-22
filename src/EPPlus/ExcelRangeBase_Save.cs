@@ -350,6 +350,12 @@ namespace OfficeOpenXml
                     isText = true;
                 }
             }
+
+            //If a formatted numeric/date value contains the delimitter or a text qualifier treat it as text.
+            if (isText == false && string.IsNullOrEmpty(t)==false && t.IndexOfAny(new []{ Format.Delimiter, Format.TextQualifier}) >= 0)
+            {
+                isText = true;
+            }
             return t;
         }
 

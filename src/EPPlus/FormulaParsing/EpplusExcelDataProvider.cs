@@ -28,7 +28,6 @@ namespace OfficeOpenXml.FormulaParsing
     {
         public class RangeInfo : IRangeInfo
         {
-            ExcelExternalWorkbook _wb;
             internal ExcelWorksheet _ws;
             CellStoreEnumerator<ExcelValue> _values = null;
             int _fromRow, _toRow, _fromCol, _toCol;
@@ -385,26 +384,8 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 addr = ConvertToA1C1(_package, addr, new ExcelAddressBase(row, column, row, column));
             }
-            //SetCurrentWorksheet(addr.WorkSheet); 
-            if (addr.IsExternal)
-            {                
-                return GetExternalRangeInfo(addr, addr.WorkSheetName, _package.Workbook);
-            }
-            else
-            {
-                var wsName = string.IsNullOrEmpty(addr.WorkSheetName) ? _currentWorksheet?.Name : addr.WorkSheetName;
-                var ws = _package.Workbook.Worksheets[wsName];
-
-                if (ws == null)
-                {
-                    throw new ExcelErrorValueException(eErrorType.Ref);
-                }
-
-                return new RangeInfo(ws, addr);
-            }            
+            return GetRangeInternal(addr);
         }
-
-        [Obsolete("Please use GetRange(string, row, column, address)")]
         public override IRangeInfo GetRange(string worksheet, string address)
         {
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
@@ -412,6 +393,11 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 addr = ConvertToA1C1(_package, addr, addr);
             }
+            return GetRangeInternal(addr);
+        }
+
+        private IRangeInfo GetRangeInternal(ExcelAddressBase addr)
+        {
             if (addr.IsExternal)
             {
                 return GetExternalRangeInfo(addr, addr.WorkSheetName, _package.Workbook);

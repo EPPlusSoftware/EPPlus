@@ -299,7 +299,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         /// <summary>
         /// Auto sort for a field. Sort is set on a data field for a row/column field.
-        /// Use <see cref="SetAutoSort(ExcelPivotTableDataField)"/> to set auto sort 
+        /// Use <see cref="SetAutoSort(ExcelPivotTableDataField, eSortType)"/> to set auto sort 
         /// Use <seealso cref="RemoveAutoSort"/> to remove auto sort and set this property to null
         /// </summary>
         public ExcelPivotAreaAutoSort AutoSort

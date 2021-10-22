@@ -352,5 +352,17 @@ namespace EPPlusTest.Table
                 Assert.AreEqual("B2:C13", table3.Address.ToString());
             }
         }
+        [TestMethod]
+        public void TableAddOneColumnStartingFromA()
+        {
+            using (var p = OpenPackage("TestTableAdd1Column.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:A10"], "Table1");
+                var col = tbl.Columns.Add(1);
+                Assert.AreEqual("A1:B10", tbl.Address.Address);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

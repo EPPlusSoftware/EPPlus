@@ -211,6 +211,7 @@ namespace OfficeOpenXml.Style
         {
             TopNode.RemoveChild(Item.TopNode);
             _list.Remove(Item);
+            UpdateCells();
             if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
         }
         //public void Insert(int index, string Text)

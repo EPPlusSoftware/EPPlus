@@ -41,7 +41,6 @@ namespace EPPlusTest.FormulaParsing
     public class WorkbookNamesTests : TestBase
     {
         private ExcelPackage _package;
-        private ExcelWorksheet _sheet;
 
         [TestInitialize]
         public void Initialize()

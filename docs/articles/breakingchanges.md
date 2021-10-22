@@ -59,3 +59,7 @@ Pivot table filter classes moved to correct namespace --> OfficeOpenXml.Table.Pi
 ### Breaking Change From EPPlus 5.6
 Inserting rows in tables will by default copy any style from the row before. 
 The ExcelRange.Cells indexer will not permit accessing other worksheets using the string address overload (for example sheet1.Cells["sheet2.A1"]).
+
+### Breaking Change From EPPlus 5.8
+LoadFromCollection changes the data type of parameter 'TableStyle' from TableStyles to TableStyles?. 
+The default value, if omitted, changes from TableStyles.None to null. TableStyles.None, if supplied will create a table with style None.

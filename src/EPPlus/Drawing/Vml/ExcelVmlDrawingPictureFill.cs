@@ -1,5 +1,4 @@
-﻿///  <v:fill color2 = "black" recolor="t" rotate="t" focus="100%" type="gradient"/>
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -9,6 +8,9 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Fill settings for a vml pattern or picture fill
+    /// </summary>
     public class ExcelVmlDrawingPictureFill : XmlHelper, IPictureContainer
     {
         ExcelVmlDrawingFill _fill;
@@ -51,7 +53,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
-        /// 
+        /// The aspect ratio 
         /// </summary>
         public eVmlAspectRatio AspectRatio 
         { 
@@ -128,7 +130,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 if(_image==null)
                 {
-                    var relId = GetXmlNodeString("v:fill/@o:relid");
+                    var relId = RelId;
                     if (!string.IsNullOrEmpty(relId))
                     {
                         _image = PictureStore.GetPicture(relId, this, out string contentType);
@@ -175,5 +177,12 @@ namespace OfficeOpenXml.Drawing.Vml
         string IPictureContainer.ImageHash { get; set ; }
         Uri IPictureContainer.UriPic { get; set ; }
         ZipPackageRelationship IPictureContainer.RelPic { get; set; }
+        internal string RelId 
+        { 
+            get
+            {
+                return GetXmlNodeString("v:fill/@o:relid");
+            }
+        }
     }
 }

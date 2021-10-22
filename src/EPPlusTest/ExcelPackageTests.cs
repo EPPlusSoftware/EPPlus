@@ -38,6 +38,24 @@ namespace EPPlusTest
     [TestClass]
     public class ExcelPackageTests
     {
-        
+        [TestMethod, Ignore]
+        public void ConstructorWithStringPath()
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Test.xlsx");
+            using(var package = new ExcelPackage(path))
+            {
+
+            }
+        }
+
+        [TestMethod, Ignore]
+        public void ConstructorWithStringPathAndPassword()
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Test.xlsx");
+            using (var package = new ExcelPackage(path, "pwd123"))
+            {
+
+            }
+        }
     }
 }

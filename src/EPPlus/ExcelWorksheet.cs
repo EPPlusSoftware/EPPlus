@@ -42,6 +42,7 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml
 {
@@ -641,7 +642,7 @@ namespace OfficeOpenXml
                     XmlNode node = TopNode.SelectSingleNode("d:sheetViews/d:sheetView", NameSpaceManager);
                     if (node == null)
                     {
-                        CreateNode("d:sheetViews/d:sheetView");     //this one shouls always exist. but check anyway
+                        CreateNode("d:sheetViews/d:sheetView");     //this one should always exist. but check anyway
                         node = TopNode.SelectSingleNode("d:sheetViews/d:sheetView", NameSpaceManager);
                     }
                     _sheetView = new ExcelWorksheetView(NameSpaceManager, node, this);
@@ -671,6 +672,24 @@ namespace OfficeOpenXml
                 ChangeNames(value);
 
                 _name = value;
+            }
+        }
+
+        internal int GetColumnWidthPixels(int col, decimal mdw)
+        {
+            return (int)decimal.Truncate(((256 * GetColumnWidth(col + 1) + decimal.Truncate(128 / mdw)) / 256) * mdw);
+        }
+
+        internal decimal GetColumnWidth(int col)
+        {
+            var column = GetValueInner(0, col) as ExcelColumn;
+            if (column == null)   //Check that the column exists
+            {
+                return (decimal)DefaultColWidth;
+            }
+            else
+            {
+                return (decimal)Column(col).VisualWidth;
             }
         }
 
@@ -746,6 +765,72 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        internal double GetRowHeight(int row)
+        {
+            object o = null;
+            if (ExistsValueInner(row, 0, ref o) && o != null)   //Check that the row exists
+            {
+                var internalRow = (RowInternal)o;
+                if (internalRow.Hidden)
+                {
+                    return 0;
+                }
+                else if (internalRow.Height >= 0 && internalRow.CustomHeight)
+                {
+                    return internalRow.Height;
+                }
+                else
+                {
+                    return GetRowHeightFromCellFonts(row);
+                }
+            }
+            else
+            {
+                //The row exists, check largest font in row
+
+                /**** Default row height is assumed here. Excel calcualtes the row height from the larges font on the line. The formula to this calculation is undocumented, so currently its implemented with constants... ****/
+                return GetRowHeightFromCellFonts(row);
+            }
+        }
+        Dictionary<int, double> _textHeights = new Dictionary<int, double>();
+        private double GetRowHeightFromCellFonts(int row)
+        {
+            var dh = DefaultRowHeight;
+            if (double.IsNaN(dh) || CustomHeight == false)
+            {
+                var height = dh;
+
+                var cse = new CellStoreEnumerator<ExcelValue>(_values, row, 0, row, ExcelPackage.MaxColumns);
+                var styles = Workbook.Styles;
+                while (cse.Next())
+                {
+                    var xfs = styles.CellXfs[cse.Value._styleId];
+                    var f = styles.Fonts[xfs.FontId];
+                    double rh;
+                    if (_textHeights.ContainsKey(cse.Value._styleId))
+                    {
+                        rh = _textHeights[cse.Value._styleId];
+                    }
+                    else
+                    {
+                        rh = ExcelFontXml.GetFontHeight(f.Name, f.Size) * 0.75;
+                        _textHeights.Add(cse.Value._styleId, rh);
+                    }
+
+                    if (rh > height)
+                    {
+                        height = rh;
+                    }
+                }
+                return height;
+            }
+            else
+            {
+                return dh;
+            }
+        }
+
 
         private void DeactivateTab()
         {
@@ -847,16 +932,15 @@ namespace OfficeOpenXml
                 if (double.IsNaN(ret))
                 {
                     var mfw = Convert.ToDouble(Workbook.MaxFontWidth);
-                    var widthPx = mfw * 7;
-                    var margin = Math.Truncate(mfw / 4 + 0.999) * 2 + 1;
-                    if (margin < 5) margin = 5;
-                    while (Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100 < 8)
-                    {
-                        widthPx++;
-                    }
-                    widthPx = widthPx % 8 == 0 ? widthPx : 8 - widthPx % 8 + widthPx;
-                    var width = Math.Truncate((widthPx - margin) / mfw * 100 + 0.5) / 100;
-                    return Math.Truncate((width * mfw + margin) / mfw * 256) / 256;
+                    var margin = 5d;
+                    var width = Math.Truncate((8 * mfw + margin) / mfw * 256d) / 256d;
+                    var widthPx = Math.Truncate(((256d * width + Math.Truncate(128d / mfw)) / 256d) * mfw);
+                    var widthPxAdj = widthPx + (8 - (widthPx % 8));
+
+                    var styles = _package.Workbook.Styles;
+                    var size = styles.NamedStyles[styles.GetNormalStyleIndex()].Style.Font.Size;
+                    var sub = Math.Truncate(widthPxAdj / 120);
+                    return Math.Truncate(widthPxAdj / (mfw-sub) * 256d) / 256d;
                 }
                 return ret;
             }
@@ -1094,10 +1178,18 @@ namespace OfficeOpenXml
             Stream stream = packPart.GetStream();
 
 #if Core
-            var xr = XmlReader.Create(stream,new XmlReaderSettings() { DtdProcessing = DtdProcessing.Prohibit, IgnoreWhitespace = true });
+            var xr = XmlReader.Create(stream,new XmlReaderSettings() 
+            { 
+                DtdProcessing = DtdProcessing.Prohibit, 
+                IgnoreWhitespace = true 
+            });
 #else
             var xr = new XmlTextReader(stream);
+#if NET35
             xr.ProhibitDtd = true;
+#else
+            xr.DtdProcessing = DtdProcessing.Prohibit;
+#endif
             xr.WhitespaceHandling = WhitespaceHandling.None;
 #endif
             LoadColumns(xr);    //columnXml
@@ -1268,13 +1360,13 @@ namespace OfficeOpenXml
                         //Now find the end tag for sheetData.
                         var readSize = BLOCKSIZE+100;  //We read 100 chars more than the block size to avoid having the tag in between two blocks.
                         long endSeekStart = Math.Max(end - readSize, 0);
-                        while (endSeekStart > 0)
+                        do
                         {
                             int size = stream.Length - endSeekStart < readSize ? (int)(stream.Length - endSeekStart) : readSize;
                             stream.Seek(endSeekStart, SeekOrigin.Begin);
                             block = new char[size];
                             sr = new StreamReader(stream);
-                            sr.ReadBlock(block, 0, size); 
+                            sr.ReadBlock(block, 0, size);
                             s = new string(block).TrimEnd('\0');
                             endMatch = Regex.Match(s, string.Format("(</[^>]*{0}[^>]*>)", "sheetData"));
                             if (endMatch.Success)
@@ -1284,6 +1376,7 @@ namespace OfficeOpenXml
                             //prevBlock = s;
                             endSeekStart -= BLOCKSIZE;
                         }
+                        while (endSeekStart > 0);
                     }
                     if (endMatch == null)
                     {
@@ -1866,9 +1959,9 @@ namespace OfficeOpenXml
                 return ps;
             }
         }
-        #endregion
+#endregion
 
-        #endregion // END Worksheet Public Properties
+#endregion // END Worksheet Public Properties
         ExcelSlicerXmlSources _slicerXmlSources = null;
         internal ExcelSlicerXmlSources SlicerXmlSources
         {
@@ -1882,7 +1975,7 @@ namespace OfficeOpenXml
             }
         }
 
-        #region Worksheet Public Methods
+#region Worksheet Public Methods
 
         ///// <summary>
         ///// Provides access to an individual cell within the worksheet.
@@ -2010,10 +2103,9 @@ namespace OfficeOpenXml
             newC.OutlineLevel = c.OutlineLevel;
             newC.Phonetic = c.Phonetic;
             newC.BestFit = c.BestFit;
-            //_columns.Add(newC);
-            SetValueInner(0, col, newC);
             newC._width = c._width;
             newC._hidden = c._hidden;
+            SetValueInner(0, col, newC);
             return newC;    
         }
         /// <summary>
@@ -2129,7 +2221,7 @@ namespace OfficeOpenXml
         {
             WorksheetRangeInsertHelper.InsertColumn(this, columnFrom, columns, copyStylesFromColumn);
         } 
-        #endregion
+#endregion
 #region DeleteRow
         /// <summary>
         /// Delete the specified row from the worksheet.
@@ -2160,7 +2252,7 @@ namespace OfficeOpenXml
         {
             DeleteRow(rowFrom, rows);
         }
-        #endregion
+#endregion
 #region Delete column
         /// <summary>
         /// Delete the specified column from the worksheet.
@@ -2179,7 +2271,7 @@ namespace OfficeOpenXml
         {
             WorksheetRangeDeleteHelper.DeleteColumn(this, columnFrom, columns);
         }
-        #endregion
+#endregion
         /// <summary>
         /// Get the cell value from thw worksheet
         /// </summary>
@@ -2293,9 +2385,9 @@ namespace OfficeOpenXml
             }
             return 0;
         }
-        #endregion
-        #endregion //End Worksheet Public Methods
-        #region Worksheet Private Methods
+#endregion
+#endregion //End Worksheet Public Methods
+#region Worksheet Private Methods
         internal void UpdateSheetNameInFormulas(string newName, int rowFrom, int rows, int columnFrom, int columns)
         {
           lock (this)
@@ -2371,8 +2463,8 @@ namespace OfficeOpenXml
                         DeleteNode("d:drawing");
                     }
 
-                    SaveComments();
                     SaveVmlDrawings();
+                    SaveComments();
                     SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
@@ -2598,6 +2690,14 @@ namespace OfficeOpenXml
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
+
+                foreach(ExcelComment c in _comments)
+                {
+                    if (c._fill?._patternPictureSettings?._image != null)
+                    {
+                        c._fill._patternPictureSettings.SaveImage();
+                    }
+                }
             }
         }
 
@@ -2626,7 +2726,7 @@ namespace OfficeOpenXml
                     }
                     if (_vmlDrawings.Part == null)
                     {
-                        _vmlDrawings.Part = _package.ZipPackage.CreatePart(_vmlDrawings.Uri, "application/vnd.openxmlformats-officedocument.vmlDrawing", _package.Compression);
+                        _vmlDrawings.Part = _package.ZipPackage.CreatePart(_vmlDrawings.Uri, ContentTypes.contentTypeVml, _package.Compression);
                         var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _vmlDrawings.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
                         SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
                         _vmlDrawings.RelId = rel.Id;
@@ -2635,13 +2735,15 @@ namespace OfficeOpenXml
                     //Save an related image to drawing fills
                     foreach (var d in _vmlDrawings)
                     {
-                        if(d is ExcelVmlDrawingControl c)
-                        if (c._fill?._patternPictureSettings?._image != null)
+                        if (d is ExcelVmlDrawingControl ctr)
                         {
-                            c._fill._patternPictureSettings.SaveImage();
+                            if (ctr._fill?._patternPictureSettings?._image != null)
+                            {
+                                ctr._fill._patternPictureSettings.SaveImage();
+                            }
                         }
                     }
-
+                    
                     _vmlDrawings.VmlDrawingXml.Save(_vmlDrawings.Part.GetStream(FileMode.Create));
                 }
             }
@@ -3465,7 +3567,7 @@ namespace OfficeOpenXml
             }
         }
 
-        #region Drawing
+#region Drawing
         internal bool HasDrawingRelationship
         {
             get
@@ -3490,8 +3592,8 @@ namespace OfficeOpenXml
                 return _drawings;
             }
         }
-        #endregion
-        #region SparklineGroups
+#endregion
+#region SparklineGroups
         ExcelSparklineGroupCollection _sparklineGroups = null;
         /// <summary>
         /// Collection of Sparkline-objects. 
@@ -3508,7 +3610,7 @@ namespace OfficeOpenXml
                 return _sparklineGroups;
             }
         }
-        #endregion
+#endregion
         ExcelTableCollection _tables = null;
         /// <summary>
         /// Tables defined in the worksheet.
@@ -3633,8 +3735,8 @@ namespace OfficeOpenXml
             }
         }
 
-        #endregion
-        #endregion  // END <Worksheet Private Methods
+#endregion
+#endregion  // END <Worksheet Private Methods
 
         /// <summary>
         /// Get the next ID from a shared formula or an Array formula
@@ -3823,6 +3925,26 @@ namespace OfficeOpenXml
                 return _controls;
             }
         }
+        /// <summary>
+        /// A collection of row specific properties in the worksheet.
+        /// </summary>
+        public ExcelRowsCollection Rows
+        {
+            get
+            {
+                return new ExcelRowsCollection(this);
+            }
+        }
+        /// <summary>
+        /// A collection of column specific properties in the worksheet.
+        /// </summary>
+        public ExcelColumnCollection Columns
+        {
+            get
+            {
+                return new ExcelColumnCollection(this);
+            }
+        }
 
         internal bool IsDisposed 
         { 
@@ -3831,7 +3953,7 @@ namespace OfficeOpenXml
                 return _values == null;
             }
         }
-        #region Worksheet internal Accessor
+#region Worksheet internal Accessor
         /// <summary>
         /// Get accessor of sheet value
         /// </summary>
@@ -3979,10 +4101,10 @@ namespace OfficeOpenXml
         /// <returns>is exists</returns>
         internal bool ExistsStyleInner(int row, int col)
         {
-            return (_values.GetValue(row, col)._styleId != 0);
+            return (_values.GetValue(row, col)._styleId > 0);
         }
         /// <summary>
-        /// Existance check of sheet value
+        /// Existence check of sheet value
         /// </summary>
         /// <param name="row">row</param>
         /// <param name="col">column</param>
@@ -3994,7 +4116,7 @@ namespace OfficeOpenXml
             return (value != null);
         }
         /// <summary>
-        /// Existance check of sheet styleId
+        /// Existence check of sheet styleId
         /// </summary>
         /// <param name="row">row</param>
         /// <param name="col">column</param>
@@ -4003,7 +4125,7 @@ namespace OfficeOpenXml
         internal bool ExistsStyleInner(int row, int col, ref int styleId)
         {
             styleId = _values.GetValue(row, col)._styleId;
-            return (styleId != 0);
+            return (styleId > 0);
         }
         internal void RemoveSlicerReference(ExcelSlicerXmlSource xmlSource)
         {
@@ -4051,6 +4173,6 @@ namespace OfficeOpenXml
 
             return ctrlContainerNode;
         }
-        #endregion
+#endregion
     }  // END class Worksheet
 }

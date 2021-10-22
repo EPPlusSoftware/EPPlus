@@ -145,5 +145,42 @@ namespace EPPlusTest.Drawing
 			pic.From.Row = 0;
 			pic.From.Column = 0;
 		}
+		#region Changed Normal Font
+		[TestMethod]
+		public void AddNormalCalibri6()
+		{
+			var wb = _pck.Workbook;
+			wb.Styles.NamedStyles[0].Style.Font.Size = 6;
+			var ws = wb.Worksheets.Add("jpgCalibri6");
+			var pic = ws.Drawings.AddPicture("jpgFile3", GetResourceFile("Test1.jpg"));
+		}
+		[TestMethod]
+		public void AddNormalBroadway8()
+		{
+			var wb = _pck.Workbook;
+			wb.Styles.NamedStyles[0].Style.Font.Name= "Broadway";
+			wb.Styles.NamedStyles[0].Style.Font.Size = 8;
+			var ws = wb.Worksheets.Add("jpgBroadway8");
+			var pic = ws.Drawings.AddPicture("jpgFile3", GetResourceFile("Test1.jpg"));
+		}
+		[TestMethod]
+		public void AddNormalBroadway16()
+		{
+			var wb = _pck.Workbook;
+			wb.Styles.NamedStyles[0].Style.Font.Name = "Broadway";
+			wb.Styles.NamedStyles[0].Style.Font.Size = 16;
+			var ws = wb.Worksheets.Add("jpgBroadway16");
+			var pic = ws.Drawings.AddPicture("jpgFile3", GetResourceFile("Test1.jpg"));
+		}
+
+		[TestMethod]
+		public void AddNormalCalibri18()
+		{
+			var wb = _pck.Workbook;
+			wb.Styles.NamedStyles[0].Style.Font.Size = 18;
+			var ws = wb.Worksheets.Add("jpgCalibri18");
+			var pic = ws.Drawings.AddPicture("jpgFile2", GetResourceFile("Test1.jpg"));			
+		}
+		#endregion
 	}
 }

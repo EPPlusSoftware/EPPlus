@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
     public class ExcelDrawingGradientFill : ExcelDrawingFillBase
     {
         private string[] _schemaNodeOrder;
-        internal ExcelDrawingGradientFill(XmlNamespaceManager nsm, XmlNode topNode, string[]  schemaNodeOrder) : base(nsm, topNode,"")
+        internal ExcelDrawingGradientFill(XmlNamespaceManager nsm, XmlNode topNode, string[]  schemaNodeOrder, Action initXml) : base(nsm, topNode,"", initXml)
         {
             _schemaNodeOrder = schemaNodeOrder;
             GetXml();
@@ -79,6 +79,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
 
         internal override void SetXml(XmlNamespaceManager nsm, XmlNode node)
         {
+            _initXml?.Invoke();
             if (_xml == null) InitXml(nsm, node,"");
             CheckTypeChange(NodeName);
             _xml.SetXmlNodeBool("@rotWithShape", RotateWithShape);

@@ -140,7 +140,8 @@ namespace OfficeOpenXml
         /// <param name="fixedFromColumn">Is the from column fixed?</param>
         /// <param name="fixedToRow">Is the to row fixed?</param>
         /// <param name="fixedToColumn">Is the to column fixed?</param>
-        /// <param name="ws">The worksheet for the formula</param>
+        /// <param name="wb">A reference to the workbook object</param>
+        /// <param name="wsName">The worksheet name used for addresses without a worksheet reference.</param>
         /// <returns></returns>
         internal static bool GetRowColFromAddress(string CellAddress, out int FromRow, out int FromColumn, out int ToRow, out int ToColumn, out bool fixedFromRow, out bool fixedFromColumn, out bool fixedToRow, out bool fixedToColumn, ExcelWorkbook wb=null, string wsName = null)
         {
