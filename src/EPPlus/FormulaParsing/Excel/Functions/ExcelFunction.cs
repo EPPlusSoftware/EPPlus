@@ -261,7 +261,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <exception cref="ExcelErrorValueException"></exception>
         protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index)
         {
-            return ArgToDecimal(arguments.ElementAt(index).Value, PrecisionAndRoundingStrategy.DotNet);
+            var arg = arguments.ElementAt(index);
+            if (arg.ValueIsExcelError)
+            {
+                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+            }
+            return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet);
         }
 
         /// <summary>
@@ -275,7 +280,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <exception cref="ExcelErrorValueException"></exception>
         protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy)
         {
-            return ArgToDecimal(arguments.ElementAt(index).Value, precisionAndRoundingStrategy);
+            var arg = arguments.ElementAt(index);
+            if (arg.ValueIsExcelError)
+            {
+                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+            }
+            return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
         }
 
         /// <summary>
