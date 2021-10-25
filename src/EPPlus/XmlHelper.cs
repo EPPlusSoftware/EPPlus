@@ -918,6 +918,17 @@ namespace OfficeOpenXml
                 return true;
             }
         }
+        internal bool ExistsNode(XmlNode node, string path)
+        {
+            if (node == null || node.SelectSingleNode(path, NameSpaceManager) == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         internal bool? GetXmlNodeBoolNullable(string path)
         {
             var value = GetXmlNodeString(path);
