@@ -198,6 +198,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
         }
 
+        private static string CompileResultToString(CompileResult c)
+        {
+            if(c != null && c.IsNumeric)
+            {
+                if(c.ResultNumeric is double d)
+                {
+                    return d.ToString("G15");
+                }
+            }
+            return c.ResultValue.ToString();
+        }
+
         public static IOperator Concat
         {
             get
@@ -206,8 +218,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     {
                         l = l ?? new CompileResult(string.Empty, DataType.String);
                         r = r ?? new CompileResult(string.Empty, DataType.String);
-                        var lStr = l.Result != null ? l.ResultValue.ToString() : string.Empty;
-                        var rStr = r.Result != null ? r.ResultValue.ToString() : string.Empty;
+                        var lStr = l.Result != null ? CompileResultToString(l) : string.Empty;
+                        var rStr = r.Result != null ? CompileResultToString(r) : string.Empty;
                         return new CompileResult(string.Concat(lStr, rStr), DataType.String);
                     });
             }
