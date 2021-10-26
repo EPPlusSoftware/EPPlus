@@ -34,7 +34,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 		{
 			Require.Argument(type);
       Require.Argument(address).IsNotNull("address");
-      //Require.Argument(priority).IsInRange(0, int.MaxValue, "priority");  // Priority can be negative, so remove this check.
       Require.Argument(worksheet).IsNotNull("worksheet");
 			
 			// According the conditional formatting rule type

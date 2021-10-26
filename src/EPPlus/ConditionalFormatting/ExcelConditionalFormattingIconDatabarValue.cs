@@ -70,8 +70,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             itemElementNode,
 			namespaceManager)
 		{
-			Require.Argument(priority).IsInRange(1, int.MaxValue, "priority");
-
             // Check if the parent does not exists
 			if (itemElementNode == null)
 			{
