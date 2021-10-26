@@ -1,4 +1,12 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.1
+### Fixed issues & minor features
+ * Support for complex types in LoadFromCollection with attributes.
+ * Fixed a bug where ExcelFunction.ArgToDecimal rethrow other error types as #VALUE.
+ * Improved handling of decimals in Concat operations during calculation.
+ * High-Low lines / Up-Down bars and Droplines were not loaded from an existing package.
+ * Removed validation for negative values in conditional formatting priority, as negative values should be allowed
+
 ## Version 5.8.0
 ### Features
 * ExcelWorksheetView.SplitPanes method added
