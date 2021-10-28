@@ -2568,7 +2568,7 @@ namespace EPPlusTest
                 Assert.AreEqual(18.77734375, wks.Column(5).Width, 1E-5);
 
                 // Delete column 4
-                wks.DeleteColumn(4,3);
+                wks.DeleteColumn(4, 3);
 
                 // Check width of column 5 (now 4) hasn't changed
                 Assert.AreEqual(18.77734375, wks.Column(3).Width, 1E-5);
@@ -2656,11 +2656,113 @@ namespace EPPlusTest
             using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
             {
                 var ws = p1.Workbook.Worksheets[0];
-                var wsCopy = p1.Workbook.Worksheets.Add("Copy",p1.Workbook.Worksheets[0]);
+                var wsCopy = p1.Workbook.Worksheets.Add("Copy", p1.Workbook.Worksheets[0]);
 
                 ws.Cells["G4"].Copy(wsCopy.Cells["F20"]);
                 SaveAndCleanup(p1);
             }
         }
+        [TestMethod]
+        public void Issue519()
+        {
+            using (var package = OpenPackage("I519.xlsx", true))
+            {
+
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                worksheet.Cells[3, 1].Value = "test";
+
+                var ctrl = worksheet.Drawings.AddCheckBoxControl("test");
+                ctrl.SetPosition(10, 10);
+                ctrl.Checked = OfficeOpenXml.Drawing.Controls.eCheckState.Checked; // creates valid XLSX file
+                //ctrl.Checked = OfficeOpenXml.Drawing.Controls.eCheckState.Mixed; // creates valid XLSX file
+                //ctrl.Checked = OfficeOpenXml.Drawing.Controls.eCheckState.Unchecked; // creates invalid XLSX file
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Issue520_2()
+        {
+            using (var p = OpenPackage("i520.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("17Columns");
+                var tableData = Enumerable.Range(1, 10)
+                .Select(_ => new
+                {
+                    C01 = 1,
+                    C02 = 2,
+                    C03 = 3,
+                    C04 = 4,
+                    C05 = 5,
+                    C06 = 6,
+                    C07 = 7,
+                    C08 = 8,
+                    C09 = 9,
+                    C10 = 10,
+                    C11 = 11,
+                    C12 = 12,
+                    C13 = 13,
+                    C14 = 14,
+                    C15 = 15,
+                    C16 = 16,
+                    C17 = 17
+                }).ToArray();
+                var table = sheet.Cells[1, 1].LoadFromCollection(tableData, true, TableStyles.Light1);
+                table.AutoFitColumns();
+
+                sheet = p.Workbook.Worksheets.Add("16Columns");
+                var tableData2 = Enumerable.Range(1, 10)
+                .Select(_ => new
+                {
+                    C01 = 1,
+                    C02 = 2,
+                    C03 = 3,
+                    C04 = 4,
+                    C05 = 5,
+                    C06 = 6,
+                    C07 = 7,
+                    C08 = 8,
+                    C09 = 9,
+                    C10 = 10,
+                    C11 = 11,
+                    C12 = 12,
+                    C13 = 13,
+                    C14 = 14,
+                    C15 = 15,
+                    C16 = 16
+                }).ToArray();
+                table = sheet.Cells[1, 1].LoadFromCollection(tableData2, true, TableStyles.Light1);
+                table.AutoFitColumns();
+
+                sheet = p.Workbook.Worksheets.Add("18Columns");
+                var tableData3 = Enumerable.Range(1, 10)
+                .Select(_ => new
+                {
+                    C01 = 1,
+                    C02 = 2,
+                    C03 = 3,
+                    C04 = 4,
+                    C05 = 5,
+                    C06 = 6,
+                    C07 = 7,
+                    C08 = 8,
+                    C09 = 9,
+                    C10 = 10,
+                    C11 = 11,
+                    C12 = 12,
+                    C13 = 13,
+                    C14 = 14,
+                    C15 = 15,
+                    C16 = 16,
+                    C17 = 17,
+                    C18 = 18
+                }).ToArray();
+                table = sheet.Cells[1, 1].LoadFromCollection(tableData3, true, TableStyles.Light1);
+                table.AutoFitColumns();
+                SaveAndCleanup(p);
+            }
+        }
     }
-}   
+}
+

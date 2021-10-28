@@ -33,16 +33,21 @@ namespace OfficeOpenXml.LoadFunctions
         internal List<ColumnInfo> Setup()
         {
             var result = new List<ColumnInfo>();
-            SetupInternal(typeof(T), result, null);
-            ReindexAndSortColumns(result);
+            bool sort=SetupInternal(typeof(T), result, null);
+            if (sort)
+            {
+                ReindexAndSortColumns(result);
+            }
             return result;
         }
 
-        private void SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderList, string path = null)
+        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderList, string path = null)
         {
+            var sort = false;
             var members = type.GetProperties(_bindingFlags);
             if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
             {
+                sort = true;
                 foreach (var member in members)
                 {
                     if (member.HasPropertyOfType<EpplusIgnore>())
@@ -120,6 +125,7 @@ namespace OfficeOpenXml.LoadFunctions
             var formulaColumnAttributes = type.FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
             if (formulaColumnAttributes != null && formulaColumnAttributes.Any())
             {
+                sort = true;
                 foreach (var attr in formulaColumnAttributes)
                 {
                     result.Add(new ColumnInfo
@@ -134,6 +140,7 @@ namespace OfficeOpenXml.LoadFunctions
                     });
                 }
             }
+            return sort;
         }
 
         private static void ReindexAndSortColumns(List<ColumnInfo> result)
@@ -146,7 +153,14 @@ namespace OfficeOpenXml.LoadFunctions
                 var so2 = b.SortOrderLevels;
                 if (so1 == null || so2 == null)
                 {
-                    return a.SortOrder.CompareTo(b.SortOrder);
+                    if(a.SortOrder == b.SortOrder)
+                    {
+                        return a.Index.CompareTo(b.Index);
+                    }
+                    else
+                    {
+                        return a.SortOrder.CompareTo(b.SortOrder);
+                    }
                 }
                 else if (!so1.Any() || !so2.Any())
                 {
@@ -166,6 +180,6 @@ namespace OfficeOpenXml.LoadFunctions
                 }
             });
             result.ForEach(x => x.Index = index++);
-        }
+        }        
     }
 }
