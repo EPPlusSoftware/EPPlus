@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Utils
             var s = FormatNumberExcel(d, format, cultureInfo);
             if (string.IsNullOrEmpty(s) == false && (
                     s.StartsWith("--") && format.StartsWith("-") ||
-                   (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.EndsWith(")", StringComparison.OrdinalIgnoreCase))))
+                   (s.StartsWith("-(", StringComparison.OrdinalIgnoreCase) && format.StartsWith("(", StringComparison.OrdinalIgnoreCase) && format.IndexOf(")", StringComparison.OrdinalIgnoreCase)>0)))
             {
                 return s.Substring(1);
             }

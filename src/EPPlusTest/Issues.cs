@@ -2763,6 +2763,22 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue522()
+        {
+            using (var package = OpenPackage("I22.xlsx", true))
+            {
+
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                worksheet.Cells[1, 1].Value = -1234;
+                worksheet.Cells[1, 1].Style.Numberformat.Format = "#.##0\"*\";(#.##0)\"*\"";
+                var s = worksheet.Cells[1, 1].Text;
+
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
 
