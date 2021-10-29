@@ -1,4 +1,10 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.2
+### Fixed issues
+* Range.Text returned the wrong value for format #.##0"*";(#.##0)"*" on negative values
+* LoadFromCollection re-ordered the columns when no order was specified and and the item had more than 16 columns.
+* Adding an Unchecked CheckBox Control Created Invalid XLSX File
+
 ## Version 5.8.1
 ### Fixed issues & minor features
  * Support for complex types in LoadFromCollection with attributes.
