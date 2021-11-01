@@ -754,7 +754,7 @@ namespace EPPlusTest
             ws.Cells["G1"].RichText.Add("Room 02 & 03");
             ws.Cells["G2"].RichText.Text = "Room 02 & 03";
 
-            ws = ws = _pck.Workbook.Worksheets.Add("RichText2");
+            ws = _pck.Workbook.Worksheets.Add("RichText2");
             ws.Cells["A1"].RichText.Text = "Room 02 & 03";
             ws.TabColor = Color.PowderBlue;
 
@@ -762,6 +762,8 @@ namespace EPPlusTest
             r1.Bold = true;
             ws.Cells["G3"].RichText.Add(" a new t");
             ws.Cells["G3"].RichText[1].Bold = false;
+
+            ws.Cells["G3"].RichText.Add("");
 
             //Set printersettings
             ws.PrinterSettings.RepeatColumns = ws.Cells["A:B"];
@@ -772,7 +774,6 @@ namespace EPPlusTest
             ws.PrinterSettings.RightMargin = 1M;
             ws.PrinterSettings.Orientation = eOrientation.Landscape;
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
-
         }
         [TestMethod]
         public void TestComments()

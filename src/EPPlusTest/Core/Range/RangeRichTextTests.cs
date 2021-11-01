@@ -50,7 +50,7 @@ namespace EPPlusTest.Core.Range
         [ExpectedException(typeof(ArgumentException))]
         public void AddEmptyStringShouldThrowArgumentException()
         {
-            _ws.Cells["D1"].RichText.Add("");
+            _ws.Cells["D1"].RichText.Add(null);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
@@ -63,7 +63,7 @@ namespace EPPlusTest.Core.Range
         public void SettingNameToEmptyStringShouldThrowInvalidOperationException()
         {
             _ws.Cells["D1"].RichText.Add(" ");
-            _ws.Cells["D1"].RichText[0].Text = "";
+            _ws.Cells["D1"].RichText[0].Text = null;
         }
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]

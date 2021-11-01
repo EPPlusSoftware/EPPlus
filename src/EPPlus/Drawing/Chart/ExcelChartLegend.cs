@@ -53,18 +53,22 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_chart._isChartEx) return;
             _entries = new EPPlusReadOnlyList<ExcelChartLegendEntry>();
             var e = LoadLegendEntries();
-            for (int i = 0; i < _chart.Series.Count; i++)
+            foreach (var c in _chart.PlotArea.ChartTypes)
             {
-                var ix = e.FindIndex(x => x.Index == i);
-                if (ix>=0)
+                for (int i = 0; i < _chart.Series.Count; i++)
                 {
-                    _entries.Add(e[ix]);
-                }
-                else
-                {
-                    AddNewEntry(_chart.Series[i]);
+                    var ix = e.FindIndex(x => x.Index == i);
+                    if (ix >= 0)
+                    {
+                        _entries.Add(e[ix]);
+                    }
+                    else
+                    {
+                        AddNewEntry(_chart.Series[i]);
+                    }
                 }
             }
+
         }
 
         internal void AddNewEntry(ExcelChartSerie serie)

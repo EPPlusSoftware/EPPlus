@@ -88,7 +88,7 @@ namespace OfficeOpenXml.Style
         /// <returns></returns>
         public ExcelRichText Insert(int index, string text)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentException("Text can't be empty","text");
+            if (text==null) throw new ArgumentException("Text can't be null","text");
             ConvertRichtext();
             XmlDocument doc;
             if (TopNode is XmlDocument)

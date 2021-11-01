@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                if (string.IsNullOrEmpty(value)) throw new InvalidOperationException("Text can't be empty");
+                if (value==null) throw new InvalidOperationException("Text can't be null");
                 _collection.ConvertRichtext();
                 SetXmlNodeString(TEXT_PATH, value, false);
                 if (PreserveSpace)
