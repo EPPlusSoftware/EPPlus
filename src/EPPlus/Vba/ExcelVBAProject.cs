@@ -57,6 +57,11 @@ namespace OfficeOpenXml.VBA
         /// </summary>
         public eSyskind SystemKind { get; set; }
         /// <summary>
+        /// The compatible version for the VBA project. If null, this record is not written.
+        /// </summary>
+        public uint? CompatVersion { get; set; }
+
+        /// <summary>
         /// Name of the project
         /// </summary>
         public string Name { get; set; }
@@ -543,6 +548,9 @@ namespace OfficeOpenXml.VBA
                         case 0x28:
                             currentModule.Private = true;
                             break;
+                        case 0x4a:
+                            CompatVersion = br.ReadUInt32();
+                            break;
                         default:
                             br.ReadBytes((int)size);
                             break;
@@ -556,7 +564,7 @@ namespace OfficeOpenXml.VBA
         internal void Save()
         {
             if (Validate())
-            {
+            {                
                 CompoundDocument doc = new CompoundDocument();
                 doc.Storage = new CompoundDocument.StoragePart();
                 var store = new CompoundDocument.StoragePart();
@@ -596,7 +604,7 @@ namespace OfficeOpenXml.VBA
                     Uri = new Uri(PartUri, UriKind.Relative);
                     Part = _pck.CreatePart(Uri, ContentTypes.contentTypeVBA);
                     var rel = _wb.Part.CreateRelationship(Uri, Packaging.TargetMode.Internal, schemaRelVba);
-                }
+                }                
                 var st = Part.GetStream(FileMode.Create);
                 doc.Save(st);
                 st.Flush();
@@ -645,6 +653,13 @@ namespace OfficeOpenXml.VBA
                 bw.Write((uint)4);          //Size
                 bw.Write((uint)SystemKind); //SysKind
 
+                if(CompatVersion.HasValue)
+                {
+                    bw.Write((ushort)0x4a);        //ID
+                    bw.Write((uint)4);          //Size
+                    bw.Write((uint)CompatVersion.Value); //compatversion
+                }
+
                 bw.Write((ushort)2);        //ID
                 bw.Write((uint)4);          //Size
                 bw.Write((uint)Lcid);       //Lcid
@@ -659,24 +674,29 @@ namespace OfficeOpenXml.VBA
 
                 //ProjectName
                 bw.Write((ushort)4);                                            //ID
-                bw.Write((uint)Name.Length);                             //Size
-                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Name)); //Project Name
+                var nameBytes = Encoding.GetEncoding(CodePage).GetBytes(Name);
+                bw.Write((uint)nameBytes.Length);                             //Size
+                bw.Write(nameBytes); //Project Name
 
                 //Description
                 bw.Write((ushort)5);                                            //ID
-                bw.Write((uint)Description.Length);                             //Size
-                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Description)); //Project Name
+                var descriptionBytes = Encoding.GetEncoding(CodePage).GetBytes(Description);
+                bw.Write((uint)descriptionBytes.Length);                             //Size
+                bw.Write(descriptionBytes); //Project Name
                 bw.Write((ushort)0x40);                                           //ID
-                bw.Write((uint)Description.Length * 2);                           //Size
-                bw.Write(Encoding.Unicode.GetBytes(Description));               //Project Description
+                var descriptionUnicodeBytes = Encoding.Unicode.GetBytes(Description);
+                bw.Write((uint)descriptionUnicodeBytes.Length);                           //Size
+                bw.Write(descriptionUnicodeBytes);               //Project Description
 
                 //Helpfiles
                 bw.Write((ushort)6);                                           //ID
-                bw.Write((uint)HelpFile1.Length);                              //Size
-                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(HelpFile1));  //HelpFile1            
+                var helpFile1Bytes = Encoding.GetEncoding(CodePage).GetBytes(HelpFile1);
+                bw.Write((uint)helpFile1Bytes.Length);                              //Size
+                bw.Write(helpFile1Bytes);  //HelpFile1            
                 bw.Write((ushort)0x3D);                                           //ID
-                bw.Write((uint)HelpFile2.Length);                              //Size
-                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(HelpFile2));  //HelpFile2
+                var helpFile2Bytes = Encoding.GetEncoding(CodePage).GetBytes(HelpFile2);
+                bw.Write((uint)helpFile2Bytes.Length);                              //Size
+                bw.Write(helpFile2Bytes);  //HelpFile2
 
                 //Help context id
                 bw.Write((ushort)7);            //ID
@@ -696,11 +716,15 @@ namespace OfficeOpenXml.VBA
 
                 //Constants
                 bw.Write((ushort)0x0C);           //ID
-                bw.Write((uint)Constants.Length);              //Size
-                bw.Write(Encoding.GetEncoding(CodePage).GetBytes(Constants));              //Help context id
+
+                var constantsBytes = Encoding.GetEncoding(CodePage).GetBytes(Constants);
+                bw.Write((uint)constantsBytes.Length);              //Size
+                bw.Write(constantsBytes);
+
+                var constantsUnicodeBytes = Encoding.Unicode.GetBytes(Constants);
                 bw.Write((ushort)0x3C);                                           //ID
-                bw.Write((uint)Constants.Length / 2);                              //Size
-                bw.Write(Encoding.Unicode.GetBytes(Constants));  //HelpFile2
+                bw.Write((uint)constantsUnicodeBytes.Length);                     //Size
+                bw.Write(constantsUnicodeBytes);  //
 
                 /****** PROJECTREFERENCES Record ******/
                 foreach (var reference in References)
@@ -746,29 +770,33 @@ namespace OfficeOpenXml.VBA
         private void WriteModuleRecord(BinaryWriter bw, ExcelVBAModule module)
         {
             bw.Write((ushort)0x19);
-            bw.Write((uint)module.Name.Length);
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(module.Name));     //Name
+            var nameBytes = Encoding.GetEncoding(CodePage).GetBytes(module.Name);
+            bw.Write((uint)nameBytes.Length);
+            bw.Write(nameBytes);     //Name
 
             bw.Write((ushort)0x47);
-            bw.Write((uint)module.Name.Length*2);
-            bw.Write(Encoding.Unicode.GetBytes(module.Name));                   //Name
+            var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.Name);
+            bw.Write((uint)nameUnicodeBytes.Length);
+            bw.Write(nameUnicodeBytes);                   //Name
 
             bw.Write((ushort)0x1A);
-            bw.Write((uint)module.Name.Length);
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(module.Name));     //Stream Name  
+            bw.Write((uint)nameBytes.Length);
+            bw.Write(nameBytes);     //Stream Name  
 
             bw.Write((ushort)0x32);
-            bw.Write((uint)module.Name.Length*2);
-            bw.Write(Encoding.Unicode.GetBytes(module.Name));                   //Stream Name
+            bw.Write((uint)nameUnicodeBytes.Length);
+            bw.Write(nameUnicodeBytes);                                         //Stream Name
 
             module.Description = module.Description ?? "";
             bw.Write((ushort)0x1C);
-            bw.Write((uint)module.Description.Length);
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(module.Description));     //Description
+            var descriptionBytes = Encoding.GetEncoding(CodePage).GetBytes(module.Description);
+            bw.Write((uint)descriptionBytes.Length);
+            bw.Write(descriptionBytes);     //Description
 
             bw.Write((ushort)0x48);
-            bw.Write((uint)module.Description.Length*2);
-            bw.Write(Encoding.Unicode.GetBytes(module.Description));                   //Description
+            var descriptionUnicodeBytes = Encoding.Unicode.GetBytes(module.Description);
+            bw.Write((uint)descriptionUnicodeBytes.Length);
+            bw.Write(descriptionUnicodeBytes);                   //Description
 
             bw.Write((ushort)0x31);
             bw.Write((uint)4);
@@ -805,11 +833,15 @@ namespace OfficeOpenXml.VBA
         {
             //Name record
             bw.Write((ushort)0x16);                                             //ID
-            bw.Write((uint)reference.Name.Length);                              //Size
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(reference.Name));  //HelpFile1
+            var nameBytes = Encoding.GetEncoding(CodePage).GetBytes(reference.Name);
+            bw.Write((uint)nameBytes.Length);                                   //Size
+            bw.Write(nameBytes);                                                //HelpFile1
+            
             bw.Write((ushort)0x3E);                                             //ID
-            bw.Write((uint)reference.Name.Length * 2);                            //Size
-            bw.Write(Encoding.Unicode.GetBytes(reference.Name));                //HelpFile2
+
+            var nameUnicodeBytes = Encoding.Unicode.GetBytes(reference.Name);
+            bw.Write((uint)nameUnicodeBytes.Length);                            //Size
+            bw.Write(nameUnicodeBytes);                                         //HelpFile2
         }
         private void WriteControlReference(BinaryWriter bw, ExcelVbaReference reference)
         {
@@ -817,16 +849,21 @@ namespace OfficeOpenXml.VBA
 
             bw.Write((ushort)0x2F);
             var controlRef=(ExcelVbaReferenceControl)reference;
-            bw.Write((uint)(4 + controlRef.LibIdTwiddled.Length + 4 + 2));    // Size of SizeOfLibidTwiddled, LibidTwiddled, Reserved1, and Reserved2.
-            bw.Write((uint)controlRef.LibIdTwiddled.Length);                              //Size            
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdTwiddled));  //LibID
+
+            var libIdTwiddledBytes = Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdTwiddled);
+            bw.Write((uint)(4 + libIdTwiddledBytes.Length + 4 + 2));    // Size of SizeOfLibidTwiddled, LibidTwiddled, Reserved1, and Reserved2.
+            bw.Write((uint)libIdTwiddledBytes.Length);                              //Size            
+            bw.Write(libIdTwiddledBytes);  //LibID
+
             bw.Write((uint)0);      //Reserved1
             bw.Write((ushort)0);    //Reserved2
             WriteNameReference(bw, reference);  //Name record again
             bw.Write((ushort)0x30); //Reserved3
-            bw.Write((uint)(4 + controlRef.LibIdExternal.Length + 4 + 2 + 16 + 4));    //Size of SizeOfLibidExtended, LibidExtended, Reserved4, Reserved5, OriginalTypeLib, and Cookie
-            bw.Write((uint)controlRef.LibIdExternal.Length);                              //Size            
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdExternal));  //LibID
+
+            var libIdExternalBytes = Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdExternal);
+            bw.Write((uint)(4 + libIdExternalBytes.Length + 4 + 2 + 16 + 4));    //Size of SizeOfLibidExtended, LibidExtended, Reserved4, Reserved5, OriginalTypeLib, and Cookie
+            bw.Write((uint)libIdExternalBytes.Length);                              //Size            
+            bw.Write(libIdExternalBytes);  //LibID
             bw.Write((uint)0);      //Reserved4
             bw.Write((ushort)0);    //Reserved5
             bw.Write(controlRef.OriginalTypeLib.ToByteArray());
@@ -836,18 +873,21 @@ namespace OfficeOpenXml.VBA
         private void WriteOrginalReference(BinaryWriter bw, ExcelVbaReference reference)
         {
             bw.Write((ushort)0x33);
-            bw.Write((uint)reference.Libid.Length);
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(reference.Libid));  //LibID
+            var libIdBytes = Encoding.GetEncoding(CodePage).GetBytes(reference.Libid);
+            bw.Write((uint)libIdBytes.Length);
+            bw.Write(libIdBytes);  //LibID
         }
         private void WriteProjectReference(BinaryWriter bw, ExcelVbaReference reference)
         {
             bw.Write((ushort)0x0E);
             var projRef = (ExcelVbaReferenceProject)reference;
-            bw.Write((uint)(4 + projRef.Libid.Length + 4 + projRef.LibIdRelative.Length+4+2));
-            bw.Write((uint)projRef.Libid.Length);
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(projRef.Libid));  //LibAbsolute
-            bw.Write((uint)projRef.LibIdRelative.Length);
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(projRef.LibIdRelative));  //LibIdRelative
+            var libIdBytes = Encoding.GetEncoding(CodePage).GetBytes(projRef.Libid);
+            var libIdRelativeBytes = Encoding.GetEncoding(CodePage).GetBytes(projRef.LibIdRelative);
+            bw.Write((uint)(4 + libIdBytes.Length + 4 + libIdRelativeBytes.Length+4+2));
+            bw.Write((uint)libIdBytes.Length);
+            bw.Write(libIdBytes);  //LibAbsolute
+            bw.Write((uint)libIdRelativeBytes.Length);
+            bw.Write(libIdRelativeBytes);  //LibIdRelative
             bw.Write(projRef.MajorVersion);
             bw.Write(projRef.MinorVersion);
         }
@@ -855,9 +895,10 @@ namespace OfficeOpenXml.VBA
         private void WriteRegisteredReference(BinaryWriter bw, ExcelVbaReference reference)
         {
             bw.Write((ushort)0x0D);
-            bw.Write((uint)(4+reference.Libid.Length+4+2));
-            bw.Write((uint)reference.Libid.Length);
-            bw.Write(Encoding.GetEncoding(CodePage).GetBytes(reference.Libid));  //LibID            
+            var libIdBytes = Encoding.GetEncoding(CodePage).GetBytes(reference.Libid);
+            bw.Write((uint)(4+libIdBytes.Length+4+2));
+            bw.Write((uint)libIdBytes.Length);
+            bw.Write(libIdBytes);  //LibID            
             bw.Write((uint)0);      //Reserved1
             bw.Write((ushort)0);    //Reserved2
         }
@@ -1028,6 +1069,7 @@ namespace OfficeOpenXml.VBA
         internal CompoundDocument Document { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
         internal Uri Uri { get; private set; }
+
         /// <summary>
         /// Create a new VBA Project
         /// </summary>
