@@ -341,6 +341,9 @@
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
     </PackageReference>
+    <PackageReference Include="SkiaSharp">
+      <Version>2.88.0-preview.155</Version>
+    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>4.7.0</Version>
     </PackageReference>
@@ -363,6 +366,9 @@
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
     </PackageReference>
+    <PackageReference Include="SkiaSharp">
+      <Version>2.88.0-preview.155</Version>
+    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>4.7.0</Version>
     </PackageReference>
@@ -381,6 +387,9 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="SkiaSharp">
+      <Version>2.88.0-preview.155</Version>
+    </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>5.0.0</Version>
     </PackageReference>

@@ -1629,6 +1629,7 @@ namespace EPPlusTest
         {
             var ws = _pck.Workbook.Worksheets.Add("Autofit");
             ws.Cells["A1:H1"].Value = "Auto fit column that is veeery long...";
+            ws.Cells["A1:H1"].Style.Font.Name = "Arial";
             ws.Cells["B1"].Style.TextRotation = 30;
             ws.Cells["C1"].Style.TextRotation = 45;
             ws.Cells["D1"].Style.TextRotation = 75;

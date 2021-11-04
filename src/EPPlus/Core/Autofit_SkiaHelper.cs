@@ -1,4 +1,6 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿#if(Core)
+using OfficeOpenXml.Core.CellStore;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,11 +11,16 @@ using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core
 {
-    public class AutofitHelper
+    public class AutofitHelperSkia
     {
+        internal struct SkiaSize
+        {
+            internal float Height;
+            internal float Width;
+        }
         private ExcelRangeBase _range;
 
-        public AutofitHelper(ExcelRangeBase range)
+        public AutofitHelperSkia(ExcelRangeBase range)
         {
             _range = range;
         }
@@ -89,51 +96,28 @@ namespace OfficeOpenXml.Core
 
             var normalSize = Convert.ToSingle(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
 
-            Bitmap b;
-            Graphics g;
-            float dpiCorrectX, dpiCorrectY;
-            try
-            {
-                //Check for missing GDI+, then use WPF istead.
-                b = new Bitmap(1, 1);
-                g = Graphics.FromImage(b);
-                g.PageUnit = GraphicsUnit.Pixel;
-                dpiCorrectX = 96 / g.DpiX;
-                dpiCorrectY = 96 / g.DpiY;
-            }
-            catch
-            {
-                return;
-            }
+            var tf = SKTypeface.FromFamilyName(nf.Name, SKFontStyle.Normal);
+            var font = new SKFont(tf, nf.Size);
+            var fill = new SKPaint(font);
+            fill.TextAlign = SKTextAlign.Left;
+            fill.BlendMode = SKBlendMode.SrcOut;
+            fill.IsAntialias = false;
+            fill.IsLinearText = true;
 
-            #region MeasureString memoization
-            // This will call GDI+, and the result isn't cached.
-            // Calling this in the tight loop below is very slow.
-            var stringFormat = StringFormat.GenericDefault;
-
-            // Sheets usually contain plenty of duplicates
-            // Measurestring is very slow, so memoizing yields massive performance benefits.
-            // We use the string hash rather than the string to reduce memory load and lookup/compare cost.
-            // This means columns can be wrongly calculated on hash collisions. Hash collisions are rare,
-            // and they might not affect the size calculation anyway.
-
-            // To support implementations without Tuple/ValueTuple,
-            // as well as reduce som overhead, we combine our two
-            // 32-bit keys in a single 64-bit value
-            var measureCache = new Dictionary<ulong, SizeF>();
-
-            SizeF MeasureString(string t, int fntID)
+            var measureCache = new Dictionary<ulong, SkiaSize>();
+            SkiaSize MeasureString(string t, int fntID, float fntSize)
             {
                 ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
                 if (!measureCache.TryGetValue(key, out var size))
                 {
-                    size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                    var rect=new SKRect();
+                    size.Width = fill.MeasureText(t, ref rect) / 0.7282505F + (0.444444444F * fntSize);
+                    size.Height = fill.FontMetrics.XMax- fill.FontMetrics.XMin;
                     measureCache.Add(key, size);
                 }
 
                 return size;
             }
-            #endregion
 
             foreach (var cell in _range)
             {
@@ -163,18 +147,18 @@ namespace OfficeOpenXml.Core
                 var textForWidth = cell.TextForWidth;
                 var t = textForWidth + (ind > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', ind) : "");
                 if (t.Length > 32000) t = t.Substring(0, 32000); //Issue
-                var size = MeasureString(t, fntID);
+                var size = MeasureString(t, fntID, f.Size);
 
                 double width;
                 double r = styles.CellXfs[cell.StyleID].TextRotation;
                 if (r <= 0)
                 {
-                    width = (size.Width * dpiCorrectX + 5) / normalSize;
+                    width = (size.Width + 5) / normalSize;
                 }
                 else
                 {
                     r = (r <= 90 ? r : r - 90);
-                    width = (((size.Width * dpiCorrectX - size.Height * dpiCorrectY) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height * dpiCorrectY) + 5) / normalSize;
+                    width = (((size.Width - size.Height) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height) + 5) / normalSize;
                 }
 
                 foreach (var a in afAddr)
@@ -221,3 +205,4 @@ namespace OfficeOpenXml.Core
         }
     }
 }
+#endif

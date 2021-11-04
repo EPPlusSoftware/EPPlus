@@ -811,8 +811,13 @@ namespace OfficeOpenXml
         /// <param name="MaximumWidth">Maximum column width</param>
         public void AutoFitColumns(double MinimumWidth, double MaximumWidth)
         {
+#if (Core)
+                var af = new AutofitHelperSkia(this);
+                af.AutofitColumn(MinimumWidth, MaximumWidth);
+#else
             var af = new AutofitHelper(this);
             af.AutofitColumn(MinimumWidth, MaximumWidth);
+#endif
         }
         internal string TextForWidth
         {
@@ -1415,8 +1420,8 @@ namespace OfficeOpenXml
                 return fullAddress;
             }
         }
-        #endregion
-        #region Private Methods
+#endregion
+#region Private Methods
         /// <summary>
         /// Set the value without altering the richtext property
         /// </summary>
@@ -1715,9 +1720,9 @@ namespace OfficeOpenXml
                 }
             }
         }
-        #endregion
-        #region Public Methods
-        #region ConditionalFormatting
+#endregion
+#region Public Methods
+#region ConditionalFormatting
         /// <summary>
         /// Conditional Formatting for this range.
         /// </summary>
@@ -1728,8 +1733,8 @@ namespace OfficeOpenXml
                 return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
             }
         }
-        #endregion
-        #region DataValidation
+#endregion
+#region DataValidation
         /// <summary>
         /// Data validation for this range.
         /// </summary>
@@ -1740,8 +1745,8 @@ namespace OfficeOpenXml
                 return new RangeDataValidation(_worksheet, Address);
             }
         }
-        #endregion
-        #region GetValue
+#endregion
+#region GetValue
 
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
@@ -1770,7 +1775,7 @@ namespace OfficeOpenXml
         {
             return ConvertUtil.GetTypedCellValue<T>(Value);
         }
-        #endregion
+#endregion
         /// <summary>
         /// Get a range with an offset from the top left cell.
         /// The new range has the same dimensions as the current range
@@ -1981,8 +1986,8 @@ namespace OfficeOpenXml
                 _worksheet.Comments.Remove(_worksheet.Comments._list[i]);
             }
         }
-        #endregion
-        #region IDisposable Members
+#endregion
+#region IDisposable Members
         /// <summary>
         /// Disposes the object
         /// </summary>
@@ -1991,8 +1996,8 @@ namespace OfficeOpenXml
             //_worksheet = null;            
         }
 
-        #endregion
-        #region "Enumerator"
+#endregion
+#region "Enumerator"
         CellStoreEnumerator<ExcelValue> cellEnum;
         /// <summary>
         /// Gets the enumerator for the collection
@@ -2085,7 +2090,7 @@ namespace OfficeOpenXml
             _enumAddressIx = -1;
             cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Sort the range by value of the first column, Ascending.
