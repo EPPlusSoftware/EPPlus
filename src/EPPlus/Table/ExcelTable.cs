@@ -28,6 +28,7 @@ using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Sorting;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
