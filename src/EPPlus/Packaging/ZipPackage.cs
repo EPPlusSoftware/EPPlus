@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Packaging
                     var e = zip.GetNextEntry();
                     if (e == null)
                     {
-                        throw (new InvalidDataException("The file is not an valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                        throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
                     }
 
                     while (e != null)
@@ -127,11 +127,11 @@ namespace OfficeOpenXml.Packaging
                     }
                     if (!hasContentTypeXml)
                     {
-                        throw (new InvalidDataException("The file is not an valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                        throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
                     }
                     if (!hasContentTypeXml)
                     {
-                        throw (new InvalidDataException("The file is not an valid Package file. If the file is encrypted, please supply the password in the constructor."));
+                        throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
                     }
                     zip.Close();
                     zip.Dispose();
@@ -202,6 +202,25 @@ namespace OfficeOpenXml.Packaging
             Parts.Add(GetUriKey(part.Uri.OriginalString), part);
             return part;
         }
+        internal ZipPackagePart CreatePart(Uri partUri, ZipPackagePart sourcePart)
+        {
+            var destPart = CreatePart(partUri, sourcePart.ContentType);
+            var destStream = destPart.GetStream(FileMode.Create, FileAccess.Write);
+            var sourceStream = sourcePart.GetStream();
+            var b = sourceStream.GetBuffer();
+            destStream.Write(b, 0, b.Length);
+            destStream.Flush();
+            return destPart;
+        }
+        internal ZipPackagePart CreatePart(Uri partUri, string contentType, string xml)
+        {
+            var destPart = CreatePart(partUri, contentType);
+            var destStream = new StreamWriter(destPart.GetStream(FileMode.Create, FileAccess.Write));
+            destStream.Write(xml);
+            destStream.Flush();
+            return destPart;
+        }
+
         internal ZipPackagePart GetPart(Uri partUri)
         {
             if (PartExists(partUri))

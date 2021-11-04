@@ -46,7 +46,14 @@ namespace OfficeOpenXml.Drawing.Controls
             }
             set
             {
-                _ctrlProp.SetXmlNodeString("@checked", value.ToString());
+                if(value==eCheckState.Unchecked)
+                {
+                    _ctrlProp.DeleteNode("@checked");
+                }
+                else
+                {
+                    _ctrlProp.SetXmlNodeString("@checked", value.ToString());
+                }
                 _vmlProp.SetXmlNodeInt("x:Checked",(int)value);
                 if(LinkedCell!=null)
                 {

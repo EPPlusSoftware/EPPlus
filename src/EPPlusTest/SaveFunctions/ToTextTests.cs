@@ -61,6 +61,24 @@ namespace EPPlusTest.SaveFunctions
             var text = _sheet.Cells["A1:B2"].ToText(format);
             Assert.AreEqual("'h1','h2'" + Environment.NewLine + "1,2", text);
         }
+        [TestMethod]
+        public void ToTextTextQualifierWithNumericContaingSeparator()
+        {
+            _sheet.Cells["A10"].Value = "h1";
+            _sheet.Cells["B10"].Value = "h2";
+            _sheet.Cells["A11"].Value = 1;
+            _sheet.Cells["B11"].Value = 2;
+            _sheet.Cells["A11:B11"].Style.Numberformat.Format = "#,##0.00";
+            var format = new ExcelOutputTextFormat
+            {
+                TextQualifier = '\"',
+                DecimalSeparator = ",",
+                UseCellFormat = true,
+                Culture = new System.Globalization.CultureInfo("sv-SE")
+            };
+            var text = _sheet.Cells["A10:B11"].ToText(format);
+            Assert.AreEqual("\"h1\",\"h2\"" + Environment.NewLine + "\"1,00\",\"2,00\"", text);
+        }
 
         [TestMethod]
         public void ToTextTextIgnoreHeaders()

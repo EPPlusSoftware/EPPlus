@@ -59,5 +59,15 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
             var result = _ws.Calculate("10/0 + 3");
             Assert.AreEqual(DivByZero, result);
         }
+
+        [TestMethod]
+        public void ConcatShouldUseFormatG15()
+        {
+            var result = _ws.Calculate("14.000000000000002 & \"%\"");
+            Assert.AreEqual("14%", result);
+
+            result = _ws.Calculate("\"%\" & 14.000000000000002");
+            Assert.AreEqual("%14", result);
+        }
     }
 }

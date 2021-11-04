@@ -179,7 +179,7 @@ namespace OfficeOpenXml
         {
             try
             {
-                worksheet.CheckSheetType();
+                worksheet.CheckSheetTypeAndNotDisposed();
                 if(string.IsNullOrEmpty(Formula.Trim())) return null;
                 Init(worksheet.Workbook);
                 var parser = worksheet.Workbook.FormulaParser;
@@ -219,7 +219,14 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        v = ExcelErrorValue.Create(eErrorType.Ref);
+                        if(item.Column == 0 && item.Row >= 0 && item.Row < wb.Names.Count)
+                        {
+                            v = parser.ParseCell(item.Tokens, null, item.Row, item.Column);
+                        }
+                        else
+                        {
+                            v = ExcelErrorValue.Create(eErrorType.Ref);
+                        }
                     }
                     
                     SetValue(wb, item, v);
@@ -229,18 +236,21 @@ namespace OfficeOpenXml
                     }
                     Thread.Sleep(0);
                 }
-                catch(CircularReferenceException cre)
-                {
-                    throw cre;
-                }
                 catch(Exception e)
                 {
-                    var error = ExcelErrorValue.Parse(ExcelErrorValue.Values.Value);
-                    SetValue(wb, item, error);
+                    if(e is CircularReferenceException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        var error = ExcelErrorValue.Parse(ExcelErrorValue.Values.Value);
+                        SetValue(wb, item, error);
+                    }
                 }
             }
         }
-        private static void Init(ExcelWorkbook workbook)
+        internal static void Init(ExcelWorkbook workbook)
         {
             workbook._formulaTokens = new CellStore<List<Token>>();;
             foreach (var ws in workbook.Worksheets)

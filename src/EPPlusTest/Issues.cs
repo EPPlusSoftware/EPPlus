@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -47,6 +47,9 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
+using Newtonsoft.Json;
 
 namespace EPPlusTest
 {
@@ -1535,7 +1538,7 @@ namespace EPPlusTest
         public void IssueCommentInsert()
         {
 
-            using (var p = OpenPackage("comment.xlsx", true))
+            using (var p = OpenPackage("CommentInsert.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("CommentInsert");
                 ws.Cells["A2"].AddComment("na", "test");
@@ -1702,7 +1705,8 @@ namespace EPPlusTest
                 //Data1
                 var worksheet = excelFile.Workbook.Worksheets["Test1"];
                 ExcelRangeBase location = worksheet.Cells["A1"].LoadFromCollection(Collection: report1, PrintHeaders: true);
-                worksheet.Tables.Add(location, "mytestTbl");
+                var t = worksheet.Tables.Add(location, "mytestTbl");
+                t.TableStyle = TableStyles.None;
 
                 //Data2
                 worksheet = excelFile.Workbook.Worksheets["Test2"];
@@ -1930,7 +1934,7 @@ namespace EPPlusTest
                 ws.Comments[0].RichText.Add("T");
                 ws.Comments[0].RichText.Add("x");
                 var ws2 = p.Workbook.Worksheets.Add("Copied S3", ws);
-                ws.InsertRow(2,1);
+                ws.InsertRow(2, 1);
                 ws.DeleteRow(2);
                 ws2.DeleteRow(2);
                 ws.InsertRow(2, 2);
@@ -1993,7 +1997,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("Tagging Template V15 - New Format.xlsx"))
             {
-                SaveWorkbook("Tagging Template V15 - New Format2.xlsx",p);
+                SaveWorkbook("Tagging Template V15 - New Format2.xlsx", p);
             }
         }
         [TestMethod]
@@ -2019,7 +2023,6 @@ namespace EPPlusTest
             }
         }
 
-        [TestMethod]
         public void DefinedNamesAddressIssue()
         {
             using (var p = OpenPackage("defnames.xlsx"))
@@ -2031,7 +2034,7 @@ namespace EPPlusTest
                 Assert.AreEqual("Sheet1", name.Worksheet.Name);
                 name.Address = "Sheet3!B2:C6";
                 Assert.IsNull(name.Worksheet);
-                Assert.AreEqual("Sheet3" ,name.WorkSheetName);
+                Assert.AreEqual("Sheet3", name.WorkSheetName);
 
             }
         }
@@ -2063,8 +2066,8 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("HeaderFooterTest (1).xlsx"))
             {
-                ExcelWorksheet worksheet = p.Workbook.Worksheets[0]; 
-                Assert.IsFalse(worksheet.HeaderFooter.differentFirst); 
+                ExcelWorksheet worksheet = p.Workbook.Worksheets[0];
+                Assert.IsFalse(worksheet.HeaderFooter.differentFirst);
                 Assert.IsFalse(worksheet.HeaderFooter.differentOddEven);
                 SaveAndCleanup(p);
             }
@@ -2074,7 +2077,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("i354.xlsx"))
             {
-                var ws1=p.Workbook.Worksheets[0];
+                var ws1 = p.Workbook.Worksheets[0];
                 var ws2 = p.Workbook.Worksheets[2];
                 var pt = ws1.PivotTables.Add(ws1.Cells["A2"], ws2.Cells["A1:E3005"], "pt");
                 ws2.Cells["B2"].Value = eDateGroupBy.Years;
@@ -2086,7 +2089,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void MatchNamedRangeIssue()
+        public void StyleIssueLibreOffice()
         {
             foreach (bool onColumns in new[] { true, false })
             {
@@ -2139,7 +2142,7 @@ namespace EPPlusTest
             {
                 p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 9;
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = "Cell Value";                
+                ws.Cells["A1"].Value = "Cell Value";
                 ws.Cells.AutoFitColumns();
                 SaveAndCleanup(p);
             }
@@ -2154,5 +2157,628 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void ReadIssue()
+        {
+            using (var p = OpenTemplatePackage("cf.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+            }
+        }
+        [TestMethod]
+        public void Issue407_1()
+        {
+            using (var p = OpenTemplatePackage("TestStyles_MoreCellStyleXfsThanCellXfs.xlsx"))
+            {
+                var p2 = new ExcelPackage();
+                var ws = p2.Workbook.Worksheets.Add("Copied Style", p.Workbook.Worksheets["StylesTestSheet"]);
+
+                SaveWorkbook("Issue407_1.xlsx", p2);
+            }
+        }
+        [TestMethod]
+        public void Issue407_2()
+        {
+            using (var p = OpenTemplatePackage("TestStyles_MinimalWithNamedStyles.xlsx"))
+            {
+                var p2 = new ExcelPackage();
+                var ws = p.Workbook.Worksheets["StylesTestSheet"];
+
+                Assert.AreEqual("Normal", ws.Cells["A1"].StyleName);
+                Assert.AreEqual("MyCustomCellStyle", ws.Cells["A2"].StyleName);
+                Assert.AreEqual("Normal", ws.Cells["A3"].StyleName);
+                Assert.AreEqual("MyCalculationStyle", ws.Cells["A4"].StyleName);
+
+                Assert.AreEqual("Normal", ws.Cells["B1"].StyleName);
+                Assert.AreEqual("MyBoldStyle1", ws.Cells["B2"].StyleName);
+                Assert.AreEqual("MyBoldStyle2", ws.Cells["B3"].StyleName);
+                ws = p2.Workbook.Worksheets.Add("Copied Style", p.Workbook.Worksheets["StylesTestSheet"]);
+                Assert.AreEqual("Normal", ws.Cells["A1"].StyleName);
+                Assert.AreEqual("MyCustomCellStyle", ws.Cells["A2"].StyleName);
+                Assert.AreEqual("Normal", ws.Cells["A3"].StyleName);
+                Assert.AreEqual("MyCalculationStyle", ws.Cells["A4"].StyleName);
+
+                Assert.AreEqual("Normal", ws.Cells["B1"].StyleName);
+                Assert.AreEqual("MyBoldStyle1", ws.Cells["B2"].StyleName);
+                Assert.AreEqual("MyBoldStyle2", ws.Cells["B3"].StyleName);
+
+                SaveWorkbook("Issue407_2.xlsx", p2);
+            }
+        }
+        [TestMethod]
+        public void s185()
+        {
+            using (var p = OpenTemplatePackage("s185.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var chart = ws.Drawings[0] as ExcelLineChart;
+
+                Assert.AreEqual(4887, chart.PlotArea.ChartTypes[1].Series[0].NumberOfItems);
+            }
+        }
+        [TestMethod]
+        public void GetNamedRangeAddressAfterRowInsert()
+        {
+            using (var pck = OpenTemplatePackage("TestWbk_SingleNamedRange.xlsx"))
+            {
+                // Get the worksheet containing the named range
+                var ws = pck.Workbook.Worksheets["Sheet1"];
+                // Get the named range
+                var namedRange = ws.Names["MyValues"];
+                // Check that the named range exists with the expected address
+                Assert.AreEqual("Sheet1!$A$1:$A$9", namedRange.FullAddress);
+                Assert.AreEqual("Sheet1!$A$1:$A$9", namedRange.Address); // This line is currently failing
+                                                                         // Insert a row in the middle of the range
+                ws.InsertRow(5, 1);
+                // Check that the named range's address has been correctly updated
+                Assert.AreEqual("Sheet1!$A$1:$A$10", namedRange.FullAddress);
+                Assert.AreEqual("Sheet1!$A$1:$A$10", namedRange.Address);
+            }
+        }
+        [TestMethod]
+        public void Issue410()
+        {
+            using (var package = OpenTemplatePackage("test-in.xlsx"))
+            {
+                var wb = package.Workbook;
+                var worksheet = wb.Worksheets.Add("Pivot Tables");
+                var table = wb.Worksheets[0].Tables["Table1"];
+                ExcelPivotTable pt = worksheet.PivotTables.Add(worksheet.Cells["A1"], table, "PT1");
+                pt.RowFields.Add(pt.Fields["ColC"]);
+                pt.DataFields.Add(pt.Fields["ColB"]);
+                SaveWorkbook("test-out.xlsx", package);
+            }
+        }
+        [TestMethod]
+        public void Issue415()
+        {
+            using (var package = OpenTemplatePackage("Issue415.xlsm"))
+            {
+                var wb = package.Workbook;
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Issue417()
+        {
+            using (var package = OpenTemplatePackage("Issue417.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                Assert.AreEqual("0", ws.Cells["A1"].Text);
+                Assert.AreEqual(null, ws.Cells["A2"].Text);
+            }
+        }
+        [TestMethod]
+        public void Issue395()
+        {
+            using (var package = OpenTemplatePackage("Issue395.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Issue418()
+        {
+            using (var p = OpenPackage("issue418.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Test");
+
+                var mergetest = ws.Cells[2, 1, 2, 5];
+                mergetest.IsRichText = true;
+                mergetest.Merge = true;
+                mergetest.Style.WrapText = true;
+
+                var t1 = mergetest.RichText.Add($"Text 1", true);
+                t1.Size = 16;
+                t1.Bold = true;
+
+                var t2 = mergetest.RichText.Add($"Text 2", true);
+                t2.Size = 12;
+                t2.Bold = false;
+
+                ws.Row(2).Height = 50;
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void IssueHidden()
+        {
+            using (var p = OpenTemplatePackage("workbook.xlsx"))
+            {
+                p.Workbook.Worksheets[p.Workbook.Worksheets.Count - 2].Hidden = eWorkSheetHidden.Hidden;
+                p.Workbook.Worksheets[p.Workbook.Worksheets.Count - 1].Hidden = eWorkSheetHidden.Hidden;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue430()
+        {
+            using (var p = OpenTemplatePackage("issue430.xlsx"))
+            {
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue435()
+        {
+            using (var p = OpenTemplatePackage("issue435.xlsx"))
+            {
+                var workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void VbaIssueLoad()
+        {
+            using (var p = OpenTemplatePackage("PlantillaDefectivo-NotWorking.xlsm"))
+            {
+                var workbook = p.Workbook;
+                var vba = p.Workbook.VbaProject;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue440()
+        {
+            using (var p = OpenTemplatePackage("issue440.xlsx"))
+            {
+                var wb = p.Workbook;
+                var worksheet = wb.Worksheets.Add("Pivot Tables");
+                var table = wb.Worksheets[0].Tables["Table1"];
+                ExcelPivotTable pt = worksheet.PivotTables.Add(worksheet.Cells["A1"], table, "PT1");
+                pt.RowFields.Add(pt.Fields["ColC"]);
+                pt.DataFields.Add(pt.Fields["ColB"]);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue441()
+        {
+            using (var pck = OpenPackage("issue441.xlsx", true))
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var commentAddress = "B2";
+                wks.Comments.Add(wks.Cells[commentAddress], "This is a comment.", "author");
+                wks.Cells[commentAddress].Value = "This cell contains a comment.";
+
+                wks.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+                commentAddress = "C2";
+                Assert.AreEqual(1, wks.Comments.Count);
+                Assert.AreEqual("This is a comment.", wks.Comments[0].Text);
+                Assert.AreEqual("This cell contains a comment.", wks.Cells[commentAddress].GetValue<string>());
+                Assert.AreEqual(commentAddress, wks.Comments[0].Address);
+                SaveAndCleanup(pck);
+            }
+        }
+        [TestMethod]
+        public void Issue442()
+        {
+            using (var pck = OpenPackage("issue442.xlsx", true))
+            {
+                // Add a sheet with data validation in cell B2
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dataValidationList = wks.DataValidations.AddListValidation("B2");
+                var values = dataValidationList.Formula.Values;
+                values.Add("Yes");
+                values.Add("No");
+                wks.Cells["B2"].Value = "Yes";
+
+                // Confirm this was added in the right place
+                Assert.AreEqual("Yes", wks.Cells["B2"].GetValue<string>());
+                Assert.AreEqual("B2", wks.DataValidations[0].Address.Address);
+
+                // Insert cells to shift this data validation to the right
+                wks.Cells["B2:C5"].Insert(eShiftTypeInsert.Right);
+
+                // Check the data validation has been moved to the right place
+                Assert.AreEqual("Yes", wks.Cells["D2"].GetValue<string>());
+                Assert.AreEqual("D2", wks.DataValidations[0].Address.Address);
+
+                SaveAndCleanup(pck);
+            }
+        }
+        [TestMethod]
+        public void s224()
+        {
+            using (var p = OpenTemplatePackage("s224.xltx"))
+            {
+                SaveWorkbook("s224.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void InsertCellsNextToComment()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                // Create a comment in cell B2
+                var commentAddress = "B2";
+                wks.Comments.Add(wks.Cells[commentAddress], "This is a comment.", "author");
+                wks.Cells[commentAddress].Value = "This cell contains a comment.";
+
+                // Create another comment in cell B10
+                var commentAddress2 = "B10";
+                wks.Comments.Add(wks.Cells[commentAddress2], "This is another comment.", "author");
+                wks.Cells[commentAddress2].Value = "This cell contains another comment.";
+
+                // Insert cells so the first comment is now in C2
+                wks.Cells["B1:B3"].Insert(eShiftTypeInsert.Right);
+                commentAddress = "C2";
+
+                // Check that both the cell value and the comment was correctly moved
+                Assert.AreEqual(2, wks.Comments.Count);
+                Assert.AreEqual("This is a comment.", wks.Comments[0].Text);
+                Assert.AreEqual("This cell contains a comment.", wks.Cells[commentAddress].GetValue<string>());
+                Assert.AreEqual(commentAddress, wks.Comments[0].Address);
+
+                // Check that the second comment hasn't moved
+                Assert.AreEqual("This is another comment.", wks.Comments[1].Text);
+                Assert.AreEqual("This cell contains another comment.", wks.Cells[commentAddress2].GetValue<string>());
+                Assert.AreEqual(commentAddress2, wks.Comments[1].Address);
+
+            }
+        }
+        [TestMethod]
+        public void InsertRowsIntoTable_CheckFormulasWithColumnReferences()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet, and a table with headers and a single row of data
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["B2:D3"].Value = new object[,] { { "Col1", "Col2", "Col3" }, { 1, 2, 3 } };
+                wks.Tables.Add(wks.Cells["B2:D3"], "Table1");
+
+                // Add a SUM formula on the worksheet with a reference to a table column
+                wks.Cells["C10"].Formula = "SUM(Table1[Col2])";
+                wks.Cells["C10"].Calculate();
+
+                Assert.AreEqual(2.0, wks.Cells["C3"].GetValue<double>());
+                Assert.AreEqual("SUM(Table1[Col2])", wks.Cells["C10"].Formula);
+                Assert.AreEqual(2.0, wks.Cells["C10"].GetValue<double>());
+
+                // Insert 2 rows into the worksheet to extend the table
+                wks.InsertRow(4, 2);
+
+                // Check that the formula that was in C10 (now C12) still references the column
+                Assert.AreEqual("SUM(Table1[Col2])", wks.Cells["C12"].Formula);
+            }
+        }
+        [TestMethod]
+        public void CopyWorksheetWithDynamicArrayFormula()
+        {
+            using (var p1 = OpenTemplatePackage("TestDynamicArrayFormula.xlsx"))
+            {
+                using (var p2 = new ExcelPackage())
+                {
+                    p2.Workbook.Worksheets.Add("Sheet1", p1.Workbook.Worksheets["Sheet1"]);
+                    SaveWorkbook("DontCopyMetadataToNewWorkbook.xlsx", p2);
+                }
+            }
+
+            Assert.Inconclusive("Now try to open the file in Excel - does it tell you the file is corrupt?");
+        }
+        [TestMethod]
+        public void VbaIssue()
+        {
+            using (var p = OpenTemplatePackage("Issue479.xlsm"))
+            {
+                p.Workbook.Worksheets.Add("New Sheet");
+                SaveAndCleanup(p);
+            }
+        }
+        public static readonly Dictionary<string, string> ASSET_FIELDS = new Dictionary<string, string> { { string.Empty, "Select one..." }, { "APPRAISAL_DATE", "Appraisal Date" }, { "APPRAISAL_AREA", "Appraisal Surface" }, { "APPRAISAL_AREA_CCAA", "Appraisal Surface w/CCAA" }, { "APPRAISAL_VALUE", "Appraisal Value" }, { "AURA" + "." + "REFERENCE", "Aura ID" }, { "BATHROOMS", "Bathroom" }, { "BORROWER_ID", "Borrower ID" }, { "AREA_CCAA", "Built surface w/CCAA" }, { "CADASTRAL_REFERENCE", "Cadastral reference" }, { "DEVELOPMENT" + "." + "CLIENT_GROUP_ID", "Client Development ID" }, { "CLIENT_ID", "Client ID" }, { "YEAR_OF_CONSTRUCTION", "Construction Year" }, { "COUNTRY", "Country" }, { "CROSSING_DOCKS", "Crossing Docks" }, { "DATE_OF_DISQUALIFICATION", "Date of desaffection - Social Housing" }, { "LEADER" + "." + "REFERENCE", "Dependency Reference" }, { "DEVELOPMENT" + "." + "REFERENCE", "Development ID" }, { "ADDRESS_DOOR", "Door" }, { "DUPLEX", "Duplex" }, { "ELEVATOR", "Elevator" }, { "ADDRESS_FLOOR", "Floor" }, { "FULL_ADDRESS", "Full Address" }, { "IDUFIR", "IDUFIR" }, { "ILLEGAL_SQUATTERS", "Illegal Squatters" }, { "ORIENTATION", "Interior/Exterior" }, { "LATITUDE", "Latitude" }, { "LIEN", "Lien" }, { "LOAN_ID", "Loan ID" }, { "LONGITUDE", "Longitude" }, { "MAINTENANCE_STATUS", "Maintenance Status" }, { "MARKET_SHARE", "Market Share (%)" }, { "LEGAL_MAXIMUM_VALUE", "Max. Value - Social Housing" }, { "MAX_HEIGHT", "Maximum Height" }, { "VPO_MODULE", "Module - Social Housing" }, { "MUNICIPALITY", "Municipality" }, { "NEGATIVE_COLD", "Negative Cold" }, { "ADDRESS_NUMBER", "Number" }, { "BORROWER", "Owner" }, { "PARKINGS", "Parking" }, { "PERIMETER", "Perimeter" }, { "PLOT_AREA", "Plot Surface" }, { "POSITIVE_COLD", "Positive Cold" }, { "PROVINCE", "Province" }, { "REFERENCE", "Reference ID" }, { "REGISTRATION", "Registry" }, { "REGISTRY_ID", "Registry ID" }, { "REGISTRATION_NUMBER", "Registry Number" }, { "AREA_REGISTRY", "Registry Surface" }, { "AREA_CCAA_REGISTRY", "Registry Surface w/CCAA" }, { "RENTED", "Rented" }, { "REPEATED", "Repeated" }, { "ROOMS", "Rooms" }, { "SCOPE", "Scope" }, { "SEA_VIEWS", "Sea Views" }, { "MONTHLY_COMM_EXP_SQM", "Service Charges" }, { "SMOKE_VENT", "Smoke Ventilation" }, { "VPO", "Social Housing" }, { "DEVELOPMENT" + "." + "PROPERTY_STATUS", "Status" }, { "STOREROOMS", "Storage" }, { "ADDRESS_NAME", "Street" }, { "ASSET_SUBTYPE", "Sub-typology" }, { "AREA", "Surface" }, { "SWIMMING_POOL", "Swimming Pool" }, { "TERRACE", "Terrace" }, { "TERRACE_AREA", "Terrace Surface" }, { "ACTIVITY", "Type of activity" }, { "STATE", "Type of product" }, { "ASSET_TYPE", "Typology" }, { "USEFUL_AREA", "Useful Surface" }, { "VALUATION_TYPE", "Valuation Type" }, { "ZIP_CODE", "Zip Code" } };
+
+        public class Error { public string TypeOfError { get; set; } public int Row { get; set; } public int Col { get; set; } public List<string> Messages { get; set; } }
+
+        public class AssetField { public int Index { get; set; } public string Field { get; set; } }
+
+        [TestMethod]
+        public void Issue478()
+        {
+
+            var dataStartRow = 2;
+            var errors = JsonConvert.DeserializeObject<Error[]>("[{\"typeOfError\":\"WARNING\",\"row\":4,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":20,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":35,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":47,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":57,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":60,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":90,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":131,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":136,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":138,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":139,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]}]");
+            var assetFields = JsonConvert.DeserializeObject<AssetField[]>("[{\"index\":1,\"field\":\"Reference\"},{\"index\":15,\"field\":\"ZipCode\"},{\"index\":16,\"field\":\"Municipality\"},{\"index\":17,\"field\":\"FullAddress\"}]");
+
+            using (var excelPackage = OpenTemplatePackage("issue478.xlsx"))
+            {
+                var worksheet = excelPackage.Workbook.Worksheets["Avances"];
+                var start = worksheet.Dimension.Start;
+                var end = worksheet.Dimension.End;
+
+                // Add column of errors and warnings
+                var startMessagesColumn = end.Column + 1;
+                worksheet.InsertColumn(startMessagesColumn, 2);
+                var errorColumn = startMessagesColumn;
+                var warningColumn = startMessagesColumn + 1;
+                worksheet.Cells[(dataStartRow) - 1, errorColumn].Value = "Errors";
+                worksheet.Cells[(dataStartRow) - 1, warningColumn].Value = "Warnings";
+                foreach (var error in errors)
+                {
+                    if (error.TypeOfError == "ERROR")
+                    {
+                        //worksheet.Cells[error.Row - 1, errorColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                    else
+                    {
+                        //worksheet.Cells[error.Row - 1, warningColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                }
+
+                // Remove distinct columns from "Reference"
+                var colFieldReference = assetFields.Where(x => x.Field == "REFERENCE").Select(x => x.Index).FirstOrDefault();
+                worksheet.Cells[1, colFieldReference + 1].Value = "Reference";
+
+                var deletedColumns = 0;
+                for (int i = 1; i <= end.Column; i++)
+                {
+                    if (colFieldReference + 1 != i && errorColumn != i && warningColumn != i)
+                    {
+                        worksheet.DeleteColumn(i - deletedColumns);
+                        deletedColumns++;
+                    }
+                }
+
+                // Remove rows that do not contain errors
+                var deletedRows = 0;
+                for (int i = 1; i <= end.Row; i++)
+                {
+                    if (i < (dataStartRow - 1) || (i >= dataStartRow && !errors.Any(w => (w.Row - 1) == i)))
+                    {
+                        worksheet.DeleteRow(i - deletedRows);
+                        deletedRows++;
+                    }
+                }
+                SaveAndCleanup(excelPackage);
+            };
+        }
+        [TestMethod]
+        public void TestColumnWidthsAfterDeletingColumn()
+        {
+            using (var pck = OpenTemplatePackage("Issue480.xlsx"))
+            {
+                // Get the worksheet where columns 3-5 have a width of around 18
+                var wks = pck.Workbook.Worksheets["Sheet1"];
+
+                // Check the width of column 5
+                Assert.AreEqual(18.77734375, wks.Column(5).Width, 1E-5);
+
+                // Delete column 4
+                wks.DeleteColumn(4, 3);
+
+                // Check width of column 5 (now 4) hasn't changed
+                Assert.AreEqual(18.77734375, wks.Column(3).Width, 1E-5);
+                //Assert.AreEqual(18.77734375, wks.Column(4).Width, 1E-5);
+            }
+        }
+
+        [TestMethod]
+        public void Issue484_InsertRowCalculatedColumnFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create some worksheets
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+
+                // Create some tables with calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A11:C12"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E11:G12"], "Table2");
+                tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+                // Check the formulas have been set correctly
+                Assert.AreEqual("A12+B12", ws1.Cells["C12"].Formula);
+                Assert.AreEqual("A12+F12", ws1.Cells["G12"].Formula);
+                Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+                // Delete two rows above the tables
+                ws1.DeleteRow(5, 2);
+
+                // Check the formulas were updated
+                Assert.AreEqual("A10+B10", ws1.Cells["C10"].Formula);
+                Assert.AreEqual("A10+F10", ws1.Cells["G10"].Formula);
+                Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
+            }
+        }
+        [TestMethod]
+        public void Issue484_DeleteRowCalculatedColumnFormula()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create some worksheets
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+
+                // Create some tables with calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A11:C12"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E11:G12"], "Table2");
+                tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+                // Check the formulas have been set correctly
+                Assert.AreEqual("A12+B12", ws1.Cells["C12"].Formula);
+                Assert.AreEqual("A12+F12", ws1.Cells["G12"].Formula);
+                Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+                // Delete two rows above the tables
+                ws1.DeleteRow(5, 2);
+
+                // Check the formulas were updated
+                Assert.AreEqual("A10+B10", ws1.Cells["C10"].Formula);
+                Assert.AreEqual("A10+F10", ws1.Cells["G10"].Formula);
+                Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("A10+F10", tbl2.Columns[2].CalculatedColumnFormula);
+            }
+        }
+        [TestMethod]
+        public void FreezeTemplate()
+        {
+            using (var p = OpenTemplatePackage("freeze.xlsx"))
+            {
+                // Get the worksheet where columns 3-5 have a width of around 18
+                var ws = p.Workbook.Worksheets[0];
+                ws.View.FreezePanes(40, 5);
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CopyWorksheetWithBlipFillObjects()
+        {
+            using (var p1 = OpenTemplatePackage("BlipFills.xlsx"))
+            {
+                var ws = p1.Workbook.Worksheets[0];
+                var wsCopy = p1.Workbook.Worksheets.Add("Copy", p1.Workbook.Worksheets[0]);
+
+                ws.Cells["G4"].Copy(wsCopy.Cells["F20"]);
+                SaveAndCleanup(p1);
+            }
+        }
+        [TestMethod]
+        public void Issue519()
+        {
+            using (var package = OpenPackage("I519.xlsx", true))
+            {
+
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                worksheet.Cells[3, 1].Value = "test";
+
+                var ctrl = worksheet.Drawings.AddCheckBoxControl("test");
+                ctrl.SetPosition(10, 10);
+                ctrl.Checked = OfficeOpenXml.Drawing.Controls.eCheckState.Checked; // creates valid XLSX file
+                //ctrl.Checked = OfficeOpenXml.Drawing.Controls.eCheckState.Mixed; // creates valid XLSX file
+                //ctrl.Checked = OfficeOpenXml.Drawing.Controls.eCheckState.Unchecked; // creates invalid XLSX file
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void Issue520_2()
+        {
+            using (var p = OpenPackage("i520.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("17Columns");
+                var tableData = Enumerable.Range(1, 10)
+                .Select(_ => new
+                {
+                    C01 = 1,
+                    C02 = 2,
+                    C03 = 3,
+                    C04 = 4,
+                    C05 = 5,
+                    C06 = 6,
+                    C07 = 7,
+                    C08 = 8,
+                    C09 = 9,
+                    C10 = 10,
+                    C11 = 11,
+                    C12 = 12,
+                    C13 = 13,
+                    C14 = 14,
+                    C15 = 15,
+                    C16 = 16,
+                    C17 = 17
+                }).ToArray();
+                var table = sheet.Cells[1, 1].LoadFromCollection(tableData, true, TableStyles.Light1);
+                table.AutoFitColumns();
+
+                sheet = p.Workbook.Worksheets.Add("16Columns");
+                var tableData2 = Enumerable.Range(1, 10)
+                .Select(_ => new
+                {
+                    C01 = 1,
+                    C02 = 2,
+                    C03 = 3,
+                    C04 = 4,
+                    C05 = 5,
+                    C06 = 6,
+                    C07 = 7,
+                    C08 = 8,
+                    C09 = 9,
+                    C10 = 10,
+                    C11 = 11,
+                    C12 = 12,
+                    C13 = 13,
+                    C14 = 14,
+                    C15 = 15,
+                    C16 = 16
+                }).ToArray();
+                table = sheet.Cells[1, 1].LoadFromCollection(tableData2, true, TableStyles.Light1);
+                table.AutoFitColumns();
+
+                sheet = p.Workbook.Worksheets.Add("18Columns");
+                var tableData3 = Enumerable.Range(1, 10)
+                .Select(_ => new
+                {
+                    C01 = 1,
+                    C02 = 2,
+                    C03 = 3,
+                    C04 = 4,
+                    C05 = 5,
+                    C06 = 6,
+                    C07 = 7,
+                    C08 = 8,
+                    C09 = 9,
+                    C10 = 10,
+                    C11 = 11,
+                    C12 = 12,
+                    C13 = 13,
+                    C14 = 14,
+                    C15 = 15,
+                    C16 = 16,
+                    C17 = 17,
+                    C18 = 18
+                }).ToArray();
+                table = sheet.Cells[1, 1].LoadFromCollection(tableData3, true, TableStyles.Light1);
+                table.AutoFitColumns();
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue522()
+        {
+            using (var package = OpenPackage("I22.xlsx", true))
+            {
+
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                worksheet.Cells[1, 1].Value = -1234;
+                worksheet.Cells[1, 1].Style.Numberformat.Format = "#.##0\"*\";(#.##0)\"*\"";
+                var s = worksheet.Cells[1, 1].Text;
+
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
+

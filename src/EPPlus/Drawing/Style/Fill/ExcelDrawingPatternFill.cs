@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
     public class ExcelDrawingPatternFill : ExcelDrawingFillBase
     {
         string[] _schemaNodeOrder;
-        internal ExcelDrawingPatternFill(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string fillPath, string[] schemaNodeOrder) : base(nameSpaceManager, topNode, fillPath)
+        internal ExcelDrawingPatternFill(XmlNamespaceManager nameSpaceManager, XmlNode topNode, string fillPath, string[] schemaNodeOrder, Action initXml) : base(nameSpaceManager, topNode, fillPath, initXml)
         {
             _schemaNodeOrder = XmlHelper.CopyToSchemaNodeOrder(schemaNodeOrder, new string[] { "fgClr", "bgClr" });
             GetXml();
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             {
                 if (_fgColor == null)
                 {
-                    _fgColor = new ExcelDrawingColorManager(_nsm, _topNode, "a:fgClr", _schemaNodeOrder);
+                    _fgColor = new ExcelDrawingColorManager(_nsm, _topNode, "a:fgClr", _schemaNodeOrder, _initXml);
                 }
                 return _fgColor;
             }
@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             {
                 if(_bgColor == null)
                 {
-                    _bgColor = new ExcelDrawingColorManager(_nsm, _topNode, "a:bgClr", _schemaNodeOrder);
+                    _bgColor = new ExcelDrawingColorManager(_nsm, _topNode, "a:bgClr", _schemaNodeOrder, _initXml);
                 }
                 return _bgColor;
             }
@@ -98,6 +98,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
 
         internal override void SetXml(XmlNamespaceManager nsm, XmlNode node)
         {
+            _initXml?.Invoke();
             if (_xml == null)
             {
                 if(string.IsNullOrEmpty(_fillPath))

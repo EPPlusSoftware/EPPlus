@@ -28,6 +28,7 @@ namespace OfficeOpenXml.LoadFunctions
             Range = range;
             PrintHeaders = parameters.PrintHeaders;
             TableStyle = parameters.TableStyle;
+            TableName = parameters.TableName?.Trim();
         }
 
         /// <summary>
@@ -43,7 +44,8 @@ namespace OfficeOpenXml.LoadFunctions
         /// <summary>
         /// If value is other than TableStyles.None the data will be added to a table in the worksheet.
         /// </summary>
-        protected TableStyles TableStyle { get; set; }
+        protected TableStyles? TableStyle { get; set; }
+        protected string TableName { get; set; }
 
         protected bool ShowFirstColumn { get; set; }
 
@@ -79,6 +81,12 @@ namespace OfficeOpenXml.LoadFunctions
             var nRows = PrintHeaders ? GetNumberOfRows() + 1 : GetNumberOfRows();
             var nCols = GetNumberOfColumns();
             var values = new object[nRows, nCols];
+
+            if(Range.Worksheet._values.Capacity < values.Length)
+            {
+                Range.Worksheet._values.Capacity = values.Length;
+            }
+
             LoadInternal(values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
             var ws = Range.Worksheet;
             if(formulaCells != null && formulaCells.Keys.Count > 0)
@@ -109,17 +117,16 @@ namespace OfficeOpenXml.LoadFunctions
 
             var r = ws.Cells[Range._fromRow, Range._fromCol, Range._fromRow + nRows - 1, Range._fromCol + nCols - 1];
 
-            if (TableStyle != TableStyles.None)
+            if (TableStyle.HasValue)
             {
-                var tbl = ws.Tables.Add(r, "");
+                var tbl = ws.Tables.Add(r, TableName);
                 tbl.ShowHeader = PrintHeaders;
-                tbl.TableStyle = TableStyle;
+                tbl.TableStyle = TableStyle.Value;
                 tbl.ShowFirstColumn = ShowFirstColumn;
                 tbl.ShowLastColumn = ShowLastColumn;
                 tbl.ShowTotal = ShowTotal;
                 PostProcessTable(tbl, r);
             }
-
             return r;
         }
 

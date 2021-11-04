@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
@@ -24,6 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
     {
         private readonly WildCardValueMatcher _wildCardValueMatcher;
         private readonly CompileResultFactory _compileResultFactory;
+        private readonly TimeStringParser _timeStringParser = new TimeStringParser();
 
         public ExpressionEvaluator()
             : this(new WildCardValueMatcher(), new CompileResultFactory())
@@ -126,47 +128,77 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 return left == null;
             }
             var operatorCandidate = GetNonAlphanumericStartChars(expression);
-            // ignore the wildcard operator *
-            if (!string.IsNullOrEmpty(operatorCandidate) && operatorCandidate != "*")
+            if(!string.IsNullOrEmpty(operatorCandidate))
             {
-                IOperator op;
-                if (OperatorsDict.Instance.TryGetValue(operatorCandidate, out op))
+                if (operatorCandidate.Length > 1 && operatorCandidate.StartsWith("="))
                 {
-                    var right = expression.Replace(operatorCandidate, string.Empty);
-                    if (left == null && string.IsNullOrEmpty(right))
+                    operatorCandidate = operatorCandidate.Substring(1);
+                    expression = expression.Substring(1);
+                }
+                // ignore the wildcard operator *
+                if (operatorCandidate != "*")
+                {
+                    IOperator op;
+                    if (OperatorsDict.Instance.TryGetValue(operatorCandidate, out op))
                     {
-                        return op.Operator == Operators.Equals;
+                        var right = expression.Replace(operatorCandidate, string.Empty);
+                        if (left == null && string.IsNullOrEmpty(right))
+                        {
+                            return op.Operator == Operators.Equals;
+                        }
+                        if (left == null ^ string.IsNullOrEmpty(right))
+                        {
+                            return op.Operator == Operators.NotEqualTo;
+                        }
+                        double leftNum, rightNum;
+                        DateTime date;
+                        bool leftIsNumeric = TryConvertToDouble(left, out leftNum);
+                        bool rightIsNumeric = TryConvertStringToDouble(right, out rightNum);
+                        bool rightIsDate = DateTime.TryParse(right, out date);
+                        if (rightIsNumeric && op.Operator == Operators.Minus)
+                        {
+                            rightNum *= -1;
+                            op = OperatorsDict.Instance["="];
+                        }
+                        if (leftIsNumeric && rightIsNumeric)
+                        {
+                            return EvaluateOperator(leftNum, rightNum, op);
+                        }
+                        if (leftIsNumeric && rightIsDate)
+                        {
+                            return EvaluateOperator(leftNum, date.ToOADate(), op);
+                        }
+                        if (leftIsNumeric != rightIsNumeric)
+                        {
+                            return op.Operator == Operators.NotEqualTo;
+                        }
+                        return EvaluateOperator(left, right, op);
                     }
-                    if (left == null ^ string.IsNullOrEmpty(right))
-                    {
-                        return op.Operator == Operators.NotEqualTo;
-                    }
-                    double leftNum, rightNum;
-                    DateTime date;
-                    bool leftIsNumeric = TryConvertToDouble(left, out leftNum);
-                    bool rightIsNumeric = double.TryParse(right, out rightNum);
-                    bool rightIsDate = DateTime.TryParse(right, out date);
-                    if(rightIsNumeric && op.Operator == Operators.Minus)
-                    {
-                        rightNum *= -1;
-                        op = OperatorsDict.Instance["="];
-                    }
-                    if (leftIsNumeric && rightIsNumeric)
-                    {
-                         return EvaluateOperator(leftNum, rightNum, op);
-                    }
-                    if (leftIsNumeric && rightIsDate)
-                    {
-                        return EvaluateOperator(leftNum, date.ToOADate(), op);
-                    }
-                    if (leftIsNumeric != rightIsNumeric)
-                    {
-                        return op.Operator == Operators.NotEqualTo;
-                    }
-                    return EvaluateOperator(left, right, op);
                 }
             }
             return _wildCardValueMatcher.IsMatch(expression, left) == 0;
+        }
+
+        private bool TryConvertStringToDouble(string right, out double result)
+        {
+            result = 0d;
+            if(double.TryParse(right, out double val))
+            {
+                result = val;
+                return true;
+            }
+            else if(IsTimeString(right))
+            {
+                result = _timeStringParser.Parse(right);
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsTimeString(string str)
+        {
+            if (string.IsNullOrEmpty(str) || str.Length < 5) return false;
+            return _timeStringParser.CanParse(str);
         }
     }
 }

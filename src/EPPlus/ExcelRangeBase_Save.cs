@@ -350,6 +350,12 @@ namespace OfficeOpenXml
                     isText = true;
                 }
             }
+
+            //If a formatted numeric/date value contains the delimitter or a text qualifier treat it as text.
+            if (isText == false && string.IsNullOrEmpty(t)==false && t.IndexOfAny(new []{ Format.Delimiter, Format.TextQualifier}) >= 0)
+            {
+                isText = true;
+            }
             return t;
         }
 
@@ -371,10 +377,20 @@ namespace OfficeOpenXml
             var sb = new StringBuilder();
             for (int col = _fromCol; col <= _toCol; col++)
             {
-                if (hasTextQ) sb.Append(Format.TextQualifier);
                 var v = GetCellStoreValue(row, col);
-                sb.Append(ValueToTextHandler.GetFormattedText(v._value, _workbook, v._styleId, false, ci));
-                if (hasTextQ) sb.Append(Format.TextQualifier);
+                var s = ValueToTextHandler.GetFormattedText(v._value, _workbook, v._styleId, false, ci);
+
+                if (hasTextQ)
+                {
+                    sb.Append(Format.TextQualifier);
+                    sb.Append(s.Replace(Format.TextQualifier.ToString(), new string(Format.TextQualifier, 2)));
+                    sb.Append(Format.TextQualifier);
+                }
+                else
+                {
+                    sb.Append(s);
+                }
+
                 if(col < _toCol)
                     sb.Append(Format.Delimiter);
             }

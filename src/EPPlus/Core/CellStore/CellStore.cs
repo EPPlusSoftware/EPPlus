@@ -122,6 +122,13 @@ namespace OfficeOpenXml.Core.CellStore
                 return count;
             }
         }
+
+        internal int Capacity
+        {
+            get => _values.Capacity;
+            set => _values.Capacity = value;
+        }
+
         internal bool GetDimension(out int fromRow, out int fromCol, out int toRow, out int toCol)
         {
             if (ColumnCount == 0)
@@ -438,9 +445,12 @@ namespace OfficeOpenXml.Core.CellStore
             }
             else
             {
+                var endCol = fromCol + columns - 1;
                 fromColPos = GetClosestColumnPosition(fromCol);
-                toColPos = GetClosestColumnPosition(fromCol + columns - 1);
+                toColPos = GetClosestColumnPosition(endCol);
                 toColPos = Math.Min(toColPos, ColumnCount - 1);
+                if(fromColPos < ColumnCount && _columnIndex[fromColPos].Index < fromCol) fromColPos++;
+                if(toColPos >= 0 && toColPos < ColumnCount && _columnIndex[toColPos].Index > endCol) toColPos--;
             }
         }
 
@@ -1210,7 +1220,10 @@ namespace OfficeOpenXml.Core.CellStore
                 else
                 {
                     var r = GetNextCell(ref row, ref c, minColPos, maxRow, maxColPos);
-                    col = _columnIndex[c].Index;
+                    if (r)
+                    {
+                        col = _columnIndex[c].Index;
+                    }
                     return r;
                 }
             }

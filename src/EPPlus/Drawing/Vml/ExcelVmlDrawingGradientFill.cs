@@ -1,9 +1,11 @@
-﻿///  <v:fill color2 = "black" recolor="t" rotate="t" focus="100%" type="gradient"/>
-using System;
+﻿using System;
 using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Fill settings for a vml gradient fill
+    /// </summary>
     public class ExcelVmlDrawingGradientFill : XmlHelper
     {
         ExcelVmlDrawingFill _fill;
@@ -14,7 +16,7 @@ namespace OfficeOpenXml.Drawing.Vml
         /// <summary>
         /// A semicolon separated list of colors used for gradient fill. 
         /// Each color item starts with a percent and a color. Starting from 0% and ending and 100%.
-        /// Use <see cref="SetGradientColors"> to set this property</see>
+        /// Use <seealso cref="SetGradientColors(VmlGradiantColor[])"/>  to set this property.
         /// </summary>
         public string ColorsString
         {

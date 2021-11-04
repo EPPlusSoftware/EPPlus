@@ -166,8 +166,9 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             set
             {
-                string color = "#" + value.ToArgb().ToString("X").Substring(2, 6);
-                SetXmlNodeString(BACKGROUNDCOLOR_PATH, color);
+                string color = value.ToArgb().ToString("X");
+                if (color.Length == 8) color = color.Substring(2, 6);
+                SetXmlNodeString(BACKGROUNDCOLOR_PATH, "#" + color);
                 //SetXmlNode(BACKGROUNDCOLOR2_PATH, color);
             }
         }
@@ -292,7 +293,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             set
             {                
-                SetXmlNodeString(TEXTBOX_STYLE_PATH, SetStyle(GetXmlNodeString(TEXTBOX_STYLE_PATH),"mso-fit-shape-to-text", value?"t":"")); 
+                SetXmlNodeString(TEXTBOX_STYLE_PATH, SetStyle(GetXmlNodeString(TEXTBOX_STYLE_PATH),"mso-fit-shape-to-text", value?"t":"f")); 
             }
         }        
         const string LOCKED_PATH = "x:ClientData/x:Locked";
@@ -397,6 +398,22 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString(STYLE_PATH, value);
             }
         }
+        internal ExcelVmlDrawingFill _fill = null;
+        /// <summary>
+        /// Fill properties for the comment
+        /// </summary>
+        public ExcelVmlDrawingFill Fill
+        {
+            get
+            {
+                if (_fill == null)
+                {
+                    _fill = new ExcelVmlDrawingFill(Range.Worksheet.Drawings, NameSpaceManager, TopNode, SchemaNodeOrder);
+                }
+                return _fill;
+            }
+        }
+
         #region IRangeID Members
 
         ulong IRangeID.RangeID

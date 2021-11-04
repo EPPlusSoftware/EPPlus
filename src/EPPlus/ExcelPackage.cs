@@ -33,7 +33,7 @@ using Microsoft.Extensions.Configuration;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Represents an Excel 2007/2010 XLSX file package.  
+    /// Represents an Excel XLSX file package.  
     /// This is the top-level object to access all parts of the document.
     /// </summary>
     /// <remarks>
@@ -136,9 +136,11 @@ namespace OfficeOpenXml
     /// </remarks>
 	public sealed partial class ExcelPackage : IDisposable
 	{
+        internal bool _isDisposed = false;
         internal const bool preserveWhitespace=false;
         Stream _stream = null;
         private bool _isExternalStream=false;
+        internal ExcelPackage _loadedPackage = null;
 		#region Properties
 		/// <summary>
 		/// Extention Schema types
@@ -165,7 +167,7 @@ namespace OfficeOpenXml
         internal const string schemaMicrosoftVml = @"urn:schemas-microsoft-com:vml";
         internal const string schemaMicrosoftOffice = "urn:schemas-microsoft-com:office:office";
         internal const string schemaMicrosoftExcel = "urn:schemas-microsoft-com:office:excel";
-
+        
         internal const string schemaChart = @"http://schemas.openxmlformats.org/drawingml/2006/chart";                                                        
         internal const string schemaHyperlink = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
         internal const string schemaComment = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
@@ -215,6 +217,9 @@ namespace OfficeOpenXml
         //Persons
         internal const string schemaPersonsRelationShips = "http://schemas.microsoft.com/office/2017/10/relationships/person";
 
+        // Richdata (used in worksheet.sortstate)
+        internal const string schemaRichData2 = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2";
+
         //Package reference
         private Packaging.ZipPackage _zipPackage;
 		internal ExcelWorkbook _workbook;
@@ -249,6 +254,13 @@ namespace OfficeOpenXml
             ConstructNewFile(null);
         }
         /// <summary>
+		/// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+		/// </summary>
+		/// <param name="path">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        public ExcelPackage(string path)
+            : this(new FileInfo(path))
+        { }
+        /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
         /// </summary>
         /// <param name="newFile">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
@@ -259,6 +271,14 @@ namespace OfficeOpenXml
             File = newFile;
             ConstructNewFile(password);
         }
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
+        /// </summary>
+        /// <param name="path">If newFile exists, it is opened.  Otherwise it is created from scratch.</param>
+        /// <param name="password">Password for an encrypted package</param>
+        public ExcelPackage(string path, string password)
+            : this(new FileInfo(path), password)
+        { }
 		/// <summary>
 		/// Create a new instance of the ExcelPackage class based on a existing template.
 		/// If newFile exists, it will be overwritten when the Save method is called
@@ -284,6 +304,16 @@ namespace OfficeOpenXml
             File = newFile;
             CreateFromTemplate(template, password);
         }
+        /// <summary>
+        /// Create a new instance of the ExcelPackage class based on a existing template.
+        /// If newFile exists, it will be overwritten when the Save method is called
+        /// </summary>
+        /// <param name="newFilePath">The name of the Excel file to be created</param>
+        /// <param name="templatePath">The name of the Excel template to use as the basis of the new Excel file</param>
+        /// <param name="password">Password to decrypted the template</param>
+        public ExcelPackage(string newFilePath, string templatePath, string password)
+            : this(new FileInfo(newFilePath), new FileInfo(templatePath), password)
+        { }
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing template.
         /// </summary>
@@ -670,6 +700,7 @@ namespace OfficeOpenXml
 		{
 			get
 			{
+                CheckNotDisposed();
                 if (_workbook == null)
                 {
                     if(IsLicenseSet()==false)
@@ -680,7 +711,6 @@ namespace OfficeOpenXml
 
                     _workbook = new ExcelWorkbook(this, nsm);
 
-                    _workbook.GetExternalReferences();
                     _workbook.GetDefinedNames();
                     _workbook.LoadPivotTableCaches();
 
@@ -792,7 +822,7 @@ namespace OfficeOpenXml
 		{
             if(_zipPackage != null)
             {
-		        if (_isExternalStream==false && _stream != null && (_stream.CanRead || _stream.CanWrite))
+                if (_isExternalStream==false && _stream != null && (_stream.CanRead || _stream.CanWrite))
                 {
                     CloseStream();
                 }
@@ -806,7 +836,8 @@ namespace OfficeOpenXml
                 _workbook = null;
                 _stream = null;
                 _workbook = null;
-                    
+
+                _isDisposed = true;
                 if (Settings.DoGarbageCollectOnDispose)
                 {
                     GC.Collect();
@@ -824,6 +855,7 @@ namespace OfficeOpenXml
         /// </summary>
         public void Save()
         {
+            CheckNotDisposed();
             try
             {
                 if (_stream is MemoryStream && _stream.Length > 0)
@@ -943,6 +975,15 @@ namespace OfficeOpenXml
         }
         /// <summary>
         /// Saves the workbook to a new file
+        /// The package is closed after it has been saved        
+        /// </summary>
+        /// <param name="filePath">The file location</param>
+        public void SaveAs(string filePath)
+        {
+            SaveAs(new FileInfo(filePath));
+        }
+        /// <summary>
+        /// Saves the workbook to a new file
         /// The package is closed after it has been saved
         /// </summary>
         /// <param name="file">The file</param>
@@ -953,6 +994,17 @@ namespace OfficeOpenXml
             File = file;
             Encryption.Password = password;
             Save();
+        }
+        /// <summary>
+        /// Saves the workbook to a new file
+        /// The package is closed after it has been saved
+        /// </summary>
+        /// <param name="filePath">The file</param>
+        /// <param name="password">The password to encrypt the workbook with. 
+        /// This parameter overrides the Encryption.Password.</param>
+        public void SaveAs(string filePath, string password)
+        {
+            SaveAs(new FileInfo(filePath), password);
         }
         /// <summary>
         /// Copies the Package to the Outstream
@@ -1109,6 +1161,7 @@ namespace OfficeOpenXml
         }
         internal byte[] GetAsByteArray(bool save)
         {
+            CheckNotDisposed();
             if (save)
             {
                 Workbook.Save();
@@ -1137,6 +1190,14 @@ namespace OfficeOpenXml
             Stream.Seek(pos, SeekOrigin.Begin);
             Stream.Close();
             return byRet;
+        }
+
+        private void CheckNotDisposed()
+        {
+            if(_isDisposed)
+            {
+                throw (new ObjectDisposedException("ExcelPackage", "Package has been disposed"));
+            }
         }
         #endregion
         /// <summary>
@@ -1230,6 +1291,7 @@ namespace OfficeOpenXml
                 _stream = null;
             }
             _isExternalStream = true;
+            _isDisposed = false;
         }
 
         static object _lock=new object();

@@ -23,7 +23,16 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public StringExpression ToStringExpression(Expression expression)
         {
             var result = expression.Compile();
-            var newExp = new StringExpression(result.Result.ToString());
+            string toString;
+            if(result.DataType == DataType.Decimal)
+            {
+                toString = result.ResultNumeric.ToString("G15");
+            }
+            else
+            {
+                toString = result.Result.ToString();
+            }
+            var newExp = new StringExpression(toString);
             newExp.Operator = expression.Operator;
             return newExp;
         }
@@ -59,6 +68,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 case DataType.Time:
                 case DataType.Date:
                     return new DecimalExpression((double)compileResult.Result);
+                case DataType.Enumerable:
+                    var rangeInfo = compileResult.Result as ExcelDataProvider.IRangeInfo;
+                    if (rangeInfo != null)
+                    {
+                        return new ExcelRangeExpression(rangeInfo);
+                    }
+                    break;
 
             }
             return null;

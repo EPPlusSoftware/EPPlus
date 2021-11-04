@@ -19,5 +19,11 @@ namespace OfficeOpenXml.Core.CellStore
     {
         internal object _value;
         internal int _styleId;
+
+        public override string ToString()
+        {
+            if (_value != null) return _value.ToString();
+            return "null";
+        }
     }
 }

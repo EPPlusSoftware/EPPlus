@@ -19,12 +19,10 @@ namespace OfficeOpenXml.Drawing.Theme
     /// </summary>
     public class ExcelFontScheme : XmlHelper
     {
-        internal ExcelFontScheme(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
-        {
-        }
-
-        internal ExcelFontScheme(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
-        {
+        private ExcelPackage _pck;
+        internal ExcelFontScheme(ExcelPackage pck, XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        {            
+            _pck = pck;
         }
         /// <summary>
         /// The name of the font scheme
@@ -50,7 +48,7 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if(_majorFont==null)
                 {
-                    _majorFont = new ExcelThemeFontCollection(NameSpaceManager, TopNode.SelectSingleNode("a:majorFont", NameSpaceManager));
+                    _majorFont = new ExcelThemeFontCollection(_pck,NameSpaceManager, TopNode.SelectSingleNode("a:majorFont", NameSpaceManager));
                 }
                 return _majorFont;
             }
@@ -65,7 +63,7 @@ namespace OfficeOpenXml.Drawing.Theme
             {
                 if (_minorFont == null)
                 {
-                    _minorFont = new ExcelThemeFontCollection(NameSpaceManager, TopNode.SelectSingleNode("a:minorFont", NameSpaceManager));
+                    _minorFont = new ExcelThemeFontCollection(_pck, NameSpaceManager, TopNode.SelectSingleNode("a:minorFont", NameSpaceManager));
                 }
                 return _minorFont;
             }

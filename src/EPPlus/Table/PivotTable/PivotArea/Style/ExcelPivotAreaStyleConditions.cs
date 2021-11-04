@@ -10,6 +10,7 @@
  *************************************************************************************************
   02/18/2021         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -53,6 +54,15 @@ namespace OfficeOpenXml.Table.PivotTable
         public ExcelPivotAreaDataFieldReference DataFields
         {
             get;
+        }
+
+        internal void UpdateXml()
+        {
+            DataFields.UpdateXml();
+            foreach (ExcelPivotAreaReference r in Fields)
+            {
+                r.UpdateXml();
+            }
         }
     }
 }

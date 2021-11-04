@@ -104,5 +104,28 @@ namespace OfficeOpenXml
         {
             return Name;
         }
+        /// <summary>
+        /// Returns true if the name is equal to the obj
+        /// </summary>
+        /// <param name="obj">The object to compare with</param>
+        /// <returns>true if equal</returns>
+        public override bool Equals(object obj)
+        {
+            if(obj is ExcelNamedRange name)
+            {
+                return name.Name.Equals(Name, StringComparison.OrdinalIgnoreCase) && 
+                       name.LocalSheetId == LocalSheetId && 
+                       name._workbook == _workbook;
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
+        //
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

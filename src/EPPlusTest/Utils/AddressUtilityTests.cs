@@ -78,5 +78,23 @@ namespace EPPlusTest.Utils
             // Assert
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void ShouldShiftRowInFormulaAddresses1()
+        {
+            var formula = "SUM(A3:A4)";
+            var ws = "test";
+            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
+            Assert.AreEqual("SUM(A1:A2)", result);
+        }
+
+        [TestMethod]
+        public void ShouldNotShiftRowInFormulaFixedAddresses()
+        {
+            var formula = "SUM(A$3:A$4)";
+            var ws = "test";
+            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
+            Assert.AreEqual("SUM(A$3:A$4)", result);
+        }
     }
 }

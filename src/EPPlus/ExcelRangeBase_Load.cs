@@ -181,7 +181,7 @@ namespace OfficeOpenXml
         /// <param name="PrintHeaders">Print the column caption property (if set) or the columnname property if not, on first row</param>
         /// <param name="TableStyle">The table style to apply to the data</param>
         /// <returns>The filled range</returns>
-        public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders, TableStyles TableStyle)
+        public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders, TableStyles? TableStyle)
         {
             var parameters = new LoadFromDataTableParams
             {
@@ -199,7 +199,7 @@ namespace OfficeOpenXml
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromDataTable(DataTable Table, bool PrintHeaders)
         {
-            return LoadFromDataTable(Table, PrintHeaders, TableStyles.None);
+            return LoadFromDataTable(Table, PrintHeaders, null);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace OfficeOpenXml
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromDataTable(DataTable table)
         {
-            return LoadFromDataTable(table, false, TableStyles.None);
+            return LoadFromDataTable(table, false, null);
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace OfficeOpenXml
                 }
                 return range;
             }
-            return LoadFromCollection<T>(Collection, false, TableStyles.None, BindingFlags.Public | BindingFlags.Instance, null);
+            return LoadFromCollection<T>(Collection, false, null, BindingFlags.Public | BindingFlags.Instance, null);
         }
         /// <summary>
         /// Load a collection of T into the worksheet starting from the top left row of the range.
@@ -293,7 +293,7 @@ namespace OfficeOpenXml
         /// <returns>The filled range</returns>
         public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders)
         {
-            return LoadFromCollection<T>(Collection, PrintHeaders, TableStyles.None, BindingFlags.Public | BindingFlags.Instance, null);
+            return LoadFromCollection<T>(Collection, PrintHeaders, null, BindingFlags.Public | BindingFlags.Instance, null);
         }
         /// <summary>
         /// Load a collection of T into the worksheet starting from the top left row of the range.
@@ -304,7 +304,7 @@ namespace OfficeOpenXml
         /// <param name="PrintHeaders">Print the property names on the first row. If the property is decorated with a <see cref="DisplayNameAttribute"/> or a <see cref="DescriptionAttribute"/> that attribute will be used instead of the reflected member name.</param>
         /// <param name="TableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
         /// <returns>The filled range</returns>
-        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles TableStyle)
+        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle)
         {
             return LoadFromCollection<T>(Collection, PrintHeaders, TableStyle, BindingFlags.Public | BindingFlags.Instance, null);
         }
@@ -318,11 +318,16 @@ namespace OfficeOpenXml
         /// <param name="memberFlags">Property flags to use</param>
         /// <param name="Members">The properties to output. Must be of type T</param>
         /// <returns>The filled range</returns>
-        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
+        public ExcelRangeBase LoadFromCollection<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
         {
-            if(Collection is IEnumerable<IDictionary<string, object>>)
+            return LoadFromCollectionInternal(Collection, PrintHeaders, TableStyle, memberFlags, Members);
+        }
+
+        private ExcelRangeBase LoadFromCollectionInternal<T>(IEnumerable<T> Collection, bool PrintHeaders, TableStyles? TableStyle, BindingFlags memberFlags, MemberInfo[] Members)
+        {
+            if (Collection is IEnumerable<IDictionary<string, object>>)
             {
-                if(Members == null)
+                if (Members == null)
                     return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle);
                 return LoadFromDictionaries(Collection as IEnumerable<IDictionary<string, object>>, PrintHeaders, TableStyle, Members.Select(x => x.Name));
             }
@@ -405,23 +410,23 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Text">The Text</param>
         /// <param name="Format">Information how to load the text</param>
-        /// <param name="TableStyle">Create a table with this style</param>
+        /// <param name="TableStyle">Create a table with this style. If this parameter is not null no table will be created.</param>
         /// <param name="FirstRowIsHeader">Use the first row as header</param>
         /// <returns></returns>
-        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormat Format, TableStyles TableStyle, bool FirstRowIsHeader)
+        public ExcelRangeBase LoadFromText(string Text, ExcelTextFormat Format, TableStyles? TableStyle, bool FirstRowIsHeader)
         {
             var r = LoadFromText(Text, Format);
 
-            if (r != null)
+            if (r != null && TableStyle.HasValue)
             {
                 var tbl = _worksheet.Tables.Add(r, "");
                 tbl.ShowHeader = FirstRowIsHeader;
-                tbl.TableStyle = TableStyle;
+                tbl.TableStyle = TableStyle.Value;
             }
             return r;
         }
         /// <summary>
-        /// Loads a CSV file into a range starting from the top left cell.
+        /// Loads a CSV file into a range starting from the top left cell using ASCII Encoding.
         /// </summary>
         /// <param name="TextFile">The Textfile</param>
         /// <returns></returns>
@@ -452,7 +457,7 @@ namespace OfficeOpenXml
         /// <param name="TableStyle">Create a table with this style</param>
         /// <param name="FirstRowIsHeader">Use the first row as header</param>
         /// <returns></returns>
-        public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormat Format, TableStyles TableStyle, bool FirstRowIsHeader)
+        public ExcelRangeBase LoadFromText(FileInfo TextFile, ExcelTextFormat Format, TableStyles? TableStyle, bool FirstRowIsHeader)
         {
             if (TextFile.Exists == false)
             {
@@ -616,7 +621,7 @@ namespace OfficeOpenXml
         ///    }
         /// </code>
         /// </example>
-        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles tableStyle)
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles? tableStyle)
         {
             return LoadFromDictionaries(items, printHeaders, tableStyle, null);
         }
@@ -652,7 +657,7 @@ namespace OfficeOpenXml
         ///    }
         /// </code>
         /// </example>
-        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles tableStyle, IEnumerable<string> keys)
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<IDictionary<string, object>> items, bool printHeaders, TableStyles? tableStyle, IEnumerable<string> keys)
         {
             var param = new LoadFromDictionariesParams
             {

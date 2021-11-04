@@ -530,6 +530,19 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             if (_chart.HasLegend)
             {
                 ApplyStyle(_chart.Legend, Style.Legend);
+                if(!_chart._isChartEx)
+                {
+                    if (_chart.Legend._entries != null)
+                    {
+                        foreach (ExcelChartLegendEntry e in _chart.Legend._entries)
+                        {
+                            if (e.HasValue)
+                            {
+                                ApplyStyleFont(Style.Legend, e.Index, e, 0);
+                            }
+                        }
+                    }
+                }
             }
             
             if(_chart is ExcelStandardChartWithLines lineChart)

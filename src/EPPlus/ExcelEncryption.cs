@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace OfficeOpenXml
@@ -74,12 +75,12 @@ namespace OfficeOpenXml
         internal ExcelEncryption(EncryptionAlgorithm encryptionAlgorithm)
         {
             Algorithm = encryptionAlgorithm;
-        }        
+        }
         bool _isEncrypted = false;
         /// <summary>
         /// Is the package encrypted
         /// </summary>
-        public bool IsEncrypted 
+        public bool IsEncrypted
         {
             get
             {
@@ -98,11 +99,11 @@ namespace OfficeOpenXml
                 }
             }
         }
-        string _password=null;
+        string _password = null;
         /// <summary>
         /// The password used to encrypt the workbook.
         /// </summary>
-        public string Password 
+        public string Password
         {
             get
             {
@@ -144,5 +145,76 @@ namespace OfficeOpenXml
                 }
             }
         }
+        /// <summary>
+        /// Encrypts a stream using the office encryption.
+        /// </summary>
+        /// <param name="stream">The stream containing the non-encrypted package.</param>
+        /// <param name="password">The password to encrypt with</param>
+        /// <param name="encryptionVersion">The encryption version</param>
+        /// <param name="algorithm">The algorithm to use for the encryption</param>
+        /// <returns>A MemoryStream containing the encypted package</returns>
+        public static MemoryStream EncryptPackage(Stream stream, string password, EncryptionVersion encryptionVersion=EncryptionVersion.Agile, EncryptionAlgorithm algorithm = EncryptionAlgorithm.AES256)
+        {
+            var e = new Encryption.EncryptedPackageHandler();
+            if(stream.CanRead==false)
+            {
+                throw new InvalidOperationException("Stream must be readable");
+            }
+            if (stream.CanSeek)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+            
+            var b = new byte[stream.Length];
+            stream.Read(b, 0, (int)stream.Length);
+            return e.EncryptPackage(b, new ExcelEncryption { Password = password, Algorithm = algorithm, Version = encryptionVersion });
+        }
+        /// <summary>
+        /// Decrypts a stream using the office encryption.
+        /// </summary>
+        /// <param name="stream">The stream containing the encrypted package.</param>
+        /// <param name="password">The password to decrypt with</param>
+        /// <returns>A memorystream with the encypted package</returns>
+        public static MemoryStream DecryptPackage(Stream stream, string password)
+        {
+            var e = new Encryption.EncryptedPackageHandler();
+            if(stream==null)
+            {
+                throw new ArgumentNullException("Stream must not be null");
+            }
+            if (stream.CanRead == false)
+            {
+                throw new InvalidOperationException("Stream must be readable");
+            }
+            if (stream.CanSeek)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+#if (NET35)
+            else
+            {
+                throw new InvalidOperationException("Stream must be seekable");
+            }
+#endif
+
+            MemoryStream ms;
+            if(stream is MemoryStream)
+            {
+                ms = (MemoryStream)stream;
+            }
+            else
+            {
+#if (NET35)
+                var b = new byte[stream.Length];
+                stream.Read(b, 0, (int)stream.Length);
+                ms = new MemoryStream(b);
+#else
+                ms = new MemoryStream();
+                stream.CopyTo(ms);
+#endif
+            }
+            return e.DecryptPackage(ms, new ExcelEncryption() { Password = password, _isEncrypted=true });
+        }
+
     }
 }

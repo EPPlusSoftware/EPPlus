@@ -99,13 +99,13 @@ namespace OfficeOpenXml
                 return newOrder;
             }
         }
-        private void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute=null)
+        internal static void CopyElement(XmlElement fromElement, XmlElement toElement, string[] ignoreAttribute=null)
         {
             toElement.InnerXml = fromElement.InnerXml;
-            if (ignoreAttribute == null) return;
+            //if (ignoreAttribute == null) return;
             foreach (XmlAttribute a in fromElement.Attributes)
             {
-                if (ignoreAttribute.Contains(a.Name))
+                if (ignoreAttribute==null || !ignoreAttribute.Contains(a.Name))
                 {
                     toElement.SetAttribute(a.Name, a.Value);
                 }
@@ -725,14 +725,22 @@ namespace OfficeOpenXml
         {
             TopNode.ParentNode.RemoveChild(TopNode);
         }
-        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="")
+        internal void SetXmlNodeDouble(string path, double? d, bool allowNegative)
         {
-            if (d == null)
+            SetXmlNodeDouble(path, d, null, "", allowNegative);
+        }
+        internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="", bool allowNegative=true)
+        {
+            if (d.HasValue==false)
             {
                 DeleteNode(path);
             }
             else
             {
+                if (allowNegative==false && d.Value<0)
+                {
+                    throw new InvalidOperationException("Value can't be negative");
+                }
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture) + suffix);
             }
         }
@@ -902,6 +910,17 @@ namespace OfficeOpenXml
         internal bool ExistsNode(string path)
         {
             if (TopNode == null || TopNode.SelectSingleNode(path, NameSpaceManager) == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        internal bool ExistsNode(XmlNode node, string path)
+        {
+            if (node == null || node.SelectSingleNode(path, NameSpaceManager) == null)
             {
                 return false;
             }
@@ -1224,10 +1243,10 @@ namespace OfficeOpenXml
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             //Disable entity parsing (to aviod xmlbombs, External Entity Attacks etc).
-#if(Core)
-            settings.DtdProcessing = DtdProcessing.Prohibit;
-#else
+#if(NET35)
             settings.ProhibitDtd = true;            
+#else
+            settings.DtdProcessing = DtdProcessing.Prohibit;
 #endif
             XmlReader reader = XmlReader.Create(stream, settings);
             xmlDoc.Load(reader);

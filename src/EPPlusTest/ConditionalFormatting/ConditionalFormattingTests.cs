@@ -336,6 +336,83 @@ namespace EPPlusTest.ConditionalFormatting
                 }
             }
         }
+        [TestMethod]
+        public void VerifyExpression()
+        {
+            using (var p = OpenPackage("cf.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(new ExcelAddress("$1:$1048576"));
+                cf.Formula = "IsError(A1)";
+                cf.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                cf.Style.Fill.BackgroundColor.SetColor(Color.Red);
+                SaveAndCleanup(p); 
+            }
+        }
+        [TestMethod]
+        public void TestInsertRowsIntoVeryLongRangeWithConditionalFormatting()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with conditional formatting on the whole of column A except row 1
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var cfAddress = "A2:A1048576";
+                var cf = wks.ConditionalFormatting.AddExpression(new ExcelAddress(cfAddress));
+                cf.Formula = "=($A$1=TRUE)";
 
+                // Check that the conditional formatting address was set correctly
+                Assert.AreEqual(cfAddress, cf.Address.Address);
+
+                // Insert some rows into the worksheet
+                wks.InsertRow(5, 3);
+
+                // Check that the conditional formatting rule still applies to the same range (since there's nowhere to extend it to)
+                Assert.AreEqual(cfAddress, cf.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void TestInsertRowsAboveVeryLongRangeWithConditionalFormatting()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with conditional formatting on the whole of column A except rows 1-10
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var cfAddress = "A11:A1048576";
+                var cf = wks.ConditionalFormatting.AddExpression(new ExcelAddress(cfAddress));
+                cf.Formula = "=($A$1=TRUE)";
+
+                // Check that the conditional formatting address was set correctly
+                Assert.AreEqual(cfAddress, cf.Address.Address);
+
+                // Insert 3 rows into the worksheet above the conditional formatting
+                wks.InsertRow(5, 3);
+
+                // Check that the conditional formatting rule starts lower down, but ends in the same place
+                Assert.AreEqual("A14:A1048576", cf.Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void TestInsertRowsToPushConditionalFormattingOffSheet()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with conditional formatting on the last two rows of column A
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var cfAddress = "A1048575:A1048576";
+                var cf = wks.ConditionalFormatting.AddExpression(new ExcelAddress(cfAddress));
+                cf.Formula = "=($A$1=TRUE)";
+
+                // Check that the conditional formatting address was set correctly
+                Assert.AreEqual(1, wks.ConditionalFormatting.Count);
+                Assert.AreEqual(cfAddress, cf.Address.Address);
+
+                // Insert enough rows into the worksheet above the conditional formatting rule to push it off the sheet 
+                wks.InsertRow(5, 10);
+
+                // Check that the conditional formatting rule no longer exists
+                Assert.AreEqual(0, wks.ConditionalFormatting.Count);
+            }
+        }
     }
 }

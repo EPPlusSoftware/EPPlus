@@ -39,12 +39,14 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The fill type node.
         /// </summary>
-        internal protected XmlNode _fillTypeNode = null;        
-        internal ExcelDrawingFillBasic(ExcelPackage pck, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string fillPath, string[] schemaNodeOrderBefore, bool doLoad) :
+        internal protected XmlNode _fillTypeNode = null;
+        internal Action _initXml;
+        internal ExcelDrawingFillBasic(ExcelPackage pck, XmlNamespaceManager nameSpaceManager, XmlNode topNode, string fillPath, string[] schemaNodeOrderBefore, bool doLoad, Action initXml = null) :
             base(nameSpaceManager, topNode)
         {
             AddSchemaNodeOrder(schemaNodeOrderBefore, new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "noFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "highlight", "latin", "cs", "sym", "ea", "hlinkClick", "hlinkMouseOver", "rtl" });
             _fillPath = fillPath;
+            _initXml = initXml;
             SetFillNodes(topNode);
             //Setfill node
             if (doLoad && _fillNode != null)
@@ -101,11 +103,11 @@ namespace OfficeOpenXml.Drawing
             {
                 case "solidFill":
                     _style = eFillStyle.SolidFill;
-                    _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
+                    _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder, _initXml);
                     break;
                 case "gradFill":
                     _style = eFillStyle.GradientFill;
-                    _gradientFill = new ExcelDrawingGradientFill(NameSpaceManager, _fillTypeNode, SchemaNodeOrder);
+                    _gradientFill = new ExcelDrawingGradientFill(NameSpaceManager, _fillTypeNode, SchemaNodeOrder, _initXml);
                     break;
                 default:
                     _style = eFillStyle.NoFill;
@@ -154,7 +156,7 @@ namespace OfficeOpenXml.Drawing
             {
                 InitSpPr(eFillStyle.SolidFill);
                 Style = eFillStyle.SolidFill;   //This will create the _fillNode
-                _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
+                _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder, _initXml);
                 return; 
             }
 
@@ -164,10 +166,10 @@ namespace OfficeOpenXml.Drawing
             switch (_fillTypeNode.LocalName)
             {
                 case "solidFill":
-                    _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "",SchemaNodeOrder);
+                    _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "",SchemaNodeOrder, _initXml);
                     break;
                 case "gradFill":
-                    _gradientFill = new ExcelDrawingGradientFill(NameSpaceManager, _fillTypeNode, SchemaNodeOrder);
+                    _gradientFill = new ExcelDrawingGradientFill(NameSpaceManager, _fillTypeNode, SchemaNodeOrder, _initXml);
                     break;
                 default:
                     if(this is ExcelDrawingFillBasic && _style!=eFillStyle.NoFill)
@@ -223,6 +225,7 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 if (_style == value) return;
+                _initXml?.Invoke();
                 if (value == eFillStyle.GroupFill)
                 {
                     throw new NotImplementedException("Fillstyle not implemented");
@@ -260,6 +263,7 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
+                _initXml?.Invoke();
                 Style = eFillStyle.SolidFill;
                 SolidFill.Color.SetRgbColor(value);
             }
@@ -276,7 +280,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if(Style==eFillStyle.SolidFill && _solidFill==null)
                 {
-                    _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder);
+                    _solidFill = new ExcelDrawingSolidFill(NameSpaceManager, _fillTypeNode, "", SchemaNodeOrder, _initXml);
                 }
                 return _solidFill;
             }

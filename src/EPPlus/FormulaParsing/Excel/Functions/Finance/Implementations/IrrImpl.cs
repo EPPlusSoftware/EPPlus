@@ -61,15 +61,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
                 //Needed to catch dynamic arrays which have not been constructed yet
                 lUpper = ValueArray.Length - 1;
             }
-            catch (StackOverflowException soe)
+            catch (StackOverflowException)
             {
                 return new FinanceCalcResult<double>(eErrorType.Value);
             }
-            catch (OutOfMemoryException ome)
+            catch (OutOfMemoryException)
             {
                 return new FinanceCalcResult<double>(eErrorType.Value);
             }
-            catch (ArgumentException ae)
+            catch (ArgumentException)
             {
                 // return error due to invalid value array
                 return new FinanceCalcResult<double>(eErrorType.Value);

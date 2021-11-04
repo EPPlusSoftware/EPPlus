@@ -67,7 +67,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         itemElementNode)
     {
       Require.Argument(address).IsNotNull("address");
-      Require.Argument(priority).IsInRange(0, int.MaxValue, "priority");
       Require.Argument(worksheet).IsNotNull("worksheet");
 
       _type = type;
@@ -639,8 +638,8 @@ namespace OfficeOpenXml.ConditionalFormatting
     /****************************************************************************************/
     internal protected void SetStyle(ExcelDxfStyleConditionalFormatting style)
     {
-       _style = Style;
-       TopNode = null;
+       _style = style;
+       DxfId = int.MinValue;
     }
   }
 }

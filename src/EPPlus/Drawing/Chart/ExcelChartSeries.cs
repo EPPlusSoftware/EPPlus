@@ -420,9 +420,17 @@ namespace OfficeOpenXml.Drawing.Chart
                 serie.XSeries = XSerieAddress;
             }
             _list.Add((T)serie);
-            if (_chart.StyleManager.StylePart != null && _chart._isChartEx == false)
+            if (_chart._isChartEx == false)
             {
-                _chart.StyleManager.ApplySeries();
+                if (_chart.StyleManager.StylePart != null)
+                {
+                    _chart.StyleManager.ApplySeries();
+                }
+
+                if (_chart._legend != null && _chart._legend._entries!=null)
+                {
+                    _chart._legend.AddNewEntry(serie);
+                }
             }
             return (T)serie;
         }

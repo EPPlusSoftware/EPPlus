@@ -294,5 +294,75 @@ namespace EPPlusTest.Table
             }
         }
         #endregion
+
+        [TestMethod]
+        public void AddRowsToTablesOfDifferentWidths_TopWider()
+        {
+            using (var pck = OpenTemplatePackage("TestTableAddRows.xlsx"))
+            {
+                // Get sheet 1 from the workbook, and get the tables we are going to test
+                var ws = TryGetWorksheet(pck, "Sheet1");
+                var table1 = ws.Tables["Table1"];
+                var table2 = ws.Tables["Table2"];
+                // Make sure the tables are where we expect them to be
+                if (table1.Address.ToString() != "B2:E3") Assert.Inconclusive();
+                if (table2.Address.ToString() != "B6:C7") Assert.Inconclusive();
+
+                // Add 10 rows to Table1
+                table1.AddRow(10);
+                // Make sure Table1's address has been correctly updated
+                Assert.AreEqual("B2:E13", table1.Address.ToString());
+                // Make sure Table2 below has been correctly moved
+                Assert.AreEqual("B16:C17", table2.Address.ToString());
+
+                // Add 10 rows to Table2
+                table2.AddRow(10);
+                // Make sure Table2 has been correctly updated
+                Assert.AreEqual("B16:C27", table2.Address.ToString());
+                // Make sure Table1 hasn't moved
+                Assert.AreEqual("B2:E13", table1.Address.ToString());
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddRowsToTablesOfDifferentWidths_BottomWider()
+        {
+            using (var pck = OpenTemplatePackage("TestTableAddRows.xlsx"))
+            {
+                // Get sheet 2 from the workbook, and get the tables we are going to test
+                var ws = TryGetWorksheet(pck, "Sheet2");
+                var table3 = ws.Tables["Table3"];
+                var table4 = ws.Tables["Table4"];
+                // Make sure the tables are where we expect them to be
+                if (table3.Address.ToString() != "B2:C3") Assert.Inconclusive();
+                if (table4.Address.ToString() != "B6:E7") Assert.Inconclusive();
+
+                // Add 10 rows to Table3
+                table3.AddRow(10);
+                // Make sure Table3's address has been correctly updated
+                Assert.AreEqual("B2:C13", table3.Address.ToString());
+                // Make sure Table4 below has been correctly moved
+                Assert.AreEqual("B16:E17", table4.Address.ToString());
+
+                // Add 10 rows to Table4
+                table4.AddRow(10);
+                // Make sure Table4 has been correctly updated
+                Assert.AreEqual("B16:E27", table4.Address.ToString());
+                // Make sure Table3 hasn't moved
+                Assert.AreEqual("B2:C13", table3.Address.ToString());
+            }
+        }
+        [TestMethod]
+        public void TableAddOneColumnStartingFromA()
+        {
+            using (var p = OpenPackage("TestTableAdd1Column.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:A10"], "Table1");
+                var col = tbl.Columns.Add(1);
+                Assert.AreEqual("A1:B10", tbl.Address.Address);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

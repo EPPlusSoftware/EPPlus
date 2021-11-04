@@ -21,9 +21,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     public class IntArgumentParser : ArgumentParser
     {
-
-        private readonly RoundingMethod _roundingMethod;
-
         public override object Parse(object obj)
         {
             return Parse(obj, RoundingMethod.Convert);

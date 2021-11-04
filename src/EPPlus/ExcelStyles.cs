@@ -48,8 +48,10 @@ namespace OfficeOpenXml
         const string SlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesUri + "']/x14:slicerStyles";
         XmlDocument _styleXml;
         ExcelWorkbook _wb;
+        ExcelNamedStyleXml _normalStyle;
         XmlNamespaceManager _nameSpaceManager;
         internal int _nextDfxNumFmtID = 164;
+
         internal ExcelStyles(XmlNamespaceManager NameSpaceManager, XmlDocument xml, ExcelWorkbook wb) :
             base(NameSpaceManager, xml.DocumentElement)
         {
@@ -129,13 +131,16 @@ namespace OfficeOpenXml
             }
 
             //cellStyle
-            int count = 0;
             XmlNode namedStyleNode = GetNode(CellStylesPath);
             if (namedStyleNode != null)
             {
                 foreach (XmlNode n in namedStyleNode)
                 {
                     ExcelNamedStyleXml item = new ExcelNamedStyleXml(_nameSpaceManager, n, this);
+                    if(item.BuildInId==0)
+                    {
+                        _normalStyle = item;
+                    }
                     NamedStyles.Add(item.Name, item);
                 }
             }
@@ -217,21 +222,22 @@ namespace OfficeOpenXml
 
         internal ExcelNamedStyleXml GetNormalStyle()
         {
-            foreach (var style in NamedStyles)
+            if (_normalStyle == null)
             {
-                if (style.BuildInId == 0)
+                foreach (var style in NamedStyles)
                 {
-                    return style;
+                    if (style.BuildInId == 0)
+                    {
+                        _normalStyle = style;
+                        break;
+                    }
+                }
+                if (_normalStyle==null && _wb.Styles.NamedStyles.Count > 0)
+                {
+                    return _wb.Styles.NamedStyles[0];
                 }
             }
-            if (_wb.Styles.NamedStyles.Count > 0)
-            {
-                return _wb.Styles.NamedStyles[0];
-            }
-            else
-            {
-                return null;
-            }
+            return _normalStyle;
         }
 
         internal ExcelStyle GetStyleObject(int Id, int PositionID, string Address)
@@ -374,7 +380,25 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        ExcelXfs st = CellXfs[s];
+                        ExcelXfs st;
+                        if (s==0)
+                        {
+                            var ns=GetNormalStyle();   //Get the xfs id for the normal style.
+                            if (ns==null || ns.StyleXfId<0)
+                            {
+                                st = CellXfs[0];
+                            }
+                            else
+                            {
+                                st = CellStyleXfs[ns.StyleXfId];
+                            }
+
+                        }
+                        else
+                        {
+                            st = CellXfs[s];
+                        }
+
                         int newId = st.GetNewID(CellXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
                         styleCashe.Add(s, newId);
                         ws._values.SetValue(row, col, new ExcelValue { _value = value._value, _styleId = newId });
@@ -782,14 +806,17 @@ namespace OfficeOpenXml
             style = new ExcelNamedStyleXml(NameSpaceManager, this);
             int xfIdCopy, positionID;
             ExcelStyles styles;
+            bool isTemplateNamedStyle;
             if (Template == null)
             {
-                xfIdCopy = 0;
+                xfIdCopy = _wb.Styles.GetNormalStyle().StyleXfId;
                 positionID = -1;
                 styles = this;
+                isTemplateNamedStyle = true;
             }
             else
             {
+                isTemplateNamedStyle = Template.PositionID == -1;
                 if (Template.PositionID < 0 && Template.Styles==this)
                 {
                     xfIdCopy = Template.Index;
@@ -799,17 +826,17 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    xfIdCopy = Template.XfId;
+                    xfIdCopy = Template.Index;
                     positionID = -1;
                     styles = Template.Styles;
                 }
             }
             //Clone namedstyle
-            int styleXfId = CloneStyle(styles, xfIdCopy, true);
+            int styleXfId = CloneStyle(styles, xfIdCopy, true, false, isTemplateNamedStyle);
             //Close cells style
             CellStyleXfs[styleXfId].XfId = CellStyleXfs.Count-1;
-            int xfid = CloneStyle(styles, xfIdCopy, true, true); //Always add a new style (We create a new named style here)
-            CellXfs[xfid].XfId = styleXfId;
+            //int xfid = CloneStyle(styles, xfIdCopy, true, true, ); //Always add a new style (We create a new named style here)
+            //CellXfs[xfid].XfId = styleXfId;
             style.Style = new ExcelStyle(this, NamedStylePropertyChange, positionID, name, styleXfId);
             style.StyleXfId = styleXfId;
             
@@ -1022,6 +1049,7 @@ namespace OfficeOpenXml
             return s;
         }
         HashSet<string> tableStyleNames=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
         private void ValidateTableStyleName(string name)
         {
             if(tableStyleNames.Count==0)
@@ -1302,7 +1330,6 @@ namespace OfficeOpenXml
             else
                 style.XfId = 0;
         }
-
         private void RemoveUnusedStyles()
         {
             CellXfs[0].useCnt = 1; //First item is allways used.
@@ -1402,18 +1429,18 @@ namespace OfficeOpenXml
 
         internal int CloneStyle(ExcelStyles style, int styleID)
         {
-            return CloneStyle(style, styleID, false, false);
+            return CloneStyle(style, styleID, false, false, false);
         }
         internal int CloneStyle(ExcelStyles style, int styleID, bool isNamedStyle)
         {
-            return CloneStyle(style, styleID, isNamedStyle, false);
+            return CloneStyle(style, styleID, isNamedStyle, false, isNamedStyle);
         }
-        internal int CloneStyle(ExcelStyles style, int styleID, bool isNamedStyle, bool allwaysAddCellXfs)
+        internal int CloneStyle(ExcelStyles style, int styleID, bool isNamedStyle, bool allwaysAddCellXfs, bool isCellStyleXfs)
         {
             ExcelXfs xfs;
             lock (style)
             {
-                if (isNamedStyle)
+                if (isCellStyleXfs)
                 {
                     xfs = style.CellStyleXfs[styleID];
                 }
@@ -1497,13 +1524,7 @@ namespace OfficeOpenXml
                 //Named style reference
                 if (xfs.XfId > 0)
                 {
-                    var id = style.CellStyleXfs[xfs.XfId].Id;
-                    var newId = CellStyleXfs.FindIndexById(id);
-                    if (newId >= 0)
-                    {
-                        newXfs.XfId = newId;
-                    }
-                    else if(style._wb!=_wb && allwaysAddCellXfs==false) //Not the same workbook, copy the namedstyle to the workbook or match the id
+                    if(style._wb!=_wb && allwaysAddCellXfs==false) //Not the same workbook, copy the namedstyle to the workbook or match the id
                     {
                         var nsFind = style.NamedStyles.ToDictionary(d => (d.StyleXfId));
                         if (nsFind.ContainsKey(xfs.XfId))
@@ -1518,6 +1539,15 @@ namespace OfficeOpenXml
                                 var ns = CreateNamedStyle(st.Name, st.Style);
                                 newXfs.XfId = NamedStyles.Count - 1;
                             }
+                        }
+                    }
+                    else
+                    {
+                        var id = style.CellStyleXfs[xfs.XfId].Id;
+                        var newId = CellStyleXfs.FindIndexById(id);
+                        if (newId >= 0)
+                        {
+                            newXfs.XfId = newId;
                         }
                     }
                 }

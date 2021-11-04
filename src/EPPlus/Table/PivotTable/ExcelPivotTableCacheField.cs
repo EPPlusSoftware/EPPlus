@@ -40,7 +40,8 @@ namespace OfficeOpenXml.Table.PivotTable
             Number = 0x8,
             DateTime = 0x10,
             Boolean = 0x20,
-            Error = 0x30
+            Error = 0x30,
+            Float = 0x40,
         }
         internal PivotTableCacheInternal _cache;
         internal ExcelPivotTableCacheField(XmlNamespaceManager nsm, XmlNode topNode, PivotTableCacheInternal cache, int index) : base(nsm, topNode)
@@ -129,7 +130,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 AppendSharedItems(shNode);
             }
             var noTypes = GetNoOfTypes(flags);
-            if (noTypes > 1 && flags != (DataTypeFlags.Int | DataTypeFlags.Number) && SharedItems.Count > 1)
+            if (noTypes > 1 && 
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
+                flags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float | DataTypeFlags.Empty) &&
+                SharedItems.Count > 1)
             {
                 if ((flags & DataTypeFlags.String) == DataTypeFlags.String ||
                     (flags & DataTypeFlags.String) == DataTypeFlags.Empty)
@@ -252,7 +259,8 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 shNode.SetAttribute("containsNumber", "1");
             }
-            if ((flags & DataTypeFlags.Int) == DataTypeFlags.Int)
+            if ((flags & DataTypeFlags.Int) == DataTypeFlags.Int &&
+                (flags & DataTypeFlags.Float) != DataTypeFlags.Float)
             {
                 shNode.SetAttribute("containsInteger", "1");
             }
@@ -282,6 +290,7 @@ namespace OfficeOpenXml.Table.PivotTable
         private void AppendSharedItems(XmlElement shNode)
         {
             int index = 0;
+            bool isLongText = false;
             foreach (var si in SharedItems)
             {
                 if (si == null || si.Equals(ExcelPivotTable.PivotNullValue))
@@ -353,11 +362,17 @@ namespace OfficeOpenXml.Table.PivotTable
                             }
                             else
                             {
-                                AppendItem(shNode, "s", si.ToString());
+                                var s = si.ToString();
+                                AppendItem(shNode, "s", s);
+                                if (s.Length > 255 && isLongText == false) isLongText = true;
                             }
                             break;
                     }
                 }
+            }
+            if (isLongText)
+            {
+                shNode.SetAttribute("longText", "1");
             }
         }
 
@@ -400,11 +415,15 @@ namespace OfficeOpenXml.Table.PivotTable
                         case TypeCode.Double:
                         case TypeCode.Single:
                             flags |= (DataTypeFlags.Number);
-                            if((flags&DataTypeFlags.Int)!= DataTypeFlags.Int && (Convert.ToDouble(si)%1==0))
+                            if ((flags & DataTypeFlags.Int) != DataTypeFlags.Int && (Convert.ToDouble(si) % 1 == 0))
                             {
                                 flags |= DataTypeFlags.Int;
                             }
-                            break;
+                            else if ((flags & DataTypeFlags.Float) != DataTypeFlags.Float && (Convert.ToDouble(si) % 1 != 0))
+                            {
+                                flags |= DataTypeFlags.Float;
+                            }
+                                break;
                         case TypeCode.DateTime:
                             flags |= DataTypeFlags.DateTime;
                             break;
@@ -778,6 +797,7 @@ namespace OfficeOpenXml.Table.PivotTable
         private void UpdateSharedItems()
         {
             var range = _cache.SourceRange;
+            if (range == null) return;
             var column = range._fromCol + Index;
             var hs = new HashSet<object>(new InvariantObjectComparer());
             var ws = range.Worksheet;

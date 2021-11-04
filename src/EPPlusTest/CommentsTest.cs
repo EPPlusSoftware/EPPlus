@@ -27,6 +27,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,8 +36,20 @@ using OfficeOpenXml;
 namespace EPPlusTest
 {
     [TestClass]
-    public class CommentsTest
+    public class CommentsTest : TestBase
     {
+        static ExcelPackage _pck;
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            _pck = OpenPackage("Comment.xlsx", true);
+        }
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            SaveAndCleanup(_pck);
+        }
+
         [TestMethod]
         public void VisibilityComments()
         {
@@ -49,6 +62,10 @@ namespace EPPlusTest
                 Assert.IsFalse(a1.Comment.Visible); // Comments are by default invisible 
                 a1.Comment.Visible = true;
                 a1.Comment.Visible = false;
+                a1.Comment.Fill.Style = OfficeOpenXml.Drawing.Vml.eVmlFillType.Gradient;
+                a1.Comment.Fill.GradientSettings.SetGradientColors(
+                    new OfficeOpenXml.Drawing.Vml.VmlGradiantColor(0, Color.Red), 
+                    new OfficeOpenXml.Drawing.Vml.VmlGradiantColor(100, Color.Orange));
                 Assert.IsNotNull(a1.Comment);
                 //check style attribute
                 var stylesDict = new System.Collections.Generic.Dictionary<string, string>();
@@ -155,27 +172,25 @@ namespace EPPlusTest
         [TestMethod]
         public void RangeShouldClearComment()
         {
-            using (var p = new ExcelPackage())
+            var ws = _pck.Workbook.Worksheets.Add("Sheet1");
+            for (int i = 0; i < 5; i++)
             {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                for (int i = 0; i < 5; i++)
-                {
-                    ws.Cells[2, 2].Value = "hallo";
-                    ExcelComment comment = ws.Cells[2, 2].AddComment("hallo", "hallo");
-                    comment.Font.FontName = "Arial";
-                    comment.AutoFit = true;
-                    ExcelRange cell = ws.Cells[2, 2];
+                ws.Cells[2, 2].Value = "hallo";
+                ExcelComment comment = ws.Cells[2, 2].AddComment("hallo\r\nLine 2", "hallo");
+                comment.Font.FontName = "Arial";
+                comment.AutoFit = true;
+                    
+                ExcelRange cell = ws.Cells[2, 2];
 
-                    Assert.AreEqual("Arial", comment.Font.FontName);
-                    Assert.IsTrue(comment.AutoFit);
-                    Assert.AreEqual(1, ws.Comments.Count);
-                    Assert.IsNotNull(cell.Comment);
+                Assert.AreEqual("Arial", comment.Font.FontName);
+                Assert.IsTrue(comment.AutoFit);
+                Assert.AreEqual(1, ws.Comments.Count);
+                Assert.IsNotNull(cell.Comment);
 
-                    cell.Clear();
+                cell.Clear();
 
-                    Assert.AreEqual(0, ws.Comments.Count);
-                    Assert.IsNull(cell.Comment);
-                }
+                Assert.AreEqual(0, ws.Comments.Count);
+                Assert.IsNull(cell.Comment);                                        
             }
         }
         [TestMethod]
@@ -190,6 +205,66 @@ namespace EPPlusTest
                 Assert.IsNotNull(ws.Cells[1, 1].Comment);
             }
         }
+        [TestMethod]
+        public void CopyCommentInRange()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Get the comment object from the worksheet
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var comment1 = ws.Comments.Add(ws.Cells["B2"], "Test Comment");
+                comment1.BackgroundColor = Color.FromArgb(0xdcf0ff);
+                comment1.AutoFit = true;
+                comment1.Font.FontName = "Tahoma";
+                comment1.Font.Size = 9;
+                comment1.Font.Bold = true; ;
+                comment1.Font.Italic=true;
+                comment1.Font.UnderLine = true;
+                comment1.Font.Color = Color.FromArgb(0); 
 
+                // Check that the comment in B2 has a custom style
+                Assert.AreEqual("B2", comment1.Address);
+                Assert.AreEqual("dcf0ff", comment1.BackgroundColor.Name);
+                Assert.AreEqual(true, comment1.AutoFit);
+                Assert.AreEqual("Tahoma", comment1.Font.FontName);
+                Assert.AreEqual(9, comment1.Font.Size);
+                Assert.AreEqual(true, comment1.Font.Bold);
+                Assert.AreEqual(true, comment1.Font.Italic);
+                Assert.AreEqual(true, comment1.Font.UnderLine);
+                Assert.AreEqual("0", comment1.Font.Color.Name);
+
+                // Copy the comment from B2 to A2 (also checking that this works when copying a range)
+                ws.Cells["B1:B3"].Copy(ws.Cells["A1:A3"]);
+
+                // Check the comment is copied with all properties intact
+                var comment2 = ws.Comments[1];
+                Assert.AreEqual("A2", comment2.Address);
+                Assert.AreEqual(comment1.BackgroundColor.Name, comment2.BackgroundColor.Name);
+                Assert.AreEqual(comment1.AutoFit, comment2.AutoFit);
+                Assert.AreEqual(comment1.Font.FontName, comment2.Font.FontName);
+                Assert.AreEqual(comment1.Font.Size, comment2.Font.Size);
+                Assert.AreEqual(comment1.Font.Bold, comment2.Font.Bold);
+                Assert.AreEqual(comment1.Font.Italic, comment2.Font.Italic);
+                Assert.AreEqual(comment1.Font.UnderLine, comment2.Font.UnderLine);
+                Assert.AreEqual(comment1.Font.Color.Name, comment2.Font.Color.Name);
+            }
+        }
+        [TestMethod]
+        public void TestDeleteCellsWithComment()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Add a sheet with comments
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Comments.Add(ws.Cells["B2"], "This is a comment.", "author");
+                Assert.AreEqual(1, ws.Comments.Count);
+
+                // Delete cells B1:B3 (including the comment in B2)
+                ws.Cells["B1:B3"].Delete(eShiftTypeDelete.Left);
+
+                // Check the comment is deleted
+                Assert.AreEqual(0, ws.Comments.Count);
+            }
+        }
     }
 }

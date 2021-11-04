@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
     {
         string[] _schemaNodeOrder;
         private readonly IPictureRelationDocument _pictureRelationDocument;
-        internal ExcelDrawingBlipFill(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager nsm, XmlNode topNode, string fillPath, string[] schemaNodeOrder) : base(nsm, topNode, fillPath)
+        internal ExcelDrawingBlipFill(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager nsm, XmlNode topNode, string fillPath, string[] schemaNodeOrder, Action initXml) : base(nsm, topNode, fillPath, initXml)
         {
             _schemaNodeOrder = schemaNodeOrder;
             _pictureRelationDocument = pictureRelationDocument;
@@ -48,6 +48,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             set
             {
                 if (_image == value) return;
+                _initXml?.Invoke();
                 if (_image != null)
                 {
                     var container = (IPictureContainer)this;
@@ -152,6 +153,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
 
         internal override void SetXml(XmlNamespaceManager nsm, XmlNode node)
         {
+            _initXml?.Invoke();
             if (_xml == null) InitXml(nsm, node.FirstChild, "");
             CheckTypeChange(NodeName);
 

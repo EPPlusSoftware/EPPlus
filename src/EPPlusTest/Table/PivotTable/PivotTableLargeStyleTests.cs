@@ -15,8 +15,6 @@ namespace EPPlusTest.Table.PivotTable
     [TestClass]
     public class PivotTableLargeStyleTests : TestBase
     {
-        static ExcelPackage _pck;
-        static ExcelWorksheet _ws;
         [ClassInitialize]
         public static void Init(TestContext context)
         {

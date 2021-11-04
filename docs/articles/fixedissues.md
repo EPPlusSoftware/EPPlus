@@ -1,4 +1,130 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.2
+### Fixed issues
+* Range.Text returned the wrong value for format #.##0"*";(#.##0)"*" on negative values
+* LoadFromCollection re-ordered the columns when no order was specified and and the item had more than 16 columns.
+* Adding an Unchecked CheckBox Control Created Invalid XLSX File
+
+## Version 5.8.1
+### Fixed issues & minor features
+ * Support for complex types in LoadFromCollection with attributes.
+ * Fixed a bug where ExcelFunction.ArgToDecimal rethrow other error types as #VALUE.
+ * Improved handling of decimals in Concat operations during calculation.
+ * High-Low lines / Up-Down bars and Droplines were not loaded from an existing package.
+ * Removed validation for negative values in conditional formatting priority, as negative values should be allowed
+
+## Version 5.8.0
+### Features
+* ExcelWorksheetView.SplitPanes method added
+* ExcelRangeBase Fill method added
+	* FillNumber
+	* FillDateTime
+	* FillList
+* New collection properties for Rows and Columns
+	* ExcelWorksheet.Rows
+	* ExcelWorksheet.Columns
+	* ExcelRangeBase.EntireRow
+	* ExcelRangeBase.EntireColum
+* Support for formatting and deleting individual Chart Legend Entries.
+* Range.Copy improvments. 
+* Handle complex types in LoadFromCollection with attributes
+* The ExcelPackage constructor and the Load/Save methods will now take a string path argument as well as a FileInfo.
+
+### Fixed issues
+* Renaming table to a name which contains the old name doesn't correctly update column references
+* Range.Text did not handle empty formats like ;;; correctly.
+* Range.Text - Strings within a format with percent, 0"%", incorrectly divides by 100
+* VBA module names that started with a underscore (_) caused the ExcelWorksheet.Copy method to fail.
+* Using range.RichText.Remove did not reflect the text to Range.Text.
+* Adding a column to table with one column did not add the column.
+* ExcelRangeBase.SaveToText did not add TextQualifiers around a formatted numeric value containing the column separator.
+* Deleting cells sometimes didn't delete comments.
+* Improved handling of ranges as return values from functions in the formula calculation.
+
+## Version 5.7.5
+### Fixed issues
+* ExcelTable.CalculatedColumnFormula were not updated when inserting/deleting rows and columns.
+* Copying a worksheet- or adding a VBA module- with a name starting with a number caused the macro-enabled workbook to be corrupt.
+* LoadFromCollection with attributes didn't create a table if TableStyle was none.
+* Fixed LEN functions incorrect handling of cached addresses.
+* Fixed handling of worksheet names with escaped single quotes in the formula parser.
+* ExcelPicture.SetSize sets an incorrect width when having a non-default dpi on an image.
+* ExcelColumn.ColumnMax was not correctly set when deleting a column within a column span.
+* Updating a pivot cache share among multiple pivot tables did not update/remove fields if the source range fields had been altered.
+* Clearing or overwriting a cell in a shared formula range did not work correctly.
+* Formulas in conditional formatting and data validations were not updated when inserting and deleting rows and columns.
+* When deleting columns, defined names were not always correctly updated.
+* ExpressionEvaluator could not handle a leading equal operator in combination with wildcards
+
+## Version 5.7.4
+### Fixed issues
+* Metadata will now be removed from any formula copied to an external workbook to avoid corruption.
+* Renaming table now updates references in formulas.
+* ExcelNamedRange.Equals now works as expected.
+* Inserting rows that shift conditional formatting outside the worksheet now adjust addresses correctly.
+* Inserting rows into table formulas will not set the address to #REF!
+* COUNTA function will now count errors and empty strings.
+* LoadFromText and SaveToText did not handle quotes correctly.
+* Changing the font of the current theme and the normal style does not always reflect when styling empty cells.
+* Workbooks are getting corrupted when creating a pivot table where some cells have length greater than 255 characters.
+* Deleting ranges with conditional formatting with multiple addresses sometimes threw an ArgumentOutOfRangeException.
+* Copying a comment only add the text and the author, leaving any styling set on the comment.
+
+## Version 5.7.3
+### Fixed issues & minor features
+* Add static methods to ExcelEncryption to encrypt and decrypt raw packages
+	* ExcelEncryption.EncryptPackage
+	* ExcelEncryption.DecryptPackage
+* Conditional formatting lost some styles and added hair borders to empty border elements.
+* COUNTBLANK and other functions using the ExpressionEvaluator don't handle time values correctly.
+* COUNTBLANK does not handle cached addresses correctly.
+* LoadFromText and SaveToTest did not work correctly with apostrophes.
+* Changing the font of the normal style and then create a new named style did not inherit the font correctly.
+* Data validations were shifted down instead of right when inserting cells into a range
+* Comments and threaded comments were not shifted correctly to the right when inserting cells.
+* EPPlus will now throw an exception if merging a range that overlaps a table.
+
+## Version 5.7.2
+### Fixed issues
+* Pivot cache fields that contains both int's and float's corrupts the pivot cache.
+* Added new methods to themes major- and minor- font collection - SetLatinFont, SetComplexFont, SetEastAsianFont, Remove and RemoveAt.
+* Null or non existing external references to images on picture objects causes save to crash.
+* VBA projects with the "dir" stream containing the unhandled value 0x4a, caused the workbook to become corrupt.
+* Defined names with prefix and external reference throw a NullReference on load.
+
+## Version 5.7.1
+### Fixed issues
+* Using a number format with AM/PM resulted in an output of AM or PM only.
+* Validation of data validations throw an exception when Formula1 is empty even if AllowBlank was set to true
+* Table behavior is incorrect when inserting rows if another table is below.
+* Table calculated columns don't update the formula for added rows.
+* Added cache for texts/fonts in AutoFitColumns, thanks to Simendsjo
+* Setting Range.IsRichText on ranges with more than one cell did not work correctly.
+* Loading packages with external references that didn't have a valid Uri failed on load.
+* A value of null in a cell returned "0" in the Text property.
+
+## Version 5.7.0
+### Features
+* External links
+	* Adding, removing and break links to external workbooks.
+	* Updating external workbook value/defined name caches.
+	* Using external workbook caches in the formula parser.
+	* Using loaded external packages (workbooks) in the formula parser.
+* Enhanced sorting 
+	* Pivot table auto sort - Sort on data fields using pivot areas.
+	* Sort state in tables and auto filters. 
+	* Left-to-right sorting and sorting with custom lists.
+
+* Support for Show Data As on pivot table data fields
+### Fixed issues
+* Support for ErrorBars on both X and Y axis on scatter, bubble and area charts.
+* Copying a worksheet to a new package fails with named styles in some cases. 
+* When having multiple identical named styles (with the same styles set) only the first is copied.
+* Handling of DBNull.Value in LoadFromDataTable function now works as expected.
+* Added HideDropDown property to Data validation of type list.
+* Added better exception messages for access to a package that has been disposed.
+* Handling drawing objects had a concurrency when the size and position were asjusted.
+* Pivot table caches with numeric/int and null values got corrupt due to an incorrect value on the containsMixedTypes attribute.
 
 ## Version 5.6.4
 ### Fixed issues

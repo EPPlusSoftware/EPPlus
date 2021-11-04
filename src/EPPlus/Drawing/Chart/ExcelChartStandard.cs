@@ -975,11 +975,10 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _plotArea;
             }
         }
-        ExcelChartLegend _legend = null;
         /// <summary>
         /// Legend
         /// </summary>
-        public override ExcelChartLegend Legend
+        public new ExcelChartLegend Legend
         {
             get
             {
@@ -1085,7 +1084,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// 3D-settings
         /// </summary>
-        public ExcelView3D View3D
+        public override ExcelView3D View3D
         {
             get
             {
@@ -1137,7 +1136,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
         }
-        ExcelChartTitle _title = null;
 
         #region "Grouping Enum Translation"
         private string GetGroupingText(eGrouping grouping)

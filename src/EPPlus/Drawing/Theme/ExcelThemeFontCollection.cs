@@ -15,6 +15,7 @@ using OfficeOpenXml.Drawing.Style.Font;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Theme
@@ -25,9 +26,11 @@ namespace OfficeOpenXml.Drawing.Theme
     public class ExcelThemeFontCollection : XmlHelper, IEnumerable<ExcelDrawingFontBase>
     {
         List<ExcelDrawingFontBase> _lst = new List<ExcelDrawingFontBase>();
-        internal ExcelThemeFontCollection(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager,topNode)
+        ExcelPackage _pck;
+        internal ExcelThemeFontCollection(ExcelPackage pck, XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager,topNode)
         {
-            foreach(XmlNode node in topNode.ChildNodes)
+            _pck = pck;
+            foreach (XmlNode node in topNode.ChildNodes)
             {
                 if(node.LocalName=="font")
                 {
@@ -65,6 +68,75 @@ namespace OfficeOpenXml.Drawing.Theme
             _lst.Add(f);
             return f;
         }
+        /// <summary>
+        /// Removes the item from the collection
+        /// </summary>
+        /// <param name="index">The index of the item to remove</param>
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= _lst.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            Remove(_lst[index]);
+        }
+        /// <summary>
+        /// Removes the item from the collection
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        public void Remove(ExcelDrawingFontBase item)
+        {
+            if (item is ExcelDrawingFontSpecial sf)
+            {
+                throw new InvalidOperationException("Cant remove this type of font.");
+            }
+            item.TopNode.ParentNode.RemoveChild(item.TopNode);
+            _lst.Remove(item);
+        }
+
+        /// <summary>
+        /// Set the latin font of the collection
+        /// </summary>
+        /// <param name="typeface">The typeface, or name of the font</param>
+        public void SetLatinFont(string typeface)
+        {
+            if (_pck.Workbook.Styles.Fonts.Count > 0 && string.IsNullOrEmpty(typeface)==false)
+            {
+                var id = _pck.Workbook.Styles.Fonts[0].Id;
+                _pck.Workbook.Styles.Fonts[0].Name = typeface;
+                _pck.Workbook.Styles.Fonts._dic.Remove(id);
+                _pck.Workbook.Styles.Fonts._dic.Add(_pck.Workbook.Styles.Fonts[0].Id, 0);
+            }
+            SetSpecialFont(typeface, eFontType.Latin);            
+        }
+        /// <summary>
+        /// Set the complex font of the collection
+        /// </summary>
+        /// <param name="typeface">The typeface, or name of the font</param>
+        public void SetComplexFont(string typeface)
+        {
+            SetSpecialFont(typeface, eFontType.Complex);
+        }
+        /// <summary>
+        /// Set the East Asian font of the collection
+        /// </summary>
+        /// <param name="typeface">The typeface, or name of the font</param>
+        public void SetEastAsianFont(string typeface)
+        {
+            SetSpecialFont(typeface, eFontType.EastAsian);
+        }
+
+        private void SetSpecialFont(string typeface, eFontType fontType)
+        {
+            var f = _lst.Where((x => x is ExcelDrawingFontSpecial sf && sf.Type == fontType)).FirstOrDefault();
+            if (f == null)
+            {
+                f = AddSpecialFont(fontType, typeface);
+            }
+
+            f.Typeface = typeface;
+        }
+
         /// <summary>
         /// Adds a special font to the fonts collection
         /// </summary>

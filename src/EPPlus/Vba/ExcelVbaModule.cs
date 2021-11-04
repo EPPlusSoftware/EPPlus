@@ -70,7 +70,8 @@ namespace OfficeOpenXml.VBA
         {
             //return Regex.IsMatch(name, _validModulePattern);
             if (string.IsNullOrEmpty(name) ||           //Not null or empty
-               (name[0]>='0' && name[0]<=9) ||          //Don't start with a number
+               (name[0]>='0' && name[0]<='9') ||        //Don't start with a number
+               name[0] == '_' ||                        //Don't start with a underscore
                name.Any(x=>x<0x20  || x > 255 || _nonValidChars.Contains(x)))      //Don't contain invalid or unicode chars 
             {
                 return false;

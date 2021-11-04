@@ -20,6 +20,10 @@ namespace OfficeOpenXml.Core.CellStore
     /// </summary>
     internal class CellStoreValue : CellStore<ExcelValue> 
     {
+        public CellStoreValue() : base()
+        {
+
+        }
         internal void SetValueRange_Value(int row, int col, object[,] array)
         {
             var rowBound = array.GetUpperBound(0);
@@ -38,7 +42,14 @@ namespace OfficeOpenXml.Core.CellStore
         {
             for (int c = 0; c < array.Length; c++)
             {
-                SetValue_Value(row, col+c, array[c]);
+                if(array[c] == DBNull.Value)
+                {
+                    SetValue_Value(row, col + c, null);
+                }
+                else
+                {
+                    SetValue_Value(row, col + c, array[c]);
+                }
             }
         }
         internal void SetValueRow_Value(int row, int col, IEnumerable collection)

@@ -208,7 +208,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
                 nToRemove = 2;
             }
             else if (!relativeToken.TokenTypeIsSet(TokenType.ExcelAddress) &&
-                     !relativeToken.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
+                     !relativeToken.TokenTypeIsSet(TokenType.ExcelAddressR1C1) &&
+                     !relativeToken.TokenTypeIsSet(TokenType.NameValue) &&
+                     !relativeToken.TokenTypeIsSet(TokenType.InvalidReference))
             {
                 ChangeTokenTypeOnCurrentToken(TokenType.InvalidReference);
                 nToRemove--;

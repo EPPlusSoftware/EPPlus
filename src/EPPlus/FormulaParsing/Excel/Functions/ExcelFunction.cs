@@ -261,7 +261,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <exception cref="ExcelErrorValueException"></exception>
         protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index)
         {
-            return ArgToDecimal(arguments.ElementAt(index).Value, PrecisionAndRoundingStrategy.DotNet);
+            var arg = arguments.ElementAt(index);
+            if (arg.ValueIsExcelError)
+            {
+                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+            }
+            return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet);
         }
 
         /// <summary>
@@ -275,7 +280,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <exception cref="ExcelErrorValueException"></exception>
         protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy)
         {
-            return ArgToDecimal(arguments.ElementAt(index).Value, precisionAndRoundingStrategy);
+            var arg = arguments.ElementAt(index);
+            if (arg.ValueIsExcelError)
+            {
+                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+            }
+            return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
         }
 
         /// <summary>
@@ -448,6 +458,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="ignoreErrors">If a cell contains an error, that error will be ignored if this method is set to true</param>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
         protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, bool ignoreErrors, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
         {
@@ -460,6 +471,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
         /// <param name="arguments"></param>
         /// <param name="context"></param>
+        /// <param name="ignoreNonNumeric"></param>
         /// <returns></returns>
         protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context, bool ignoreNonNumeric)
         {
@@ -472,7 +484,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="ignoreHiddenCells">If a cell is hidden and this value is true the value of that cell will be ignored</param>
         /// <param name="arguments"></param>
-        /// <param name="context"></param>
+        /// <param name="context"></param>        
         /// <returns></returns>
         protected virtual IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerable(bool ignoreHiddenCells, IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {

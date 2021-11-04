@@ -56,6 +56,5 @@ namespace EPPlusTest.Drawing.Slicer
 
             var copy = _pck.Workbook.Worksheets.Add("PivotTableSlicerCopy", ws);
         }
-
     }
 }

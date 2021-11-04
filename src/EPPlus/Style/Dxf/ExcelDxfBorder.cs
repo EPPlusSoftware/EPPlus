@@ -212,9 +212,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
             return bi;
         }
-        private static ExcelBorderStyle GetBorderStyleEnum(string style)
+        private static ExcelBorderStyle? GetBorderStyleEnum(string style)
         {
-            if (style == "") return ExcelBorderStyle.Hair;
+            if (style == "") return null;
             string sInStyle = style.Substring(0, 1).ToUpper(CultureInfo.InvariantCulture) + style.Substring(1, style.Length - 1);
             try
             {

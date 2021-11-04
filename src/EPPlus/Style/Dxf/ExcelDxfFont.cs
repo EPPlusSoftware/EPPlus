@@ -151,9 +151,16 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return base.Id + "|" + GetAsString(Name) + "|" + GetAsString(Size) + "|" + GetAsString(Family) + "|" + GetAsString(VerticalAlign) + "|" + GetAsString(Outline) + "|" + GetAsString(Shadow) + "|" + GetAsString(Condense)+ "|" + GetAsString(Extend)+ "|" + GetAsString(Scheme);
+                return GetAsString(Bold) + "|" + GetAsString(Italic) + "|" + GetAsString(Strike) + "|" + (Color == null ? "" : Color.Id) + "|" + GetAsString(Underline)
+                    + "|" + GetAsString(Name) + "|" + GetAsString(Size) + "|" + GetAsString(Family) + "|" + GetVAlign() + "|" + GetAsString(Outline) + "|" + GetAsString(Shadow) + "|" + GetAsString(Condense) + "|" + GetAsString(Extend) + "|" + GetAsString(Scheme);
             }
         }
+
+        private string GetVAlign()
+        {
+            return VerticalAlign==ExcelVerticalAlignmentFont.None ? "" : GetAsString(VerticalAlign);
+        }
+
         /// <summary>
         /// Clone the object
         /// </summary>
@@ -216,13 +223,18 @@ namespace OfficeOpenXml.Style.Dxf
         }
         protected internal override void CreateNodes(XmlHelper helper, string path)
         {
-            base.CreateNodes(helper, path);
+            helper.CreateNode(path);
+            SetValueBool(helper, path + "/d:b/@val", Bold);
+            SetValueBool(helper, path + "/d:i/@val", Italic);
+            SetValueBool(helper, path + "/d:strike/@val", Strike);
+            SetValue(helper, path + "/d:u/@val", Underline == null ? null : Underline.ToEnumString());
             SetValueBool(helper, path + "/d:condense/@val", Condense);
             SetValueBool(helper, path + "/d:extend/@val", Extend);
             SetValueBool(helper, path + "/d:outline/@val", Outline);
             SetValueBool(helper, path + "/d:shadow/@val", Shadow);
-            SetValue(helper, path + "/d:name/@val", Name);
             SetValue(helper, path + "/d:sz/@val", Size);
+            SetValueColor(helper, path + "/d:color", Color);
+            SetValue(helper, path + "/d:name/@val", Name);
             SetValue(helper, path + "/d:family/@val", Family);
             SetValue(helper, path + "/d:vertAlign/@val", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
         }

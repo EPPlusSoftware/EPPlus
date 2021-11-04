@@ -15,7 +15,6 @@ namespace EPPlusTest.Table.PivotTable
     public class PivotTableStyleReadTests : TestBase
     {
         static ExcelPackage _pck;
-        static ExcelWorksheet _ws;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -25,16 +24,6 @@ namespace EPPlusTest.Table.PivotTable
         [ClassCleanup]
         public static void Cleanup()
         {
-        }
-        internal ExcelPivotTable CreatePivotTable(ExcelWorksheet ws)
-        {
-            var pt = ws.PivotTables.Add(ws.Cells["A3"], _ws.Cells[_ws.Dimension.Address], "PivotTable1");
-            pt.RowFields.Add(pt.Fields[0]);
-            pt.ColumnFields.Add(pt.Fields[1]);
-            pt.DataFields.Add(pt.Fields[3]);
-            pt.DataFields.Add(pt.Fields[2]);
-            pt.PageFields.Add(pt.Fields[4]);
-            return pt;
         }
         [TestMethod]
         public void ReadPivotAllStyle()

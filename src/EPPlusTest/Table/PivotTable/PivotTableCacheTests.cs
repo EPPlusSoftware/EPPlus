@@ -169,7 +169,23 @@ namespace EPPlusTest.Table.PivotTable
                     SaveWorkbook("pivotDeletedWorksheet.xlsx", p2);
                 }
             }
-
         }
+        [TestMethod]
+        public void ValidatePivotTableCacheHandlesLongTexts()
+        {
+            using (var p = new ExcelPackage())
+            {
+                ExcelWorksheet wsData = p.Workbook.Worksheets.Add("Data");
+                ExcelWorksheet wsPivot = p.Workbook.Worksheets.Add("PivotWithLongText");
+                LoadTestdata(wsData);
+                wsData.Cells["C101"].Value = "A really Long Text" + new string('.', 255);
+                var dataRange = wsData.Cells[wsData.Dimension.Address.ToString()];
+                var pivotTable = wsPivot.PivotTables.Add(wsPivot.Cells["A3"], dataRange, "PivotWithLongText");
+                pivotTable.ColumnFields.Add(pivotTable.Fields[2]);
+                p.Save();
+                Assert.AreEqual("1", pivotTable.CacheDefinition.CacheDefinitionXml.SelectSingleNode("/d:pivotCacheDefinition/d:cacheFields/d:cacheField[@name='StrValue']/d:sharedItems", pivotTable.NameSpaceManager).Attributes["longText"].Value);
+            }
+        }
+
     }
 }

@@ -25,6 +25,9 @@ using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Export.HtmlExport;
+using System.Globalization;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Core.CellStore;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -76,11 +79,11 @@ namespace OfficeOpenXml.Table
         private void Init()
         {
             TopNode = TableXml.DocumentElement;
-            SchemaNodeOrder = new string[] { "autoFilter", "tableColumns", "tableStyleInfo" };
+            SchemaNodeOrder = new string[] { "autoFilter", "sortState", "tableColumns", "tableStyleInfo" };
             InitDxf(WorkSheet.Workbook.Styles, this, null);
             TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
-            HtmlExporter = new TableExporter(this);
+            _tableSorter = new TableSorter(this);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -186,11 +189,13 @@ namespace OfficeOpenXml.Table
                     WorkSheet.Tables._tableNames.Remove(prevName);
                     WorkSheet.Tables._tableNames.Add(value,ix);
                 }
+                var ta = new TableAdjustFormula(this);
+                ta.AdjustFormulas(prevName, value);
                 SetXmlNodeString(NAME_PATH, value);
                 SetXmlNodeString(DISPLAY_NAME_PATH, ExcelAddressUtil.GetValidName(value));
             }
         }
-
+        
         internal void DeleteMe()
         {
             if (RelationshipID != null)
@@ -840,6 +845,8 @@ namespace OfficeOpenXml.Table
 
             WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
 
+            ExtendCalculatedFormulas(range);
+
             if (copyStyles)
             {
                 int copyFromRow = isFirstRow ? DataRange._fromRow + rows + 1 : _address._fromRow + position - 1;
@@ -851,6 +858,17 @@ namespace OfficeOpenXml.Table
             }
 
             return range;
+        }
+
+        private void ExtendCalculatedFormulas(ExcelRangeBase range)
+        {
+            foreach(var c in Columns)
+            {
+                if(!string.IsNullOrEmpty(c.CalculatedColumnFormula))
+                {
+                    c.SetFormulaCells(range._fromRow, range._toRow, range._fromCol + c.Position);
+                }
+            }
         }
 
         private void CopyStylesFromRow(string address, int copyRow)
@@ -956,7 +974,7 @@ namespace OfficeOpenXml.Table
             }
             else if (range._toCol > _address._toCol)
             {
-                Address = _address.AddColumn(_address._toCol, columns);
+                Address = new ExcelAddressBase(_address._fromRow, _address._fromCol, _address._toRow, _address._toCol+columns);
             }
             
             if(copyStyles && isFirstColumn==false)
@@ -1020,5 +1038,81 @@ namespace OfficeOpenXml.Table
             }
         }
         public ExcelDxfBorderBase TableBorderStyle { get; set; }
+
+        #region Sorting
+        private TableSorter _tableSorter = null;
+        const string SortStatePath = "d:sortState";
+        SortState _sortState = null;
+
+        public SortState SortState
+        {
+            get
+            {
+                if (_sortState == null)
+                {
+                    var node = TableXml.SelectSingleNode($"//{SortStatePath}", NameSpaceManager);
+                    if (node == null) return null;
+                    _sortState = new SortState(NameSpaceManager, node);
+                }
+                return _sortState;
+            }
+        }
+
+        internal void SetTableSortState(int[] columns, bool[] descending, CompareOptions compareOptions, Dictionary<int, string[]> customLists)
+        {
+            //Set sort state
+            var sortState = new SortState(Range.Worksheet.NameSpaceManager, this);
+            var dataRange = DataRange;
+            sortState.Ref = dataRange.Address;
+            sortState.CaseSensitive = (compareOptions == CompareOptions.IgnoreCase || compareOptions == CompareOptions.OrdinalIgnoreCase);
+            for (var ix = 0; ix < columns.Length; ix++)
+            {
+                bool? desc = null;
+                if (descending.Length > ix && descending[ix])
+                {
+                    desc = true;
+                }
+                var adr = ExcelCellBase.GetAddress(dataRange._fromRow, dataRange._fromCol + columns[ix], dataRange._toRow, dataRange._fromCol + columns[ix]);
+                if(customLists.ContainsKey(columns[ix]))
+                {
+                    sortState.SortConditions.Add(adr, desc, customLists[columns[ix]]);
+                }
+                else
+                {
+                    sortState.SortConditions.Add(adr, desc);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sorts the data in the table according to the supplied <see cref="RangeSortOptions"/>
+        /// </summary>
+        /// <param name="options"></param>
+        /// <example> 
+        /// <code>
+        /// var options = new SortOptions();
+        /// options.SortBy.Column(0).ThenSortBy.Column(1, eSortDirection.Descending);
+        /// </code>
+        /// </example>
+        public void Sort(TableSortOptions options)
+        {
+            _tableSorter.Sort(options);
+        }
+
+        /// <summary>
+        /// Sorts the data in the table according to the supplied action of <see cref="RangeSortOptions"/>
+        /// </summary>
+        /// <example> 
+        /// <code>
+        /// table.Sort(x =&gt; x.SortBy.Column(0).ThenSortBy.Column(1, eSortDirection.Descending);
+        /// </code>
+        /// </example>
+        /// <param name="configuration">An action with parameters for sorting</param>
+        public void Sort(Action<TableSortOptions> configuration)
+        {
+            _tableSorter.Sort(configuration);
+        }
+
+        #endregion
     }
 }

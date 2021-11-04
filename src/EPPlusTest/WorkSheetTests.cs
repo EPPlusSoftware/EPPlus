@@ -498,7 +498,7 @@ namespace EPPlusTest
             Assert.AreEqual(ws.Cells["E24"].Text, "0");
             ws.Cells["F7"].Style.Font.UnderLine = false;
             ws.Names.Add("SheetName", ws.Cells["A1:A2"]);
-            ws.View.FreezePanes(3, 5);
+            ws.View.    FreezePanes(3, 5);
 
             foreach (ExcelRangeBase cell in ws.Cells["A1"])
             {
@@ -754,7 +754,7 @@ namespace EPPlusTest
             ws.Cells["G1"].RichText.Add("Room 02 & 03");
             ws.Cells["G2"].RichText.Text = "Room 02 & 03";
 
-            ws = ws = _pck.Workbook.Worksheets.Add("RichText2");
+            ws = _pck.Workbook.Worksheets.Add("RichText2");
             ws.Cells["A1"].RichText.Text = "Room 02 & 03";
             ws.TabColor = Color.PowderBlue;
 
@@ -762,6 +762,8 @@ namespace EPPlusTest
             r1.Bold = true;
             ws.Cells["G3"].RichText.Add(" a new t");
             ws.Cells["G3"].RichText[1].Bold = false;
+
+            ws.Cells["G3"].RichText.Add("");
 
             //Set printersettings
             ws.PrinterSettings.RepeatColumns = ws.Cells["A:B"];
@@ -772,7 +774,6 @@ namespace EPPlusTest
             ws.PrinterSettings.RightMargin = 1M;
             ws.PrinterSettings.Orientation = eOrientation.Landscape;
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
-
         }
         [TestMethod]
         public void TestComments()
@@ -1676,27 +1677,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Text()
-        {
-            using (ExcelPackage p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                ws.Cells["A1"].Value = new DateTime(2018, 2, 3);
-                ws.Cells["A1"].Style.Numberformat.Format = "d";
-                Assert.AreEqual("3", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "D";
-                Assert.AreEqual("3", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "M";
-                Assert.AreEqual("2", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "Y";
-                Assert.AreEqual("18", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "YY";
-                Assert.AreEqual("18", ws.Cells["A1"].Text);
-                ws.Cells["A1"].Style.Numberformat.Format = "YYY";
-                Assert.AreEqual("2018", ws.Cells["A1"].Text);
-            }
-        }
-        [TestMethod]
         public void CopyWorkSheetWithInsertInSharedFormula()
         {
             using (ExcelPackage package = new ExcelPackage())
@@ -1903,6 +1883,37 @@ namespace EPPlusTest
                 Assert.AreEqual(3d, worksheet.Cells["A3"].Value);
                 worksheet.ClearFormulaValues();
                 Assert.IsNull(worksheet.Cells["A3"].Value);
+            }
+        }
+        [TestMethod]
+        public void RemoveFormulaFromFirstCellOfSharedFormulaWithGap()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Get the worksheet
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells["G1:G6"].Formula = "SUM(A1:F1)";
+                ws.Cells["G5"].Formula = null;
+
+                // Check that G1:G6 have formulas, except for G5
+                Assert.AreEqual("SUM(A1:F1)", ws.Cells["G1"].Formula);
+                Assert.AreEqual("SUM(A2:F2)", ws.Cells["G2"].Formula);
+                Assert.AreEqual("SUM(A3:F3)", ws.Cells["G3"].Formula);
+                Assert.AreEqual("SUM(A4:F4)", ws.Cells["G4"].Formula);
+                Assert.AreEqual("", ws.Cells["G5"].Formula);
+                Assert.AreEqual("SUM(A6:F6)", ws.Cells["G6"].Formula);
+
+                // Remove the formula from G1
+                ws.Cells["G1"].Formula = null;
+
+                // Check that the formula was removed, and the other formulas are unchanged
+                Assert.AreEqual("", ws.Cells["G1"].Formula);
+                Assert.AreEqual("SUM(A2:F2)", ws.Cells["G2"].Formula);
+                Assert.AreEqual("SUM(A3:F3)", ws.Cells["G3"].Formula);
+                Assert.AreEqual("SUM(A4:F4)", ws.Cells["G4"].Formula);
+                Assert.AreEqual("", ws.Cells["G5"].Formula);
+                Assert.AreEqual("SUM(A6:F6)", ws.Cells["G6"].Formula);
             }
         }
     }

@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -42,7 +43,7 @@ namespace OfficeOpenXml.Table.PivotTable
         public ExcelPivotTableField Field
         {
             get;
-            private set;
+            internal set;
         }
         /// <summary>
         /// The index of the datafield
@@ -188,28 +189,67 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeString("@subtotal", v);
             }
         }
+        ExcelPivotTableDataFieldShowDataAs _showDataAs = null;
+        public ExcelPivotTableDataFieldShowDataAs ShowDataAs
+        {
+            get
+            {
+                if (_showDataAs == null)
+                {
+                    _showDataAs = new ExcelPivotTableDataFieldShowDataAs(this);
+                }
+                return _showDataAs;
+            }
+        }
+        internal eShowDataAs ShowDataAsInternal
+        {
+            get
+            {
+                string s = GetXmlNodeString("@showDataAs");
+                if (s == "")
+                {
+                    s = GetXmlNodeString("d:extLst/d:ext[@uri='{E15A36E0-9728-4e99-A89B-3F7291B0FE68}']/x14:dataField/@pivotShowAs");
+                    if (s == "")
+                    {
+                        return eShowDataAs.Normal;
+                    }
+                }
+                return s.ToShowDataAs();
+            }
+            set
+            {
+                if(value==eShowDataAs.Normal)
+                {
+                    DeleteNode("@showDataAs");
+                }
+                else
+                {
+                    if(IsShowDataAsExtLst(value))
+                    {
+                        DeleteNode("@showDataAs");
+                        var extNode = GetOrCreateExtLstSubNode("{E15A36E0-9728-4e99-A89B-3F7291B0FE68}", "x14");
+                        var extNodeHelper = XmlHelperFactory.Create(NameSpaceManager, extNode);
 
-        /////Since we have no items, Excel will crash when we use showDataAs options that require baseItem's
-        //public eShowDataAs ShowDataAs
-        //{
-        //    get
-        //    {
-        //        string s = GetXmlNodeString("@showDataAs");
-        //        if (s == "")
-        //        {
-        //            return eShowDataAs.Normal;
-        //        }
-        //        else
-        //        {
-        //            return (eShowDataAs)Enum.Parse(typeof(eShowDataAs), s, true);
-        //        }
-        //    }
-        //    set
-        //    {
-        //        string v = value.ToString();
-        //        v = v.Substring(0, 1).ToLower() + v.Substring(1);
-        //        SetXmlNodeString("@showDataAs", v);
-        //    }
-        //}
+                        extNodeHelper.SetXmlNodeString("x14:dataField/@pivotShowAs", value.FromShowDataAs());
+                    }
+                    else
+                    {
+                        DeleteNode("d:extLst/d:ext[@url='{E15A36E0-9728-4e99-A89B-3F7291B0FE68}']");
+                        SetXmlNodeString("@showDataAs", value.FromShowDataAs());
+                    }
+                }
+            }
+        }
+
+        private bool IsShowDataAsExtLst(eShowDataAs value)
+        {
+            return
+               value == eShowDataAs.PercentOfParent ||
+               value == eShowDataAs.PercentOfParentColumn ||
+               value == eShowDataAs.PercentOfParentRow ||
+               value == eShowDataAs.RankAscending ||
+               value == eShowDataAs.RankDescending ||
+               value == eShowDataAs.PercentOfRunningTotal;
+        }
     }
 }

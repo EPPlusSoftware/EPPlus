@@ -77,6 +77,11 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <returns></returns>
         public abstract ExcelNamedRangeCollection GetWorksheetNames(string worksheet);
+        /// <summary>
+        /// Returns the names of all worksheet names
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool IsExternalName(string name);
 
         public abstract ExcelTable GetExcelTable(string name);
         /// <summary>

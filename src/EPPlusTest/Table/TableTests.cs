@@ -160,6 +160,7 @@ namespace EPPlusTest.Table
             ws.Cells["B10"].Value = 9;
             ws.Cells["B11"].Value = 10;
             ws.Cells["B12"].Value = 11;
+            ws.Cells["O5"].Value = 11;
             ws.Cells["C7"].Value = "Table test";
             ws.Cells["C8"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             ws.Cells["C8"].Style.Fill.BackgroundColor.SetColor(Color.Red);
@@ -378,8 +379,6 @@ namespace EPPlusTest.Table
                 table.Columns[2].TotalsRowFunction = RowFunctions.Sum;
                 table.Columns[3].TotalsRowFunction = RowFunctions.Sum;
 
-
-
                 // insert rows
                 var rowRange = table.AddRow();
                 var newRowIx = rowRange.Start.Row;
@@ -429,12 +428,87 @@ namespace EPPlusTest.Table
 
                 var formula = "mytable[[#this row],[Sales]]+mytable[[#this row],[VAT]]";
                 table.Columns[4].CalculatedColumnFormula = formula;
+                
+                //Assert
                 Assert.AreEqual(formula, table.Columns[4].CalculatedColumnFormula);
                 Assert.AreEqual(formula, sheet.Cells["G2"].Formula);
                 Assert.AreEqual(formula, sheet.Cells["G3"].Formula);
                 Assert.AreEqual(formula, sheet.Cells["G11"].Formula);
+
+                table.AddRow(3);
+                Assert.AreEqual(formula, sheet.Cells["G13"].Formula);
+
+
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void RenameTableWithCalculatedColumnFormulas()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Get the worksheet containing the tables
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+
+                // Get the tables and check the calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A1:C2"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "Table1[Column1]+Table1[Column2]";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E1:G2"], "Table2");
+                tbl2.Columns[2].CalculatedColumnFormula = "Table1[[#This Row],[Column1]]+Table2[[#This Row],[Column2]]";
+
+                ws2.SetFormula(1, 1, "Table1[[#This Row],[Column1]]");
+                ws2.Cells["B1:B2"].Formula = "Table1[[#This Row],[Column3]]";
+                p.Workbook.Names.AddFormula("TableRef", "Table1[[#This Row],[Column1]]");
+                Assert.AreEqual("Table1[Column1]+Table1[Column2]", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("Table1[[#This Row],[Column1]]+Table2[[#This Row],[Column2]]", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+                // Rename Table1 to Table3 and check the formulas were updated
+                tbl1.Name = "NewTableName";
+                Assert.AreEqual("NewTableName[Column1]+NewTableName[Column2]", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("NewTableName[[#This Row],[Column1]]+Table2[[#This Row],[Column2]]", tbl2.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("NewTableName[[#This Row],[Column1]]", p.Workbook.Worksheets[1].Cells["A1"].Formula);
+                Assert.AreEqual("NewTableName[[#This Row],[Column3]]", p.Workbook.Worksheets[1].Cells["B2"].Formula);
+                Assert.AreEqual("NewTableName[[#This Row],[Column1]]", p.Workbook.Names["TableRef"].Formula);
+            }
+        }
+        [TestMethod]
+        public void RenameTableWithCalculatedColumnFormulasSameStartOfTableName()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create some worksheets
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+
+                // Create some tables with calculated column formulas
+                var tbl1 = ws1.Tables.Add(ws1.Cells["A1:C2"], "Table1");
+                tbl1.Columns[2].CalculatedColumnFormula = "Table1[Column1]+Table1[Column2]";
+
+                var tbl2 = ws1.Tables.Add(ws1.Cells["E1:G2"], "Table12");
+                tbl2.Columns[2].CalculatedColumnFormula = "Table1[[#This Row],[Column1]]+Table12[[#This Row],[Column2]]";
+
+                // Create some references outside of the table
+                ws2.SetFormula(1, 1, "Table1[[#This Row],[Column1]]");
+                ws2.Cells["B1:B2"].Formula = "Table1[[#This Row],[Column3]]";
+                p.Workbook.Names.AddFormula("TableRef", "Table1[[#This Row],[Column1]]");
+                Assert.AreEqual("Table1[Column1]+Table1[Column2]", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("Table1[[#This Row],[Column1]]+Table12[[#This Row],[Column2]]", tbl2.Columns["Column3"].CalculatedColumnFormula);
+                Assert.AreEqual("Table1[Column1]+Table1[Column2]", ws1.Cells["C2"].Formula);
+                Assert.AreEqual("Table1[[#This Row],[Column1]]+Table12[[#This Row],[Column2]]", ws1.Cells["G2"].Formula);
+
+                // Rename Table1 to Table3 and check the formulas were updated
+                tbl1.Name = "Table3";
+                Assert.AreEqual("Table3[Column1]+Table3[Column2]", tbl1.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("Table3[[#This Row],[Column1]]+Table12[[#This Row],[Column2]]", tbl2.Columns[2].CalculatedColumnFormula);
+                Assert.AreEqual("Table3[Column1]+Table3[Column2]", ws1.Cells["C2"].Formula);
+                Assert.AreEqual("Table3[[#This Row],[Column1]]+Table12[[#This Row],[Column2]]", ws1.Cells["G2"].Formula);
+                Assert.AreEqual("Table3[[#This Row],[Column1]]", p.Workbook.Worksheets[1].Cells["A1"].Formula);
+                Assert.AreEqual("Table3[[#This Row],[Column3]]", p.Workbook.Worksheets[1].Cells["B2"].Formula);
+                Assert.AreEqual("Table3[[#This Row],[Column1]]", p.Workbook.Names["TableRef"].Formula);
+            }
+        }
+
     }
 }

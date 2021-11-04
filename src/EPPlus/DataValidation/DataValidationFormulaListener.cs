@@ -37,6 +37,7 @@ namespace OfficeOpenXml.DataValidation
                         extValidation.ErrorStyle = validation.ErrorStyle;
                         extValidation.ErrorTitle = validation.ErrorTitle;
                         extValidation.ShowErrorMessage = validation.ShowErrorMessage;
+                        extValidation.HideDropDown = listValidation.HideDropDown;
                         extValidation.Formula.ExcelFormula = e.NewValue;
                         listValidation.SetStale();
                         _dataValidations.Remove(listValidation);
@@ -74,6 +75,7 @@ namespace OfficeOpenXml.DataValidation
                         dataValidation.ErrorStyle = validation.ErrorStyle;
                         dataValidation.ErrorTitle = validation.ErrorTitle;
                         dataValidation.ShowErrorMessage = validation.ShowErrorMessage;
+                        dataValidation.HideDropDown = listValidation.HideDropDown;
                         dataValidation.Formula.ExcelFormula = e.NewValue;
                         listValidation.SetStale();
                         _dataValidations.DataValidationsExt.Remove(listValidation);

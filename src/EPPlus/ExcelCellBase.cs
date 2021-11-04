@@ -121,6 +121,13 @@ namespace OfficeOpenXml
         {
             return GetRowColFromAddress(CellAddress, out FromRow, out FromColumn, out ToRow, out ToColumn, out _, out _, out _, out _);
         }
+
+        internal static string GetWorkbookFromAddress(string address)
+        {
+            var startIx = address.IndexOf('[');
+            var endIx = address.IndexOf(']');
+            return address.Substring(startIx + 1, endIx - startIx - 1); 
+        }
         /// <summary>
         /// Get the row/columns for a Cell-address
         /// </summary>
@@ -133,7 +140,8 @@ namespace OfficeOpenXml
         /// <param name="fixedFromColumn">Is the from column fixed?</param>
         /// <param name="fixedToRow">Is the to row fixed?</param>
         /// <param name="fixedToColumn">Is the to column fixed?</param>
-        /// <param name="ws">The worksheet for the formula</param>
+        /// <param name="wb">A reference to the workbook object</param>
+        /// <param name="wsName">The worksheet name used for addresses without a worksheet reference.</param>
         /// <returns></returns>
         internal static bool GetRowColFromAddress(string CellAddress, out int FromRow, out int FromColumn, out int ToRow, out int ToColumn, out bool fixedFromRow, out bool fixedFromColumn, out bool fixedToRow, out bool fixedToColumn, ExcelWorkbook wb=null, string wsName = null)
         {
@@ -310,29 +318,6 @@ namespace OfficeOpenXml
             }
         }
 
-        //private static void SetToColumn(ref int ToColumn, ref bool fixedToColumn, int col, bool fixedCol)
-        //{
-        //    if (col > ToColumn)
-        //    {
-        //        ToColumn = col;
-        //        fixedToColumn = fixedCol;
-        //    }
-        //}
-
-        //private static void SetFromColumn(ref int FromColumn, ref bool fixedFromColumn, int col, bool fixedCol)
-        //{
-        //    if (col < FromColumn)
-        //    {
-        //        FromColumn = col;
-        //        fixedFromColumn = fixedCol;
-        //    }
-        //}
-
-        /// <summary>
-        /// Validates that the address has the format cccNNNN...
-        /// </summary>
-        /// <param name="cellAddress"></param>
-        /// <returns></returns>
         private static bool IsCellAddress(string cellAddress)
         {
             int  alpha = 0;
@@ -666,14 +651,7 @@ namespace OfficeOpenXml
             var wsForAddress = "";
             if (!string.IsNullOrEmpty(worksheetName))
             {
-                if(ExcelWorksheet.NameNeedsApostrophes(worksheetName))
-                {
-                    wsForAddress = "'"+worksheetName.Replace("'", "''") + "'";   //Makesure addresses handle single qoutes
-                }
-                else
-                {
-                    wsForAddress = worksheetName;
-                }
+                wsForAddress = GetQuotedWorksheetName(worksheetName);
             }
             if (address.IndexOf('!') == -1 || address == "#REF!")
             {
@@ -707,6 +685,21 @@ namespace OfficeOpenXml
                 }
             }
             return address;
+        }
+
+        internal static string GetQuotedWorksheetName(string worksheetName)
+        {
+            string wsForAddress;
+            if (ExcelWorksheet.NameNeedsApostrophes(worksheetName))
+            {
+                wsForAddress = "'" + worksheetName.Replace("'", "''") + "'";   //Makesure addresses handle single qoutes
+            }
+            else
+            {
+                wsForAddress = worksheetName;
+            }
+
+            return wsForAddress;
         }
         #endregion
         #region IsValidCellAddress
@@ -883,8 +876,9 @@ namespace OfficeOpenXml
         /// <param name="currentSheet">The sheet that contains the formula currently being processed.</param>
         /// <param name="modifiedSheet">The sheet where cells are being inserted or deleted.</param>
         /// <param name="setFixed">Fixed address</param>
+        /// <param name="copy">If a copy operation is performed, fully fixed cells should be untoughe.</param>
         /// <returns>The updated version of the <paramref name="formula"/>.</returns>
-        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false)
+        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false, bool copy=false)
         {
             try
             {
@@ -896,7 +890,6 @@ namespace OfficeOpenXml
                     if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var address = new ExcelAddressBase(t.Value);
-
                         if ((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
                         {
                             f += address.Address;
@@ -914,8 +907,15 @@ namespace OfficeOpenXml
                                 f += $"{address._ws}!";
                             }
                         }
+
                         if (!address.IsFullColumn)
                         {
+                            if (copy && ((address._fromRowFixed && address._toRowFixed && address.IsFullRow) || (address._fromColFixed && address._toColFixed && address._fromRowFixed && address._toRowFixed)))
+                            {
+                                f += address.LocalAddress;
+                                continue;
+                            }
+
                             if (rowIncrement > 0)
                             {
                                 address = address.AddRow(afterRow, rowIncrement, setFixed);
@@ -932,8 +932,15 @@ namespace OfficeOpenXml
                                 }
                             }
                         }
+
                         if (address!=null && !address.IsFullRow)
                         {
+                            if (copy && (address._fromColFixed && address._toColFixed && address.IsFullColumn)) 
+                            {
+                                f += address.LocalAddress;
+                                continue;
+                            }
+
                             if (colIncrement > 0)
                             {
                                 address = address.AddColumn(afterColumn, colIncrement, setFixed);
@@ -951,7 +958,7 @@ namespace OfficeOpenXml
                             }
                         }
 
-                        if (address == null || !address.IsValidRowCol())
+                        if (address == null || (!address.IsValidRowCol() && address.IsName==false))
                         {
                             f += "#REF!";
                         }
@@ -1180,7 +1187,11 @@ namespace OfficeOpenXml
             }
         }
         #endregion
-        #endregion
-        #endregion
-    }
+        internal static bool IsExternalAddress(string address)
+        {
+            return address.StartsWith("[") || address.StartsWith("'[");
+        }        
+            #endregion
+            #endregion
+        }
 }

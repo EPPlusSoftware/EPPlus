@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A serie for a scatter chart
     /// </summary>
-    public sealed class ExcelScatterChartSerie : ExcelChartSerieWithErrorBars, IDrawingSerieDataLabel, IDrawingChartMarker
+    public sealed class ExcelScatterChartSerie : ExcelChartSerieWithHorizontalErrorBars, IDrawingSerieDataLabel, IDrawingChartMarker
     {
         /// <summary>
         /// Default constructor
@@ -289,6 +289,6 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 Marker.Border.Fill.Color = value;
             }
-        }       
+        }
     }
 }

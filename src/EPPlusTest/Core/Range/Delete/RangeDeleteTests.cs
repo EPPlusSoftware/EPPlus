@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
 using System;
 using System.Collections.Generic;
@@ -954,6 +955,43 @@ namespace EPPlusTest.Core.Range.Delete
 
             Assert.AreEqual("A2:D5", any.Address.Address);
         }
+        [TestMethod]
+        public void CheckDatavalidationFormulaAfterDeletingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("B5:G5");
+                dv.Formula.ExcelFormula = "=(B$4=0)";
+
+                // Delete a row before the column being referenced by the CF formula
+                ws.DeleteRow(2);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=(B$3=0)", dv.Formula.ExcelFormula);
+            }
+        }
+        [TestMethod]
+        public void CheckDatavalidationFormulaAfterDeletingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var dv = ws.DataValidations.AddCustomValidation("E2:E7");
+                dv.Formula.ExcelFormula = "=($D2=0)";
+
+                // Delete a column before the column being referenced by the CF formula
+                ws.DeleteColumn(2);
+
+                // Check the conditional formatting formula has been updated
+                dv = ws.DataValidations[0].As.CustomValidation;
+                Assert.AreEqual("=($C2=0)", dv.Formula.ExcelFormula);
+            }
+        }
+
         #endregion
         #region Conditional formatting
         [TestMethod]
@@ -1046,6 +1084,42 @@ namespace EPPlusTest.Core.Range.Delete
             ws.Cells["A2:A5"].Delete(eShiftTypeDelete.Left);
 
             Assert.AreEqual("A2:D5", cf.Address.Address);
+        }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterDeletingRow()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["B5:G5"]);
+                cf.Formula = "=(B$4=0)";
+
+                // Delete a row before the column being referenced by the CF formula
+                ws.DeleteRow(2);
+
+                // Check the conditional formatting formula has been updated
+                cf = (IExcelConditionalFormattingExpression)ws.ConditionalFormatting[0];
+                Assert.AreEqual("=(B$3=0)", cf.Formula);
+            }
+        }
+        [TestMethod]
+        public void CheckConditionalFormattingFormulaAfterDeletingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                // Create a worksheet with conditional formatting 
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var cf = ws.ConditionalFormatting.AddExpression(ws.Cells["E2:E7"]);
+                cf.Formula = "=($D2=0)";
+
+                // Delete a column before the column being referenced by the CF formula
+                ws.DeleteColumn(2);
+
+                // Check the conditional formatting formula has been updated
+                cf = (IExcelConditionalFormattingExpression)ws.ConditionalFormatting[0];
+                Assert.AreEqual("=($C2=0)", cf.Formula);
+            }
         }
         #endregion
 
@@ -1251,6 +1325,164 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(6, ws.Column(1).Width);
             Assert.AreEqual(6, ws.Column(2).Width);
             Assert.AreEqual(9.140625, ws.Column(3).Width);
+        }
+        [TestMethod]
+        public void TestDeleteColumnsWithConditionalFormatting()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add a sheet with conditional formatting over multiple ranges
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var cf = wks.ConditionalFormatting.AddExpression(new ExcelAddress("B:C,E:F,H:I,K:L"));
+                cf.Formula = "=($A$1=TRUE)";
+
+                // Delete columns K:L
+                wks.DeleteColumn(11, 2);
+                Assert.AreEqual("B:C,E:F,H:I", cf.Address.Address);
+                // Delete columns E:I
+                wks.DeleteColumn(5, 5);
+
+                Assert.AreEqual("B:C", cf.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteColumnFixedAddresses()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Names.Add("TestName1", ws.Cells["$A$1"]);
+                ws.Names.Add("TestName2", ws.Cells["$B$1"]); 
+                ws.Names.Add("TestName3", ws.Cells["$C$1"]); 
+                ws.Names.Add("TestName4", ws.Cells["$B$3:$D$3"]);
+                ws.Names.Add("TestName5", ws.Cells["$A$5:$C$5"]);
+                ws.Names.Add("TestName6", ws.Cells["$B$7:$C$7"]);
+
+                //Assert
+                ws.DeleteColumn(2, 2);
+
+                //Check that the named ranges have been deleted/modified as appropriate
+                Assert.AreEqual("$A$1", ws.Names["TestName1"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName2"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName3"].LocalAddress);
+                Assert.AreEqual("$B$3", ws.Names["TestName4"].LocalAddress);
+                Assert.AreEqual("$A$5", ws.Names["TestName5"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName6"].LocalAddress);
+            }
+        }
+        [TestMethod]
+        public void ValidateDeleteRowFixedAddresses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Names.Add("TestName1", ws.Cells["$A$1"]);
+                ws.Names.Add("TestName2", ws.Cells["$A$2"]);
+                ws.Names.Add("TestName3", ws.Cells["$A$3"]);
+                ws.Names.Add("TestName4", ws.Cells["$C$2:$C$4"]);
+                ws.Names.Add("TestName5", ws.Cells["$E$1:$E$3"]);
+                ws.Names.Add("TestName6", ws.Cells["$G$2:$G$3"]);
+
+                //Assert
+                ws.DeleteRow(2, 2);
+
+                //Check that the named ranges have been deleted/modified as appropriate
+                Assert.AreEqual("$A$1", ws.Names["TestName1"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName2"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName3"].LocalAddress);
+                Assert.AreEqual("$C$2", ws.Names["TestName4"].LocalAddress);
+                Assert.AreEqual("$E$1", ws.Names["TestName5"].LocalAddress);
+                Assert.AreEqual("#REF!", ws.Names["TestName6"].LocalAddress);
+            }
+        }
+        [TestMethod]
+        public void TestColumnWidthsAfterDeletingColumn()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                var col = ws.Column(3);
+                col.ColumnMax = 5;
+                col.Width = 18;
+
+                col = ws.Column(7);
+                col.ColumnMax = 9;
+                col.Width = 19;
+
+
+                // Delete column 4 & 7-8
+                ws.DeleteColumn(4, 1);
+                ws.DeleteColumn(7, 2);
+
+                //Assert
+                Assert.AreEqual(18, ws.Column(3).Width);
+                Assert.AreEqual(18, ws.Column(4).Width);
+                Assert.AreEqual(ws.DefaultColWidth, ws.Column(5).Width);
+
+                Assert.AreEqual(19, ws.Column(6).Width);
+                Assert.AreEqual(ws.DefaultColWidth, ws.Column(7).Width);
+            }
+        }
+        [TestMethod]
+        public void ValidateTableCalculatedColumnFormulasAfterDeleteRowAndDeleteColumn()
+        {
+            //Test created from issue #484 - https://github.com/EPPlusSoftware/EPPlus/issues/484
+            var ws = _pck.Workbook.Worksheets.Add("DeleteCalculateColumnFormula");
+
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C13"], "Table3");
+            tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G13"], "Table4");
+            tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+            // Check the formulas have been set correctly
+            Assert.AreEqual("A12+B12", ws.Cells["C12"].Formula);
+            Assert.AreEqual("A12+F12", ws.Cells["G12"].Formula);
+            Assert.AreEqual("A13+F13", ws.Cells["G13"].Formula);
+            Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+            //Delete two rows above the tables 
+            ws.DeleteRow(5, 2);
+            //Delete the column between the tables
+            ws.DeleteColumn(4, 1);
+
+            //Check the formulas were updated
+            Assert.AreEqual("A10+B10", ws.Cells["C10"].Formula);
+            Assert.AreEqual("A10+E10", ws.Cells["F10"].Formula);
+            Assert.AreEqual("A10+B10", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A10+E10", tbl2.Columns[2].CalculatedColumnFormula);
+        }
+        [TestMethod]
+        public void ValidateTableCalculatedColumnFormulasAfterDeleteRange()
+        {
+            //Test created from issue #484 - https://github.com/EPPlusSoftware/EPPlus/issues/484
+            var ws = _pck.Workbook.Worksheets.Add("DeleteCalcColumnFormulaRange");
+
+            var tbl1 = ws.Tables.Add(ws.Cells["A11:C13"], "Table1");
+            tbl1.Columns[2].CalculatedColumnFormula = "A12+B12";
+
+            var tbl2 = ws.Tables.Add(ws.Cells["E11:G13"], "Table2");
+            tbl2.Columns[2].CalculatedColumnFormula = "A12+F12";
+
+            // Check the formulas have been set correctly
+            Assert.AreEqual("A12+B12", ws.Cells["C12"].Formula);
+            Assert.AreEqual("A12+F12", ws.Cells["G12"].Formula);
+            Assert.AreEqual("A13+F13", ws.Cells["G13"].Formula);
+            Assert.AreEqual("A12+B12", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A12+F12", tbl2.Columns["Column3"].CalculatedColumnFormula);
+
+            //Delete two rows above the tables 
+            ws.Cells["A2:D2"].Delete(eShiftTypeDelete.Up);
+            //Delete the column between the tables
+            ws.Cells["D1:D20"].Delete(eShiftTypeDelete.Left);
+
+            //Check the formulas were updated
+            Assert.AreEqual("A11+B11", ws.Cells["C11"].Formula);
+            Assert.AreEqual("A11+E12", ws.Cells["F12"].Formula);
+            Assert.AreEqual("A11+B11", tbl1.Columns[2].CalculatedColumnFormula);
+            Assert.AreEqual("A11+E12", tbl2.Columns[2].CalculatedColumnFormula);
         }
     }
 }

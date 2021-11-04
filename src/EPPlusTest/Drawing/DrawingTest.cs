@@ -201,6 +201,8 @@ namespace EPPlusTest
             chrt.ShowHiddenData = true;
             chrt.DisplayBlanksAs = eDisplayBlanksAs.Zero;
             chrt.Title.RichText.Text = "Barchart Test";
+            chrt.Title.RichText[0].LatinFont = "Arial";
+
             chrt.GapWidth = 5;
             Assert.IsTrue(chrt.ChartType == eChartType.BarClustered, "Invalid Charttype");
             Assert.IsTrue(chrt.Direction == eDirection.Bar, "Invalid Bardirection");

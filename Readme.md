@@ -1,4 +1,5 @@
-﻿[![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
+﻿![Nuget](https://img.shields.io/nuget/v/epplus)
+ [![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
 [![Build status](https://ci.appveyor.com/api/projects/status/6jdk5tjxxvx99d5i?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus)
 
 
@@ -56,7 +57,7 @@ This might be the easiest way of configuring this. Just as above, set the variab
 **Important!** The environment variable should be set at the user level.
 
 ## New features in EPPlus 5
-EPPlus 5 comes with a set of new features, see https://www.epplussoftware.com/Developers/Features
+EPPlus 5 comes with a set of new features, see https://www.epplussoftware.com/en/Developers/Features
 
 ## Breaking Changes
 * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.

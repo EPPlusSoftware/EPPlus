@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// A serie for a bubble chart
     /// </summary>
-    public sealed class ExcelBubbleChartSerie : ExcelChartSerieWithErrorBars, IDrawingSerieDataLabel, IDrawingChartDataPoints
+    public sealed class ExcelBubbleChartSerie : ExcelChartSerieWithHorizontalErrorBars, IDrawingSerieDataLabel, IDrawingChartDataPoints
     {
         /// <summary>
         /// Default constructor

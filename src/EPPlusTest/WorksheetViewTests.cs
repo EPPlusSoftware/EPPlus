@@ -72,5 +72,142 @@ namespace EPPlusTest.Core.Worksheet
 
             Assert.AreEqual("", ws.View.TopLeftCell);
         }
+        [TestMethod]
+        public void ReadFrozenPanes()
+        {
+            using (var p = OpenTemplatePackage("FrozenRead.xlsx"))
+            {
+                //Worksheet 1
+                var ws = p.Workbook.Worksheets[0];
+                Assert.IsNotNull(ws.View);
+                Assert.IsNotNull(ws.View.PaneSettings);
+                Assert.AreEqual(ePaneState.Frozen, ws.View.PaneSettings.State);
+                Assert.AreEqual(4, ws.View.Panes.Length);
+                Assert.AreEqual("H56" ,ws.View.PaneSettings.TopLeftCell);
+                Assert.AreEqual(7D, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(7D, ws.View.PaneSettings.XSplit);
+
+                //Worksheet 2
+                ws = p.Workbook.Worksheets[1];
+                Assert.IsNotNull(ws.View);
+                Assert.IsNotNull(ws.View.PaneSettings);
+                Assert.AreEqual(ePaneState.Frozen, ws.View.PaneSettings.State);
+                Assert.AreEqual(ePanePosition.BottomRight, ws.View.PaneSettings.ActivePanePosition);
+                Assert.AreEqual(3, ws.View.Panes.Length);
+                Assert.AreEqual("D8", ws.View.PaneSettings.TopLeftCell);
+                Assert.AreEqual(7D, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(3D, ws.View.PaneSettings.XSplit);
+            }
+        }
+        [TestMethod]
+        public void ReadSplitPanes()
+        {
+            using (var p = OpenTemplatePackage("SplitPanes.xlsx"))
+            {
+                //Worksheet 1
+                var ws = p.Workbook.Worksheets[0];
+                Assert.IsNotNull(ws.View);
+                Assert.IsNotNull(ws.View.PaneSettings);
+                Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+                Assert.AreEqual(3, ws.View.Panes.Length);
+
+                //Assert.AreEqual(4230, ws.View.PaneSettings.XSplit);
+                //Assert.AreEqual(3300, ws.View.PaneSettings.YSplit);
+                //Assert.AreEqual(3300, ws.Column(1).Width);
+            }
+        }
+        [TestMethod]
+        public void SplitPanesBoth()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanes");
+            ws.View.TopLeftCell = "G200";
+            ws.View.SplitPanes(2, 2);
+            ws.View.ActiveCell = "B2";
+        }
+        [TestMethod]
+        public void SplitPanesRow()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesRow");
+            ws.View.TopLeftCell = "A200";
+            ws.View.SplitPanes(2, 0);
+            ws.View.ActiveCell = "A201";
+            ws.View.Panes[0].ActiveCell = "A5";
+            ws.View.PaneSettings.TopLeftCell = "A182";
+        }
+
+        [TestMethod]
+        public void SplitPanesColumn()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesColumn");
+            ws.View.TopLeftCell = "A200";
+            ws.View.SplitPanes(0, 2);
+            ws.View.ActiveCell = "A201";
+            ws.View.Panes[0].ActiveCell = "A5";
+        }
+
+        [TestMethod]
+        public void SplitPanesNormal18()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal18");
+            //_pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 18;
+            ws.View.TopLeftCell = "G200";
+            ws.View.SplitPanes(3, 3);
+            ws.View.TopLeftPane.ActiveCell = "B2";
+        }
+        [TestMethod]
+        public void SplitPanesPixelsThenRemove()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesPixelRemove");
+            ws.View.TopLeftPane.ActiveCell = "B2";
+            
+            ws.View.SplitPanesPixels(100, 100);            
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+            
+            ws.View.SplitPanesPixels(0, 0);
+            Assert.IsNull(ws.View.PaneSettings);
+        }
+        [TestMethod]
+        public void SplitPanesPixelsValidatePixls()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanes1Px");
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Calibri";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
+            ws.View.TopLeftPane.ActiveCell = "B2";
+
+            ws.View.SplitPanesPixels(1, 1);
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+            Assert.AreEqual(315, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(405, ws.View.PaneSettings.XSplit);
+
+            ws.View.SplitPanesPixels(100, 100);
+            Assert.AreEqual(1800, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(1890, ws.View.PaneSettings.XSplit);            
+        }
+        [TestMethod]
+        public void SplitPanesThenRemove()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesRemove");
+            ws.View.TopLeftPane.ActiveCell = "B2";
+
+            ws.View.SplitPanes(5, 5);
+            Assert.AreEqual(ePaneState.Split, ws.View.PaneSettings.State);
+
+            ws.View.SplitPanes(0, 0);
+            Assert.IsNull(ws.View.PaneSettings);
+        }
+        [TestMethod]
+        public void SplitPanesNormal11Arial()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48RH");
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+            _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
+            ws.View.TopLeftCell = "G20000";
+            ws.View.SplitPanes(3, 3);
+            ws.View.ActiveCell = "B2";
+
+            Assert.AreEqual(1140, ws.View.PaneSettings.YSplit);
+            Assert.AreEqual(3915, ws.View.PaneSettings.XSplit);
+        }
     }
 }

@@ -158,29 +158,6 @@ namespace EPPlusTest.Style
             Assert.AreEqual(2, ws.Cells["A1"].Style.Font.Charset);
         }
         [TestMethod]
-        public void ValidateNumberFormatDiffExcelVsNet()
-        {
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                var prevCi = Thread.CurrentThread.CurrentCulture;
-                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-                ws.SetValue(1, 1, -0.1);
-                ws.SetValue(2, 1, 0);
-                ws.SetValue(3, 1, 0.1);
-                ws.Cells["A1:A3"].Style.Numberformat.Format = "#,##0;-#,##0;-";
-                Assert.AreEqual("-0", ws.Cells["A1"].Text);
-                Assert.AreEqual("-", ws.Cells["A2"].Text);
-                Assert.AreEqual("0", ws.Cells["A3"].Text);
-
-                ws.Cells["A1:A3"].Style.Numberformat.Format = "#,##0.0;-#,##0.0;-";
-                Assert.AreEqual("-0.1", ws.Cells["A1"].Text);
-                Assert.AreEqual("-", ws.Cells["A2"].Text);
-                Assert.AreEqual("0.1", ws.Cells["A3"].Text);
-                Thread.CurrentThread.CurrentCulture = prevCi;
-            }
-        }
-        [TestMethod]
         public void NormalStyleIssue()
         {
             using (var p = OpenPackage("NormalShouldReflectToEmptyCells.xlsx", true))
@@ -201,6 +178,57 @@ namespace EPPlusTest.Style
                 ws.DefaultRowHeight = 12.75;
                 ws.SetValue(1, 1, "test");
                 Assert.AreEqual(10, ws.Cells["A1"].Style.Font.Size);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void ChangingTheNormalStyleFontWithAutofitColumns()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var CustomFont = new Font("Corbel", 10);
+                p.Workbook.ThemeManager.CreateDefaultTheme();
+                var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
+                defaultTheme.FontScheme.MajorFont.SetLatinFont(CustomFont.Name);
+                defaultTheme.FontScheme.MinorFont.SetLatinFont(CustomFont.Name);
+                ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
+                normal.Font.Name = CustomFont.Name;
+                normal.Font.Size = CustomFont.Size;
+                ExcelWorkbook workbook = p.Workbook;
+                ExcelWorksheet ws = p.Workbook.Worksheets.Add("sheet");
+                ExcelStyle style = workbook.Styles.CreateNamedStyle("style").Style;
+                ws.SetValue(1, 1, "very long text very long text very long text");
+                ws.Cells[1, 1].StyleName = "style";
+                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+                ws.Cells.AutoFitColumns(1);
+                SaveWorkbook("AutoFitColumnWithStyle.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void SetThemeFontIssue()
+        {
+            using (var p = OpenPackage("DefaultFont.xlsx", true))
+            {
+                var DefaultFont = new Font("Corbel", 10);
+                p.Workbook.ThemeManager.CreateDefaultTheme();
+                var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
+                defaultTheme.FontScheme.MajorFont.SetLatinFont(DefaultFont.Name);
+                defaultTheme.FontScheme.MinorFont.SetLatinFont(DefaultFont.Name);
+                ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
+                normal.Font.Name = DefaultFont.Name;
+                normal.Font.Size = DefaultFont.Size;
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells[1, 1].Value = 1000;
+
+                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+
+                ws.Cells[1, 1].Style.Numberformat.Format = "#,##0";
+                ws.Cells[1, 1].Style.Border.BorderAround(ExcelBorderStyle.Hair);
+
+                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+
                 SaveAndCleanup(p);
             }
         }

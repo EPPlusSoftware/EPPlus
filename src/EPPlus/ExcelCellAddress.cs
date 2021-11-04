@@ -44,12 +44,19 @@ namespace OfficeOpenXml
         /// <param name="isColumnFixed">If the column is fixed, prefixed with $</param>
         public ExcelCellAddress(int row, int column, bool isRowFixed = false, bool isColumnFixed = false)
         {
-            Row = row;
-            Column = column;
+            _row = row;
+            _column = column;
             _isRowFixed = isRowFixed;
             _isColumnFixed = isColumnFixed;
 
-
+            if (_column > 0 && _row > 0)
+            {
+                _address = ExcelCellBase.GetAddress(_row, _column);
+            }
+            else
+            {
+                _address = "#REF!";
+            }
         }
         /// <summary>
         /// Initializes a new instance of the ExcelCellAddress class.

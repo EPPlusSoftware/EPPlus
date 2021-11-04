@@ -113,10 +113,16 @@ namespace EPPlusTest.VBA
                 p.Workbook.CreateVBAProject();
                 p.Workbook.Worksheets.Add("Work!Sheet");
                 p.Workbook.Worksheets.Add("Mod=ule1");
+                p.Workbook.Worksheets.Add("_module1");
+                p.Workbook.Worksheets.Add("1module1");
+                p.Workbook.Worksheets.Add("Module_1");
 
                 Assert.AreEqual("ThisWorkbook", p.Workbook.VbaProject.Modules[0].Name);
                 Assert.AreEqual("Sheet0", p.Workbook.VbaProject.Modules[1].Name);
                 Assert.AreEqual("Sheet1", p.Workbook.VbaProject.Modules[2].Name);
+                Assert.AreEqual("Sheet2", p.Workbook.VbaProject.Modules[3].Name);
+                Assert.AreEqual("Sheet3", p.Workbook.VbaProject.Modules[4].Name);
+                Assert.AreEqual("Module_1", p.Workbook.VbaProject.Modules[5].Name);
             }
         }
         [TestMethod]
@@ -128,6 +134,28 @@ namespace EPPlusTest.VBA
                 p.Workbook.Worksheets.Add("InvalidName");
                 p.Workbook.CreateVBAProject();
                 p.Workbook.VbaProject.Modules.AddModule("Mod%ule2");
+            }
+        }
+        [TestMethod]
+        public void ValidateModuleNameAfterCopyWorksheet()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var wsName = "SheetWithLooooooooooooooongName";
+                var ws = p.Workbook.Worksheets.Add(wsName);
+                p.Workbook.CreateVBAProject();
+                ws.CodeModule.Code = "Sub VBA_Code\r\n\r\nEnd Sub";
+
+                var newWS1 = p.Workbook.Worksheets.Add("1newworksheet", ws);
+                var newWS2 = p.Workbook.Worksheets.Add("Sheet3", ws);
+                var newWS3 = p.Workbook.Worksheets.Add("newworksheet+1", ws);
+
+                Assert.AreEqual(5, p.Workbook.VbaProject.Modules.Count);
+                Assert.AreEqual("ThisWorkbook", p.Workbook.VbaProject.Modules[0].Name);
+                Assert.AreEqual(wsName, p.Workbook.VbaProject.Modules[1].Name);
+                Assert.AreEqual("Sheet1", p.Workbook.VbaProject.Modules[2].Name);
+                Assert.AreEqual("Sheet3", p.Workbook.VbaProject.Modules[3].Name);
+                Assert.AreEqual("Sheet4", p.Workbook.VbaProject.Modules[4].Name);
             }
         }
     }

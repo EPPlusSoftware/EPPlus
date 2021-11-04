@@ -129,6 +129,8 @@ namespace OfficeOpenXml.Drawing.Slicer
         {
             var sb = new StringBuilder();
             int x = 0;
+            if (_cache._field == null) return;
+
             foreach (var item in _cache._field.Items)
             {
                 if (item.Type == eItemType.Data)

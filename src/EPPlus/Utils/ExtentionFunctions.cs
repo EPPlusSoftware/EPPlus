@@ -71,5 +71,16 @@ namespace OfficeOpenXml.Utils.Extensions
         {
             return (color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0');
         }
+        internal static string GetXmlAttributeValue(this bool value, string attribute, bool? defaultValue)
+        {
+            if (value == defaultValue)
+            {
+                return "";
+            }
+            else
+            {
+                return $" {attribute}=\"{(value ? "1" : "0")}\"";
+            }
+        }
     }
 }

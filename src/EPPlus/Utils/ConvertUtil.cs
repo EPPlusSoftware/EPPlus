@@ -21,6 +21,7 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System.IO;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Utils.TypeConversion;
+using System.Xml;
 
 namespace OfficeOpenXml.Utils
 {
@@ -416,6 +417,83 @@ namespace OfficeOpenXml.Utils
                 s = "0";
             }
             return s;
+        }
+        internal static object GetValueFromType(XmlReader xr, string type, int styleId, ExcelWorkbook workbook)
+        {
+            if (type == "s")
+            {
+                return xr.ReadElementContentAsInt();
+            }
+            else if (type == "str")
+            {
+                return ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
+            }
+            else if (type == "b")
+            {
+                return xr.ReadElementContentAsString() != "0";
+            }
+            else if (type == "e")
+            {
+                var v = xr.ReadElementContentAsString();
+                return ExcelErrorValue.Parse(ConvertUtil._invariantTextInfo.ToUpper(v));
+            }
+            else
+            {
+                string v = xr.ReadElementContentAsString();
+                var nf = workbook.Styles.CellXfs[styleId].NumberFormatId;
+                if ((nf >= 14 && nf <= 22) || (nf >= 45 && nf <= 47))
+                {
+                    if (double.TryParse(v, NumberStyles.Any, CultureInfo.InvariantCulture, out double res))
+                    {
+                        if (workbook.Date1904)
+                        {
+                            res += ExcelWorkbook.date1904Offset;
+                        }
+                        if (res >= -657435.0 && res < 2958465.9999999)
+                        {
+                            return DateTime.FromOADate(res);
+                        }
+                        else
+                        {
+                            return res;
+                        }
+                    }
+                    else
+                    {
+                        return v;
+                    }
+                }
+                else
+                {
+                    if (double.TryParse(v, NumberStyles.Any, CultureInfo.InvariantCulture, out double d))
+                    {
+                        return d;
+                    }
+                    else
+                    {
+                        return double.NaN;
+                    }
+                }
+            }
+        }
+        internal static string GetCellType(object v, bool allowStr = false)
+        {
+            if (v is bool)
+            {
+                return " t=\"b\"";
+            }
+            else if ((v is double && double.IsInfinity((double)v)) || v is ExcelErrorValue)
+            {
+                return " t=\"e\"";
+            }
+            else if (allowStr && v != null && !(TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan))
+            {
+                return " t=\"str\"";
+            }
+            else
+            {
+                return "";
+            }
         }
 
         #region internal cache objects

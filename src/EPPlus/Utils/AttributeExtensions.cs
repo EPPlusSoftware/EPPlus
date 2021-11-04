@@ -20,15 +20,39 @@ namespace OfficeOpenXml.Utils
 {
     internal static class AttributeExtensions
     {
-        internal static bool HasPropertyOfType<T>(this MemberInfo member)
+        internal static bool HasPropertyOfType<T>(this MemberInfo member, bool? inherit = default(bool?))
         {
-            return member.GetCustomAttributes(typeof(T), false).FirstOrDefault() != null;
+            //return member.GetCustomAttributes(typeof(T), false).FirstOrDefault() != null;
+
+#if (NET35 || NET40)
+            return member.GetCustomAttributes(typeof(T), inherit ?? false).FirstOrDefault() != null;
+#else
+            if (!inherit.HasValue)
+            {
+                return member.GetCustomAttributes(typeof(T)).FirstOrDefault() != null;
+            }
+            else
+            {
+                return member.GetCustomAttributes(typeof(T), inherit.Value).FirstOrDefault() != null;
+            }
+#endif
         }
 
-        internal static T GetFirstAttributeOfType<T>(this MemberInfo member)
+        internal static T GetFirstAttributeOfType<T>(this MemberInfo member, bool? inherit = default(bool?))
             where T : Attribute
         {
+#if (NET35 || NET40)
             return member.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
+#else
+            if (!inherit.HasValue)
+            {
+                return member.GetCustomAttributes(typeof(T)).FirstOrDefault() as T;
+            }
+            else
+            {
+                return member.GetCustomAttributes(typeof(T), inherit.Value).FirstOrDefault() as T;
+            }
+#endif
         }
 
         internal static bool HasMemberWithPropertyOfType<T>(this Type type)
@@ -58,5 +82,9 @@ namespace OfficeOpenXml.Utils
             return result;
         }
 
+        internal static bool IsComplexType(this Type type)
+        {
+            return type != typeof(string) && (type.IsClass || type.IsInterface);
+        }
     }
 }

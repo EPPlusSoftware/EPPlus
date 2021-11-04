@@ -39,7 +39,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 chart.ChartType == eChartType.Waterfall ||
                 chart.ChartType == eChartType.Pareto) && chart.Series.Count==0)
             {
-                AddAxis();
+                if(chart._chartXmlHelper.ExistsNode("cx:plotArea/cx:axis")==false)
+                {
+                    AddAxis();
+                }
                 chart.LoadAxis();
             }
         }
