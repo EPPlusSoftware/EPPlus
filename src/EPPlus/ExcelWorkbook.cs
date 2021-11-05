@@ -290,7 +290,7 @@ namespace OfficeOpenXml
 			{
 				foreach (XmlElement elem in nl)
 				{
-					string fullAddress = elem.InnerText;
+					string fullAddress = elem.InnerText.TrimStart().TrimEnd();
 
 					int localSheetID;
 					ExcelWorksheet nameWorksheet;
