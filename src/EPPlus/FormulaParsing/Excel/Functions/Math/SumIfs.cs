@@ -41,13 +41,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { functionArguments[0] }, context).Select(x => (double)x).ToList();
             } 
-            var argRanges = new List<ExcelDataProvider.IRangeInfo>();
+            var argRanges = new List<RangeOrValue>();
             var criterias = new List<string>();
             for (var ix = 1; ix < 31; ix += 2)
             {
                 if (functionArguments.Length <= ix) break;
-                var rangeInfo = functionArguments[ix].ValueAsRangeInfo;
-                argRanges.Add(rangeInfo);
+                var arg = functionArguments[ix];
+                if(arg.IsExcelRange)
+                {
+                    var rangeInfo = arg.ValueAsRangeInfo;
+                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                }
+                else
+                {
+                    argRanges.Add(new RangeOrValue { Value = arg.Value });
+                }
                 var value = functionArguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
                 criterias.Add(value);
             }
