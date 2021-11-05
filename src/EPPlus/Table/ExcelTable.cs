@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Table
             LoadXmlSafe(TableXml, Part.GetStream());
             Init();
             Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
-            _tableStyle = GetTableStyle(StyleName);
+            _tableStyle = GetTableStyle(StyleName);            
         }
         internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId) : 
             base(sheet.NameSpaceManager)
@@ -85,6 +85,7 @@ namespace OfficeOpenXml.Table
             TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             _tableSorter = new TableSorter(this);
+            HtmlExporter = new TableExporter(this);
         }
 
         private string GetStartXml(string name, int tblId)

@@ -29,6 +29,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Style.Coloring;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -81,6 +82,74 @@ namespace EPPlusTest.Drawing.Style
             }
             var s = c.Name.ToString();
             return s.Substring(0, 1).ToLower() + s.Substring(1);
+        }
+        [TestMethod]
+        public void HslToRgb()
+        {
+            var rgb = ExcelDrawingHslColor.GetRgb(300, 1, 1);
+            Assert.AreEqual(0xFFFFFFFF, (uint)rgb.ToArgb());
+
+            rgb = ExcelDrawingHslColor.GetRgb(300, 1, 0);
+            Assert.AreEqual(0xFF000000, (uint)rgb.ToArgb());
+
+            rgb = ExcelDrawingHslColor.GetRgb(0, 1, .5);
+            Assert.AreEqual(0xFFFF0000, (uint)rgb.ToArgb());
+
+            //Lime
+            rgb = ExcelDrawingHslColor.GetRgb(120, 1, .5);
+            Assert.AreEqual(0xFF00FF00, (uint)rgb.ToArgb());
+
+            //Blue
+            rgb = ExcelDrawingHslColor.GetRgb(240, 1, .5);
+            Assert.AreEqual(0xFF0000FF, (uint)rgb.ToArgb());
+
+            //Yellow
+            rgb = ExcelDrawingHslColor.GetRgb(60, 1, .5);
+            Assert.AreEqual(0xFFFFFF00, (uint)rgb.ToArgb());
+
+            //Cyan
+            rgb = ExcelDrawingHslColor.GetRgb(180, 1, .5);
+            Assert.AreEqual(0xFF00FFFF, (uint)rgb.ToArgb());
+
+            //Magenta
+            rgb = ExcelDrawingHslColor.GetRgb(300, 1, .5);
+            Assert.AreEqual(0xFFFF00FF, (uint)rgb.ToArgb());
+
+            //Silver
+            rgb = ExcelDrawingHslColor.GetRgb(0, 0, .75);
+            Assert.AreEqual(0xFFBFBFBF, (uint)rgb.ToArgb());
+
+            //Gray
+            rgb = ExcelDrawingHslColor.GetRgb(0, 0, .50);
+            Assert.AreEqual(0xFF808080, (uint)rgb.ToArgb());
+
+            //Maroon 
+            rgb = ExcelDrawingHslColor.GetRgb(0, 1, .25);
+            Assert.AreEqual(0xFF800000, (uint)rgb.ToArgb());
+
+            //Olive 
+            rgb = ExcelDrawingHslColor.GetRgb(0, 1, .25);
+            Assert.AreEqual(0xFF800000, (uint)rgb.ToArgb());
+
+            //Green
+            rgb = ExcelDrawingHslColor.GetRgb(120, 1, .25);
+            Assert.AreEqual(0xFF008000, (uint)rgb.ToArgb());
+
+            //Purple
+            rgb = ExcelDrawingHslColor.GetRgb(300, 1, .25);
+            Assert.AreEqual(0xFF800080, (uint)rgb.ToArgb());
+
+            //Teal
+            rgb = ExcelDrawingHslColor.GetRgb(180, 1, .25);
+            Assert.AreEqual(0xFF008080, (uint)rgb.ToArgb());
+
+            //43, 58%, 73%
+            rgb = ExcelDrawingHslColor.GetRgb(43, .58, .73);
+            Assert.AreEqual(0xFFE2CB92, (uint)rgb.ToArgb());
+
+            //359, 79%, 21%
+            rgb = ExcelDrawingHslColor.GetRgb(359, .79, .21);
+            Assert.AreEqual(0xFF600B0D, (uint)rgb.ToArgb());            
         }
     }
 }

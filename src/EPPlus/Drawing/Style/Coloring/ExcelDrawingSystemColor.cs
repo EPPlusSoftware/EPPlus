@@ -78,6 +78,55 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
                     }                    
             }
         }
+
+        internal Color GetColor()
+        {
+            return System.Drawing.Color.FromName(Color.ToString());
+            //switch (Color)
+            //{
+            //    case eSystemColor.ActiveBorder:
+            //        return SystemColors.ActiveBorder;
+            //    case eSystemColor.ActiveCaption:
+            //        return SystemColors.ActiveCaption;
+            //    case eSystemColor.AppWorkspace:
+            //        return SystemColors.AppWorkspace;
+            //    case Background:
+            //        return SystemColors.Window;
+            //    case eSystemColor.ButtonFace;
+            //        return SystemColors.ButtonFace;
+            //    case InactiveCaption:
+            //        return SystemColors.InactiveCaption;
+            //    default:
+            //case Menu,
+            //case Window,
+            //case WindowFrame,
+            //case MenuText,
+            //case WindowText,
+            //case CaptionText,
+            //case ActiveBorder,
+            //case InactiveBorder,
+            //case AppWorkspace,
+            //case Highlight,
+            //case HighlightText,
+            //case ButtonFace,
+            //case ButtonShadow,
+            //case GrayText,
+            //case ButtonText,
+            //case InactiveCaptionText,
+            //case ButtonHighlight,
+            //case DarkShadow3d,
+            //case Light3d,
+            //case InfoText,
+            //case InfoBackground,
+            //case HotLight,
+            //case GradientActiveCaption,
+            //case GradientInactiveCaption,
+            //case MenuHighlight,
+            //case MenuBar
+
+            //}
+        }
+
         private string TranslateFromEnum(eSystemColor e)
         {
             string s;
