@@ -2778,7 +2778,65 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void IssueNamedRanges()
+        {
+            using (var package = OpenTemplatePackage("ORRange23 Problem.xlsx"))
+            {
 
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                worksheet.Cells[1, 1].Value = -1234;
+                worksheet.Cells[1, 1].Style.Numberformat.Format = "#.##0\"*\";(#.##0)\"*\"";
+                var s = worksheet.Cells[1, 1].Text;
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void DvcfCopy()
+        {
+            using (var package = OpenTemplatePackage("cfdv.xlsx"))
+            {
+
+                ExcelWorksheet ws1 = package.Workbook.Worksheets["Sheet1"];
+                using (var p2 = new ExcelPackage())
+                {
+                    ExcelWorksheet ws2 = p2.Workbook.Worksheets.Add("Sheet2");
+                    ws1.Cells[4, 3, 7, 8].Copy(ws2.Cells["A1"]);
+                    SaveWorkbook("cfdv2.xlsx",p2);
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s264()
+        {
+            _file = new FileInfo(_testInputPathOptional + "s264.xlsx");
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var stream = _file.OpenRead())
+                {
+                    memoryStream.Position = 0;
+                    stream.CopyTo(memoryStream);
+
+                    // If you are a commercial business and have
+                    // purchased commercial licenses use the static property
+                    // LicenseContext of the ExcelPackage class:
+                    ExcelPackage package = new ExcelPackage(memoryStream);
+
+                    //assign test value to the Excel Comments Property
+                    package.Workbook.Properties.Comments = "test";
+
+                    //get the content as byte array
+                    var byteArray = package.GetAsByteArray(); // **** This line throws error ****
+
+                    stream.Close();
+                    memoryStream.Close();
+                }
+            }
+        }
     }
 }
 

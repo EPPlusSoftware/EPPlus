@@ -53,26 +53,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return _expressionEvaluator.Evaluate(obj, expression);
         }
 
-        protected List<int> GetMatchIndexes(ExcelDataProvider.IRangeInfo rangeInfo, string searched)
+        protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, string searched)
         {
             var result = new List<int>();
             var internalIndex = 0;
-            var toRow = rangeInfo.Address._toRow;
-            if(rangeInfo.Worksheet.Dimension.End.Row < toRow)
+            if (rangeOrValue.Range != null)
             {
-                toRow = rangeInfo.Worksheet.Dimension.End.Row;
-            }
-            for (var row = rangeInfo.Address._fromRow; row <= toRow; row++)
-            {
-                for (var col = rangeInfo.Address._fromCol; col <= rangeInfo.Address._toCol; col++)
+                var rangeInfo = rangeOrValue.Range;
+                var toRow = rangeInfo.Address._toRow;
+                if (rangeInfo.Worksheet.Dimension.End.Row < toRow)
                 {
-                    var candidate = rangeInfo.GetValue(row, col);
-                    if (searched != null && Evaluate(candidate, searched))
-                    {
-                        result.Add(internalIndex);
-                    }
-                    internalIndex++;
+                    toRow = rangeInfo.Worksheet.Dimension.End.Row;
                 }
+                for (var row = rangeInfo.Address._fromRow; row <= toRow; row++)
+                {
+                    for (var col = rangeInfo.Address._fromCol; col <= rangeInfo.Address._toCol; col++)
+                    {
+                        var candidate = rangeInfo.GetValue(row, col);
+                        if (searched != null && Evaluate(candidate, searched))
+                        {
+                            result.Add(internalIndex);
+                        }
+                        internalIndex++;
+                    }
+                }
+            }
+            else if(Evaluate(rangeOrValue.Value, searched))
+            {
+                result.Add(internalIndex);
             }
             return result;
         }
