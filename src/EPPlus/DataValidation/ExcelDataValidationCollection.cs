@@ -221,16 +221,12 @@ namespace OfficeOpenXml.DataValidation
             foreach (var validation in _validations)
             {
                 validation.Validate();
-
-                ValidateAddress(validation.Address.Address, validation);
             }
             if(_extLstValidations != null)
             {
                 foreach(var extValidation in _extLstValidations)
                 {
                     extValidation.Validate();
-
-                    ValidateAddress(extValidation.Address.Address, extValidation);
                 }
             }
         }

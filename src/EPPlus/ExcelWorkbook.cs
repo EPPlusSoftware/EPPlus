@@ -1205,7 +1205,7 @@ namespace OfficeOpenXml
 
 			part.SaveHandler = SaveSharedStringHandler;
 
-			// Data validation
+			//// Data validation
 			ValidateDataValidations();
 
 			//VBA
@@ -1332,18 +1332,18 @@ namespace OfficeOpenXml
 			}
 		}
 
-		private void ValidateDataValidations()
-		{
-			foreach (var sheet in _package.Workbook.Worksheets)
-			{
-				if (!(sheet is ExcelChartsheet))
-				{
-					sheet.DataValidations.ValidateAll();
-				}
-			}
-		}
+        private void ValidateDataValidations()
+        {
+            foreach (var sheet in _package.Workbook.Worksheets)
+            {
+                if (!(sheet is ExcelChartsheet))
+                {
+                    sheet.DataValidations.ValidateAll();
+                }
+            }
+        }
 
-		private void SaveSharedStringHandler(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
+        private void SaveSharedStringHandler(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
 		{
 			//Init Zip
 			stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;

@@ -2810,6 +2810,33 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s264()
+        {
+            _file = new FileInfo(_testInputPathOptional + "s264.xlsx");
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var stream = _file.OpenRead())
+                {
+                    memoryStream.Position = 0;
+                    stream.CopyTo(memoryStream);
+
+                    // If you are a commercial business and have
+                    // purchased commercial licenses use the static property
+                    // LicenseContext of the ExcelPackage class:
+                    ExcelPackage package = new ExcelPackage(memoryStream);
+
+                    //assign test value to the Excel Comments Property
+                    package.Workbook.Properties.Comments = "test";
+
+                    //get the content as byte array
+                    var byteArray = package.GetAsByteArray(); // **** This line throws error ****
+
+                    stream.Close();
+                    memoryStream.Close();
+                }
+            }
+        }
     }
 }
 
