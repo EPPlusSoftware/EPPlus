@@ -2810,33 +2810,24 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
         [TestMethod]
-        public void s264()
+        public void ChangeColorCandelStick()
         {
-            _file = new FileInfo(_testInputPathOptional + "s264.xlsx");
-            using (var memoryStream = new MemoryStream())
+            using (var package = OpenTemplatePackage("Candlestick Chart.xlsx"))
             {
-                using (var stream = _file.OpenRead())
-                {
-                    memoryStream.Position = 0;
-                    stream.CopyTo(memoryStream);
+                var ws = package.Workbook.Worksheets["Candlestick Chart"];
+                
+                var chart = ws.Drawings[0].As.Chart.StockChart;
+                
+                chart.HighLowLine.Border.Fill.Color = Color.Red;
+                chart.DownBar.Fill.Color = Color.Blue;
+                chart.UpBar.Fill.Color = Color.Green;
 
-                    // If you are a commercial business and have
-                    // purchased commercial licenses use the static property
-                    // LicenseContext of the ExcelPackage class:
-                    ExcelPackage package = new ExcelPackage(memoryStream);
-
-                    //assign test value to the Excel Comments Property
-                    package.Workbook.Properties.Comments = "test";
-
-                    //get the content as byte array
-                    var byteArray = package.GetAsByteArray(); // **** This line throws error ****
-
-                    stream.Close();
-                    memoryStream.Close();
-                }
+                SaveAndCleanup(package);
             }
         }
+
     }
 }
 
