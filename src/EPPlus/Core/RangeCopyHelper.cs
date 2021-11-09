@@ -166,7 +166,9 @@ namespace OfficeOpenXml.Core
                 var address = _sourceRange.Intersect(cfAddress);
                 var rowOffset = address._fromRow - _sourceRange._fromRow;
                 var colOffset = address._fromCol - _sourceRange._fromCol;
-                address = new ExcelAddressBase(_destination._fromRow + rowOffset, _destination._fromCol + colOffset, _destination._fromRow + address.Rows, _destination._fromCol + address.Columns);
+                var fr = Math.Min(Math.Max(_destination._fromRow + rowOffset, 1), ExcelPackage.MaxRows);
+                var fc = Math.Min(Math.Max(_destination._fromCol + colOffset, 1), ExcelPackage.MaxColumns);
+                address = new ExcelAddressBase(fr, fc, Math.Min(fr + address.Rows-1, ExcelPackage.MaxRows), Math.Min(fc + address.Columns-1, ExcelPackage.MaxColumns));
                 return address.Address;
             }
             return "";
@@ -189,11 +191,6 @@ namespace OfficeOpenXml.Core
             bool sameWorkbook = _destination._worksheet.Workbook == _sourceRange._worksheet.Workbook;
 
             AddValuesFormulasAndStyles(worksheet, includeStyles, styleCashe, sameWorkbook);
-
-            //if (includeStyles)
-            //{
-            //    AddStyles(worksheet, styleCashe, sameWorkbook);
-            //}
 
             if (includeComments)
             {
@@ -339,48 +336,6 @@ namespace OfficeOpenXml.Core
                 cell.ThreadedComment = worksheet._threadedComments[cse.Value];
             }
         }
-
-        private void AddStyles(ExcelWorksheet worksheet, Dictionary<int, int> styleCashe, bool sameWorkbook)
-        {
-            //Copy styles with no cell value
-            var cses = new CellStoreEnumerator<ExcelValue>(worksheet._values, _sourceRange._fromRow, _sourceRange._fromCol, _sourceRange._toRow, _sourceRange._toCol);
-            while (cses.Next())
-            {
-                if (!worksheet.ExistsValueInner(cses.Row, cses.Column))
-                {
-                    var row = _destination._fromRow + (cses.Row - _sourceRange._fromRow);
-                    var col = _destination._fromCol + (cses.Column - _sourceRange._fromRow);
-                    var cell = new CopiedCell
-                    {
-                        Row = row,
-                        Column = col,
-                        Value = null
-                    };
-
-                    var i = cses.Value._styleId;
-                    if (sameWorkbook)
-                    {
-                        cell.StyleID = i;
-                    }
-                    else
-                    {
-                        if (styleCashe.ContainsKey(i))
-                        {
-                            i = styleCashe[i];
-                        }
-                        else
-                        {
-                            var oldStyleID = i;
-                            i = _destination._worksheet.Workbook.Styles.CloneStyle(_sourceRange._worksheet.Workbook.Styles, i);
-                            styleCashe.Add(oldStyleID, i);
-                        }
-                        cell.StyleID = i;
-                    }
-                    _copiedCells.Add(ExcelCellBase.GetCellId(0, row, col), cell);
-                }
-            }
-        }
-
         private void CopyValuesToDestination()
         {
             int fromRow = _sourceRange._fromRow;
@@ -474,21 +429,8 @@ namespace OfficeOpenXml.Core
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Tile ||
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Pattern)
             {
-                //var relId = cell.Comment.Fill.PatternPictureSettings.RelId;
                 var img = cell.Comment.Fill.PatternPictureSettings.Image;                
                 c.Fill.PatternPictureSettings.Image = img;
-                //var container = (IPictureContainer)c.Fill.PatternPictureSettings;
-                //container.UriPic=  ((IPictureContainer)cell.Comment.Fill.PatternPictureSettings).UriPic;
-                
-                //if(destination._worksheet.VmlDrawings.Uri==null)
-                //{
-                //    var ws=destination._worksheet;
-                //    var id = ws.SheetId;
-                //    var pck = ws.Workbook._package.ZipPackage;
-                //    ws.VmlDrawings.Uri = XmlHelper.GetNewUri(pck, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
-                //    ws.VmlDrawings.Part = pck.CreatePart(ws.VmlDrawings.Uri, ContentTypes.contentTypeVml, _ws._package.Compression);
-                //}
-                //c.Fill.PatternPictureSettings.SaveImage();
             }
         }
 

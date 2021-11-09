@@ -2796,47 +2796,20 @@ namespace EPPlusTest
         [TestMethod]
         public void DvcfCopy()
         {
-            using (var package = OpenTemplatePackage("cfdv.xlsx"))
+            using (var p = OpenTemplatePackage("i527.xlsm"))
             {
 
-                ExcelWorksheet ws1 = package.Workbook.Worksheets["Sheet1"];
-                using (var p2 = new ExcelPackage())
-                {
-                    ExcelWorksheet ws2 = p2.Workbook.Worksheets.Add("Sheet2");
-                    ws1.Cells[4, 3, 7, 8].Copy(ws2.Cells["A1"]);
-                    SaveWorkbook("cfdv2.xlsx",p2);
-                }
+                // Fails when data validation is set
+                // Fails when conditional formatting is set.
+                var copyFrom1 = p.Workbook.Worksheets["CopyFrom"].Cells["A1:BR23"];
+                var copyTo1 = p.Workbook.Worksheets["CopyTo"].Cells["A:XFD"];
+                copyFrom1.Copy(copyTo1);
 
-                SaveAndCleanup(package);
+                SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void s264()
-        {
-            _file = new FileInfo(_testInputPathOptional + "s264.xlsx");
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var stream = _file.OpenRead())
-                {
-                    memoryStream.Position = 0;
-                    stream.CopyTo(memoryStream);
 
-                    // If you are a commercial business and have
-                    // purchased commercial licenses use the static property
-                    // LicenseContext of the ExcelPackage class:
-                    ExcelPackage package = new ExcelPackage(memoryStream);
 
-                    //assign test value to the Excel Comments Property
-                    package.Workbook.Properties.Comments = "test";
-
-                    //get the content as byte array
-                    var byteArray = package.GetAsByteArray(); // **** This line throws error ****
-
-                    stream.Close();
-                    memoryStream.Close();
-                }
-            }
-        }
     }
 }
 
