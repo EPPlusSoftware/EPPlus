@@ -82,6 +82,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
 
         internal static Color GetRgb(double h, double s, double l)
         {
+            //Created using formulas here...https://www.rapidtables.com/convert/color/hsl-to-rgb.html
             double r, g, b;
 
             if (h < 0) h = 0;

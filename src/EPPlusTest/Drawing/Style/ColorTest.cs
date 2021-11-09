@@ -151,5 +151,117 @@ namespace EPPlusTest.Drawing.Style
             rgb = ExcelDrawingHslColor.GetRgb(359, .79, .21);
             Assert.AreEqual(0xFF600B0D, (uint)rgb.ToArgb());            
         }
+        [TestMethod]
+        public void RgbToHsl()
+        {
+            double h, s, l;
+
+            ExcelDrawingRgbColor.GetHslColor(0, 0, 0, out h, out s, out l);
+            Assert.AreEqual(0, h);
+            Assert.AreEqual(0, s);
+            Assert.AreEqual(0, l);
+
+            ExcelDrawingRgbColor.GetHslColor(0xFF, 0xFF, 0xFF, out h, out s, out l);
+            Assert.AreEqual(0, h);
+            Assert.AreEqual(0, s);
+            Assert.AreEqual(1, l);
+
+            ExcelDrawingRgbColor.GetHslColor(0xFF, 0, 0, out h, out s, out l);
+            Assert.AreEqual(0, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.5, l);
+
+            //Lime 0x00FF00
+            ExcelDrawingRgbColor.GetHslColor(0, 0xFF,  0, out h, out s, out l);
+            Assert.AreEqual(120, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.5, l);
+
+            //Blue 0x0000FF
+            ExcelDrawingRgbColor.GetHslColor(0, 0, 0xFF, out h, out s, out l);
+            Assert.AreEqual(240, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.5, l);
+
+            //Yellow 0xFFFF00
+            ExcelDrawingRgbColor.GetHslColor(0xFF, 0xFF, 0, out h, out s, out l);
+            Assert.AreEqual(60, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.5, l);
+
+            //Cyan 0x00FFFF
+            ExcelDrawingRgbColor.GetHslColor(0, 0xFF, 0xFF, out h, out s, out l);
+            Assert.AreEqual(180, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.5, l);
+
+            //Magenta 0xFF00FF
+            ExcelDrawingRgbColor.GetHslColor(0xFF, 0, 0xFF, out h, out s, out l);
+            Assert.AreEqual(300, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.5, l);
+
+            //Silver BFBFBF
+            ExcelDrawingRgbColor.GetHslColor(0xBF, 0xBF, 0xBF, out h, out s, out l);
+            Assert.AreEqual(0, h);
+            Assert.AreEqual(0, s);
+            Assert.AreEqual(.749, Math.Round(l, 3));
+
+            //Gray 808080
+            ExcelDrawingRgbColor.GetHslColor(0x80, 0x80, 0x80, out h, out s, out l);
+            Assert.AreEqual(0, h);
+            Assert.AreEqual(0, s);
+            Assert.AreEqual(.502, Math.Round(l,3));
+
+            //Maroon 800000
+            ExcelDrawingRgbColor.GetHslColor(0x80, 0x00, 0x00, out h, out s, out l);
+            Assert.AreEqual(0, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.251, Math.Round(l, 3));
+
+            //Olive 808000
+            ExcelDrawingRgbColor.GetHslColor(0x80, 0x80, 0x00, out h, out s, out l);
+            Assert.AreEqual(60, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.251, Math.Round(l, 3));
+
+            //Green 008000
+            ExcelDrawingRgbColor.GetHslColor(0x0, 0x80, 0x00, out h, out s, out l);
+            Assert.AreEqual(120, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.251, Math.Round(l, 3));
+
+            //Purple 800080
+            ExcelDrawingRgbColor.GetHslColor(0x80, 0x0, 0x80, out h, out s, out l);
+            Assert.AreEqual(300, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.251, Math.Round(l, 3));
+
+            //Teal 008080
+            ExcelDrawingRgbColor.GetHslColor(0x0, 0x80, 0x80, out h, out s, out l);
+            Assert.AreEqual(180, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.251, Math.Round(l, 3));
+
+            //Teal 000080
+            ExcelDrawingRgbColor.GetHslColor(0x0, 0x0, 0x80, out h, out s, out l);
+            Assert.AreEqual(240, h);
+            Assert.AreEqual(1, s);
+            Assert.AreEqual(.251, Math.Round(l, 3));
+
+
+            //43, 58%, 73%
+            ExcelDrawingRgbColor.GetHslColor(0xE2, 0xCB, 0x92, out h, out s, out l);
+            Assert.AreEqual(43, Math.Round(h,0));
+            Assert.AreEqual(.58, Math.Round(s,2));
+            Assert.AreEqual(.73, Math.Round(l, 2));
+
+            //359, 79%, 21%
+            ExcelDrawingRgbColor.GetHslColor(0x60, 0x0B, 0x0D, out h, out s, out l);
+            Assert.AreEqual(359, Math.Round(h, 0));
+            Assert.AreEqual(.79, Math.Round(s, 2));
+            Assert.AreEqual(.21, Math.Round(l, 2));
+
+        }
     }
 }

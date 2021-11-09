@@ -5,6 +5,7 @@ using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -50,53 +51,74 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private string GetDxfColor(Style.Dxf.ExcelDxfColor c)
         {
+            Color ret;
             if(c.Color.HasValue)
             {
-                return "#" + c.Color.Value.ToArgb().ToString("x");
+                ret = c.Color.Value;
             }
             else if(c.Theme.HasValue)
             {
-                return GetThemeColor(c.Theme.Value);
+                ret = GetThemeColor(c.Theme.Value);
+            }
+            else if (c.Index.HasValue)
+            {
+                ret=ExcelColor.GetIndexedColor(c.Index.Value);
+            }
+            else
+            {
+                //Automatic, set to black.
+                ret = Color.Black;
             }
             if (c.Tint.HasValue)
             {
-                
+                ret = ApplyTint(ret, c.Tint.Value);
             }
-            return null;
+            return "#" + ret.ToArgb().ToString("x");
         }
 
-        private string GetThemeColor(eThemeSchemeColor tc)
+        private Color ApplyTint(Color ret, double? tint)
+        {
+            return ret;
+        }
+
+        private Color GetThemeColor(eThemeSchemeColor tc)
         {
             var t = _table.WorkSheet.Workbook.ThemeManager.CurrentTheme;
             var cm = t.ColorScheme.GetColorByEnum(tc);
             return GetThemeColor(cm);
         }
 
-        private string GetThemeColor(ExcelDrawingThemeColorManager cm)
+        private Color GetThemeColor(ExcelDrawingThemeColorManager cm)
         {
-            switch(cm.ColorType)
+            Color color;
+            switch (cm.ColorType)
             {
                 case eDrawingColorType.Rgb:
-                    return "#" + cm.RgbColor.Color.ToArgb().ToString("x");
+                    color = cm.RgbColor.Color;
+                    break;
                 case eDrawingColorType.Preset:
-                    return cm.PresetColor.Color.ToString();
+                    color = Color.FromName(cm.PresetColor.Color.ToString());
+                    break;
                 case eDrawingColorType.System:
-                    var c = cm.SystemColor.GetColor();
-                    return "#" + cm.RgbColor.Color.ToArgb().ToString("x");
+                    color = cm.SystemColor.GetColor();
+                    break;
                 case eDrawingColorType.RgbPercentage:
                     var rp = cm.RgbPercentageColor;
-                    return "#" + System.Drawing.Color.FromArgb(GetRgpPercentToRgb(rp.RedPercentage),
-                                                         GetRgpPercentToRgb(rp.GreenPercentage),
-                                                         GetRgpPercentToRgb(rp.BluePercentage)).ToArgb().ToString("x");
+                    color = Color.FromArgb(GetRgpPercentToRgb(rp.RedPercentage),
+                                   GetRgpPercentToRgb(rp.GreenPercentage),
+                                   GetRgpPercentToRgb(rp.BluePercentage));
+                    break;
                 case eDrawingColorType.Hsl:
-                    return "#" + cm.HslColor.GetRgbColor().ToArgb().ToString("x");
-                    
-                
+                    color = cm.HslColor.GetRgbColor();
+                    break;
                 default:
-                    return null;
-
-                    
+                    color = Color.Empty;
+                    break;
             }
+
+            //TODO:Apply Transforms
+
+            return color;
         }
 
         private int GetRgpPercentToRgb(double percentage)
