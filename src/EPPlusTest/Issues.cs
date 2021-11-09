@@ -2796,37 +2796,19 @@ namespace EPPlusTest
         [TestMethod]
         public void DvcfCopy()
         {
-            using (var package = OpenTemplatePackage("cfdv.xlsx"))
+            using (var p = OpenTemplatePackage("i527.xlsm"))
             {
 
-                ExcelWorksheet ws1 = package.Workbook.Worksheets["Sheet1"];
-                using (var p2 = new ExcelPackage())
-                {
-                    ExcelWorksheet ws2 = p2.Workbook.Worksheets.Add("Sheet2");
-                    ws1.Cells[4, 3, 7, 8].Copy(ws2.Cells["A1"]);
-                    SaveWorkbook("cfdv2.xlsx",p2);
-                }
+                // Fails when data validation is set
+                // Fails when conditional formatting is set.
+                var copyFrom1 = p.Workbook.Worksheets["CopyFrom"].Cells["A1:BR23"];
+                var copyTo1 = p.Workbook.Worksheets["CopyTo"].Cells["A:XFD"];
+                copyFrom1.Copy(copyTo1);
 
-                SaveAndCleanup(package);
+                SaveAndCleanup(p);
             }
         }
 
-        [TestMethod]
-        public void ChangeColorCandelStick()
-        {
-            using (var package = OpenTemplatePackage("Candlestick Chart.xlsx"))
-            {
-                var ws = package.Workbook.Worksheets["Candlestick Chart"];
-                
-                var chart = ws.Drawings[0].As.Chart.StockChart;
-                
-                chart.HighLowLine.Border.Fill.Color = Color.Red;
-                chart.DownBar.Fill.Color = Color.Blue;
-                chart.UpBar.Fill.Color = Color.Green;
-
-                SaveAndCleanup(package);
-            }
-        }
 
     }
 }
