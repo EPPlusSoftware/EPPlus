@@ -20,24 +20,20 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// <summary>
     /// 
     /// </summary>
-    public class HtmlTableExportOptions
+    public class HtmlTableExportOptions : HtmlTableExportBaseOptions
     {
-        internal HtmlTableExportOptions() { }
+        internal HtmlTableExportOptions() : base() { }
 
-        /// <summary>
-        /// Creates a new instance with default values set.
-        /// </summary>
-        /// <returns></returns>
         public static HtmlTableExportOptions Create()
         {
             var defaultOptions = new HtmlTableExportOptions
             {
                 IncludeDefaultClasses = true,
-                FormatHtml = true
+                Minify = true,
+                IncludeCss = true
             };
-            return defaultOptions;
+            return defaultOptions;            
         }
-
         internal static HtmlTableExportOptions Default
         {
             get { return Create(); }
@@ -54,13 +50,31 @@ namespace OfficeOpenXml.Export.HtmlExport
         public string TableId { get; set; }
 
         /// <summary>
-        /// If set to true the rendered html will be formatted with indents and linebreaks.
-        /// </summary>
-        public bool FormatHtml { get; set; }
-
-        /// <summary>
         /// If true data-* attributes will be rendered
         /// </summary>
         public bool RenderDataAttributes { get; set; }
+        public bool IncludeCss { get; set; }
+    }
+    public class CssTableExportOptions : HtmlTableExportBaseOptions
+    {
+        public static CssTableExportOptions Create()
+        {
+            var defaultOptions = new CssTableExportOptions
+            {
+                Minify = true
+            };
+            return defaultOptions;
+        }
+        internal static CssTableExportOptions Default
+        {
+            get { return Create(); }
+        }
+    }
+    public abstract class HtmlTableExportBaseOptions
+    {
+        /// <summary>
+        /// If set to true the rendered html will be formatted with indents and linebreaks.
+        /// </summary>
+        public bool Minify { get; set; } = true;
     }
 }

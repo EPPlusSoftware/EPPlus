@@ -23,6 +23,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         public const string Table = "table";
         public const string Thead = "thead";
+        public const string TFoot = "tfoot";
         public const string Tbody = "tbody";
         public const string TableRow = "tr";
         public const string TableHeader = "th";

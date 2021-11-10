@@ -64,13 +64,13 @@ namespace OfficeOpenXml.Drawing.Theme
                 case eThemeSchemeColor.Accent6:
                     return Accent6;
                 case eThemeSchemeColor.Background1:
-                    return Dark1;
-                case eThemeSchemeColor.Background2:
-                    return Dark2;
-                case eThemeSchemeColor.Text1:
                     return Light1;
-                case eThemeSchemeColor.Text2:
+                case eThemeSchemeColor.Background2:
                     return Light2;
+                case eThemeSchemeColor.Text1:
+                    return Dark1;
+                case eThemeSchemeColor.Text2:
+                    return Dark2;
                 case eThemeSchemeColor.Hyperlink:
                     return Hyperlink;
                 case eThemeSchemeColor.FollowedHyperlink:

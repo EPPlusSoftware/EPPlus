@@ -68,6 +68,10 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             GetHslColor(Color.R, Color.G, Color.B, out hue, out saturation, out luminance);
         }
 
+        internal static void GetHslColor(Color c, out double hue, out double saturation, out double luminance)
+        {
+            GetHslColor(c.R, c.G, c.B, out hue, out saturation, out luminance);
+        }
         internal static void GetHslColor(byte red, byte green, byte blue, out double hue, out double saturation, out double luminance)
         {
             //Created using formulas here...https://www.rapidtables.com/convert/color/rgb-to-hsl.html

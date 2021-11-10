@@ -48,26 +48,26 @@ namespace OfficeOpenXml.Export.HtmlExport
             _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName, Value = attributeValue });
         }
 
-        internal void ApplyFormat(bool formatHtml)
+        internal void ApplyFormat(bool minify)
         {
-            if (formatHtml)
+            if (minify == false)
             {
                 WriteLine();
             }
         }
 
-        internal void ApplyFormatIncreaseIndent(bool formatHtml)
+        internal void ApplyFormatIncreaseIndent(bool minify)
         {
-            if (formatHtml)
+            if (minify==false)
             {
                 WriteLine();
                 Indent++;
             }
         }
 
-        internal void ApplyFormatDecreaseIndent(bool formatHtml)
+        internal void ApplyFormatDecreaseIndent(bool minify)
         {
-            if (formatHtml)
+            if (minify == false)
             {
                 WriteLine();
                 Indent--;

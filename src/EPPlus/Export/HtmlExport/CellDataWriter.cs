@@ -25,9 +25,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             writer.RenderBeginTag(HtmlElements.TableData);
             // TODO: apply format    
-            writer.Write(cell.Value.ToString());
+            writer.Write(cell.Text);
             writer.RenderEndTag();
-            writer.ApplyFormat(options.FormatHtml);
+            writer.ApplyFormat(options.Minify);
         }
     }
 }

@@ -261,7 +261,7 @@ namespace EPPlusTest.Drawing.Style
             Assert.AreEqual(359, Math.Round(h, 0));
             Assert.AreEqual(.79, Math.Round(s, 2));
             Assert.AreEqual(.21, Math.Round(l, 2));
-
         }
+
     }
 }

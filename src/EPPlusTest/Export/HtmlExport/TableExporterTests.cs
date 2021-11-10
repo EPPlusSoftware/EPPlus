@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Export.HtmlExport
 {
     [TestClass]
-    public class TableExporterTests
+    public class TableExporterTests : TestBase
     {
 #if !NET35 && !NET40
         [TestMethod]
@@ -61,6 +61,31 @@ namespace EPPlusTest.Export.HtmlExport
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
+                }
+            }
+        }
+
+        [TestMethod]
+        public void ExportAllTableStyles()
+        {
+            using (var p=OpenPackage("TableStylesToHtml.xlsx", true))
+            {
+                foreach(TableStyles e in Enum.GetValues(typeof(TableStyles)))
+                {
+                    if (!(e == TableStyles.Custom || e == TableStyles.None))
+                    {
+                        var ws = p.Workbook.Worksheets.Add(e.ToString());
+                        LoadTestdata(ws);
+                        var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{e}");
+                        tbl.TableStyle = e;
+
+                        var options = HtmlTableExportOptions.Create();
+                        var tblHtml = tbl.HtmlExporter.GetHtmlString();
+                        var css = tbl.HtmlExporter.GetCssString();
+
+                        var html = $"<html><head><style>{css}</style></head><body>{tblHtml}</body></html>";
+                        File.WriteAllText($"c:\\temp\\tablestyles\\table-{tbl.StyleName}.html", html);
+                    }
                 }
             }
         }
