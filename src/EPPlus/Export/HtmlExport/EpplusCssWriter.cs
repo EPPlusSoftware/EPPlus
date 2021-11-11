@@ -9,6 +9,8 @@ using OfficeOpenXml.Table;
 using System.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style.Dxf;
+using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
+
 namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class EpplusCssWriter
@@ -34,8 +36,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer = new StreamWriter(stream);
         }
         internal int Indent { get; set; }
-
-        internal void RenderCss() 
+        internal void RenderGenericCss()
+        {
+            _writer.Write("table.epplus-table{border-spacing:0px;border-collapse:collapse;font-family:calibri;font-size:11pt}");
+        }
+        internal void RenderCss(List<string> datatypes) 
         {
             ExcelTableNamedStyle tblStyle;
             if (_table.TableStyle == TableStyles.Custom)
@@ -50,68 +55,160 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             var tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}";
+            AddAlignmentToCss($"{tableClass}", datatypes);
             AddToCss($"{tableClass}", tblStyle.WholeTable, "");
+            AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
 
-            if(_table.ShowHeader)
+            if (_table.ShowHeader)
             {
                 AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead tr th");
-                AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:nth-child(1)");
+                AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
                 if (_table.Columns.Count > 1)
                 {
-                    AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:nth-child({_table.Columns.Count})");
+                    AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
                 }
             }
 
             if (_table.ShowTotal)
             {
                 AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot tr td");
-                AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:nth-child(1)");
+                AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
                 if (_table.Columns.Count > 1)
                 {
-                    AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:nth-child({_table.Columns.Count})");
+                    AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
                 }
-            }
-
-            if (_table.ShowFirstColumn)
-            {
-                AddToCss($"{tableClass}", tblStyle.FirstColumn, " tbody tr td:nth-child(1)");                
-            }
-
-            if (_table.ShowLastColumn && _table.Columns.Count > 1)
-            {
-                AddToCss($"{tableClass}", tblStyle.FirstColumn, $" tbody tr td:nth-child({_table.Columns.Count})");
             }
 
             if(_table.ShowColumnStripes)
             {
                 AddToCss($"{tableClass}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
-                AddToCss($"{tableClass}", tblStyle.SecondColumnStripe.Style.HasValue ? tblStyle.SecondColumnStripe : tblStyle.WholeTable, $" tbody tr td:nth-child(even)");
+                if(tblStyle.SecondColumnStripe.Style.HasValue)
+                {
+                    AddToCss($"{tableClass}",  tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
+                }
+                else
+                {
+                    AddToCss($"{tableClass}", tblStyle.WholeTable, $" tbody tr td:nth-child(even)", true, true, false);
+                }
             }
 
             if (_table.ShowRowStripes)
             {
                 AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd) td");
-                AddToCss($"{tableClass}", tblStyle.SecondRowStripe.Style.HasValue ? tblStyle.SecondRowStripe : tblStyle.WholeTable, " tbody tr:nth-child(even) td");
+                if(tblStyle.SecondRowStripe.Style.HasValue)
+                {
+                    AddToCss($"{tableClass}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even) td");
+                }
+                else
+                {
+                    AddToCss($"{tableClass}", tblStyle.WholeTable, " tbody tr:nth-child(even) td", true, true, false);
+                }
             }
             else
             {
                 AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " thead tr td");
             }
 
+            if (_table.ShowLastColumn && _table.Columns.Count > 1)
+            {
+                AddToCss($"{tableClass}", tblStyle.LastColumn, $" tbody tr td:last-child");
+            }
+
+            if (_table.ShowFirstColumn)
+            {
+                AddToCss($"{tableClass}", tblStyle.FirstColumn, " tbody tr td:first-child");
+            }
+
             _writer.Flush();
         }
-        private void AddToCss(string name, ExcelTableStyleElement element, string htmlElement)
+
+        private void AddAlignmentToCss(string name, List<string> dataTypes)
+        {
+            var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
+            for (int c=0;c < _table.Columns.Count;c++)
+            {
+                var col = _table.Address._fromCol + c;
+                var styleId = _table.WorkSheet.GetStyleInner(row, col);
+                string hAlign = "";
+                string vAlign = "";
+                if(styleId>0)
+                {
+                    var xfs = _table.WorkSheet.Workbook.Styles.CellXfs[styleId];
+                    if(xfs.ApplyAlignment)
+                    {
+                        switch(xfs.HorizontalAlignment)
+                        {
+                            case ExcelHorizontalAlignment.Right:
+                                hAlign = "right";
+                                break;
+                            case ExcelHorizontalAlignment.Center:
+                            case ExcelHorizontalAlignment.CenterContinuous:
+                                hAlign = "center";
+                                break;
+                            case ExcelHorizontalAlignment.Left:
+                                hAlign = "left";
+                                break;
+                        }
+                        switch(xfs.VerticalAlignment)
+                        {
+                            case ExcelVerticalAlignment.Top:
+                                vAlign = "top";
+                                break;
+                            case ExcelVerticalAlignment.Center:
+                                vAlign = "middle";
+                                break;
+                            case ExcelVerticalAlignment.Bottom:
+                                vAlign = "bottom";
+                                break;
+                        }
+                    }
+                }
+
+                if(string.IsNullOrEmpty(hAlign))
+                {
+                    if (dataTypes[c] == HtmlDataTypes.Number)
+                    {
+                        hAlign = "right";
+                    }
+                }
+
+                if(!(string.IsNullOrEmpty(hAlign) && string.IsNullOrEmpty(vAlign)))
+                {                    
+                    _writer.Write($"table.{name} td,th:nth-child({col+1})");
+                    _writer.Write("{");
+                    if (string.IsNullOrEmpty(hAlign)==false)
+                    {
+                        _writer.Write($"text-align:{hAlign};");
+                    }
+                    if (string.IsNullOrEmpty(vAlign) == false)
+                    {
+                        _writer.Write($"vertical-align:{vAlign};");
+                    }
+                    _writer.Write("}");
+                }
+            }
+        }
+
+        private void AddToCss(string name, ExcelTableStyleElement element, string htmlElement, bool writeFill = true, bool writeFont = true, bool writeBorder=true)
         {
             var s = element.Style;
             if (s.HasValue == false) return; //Dont add empty elements
             _writer.Write($"table.{name}{htmlElement}");
             _writer.Write("{");
-            WriteFillStyles(s.Fill);
-            WriteFontStyles(s.Font);
-            WriteBorderStyles(s.Border);
+            if (writeFill) WriteFillStyles(s.Fill);
+            if (writeFont) WriteFontStyles(s.Font);
+            if (writeBorder) WriteBorderStyles(s.Border);
             _writer.Write("}");
         }
-
+        private void AddToCssBorderVH(string name, ExcelTableStyleElement element, string htmlElement)
+        {
+            var s = element.Style;
+            if (s.Border.Vertical.HasValue == false && s.Border.Horizontal.HasValue==false) return; //Dont add empty elements
+            _writer.Write($"table.{name}{htmlElement} td,tr");
+            _writer.Write("{");
+            WriteBorderStylesVerticalHorizontal(s.Border);
+            _writer.Write("}");
+        }
         private void WriteFillStyles(ExcelDxfFill f)
         {
             if (f.HasValue)
@@ -179,6 +276,16 @@ namespace OfficeOpenXml.Export.HtmlExport
                 WriteBorderItem(b.Bottom, "bottom");
                 WriteBorderItem(b.Left, "left");
                 WriteBorderItem(b.Right, "right");
+            }
+        }
+        private void WriteBorderStylesVerticalHorizontal(ExcelDxfBorderBase b)
+        {
+            if (b.HasValue)
+            {
+                WriteBorderItem(b.Vertical, "top");
+                WriteBorderItem(b.Vertical, "bottom");
+                WriteBorderItem(b.Horizontal, "left");
+                WriteBorderItem(b.Horizontal, "right");
             }
         }
 
@@ -268,7 +375,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 else if (tint > 0)
                 {
                     //l = (1-l)*tint;
-                    l = 1 - l * (1 - tint);
+                    //l = 1 - l * (1 - tint);
+                    l += (1-l) * tint;
                 }
                 return ExcelDrawingHslColor.GetRgb(h, s, l);
             }

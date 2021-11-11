@@ -87,6 +87,35 @@ namespace EPPlusTest.Export.HtmlExport
                         File.WriteAllText($"c:\\temp\\tablestyles\\table-{tbl.StyleName}.html", html);
                     }
                 }
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void ExportAllFirstLastTableStyles()
+        {
+            using (var p = OpenPackage("TableStylesToHtmlFirstLastCol.xlsx", true))
+            {
+                foreach (TableStyles e in Enum.GetValues(typeof(TableStyles)))
+                {
+                    if (!(e == TableStyles.Custom || e == TableStyles.None))
+                    {
+                        var ws = p.Workbook.Worksheets.Add(e.ToString());
+                        LoadTestdata(ws);
+                        var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{e}");
+                        tbl.ShowFirstColumn = true;
+                        tbl.ShowLastColumn = true;
+                        tbl.TableStyle = e;
+
+                        var options = HtmlTableExportOptions.Create();
+                        var tblHtml = tbl.HtmlExporter.GetHtmlString();
+                        var css = tbl.HtmlExporter.GetCssString();
+
+                        var html = $"<html><head><style>{css}</style></head><body>{tblHtml}</body></html>";
+                        File.WriteAllText($"c:\\temp\\tablestyles\\firstLast\\table-{tbl.StyleName}.html", html);
+                    }
+                }
+                SaveAndCleanup(p);
             }
         }
     }

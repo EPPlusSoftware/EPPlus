@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
                     // TODO: apply format
-                    await writer.WriteAsync(cell.Value.ToString());
+                    await writer.WriteAsync(cell.Text);
                     await writer.RenderEndTagAsync();
                     await writer.ApplyFormatAsync(formatHtml);
 
@@ -133,10 +133,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
                 // TODO: apply format
-                await writer.WriteAsync(cell.Value.ToString());
+                await writer.WriteAsync(cell.Text);
                 await writer.RenderEndTagAsync();
                 await writer.ApplyFormatAsync(formatHtml);
-
             }
             writer.Indent--;
             await writer.RenderEndTagAsync();

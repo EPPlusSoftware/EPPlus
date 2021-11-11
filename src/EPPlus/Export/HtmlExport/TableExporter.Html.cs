@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         private const string TableClass = "epplus-table";
         private const string TableStyleClassPrefix = "epplus-tablestyle-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
-
+        internal List<string> _datatypes = new List<string>();
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
@@ -78,6 +78,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
+
+            GetDataTypes(_table.Address);
 
             var writer = new EpplusHtmlWriter(stream);
 
@@ -141,28 +143,35 @@ namespace OfficeOpenXml.Export.HtmlExport
         private void RenderHeaderRow(EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
             // table header row
-            var rowIndex = _table.Address._fromRow;
             writer.RenderBeginTag(HtmlElements.Thead);
             writer.ApplyFormatIncreaseIndent(options.Minify);
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(options.Minify);
-            var headerRange = _table.WorkSheet.Cells[rowIndex, _table.Address._fromCol, rowIndex, _table.Address._toCol];
-            var col = 1;
-            foreach (var cell in headerRange)
+            var adr = _table.Address;
+            var row = adr._fromRow;
+            for (int col = adr._fromCol;col <= adr._toCol; col++)
             {
-                var dataType = ColumnDataTypeManager.GetColumnDataType(_table.WorkSheet, _table.Range, 2, col++);
-                writer.AddAttribute("data-datatype", dataType);
+                writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
                 writer.RenderBeginTag(HtmlElements.TableHeader);
-                writer.Write(cell.Text);
+                writer.Write(_table.WorkSheet.Cells[row, col].Text);
                 writer.RenderEndTag();
                 writer.ApplyFormat(options.Minify);
-
             }
             writer.Indent--;
             writer.RenderEndTag();
             writer.ApplyFormatDecreaseIndent(options.Minify);
             writer.RenderEndTag();
             writer.ApplyFormat(options.Minify);
+        }
+
+        private void GetDataTypes(ExcelAddressBase adr)
+        {
+            _datatypes = new List<string>();
+            for (int col = adr._fromCol; col <= adr._toCol; col++)
+            {
+                _datatypes.Add(
+                    ColumnDataTypeManager.GetColumnDataType(_table.WorkSheet, _table.Range, 2, col));
+            }
         }
         private void RenderTotalRow(EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
@@ -175,13 +184,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             var address = _table.Address;
             for (var col= address._fromCol;col<= address._toCol;col++)
             {
-                //var dataType = ColumnDataTypeManager.GetColumnDataType(_table.WorkSheet, _table.Range, 2, col++);
-                //writer.AddAttribute("data-datatype", dataType);
                 writer.RenderBeginTag(HtmlElements.TableData);
                 writer.Write(_table.WorkSheet.Cells[rowIndex, col].Text);
                 writer.RenderEndTag();
                 writer.ApplyFormat(options.Minify);
-
             }
             writer.Indent--;
             writer.RenderEndTag();
@@ -189,8 +195,5 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(options.Minify);
         }
-
-
-
     }
 }
