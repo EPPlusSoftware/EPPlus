@@ -83,13 +83,17 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             var writer = new EpplusHtmlWriter(stream);
 
-            if (_table.TableStyle != TableStyles.None)
+            if(_table.TableStyle == TableStyles.Custom)
             {
-                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.TableStyle.ToString().ToLowerInvariant()}");
+                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.StyleName.ToString().ToLowerInvariant()}");
+            }
+            else if (_table.TableStyle == TableStyles.None)
+            {
+                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
             }
             else
             {
-                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
+                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.TableStyle.ToString().ToLowerInvariant()}");
             }
             if(!string.IsNullOrEmpty(options.TableId))
             {
@@ -112,6 +116,20 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
 
         }
+        internal string GetSinglePage(string htmlDocument = "<html><head><style>{1}</style></head><body>{0}</body></html>")
+        {
+            return GetSinglePage(HtmlTableExportOptions.Default, CssTableExportOptions.Default, htmlDocument);
+        }
+
+        internal string GetSinglePage(HtmlTableExportOptions htmlOptions,
+                                    CssTableExportOptions cssOptions,
+                                    string htmlDocument = "<html><head><style>{1}</style></head><body>{0}</body></html>")
+        {
+            var html = GetHtmlString(htmlOptions);
+            var css = GetCssString(cssOptions);
+            return string.Format(htmlDocument, html, css);
+
+        }
 
         private void RenderTableRows(EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
@@ -123,10 +141,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(options.Minify);
-                var tableRange = _table.WorkSheet.Cells[row, _table.Address._fromCol, row, _table.Address._toCol];
-                foreach (var cell in tableRange)
+                //var tableRange = _table.WorkSheet.Cells[row, _table.Address._fromCol, row, _table.Address._toCol];
+                for (int col = _table.Address._fromCol; col <= _table.Address._toCol; col++)
                 {
-                    _cellDataWriter.Write(cell, writer, options);
+                    _cellDataWriter.Write(_table.WorkSheet.Cells[row, col], writer, options);
                 }
                 // end tag tr
                 writer.Indent--;

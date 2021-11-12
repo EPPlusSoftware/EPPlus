@@ -30,7 +30,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 IncludeDefaultClasses = true,
                 Minify = true,
-                IncludeCss = true
             };
             return defaultOptions;            
         }

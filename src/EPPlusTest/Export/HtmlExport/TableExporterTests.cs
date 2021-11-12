@@ -5,10 +5,8 @@ using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Drawing;
+using OfficeOpenXml.Style;
 namespace EPPlusTest.Export.HtmlExport
 {
     [TestClass]
@@ -68,6 +66,8 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ExportAllTableStyles()
         {
+            string path = _worksheetPath + "TableStyles";
+            CreatePathIfNotExists(path);
             using (var p=OpenPackage("TableStylesToHtml.xlsx", true))
             {
                 foreach(TableStyles e in Enum.GetValues(typeof(TableStyles)))
@@ -79,12 +79,9 @@ namespace EPPlusTest.Export.HtmlExport
                         var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{e}");
                         tbl.TableStyle = e;
 
-                        var options = HtmlTableExportOptions.Create();
-                        var tblHtml = tbl.HtmlExporter.GetHtmlString();
-                        var css = tbl.HtmlExporter.GetCssString();
+                        var html = tbl.HtmlExporter.GetSinglePage();
 
-                        var html = $"<html><head><style>{css}</style></head><body>{tblHtml}</body></html>";
-                        File.WriteAllText($"c:\\temp\\tablestyles\\table-{tbl.StyleName}.html", html);
+                        File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                     }
                 }
                 SaveAndCleanup(p);
@@ -94,6 +91,8 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ExportAllFirstLastTableStyles()
         {
+            string path = _worksheetPath + "TableStylesFirstLast";
+            CreatePathIfNotExists(path);
             using (var p = OpenPackage("TableStylesToHtmlFirstLastCol.xlsx", true))
             {
                 foreach (TableStyles e in Enum.GetValues(typeof(TableStyles)))
@@ -107,16 +106,38 @@ namespace EPPlusTest.Export.HtmlExport
                         tbl.ShowLastColumn = true;
                         tbl.TableStyle = e;
 
-                        var options = HtmlTableExportOptions.Create();
-                        var tblHtml = tbl.HtmlExporter.GetHtmlString();
-                        var css = tbl.HtmlExporter.GetCssString();
+                        var html = tbl.HtmlExporter.GetSinglePage();
 
-                        var html = $"<html><head><style>{css}</style></head><body>{tblHtml}</body></html>";
-                        File.WriteAllText($"c:\\temp\\tablestyles\\firstLast\\table-{tbl.StyleName}.html", html);
+                        File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                     }
                 }
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void ExportAllCustomTableStyles()
+        {
+            string path = _worksheetPath + "TableStylesCustomFills";
+            CreatePathIfNotExists(path);
+            using (var p = OpenPackage("TableStylesToHtmlPatternFill.xlsx", true))
+            {
+                foreach (ExcelFillStyle fs in Enum.GetValues(typeof(ExcelFillStyle)))
+                {
+                    var ws = p.Workbook.Worksheets.Add($"PatterFill-{fs}");
+                    LoadTestdata(ws);
+                    var ts = p.Workbook.Styles.CreateTableStyle($"CustomPattern-{fs}", TableStyles.Medium9);
+                    ts.FirstRowStripe.Style.Fill.Style = eDxfFillStyle.PatternFill;
+                    ts.FirstRowStripe.Style.Fill.PatternType = fs;
+                    ts.FirstRowStripe.Style.Fill.PatternColor.Tint=0.10;
+                    var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{fs}");
+                    tbl.StyleName = ts.Name;
+
+                    var html = tbl.HtmlExporter.GetSinglePage();
+                    File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
+                }
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

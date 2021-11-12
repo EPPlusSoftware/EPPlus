@@ -154,14 +154,17 @@ namespace EPPlusTest
             return p;
         }
 
-        private static void CreateWorksheetPathIfNotExists()
+        static void CreateWorksheetPathIfNotExists()
         {
-            if (!Directory.Exists(_worksheetPath))
+            CreatePathIfNotExists(_worksheetPath);
+        }
+        protected static void CreatePathIfNotExists(string path)
+        {
+            if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(_worksheetPath);
+                Directory.CreateDirectory(path);
             }
         }
-
         protected static ExcelPackage OpenTemplatePackage(string name)
         {
             var t = new FileInfo(_testInputPath  + name);

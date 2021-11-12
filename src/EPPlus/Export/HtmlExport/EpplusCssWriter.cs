@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Style;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  11/07/2021         EPPlus Software AB       Added Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Table;
 using System;
 using System.Collections.Generic;
@@ -10,6 +22,7 @@ using System.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style.Dxf;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
+using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -215,9 +228,79 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (f.Style == eDxfFillStyle.PatternFill)
                 {
-                    _writer.Write($"background-color:{GetDxfColor(f.PatternColor)};");
+                    if (f.PatternType.Value==ExcelFillStyle.Solid)
+                    {
+                        _writer.Write($"background-color:{GetDxfColor(f.BackgroundColor)};");
+                    }
+                    else
+                    {
+                        _writer.Write($"{GetPatternSvg(f)};");
+                    }
                 }
             }
+        }
+
+        private object GetPatternSvg(ExcelDxfFill f)
+        {
+            string svg;
+            switch(f.PatternType)
+            {
+                case ExcelFillStyle.DarkGray:
+                    svg = string.Format(PatternFills.Dott75, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.MediumGray:
+                    svg = string.Format(PatternFills.Dott50, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.LightGray:
+                    svg = string.Format(PatternFills.Dott25, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.Gray125:
+                    svg=string.Format(PatternFills.Dott12_5, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.Gray0625:
+                    svg = string.Format(PatternFills.Dott6_25, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.DarkHorizontal:
+                    svg = string.Format(PatternFills.HorizontalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.DarkVertical:
+                    svg = string.Format(PatternFills.VerticalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.LightHorizontal:
+                    svg = string.Format(PatternFills.ThinHorizontalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.LightVertical:
+                    svg = string.Format(PatternFills.ThinVerticalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.DarkDown:
+                    svg = string.Format(PatternFills.ReverseDiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.DarkUp:
+                    svg = string.Format(PatternFills.DiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.LightDown:
+                    svg = string.Format(PatternFills.ThinReverseDiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.LightUp:
+                    svg = string.Format(PatternFills.ThinDiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.DarkGrid:
+                    svg = string.Format(PatternFills.DiagonalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.DarkTrellis:
+                    svg = string.Format(PatternFills.ThickDiagonalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.LightGrid:
+                    svg = string.Format(PatternFills.ThinHorizontalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                case ExcelFillStyle.LightTrellis:
+                    svg = string.Format(PatternFills.ThinDiagonalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
+                    break;
+                default:
+                    return "";
+            }
+            
+            return $"background-repeat:repeat;background:url(data:image/svg+xml;base64,{Convert.ToBase64String(Encoding.ASCII.GetBytes(svg))});";
         }
 
         private void WriteFontStyles(ExcelDxfFontBase f)
