@@ -46,6 +46,39 @@ namespace OfficeOpenXml.Drawing.Theme
                 return _dk1;
             }
         }
+
+        internal ExcelDrawingThemeColorManager GetColorByEnum(eThemeSchemeColor color)
+        {
+            switch(color)
+            {
+                case eThemeSchemeColor.Accent1:
+                    return Accent1;
+                case eThemeSchemeColor.Accent2:
+                    return Accent2;
+                case eThemeSchemeColor.Accent3:
+                    return Accent3;
+                case eThemeSchemeColor.Accent4:
+                    return Accent4;
+                case eThemeSchemeColor.Accent5:
+                    return Accent5;
+                case eThemeSchemeColor.Accent6:
+                    return Accent6;
+                case eThemeSchemeColor.Background1:
+                    return Light1;
+                case eThemeSchemeColor.Background2:
+                    return Light2;
+                case eThemeSchemeColor.Text1:
+                    return Dark1;
+                case eThemeSchemeColor.Text2:
+                    return Dark2;
+                case eThemeSchemeColor.Hyperlink:
+                    return Hyperlink;
+                case eThemeSchemeColor.FollowedHyperlink:
+                    return FollowedHyperlink;                
+            }
+            throw(new ArgumentOutOfRangeException($"Type {color} is unhandled."));
+        }
+
         const string Dk2Path = "a:dk2";
         ExcelDrawingThemeColorManager _dk2 = null;
         /// <summary>

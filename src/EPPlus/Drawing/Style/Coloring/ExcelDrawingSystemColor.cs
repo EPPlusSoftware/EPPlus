@@ -78,6 +78,73 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
                     }                    
             }
         }
+
+        internal Color GetColor()
+        {
+            switch (Color)
+            {
+                case eSystemColor.ActiveBorder:
+                    return SystemColors.ActiveBorder;
+                case eSystemColor.ActiveCaption:
+                    return SystemColors.ActiveCaption;
+                case eSystemColor.AppWorkspace:
+                    return SystemColors.AppWorkspace;
+                case eSystemColor.Background:
+                    return SystemColors.Window;
+                case eSystemColor.ButtonFace:
+                    return SystemColors.ButtonFace;
+                case eSystemColor.InactiveCaption:
+                    return SystemColors.InactiveCaption;
+                case eSystemColor.Menu:
+                    return SystemColors.Menu;
+                case eSystemColor.Window:
+                    return SystemColors.Window;
+                case eSystemColor.WindowFrame:
+                    return SystemColors.WindowFrame;
+                case eSystemColor.MenuText:
+                    return SystemColors.MenuText;
+                case eSystemColor.WindowText:
+                    return SystemColors.WindowText;
+                case eSystemColor.CaptionText:
+                    return SystemColors.ActiveCaptionText;
+                case eSystemColor.InactiveBorder:
+                    return SystemColors.InactiveBorder;
+                case eSystemColor.Highlight:
+                    return SystemColors.Highlight;
+                case eSystemColor.HighlightText:
+                    return SystemColors.HighlightText;
+                case eSystemColor.ButtonShadow:
+                    return SystemColors.ButtonShadow;
+                case eSystemColor.GrayText:
+                    return SystemColors.GrayText;
+                case eSystemColor.ButtonText:
+                    return SystemColors.ControlText;
+                case eSystemColor.InactiveCaptionText:
+                    return SystemColors.InactiveCaptionText;
+                case eSystemColor.ButtonHighlight:
+                    return SystemColors.ButtonHighlight;
+                case eSystemColor.DarkShadow3d:
+                    return SystemColors.ControlDarkDark;
+                case eSystemColor.Light3d:
+                    return SystemColors.ControlLightLight;
+                case eSystemColor.InfoText:
+                    return SystemColors.InfoText;
+                case eSystemColor.InfoBackground:
+                    return SystemColors.Info;
+                case eSystemColor.HotLight:
+                    return SystemColors.HotTrack;
+                case eSystemColor.GradientActiveCaption:
+                    return SystemColors.GradientActiveCaption;
+                case eSystemColor.GradientInactiveCaption:
+                    return SystemColors.GradientInactiveCaption;
+                case eSystemColor.MenuHighlight:
+                    return SystemColors.MenuHighlight;
+                case eSystemColor.MenuBar:
+                    return SystemColors.MenuBar;
+                default:
+                    return SystemColors.Window;
+            }
+        }
         private string TranslateFromEnum(eSystemColor e)
         {
             string s;

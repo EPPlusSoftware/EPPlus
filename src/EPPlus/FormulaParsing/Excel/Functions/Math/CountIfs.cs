@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
             ValidateArguments(functionArguments, 2);
-            var argRanges = new List<ExcelDataProvider.IRangeInfo>();
+            var argRanges = new List<RangeOrValue>();
             var criterias = new List<string>();
             for (var ix = 0; ix < 30; ix +=2)
             {
@@ -51,7 +51,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     var ws = string.IsNullOrEmpty(address.WorkSheetName) ? context.Scopes.Current.Address.Worksheet : address.WorkSheetName;
                     rangeInfo = context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, address.Address);
                 }
-                argRanges.Add(rangeInfo);
+                else if(rangeInfo != null)
+                {
+                    argRanges.Add(new RangeOrValue { Range = rangeInfo});
+                }
+                else
+                {
+                    argRanges.Add(new RangeOrValue { Value = arg.Value });
+                }
                 var value = functionArguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
                 criterias.Add(value);
             }

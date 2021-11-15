@@ -125,6 +125,7 @@ namespace OfficeOpenXml
                     continue;
                 }
 
+
                 if (SkipLines(Format, row, skipLinesBegining))
                 {
                     continue;

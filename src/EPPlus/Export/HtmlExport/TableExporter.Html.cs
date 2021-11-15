@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         private const string TableClass = "epplus-table";
         private const string TableStyleClassPrefix = "epplus-tablestyle-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
-
+        internal List<string> _datatypes = new List<string>();
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
@@ -79,14 +79,21 @@ namespace OfficeOpenXml.Export.HtmlExport
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
 
+            GetDataTypes(_table.Address);
+
             var writer = new EpplusHtmlWriter(stream);
-            if (_table.TableStyle != TableStyles.None)
+
+            if(_table.TableStyle == TableStyles.Custom)
             {
-                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.TableStyle.ToString().ToLowerInvariant()}");
+                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.StyleName.ToString().ToLowerInvariant()}");
+            }
+            else if (_table.TableStyle == TableStyles.None)
+            {
+                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
             }
             else
             {
-                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
+                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.TableStyle.ToString().ToLowerInvariant()}");
             }
             if(!string.IsNullOrEmpty(options.TableId))
             {
@@ -94,72 +101,117 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.RenderBeginTag(HtmlElements.Table);
 
-            writer.ApplyFormatIncreaseIndent(options.FormatHtml);
+            writer.ApplyFormatIncreaseIndent(options.Minify);
             if (_table.ShowHeader)
             {
                 RenderHeaderRow(writer, options);
             }
             // table rows
             RenderTableRows(writer, options);
+            if(_table.ShowTotal)
+            {
+                RenderTotalRow(writer, options);
+            }
             // end tag table
             writer.RenderEndTag();
+
+        }
+        internal string GetSinglePage(string htmlDocument = "<html><head><style>{1}</style></head><body>{0}</body></html>")
+        {
+            return GetSinglePage(HtmlTableExportOptions.Default, CssTableExportOptions.Default, htmlDocument);
+        }
+
+        internal string GetSinglePage(HtmlTableExportOptions htmlOptions,
+                                    CssTableExportOptions cssOptions,
+                                    string htmlDocument = "<html><head><style>{1}</style></head><body>{0}</body></html>")
+        {
+            var html = GetHtmlString(htmlOptions);
+            var css = GetCssString(cssOptions);
+            return string.Format(htmlDocument, html, css);
 
         }
 
         private void RenderTableRows(EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
             writer.RenderBeginTag(HtmlElements.Tbody);
-            writer.ApplyFormatIncreaseIndent(options.FormatHtml);
-            var rowIndex = _table.ShowTotal ? _table.Address._fromRow + 1 : _table.Address._fromRow;
-            while (rowIndex < _table.Address._toRow)
+            writer.ApplyFormatIncreaseIndent(options.Minify);
+            var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
+            var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
+            while (row <= endRow)
             {
-                rowIndex++;
                 writer.RenderBeginTag(HtmlElements.TableRow);
-                writer.ApplyFormatIncreaseIndent(options.FormatHtml);
-                var tableRange = _table.WorkSheet.Cells[rowIndex, _table.Address._fromCol, rowIndex, _table.Address._toCol];
-                foreach (var cell in tableRange)
+                writer.ApplyFormatIncreaseIndent(options.Minify);
+                //var tableRange = _table.WorkSheet.Cells[row, _table.Address._fromCol, row, _table.Address._toCol];
+                for (int col = _table.Address._fromCol; col <= _table.Address._toCol; col++)
                 {
-                    _cellDataWriter.Write(cell, writer, options);
+                    _cellDataWriter.Write(_table.WorkSheet.Cells[row, col], writer, options);
                 }
                 // end tag tr
                 writer.Indent--;
                 writer.RenderEndTag();
+                row++;
             }
 
-            writer.ApplyFormatDecreaseIndent(options.FormatHtml);
+            writer.ApplyFormatDecreaseIndent(options.Minify);
             // end tag tbody
             writer.RenderEndTag();
-            writer.ApplyFormatDecreaseIndent(options.FormatHtml);
+            writer.ApplyFormatDecreaseIndent(options.Minify);
         }
 
         private void RenderHeaderRow(EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
             // table header row
-            var rowIndex = _table.Address._fromRow;
             writer.RenderBeginTag(HtmlElements.Thead);
-            writer.ApplyFormatIncreaseIndent(options.FormatHtml);
+            writer.ApplyFormatIncreaseIndent(options.Minify);
             writer.RenderBeginTag(HtmlElements.TableRow);
-            writer.ApplyFormatIncreaseIndent(options.FormatHtml);
-            var headerRange = _table.WorkSheet.Cells[rowIndex, _table.Address._fromCol, rowIndex, _table.Address._toCol];
-            var col = 1;
-            foreach (var cell in headerRange)
+            writer.ApplyFormatIncreaseIndent(options.Minify);
+            var adr = _table.Address;
+            var row = adr._fromRow;
+            for (int col = adr._fromCol;col <= adr._toCol; col++)
             {
-                var dataType = ColumnDataTypeManager.GetColumnDataType(_table.WorkSheet, _table.Range, 2, col++);
-                writer.AddAttribute("data-datatype", dataType);
+                writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
                 writer.RenderBeginTag(HtmlElements.TableHeader);
-                // TODO: apply format
-                writer.Write(cell.Value.ToString());
+                writer.Write(_table.WorkSheet.Cells[row, col].Text);
                 writer.RenderEndTag();
-                writer.ApplyFormat(options.FormatHtml);
-
+                writer.ApplyFormat(options.Minify);
             }
             writer.Indent--;
             writer.RenderEndTag();
-            writer.ApplyFormatDecreaseIndent(options.FormatHtml);
+            writer.ApplyFormatDecreaseIndent(options.Minify);
             writer.RenderEndTag();
-            writer.ApplyFormat(options.FormatHtml);
+            writer.ApplyFormat(options.Minify);
         }
 
-
+        private void GetDataTypes(ExcelAddressBase adr)
+        {
+            _datatypes = new List<string>();
+            for (int col = adr._fromCol; col <= adr._toCol; col++)
+            {
+                _datatypes.Add(
+                    ColumnDataTypeManager.GetColumnDataType(_table.WorkSheet, _table.Range, 2, col));
+            }
+        }
+        private void RenderTotalRow(EpplusHtmlWriter writer, HtmlTableExportOptions options)
+        {
+            // table header row
+            var rowIndex = _table.Address._toRow;
+            writer.RenderBeginTag(HtmlElements.TFoot);
+            writer.ApplyFormatIncreaseIndent(options.Minify);
+            writer.RenderBeginTag(HtmlElements.TableRow);
+            writer.ApplyFormatIncreaseIndent(options.Minify);
+            var address = _table.Address;
+            for (var col= address._fromCol;col<= address._toCol;col++)
+            {
+                writer.RenderBeginTag(HtmlElements.TableData);
+                writer.Write(_table.WorkSheet.Cells[rowIndex, col].Text);
+                writer.RenderEndTag();
+                writer.ApplyFormat(options.Minify);
+            }
+            writer.Indent--;
+            writer.RenderEndTag();
+            writer.ApplyFormatDecreaseIndent(options.Minify);
+            writer.RenderEndTag();
+            writer.ApplyFormat(options.Minify);
+        }
     }
 }

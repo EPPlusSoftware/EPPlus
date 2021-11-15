@@ -2778,6 +2778,37 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void IssueNamedRanges()
+        {
+            using (var package = OpenTemplatePackage("ORRange23 Problem.xlsx"))
+            {
+
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                worksheet.Cells[1, 1].Value = -1234;
+                worksheet.Cells[1, 1].Style.Numberformat.Format = "#.##0\"*\";(#.##0)\"*\"";
+                var s = worksheet.Cells[1, 1].Text;
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void DvcfCopy()
+        {
+            using (var p = OpenTemplatePackage("i527.xlsm"))
+            {
+
+                // Fails when data validation is set
+                // Fails when conditional formatting is set.
+                var copyFrom1 = p.Workbook.Worksheets["CopyFrom"].Cells["A1:BR23"];
+                var copyTo1 = p.Workbook.Worksheets["CopyTo"].Cells["A:XFD"];
+                copyFrom1.Copy(copyTo1);
+
+                SaveAndCleanup(p);
+            }
+        }
+
 
     }
 }

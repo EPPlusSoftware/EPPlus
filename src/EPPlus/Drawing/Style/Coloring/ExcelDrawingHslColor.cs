@@ -13,6 +13,7 @@
 using System;
 using System.Xml;
 using System.Globalization;
+using System.Drawing;
 
 namespace OfficeOpenXml.Drawing.Style.Coloring
 {
@@ -70,5 +71,82 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         }
 
         internal const string NodeName = "a:hslClr";
+
+        internal Color GetRgbColor()
+        {
+            var h = Hue;
+            var s = Saturation / 100;
+            var l = Luminance / 100;
+            return GetRgb(h, s, l);
+        }
+
+        internal static Color GetRgb(double h, double s, double l)
+        {
+            //Created using formulas here...https://www.rapidtables.com/convert/color/hsl-to-rgb.html
+            double r, g, b;
+
+            if (h < 0) h = 0;
+            if (s < 0) s = 0;
+            if (l < 0) l = 0;
+            if (h >= 360) h = 359.99;
+            if (s > 1) s = 1;
+            if (l > 1) l = 1;
+
+            if (l == 0) return Color.FromArgb(0, 0, 0);
+            if (s == 0)
+            {
+                var c = (int)Math.Round(l * 255,0);
+                return Color.FromArgb(c, c, c);
+            }
+            else
+            {
+                var c = (1 - Math.Abs(2 * l - 1)) * s;
+                var x = c * (1 - Math.Abs((h / 60) % 2 - 1));
+                var m = l - c / 2;
+
+                if (h < 60)
+                {
+                    r = c;
+                    g = x;
+                    b = 0;
+                }
+                else if (h < 120)
+                {
+                    r = x;
+                    g = c;
+                    b = 0;
+                }
+                else if (h < 180)
+                {
+                    r = 0;
+                    g = c;
+                    b = x;
+                }
+                else if (h < 240)
+                {
+                    r = 0;
+                    g = x;
+                    b = c;
+                }
+                else if (h < 300)
+                {
+                    r = x;
+                    g = 0;
+                    b = c;
+                }
+                else
+                {
+                    r = c;
+                    g = 0;
+                    b = x;
+                }
+                
+                var red = (int)Math.Round(255 * (r + m), 0);
+                var green = (int)Math.Round(255 * (g + m), 0);
+                var blue = (int)Math.Round(255 * (b + m), 0);
+
+                return Color.FromArgb(red, green, blue);
+            }
+        }
     }
 }

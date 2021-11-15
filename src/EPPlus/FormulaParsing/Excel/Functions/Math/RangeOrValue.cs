@@ -8,27 +8,16 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/16/2020         EPPlus Software AB           ExcelTable Html Export
+  11/05/2021         EPPlus Software AB           Bugfix
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 
-namespace OfficeOpenXml.Export.HtmlExport
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
-    internal static class HtmlElements
+    public class RangeOrValue
     {
-        public const string Body = "body";
+        public object Value { get; set; }
 
-        public const string Table = "table";
-        public const string Thead = "thead";
-        public const string TFoot = "tfoot";
-        public const string Tbody = "tbody";
-        public const string TableRow = "tr";
-        public const string TableHeader = "th";
-        public const string TableData = "td";
-        public const string A = "a";
-        public const string Span = "span";
+        public IRangeInfo Range { get; set; }
     }
 }

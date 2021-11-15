@@ -8,27 +8,37 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/16/2020         EPPlus Software AB           ExcelTable Html Export
+  11/07/2021         EPPlus Software AB       Added Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Table;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal static class HtmlElements
+    internal class TableStyleToCss
     {
-        public const string Body = "body";
+        ExcelTable _table;
+        internal TableStyleToCss(ExcelTable table)
+        {
+            _table = table;
+        }
+        internal void Render(StreamWriter sw)
+        {
+            if(_table.TableStyle==TableStyles.None)
+            {
+                return;
+            }
+        }
 
-        public const string Table = "table";
-        public const string Thead = "thead";
-        public const string TFoot = "tfoot";
-        public const string Tbody = "tbody";
-        public const string TableRow = "tr";
-        public const string TableHeader = "th";
-        public const string TableData = "td";
-        public const string A = "a";
-        public const string Span = "span";
+
     }
 }

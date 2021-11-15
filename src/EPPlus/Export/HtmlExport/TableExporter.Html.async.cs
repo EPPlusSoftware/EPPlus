@@ -77,13 +77,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             await writer.RenderBeginTagAsync(HtmlElements.Table);
 
-            await writer.ApplyFormatIncreaseIndentAsync(options.FormatHtml);
+            await writer.ApplyFormatIncreaseIndentAsync(options.Minify);
             if (_table.ShowHeader)
             {
-                await RenderHeaderRowAsync(options.FormatHtml, writer);
+                await RenderHeaderRowAsync(options.Minify, writer);
             }
             // table rows
-            await RenderTableRowsAsync(writer, options.FormatHtml);
+            await RenderTableRowsAsync(writer, options.Minify);
             // end tag table
             await writer.RenderEndTagAsync();
 
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
                     // TODO: apply format
-                    await writer.WriteAsync(cell.Value.ToString());
+                    await writer.WriteAsync(cell.Text);
                     await writer.RenderEndTagAsync();
                     await writer.ApplyFormatAsync(formatHtml);
 
@@ -133,10 +133,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
                 // TODO: apply format
-                await writer.WriteAsync(cell.Value.ToString());
+                await writer.WriteAsync(cell.Text);
                 await writer.RenderEndTagAsync();
                 await writer.ApplyFormatAsync(formatHtml);
-
             }
             writer.Indent--;
             await writer.RenderEndTagAsync();
