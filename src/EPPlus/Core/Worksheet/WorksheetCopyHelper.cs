@@ -366,7 +366,7 @@ namespace OfficeOpenXml.Core.Worksheet
                                 s.XSeries = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
                             }
                         }
-                        if (s.HeaderAddress.WorkSheetName.Equals(copy.Name))
+                        if (s.HeaderAddress!=null&&s.HeaderAddress.WorkSheetName.Equals(copy.Name))
                         {
                             s.HeaderAddress = new ExcelAddressBase(ExcelCellBase.GetFullAddress(added.Name, s.HeaderAddress.LocalAddress));
                         }
