@@ -83,17 +83,55 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             var writer = new EpplusHtmlWriter(stream);
 
-            if(_table.TableStyle == TableStyles.Custom)
-            {
-                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.StyleName.ToString().ToLowerInvariant()}");
-            }
-            else if (_table.TableStyle == TableStyles.None)
+            if (_table.TableStyle == TableStyles.None)
             {
                 writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
             }
             else
             {
-                writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.TableStyle.ToString().ToLowerInvariant()}");
+                string styleClass;
+                if (_table.TableStyle == TableStyles.Custom)
+                {
+                    styleClass = TableStyleClassPrefix + _table.StyleName.ToLowerInvariant();
+                }
+                else
+                {
+                    styleClass = TableStyleClassPrefix + _table.TableStyle.ToString().ToLowerInvariant();
+                }
+
+                var tblClasses = $"{TableClass} {styleClass}"; ;
+                if(_table.ShowHeader)
+                {
+                    tblClasses += $" {styleClass}-header";
+                }
+
+                if (_table.ShowTotal)
+                {
+                    tblClasses += $" {styleClass}-total";
+                }
+
+                if (_table.ShowRowStripes)
+                {
+                    tblClasses += $" {styleClass}-row-stripes";
+                }
+
+                if (_table.ShowColumnStripes)
+                {
+                    tblClasses += $" {styleClass}-column-stripes";
+                }
+
+                if (_table.ShowFirstColumn)
+                {
+                    tblClasses += $" {styleClass}-first-column";
+                }
+
+                if (_table.ShowLastColumn)
+                {
+                    tblClasses += $" {styleClass}-last-column";
+                }
+
+
+                writer.AddAttribute(HtmlAttributes.Class, tblClasses);
             }
             if(!string.IsNullOrEmpty(options.TableId))
             {

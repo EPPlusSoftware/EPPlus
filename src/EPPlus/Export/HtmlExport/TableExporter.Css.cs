@@ -73,9 +73,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
             if (_datatypes.Count == 0) GetDataTypes(_table.Address);
-            var writer = new EpplusCssWriter(stream, _table);
+            var writer = new EpplusTableCssWriter(stream, _table);
             writer.RenderGenericCss();
-            writer.RenderCss(_datatypes);
+            if(options.IncludeTableStyles) writer.RenderTableCss(_datatypes);
+            if(options.IncludeCellStyles) writer.RenderCellCss(_datatypes);
         }
 
     }

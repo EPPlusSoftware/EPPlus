@@ -52,7 +52,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If true data-* attributes will be rendered
         /// </summary>
         public bool RenderDataAttributes { get; set; }
-        public bool IncludeCss { get; set; }
     }
     public class CssTableExportOptions : HtmlTableExportBaseOptions
     {
@@ -68,6 +67,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             get { return Create(); }
         }
+        public bool IncludeCellStyles { get; set; } = true;
+        public bool IncludeTableStyles { get; set; } = true;
     }
     public abstract class HtmlTableExportBaseOptions
     {

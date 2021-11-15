@@ -23,10 +23,11 @@ using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style.Dxf;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 using System.Text;
+using System.Globalization;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal class EpplusCssWriter
+    internal class EpplusTableCssWriter
     {
         readonly Stream _stream;
         readonly StreamWriter _writer;
@@ -37,7 +38,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         private bool _newLine;
         ExcelTable _table;
         ExcelTheme _theme;
-        public EpplusCssWriter(Stream stream, ExcelTable table)
+        public EpplusTableCssWriter(Stream stream, ExcelTable table)
         {
             _stream = stream;
             _table = table;
@@ -53,7 +54,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             _writer.Write("table.epplus-table{border-spacing:0px;border-collapse:collapse;font-family:calibri;font-size:11pt}");
         }
-        internal void RenderCss(List<string> datatypes) 
+        internal void RenderCellCss(List<string> datatypes)
+        {
+
+        }
+        internal void RenderTableCss(List<string> datatypes) 
         {
             ExcelTableNamedStyle tblStyle;
             if (_table.TableStyle == TableStyles.Custom)
@@ -72,65 +77,36 @@ namespace OfficeOpenXml.Export.HtmlExport
             AddToCss($"{tableClass}", tblStyle.WholeTable, "");
             AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
 
-            if (_table.ShowHeader)
-            {
-                AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead tr th");
-                AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
-                if (_table.Columns.Count > 1)
-                {
-                    AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
-                }
-            }
+            //Header
+            AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead tr th");
+            AddToCssBorderVH($"{tableClass}", tblStyle.HeaderRow, "");
 
-            if (_table.ShowTotal)
-            {
-                AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot tr td");
-                AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
-                if (_table.Columns.Count > 1)
-                {
-                    AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
-                }
-            }
+            AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
+            AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
 
-            if(_table.ShowColumnStripes)
-            {
-                AddToCss($"{tableClass}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
-                if(tblStyle.SecondColumnStripe.Style.HasValue)
-                {
-                    AddToCss($"{tableClass}",  tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
-                }
-                else
-                {
-                    AddToCss($"{tableClass}", tblStyle.WholeTable, $" tbody tr td:nth-child(even)", true, true, false);
-                }
-            }
+            //Total
+            AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot tr td");
+            AddToCssBorderVH($"{tableClass}", tblStyle.TotalRow, "");
+            AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
+            AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
 
-            if (_table.ShowRowStripes)
-            {
-                AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd) td");
-                if(tblStyle.SecondRowStripe.Style.HasValue)
-                {
-                    AddToCss($"{tableClass}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even) td");
-                }
-                else
-                {
-                    AddToCss($"{tableClass}", tblStyle.WholeTable, " tbody tr:nth-child(even) td", true, true, false);
-                }
-            }
-            else
-            {
-                AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " thead tr td");
-            }
+            //Columns stripes
+            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-column-stripes";
+            AddToCss($"{tableClass}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
+            AddToCss($"{tableClass}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
 
-            if (_table.ShowLastColumn && _table.Columns.Count > 1)
-            {
-                AddToCss($"{tableClass}", tblStyle.LastColumn, $" tbody tr td:last-child");
-            }
+            //Row stripes
+            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-row-stripes";
+            AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
+            AddToCss($"{tableClass}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
 
-            if (_table.ShowFirstColumn)
-            {
-                AddToCss($"{tableClass}", tblStyle.FirstColumn, " tbody tr td:first-child");
-            }
+            //Last column
+            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-last-column";
+            AddToCss($"{tableClass}", tblStyle.LastColumn, $" tbody tr td:last-child");
+
+            //First column
+            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-first-column";
+            AddToCss($"{tableClass}", tblStyle.FirstColumn, " tbody tr td:first-child");
 
             _writer.Flush();
         }
@@ -237,7 +213,28 @@ namespace OfficeOpenXml.Export.HtmlExport
                         _writer.Write($"{GetPatternSvg(f)};");
                     }
                 }
+                else if(f.Style==eDxfFillStyle.GradientFill)
+                {
+                    WriteDxfGradient(f.Gradient);
+                }
             }
+        }
+
+        private void WriteDxfGradient(ExcelDxfGradientFill gradient)
+        {
+            if(gradient.GradientType==eDxfGradientFillType.Linear)
+            {
+                _writer.Write($"background: linear-gradient({(gradient.Degree+90)%360}deg");
+            }
+            else 
+            {
+                _writer.Write($"background:radial-gradient(ellipse {(gradient.Right??0)*100}% {(gradient.Bottom ?? 0) * 100}%");
+            }
+            foreach (var color in gradient.Colors)
+            {
+                _writer.Write($",{GetDxfColor(color.Color)} {color.Position.ToString("F", CultureInfo.InvariantCulture)}%");
+            }
+            _writer.Write(")");
         }
 
         private object GetPatternSvg(ExcelDxfFill f)
@@ -415,7 +412,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 _writer.Write(";");
             }
         }
-        private string GetDxfColor(Style.Dxf.ExcelDxfColor c)
+        private string GetDxfColor(ExcelDxfColor c)
         {
             Color ret;
             if (c.Color.HasValue)
@@ -424,7 +421,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             else if (c.Theme.HasValue)
             {
-                ret = GetThemeColor(c.Theme.Value);
+                ret = ColorConverter.GetThemeColor(_theme, c.Theme.Value);
             }
             else if (c.Index.HasValue)
             {
@@ -437,78 +434,42 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             if (c.Tint.HasValue)
             {
-                ret = ApplyTint(ret, c.Tint.Value);
+                ret = ColorConverter.ApplyTint(ret, c.Tint.Value);
             }
             return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
-
-        internal Color ApplyTint(Color ret, double tint)
+        private string GetColor(ExcelColor c)
         {
-            if (tint == 0)
+            Color ret;
+            if (!string.IsNullOrEmpty(c.Rgb))
             {
-                return ret;
+                if(int.TryParse(c.Rgb, NumberStyles.HexNumber, null, out int hex))
+                {
+                    ret = Color.FromArgb(hex);
+                }
+                else
+                {
+                    ret = Color.Empty;
+                }
+            }
+            else if (c.Theme.HasValue)
+            {
+                ret = ColorConverter.GetThemeColor(_theme, c.Theme.Value);
+            }
+            else if (c.Indexed>=0)
+            {
+                ret = ExcelColor.GetIndexedColor(c.Indexed);
             }
             else
             {
-                ExcelDrawingRgbColor.GetHslColor(ret, out double h, out double s, out double l);
-                if (tint < 0)
-                {
-                    l = l*(1.0 + tint);
-                }
-                else if (tint > 0)
-                {
-                    //l = (1-l)*tint;
-                    //l = 1 - l * (1 - tint);
-                    l += (1-l) * tint;
-                }
-                return ExcelDrawingHslColor.GetRgb(h, s, l);
+                //Automatic, set to black.
+                ret = Color.Black;
             }
-        }
-
-        private Color GetThemeColor(eThemeSchemeColor tc)
-        {
-            var cm = _theme.ColorScheme.GetColorByEnum(tc);
-            return GetThemeColor(cm);
-        }
-
-        private Color GetThemeColor(ExcelDrawingThemeColorManager cm)
-        {
-            Color color;
-            switch (cm.ColorType)
+            if (c.Tint!=0)
             {
-                case eDrawingColorType.Rgb:
-                    color = cm.RgbColor.Color;
-                    break;
-                case eDrawingColorType.Preset:
-                    color = Color.FromName(cm.PresetColor.Color.ToString());
-                    break;
-                case eDrawingColorType.System:
-                    color = cm.SystemColor.GetColor();
-                    break;
-                case eDrawingColorType.RgbPercentage:
-                    var rp = cm.RgbPercentageColor;
-                    color = Color.FromArgb(GetRgpPercentToRgb(rp.RedPercentage),
-                                   GetRgpPercentToRgb(rp.GreenPercentage),
-                                   GetRgpPercentToRgb(rp.BluePercentage));
-                    break;
-                case eDrawingColorType.Hsl:
-                    color = cm.HslColor.GetRgbColor();
-                    break;
-                default:
-                    color = Color.Empty;
-                    break;
+                ret = ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
             }
-
-            //TODO:Apply Transforms
-
-            return color;
-        }
-
-        private int GetRgpPercentToRgb(double percentage)
-        {
-            if (percentage < 0) return 0;
-            if (percentage > 255) return 255;
-            return (int)(percentage * 255 / 100);
+            return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
 
     }
