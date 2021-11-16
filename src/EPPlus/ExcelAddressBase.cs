@@ -849,7 +849,9 @@ namespace OfficeOpenXml
         #region Address manipulation methods
         internal eAddressCollition Collide(ExcelAddressBase address, bool ignoreWs=false)
         {
-            if (ignoreWs == false && address.WorkSheetName != WorkSheetName && address.WorkSheetName != null && WorkSheetName!=null)
+            if (ignoreWs == false && address.WorkSheetName != WorkSheetName && 
+                string.IsNullOrEmpty(address.WorkSheetName) == false && 
+                string.IsNullOrEmpty(WorkSheetName) == false)
             {
                 return eAddressCollition.No;
             }
