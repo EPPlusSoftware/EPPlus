@@ -144,7 +144,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                 //var tableRange = _table.WorkSheet.Cells[row, _table.Address._fromCol, row, _table.Address._toCol];
                 for (int col = _table.Address._fromCol; col <= _table.Address._toCol; col++)
                 {
-                    _cellDataWriter.Write(_table.WorkSheet.Cells[row, col], writer, options);
+                    var colIx = col - _table.Address._fromCol;
+                    var dataType = _datatypes[colIx];
+                    _cellDataWriter.Write(_table.WorkSheet.Cells[row, col], dataType, writer, options);
                 }
                 // end tag tr
                 writer.Indent--;

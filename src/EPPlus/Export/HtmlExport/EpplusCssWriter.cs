@@ -176,18 +176,22 @@ namespace OfficeOpenXml.Export.HtmlExport
                         }
                     }
                 }
-
+                
                 if(string.IsNullOrEmpty(hAlign))
                 {
                     if (dataTypes[c] == HtmlDataTypes.Number)
                     {
                         hAlign = "right";
                     }
+                    else
+                    {
+                        hAlign = null;
+                    }
                 }
 
                 if(!(string.IsNullOrEmpty(hAlign) && string.IsNullOrEmpty(vAlign)))
                 {                    
-                    _writer.Write($"table.{name} td,th:nth-child({col+1})");
+                    _writer.Write($"table.{name} td:nth-child({col})");
                     _writer.Write("{");
                     if (string.IsNullOrEmpty(hAlign)==false)
                     {

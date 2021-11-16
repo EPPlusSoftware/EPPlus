@@ -21,10 +21,15 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal class CellDataWriter
     {
         private readonly CompileResultFactory _compileResultFactory = new CompileResultFactory();
-        public void Write(ExcelRangeBase cell, EpplusHtmlWriter writer, HtmlTableExportOptions options)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
+            {
+                var v = HtmlRawDataProvider.GetRawValue(cell, dataType, options.Culture);
+                writer.AddAttribute("data-value", v);
+            }
             writer.RenderBeginTag(HtmlElements.TableData);
-            // TODO: apply format    
+            // TODO: apply format
             writer.Write(cell.Text);
             writer.RenderEndTag();
             writer.ApplyFormat(options.Minify);
