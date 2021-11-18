@@ -97,6 +97,7 @@ namespace EPPlusTest
             var sg1 = ws.SparklineGroups.Add(eSparklineType.Line, ws.Cells["A1:A4"], ws.Cells["B1:C4"]);
             sg1.DisplayEmptyCellsAs = eDispBlanksAs.Gap;
             sg1.Type = eSparklineType.Line;
+            sg1.LineWidth = 0.5;
 
             //Column<->Column
             var sg2 = ws.SparklineGroups.Add(eSparklineType.Column, ws.Cells["D1:D2"], ws.Cells["B1:C4"]);

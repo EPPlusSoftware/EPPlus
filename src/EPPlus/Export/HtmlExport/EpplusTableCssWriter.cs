@@ -56,7 +56,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         internal void RenderCellCss(List<string> datatypes)
         {
-
+            var styleWriter = new EpplusCssWriter(_writer, _table.Range);
+            styleWriter.RenderCss(datatypes);
         }
         internal void RenderTableCss(List<string> datatypes) 
         {
@@ -74,6 +75,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             var tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}";
             AddAlignmentToCss($"{tableClass}", datatypes);
+            
             AddToCss($"{tableClass}", tblStyle.WholeTable, "");
             AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
 
@@ -214,7 +216,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                     else
                     {
-                        _writer.Write($"{GetPatternSvg(f)};");
+                        _writer.Write($"{PatternFills.GetPatternSvg(f.PatternType.Value, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor))};");
                     }
                 }
                 else if(f.Style==eDxfFillStyle.GradientFill)
@@ -240,76 +242,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             _writer.Write(")");
         }
-
-        private object GetPatternSvg(ExcelDxfFill f)
-        {
-            string svg;
-            switch(f.PatternType)
-            {
-                case ExcelFillStyle.DarkGray:
-                    svg = string.Format(PatternFills.Dott75, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.MediumGray:
-                    svg = string.Format(PatternFills.Dott50, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.LightGray:
-                    svg = string.Format(PatternFills.Dott25, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.Gray125:
-                    svg=string.Format(PatternFills.Dott12_5, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.Gray0625:
-                    svg = string.Format(PatternFills.Dott6_25, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.DarkHorizontal:
-                    svg = string.Format(PatternFills.HorizontalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.DarkVertical:
-                    svg = string.Format(PatternFills.VerticalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.LightHorizontal:
-                    svg = string.Format(PatternFills.ThinHorizontalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.LightVertical:
-                    svg = string.Format(PatternFills.ThinVerticalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.DarkDown:
-                    svg = string.Format(PatternFills.ReverseDiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.DarkUp:
-                    svg = string.Format(PatternFills.DiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.LightDown:
-                    svg = string.Format(PatternFills.ThinReverseDiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.LightUp:
-                    svg = string.Format(PatternFills.ThinDiagonalStripe, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.DarkGrid:
-                    svg = string.Format(PatternFills.DiagonalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.DarkTrellis:
-                    svg = string.Format(PatternFills.ThickDiagonalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.LightGrid:
-                    svg = string.Format(PatternFills.ThinHorizontalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                case ExcelFillStyle.LightTrellis:
-                    svg = string.Format(PatternFills.ThinDiagonalCrosshatch, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor));
-                    break;
-                default:
-                    return "";
-            }
-            
-            return $"background-repeat:repeat;background:url(data:image/svg+xml;base64,{Convert.ToBase64String(Encoding.ASCII.GetBytes(svg))});";
-        }
-
         private void WriteFontStyles(ExcelDxfFontBase f)
         {
             if (f.Color.HasValue)
             {
                 _writer.Write($"color:{GetDxfColor(f.Color)};");
-                //color: #007731;
             }
             if (f.Bold.HasValue && f.Bold.Value)
             {
@@ -366,10 +303,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (b.HasValue)
             {
-                WriteBorderItem(b.Vertical, "top");
-                WriteBorderItem(b.Vertical, "bottom");
-                WriteBorderItem(b.Horizontal, "left");
-                WriteBorderItem(b.Horizontal, "right");
+                WriteBorderItem(b.Horizontal, "top");
+                WriteBorderItem(b.Horizontal, "bottom");
+                WriteBorderItem(b.Vertical, "left");
+                WriteBorderItem(b.Vertical, "right");
             }
         }
 
@@ -377,38 +314,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (bi.HasValue && bi.Style != ExcelBorderStyle.None)
             {
-                _writer.Write($"border-{suffix}:");
-                switch (bi.Style)
-                {
-                    case ExcelBorderStyle.Hair:
-                        _writer.Write($"1px solid");
-                        break;
-                    case ExcelBorderStyle.Thin:
-                        _writer.Write($"thin solid");
-                        break;
-                    case ExcelBorderStyle.Medium:
-                        _writer.Write($"medium solid");
-                        break;
-                    case ExcelBorderStyle.Thick:
-                        _writer.Write($"thick solid");
-                        break;
-                    case ExcelBorderStyle.Double:
-                        _writer.Write($"double");
-                        break;
-                    case ExcelBorderStyle.Dotted:
-                        _writer.Write($"dotted");
-                        break;
-                    case ExcelBorderStyle.Dashed:
-                    case ExcelBorderStyle.DashDot:
-                    case ExcelBorderStyle.DashDotDot:
-                        _writer.Write($"dashed");
-                        break;
-                    case ExcelBorderStyle.MediumDashed:
-                    case ExcelBorderStyle.MediumDashDot:
-                    case ExcelBorderStyle.MediumDashDotDot:
-                        _writer.Write($"medium dashed");
-                        break;
-                }
+                _writer.Write(BorderHelper.WriteBorderItemLine(bi.Style.Value, suffix));
                 if (bi.Color.HasValue)
                 {
                     _writer.Write($" {GetDxfColor(bi.Color)}");
@@ -416,6 +322,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 _writer.Write(";");
             }
         }
+
         private string GetDxfColor(ExcelDxfColor c)
         {
             Color ret;
@@ -442,39 +349,5 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }
-        private string GetColor(ExcelColor c)
-        {
-            Color ret;
-            if (!string.IsNullOrEmpty(c.Rgb))
-            {
-                if(int.TryParse(c.Rgb, NumberStyles.HexNumber, null, out int hex))
-                {
-                    ret = Color.FromArgb(hex);
-                }
-                else
-                {
-                    ret = Color.Empty;
-                }
-            }
-            else if (c.Theme.HasValue)
-            {
-                ret = ColorConverter.GetThemeColor(_theme, c.Theme.Value);
-            }
-            else if (c.Indexed>=0)
-            {
-                ret = ExcelColor.GetIndexedColor(c.Indexed);
-            }
-            else
-            {
-                //Automatic, set to black.
-                ret = Color.Black;
-            }
-            if (c.Tint!=0)
-            {
-                ret = ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
-            }
-            return "#" + ret.ToArgb().ToString("x8").Substring(2);
-        }
-
     }
 }

@@ -256,7 +256,7 @@ namespace OfficeOpenXml.Sparkline
             }
         }
         #endregion
-        const string lineWidthPath = "x14:sparklineGroup/@lineWidth";
+        const string lineWidthPath = "@lineWeight";
         /// <summary>
         /// The weight of the line. Applies to line sparklines only.
         /// </summary>
