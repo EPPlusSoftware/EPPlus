@@ -36,8 +36,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
 
         private readonly ExcelTable _table;
-        private const string TableClass = "epplus-table";
-        private const string TableStyleClassPrefix = "ts-";
+        internal const string TableClass = "epplus-table";
+        internal const string TableStyleClassPrefix = "ts-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         internal List<string> _datatypes = new List<string>();
         private Dictionary<string, string> _genericCssElements;

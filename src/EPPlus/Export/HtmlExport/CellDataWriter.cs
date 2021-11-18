@@ -26,7 +26,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
                 var v = HtmlRawDataProvider.GetRawValue(cell, dataType, options.Culture);
-                writer.AddAttribute("data-value", v);
+                if (string.IsNullOrEmpty(v)==false)
+                {
+                    writer.AddAttribute("data-value", v);
+                }
             }
             writer.RenderBeginTag(HtmlElements.TableData);
             // TODO: apply format

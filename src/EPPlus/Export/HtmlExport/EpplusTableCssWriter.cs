@@ -53,17 +53,18 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         internal void RenderAdditionalAndFontCss()
         {
-            _writer.Write("table.epplus-table{");
+            _writer.Write($"table.{TableExporter.TableClass}");
+            _writer.Write("{");
             var ns = _table.WorkSheet.Workbook.Styles.GetNormalStyle();
             if (ns != null)
             {
-                _writer.Write($"font-family:{ns.Style.Font.Name}");
-                _writer.Write($"font-size:{ns.Style.Font.Size.ToString("p", CultureInfo.InvariantCulture)}pt");
+                _writer.Write($"font-family:{ns.Style.Font.Name};");
+                _writer.Write($"font-size:{ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt;");
             }
 
             foreach (var item in _options.AdditionalCssElements)
             {
-                _writer.Write($"{item.Key}:{item.Value}");
+                _writer.Write($"{item.Key}:{item.Value};");
             }
             _writer.Write("}");
         }
@@ -86,7 +87,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 tblStyle.SetFromTemplate(_table.TableStyle);
             }
 
-            var tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}";
+            var tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}";
             AddAlignmentToCss($"{tableClass}", datatypes);
             
             AddToCss($"{tableClass}", tblStyle.WholeTable, "");
@@ -106,21 +107,21 @@ namespace OfficeOpenXml.Export.HtmlExport
             AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
 
             //Columns stripes
-            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-column-stripes";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-column-stripes";
             AddToCss($"{tableClass}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
             AddToCss($"{tableClass}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
 
             //Row stripes
-            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-row-stripes";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-row-stripes";
             AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
             AddToCss($"{tableClass}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
 
             //Last column
-            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-last-column";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-last-column";
             AddToCss($"{tableClass}", tblStyle.LastColumn, $" tbody tr td:last-child");
 
             //First column
-            tableClass = $"epplus-tablestyle-{tblStyle.Name.ToLower()}-first-column";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-first-column";
             AddToCss($"{tableClass}", tblStyle.FirstColumn, " tbody tr td:first-child");
 
             _writer.Flush();
