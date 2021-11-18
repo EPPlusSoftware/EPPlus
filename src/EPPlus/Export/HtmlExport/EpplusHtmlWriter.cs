@@ -37,6 +37,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         private readonly StreamWriter _writer;
         private readonly Stack<string> _elementStack = new Stack<string>();
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
+        internal Dictionary<ulong, int> _styleCache=new Dictionary<ulong, int>();
+
 
         public int Indent { get; set; }
 
@@ -127,5 +129,31 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             _writer.Write(text);
         }
+        internal void SetClassAttributeFromStyle(int styleId, ExcelStyles styles)
+        {
+            if(styleId <= 0 || styleId >= styles.CellXfs.Count)
+            {
+                return;
+            }
+            var xfs = styles.CellXfs[styleId];
+            if (xfs.FontId <= 0 && xfs.BorderId <= 0 && xfs.FillId <= 0)
+            {
+                return;
+            }
+            var key = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
+            int id;
+            if (_styleCache.ContainsKey(key))
+            {
+                id = _styleCache[key];
+            }
+            else
+            {
+                id = _styleCache.Count + 1;
+                _styleCache.Add(key, id);
+            }
+
+            AddAttribute("class", $"s{id}");
+        }
+
     }
 }

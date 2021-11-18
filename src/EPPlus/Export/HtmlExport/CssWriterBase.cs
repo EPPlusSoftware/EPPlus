@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             return "";
         }
 
-        protected static string GetHorizontalAlignment(ExcelXfs xfs, string dt=null)
+        protected static string GetHorizontalAlignment(ExcelXfs xfs)
         {
             switch (xfs.HorizontalAlignment)
             {
@@ -83,11 +83,6 @@ namespace OfficeOpenXml.Export.HtmlExport
                     return "center";
                 case ExcelHorizontalAlignment.Left:
                     return "left";
-            }
-
-            if (dt == HtmlDataTypes.Number)
-            {
-                return "right";
             }
 
             return "";

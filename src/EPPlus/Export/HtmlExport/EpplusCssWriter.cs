@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         readonly StreamWriter _writer;
         readonly Stack<string> _elementStack = new Stack<string>();
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
-        internal Dictionary<ulong, int> _styleCache;
+        internal Dictionary<ulong, int> _styleCache = new Dictionary<ulong, int>();
         const string IndentWhiteSpace = "  ";
         private bool _newLine;
         ExcelRangeBase _range;
@@ -63,34 +63,33 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal void RenderCss(List<string> dataTypes)
         {
-            _styleCache = new Dictionary<ulong, int>();
             var styles = _range.Worksheet.Workbook.Styles;
             _borderExclude = _options.Exclude.CellStyle.Border;
             _fontExclude = _options.Exclude.CellStyle.Font; 
             var ce = new CellStoreEnumerator<ExcelValue>(_range.Worksheet._values, _range._fromRow, _range._fromCol, _range._toRow, _range._toCol);
-            foreach (var c in _range)
+            while(ce.Next())
             {
-                if (c.StyleID > 0 && c.StyleID < styles.CellXfs.Count)
+                if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    AddToCss(styles, c);
+                    AddToCss(styles, ce.Value._styleId);
                 }
             }
+            _writer.Flush();
         }
 
-        private void AddToCss(ExcelStyles styles, ExcelRangeBase c)
+        private void AddToCss(ExcelStyles styles, int styleId)
         {
-            var xfs = styles.CellXfs[c.StyleID];
+            var xfs = styles.CellXfs[styleId];
             if (xfs.FontId > 0 || xfs.FillId > 0 || xfs.BorderId > 0)
             {
-                var key = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
-
-                _writer.Write($"style{xfs.Id}");
+                int id = GetOrAddToStyleCache(styleId, xfs);
+                _writer.Write($".s{id}");
                 _writer.Write("{");
                 if (xfs.FillId > 0)
                 {
                     WriteFillStyles(xfs.Fill);
                 }
-                if(xfs.FontId > 0)
+                if (xfs.FontId > 0)
                 {
                     WriteFontStyles(xfs.Font);
                 }
@@ -101,6 +100,23 @@ namespace OfficeOpenXml.Export.HtmlExport
                 WriteStyles(xfs);
                 _writer.Write("}");
             }
+        }
+
+        private int GetOrAddToStyleCache(int styleId, ExcelXfs xfs)
+        {
+            var key = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
+            int id;
+            if (_styleCache.ContainsKey(key))
+            {
+                id = _styleCache[key];
+            }
+            else
+            {
+                id = _styleCache.Count+1;
+                _styleCache.Add(key, id);
+            }
+
+            return id;
         }
 
         private void WriteStyles(ExcelXfs xfs)
@@ -164,9 +180,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             if(f.Size>0)
             {
-                _writer.Write($"font-family:{f.Size.ToString("F", CultureInfo.InvariantCulture)};");
+                _writer.Write($"font-size:{f.Size.ToString("g", CultureInfo.InvariantCulture)}pt;");
             }
-            if (f.Color!=null)
+            if (f.Color!=null && f.Color.Exists)
             {
                 _writer.Write($"color:{GetColor(f.Color)};");
             }

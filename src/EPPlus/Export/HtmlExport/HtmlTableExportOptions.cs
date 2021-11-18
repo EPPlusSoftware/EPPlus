@@ -43,7 +43,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
         /// </summary>
         public bool IncludeDefaultClasses { get; set; }
-
         /// <summary>
         /// The html id attribute for the exported table. The id attribute is only added to the table if this property is not null or empty.
         /// </summary>
@@ -78,10 +77,14 @@ namespace OfficeOpenXml.Export.HtmlExport
         } = new Dictionary<string, string>()
             {
                 { "border-spacing", "0" },
-                { "border-collapse", "collapse" }
+                { "border-collapse", "collapse" },
+                { "word-wrap", "break-word"},
+                { "white-space", "nowrap"}
             };
 
-        public bool IncludeCellStyles { get; set; } = true;
+        /// <summary>
+        /// Include Css for the current table style
+        /// </summary>
         public bool IncludeTableStyles { get; set; } = true;
 
         public float Indent { get; set; } = 2;
@@ -134,5 +137,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If set to true the rendered html will be formatted with indents and linebreaks.
         /// </summary>
         public bool Minify { get; set; } = true;
+        /// <summary>
+        /// Include Css for cell styling.
+        /// </summary>
+        public bool IncludeCellStyles { get; set; } = true;
     }
 }

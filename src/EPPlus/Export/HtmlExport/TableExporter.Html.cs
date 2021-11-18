@@ -212,9 +212,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             var row = adr._fromRow;
             for (int col = adr._fromCol;col <= adr._toCol; col++)
             {
+                var cell = _table.WorkSheet.Cells[row, col];
                 writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
+                writer.SetClassAttributeFromStyle(cell.StyleID, _table.WorkSheet.Workbook.Styles);
                 writer.RenderBeginTag(HtmlElements.TableHeader);
-                writer.Write(_table.WorkSheet.Cells[row, col].Text);
+                writer.Write(cell.Text);
                 writer.RenderEndTag();
                 writer.ApplyFormat(options.Minify);
             }
@@ -245,8 +247,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             var address = _table.Address;
             for (var col= address._fromCol;col<= address._toCol;col++)
             {
+                var cell = _table.WorkSheet.Cells[rowIndex, col];
                 writer.RenderBeginTag(HtmlElements.TableData);
-                writer.Write(_table.WorkSheet.Cells[rowIndex, col].Text);
+                writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+                writer.Write(cell.Text);
                 writer.RenderEndTag();
                 writer.ApplyFormat(options.Minify);
             }

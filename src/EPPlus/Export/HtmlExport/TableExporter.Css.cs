@@ -81,9 +81,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         public void RenderCss(Stream stream, CssTableExportOptions options)
         {
             Require.Argument(options).IsNotNull("options");
-            if (_table.TableStyle == TableStyles.None)
+            if (_table.TableStyle == TableStyles.None || options.IncludeTableStyles==false)
             {
-                return; ;
+                return; 
             }
             if (!stream.CanWrite)
             {
