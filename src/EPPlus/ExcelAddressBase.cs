@@ -335,7 +335,7 @@ namespace OfficeOpenXml
             {
                 _address = address;
             }
-
+            _firstAddress = null;
             _addresses = null;
             if (_address.IndexOfAny(new char[] {',','!', '['}) > -1)
             {
@@ -1081,8 +1081,7 @@ namespace OfficeOpenXml
             {
                 if (string.IsNullOrEmpty(_ws) || !string.IsNullOrEmpty(ws))
                 {
-                    _ws = ws;
-                    
+                    _ws = ws;                    
                 }
                 _firstAddress = address;
                 GetRowColFromAddress(address, out _fromRow, out _fromCol, out _toRow, out  _toCol, out _fromRowFixed, out _fromColFixed, out _toRowFixed, out _toColFixed);
