@@ -141,16 +141,17 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var xfs = _table.WorkSheet.Workbook.Styles.CellXfs[styleId];
                     if(xfs.ApplyAlignment)
                     {
-                        hAlign = GetHorizontalAlignment(xfs, dataTypes[c]);
+                        hAlign = GetHorizontalAlignment(xfs);
                         vAlign = GetVerticalAlignment(xfs);
-                    }
-                    else
-                    {
-                        hAlign = null;
                     }
                 }
 
-                if(!(string.IsNullOrEmpty(hAlign) && string.IsNullOrEmpty(vAlign)))
+                if (string.IsNullOrEmpty(hAlign) && c < dataTypes.Count && dataTypes[c] == HtmlDataTypes.Number)
+                {
+                    hAlign = "right";
+                }
+
+                if (!(string.IsNullOrEmpty(hAlign) && string.IsNullOrEmpty(vAlign)))
                 {                    
                     _writer.Write($"table.{name} td:nth-child({col})");
                     _writer.Write("{");

@@ -32,6 +32,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             writer.RenderBeginTag(HtmlElements.TableData);
+            writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
             // TODO: apply format
             writer.Write(cell.Text);
             writer.RenderEndTag();

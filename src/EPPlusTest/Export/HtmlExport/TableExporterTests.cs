@@ -176,7 +176,7 @@ namespace EPPlusTest.Export.HtmlExport
             CreatePathIfNotExists(path);
             using (var p = OpenPackage("TableStylesToHtmlCellStyles.xlsx", true))
             {
-                var ws = p.Workbook.Worksheets.Add($"PatterFill-Gradient");
+                var ws = p.Workbook.Worksheets.Add($"CellStyles");
                 LoadTestdata(ws);
 
                 var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tblGradient");
