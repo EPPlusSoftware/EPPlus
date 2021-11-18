@@ -54,6 +54,18 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
+        /// <param name="optionsConfig">Lambda for configuring <see cref="HtmlTableExportOptions">Options</see> for the export</param>
+        /// <returns></returns>
+        public string GetHtmlString(Action<HtmlTableExportOptions> optionsConfig)
+        {
+            var options = HtmlTableExportOptions.Default;
+            optionsConfig.Invoke(options);
+            return GetHtmlString(options);
+        }
+
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
         /// <param name="options"><see cref="HtmlTableExportOptions">Options</see> for the export</param>
         /// <returns>A html table</returns>
         public string GetHtmlString(HtmlTableExportOptions options)
@@ -132,7 +144,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     tblClasses += $" {styleClass}-last-column";
                 }
-
+                if(options.AdditionalTableClassNames.Count > 0)
+                {
+                    foreach(var cls in options.AdditionalTableClassNames)
+                    {
+                        tblClasses += $" {cls}";
+                    }
+                }
 
                 writer.AddAttribute(HtmlAttributes.Class, tblClasses);
             }

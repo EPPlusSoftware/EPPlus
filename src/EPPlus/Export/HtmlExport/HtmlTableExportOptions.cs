@@ -49,6 +49,20 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public string TableId { get; set; }
 
+        private List<string> _additionalTableClasses = new List<string>(20);
+        
+
+        /// <summary>
+        /// Use this property to set additional class names that will be set on the exported html-table. Max 20 additional classes can be added
+        /// </summary>
+        public IList<string> AdditionalTableClassNames
+        {
+            get
+            {
+                return _additionalTableClasses;
+            }
+        }
+
         public CultureInfo Culture { get; set; }
 
         /// <summary>
