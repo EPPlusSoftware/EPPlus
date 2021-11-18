@@ -14,6 +14,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,9 +37,11 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private readonly ExcelTable _table;
         private const string TableClass = "epplus-table";
-        private const string TableStyleClassPrefix = "epplus-tablestyle-";
+        private const string TableStyleClassPrefix = "ts-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         internal List<string> _datatypes = new List<string>();
+        private Dictionary<string, string> _genericCssElements;
+
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>

@@ -93,7 +93,7 @@ namespace EPPlusTest.Drawing.Chart
             point.Border.Fill.Style = eFillStyle.SolidFill;
             point.Fill.Style = eFillStyle.SolidFill;
             point.Fill.SolidFill.Color.SetRgbColor(Color.Yellow);
-            point.Fill.Transparancy = 5;
+            point.Fill.Transparancy = 5;            
             Assert.AreEqual(eColorTransformType.Alpha, point.Fill.SolidFill.Color.Transforms[0].Type);
             Assert.AreEqual(95, point.Fill.SolidFill.Color.Transforms[0].Value);
             chart.SetPosition(1, 0, 5, 0);

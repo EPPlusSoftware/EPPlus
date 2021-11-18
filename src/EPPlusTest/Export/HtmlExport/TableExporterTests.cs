@@ -172,31 +172,20 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ExportTableWithCellStylesStyles()
         {
-            string path = _worksheetPath + "TableStylesGradientFills";
+            string path = _worksheetPath + "TableStylesCellStyles";
             CreatePathIfNotExists(path);
-            using (var p = OpenPackage("TableStylesToHtmlGradientFill.xlsx", true))
+            using (var p = OpenPackage("TableStylesToHtmlCellStyles.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add($"PatterFill-Gradient");
                 LoadTestdata(ws);
-                var ts = p.Workbook.Styles.CreateTableStyle($"CustomPattern-Gradient1", TableStyles.Medium9);
-                ts.FirstRowStripe.Style.Fill.Style = eDxfFillStyle.GradientFill;
-                ts.FirstRowStripe.Style.Fill.Gradient.GradientType = eDxfGradientFillType.Path;
-                var c1 = ts.FirstRowStripe.Style.Fill.Gradient.Colors.Add(0);
-                c1.Color.Color = Color.White;
-
-                var c2 = ts.FirstRowStripe.Style.Fill.Gradient.Colors.Add(100);
-                c2.Color.Color = Color.FromArgb(0x44, 0x72, 0xc4);
-
-                ts.FirstRowStripe.Style.Fill.Gradient.Bottom = 0.5;
-                ts.FirstRowStripe.Style.Fill.Gradient.Top = 0.5;
-                ts.FirstRowStripe.Style.Fill.Gradient.Left = 0.5;
-                ts.FirstRowStripe.Style.Fill.Gradient.Right = 0.5;
 
                 var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tblGradient");
-                tbl.StyleName = ts.Name;
+                tbl.TableStyle = TableStyles.Dark3;
+                ws.Cells["A1"].Style.Font.Italic = true;
+                ws.Cells["C5"].Style.Font.Size = 18;
 
                 var html = tbl.HtmlExporter.GetSinglePage();
-                File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
+                File.WriteAllText($"{path}\\table-{tbl.StyleName}-CellStyle.html", html);
                 SaveAndCleanup(p);
             }
         }

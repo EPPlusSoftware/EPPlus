@@ -30,6 +30,17 @@ namespace OfficeOpenXml.Export.HtmlExport
     public partial class TableExporter
     {
         /// <summary>
+        /// Elements
+        /// </summary>
+        public Dictionary<string,string> AdditionalCssElements
+        {
+            get
+            {
+                return _genericCssElements;
+            }
+        }
+
+        /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a css string
         /// </summary>
         /// <returns>A cascading style sheet</returns>
@@ -45,11 +56,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <returns>A html table</returns>
         public string GetCssString(CssTableExportOptions options)
         {
-            using(var ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 RenderCss(ms, options);
                 ms.Position = 0;
-                using(var sr = new StreamReader(ms))
+                using (var sr = new StreamReader(ms))
                 {
                     return sr.ReadToEnd();
                 }
@@ -61,6 +72,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             RenderCss(stream, CssTableExportOptions.Default);
         }
 
+        public void RenderCss(Stream stream, Action<CssTableExportOptions> options)
+        {
+            var o = new CssTableExportOptions();
+            options?.Invoke(o);
+            RenderCss(stream, o);
+        } 
         public void RenderCss(Stream stream, CssTableExportOptions options)
         {
             Require.Argument(options).IsNotNull("options");
@@ -73,11 +90,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
             if (_datatypes.Count == 0) GetDataTypes(_table.Address);
-            var writer = new EpplusTableCssWriter(stream, _table);
-            writer.RenderGenericCss();
+            var writer = new EpplusTableCssWriter(stream, _table, options);
+            writer.RenderAdditionalAndFontCss();
             if(options.IncludeTableStyles) writer.RenderTableCss(_datatypes);
             if(options.IncludeCellStyles) writer.RenderCellCss(_datatypes);
         }
-
     }
 }

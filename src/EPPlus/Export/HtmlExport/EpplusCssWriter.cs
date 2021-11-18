@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  11/17/2021         EPPlus Software AB       Added Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style.XmlAccess;
 using System.Collections.Generic;
@@ -7,10 +19,11 @@ using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
 using System;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    public class EpplusCssWriter
+    internal class EpplusCssWriter : CssWriterBase
     {
         readonly Stream _stream;
         readonly StreamWriter _writer;
@@ -19,12 +32,27 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal Dictionary<ulong, int> _styleCache;
         const string IndentWhiteSpace = "  ";
         private bool _newLine;
-        ExcelRange _range;
+        ExcelRangeBase _range;
         ExcelTheme _theme;
-        public EpplusCssWriter(StreamWriter writer, ExcelRangeBase range)
+        internal eFontExclude _fontExclude;
+        internal eBorderExclude _borderExclude;
+        internal EpplusCssWriter(StreamWriter writer, ExcelRangeBase range, CssTableExportOptions options)
         {
             _stream = writer.BaseStream;
             _writer = writer;
+            _options = options;
+            Init(range);
+        }
+        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, CssTableExportOptions options)
+        {
+            _stream = stream;
+            _writer = new StreamWriter(stream);
+            _options = options;
+            Init(range);
+        }
+        private void Init(ExcelRangeBase range)
+        {
+            _range = range;
 
             if (_range.Worksheet.Workbook.ThemeManager.CurrentTheme == null)
             {
@@ -32,22 +60,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             _theme = range.Worksheet.Workbook.ThemeManager.CurrentTheme;
         }
-        public EpplusCssWriter(Stream stream, ExcelRangeBase range)
-        {
-            _stream = stream;
-            if (_range.Worksheet.Workbook.ThemeManager.CurrentTheme == null)
-            {
-                _range.Worksheet.Workbook.ThemeManager.CreateDefaultTheme();
-            }
-            _theme = range.Worksheet.Workbook.ThemeManager.CurrentTheme;
-            _writer = new StreamWriter(stream);
-        }
-        internal int Indent { get; set; }
 
         internal void RenderCss(List<string> dataTypes)
         {
             _styleCache = new Dictionary<ulong, int>();
-            var styles = _range.Worksheet.Workbook.Styles;            
+            var styles = _range.Worksheet.Workbook.Styles;
+            _borderExclude = _options.Exclude.CellStyle.Border;
+            _fontExclude = _options.Exclude.CellStyle.Font; 
             var ce = new CellStoreEnumerator<ExcelValue>(_range.Worksheet._values, _range._fromRow, _range._fromCol, _range._toRow, _range._toCol);
             foreach (var c in _range)
             {
@@ -86,18 +105,30 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void WriteStyles(ExcelXfs xfs)
         {
-            if (xfs.WrapText)
+            if (xfs.WrapText && _options.Exclude.CellStyle.WrapText == false)
             {
                 _writer.Write("word-break: break-word;");
             }
-            if(xfs.VerticalAlignment!=ExcelVerticalAlignment.Bottom)
-            {
 
-            }
-            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General)
+            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _options.Exclude.CellStyle.HorizontalAlignment == false)
             {
-                //hAlign = null;
-                //_writer.Write($"text-align:{hAlign};");
+                var hAlign = GetHorizontalAlignment(xfs);
+                _writer.Write($"text-align:{hAlign};");
+            }
+
+            if (xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom && _options.Exclude.CellStyle.VerticalAlignment == false)
+            {
+                var vAlign = GetVerticalAlignment(xfs);
+                _writer.Write($"vertical-align:{vAlign};");
+            }
+            if(xfs.TextRotation!=0 && _options.Exclude.CellStyle.TextRotation==false)
+            {
+                _writer.Write($"transform: rotate({xfs.TextRotation}deg);");
+            }
+
+            if(xfs.Indent>0 && _options.Exclude.CellStyle.Indent == false)
+            {
+                _writer.Write($"padding-left:{xfs.Indent*_options.Indent}{_options.IndentUnit};"); //
             }
         }
 
@@ -107,6 +138,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteBorderItem(b.Bottom, "bottom");
             WriteBorderItem(b.Left, "left");
             WriteBorderItem(b.Right, "right");
+            //TODO add Diagonal
             //WriteBorderItem(b.DiagonalDown, "right");
             //WriteBorderItem(b.DiagonalUp, "right");
         }
@@ -115,7 +147,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (bi.Style != ExcelBorderStyle.None)
             {
-                _writer.Write(BorderHelper.WriteBorderItemLine(bi.Style, suffix));
+                _writer.Write(WriteBorderItemLine(bi.Style, suffix));
                 if (bi.Color!=null && bi.Color.Exists)
                 {
                     _writer.Write($" {GetColor(bi.Color)}");
@@ -126,7 +158,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void WriteFontStyles(ExcelFontXml f)
         {
-            if(string.IsNullOrEmpty(f.Name)==false)
+            if(string.IsNullOrEmpty(f.Name)==false && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Name))
             {
                 _writer.Write($"font-family:{f.Name};");
             }
@@ -164,20 +196,6 @@ namespace OfficeOpenXml.Export.HtmlExport
                         break;
                 }
             }            
-            if (f.UnderLineType != ExcelUnderLineType.None)
-            {
-                _writer.Write("text-decoration:underline ");
-                switch (f.UnderLineType)
-                {
-                    case ExcelUnderLineType.Double:
-                    case ExcelUnderLineType.DoubleAccounting:
-                        _writer.Write("double;");
-                        break;
-                    default:
-                        _writer.Write("solid;");
-                        break;
-                }
-            }
         }
 
         private void WriteFillStyles(ExcelFillXml f)

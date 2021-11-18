@@ -31,13 +31,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 IncludeDefaultClasses = true,
                 Minify = true,
             };
-            return defaultOptions;            
+            return defaultOptions;
         }
         internal static HtmlTableExportOptions Default
         {
             get { return Create(); }
         }
-
         /// <summary>
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
         /// </summary>
@@ -61,15 +60,70 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 Minify = true
             };
+
             return defaultOptions;
         }
         internal static CssTableExportOptions Default
         {
             get { return Create(); }
         }
+        internal Dictionary<string, string> AdditionalCssElements
+        {
+            get;
+            private set;
+        } = new Dictionary<string, string>()
+            {
+                { "border-spacing", "0" },
+                { "border-collapse", "collapse" }
+            };
+
         public bool IncludeCellStyles { get; set; } = true;
         public bool IncludeTableStyles { get; set; } = true;
+
+        public float Indent { get; set; } = 2;
+        public string IndentUnit { get; set; } = "em";
+        public CssExcludeStyle Exclude
+        {
+            get;
+        } = new CssExcludeStyle();
     }
+    [Flags]
+    public enum eFontExclude
+    {
+        Name = 0x01,
+        Size = 0x02,
+        Color = 0x04,
+        Bold = 0x08,
+        Italic = 0x10,
+        Strike = 0x20,
+        Underline = 0x40,
+    }
+    [Flags]
+    public enum eBorderExclude
+    {
+        Top = 0x01,
+        Bottom = 0x02,
+        Left = 0x04,
+        Right = 0x08
+    }
+
+    public class CssExcludeStyle
+    {
+        public CssExclude TableStyle { get; } = new CssExclude();
+        public CssExclude CellStyle { get; } = new CssExclude();
+    }
+    public class CssExclude
+    {
+        public eFontExclude Font { get; set; }
+        public eBorderExclude Border { get; set; }
+        public bool Fill { get; set; }
+        public bool VerticalAlignment { get; set; }
+        public bool HorizontalAlignment { get; set; }
+        public bool WrapText { get; set; }
+        public bool TextRotation { get; set; }
+        public bool Indent { get; set; }
+    }
+
     public abstract class HtmlTableExportBaseOptions
     {
         /// <summary>
