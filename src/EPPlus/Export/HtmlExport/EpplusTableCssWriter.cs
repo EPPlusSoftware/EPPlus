@@ -107,21 +107,21 @@ namespace OfficeOpenXml.Export.HtmlExport
             AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
 
             //Columns stripes
-            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-column-stripes";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-column-stripes";
             AddToCss($"{tableClass}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
             AddToCss($"{tableClass}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
 
             //Row stripes
-            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-row-stripes";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-row-stripes";
             AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
             AddToCss($"{tableClass}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
 
             //Last column
-            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-last-column";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-last-column";
             AddToCss($"{tableClass}", tblStyle.LastColumn, $" tbody tr td:last-child");
 
             //First column
-            tableClass = $"{TableExporter.TableStyleClassPrefix}-{tblStyle.Name.ToLower()}-first-column";
+            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-first-column";
             AddToCss($"{tableClass}", tblStyle.FirstColumn, " tbody tr td:first-child");
 
             _writer.Flush();
