@@ -2808,8 +2808,24 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s268()
+        {
+            using (var p = OpenTemplatePackage("s268.xlsx"))
+            {
+                var s3 = p.Workbook.Worksheets["s3"];
 
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
 
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 

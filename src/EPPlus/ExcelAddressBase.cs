@@ -335,10 +335,10 @@ namespace OfficeOpenXml
             {
                 _address = address;
             }
-            _firstAddress = null;
             _addresses = null;
             if (_address.IndexOfAny(new char[] {',','!', '['}) > -1)
             {
+                _firstAddress = null;
                 //Advanced address. Including Sheet or multi or table.
                 ExtractAddress(_address);
             }

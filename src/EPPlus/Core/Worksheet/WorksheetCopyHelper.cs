@@ -353,19 +353,23 @@ namespace OfficeOpenXml.Core.Worksheet
                     for (int j = 0; j < chart.Series.Count; j++)
                     {
                         var s = chart.Series[j];
-                        var a = new ExcelAddressBase(s.Series);
-                        if (a.WorkSheetName.Equals(copy.Name))
+                        if (ExcelAddressBase.IsValidAddress(s.Series))
                         {
-                            s.Series = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
+                            var a = new ExcelAddressBase(s.Series);
+                            if (a.WorkSheetName.Equals(copy.Name))
+                            {
+                                s.Series = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
+                            }
                         }
-                        if (string.IsNullOrEmpty(s.XSeries) == false)
+                        if (string.IsNullOrEmpty(s.XSeries) == false && ExcelAddressBase.IsValidAddress(s.XSeries))
                         {
-                            a = new ExcelAddressBase(s.XSeries);
+                            var a = new ExcelAddressBase(s.XSeries);
                             if (a.WorkSheetName.Equals(copy.Name))
                             {
                                 s.XSeries = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
                             }
                         }
+
                         if (s.HeaderAddress!=null&&s.HeaderAddress.WorkSheetName.Equals(copy.Name))
                         {
                             s.HeaderAddress = new ExcelAddressBase(ExcelCellBase.GetFullAddress(added.Name, s.HeaderAddress.LocalAddress));
