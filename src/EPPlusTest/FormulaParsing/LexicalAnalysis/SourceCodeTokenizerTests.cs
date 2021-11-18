@@ -118,7 +118,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "Text({1;2})";
             var tokens = _tokenizer.Tokenize(input).ToArray();
 
-            Assert.AreEqual(8, tokens.Count());
+            Assert.AreEqual(8, tokens.Length);
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.OpeningEnumerable));
             Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.ClosingEnumerable));
         }
@@ -129,7 +129,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "{\"1\",\"2\"}";
             var tokens = _tokenizer.Tokenize(input).ToArray();
 
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(9, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.OpeningEnumerable));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.String));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.StringContent));
@@ -216,7 +216,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"+3-3";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(3, tokens.Count());
+            Assert.AreEqual(3, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Integer));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Operator));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
@@ -227,7 +227,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"--3-3";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(5, tokens.Count());
+            Assert.AreEqual(5, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Negator));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
@@ -240,7 +240,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"+-3-3";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(4, tokens.Count());
+            Assert.AreEqual(4, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Integer));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Operator));
@@ -252,7 +252,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"-+3-3";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(4, tokens.Count());
+            Assert.AreEqual(4, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Integer));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Operator));
@@ -264,7 +264,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(+3-3,5)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(8, tokens.Count());
+            Assert.AreEqual(8, tokens.Length);
 
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
@@ -281,7 +281,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(5,+3-3)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(8, tokens.Count());
+            Assert.AreEqual(8, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
@@ -297,7 +297,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(--3-3,5)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(10, tokens.Count());
+            Assert.AreEqual(10, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
@@ -315,7 +315,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(5,--3-3)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(10, tokens.Count());
+            Assert.AreEqual(10, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function), "TokenType was not function");
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis), "TokenType was not OpeningParenthesis");
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer), "TokenType was not Integer 2");
@@ -333,7 +333,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(+-3-3,5)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(9, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
@@ -350,7 +350,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(-+3-3,5)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(9, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
@@ -367,7 +367,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(5,+-3-3)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(9, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
@@ -384,7 +384,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(5,-+3-3)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(9, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
@@ -400,7 +400,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"sheetname!name";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(1, tokens.Count());
+            Assert.AreEqual(1, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
         }
 
@@ -409,7 +409,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"'sheetname'!name";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(1, tokens.Count());
+            Assert.AreEqual(1, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
         }
         [TestMethod]
@@ -417,7 +417,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"[0]sheetname!name";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(1, tokens.Count());
+            Assert.AreEqual(1, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
         }
 
@@ -426,7 +426,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"[3]'sheetname'!name";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(1, tokens.Count());
+            Assert.AreEqual(1, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
         }
         [TestMethod]
@@ -434,7 +434,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"[0]!name";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(1, tokens.Count());
+            Assert.AreEqual(1, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.NameValue));
         }
         [TestMethod]
@@ -442,7 +442,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"[0]#Ref!";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(1, tokens.Count());
+            Assert.AreEqual(1, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.InvalidReference));
         }
         [TestMethod]
@@ -450,7 +450,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"[0]Sheet1!#Ref!";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(1, tokens.Count());
+            Assert.AreEqual(1, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.InvalidReference));
         }
 
@@ -459,7 +459,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"=VLOOKUP(J7;'Sheet 1''21'!$Q$4:$R$28;2;0)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(11, tokens.Count());
+            Assert.AreEqual(11, tokens.Length);
             Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.ExcelAddress));
             Assert.AreEqual("'Sheet 1''21'!$Q$4:$R$28", tokens[5].Value);
         }
