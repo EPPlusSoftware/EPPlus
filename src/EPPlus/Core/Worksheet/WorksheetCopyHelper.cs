@@ -350,22 +350,27 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 if (c is ExcelChart chart)
                 {
-                    for (int j = 0; i < chart.Series.Count; i++)
+                    for (int j = 0; j < chart.Series.Count; j++)
                     {
                         var s = chart.Series[j];
                         var a = new ExcelAddressBase(s.Series);
                         if (a.WorkSheetName.Equals(copy.Name))
                         {
-                            s.Series = ExcelAddressBase.GetFullAddress(added.Name, a.LocalAddress);
+                            s.Series = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
                         }
                         if (string.IsNullOrEmpty(s.XSeries) == false)
                         {
                             a = new ExcelAddressBase(s.XSeries);
                             if (a.WorkSheetName.Equals(copy.Name))
                             {
-                                s.XSeries = ExcelAddressBase.GetFullAddress(added.Name, a.LocalAddress);
+                                s.XSeries = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
                             }
                         }
+                        if (s.HeaderAddress!=null&&s.HeaderAddress.WorkSheetName.Equals(copy.Name))
+                        {
+                            s.HeaderAddress = new ExcelAddressBase(ExcelCellBase.GetFullAddress(added.Name, s.HeaderAddress.LocalAddress));
+                        }
+
                     }
                 }
             }
