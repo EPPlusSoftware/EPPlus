@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -30,6 +31,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 IncludeDefaultClasses = true,
                 Minify = true,
+                Culture = CultureInfo.CurrentCulture
             };
             return defaultOptions;
         }
@@ -46,6 +48,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// The html id attribute for the exported table. The id attribute is only added to the table if this property is not null or empty.
         /// </summary>
         public string TableId { get; set; }
+
+        public CultureInfo Culture { get; set; }
 
         /// <summary>
         /// If true data-* attributes will be rendered

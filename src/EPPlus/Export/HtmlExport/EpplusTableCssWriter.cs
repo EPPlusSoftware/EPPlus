@@ -143,11 +143,15 @@ namespace OfficeOpenXml.Export.HtmlExport
                         hAlign = GetHorizontalAlignment(xfs, dataTypes[c]);
                         vAlign = GetVerticalAlignment(xfs);
                     }
+                    else
+                    {
+                        hAlign = null;
+                    }
                 }
 
                 if(!(string.IsNullOrEmpty(hAlign) && string.IsNullOrEmpty(vAlign)))
                 {                    
-                    _writer.Write($"table.{name} td:nth-child({col+1})");
+                    _writer.Write($"table.{name} td:nth-child({col})");
                     _writer.Write("{");
                     if (string.IsNullOrEmpty(hAlign)==false && _options.Exclude.TableStyle.HorizontalAlignment==false)
                     {
