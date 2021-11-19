@@ -290,9 +290,9 @@ namespace OfficeOpenXml
                         FromColumn = 1;
                     if (FromRow <= 0)
                         FromRow = 1;
-                    if (ToColumn <= 0)
+                    if (ToColumn <= 0 && (cells.Length<=1 || (cells.Length > 1 && cells[1].Equals("#REF!",StringComparison.OrdinalIgnoreCase) == false)))
                         ToColumn = ExcelPackage.MaxColumns;
-                    if (ToRow <= 0)
+                    if (ToRow <= 0 && (cells.Length <= 1 || (cells.Length > 1 && cells[1].Equals("#REF!", StringComparison.OrdinalIgnoreCase) == false)))
                         ToRow = ExcelPackage.MaxRows;
 
                 }
@@ -320,6 +320,7 @@ namespace OfficeOpenXml
 
         private static bool IsCellAddress(string cellAddress)
         {
+            if (cellAddress.Equals("#REF!", StringComparison.OrdinalIgnoreCase)) return true;
             int  alpha = 0;
             bool num = false;
             for(int i=0;i<cellAddress.Length;i++)
@@ -653,7 +654,7 @@ namespace OfficeOpenXml
             {
                 wsForAddress = GetQuotedWorksheetName(worksheetName);
             }
-            if (address.IndexOf('!') == -1 || address == "#REF!")
+            if (address.IndexOf('!') == -1 || address.Contains("#REF!"))
             {
                 if (fullRowCol)
                 {

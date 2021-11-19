@@ -1,4 +1,13 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.3
+### Fixed issues
+* Inserting rows into a worksheet sometimes didn't update addresses on workbook defined names.
+* Overlapping data validation addresses was validated on save which cause workbooks containing such not to be saved.
+* Failed to copy cells when data validations or conditional formatting was set.
+* COUNTIFS, AVERAGEIFS and SUMIFS fails with single cell ranges.
+* Packages with VBA project with a component reference with encoded characters causes the saved package to become corrupt.
+* It was not possible to specify legend entry properties for items from secondary y-axis.
+
 ## Version 5.8.2
 ### Fixed issues
 * Range.Text returned the wrong value for format #.##0"*";(#.##0)"*" on negative values

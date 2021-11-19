@@ -674,7 +674,7 @@ namespace OfficeOpenXml
         /// </summary>
         protected void Validate()
         {
-            if (_fromRow > _toRow || _fromCol > _toCol)
+            if ((_fromRow > _toRow || _fromCol > _toCol) && (_toRow!=0)) //_toRow==0 is #REF!
             {
                 throw new ArgumentOutOfRangeException("Start cell Address must be less or equal to End cell address");
             }
@@ -1418,12 +1418,13 @@ namespace OfficeOpenXml
         { 
             get
             {
-                var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from 
+                var localAddress = FirstAddress;
+                var ix = localAddress.TrimEnd().LastIndexOf('!', localAddress.Length - 2);  //Last index can be ! if address is #REF!, so check from 
                 if (ix>=0)
                 {
-                    return _address.Substring(ix + 1);
+                    return localAddress.Substring(ix + 1);
                 }
-                return _address;
+                return localAddress;
             }
         }
         /// <summary>
