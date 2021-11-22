@@ -89,7 +89,25 @@ namespace OfficeOpenXml.Drawing.Vml
                         _drawingsCellStore.SetValue(row, col, _drawings.Count-1);
                         break;
                 }
-                _drawingsDict.Add(string.IsNullOrEmpty(vmlDrawing.SpId) ? vmlDrawing.Id : vmlDrawing.SpId, _drawings.Count - 1);
+                var id = string.IsNullOrEmpty(vmlDrawing.SpId) ? vmlDrawing.Id : vmlDrawing.SpId;
+                int x = 2;
+                if(_drawingsDict.ContainsKey(id))
+                {
+                    while(_drawingsDict.ContainsKey($"{id}-{x}"))
+                    {
+                        x++;
+                    }
+                    id = $"{id}-{x}";
+                    if (string.IsNullOrEmpty(vmlDrawing.SpId))
+                    {
+                        vmlDrawing.Id= id;
+                    }
+                    else
+                    {
+                        vmlDrawing.SpId = id;
+                    }
+                }
+                _drawingsDict.Add(id, _drawings.Count - 1);
             }
         }
 
