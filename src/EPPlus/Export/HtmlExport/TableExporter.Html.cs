@@ -210,6 +210,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 // end tag tr
                 writer.Indent--;
                 writer.RenderEndTag();
+                writer.ApplyFormat(options.Minify);
                 row++;
             }
 
