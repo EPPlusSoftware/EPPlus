@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal partial class EpplusHtmlWriter
+    internal partial class EpplusHtmlWriter : HtmlWriterBase
     {
         public const string IndentWhiteSpace = "  ";
         private bool _newLine;
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         private readonly StreamWriter _writer;
         private readonly Stack<string> _elementStack = new Stack<string>();
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
-        internal Dictionary<ulong, int> _styleCache=new Dictionary<ulong, int>();
+        internal Dictionary<string, int> _styleCache=new Dictionary<string, int>();
 
 
         public int Indent { get; set; }
@@ -131,16 +131,16 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         internal void SetClassAttributeFromStyle(int styleId, ExcelStyles styles)
         {
-            if(styleId <= 0 || styleId >= styles.CellXfs.Count)
+            if (styleId <= 0 || styleId >= styles.CellXfs.Count)
             {
                 return;
             }
             var xfs = styles.CellXfs[styleId];
-            if (xfs.FontId <= 0 && xfs.BorderId <= 0 && xfs.FillId <= 0)
+            if (HasStyle(xfs) == false)
             {
                 return;
             }
-            var key = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
+            string key = GetStyleKey(xfs);
             int id;
             if (_styleCache.ContainsKey(key))
             {
@@ -154,6 +154,5 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             AddAttribute("class", $"s{id}");
         }
-
     }
 }

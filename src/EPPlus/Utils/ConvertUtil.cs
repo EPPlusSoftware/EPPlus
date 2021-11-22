@@ -344,7 +344,7 @@ namespace OfficeOpenXml.Utils
         /// <exception cref="InvalidCastException">
         ///     <paramref name="value"/> is not string and direct conversion fails
         /// </exception>
-        public static T GetTypedCellValue<T>(object value)
+        public static T GetTypedCellValue<T>(object value, bool returnDefaultIfException=false)
         {
             var conversion = new TypeConvertUtil<T>(value);
             if(value == null || (conversion.ReturnType.IsNullable && conversion.Value.IsEmptyString))
@@ -367,8 +367,21 @@ namespace OfficeOpenXml.Utils
             {
                 return (T)ts;
             }
-
-            return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+            if(returnDefaultIfException)
+            {
+                try
+                {
+                    return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+            else
+            {
+                return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+            }
         }
         internal static string GetValueForXml(object v, bool date1904)
         {

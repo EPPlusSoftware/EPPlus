@@ -16,10 +16,26 @@ using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal abstract class CssWriterBase
+    internal abstract class HtmlWriterBase
     {
         protected CssTableExportOptions _options;
         internal int Indent { get; set; }
+        protected internal static bool HasStyle(ExcelXfs xfs)
+        {
+            return xfs.FontId > 0 ||
+                   xfs.FillId > 0 ||
+                   xfs.BorderId > 0 ||
+                   xfs.HorizontalAlignment != ExcelHorizontalAlignment.General ||
+                   xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom ||
+                   xfs.TextRotation != 0 ||
+                   xfs.Indent > 0 ||
+                   xfs.WrapText;
+        }
+        protected internal static string GetStyleKey(ExcelXfs xfs)
+        {
+            var fbfKey = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
+            return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0");
+        }
 
         protected static string WriteBorderItemLine(ExcelBorderStyle style, string suffix)
         {

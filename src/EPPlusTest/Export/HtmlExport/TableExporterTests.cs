@@ -182,8 +182,9 @@ namespace EPPlusTest.Export.HtmlExport
                 var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tblGradient");
                 tbl.TableStyle = TableStyles.Dark3;
                 ws.Cells["A1"].Style.Font.Italic = true;
+                ws.Cells["B1:D1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 ws.Cells["C5"].Style.Font.Size = 18;
-
+                tbl.Columns[0].TotalsRowLabel = "Total";
                 var html = tbl.HtmlExporter.GetSinglePage();
                 File.WriteAllText($"{path}\\table-{tbl.StyleName}-CellStyle.html", html);
                 SaveAndCleanup(p);

@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/07/2021         EPPlus Software AB       Added Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -26,11 +27,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             switch(jsDataType)
             {
                 case ColumnDataTypeManager.HtmlDataTypes.Boolean:
-                    return cell.GetValue<bool>() ? "1" : "0";
+                    return (ConvertUtil.GetTypedCellValue<bool?>(cell.Value, true)??false) ? "1" : "0";
                 case ColumnDataTypeManager.HtmlDataTypes.Number:
-                    return cell.GetValue<double?>()?.ToString(culture);
+                    var v = ConvertUtil.GetTypedCellValue<double?>(cell.Value, true)?.ToString(culture);
+                    return v;
                 case ColumnDataTypeManager.HtmlDataTypes.DateTime:
-                    var dt = cell.GetValue<DateTime?>();
+                    var dt = ConvertUtil.GetTypedCellValue<DateTime?>(cell.Value, true);
                     if(dt != null && dt.HasValue)
                     {
                         return dt.Value.Subtract(JsBaseDate).TotalMilliseconds.ToString(culture);

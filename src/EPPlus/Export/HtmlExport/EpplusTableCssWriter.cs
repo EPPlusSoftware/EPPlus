@@ -29,7 +29,7 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal class EpplusTableCssWriter : CssWriterBase
+    internal class EpplusTableCssWriter : HtmlWriterBase
     {
         readonly Stream _stream;
         readonly StreamWriter _writer;

@@ -23,13 +23,13 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal class EpplusCssWriter : CssWriterBase
+    internal class EpplusCssWriter : HtmlWriterBase
     {
         readonly Stream _stream;
         readonly StreamWriter _writer;
         readonly Stack<string> _elementStack = new Stack<string>();
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
-        internal Dictionary<ulong, int> _styleCache = new Dictionary<ulong, int>();
+        internal Dictionary<string, int> _styleCache = new Dictionary<string, int>();
         const string IndentWhiteSpace = "  ";
         private bool _newLine;
         ExcelRangeBase _range;
@@ -80,43 +80,44 @@ namespace OfficeOpenXml.Export.HtmlExport
         private void AddToCss(ExcelStyles styles, int styleId)
         {
             var xfs = styles.CellXfs[styleId];
-            if (xfs.FontId > 0 || xfs.FillId > 0 || xfs.BorderId > 0)
+            if (HasStyle(xfs))
             {
-                int id = GetOrAddToStyleCache(styleId, xfs);
-                _writer.Write($".s{id}");
-                _writer.Write("{");
-                if (xfs.FillId > 0)
+                if (IsAddedToCache(xfs, out int id)==false)
                 {
-                    WriteFillStyles(xfs.Fill);
+                    _writer.Write($".s{id}");
+                    _writer.Write("{");
+                    if (xfs.FillId > 0)
+                    {
+                        WriteFillStyles(xfs.Fill);
+                    }
+                    if (xfs.FontId > 0)
+                    {
+                        WriteFontStyles(xfs.Font);
+                    }
+                    if (xfs.BorderId > 0)
+                    {
+                        WriteBorderStyles(xfs.Border);
+                    }
+                    WriteStyles(xfs);
+                    _writer.Write("}");
                 }
-                if (xfs.FontId > 0)
-                {
-                    WriteFontStyles(xfs.Font);
-                }
-                if (xfs.BorderId > 0)
-                {
-                    WriteBorderStyles(xfs.Border);
-                }
-                WriteStyles(xfs);
-                _writer.Write("}");
             }
         }
 
-        private int GetOrAddToStyleCache(int styleId, ExcelXfs xfs)
+        private bool IsAddedToCache(ExcelXfs xfs, out int id)
         {
-            var key = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
-            int id;
+            var key = GetStyleKey(xfs);
             if (_styleCache.ContainsKey(key))
             {
                 id = _styleCache[key];
+                return true;
             }
             else
             {
                 id = _styleCache.Count+1;
                 _styleCache.Add(key, id);
+                return false;
             }
-
-            return id;
         }
 
         private void WriteStyles(ExcelXfs xfs)
