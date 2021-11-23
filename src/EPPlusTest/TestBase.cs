@@ -219,12 +219,17 @@ namespace EPPlusTest
         /// <param name="noItems">Number of items</param>
         /// <param name="startColumn">The start column</param>
         /// <param name="startRow">The start row</param>
-        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1)
+        /// <param name="addHyperlinkColumn">Add a column with hyperlinks</param>
+        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false)
         {
             ws.SetValue(1, startColumn, "Date");
             ws.SetValue(1, startColumn + 1, "NumValue");
             ws.SetValue(1, startColumn + 2, "StrValue");
             ws.SetValue(1, startColumn + 3, "NumFormattedValue");
+            if(addHyperlinkColumn)
+            {
+                ws.SetValue(1, startColumn + 4, "HyperLink");
+            }
 
             DateTime dt = _loadDataStartDate;
             int row = 1;
@@ -235,6 +240,11 @@ namespace EPPlusTest
                 ws.SetValue(row, startColumn + 1, row);
                 ws.SetValue(row, startColumn + 2, $"Value {row}");
                 ws.SetValue(row, startColumn + 3, row * 33);
+                if (addHyperlinkColumn)
+                {
+                    ws.Cells[row, startColumn + 4].SetHyperlink(new Uri("https://epplussoftware.com"));
+                }
+
                 dt = dt.AddDays(1);
             }
             ws.Cells[startRow, startColumn, row, startColumn].Style.Numberformat.Format = "yyyy-MM-dd";

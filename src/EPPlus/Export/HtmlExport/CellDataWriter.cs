@@ -31,9 +31,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("data-value", v);
                 }
             }
-            writer.RenderBeginTag(HtmlElements.TableData);
             writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
-            // TODO: apply format
+            writer.RenderBeginTag(HtmlElements.TableData);
             writer.Write(cell.Text);
             writer.RenderEndTag();
             writer.ApplyFormat(options.Minify);

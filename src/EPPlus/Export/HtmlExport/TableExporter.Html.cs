@@ -40,7 +40,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal const string TableStyleClassPrefix = "ts-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         internal List<string> _datatypes = new List<string>();
-        private Dictionary<string, string> _genericCssElements;
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -175,15 +174,16 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
 
         }
-        internal string GetSinglePage(string htmlDocument = "<html><head><style>{1}</style></head><body>{0}</body></html>")
+        internal string GetSinglePage(string htmlDocument = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
             return GetSinglePage(HtmlTableExportOptions.Default, CssTableExportOptions.Default, htmlDocument);
         }
 
         internal string GetSinglePage(HtmlTableExportOptions htmlOptions,
                                     CssTableExportOptions cssOptions,
-                                    string htmlDocument = "<html><head><style>{1}</style></head><body>{0}</body></html>")
+                                    string htmlDocument = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
+            if (htmlOptions.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString(htmlOptions);
             var css = GetCssString(cssOptions);
             return string.Format(htmlDocument, html, css);
@@ -205,7 +205,20 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     var colIx = col - _table.Address._fromCol;
                     var dataType = _datatypes[colIx];
-                    _cellDataWriter.Write(_table.WorkSheet.Cells[row, col], dataType, writer, options);
+                    var cell = _table.WorkSheet.Cells[row, col];
+                    
+                    if (cell.Hyperlink == null)
+                    {
+                        _cellDataWriter.Write(cell, dataType, writer, options);
+                    }
+                    else
+                    {
+                        writer.RenderBeginTag(HtmlElements.TableData);
+                        writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+                        RenderHyperlink(writer, cell);
+                        writer.RenderEndTag();
+                        writer.ApplyFormat(options.Minify);
+                    }
                 }
                 // end tag tr
                 writer.Indent--;
@@ -234,7 +247,14 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
                 writer.SetClassAttributeFromStyle(cell.StyleID, _table.WorkSheet.Workbook.Styles);
                 writer.RenderBeginTag(HtmlElements.TableHeader);
-                writer.Write(cell.Text);
+                if (cell.Hyperlink == null)
+                {
+                    writer.Write(cell.Text);
+                }
+                else
+                {
+                    RenderHyperlink(writer, cell);
+                }
                 writer.RenderEndTag();
                 writer.ApplyFormat(options.Minify);
             }
@@ -243,6 +263,32 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormatDecreaseIndent(options.Minify);
             writer.RenderEndTag();
             writer.ApplyFormat(options.Minify);
+        }
+
+        private void RenderHyperlink(EpplusHtmlWriter writer, ExcelRangeBase cell)
+        {
+            if(cell.Hyperlink is ExcelHyperLink eurl)
+            {
+                if(string.IsNullOrEmpty(eurl.ReferenceAddress))
+                {
+                    writer.AddAttribute("href", eurl.AbsolutePath);
+                    writer.RenderBeginTag(HtmlElements.A);
+                    writer.Write(eurl.Display);
+                    writer.RenderEndTag();
+                }
+                else
+                {
+                    //Internal
+                    writer.Write(cell.Text);
+                }
+            }
+            else
+            {
+                writer.AddAttribute("href", cell.Hyperlink.OriginalString);
+                writer.RenderBeginTag(HtmlElements.A);
+                writer.Write(cell.Text);
+                writer.RenderEndTag();
+            }
         }
 
         private void GetDataTypes(ExcelAddressBase adr)
@@ -266,8 +312,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             for (var col= address._fromCol;col<= address._toCol;col++)
             {
                 var cell = _table.WorkSheet.Cells[rowIndex, col];
-                writer.RenderBeginTag(HtmlElements.TableData);
                 writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+                writer.RenderBeginTag(HtmlElements.TableData);
                 writer.Write(cell.Text);
                 writer.RenderEndTag();
                 writer.ApplyFormat(options.Minify);

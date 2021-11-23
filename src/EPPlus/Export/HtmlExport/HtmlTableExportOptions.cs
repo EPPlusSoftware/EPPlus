@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var defaultOptions = new HtmlTableExportOptions
             {
                 IncludeDefaultClasses = true,
-                Minify = true,
+                Minify = false,
                 Culture = CultureInfo.CurrentCulture
             };
             return defaultOptions;
@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             var defaultOptions = new CssTableExportOptions
             {
-                Minify = true
+                Minify = false
             };
 
             return defaultOptions;

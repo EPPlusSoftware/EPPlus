@@ -177,12 +177,12 @@ namespace EPPlusTest.Export.HtmlExport
             using (var p = OpenPackage("TableStylesToHtmlCellStyles.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add($"CellStyles");
-                LoadTestdata(ws);
+                LoadTestdata(ws,100,1,1,true);
 
-                var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tblGradient");
+                var tbl = ws.Tables.Add(ws.Cells["A1:E101"], $"tblGradient");
                 tbl.TableStyle = TableStyles.Dark3;
                 ws.Cells["A1"].Style.Font.Italic = true;
-                ws.Cells["B1:D1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                ws.Cells["B1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 ws.Cells["C5"].Style.Font.Size = 18;
                 tbl.Columns[0].TotalsRowLabel = "Total";
                 var html = tbl.HtmlExporter.GetSinglePage();

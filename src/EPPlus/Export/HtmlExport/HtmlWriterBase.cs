@@ -12,14 +12,33 @@
  *************************************************************************************************/
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
-using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
+using System.Collections.Generic;
+using System.IO;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
     internal abstract class HtmlWriterBase
     {
-        protected CssTableExportOptions _options;
+        public HtmlWriterBase(Stream stream)
+        {
+            _stream = stream;
+            _writer = new StreamWriter(stream);
+        }
+        public HtmlWriterBase(StreamWriter writer)
+        {
+            _stream = writer.BaseStream;
+            _writer = writer;
+        }
+        protected readonly Stream _stream;
+        protected readonly StreamWriter _writer;
+
+        protected const string IndentWhiteSpace = "  ";
+        protected bool _newLine;
+
+        protected Dictionary<string, int> _styleCache = new Dictionary<string, int>();
+
         internal int Indent { get; set; }
+
         protected internal static bool HasStyle(ExcelXfs xfs)
         {
             return xfs.FontId > 0 ||
@@ -103,6 +122,84 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             return "";
         }
+        public void WriteLine()
+        {
+            _newLine = true;
+            _writer.WriteLine();
+        }
 
+        public void Write(string text)
+        {
+            _writer.Write(text);
+        }
+
+        internal protected void WriteIndent()
+        {
+            for (var x = 0; x < Indent; x++)
+            {
+                _writer.Write(IndentWhiteSpace);
+            }
+        }
+        internal void ApplyFormat(bool minify)
+        {
+            if (minify == false)
+            {
+                WriteLine();
+            }
+        }
+
+        internal void ApplyFormatIncreaseIndent(bool minify)
+        {
+            if (minify == false)
+            {
+                WriteLine();
+                Indent++;
+            }
+        }
+
+        internal void ApplyFormatDecreaseIndent(bool minify)
+        {
+            if (minify == false)
+            {
+                WriteLine();
+                Indent--;
+            }
+        }
+        internal void WriteClass(string value, bool minify)
+        {
+            if (minify)
+            {
+                _writer.Write(value);
+            }
+            else
+            {
+                _writer.WriteLine(value);
+                Indent = 1;
+            }
+        }
+        internal void WriteClassEnd(bool minify)
+        {
+            if (minify)
+            {
+                _writer.Write("}");
+            }
+            else
+            {
+                _writer.WriteLine("}");
+                Indent = 0;
+            }
+        }
+        internal void WriteCssItem(string value, bool minify)
+        {
+            if (minify)
+            {
+                _writer.Write(value);
+            }
+            else
+            {
+                WriteIndent();
+                _writer.WriteLine(value);
+            }
+        }
     }
 }

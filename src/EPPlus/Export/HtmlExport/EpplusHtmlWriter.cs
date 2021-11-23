@@ -24,24 +24,12 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal partial class EpplusHtmlWriter : HtmlWriterBase
     {
-        public const string IndentWhiteSpace = "  ";
-        private bool _newLine;
-
-        public EpplusHtmlWriter(Stream stream)
+        public EpplusHtmlWriter(Stream stream) : base(stream)
         {
-            _stream = stream;
-            _writer = new StreamWriter(stream);
         }
 
-        private readonly Stream _stream;
-        private readonly StreamWriter _writer;
         private readonly Stack<string> _elementStack = new Stack<string>();
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
-        internal Dictionary<string, int> _styleCache=new Dictionary<string, int>();
-
-
-        public int Indent { get; set; }
-
 
         public void AddAttribute(string attributeName, string attributeValue)
         {
@@ -49,41 +37,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             Require.Argument(attributeValue).IsNotNullOrEmpty("attributeValue");
             _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName, Value = attributeValue });
         }
-
-        internal void ApplyFormat(bool minify)
-        {
-            if (minify == false)
-            {
-                WriteLine();
-            }
-        }
-
-        internal void ApplyFormatIncreaseIndent(bool minify)
-        {
-            if (minify==false)
-            {
-                WriteLine();
-                Indent++;
-            }
-        }
-
-        internal void ApplyFormatDecreaseIndent(bool minify)
-        {
-            if (minify == false)
-            {
-                WriteLine();
-                Indent--;
-            }
-        }
-
-        private void WriteIndent()
-        {
-            for (var x = 0; x < Indent; x++)
-            {
-                _writer.Write(IndentWhiteSpace);
-            }
-        }
-
         public void RenderBeginTag(string elementName, bool closeElement = false)
         {
             _newLine = false;
@@ -119,16 +72,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer.Flush();
         }
 
-        public void WriteLine()
-        {
-            _newLine = true;
-            _writer.WriteLine();
-        }
-
-        public void Write(string text)
-        {
-            _writer.Write(text);
-        }
         internal void SetClassAttributeFromStyle(int styleId, ExcelStyles styles)
         {
             if (styleId <= 0 || styleId >= styles.CellXfs.Count)
