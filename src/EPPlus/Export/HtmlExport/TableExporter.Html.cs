@@ -229,7 +229,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 if(options.Accessibility.TableSettings.AddAccessibilityAttributes)
                 {
                     writer.AddAttribute("role", "row");
-                    writer.AddAttribute("scope", "row");
+                    if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
+                    {
+                        writer.AddAttribute("scope", "row");
+                    }
                 }
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(options.Minify);
@@ -238,7 +241,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     var colIx = col - _table.Address._fromCol;
                     var dataType = _datatypes[colIx];
-                    _cellDataWriter.Write(_table.WorkSheet.Cells[row, col], dataType, writer, options);
+                    var addRowScope = (col == _table.Address._fromCol && _table.ShowFirstColumn) || (col == _table.Address._toCol && _table.ShowLastColumn);
+                    _cellDataWriter.Write(_table.WorkSheet.Cells[row, col], dataType, writer, options, addRowScope);
                 }
                 // end tag tr
                 writer.Indent--;
@@ -278,7 +282,23 @@ namespace OfficeOpenXml.Export.HtmlExport
                 if (options.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(options.Accessibility.TableSettings.TableHeaderCellRole))
                 {
                     writer.AddAttribute("role", options.Accessibility.TableSettings.TableHeaderCellRole);
-                    writer.AddAttribute("scope", "col");
+                    if(!_table.ShowFirstColumn && !_table.ShowLastColumn)
+                    {
+                        writer.AddAttribute("scope", "col");
+                    }
+                    if(_table.SortState != null && !_table.SortState.ColumnSort && _table.SortState.SortConditions.Any())
+                    {
+                        var firstCondition = _table.SortState.SortConditions.First();
+                        if(firstCondition != null && !string.IsNullOrEmpty(firstCondition.Ref))
+                        {
+                            var addr = new ExcelAddress(firstCondition.Ref);
+                            var sortedCol = addr._fromCol;
+                            if(col == sortedCol)
+                            {
+                                writer.AddAttribute("aria-sort", firstCondition.Descending ? "descending" : "ascending");
+                            }
+                        }
+                    }
                 }
                 writer.RenderBeginTag(HtmlElements.TableHeader);
                 writer.Write(cell.Text);
