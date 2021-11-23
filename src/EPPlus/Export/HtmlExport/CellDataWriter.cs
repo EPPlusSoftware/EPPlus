@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal class CellDataWriter
     {
         private readonly CompileResultFactory _compileResultFactory = new CompileResultFactory();
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportOptions options)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportOptions options, bool addRowScope)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
@@ -29,6 +29,14 @@ namespace OfficeOpenXml.Export.HtmlExport
                 if (string.IsNullOrEmpty(v)==false)
                 {
                     writer.AddAttribute("data-value", v);
+                }
+            }
+            if (options.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                writer.AddAttribute("role", "cell");
+                if(addRowScope)
+                {
+                    writer.AddAttribute("scope", "row");
                 }
             }
             writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);

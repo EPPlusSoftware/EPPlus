@@ -8,8 +8,9 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/16/2020         EPPlus Software AB           ExcelTable Html Export
+  05/11/2021         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -31,13 +32,22 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 IncludeDefaultClasses = true,
                 Minify = false,
-                Culture = CultureInfo.CurrentCulture
+                Culture = CultureInfo.CurrentCulture,
+                Accessibility = new AccessibilitySettings()
             };
             return defaultOptions;
         }
         internal static HtmlTableExportOptions Default
         {
             get { return Create(); }
+        }
+
+        /// <summary>
+        /// Settings for usage of accessibility (aria, role) attributes of the table
+        /// </summary>
+        public AccessibilitySettings Accessibility
+        {
+            get; private set;
         }
         /// <summary>
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
