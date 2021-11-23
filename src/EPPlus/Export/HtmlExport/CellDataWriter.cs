@@ -31,6 +31,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("data-value", v);
                 }
             }
+            if (options.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                writer.AddAttribute("role", "cell");
+            }
             writer.RenderBeginTag(HtmlElements.TableData);
             writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
             // TODO: apply format

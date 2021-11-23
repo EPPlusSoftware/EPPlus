@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -158,6 +159,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 writer.AddAttribute(HtmlAttributes.Id, options.TableId);
             }
+            AddTableAccessibilityAttributes(options, writer);
             writer.RenderBeginTag(HtmlElements.Table);
 
             writer.ApplyFormatIncreaseIndent(options.Minify);
@@ -175,6 +177,28 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
 
         }
+
+        private void AddTableAccessibilityAttributes(HtmlTableExportOptions options, EpplusHtmlWriter writer)
+        {
+            if (!options.Accessibility.TableSettings.AddAccessibilityAttributes) return;
+            if(!string.IsNullOrEmpty(options.Accessibility.TableSettings.TableRole))
+            {
+                writer.AddAttribute("role", options.Accessibility.TableSettings.TableRole);
+            }
+            if(!string.IsNullOrEmpty(options.Accessibility.TableSettings.AriaLabel))
+            {
+                writer.AddAttribute(AriaAttributes.AriaLabel.AttributeName, options.Accessibility.TableSettings.AriaLabel);
+            }
+            if (!string.IsNullOrEmpty(options.Accessibility.TableSettings.AriaLabelledBy))
+            {
+                writer.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, options.Accessibility.TableSettings.AriaLabelledBy);
+            }
+            if (!string.IsNullOrEmpty(options.Accessibility.TableSettings.AriaDescribedBy))
+            {
+                writer.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, options.Accessibility.TableSettings.AriaDescribedBy);
+            }
+        }
+
         internal string GetSinglePage(string htmlDocument = "<html><head><style>{1}</style></head><body>{0}</body></html>")
         {
             return GetSinglePage(HtmlTableExportOptions.Default, CssTableExportOptions.Default, htmlDocument);
@@ -192,12 +216,21 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void RenderTableRows(EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
+            if (options.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(options.Accessibility.TableSettings.TbodyRole))
+            {
+                writer.AddAttribute("role", options.Accessibility.TableSettings.TbodyRole);
+            }
             writer.RenderBeginTag(HtmlElements.Tbody);
             writer.ApplyFormatIncreaseIndent(options.Minify);
             var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
             var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
             while (row <= endRow)
             {
+                if(options.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    writer.AddAttribute("role", "row");
+                    writer.AddAttribute("scope", "row");
+                }
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(options.Minify);
                 //var tableRange = _table.WorkSheet.Cells[row, _table.Address._fromCol, row, _table.Address._toCol];
@@ -217,14 +250,22 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormatDecreaseIndent(options.Minify);
             // end tag tbody
             writer.RenderEndTag();
-            writer.ApplyFormatDecreaseIndent(options.Minify);
+            writer.ApplyFormat(options.Minify);
         }
 
         private void RenderHeaderRow(EpplusHtmlWriter writer, HtmlTableExportOptions options)
         {
             // table header row
+            if(options.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(options.Accessibility.TableSettings.TheadRole))
+            {
+                writer.AddAttribute("role", options.Accessibility.TableSettings.TheadRole);
+            }
             writer.RenderBeginTag(HtmlElements.Thead);
             writer.ApplyFormatIncreaseIndent(options.Minify);
+            if (options.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                writer.AddAttribute("role", "row");
+            }
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(options.Minify);
             var adr = _table.Address;
@@ -234,6 +275,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 var cell = _table.WorkSheet.Cells[row, col];
                 writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
                 writer.SetClassAttributeFromStyle(cell.StyleID, _table.WorkSheet.Workbook.Styles);
+                if (options.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(options.Accessibility.TableSettings.TableHeaderCellRole))
+                {
+                    writer.AddAttribute("role", options.Accessibility.TableSettings.TableHeaderCellRole);
+                    writer.AddAttribute("scope", "col");
+                }
                 writer.RenderBeginTag(HtmlElements.TableHeader);
                 writer.Write(cell.Text);
                 writer.RenderEndTag();
@@ -259,14 +305,27 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             // table header row
             var rowIndex = _table.Address._toRow;
+            if (options.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(options.Accessibility.TableSettings.TfootRole))
+            {
+                writer.AddAttribute("role", options.Accessibility.TableSettings.TfootRole);
+            }
             writer.RenderBeginTag(HtmlElements.TFoot);
             writer.ApplyFormatIncreaseIndent(options.Minify);
+            if (options.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                writer.AddAttribute("role", "row");
+                writer.AddAttribute("scope", "row");
+            }
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(options.Minify);
             var address = _table.Address;
             for (var col= address._fromCol;col<= address._toCol;col++)
             {
                 var cell = _table.WorkSheet.Cells[rowIndex, col];
+                if(options.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    writer.AddAttribute("role", "cell");
+                }
                 writer.RenderBeginTag(HtmlElements.TableData);
                 writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
                 writer.Write(cell.Text);
