@@ -245,7 +245,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, writer, options, false);
+                        var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
+                        _cellDataWriter.Write(cell, dataType, writer, options, addRowScope);
                     }
                     else
                     {
