@@ -26,21 +26,19 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class EpplusCssWriter : HtmlWriterBase
     {
-        protected CssTableExportOptions _options;
+        protected HtmlTableExportSettings _settings;
         ExcelRangeBase _range;
         ExcelTheme _theme;
         internal eFontExclude _fontExclude;
         internal eBorderExclude _borderExclude;
-        internal EpplusCssWriter(StreamWriter writer, ExcelRangeBase range, CssTableExportOptions options) : base(writer) 
+        internal EpplusCssWriter(StreamWriter writer, ExcelRangeBase range, HtmlTableExportSettings settings) : base(writer) 
         {
-            _options = options;
+            _settings = settings;
             Init(range);
         }
-        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, CssTableExportOptions options) : base(stream)
+        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, HtmlTableExportSettings settings) : base(stream)
         {
-            _options = options;
-            _borderExclude = options.Exclude.CellStyle.Border;
-            _fontExclude = _options.Exclude.CellStyle.Font;
+            _settings = settings;
             Init(range);
         }
         private void Init(ExcelRangeBase range)
@@ -52,6 +50,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 _range.Worksheet.Workbook.ThemeManager.CreateDefaultTheme();
             }
             _theme = range.Worksheet.Workbook.ThemeManager.CurrentTheme;
+            _borderExclude = _settings.Css.Exclude.CellStyle.Border;
+            _fontExclude = _settings.Css.Exclude.CellStyle.Font;
         }
 
         internal void AddToCss(ExcelStyles styles, int styleId)
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (IsAddedToCache(xfs, out int id)==false)
                 {
-                    WriteClass($".s{id}{{", _options.Minify);
+                    WriteClass($".s{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {
                         WriteFillStyles(xfs.Fill);
@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                         WriteBorderStyles(xfs.Border);
                     }
                     WriteStyles(xfs);
-                    WriteClassEnd(_options.Minify);
+                    WriteClassEnd(_settings.Minify);
                 }
             }
         }
@@ -98,30 +98,30 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void WriteStyles(ExcelXfs xfs)
         {
-            if (xfs.WrapText && _options.Exclude.CellStyle.WrapText == false)
+            if (xfs.WrapText && _settings.Css.Exclude.CellStyle.WrapText == false)
             {
-                WriteCssItem("word-break: break-word;", _options.Minify);
+                WriteCssItem("word-break: break-word;", _settings.Minify);
             }
 
-            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _options.Exclude.CellStyle.HorizontalAlignment == false)
+            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _settings.Css.Exclude.CellStyle.HorizontalAlignment == false)
             {
                 var hAlign = GetHorizontalAlignment(xfs);
-                WriteCssItem($"text-align:{hAlign};", _options.Minify);
+                WriteCssItem($"text-align:{hAlign};", _settings.Minify);
             }
 
-            if (xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom && _options.Exclude.CellStyle.VerticalAlignment == false)
+            if (xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom && _settings.Css.Exclude.CellStyle.VerticalAlignment == false)
             {
                 var vAlign = GetVerticalAlignment(xfs);
-                WriteCssItem($"vertical-align:{vAlign};", _options.Minify);
+                WriteCssItem($"vertical-align:{vAlign};", _settings.Minify);
             }
-            if(xfs.TextRotation!=0 && _options.Exclude.CellStyle.TextRotation==false)
+            if(xfs.TextRotation!=0 && _settings.Css.Exclude.CellStyle.TextRotation==false)
             {
-                WriteCssItem($"transform: rotate({xfs.TextRotation}deg);", _options.Minify);
+                WriteCssItem($"transform: rotate({xfs.TextRotation}deg);", _settings.Minify);
             }
 
-            if(xfs.Indent>0 && _options.Exclude.CellStyle.Indent == false)
+            if(xfs.Indent>0 && _settings.Css.Exclude.CellStyle.Indent == false)
             {
-                WriteCssItem($"padding-left:{xfs.Indent*_options.Indent}{_options.IndentUnit};", _options.Minify);
+                WriteCssItem($"padding-left:{xfs.Indent*_settings.Css.IndentValue}{_settings.Css.IndentUnit};", _settings.Minify);
             }
         }
 
@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 sb.Append(";");
 
-                WriteCssItem(sb.ToString(), _options.Minify);
+                WriteCssItem(sb.ToString(), _settings.Minify);
             }
         }
 
@@ -156,27 +156,27 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if(string.IsNullOrEmpty(f.Name)==false && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Name))
             {
-                WriteCssItem($"font-family:{f.Name};", _options.Minify);
+                WriteCssItem($"font-family:{f.Name};", _settings.Minify);
             }
             if(f.Size>0)
             {
-                WriteCssItem($"font-size:{f.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _options.Minify);
+                WriteCssItem($"font-size:{f.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
             }
             if (f.Color!=null && f.Color.Exists)
             {
-                WriteCssItem($"color:{GetColor(f.Color)};", _options.Minify);
+                WriteCssItem($"color:{GetColor(f.Color)};", _settings.Minify);
             }
             if (f.Bold)
             {
-                WriteCssItem("font-weight:bolder;", _options.Minify);
+                WriteCssItem("font-weight:bolder;", _settings.Minify);
             }
             if (f.Italic)
             {
-                WriteCssItem("font-style:italic;", _options.Minify);
+                WriteCssItem("font-style:italic;", _settings.Minify);
             }
             if (f.Strike)
             {
-                WriteCssItem("text-decoration:line-through solid;", _options.Minify);
+                WriteCssItem("text-decoration:line-through solid;", _settings.Minify);
             }
             if (f.UnderLineType != ExcelUnderLineType.None)
             {
@@ -184,10 +184,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     case ExcelUnderLineType.Double:
                     case ExcelUnderLineType.DoubleAccounting:
-                        WriteCssItem("text-decoration:underline double;", _options.Minify);
+                        WriteCssItem("text-decoration:underline double;", _settings.Minify);
                         break;
                     default:
-                        WriteCssItem("text-decoration:underline solid;", _options.Minify);
+                        WriteCssItem("text-decoration:underline solid;", _settings.Minify);
                         break;
                 }
             }            
@@ -205,11 +205,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     if (f.PatternType == ExcelFillStyle.Solid)
                     {
-                        WriteCssItem($"background-color:{GetColor(f.BackgroundColor)};", _options.Minify);
+                        WriteCssItem($"background-color:{GetColor(f.BackgroundColor)};", _settings.Minify);
                     }
                     else
                     {
-                        WriteCssItem($"{PatternFills.GetPatternSvg(f.PatternType, GetColor(f.BackgroundColor), GetColor(f.PatternColor))}", _options.Minify);
+                        WriteCssItem($"{PatternFills.GetPatternSvg(f.PatternType, GetColor(f.BackgroundColor), GetColor(f.PatternColor))}", _settings.Minify);
                     }
                 }
             }

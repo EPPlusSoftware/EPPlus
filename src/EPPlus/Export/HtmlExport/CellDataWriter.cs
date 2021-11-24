@@ -21,17 +21,17 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal class CellDataWriter
     {
         private readonly CompileResultFactory _compileResultFactory = new CompileResultFactory();
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportOptions options, bool addRowScope)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportSettings settings, bool addRowScope)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
-                var v = HtmlRawDataProvider.GetRawValue(cell, dataType, options.Culture);
+                var v = HtmlRawDataProvider.GetRawValue(cell, dataType);
                 if (string.IsNullOrEmpty(v)==false)
                 {
                     writer.AddAttribute("data-value", v);
                 }
             }
-            if (options.Accessibility.TableSettings.AddAccessibilityAttributes)
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
             {
                 writer.AddAttribute("role", "cell");
                 if(addRowScope)
@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderBeginTag(HtmlElements.TableData);
             writer.Write(cell.Text);
             writer.RenderEndTag();
-            writer.ApplyFormat(options.Minify);
+            writer.ApplyFormat(settings.Minify);
         }
     }
 }

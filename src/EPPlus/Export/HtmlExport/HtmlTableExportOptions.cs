@@ -20,80 +20,72 @@ using System.Text;
 namespace OfficeOpenXml.Export.HtmlExport
 {
     /// <summary>
-    /// 
+    /// Settings for the 
     /// </summary>
-    public class HtmlTableExportOptions : HtmlTableExportBaseOptions
+    public class HtmlTableExportSettings
     {
-        internal HtmlTableExportOptions() : base() { }
-
-        public static HtmlTableExportOptions Create()
-        {
-            var defaultOptions = new HtmlTableExportOptions
-            {
-                IncludeDefaultClasses = true,
-                Minify = false,
-                Culture = CultureInfo.CurrentCulture,
-                Accessibility = new AccessibilitySettings()
-            };
-            return defaultOptions;
-        }
-        internal static HtmlTableExportOptions Default
-        {
-            get { return Create(); }
-        }
-
+        /// <summary>
+        /// If set to true the rendered html will be formatted with indents and linebreaks.
+        /// </summary>
+        public bool Minify { get; set; } = true;
+        /// <summary>
+        /// If true hidden rows will be included. 
+        /// </summary>
+        public bool IncludeHiddenRows { get; set; } = false;
         /// <summary>
         /// Settings for usage of accessibility (aria, role) attributes of the table
         /// </summary>
         public AccessibilitySettings Accessibility
         {
             get; private set;
-        }
+        } = new AccessibilitySettings();
         /// <summary>
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
         /// </summary>
-        public bool IncludeDefaultClasses { get; set; }
+        public bool IncludeDefaultClasses { get; set; } = true;
         /// <summary>
         /// The html id attribute for the exported table. The id attribute is only added to the table if this property is not null or empty.
         /// </summary>
         public string TableId { get; set; }
 
-        private List<string> _additionalTableClasses = new List<string>(20);
-        
-
         /// <summary>
-        /// Use this property to set additional class names that will be set on the exported html-table. Max 20 additional classes can be added
+        /// Use this property to set additional class names that will be set on the exported html-table.
         /// </summary>
         public IList<string> AdditionalTableClassNames
         {
-            get
-            {
-                return _additionalTableClasses;
-            }
-        }
+            get;
+            private set;
+        } = new List<string>();
 
-        public CultureInfo Culture { get; set; }
+        /// <summary>
+        /// The culture used to 
+        /// </summary>
+        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
 
         /// <summary>
         /// If true data-* attributes will be rendered
         /// </summary>
-        public bool RenderDataAttributes { get; set; }
-    }
-    public class CssTableExportOptions : HtmlTableExportBaseOptions
-    {
-        public static CssTableExportOptions Create()
-        {
-            var defaultOptions = new CssTableExportOptions
-            {
-                Minify = false
-            };
+        public bool RenderDataAttributes { get; set; } = true;
 
-            return defaultOptions;
-        }
-        internal static CssTableExportOptions Default
+        public CssTableExportSettings Css { get; } = new CssTableExportSettings();
+    }
+    public class CssTableExportSettings
+    {
+        internal CssTableExportSettings()
         {
-            get { return Create(); }
+
         }
+        /// <summary>
+        /// Include Css for the current table style
+        /// </summary>
+        public bool IncludeTableStyles { get; set; } = true;
+        /// <summary>
+        /// Include Css for cell styling.
+        /// </summary>
+        public bool IncludeCellStyles { get; set; } = true;
+        /// <summary>
+        /// Css elements added to the table.
+        /// </summary>
         internal Dictionary<string, string> AdditionalCssElements
         {
             get;
@@ -105,14 +97,17 @@ namespace OfficeOpenXml.Export.HtmlExport
                 { "word-wrap", "break-word"},
                 { "white-space", "nowrap"}
             };
-
         /// <summary>
-        /// Include Css for the current table style
+        /// The value used in the stylesheet for an indentation in a cell
         /// </summary>
-        public bool IncludeTableStyles { get; set; } = true;
-
-        public float Indent { get; set; } = 2;
+        public float IndentValue { get; set; } = 2;
+        /// <summary>
+        /// The unit used in the stylesheet for an indentation in a cell
+        /// </summary>
         public string IndentUnit { get; set; } = "em";
+        /// <summary>
+        /// Exclude flags for styles
+        /// </summary>
         public CssExcludeStyle Exclude
         {
             get;
@@ -153,17 +148,5 @@ namespace OfficeOpenXml.Export.HtmlExport
         public bool WrapText { get; set; }
         public bool TextRotation { get; set; }
         public bool Indent { get; set; }
-    }
-
-    public abstract class HtmlTableExportBaseOptions
-    {
-        /// <summary>
-        /// If set to true the rendered html will be formatted with indents and linebreaks.
-        /// </summary>
-        public bool Minify { get; set; } = true;
-        /// <summary>
-        /// Include Css for cell styling.
-        /// </summary>
-        public bool IncludeCellStyles { get; set; } = true;
     }
 }

@@ -30,24 +30,15 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// </summary>
     public partial class TableExporter
     {        
-        /// <summary>     
-        /// Exports an <see cref="ExcelTable"/> to a css string
-        /// </summary>
-        /// <returns>A cascading style sheet</returns>
-        public string GetCssString()
-        {
-            return GetCssString(CssTableExportOptions.Default);
-        }
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
-        /// <param name="options"><see cref="HtmlTableExportOptions">Options</see> for the export</param>
         /// <returns>A html table</returns>
-        public string GetCssString(CssTableExportOptions options)
+        public string GetCssString()
         {
             using (var ms = new MemoryStream())
             {
-                RenderCss(ms, options);
+                RenderCss(ms);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
@@ -55,22 +46,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
-
         public void RenderCss(Stream stream)
         {
-            RenderCss(stream, CssTableExportOptions.Default);
-        }
-
-        public void RenderCss(Stream stream, Action<CssTableExportOptions> options)
-        {
-            var o = new CssTableExportOptions();
-            options?.Invoke(o);
-            RenderCss(stream, o);
-        } 
-        public void RenderCss(Stream stream, CssTableExportOptions options)
-        {
-            Require.Argument(options).IsNotNull("options");
-            if (_table.TableStyle == TableStyles.None || options.IncludeTableStyles==false)
+            if ((_table.TableStyle == TableStyles.None || Settings.Css.IncludeTableStyles==false) && Settings.Css.IncludeCellStyles==false)
             {
                 return; 
             }
@@ -81,13 +59,13 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (_datatypes.Count == 0) GetDataTypes(_table.Address);
             var sw = new StreamWriter(stream);
-            if (options.IncludeTableStyles) RenderTableCss(sw, options);
-            if (options.IncludeCellStyles) RenderCellCss(sw, options);
+            if (Settings.Css.IncludeTableStyles) RenderTableCss(sw);
+            if (Settings.Css.IncludeCellStyles) RenderCellCss(sw);
         }
 
-        private void RenderCellCss(StreamWriter sw, CssTableExportOptions options)
+        private void RenderCellCss(StreamWriter sw)
         {            
-            var styleWriter = new EpplusCssWriter(sw, _table.Range, options);
+            var styleWriter = new EpplusCssWriter(sw, _table.Range, Settings);
 
             var r = _table.Range;
             var styles = r.Worksheet.Workbook.Styles;
@@ -102,10 +80,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             styleWriter.FlushStream();
         }
 
-        internal void RenderTableCss(StreamWriter sw, CssTableExportOptions options)
+        internal void RenderTableCss(StreamWriter sw)
         {
-            var styleWriter = new EpplusTableCssWriter(sw, _table, options);
-            if (options.Minify == false) styleWriter.WriteLine();
+            var styleWriter = new EpplusTableCssWriter(sw, _table, Settings);
+            if (Settings.Minify == false) styleWriter.WriteLine();
             styleWriter.RenderAdditionalAndFontCss();
             ExcelTableNamedStyle tblStyle;
             if (_table.TableStyle == TableStyles.Custom)
@@ -119,7 +97,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 tblStyle.SetFromTemplate(_table.TableStyle);
             }
 
-            var tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}";
+            var tableClass = $"{TableClass}.{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}";
             styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
             styleWriter.AddAlignmentToCss($"{tableClass}", _datatypes);
 

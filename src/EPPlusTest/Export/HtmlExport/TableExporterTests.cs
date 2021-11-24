@@ -50,9 +50,8 @@ namespace EPPlusTest.Export.HtmlExport
                 var table = sheet.Tables.Add(sheet.Cells["A1:B2"], "myTable");
                 table.TableStyle = TableStyles.Dark1;
                 table.ShowHeader = true;
-                var options = HtmlTableExportOptions.Default;
-                options.TableId = "myTable";
-                var html = table.HtmlExporter.GetHtmlString(options);
+                table.HtmlExporter.Settings.TableId = "myTable";
+                var html = table.HtmlExporter.GetHtmlString();
                 using (var ms = new MemoryStream())
                 {
                     table.HtmlExporter.RenderHtml(ms);

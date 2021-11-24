@@ -31,22 +31,22 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class EpplusTableCssWriter : HtmlWriterBase
     {
-        protected CssTableExportOptions _options;
+        protected HtmlTableExportSettings _settings;
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
         ExcelTable _table;
         ExcelTheme _theme;
-        public EpplusTableCssWriter(Stream stream, ExcelTable table, CssTableExportOptions options) : base(stream)
+        internal EpplusTableCssWriter(Stream stream, ExcelTable table, HtmlTableExportSettings settings) : base(stream)
         {
-            Init(table, options);
+            Init(table, settings);
         }
-        public EpplusTableCssWriter(StreamWriter writer, ExcelTable table, CssTableExportOptions options) : base(writer)
+        internal EpplusTableCssWriter(StreamWriter writer, ExcelTable table, HtmlTableExportSettings settings) : base(writer)
         {
-            Init(table, options);
+            Init(table, settings);
         }
-        private void Init(ExcelTable table, CssTableExportOptions options)
+        private void Init(ExcelTable table, HtmlTableExportSettings settings)
         {
             _table = table;
-            _options = options;
+            _settings = settings;
             if (table.WorkSheet.Workbook.ThemeManager.CurrentTheme == null)
             {
                 table.WorkSheet.Workbook.ThemeManager.CreateDefaultTheme();
@@ -56,19 +56,18 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal void RenderAdditionalAndFontCss()
         {
-            WriteClass($"table.{TableExporter.TableClass}{{", _options.Minify);
+            WriteClass($"table.{TableExporter.TableClass}{{", _settings.Minify);
             var ns = _table.WorkSheet.Workbook.Styles.GetNormalStyle();
             if (ns != null)
             {
-                WriteCssItem($"font-family:{ns.Style.Font.Name};", _options.Minify);
-                WriteCssItem($"font-size:{ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _options.Minify);
+                WriteCssItem($"font-family:{ns.Style.Font.Name};", _settings.Minify);
+                WriteCssItem($"font-size:{ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
             }
-
-            foreach (var item in _options.AdditionalCssElements)
+            foreach (var item in _settings.Css.AdditionalCssElements)
             {
-                WriteCssItem($"{item.Key}:{item.Value};", _options.Minify);
+                WriteCssItem($"{item.Key}:{item.Value};", _settings.Minify);
             }
-            WriteClassEnd(_options.Minify);
+            WriteClassEnd(_settings.Minify);
         }
 
         internal void AddAlignmentToCss(string name, List<string> dataTypes)
@@ -97,16 +96,16 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                 if (!(string.IsNullOrEmpty(hAlign) && string.IsNullOrEmpty(vAlign)))
                 {
-                    WriteClass($"table.{name} td:nth-child({col}){{", _options.Minify);
-                    if (string.IsNullOrEmpty(hAlign)==false && _options.Exclude.TableStyle.HorizontalAlignment==false)
+                    WriteClass($"table.{name} td:nth-child({col}){{", _settings.Minify);
+                    if (string.IsNullOrEmpty(hAlign)==false && _settings.Css.Exclude.TableStyle.HorizontalAlignment==false)
                     {
-                        WriteCssItem($"text-align:{hAlign};", _options.Minify);
+                        WriteCssItem($"text-align:{hAlign};", _settings.Minify);
                     }
-                    if (string.IsNullOrEmpty(vAlign) == false && _options.Exclude.TableStyle.VerticalAlignment==false)
+                    if (string.IsNullOrEmpty(vAlign) == false && _settings.Css.Exclude.TableStyle.VerticalAlignment==false)
                     {
-                        WriteCssItem($"vertical-align:{vAlign};", _options.Minify);
+                        WriteCssItem($"vertical-align:{vAlign};", _settings.Minify);
                     }
-                    WriteClassEnd(_options.Minify);
+                    WriteClassEnd(_settings.Minify);
                 }
             }
         }
@@ -114,27 +113,27 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             var s = element.Style;
             if (s.HasValue == false) return; //Dont add empty elements
-            WriteClass($"table.{name}{htmlElement}{{", _options.Minify);
+            WriteClass($"table.{name}{htmlElement}{{", _settings.Minify);
             WriteFillStyles(s.Fill);
             WriteFontStyles(s.Font);
             WriteBorderStyles(s.Border);
-            WriteClassEnd(_options.Minify);
+            WriteClassEnd(_settings.Minify);
         }
 
         internal void AddHyperlinkCss(string name, ExcelTableStyleElement element)
         {
-            WriteClass($"table.{name} a{{", _options.Minify);
+            WriteClass($"table.{name} a{{", _settings.Minify);
             WriteFontStyles(element.Style.Font);
-            WriteClassEnd(_options.Minify);
+            WriteClassEnd(_settings.Minify);
         }
 
         internal void AddToCssBorderVH(string name, ExcelTableStyleElement element, string htmlElement)
         {
             var s = element.Style;
             if (s.Border.Vertical.HasValue == false && s.Border.Horizontal.HasValue==false) return; //Dont add empty elements
-            WriteClass($"table.{name}{htmlElement} td,tr {{", _options.Minify);
+            WriteClass($"table.{name}{htmlElement} td,tr {{", _settings.Minify);
             WriteBorderStylesVerticalHorizontal(s.Border);
-            WriteClassEnd(_options.Minify);
+            WriteClassEnd(_settings.Minify);
         }
         internal void FlushStream()
         {
@@ -142,17 +141,17 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         private void WriteFillStyles(ExcelDxfFill f)
         {
-            if (f.HasValue && _options.Exclude.TableStyle.Fill == false)
+            if (f.HasValue && _settings.Css.Exclude.TableStyle.Fill == false)
             {
                 if (f.Style == eDxfFillStyle.PatternFill)
                 {
                     if (f.PatternType.Value==ExcelFillStyle.Solid)
                     {
-                        WriteCssItem($"background-color:{GetDxfColor(f.BackgroundColor)};", _options.Minify);
+                        WriteCssItem($"background-color:{GetDxfColor(f.BackgroundColor)};", _settings.Minify);
                     }
                     else
                     {
-                        WriteCssItem($"{PatternFills.GetPatternSvg(f.PatternType.Value, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor))};", _options.Minify);
+                        WriteCssItem($"{PatternFills.GetPatternSvg(f.PatternType.Value, GetDxfColor(f.BackgroundColor), GetDxfColor(f.PatternColor))};", _settings.Minify);
                     }
                 }
                 else if(f.Style==eDxfFillStyle.GradientFill)
@@ -179,38 +178,38 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             sb.Append(")");
 
-            WriteCssItem(sb.ToString(), _options.Minify);
+            WriteCssItem(sb.ToString(), _settings.Minify);
         }
         private void WriteFontStyles(ExcelDxfFontBase f)
         {
-            var flags = _options.Exclude.TableStyle.Font;
+            var flags = _settings.Css.Exclude.TableStyle.Font;
             if (f.Color.HasValue && EnumUtil.HasNotFlag(flags, eFontExclude.Color))
             {
-                WriteCssItem($"color:{GetDxfColor(f.Color)};", _options.Minify);
+                WriteCssItem($"color:{GetDxfColor(f.Color)};", _settings.Minify);
             }
             if (f.Bold.HasValue && f.Bold.Value && EnumUtil.HasNotFlag(flags, eFontExclude.Bold))
             {
-                WriteCssItem("font-weight:bolder;", _options.Minify);
+                WriteCssItem("font-weight:bolder;", _settings.Minify);
             }
             if (f.Italic.HasValue && f.Italic.Value && EnumUtil.HasNotFlag(flags, eFontExclude.Italic))
             {
-                WriteCssItem("font-style:italic;", _options.Minify);
+                WriteCssItem("font-style:italic;", _settings.Minify);
             }
             if (f.Strike.HasValue && f.Strike.Value && EnumUtil.HasNotFlag(flags, eFontExclude.Strike))
             {
-                WriteCssItem("text-decoration:line-through solid;", _options.Minify);
+                WriteCssItem("text-decoration:line-through solid;", _settings.Minify);
             }
             if (f.Underline.HasValue && f.Underline != ExcelUnderLineType.None && EnumUtil.HasNotFlag(flags, eFontExclude.Underline))
             {
-                WriteCssItem("text-decoration:underline ", _options.Minify);
+                WriteCssItem("text-decoration:underline ", _settings.Minify);
                 switch (f.Underline.Value)
                 {
                     case ExcelUnderLineType.Double:
                     case ExcelUnderLineType.DoubleAccounting:
-                        WriteCssItem("double;", _options.Minify);
+                        WriteCssItem("double;", _settings.Minify);
                         break;
                     default:
-                        WriteCssItem("solid;", _options.Minify);
+                        WriteCssItem("solid;", _settings.Minify);
                         break;
                 }
             }
@@ -219,7 +218,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (b.HasValue)
             {
-                var flags = _options.Exclude.TableStyle.Border;
+                var flags = _settings.Css.Exclude.TableStyle.Border;
                 if(EnumUtil.HasNotFlag(flags, eBorderExclude.Top)) WriteBorderItem(b.Top, "top");
                 if(EnumUtil.HasNotFlag(flags, eBorderExclude.Bottom)) WriteBorderItem(b.Bottom, "bottom");
                 if(EnumUtil.HasNotFlag(flags, eBorderExclude.Left)) WriteBorderItem(b.Left, "left");
@@ -230,7 +229,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (b.HasValue)
             {
-                var flags = _options.Exclude.TableStyle.Border;
+                var flags = _settings.Css.Exclude.TableStyle.Border;
                 if (EnumUtil.HasNotFlag(flags, eBorderExclude.Top)) WriteBorderItem(b.Horizontal, "top");
                 if (EnumUtil.HasNotFlag(flags, eBorderExclude.Bottom)) WriteBorderItem(b.Horizontal, "bottom");
                 if (EnumUtil.HasNotFlag(flags, eBorderExclude.Left)) WriteBorderItem(b.Vertical, "left");
@@ -250,7 +249,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 sb.Append(";");
 
-                WriteCssItem(sb.ToString(), _options.Minify);
+                WriteCssItem(sb.ToString(), _settings.Minify);
             }
         }
 
