@@ -24,12 +24,13 @@ namespace OfficeOpenXml.Export.HtmlExport.Accessibility
     {
         internal AccessibilitySettings()
         {
-            TableSettings = TableAccessibilitySettings.Default;
+            TableSettings.ResetToDefault();
         }
 
         /// <summary>
         /// Settings for a html table
         /// </summary>
-        public TableAccessibilitySettings TableSettings { get; private set; }
+        public TableAccessibilitySettings TableSettings { get; private set; } = new TableAccessibilitySettings();
+
     }
 }

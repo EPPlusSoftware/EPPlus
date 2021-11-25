@@ -68,12 +68,41 @@ namespace OfficeOpenXml.Export.HtmlExport
         public bool RenderDataAttributes { get; set; } = true;
 
         public CssTableExportSettings Css { get; } = new CssTableExportSettings();
+
+        public void ResetToDefault()
+        {
+            Minify = true;
+            IncludeHiddenRows = false;
+            Accessibility.TableSettings.ResetToDefault();
+            IncludeDefaultClasses = true;
+            TableId = "";
+            AdditionalTableClassNames=new List<string>();
+            Culture = CultureInfo.CurrentCulture;
+            RenderDataAttributes = true;
+            Css.ResetToDefault();
+        }
+        public void Copy(HtmlTableExportSettings copy)
+        {
+            Minify = copy.Minify;
+            IncludeHiddenRows = copy.IncludeHiddenRows;
+            Accessibility.TableSettings.Copy(copy.Accessibility.TableSettings);
+            IncludeDefaultClasses = copy.IncludeDefaultClasses;
+            TableId = copy.TableId;
+            AdditionalTableClassNames = copy.AdditionalTableClassNames;
+            Culture = copy.Culture;
+            RenderDataAttributes = copy.RenderDataAttributes;
+            Css.Copy(copy.Css);
+        }
+        public void Configure(Action<HtmlTableExportSettings> settings)
+        {
+            settings.Invoke(this);
+        }
     }
     public class CssTableExportSettings
     {
         internal CssTableExportSettings()
         {
-
+            ResetToDefault();
         }
         /// <summary>
         /// Include Css for the current table style
@@ -90,13 +119,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             get;
             private set;
-        } = new Dictionary<string, string>()
-            {
-                { "border-spacing", "0" },
-                { "border-collapse", "collapse" },
-                { "word-wrap", "break-word"},
-                { "white-space", "nowrap"}
-            };
+        }
         /// <summary>
         /// The value used in the stylesheet for an indentation in a cell
         /// </summary>
@@ -112,10 +135,40 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             get;
         } = new CssExcludeStyle();
+
+        public void ResetToDefault()
+        {
+            IncludeTableStyles = true;
+            IncludeCellStyles = true;
+            AdditionalCssElements = new Dictionary<string, string>()
+            {
+                { "border-spacing", "0" },
+                { "border-collapse", "collapse" },
+                { "word-wrap", "break-word"},
+                { "white-space", "nowrap"}
+            };
+            IndentValue = 2;
+            IndentUnit = "em";
+
+            Exclude.CellStyle.ResetToDefault();
+        }
+
+        internal void Copy(CssTableExportSettings copy)
+        {
+            IncludeTableStyles = copy.IncludeTableStyles;
+            IncludeCellStyles = copy.IncludeTableStyles;
+            AdditionalCssElements = copy.AdditionalCssElements;
+            IndentValue = copy.IndentValue;
+            IndentUnit = copy.IndentUnit;
+
+            Exclude.TableStyle.Copy(copy.Exclude.TableStyle);
+            Exclude.CellStyle.Copy(copy.Exclude.CellStyle);
+        }
     }
     [Flags]
     public enum eFontExclude
     {
+        All = 0x4F,
         Name = 0x01,
         Size = 0x02,
         Color = 0x04,
@@ -127,6 +180,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     [Flags]
     public enum eBorderExclude
     {
+        All = 0x0F,
         Top = 0x01,
         Bottom = 0x02,
         Left = 0x04,
@@ -148,5 +202,28 @@ namespace OfficeOpenXml.Export.HtmlExport
         public bool WrapText { get; set; }
         public bool TextRotation { get; set; }
         public bool Indent { get; set; }
+
+        public void ResetToDefault()
+        {
+            Font = 0;
+            Border = 0;
+            Fill = false;
+            VerticalAlignment = false;
+            HorizontalAlignment = false;
+            WrapText = false;
+            TextRotation = false;
+            Indent = false;
+        }
+        public void Copy(CssExclude copy)
+        {
+            Font = copy.Font;
+            Border = copy.Border;
+            Fill = copy.Fill;
+            VerticalAlignment = copy.VerticalAlignment;
+            HorizontalAlignment = copy.HorizontalAlignment;
+            WrapText = copy.WrapText;
+            TextRotation = copy.TextRotation;
+            Indent = copy.Indent;
+        }        
     }
 }

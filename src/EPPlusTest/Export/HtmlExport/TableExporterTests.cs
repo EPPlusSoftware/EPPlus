@@ -38,7 +38,7 @@ namespace EPPlusTest.Export.HtmlExport
 #endif
 
         [TestMethod]
-        public void ShouldExportHeaders()
+        public void ShouldExportHeadersWithNoAccessibilityAttributes()
         {
             using (var package = new ExcelPackage())
             {
@@ -50,7 +50,12 @@ namespace EPPlusTest.Export.HtmlExport
                 var table = sheet.Tables.Add(sheet.Cells["A1:B2"], "myTable");
                 table.TableStyle = TableStyles.Dark1;
                 table.ShowHeader = true;
-                table.HtmlExporter.Settings.TableId = "myTable";
+                table.HtmlExporter.Settings.Configure(x =>
+                { 
+                    x.TableId = "myTable"; 
+                    x.Minify = true;
+                    x.Accessibility.TableSettings.AddAccessibilityAttributes = false;
+                });
                 var html = table.HtmlExporter.GetHtmlString();
                 using (var ms = new MemoryStream())
                 {
@@ -58,6 +63,38 @@ namespace EPPlusTest.Export.HtmlExport
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
+                    var expectedHtml = "<table class=\"epplus-table ts-dark1 ts-dark1-header ts-dark1-row-stripes\" id=\"myTable\"><thead><tr><th data-datatype=\"string\">Name</th><th data-datatype=\"number\">Age</th></tr></thead><tbody><tr><td>John Doe</td><td data-value=\"23\">23</td></tr></tbody></table>";
+                    Assert.AreEqual(expectedHtml, result);
+                }
+            }
+        }
+        [TestMethod]
+        public void ShouldExportHeadersWithAccessibilityAttributes()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells["A1"].Value = "Name";
+                sheet.Cells["B1"].Value = "Age";
+                sheet.Cells["A2"].Value = "John Doe";
+                sheet.Cells["B2"].Value = 23;
+                var table = sheet.Tables.Add(sheet.Cells["A1:B2"], "myTable");
+                table.TableStyle = TableStyles.Dark1;
+                table.ShowHeader = true;
+                table.HtmlExporter.Settings.Configure(x =>
+                {
+                    x.TableId = "myTable";
+                    x.Minify = true;
+                });
+
+                using (var ms = new MemoryStream())
+                {
+                    table.HtmlExporter.RenderHtml(ms);
+                    var sr = new StreamReader(ms);
+                    ms.Position = 0;
+                    var result = sr.ReadToEnd();
+                    var expectedHtml = "<table class=\"epplus-table ts-dark1 ts-dark1-header ts-dark1-row-stripes\" id=\"myTable\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" role=\"columnheader\" scope=\"col\">Name</th><th data-datatype=\"number\" role=\"columnheader\" scope=\"col\">Age</th></tr></thead><tbody role=\"rowgroup\"><tr><td role=\"cell\">John Doe</td><td data-value=\"23\" role=\"cell\">23</td></tr></tbody></table>";
+                    Assert.AreEqual(expectedHtml, result);
                 }
             }
         }

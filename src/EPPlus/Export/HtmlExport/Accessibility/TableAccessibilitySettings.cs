@@ -19,22 +19,27 @@ namespace OfficeOpenXml.Export.HtmlExport.Accessibility
 {
     public class TableAccessibilitySettings
     {
-        public static TableAccessibilitySettings Default
+        public void ResetToDefault()
         {
-            get
-            {
-                return new TableAccessibilitySettings
-                {
-                    AddAccessibilityAttributes = true,
-                    AriaLabel = string.Empty,
-                    AriaLabelledBy = string.Empty,
-                    TableRole = "table",
-                    TheadRole = "rowgroup",
-                    TbodyRole = "rowgroup",
-                    TfootRole = "rowgroup",
-                    TableHeaderCellRole = "columnheader"
-                };
-            }
+            AddAccessibilityAttributes = true;
+            AriaLabel = string.Empty;
+            AriaLabelledBy = string.Empty;
+            TableRole = "table";
+            TheadRole = "rowgroup";
+            TbodyRole = "rowgroup";
+            TfootRole = "rowgroup";
+            TableHeaderCellRole = "columnheader";
+        }
+        public void Copy(TableAccessibilitySettings copy)
+        {
+            AddAccessibilityAttributes = copy.AddAccessibilityAttributes;
+            AriaLabel = copy.AriaLabel;
+            AriaLabelledBy = copy.AriaLabelledBy;
+            TableRole = copy.TableRole;
+            TheadRole = copy.TheadRole;
+            TbodyRole = copy.TbodyRole;
+            TfootRole = copy.TfootRole;
+            TableHeaderCellRole = copy.TableHeaderCellRole;
         }
 
         public bool AddAccessibilityAttributes { get; set; }
