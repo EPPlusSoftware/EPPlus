@@ -40,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 return (int)obj;
             }
-            if (objType == typeof(double) || objType == typeof(decimal))
+            if (objType == typeof(double) || objType == typeof(decimal) || objType == typeof(bool))
             {
                 return ConvertToInt(obj, roundingMethod);
             }
