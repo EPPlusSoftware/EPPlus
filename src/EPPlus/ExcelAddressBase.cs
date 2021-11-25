@@ -609,6 +609,7 @@ namespace OfficeOpenXml
                     {
                         a += ","+sa.GetAddress();
                     }
+                    a = a.TrimStart(',');
                 }
                 else
                 {

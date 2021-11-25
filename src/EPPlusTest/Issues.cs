@@ -2826,6 +2826,18 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void Supportcase271()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+                var validation = sheet.DataValidations.AddListValidation("A1 B1");
+                validation.Formula.ExcelFormula = "Sheet2!$A$7:$A$12"; // throws exception "Multiple addresses may not be commaseparated, use space instead"
+            }
+        }
     }
 }
 
