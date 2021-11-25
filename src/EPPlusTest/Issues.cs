@@ -2828,7 +2828,7 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void Supportcase271()
+        public void Issue538()
         {
             using (var package = new ExcelPackage())
             {
