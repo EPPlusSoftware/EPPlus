@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
             
-            var writer = new EpplusHtmlWriter(stream);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             if (_table.TableStyle != TableStyles.None)
             {
                 writer.AddAttribute(HtmlAttributes.Class, $"{TableClass} {TableStyleClassPrefix}{_table.TableStyle.ToString().ToLowerInvariant()}");
@@ -72,7 +72,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             await RenderTableRowsAsync(writer, Settings.Minify);
             // end tag table
             await writer.RenderEndTagAsync();
-
         }
 
         private async Task RenderTableRowsAsync(EpplusHtmlWriter writer, bool formatHtml)

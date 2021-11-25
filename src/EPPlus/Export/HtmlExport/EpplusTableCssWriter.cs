@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
         ExcelTable _table;
         ExcelTheme _theme;
-        internal EpplusTableCssWriter(Stream stream, ExcelTable table, HtmlTableExportSettings settings) : base(stream)
+        internal EpplusTableCssWriter(Stream stream, ExcelTable table, HtmlTableExportSettings settings) : base(stream, settings.Encoding)
         {
             Init(table, settings);
         }

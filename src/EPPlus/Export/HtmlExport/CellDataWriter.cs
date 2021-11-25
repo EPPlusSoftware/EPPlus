@@ -11,6 +11,7 @@
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
             writer.RenderBeginTag(HtmlElements.TableData);
-            writer.Write(cell.Text);
+            writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
             writer.RenderEndTag();
             writer.ApplyFormat(settings.Minify);
         }

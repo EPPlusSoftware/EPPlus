@@ -14,15 +14,17 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
     internal abstract class HtmlWriterBase
     {
-        public HtmlWriterBase(Stream stream)
+        internal HtmlWriterBase(Stream stream, Encoding encoding)
         {
             _stream = stream;
-            _writer = new StreamWriter(stream);
+            _writer = new StreamWriter(stream, encoding);
+            
         }
         public HtmlWriterBase(StreamWriter writer)
         {

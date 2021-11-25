@@ -17,7 +17,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using(var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms);
+                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8);
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
                 writer.RenderEndTagAsync().Wait();
                 var reader = new StreamReader(ms);
@@ -32,7 +32,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms);
+                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8);
                 writer.AddAttribute(HtmlAttributes.Class, "myClass");
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
                 writer.RenderEndTagAsync().Wait();
@@ -48,7 +48,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms);
+                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8);
                 writer.AddAttribute(HtmlAttributes.Href, "http://epplussoftware.com");
                 writer.AddAttribute(HtmlAttributes.Target, "_blank");
                 writer.RenderBeginTagAsync(HtmlElements.A).Wait();
@@ -66,7 +66,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms);
+                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8);
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
                 writer.RenderBeginTagAsync(HtmlElements.Thead).Wait();
                 writer.RenderBeginTagAsync(HtmlElements.TableRow).Wait();
@@ -91,7 +91,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var ms = new MemoryStream())
             {
-                var writer = new EpplusHtmlWriter(ms);
+                var writer = new EpplusHtmlWriter(ms, Encoding.UTF8);
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
                 writer.Indent++;
                 writer.WriteLineAsync().Wait();

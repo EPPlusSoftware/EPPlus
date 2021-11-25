@@ -58,10 +58,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         } = new List<string>();
 
         /// <summary>
-        /// The culture used to 
+        /// The culture used when formatting the cell output.
         /// </summary>
         public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
-
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
         /// <summary>
         /// If true data-* attributes will be rendered
         /// </summary>
@@ -78,6 +78,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             TableId = "";
             AdditionalTableClassNames=new List<string>();
             Culture = CultureInfo.CurrentCulture;
+            Encoding = Encoding.UTF8;
             RenderDataAttributes = true;
             Css.ResetToDefault();
         }
@@ -90,6 +91,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             TableId = copy.TableId;
             AdditionalTableClassNames = copy.AdditionalTableClassNames;
             Culture = copy.Culture;
+            Encoding = copy.Encoding;
             RenderDataAttributes = copy.RenderDataAttributes;
             Css.Copy(copy.Css);
         }

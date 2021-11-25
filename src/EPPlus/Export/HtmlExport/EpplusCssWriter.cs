@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             _settings = settings;
             Init(range);
         }
-        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, HtmlTableExportSettings settings) : base(stream)
+        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, HtmlTableExportSettings settings) : base(stream, settings.Encoding)
         {
             _settings = settings;
             Init(range);

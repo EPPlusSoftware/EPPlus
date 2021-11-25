@@ -226,6 +226,27 @@ namespace EPPlusTest.Export.HtmlExport
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void SholdExportWithOtherCultureInfo()
+        {
+            string path = _worksheetPath + "culture";
+            CreatePathIfNotExists(path);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add($"CellStyles");
+                LoadTestdata(ws, 100, 1, 1, true);
 
+                var tbl = ws.Tables.Add(ws.Cells["A1:E101"], $"tblGradient");
+                tbl.TableStyle = TableStyles.Dark3;
+                ws.Cells["A1"].Style.Font.Italic = true;
+                ws.Cells["B1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                ws.Cells["C5"].Style.Font.Size = 18;
+                tbl.Columns[0].TotalsRowLabel = "Total";
+                tbl.HtmlExporter.Settings.Culture = new System.Globalization.CultureInfo("en-US");
+                
+                var html = tbl.HtmlExporter.GetSinglePage();
+                File.WriteAllText($"{path}\\table-{tbl.StyleName}-CellStyle.html", html);
+            }
+        }
     }
 }

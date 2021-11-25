@@ -66,8 +66,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             GetDataTypes(_table.Address);
-
-            var writer = new EpplusHtmlWriter(stream);
+            
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
 
             if (_table.TableStyle == TableStyles.None)
             {
@@ -169,6 +169,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
+        /// <summary>
+        /// Renders both the Css and the Html to a single page. 
+        /// </summary>
+        /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
+        /// <returns>The html document</returns>
         public string GetSinglePage(string htmlDocument = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
@@ -291,7 +296,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.RenderBeginTag(HtmlElements.TableHeader);
                 if (cell.Hyperlink == null)
                 {
-                    writer.Write(cell.Text);
+                    writer.Write(GetCellText(cell));
                 }
                 else
                 {
@@ -321,16 +326,21 @@ namespace OfficeOpenXml.Export.HtmlExport
                 else
                 {
                     //Internal
-                    writer.Write(cell.Text);
+                    writer.Write(GetCellText(cell)); 
                 }
             }
             else
             {
                 writer.AddAttribute("href", cell.Hyperlink.OriginalString);
                 writer.RenderBeginTag(HtmlElements.A);
-                writer.Write(cell.Text);
+                writer.Write(GetCellText(cell));
                 writer.RenderEndTag();
             }
+        }
+
+        private string GetCellText(ExcelRangeBase cell)
+        {
+            return ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, Settings.Culture);
         }
 
         private void GetDataTypes(ExcelAddressBase adr)
@@ -369,7 +379,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
                 writer.RenderBeginTag(HtmlElements.TableData);
-                writer.Write(cell.Text);
+                writer.Write(GetCellText(cell));
                 writer.RenderEndTag();
                 writer.ApplyFormat(Settings.Minify);
             }
