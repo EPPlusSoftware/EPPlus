@@ -2838,6 +2838,14 @@ namespace EPPlusTest
                 validation.Formula.ExcelFormula = "Sheet2!$A$7:$A$12"; // throws exception "Multiple addresses may not be commaseparated, use space instead"
             }
         }
+        [TestMethod]
+        public void s272()
+        {
+            using (var p = OpenTemplatePackage("s272.xlsm"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
