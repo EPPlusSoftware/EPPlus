@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
 using OfficeOpenXml.Style;
+using System.Text;
+using System.Globalization;
+
 namespace EPPlusTest.Export.HtmlExport
 {
     [TestClass]
@@ -151,6 +154,8 @@ namespace EPPlusTest.Export.HtmlExport
             }
         }
         [TestMethod]
+
+
         public void ExportAllCustomTableStyles()
         {
             string path = _worksheetPath + "TableStylesCustomFills";
@@ -227,7 +232,7 @@ namespace EPPlusTest.Export.HtmlExport
             }
         }
         [TestMethod]
-        public void SholdExportWithOtherCultureInfo()
+        public void ShouldExportWithOtherCultureInfo()
         {
             string path = _worksheetPath + "culture";
             CreatePathIfNotExists(path);
@@ -248,5 +253,60 @@ namespace EPPlusTest.Export.HtmlExport
                 File.WriteAllText($"{path}\\table-{tbl.StyleName}-CellStyle.html", html);
             }
         }
+        [TestMethod]
+        public void ValidateConfigureAndResetToDefault()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add($"Sheet1");
+                LoadTestdata(ws, 100, 1, 1, true);
+
+                var tbl = ws.Tables.Add(ws.Cells["A1:E101"], $"tblGradient");
+                tbl.TableStyle = TableStyles.Dark3;
+                tbl.HtmlExporter.Settings.Configure(x =>
+                {
+                    x.Encoding = Encoding.Unicode;
+                    x.Culture = new CultureInfo("en-GB");
+                    x.TableId = "Table1";
+                    x.RenderDataAttributes = false;
+                    x.Css.Exclude.TableStyle.Border = eBorderExclude.Right | eBorderExclude.Left;
+                    x.Css.Exclude.TableStyle.HorizontalAlignment = true;
+                    x.Css.Exclude.CellStyle.Fill = true;
+                    x.AdditionalTableClassNames.Add("ATC1");
+                    x.Accessibility.TableSettings.AriaLabel = "AriaLabel1";
+                    x.Accessibility.TableSettings.TableRole = "TableRoll1";
+                    x.Accessibility.TableSettings.AddAccessibilityAttributes = false;
+                });
+
+                var s = tbl.HtmlExporter.Settings;
+                Assert.AreEqual(Encoding.Unicode, s.Encoding);
+                Assert.AreEqual("en-GB", s.Culture.Name);
+                Assert.AreEqual("Table1", s.TableId);
+                Assert.IsFalse(s.RenderDataAttributes);
+                Assert.AreEqual(eBorderExclude.Right | eBorderExclude.Left, s.Css.Exclude.TableStyle.Border);
+                Assert.IsTrue(s.Css.Exclude.TableStyle.HorizontalAlignment);
+                Assert.IsTrue(s.Css.Exclude.CellStyle.Fill);
+                Assert.AreEqual("ATC1", s.AdditionalTableClassNames[0]);
+                Assert.AreEqual("AriaLabel1", s.Accessibility.TableSettings.AriaLabel);
+                Assert.AreEqual("TableRoll1", s.Accessibility.TableSettings.TableRole);
+                Assert.IsFalse(s.Accessibility.TableSettings.AddAccessibilityAttributes);
+
+                tbl.HtmlExporter.Settings.ResetToDefault();
+                
+                s = tbl.HtmlExporter.Settings;
+                Assert.AreEqual(Encoding.UTF8, s.Encoding);
+                Assert.AreEqual(CultureInfo.CurrentCulture.Name, s.Culture.Name);
+                Assert.IsTrue(string.IsNullOrEmpty(s.TableId));
+                Assert.IsTrue(s.RenderDataAttributes);
+                Assert.AreEqual(0, (int)s.Css.Exclude.TableStyle.Border);
+                Assert.IsFalse(s.Css.Exclude.TableStyle.HorizontalAlignment);
+                Assert.IsFalse(s.Css.Exclude.CellStyle.Fill);
+                Assert.AreEqual(0, s.AdditionalTableClassNames.Count);
+                Assert.IsTrue(string.IsNullOrEmpty(s.Accessibility.TableSettings.AriaLabel));
+                Assert.AreEqual("table", s.Accessibility.TableSettings.TableRole);
+                Assert.IsTrue(s.Accessibility.TableSettings.AddAccessibilityAttributes);
+            }
+        }
+
     }
 }

@@ -152,6 +152,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             IndentValue = 2;
             IndentUnit = "em";
 
+            Exclude.TableStyle.ResetToDefault();
             Exclude.CellStyle.ResetToDefault();
         }
 
