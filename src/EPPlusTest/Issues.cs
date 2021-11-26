@@ -2808,8 +2808,44 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s268()
+        {
+            using (var p = OpenTemplatePackage("s268.xlsx"))
+            {
+                var s3 = p.Workbook.Worksheets["s3"];
 
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
 
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void Issue538()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+                var validation = sheet.DataValidations.AddListValidation("A1 B1");
+                validation.Formula.ExcelFormula = "Sheet2!$A$7:$A$12"; // throws exception "Multiple addresses may not be commaseparated, use space instead"
+            }
+        }
+        [TestMethod]
+        public void s272()
+        {
+            using (var p = OpenTemplatePackage("s272.xlsm"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 

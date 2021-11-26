@@ -335,10 +335,10 @@ namespace OfficeOpenXml
             {
                 _address = address;
             }
-
             _addresses = null;
             if (_address.IndexOfAny(new char[] {',','!', '['}) > -1)
             {
+                _firstAddress = null;
                 //Advanced address. Including Sheet or multi or table.
                 ExtractAddress(_address);
             }
@@ -609,6 +609,7 @@ namespace OfficeOpenXml
                     {
                         a += ","+sa.GetAddress();
                     }
+                    a = a.TrimStart(',');
                 }
                 else
                 {
@@ -674,7 +675,7 @@ namespace OfficeOpenXml
         /// </summary>
         protected void Validate()
         {
-            if (_fromRow > _toRow || _fromCol > _toCol)
+            if ((_fromRow > _toRow || _fromCol > _toCol) && (_toRow!=0)) //_toRow==0 is #REF!
             {
                 throw new ArgumentOutOfRangeException("Start cell Address must be less or equal to End cell address");
             }
@@ -849,7 +850,9 @@ namespace OfficeOpenXml
         #region Address manipulation methods
         internal eAddressCollition Collide(ExcelAddressBase address, bool ignoreWs=false)
         {
-            if (ignoreWs == false && address.WorkSheetName != WorkSheetName && address.WorkSheetName != null && WorkSheetName!=null)
+            if (ignoreWs == false && address.WorkSheetName != WorkSheetName && 
+                string.IsNullOrEmpty(address.WorkSheetName) == false && 
+                string.IsNullOrEmpty(WorkSheetName) == false)
             {
                 return eAddressCollition.No;
             }
@@ -1079,8 +1082,7 @@ namespace OfficeOpenXml
             {
                 if (string.IsNullOrEmpty(_ws) || !string.IsNullOrEmpty(ws))
                 {
-                    _ws = ws;
-                    
+                    _ws = ws;                    
                 }
                 _firstAddress = address;
                 GetRowColFromAddress(address, out _fromRow, out _fromCol, out _toRow, out  _toCol, out _fromRowFixed, out _fromColFixed, out _toRowFixed, out _toColFixed);
@@ -1417,12 +1419,13 @@ namespace OfficeOpenXml
         { 
             get
             {
-                var ix = _address.TrimEnd().LastIndexOf('!', _address.Length - 2);  //Last index can be ! if address is #REF!, so check from 
+                var localAddress = FirstAddress;
+                var ix = localAddress.TrimEnd().LastIndexOf('!', localAddress.Length - 2);  //Last index can be ! if address is #REF!, so check from 
                 if (ix>=0)
                 {
-                    return _address.Substring(ix + 1);
+                    return localAddress.Substring(ix + 1);
                 }
-                return _address;
+                return localAddress;
             }
         }
         /// <summary>

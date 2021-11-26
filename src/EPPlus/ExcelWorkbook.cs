@@ -725,6 +725,11 @@ namespace OfficeOpenXml
 					{
 						_vba = new ExcelVbaProject(this);
 					}
+					else if (Part.ContentType == ContentTypes.contentTypeWorkbookMacroEnabled) //Project is macro enabled, but no bin file exists.
+					{
+						CreateVBAProject();
+						_vba = new ExcelVbaProject(this);
+					}
 				}
 				return _vba;
 			}
@@ -737,6 +742,7 @@ namespace OfficeOpenXml
 			if (_vba != null)
 			{
 				_vba.RemoveMe();
+				Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
 				_vba = null;
 			}
 		}
@@ -750,7 +756,8 @@ namespace OfficeOpenXml
 			{
 				throw (new InvalidOperationException("VBA project already exists."));
 			}
-
+			
+			Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
 			_vba = new ExcelVbaProject(this);
 			_vba.Create();
 		}
@@ -1120,20 +1127,20 @@ namespace OfficeOpenXml
 
 			DeleteCalcChain();
 
-			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
-			{
-				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault)
-				{
-					Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
-				}
-			}
-			else
-			{
-				if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-				{
-					Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
-				}
-			}
+			//if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+			//{
+			//	if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault)
+			//	{
+			//		Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
+			//	}
+			//}
+			//else
+			//{
+			//	if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
+			//	{
+			//		Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
+			//	}
+			//}
 
 			UpdateDefinedNamesXml();
 
