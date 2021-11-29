@@ -41,6 +41,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal const string TableStyleClassPrefix = "ts-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         internal List<string> _datatypes = new List<string>();
+        private List<int> _columns = new List<int>();
         public HtmlTableExportSettings Settings { get; } = new HtmlTableExportSettings();
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -133,6 +134,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderBeginTag(HtmlElements.Table);
 
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
+            LoadVisibleColumns();
             if (_table.ShowHeader)
             {
                 RenderHeaderRow(writer);
@@ -146,6 +148,20 @@ namespace OfficeOpenXml.Export.HtmlExport
             // end tag table
             writer.RenderEndTag();
 
+        }
+
+        private void LoadVisibleColumns()
+        {
+            _columns = new List<int>();
+            var r = _table.Range;
+            for (int col = r._fromCol; col <= r._toCol; col++)
+            {
+                var c=_table.WorkSheet.GetColumn(col);
+                if(c==null || (c.Hidden==false && c.Width > 0))
+                {
+                    _columns.Add(col);
+                }
+            }
         }
 
         private void AddTableAccessibilityAttributes(HtmlTableExportSettings settings, EpplusHtmlWriter writer)
@@ -216,7 +232,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 //var tableRange = _table.WorkSheet.Cells[row, _table.Address._fromCol, row, _table.Address._toCol];
-                for (int col = _table.Address._fromCol; col <= _table.Address._toCol; col++)
+                foreach (var col in _columns)
                 {
                     var colIx = col - _table.Address._fromCol;
                     var dataType = _datatypes[colIx];
@@ -267,7 +283,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             var adr = _table.Address;
             var row = adr._fromRow;
-            for (int col = adr._fromCol;col <= adr._toCol; col++)
+            foreach(var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[row, col];
                 writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
@@ -311,7 +327,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
         }
-
         private void RenderHyperlink(EpplusHtmlWriter writer, ExcelRangeBase cell)
         {
             if(cell.Hyperlink is ExcelHyperLink eurl)
@@ -370,7 +385,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             var address = _table.Address;
-            for (var col= address._fromCol;col<= address._toCol;col++)
+            foreach (var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[rowIndex, col];
                 if(Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
