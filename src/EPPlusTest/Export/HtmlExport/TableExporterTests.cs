@@ -9,6 +9,7 @@ using System.Drawing;
 using OfficeOpenXml.Style;
 using System.Text;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace EPPlusTest.Export.HtmlExport
 {
@@ -126,6 +127,30 @@ namespace EPPlusTest.Export.HtmlExport
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public async Task ExportAllTableStylesAsync()
+        {
+            string path = _worksheetPath + "TableStylesAsync";
+            CreatePathIfNotExists(path);
+            using (var p = OpenPackage("TableStylesToHtml.xlsx", true))
+            {
+                foreach (TableStyles e in Enum.GetValues(typeof(TableStyles)))
+                {
+                    if (!(e == TableStyles.Custom || e == TableStyles.None))
+                    {
+                        var ws = p.Workbook.Worksheets.Add(e.ToString());
+                        LoadTestdata(ws);
+                        var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{e}");
+                        tbl.TableStyle = e;
+
+                        var html = await tbl.HtmlExporter.GetSinglePageAsync();
+
+                        File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
+                    }
+                }
+                SaveAndCleanup(p);
+            }
+        }
 
         [TestMethod]
         public void ExportAllFirstLastTableStyles()
@@ -154,8 +179,6 @@ namespace EPPlusTest.Export.HtmlExport
             }
         }
         [TestMethod]
-
-
         public void ExportAllCustomTableStyles()
         {
             string path = _worksheetPath + "TableStylesCustomFills";
@@ -174,6 +197,30 @@ namespace EPPlusTest.Export.HtmlExport
                     tbl.StyleName = ts.Name;
 
                     var html = tbl.HtmlExporter.GetSinglePage();
+                    File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
+                }
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public async Task ExportAllCustomTableStylesAsync()
+        {
+            string path = _worksheetPath + "TableStylesCustomFillsAsync";
+            CreatePathIfNotExists(path);
+            using (var p = OpenPackage("TableStylesToHtmlPatternFill.xlsx", true))
+            {
+                foreach (ExcelFillStyle fs in Enum.GetValues(typeof(ExcelFillStyle)))
+                {
+                    var ws = p.Workbook.Worksheets.Add($"PatterFill-{fs}");
+                    LoadTestdata(ws);
+                    var ts = p.Workbook.Styles.CreateTableStyle($"CustomPattern-{fs}", TableStyles.Medium9);
+                    ts.FirstRowStripe.Style.Fill.Style = eDxfFillStyle.PatternFill;
+                    ts.FirstRowStripe.Style.Fill.PatternType = fs;
+                    ts.FirstRowStripe.Style.Fill.PatternColor.Tint = 0.10;
+                    var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{fs}");
+                    tbl.StyleName = ts.Name;
+
+                    var html = await tbl.HtmlExporter.GetSinglePageAsync();
                     File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                 }
                 SaveAndCleanup(p);

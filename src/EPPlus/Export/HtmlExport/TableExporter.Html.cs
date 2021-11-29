@@ -67,9 +67,31 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             GetDataTypes(_table.Address);
-            
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
 
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
+            AddClassesAttributes(writer);
+            AddTableAccessibilityAttributes(Settings, writer);
+            writer.RenderBeginTag(HtmlElements.Table);
+
+            writer.ApplyFormatIncreaseIndent(Settings.Minify);
+            LoadVisibleColumns();
+            if (_table.ShowHeader)
+            {
+                RenderHeaderRow(writer);
+            }
+            // table rows
+            RenderTableRows(writer);
+            if (_table.ShowTotal)
+            {
+                RenderTotalRow(writer);
+            }
+            // end tag table
+            writer.RenderEndTag();
+
+        }
+
+        private void AddClassesAttributes(EpplusHtmlWriter writer)
+        {
             if (_table.TableStyle == TableStyles.None)
             {
                 writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
@@ -87,7 +109,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
 
                 var tblClasses = $"{TableClass} {styleClass}"; ;
-                if(_table.ShowHeader)
+                if (_table.ShowHeader)
                 {
                     tblClasses += $" {styleClass}-header";
                 }
@@ -116,9 +138,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     tblClasses += $" {styleClass}-last-column";
                 }
-                if(Settings.AdditionalTableClassNames.Count > 0)
+                if (Settings.AdditionalTableClassNames.Count > 0)
                 {
-                    foreach(var cls in Settings.AdditionalTableClassNames)
+                    foreach (var cls in Settings.AdditionalTableClassNames)
                     {
                         tblClasses += $" {cls}";
                     }
@@ -126,28 +148,10 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                 writer.AddAttribute(HtmlAttributes.Class, tblClasses);
             }
-            if(!string.IsNullOrEmpty(Settings.TableId))
+            if (!string.IsNullOrEmpty(Settings.TableId))
             {
                 writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
             }
-            AddTableAccessibilityAttributes(Settings, writer);
-            writer.RenderBeginTag(HtmlElements.Table);
-
-            writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            LoadVisibleColumns();
-            if (_table.ShowHeader)
-            {
-                RenderHeaderRow(writer);
-            }
-            // table rows
-            RenderTableRows(writer);
-            if(_table.ShowTotal)
-            {
-                RenderTotalRow(writer);
-            }
-            // end tag table
-            writer.RenderEndTag();
-
         }
 
         private void LoadVisibleColumns()

@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
 namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
@@ -46,5 +48,31 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(settings.Minify);
         }
+#if !NET35 && !NET40
+        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportSettings settings, bool addRowScope)
+        {
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
+            {
+                var v = HtmlRawDataProvider.GetRawValue(cell, dataType);
+                if (string.IsNullOrEmpty(v) == false)
+                {
+                    writer.AddAttribute("data-value", v);
+                }
+            }
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                writer.AddAttribute("role", "cell");
+                if (addRowScope)
+                {
+                    writer.AddAttribute("scope", "row");
+                }
+            }
+            writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+            await writer.RenderBeginTagAsync(HtmlElements.TableData);
+            await writer.WriteAsync(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            await writer.RenderEndTagAsync();
+            await writer.ApplyFormatAsync(settings.Minify);
+        }
+#endif
     }
 }

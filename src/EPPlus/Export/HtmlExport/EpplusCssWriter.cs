@@ -24,7 +24,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal class EpplusCssWriter : HtmlWriterBase
+    internal partial class EpplusCssWriter : HtmlWriterBase
     {
         protected HtmlTableExportSettings _settings;
         ExcelRangeBase _range;
@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (bi.Style != ExcelBorderStyle.None)
             {
                 var sb = new StringBuilder();
-                sb.Append(WriteBorderItemLine(bi.Style, suffix));
+                sb.Append(GetBorderItemLine(bi.Style, suffix));
                 if (bi.Color!=null && bi.Color.Exists)
                 {
                     sb.Append($" {GetColor(bi.Color)}");
