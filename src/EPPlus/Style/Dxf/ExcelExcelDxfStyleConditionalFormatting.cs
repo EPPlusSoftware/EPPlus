@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             var s = new ExcelDxfStyleConditionalFormatting(_helper.NameSpaceManager, null, _styles, _callback)
             {
-                Font = (ExcelDxfFont)Font.Clone(),
+                Font = (ExcelDxfFontBase)Font.Clone(),
                 Fill = (ExcelDxfFill)Fill.Clone(),
                 Border = (ExcelDxfBorderBase)Border.Clone(),
                 NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),

@@ -326,7 +326,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else if (draw is ExcelShape shp)
                 {
-                    CopyBlipFillDrawing(added, partDraw, drawXml, draw, shp.Fill);
+                    CopyBlipFillDrawing(added, partDraw, drawXml, draw, shp.Fill, uriDraw);
                 }
 
             }
@@ -350,22 +350,31 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 if (c is ExcelChart chart)
                 {
-                    for (int j = 0; i < chart.Series.Count; i++)
+                    for (int j = 0; j < chart.Series.Count; j++)
                     {
                         var s = chart.Series[j];
-                        var a = new ExcelAddressBase(s.Series);
-                        if (a.WorkSheetName.Equals(copy.Name))
+                        if (ExcelAddressBase.IsValidAddress(s.Series))
                         {
-                            s.Series = ExcelAddressBase.GetFullAddress(added.Name, a.LocalAddress);
-                        }
-                        if (string.IsNullOrEmpty(s.XSeries) == false)
-                        {
-                            a = new ExcelAddressBase(s.XSeries);
+                            var a = new ExcelAddressBase(s.Series);
                             if (a.WorkSheetName.Equals(copy.Name))
                             {
-                                s.XSeries = ExcelAddressBase.GetFullAddress(added.Name, a.LocalAddress);
+                                s.Series = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
                             }
                         }
+                        if (string.IsNullOrEmpty(s.XSeries) == false && ExcelAddressBase.IsValidAddress(s.XSeries))
+                        {
+                            var a = new ExcelAddressBase(s.XSeries);
+                            if (a.WorkSheetName.Equals(copy.Name))
+                            {
+                                s.XSeries = ExcelCellBase.GetFullAddress(added.Name, a.LocalAddress);
+                            }
+                        }
+
+                        if (s.HeaderAddress!=null&&s.HeaderAddress.WorkSheetName.Equals(copy.Name))
+                        {
+                            s.HeaderAddress = new ExcelAddressBase(ExcelCellBase.GetFullAddress(added.Name, s.HeaderAddress.LocalAddress));
+                        }
+
                     }
                 }
             }
@@ -405,7 +414,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void CopyBlipFillDrawing(ExcelWorksheet added, ZipPackagePart part, XmlDocument drawXml, ExcelDrawing draw, ExcelDrawingFill fill)
+        private static void CopyBlipFillDrawing(ExcelWorksheet added, ZipPackagePart part, XmlDocument drawXml, ExcelDrawing draw, ExcelDrawingFill fill, Uri uriDraw)
         {
             if (fill.Style == eFillStyle.BlipFill)
             {
@@ -414,7 +423,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 var img = PictureStore.ImageToByteArray(fill.BlipFill.Image);
                 var ii = added.Workbook._package.PictureStore.AddImage(img, null, fill.BlipFill.ContentType);
 
-                var rel = part.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                var rel = part.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                 //Fixes problem with invalid image when the same image is used more than once.
                 XmlNode relAtt =
                     drawXml.SelectSingleNode(

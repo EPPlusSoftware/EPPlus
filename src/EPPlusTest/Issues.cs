@@ -2778,7 +2778,74 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void IssueNamedRanges()
+        {
+            using (var package = OpenTemplatePackage("ORRange23 Problem.xlsx"))
+            {
 
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                worksheet.Cells[1, 1].Value = -1234;
+                worksheet.Cells[1, 1].Style.Numberformat.Format = "#.##0\"*\";(#.##0)\"*\"";
+                var s = worksheet.Cells[1, 1].Text;
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void DvcfCopy()
+        {
+            using (var p = OpenTemplatePackage("i527.xlsm"))
+            {
+
+                // Fails when data validation is set
+                // Fails when conditional formatting is set.
+                var copyFrom1 = p.Workbook.Worksheets["CopyFrom"].Cells["A1:BR23"];
+                var copyTo1 = p.Workbook.Worksheets["CopyTo"].Cells["A:XFD"];
+                copyFrom1.Copy(copyTo1);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s268()
+        {
+            using (var p = OpenTemplatePackage("s268.xlsx"))
+            {
+                var s3 = p.Workbook.Worksheets["s3"];
+
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void Issue538()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+                var validation = sheet.DataValidations.AddListValidation("A1 B1");
+                validation.Formula.ExcelFormula = "Sheet2!$A$7:$A$12"; // throws exception "Multiple addresses may not be commaseparated, use space instead"
+            }
+        }
+        [TestMethod]
+        public void s272()
+        {
+            using (var p = OpenTemplatePackage("s272.xlsm"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
