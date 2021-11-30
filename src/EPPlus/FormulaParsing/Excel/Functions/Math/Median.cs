@@ -25,9 +25,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the largest value from a list of supplied numbers")]
     internal class Median : HiddenValuesHandlingFunction
     {
+        public Median()
+        {
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            var nums = ArgsToDoubleEnumerable(IgnoreHiddenValues, arguments, context);
+            var nums = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
             var arr = nums.ToArray();
             Array.Sort(arr);
             if (arr.Length == 0) return CreateResult(eErrorType.Num);

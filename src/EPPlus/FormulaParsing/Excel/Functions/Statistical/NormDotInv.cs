@@ -21,6 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
             Category = ExcelFunctionCategory.Statistical,
             EPPlusVersion = "5.8",
+            IntroducedInExcelVersion = "2010",
             Description = "Calculates the inverse of the Cumulative Normal Distribution Function for a supplied value of x, and a supplied distribution mean & standard deviation. Note that this is the same implementation as NORMINV.")]
     internal class NormDotInv : NormInv
     {

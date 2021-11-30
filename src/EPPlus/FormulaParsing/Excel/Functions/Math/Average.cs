@@ -27,6 +27,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the Average of a list of supplied numbers")]
     internal class Average : HiddenValuesHandlingFunction
     {
+        public Average()
+        {
+            IgnoreErrors = false;
+        }
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1, eErrorType.Div0);
