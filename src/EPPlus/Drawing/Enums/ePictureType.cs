@@ -44,6 +44,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A windows metafile image
         /// </summary>
-        Wmf
+        Wmf,
+        /// <summary>
+        /// A svg image
+        /// </summary>
+        Svg
     }
 }

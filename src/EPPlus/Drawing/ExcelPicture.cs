@@ -27,6 +27,9 @@ using OfficeOpenXml.Packaging;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
+#if Core
+using SkiaSharp;
+#endif
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -34,7 +37,7 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelPicture : ExcelDrawing
     {
-        #region "Constructors"
+#region "Constructors"
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
         {
@@ -104,7 +107,9 @@ namespace OfficeOpenXml.Drawing
 
             //Create relationship
             node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
-            SetPosDefaults(image);
+            var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
+            var height = image.Height / (image.VerticalResolution / STANDARD_DPI);
+            SetPosDefaults(width, height);
             package.Flush();
         }
         /// <summary>
@@ -126,7 +131,7 @@ namespace OfficeOpenXml.Drawing
 
             SaveImageToPackage(type, img);
         }        
-        #endif
+#endif
         internal void LoadImage(Stream stream, ePictureType type)
         {
             var img = new byte[stream.Length];
@@ -161,13 +166,180 @@ namespace OfficeOpenXml.Drawing
             container.ImageHash = ii.Hash;
             using (var ms = RecyclableMemory.GetStream(img))
             {
+#if (Core)                
+                
+                double width=0, height=0;
+                try
+                {
+                    var isImg = SixLabors.ImageSharp.Image.Load(ms);
+                    var scale = GetImageDpi(isImg.Metadata.ResolutionUnits);
+                    width = (float)(isImg.Width / (isImg.Metadata.HorizontalResolution * scale / STANDARD_DPI));
+                    height = (float)(isImg.Height / (isImg.Metadata.VerticalResolution * scale / STANDARD_DPI));
+                }
+                catch
+                {
+                    TryGetImageBounds(type, ms, ref width, ref height);
+                }
+                SetPosDefaults((float)width, (float)height);
+
+                float GetImageDpi(SixLabors.ImageSharp.Metadata.PixelResolutionUnit unit)
+                {
+                    switch (unit)
+                    {
+                        case SixLabors.ImageSharp.Metadata.PixelResolutionUnit.PixelsPerMeter:
+                            return 1 / 39.36F;
+                        case SixLabors.ImageSharp.Metadata.PixelResolutionUnit.PixelsPerCentimeter:
+                            return 100 / 39.36F;
+                        default:                    
+                            return 1;
+
+                    }
+                }
+#else
                 _image = Image.FromStream(ms);
+                var width = _image.Width / (_image.HorizontalResolution / STANDARD_DPI);
+                var height = _image.Height / (_image.VerticalResolution / STANDARD_DPI);
+
+                SetPosDefaults(width, height);
+#endif
             }
-            SetPosDefaults(_image);
 
             //Create relationship
             TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
             package.Flush();
+        }
+
+        private bool TryGetImageBounds(ePictureType pictureType, MemoryStream ms, ref double width, ref double height)
+        {
+            ms.Seek(0,SeekOrigin.Begin);
+            if(pictureType==ePictureType.Emf && IsEmf(ms, ref width, ref height)) 
+            {
+                return true;
+            }
+            else if(pictureType==ePictureType.Svg && IsSvg(ms, ref width, ref height))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsSvg(MemoryStream ms, ref double width, ref double height)
+        {
+            try
+            {
+                using (var reader = new XmlTextReader(ms))
+                {
+                    while (reader.Read())
+                    {
+                        if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)
+                        {
+                            var w=reader.GetAttribute("width");
+                            var h=reader.GetAttribute("height");
+                            var vb = reader.GetAttribute("viewBox");
+                            reader.Close();
+                            if (w==null || h==null)
+                            {
+                                if (vb==null)
+                                {
+                                    return false;
+                                }
+                                var bounds = vb.Split(new char[]{ ' ',',' },StringSplitOptions.RemoveEmptyEntries);
+                                if (bounds.Length < 4)
+                                {
+                                    return false;
+                                }
+                                if(string.IsNullOrEmpty(w))
+                                {
+                                    w = bounds[2];
+                                }
+                                if (string.IsNullOrEmpty(h))
+                                {
+                                    h = bounds[3];
+                                }
+                            }
+                            width = GetSvgUnit(w);
+                            if (double.IsNaN(width)) return false;
+                            height = GetSvgUnit(h);
+                            if (double.IsNaN(height)) return false;
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private double GetSvgUnit(string v)
+        {
+            var factor = 1D;
+            if (v.EndsWith("px", StringComparison.OrdinalIgnoreCase))
+            {
+                v = v.Substring(0, v.Length - 2);
+            }
+            else if(v.EndsWith("pt", StringComparison.OrdinalIgnoreCase))
+            {
+                factor = 1.25;
+                v = v.Substring(0, v.Length - 2);
+            }
+            else if (v.EndsWith("pc", StringComparison.OrdinalIgnoreCase))
+            {
+                factor = 15;
+                v = v.Substring(0, v.Length - 2);
+            }
+            else if(v.EndsWith("mm", StringComparison.OrdinalIgnoreCase))
+            {
+                factor = 3.543307;
+                v = v.Substring(0, v.Length - 2);
+            }
+            else if (v.EndsWith("cm", StringComparison.OrdinalIgnoreCase))
+            {
+                factor = 35.43307;
+                v = v.Substring(0, v.Length - 2);
+            }
+            else if (v.EndsWith("in", StringComparison.OrdinalIgnoreCase))
+            {
+                factor = 90;
+                v = v.Substring(0, v.Length - 2);
+            }
+            if(double.TryParse(v, out double value))
+            {
+                return value*factor;
+            }
+            return double.NaN;
+        }
+
+        private bool IsEmf(MemoryStream ms, ref double width, ref double height)
+        {
+            var br = new BinaryReader(ms);
+            if (br.PeekChar()==1)
+            {
+                var type = br.ReadInt32();
+                var length = br.ReadInt32(); 
+                var bounds = new int[4];
+                bounds[0] = br.ReadInt32();
+                bounds[1] = br.ReadInt32();
+                bounds[2] = br.ReadInt32();
+                bounds[3] = br.ReadInt32();
+                var frame = new int[4];
+                frame[0] = br.ReadInt32();
+                frame[1] = br.ReadInt32();
+                frame[2] = br.ReadInt32();
+                frame[3] = br.ReadInt32();
+
+                var signatureBytes = br.ReadBytes(4);
+                var signature = Encoding.ASCII.GetString(signatureBytes);
+                if (signature.Trim() == "EMF")
+                {
+                    width = bounds[2]+2;
+                    height = bounds[3]+2;
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void CreatePicNode(XmlNode node)
@@ -186,11 +358,9 @@ namespace OfficeOpenXml.Drawing
             //_drawings._pics.Add(newPic);
         }
 #endregion
-        private void SetPosDefaults(Image image)
+        private void SetPosDefaults(float width, float height)
         {
             EditAs = eEditAs.OneCell;
-            var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
-            var height = image.Height / (image.VerticalResolution / STANDARD_DPI);
             SetPixelWidth(width);
             SetPixelHeight(height);
             _width = GetPixelWidth();
@@ -208,6 +378,9 @@ namespace OfficeOpenXml.Drawing
             return xml.ToString();
         }
 
+#if Core
+        SKBitmap _imageSkia=null;
+#endif
         Image _image = null;
         /// <summary>
         /// The Image

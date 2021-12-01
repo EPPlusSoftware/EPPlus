@@ -22,7 +22,9 @@ using System.Security.Cryptography;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Packaging;
-
+#if(Core)
+using SkiaSharp;
+#endif
 namespace OfficeOpenXml.Drawing
 {
     internal class PictureStore : IDisposable
@@ -232,6 +234,8 @@ namespace OfficeOpenXml.Drawing
                     return "image/x-tiff";
                 case "wmf":
                     return "image/x-wmf";
+                case "svg":
+                    return "image/svg+xml";
                 default:
                     return "image/jpeg";
             }
@@ -289,7 +293,37 @@ namespace OfficeOpenXml.Drawing
 
             return container.RelPic.Id;
         }
+#if(Core)
+        internal static string SavePictureSkia(SKBitmap image, IPictureContainer container)
+        {
+            var store = container.RelationDocument.Package.PictureStore;
 
+            var ii = store.AddImage(image.Bytes);
+
+            container.ImageHash = ii.Hash;
+            var hashes = container.RelationDocument.Hashes;
+            if (hashes.ContainsKey(ii.Hash))
+            {
+                var relID = hashes[ii.Hash].RelId;
+                var rel = container.RelationDocument.RelatedPart.GetRelationship(relID);
+                container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                return relID;
+            }
+            else
+            {
+                container.UriPic = ii.Uri;
+                container.ImageHash = ii.Hash;
+            }
+
+            //Set the Image and save it to the package.
+            container.RelPic = container.RelationDocument.RelatedPart.CreateRelationship(UriHelper.GetRelativeUri(container.RelationDocument.RelatedUri, container.UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+
+            //AddNewPicture(img, picRelation.Id);
+            hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id));
+
+            return container.RelPic.Id;
+        }
+#endif
         internal static byte[] ImageToByteArray(Image image)
         {
 #if (Core)
@@ -300,6 +334,12 @@ namespace OfficeOpenXml.Drawing
 #endif
         }
 
+#if (Core)
+        internal static byte[] ImageToByteArray(SKBitmap image)
+        {
+            return image.Bytes;
+        }
+#endif
         public void Dispose()
         {
             _images = null;

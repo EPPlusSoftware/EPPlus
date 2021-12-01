@@ -116,6 +116,22 @@ namespace EPPlusTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static byte[] Test1JpgByteArray
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\Test1.jpg");
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap VmlPatternImage
         {
             get
@@ -128,6 +144,62 @@ namespace EPPlusTest.Properties {
                 return (Bitmap)Image.FromFile(path + "\\Resources\\VmlPatternImage.png");
             }
         }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static byte[] VmlPatternImagePngByteArray
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\VmlPatternImage.png");
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static byte[] CodeEmfByteArray
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\Code.emf");
+            }
+        }
+        internal static byte[] Svg1ByteArray
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\car-silhouette-color-low-poly.svg");
+            }
+        }
+        internal static byte[] Svg2ByteArray
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\tree-solid.svg");
+            }
+        }
+
+
 
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
