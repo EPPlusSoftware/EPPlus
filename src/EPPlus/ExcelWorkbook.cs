@@ -728,7 +728,6 @@ namespace OfficeOpenXml
 					else if (Part.ContentType == ContentTypes.contentTypeWorkbookMacroEnabled) //Project is macro enabled, but no bin file exists.
 					{
 						CreateVBAProject();
-						_vba = new ExcelVbaProject(this);
 					}
 				}
 				return _vba;
@@ -1127,20 +1126,21 @@ namespace OfficeOpenXml
 
 			DeleteCalcChain();
 
-			//if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
-			//{
-			//	if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault)
-			//	{
-			//		Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
-			//	}
-			//}
-			//else
-			//{
-			//	if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-			//	{
-			//		Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
-			//	}
-			//}
+			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+			{
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault && 
+					Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
+				{
+					Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
+				}
+			}
+			else
+			{
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
+				{
+					Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
+				}
+			}
 
 			UpdateDefinedNamesXml();
 

@@ -2841,8 +2841,12 @@ namespace EPPlusTest
         [TestMethod]
         public void s272()
         {
-            using (var p = OpenTemplatePackage("s272.xlsm"))
+            using (var p = OpenTemplatePackage("RadioButton.xlsm"))
             {
+                if(p.Workbook.VbaProject == null)
+                {
+                    p.Workbook.CreateVBAProject();
+                }
                 SaveAndCleanup(p);
             }
         }
