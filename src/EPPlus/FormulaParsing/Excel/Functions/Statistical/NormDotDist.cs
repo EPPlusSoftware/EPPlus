@@ -8,31 +8,23 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  11/29/2021         EPPlus Software AB       Implemented function
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "5.5",
-        Description = "Returns the number of permutations for a given number of objects")]
-    internal class Permut : ExcelFunction
+            Category = ExcelFunctionCategory.Statistical,
+            IntroducedInExcelVersion = "2010",
+            EPPlusVersion = "5.8",
+            Description = "Calculates the Normal Probability Density Function or the Cumulative Normal Distribution. Function for a supplied set of parameters.")]
+    internal class NormDotDist : Normdist
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            ValidateArguments(arguments, 2);
-            var number = ArgToDecimal(arguments, 0);
-            number = System.Math.Floor(number);
-            var numberChosen = ArgToDecimal(arguments, 1);
-            if (number <= 0d || numberChosen <= 0 || number < numberChosen) return CreateResult(eErrorType.Num);
-            var result = MathHelper.Factorial(number) / MathHelper.Factorial(number - numberChosen);
-            return CreateResult(result, DataType.Decimal);
-        }
     }
 }

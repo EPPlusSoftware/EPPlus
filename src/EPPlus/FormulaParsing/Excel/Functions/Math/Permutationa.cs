@@ -19,7 +19,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.MathAndTrig,
+        Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "5.5",
         IntroducedInExcelVersion = "2013",
         Description = "Returns the number of permutations for a given number of objects (with repetitions) that can be selected from the total objects")]

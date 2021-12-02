@@ -29,6 +29,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal CellStore<int> _drawingsCellStore;
         internal Dictionary<string, int> _drawingsDict = new Dictionary<string, int>();
         internal List<ExcelVmlDrawingBase> _drawings = new List<ExcelVmlDrawingBase>();
+        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
         internal ExcelVmlDrawingCollection(ExcelWorksheet ws, Uri uri) :
             base(ws, uri, "d:legacyDrawing/@r:id")
         {
@@ -371,7 +372,7 @@ namespace OfficeOpenXml.Drawing.Vml
 
         public ExcelPackage Package => _package;
 
-        public Dictionary<string, HashInfo> Hashes => _ws.Drawings._hashes;
+        public Dictionary<string, HashInfo> Hashes => _hashes;
 
         public ZipPackagePart RelatedPart => Part;
 
