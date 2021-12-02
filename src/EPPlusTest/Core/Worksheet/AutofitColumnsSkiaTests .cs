@@ -88,18 +88,28 @@ namespace EPPlusTest.Core.Worksheet
             using (var ms2 = new MemoryStream(Properties.Resources.VmlPatternImagePngByteArray))
             {
                 var image2 = ws.Drawings.AddPicture("png1", ms2, OfficeOpenXml.Drawing.ePictureType.Png);
+                image2.SetPosition(0, 0, 10, 0);
             }
             using (var ms3 = new MemoryStream(Properties.Resources.CodeEmfByteArray))
             {
                 var image3 = ws.Drawings.AddPicture("emf1", ms3, OfficeOpenXml.Drawing.ePictureType.Emf);
+                image3.SetPosition(0, 0, 20, 0);
             }
             using (var ms4 = new MemoryStream(Properties.Resources.Svg1ByteArray))
             {
                 var image4 = ws.Drawings.AddPicture("svg1", ms4, OfficeOpenXml.Drawing.ePictureType.Svg);
+                image4.SetPosition(0, 0, 30, 0);
             }
             using (var ms5 = new MemoryStream(Properties.Resources.Svg2ByteArray))
             {
                 var image5 = ws.Drawings.AddPicture("svg2", ms5, OfficeOpenXml.Drawing.ePictureType.Svg);
+                image5.SetPosition(0, 0, 40, 0);
+                image5.SetSize(25);
+            }
+            using (var ms6 = Properties.Resources.VectorDrawing)
+            {
+                var image6 = ws.Drawings.AddPicture("wmf", ms6, OfficeOpenXml.Drawing.ePictureType.Wmf);
+                image6.SetPosition(0, 0, 50, 0);
             }
 
         }

@@ -38,10 +38,10 @@ namespace OfficeOpenXml.Drawing
     public sealed class ExcelPicture : ExcelDrawing
     {
 #region "Constructors"
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink) :
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
         {
-            CreatePicNode(node);
+            CreatePicNode(node,type);
             Hyperlink = hyperlink;
         }
 
@@ -94,10 +94,10 @@ namespace OfficeOpenXml.Drawing
                 container.ImageHash = ii.Hash;
             }
         }
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Image image, Uri hyperlink) :
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Image image, Uri hyperlink, ePictureType type) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
         {
-            CreatePicNode(node);
+            CreatePicNode(node, type);
 
             var package = drawings.Worksheet._package.ZipPackage;
             //Get the picture if it exists or save it if not.
@@ -105,13 +105,23 @@ namespace OfficeOpenXml.Drawing
             Hyperlink = hyperlink;
             string relID = PictureStore.SavePicture(image, this);
 
-            //Create relationship
-            node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
+            SetRelId(node, type, relID);
             var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
             var height = image.Height / (image.VerticalResolution / STANDARD_DPI);
             SetPosDefaults(width, height);
             package.Flush();
         }
+
+        private void SetRelId(XmlNode node, ePictureType type, string relID)
+        {
+            //Create relationship
+            node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
+            if (type == ePictureType.Svg)
+            {
+                node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relID;
+            }
+        }
+
         /// <summary>
         /// The type of drawing
         /// </summary>
@@ -171,10 +181,21 @@ namespace OfficeOpenXml.Drawing
                 double width=0, height=0;
                 try
                 {
-                    var isImg = SixLabors.ImageSharp.Image.Load(ms);
-                    var scale = GetImageDpi(isImg.Metadata.ResolutionUnits);
-                    width = (float)(isImg.Width / (isImg.Metadata.HorizontalResolution * scale / STANDARD_DPI));
-                    height = (float)(isImg.Height / (isImg.Metadata.VerticalResolution * scale / STANDARD_DPI));
+                    if (type == ePictureType.Bmp ||
+                       type == ePictureType.Jpg ||
+                       type == ePictureType.Gif ||
+                       type == ePictureType.Png ||
+                       type == ePictureType.Tif)
+                    {
+                        var isImg = SixLabors.ImageSharp.Image.Load(ms);
+                        var scale = GetImageDpi(isImg.Metadata.ResolutionUnits);
+                        width = (float)(isImg.Width / (isImg.Metadata.HorizontalResolution * scale / STANDARD_DPI));
+                        height = (float)(isImg.Height / (isImg.Metadata.VerticalResolution * scale / STANDARD_DPI));
+                    }
+                    else
+                    {
+                        TryGetImageBounds(type, ms, ref width, ref height);
+                    }
                 }
                 catch
                 {
@@ -205,7 +226,8 @@ namespace OfficeOpenXml.Drawing
             }
 
             //Create relationship
-            TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            SetRelId(TopNode, type, relId);
+            //TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
             package.Flush();
         }
 
@@ -216,10 +238,61 @@ namespace OfficeOpenXml.Drawing
             {
                 return true;
             }
-            else if(pictureType==ePictureType.Svg && IsSvg(ms, ref width, ref height))
+            if (pictureType == ePictureType.Wmf && IsWmf(ms, ref width, ref height))
             {
                 return true;
             }
+            else if (pictureType==ePictureType.Svg && IsSvg(ms, ref width, ref height))
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool IsEmf(MemoryStream ms, ref double width, ref double height)
+        {
+            var br = new BinaryReader(ms);
+            if (br.PeekChar() == 1)
+            {
+                var type = br.ReadInt32();
+                var length = br.ReadInt32();
+                var bounds = new int[4];
+                bounds[0] = br.ReadInt32();
+                bounds[1] = br.ReadInt32();
+                bounds[2] = br.ReadInt32();
+                bounds[3] = br.ReadInt32();
+                var frame = new int[4];
+                frame[0] = br.ReadInt32();
+                frame[1] = br.ReadInt32();
+                frame[2] = br.ReadInt32();
+                frame[3] = br.ReadInt32();
+
+                var signatureBytes = br.ReadBytes(4);
+                var signature = Encoding.ASCII.GetString(signatureBytes);
+                if (signature.Trim() == "EMF")
+                {
+                    width = bounds[2] + 2;
+                    height = bounds[3] + 2;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsWmf(MemoryStream ms, ref double width, ref double height)
+        {
+            var br = new BinaryReader(ms);
+            //if (br.PeekChar() == 0xD7)
+            //{
+                var key = br.ReadUInt32(); //0x9AC6CDD7
+                var HWmf = br.ReadInt16();
+                var bounds=new ushort[4];
+                bounds[0]= br.ReadUInt16();
+                bounds[1] = br.ReadUInt16();
+                bounds[2] = br.ReadUInt16();
+                bounds[3] = br.ReadUInt16();
+
+                var inch = br.ReadInt16();
+            //}
             return false;
         }
 
@@ -311,41 +384,10 @@ namespace OfficeOpenXml.Drawing
             }
             return double.NaN;
         }
-
-        private bool IsEmf(MemoryStream ms, ref double width, ref double height)
-        {
-            var br = new BinaryReader(ms);
-            if (br.PeekChar()==1)
-            {
-                var type = br.ReadInt32();
-                var length = br.ReadInt32(); 
-                var bounds = new int[4];
-                bounds[0] = br.ReadInt32();
-                bounds[1] = br.ReadInt32();
-                bounds[2] = br.ReadInt32();
-                bounds[3] = br.ReadInt32();
-                var frame = new int[4];
-                frame[0] = br.ReadInt32();
-                frame[1] = br.ReadInt32();
-                frame[2] = br.ReadInt32();
-                frame[3] = br.ReadInt32();
-
-                var signatureBytes = br.ReadBytes(4);
-                var signature = Encoding.ASCII.GetString(signatureBytes);
-                if (signature.Trim() == "EMF")
-                {
-                    width = bounds[2]+2;
-                    height = bounds[3]+2;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void CreatePicNode(XmlNode node)
+        private void CreatePicNode(XmlNode node, ePictureType type)
         {
             var picNode = CreateNode("xdr:pic");
-            picNode.InnerXml = PicStartXml();
+            picNode.InnerXml = PicStartXml(type);
 
             node.InsertAfter(node.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings), picNode);
         }
@@ -367,13 +409,22 @@ namespace OfficeOpenXml.Drawing
             _height = GetPixelHeight();
         }
 
-        private string PicStartXml()
+        private string PicStartXml(ePictureType type)
         {
             StringBuilder xml = new StringBuilder();
 
             xml.Append("<xdr:nvPicPr>");
             xml.AppendFormat("<xdr:cNvPr id=\"{0}\" descr=\"\" />", _id);
-            xml.Append("<xdr:cNvPicPr><a:picLocks noChangeAspect=\"1\" /></xdr:cNvPicPr></xdr:nvPicPr><xdr:blipFill><a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:embed=\"\" cstate=\"print\" /><a:stretch><a:fillRect /> </a:stretch> </xdr:blipFill> <xdr:spPr> <a:xfrm> <a:off x=\"0\" y=\"0\" />  <a:ext cx=\"0\" cy=\"0\" /> </a:xfrm> <a:prstGeom prst=\"rect\"> <a:avLst /> </a:prstGeom> </xdr:spPr>");
+            xml.Append("<xdr:cNvPicPr><a:picLocks noChangeAspect=\"1\" /></xdr:cNvPicPr></xdr:nvPicPr><xdr:blipFill>");
+            if(type==ePictureType.Svg)
+            {
+                xml.Append("<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:embed=\"\" cstate=\"print\"><a:extLst><a:ext uri=\"{28A0092B-C50C-407E-A947-70E740481C1C}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{96DAC541-7B7A-43D3-8B79-37D633B846F1}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:embed=\"\"/></a:ext></a:extLst></a:blip>");
+            }
+            else
+            {
+                xml.Append("<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:embed=\"\" cstate=\"print\" />");
+            }
+            xml.Append("<a:stretch><a:fillRect /> </a:stretch> </xdr:blipFill> <xdr:spPr> <a:xfrm> <a:off x=\"0\" y=\"0\" />  <a:ext cx=\"0\" cy=\"0\" /> </a:xfrm> <a:prstGeom prst=\"rect\"> <a:avLst /> </a:prstGeom> </xdr:spPr>");
 
             return xml.ToString();
         }

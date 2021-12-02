@@ -158,6 +158,7 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("sle", ExcelPackage.schemaSlicer2010);
             NameSpaceManager.AddNamespace("sle15", ExcelPackage.schemaSlicer);
             NameSpaceManager.AddNamespace("a14", ExcelPackage.schemaDrawings2010);
+            NameSpaceManager.AddNamespace("asvg", "http://schemas.microsoft.com/office/drawing/2016/SVG/main");
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion
@@ -785,7 +786,7 @@ namespace OfficeOpenXml.Drawing
                     throw new Exception("Name already exists in the drawings collection");
                 }
                 XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-                var pic = new ExcelPicture(this, drawNode, Image, Hyperlink);
+                var pic = new ExcelPicture(this, drawNode, Image, Hyperlink, ePictureType.Jpg);
                 AddPicture(Name, pic);
                 return pic;
             }
@@ -814,7 +815,7 @@ namespace OfficeOpenXml.Drawing
             ValidatePictureFile(Name, ImageFile);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
             pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
             AddPicture(Name, pic);
             return pic;
@@ -850,7 +851,7 @@ namespace OfficeOpenXml.Drawing
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType);
             pic.LoadImage(pictureStream, pictureType);
             AddPicture(Name, pic);
             return pic;
@@ -889,7 +890,7 @@ namespace OfficeOpenXml.Drawing
             ValidatePictureFile(Name, ImageFile);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
             await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
             AddPicture(Name, pic);
             return pic;
@@ -925,7 +926,7 @@ namespace OfficeOpenXml.Drawing
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType);
             await pic.LoadImageAsync(pictureStream, pictureType);
             AddPicture(Name, pic);
             return pic;
