@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Drawing.Chart
         internal const string plotAreaPath = "c:chart/c:plotArea";
         //string _chartPath;
         internal ExcelChartAxis[] _axis;
-        internal Dictionary<string, HashInfo> _hashes;
+        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
         /// <summary>
         /// The Xml helper for the chart xml
         /// </summary>

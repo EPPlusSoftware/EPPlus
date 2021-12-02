@@ -25,21 +25,22 @@ using OfficeOpenXml.Packaging;
 
 namespace OfficeOpenXml.Drawing
 {
+    internal class ImageInfo
+    {
+        internal string Hash { get; set; }
+        internal Uri Uri { get; set; }
+        internal int RefCount { get; set; }
+        internal Packaging.ZipPackagePart Part { get; set; }
+    }
     internal class PictureStore : IDisposable
     {
         ExcelPackage _pck;
         internal static int _id = 1;
-        internal Dictionary<string, ImageInfo> _images = new Dictionary<string, ImageInfo>();
+        internal Dictionary<string, ImageInfo> _images;
         public PictureStore(ExcelPackage pck)
         {
             _pck = pck;
-        }
-        internal class ImageInfo
-        {
-            internal string Hash { get; set; }
-            internal Uri Uri { get; set; }
-            internal int RefCount { get; set; }
-            internal Packaging.ZipPackagePart Part { get; set; }
+            _images = _pck.Workbook._images;
         }
         internal ImageInfo AddImage(byte[] image)
         {

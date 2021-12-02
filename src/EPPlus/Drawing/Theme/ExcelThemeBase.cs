@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing.Theme
         readonly string _fontSchemePath = "{0}a:fontScheme";
         readonly string _fmtSchemePath = "{0}a:fmtScheme";
         readonly ExcelPackage _pck;
-        Dictionary<string, HashInfo> _hashes;
+        Dictionary<string, HashInfo> _hashes=new Dictionary<string, HashInfo>();
         internal ExcelThemeBase(ExcelPackage package, XmlNamespaceManager nsm, ZipPackageRelationship rel, string path)
             : base(nsm, null)
         {
@@ -43,7 +43,6 @@ namespace OfficeOpenXml.Drawing.Theme
             _fontSchemePath = string.Format(_fontSchemePath, path);
             _fmtSchemePath = string.Format(_fmtSchemePath, path);
             _pck = package;
-            _hashes = new Dictionary<string, HashInfo>(); 
             if (!NameSpaceManager.HasNamespace("a")) NameSpaceManager.AddNamespace("a", ExcelPackage.schemaDrawings);
         }
         internal Uri ThemeUri { get; set; }

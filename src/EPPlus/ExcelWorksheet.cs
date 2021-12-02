@@ -3577,7 +3577,7 @@ namespace OfficeOpenXml
         }
 
         internal Dictionary<int, double> RowHeightCache { get; set; } = new Dictionary<int, double>();
-        ExcelDrawings _drawings = null;
+        internal ExcelDrawings _drawings = null;
         /// <summary>
         /// Collection of drawing-objects like shapes, images and charts
         /// </summary>
@@ -3585,15 +3585,20 @@ namespace OfficeOpenXml
         {
             get
             {
-                if (_drawings == null)
-                {
-                    _drawings = new ExcelDrawings(_package, this);
-                }
+                LoadDrawings();
                 return _drawings;
             }
         }
-#endregion
-#region SparklineGroups
+
+        internal void LoadDrawings()
+        {
+            if (_drawings == null)
+            {
+                _drawings = new ExcelDrawings(_package, this);
+            }
+        }
+        #endregion
+        #region SparklineGroups
         ExcelSparklineGroupCollection _sparklineGroups = null;
         /// <summary>
         /// Collection of Sparkline-objects. 

@@ -2850,6 +2850,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s277()
+        {
+            using (var p = OpenTemplatePackage("s277.xlsx"))
+            {
+                foreach (var ws in p.Workbook.Worksheets)
+                    ws.Drawings.Clear();
+            }
+        }
     }
 }
 

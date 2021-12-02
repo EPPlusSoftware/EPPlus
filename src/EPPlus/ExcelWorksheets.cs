@@ -605,7 +605,7 @@ namespace OfficeOpenXml
             }
             return worksheet;
         }
-
+        internal bool _areDrawingsLoaded = false;
         //#region Move worksheet functions
         /// <summary>
         /// Moves the source worksheet to the position before the target worksheet
