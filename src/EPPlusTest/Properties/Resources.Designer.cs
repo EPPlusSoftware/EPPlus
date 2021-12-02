@@ -162,6 +162,36 @@ namespace EPPlusTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static byte[] Png2ByteArray
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\EPPlus.png");
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static byte[] Png3ByteArray
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources") && path.Length > 4)
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return File.ReadAllBytes(path + "\\Resources\\screenshot.PNG");
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static byte[] CodeEmfByteArray
         {
             get

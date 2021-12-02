@@ -99,6 +99,9 @@
     <None Update="Resources\Savon.thmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\screenshot.PNG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Surface4.crtx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

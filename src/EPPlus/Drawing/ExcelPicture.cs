@@ -24,6 +24,7 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
+using System.Linq;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -185,7 +186,7 @@ namespace OfficeOpenXml.Drawing
                     if (type == ePictureType.Bmp ||
                        type == ePictureType.Jpg ||
                        type == ePictureType.Gif ||
-                       type == ePictureType.Png ||
+                       //type == ePictureType.Png ||
                        type == ePictureType.Tif)
                     {
                         var isImg = SixLabors.ImageSharp.Image.Load(ms);
@@ -235,7 +236,11 @@ namespace OfficeOpenXml.Drawing
         private bool TryGetImageBounds(ePictureType pictureType, MemoryStream ms, ref double width, ref double height)
         {
             ms.Seek(0,SeekOrigin.Begin);
-            if(pictureType==ePictureType.Emf && IsEmf(ms, ref width, ref height)) 
+            if (pictureType == ePictureType.Png && IsPng(ms, ref width, ref height))
+            {
+                return true;
+            }
+            if (pictureType==ePictureType.Emf && IsEmf(ms, ref width, ref height)) 
             {
                 return true;
             }
@@ -278,13 +283,14 @@ namespace OfficeOpenXml.Drawing
             }
             return false;
         }
-
+        private const double PIXELS_PER_TWIPS = 1D / 15D;
+        private const double DEFAULT_TWIPS=1440D;
         private bool IsWmf(MemoryStream ms, ref double width, ref double height)
         {
             var br = new BinaryReader(ms);
-            //if (br.PeekChar() == 0xD7)
-            //{
-                var key = br.ReadUInt32(); //0x9AC6CDD7
+            var key = br.ReadUInt32();
+            if (key == 0x9AC6CDD7)
+            {
                 var HWmf = br.ReadInt16();
                 var bounds=new ushort[4];
                 bounds[0]= br.ReadUInt16();
@@ -293,8 +299,66 @@ namespace OfficeOpenXml.Drawing
                 bounds[3] = br.ReadUInt16();
 
                 var inch = br.ReadInt16();
-            //}
+                
+                width = bounds[2] * (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
+                height = bounds[3] * (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
+                return true;
+            }
             return false;
+        }
+        private bool IsPng(MemoryStream ms, ref double width, ref double height)
+        {
+            var br = new BinaryReader(ms);
+            var signature = br.ReadBytes(8);
+            if (signature.SequenceEqual(new byte[]{ 137,80,78,71,13,10,26,10 }))
+            {
+                float pixelsPerUnitX = 0, pixelsPerUnitY = 0;
+                while (ms.Position<ms.Length)
+                {
+                    var chunkType = ReadChunkHeader(br, out int length);
+                    switch(chunkType)
+                    {
+                        case "IHDR":
+                            width = GetInt32BigEndian(br);
+                            height = GetInt32BigEndian(br); 
+                            br.ReadBytes(5); //Ignored bytes, Depth compression etc.
+                            break;
+                        case "pHYs":
+                            pixelsPerUnitX = GetInt32BigEndian(br);
+                            pixelsPerUnitY = GetInt32BigEndian(br);
+                            var unitSpecifier = br.ReadByte();
+                            if(unitSpecifier==1)
+                            {
+                                pixelsPerUnitX = pixelsPerUnitX / 39.36F / STANDARD_DPI;
+                                pixelsPerUnitY = pixelsPerUnitY / 39.36F / STANDARD_DPI;
+                            }
+
+                            width = width / pixelsPerUnitX;
+                            height = height / pixelsPerUnitY;
+                            break;
+                        default:
+                            br.ReadBytes(length);
+                            break;
+                    }
+                    var crc = br.ReadInt32();
+                }
+            }
+            return false;
+        }
+
+        private int GetInt32BigEndian(BinaryReader br)
+        {
+            var b=br.ReadBytes(4);
+            Array.Reverse(b);
+            return BitConverter.ToInt32(b, 0);
+        }
+
+        private string ReadChunkHeader(BinaryReader br, out int length)
+        {
+            length = GetInt32BigEndian(br);
+            var b = br.ReadBytes(4);
+            var type = Encoding.ASCII.GetString(b);
+            return type;
         }
 
         private bool IsSvg(MemoryStream ms, ref double width, ref double height)
