@@ -60,6 +60,7 @@ namespace EPPlusTest
         protected static string _worksheetPath = @"c:\epplusTest\Testoutput\";
         protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
         protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
+        protected static string _imagePath = @"c:\epplusTest\images\";
         public TestContext TestContext { get; set; }
         
         public static void InitBase()
@@ -427,6 +428,15 @@ namespace EPPlusTest
                 }
             }
         }
-
+        protected static MemoryStream GetImageMemoryStream(string imageFile)
+        {
+            imageFile = _imagePath + imageFile;
+            if (File.Exists(imageFile))
+            {
+                return new MemoryStream(File.ReadAllBytes(imageFile));
+            }
+            Assert.Inconclusive($"Image file {imageFile} does not exist");
+            return null;
+        }
     }
 }

@@ -247,7 +247,7 @@ namespace EPPlusTest.Properties {
             }
         }
 
-        internal static System.Drawing.Bitmap Pattern1
+        internal static System.Drawing.Bitmap Pattern1Jpeg
         {
             get
             {
@@ -257,6 +257,18 @@ namespace EPPlusTest.Properties {
                     path = new DirectoryInfo(path + "\\..").FullName;
                 }
                 return (Bitmap)Image.FromFile(path + "\\Resources\\Pattern1.jpeg");
+            }
+        }
+        internal static MemoryStream CodeTif
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources"))
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\code2.tif"));
             }
         }
         internal static MemoryStream TestThemeThmx

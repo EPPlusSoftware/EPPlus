@@ -172,7 +172,7 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("CheckboxWithTileFill");
             var ctrl = _ws.Drawings.AddCheckBoxControl("Checkbox 2");
             ctrl.Fill.Style = eVmlFillType.Tile;
-            ctrl.Fill.PatternPictureSettings.Image = Properties.Resources.Pattern1;
+            ctrl.Fill.PatternPictureSettings.Image = Image.FromStream(Properties.Resources.CodeTif);
             ctrl.Fill.Color.SetColor(Color.Black);
             ctrl.Fill.Recolor = true;
             ctrl.SetPosition(100, 100);

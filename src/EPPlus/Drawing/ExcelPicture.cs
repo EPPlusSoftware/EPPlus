@@ -185,9 +185,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     if (type == ePictureType.Bmp ||
                        type == ePictureType.Jpg ||
-                       type == ePictureType.Gif ||
-                       //type == ePictureType.Png ||
-                       type == ePictureType.Tif)
+                       type == ePictureType.Gif)
                     {
                         var isImg = SixLabors.ImageSharp.Image.Load(ms);
                         var scale = GetImageDpi(isImg.Metadata.ResolutionUnits);
@@ -196,12 +194,12 @@ namespace OfficeOpenXml.Drawing
                     }
                     else
                     {
-                        TryGetImageBounds(type, ms, ref width, ref height);
+                        ImageReader.TryGetImageBounds(type, ms, ref width, ref height);
                     }
                 }
                 catch
                 {
-                    TryGetImageBounds(type, ms, ref width, ref height);
+                    ImageReader.TryGetImageBounds(type, ms, ref width, ref height);
                 }
                 SetPosDefaults((float)width, (float)height);
 
@@ -233,222 +231,6 @@ namespace OfficeOpenXml.Drawing
             package.Flush();
         }
 
-        private bool TryGetImageBounds(ePictureType pictureType, MemoryStream ms, ref double width, ref double height)
-        {
-            ms.Seek(0,SeekOrigin.Begin);
-            if (pictureType == ePictureType.Png && IsPng(ms, ref width, ref height))
-            {
-                return true;
-            }
-            if (pictureType==ePictureType.Emf && IsEmf(ms, ref width, ref height)) 
-            {
-                return true;
-            }
-            if (pictureType == ePictureType.Wmf && IsWmf(ms, ref width, ref height))
-            {
-                return true;
-            }
-            else if (pictureType==ePictureType.Svg && IsSvg(ms, ref width, ref height))
-            {
-                return true;
-            }
-            return false;
-        }
-        private bool IsEmf(MemoryStream ms, ref double width, ref double height)
-        {
-            var br = new BinaryReader(ms);
-            if (br.PeekChar() == 1)
-            {
-                var type = br.ReadInt32();
-                var length = br.ReadInt32();
-                var bounds = new int[4];
-                bounds[0] = br.ReadInt32();
-                bounds[1] = br.ReadInt32();
-                bounds[2] = br.ReadInt32();
-                bounds[3] = br.ReadInt32();
-                var frame = new int[4];
-                frame[0] = br.ReadInt32();
-                frame[1] = br.ReadInt32();
-                frame[2] = br.ReadInt32();
-                frame[3] = br.ReadInt32();
-
-                var signatureBytes = br.ReadBytes(4);
-                var signature = Encoding.ASCII.GetString(signatureBytes);
-                if (signature.Trim() == "EMF")
-                {
-                    width = bounds[2] + 2;
-                    height = bounds[3] + 2;
-                    return true;
-                }
-            }
-            return false;
-        }
-        private const double PIXELS_PER_TWIPS = 1D / 15D;
-        private const double DEFAULT_TWIPS=1440D;
-        private bool IsWmf(MemoryStream ms, ref double width, ref double height)
-        {
-            var br = new BinaryReader(ms);
-            var key = br.ReadUInt32();
-            if (key == 0x9AC6CDD7)
-            {
-                var HWmf = br.ReadInt16();
-                var bounds=new ushort[4];
-                bounds[0]= br.ReadUInt16();
-                bounds[1] = br.ReadUInt16();
-                bounds[2] = br.ReadUInt16();
-                bounds[3] = br.ReadUInt16();
-
-                var inch = br.ReadInt16();
-                
-                width = bounds[2] * (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
-                height = bounds[3] * (DEFAULT_TWIPS / inch) * PIXELS_PER_TWIPS;
-                return true;
-            }
-            return false;
-        }
-        private bool IsPng(MemoryStream ms, ref double width, ref double height)
-        {
-            var br = new BinaryReader(ms);
-            var signature = br.ReadBytes(8);
-            if (signature.SequenceEqual(new byte[]{ 137,80,78,71,13,10,26,10 }))
-            {
-                float pixelsPerUnitX = 0, pixelsPerUnitY = 0;
-                while (ms.Position<ms.Length)
-                {
-                    var chunkType = ReadChunkHeader(br, out int length);
-                    switch(chunkType)
-                    {
-                        case "IHDR":
-                            width = GetInt32BigEndian(br);
-                            height = GetInt32BigEndian(br); 
-                            br.ReadBytes(5); //Ignored bytes, Depth compression etc.
-                            break;
-                        case "pHYs":
-                            pixelsPerUnitX = GetInt32BigEndian(br);
-                            pixelsPerUnitY = GetInt32BigEndian(br);
-                            var unitSpecifier = br.ReadByte();
-                            if(unitSpecifier==1)
-                            {
-                                pixelsPerUnitX = pixelsPerUnitX / 39.36F / STANDARD_DPI;
-                                pixelsPerUnitY = pixelsPerUnitY / 39.36F / STANDARD_DPI;
-                            }
-
-                            width = width / pixelsPerUnitX;
-                            height = height / pixelsPerUnitY;
-                            break;
-                        default:
-                            br.ReadBytes(length);
-                            break;
-                    }
-                    var crc = br.ReadInt32();
-                }
-            }
-            return false;
-        }
-
-        private int GetInt32BigEndian(BinaryReader br)
-        {
-            var b=br.ReadBytes(4);
-            Array.Reverse(b);
-            return BitConverter.ToInt32(b, 0);
-        }
-
-        private string ReadChunkHeader(BinaryReader br, out int length)
-        {
-            length = GetInt32BigEndian(br);
-            var b = br.ReadBytes(4);
-            var type = Encoding.ASCII.GetString(b);
-            return type;
-        }
-
-        private bool IsSvg(MemoryStream ms, ref double width, ref double height)
-        {
-            try
-            {
-                using (var reader = new XmlTextReader(ms))
-                {
-                    while (reader.Read())
-                    {
-                        if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)
-                        {
-                            var w=reader.GetAttribute("width");
-                            var h=reader.GetAttribute("height");
-                            var vb = reader.GetAttribute("viewBox");
-                            reader.Close();
-                            if (w==null || h==null)
-                            {
-                                if (vb==null)
-                                {
-                                    return false;
-                                }
-                                var bounds = vb.Split(new char[]{ ' ',',' },StringSplitOptions.RemoveEmptyEntries);
-                                if (bounds.Length < 4)
-                                {
-                                    return false;
-                                }
-                                if(string.IsNullOrEmpty(w))
-                                {
-                                    w = bounds[2];
-                                }
-                                if (string.IsNullOrEmpty(h))
-                                {
-                                    h = bounds[3];
-                                }
-                            }
-                            width = GetSvgUnit(w);
-                            if (double.IsNaN(width)) return false;
-                            height = GetSvgUnit(h);
-                            if (double.IsNaN(height)) return false;
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private double GetSvgUnit(string v)
-        {
-            var factor = 1D;
-            if (v.EndsWith("px", StringComparison.OrdinalIgnoreCase))
-            {
-                v = v.Substring(0, v.Length - 2);
-            }
-            else if(v.EndsWith("pt", StringComparison.OrdinalIgnoreCase))
-            {
-                factor = 1.25;
-                v = v.Substring(0, v.Length - 2);
-            }
-            else if (v.EndsWith("pc", StringComparison.OrdinalIgnoreCase))
-            {
-                factor = 15;
-                v = v.Substring(0, v.Length - 2);
-            }
-            else if(v.EndsWith("mm", StringComparison.OrdinalIgnoreCase))
-            {
-                factor = 3.543307;
-                v = v.Substring(0, v.Length - 2);
-            }
-            else if (v.EndsWith("cm", StringComparison.OrdinalIgnoreCase))
-            {
-                factor = 35.43307;
-                v = v.Substring(0, v.Length - 2);
-            }
-            else if (v.EndsWith("in", StringComparison.OrdinalIgnoreCase))
-            {
-                factor = 90;
-                v = v.Substring(0, v.Length - 2);
-            }
-            if(double.TryParse(v, out double value))
-            {
-                return value*factor;
-            }
-            return double.NaN;
-        }
         private void CreatePicNode(XmlNode node, ePictureType type)
         {
             var picNode = CreateNode("xdr:pic");

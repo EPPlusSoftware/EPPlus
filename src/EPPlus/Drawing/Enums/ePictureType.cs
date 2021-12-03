@@ -48,6 +48,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A svg image
         /// </summary>
-        Svg
+        Svg,
+        /// <summary>
+        /// A WebP image
+        /// </summary>
+        WebP
     }
 }

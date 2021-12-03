@@ -81,6 +81,12 @@
     <None Update="Resources\Code.tif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\code2.PNG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\code2.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\EPPlus.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -81,6 +81,12 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("picturesIS");
 
+            using (var msTif = Properties.Resources.CodeTif)
+            {
+                var imageTif = ws.Drawings.AddPicture("tif1", msTif, OfficeOpenXml.Drawing.ePictureType.Tif);
+                imageTif.SetPosition(0, 0, 80, 0);
+            }
+
             using (var ms1 = new MemoryStream(Properties.Resources.Test1JpgByteArray))
             {
                 var image1 = ws.Drawings.AddPicture("jpg1", ms1, OfficeOpenXml.Drawing.ePictureType.Jpg);
@@ -120,6 +126,25 @@ namespace EPPlusTest.Core.Worksheet
             {
                 var image6 = ws.Drawings.AddPicture("wmf", ms6, OfficeOpenXml.Drawing.ePictureType.Wmf);
                 image6.SetPosition(0, 0, 70, 0);
+            }
+        }
+        [TestMethod]
+        public void AddWebPImages()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("picturesWebP");
+
+            //386*395
+            using (var msWebP1 = GetImageMemoryStream("2_webp_a.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp1", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(0, 0, 0, 0);
+            }
+
+            //386*395
+            using (var msWebP1 = GetImageMemoryStream("2_webp_ll.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp1", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(0, 0, 10, 0);
             }
 
         }

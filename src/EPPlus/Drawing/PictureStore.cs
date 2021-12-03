@@ -237,6 +237,8 @@ namespace OfficeOpenXml.Drawing
                     return "image/x-wmf";
                 case "svg":
                     return "image/svg+xml";
+                case "webp":
+                    return "image/webp";
                 default:
                     return "image/jpeg";
             }
