@@ -52,6 +52,18 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A WebP image
         /// </summary>
-        WebP
+        WebP,
+        /// <summary>
+        /// An icon
+        /// </summary>
+        Ico,
+        /// <summary>
+        /// A compressed Enhanced MetaFile image
+        /// </summary>
+        Emz,
+        /// <summary>
+        /// A compressed Windows MetaFile image
+        /// </summary>
+        Wmz
     }
 }

@@ -81,10 +81,16 @@ namespace EPPlusTest.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("picturesIS");
 
-            using (var msTif = Properties.Resources.CodeTif)
+            using (var msGif = new MemoryStream(Properties.Resources.BitmapImageGif))
             {
-                var imageTif = ws.Drawings.AddPicture("tif1", msTif, OfficeOpenXml.Drawing.ePictureType.Tif);
-                imageTif.SetPosition(0, 0, 80, 0);
+                var imageGif = ws.Drawings.AddPicture("gif1", msGif, OfficeOpenXml.Drawing.ePictureType.Gif);
+                imageGif.SetPosition(40, 0, 0, 0);
+            }
+
+            using (var msBmp = new MemoryStream(Properties.Resources.BitmapImageGif))
+            {
+                var imagebmp = ws.Drawings.AddPicture("bmp1", msBmp, OfficeOpenXml.Drawing.ePictureType.Bmp);
+                imagebmp.SetPosition(40, 0, 10, 0);
             }
 
             using (var ms1 = new MemoryStream(Properties.Resources.Test1JpgByteArray))
@@ -127,6 +133,12 @@ namespace EPPlusTest.Core.Worksheet
                 var image6 = ws.Drawings.AddPicture("wmf", ms6, OfficeOpenXml.Drawing.ePictureType.Wmf);
                 image6.SetPosition(0, 0, 70, 0);
             }
+            
+            using (var msTif = Properties.Resources.CodeTif)
+            {
+                var imageTif = ws.Drawings.AddPicture("tif1", msTif, OfficeOpenXml.Drawing.ePictureType.Tif);
+                imageTif.SetPosition(0, 0, 80, 0);
+            }
         }
         [TestMethod]
         public void AddWebPImages()
@@ -143,10 +155,80 @@ namespace EPPlusTest.Core.Worksheet
             //386*395
             using (var msWebP1 = GetImageMemoryStream("2_webp_ll.webp"))
             {
-                var imageWebP1 = ws.Drawings.AddPicture("webp1", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                var imageWebP1 = ws.Drawings.AddPicture("webp2", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
                 imageWebP1.SetPosition(0, 0, 10, 0);
             }
 
+            //400*400
+            using (var msWebP1 = GetImageMemoryStream("animated.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp3", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(0, 0, 20, 0);
+            }
+
+
+            //320*214
+            using (var msWebP1 = GetImageMemoryStream("1.sm.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp4-1", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(20, 0, 0, 0);
+            }
+
+            //320*214
+            using (var msWebP1 = GetImageMemoryStream("2.sm.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp4-2", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(20, 0, 10, 0);
+            }
+
+            //320*214
+            using (var msWebP1 = GetImageMemoryStream("3.sm.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp4-3", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(20, 0, 20, 0);
+            }
+
+            //320*214
+            using (var msWebP1 = GetImageMemoryStream("4.sm.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp4-4", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(20, 0, 30, 0);
+            }
+
+            //320*214
+            using (var msWebP1 = GetImageMemoryStream("5.sm.webp"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("webp4-5", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                imageWebP1.SetPosition(20, 0, 40, 0);
+            }
+        }
+        [TestMethod]
+        public void AddIconImages()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Icon");
+            //32*32
+            using (var msIco1 = GetImageMemoryStream("1_32x32.ico"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("ico1", msIco1, OfficeOpenXml.Drawing.ePictureType.Ico);
+                imageWebP1.SetPosition(40, 0, 0, 0);
+            }
+            //128*128
+            using (var msIco2 = GetImageMemoryStream("1_128x128.ico"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("ico2", msIco2, OfficeOpenXml.Drawing.ePictureType.Ico);
+                imageWebP1.SetPosition(40, 0, 10, 0);
+            }
+        }
+        [TestMethod]
+        public void AddEmfImages()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Emz");
+            //32*32
+            using (var msIco1 = GetImageMemoryStream("example.emz"))
+            {
+                var imageWebP1 = ws.Drawings.AddPicture("Emf", msIco1, OfficeOpenXml.Drawing.ePictureType.Emz);
+                imageWebP1.SetPosition(40, 0, 0, 0);
+            }
         }
     }
 }

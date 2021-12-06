@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Collections.Generic;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageReader
@@ -58,10 +59,69 @@ namespace OfficeOpenXml.Drawing
                 {
                     return true;
                 }
+                else if (pictureType == ePictureType.Ico && IsIcon(ms, ref width, ref height))
+                {
+                    return true;
+                }
                 return false;
             }
             catch
             {
+                return false;
+            }
+        }
+
+        internal static byte[] ExtractImage(byte[] img, ref ePictureType type)
+        {
+            if (type == ePictureType.Emz ||
+               type == ePictureType.Wmz)
+            {
+                try
+                {
+                    var ms = new MemoryStream(img);
+                    var msOut = new MemoryStream();
+                    const int bufferSize = 4096;
+                    var buffer = new byte[bufferSize];
+                    using (var z = new OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream(ms, Packaging.Ionic.Zlib.CompressionMode.Decompress))
+                    {
+                        int size = 0;
+                        do
+                        {
+                            size = z.Read(buffer, 0, bufferSize);
+                            if (size > 0)
+                            {
+                                msOut.Write(buffer, 0, size);
+                            }
+                        }
+                        while (size == bufferSize);
+                        if (type == ePictureType.Emz) type = ePictureType.Emf;
+                        else if (type == ePictureType.Wmz) type = ePictureType.Wmf;
+                        return msOut.ToArray();
+                    }
+                }
+                catch
+                {
+                    return img;
+                }
+            }
+            return img;
+        }
+
+        private static bool IsIcon(MemoryStream ms, ref double width, ref double height)
+        {
+            using (var br = new BinaryReader(ms))
+            {
+                br.ReadInt16();
+                var type = br.ReadInt16();
+                if (type == 1)
+                {
+                    var imageCount = br.ReadInt16();
+                    width = br.ReadByte();
+                    height = br.ReadByte();
+                    br.Close();
+                    return true;
+                }
+                br.Close();
                 return false;
             }
         }
@@ -91,14 +151,14 @@ namespace OfficeOpenXml.Drawing
                         case "VP8X":
                             br.ReadBytes(8);
                             b = br.ReadBytes(6);
-                            width = BitConverter.ToInt32(new byte[] { b[0], b[1], b[2], 0 }, 0);
-                            height = BitConverter.ToInt32(new byte[] { b[3], b[4], b[5], 0 }, 0);
+                            width = BitConverter.ToInt32(new byte[] { b[0], b[1], b[2], 0 }, 0) + 1;
+                            height = BitConverter.ToInt32(new byte[] { b[3], b[4], b[5], 0 }, 0) + 1;
                             break;
                         case "VP8L":
                             br.ReadBytes(5);
                             b=br.ReadBytes(4);
-                            width = BitConverter.ToInt32(new byte[] { b[0], (byte)(b[1] & 0x3F), 0, 0 }, 0) + 1;
-                            //height = BitConverter.ToInt32(new byte[] { (byte)((b[1] >> 6) | (byte)((b[2] << 6) & 0xFF)), b[2],0,0}, 0);
+                            width = (b[0] | (b[1] & 0x3F) << 8) + 1;
+                            height = (b[1] >> 6 | b[2] << 2 | (b[3] & 0x0F) << 10) + 1;
                             break;
                     }
                 }

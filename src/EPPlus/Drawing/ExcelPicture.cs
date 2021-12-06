@@ -154,6 +154,12 @@ namespace OfficeOpenXml.Drawing
         private void SaveImageToPackage(ePictureType type, byte[] img)
         {
             var package = _drawings.Worksheet._package.ZipPackage;
+            if (type == ePictureType.Emz ||
+               type == ePictureType.Wmz)
+            {
+                img = ImageReader.ExtractImage(img, ref type);
+            }
+
             ContentType = PictureStore.GetContentType(type.ToString());
             IPictureContainer container = this;
             container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
@@ -178,50 +184,38 @@ namespace OfficeOpenXml.Drawing
             container.ImageHash = ii.Hash;
             using (var ms = RecyclableMemory.GetStream(img))
             {
-#if (Core)                
-                
-                double width=0, height=0;
-                try
+                double width = 0, height = 0;
+#if (Core)
+
+                if (type == ePictureType.Bmp ||
+                    type == ePictureType.Jpg ||
+                    type == ePictureType.Gif)
                 {
-                    if (type == ePictureType.Bmp ||
-                       type == ePictureType.Jpg ||
-                       type == ePictureType.Gif)
-                    {
-                        var isImg = SixLabors.ImageSharp.Image.Load(ms);
-                        var scale = GetImageDpi(isImg.Metadata.ResolutionUnits);
-                        width = (float)(isImg.Width / (isImg.Metadata.HorizontalResolution * scale / STANDARD_DPI));
-                        height = (float)(isImg.Height / (isImg.Metadata.VerticalResolution * scale / STANDARD_DPI));
-                    }
-                    else
-                    {
-                        ImageReader.TryGetImageBounds(type, ms, ref width, ref height);
-                    }
+                    var isImg = SKBitmap.Decode(ms);
+                    width = (float)isImg.Width;
+                    height = (float)isImg.Height;
                 }
-                catch
+                else
                 {
                     ImageReader.TryGetImageBounds(type, ms, ref width, ref height);
                 }
+
                 SetPosDefaults((float)width, (float)height);
-
-                float GetImageDpi(SixLabors.ImageSharp.Metadata.PixelResolutionUnit unit)
-                {
-                    switch (unit)
-                    {
-                        case SixLabors.ImageSharp.Metadata.PixelResolutionUnit.PixelsPerMeter:
-                            return 1 / 39.36F;
-                        case SixLabors.ImageSharp.Metadata.PixelResolutionUnit.PixelsPerCentimeter:
-                            return 100 / 39.36F;
-                        default:                    
-                            return 1;
-
-                    }
-                }
 #else
-                _image = Image.FromStream(ms);
-                var width = _image.Width / (_image.HorizontalResolution / STANDARD_DPI);
-                var height = _image.Height / (_image.VerticalResolution / STANDARD_DPI);
+                if(type==ePictureType.Ico || 
+                   type==ePictureType.Svg ||
+                   type==ePictureType.WebP)
+                {
+                    ImageReader.TryGetImageBounds(type, ms, ref width, ref height);
+                }
+                else
+                {
+                    _image = Image.FromStream(ms);
+                    width = _image.Width / (_image.HorizontalResolution / STANDARD_DPI);
+                    height = _image.Height / (_image.VerticalResolution / STANDARD_DPI);
+                }
 
-                SetPosDefaults(width, height);
+                SetPosDefaults((float)width, (float)height);
 #endif
             }
 

@@ -195,11 +195,15 @@ namespace OfficeOpenXml.Drawing
                     return ePictureType.Png;
                 case "emf":
                     return ePictureType.Emf;
+                case "emz":
+                    return ePictureType.Emz;
                 case "tif":
                 case "tiff":
                     return ePictureType.Tif;
                 case "wmf":
                     return ePictureType.Wmf;
+                case "wmz":
+                    return ePictureType.Wmz;
                 default:
                     throw (new InvalidOperationException($"Image with extension {extension} is not supported."));
             }
@@ -223,6 +227,7 @@ namespace OfficeOpenXml.Drawing
                 case "cgm":
                     return "image/cgm";
                 case "emf":
+                case "emz":
                     return "image/x-emf";
                 case "eps":
                     return "image/x-eps";
@@ -234,11 +239,14 @@ namespace OfficeOpenXml.Drawing
                 case "tiff":
                     return "image/x-tiff";
                 case "wmf":
+                case "wmz":
                     return "image/x-wmf";
                 case "svg":
                     return "image/svg+xml";
                 case "webp":
                     return "image/webp";
+                case "ico":
+                    return "image/x-icon";
                 default:
                     return "image/jpeg";
             }
