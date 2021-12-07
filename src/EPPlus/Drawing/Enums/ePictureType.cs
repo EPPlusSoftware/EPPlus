@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Emf,
         /// <summary>
-        /// A tiff image
+        /// A Tiff image
         /// </summary>
         Tif,
         /// <summary>
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Wmf,
         /// <summary>
-        /// A svg image
+        /// A Svg image
         /// </summary>
         Svg,
         /// <summary>
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         WebP,
         /// <summary>
-        /// An icon
+        /// A Windows icon
         /// </summary>
         Ico,
         /// <summary>

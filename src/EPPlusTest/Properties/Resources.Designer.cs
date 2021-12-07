@@ -302,6 +302,18 @@ namespace EPPlusTest.Properties {
                 return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\code2.tif"));
             }
         }
+        internal static MemoryStream CodeWebP
+        {
+            get
+            {
+                string path = AppContext.BaseDirectory;
+                while (!Directory.Exists(path + "\\Resources"))
+                {
+                    path = new DirectoryInfo(path + "\\..").FullName;
+                }
+                return new MemoryStream(File.ReadAllBytes(path + "\\Resources\\code.webp"));
+            }
+        }
         internal static MemoryStream TestThemeThmx
         {
             get

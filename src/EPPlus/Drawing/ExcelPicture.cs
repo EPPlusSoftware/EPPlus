@@ -187,9 +187,7 @@ namespace OfficeOpenXml.Drawing
                 double width = 0, height = 0;
 #if (Core)
 
-                if (type == ePictureType.Bmp ||
-                    type == ePictureType.Jpg ||
-                    type == ePictureType.Gif)
+                if (type == ePictureType.Gif)
                 {
                     var isImg = SKBitmap.Decode(ms);
                     width = (float)isImg.Width;

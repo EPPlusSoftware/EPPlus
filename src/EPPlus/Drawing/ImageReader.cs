@@ -35,6 +35,15 @@ namespace OfficeOpenXml.Drawing
             try
             {
                 ms.Seek(0, SeekOrigin.Begin);
+                if(pictureType == ePictureType.Bmp && IsBmp(ms, ref width, ref height))
+                {
+                    return true;
+                }
+                if (pictureType == ePictureType.Jpg && IsJpg(ms, ref width, ref height))
+                {
+                    return true;
+                }
+
                 if (pictureType == ePictureType.Png && IsPng(ms, ref width, ref height))
                 {
                     return true;
@@ -106,7 +115,61 @@ namespace OfficeOpenXml.Drawing
             }
             return img;
         }
+        private static bool IsJpg(MemoryStream ms, ref double width, ref double height)
+        {
+            using (var br = new BinaryReader(ms))
+            {
+                var sign = br.ReadBytes(2);    //FF D8 
+                while (ms.Position < ms.Length)
+                {
+                    var id = GetUInt16BigEndian(br);
+                    var length = (int)GetInt16BigEndian(br);
+                    switch (id)
+                    {
+                        case 0xFFE0:
+                            var identifier = br.ReadBytes(5); //JFIF\0
+                            var version = br.ReadBytes(2);
+                            var unit = br.ReadByte();
+                            var xDensity = (int)GetInt16BigEndian(br);
+                            var yDensity = (int)GetInt16BigEndian(br);
+                            ms.Position = length + 4;
+                            break;
+                        case 0xFFC0:
+                            var precision = br.ReadByte();
+                            height = GetUInt16BigEndian(br);
+                            width = GetUInt16BigEndian(br);
+                            br.Close();
+                            return true;
+                        case 0xFFD9:
+                            return height!=0 && width!=0;
+                        default:
+                            ms.Position += length-2;
+                            break;
+                    }
+                }
+                return false;
+            }
+        }
 
+        private static bool IsBmp(MemoryStream ms, ref double width, ref double height)
+        {
+            using (var br = new BinaryReader(ms))
+            {
+                var sign = br.ReadBytes(2);    //BM for a Windows bitmap
+                var size = br.ReadInt32();
+                var reserved = br.ReadBytes(4);
+                var offsetData= br.ReadInt32(); 
+
+                //Info Header
+                var ihSize = br.ReadInt32(); //Should be 40
+                width = br.ReadInt32();
+                height = br.ReadInt32();
+
+                return true;
+            }
+        }
+
+        #region Ico
         private static bool IsIcon(MemoryStream ms, ref double width, ref double height)
         {
             using (var br = new BinaryReader(ms))
@@ -117,7 +180,21 @@ namespace OfficeOpenXml.Drawing
                 {
                     var imageCount = br.ReadInt16();
                     width = br.ReadByte();
+                    if (width == 0) width = 256;
                     height = br.ReadByte();
+                    if (height == 0) height = 256;
+
+                    //Icons will currently use the size from the icon and will not read the actual image size from the bmp or png. 
+
+                    //br.ReadBytes(6); //Ignore
+                    //var fileSize = br.ReadInt32();
+                    //if (fileSize > 0)
+                    //{
+                    //    var offset = br.ReadInt32();
+                    //    br.BaseStream.Position = offset;
+
+                    //    IsPng(br, ref width, ref height, offset+fileSize);
+                    //}
                     br.Close();
                     return true;
                 }
@@ -125,6 +202,7 @@ namespace OfficeOpenXml.Drawing
                 return false;
             }
         }
+        #endregion
         #region WebP
         private static bool IsWebP(MemoryStream ms, ref double width, ref double height)
         {
@@ -330,44 +408,51 @@ namespace OfficeOpenXml.Drawing
         {
             using (var br = new BinaryReader(ms))
             {
-                var signature = br.ReadBytes(8);
-                if (signature.SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }))
-                {
-                    while (ms.Position < ms.Length)
-                    {
-                        var chunkType = ReadPngChunkHeader(br, out int length);
-                        switch (chunkType)
-                        {
-                            case "IHDR":
-                                width = GetInt32BigEndian(br);
-                                height = GetInt32BigEndian(br);
-                                br.ReadBytes(5); //Ignored bytes, Depth compression etc.
-                                break;
-                            case "pHYs":
-                                float pixelsPerUnitX = GetInt32BigEndian(br);
-                                float pixelsPerUnitY = GetInt32BigEndian(br);
-                                var unitSpecifier = br.ReadByte();
-                                if (unitSpecifier == 1)
-                                {
-                                    pixelsPerUnitX = pixelsPerUnitX / 39.36F / ExcelDrawing.STANDARD_DPI;
-                                    pixelsPerUnitY = pixelsPerUnitY / 39.36F / ExcelDrawing.STANDARD_DPI;
-                                }
-
-                                width = width / pixelsPerUnitX;
-                                height = height / pixelsPerUnitY;
-                                br.Close();
-                                return true;
-                            default:
-                                br.ReadBytes(length);
-                                break;
-                        }
-                        var crc = br.ReadInt32();
-                    }
-                }
-
-                br.Close();
+                return IsPng(br, ref width, ref height);
             }
-            return width!=0 && height!=0;
+        }
+        private static bool IsPng(BinaryReader br, ref double width, ref double height, long fileEndPosition=long.MinValue)
+        {
+            var signature = br.ReadBytes(8);
+            if (signature.SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }))
+            {
+                if(fileEndPosition==int.MinValue)
+                {
+                    fileEndPosition = br.BaseStream.Length;
+                }
+                while (br.BaseStream.Position < fileEndPosition)
+                {
+                    var chunkType = ReadPngChunkHeader(br, out int length);
+                    switch (chunkType)
+                    {
+                        case "IHDR":
+                            width = GetInt32BigEndian(br);
+                            height = GetInt32BigEndian(br);
+                            br.ReadBytes(5); //Ignored bytes, Depth compression etc.
+                            break;
+                        case "pHYs":
+                            float pixelsPerUnitX = GetInt32BigEndian(br);
+                            float pixelsPerUnitY = GetInt32BigEndian(br);
+                            var unitSpecifier = br.ReadByte();
+                            if (unitSpecifier == 1)
+                            {
+                                pixelsPerUnitX = pixelsPerUnitX / 39.36F / ExcelDrawing.STANDARD_DPI;
+                                pixelsPerUnitY = pixelsPerUnitY / 39.36F / ExcelDrawing.STANDARD_DPI;
+                            }
+
+                            width = width / pixelsPerUnitX;
+                            height = height / pixelsPerUnitY;
+                            br.Close();
+                            return true;
+                        default:
+                            br.ReadBytes(length);
+                            break;
+                    }
+                    var crc = br.ReadInt32();
+                }
+            }
+            br.Close();
+            return width != 0 && height != 0;
         }
         private static string ReadPngChunkHeader(BinaryReader br, out int length)
         {
@@ -427,7 +512,6 @@ namespace OfficeOpenXml.Drawing
                 return false;
             }
         }
-
         private static double GetSvgUnit(string v)
         {
             var factor = 1D;
@@ -468,6 +552,11 @@ namespace OfficeOpenXml.Drawing
         }
         #endregion
 
+        private static ushort GetUInt16BigEndian(BinaryReader br)
+        {
+            var b = br.ReadBytes(2);
+            return BitConverter.ToUInt16(new byte[] { b[1], b[0] }, 0);
+        }
         private static short GetInt16BigEndian(BinaryReader br)
         {
             var b = br.ReadBytes(2);
