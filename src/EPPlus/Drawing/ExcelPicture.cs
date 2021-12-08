@@ -186,16 +186,9 @@ namespace OfficeOpenXml.Drawing
             {
                 double width = 0, height = 0;
 #if (Core)
-
-                if (type == ePictureType.Gif)
+                if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height)==false)
                 {
-                    var isImg = SKBitmap.Decode(ms);
-                    width = (float)isImg.Width;
-                    height = (float)isImg.Height;
-                }
-                else
-                {
-                    ImageReader.TryGetImageBounds(type, ms, ref width, ref height);
+                    throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
                 }
 
                 SetPosDefaults((float)width, (float)height);
@@ -204,7 +197,10 @@ namespace OfficeOpenXml.Drawing
                    type==ePictureType.Svg ||
                    type==ePictureType.WebP)
                 {
-                    ImageReader.TryGetImageBounds(type, ms, ref width, ref height);
+                    if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height)==false)
+                    {
+                        throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
+                    }
                 }
                 else
                 {

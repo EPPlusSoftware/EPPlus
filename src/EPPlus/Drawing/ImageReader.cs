@@ -43,7 +43,10 @@ namespace OfficeOpenXml.Drawing
                 {
                     return true;
                 }
-
+                if (pictureType == ePictureType.Gif && IsGif(ms, ref width, ref height))
+                {
+                    return true;
+                }
                 if (pictureType == ePictureType.Png && IsPng(ms, ref width, ref height))
                 {
                     return true;
@@ -120,24 +123,43 @@ namespace OfficeOpenXml.Drawing
             using (var br = new BinaryReader(ms))
             {
                 var sign = br.ReadBytes(2);    //FF D8 
+                float xDensity=1, yDensity=1;
                 while (ms.Position < ms.Length)
                 {
                     var id = GetUInt16BigEndian(br);
-                    var length = (int)GetInt16BigEndian(br);
+                    var length = (int)GetInt16BigEndian(br);                    
                     switch (id)
                     {
                         case 0xFFE0:
                             var identifier = br.ReadBytes(5); //JFIF\0
                             var version = br.ReadBytes(2);
                             var unit = br.ReadByte();
-                            var xDensity = (int)GetInt16BigEndian(br);
-                            var yDensity = (int)GetInt16BigEndian(br);
+                            xDensity = (int)GetInt16BigEndian(br);
+                            yDensity = (int)GetInt16BigEndian(br);
+                            if(unit == 0)
+                            {
+                                xDensity /= 100;
+                                yDensity /= 100;
+                            }
+                            else if(unit == 1)
+                            {
+                                xDensity /=  ExcelDrawing.STANDARD_DPI;
+                                yDensity /= ExcelDrawing.STANDARD_DPI;
+                            }
+                            else if (unit == 2)
+                            {
+                                xDensity *= 0.393700787F / ExcelDrawing.STANDARD_DPI;
+                                yDensity *= 0.393700787F / ExcelDrawing.STANDARD_DPI;
+                            }
+
                             ms.Position = length + 4;
                             break;
                         case 0xFFC0:
-                            var precision = br.ReadByte();
-                            height = GetUInt16BigEndian(br);
-                            width = GetUInt16BigEndian(br);
+                        case 0xFFC1:
+                        case 0xFFC2:
+                            var precision = br.ReadByte(); //Bits
+                            height = GetUInt16BigEndian(br) / xDensity;
+                            width = GetUInt16BigEndian(br) / yDensity;
                             br.Close();
                             return true;
                         case 0xFFD9:
@@ -150,23 +172,55 @@ namespace OfficeOpenXml.Drawing
                 return false;
             }
         }
-
+        private static bool IsGif(MemoryStream ms, ref double width, ref double height)
+        {
+            using (var br = new BinaryReader(ms))
+            {
+                var b = br.ReadBytes(6);
+                if (b[0] == 0x47 && b[1] == 0x49 && b[2] == 0x46)
+                {
+                    var version = Encoding.ASCII.GetString(b);
+                    width = br.ReadUInt16();
+                    height = br.ReadUInt16();
+                    br.Close();
+                    return true;
+                }
+            }
+            return false;
+        }
         private static bool IsBmp(MemoryStream ms, ref double width, ref double height)
         {
             using (var br = new BinaryReader(ms))
             {
-                var sign = br.ReadBytes(2);    //BM for a Windows bitmap
-                var size = br.ReadInt32();
-                var reserved = br.ReadBytes(4);
-                var offsetData= br.ReadInt32(); 
+                var sign = Encoding.ASCII.GetString(br.ReadBytes(2));    //BM for a Windows bitmap
+                if(sign=="BM" || sign == "BA" || sign == "CI" || sign == "CP" || sign == "IC" || sign == "PT") 
+                {
+                    var size = br.ReadInt32();
+                    var reserved = br.ReadBytes(4);
+                    var offsetData = br.ReadInt32();
 
-                //Info Header
-                var ihSize = br.ReadInt32(); //Should be 40
-                width = br.ReadInt32();
-                height = br.ReadInt32();
+                    //Info Header
+                    var ihSize = br.ReadInt32(); //Should be 40
+                    width = br.ReadInt32();
+                    height = br.ReadInt32();
 
-                return true;
+                    if(sign=="BM")
+                    {
+                        br.ReadBytes(12);
+                        float hr = br.ReadInt32();
+                        float vr = br.ReadInt32();
+
+                        hr /= 39.3700787F;
+                        vr /= 39.3700787F;
+
+                        width /= hr / ExcelDrawing.STANDARD_DPI;
+                        height /= vr / ExcelDrawing.STANDARD_DPI;
+                    }
+
+                    return true;
+                }
             }
+            return false;
         }
 
         #region Ico
@@ -206,6 +260,7 @@ namespace OfficeOpenXml.Drawing
         #region WebP
         private static bool IsWebP(MemoryStream ms, ref double width, ref double height)
         {
+            width = height = 0;
             using (var br = new BinaryReader(ms))
             {
                 var riff=Encoding.ASCII.GetString(br.ReadBytes(4));
@@ -241,7 +296,7 @@ namespace OfficeOpenXml.Drawing
                     }
                 }
             }
-            return false;
+            return width!=0 && height!=0;
         }
         #endregion
         #region Tiff
@@ -363,8 +418,29 @@ namespace OfficeOpenXml.Drawing
                     var signature = Encoding.ASCII.GetString(signatureBytes);
                     if (signature.Trim() == "EMF")
                     {
-                        width = bounds[2] + 2;
-                        height = bounds[3] + 2;
+                        var version = br.ReadUInt32();
+                        var size = br.ReadUInt32();
+                        var records = br.ReadUInt32();
+                        var handles = br.ReadUInt16();
+                        var reserved = br.ReadUInt16();
+
+                        var nDescription = br.ReadUInt32();
+                        var offDescription = br.ReadUInt32();
+                        var nPalEntries = br.ReadUInt32();
+                        br.ReadBytes(16);
+
+                        //Extension 1
+                        br.ReadBytes(12);
+
+                        //Extension 2
+                        var hr = br.ReadUInt32() * 3.93700787E-5F;
+                        var vr = br.ReadUInt32() * 3.93700787E-5F;
+
+                        //width = (bounds[2] + 2) * (hr/ExcelDrawing.STANDARD_DPI);
+                        //height = (bounds[3] + 2) * (vr/ ExcelDrawing.STANDARD_DPI);
+                        width = (bounds[2] + 2);
+                        height = (bounds[3] + 2);
+
                         return true;
                     }
                 }
@@ -416,7 +492,7 @@ namespace OfficeOpenXml.Drawing
             var signature = br.ReadBytes(8);
             if (signature.SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }))
             {
-                if(fileEndPosition==int.MinValue)
+                if(fileEndPosition==long.MinValue)
                 {
                     fileEndPosition = br.BaseStream.Length;
                 }

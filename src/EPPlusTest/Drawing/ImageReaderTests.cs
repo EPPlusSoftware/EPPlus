@@ -30,17 +30,24 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void AddJpgImageVia()
         {
-            var ws = _pck.Workbook.Worksheets.Add("pictures");
+            var ws = _pck.Workbook.Worksheets.Add("InternalJpg");
 
-            using (var ms1 = new MemoryStream(Properties.Resources.Test1JpgByteArray))
+            using (var ms = new MemoryStream(Properties.Resources.Test1JpgByteArray))
             {
-                var image1 = ws.Drawings.AddPicture("jpg1", ms1, OfficeOpenXml.Drawing.ePictureType.Jpg);
-            }
-            using (var ms2 = new MemoryStream(Properties.Resources.VmlPatternImagePngByteArray))
-            {
-                var image2 = ws.Drawings.AddPicture("png1", ms2, OfficeOpenXml.Drawing.ePictureType.Png);
+                var image = ws.Drawings.AddPicture("jpg", ms, OfficeOpenXml.Drawing.ePictureType.Jpg);
             }
         }
+        [TestMethod]
+        public void AddPngImageVia()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("InternalPng");
+
+            using (var ms = new MemoryStream(Properties.Resources.VmlPatternImagePngByteArray))
+            {
+                var image = ws.Drawings.AddPicture("png1", ms, OfficeOpenXml.Drawing.ePictureType.Png);
+            }
+        }
+
         [TestMethod]
         public void AddTestImagesToWorksheet()
         {
@@ -48,69 +55,70 @@ namespace EPPlusTest.Drawing
 
             using (var msGif = new MemoryStream(Properties.Resources.BitmapImageGif))
             {
-                var imageGif = ws.Drawings.AddPicture("gif1", msGif, OfficeOpenXml.Drawing.ePictureType.Gif);
+                var imageGif = ws.Drawings.AddPicture("gif1", msGif, ePictureType.Gif);
                 imageGif.SetPosition(40, 0, 0, 0);
             }
 
-            using (var msBmp = new MemoryStream(Properties.Resources.BitmapImageGif))
+            using (var msBmp = new MemoryStream(Properties.Resources.CodeBmp))
             {
-                var imagebmp = ws.Drawings.AddPicture("bmp1", msBmp, OfficeOpenXml.Drawing.ePictureType.Bmp);
+                var imagebmp = ws.Drawings.AddPicture("bmp1", msBmp, ePictureType.Bmp);
                 imagebmp.SetPosition(40, 0, 10, 0);
             }
 
+            
             using (var ms1 = new MemoryStream(Properties.Resources.Test1JpgByteArray))
             {
-                var image1 = ws.Drawings.AddPicture("jpg1", ms1, OfficeOpenXml.Drawing.ePictureType.Jpg);
+                var image1 = ws.Drawings.AddPicture("jpg1", ms1, ePictureType.Jpg);
             }
+            
             using (var ms2 = new MemoryStream(Properties.Resources.VmlPatternImagePngByteArray))
             {
-                var image2 = ws.Drawings.AddPicture("png1", ms2, OfficeOpenXml.Drawing.ePictureType.Png);
+                var image2 = ws.Drawings.AddPicture("png1", ms2, ePictureType.Png);
                 image2.SetPosition(0, 0, 10, 0);
             }
+            
             using (var ms22 = new MemoryStream(Properties.Resources.Png2ByteArray))
             {
-                var image22 = ws.Drawings.AddPicture("png2", ms22, OfficeOpenXml.Drawing.ePictureType.Png);
+                var image22 = ws.Drawings.AddPicture("png2", ms22, ePictureType.Png);
                 image22.SetPosition(0, 0, 20, 0);
             }
+            
             using (var ms23 = new MemoryStream(Properties.Resources.Png3ByteArray))
             {
-                var image23 = ws.Drawings.AddPicture("png3", ms23, OfficeOpenXml.Drawing.ePictureType.Png);
+                var image23 = ws.Drawings.AddPicture("png3", ms23, ePictureType.Png);
                 image23.SetPosition(0, 0, 30, 0);
             }
+            
             using (var ms3 = new MemoryStream(Properties.Resources.CodeEmfByteArray))
             {
-                var image3 = ws.Drawings.AddPicture("emf1", ms3, OfficeOpenXml.Drawing.ePictureType.Emf);
+                var image3 = ws.Drawings.AddPicture("emf1", ms3, ePictureType.Emf);
                 image3.SetPosition(0, 0, 40, 0);
             }
+
             using (var ms4 = new MemoryStream(Properties.Resources.Svg1ByteArray))
             {
-                var image4 = ws.Drawings.AddPicture("svg1", ms4, OfficeOpenXml.Drawing.ePictureType.Svg);
+                var image4 = ws.Drawings.AddPicture("svg1", ms4, ePictureType.Svg);
                 image4.SetPosition(0, 0, 50, 0);
             }
+
             using (var ms5 = new MemoryStream(Properties.Resources.Svg2ByteArray))
             {
-                var image5 = ws.Drawings.AddPicture("svg2", ms5, OfficeOpenXml.Drawing.ePictureType.Svg);
+                var image5 = ws.Drawings.AddPicture("svg2", ms5, ePictureType.Svg);
                 image5.SetPosition(0, 0, 60, 0);
                 image5.SetSize(25);
             }
+
             using (var ms6 = Properties.Resources.VectorDrawing)
             {
-                var image6 = ws.Drawings.AddPicture("wmf", ms6, OfficeOpenXml.Drawing.ePictureType.Wmf);
+                var image6 = ws.Drawings.AddPicture("wmf", ms6, ePictureType.Wmf);
                 image6.SetPosition(0, 0, 70, 0);
             }
 
             using (var msTif = Properties.Resources.CodeTif)
             {
-                var imageTif = ws.Drawings.AddPicture("tif1", msTif, OfficeOpenXml.Drawing.ePictureType.Tif);
+                var imageTif = ws.Drawings.AddPicture("tif1", msTif, ePictureType.Tif);
                 imageTif.SetPosition(0, 0, 80, 0);
             }
-
-            using (var msTif = Properties.Resources.CodeTif)
-            {
-                var imageTif = ws.Drawings.AddPicture("tif1", msTif, OfficeOpenXml.Drawing.ePictureType.Tif);
-                imageTif.SetPosition(0, 0, 80, 0);
-            }
-
         }
         [TestMethod]
         public void AddWebPImages()
@@ -120,7 +128,7 @@ namespace EPPlusTest.Drawing
             //386*395
             using (var msWebP1 = GetImageMemoryStream("2_webp_a.webp"))
             {
-                var imageWebP1 = ws.Drawings.AddPicture("webp1", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
+                var imageWebP1 = ws.Drawings.AddPicture("webp1", msWebP1, ePictureType.WebP);
                 imageWebP1.SetPosition(0, 0, 0, 0);
             }
 
@@ -250,12 +258,27 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void AddJpgImages()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Jpg");
+            AddFilesToWorksheet("Jpg", ePictureType.Jpg);
+        }
+        [TestMethod]
+        public void AddGifImages()
+        {
+            AddFilesToWorksheet("Gif", ePictureType.Gif);
+        }
+        private static void AddFilesToWorksheet(string fileType, ePictureType type)
+        {
+            var ws = _pck.Workbook.Worksheets.Add(fileType);
 
-            using (var msJpg1 = GetImageMemoryStream("Jpg\\Test1.Jpg"))
+            var dir = new DirectoryInfo(_imagePath + fileType);
+            var ix = 0;
+            foreach (var f in dir.EnumerateFiles())
             {
-                var imageJpg1 = ws.Drawings.AddPicture("Jpg1", msJpg1, ePictureType.Jpg);
-                imageJpg1.SetPosition(0, 0, 0, 0);
+                using (var ms = new MemoryStream(File.ReadAllBytes(f.FullName)))
+                {
+                    var picture = ws.Drawings.AddPicture($"{fileType}{ix}", ms, type);
+                    picture.SetPosition((ix / 5) * 10, 0, (ix % 5) * 10, 0);
+                    ix++;
+                }
             }
         }
     }
