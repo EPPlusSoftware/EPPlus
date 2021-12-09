@@ -2859,6 +2859,38 @@ namespace EPPlusTest
                     ws.Drawings.Clear();
             }
         }
+        [TestMethod]
+        public void s279()
+        {
+            using (var p = OpenTemplatePackage("s279.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["C3"].Value = "Test";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I546()
+        {
+            using (var excelPackage = OpenTemplatePackage("b.xlsx"))
+            {
+                var ws = excelPackage.Workbook.Worksheets[0];
+                var cell = ws.Cells["A2"];
+                var formula = cell.Formula;
+                var value1 = cell.Value;
+                Console.WriteLine($"value1: {value1}");
+
+                var externalLinks = excelPackage.Workbook.ExternalLinks;
+                var externalWorkbook = externalLinks[0].As.ExternalWorkbook;
+                externalWorkbook.Load();
+
+                ws.ClearFormulaValues();
+                ws.Calculate(); // "Circular reference occurred at A2" exception is thrown here
+                
+                var value2 = cell.Value;
+                Console.WriteLine($"value2: {value2}");
+            }
+        }
     }
 }
 
