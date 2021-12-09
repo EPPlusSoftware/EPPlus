@@ -427,19 +427,32 @@ namespace OfficeOpenXml.Drawing
                         var nDescription = br.ReadUInt32();
                         var offDescription = br.ReadUInt32();
                         var nPalEntries = br.ReadUInt32();
-                        br.ReadBytes(16);
+                        var device = new uint[2];
+                        device[0]= br.ReadUInt32();
+                        device[1] = br.ReadUInt32();
 
+                        var mm= new uint[2];
+                        mm[0] = br.ReadUInt32();
+                        mm[1] = br.ReadUInt32();
                         //Extension 1
-                        br.ReadBytes(12);
+                        var cbPixelFormat = br.ReadUInt32();
+                        var offPixelFormat = br.ReadUInt32();
+                        var bOpenGL = br.ReadUInt32();
 
                         //Extension 2
-                        var hr = br.ReadUInt32() * 3.93700787E-5F;
-                        var vr = br.ReadUInt32() * 3.93700787E-5F;
+                        var hr = br.ReadUInt32();
+                        var vr = br.ReadUInt32();
+
+
+                        var id = br.ReadInt32();
+                        var size2 = br.ReadInt32();
 
                         //width = (bounds[2] + 2) * (hr/ExcelDrawing.STANDARD_DPI);
                         //height = (bounds[3] + 2) * (vr/ ExcelDrawing.STANDARD_DPI);
-                        width = (bounds[2] + 2);
-                        height = (bounds[3] + 2);
+                        //width = (bounds[2] - bounds[0] + 1);
+                        //height = (bounds[3] - bounds[1] + 1);
+                        width = (frame[2] - frame[0]+4) * 0.000393700787D * ExcelDrawing.STANDARD_DPI;
+                        height = (frame[3] - frame[1]+4) * 0.000393700787D * ExcelDrawing.STANDARD_DPI;
 
                         return true;
                     }

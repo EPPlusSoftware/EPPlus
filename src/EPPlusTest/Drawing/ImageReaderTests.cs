@@ -256,9 +256,9 @@ namespace EPPlusTest.Drawing
             }
         }
         [TestMethod]
-        public void AddJpgImages()
+        public void AddEmfImages()
         {
-            AddFilesToWorksheet("Jpg", ePictureType.Jpg);
+            AddFilesToWorksheet("Emf", ePictureType.Emf);
         }
         [TestMethod]
         public void AddGifImages()
