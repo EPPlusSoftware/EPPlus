@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             if (!crtxFile.Exists)
             {
-                throw (new FileNotFoundException($"{crtxFile.FullName} can not be found."));
+                throw (new FileNotFoundException($"{crtxFile.FullName} cannot be found."));
             }
             FileStream fs = null;
             try
@@ -427,11 +427,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             {
                 if(Enum.IsDefined(typeof(ePresetChartColors), style))
                 {
-                    throw (new KeyNotFoundException($"Style {(ePresetChartStyle)style} ({style}) can not be found in the StyleLibrary. Please load it into the StyleLibrary."));
+                    throw (new KeyNotFoundException($"Style {(ePresetChartStyle)style} ({style}) cannot be found in the StyleLibrary. Please load it into the StyleLibrary."));
                 }
                 else
                 {
-                    throw (new KeyNotFoundException($"Style {style} can not be found in the StyleLibrary. Please load it into the StyleLibrary."));
+                    throw (new KeyNotFoundException($"Style {style} cannot be found in the StyleLibrary. Please load it into the StyleLibrary."));
                 }
             }
 
@@ -439,11 +439,11 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             {
                 if (Enum.IsDefined(typeof(ePresetChartColors), colors.Value))
                 {
-                    throw (new KeyNotFoundException($"Colors scheme {(ePresetChartColors)colors} ({colors}) can not be found in the ColorsLibrary. Please load it into the ColorsLibrary."));
+                    throw (new KeyNotFoundException($"Colors scheme {(ePresetChartColors)colors} ({colors}) cannot be found in the ColorsLibrary. Please load it into the ColorsLibrary."));
                 }
                 else
                 {
-                    throw (new KeyNotFoundException($"Colors scheme {colors} can not be found in the ColorsLibrary. Please load it into the ColorsLibrary."));
+                    throw (new KeyNotFoundException($"Colors scheme {colors} cannot be found in the ColorsLibrary. Please load it into the ColorsLibrary."));
                 }
             }
             _chart.Style = eChartStyle.None;

@@ -262,7 +262,7 @@ namespace OfficeOpenXml.Drawing
         #region Add functions
         /// <summary>
         /// Adds a new chart to the worksheet.
-        /// Stock charts can not be added by this method. See <see cref="ExcelDrawings.AddStockChart(string, eStockChartType, ExcelRangeBase)"/>
+        /// Stock charts cannot be added by this method. See <see cref="ExcelDrawings.AddStockChart(string, eStockChartType, ExcelRangeBase)"/>
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">Type of chart</param>
@@ -845,7 +845,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (pictureStream == null)
             {
-                throw (new ArgumentNullException("Stream can not be null"));
+                throw (new ArgumentNullException("Stream cannot be null"));
             }
             if (!pictureStream.CanRead || !pictureStream.CanSeek)
             {
@@ -920,7 +920,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (pictureStream == null)
             {
-                throw (new ArgumentNullException("Stream can not be null"));
+                throw (new ArgumentNullException("Stream cannot be null"));
             }
             if (!pictureStream.CanRead || !pictureStream.CanSeek)
             {
@@ -984,7 +984,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(!crtxFile.Exists)
             {
-                throw (new FileNotFoundException($"{crtxFile.FullName} can not be found."));
+                throw (new FileNotFoundException($"{crtxFile.FullName} cannot be found."));
             }
             FileStream fs = null;
             try

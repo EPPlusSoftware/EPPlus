@@ -1150,7 +1150,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(_parent==null)
             {
-                throw new InvalidOperationException("Can not ungroup this drawing. This drawing is not part of a group");
+                throw new InvalidOperationException("Cannot ungroup this drawing. This drawing is not part of a group");
             }
             if(ungroupThisItemOnly)
             {

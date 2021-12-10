@@ -28,11 +28,11 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
         public override ExcelChartDataTable CreateDataTable()
         {
-            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
+            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
         }
         public override void RemoveDataTable()
         {
-            throw (new InvalidOperationException("Extensions charts can not have a data tables"));
+            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
         }
     }
 }

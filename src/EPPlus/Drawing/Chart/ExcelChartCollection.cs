@@ -40,15 +40,15 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (_topChart.PivotTableSource != null)
             {
-                throw (new InvalidOperationException("Can not add other charttypes to a pivot chart"));
+                throw (new InvalidOperationException("Cannot add other chart types to a pivot chart"));
             }
             else if(_topChart._isChartEx)
             {
-                throw (new InvalidOperationException("Extended charts can not be combined with other charttypes"));
+                throw (new InvalidOperationException("Extended charts cannot be combined with other chart types"));
             }
             else if (ExcelChart.IsType3D(chartType) || _list[0].IsType3D())
             {
-                throw(new InvalidOperationException("3D charts can not be combined with other charttypes"));
+                throw(new InvalidOperationException("3D charts cannot be combined with other chart types"));
             }
 
             var prependingChartNode = _list[_list.Count - 1].TopNode;

@@ -1927,7 +1927,7 @@ namespace OfficeOpenXml
         /// <item><term>&amp;K:xxxxxx</term><description>Color. ex &amp;K:FF0000 for red</description></item>
         /// <item><term>&amp;"Font,Regular Bold Italic"</term><description>Changes the font. Regular or Bold or Italic or Bold Italic can be used. ex &amp;"Arial,Bold Italic"</description></item>
         /// <item><term>&amp;nn</term><description>Change font size. nn is an integer. ex &amp;24</description></item>
-        /// <item><term>&amp;G</term><description>Placeholder for images. Images can not be added by the library, but its possible to use in a template.</description></item>
+        /// <item><term>&amp;G</term><description>Placeholder for images. Images cannot be added by the library, but its possible to use in a template.</description></item>
         /// </list>
         /// </remarks>
         public ExcelHeaderFooter HeaderFooter

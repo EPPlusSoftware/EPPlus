@@ -380,7 +380,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
         /// <summary>
-        /// Can not be set for extenstion charts. Please use <see cref="ExcelChart.StyleManager"/>
+        /// Cannot be set for extension charts. Please use <see cref="ExcelChart.StyleManager"/>
         /// </summary>
         public override eChartStyle Style 
         {

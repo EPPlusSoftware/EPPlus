@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Sorting
             {
                 if (c > cols - 1 || c < 0)
                 {
-                    throw (new ArgumentException("Can not reference columns outside the boundries of the range. Note that column reference is zero-based within the range"));
+                    throw (new ArgumentException("Cannot reference columns outside the boundries of the range. Note that column references are zero-based within the range"));
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Sorting
             {
                 if (r > nRows - 1 || r < 0)
                 {
-                    throw (new ArgumentException("Can not reference rows outside the boundries of the range. Note that row reference is zero-based within the range"));
+                    throw (new ArgumentException("Cannot reference rows outside the boundries of the range. Note that row references are zero-based within the range"));
                 }
             }
         }

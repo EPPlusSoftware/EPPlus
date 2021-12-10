@@ -156,7 +156,7 @@ namespace OfficeOpenXml
 				{
 					if (Password == null && await CompoundDocumentFile.IsCompoundDocumentAsync((MemoryStream)_stream, cancellationToken).ConfigureAwait(false))
 					{
-						throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
+						throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
 					}
 
 					throw;
@@ -398,11 +398,11 @@ namespace OfficeOpenXml
         {
             if (!inputStream.CanRead)
             {
-                throw new Exception("Can not read from inputstream");
+                throw new Exception("Cannot read from the input stream");
             }
             if (!outputStream.CanWrite)
             {
-                throw new Exception("Can not write to outputstream");
+                throw new Exception("Cannot write to the output stream");
             }
             if (inputStream.CanSeek)
             {
@@ -537,7 +537,7 @@ namespace OfficeOpenXml
                 {
                     if (password == null && await CompoundDocumentFile.IsCompoundDocumentAsync(File, cancellationToken).ConfigureAwait(false))
                     {
-                        throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
+                        throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
                     }
 
                     throw;
