@@ -2891,6 +2891,19 @@ namespace EPPlusTest
                 Console.WriteLine($"value2: {value2}");
             }
         }
+        [TestMethod]
+        public void I548()
+        {
+            using (var p = OpenTemplatePackage("09-145.xlsx"))
+            {
+                var wsCopy = p.Workbook.Worksheets["Sheet3"];
+                var ws = p.Workbook.Worksheets.Add("tmpCopy");
+                //copy in the same o in another workbook, same issue
+                wsCopy.Cells["C1:AB55"].Copy(ws.Cells["C1"], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 

@@ -105,7 +105,19 @@ namespace OfficeOpenXml.Core
                     {
                         foreach (var a in dv.Address.Addresses)
                         {
-                            newAddress += HandelAddress(a);
+                            var na = HandelAddress(a);
+                            if (!string.IsNullOrEmpty(na))
+                            {
+                                if (string.IsNullOrEmpty(newAddress))
+                                {
+                                    newAddress += na;
+                                }
+                                else
+                                {
+                                    newAddress += "," + na;
+                                }
+
+                            }
                         }
                     }
 
@@ -137,9 +149,22 @@ namespace OfficeOpenXml.Core
                 {
                     foreach (var a in cf.Address.Addresses)
                     {
-                        newAddress += HandelAddress(a);
+                        var na = HandelAddress(a);
+                        if(!string.IsNullOrEmpty(na))
+                        {
+                            if(string.IsNullOrEmpty(newAddress))
+                            {
+                                newAddress += na;
+                            }
+                            else
+                            {
+                                newAddress += "," + na ;
+                            }
+                            
+                        }
                     }
                 }
+
                 if (string.IsNullOrEmpty(newAddress) == false)
                 {
                     if (_sourceRange._worksheet == _destination._worksheet)
