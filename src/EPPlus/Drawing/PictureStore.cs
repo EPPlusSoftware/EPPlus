@@ -15,16 +15,10 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
-using OfficeOpenXml.Compatibility;
-using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Packaging;
-#if(Core)
-using SkiaSharp;
-#endif
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo
@@ -33,6 +27,7 @@ namespace OfficeOpenXml.Drawing
         internal Uri Uri { get; set; }
         internal int RefCount { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
+        internal ExcelImageInfo Info { get; set; }
     }
     internal class PictureStore : IDisposable
     {
@@ -65,6 +60,7 @@ namespace OfficeOpenXml.Drawing
                 else
                 {
                     Packaging.ZipPackagePart imagePart;
+                    var extension = GetExtension(uri);
                     if (uri == null)
                     {
                         uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}.jpg");
@@ -72,12 +68,20 @@ namespace OfficeOpenXml.Drawing
                     }
                     else
                     {
-                        imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, GetExtension(uri));
+                        imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
                     }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
 
-                    _images.Add(hash, new ImageInfo() { Uri = uri, RefCount = 1, Hash = hash, Part = imagePart });
+                    _images.Add(hash,
+                        new ImageInfo()
+                        {
+                            Uri = uri,
+                            RefCount = 1,
+                            Hash = hash,
+                            Part = imagePart,
+                            Info = new ExcelImageInfo(image, GetPictureType(extension))
+                        }); ;
                 }
             }
             return _images[hash];
@@ -165,8 +169,8 @@ namespace OfficeOpenXml.Drawing
             while (package.PartExists(uri));
             return uri;
         }
-
-        internal static Image GetPicture(string relId, IPictureContainer container, out string contentType)
+        
+        internal static byte[] GetPicture(string relId, IPictureContainer container, out string contentType, out ePictureType pictureType)
         {
             ZipPackagePart part;
             container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relId);
@@ -175,7 +179,8 @@ namespace OfficeOpenXml.Drawing
 
             var extension = Path.GetExtension(container.UriPic.OriginalString);
             contentType = GetContentType(extension);
-            return Image.FromStream(part.GetStream());
+            pictureType = GetPictureType(extension);
+            return part.GetStream().ToArray();
         }
         internal static ePictureType GetPictureType(string extension)
         {
@@ -204,6 +209,12 @@ namespace OfficeOpenXml.Drawing
                     return ePictureType.Wmf;
                 case "wmz":
                     return ePictureType.Wmz;
+                case "webp":
+                    return ePictureType.WebP;
+                case "ico":
+                    return ePictureType.Ico;
+                case "svg":
+                    return ePictureType.Svg;
                 default:
                     throw (new InvalidOperationException($"Image with extension {extension} is not supported."));
             }
@@ -251,35 +262,34 @@ namespace OfficeOpenXml.Drawing
                     return "image/jpeg";
             }
         }
-        internal static ImageFormat GetImageFormat(string contentType)
-        {
-            switch (contentType.ToLower(CultureInfo.InvariantCulture))
-            {
-                case "image/bmp":
-                    return ImageFormat.Bmp;
-                case "image/jpeg":
-                    return ImageFormat.Jpeg;
-                case "image/gif":
-                    return ImageFormat.Gif;
-                case "image/png":
-                    return ImageFormat.Png;
-                case "image/x-emf":
-                    return ImageFormat.Emf;
-                case "image/x-tiff":
-                    return ImageFormat.Tiff;
-                case "image/x-wmf":
-                    return ImageFormat.Wmf;
-                default:
-                    return ImageFormat.Jpeg;
+        //internal static ImageFormat GetImageFormat(string contentType)
+        //{
+        //    switch (contentType.ToLower(CultureInfo.InvariantCulture))
+        //    {
+        //        case "image/bmp":
+        //            return ImageFormat.Bmp;
+        //        case "image/jpeg":
+        //            return ImageFormat.Jpeg;
+        //        case "image/gif":
+        //            return ImageFormat.Gif;
+        //        case "image/png":
+        //            return ImageFormat.Png;
+        //        case "image/x-emf":
+        //            return ImageFormat.Emf;
+        //        case "image/x-tiff":
+        //            return ImageFormat.Tiff;
+        //        case "image/x-wmf":
+        //            return ImageFormat.Wmf;
+        //        default:
+        //            return ImageFormat.Jpeg;
 
-            }
-        }        //Add a new image to the compare collection
-        internal static string SavePicture(Image image, IPictureContainer container)
+        //    }
+        //}        //Add a new image to the compare collection
+        internal static string SavePicture(byte[] image, IPictureContainer container)
         {
-            byte[] img = ImageToByteArray(image); 
             var store = container.RelationDocument.Package.PictureStore;
 
-            var ii = store.AddImage(img);
+            var ii = store.AddImage(image);
 
             container.ImageHash = ii.Hash;
             var hashes = container.RelationDocument.Hashes;
@@ -304,53 +314,7 @@ namespace OfficeOpenXml.Drawing
 
             return container.RelPic.Id;
         }
-#if(Core)
-        internal static string SavePictureSkia(SKBitmap image, IPictureContainer container)
-        {
-            var store = container.RelationDocument.Package.PictureStore;
 
-            var ii = store.AddImage(image.Bytes);
-
-            container.ImageHash = ii.Hash;
-            var hashes = container.RelationDocument.Hashes;
-            if (hashes.ContainsKey(ii.Hash))
-            {
-                var relID = hashes[ii.Hash].RelId;
-                var rel = container.RelationDocument.RelatedPart.GetRelationship(relID);
-                container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                return relID;
-            }
-            else
-            {
-                container.UriPic = ii.Uri;
-                container.ImageHash = ii.Hash;
-            }
-
-            //Set the Image and save it to the package.
-            container.RelPic = container.RelationDocument.RelatedPart.CreateRelationship(UriHelper.GetRelativeUri(container.RelationDocument.RelatedUri, container.UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
-
-            //AddNewPicture(img, picRelation.Id);
-            hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id));
-
-            return container.RelPic.Id;
-        }
-#endif
-        internal static byte[] ImageToByteArray(Image image)
-        {
-#if (Core)
-            return ImageCompat.GetImageAsByteArray(image);
-#else
-            ImageConverter ic = new ImageConverter();
-            return (byte[])ic.ConvertTo(image, typeof(byte[]));
-#endif
-        }
-
-#if (Core)
-        internal static byte[] ImageToByteArray(SKBitmap image)
-        {
-            return image.Bytes;
-        }
-#endif
         public void Dispose()
         {
             _images = null;

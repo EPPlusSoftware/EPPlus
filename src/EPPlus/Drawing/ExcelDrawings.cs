@@ -795,7 +795,6 @@ namespace OfficeOpenXml.Drawing
             }
             throw (new Exception("AddPicture: Image can't be null"));
         }
-
         /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>
@@ -869,7 +868,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(grp.Name, _drawingsList.Count - 1);
             return grp;
         }
-        #region AddPictureAsync
+#region AddPictureAsync
 #if !NET35 && !NET40
         /// <summary>
         /// Adds a picture to the worksheet
@@ -1096,7 +1095,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawingsList.Count - 1);
             return shape;
         }
-        #region Add Slicers
+#region Add Slicers
         /// <summary>
         /// Adds a slicer to a table column
         /// </summary>
@@ -1155,7 +1154,7 @@ namespace OfficeOpenXml.Drawing
 
             return slicer;
         }
-        #endregion
+#endregion
         ///// <summary>
         ///// Adds a line connectin two shapes
         ///// </summary>
@@ -1311,7 +1310,7 @@ namespace OfficeOpenXml.Drawing
         {
             return (ExcelControlScrollBar)AddControl(Name, eControlType.ScrollBar);
         }
-        #endregion
+#endregion
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent=false)
         {
             if (DrawingXml.DocumentElement == null)
@@ -1391,8 +1390,8 @@ namespace OfficeOpenXml.Drawing
 
             return drawNode;
         }
-        #endregion
-        #region Remove methods
+#endregion
+#region Remove methods
         /// <summary>
         /// Removes a drawing.
         /// </summary>
@@ -1464,8 +1463,8 @@ namespace OfficeOpenXml.Drawing
                 RemoveDrawing(0);
             }
         }
-        #endregion
-        #region BringToFront & SendToBack
+#endregion
+#region BringToFront & SendToBack
         internal void BringToFront(ExcelDrawing drawing)
         {
             var index = _drawingsList.IndexOf(drawing);
@@ -1515,7 +1514,7 @@ namespace OfficeOpenXml.Drawing
                 _drawingNames[_drawingsList[i].Name]++;
             }
         }
-        #endregion 
+#endregion
         internal void AdjustWidth(double[,] pos)
         {
             var ix = 0;

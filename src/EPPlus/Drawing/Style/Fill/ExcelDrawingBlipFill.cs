@@ -61,7 +61,9 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                     _image = value;
                     try
                     {
-                        string relId = PictureStore.SavePicture(value, this);
+                        var ms = new MemoryStream();
+                        value.Save(ms, ImageFormat);
+                        string relId = PictureStore.SavePicture(ms.ToArray(), this);
 
                         //Create relationship
                         _xml.SetXmlNodeString("a:blip/@r:embed", relId);
@@ -78,6 +80,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         /// If the picture is created from an Image this type is always Jpeg
         /// </summary>
         public ImageFormat ImageFormat { get; internal set; } = ImageFormat.Jpeg;
+        public ExcelImageInfo ImageInfo { get; private set; }
         /// <summary>
         /// The image should be stretched to fill the target.
         /// </summary>
@@ -138,7 +141,8 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             var relId = _xml.GetXmlNodeString("a:blip/@r:embed");
             if (!string.IsNullOrEmpty(relId))
             {
-                _image = PictureStore.GetPicture(relId, this, out string contentType);
+                var img = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
+                ImageInfo = new ExcelImageInfo(img, pictureType);
                 ContentType = contentType;
             }
             SourceRectangle = new ExcelDrawingRectangle(_xml, "a:srcRect/", 0);

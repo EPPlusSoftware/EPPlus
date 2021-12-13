@@ -120,6 +120,12 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:fill/@o:title", value, true);
             }
         }
+        public ExcelImageInfo ImageInfo
+        {
+            get;
+            private set;
+        }
+
         internal Image _image = null;
         /// <summary>
         /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
@@ -133,7 +139,9 @@ namespace OfficeOpenXml.Drawing.Vml
                     var relId = RelId;
                     if (!string.IsNullOrEmpty(relId))
                     {
-                        _image = PictureStore.GetPicture(relId, this, out string contentType);
+                        var b=PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
+                        ImageInfo = new ExcelImageInfo(b, pictureType);
+                        _image = new Bitmap(new MemoryStream(b));
                     }
                 }
                 return _image;
@@ -152,16 +160,19 @@ namespace OfficeOpenXml.Drawing.Vml
                 if (value != null)
                 {
                     _image = value;
+                    var ms = new MemoryStream();
+                    value.Save(ms, ImageFormat.Jpeg);
+                    ImageInfo.SetImage(ms.ToArray(), ePictureType.Jpg);
                 }
             }
         }
         internal void SaveImage()
         {
-            if (_image != null)
+            if (ImageInfo != null)
             {
                 try
                 {
-                    string relId = PictureStore.SavePicture(_image, this);
+                    string relId = PictureStore.SavePicture(ImageInfo.ImageByteArray, this);
 
                     //Create relationship
                     SetXmlNodeString("v:fill/@o:relid", relId);
@@ -172,6 +183,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
             }
         }
+
         IPictureRelationDocument IPictureContainer.RelationDocument => _fill._drawings.Worksheet.VmlDrawings;
 
         string IPictureContainer.ImageHash { get; set ; }

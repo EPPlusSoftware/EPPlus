@@ -17,7 +17,6 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Diagnostics;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
@@ -25,11 +24,9 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
+using System.Drawing.Imaging;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
-#endif
-#if Core
-using SkiaSharp;
 #endif
 namespace OfficeOpenXml.Drawing
 {
@@ -65,27 +62,28 @@ namespace OfficeOpenXml.Drawing
                 else
                 {
                     Part = null;
-                    _image = null;
                     return;
                 }
 #if (Core)
-                try
-                {
-                    _image = Image.FromStream(Part.GetStream());
-                }
-                catch
-                {
-                    if(extension.ToLower()==".emf" || extension.ToLower() == ".wmf") //Not supported in linux environments, so we ignore them and set image to null.
-                    {
-                        _image = null;
-                        return;
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                byte[] iby = ImageCompat.GetImageAsByteArray(_image);
+                //try
+                //{
+                //    _image = Image.FromStream(Part.GetStream());
+                //}
+                //catch
+                //{
+                //    if(extension.ToLower()==".emf" || extension.ToLower() == ".wmf") //Not supported in linux environments, so we ignore them and set image to null.
+                //    {
+                //        _image = null;
+                //        return;
+                //    }
+                //    else
+                //    {
+                //        throw;
+                //    }
+                //}                
+                byte[] iby = Part.GetStream().ToArray();
+                
+                _imageInfo = new ExcelImageInfo(iby, PictureStore.GetPictureType(extension));
 #else
                 _image = Image.FromStream(Part.GetStream());
                 ImageConverter ic =new ImageConverter();
@@ -95,6 +93,7 @@ namespace OfficeOpenXml.Drawing
                 container.ImageHash = ii.Hash;
             }
         }
+
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Image image, Uri hyperlink, ePictureType type) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
         {
@@ -104,7 +103,14 @@ namespace OfficeOpenXml.Drawing
             //Get the picture if it exists or save it if not.
             _image = image;
             Hyperlink = hyperlink;
-            string relID = PictureStore.SavePicture(image, this);
+
+#if (Core)
+            var img = ImageCompat.GetImageAsByteArray(image);
+#else
+            ImageConverter ic = new ImageConverter();
+            byte[] img = (byte[])ic.ConvertTo(image, typeof(byte[]));
+#endif
+            string relID = PictureStore.SavePicture(img, this);
 
             SetRelId(node, type, relID);
             var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
@@ -112,7 +118,6 @@ namespace OfficeOpenXml.Drawing
             SetPosDefaults(width, height);
             package.Flush();
         }
-
         private void SetRelId(XmlNode node, ePictureType type, string relID)
         {
             //Create relationship
@@ -157,7 +162,12 @@ namespace OfficeOpenXml.Drawing
             if (type == ePictureType.Emz ||
                type == ePictureType.Wmz)
             {
-                img = ImageReader.ExtractImage(img, ref type);
+                img = ImageReader.ExtractImage(img, out ePictureType? pt);
+                if(pt==null)
+                {
+                    throw (new InvalidDataException($"Invalid image of type {type}"));
+                }
+                type = pt.Value;
             }
 
             ContentType = PictureStore.GetContentType(type.ToString());
@@ -186,10 +196,13 @@ namespace OfficeOpenXml.Drawing
             {
                 double width = 0, height = 0;
 #if (Core)
-                if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height)==false)
+                if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution)==false)
                 {
                     throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
                 }
+
+                width /= horizontalResolution / STANDARD_DPI;
+                height /= verticalResolution / STANDARD_DPI;
 
                 SetPosDefaults((float)width, (float)height);
 #else
@@ -197,10 +210,12 @@ namespace OfficeOpenXml.Drawing
                    type==ePictureType.Svg ||
                    type==ePictureType.WebP)
                 {
-                    if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height)==false)
+                    if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution)==false)
                     {
                         throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
                     }
+                    width /= horizontalResolution / STANDARD_DPI;
+                    height /= verticalResolution / STANDARD_DPI;
                 }
                 else
                 {
@@ -264,9 +279,18 @@ namespace OfficeOpenXml.Drawing
             return xml.ToString();
         }
 
-#if Core
-        SKBitmap _imageSkia=null;
-#endif
+        ExcelImageInfo _imageInfo=null;
+        public ExcelImageInfo ImageInfo
+        {
+            get
+            {
+                if(_imageInfo==null)
+                {
+                    _imageInfo = new ExcelImageInfo(null, null);
+                }
+                return _imageInfo;
+            }
+        }
         Image _image = null;
         /// <summary>
         /// The Image
@@ -284,7 +308,13 @@ namespace OfficeOpenXml.Drawing
                     _image = value;
                     try
                     {
-                        string relID = PictureStore.SavePicture(value, this);
+#if (Core)
+                        var img = ImageCompat.GetImageAsByteArray(_image);
+#else
+                        ImageConverter ic = new ImageConverter();
+                        byte[] img = (byte[])ic.ConvertTo(_image, typeof(byte[]));
+#endif
+                        string relID = PictureStore.SavePicture(img, this);
 
                         //Create relationship
                         TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
@@ -312,6 +342,7 @@ namespace OfficeOpenXml.Drawing
                 _imageFormat = value;
             }
         }
+
         internal string ContentType
         {
             get;
@@ -324,14 +355,14 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Percent">Percent</param>
         public override void SetSize(int Percent)
         {
-            if (Image == null)
+            if (ImageInfo.ImageByteArray == null)
             {
                 base.SetSize(Percent);
             }
             else
             {
-                _width = Image.Width / (Image.HorizontalResolution / STANDARD_DPI);
-                _height = Image.Height / (Image.VerticalResolution / STANDARD_DPI);
+                _width = ImageInfo.Width / (ImageInfo.HorizontalResolution / STANDARD_DPI);
+                _height = ImageInfo.Height / (ImageInfo.VerticalResolution / STANDARD_DPI);
 
                 _width = (int)(_width * ((double)Percent / 100));
                 _height = (int)(_height * ((double)Percent / 100));

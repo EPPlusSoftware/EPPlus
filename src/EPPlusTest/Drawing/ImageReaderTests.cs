@@ -121,67 +121,6 @@ namespace EPPlusTest.Drawing
             }
         }
         [TestMethod]
-        public void AddWebPImages()
-        {
-            var ws = _pck.Workbook.Worksheets.Add("picturesWebP");
-
-            //386*395
-            using (var msWebP1 = GetImageMemoryStream("2_webp_a.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp1", msWebP1, ePictureType.WebP);
-                imageWebP1.SetPosition(0, 0, 0, 0);
-            }
-
-            //386*395
-            using (var msWebP1 = GetImageMemoryStream("2_webp_ll.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp2", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
-                imageWebP1.SetPosition(0, 0, 10, 0);
-            }
-
-            //400*400
-            using (var msWebP1 = GetImageMemoryStream("animated.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp3", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
-                imageWebP1.SetPosition(0, 0, 20, 0);
-            }
-
-            //320*214
-            using (var msWebP1 = GetImageMemoryStream("1.sm.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp4-1", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
-                imageWebP1.SetPosition(20, 0, 0, 0);
-            }
-
-            //320*214
-            using (var msWebP1 = GetImageMemoryStream("2.sm.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp4-2", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
-                imageWebP1.SetPosition(20, 0, 10, 0);
-            }
-
-            //320*214
-            using (var msWebP1 = GetImageMemoryStream("3.sm.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp4-3", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
-                imageWebP1.SetPosition(20, 0, 20, 0);
-            }
-
-            //320*214
-            using (var msWebP1 = GetImageMemoryStream("4.sm.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp4-4", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
-                imageWebP1.SetPosition(20, 0, 30, 0);
-            }
-
-            //320*214
-            using (var msWebP1 = GetImageMemoryStream("5.sm.webp"))
-            {
-                var imageWebP1 = ws.Drawings.AddPicture("webp4-5", msWebP1, OfficeOpenXml.Drawing.ePictureType.WebP);
-                imageWebP1.SetPosition(20, 0, 40, 0);
-            }
-        }
-        [TestMethod]
         public void AddIcoImages()
         {
             var ws = _pck.Workbook.Worksheets.Add("Icon");
@@ -256,6 +195,11 @@ namespace EPPlusTest.Drawing
             }
         }
         [TestMethod]
+        public void AddWepPImages()
+        {
+            AddFilesToWorksheet("webp", ePictureType.WebP);
+        }
+        [TestMethod]
         public void AddEmfImages()
         {
             AddFilesToWorksheet("Emf", ePictureType.Emf);
@@ -264,6 +208,16 @@ namespace EPPlusTest.Drawing
         public void AddGifImages()
         {
             AddFilesToWorksheet("Gif", ePictureType.Gif);
+        }
+        [TestMethod]
+        public void AddJpgImages()
+        {
+            AddFilesToWorksheet("Jpg", ePictureType.Jpg);
+        }
+        [TestMethod]
+        public void AddSvgImages()
+        {
+            AddFilesToWorksheet("Svg", ePictureType.Svg);
         }
         private static void AddFilesToWorksheet(string fileType, ePictureType type)
         {

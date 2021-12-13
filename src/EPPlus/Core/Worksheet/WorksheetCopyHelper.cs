@@ -277,8 +277,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     IPictureContainer container = pic;
                     var uri = container.UriPic;
-                    var img = PictureStore.ImageToByteArray(pic.Image);
-                    var ii = added.Workbook._package.PictureStore.AddImage(img, null, pic.ContentType);
+                    var ii = added.Workbook._package.PictureStore.AddImage(pic.ImageInfo.ImageByteArray, null, pic.ContentType);
 
                     var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                     //Fixes problem with invalid image when the same image is used more than once.
@@ -420,7 +419,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 IPictureContainer container = fill.BlipFill;
                 var uri = container.UriPic;
-                var img = PictureStore.ImageToByteArray(fill.BlipFill.Image);
+                var img = fill.BlipFill.ImageInfo.ImageByteArray;
                 var ii = added.Workbook._package.PictureStore.AddImage(img, null, fill.BlipFill.ContentType);
 
                 var rel = part.CreateRelationship(UriHelper.GetRelativeUri(uriDraw, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");

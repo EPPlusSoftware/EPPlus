@@ -812,8 +812,10 @@ namespace OfficeOpenXml
         public void AutoFitColumns(double MinimumWidth, double MaximumWidth)
         {
 #if (Core)
-                var af = new AutofitHelperSkia(this);
-                af.AutofitColumn(MinimumWidth, MaximumWidth);
+            //var af = new AutofitHelperSkia(this);
+            //af.AutofitColumn(MinimumWidth, MaximumWidth);
+            var af = new AutofitHelper(this);
+            af.AutofitColumn(MinimumWidth, MaximumWidth);
 #else
             var af = new AutofitHelper(this);
             af.AutofitColumn(MinimumWidth, MaximumWidth);

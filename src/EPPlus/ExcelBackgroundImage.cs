@@ -85,17 +85,8 @@ namespace OfficeOpenXml
         {
             DeletePrevImage();
 
-            Image img;
             byte[] fileBytes;
-            try
-            {
-                fileBytes = File.ReadAllBytes(PictureFile.FullName);
-                img = Image.FromFile(PictureFile.FullName);
-            }
-            catch (Exception ex)
-            {
-                throw (new InvalidDataException("File is not a supported image-file or is corrupt", ex));
-            }
+            fileBytes = File.ReadAllBytes(PictureFile.FullName);
 
             string contentType = PictureStore.GetContentType(PictureFile.Extension);
             var imageURI = XmlHelper.GetNewUri(_workSheet._package.ZipPackage, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length - PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
