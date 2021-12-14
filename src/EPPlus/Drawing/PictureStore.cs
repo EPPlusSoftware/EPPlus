@@ -60,16 +60,19 @@ namespace OfficeOpenXml.Drawing
                 else
                 {
                     Packaging.ZipPackagePart imagePart;
-                    var extension = GetExtension(uri);
+                    ePictureType pictureType;
                     if (uri == null)
                     {
                         uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}.jpg");
                         imagePart = _pck.ZipPackage.CreatePart(uri, "image/jpeg", CompressionLevel.None, "jpg");
+                        pictureType = ePictureType.Jpg;
                     }
                     else
                     {
+                        var extension = GetExtension(uri);
                         imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
-                    }
+                        pictureType = GetPictureType(extension);
+                     }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
 
@@ -80,7 +83,7 @@ namespace OfficeOpenXml.Drawing
                             RefCount = 1,
                             Hash = hash,
                             Part = imagePart,
-                            Info = new ExcelImageInfo(image, GetPictureType(extension))
+                            Info = new ExcelImageInfo(image, pictureType)
                         }); ;
                 }
             }
@@ -190,6 +193,7 @@ namespace OfficeOpenXml.Drawing
             switch (extension.ToLower(CultureInfo.InvariantCulture))
             {
                 case "bmp":
+                case "dib":
                     return ePictureType.Bmp;
                 case "jpg":
                 case "jpeg":
@@ -227,6 +231,7 @@ namespace OfficeOpenXml.Drawing
             switch (extension.ToLower(CultureInfo.InvariantCulture))
             {
                 case "bmp":
+                case "dib":
                     return "image/bmp";
                 case "jpg":
                 case "jpeg":

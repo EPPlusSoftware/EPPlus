@@ -202,7 +202,7 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("-5,555.00 kr", ws.Cells["A3"].Text);
                 Assert.AreEqual("Text", ws.Cells["A4"].Text);
             }
-            Thread.CurrentThread.CurrentCulture = prevCi;            
+            Thread.CurrentThread.CurrentCulture = prevCi;
         }
         [TestMethod]
         public void ValidateDateFormatWithNullAndText()

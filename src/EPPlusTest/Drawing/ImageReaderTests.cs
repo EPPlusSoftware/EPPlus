@@ -219,6 +219,12 @@ namespace EPPlusTest.Drawing
         {
             AddFilesToWorksheet("Svg", ePictureType.Svg);
         }
+        [TestMethod]
+        public void AddPngImages()
+        {
+            AddFilesToWorksheet("Png", ePictureType.Png);
+        }
+
         private static void AddFilesToWorksheet(string fileType, ePictureType type)
         {
             var ws = _pck.Workbook.Worksheets.Add(fileType);
@@ -234,6 +240,6 @@ namespace EPPlusTest.Drawing
                     ix++;
                 }
             }
-        }
+         }
     }
 }

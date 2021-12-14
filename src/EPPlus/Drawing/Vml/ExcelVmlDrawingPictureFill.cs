@@ -120,10 +120,26 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:fill/@o:title", value, true);
             }
         }
+        ExcelImageInfo _imageInfo=null;
         public ExcelImageInfo ImageInfo
         {
-            get;
-            private set;
+            get
+            {
+                if (_imageInfo == null)
+                {
+                    var relId = RelId;
+                    if (!string.IsNullOrEmpty(relId))
+                    {
+                        var b = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
+                        _imageInfo = new ExcelImageInfo(b, pictureType);
+                    }
+                    else
+                    {
+                        _imageInfo = new ExcelImageInfo(null, null);
+                    }
+                }
+                return _imageInfo;
+            }
         }
 
         internal Image _image = null;
@@ -136,13 +152,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 if(_image==null)
                 {
-                    var relId = RelId;
-                    if (!string.IsNullOrEmpty(relId))
-                    {
-                        var b=PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
-                        ImageInfo = new ExcelImageInfo(b, pictureType);
-                        _image = new Bitmap(new MemoryStream(b));
-                    }
+                    _image = Image.FromStream(new MemoryStream(ImageInfo.ImageByteArray));
                 }
                 return _image;
             }
@@ -151,11 +161,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 if (_image == value) return;
                 if (_image != null)
                 {
-                    var container = (IPictureContainer)this;
-                    var pictureRelationDocument = (IPictureRelationDocument)_fill;
-                    pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
-                    pictureRelationDocument.Hashes.Remove(container.ImageHash);
+                    RemoveImage();
                 }
                 if (value != null)
                 {
@@ -166,6 +172,16 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
             }
         }
+
+        private void RemoveImage()
+        {
+            var container = (IPictureContainer)this;
+            var pictureRelationDocument = (IPictureRelationDocument)_fill._drawings;
+            pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
+            pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
+            pictureRelationDocument.Hashes.Remove(container.ImageHash);
+        }
+
         internal void SaveImage()
         {
             if (ImageInfo != null)

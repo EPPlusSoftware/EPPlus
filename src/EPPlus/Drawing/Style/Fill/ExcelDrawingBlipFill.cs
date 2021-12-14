@@ -36,13 +36,36 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             GetXml();
         }
         Image _image;
+#if (Core)
+        [Obsolete("This property is depricated and will be removed when reference to System.Drawing.Common is removed. User property ImageInfo instead", false)]
+#endif
         /// <summary>
         /// The picture used in the fill.
-        /// </summary>
+        /// </summary>        
         public Image Image
         {
             get
             {
+                if(_image==null && ImageInfo.Type!=null)
+                {
+                    if (ImageInfo.Type == ePictureType.WebP ||
+                       ImageInfo.Type == ePictureType.Svg ||
+                       ImageInfo.Type == ePictureType.Ico)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            _image = Image.FromStream(new MemoryStream(ImageInfo.ImageByteArray));
+                        }
+                        catch
+                        {
+                            //Unsupported image format. Might be .emf end .wmf in a non-windows environement.
+                        }
+                    }
+                }
                 return _image;
             }
             set
@@ -79,6 +102,9 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         /// Image format
         /// If the picture is created from an Image this type is always Jpeg
         /// </summary>
+        #if (Core)
+                [Obsolete("This property is depricated and will be removed when reference to System.Drawing.Common is removed. User property ImageInfo instead", false)]
+        #endif
         public ImageFormat ImageFormat { get; internal set; } = ImageFormat.Jpeg;
         public ExcelImageInfo ImageInfo { get; private set; }
         /// <summary>
@@ -204,7 +230,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         {
             Image = image;
         }
-        #region IPictureContainer
+#region IPictureContainer
 
         string IPictureContainer.ImageHash
         {
@@ -230,6 +256,6 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         }
 
         IPictureRelationDocument IPictureContainer.RelationDocument { get => _pictureRelationDocument; }
-        #endregion
+#endregion
     }
 }
