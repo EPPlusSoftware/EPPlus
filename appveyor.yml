@@ -1,4 +1,4 @@
-version: 5.8.3.{build}
+version: 5.8.4.{build}
 branches:
   only:
   - develop
@@ -6,15 +6,15 @@ configuration: release
 platform: Any CPU
 init:
 - ps: >-
-    Update-AppveyorBuild -Version "5.8.3.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
+    Update-AppveyorBuild -Version "5.8.4.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
 
-    Write-Host "5.8.3.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
+    Write-Host "5.8.4.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
   version: '{version}'
-  assembly_version: 5.8.3.{build}
-  file_version: 5.8.3.{build}
+  assembly_version: 5.8.4.{build}
+  file_version: 5.8.4.{build}
 nuget:
   project_feed: true
 before_build:
