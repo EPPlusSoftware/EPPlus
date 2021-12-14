@@ -129,7 +129,7 @@ namespace OfficeOpenXml.Core
                         }
                         else
                         {
-                            _destination._worksheet.DataValidations.AddCopyOfDataValidation(newAddress, dv);
+                            _destination._worksheet.DataValidations.AddCopyOfDataValidation(new ExcelAddressBase(newAddress).AddressSpaceSeparated, dv);
                         }
                     }
                 }
@@ -432,7 +432,7 @@ namespace OfficeOpenXml.Core
             var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
             var offsetCol = c.Column - cell.Comment.Column;
             var offsetRow = c.Row - cell.Comment.Row;
-            XmlHelper.CopyElement((XmlElement)cell.Comment.TopNode, (XmlElement)c.TopNode, new string[] { "Id" });
+            XmlHelper.CopyElement((XmlElement)cell.Comment.TopNode, (XmlElement)c.TopNode, new string[] { "id" });
 
             if (c.From.Column + offsetCol >= 0)
             {

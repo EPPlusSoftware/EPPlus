@@ -2904,6 +2904,27 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I552()
+        {
+            using (var package = OpenTemplatePackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
 
