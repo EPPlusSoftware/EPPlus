@@ -89,10 +89,6 @@ namespace OfficeOpenXml.Utils
                         var date = DateTime.FromOADate(d);
                         return GetDateText(date, format, f, overrideCultureInfo ?? nf.Culture);
                     }
-                    else
-                    {
-                        return "##########";
-                    }
                 }
 
                 if (nf.Formats.Count > 2 && string.IsNullOrEmpty(f.NetFormat))
