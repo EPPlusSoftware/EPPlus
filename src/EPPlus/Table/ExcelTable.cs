@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Table
 
             Init();
 
-            //If the table is just one row we can not have a header.
+            //If the table is just one row we cannot have a header.
             if (address._fromRow == address._toRow)
             {
                 ShowHeader = false;

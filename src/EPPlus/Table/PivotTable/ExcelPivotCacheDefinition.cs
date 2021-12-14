@@ -151,7 +151,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var sr = SourceRange;
                 if (value.End.Column - value.Start.Column != sr.End.Column - sr.Start.Column)
                 {
-                    throw (new ArgumentException("Can not change the number of columns(fields) in the SourceRange"));
+                    throw (new ArgumentException("Cannot change the number of columns(fields) in the SourceRange"));
                 }
 
                 if (value.FullAddress == SourceRange.FullAddress) return; //Same

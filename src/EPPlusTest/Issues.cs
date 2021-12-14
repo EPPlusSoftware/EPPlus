@@ -2891,6 +2891,40 @@ namespace EPPlusTest
                 Console.WriteLine($"value2: {value2}");
             }
         }
+        [TestMethod]
+        public void I548()
+        {
+            using (var p = OpenTemplatePackage("09-145.xlsx"))
+            {
+                var wsCopy = p.Workbook.Worksheets["Sheet3"];
+                var ws = p.Workbook.Worksheets.Add("tmpCopy");
+                //copy in the same o in another workbook, same issue
+                wsCopy.Cells["C1:AB55"].Copy(ws.Cells["C1"], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I552()
+        {
+            using (var package = OpenTemplatePackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
 

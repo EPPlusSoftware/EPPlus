@@ -515,7 +515,7 @@ namespace OfficeOpenXml
 		internal ExcelExternalLinksCollection _externalLinks=null;
 		/// <summary>
 		/// A collection of links to external workbooks and it's cached data.
-		/// This collection can also contain DDE and OLE links. DDE and OLE are readonly and can not be added.
+		/// This collection can also contain DDE and OLE links. DDE and OLE are readonly and cannot be added.
 		/// </summary>
 		public ExcelExternalLinksCollection ExternalLinks
 		{

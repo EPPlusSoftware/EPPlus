@@ -1491,7 +1491,7 @@ namespace OfficeOpenXml
                             if (_worksheet._sharedFormulas[id].IsArray &&
                                     Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) // If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
-                                throw (new InvalidOperationException("Can not overwrite a part of an array-formula"));
+                                throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
                             }
                             formulas.Add(id);
                         }
@@ -1909,7 +1909,7 @@ namespace OfficeOpenXml
         {
             if (Addresses != null)
             {
-                throw (new Exception("An Arrayformula can not have more than one address"));
+                throw (new Exception("An array formula cannot have more than one address"));
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }

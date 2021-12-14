@@ -90,7 +90,11 @@ namespace OfficeOpenXml.Drawing.Vml
                         _drawingsCellStore.SetValue(row, col, _drawings.Count-1);
                         break;
                 }
-                _drawingsDict.Add(string.IsNullOrEmpty(vmlDrawing.SpId) ? vmlDrawing.Id : vmlDrawing.SpId, _drawings.Count - 1);
+                var id = string.IsNullOrEmpty(vmlDrawing.SpId) ? vmlDrawing.Id : vmlDrawing.SpId;
+                if (_drawingsDict.ContainsKey(id)==false) //Check for duplicate.
+                {
+                    _drawingsDict.Add(id, _drawings.Count - 1);
+                }
             }
         }
 
@@ -172,7 +176,10 @@ namespace OfficeOpenXml.Drawing.Vml
             XmlNode node = AddControlDrawing(ctrl, name);
             var draw = new ExcelVmlDrawingControl(_ws, node, NameSpaceManager);
             _drawings.Add(draw);
-            _drawingsDict.Add(draw.Id, _drawings.Count-1);
+            if(_drawingsDict.ContainsKey(draw.Id) == false)
+            {
+                _drawingsDict.Add(draw.Id, _drawings.Count - 1);
+            }
             return draw;
         }
         private XmlNode AddControlDrawing(ExcelControl ctrl, string name)

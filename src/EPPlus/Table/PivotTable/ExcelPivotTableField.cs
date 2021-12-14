@@ -348,11 +348,11 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if ((value & eSubTotalFunctions.None) == eSubTotalFunctions.None && (value != eSubTotalFunctions.None))
                 {
-                    throw (new ArgumentException("Value None can not be combined with other values."));
+                    throw (new ArgumentException("Value None cannot be combined with other values."));
                 }
                 if ((value & eSubTotalFunctions.Default) == eSubTotalFunctions.Default && (value != eSubTotalFunctions.Default))
                 {
-                    throw (new ArgumentException("Value Default can not be combined with other values."));
+                    throw (new ArgumentException("Value Default cannot be combined with other values."));
                 }
 
 
@@ -874,7 +874,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             if(Cache.DatabaseField==false)
             {
-                throw new InvalidOperationException("The field for grouping can not be a calculated field.");
+                throw new InvalidOperationException("The field for grouping cannot be a calculated field.");
             }
             ValidateGrouping();
 
@@ -933,7 +933,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             if (Cache.DatabaseField == false)
             {
-                throw new InvalidOperationException("The field for grouping can not be a calculated field.");
+                throw new InvalidOperationException("The field for grouping cannot be a calculated field.");
             }
 
             if (!(IsColumnField || IsRowField))
