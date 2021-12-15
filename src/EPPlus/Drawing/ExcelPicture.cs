@@ -252,18 +252,6 @@ namespace OfficeOpenXml.Drawing
             return xml.ToString();
         }
 
-        //ExcelImageInfo _imageInfo=null;
-        //public ExcelImageInfo ImageInfo
-        //{
-        //    get
-        //    {
-        //        if(_imageInfo==null)
-        //        {
-        //            _imageInfo = new ExcelImageInfo(null, null);
-        //        }
-        //        return _imageInfo;
-        //    }
-        //}
         /// <summary>
         /// The image
         /// </summary>

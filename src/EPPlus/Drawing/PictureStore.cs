@@ -131,7 +131,7 @@ namespace OfficeOpenXml.Drawing
             return ret;
         }
 
-        private string GetExtension(Uri uri)
+        internal static string GetExtension(Uri uri)
         {
             var s = uri.OriginalString;
             var i = s.LastIndexOf('.');
@@ -225,6 +225,11 @@ namespace OfficeOpenXml.Drawing
             contentType = GetContentType(extension);
             pictureType = GetPictureType(extension);
             return part.GetStream().ToArray();
+        }
+        internal static ePictureType GetPictureType(Uri uri)
+        {
+            var ext = GetExtension(uri);
+            return GetPictureType(ext);
         }
         internal static ePictureType GetPictureType(string extension)
         {

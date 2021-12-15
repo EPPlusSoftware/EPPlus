@@ -11,8 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Text;
+using OfficeOpenXml.Drawing.Interfaces;
 using System.Xml;
 using System.Globalization;
 using System.Drawing;
@@ -23,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Vml
     /// <summary>
     /// Drawing object used for header and footer pictures
     /// </summary>
-    public class ExcelVmlDrawingPicture : ExcelVmlDrawingBase
+    public class ExcelVmlDrawingPicture : ExcelVmlDrawingBase, IPictureContainer
     {
         ExcelWorksheet _worksheet;
         internal ExcelVmlDrawingPicture(XmlNode topNode, XmlNamespaceManager ns, ExcelWorksheet ws) :
@@ -109,6 +108,30 @@ namespace OfficeOpenXml.Drawing.Vml
             set
             {
                 SetXmlNodeString("v:imagedata/@o:title",value);
+            }
+        }
+        ExcelImage _imageNew;
+        public ExcelImage ImageNew
+        {
+            get
+            {
+                if(_imageNew==null)
+                {                    
+                    _imageNew = new ExcelImage(this);
+                    var pck = _worksheet._package.ZipPackage;
+                    if (pck.PartExists(ImageUri))
+                    {
+                        var part = pck.GetPart(ImageUri);
+                        _imageNew.SetImage(part.GetStream().ToArray(), PictureStore.GetPictureType(ImageUri));
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+
+                }
+                return _imageNew;
             }
         }
         /// <summary>
@@ -332,6 +355,29 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
             }
             return 0;
+        }
+
+        IPictureRelationDocument RelationDocument
+        {
+            get
+            {
+                return _worksheet.VmlDrawings;
+            }
+        }
+
+        string ImageHash { get; set; }
+        Uri UriPic { get; set; }
+        Packaging.ZipPackageRelationship RelPic { get; set; }
+
+
+        public void RemoveImage()
+        {
+            
+        }
+
+        public void SetNewImage()
+        {
+            
         }
         #endregion
     }
