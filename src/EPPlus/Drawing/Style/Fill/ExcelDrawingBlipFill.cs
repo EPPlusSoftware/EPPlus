@@ -34,6 +34,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             _schemaNodeOrder = schemaNodeOrder;
             _pictureRelationDocument = pictureRelationDocument;
             GetXml();
+            ImageNew = new ExcelImage(this);
         }
         Image _image;
 #if (Core)
@@ -46,11 +47,11 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         {
             get
             {
-                if(_image==null && ImageInfo.Type!=null)
+                if(_image==null && ImageNew.Type!=null)
                 {
-                    if (ImageInfo.Type == ePictureType.WebP ||
-                       ImageInfo.Type == ePictureType.Svg ||
-                       ImageInfo.Type == ePictureType.Ico)
+                    if (ImageNew.Type == ePictureType.WebP ||
+                       ImageNew.Type == ePictureType.Svg ||
+                       ImageNew.Type == ePictureType.Ico)
                     {
                         return null;
                     }
@@ -58,7 +59,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                     {
                         try
                         {
-                            _image = Image.FromStream(new MemoryStream(ImageInfo.ImageByteArray));
+                            _image = Image.FromStream(new MemoryStream(ImageNew.ImageBytes));
                         }
                         catch
                         {
@@ -106,7 +107,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                 [Obsolete("This property is depricated and will be removed when reference to System.Drawing.Common is removed. User property ImageInfo instead", false)]
         #endif
         public ImageFormat ImageFormat { get; internal set; } = ImageFormat.Jpeg;
-        public ExcelImageInfo ImageInfo { get; private set; }
+        public ExcelImage ImageNew { get; }
         /// <summary>
         /// The image should be stretched to fill the target.
         /// </summary>
@@ -168,7 +169,8 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             if (!string.IsNullOrEmpty(relId))
             {
                 var img = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
-                ImageInfo = new ExcelImageInfo(img, pictureType);
+                ImageNew.Type = pictureType;
+                ImageNew.ImageBytes = img;
                 ContentType = contentType;
             }
             SourceRectangle = new ExcelDrawingRectangle(_xml, "a:srcRect/", 0);
@@ -247,8 +249,19 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             get;
             set;
         }
-
-
+        void IPictureContainer.SetNewImage()
+        {
+            IPictureContainer container = this;
+            //Create relationship
+            _xml.SetXmlNodeString("a:blip/@r:embed", container.RelPic.Id);
+        }
+        void IPictureContainer.RemoveImage()
+        {
+            IPictureContainer container = this;
+            _pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
+            _pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
+            _pictureRelationDocument.Hashes.Remove(container.ImageHash);
+        }
         internal string ContentType
         {
             get;

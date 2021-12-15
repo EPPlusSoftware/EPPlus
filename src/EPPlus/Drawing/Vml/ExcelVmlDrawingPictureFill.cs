@@ -120,25 +120,22 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:fill/@o:title", value, true);
             }
         }
-        ExcelImageInfo _imageInfo=null;
-        public ExcelImageInfo ImageInfo
+        ExcelImage _imageNew=null;
+        public ExcelImage ImageNew
         {
             get
             {
-                if (_imageInfo == null)
+                if (_imageNew == null)
                 {
                     var relId = RelId;
+                    _imageNew = new ExcelImage(this);
                     if (!string.IsNullOrEmpty(relId))
                     {
-                        var b = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
-                        _imageInfo = new ExcelImageInfo(b, pictureType);
-                    }
-                    else
-                    {
-                        _imageInfo = new ExcelImageInfo(null, null);
+                        _imageNew.ImageBytes = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
+                        _imageNew.Type = pictureType;
                     }
                 }
-                return _imageInfo;
+                return _imageNew;
             }
         }
 
@@ -152,7 +149,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 if(_image==null)
                 {
-                    _image = Image.FromStream(new MemoryStream(ImageInfo.ImageByteArray));
+                    _image = Image.FromStream(new MemoryStream(ImageNew.ImageBytes));
                 }
                 return _image;
             }
@@ -168,7 +165,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     _image = value;
                     var ms = new MemoryStream();
                     value.Save(ms, ImageFormat.Jpeg);
-                    ImageInfo.SetImage(ms.ToArray(), ePictureType.Jpg);
+                    ImageNew.SetImage(ms.ToArray(), ePictureType.Jpg);
                 }
             }
         }
@@ -184,11 +181,11 @@ namespace OfficeOpenXml.Drawing.Vml
 
         internal void SaveImage()
         {
-            if (ImageInfo != null)
+            if (ImageNew != null)
             {
                 try
                 {
-                    string relId = PictureStore.SavePicture(ImageInfo.ImageByteArray, this);
+                    string relId = PictureStore.SavePicture(ImageNew.ImageBytes, this);
 
                     //Create relationship
                     SetXmlNodeString("v:fill/@o:relid", relId);
@@ -205,6 +202,17 @@ namespace OfficeOpenXml.Drawing.Vml
         string IPictureContainer.ImageHash { get; set ; }
         Uri IPictureContainer.UriPic { get; set ; }
         ZipPackageRelationship IPictureContainer.RelPic { get; set; }
+        void IPictureContainer.SetNewImage()
+        {
+            var container = (IPictureContainer)this;
+            //Create relationship
+            SetXmlNodeString("v:fill/@o:relid", container.RelPic.Id);
+        }
+        void IPictureContainer.RemoveImage()
+        {
+
+        }
+
         internal string RelId 
         { 
             get

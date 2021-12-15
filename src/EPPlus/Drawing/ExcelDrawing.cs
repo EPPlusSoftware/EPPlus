@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing
     /// Base class for drawings. 
     /// Drawings are Charts, Shapes and Pictures.
     /// </summary>
-    public class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
+    public class ExcelDrawing : XmlHelper, IDisposable
     {
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
@@ -1228,9 +1228,5 @@ namespace OfficeOpenXml.Drawing
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
         }
-        string IPictureContainer.ImageHash { get; set; }
-        Uri IPictureContainer.UriPic { get; set; }
-        Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
-        IPictureRelationDocument IPictureContainer.RelationDocument => _drawings as IPictureRelationDocument;
     }
 }

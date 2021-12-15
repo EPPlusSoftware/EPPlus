@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing
     /// <summary>
     /// An image object
     /// </summary>
-    public sealed class ExcelPicture : ExcelDrawing
+    public sealed class ExcelPicture : ExcelDrawing, IPictureContainer
     {
 #region "Constructors"
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type) :
@@ -41,6 +41,7 @@ namespace OfficeOpenXml.Drawing
         {
             CreatePicNode(node,type);
             Hyperlink = hyperlink;
+            ImageNew = new ExcelImage(this);
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
@@ -83,7 +84,7 @@ namespace OfficeOpenXml.Drawing
                 //}                
                 byte[] iby = Part.GetStream().ToArray();
                 
-                _imageInfo = new ExcelImageInfo(iby, PictureStore.GetPictureType(extension));
+                ImageNew.SetImage(iby, PictureStore.GetPictureType(extension));
 #else
                 _image = Image.FromStream(Part.GetStream());
                 ImageConverter ic =new ImageConverter();
@@ -194,38 +195,10 @@ namespace OfficeOpenXml.Drawing
             container.ImageHash = ii.Hash;
             using (var ms = RecyclableMemory.GetStream(img))
             {
-                double width = 0, height = 0;
-#if (Core)
-                if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution)==false)
-                {
-                    throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
-                }
-
-                width /= horizontalResolution / STANDARD_DPI;
-                height /= verticalResolution / STANDARD_DPI;
-
+                ImageNew.Bounds = PictureStore.GetImageBounds(img, type);
+                var width = ImageNew.Bounds.Width / ImageNew.Bounds.HorizontalResolution / STANDARD_DPI;
+                var height = ImageNew.Bounds.Height / ImageNew.Bounds.VerticalResolution / STANDARD_DPI;
                 SetPosDefaults((float)width, (float)height);
-#else
-                if(type==ePictureType.Ico || 
-                   type==ePictureType.Svg ||
-                   type==ePictureType.WebP)
-                {
-                    if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution)==false)
-                    {
-                        throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
-                    }
-                    width /= horizontalResolution / STANDARD_DPI;
-                    height /= verticalResolution / STANDARD_DPI;
-                }
-                else
-                {
-                    _image = Image.FromStream(ms);
-                    width = _image.Width / (_image.HorizontalResolution / STANDARD_DPI);
-                    height = _image.Height / (_image.VerticalResolution / STANDARD_DPI);
-                }
-
-                SetPosDefaults((float)width, (float)height);
-#endif
             }
 
             //Create relationship
@@ -279,17 +252,24 @@ namespace OfficeOpenXml.Drawing
             return xml.ToString();
         }
 
-        ExcelImageInfo _imageInfo=null;
-        public ExcelImageInfo ImageInfo
+        //ExcelImageInfo _imageInfo=null;
+        //public ExcelImageInfo ImageInfo
+        //{
+        //    get
+        //    {
+        //        if(_imageInfo==null)
+        //        {
+        //            _imageInfo = new ExcelImageInfo(null, null);
+        //        }
+        //        return _imageInfo;
+        //    }
+        //}
+        /// <summary>
+        /// The image
+        /// </summary>
+        public ExcelImage ImageNew
         {
-            get
-            {
-                if(_imageInfo==null)
-                {
-                    _imageInfo = new ExcelImageInfo(null, null);
-                }
-                return _imageInfo;
-            }
+            get;
         }
         Image _image = null;
         /// <summary>
@@ -355,14 +335,14 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Percent">Percent</param>
         public override void SetSize(int Percent)
         {
-            if (ImageInfo.ImageByteArray == null)
+            if (ImageNew.ImageBytes == null)
             {
                 base.SetSize(Percent);
             }
             else
             {
-                _width = ImageInfo.Width / (ImageInfo.HorizontalResolution / STANDARD_DPI);
-                _height = ImageInfo.Height / (ImageInfo.VerticalResolution / STANDARD_DPI);
+                _width = ImageNew.Bounds.Width / (ImageNew.Bounds.HorizontalResolution / STANDARD_DPI);
+                _height = ImageNew.Bounds.Height / (ImageNew.Bounds.VerticalResolution / STANDARD_DPI);
 
                 _width = (int)(_width * ((double)Percent / 100));
                 _height = (int)(_height * ((double)Percent / 100));
@@ -478,5 +458,20 @@ namespace OfficeOpenXml.Drawing
             //_image.Dispose();
             //_image = null;            
         }
+        void IPictureContainer.RemoveImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IPictureContainer.SetNewImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        string IPictureContainer.ImageHash { get; set; }
+        Uri IPictureContainer.UriPic { get; set; }
+        Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
+        IPictureRelationDocument IPictureContainer.RelationDocument => _drawings;
+
     }
 }

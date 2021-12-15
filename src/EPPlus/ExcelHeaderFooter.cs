@@ -143,8 +143,8 @@ namespace OfficeOpenXml
 
         private ExcelVmlDrawingPicture AddImage(string id, ImageInfo ii)
         {
-            double width = ii.Info.Width * 72 / ii.Info.HorizontalResolution,      //Pixel --> Points
-                   height = ii.Info.Height * 72 / ii.Info.VerticalResolution;      //Pixel --> Points
+            double width = ii.Bounds.Width * 72 / ii.Bounds.HorizontalResolution,      //Pixel --> Points
+                   height = ii.Bounds.Height * 72 / ii.Bounds.VerticalResolution;      //Pixel --> Points
             //Add VML-drawing            
             return _ws.HeaderFooter.Pictures.Add(id, ii.Uri, "", width, height);
         }

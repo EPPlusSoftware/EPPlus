@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Drawing
         internal Uri Uri { get; set; }
         internal int RefCount { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
-        internal ExcelImageInfo Info { get; set; }
+        internal ExcelImageInfo Bounds { get; set; }
     }
     internal class PictureStore : IDisposable
     {
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Drawing
                         var extension = GetExtension(uri);
                         imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
                         pictureType = GetPictureType(extension);
-                     }
+                    }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
 
@@ -83,11 +83,52 @@ namespace OfficeOpenXml.Drawing
                             RefCount = 1,
                             Hash = hash,
                             Part = imagePart,
-                            Info = new ExcelImageInfo(image, pictureType)
-                        }); ;
+                            Bounds = GetImageBounds(image, pictureType)
+                        });
                 }
             }
             return _images[hash];
+        }
+
+        internal static ExcelImageInfo GetImageBounds(byte[] image, ePictureType type)
+        {
+            var ret = new ExcelImageInfo();
+            double width = 0, height = 0;
+            var ms = new MemoryStream(image);
+#if (Core)
+            if (ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution) == false)
+            {
+                throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
+            }
+            ret.Width = width;
+            ret.Height = height;
+            ret.HorizontalResolution = horizontalResolution;
+            ret.VerticalResolution = verticalResolution;
+#else
+                if(type==ePictureType.Ico || 
+                   type==ePictureType.Svg ||
+                   type==ePictureType.WebP)
+                {
+                    if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution)==false)
+                    {
+                        throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
+                    }
+                    ret.Width = width;
+                    ret.Height = height;
+                    ret.HorizontalResolution = horizontalResolution;
+                    ret.VerticalResolution = verticalResolution;
+                }
+                else
+                {
+                    var image = Image.FromStream(ms);
+                    ret.Width = image.width;
+                    ret.Height = image.height;
+                    ret.HorizontalResolution = image.HorizontalResolution;
+                    ret.VerticalResolution = image.VerticalResolution;
+                }
+
+#endif
+            return ret;
         }
 
         private string GetExtension(Uri uri)
@@ -197,6 +238,8 @@ namespace OfficeOpenXml.Drawing
                     return ePictureType.Bmp;
                 case "jpg":
                 case "jpeg":
+                case "jfif":
+                case "jpe":
                     return ePictureType.Jpg;
                 case "gif":
                     return ePictureType.Gif;
@@ -235,6 +278,8 @@ namespace OfficeOpenXml.Drawing
                     return "image/bmp";
                 case "jpg":
                 case "jpeg":
+                case "jfif":
+                case "jpe":
                     return "image/jpeg";
                 case "gif":
                     return "image/gif";
@@ -267,29 +312,6 @@ namespace OfficeOpenXml.Drawing
                     return "image/jpeg";
             }
         }
-        //internal static ImageFormat GetImageFormat(string contentType)
-        //{
-        //    switch (contentType.ToLower(CultureInfo.InvariantCulture))
-        //    {
-        //        case "image/bmp":
-        //            return ImageFormat.Bmp;
-        //        case "image/jpeg":
-        //            return ImageFormat.Jpeg;
-        //        case "image/gif":
-        //            return ImageFormat.Gif;
-        //        case "image/png":
-        //            return ImageFormat.Png;
-        //        case "image/x-emf":
-        //            return ImageFormat.Emf;
-        //        case "image/x-tiff":
-        //            return ImageFormat.Tiff;
-        //        case "image/x-wmf":
-        //            return ImageFormat.Wmf;
-        //        default:
-        //            return ImageFormat.Jpeg;
-
-        //    }
-        //}        //Add a new image to the compare collection
         internal static string SavePicture(byte[] image, IPictureContainer container)
         {
             var store = container.RelationDocument.Package.PictureStore;

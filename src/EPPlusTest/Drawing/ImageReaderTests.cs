@@ -230,6 +230,10 @@ namespace EPPlusTest.Drawing
             var ws = _pck.Workbook.Worksheets.Add(fileType);
 
             var dir = new DirectoryInfo(_imagePath + fileType);
+            if(dir.Exists==false)
+            {
+                Assert.Inconclusive($"Directory {dir} does not exist.");
+            }
             var ix = 0;
             foreach (var f in dir.EnumerateFiles())
             {

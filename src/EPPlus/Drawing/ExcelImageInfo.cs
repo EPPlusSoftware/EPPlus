@@ -22,31 +22,8 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public class ExcelImageInfo
     {
-        internal ExcelImageInfo(byte[] image, ePictureType? type)
+        internal ExcelImageInfo()
         {
-            if (type != null && image != null)
-            {
-                SetImage(image, type.Value);
-            }
-            else
-            {
-                Width = 0;
-                Height = 0;
-                HorizontalResolution = ExcelDrawing.STANDARD_DPI;
-                VerticalResolution = ExcelDrawing.STANDARD_DPI;
-            }
-        }
-        /// <summary>
-        /// The image.
-        /// </summary>
-        public byte[] ImageByteArray { get; private set; }
-        /// <summary>
-        /// The type of image.
-        /// </summary>
-        public ePictureType? Type 
-        {
-            get;
-            private set;
         }
         /// <summary>
         /// The width of the image
@@ -54,7 +31,7 @@ namespace OfficeOpenXml.Drawing
         public double Width
         {
             get;
-            private set;
+            internal set;
         }
         /// <summary>
         /// The height of the image
@@ -62,7 +39,7 @@ namespace OfficeOpenXml.Drawing
         public double Height
         {
             get;
-            private set;
+            internal set;
         }
         /// <summary>
         /// The horizontal resolution of the image
@@ -70,7 +47,7 @@ namespace OfficeOpenXml.Drawing
         public double HorizontalResolution
         {
             get;
-            private set;
+            internal set;
         } = ExcelDrawing.STANDARD_DPI;
         /// <summary>
         /// The vertical resolution of the image
@@ -78,66 +55,7 @@ namespace OfficeOpenXml.Drawing
         public double VerticalResolution
         {
             get;
-            private set;
+            internal set;
         } = ExcelDrawing.STANDARD_DPI;
-
-        public void SetImage(byte[] image, ePictureType pictureType)
-        {
-            ImageByteArray = image;
-            Type = pictureType;
-            if(pictureType==ePictureType.Wmz || 
-               pictureType==ePictureType.Emz)
-            {
-                image = ImageReader.ExtractImage(image, out ePictureType? pt);
-                if(pt.HasValue)
-                {
-                    throw new ArgumentException($"Image is not of type {pictureType}.", nameof(image));
-                }
-                else
-                {
-                    pictureType = pt.Value;
-                }
-            }
-#if (Core)
-            GetImageInformation(image, pictureType);
-#else
-            if(pictureType == ePictureType.Ico ||
-               pictureType == ePictureType.Svg ||
-               pictureType == ePictureType.WebP)
-              { 
-                  GetImageInformation(image, pictureType);
-              }
-              else
-              {
-                    try
-                    {
-                        var ms=new MemoryStream(image);
-                        var img = Image.FromStream(ms);
-                        Width = img.Width;
-                        Height = img.Height;
-                        HorizontalResolution = img.HorizontalResolution;
-                        VerticalResolution = img.VerticalResolution;
-                    }
-                    catch
-                    {
-                        GetImageInformation(image, pictureType);
-                    }                
-               }
-#endif
-        }
-
-        private bool GetImageInformation(byte[] image, ePictureType pictureType)
-        {
-            double w = 0, h = 0;
-            if (ImageReader.TryGetImageBounds(pictureType, new MemoryStream(image), ref w, ref h, out double hr, out double vr))
-            {
-                Width = w;
-                Height = h;
-                HorizontalResolution = hr;
-                VerticalResolution = vr;
-                return true;
-            }
-            return false;
-        }
     }
 }
