@@ -78,7 +78,7 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldSetupColumnsWithPath()
         {
-            var cols = new LoadFromCollectionColumns<Outer>(LoadFromCollectionParams.DefaultBindingFlags);
+            var cols = new LoadFromCollectionColumns<Outer>(LoadFromCollectionParams.DefaultBindingFlags, Enumerable.Empty<string>().ToList());
             var result = cols.Setup();
             Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
             Assert.AreEqual("ApprovedUtc", result[0].Path);
@@ -94,6 +94,26 @@ namespace EPPlusTest.LoadFunctions
             Assert.AreEqual("Acknowledged", result[0].Path);
             Assert.AreEqual("Organization.OrgLevel5", result[1].Path);
             Assert.AreEqual("ApprovedUtc", result.Last().Path);
+        }
+
+        [TestMethod]
+        public void ShouldSetupColumnsWithPathSortedByClassAttribute()
+        {
+            var order = new List<string>
+            {
+                "ApprovedUtc",
+                "Acknowledged",
+                "Organization.OrgLevel5"
+            };
+            var cols = new LoadFromCollectionColumns<OuterReversedSortOrder>(LoadFromCollectionParams.DefaultBindingFlags, order);
+            var result = cols.Setup();
+            Assert.AreEqual(5, result.Count, "List did not contain 5 elements as expected");
+            Assert.AreEqual("ApprovedUtc", result[0].Path);
+            Assert.AreEqual("Acknowledged", result[1].Path);
+            Assert.AreEqual("Organization.OrgLevel5", result[2].Path);
+            Assert.AreEqual("Organization.OrgLevel4", result[3].Path);
+            Assert.AreEqual("Organization.OrgLevel3", result[4].Path);
+
         }
 
         [TestMethod]

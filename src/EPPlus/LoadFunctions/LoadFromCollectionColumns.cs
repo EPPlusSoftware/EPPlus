@@ -24,11 +24,20 @@ namespace OfficeOpenXml.LoadFunctions
     internal class LoadFromCollectionColumns<T>
     {
         public LoadFromCollectionColumns(BindingFlags bindingFlags)
+            : this(bindingFlags, new List<string>())
+        {
+
+        }
+
+        public LoadFromCollectionColumns(BindingFlags bindingFlags, List<string> sortOrderColumns)
         {
             _bindingFlags = bindingFlags;
+            _sortOrderColumns = sortOrderColumns;
         }
 
         private readonly BindingFlags _bindingFlags;
+        private readonly List<string> _sortOrderColumns;
+        private const int SortOrderOffset = ExcelPackage.MaxColumns;
 
         internal List<ColumnInfo> Setup()
         {
@@ -41,7 +50,15 @@ namespace OfficeOpenXml.LoadFunctions
             return result;
         }
 
-        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderList, string path = null)
+        private List<T> CopyList<T>(List<T> source)
+        {
+            if (source == null) return null;
+            var copy = new List<T>();
+            source.ForEach(x => copy.Add(x));
+            return copy;
+        }
+
+        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, string path = null)
         {
             var sort = false;
             var members = type.GetProperties(_bindingFlags);
@@ -50,6 +67,7 @@ namespace OfficeOpenXml.LoadFunctions
                 sort = true;
                 foreach (var member in members)
                 {
+                    var sortOrderList = CopyList(sortOrderListArg);
                     if (member.HasPropertyOfType<EpplusIgnore>())
                     {
                         continue;
@@ -59,6 +77,14 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         var nestedTableAttr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
                         var attrOrder = nestedTableAttr.Order;
+                        if(_sortOrderColumns != null && _sortOrderColumns.IndexOf(memberPath) > -1)
+                        {
+                            attrOrder = _sortOrderColumns.IndexOf(memberPath);
+                        }
+                        else
+                        {
+                            attrOrder += SortOrderOffset;
+                        }
                         if(sortOrderList == null)
                         {
                             sortOrderList = new List<int>
@@ -69,13 +95,18 @@ namespace OfficeOpenXml.LoadFunctions
                         else
                         {
                             sortOrderList.Add(attrOrder);
+                            if (attrOrder < SortOrderOffset)
+                            {
+                                sortOrderList[0] = _sortOrderColumns.IndexOf(memberPath);
+                            }
                         }
                         SetupInternal(member.PropertyType, result, sortOrderList, memberPath);
                         sortOrderList.RemoveAt(sortOrderList.Count - 1);
                         continue;
                     }
                     var header = default(string);
-                    var sortOrder = 0;
+                    var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(memberPath) : -1;
+                    var sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : SortOrderOffset;
                     var numberFormat = string.Empty;
                     var rowFunction = RowFunctions.None;
                     var totalsRowNumberFormat = string.Empty;
@@ -89,13 +120,17 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             header = epplusColumnAttr.Header;
                         }
-                        sortOrder = epplusColumnAttr.Order;
+                        sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : epplusColumnAttr.Order + SortOrderOffset;
                         
                         if(sortOrderList != null && sortOrderList.Any())
                         {
+                            if(sortOrderColumnsIndex > -1)
+                            {
+                                sortOrderList[0] = sortOrder;
+                            }    
                             colInfoSortOrderList.AddRange(sortOrderList);
                         }
-                        colInfoSortOrderList.Add(epplusColumnAttr.Order);
+                        colInfoSortOrderList.Add(sortOrder < SortOrderOffset ? sortOrder : epplusColumnAttr.Order + SortOrderOffset);
                         numberFormat = epplusColumnAttr.NumberFormat;
                         rowFunction = epplusColumnAttr.TotalsRowFunction;
                         totalsRowNumberFormat = epplusColumnAttr.TotalsRowNumberFormat;
@@ -130,7 +165,7 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     result.Add(new ColumnInfo
                     {
-                        SortOrder = attr.Order,
+                        SortOrder = attr.Order + SortOrderOffset,
                         Header = attr.Header,
                         Formula = attr.Formula,
                         FormulaR1C1 = attr.FormulaR1C1,

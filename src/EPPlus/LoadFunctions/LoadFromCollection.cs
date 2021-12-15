@@ -41,9 +41,14 @@ namespace OfficeOpenXml.LoadFunctions
                 ShowLastColumn = tableAttr.ShowLastColumn;
                 ShowTotal = tableAttr.ShowTotal;
             }
+            var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortorderAttribute>();
+            if(classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
+            {
+                SortOrderProperties = classSortOrderAttr.Properties.ToList();
+            }
             if (parameters.Members == null)
             {
-                var cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags);
+                var cols = new LoadFromCollectionColumns<T>(parameters.BindingFlags, SortOrderProperties);
                 var columns = cols.Setup();
                 _columns = columns.ToArray();
             }
@@ -77,6 +82,12 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly HeaderParsingTypes _headerParsingType;
         private readonly IEnumerable<T> _items;
         private readonly bool _isSameType = true;
+
+        internal List<string> SortOrderProperties
+        {
+            get;
+            private set;
+        }
 
         protected override int GetNumberOfColumns()
         {
