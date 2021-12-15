@@ -8,31 +8,23 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/27/2020         EPPlus Software AB           EPPlus 5.2
+  11/29/2021         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Xml;
 
-namespace OfficeOpenXml.Drawing.Chart.ChartEx
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    /// <summary>
-    /// A plotarea for an extended chart
-    /// </summary>
-    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
+    [FunctionMetadata(
+            Category = ExcelFunctionCategory.Statistical,
+            IntroducedInExcelVersion = "2010",
+            EPPlusVersion = "5.8",
+            Description = "Calculates the Normal Probability Density Function or the Cumulative Normal Distribution. Function for a supplied set of parameters.")]
+    internal class NormDotDist : Normdist
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")
-        {
-            SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
-        }
-        public override ExcelChartDataTable CreateDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
-        }
-        public override void RemoveDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
-        }
     }
 }

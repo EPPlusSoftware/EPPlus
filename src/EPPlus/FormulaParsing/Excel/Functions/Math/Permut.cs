@@ -19,7 +19,7 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.MathAndTrig,
+        Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "5.5",
         Description = "Returns the number of permutations for a given number of objects")]
     internal class Permut : ExcelFunction

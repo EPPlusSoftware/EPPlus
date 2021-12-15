@@ -8,31 +8,21 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/27/2020         EPPlus Software AB           EPPlus 5.2
+  11/29/2021         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Xml;
 
-namespace OfficeOpenXml.Drawing.Chart.ChartEx
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    /// <summary>
-    /// A plotarea for an extended chart
-    /// </summary>
-    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
+    [FunctionMetadata(
+            Category = ExcelFunctionCategory.Statistical,
+            EPPlusVersion = "5.8",
+            Description = "Calculates the inverse of the Cumulative Normal Distribution Function for a supplied value of x, and a supplied distribution mean & standard deviation.")]
+    internal class NormDotSdotInv : NormsInv
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")
-        {
-            SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
-        }
-        public override ExcelChartDataTable CreateDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
-        }
-        public override void RemoveDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
-        }
     }
 }

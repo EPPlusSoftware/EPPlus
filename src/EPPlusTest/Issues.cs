@@ -2808,8 +2808,123 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s268()
+        {
+            using (var p = OpenTemplatePackage("s268.xlsx"))
+            {
+                var s3 = p.Workbook.Worksheets["s3"];
 
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
+                s3.InsertRow(1, 1);
 
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void Issue538()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+                var validation = sheet.DataValidations.AddListValidation("A1 B1");
+                validation.Formula.ExcelFormula = "Sheet2!$A$7:$A$12"; // throws exception "Multiple addresses may not be commaseparated, use space instead"
+            }
+        }
+        [TestMethod]
+        public void s272()
+        {
+            using (var p = OpenTemplatePackage("RadioButton.xlsm"))
+            {
+                if(p.Workbook.VbaProject == null)
+                {
+                    p.Workbook.CreateVBAProject();
+                }
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s277()
+        {
+            using (var p = OpenTemplatePackage("s277.xlsx"))
+            {
+                foreach (var ws in p.Workbook.Worksheets)
+                    ws.Drawings.Clear();
+            }
+        }
+        [TestMethod]
+        public void s279()
+        {
+            using (var p = OpenTemplatePackage("s279.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["C3"].Value = "Test";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I546()
+        {
+            using (var excelPackage = OpenTemplatePackage("b.xlsx"))
+            {
+                var ws = excelPackage.Workbook.Worksheets[0];
+                var cell = ws.Cells["A2"];
+                var formula = cell.Formula;
+                var value1 = cell.Value;
+                Console.WriteLine($"value1: {value1}");
+
+                var externalLinks = excelPackage.Workbook.ExternalLinks;
+                var externalWorkbook = externalLinks[0].As.ExternalWorkbook;
+                externalWorkbook.Load();
+
+                ws.ClearFormulaValues();
+                ws.Calculate(); // "Circular reference occurred at A2" exception is thrown here
+                
+                var value2 = cell.Value;
+                Console.WriteLine($"value2: {value2}");
+            }
+        }
+        [TestMethod]
+        public void I548()
+        {
+            using (var p = OpenTemplatePackage("09-145.xlsx"))
+            {
+                var wsCopy = p.Workbook.Worksheets["Sheet3"];
+                var ws = p.Workbook.Worksheets.Add("tmpCopy");
+                //copy in the same o in another workbook, same issue
+                wsCopy.Cells["C1:AB55"].Copy(ws.Cells["C1"], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I552()
+        {
+            using (var package = OpenTemplatePackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
 

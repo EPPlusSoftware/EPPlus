@@ -156,7 +156,7 @@ namespace OfficeOpenXml
             return AddImage(Picture, id, ii);
         }
 
-        private ExcelVmlDrawingPicture AddImage(Image Picture, string id, PictureStore.ImageInfo ii)
+        private ExcelVmlDrawingPicture AddImage(Image Picture, string id, ImageInfo ii)
         {
             double width = Picture.Width * 72 / Picture.HorizontalResolution,      //Pixel --> Points
                    height = Picture.Height * 72 / Picture.VerticalResolution;      //Pixel --> Points

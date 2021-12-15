@@ -78,7 +78,7 @@ namespace EPPlusTest.Drawing.Style
         {
             if (c.IsEmpty || c.GetType().GetProperty(c.Name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static) == null)
             {
-                throw (new ArgumentException("A preset color can not be set to empty or be an unnamed color"));
+                throw (new ArgumentException("A preset color cannot be set to empty or be an unnamed color"));
             }
             var s = c.Name.ToString();
             return s.Substring(0, 1).ToLower() + s.Substring(1);

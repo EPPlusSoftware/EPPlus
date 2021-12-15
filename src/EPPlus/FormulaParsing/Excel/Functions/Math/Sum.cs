@@ -27,6 +27,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the sum of a supplied list of numbers")]
     internal class Sum : HiddenValuesHandlingFunction
     {
+        public Sum()
+        {
+            IgnoreErrors = false;
+        }
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             var retVal = 0d;

@@ -25,10 +25,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the product of a supplied list of numbers")]
     internal class Product : HiddenValuesHandlingFunction
     {
+        public Product()
+        {
+            IgnoreErrors = false;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var args = arguments.ToList();
+            if(!IgnoreErrors && arguments.Any(x => x.ValueIsExcelError))
+            {
+                return CreateResult(arguments.First(x => x.ValueIsExcelError).ValueAsExcelErrorValue.Type);
+            }
             args.RemoveAll(x => ShouldIgnore(x));
             var result = 1d;
             var values = ArgsToObjectEnumerable(true, args, context);

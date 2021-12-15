@@ -41,6 +41,8 @@ namespace OfficeOpenXml.Drawing
         private XmlDocument _drawingsXml = new XmlDocument();
         internal Dictionary<string, int> _drawingNames;
         internal List<ExcelDrawing> _drawingsList;
+        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
+
         internal class ImageCompare
         {
             internal byte[] image { get; set; }
@@ -63,19 +65,20 @@ namespace OfficeOpenXml.Drawing
                 return true; //Equal
             }
         }
-        //internal List<ImageCompare> _pics = new List<ImageCompare>();
-        internal Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
         internal ExcelPackage _package;
         internal Packaging.ZipPackageRelationship _drawingRelation = null;
         internal string _seriesTemplateXml;
         internal ExcelDrawings(ExcelPackage xlPackage, ExcelWorksheet sheet)
         {
+            xlPackage.Workbook.LoadAllDrawings(sheet.Name);
+
+            _package = xlPackage;
+            Worksheet = sheet;
+
             _drawingsXml = new XmlDocument();
             _drawingsXml.PreserveWhitespace = false;
             _drawingsList = new List<ExcelDrawing>();
             _drawingNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-            _package = xlPackage;
-            Worksheet = sheet;
             CreateNSM();
             XmlNode node = sheet.WorksheetXml.SelectSingleNode("//d:drawing", sheet.NameSpaceManager);
             if (node != null && sheet !=null)
@@ -259,7 +262,7 @@ namespace OfficeOpenXml.Drawing
         #region Add functions
         /// <summary>
         /// Adds a new chart to the worksheet.
-        /// Stock charts can not be added by this method. See <see cref="ExcelDrawings.AddStockChart(string, eStockChartType, ExcelRangeBase)"/>
+        /// Stock charts cannot be added by this method. See <see cref="ExcelDrawings.AddStockChart(string, eStockChartType, ExcelRangeBase)"/>
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">Type of chart</param>
@@ -842,7 +845,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (pictureStream == null)
             {
-                throw (new ArgumentNullException("Stream can not be null"));
+                throw (new ArgumentNullException("Stream cannot be null"));
             }
             if (!pictureStream.CanRead || !pictureStream.CanSeek)
             {
@@ -917,7 +920,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (pictureStream == null)
             {
-                throw (new ArgumentNullException("Stream can not be null"));
+                throw (new ArgumentNullException("Stream cannot be null"));
             }
             if (!pictureStream.CanRead || !pictureStream.CanSeek)
             {
@@ -981,7 +984,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(!crtxFile.Exists)
             {
-                throw (new FileNotFoundException($"{crtxFile.FullName} can not be found."));
+                throw (new FileNotFoundException($"{crtxFile.FullName} cannot be found."));
             }
             FileStream fs = null;
             try
@@ -1578,8 +1581,6 @@ namespace OfficeOpenXml.Drawing
         public void Dispose()
         {
             _drawingsXml = null;
-            _hashes.Clear();
-            _hashes = null;
             _part = null;
             _drawingNames.Clear();
             _drawingNames = null;

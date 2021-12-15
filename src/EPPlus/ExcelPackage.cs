@@ -465,7 +465,7 @@ namespace OfficeOpenXml
             {
                 if(template.Length==0)
                 {
-                    throw new IOException($"{template.FullName} can not be a zero-byte file.");
+                    throw new IOException($"{template.FullName} cannot be a zero-byte file.");
                 }
                 if (_stream==null)
                     _stream = RecyclableMemory.GetStream();
@@ -492,7 +492,7 @@ namespace OfficeOpenXml
                 {
                     if (password == null && CompoundDocument.IsCompoundDocument(ms))
                     {
-                        throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
+                        throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
                     }
                     else
                     {
@@ -535,7 +535,7 @@ namespace OfficeOpenXml
                 {
                     if (password == null && CompoundDocument.IsCompoundDocument(File))
                     {
-                        throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
+                        throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
                     }
                     else
                     {
@@ -947,7 +947,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    throw (new InvalidOperationException(string.Format("Error saving file {0}", File.FullName), ex));
+                        throw (new InvalidOperationException(string.Format("Error saving file {0}", File.FullName), ex));
                 }
             }
         }
@@ -1260,7 +1260,7 @@ namespace OfficeOpenXml
                     EncryptedPackageHandler eph = new EncryptedPackageHandler();
                     if (Password == null && CompoundDocument.IsCompoundDocument((MemoryStream)_stream))
                     {
-                        throw new Exception("Can not open the package. Package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
+                        throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
                     }
                     else
                     {
@@ -1305,11 +1305,11 @@ namespace OfficeOpenXml
         {
             if (!inputStream.CanRead)
             {
-                throw (new Exception("Can not read from inputstream"));
+                throw (new Exception("Cannot read from the input stream"));
             }
             if (!outputStream.CanWrite)
             {
-                throw (new Exception("Can not write to outputstream"));
+                throw (new Exception("Cannot write to the output stream"));
             }
             if (inputStream.CanSeek)
             {

@@ -955,7 +955,7 @@ namespace OfficeOpenXml.Core.CellStore
 
         private int ValidateAndSplitPageIfNeeded(ColumnIndex column, PageIndex page, int pagePos)
         {
-            if (page.RowSpan >= CellStoreSettings._pageSizeMax)   //Can not be larger than the max size of the page.
+            if (page.RowSpan >= CellStoreSettings._pageSizeMax)   //Cannot be larger than the max size of the page.
             {
                 pagePos = SplitPage(column, pagePos);
             }

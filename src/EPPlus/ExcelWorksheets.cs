@@ -298,7 +298,7 @@ namespace OfficeOpenXml
         {
             if (string.IsNullOrEmpty(Name) || Name.Trim() == "")
             {
-                throw new ArgumentException("The worksheet can not have an empty name");
+                throw new ArgumentException("The worksheet cannot have an empty name");
             }
 
             //remove invalid characters
@@ -314,7 +314,7 @@ namespace OfficeOpenXml
 
             if (Name.StartsWith("'", StringComparison.OrdinalIgnoreCase) || Name.EndsWith("'", StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException("The worksheet name can not start or end with an apostrophe (').", "Name");
+                throw new ArgumentException("The worksheet name cannot start or end with an apostrophe (').", "Name");
             }
             if (Name.Length > 31) Name = Name.Substring(0, 31);   //A sheet can have max 31 char's            
             return Name;
@@ -605,7 +605,7 @@ namespace OfficeOpenXml
             }
             return worksheet;
         }
-
+        internal bool _areDrawingsLoaded = false;
         //#region Move worksheet functions
         /// <summary>
         /// Moves the source worksheet to the position before the target worksheet

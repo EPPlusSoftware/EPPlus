@@ -544,16 +544,7 @@ namespace OfficeOpenXml.Drawing
             switch (drawNode.LocalName)
             {
                 case "sp":
-                    var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
-                    var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
-                    if (control != null)
-                    {
-                        return ControlFactory.GetControl(drawings, drawNode, control, parent);
-                    }
-                    else
-                    {
-                        return new ExcelShape(drawings, node, parent);
-                    }
+                    return GetShapeOrControl(drawings, node, drawNode, parent);
                 case "pic":
                     return new ExcelPicture(drawings, node, parent);
                 case "graphicFrame":
@@ -588,6 +579,10 @@ namespace OfficeOpenXml.Drawing
                                 {
                                     return new ExcelPivotTableSlicer(drawings, node, parent);
                                 }
+                                else if (choice.ChildNodes.Count > 0 && choice.FirstChild.LocalName=="sp")
+                                {
+                                    return GetShapeOrControl(drawings, node, (XmlElement)choice.FirstChild, parent);
+                                }
                                 break;
 
                         }
@@ -596,6 +591,20 @@ namespace OfficeOpenXml.Drawing
             }
             return new ExcelDrawing(drawings, node, "", "");
        }
+
+        private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent)
+        {
+            var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
+            var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
+            if (control != null)
+            {
+                return ControlFactory.GetControl(drawings, drawNode, control, parent);
+            }
+            else
+            {
+                return new ExcelShape(drawings, node, parent);
+            }
+        }
 
         private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
         {
@@ -1141,7 +1150,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(_parent==null)
             {
-                throw new InvalidOperationException("Can not ungroup this drawing. This drawing is not part of a group");
+                throw new InvalidOperationException("Cannot ungroup this drawing. This drawing is not part of a group");
             }
             if(ungroupThisItemOnly)
             {

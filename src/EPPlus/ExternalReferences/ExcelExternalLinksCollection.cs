@@ -157,7 +157,7 @@ namespace OfficeOpenXml.ExternalReferences
             extRefs?.ParentNode?.RemoveChild(extRefs);
         }
         /// <summary>
-        /// A list of directories to look for the external files that can not be found on the path of the uri.
+        /// A list of directories to look for the external files that cannot be found on the path of the uri.
         /// </summary>
         public List<DirectoryInfo> Directories
         {

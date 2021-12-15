@@ -1,4 +1,32 @@
 ﻿# Features / Fixed issues - EPPlus 5
+
+## Version 5.8.4
+### Features
+* 6 new functions:
+	* NORMINV
+	* NORM.INV
+	* NORMSINV
+	* NORM.S.INV
+	* NORMDIST
+	* NORM.DIST
+### Fixed issues
+* Default behaviour of SUM, AVERAGE, AVERAGEA, MEDIAN, LARGE, SMALL and PRODUCT functions did not handle cells with errors correctly
+* Fixed load/save of .xlsm files not having an vbaproject.bin in the package.
+* EPPlus threw an exception when handling extlist logic for spaceseparated data validations.
+* IntParser (formula calc.) could not handle boolean values
+* Copy of comments within the same worksheet caused an ArgumentException when loading the workbook again.
+* Range.Copy of conditional formattings with multiple addresses did not work.
+* Changed Uri reference handling to avoid relative references to the root.
+
+## Version 5.8.3
+### Fixed issues
+* Inserting rows into a worksheet sometimes didn't update addresses on workbook defined names.
+* Overlapping data validation addresses was validated on save which cause workbooks containing such not to be saved.
+* Failed to copy cells when data validations or conditional formatting was set.
+* COUNTIFS, AVERAGEIFS and SUMIFS fails with single cell ranges.
+* Packages with VBA project with a component reference with encoded characters causes the saved package to become corrupt.
+* It was not possible to specify legend entry properties for items from secondary y-axis.
+
 ## Version 5.8.2
 ### Fixed issues
 * Range.Text returned the wrong value for format #.##0"*";(#.##0)"*" on negative values
