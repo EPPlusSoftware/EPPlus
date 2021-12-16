@@ -70,12 +70,16 @@ namespace OfficeOpenXml.Drawing
                     else
                     {
                         var extension = GetExtension(uri);
+                        if (string.IsNullOrEmpty(contentType))
+                        {
+                            contentType = GetContentType(extension);
+                        }
                         imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
                         pictureType = GetPictureType(extension);
                     }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
-
+                    stream.Flush();
                     _images.Add(hash,
                         new ImageInfo()
                         {
@@ -120,11 +124,11 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    var image = Image.FromStream(ms);
-                    ret.Width = image.width;
-                    ret.Height = image.height;
-                    ret.HorizontalResolution = image.HorizontalResolution;
-                    ret.VerticalResolution = image.VerticalResolution;
+                    var img = Image.FromStream(ms);
+                    ret.Width = img.Width;
+                    ret.Height = img.Height;
+                    ret.HorizontalResolution = img.HorizontalResolution;
+                    ret.VerticalResolution = img.VerticalResolution;
                 }
 
 #endif
@@ -320,16 +324,15 @@ namespace OfficeOpenXml.Drawing
         internal static string SavePicture(byte[] image, IPictureContainer container)
         {
             var store = container.RelationDocument.Package.PictureStore;
-
-            var ii = store.AddImage(image);
+            var ii = store.AddImage(image, container.UriPic, "");
 
             container.ImageHash = ii.Hash;
             var hashes = container.RelationDocument.Hashes;
             if (hashes.ContainsKey(ii.Hash))
             {
                 var relID = hashes[ii.Hash].RelId;
-                var rel = container.RelationDocument.RelatedPart.GetRelationship(relID);
-                container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relID);
+                container.UriPic = UriHelper.ResolvePartUri(container.RelPic.SourceUri, container.RelPic.TargetUri);
                 return relID;
             }
             else

@@ -74,6 +74,11 @@ namespace OfficeOpenXml.Drawing
         /// <param name="pictureType">The type of image.</param>
         public void SetImage(byte[] image, ePictureType pictureType)
         {
+            pictureType = SetImage(image, pictureType, true);
+        }
+
+        internal ePictureType SetImage(byte[] image, ePictureType pictureType, bool removePrevImage)
+        {
             Type = pictureType;
             if (pictureType == ePictureType.Wmz ||
                pictureType == ePictureType.Emz)
@@ -85,14 +90,20 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    RemoveImage();
+                    if (string.IsNullOrEmpty(_container.ImageHash) == false)
+                    {
+                        RemoveImage();
+                    }
                     ImageBytes = img;
                     pictureType = pt.Value;
-                }            
+                }
             }
             else
             {
-                RemoveImage();
+                if (string.IsNullOrEmpty(_container.ImageHash) == false)
+                {
+                    RemoveImage();
+                }
                 ImageBytes = image;
             }
 #if (Core)
@@ -121,8 +132,8 @@ namespace OfficeOpenXml.Drawing
                     }                
                }
 #endif
-
             _container.SetNewImage();
+            return pictureType;
         }
 
         private void RemoveImage()

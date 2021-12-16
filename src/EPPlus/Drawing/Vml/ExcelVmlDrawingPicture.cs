@@ -369,13 +369,18 @@ namespace OfficeOpenXml.Drawing.Vml
         Uri UriPic { get; set; }
         Packaging.ZipPackageRelationship RelPic { get; set; }
 
+        IPictureRelationDocument IPictureContainer.RelationDocument => throw new NotImplementedException();
 
-        public void RemoveImage()
+        string IPictureContainer.ImageHash { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Uri IPictureContainer.UriPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Packaging.ZipPackageRelationship IPictureContainer.RelPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        void IPictureContainer.RemoveImage()
         {
             
         }
 
-        public void SetNewImage()
+        void IPictureContainer.SetNewImage()
         {
             
         }

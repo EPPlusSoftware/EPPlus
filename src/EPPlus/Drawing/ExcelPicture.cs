@@ -66,24 +66,8 @@ namespace OfficeOpenXml.Drawing
                     return;
                 }
 #if (Core)
-                //try
-                //{
-                //    _image = Image.FromStream(Part.GetStream());
-                //}
-                //catch
-                //{
-                //    if(extension.ToLower()==".emf" || extension.ToLower() == ".wmf") //Not supported in linux environments, so we ignore them and set image to null.
-                //    {
-                //        _image = null;
-                //        return;
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}                
                 byte[] iby = Part.GetStream().ToArray();
-                
+                ImageNew = new ExcelImage(this);
                 ImageNew.SetImage(iby, PictureStore.GetPictureType(extension));
 #else
                 _image = Image.FromStream(Part.GetStream());
@@ -104,16 +88,15 @@ namespace OfficeOpenXml.Drawing
             //Get the picture if it exists or save it if not.
             _image = image;
             Hyperlink = hyperlink;
-
 #if (Core)
             var img = ImageCompat.GetImageAsByteArray(image);
 #else
             ImageConverter ic = new ImageConverter();
             byte[] img = (byte[])ic.ConvertTo(image, typeof(byte[]));
 #endif
-            string relID = PictureStore.SavePicture(img, this);
-
-            SetRelId(node, type, relID);
+            ImageNew = new ExcelImage(this);
+            PictureStore.SavePicture(img, (IPictureContainer)this);
+            ImageNew.SetImage(img, type);
             var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
             var height = image.Height / (image.VerticalResolution / STANDARD_DPI);
             SetPosDefaults(width, height);
@@ -196,8 +179,10 @@ namespace OfficeOpenXml.Drawing
             using (var ms = RecyclableMemory.GetStream(img))
             {
                 ImageNew.Bounds = PictureStore.GetImageBounds(img, type);
-                var width = ImageNew.Bounds.Width / ImageNew.Bounds.HorizontalResolution / STANDARD_DPI;
-                var height = ImageNew.Bounds.Height / ImageNew.Bounds.VerticalResolution / STANDARD_DPI;
+                ImageNew.ImageBytes = img;
+                ImageNew.Type = type;
+                var width = ImageNew.Bounds.Width / (ImageNew.Bounds.HorizontalResolution / STANDARD_DPI);
+                var height = ImageNew.Bounds.Height / (ImageNew.Bounds.VerticalResolution / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
             }
 
@@ -448,12 +433,17 @@ namespace OfficeOpenXml.Drawing
         }
         void IPictureContainer.RemoveImage()
         {
-            throw new NotImplementedException();
+            
         }
 
         void IPictureContainer.SetNewImage()
         {
-            throw new NotImplementedException();
+            var relId = ((IPictureContainer)this).RelPic.Id;
+            TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            if (ImageNew.Type == ePictureType.Svg)
+            {
+                TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relId;
+            }
         }
 
         string IPictureContainer.ImageHash { get; set; }
