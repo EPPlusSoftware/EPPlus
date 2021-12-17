@@ -164,5 +164,25 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual(TableStyles.Dark4, table.TableStyle);
             }
         }
+
+        [TestMethod]
+        public void ShouldUseSortOrderAttributeOnClassLevel()
+        {
+            var objects = new OuterWithSortOrderOnClassLevelV1[]
+            {
+                new OuterWithSortOrderOnClassLevelV1{ ApprovedUtc = new DateTime(2021, 12, 14), Acknowledged = true, Organization = new Organization()},
+                new OuterWithSortOrderOnClassLevelV1{ ApprovedUtc = new DateTime(2021, 12, 15), Acknowledged = false, Organization = new Organization()}
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(objects, true, TableStyles.Dark4);
+                var table = sheet.Tables[0];
+                Assert.AreEqual("Acknowledged...", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Org Level 4", sheet.Cells["B1"].Value);
+                Assert.AreEqual("ApprovedUtc", sheet.Cells["C1"].Value);
+
+            }
+        }
     }
 }

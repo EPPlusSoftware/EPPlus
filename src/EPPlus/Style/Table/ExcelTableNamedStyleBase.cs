@@ -251,6 +251,10 @@ namespace OfficeOpenXml.Style.Table
                     }
                 }
             }
+            if (string.IsNullOrEmpty(Name))
+            {
+                SetXmlNodeString("@name", styleName);
+            }
         }
     }
 }

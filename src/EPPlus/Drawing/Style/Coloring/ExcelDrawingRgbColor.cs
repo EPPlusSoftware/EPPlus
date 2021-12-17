@@ -10,8 +10,10 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Style.Coloring
@@ -61,6 +63,50 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         internal void GetXml()
         {
         }
-        
+        internal void GetHsl(out double hue, out double saturation, out double luminance)
+        {
+            GetHslColor(Color.R, Color.G, Color.B, out hue, out saturation, out luminance);
+        }
+
+        internal static void GetHslColor(Color c, out double hue, out double saturation, out double luminance)
+        {
+            GetHslColor(c.R, c.G, c.B, out hue, out saturation, out luminance);
+        }
+        internal static void GetHslColor(byte red, byte green, byte blue, out double hue, out double saturation, out double luminance)
+        {
+            //Created using formulas here...https://www.rapidtables.com/convert/color/rgb-to-hsl.html
+            var r = red / 255D;
+            var g = green / 255D;
+            var b = blue / 255D;
+
+            var ix = new double[]{ r, g, b };
+            var cMax = ix.Max();
+            var cMin = ix.Min();
+            var delta = cMax - cMin;
+
+
+            if (delta == 0)
+            {
+                hue = 0;
+            }
+            else if (cMax == r)
+            {
+                hue = 60 * (((g - b) / delta) % 6);
+            }
+            else if (cMax == g)
+            {
+                hue = 60 * ((b - r) / delta + 2);
+            }
+            else
+            {
+                hue = 60 * ((r - g) / delta + 4);
+            }
+           
+            if (hue < 0)
+                hue += 360;
+
+            luminance = (cMax + cMin) / 2;
+            saturation = delta == 0 ? 0 : delta / (1 - Math.Abs(2 * luminance - 1));
+        }
     }
 }

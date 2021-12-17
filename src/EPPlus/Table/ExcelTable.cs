@@ -24,10 +24,11 @@ using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Sorting;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.Table
             LoadXmlSafe(TableXml, Part.GetStream());
             Init();
             Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
-            _tableStyle = GetTableStyle(StyleName);
+            _tableStyle = GetTableStyle(StyleName);            
         }
         internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId) : 
             base(sheet.NameSpaceManager)
@@ -84,6 +85,7 @@ namespace OfficeOpenXml.Table
             TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             _tableSorter = new TableSorter(this);
+            HtmlExporter = new TableExporter(this);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -269,6 +271,8 @@ namespace OfficeOpenXml.Table
         {
             return Range.ToText();
         }
+
+        public TableExporter HtmlExporter { get; private set; }
 
         /// <summary>
         /// Converts the table range to CSV format

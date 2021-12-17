@@ -28,11 +28,13 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 
 namespace EPPlusTest.Table
 {

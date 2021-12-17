@@ -963,7 +963,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else if (Items.Count > 0)
             {
-                int hasMultipleSelectedCount=0;
+                int hasMultipleSelectedCount = 0;
                 foreach (var item in Items)
                 {
                     var v = item.Value ?? ExcelPivotTable.PivotNullValue;
