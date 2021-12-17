@@ -2691,13 +2691,13 @@ namespace OfficeOpenXml
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
 
-                foreach(ExcelComment c in _comments)
-                {
-                    if (c._fill?._patternPictureSettings?._image != null)
-                    {
-                        c._fill._patternPictureSettings.SaveImage();
-                    }
-                }
+                //foreach(ExcelComment c in _comments)
+                //{
+                //    if (c._fill?._patternPictureSettings?._image != null)
+                //    {
+                //        c._fill._patternPictureSettings.SaveImage();
+                //    }
+                //}
             }
         }
 
@@ -2732,17 +2732,17 @@ namespace OfficeOpenXml
                         _vmlDrawings.RelId = rel.Id;
                     }
                     
-                    //Save an related image to drawing fills
-                    foreach (var d in _vmlDrawings)
-                    {
-                        if (d is ExcelVmlDrawingControl ctr)
-                        {
-                            if (ctr._fill?._patternPictureSettings?._image != null)
-                            {
-                                ctr._fill._patternPictureSettings.SaveImage();
-                            }
-                        }
-                    }
+                    ////Save an related image to drawing fills
+                    //foreach (var d in _vmlDrawings)
+                    //{
+                    //    if (d is ExcelVmlDrawingControl ctr)
+                    //    {
+                    //        if (ctr._fill?._patternPictureSettings?._image != null)
+                    //        {
+                    //            ctr._fill._patternPictureSettings.SaveImage();
+                    //        }
+                    //    }
+                    //}
                     
                     _vmlDrawings.VmlDrawingXml.Save(_vmlDrawings.Part.GetStream(FileMode.Create));
                 }

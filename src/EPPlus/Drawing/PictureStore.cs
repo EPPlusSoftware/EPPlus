@@ -41,10 +41,11 @@ namespace OfficeOpenXml.Drawing
         }
         internal ImageInfo AddImage(byte[] image)
         {
-            return AddImage(image, null, "");
+            return AddImage(image, null, null);
         }
-        internal ImageInfo AddImage(byte[] image, Uri uri, string contentType)
+        internal ImageInfo AddImage(byte[] image, Uri uri, ePictureType? pictureType)
         {
+            if (pictureType.HasValue == false) pictureType = ePictureType.Jpg;
 #if (Core)
             var hashProvider = SHA1.Create();
 #else
@@ -60,22 +61,24 @@ namespace OfficeOpenXml.Drawing
                 else
                 {
                     Packaging.ZipPackagePart imagePart;
-                    ePictureType pictureType;
+                    string contentType;
                     if (uri == null)
                     {
-                        uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}.jpg");
-                        imagePart = _pck.ZipPackage.CreatePart(uri, "image/jpeg", CompressionLevel.None, "jpg");
-                        pictureType = ePictureType.Jpg;
+                        var extension = GetExtension(pictureType.Value);
+                        contentType = GetContentType(extension);
+                        uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}."+extension);
+                        imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
                     }
                     else
                     {
                         var extension = GetExtension(uri);
-                        if (string.IsNullOrEmpty(contentType))
+                        contentType = GetContentType(extension);
+                        pictureType = GetPictureType(extension);
+                        if (_pck.ZipPackage.PartExists(uri))
                         {
-                            contentType = GetContentType(extension);
+                            uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}." + extension);
                         }
                         imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
-                        pictureType = GetPictureType(extension);
                     }
                     var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
                     stream.Write(image, 0, image.GetLength(0));
@@ -87,7 +90,7 @@ namespace OfficeOpenXml.Drawing
                             RefCount = 1,
                             Hash = hash,
                             Part = imagePart,
-                            Bounds = GetImageBounds(image, pictureType)
+                            Bounds = GetImageBounds(image, pictureType.Value)
                         });
                 }
             }
@@ -191,13 +194,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal ImageInfo GetImageInfo(byte[] image)
         {
-#if (Core)
-            var hashProvider = SHA1.Create();
-#else
-            var hashProvider = new SHA1CryptoServiceProvider();
-#endif
-            var hash = BitConverter.ToString(hashProvider.ComputeHash(image)).Replace("-", "");
-
+            var hash = GetHash(image);
             if (_images.ContainsKey(hash))
             {
                 return _images[hash];
@@ -207,6 +204,22 @@ namespace OfficeOpenXml.Drawing
                 return null;
             }
         }
+        internal bool ImageExists(byte[] image)
+        {
+            var hash = GetHash(image);
+            return _images.ContainsKey(hash);
+        }
+
+        internal static string GetHash(byte[] image)
+        {
+#if (Core)
+            var hashProvider = SHA1.Create();
+#else
+            var hashProvider = new SHA1CryptoServiceProvider();
+#endif
+            return BitConverter.ToString(hashProvider.ComputeHash(image)).Replace("-", "");
+        }
+
         private Uri GetNewUri(Packaging.ZipPackage package, string sUri)
         {
             Uri uri;
@@ -275,6 +288,27 @@ namespace OfficeOpenXml.Drawing
                     throw (new InvalidOperationException($"Image with extension {extension} is not supported."));
             }
         }
+        internal static string GetExtension(ePictureType type)
+        {
+            switch (type)
+            {
+                case ePictureType.Bmp:
+                    return "bmp";
+                case ePictureType.Gif:
+                    return "gif";
+                case ePictureType.Png:
+                    return "png";
+                case ePictureType.Emf:
+                    return "emf";
+                case ePictureType.Wmf:
+                    return "wmf";
+                case ePictureType.Tif:
+                    return "tif";
+                default:
+                    return "jpg";
+            }
+        }
+
         internal static string GetContentType(string extension)
         {
             if (extension.StartsWith(".", StringComparison.OrdinalIgnoreCase))
@@ -321,10 +355,10 @@ namespace OfficeOpenXml.Drawing
                     return "image/jpeg";
             }
         }
-        internal static string SavePicture(byte[] image, IPictureContainer container)
+        internal static string SavePicture(byte[] image, IPictureContainer container, ePictureType type)
         {
             var store = container.RelationDocument.Package.PictureStore;
-            var ii = store.AddImage(image, container.UriPic, "");
+            var ii = store.AddImage(image, container.UriPic, type);
 
             container.ImageHash = ii.Hash;
             var hashes = container.RelationDocument.Hashes;

@@ -89,13 +89,12 @@ namespace OfficeOpenXml.Drawing
             _image = image;
             Hyperlink = hyperlink;
 #if (Core)
-            var img = ImageCompat.GetImageAsByteArray(image);
+            var img = ImageCompat.GetImageAsByteArray(image, out type);
 #else
             ImageConverter ic = new ImageConverter();
             byte[] img = (byte[])ic.ConvertTo(image, typeof(byte[]));
 #endif
             ImageNew = new ExcelImage(this);
-            PictureStore.SavePicture(img, (IPictureContainer)this);
             ImageNew.SetImage(img, type);
             var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
             var height = image.Height / (image.VerticalResolution / STANDARD_DPI);
@@ -159,7 +158,7 @@ namespace OfficeOpenXml.Drawing
             container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
             var store = _drawings._package.PictureStore;
             var pc = _drawings as IPictureRelationDocument;            
-            var ii = store.AddImage(img, container.UriPic, ContentType);
+            var ii = store.AddImage(img, container.UriPic, type);
             string relId;
             if (!pc.Hashes.ContainsKey(ii.Hash))
             {
@@ -261,16 +260,12 @@ namespace OfficeOpenXml.Drawing
                     _image = value;
                     try
                     {
-#if (Core)
-                        var img = ImageCompat.GetImageAsByteArray(_image);
-#else
-                        ImageConverter ic = new ImageConverter();
-                        byte[] img = (byte[])ic.ConvertTo(_image, typeof(byte[]));
-#endif
-                        string relID = PictureStore.SavePicture(img, this);
+                        var img = ImageCompat.GetImageAsByteArray(_image, out ePictureType type);
+                        //string relID = PictureStore.SavePicture(img, this, type);
+                        ImageNew.SetImage(img, type);
 
-                        //Create relationship
-                        TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
+                        ////Create relationship
+                        //TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
                     }
                     catch (Exception ex)
                     {

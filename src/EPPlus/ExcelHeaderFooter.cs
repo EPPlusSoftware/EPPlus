@@ -108,7 +108,7 @@ namespace OfficeOpenXml
 
             //Add the image
 #if (Core)
-            var img = ImageCompat.GetImageAsByteArray(Picture);
+            var img = ImageCompat.GetImageAsByteArray(Picture, out ePictureType type);
 #else
             ImageConverter ic = new ImageConverter();
             byte[] img = (byte[])ic.ConvertTo(Picture, typeof(byte[]));
@@ -136,7 +136,7 @@ namespace OfficeOpenXml
             var uriPic = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length-PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
 
             var imgBytes = File.ReadAllBytes(PictureFile.FullName);
-            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, contentType);
+            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, null);
 
             return AddImage(id, ii);
         }

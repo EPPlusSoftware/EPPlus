@@ -179,23 +179,23 @@ namespace OfficeOpenXml.Drawing.Vml
             pictureRelationDocument.Hashes.Remove(container.ImageHash);
         }
 
-        internal void SaveImage()
-        {
-            if (ImageNew != null)
-            {
-                try
-                {
-                    string relId = PictureStore.SavePicture(ImageNew.ImageBytes, this);
+        //internal void SaveImage()
+        //{
+        //    if (ImageNew != null)
+        //    {
+        //        try
+        //        {
+        //            string relId = PictureStore.SavePicture(ImageNew.ImageBytes, this);
 
-                    //Create relationship
-                    SetXmlNodeString("v:fill/@o:relid", relId);
-                }
-                catch (Exception ex)
-                {
-                    throw (new Exception("Can't save image - " + ex.Message, ex));
-                }
-            }
-        }
+        //            //Create relationship
+        //            SetXmlNodeString("v:fill/@o:relid", relId);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw (new Exception("Can't save image - " + ex.Message, ex));
+        //        }
+        //    }
+        //}
 
         IPictureRelationDocument IPictureContainer.RelationDocument => _fill._drawings.Worksheet.VmlDrawings;
 

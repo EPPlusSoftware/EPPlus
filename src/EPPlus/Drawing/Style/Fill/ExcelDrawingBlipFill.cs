@@ -33,8 +33,8 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         {
             _schemaNodeOrder = schemaNodeOrder;
             _pictureRelationDocument = pictureRelationDocument;
-            GetXml();
             ImageNew = new ExcelImage(this);
+            GetXml();
         }
         Image _image;
 #if (Core)
@@ -71,31 +71,28 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             }
             set
             {
-                if (_image == value) return;
-                _initXml?.Invoke();
-                if (_image != null)
+                byte[] img;
+                ePictureType type = ePictureType.Jpg;
+                var container = (IPictureContainer)this;
+                if (value != null)
                 {
-                    var container = (IPictureContainer)this;
-                    _pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    _pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
-                    _pictureRelationDocument.Hashes.Remove(container.ImageHash);
+                    img = Compatibility.ImageCompat.GetImageAsByteArray(value, out type);
+                    var hash = PictureStore.GetHash(img);
+                    if (hash == container.ImageHash) return;
+                }
+                else
+                {
+                    img = null;
+                }
+                _initXml?.Invoke();
+                if (container.RelPic!=null)
+                {
+                    ImageNew.RemoveImage();
                 }
                 if (value != null)
                 {
                     _image = value;
-                    try
-                    {
-                        var ms = new MemoryStream();
-                        value.Save(ms, ImageFormat);
-                        string relId = PictureStore.SavePicture(ms.ToArray(), this);
-
-                        //Create relationship
-                        _xml.SetXmlNodeString("a:blip/@r:embed", relId);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw (new Exception("Can't save image - " + ex.Message, ex));
-                    }
+                    ImageNew.SetImage(img, type, false);
                 }
             }
         }
@@ -224,9 +221,10 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             {
                 throw (new ArgumentException($"File {file.FullName} does not exist."));
             }
-            ContentType = PictureStore.GetContentType(file.Extension);
-            var image = Image.FromFile(file.FullName);
-            AddImage(image);
+            var img = File.ReadAllBytes(file.FullName);
+            var extension = file.Extension;
+            ContentType = PictureStore.GetContentType(extension);
+            ImageNew.SetImage(img, PictureStore.GetPictureType(extension));
         }
         internal void AddImage(Image image)
         {

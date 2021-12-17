@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="pictureType">The type of image.</param>
         public void SetImage(byte[] image, ePictureType pictureType)
         {
-            pictureType = SetImage(image, pictureType, true);
+            SetImage(image, pictureType, true);
         }
 
         internal ePictureType SetImage(byte[] image, ePictureType pictureType, bool removePrevImage)
@@ -90,9 +90,10 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(_container.ImageHash) == false)
+                    if (string.IsNullOrEmpty(_container.ImageHash) == false && removePrevImage)
                     {
-                        RemoveImage();
+
+                        RemoveImageContainer();
                     }
                     ImageBytes = img;
                     pictureType = pt.Value;
@@ -100,12 +101,13 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                if (string.IsNullOrEmpty(_container.ImageHash) == false)
+                if (removePrevImage && string.IsNullOrEmpty(_container.ImageHash) == false)
                 {
-                    RemoveImage();
+                    RemoveImageContainer();
                 }
                 ImageBytes = image;
             }
+            PictureStore.SavePicture(image, _container, pictureType);
 #if (Core)
             GetImageInformation(image, pictureType);
 #else
@@ -135,13 +137,22 @@ namespace OfficeOpenXml.Drawing
             _container.SetNewImage();
             return pictureType;
         }
-
-        private void RemoveImage()
+        internal void RemoveImage()
+        {
+            ImageBytes = null;
+            Type = null;
+            Bounds = new ExcelImageInfo();
+            RemoveImageContainer();
+        }
+        private void RemoveImageContainer()
         {
             _container.RelationDocument.Package.PictureStore.RemoveImage(_container.ImageHash, _container);
             _container.RelationDocument.RelatedPart.DeleteRelationship(_container.RelPic.Id);
             _container.RelationDocument.Hashes.Remove(_container.ImageHash);
             _container.RemoveImage();
+            _container.RelPic = null;
+            _container.ImageHash = null;
+            _container.UriPic = null;
         }
 
         private bool GetImageInformation(byte[] image, ePictureType pictureType)

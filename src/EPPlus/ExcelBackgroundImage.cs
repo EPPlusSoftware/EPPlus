@@ -64,13 +64,9 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-#if (Core)
-                    var img=ImageCompat.GetImageAsByteArray(value);
-#else
-                    ImageConverter ic = new ImageConverter();
-                    byte[] img = (byte[])ic.ConvertTo(value, typeof(byte[]));
-#endif
-                    var ii = _workSheet.Workbook._package.PictureStore.AddImage(img);
+                    ePictureType type;
+                    var img=ImageCompat.GetImageAsByteArray(value, out type);
+                    var ii = _workSheet.Workbook._package.PictureStore.AddImage(img, null, type);
                     var rel = _workSheet.Part.CreateRelationship(ii.Uri, Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                     SetXmlNodeString(BACKGROUNDPIC_PATH, rel.Id);
                 }
@@ -91,7 +87,7 @@ namespace OfficeOpenXml
             string contentType = PictureStore.GetContentType(PictureFile.Extension);
             var imageURI = XmlHelper.GetNewUri(_workSheet._package.ZipPackage, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length - PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
 
-            var ii = _workSheet.Workbook._package.PictureStore.AddImage(fileBytes, imageURI, contentType);
+            var ii = _workSheet.Workbook._package.PictureStore.AddImage(fileBytes, imageURI, null);
 
 
             if (_workSheet.Part.Package.PartExists(imageURI) && ii.RefCount==1) //The file exists with another content, overwrite it.
@@ -115,7 +111,7 @@ namespace OfficeOpenXml
             if (relID != "")
             {
 #if (Core)
-                var img=ImageCompat.GetImageAsByteArray(Image);
+                var img=ImageCompat.GetImageAsByteArray(Image, out ePictureType type);
 #else
                 var ic = new ImageConverter();
                 byte[] img = (byte[])ic.ConvertTo(Image, typeof(byte[]));
