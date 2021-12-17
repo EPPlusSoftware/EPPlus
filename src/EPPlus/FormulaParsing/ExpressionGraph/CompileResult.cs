@@ -24,13 +24,34 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     public class CompileResult
     {
         private static CompileResult _empty = new CompileResult(null, DataType.Empty);
+        private static CompileResult _zeroDecimal = new CompileResult(0d, DataType.Decimal);
+        private static CompileResult _zeroInt = new CompileResult(0d, DataType.Integer);
 
+        /// <summary>
+        /// Returns a CompileResult with a null value and data type set to DataType.Empty
+        /// </summary>
         public static CompileResult Empty
         {
             get { return _empty; }
         }
 
-		private double? _resultNumeric;
+        /// <summary>
+        /// Returns a CompileResult instance with a decimal value of 0.
+        /// </summary>
+        public static CompileResult ZeroDecimal
+        {
+            get { return _zeroDecimal; }
+        }
+
+        /// <summary>
+        /// Returns a CompileResult instance with a integer value of 0.
+        /// </summary>
+        public static CompileResult ZeroInt
+        {
+            get { return _zeroInt; }
+        }
+
+        private double? _resultNumeric;
 
         public CompileResult(object result, DataType dataType)
             : this(result, dataType, 0)

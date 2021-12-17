@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var matches = GetMatches("MAXIFS", arguments, out CompileResult errorResult);
             if (errorResult != null)
                 return errorResult;
-            if (matches.Count() == 0) return CreateResult(0d, DataType.Decimal);
+            if (matches.Count() == 0) return CompileResult.ZeroDecimal;
             return CreateResult(matches.Max(), DataType.Decimal);
         }
     }
