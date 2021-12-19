@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             _factoryMethod = factoryMethod;
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             return _factoryMethod();
         }

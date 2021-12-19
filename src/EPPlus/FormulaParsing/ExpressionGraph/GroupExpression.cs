@@ -35,8 +35,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly bool _isNegated;
 
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero=true)
         {
+            if(Children.Any())
+                Children.First().treatEmptyAsZero = treatEmptyAsZero;
             var result =  _expressionCompiler.Compile(Children);
             if (result.IsNumeric && _isNegated)
             {

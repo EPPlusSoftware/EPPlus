@@ -58,6 +58,26 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
+        public void EmptyCellReferenceShouldReturnZero()
+        {
+            var result = _parser.Parse("A1");
+            Assert.AreEqual(0d, result);
+        }
+
+        public void EmptyCellReferenceMathShouldReturnZero()
+        {
+            var result = _parser.Parse("A1*3");
+            Assert.AreEqual(0d, result);
+        }
+
+        [TestMethod]
+        public void EmptyCellResultShouldReturnZero()
+        {
+            var result = _parser.Parse("IF(TRUE,A1)");
+            Assert.AreEqual(0d, result);
+        }
+
+        [TestMethod]
         public void IsNumberShouldReturnCorrectValue()
         {
             var result = _parser.Parse("ISNUMBER(10/2)");

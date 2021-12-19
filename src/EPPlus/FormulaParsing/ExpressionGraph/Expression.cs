@@ -28,6 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public Expression Prev { get; set; }
         public IOperator Operator { get; set; }
         public abstract bool IsGroupedExpression { get; }
+
+        public bool treatEmptyAsZero = true;
         /// <summary>
         /// If set to true, <see cref="ExcelAddressExpression"></see>s that has a circular reference to their cell will be ignored when compiled
         /// </summary>
@@ -105,7 +107,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             return expression;
         }
 
-        public abstract CompileResult Compile();
+        public abstract CompileResult Compile(bool treatEmptyAsZero=true);
 
     }
 }

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly bool _isNegated;
 
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             try
             {

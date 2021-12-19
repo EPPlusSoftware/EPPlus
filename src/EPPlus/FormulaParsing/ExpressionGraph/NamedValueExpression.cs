@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         private readonly ParsingContext _parsingContext;
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             var c = this._parsingContext.Scopes.Current;
             var name = _parsingContext.ExcelDataProvider.GetName(c.Address.Worksheet, ExpressionString);

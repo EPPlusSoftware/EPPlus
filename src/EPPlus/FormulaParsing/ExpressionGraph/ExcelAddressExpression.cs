@@ -33,6 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly ParsingContext _parsingContext;
         private readonly RangeAddressFactory _rangeAddressFactory;
         private readonly bool _negate;
+        
 
         public ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
             : this(expression, excelDataProvider, parsingContext, new RangeAddressFactory(excelDataProvider), false)
@@ -71,7 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             internal set;
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             if(HasCircularReference && !IgnoreCircularReference)
             {
@@ -113,9 +114,17 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private CompileResult CompileSingleCell(ExcelDataProvider.IRangeInfo result)
         {
             var cell = result.FirstOrDefault();
-            if (cell == null)
-                return CompileResult.Empty;
             var factory = new CompileResultFactory();
+            if (cell == null)
+            {
+                if (treatEmptyAsZero)
+                    return factory.Create(0d);
+                else
+                    return CompileResult.Empty;
+                
+            }
+                
+            
             var compileResult = factory.Create(cell.Value);
             if (_negate && compileResult.IsNumeric)
             {

@@ -15,7 +15,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly ExcelDataProvider.IRangeInfo _rangeInfo;
         public override bool IsGroupedExpression => false;
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             return new CompileResult(_rangeInfo, DataType.Enumerable);
         }

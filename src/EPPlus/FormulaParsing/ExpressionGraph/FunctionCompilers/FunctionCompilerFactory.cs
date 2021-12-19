@@ -15,7 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using IndexFunc = OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Index;
@@ -30,6 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
         {
             Require.That(context).Named("context").IsNotNull();
             _context = context;
+            _specialCompilers.Add(typeof(Average), new AverageFunctionCompiler(repository.GetFunction("average"), context));
+            _specialCompilers.Add(typeof(IsBlank), new IsBlankFunctionCompiler(repository.GetFunction("isblank"), context));
             _specialCompilers.Add(typeof(If), new IfFunctionCompiler(repository.GetFunction("if"), context));
             _specialCompilers.Add(typeof(IfError), new IfErrorFunctionCompiler(repository.GetFunction("iferror"), context));
             _specialCompilers.Add(typeof(IfNa), new IfNaFunctionCompiler(repository.GetFunction("ifna"), context));

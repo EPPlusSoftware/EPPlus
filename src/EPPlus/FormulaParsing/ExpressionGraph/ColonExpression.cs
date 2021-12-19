@@ -11,7 +11,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             var prevIsAddress = Prev.GetType() == typeof(ExcelAddressExpression);
             var prevIsOffset = Prev.GetType() == typeof(FunctionExpression) && ((FunctionExpression)Prev).ExpressionString.ToLower() == "offset";

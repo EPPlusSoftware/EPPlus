@@ -284,12 +284,16 @@ namespace EPPlusTest
             ws.Cells["A3"].Formula = "IF(A1 = 1, 1)";
             ws.Cells["A4"].Formula = "IF(A1 = 1, 1, -1)";
             ws.Cells["A5"].Formula = "IF(A1 = 123, 5)";
+            ws.Cells["A6"].Formula = "IF(B1 = 123, 1, 0)";
+            ws.Cells["A7"].Formula = "IF(B1 = 0, 1, 0)";
 
             ws.Calculate();
             Assert.AreEqual(1d, ws.Cells["A2"].Value);
             Assert.AreEqual(false, ws.Cells["A3"].Value);
             Assert.AreEqual(-1d, ws.Cells["A4"].Value);
             Assert.AreEqual(5d, ws.Cells["A5"].Value);
+            Assert.AreEqual(0d, ws.Cells["A6"].Value);
+            Assert.AreEqual(1d, ws.Cells["A7"].Value);
         }
         [TestMethod]
         public void INTFunctionTest()

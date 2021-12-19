@@ -121,7 +121,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                 {
                     var expression = new ExcelAddressExpression("A1", excelDataProvider, parsingContext);
                     var result = expression.Compile();
-                    Assert.IsNull(result.Result);
+                    Assert.AreEqual(0d, result.Result); // outside of any particular context, the default behavior applies, which is to treat empty as zero
                 }
             }
         }

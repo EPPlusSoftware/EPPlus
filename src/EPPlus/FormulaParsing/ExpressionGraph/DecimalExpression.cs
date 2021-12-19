@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             _compiledValue = compiledValue;
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             double result = _compiledValue ?? double.Parse(ExpressionString, CultureInfo.InvariantCulture);
             result = _negate ? result * -1 : result;

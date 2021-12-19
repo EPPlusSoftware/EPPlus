@@ -50,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         public override bool IsGroupedExpression => false;
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             var offsetRange1 = OffsetExpression1.Compile().Result as ExcelDataProvider.IRangeInfo;
             var rangeOffset = new RangeOffset

@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             return this;
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             var result = new List<object>();
             foreach (var childExpression in Children)

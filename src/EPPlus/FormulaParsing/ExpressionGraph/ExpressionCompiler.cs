@@ -56,8 +56,29 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 var prec = FindLowestPrecedence();
                 compiledExpressions = HandlePrecedenceLevel(prec);
             }
+
+            // the isBlank function should be able to indicate how to compile it's expression
+            // a plain reference will be the only expression here in the expression compiler's PerformCompilation
+            // what are the roles played by the expressionCompiler and function compilers?
+
+            // per Examples:
+            // Ex1: can the isBlank function compiler use a expression compiler which does NOT treat empty as zero
+            // Ex2: the expression compiler's default should be treat empty as zero
+            // Ex3: the expression compiler's default should be treat empty as zero
+            // Ex4: IfCompiler calls Compile which should trigger default exceladdressexpression compiler to treat empty as zero
+
+
+
             if (_expressions.Any())
             {
+                if(compiledExpressions.Count()==1)
+                {
+                    if(compiledExpressions.First() is ExcelAddressExpression)
+                    {
+                        //(compiledExpressions.First() as ExcelAddressExpression).treatEmptyAsZero = true;
+                    }
+                    //compiledExpressions.First().treatEmptyAsZero = true;
+                }
                 return compiledExpressions.First().Compile();
             }
             return CompileResult.Empty;
@@ -102,6 +123,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 var strategy = _compileStrategyFactory.Create(expression);
                 var compiledExpression = strategy.Compile();
+                if (_expressions.Count() == 1)
+                {
+
+                }
                 if(compiledExpression is ExcelErrorExpression)
                 {
                     return RefreshList(compiledExpression);

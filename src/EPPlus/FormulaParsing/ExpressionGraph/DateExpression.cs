@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             var date = double.Parse(ExpressionString);
             return new CompileResult(DateTime.FromOADate(date), DataType.Date);

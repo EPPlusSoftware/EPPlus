@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             return new CompileResult(ExpressionString, DataType.String);
         }

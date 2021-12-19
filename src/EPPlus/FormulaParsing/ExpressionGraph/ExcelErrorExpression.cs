@@ -40,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get { return false; }
         }
 
-        public override CompileResult Compile()
+        public override CompileResult Compile(bool treatEmptyAsZero = true)
         {
             return new CompileResult(_error, DataType.ExcelError);
             //if (ParentIsLookupFunction)
