@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
         public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
-            Function.BeforeInvoke(Context);            
+            Function.BeforeInvoke(Context);
             foreach (var child in children)
             {
                 var compileResult = child.Compile();

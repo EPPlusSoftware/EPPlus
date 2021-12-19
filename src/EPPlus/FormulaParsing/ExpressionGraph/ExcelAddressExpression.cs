@@ -120,10 +120,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 if (treatEmptyAsZero)
                     return factory.Create(0d);
                 else
-                    return CompileResult.Empty;
-                
+                    return CompileResult.Empty;                
             }
-                
             
             var compileResult = factory.Create(cell.Value);
             if (_negate && compileResult.IsNumeric)

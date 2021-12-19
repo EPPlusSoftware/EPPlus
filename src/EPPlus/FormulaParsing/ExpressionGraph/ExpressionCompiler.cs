@@ -71,14 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
             if (_expressions.Any())
             {
-                if(compiledExpressions.Count()==1)
-                {
-                    if(compiledExpressions.First() is ExcelAddressExpression)
-                    {
-                        //(compiledExpressions.First() as ExcelAddressExpression).treatEmptyAsZero = true;
-                    }
-                    //compiledExpressions.First().treatEmptyAsZero = true;
-                }
+                
                 return compiledExpressions.First().Compile();
             }
             return CompileResult.Empty;
@@ -123,10 +116,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 var strategy = _compileStrategyFactory.Create(expression);
                 var compiledExpression = strategy.Compile();
-                if (_expressions.Count() == 1)
-                {
-
-                }
+                
                 if(compiledExpression is ExcelErrorExpression)
                 {
                     return RefreshList(compiledExpression);

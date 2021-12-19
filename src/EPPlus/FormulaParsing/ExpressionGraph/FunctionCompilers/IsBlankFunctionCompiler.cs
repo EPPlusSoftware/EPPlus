@@ -35,7 +35,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             var firstChild = children.First();
             try
             {
-                firstChild.treatEmptyAsZero = false;
                 var result = firstChild.Compile(false);
                 if (result.DataType == DataType.Empty)
                 {
