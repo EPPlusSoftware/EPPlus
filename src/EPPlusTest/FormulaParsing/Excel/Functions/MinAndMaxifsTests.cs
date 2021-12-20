@@ -68,11 +68,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
-        public void MaxIfsShouldReturnNaErrorIfNoMatch()
+        public void MaxIfsShouldReturnZeroIfNoMatch()
         {
             _worksheet.Cells["F1"].Formula = "MAXIFS(D3:D7,C3:C7,\"P\")";
             _worksheet.Calculate();
-            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA).ToString(), _worksheet.Cells["F1"].Value.ToString());
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
         }
 
         [TestMethod]
@@ -105,6 +105,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7,C3:C7,\"F\", B3:B7, \"Mi**nda\")";
             _worksheet.Calculate();
             Assert.AreEqual(82d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MinIfsShouldReturnZeroIfNoMatch()
+        {
+            _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7,C3:C7,\"P\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
         }
     }
 }

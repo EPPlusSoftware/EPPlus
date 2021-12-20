@@ -938,7 +938,6 @@ namespace OfficeOpenXml
                     var widthPxAdj = widthPx + (8 - (widthPx % 8));
 
                     var styles = _package.Workbook.Styles;
-                    var size = styles.NamedStyles[styles.GetNormalStyleIndex()].Style.Font.Size;
                     var sub = Math.Truncate(widthPxAdj / 120);
                     return Math.Truncate(widthPxAdj / (mfw-sub) * 256d) / 256d;
                 }

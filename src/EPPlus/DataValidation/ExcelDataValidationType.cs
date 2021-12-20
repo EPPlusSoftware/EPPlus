@@ -59,6 +59,7 @@ namespace OfficeOpenXml.DataValidation
     internal static class DataValidationSchemaNames
     {
         public const string Any = "";
+        public const string None = "none";
         public const string Whole = "whole";
         public const string Decimal = "decimal";
         public const string List = "list";
@@ -140,6 +141,7 @@ namespace OfficeOpenXml.DataValidation
             switch (schemaName)
             {
                 case DataValidationSchemaNames.Any:
+                case DataValidationSchemaNames.None:
                     return ExcelDataValidationType.Any;
                 case DataValidationSchemaNames.Whole:
                     return ExcelDataValidationType.Whole;
