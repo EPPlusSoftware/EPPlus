@@ -61,6 +61,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
         }
 
         [TestMethod]
+        public void SumIfSingleCell()
+        {
+            _worksheet.Cells["A1"].Value = 20;
+            _worksheet.Cells["A2"].Formula = "SUMIF(A1,\">0\")";
+            _worksheet.Calculate();
+
+            Assert.AreEqual(20d, _worksheet.Cells["A2"].Value);
+        }
+        [TestMethod]
         public void SumIfNumeric()
         {
             _worksheet.Cells["A1"].Value = 1d;

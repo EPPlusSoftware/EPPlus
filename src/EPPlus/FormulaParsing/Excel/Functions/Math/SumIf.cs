@@ -55,10 +55,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 var val = arguments.ElementAt(0).Value;
                 if (_evaluator.Evaluate(val, criteria))
                 {
-                    var sumRange = ArgToRangeInfo(arguments, 2);
-                    retVal = arguments.Count() > 2
-                        ? sumRange.First().ValueDouble
-                        : ConvertUtil.GetValueDouble(val, true);
+                    if (arguments.Count() > 2)
+                    {
+                        var sumRange = ArgToRangeInfo(arguments, 2);
+                        retVal = sumRange.First().ValueDouble;
+                    }
+                    else
+                    {
+                        retVal = ConvertUtil.GetValueDouble(val, true);
+                    }
                 }
             }
             else if (arguments.Count() > 2)
