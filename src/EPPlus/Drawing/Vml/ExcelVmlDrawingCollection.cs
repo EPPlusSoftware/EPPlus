@@ -20,6 +20,9 @@ using OfficeOpenXml.Drawing.Controls;
 using System.Text;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Constants;
+using System.IO;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -37,6 +40,7 @@ namespace OfficeOpenXml.Drawing.Vml
             if (uri == null)
             {
                 VmlDrawingXml.LoadXml(CreateVmlDrawings());
+                CreateVmlPart();
             }
             else
             {
@@ -433,6 +437,24 @@ namespace OfficeOpenXml.Drawing.Vml
         void IDisposable.Dispose()
         {
             _drawingsCellStore.Dispose();
+        }
+
+        internal void CreateVmlPart()
+        {
+            if (Uri == null)
+            {
+                var id = _ws.SheetId;
+                Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
+            }
+            if (Part == null)
+            {
+                Part = _package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeVml, _package.Compression);
+                var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(_ws.WorksheetUri, Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
+                _ws.SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
+                RelId = rel.Id;
+            }
+
+            VmlDrawingXml.Save(Part.GetStream(FileMode.Create));
         }
 
         //public void Dispose()

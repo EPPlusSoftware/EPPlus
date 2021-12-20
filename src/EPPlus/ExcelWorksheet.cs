@@ -2718,32 +2718,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    if (_vmlDrawings.Uri == null)
-                    {
-                        var id = SheetId;
-                        _vmlDrawings.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
-                    }
-                    if (_vmlDrawings.Part == null)
-                    {
-                        _vmlDrawings.Part = _package.ZipPackage.CreatePart(_vmlDrawings.Uri, ContentTypes.contentTypeVml, _package.Compression);
-                        var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _vmlDrawings.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
-                        SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
-                        _vmlDrawings.RelId = rel.Id;
-                    }
-                    
-                    ////Save an related image to drawing fills
-                    //foreach (var d in _vmlDrawings)
-                    //{
-                    //    if (d is ExcelVmlDrawingControl ctr)
-                    //    {
-                    //        if (ctr._fill?._patternPictureSettings?._image != null)
-                    //        {
-                    //            ctr._fill._patternPictureSettings.SaveImage();
-                    //        }
-                    //    }
-                    //}
-                    
-                    _vmlDrawings.VmlDrawingXml.Save(_vmlDrawings.Part.GetStream(FileMode.Create));
+                    _vmlDrawings.CreateVmlPart();
                 }
             }
         }

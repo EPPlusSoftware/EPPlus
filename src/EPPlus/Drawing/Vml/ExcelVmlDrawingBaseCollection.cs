@@ -66,7 +66,6 @@ namespace OfficeOpenXml.Drawing.Vml
             return xml.Replace("</br>", "").Replace("<br>", "<br/>");
         }
 
-        internal ExcelWorksheet Worksheet { get; set; }
         internal XmlDocument VmlDrawingXml { get; set; }
         internal Uri Uri { get; set; }
         internal string RelId { get; set; }
