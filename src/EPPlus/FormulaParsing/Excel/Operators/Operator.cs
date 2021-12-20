@@ -85,8 +85,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 return _plus ?? (_plus = new Operator(Operators.Plus, PrecedenceAddSubtract, (l, r) =>
                 {
-                    l = l == null || l.Result == null ? new CompileResult(0, DataType.Integer) : l;
-                    r = r == null || r.Result == null ? new CompileResult(0, DataType.Integer) : r;
+                    l = l == null || l.Result == null ? CompileResult.ZeroInt : l;
+                    r = r == null || r.Result == null ? CompileResult.ZeroInt : r;
                     ExcelErrorValue errorVal;
                     if (EitherIsError(l, r, out errorVal))
                     {
@@ -112,8 +112,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 return _minus ?? (_minus = new Operator(Operators.Minus, PrecedenceAddSubtract, (l, r) =>
                 {
-                    l = l == null || l.Result == null ? new CompileResult(0, DataType.Integer) : l;
-                    r = r == null || r.Result == null ? new CompileResult(0, DataType.Integer) : r;
+                    l = l == null || l.Result == null ? CompileResult.ZeroInt : l;
+                    r = r == null || r.Result == null ? CompileResult.ZeroInt : r;
                     if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
                     {
                         return new CompileResult(l.ResultNumeric - r.ResultNumeric, DataType.Integer);
@@ -135,8 +135,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 return _multiply ?? (_multiply = new Operator(Operators.Multiply, PrecedenceMultiplyDevide, (l, r) =>
                 {
-                    l = l ?? new CompileResult(0, DataType.Integer);
-                    r = r ?? new CompileResult(0, DataType.Integer);
+                    l = l ?? CompileResult.ZeroInt;
+                    r = r ?? CompileResult.ZeroInt;
                     if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
                     {
                         return new CompileResult(l.ResultNumeric*r.ResultNumeric, DataType.Integer);
@@ -187,13 +187,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             return new CompileResult(eErrorType.Value);
                         }
-                        l = l ?? new CompileResult(0, DataType.Integer);
-                        r = r ?? new CompileResult(0, DataType.Integer);
+                        l = l ?? CompileResult.ZeroInt;
+                        r = r ?? CompileResult.ZeroInt;
                         if (CanDoNumericOperation(l, r))
                         {
                             return new CompileResult(Math.Pow(l.ResultNumeric, r.ResultNumeric), DataType.Decimal);
                         }
-                        return new CompileResult(0d, DataType.Decimal);
+                        return CompileResult.ZeroDecimal;
                     });
             }
         }
@@ -303,8 +303,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 {
                     _percent = new Operator(Operators.Percent, PrecedencePercent, (l, r) =>
                         {
-                            l = l ?? new CompileResult(0, DataType.Integer);
-                            r = r ?? new CompileResult(0, DataType.Integer);
+                            l = l ?? CompileResult.ZeroInt;
+                            r = r ?? CompileResult.ZeroInt;
                             if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
                             {
                                 return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Integer);
