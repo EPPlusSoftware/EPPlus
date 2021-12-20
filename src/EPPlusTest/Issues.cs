@@ -2925,6 +2925,18 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s285()
+        {
+            using (var package = OpenTemplatePackage("s285.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.SetValue(3, 3, "Test");
+                var ns = package.Workbook.Styles.CreateNamedStyle("Normal");
+                ns.BuildInId = 0;
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
 

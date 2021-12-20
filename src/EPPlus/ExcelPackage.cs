@@ -643,6 +643,10 @@ namespace OfficeOpenXml
                     return true;
                 }
                 var v = Environment.GetEnvironmentVariable("EPPlusLicenseContext",EnvironmentVariableTarget.User);
+                if(string.IsNullOrEmpty(v))
+                {
+                    v = Environment.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process);
+                }
                 bool inEnvironment;
                 if (string.IsNullOrEmpty(v))
                 {

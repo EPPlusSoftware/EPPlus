@@ -809,7 +809,15 @@ namespace OfficeOpenXml
             bool isTemplateNamedStyle;
             if (Template == null)
             {
-                xfIdCopy = _wb.Styles.GetNormalStyle().StyleXfId;
+                var ns = _wb.Styles.GetNormalStyle();
+                if (ns != null)
+                {
+                    xfIdCopy = ns.StyleXfId;
+                }
+                else
+                {
+                    xfIdCopy = -1;
+                }
                 positionID = -1;
                 styles = this;
                 isTemplateNamedStyle = true;
@@ -832,14 +840,19 @@ namespace OfficeOpenXml
                 }
             }
             //Clone namedstyle
-            int styleXfId = CloneStyle(styles, xfIdCopy, true, false, isTemplateNamedStyle);
-            //Close cells style
-            CellStyleXfs[styleXfId].XfId = CellStyleXfs.Count-1;
-            //int xfid = CloneStyle(styles, xfIdCopy, true, true, ); //Always add a new style (We create a new named style here)
-            //CellXfs[xfid].XfId = styleXfId;
-            style.Style = new ExcelStyle(this, NamedStylePropertyChange, positionID, name, styleXfId);
-            style.StyleXfId = styleXfId;
-            
+            if (xfIdCopy >= 0)
+            {
+                int styleXfId = CloneStyle(styles, xfIdCopy, true, false, isTemplateNamedStyle);
+                CellStyleXfs[styleXfId].XfId = CellStyleXfs.Count - 1;
+                style.Style = new ExcelStyle(this, NamedStylePropertyChange, positionID, name, styleXfId);
+                style.StyleXfId = styleXfId;
+            }
+            else
+            {
+                style.Style = new ExcelStyle(this, NamedStylePropertyChange, positionID, name, 0);
+                style.StyleXfId = 0;
+            }
+
             style.Name = name;
             int ix =_wb.Styles.NamedStyles.Add(style.Name, style);
             style.Style.SetIndex(ix);
@@ -1095,7 +1108,10 @@ namespace OfficeOpenXml
             XmlNode styleXfsNode = GetNode(CellStyleXfsPath);
             if (styleXfsNode == null)
             {
-                styleXfsNode = CreateNode(CellStyleXfsPath);
+                if (CellStyleXfs.Count > 0)
+                {
+                    styleXfsNode = CreateNode(CellStyleXfsPath);
+                }
             }
             else
             {
@@ -1105,7 +1121,14 @@ namespace OfficeOpenXml
             int count = normalIx > -1 ? 1 : 0;  //If we have a normal style, we make sure it's added first.
 
             XmlNode cellStyleNode = GetNode(CellStylesPath);
-            if (cellStyleNode != null)
+            if (cellStyleNode == null)
+            {
+                if (NamedStyles.Count > 0)
+                {
+                    cellStyleNode  = CreateNode(CellStylesPath);
+                }
+            }
+            else
             {
                 cellStyleNode.RemoveAll();
             }
@@ -1200,8 +1223,8 @@ namespace OfficeOpenXml
             {
                 normalIx = NamedStyles.FindIndexById("normal");
             }
-
-            return normalIx;
+            
+           return normalIx;
         }
 
         private void UpdateFontXml(int normalIx)
