@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             return Create(obj, 0);
         }
 
-        public virtual CompileResult Create(object obj, int excelAddressReferenceId)
+        public virtual CompileResult Create(object obj, int excelAddressReferenceId, bool treatEmpyAsZero = true)
         {
             if ((obj is ExcelDataProvider.INameInfo))
             {
@@ -34,7 +34,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 obj = ((ExcelDataProvider.IRangeInfo)obj).GetOffset(0, 0);
             }
-            if (obj == null) return new CompileResult(null, DataType.Empty);
+            if (obj == null)
+            {
+                if (treatEmpyAsZero)
+                    return CompileResult.ZeroDecimal;
+                else
+                    return new CompileResult(null, DataType.Empty);
+            }
             if (obj.GetType().Equals(typeof(string)))
             {
                 return new CompileResult(obj, DataType.String, excelAddressReferenceId);

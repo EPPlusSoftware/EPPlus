@@ -123,7 +123,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     return CompileResult.Empty;                
             }
             
-            var compileResult = factory.Create(cell.Value);
+            var compileResult = factory.Create(cell.Value, 0 , treatEmptyAsZero);
             if (_negate && compileResult.IsNumeric)
             {
                 compileResult = new CompileResult(compileResult.ResultNumeric * -1, compileResult.DataType);
