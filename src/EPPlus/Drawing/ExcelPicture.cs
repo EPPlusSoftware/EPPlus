@@ -428,7 +428,11 @@ namespace OfficeOpenXml.Drawing
         }
         void IPictureContainer.RemoveImage()
         {
-            
+            IPictureContainer container = this;
+            var relDoc = (IPictureRelationDocument)_drawings;
+            relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
+            relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+            relDoc.Hashes.Remove(container.ImageHash);
         }
 
         void IPictureContainer.SetNewImage()

@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 if (_image == value) return;
                 if (_image != null)
                 {
-                    RemoveImage();
+                    ((IPictureContainer)this).RemoveImage();
                 }
                 if (value != null)
                 {
@@ -168,15 +168,6 @@ namespace OfficeOpenXml.Drawing.Vml
                     ImageNew.SetImage(ms.ToArray(), ePictureType.Jpg);
                 }
             }
-        }
-
-        private void RemoveImage()
-        {
-            var container = (IPictureContainer)this;
-            var pictureRelationDocument = (IPictureRelationDocument)_fill._drawings;
-            pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
-            pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
-            pictureRelationDocument.Hashes.Remove(container.ImageHash);
         }
 
         //internal void SaveImage()
@@ -210,7 +201,11 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         void IPictureContainer.RemoveImage()
         {
-
+            var container = (IPictureContainer)this;
+            var pictureRelationDocument = (IPictureRelationDocument)_fill._drawings;
+            pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
+            pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
+            pictureRelationDocument.Hashes.Remove(container.ImageHash);
         }
 
         internal string RelId 

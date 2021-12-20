@@ -146,9 +146,6 @@ namespace OfficeOpenXml.Drawing
         }
         private void RemoveImageContainer()
         {
-            _container.RelationDocument.Package.PictureStore.RemoveImage(_container.ImageHash, _container);
-            _container.RelationDocument.RelatedPart.DeleteRelationship(_container.RelPic.Id);
-            _container.RelationDocument.Hashes.Remove(_container.ImageHash);
             _container.RemoveImage();
             _container.RelPic = null;
             _container.ImageHash = null;
