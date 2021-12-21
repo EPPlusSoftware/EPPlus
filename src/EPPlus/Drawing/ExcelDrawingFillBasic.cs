@@ -132,10 +132,9 @@ namespace OfficeOpenXml.Drawing
                 }
             }
             LoadFill();
-            if(Style==eFillStyle.BlipFill)
-            {
-                
-                ((ExcelDrawingFill)this).BlipFill.Image = fill.BlipFill.Image;
+            if(Style==eFillStyle.BlipFill && fill.BlipFill.Image.ImageBytes!=null)
+            {                                
+                ((ExcelDrawingFill)this).BlipFill.Image.SetImage(fill.BlipFill.Image.ImageBytes, fill.BlipFill.Image.Type??ePictureType.Jpg);
 
             }
         }

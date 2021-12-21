@@ -39,9 +39,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Issues.cs.orig" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
@@ -53,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
+    <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />

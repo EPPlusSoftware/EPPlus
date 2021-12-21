@@ -40,7 +40,6 @@ namespace OfficeOpenXml.Drawing.Vml
             if (uri == null)
             {
                 VmlDrawingXml.LoadXml(CreateVmlDrawings());
-                CreateVmlPart();
             }
             else
             {
@@ -135,6 +134,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         private XmlNode AddCommentDrawing(ExcelRangeBase cell)
         {
+            CreateVmlPart(); //Create the vml part to be able to create related parts (like blip fill images).
             int row = cell.Start.Row, col = cell.Start.Column;
             var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
@@ -188,6 +188,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         private XmlNode AddControlDrawing(ExcelControl ctrl, string name)
         {
+            CreateVmlPart(); //Create the vml part to be able to create related parts (like blip fill images).
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
@@ -437,24 +438,6 @@ namespace OfficeOpenXml.Drawing.Vml
         void IDisposable.Dispose()
         {
             _drawingsCellStore.Dispose();
-        }
-
-        internal void CreateVmlPart()
-        {
-            if (Uri == null)
-            {
-                var id = _ws.SheetId;
-                Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
-            }
-            if (Part == null)
-            {
-                Part = _package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeVml, _package.Compression);
-                var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(_ws.WorksheetUri, Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
-                _ws.SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
-                RelId = rel.Id;
-            }
-
-            VmlDrawingXml.Save(Part.GetStream(FileMode.Create));
         }
 
         //public void Dispose()

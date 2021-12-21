@@ -35,13 +35,13 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelPicture : ExcelDrawing, IPictureContainer
     {
-#region "Constructors"
+        #region "Constructors"
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
         {
             CreatePicNode(node,type);
             Hyperlink = hyperlink;
-            ImageNew = new ExcelImage(this);
+            Image = new ExcelImage(this);
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
@@ -65,41 +65,14 @@ namespace OfficeOpenXml.Drawing
                     Part = null;
                     return;
                 }
-#if (Core)
+
                 byte[] iby = Part.GetStream().ToArray();
-                ImageNew = new ExcelImage(this);
-                ImageNew.SetImage(iby, PictureStore.GetPictureType(extension));
-#else
-                _image = Image.FromStream(Part.GetStream());
-                ImageConverter ic =new ImageConverter();
-                var iby=(byte[])ic.ConvertTo(_image, typeof(byte[]));
-#endif
+                Image = new ExcelImage(this);
+                Image.SetImage(iby, PictureStore.GetPictureType(extension));
+
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                 container.ImageHash = ii.Hash;
             }
-        }
-
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Image image, Uri hyperlink, ePictureType type) :
-            base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
-        {
-            CreatePicNode(node, type);
-
-            var package = drawings.Worksheet._package.ZipPackage;
-            //Get the picture if it exists or save it if not.
-            _image = image;
-            Hyperlink = hyperlink;
-#if (Core)
-            var img = ImageCompat.GetImageAsByteArray(image, out type);
-#else
-            ImageConverter ic = new ImageConverter();
-            byte[] img = (byte[])ic.ConvertTo(image, typeof(byte[]));
-#endif
-            ImageNew = new ExcelImage(this);
-            ImageNew.SetImage(img, type);
-            var width = image.Width / (image.HorizontalResolution / STANDARD_DPI);
-            var height = image.Height / (image.VerticalResolution / STANDARD_DPI);
-            SetPosDefaults(width, height);
-            package.Flush();
         }
         private void SetRelId(XmlNode node, ePictureType type, string relID)
         {
@@ -177,11 +150,11 @@ namespace OfficeOpenXml.Drawing
             container.ImageHash = ii.Hash;
             using (var ms = RecyclableMemory.GetStream(img))
             {
-                ImageNew.Bounds = PictureStore.GetImageBounds(img, type);
-                ImageNew.ImageBytes = img;
-                ImageNew.Type = type;
-                var width = ImageNew.Bounds.Width / (ImageNew.Bounds.HorizontalResolution / STANDARD_DPI);
-                var height = ImageNew.Bounds.Height / (ImageNew.Bounds.VerticalResolution / STANDARD_DPI);
+                Image.Bounds = PictureStore.GetImageBounds(img, type);
+                Image.ImageBytes = img;
+                Image.Type = type;
+                var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
+                var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
             }
 
@@ -239,58 +212,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The image
         /// </summary>
-        public ExcelImage ImageNew
+        public ExcelImage Image
         {
             get;
         }
-        Image _image = null;
-        /// <summary>
-        /// The Image
-        /// </summary>
-        public Image Image
-        {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _image = value;
-                    try
-                    {
-                        var img = ImageCompat.GetImageAsByteArray(_image, out ePictureType type);
-                        //string relID = PictureStore.SavePicture(img, this, type);
-                        ImageNew.SetImage(img, type);
-
-                        ////Create relationship
-                        //TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw (new Exception("Can't save image - " + ex.Message, ex));
-                    }
-                }
-            }
-        }
-        ImageFormat _imageFormat = ImageFormat.Jpeg;
-        /// <summary>
-        /// Image format
-        /// If the picture is created from an Image this type is always Jpeg
-        /// </summary>
-        public ImageFormat ImageFormat
-        {
-            get
-            {
-                return _imageFormat;
-            }
-            internal set
-            {
-                _imageFormat = value;
-            }
-        }
-
         internal string ContentType
         {
             get;
@@ -303,14 +228,14 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Percent">Percent</param>
         public override void SetSize(int Percent)
         {
-            if (ImageNew.ImageBytes == null)
+            if (Image.ImageBytes == null)
             {
                 base.SetSize(Percent);
             }
             else
             {
-                _width = ImageNew.Bounds.Width / (ImageNew.Bounds.HorizontalResolution / STANDARD_DPI);
-                _height = ImageNew.Bounds.Height / (ImageNew.Bounds.VerticalResolution / STANDARD_DPI);
+                _width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
+                _height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
 
                 _width = (int)(_width * ((double)Percent / 100));
                 _height = (int)(_height * ((double)Percent / 100));
@@ -439,7 +364,7 @@ namespace OfficeOpenXml.Drawing
         {
             var relId = ((IPictureContainer)this).RelPic.Id;
             TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
-            if (ImageNew.Type == ePictureType.Svg)
+            if (Image.Type == ePictureType.Svg)
             {
                 TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relId;
             }

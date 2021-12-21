@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
     <AssemblyVersion>5.8.4.0</AssemblyVersion>
@@ -23,7 +22,7 @@
       From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
       EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
       Commercial licenses can be purchased from https://epplussoftware.com
-      This applies to EPPlus version 5 and later. Previous versions are still licensed LGPL.
+      This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
       ## Version 5.8.4
       * 10 new functions

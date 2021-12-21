@@ -111,7 +111,10 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         ExcelImage _imageNew;
-        public ExcelImage ImageNew
+        /// <summary>
+        /// The Image
+        /// </summary>
+        public ExcelImage Image
         {
             get
             {
@@ -128,31 +131,29 @@ namespace OfficeOpenXml.Drawing.Vml
                     {
                         return null;
                     }
-
-
                 }
                 return _imageNew;
             }
         }
-        /// <summary>
-        /// The image
-        /// </summary>
-        public Image Image
-        {
-            get
-            {
-                var pck = _worksheet._package.ZipPackage;
-                if (pck.PartExists(ImageUri))
-                {
-                    var part = pck.GetPart(ImageUri);
-                    return Image.FromStream(part.GetStream());
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        ///// <summary>
+        ///// The image
+        ///// </summary>
+        //public Image Image
+        //{
+        //    get
+        //    {
+        //        var pck = _worksheet._package.ZipPackage;
+        //        if (pck.PartExists(ImageUri))
+        //        {
+        //            var part = pck.GetPart(ImageUri);
+        //            return Image.FromStream(part.GetStream());
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
         internal Uri ImageUri
         {
             get;

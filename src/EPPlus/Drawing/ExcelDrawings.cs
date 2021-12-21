@@ -767,38 +767,6 @@ namespace OfficeOpenXml.Drawing
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="image">An image. Allways saved in then JPeg format</param>
-        /// <returns></returns>
-        public ExcelPicture AddPicture(string Name, Image image)
-        {
-            return AddPicture(Name, image, null);
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Image">An image. Allways saved in then JPeg format</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, Image Image, Uri Hyperlink)
-        {
-            if (Image != null)
-            {
-                if (_drawingNames.ContainsKey(Name))
-                {
-                    throw new Exception("Name already exists in the drawings collection");
-                }
-                XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-                var pic = new ExcelPicture(this, drawNode, Image, Hyperlink, ePictureType.Jpg);
-                AddPicture(Name, pic);
-                return pic;
-            }
-            throw (new Exception("AddPicture: Image can't be null"));
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, FileInfo ImageFile)

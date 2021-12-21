@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style.Dxf;
@@ -454,8 +455,11 @@ namespace OfficeOpenXml.Core
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Tile ||
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Pattern)
             {
-                var img = cell.Comment.Fill.PatternPictureSettings.Image;                
-                c.Fill.PatternPictureSettings.Image = img;
+                var img = cell.Comment.Fill.PatternPictureSettings.Image;
+                if (img.ImageBytes != null)
+                {
+                    c.Fill.PatternPictureSettings.Image.SetImage(img.ImageBytes, img.Type ?? ePictureType.Jpg);
+                }
             }
         }
 

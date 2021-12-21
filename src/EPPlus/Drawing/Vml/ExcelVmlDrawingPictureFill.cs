@@ -121,7 +121,10 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         ExcelImage _imageNew=null;
-        public ExcelImage ImageNew
+        /// <summary>
+        /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
+        /// </summary>
+        public ExcelImage Image
         {
             get
             {
@@ -143,32 +146,32 @@ namespace OfficeOpenXml.Drawing.Vml
         /// <summary>
         /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
         /// </summary>
-        public Image Image
-        {
-            get
-            {
-                if(_image==null)
-                {
-                    _image = Image.FromStream(new MemoryStream(ImageNew.ImageBytes));
-                }
-                return _image;
-            }
-            set
-            {
-                if (_image == value) return;
-                if (_image != null)
-                {
-                    ((IPictureContainer)this).RemoveImage();
-                }
-                if (value != null)
-                {
-                    _image = value;
-                    var ms = new MemoryStream();
-                    value.Save(ms, ImageFormat.Jpeg);
-                    ImageNew.SetImage(ms.ToArray(), ePictureType.Jpg);
-                }
-            }
-        }
+        //public Image Image
+        //{
+        //    get
+        //    {
+        //        if(_image==null)
+        //        {
+        //            _image = Image.FromStream(new MemoryStream(ImageNew.ImageBytes));
+        //        }
+        //        return _image;
+        //    }
+        //    set
+        //    {
+        //        if (_image == value) return;
+        //        if (_image != null)
+        //        {
+        //            ((IPictureContainer)this).RemoveImage();
+        //        }
+        //        if (value != null)
+        //        {
+        //            _image = value;
+        //            var ms = new MemoryStream();
+        //            value.Save(ms, ImageFormat.Jpeg);
+        //            ImageNew.SetImage(ms.ToArray(), ePictureType.Jpg);
+        //        }
+        //    }
+        //}
 
         //internal void SaveImage()
         //{

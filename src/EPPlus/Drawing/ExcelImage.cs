@@ -76,6 +76,25 @@ namespace OfficeOpenXml.Drawing
         {
             SetImage(image, pictureType, true);
         }
+        public void SetImage(Stream imageStream, ePictureType pictureType)
+        {
+            if(imageStream is MemoryStream ms)
+            {
+                SetImage(ms.ToArray(), pictureType, true);
+            }
+            else
+            {
+                if(imageStream.CanRead ==false || imageStream.CanSeek == false)
+                {
+                    throw (new ArgumentException("Must be readable and Seekble", nameof(imageStream)));
+                }
+                var byRet = new byte[imageStream.Length];
+                imageStream.Seek(0, SeekOrigin.Begin);
+                imageStream.Read(byRet, 0, (int)imageStream.Length);
+
+                SetImage(byRet, pictureType);
+            }
+        }
 
         internal ePictureType SetImage(byte[] image, ePictureType pictureType, bool removePrevImage)
         {

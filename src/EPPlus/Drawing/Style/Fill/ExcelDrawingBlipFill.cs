@@ -33,78 +33,10 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         {
             _schemaNodeOrder = schemaNodeOrder;
             _pictureRelationDocument = pictureRelationDocument;
-            ImageNew = new ExcelImage(this);
+            Image = new ExcelImage(this);
             GetXml();
         }
-        Image _image;
-#if (Core)
-        [Obsolete("This property is depricated and will be removed when reference to System.Drawing.Common is removed. User property ImageInfo instead", false)]
-#endif
-        /// <summary>
-        /// The picture used in the fill.
-        /// </summary>        
-        public Image Image
-        {
-            get
-            {
-                if(_image==null && ImageNew.Type!=null)
-                {
-                    if (ImageNew.Type == ePictureType.WebP ||
-                       ImageNew.Type == ePictureType.Svg ||
-                       ImageNew.Type == ePictureType.Ico)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            _image = Image.FromStream(new MemoryStream(ImageNew.ImageBytes));
-                        }
-                        catch
-                        {
-                            //Unsupported image format. Might be .emf end .wmf in a non-windows environement.
-                        }
-                    }
-                }
-                return _image;
-            }
-            set
-            {
-                byte[] img;
-                ePictureType type = ePictureType.Jpg;
-                var container = (IPictureContainer)this;
-                if (value != null)
-                {
-                    img = Compatibility.ImageCompat.GetImageAsByteArray(value, out type);
-                    var hash = PictureStore.GetHash(img);
-                    if (hash == container.ImageHash) return;
-                }
-                else
-                {
-                    img = null;
-                }
-                _initXml?.Invoke();
-                if (container.RelPic!=null)
-                {
-                    ImageNew.RemoveImage();
-                }
-                if (value != null)
-                {
-                    _image = value;
-                    ImageNew.SetImage(img, type, false);
-                }
-            }
-        }
-        /// <summary>
-        /// Image format
-        /// If the picture is created from an Image this type is always Jpeg
-        /// </summary>
-        #if (Core)
-                [Obsolete("This property is depricated and will be removed when reference to System.Drawing.Common is removed. User property ImageInfo instead", false)]
-        #endif
-        public ImageFormat ImageFormat { get; internal set; } = ImageFormat.Jpeg;
-        public ExcelImage ImageNew { get; }
+        public ExcelImage Image { get; }
         /// <summary>
         /// The image should be stretched to fill the target.
         /// </summary>
@@ -166,8 +98,8 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             if (!string.IsNullOrEmpty(relId))
             {
                 var img = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
-                ImageNew.Type = pictureType;
-                ImageNew.ImageBytes = img;
+                Image.Type = pictureType;
+                Image.ImageBytes = img;
                 ContentType = contentType;
             }
             SourceRectangle = new ExcelDrawingRectangle(_xml, "a:srcRect/", 0);
@@ -224,13 +156,9 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             var img = File.ReadAllBytes(file.FullName);
             var extension = file.Extension;
             ContentType = PictureStore.GetContentType(extension);
-            ImageNew.SetImage(img, PictureStore.GetPictureType(extension));
+            Image.SetImage(img, PictureStore.GetPictureType(extension));
         }
-        internal void AddImage(Image image)
-        {
-            Image = image;
-        }
-#region IPictureContainer
+        #region IPictureContainer
 
         string IPictureContainer.ImageHash
         {
