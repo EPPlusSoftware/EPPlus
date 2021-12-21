@@ -64,6 +64,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             Assert.AreEqual(0d, result);
         }
 
+        [TestMethod]
         public void EmptyCellReferenceMathShouldReturnZero()
         {
             var result = _parser.Parse("A1*3");
@@ -75,6 +76,15 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         {
             var result = _parser.Parse("IF(TRUE,A1)");
             Assert.AreEqual(0d, result);
+        }
+
+        [TestMethod]
+        public void EmptyCellReferenceShouldEqualZero()
+        {
+            var result = _parser.Parse("IF(A1=\"\",1)");            
+            Assert.IsTrue((bool)result);
+            result = _parser.Parse("IF(\"\"=A1,1)");
+            Assert.IsTrue((bool)result);
         }
 
         [TestMethod]
