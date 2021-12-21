@@ -133,9 +133,10 @@ namespace OfficeOpenXml.Table.PivotTable
             if (noTypes > 1 && 
                 flags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
                 flags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number) &&
                 flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float | DataTypeFlags.Empty) &&
+                flags != (DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
                 SharedItems.Count > 1)
             {
                 if ((flags & DataTypeFlags.String) == DataTypeFlags.String ||
