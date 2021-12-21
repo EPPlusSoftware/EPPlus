@@ -2689,14 +2689,6 @@ namespace OfficeOpenXml
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
-
-                //foreach(ExcelComment c in _comments)
-                //{
-                //    if (c._fill?._patternPictureSettings?._image != null)
-                //    {
-                //        c._fill._patternPictureSettings.SaveImage();
-                //    }
-                //}
             }
         }
 
