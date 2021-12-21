@@ -33,6 +33,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 
 namespace EPPlusTest.Table.PivotTable
 {
@@ -612,6 +613,113 @@ namespace EPPlusTest.Table.PivotTable
             rf.Cache.Refresh();
             Assert.AreEqual(1, rf.Cache.SharedItems.Count);
             Assert.AreEqual("Value1", rf.Cache.SharedItems[0]);
+        }
+        [TestMethod]
+        public void ValidateAttributesWhenNumbericAndMissing()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("NumericAndNull");
+                ws.Cells["A1"].Value = "Int";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["A3"].Value = 2;
+                ws.Cells["A4"].Value = 2;
+
+                ws.Cells["B1"].Value = "Float";
+                ws.Cells["B2"].Value = 1.3;
+                ws.Cells["B3"].Value = 2.4;
+                ws.Cells["B4"].Value = 5.6;
+
+                ws.Cells["C1"].Value = "IntFloat";
+                ws.Cells["C2"].Value = 3;
+                ws.Cells["C3"].Value = 2.4;
+                ws.Cells["C4"].Value = 2;
+
+                ws.Cells["D1"].Value = "IntNull";
+                ws.Cells["D2"].Value = 3;
+                ws.Cells["D4"].Value = 3;
+
+                ws.Cells["E1"].Value = "FloatNull";
+                ws.Cells["E3"].Value = 4.2;
+                ws.Cells["E4"].Value = 5.7;
+
+                ws.Cells["F1"].Value = "IntFloatNull";
+                ws.Cells["F2"].Value = 5;
+                ws.Cells["F4"].Value = 6.2;
+
+                ws.Cells["G1"].Value = "StringNull";
+                ws.Cells["G2"].Value = "Value 1";
+                ws.Cells["G4"].Value = "Value 3";
+
+                ws.Cells["H1"].Value = "MixedIntBool";
+                ws.Cells["H2"].Value = 1;
+                ws.Cells["H4"].Value = true;
+
+                ws.Cells["I1"].Value = "Mixed float";
+                ws.Cells["I3"].Value = 3.3;
+                ws.Cells["I4"].Value = "Value 3";
+
+
+                var tbl = ws.PivotTables.Add(ws.Cells["K3"], ws.Cells["A1:I4"], "ptNumberMissing");
+                var pf1 = tbl.PageFields.Add(tbl.Fields[0]);
+                var pf2 = tbl.PageFields.Add(tbl.Fields[1]);
+                var pf3 = tbl.PageFields.Add(tbl.Fields[2]);
+                var pf4 = tbl.PageFields.Add(tbl.Fields[3]);
+                var pf5 = tbl.PageFields.Add(tbl.Fields[4]);
+                var pf6 = tbl.PageFields.Add(tbl.Fields[5]);
+                var pf7 = tbl.PageFields.Add(tbl.Fields[6]);
+                var pf8 = tbl.PageFields.Add(tbl.Fields[7]);
+                var pf9 = tbl.PageFields.Add(tbl.Fields[8]);
+
+                tbl.CacheDefinition.Refresh();
+
+                p.Save();
+
+                AssertShartedItemsAttributes(pf1.Cache.TopNode.FirstChild, 4, true, true,false, false, false);
+                AssertShartedItemsAttributes(pf2.Cache.TopNode.FirstChild, 3, true, false, false, false, false);
+                AssertShartedItemsAttributes(pf3.Cache.TopNode.FirstChild, 3, true, false, false, false, false);
+                AssertShartedItemsAttributes(pf4.Cache.TopNode.FirstChild, 4, true, true, true, false, false);
+                AssertShartedItemsAttributes(pf5.Cache.TopNode.FirstChild, 3, true, false, true, false, false);
+                AssertShartedItemsAttributes(pf6.Cache.TopNode.FirstChild, 3, true, false, true, false, false);
+                AssertShartedItemsAttributes(pf7.Cache.TopNode.FirstChild, 1, false, false,true, false, false);
+
+                AssertShartedItemsAttributes(pf8.Cache.TopNode.FirstChild, 4, true, true, true, false, true);
+                AssertShartedItemsAttributes(pf9.Cache.TopNode.FirstChild, 3, true, false, true, false, true);
+            }
+        }
+
+        private void AssertShartedItemsAttributes(XmlNode node, int count,bool numberValues, bool intValues, bool containsBlanks, bool semiMixedValues, bool mixedValues)
+        {
+            if(node.Attributes.Count!=count)
+            {
+                Assert.Fail("Wrong attrib Count");
+            }
+            AssertContains(node, "containsNumber",numberValues);
+            AssertContains(node, "containsInteger", intValues);
+            AssertContains(node, "containsBlank", containsBlanks);
+            AssertContains(node, "containsSemiMixedTypes", semiMixedValues);
+            AssertContains(node, "containsMixedTypes", mixedValues);
+
+            //containsInteger = "1" containsNumber = "1" containsString = "0" containsSemiMixedTypes = "0"
+        }
+
+        private void AssertContains(XmlNode node, string attrName, bool value)
+        {
+            var a = node.Attributes[attrName];
+            if (a == null)
+            {
+                if (value)
+                {
+                    Assert.Fail($"{attrName} value not false");
+                }
+            }
+            else
+            {
+                if (value && a.Value != "1")
+                {
+                    Assert.Fail($"{attrName} value not true");
+                }
+            }
         }
     }
 }
