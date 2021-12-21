@@ -68,7 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                         return new CompileResult(null, DataType.Empty, cacheId);
                     }
                     var factory = new CompileResultFactory();
-                    return factory.Create(range.First().Value, cacheId, treatEmptyAsZero);
+                    return factory.Create(range.First().Value, cacheId, this.treatEmptyAsZero && treatEmptyAsZero);
                 }
             }
             else
