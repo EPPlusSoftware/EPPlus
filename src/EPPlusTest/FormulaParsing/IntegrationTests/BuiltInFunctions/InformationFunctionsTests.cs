@@ -65,14 +65,21 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
-        public void EmptyCellReferenceMathShouldReturnZero()
+        public void EmptyCellReferenceMultiplicationShouldReturnZero()
         {
             var result = _parser.Parse("A1*3");
             Assert.AreEqual(0d, result);
         }
 
         [TestMethod]
-        public void EmptyCellResultShouldReturnZero()
+        public void EmptyCellReferenceAdditionShouldReturnOtherOperand()
+        {
+            var result = _parser.Parse("A1+2");
+            Assert.AreEqual(2d, result);
+        }
+
+        [TestMethod]
+        public void IfResultEmptyCellReferenceReturnsZero()
         {
             var result = _parser.Parse("IF(TRUE,A1)");
             Assert.AreEqual(0d, result);
@@ -81,9 +88,55 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestMethod]
         public void EmptyCellReferenceShouldEqualZero()
         {
-            var result = _parser.Parse("IF(A1=\"\",1)");            
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Test");
+                sheet.Cells["A2"].Formula = "A1=0";
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void EmptyCellReferenceShouldEqualEmptyString()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Test");
+                sheet.Cells["A2"].Formula = "A1=\"\"";
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void EmptyCellReferenceShouldEqualFalse()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Test");
+                sheet.Cells["A2"].Formula = "A1=FALSE";
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void IfConditionEmptyCellReferenceEqualsZero()
+        {
+            var result = _parser.Parse("IF(A1=0,1)");
             Assert.IsTrue((bool)result);
-            result = _parser.Parse("IF(\"\"=A1,1)");
+        }
+        [TestMethod]
+        public void IfConditionEmptyCellReferenceEqualsEmptyString()
+        {
+            var result = _parser.Parse("IF(A1=\"\",1)");
+            Assert.IsTrue((bool)result);
+        }
+        [TestMethod]
+        public void IfConditionEmptyCellReferenceEqualsFalse()
+        {
+            var result = _parser.Parse("IF(A1=FALSE,1)");
             Assert.IsTrue((bool)result);
         }
 
