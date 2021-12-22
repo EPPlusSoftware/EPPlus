@@ -306,6 +306,15 @@ namespace EPPlusTest.Core.Range
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
             }
         }
+        public void ValidateDeleted()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Merge");
+                ws.Cells["D3:D4"].Merge = true;
+                ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
+            }
+        }
 
     }
 }

@@ -24,27 +24,13 @@ namespace OfficeOpenXml.Drawing
     public class ExcelImage
     {
         IPictureContainer _container;
-        ExcelPackage _pck;
-        internal ExcelImage(IPictureContainer container)
+        ePictureType[] _restrictedTypes;
+        internal ExcelImage(IPictureContainer container, ePictureType[] restrictedTypes=null)
         {
             _container = container;
-            _pck = container.RelationDocument.Package;
+            _restrictedTypes = restrictedTypes ?? new ePictureType[0];
         }
 
-        //internal ExcelImage(byte[] image, ePictureType? type)
-        //{
-        //    if (type != null && image != null)
-        //    {
-        //        SetImage(image, type.Value);
-        //    }
-        //    else
-        //    {
-        //        Bounds.Width = 0;
-        //        Bounds.Height = 0;
-        //        Bounds.HorizontalResolution = ExcelDrawing.STANDARD_DPI;
-        //        Bounds.VerticalResolution = ExcelDrawing.STANDARD_DPI;
-        //    }
-        //}
         /// <summary>
         /// The type of image.
         /// </summary>
@@ -98,6 +84,7 @@ namespace OfficeOpenXml.Drawing
 
         internal ePictureType SetImage(byte[] image, ePictureType pictureType, bool removePrevImage)
         {
+            ValidatePictureType(pictureType);
             Type = pictureType;
             if (pictureType == ePictureType.Wmz ||
                pictureType == ePictureType.Emz)
@@ -156,6 +143,15 @@ namespace OfficeOpenXml.Drawing
             _container.SetNewImage();
             return pictureType;
         }
+
+        private void ValidatePictureType(ePictureType pictureType)
+        {
+            if (Array.Exists(_restrictedTypes, x => x == pictureType))
+            {
+                throw new InvalidOperationException($"Picture type {pictureType} is not supported for this operation.");
+            }
+        }
+
         internal void RemoveImage()
         {
             ImageBytes = null;

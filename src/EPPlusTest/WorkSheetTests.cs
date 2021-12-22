@@ -1469,16 +1469,11 @@ namespace EPPlusTest
         [TestMethod]
         public void SetBackground()
         {
-            var pck = new ExcelPackage();
-            var ws = pck.Workbook.Worksheets.Add("backimg");
+            var ws = _pck.Workbook.Worksheets.Add("backimg");
 
-            ws.BackgroundImage.Image = Properties.Resources.Test1;
-            ws = pck.Workbook.Worksheets.Add("backimg2");
-            var fi = new FileInfo(Path.Combine(_clipartPath, "Vector Drawing.wmf"));
-            if (fi.Exists)
-            {
-                ws.BackgroundImage.SetFromFile(fi);
-            }
+            ws.BackgroundImage.Image.SetImage(Properties.Resources.Test1);
+            ws = _pck.Workbook.Worksheets.Add("backimg2");
+            ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.CodeEmfByteArray), ePictureType.Emf);
         }
         [TestMethod]
         public void SetHeaderFooterImage()

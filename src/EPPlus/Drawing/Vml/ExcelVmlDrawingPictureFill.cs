@@ -142,7 +142,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
 
-        internal Image _image = null;
+        //internal Image _image = null;
         /// <summary>
         /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
         /// </summary>

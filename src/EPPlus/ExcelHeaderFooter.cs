@@ -20,6 +20,7 @@ using System.IO;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace OfficeOpenXml
 {    
@@ -100,27 +101,6 @@ namespace OfficeOpenXml
         /// <summary>
         /// Inserts a picture at the end of the text in the header or footer
         /// </summary>
-        /// <param name="Picture">The image object containing the Picture</param>
-        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
-        public ExcelVmlDrawingPicture InsertPicture(Image Picture, PictureAlignment Alignment)
-        {
-            string id = ValidateImage(Alignment);
-
-            //Add the image
-#if (Core)
-            var img = ImageCompat.GetImageAsByteArray(Picture, out ePictureType type);
-#else
-            ImageConverter ic = new ImageConverter();
-            byte[] img = (byte[])ic.ConvertTo(Picture, typeof(byte[]));
-#endif
-
-            var ii = _ws.Workbook._package.PictureStore.AddImage(img);
-
-            return AddImage(id, ii);
-        }
-        /// <summary>
-        /// Inserts a picture at the end of the text in the header or footer
-        /// </summary>
         /// <param name="PictureFile">The image object containing the Picture</param>
         /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
         public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
@@ -132,17 +112,33 @@ namespace OfficeOpenXml
                 throw (new FileNotFoundException(string.Format("{0} is missing", PictureFile.FullName)));
             }
 
-            string contentType = PictureStore.GetContentType(PictureFile.Extension);
             var uriPic = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length-PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
-
             var imgBytes = File.ReadAllBytes(PictureFile.FullName);
             var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, null);
+
+            return AddImage(id, ii);
+        }
+        /// <summary>
+        /// Inserts a picture at the end of the text in the header or footer
+        /// </summary>
+        /// <param name="PictureStream">The stream containing the picture</param>
+        /// <param name="pictureType">The image format of the picture stream</param>
+        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+        public ExcelVmlDrawingPicture InsertPicture(Stream PictureStream, ePictureType pictureType, PictureAlignment Alignment)
+        {
+            string id = ValidateImage(Alignment);
+
+            var imgBytes=new byte[PictureStream.Length];
+            PictureStream.Seek(0, SeekOrigin.Begin);
+            PictureStream.Read(imgBytes,0, imgBytes.Length);
+            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes,null, pictureType);
 
             return AddImage(id, ii);
         }
 
         private ExcelVmlDrawingPicture AddImage(string id, ImageInfo ii)
         {
+            
             double width = ii.Bounds.Width * 72 / ii.Bounds.HorizontalResolution,      //Pixel --> Points
                    height = ii.Bounds.Height * 72 / ii.Bounds.VerticalResolution;      //Pixel --> Points
             //Add VML-drawing            

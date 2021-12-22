@@ -43,6 +43,7 @@ using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace OfficeOpenXml
 {
@@ -57,7 +58,7 @@ namespace OfficeOpenXml
     /// <summary>
 	/// Represents an Excel worksheet and provides access to its properties and methods
 	/// </summary>
-    public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable
+    public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable, IPictureRelationDocument
     {
         internal class Formulas
         {
@@ -3924,7 +3925,16 @@ namespace OfficeOpenXml
                 return _values == null;
             }
         }
-#region Worksheet internal Accessor
+
+        ExcelPackage IPictureRelationDocument.Package { get { return _package; } }
+
+        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
+        Dictionary<string, HashInfo> IPictureRelationDocument.Hashes { get { return _hashes; } }
+
+        Packaging.ZipPackagePart IPictureRelationDocument.RelatedPart { get { return Part; }}
+
+        Uri IPictureRelationDocument.RelatedUri { get { return _worksheetUri; } }
+        #region Worksheet internal Accessor
         /// <summary>
         /// Get accessor of sheet value
         /// </summary>

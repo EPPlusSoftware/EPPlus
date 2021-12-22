@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Vml;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -14,7 +17,7 @@ namespace OfficeOpenXml.Drawing
 		/// <param name="image">The image</param>
 		public static void SetImage(this ExcelImage value, Image image)
         {
-			var b=GetImageAsByteArray(image, out ePictureType type);
+			var b=ImageUtils.GetImageAsByteArray(image, out ePictureType type);
 			value.SetImage(b, type);
         }
 		/// <summary>
@@ -27,7 +30,7 @@ namespace OfficeOpenXml.Drawing
 		{
 			if (Image != null)
 			{
-				var b = GetImageAsByteArray(Image, out ePictureType type);
+				var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
 				return drawings.AddPicture(Name, new MemoryStream(b), type, null);
 			}
 			throw (new Exception("AddPicture: Image can't be null"));
@@ -43,45 +46,31 @@ namespace OfficeOpenXml.Drawing
 		{
 			if (Image != null)
 			{
-				var b = GetImageAsByteArray(Image, out ePictureType type);
+				var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
 				return drawings.AddPicture(Name, new MemoryStream(b), type, Hyperlink);
 			}
 			throw (new Exception("AddPicture: Image can't be null"));
 		}
-		internal static byte[] GetImageAsByteArray(Image image, out ePictureType type)
-		{
-			using (var ms = new MemoryStream())
-			{
-				if (image.RawFormat.Guid == ImageFormat.Gif.Guid)
-				{
-					image.Save(ms, ImageFormat.Gif);
-					type = ePictureType.Gif;
-				}
-				else if (image.RawFormat.Guid == ImageFormat.Bmp.Guid)
-				{
-					image.Save(ms, ImageFormat.Bmp);
-					type = ePictureType.Bmp;
-				}
-				else if (image.RawFormat.Guid == ImageFormat.Png.Guid)
-				{
-					image.Save(ms, ImageFormat.Png);
-					type = ePictureType.Png;
-				}
-				else if (image.RawFormat.Guid == ImageFormat.Tiff.Guid)
-				{
-					image.Save(ms, ImageFormat.Tiff);
-					type = ePictureType.Tif;
-				}
-				else
-				{
-					image.Save(ms, ImageFormat.Jpeg);
-					type = ePictureType.Jpg;
-				}
+    }
+}
+namespace OfficeOpenXml
+{
+	public static class ExcelHeaderFootterDrawingExtension
+	{
 
-				return ms.ToArray();
+		/// <summary>
+		/// Inserts a picture at the end of the text in the header or footer
+		/// </summary>
+		/// <param name="Picture">The image object containing the Picture</param>
+		/// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+		public static ExcelVmlDrawingPicture InsertPicture(this ExcelHeaderFooterText hfText, Image Picture, PictureAlignment Alignment)
+		{
+			var b = ImageUtils.GetImageAsByteArray(Picture, out ePictureType type);
+			using (var ms = new MemoryStream(b))
+			{
+				return hfText.InsertPicture(ms, type, Alignment);
 			}
 		}
 	}
-
 }
 
