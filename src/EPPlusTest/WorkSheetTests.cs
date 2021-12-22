@@ -1476,6 +1476,14 @@ namespace EPPlusTest
             ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.CodeEmfByteArray), ePictureType.Emf);
         }
         [TestMethod]
+        public void RemoveBackground()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Remove_BackImg");
+
+            ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.CodeBmp), ePictureType.Bmp);
+            ws.BackgroundImage.Image.RemoveImage();
+        }
+        [TestMethod]
         public void SetHeaderFooterImage()
         {
             var ws = _pck.Workbook.Worksheets.Add("HeaderImage");

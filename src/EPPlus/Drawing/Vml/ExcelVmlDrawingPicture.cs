@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:imagedata/@o:title",value);
             }
         }
-        ExcelImage _imageNew;
+        ExcelImage _image;
         /// <summary>
         /// The Image
         /// </summary>
@@ -118,42 +118,23 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                if(_imageNew==null)
+                if(_image==null)
                 {                    
-                    _imageNew = new ExcelImage(this);
+                    _image = new ExcelImage(this, new ePictureType[] { ePictureType.Svg, ePictureType.Ico, ePictureType.WebP });
                     var pck = _worksheet._package.ZipPackage;
                     if (pck.PartExists(ImageUri))
                     {
                         var part = pck.GetPart(ImageUri);
-                        _imageNew.SetImage(part.GetStream().ToArray(), PictureStore.GetPictureType(ImageUri));
+                        _image.SetImage(part.GetStream().ToArray(), PictureStore.GetPictureType(ImageUri));
                     }
                     else
                     {
                         return null;
                     }
                 }
-                return _imageNew;
+                return _image;
             }
         }
-        ///// <summary>
-        ///// The image
-        ///// </summary>
-        //public Image Image
-        //{
-        //    get
-        //    {
-        //        var pck = _worksheet._package.ZipPackage;
-        //        if (pck.PartExists(ImageUri))
-        //        {
-        //            var part = pck.GetPart(ImageUri);
-        //            return Image.FromStream(part.GetStream());
-        //        }
-        //        else
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //}
         internal Uri ImageUri
         {
             get;

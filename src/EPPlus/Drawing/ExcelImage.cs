@@ -154,10 +154,10 @@ namespace OfficeOpenXml.Drawing
 
         internal void RemoveImage()
         {
+            RemoveImageContainer();
             ImageBytes = null;
             Type = null;
             Bounds = new ExcelImageInfo();
-            RemoveImageContainer();
         }
         private void RemoveImageContainer()
         {

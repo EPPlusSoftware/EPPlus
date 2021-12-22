@@ -82,7 +82,6 @@ namespace OfficeOpenXml
                 return _workSheet; 
             } 
         }
-
         string IPictureContainer.ImageHash { get; set; }
         Uri IPictureContainer.UriPic { get; set; }
         Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
@@ -90,13 +89,18 @@ namespace OfficeOpenXml
 
         void IPictureContainer.RemoveImage()
         {
-            
+            if (Image.Type != null)
+            {
+                var pc = (IPictureContainer)this;
+                _workSheet._package.PictureStore.RemoveImage(pc.ImageHash, pc);
+                _workSheet.DeleteNode(BACKGROUNDPIC_PATH, true);
+            }
         }
 
         void IPictureContainer.SetNewImage()
         {
             var pc = (IPictureContainer)this;
-            SetXmlNodeString(BACKGROUNDPIC_PATH, pc.RelPic.Id);
+            _workSheet.SetXmlNodeString(BACKGROUNDPIC_PATH, pc.RelPic.Id);
         }
     }
 }

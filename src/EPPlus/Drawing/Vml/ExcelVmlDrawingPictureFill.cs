@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:fill/@o:title", value, true);
             }
         }
-        ExcelImage _imageNew=null;
+        ExcelImage _image=null;
         /// <summary>
         /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
         /// </summary>
@@ -128,68 +128,19 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                if (_imageNew == null)
+                if (_image == null)
                 {
                     var relId = RelId;
-                    _imageNew = new ExcelImage(this);
+                    _image = new ExcelImage(this, new ePictureType[] { ePictureType.Svg, ePictureType.Ico, ePictureType.WebP });
                     if (!string.IsNullOrEmpty(relId))
                     {
-                        _imageNew.ImageBytes = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
-                        _imageNew.Type = pictureType;
+                        _image.ImageBytes = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
+                        _image.Type = pictureType;
                     }
                 }
-                return _imageNew;
+                return _image;
             }
         }
-
-        //internal Image _image = null;
-        /// <summary>
-        /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
-        /// </summary>
-        //public Image Image
-        //{
-        //    get
-        //    {
-        //        if(_image==null)
-        //        {
-        //            _image = Image.FromStream(new MemoryStream(ImageNew.ImageBytes));
-        //        }
-        //        return _image;
-        //    }
-        //    set
-        //    {
-        //        if (_image == value) return;
-        //        if (_image != null)
-        //        {
-        //            ((IPictureContainer)this).RemoveImage();
-        //        }
-        //        if (value != null)
-        //        {
-        //            _image = value;
-        //            var ms = new MemoryStream();
-        //            value.Save(ms, ImageFormat.Jpeg);
-        //            ImageNew.SetImage(ms.ToArray(), ePictureType.Jpg);
-        //        }
-        //    }
-        //}
-
-        //internal void SaveImage()
-        //{
-        //    if (ImageNew != null)
-        //    {
-        //        try
-        //        {
-        //            string relId = PictureStore.SavePicture(ImageNew.ImageBytes, this);
-
-        //            //Create relationship
-        //            SetXmlNodeString("v:fill/@o:relid", relId);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw (new Exception("Can't save image - " + ex.Message, ex));
-        //        }
-        //    }
-        //}
 
         IPictureRelationDocument IPictureContainer.RelationDocument => _fill._drawings.Worksheet.VmlDrawings;
 
