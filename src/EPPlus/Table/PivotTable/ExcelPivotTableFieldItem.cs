@@ -193,6 +193,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void GetXmlString(StringBuilder sb)
         {
+            if (X == -1 && Type == eItemType.Data) return;
             sb.Append("<item");
             if(X>-1)
             {

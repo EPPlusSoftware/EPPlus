@@ -196,10 +196,11 @@ namespace OfficeOpenXml.Table.PivotTable
             var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
             bool cacheUpdated=false;
+            
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
                 var ix = col - r._fromCol;
-                if (_fields!=null && col < _fields.Count && _fields[col].Grouping != null)
+                if (_fields!=null && ix < _fields.Count && _fields[ix].Grouping != null)
                 {
                     fields.Add(_fields[ix]);
                 }
@@ -241,9 +242,12 @@ namespace OfficeOpenXml.Table.PivotTable
                     fields.Add(field);
                 }
             }
-            for(int i=fields.Count;i<_fields.Count;i++)
+            if (_fields != null)
             {
-                fields.Add(_fields[i]);
+                for (int i = fields.Count; i < _fields.Count; i++)
+                {
+                    fields.Add(_fields[i]);
+                }
             }
             _fields = fields;
 
@@ -421,7 +425,7 @@ namespace OfficeOpenXml.Table.PivotTable
             Part = pck.CreatePart(CacheDefinitionUri, ContentTypes.contentTypePivotCacheDefinition);
 
             AddRecordsXml();
-
+            LoadFields();
             CacheDefinitionXml.Save(Part.GetStream());
             _pivotTables.Add(pivotTable);
         }
@@ -577,7 +581,10 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             _wb.RemovePivotTableCache(CacheId);
             Part.Package.DeletePart(CacheDefinitionUri);
-            Part.Package.DeletePart(CacheRecordUri);
+            if (CacheRecordUri != null)
+            {
+                Part.Package.DeletePart(CacheRecordUri);
+            }
         }
         internal ExcelPivotTableCacheField AddDateGroupField(ExcelPivotTableField field, eDateGroupBy groupBy, DateTime startDate, DateTime endDate, int interval)
         {
