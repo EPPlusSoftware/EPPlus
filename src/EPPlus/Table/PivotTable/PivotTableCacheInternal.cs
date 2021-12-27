@@ -207,13 +207,13 @@ namespace OfficeOpenXml.Table.PivotTable
                 else
                 {
                     var ws = r.Worksheet;
-                    var name = ws.GetValue(r._fromRow, col)?.ToString();
+                    var name = ws.GetValue(r._fromRow, col)?.ToString().Trim();
                     ExcelPivotTableCacheField field;
                     if (_fields==null || ix>=_fields?.Count)
                     {
                         if (string.IsNullOrEmpty(name))
                         {
-                            throw new InvalidOperationException($"Pivot Cache with id {CacheId} is invalid . Contains reference to an column with empty header");
+                            throw new InvalidOperationException($"Pivot Cache with id {CacheId} is invalid . Contains reference to a column with an empty header");
                         }
                         field = CreateField(name, ix);
                         field.TopNode.InnerXml = "<sharedItems/>";
@@ -226,8 +226,10 @@ namespace OfficeOpenXml.Table.PivotTable
                     else
                     {
                         field=_fields[ix];
+
                         field.SharedItems.Clear();
-                        if (cacheUpdated == false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
+
+                        if (cacheUpdated == false && string.IsNullOrEmpty(name)==false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
                     }
 
                     if (!string.IsNullOrEmpty(name) && !field.Name.StartsWith(name)) field.Name = name;

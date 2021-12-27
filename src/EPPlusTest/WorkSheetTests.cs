@@ -1916,5 +1916,22 @@ namespace EPPlusTest
                 Assert.AreEqual("SUM(A6:F6)", ws.Cells["G6"].Formula);
             }
         }
+        [TestMethod]
+        public void ClearBySettingValueToNull()
+        {
+            using (var package = OpenPackage("i568.xlsx", true))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("ClearRangeA1B2");
+                var range = worksheet.Cells["A1:B2"];
+                range.FillNumber(1);
+                range.Value = null;
+
+                Assert.IsNull(worksheet.Cells["A1"].Value);
+                Assert.IsNull(worksheet.Cells["A2"].Value);
+                Assert.IsNull(worksheet.Cells["B1"].Value);
+                Assert.IsNull(worksheet.Cells["B3"].Value);
+            }
+        }
+
     }
 }
