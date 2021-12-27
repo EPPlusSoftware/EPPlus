@@ -1,4 +1,6 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts;
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -124,7 +126,18 @@ namespace OfficeOpenXml.Core
                 ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
                 if (!measureCache.TryGetValue(key, out var size))
                 {
-                    size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                    var serializedFontKey = SerializedFontMetrics.GetKey(fontCache[fntID]);
+                    if (serializedFontKey < uint.MaxValue)
+                    {
+                        // uncomment for comparison /MA
+                        //var s2 = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                        var s = TextMeasurer.Measure(t, fontCache[fntID].Size, serializedFontKey);
+                        size = new SizeF(s, 0f);
+                    }
+                    else
+                    {
+                        size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                    }
                     measureCache.Add(key, size);
                 }
 
