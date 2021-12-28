@@ -2937,6 +2937,45 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i566()
+        {
+            using (var package = OpenPackage("i566.xlsx", true))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
+                var ws= package.Workbook.Worksheets["Sheet 1"];
+                ws.SetValue(3, 3, "Test");
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i567()
+        {
+            using (var package = OpenTemplatePackage("i567.xlsx"))
+            {
+                var wsSource = package.Workbook.Worksheets["Detail"];
+
+                var dataCollection = new List<object[]>()
+                { 
+                    new object[]{"Driver 1",1,2,"Fleet 1", "Manager 1",3,true,0,5,0 },
+                    new object[]{"Driver 2",3,4,"Fleet 2", "Manager 2", 5,true,0,8,0 }
+                };
+                wsSource.Cells["A1"].Value = null;
+                //code to load a collection to the spreadsheet. very nice
+                wsSource.Cells["A2"].LoadFromArrays(dataCollection);
+                
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach(var pt in ws.PivotTables)
+                    {
+                        pt.CacheDefinition.SourceRange = wsSource.Cells["A1:J3"];
+                    }
+                }
+
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
 
