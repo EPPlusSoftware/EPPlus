@@ -23,6 +23,8 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts
         Calibri = 1,
         TimesNewRoman = 2,
         CourierNew = 3,
-        LiberationSerif = 4
+        LiberationSerif = 4,
+        Verdana = 5,
+        Georgia = 6
     }
 }

@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Core
                     if (serializedFontKey < uint.MaxValue)
                     {
                         // uncomment for comparison /MA
-                        //var s2 = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                        var s2 = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
                         var s = TextMeasurer.Measure(t, fontCache[fntID].Size, serializedFontKey);
                         size = new SizeF(s, 0f);
                     }

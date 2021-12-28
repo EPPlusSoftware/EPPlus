@@ -60,9 +60,9 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts
             var ems = width/sFont.UnitsPerEm;
             var emSize = ems * sizeInEm;
             var pixels = emSize * (96F/72F);
-            var scaleFactor = FontScaleFactors.Instance[sFont.GetKey()];
+            //var scaleFactor = FontScaleFactors.Instance[sFont.GetKey()];
             //return (float)pixels * (1f/scaleFactor) + (3.55555f * (8f/sizeInEm));
-            return (float)pixels * (1f / scaleFactor);
+            return (float)pixels;// * (1f / scaleFactor);
         }
 
         public static float Measure(string text, float size, SerializedFontFamilies fontFamily, FontSubFamilies subFamily)
