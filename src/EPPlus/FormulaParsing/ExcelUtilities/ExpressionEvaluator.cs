@@ -73,9 +73,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             return (bool)result.Result;
         }
 
-        public bool TryConvertToDouble(object op, out double d)
+        public bool TryConvertToDouble(object op, out double d, bool convertNumericString)
         {
-            if (op is double || op is int)
+            if (op is double || op is int || op is decimal)
             {
                 d = Convert.ToDouble(op);
                 return true;
@@ -85,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 d = ((DateTime) op).ToOADate();
                 return true;
             }
-            else if (op != null)
+            else if (op != null && convertNumericString)
             {
                 if (double.TryParse(op.ToString(), out d))
                 {
@@ -114,7 +114,6 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             return false;
         }
-
         /// <summary>
         /// Returns true if the supplied expression evaluates to true
         /// </summary>
@@ -122,6 +121,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="expression">The expressions to evaluate the object against</param>
         /// <returns></returns>
         public bool Evaluate(object left, string expression)
+        {
+            return Evaluate(left, expression, true);
+        }
+
+        /// <summary>
+        /// Returns true if the supplied expression evaluates to true
+        /// </summary>
+        /// <param name="left">The object to evaluate</param>
+        /// <param name="expression">The expressions to evaluate the object against</param>
+        /// <param name="convertNumericString">If true and <paramref name="left"/> is a numeric string it will be converted to a number</param>
+        /// <returns></returns>
+        public bool Evaluate(object left, string expression, bool convertNumericString)
         {
             if (expression == string.Empty)
             {
@@ -152,7 +163,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         }
                         double leftNum, rightNum;
                         DateTime date;
-                        bool leftIsNumeric = TryConvertToDouble(left, out leftNum);
+                        bool leftIsNumeric = TryConvertToDouble(left, out leftNum, convertNumericString);
                         bool rightIsNumeric = TryConvertStringToDouble(right, out rightNum);
                         bool rightIsDate = DateTime.TryParse(right, out date);
                         if (rightIsNumeric && op.Operator == Operators.Minus)

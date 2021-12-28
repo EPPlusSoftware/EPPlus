@@ -11,7 +11,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
     [TestClass]
     public class SumIfsTests
     {
-        [TestMethod, Ignore]
+        [TestMethod]
         public void SumIfsShouldHandleSingleRange()
         {
             using(var package = new ExcelPackage())
@@ -21,7 +21,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
                 sheet.Cells["H5"].Value = 1;
                 sheet.Cells["K5"].Value = 1;
                 sheet.Calculate();
-                Assert.AreEqual(1, sheet.Cells["A1"].Value);
+                Assert.AreEqual(1d, sheet.Cells["A1"].Value);
             }
         }
     }
