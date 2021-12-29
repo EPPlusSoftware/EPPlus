@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             ValidateArguments(arguments, 2);
             var args = arguments.ElementAt(0);
-            var index = ArgToInt(arguments, 1) - 1;
+            var index = ArgToInt(arguments, 1, IgnoreErrors) - 1;
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> {args}, context);
             if (index < 0 || index >= values.Count()) return CreateResult(eErrorType.Num);
             var result = values.OrderByDescending(x => x).ElementAt(index);

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.8.3.0</AssemblyVersion>
-    <FileVersion>5.8.3.0</FileVersion>
-    <Version>5.8.3</Version>
+    <AssemblyVersion>5.8.4.0</AssemblyVersion>
+    <FileVersion>5.8.4.0</FileVersion>
+    <Version>5.8.4</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,18 +18,22 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-      EPPlus 5.8.3
+      EPPlus 5.8.4
       IMPORTANT NOTICE!
       From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
       EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
       Commercial licenses can be purchased from https://epplussoftware.com
       This applies to EPPlus version 5 and later. Previous versions are still licensed LGPL.
 
-      ## Version 5.8.3
+      ## Version 5.8.4
+      * 10 new functions
       * Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 
+      ## Version 5.8.3
+      * Bug fixes.
+
       ## Version 5.8.2
-      * Bug fixes. 
+      * Bug fixes.
 
       ## Version 5.8.1
       * Bug fixes.
@@ -212,8 +216,9 @@
       A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
       Version history
-      5.8.3 20211119 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-      5.8.2 20211029 Minor bug fixes. 
+      5.8.4 20211214 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+      5.8.3 20211119 Minor bug fixes. 
+      5.8.2 20211029 Minor bug fixes.
       5.8.1 20211026 Minor bug fixes.
       5.8.0 20211021 Range.Fill methods, Range Rows and Column Collection, Range.Copy improvments and Worksheet Split Panes.
       5.7.5 20210921 Minor bug fixes.

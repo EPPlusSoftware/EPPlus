@@ -8,31 +8,18 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/27/2020         EPPlus Software AB           EPPlus 5.2
+  12/10/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Xml;
 
-namespace OfficeOpenXml.Drawing.Chart.ChartEx
+namespace OfficeOpenXml.Attributes
 {
-    /// <summary>
-    /// A plotarea for an extended chart
-    /// </summary>
-    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
+    public class EPPlusTableColumnSortorderAttribute : Attribute
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")
-        {
-            SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
-        }
-        public override ExcelChartDataTable CreateDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
-        }
-        public override void RemoveDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
-        }
+        public string[] Properties { get; set; }
     }
 }

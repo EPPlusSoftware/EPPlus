@@ -33,6 +33,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace OfficeOpenXml
 {
@@ -79,8 +80,7 @@ namespace OfficeOpenXml
 		private ExcelStyles _styles;
 		//internal HashSet<string> _tableSlicerNames = new HashSet<string>();
 		internal HashSet<string> _slicerNames=null;
-
-
+		internal Dictionary<string, ImageInfo> _images = new Dictionary<string, ImageInfo>();
 		internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
 		{
 			if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
@@ -92,8 +92,23 @@ namespace OfficeOpenXml
 			return false;
 
 		}
+        internal void LoadAllDrawings(string loadingWsName)
+        {
+            if(_worksheets._areDrawingsLoaded)
+            {
+				return;
+            }
+			_worksheets._areDrawingsLoaded = true;
+			foreach (var ws in Worksheets)
+            {
+				if (loadingWsName.Equals(ws.Name, StringComparison.OrdinalIgnoreCase)==false)
+				{
+					ws.LoadDrawings();
+				}
+            }
+        }
 
-		internal string GetSlicerName(string name)
+        internal string GetSlicerName(string name)
 		{
 			if (_slicerNames == null) LoadSlicerNames();
 			return GetUniqueName(name, _slicerNames);
@@ -500,7 +515,7 @@ namespace OfficeOpenXml
 		internal ExcelExternalLinksCollection _externalLinks=null;
 		/// <summary>
 		/// A collection of links to external workbooks and it's cached data.
-		/// This collection can also contain DDE and OLE links. DDE and OLE are readonly and can not be added.
+		/// This collection can also contain DDE and OLE links. DDE and OLE are readonly and cannot be added.
 		/// </summary>
 		public ExcelExternalLinksCollection ExternalLinks
 		{
@@ -728,7 +743,6 @@ namespace OfficeOpenXml
 					else if (Part.ContentType == ContentTypes.contentTypeWorkbookMacroEnabled) //Project is macro enabled, but no bin file exists.
 					{
 						CreateVBAProject();
-						_vba = new ExcelVbaProject(this);
 					}
 				}
 				return _vba;
@@ -1127,20 +1141,21 @@ namespace OfficeOpenXml
 
 			DeleteCalcChain();
 
-			//if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
-			//{
-			//	if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault)
-			//	{
-			//		Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
-			//	}
-			//}
-			//else
-			//{
-			//	if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-			//	{
-			//		Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
-			//	}
-			//}
+			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+			{
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault && 
+					Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
+				{
+					Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
+				}
+			}
+			else
+			{
+				if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
+				{
+					Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
+				}
+			}
 
 			UpdateDefinedNamesXml();
 

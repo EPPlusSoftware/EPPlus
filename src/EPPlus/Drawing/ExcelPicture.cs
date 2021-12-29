@@ -142,19 +142,20 @@ namespace OfficeOpenXml.Drawing
             IPictureContainer container = this;
             container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
             var store = _drawings._package.PictureStore;
+            var pc = _drawings as IPictureRelationDocument;            
             var ii = store.AddImage(img, container.UriPic, ContentType);
             string relId;
-            if (!_drawings._hashes.ContainsKey(ii.Hash))
+            if (!pc.Hashes.ContainsKey(ii.Hash))
             {
                 Part = ii.Part;
                 container.RelPic = _drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(_drawings.UriDrawing, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
                 relId = container.RelPic.Id;
-                _drawings._hashes.Add(ii.Hash, new HashInfo(relId));
+                pc.Hashes.Add(ii.Hash, new HashInfo(relId));
                 AddNewPicture(img, relId);
             }
             else
             {
-                relId = _drawings._hashes[ii.Hash].RelId;
+                relId = pc.Hashes[ii.Hash].RelId;
                 var rel = _drawings.Part.GetRelationship(relId);
                 container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             }

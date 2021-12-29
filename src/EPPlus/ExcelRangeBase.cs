@@ -201,14 +201,11 @@ namespace OfficeOpenXml
                 else
                 {
                     if (valueMethod != Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
-                    if (value != null)
+                    for (int col = address.Start.Column; col <= address.End.Column; col++)
                     {
-                        for (int col = address.Start.Column; col <= address.End.Column; col++)
+                        for (int row = address.Start.Row; row <= address.End.Row; row++)
                         {
-                            for (int row = address.Start.Row; row <= address.End.Row; row++)
-                            {
-                                valueMethod(this, value, row, col);
-                            }
+                            valueMethod(this, value, row, col);
                         }
                     }
                 }
@@ -1680,7 +1677,7 @@ namespace OfficeOpenXml
                             if (_worksheet._sharedFormulas[id].IsArray &&
                                     Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) // If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
-                                throw (new InvalidOperationException("Can not overwrite a part of an array-formula"));
+                                throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
                             }
                             formulas.Add(id);
                         }
@@ -2098,11 +2095,11 @@ namespace OfficeOpenXml
         {
             if (Addresses != null)
             {
-                throw (new Exception("An Arrayformula can not have more than one address"));
+                throw (new Exception("An array formula cannot have more than one address"));
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true)
         {
 
             //First find the start cell
@@ -2154,12 +2151,17 @@ namespace OfficeOpenXml
             {
                 DeleteComments(Range);
             }
+            if (clearThreadedComments)
+            {
+                DeleteThreadedComments(Range);
+            }
+
             //Clear multi addresses as well
             if (Range.Addresses != null)
             {
                 foreach (var sub in Range.Addresses)
                 {
-                    DeleteMe(sub, shift, clearValues, clearFormulas, clearFlags, clearMergedCells, clearHyperLinks, clearComments);
+                    DeleteMe(sub, shift, clearValues, clearFormulas, clearFlags, clearMergedCells, clearHyperLinks, clearComments, clearThreadedComments);
                 }
             }
         }
@@ -2177,6 +2179,20 @@ namespace OfficeOpenXml
                 _worksheet.Comments.Remove(_worksheet.Comments._list[i]);
             }
         }
+        private void DeleteThreadedComments(ExcelAddressBase Range)
+        {
+            var deleted = new List<int>();
+            var cse = new CellStoreEnumerator<int>(_worksheet._threadedCommentsStore, Range._fromRow, Range._fromCol, Range._toRow, Range._toCol);
+            while (cse.Next())
+            {
+                deleted.Add(cse.Value);
+            }
+            foreach (var i in deleted)
+            {
+                _worksheet.ThreadedComments.Remove(_worksheet.ThreadedComments._threads[i]);
+            }
+        }
+
         #endregion
         #region IDisposable Members
         /// <summary>

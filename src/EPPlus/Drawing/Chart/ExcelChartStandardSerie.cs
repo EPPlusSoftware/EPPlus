@@ -427,7 +427,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if(new ExcelRangeBase(_chart.WorkSheet, Series).Columns > 1)
                 {
-                    throw (new InvalidOperationException("A serie can not be multiple columns. Please add one serie per column to create a cache"));
+                    throw (new InvalidOperationException("A serie cannot be multiple columns. Please add one serie per column to create a cache"));
                 }
                 var node = GetTopNode(Series, _seriesTopPath);
                 
@@ -438,7 +438,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (new ExcelRangeBase(_chart.WorkSheet, XSeries).Columns > 1)
                 {
-                    throw (new InvalidOperationException("A serie can not be multiple columns (XSerie). Please add one serie per column to create a cache"));
+                    throw (new InvalidOperationException("A serie cannot be multiple columns (XSerie). Please add one serie per column to create a cache"));
                 }
 
                 var node = GetTopNode(XSeries, _xSeriesTopPath);

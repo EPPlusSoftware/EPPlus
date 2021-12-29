@@ -174,7 +174,7 @@ namespace OfficeOpenXml.Drawing
                 default:
                     if(this is ExcelDrawingFillBasic && _style!=eFillStyle.NoFill)
                     {
-                        throw new ArgumentException("Style", $"Style {Style} can not be applied to this object.");
+                        throw new ArgumentException("Style", $"Style {Style} cannot be applied to this object.");
                     }
                     break;
             }

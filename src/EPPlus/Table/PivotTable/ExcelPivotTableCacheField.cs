@@ -133,9 +133,10 @@ namespace OfficeOpenXml.Table.PivotTable
             if (noTypes > 1 && 
                 flags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
                 flags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number) &&
                 flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Float | DataTypeFlags.Empty) &&
+                flags != (DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
+                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
                 SharedItems.Count > 1)
             {
                 if ((flags & DataTypeFlags.String) == DataTypeFlags.String ||
@@ -189,7 +190,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// The formula for cache field.
         /// The formula for the calculated field. 
         /// Note: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. 
-        /// You can use constants and refer to data from the pivot table, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names as arguments, and you can not use array functions.
+        /// You can use constants and refer to data from the pivot table, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names as arguments, and you cannot use array functions.
         /// <seealso cref="ExcelPivotTableFieldCollection.AddCalculatedField(string, string)"/>
         /// </summary>
         public string Formula

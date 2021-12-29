@@ -181,7 +181,7 @@ namespace OfficeOpenXml.Style
             {
                 if(value<0)
                 {
-                    throw (new ArgumentOutOfRangeException("Indexed", "Can not be negative"));
+                    throw (new ArgumentOutOfRangeException("Indexed", "Cannot be negative"));
                 }
                 _ChangedEvent(this, new StyleChangeEventArgs(_cls, eStyleProperty.IndexedColor, value, _positionID, _address));
             }

@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var matches = GetMatches("MINIFS", arguments, out CompileResult errorResult);
             if (errorResult != null)
                 return errorResult;
-            if (matches.Count() == 0) return CreateResult(eErrorType.NA);
+            if (matches.Count() == 0) return CompileResult.ZeroDecimal;
             return CreateResult(matches.Min(), DataType.Decimal);
         }
     }

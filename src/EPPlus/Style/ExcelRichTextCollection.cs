@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Style
             TopNode.RemoveAll();
             if (_cells != null)
             {
-                _cells.DeleteMe(_cells, false, true, true, true, false, true, false);
+                _cells.DeleteMe(_cells, false, true, true, true, false, true, false, false);
                 _cells.SetIsRichTextFlag(false);
             }
         }

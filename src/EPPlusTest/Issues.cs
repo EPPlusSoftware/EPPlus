@@ -2841,9 +2841,139 @@ namespace EPPlusTest
         [TestMethod]
         public void s272()
         {
-            using (var p = OpenTemplatePackage("s272.xlsm"))
+            using (var p = OpenTemplatePackage("RadioButton.xlsm"))
             {
+                if(p.Workbook.VbaProject == null)
+                {
+                    p.Workbook.CreateVBAProject();
+                }
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s277()
+        {
+            using (var p = OpenTemplatePackage("s277.xlsx"))
+            {
+                foreach (var ws in p.Workbook.Worksheets)
+                    ws.Drawings.Clear();
+            }
+        }
+        [TestMethod]
+        public void s279()
+        {
+            using (var p = OpenTemplatePackage("s279.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["C3"].Value = "Test";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I546()
+        {
+            using (var excelPackage = OpenTemplatePackage("b.xlsx"))
+            {
+                var ws = excelPackage.Workbook.Worksheets[0];
+                var cell = ws.Cells["A2"];
+                var formula = cell.Formula;
+                var value1 = cell.Value;
+                Console.WriteLine($"value1: {value1}");
+
+                var externalLinks = excelPackage.Workbook.ExternalLinks;
+                var externalWorkbook = externalLinks[0].As.ExternalWorkbook;
+                externalWorkbook.Load();
+
+                ws.ClearFormulaValues();
+                ws.Calculate(); // "Circular reference occurred at A2" exception is thrown here
+                
+                var value2 = cell.Value;
+                Console.WriteLine($"value2: {value2}");
+            }
+        }
+        [TestMethod]
+        public void I548()
+        {
+            using (var p = OpenTemplatePackage("09-145.xlsx"))
+            {
+                var wsCopy = p.Workbook.Worksheets["Sheet3"];
+                var ws = p.Workbook.Worksheets.Add("tmpCopy");
+                //copy in the same o in another workbook, same issue
+                wsCopy.Cells["C1:AB55"].Copy(ws.Cells["C1"], ExcelRangeCopyOptionFlags.ExcludeFormulas);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I552()
+        {
+            using (var package = OpenTemplatePackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+
+            using (var package = OpenPackage("I552.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells[1, 1, 1, 10].Copy(worksheet.Cells[2, 1, 2, 10]);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s285()
+        {
+            using (var package = OpenTemplatePackage("s285.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                worksheet.SetValue(3, 3, "Test");
+                var ns = package.Workbook.Styles.CreateNamedStyle("Normal");
+                ns.BuildInId = 0;
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i566()
+        {
+            using (var package = OpenPackage("i566.xlsx", true))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
+                var ws= package.Workbook.Worksheets["Sheet 1"];
+                ws.SetValue(3, 3, "Test");
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i567()
+        {
+            using (var package = OpenTemplatePackage("i567.xlsx"))
+            {
+                var wsSource = package.Workbook.Worksheets["Detail"];
+
+                var dataCollection = new List<object[]>()
+                { 
+                    new object[]{"Driver 1",1,2,"Fleet 1", "Manager 1",3,true,0,5,0 },
+                    new object[]{"Driver 2",3,4,"Fleet 2", "Manager 2", 5,true,0,8,0 }
+                };
+                wsSource.Cells["A1"].Value = null;
+                //code to load a collection to the spreadsheet. very nice
+                wsSource.Cells["A2"].LoadFromArrays(dataCollection);
+                
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach(var pt in ws.PivotTables)
+                    {
+                        pt.CacheDefinition.SourceRange = wsSource.Cells["A1:J3"];
+                    }
+                }
+
+
+                SaveAndCleanup(package);
             }
         }
     }

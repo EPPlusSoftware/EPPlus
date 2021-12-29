@@ -78,6 +78,25 @@ namespace EPPlusTest.LoadFunctions
         public bool Acknowledged { get; set; }
     }
 
+    [EpplusTable(PrintHeaders = true)]
+    [EPPlusTableColumnSortorder(Properties = new string[]
+    {
+        nameof(Acknowledged),
+        "Organization.OrgLevel4",
+        nameof(ApprovedUtc)
+    })]
+    public class OuterWithSortOrderOnClassLevelV1
+    {
+        [EpplusTableColumn(Header = nameof(ApprovedUtc), Order = 1)]
+        public DateTime? ApprovedUtc { get; set; }
+
+        [EpplusNestedTableColumn(Order = 2)]
+        public Organization Organization { get; set; }
+
+        [EpplusTableColumn(Header = "Acknowledged...", Order = 3)]
+        public bool Acknowledged { get; set; }
+    }
+
     [EpplusTable]
     public class OuterReversedSortOrder
     {

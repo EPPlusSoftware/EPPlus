@@ -69,8 +69,8 @@ namespace OfficeOpenXml.Utils
 
         internal static Uri GetRelativeUri(Uri WorksheetUri, Uri uri)
         {
-            string[] source = WorksheetUri.OriginalString.Split('/');
-            string[] target = uri.OriginalString.Split('/');
+            string[] source = WorksheetUri.OriginalString.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] target = uri.OriginalString.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
             int slen;
             if (WorksheetUri.OriginalString.EndsWith("/"))

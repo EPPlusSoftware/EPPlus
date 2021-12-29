@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 Uri uriWorksheet;
                 if (copy is ExcelChartsheet)
                 {
-                    throw (new ArgumentException("Can not copy a chartsheet"));
+                    throw (new ArgumentException("Cannot copy a chartsheet"));
                 }
                 if (worksheets.GetByName(name) != null)
                 {

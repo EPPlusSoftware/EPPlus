@@ -119,7 +119,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// </summary>
         /// <param name="name">The unique name of the field</param>
         /// <param name="formula">The formula for the calculated field. 
-        /// Note: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. You can use constants and refer to data from the  pivot table, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names as arguments, and you can not use array functions.
+        /// Note: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. You can use constants and refer to data from the  pivot table, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names as arguments, and you cannot use array functions.
         /// <seealso cref="ExcelPivotTableCacheField.Formula"/></param>
         /// <returns>The new calculated field</returns>
         public ExcelPivotTableField AddCalculatedField(string name, string formula)

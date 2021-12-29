@@ -8,31 +8,26 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  04/27/2020         EPPlus Software AB           EPPlus 5.2
+  11/29/2021         EPPlus Software AB       Implemented function
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Xml;
 
-namespace OfficeOpenXml.Drawing.Chart.ChartEx
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
-    /// <summary>
-    /// A plotarea for an extended chart
-    /// </summary>
-    public sealed class ExcelChartExPlotarea : ExcelChartPlotArea
+    internal abstract class NormalDistributionBase : ExcelFunction
     {
-        public ExcelChartExPlotarea(XmlNamespaceManager ns, XmlNode node, ExcelChart chart) : base(ns, node, chart, "cx")
+        protected double CumulativeDistribution(double x, double mean, double stdDev)
         {
-            SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
+            return 0.5 * (1 + ErfHelper.Erf((x - mean) / System.Math.Sqrt(2 * System.Math.Pow(stdDev, 2))));
         }
-        public override ExcelChartDataTable CreateDataTable()
+
+        protected double ProbabilityDensity(double x, double mean, double stdDev)
         {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
-        }
-        public override void RemoveDataTable()
-        {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
+            return System.Math.Exp(-0.5 * System.Math.Log(2 * System.Math.PI) - System.Math.Log(stdDev) - System.Math.Pow(x - mean, 2) / (2 * System.Math.Pow(stdDev, 2)));
         }
     }
 }
