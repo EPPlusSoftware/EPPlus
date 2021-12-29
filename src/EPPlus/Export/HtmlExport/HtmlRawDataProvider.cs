@@ -22,24 +22,52 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal static class HtmlRawDataProvider
     {
         private static readonly DateTime JsBaseDate = new DateTime(1970, 1, 1);
-        internal static string GetRawValue(ExcelRangeBase cell, string jsDataType)
+        internal static string GetRawValue(object value)
+        {
+            var t = value.GetType();
+            var tc = Type.GetTypeCode(t);
+            switch(tc)
+            {
+                case TypeCode.Boolean:
+                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.Boolean);
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Single:
+                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.Number);
+                case TypeCode.DateTime:
+                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.DateTime);
+                case TypeCode.Empty:
+                    return string.Empty;
+                default:
+                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.String);
+            }
+        }
+        internal static string GetRawValue(object value, string jsDataType)
         {
             switch(jsDataType)
             {
                 case ColumnDataTypeManager.HtmlDataTypes.Boolean:
-                    return (ConvertUtil.GetTypedCellValue<bool?>(cell.Value, true)??false) ? "1" : "0";
+                    return (ConvertUtil.GetTypedCellValue<bool?>(value, true)??false) ? "1" : "0";
                 case ColumnDataTypeManager.HtmlDataTypes.Number:
-                    var v = ConvertUtil.GetTypedCellValue<double?>(cell.Value, true)?.ToString(CultureInfo.InvariantCulture);
+                    var v = ConvertUtil.GetTypedCellValue<double?>(value, true)?.ToString(CultureInfo.InvariantCulture);
                     return v;
                 case ColumnDataTypeManager.HtmlDataTypes.DateTime:
-                    var dt = ConvertUtil.GetTypedCellValue<DateTime?>(cell.Value, true);
+                    var dt = ConvertUtil.GetTypedCellValue<DateTime?>(value, true);
                     if(dt != null && dt.HasValue)
                     {
                         return dt.Value.Subtract(JsBaseDate).TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
                     }
                     return string.Empty;
                 default:
-                    return cell.GetValue<string>();
+                    return ConvertUtil.GetTypedCellValue<string>(value);
 
             }
         }

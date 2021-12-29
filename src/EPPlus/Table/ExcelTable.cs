@@ -362,7 +362,11 @@ namespace OfficeOpenXml.Table
         {
             return Range.ToDataTable();
         }
-
+        public string ToJson()
+        {
+            var exporter = new JsonTableExport(this);
+            return exporter.Export();
+        }
         /// <summary>
         /// Exports the table to a <see cref="System.Data.DataTable"/>
         /// </summary>

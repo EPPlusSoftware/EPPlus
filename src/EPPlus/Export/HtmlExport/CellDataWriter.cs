@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
-                var v = HtmlRawDataProvider.GetRawValue(cell, dataType);
+                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
                 if (string.IsNullOrEmpty(v)==false)
                 {
                     writer.AddAttribute("data-value", v);
