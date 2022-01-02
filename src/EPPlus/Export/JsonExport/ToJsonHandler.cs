@@ -20,9 +20,22 @@ namespace OfficeOpenXml
         {
             var sb = new StringBuilder();
             sb.Append($"{{\"table\":{{\"name\":\"{JsonEscape(_table.Name)}\",");
+            WriteColumnData(sb);
             WriteCellData(sb);
             sb.Append("}}");
             return sb.ToString();
+        }
+
+        private void WriteColumnData(StringBuilder sb)
+        {
+            sb.Append("\"columns\":[");
+            for(int i=0;i<_table.Columns.Count;i++)
+            {
+                if (i > 0) sb.Append(",");
+                var dt =HtmlRawDataProvider.GetHtmlDataTypeFromValue(_table.DataRange.GetCellValue<object>(0, i));
+                sb.Append($"{{\"Name\":\"{_table.Columns[i].Name}\",\"datatype\":\"{dt}\"}}");
+            }
+            sb.Append("],");
         }
 
         private void WriteCellData(StringBuilder sb)

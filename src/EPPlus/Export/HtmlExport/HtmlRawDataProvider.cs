@@ -22,14 +22,14 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal static class HtmlRawDataProvider
     {
         private static readonly DateTime JsBaseDate = new DateTime(1970, 1, 1);
-        internal static string GetRawValue(object value)
+        internal static string GetHtmlDataTypeFromValue(object value)
         {
             var t = value.GetType();
             var tc = Type.GetTypeCode(t);
-            switch(tc)
+            switch (tc)
             {
                 case TypeCode.Boolean:
-                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.Boolean);
+                    return ColumnDataTypeManager.HtmlDataTypes.Boolean;
                 case TypeCode.Byte:
                 case TypeCode.SByte:
                 case TypeCode.UInt16:
@@ -41,13 +41,25 @@ namespace OfficeOpenXml.Export.HtmlExport
                 case TypeCode.Decimal:
                 case TypeCode.Double:
                 case TypeCode.Single:
-                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.Number);
+                    return ColumnDataTypeManager.HtmlDataTypes.Number;
                 case TypeCode.DateTime:
-                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.DateTime);
-                case TypeCode.Empty:
-                    return string.Empty;
+                    return ColumnDataTypeManager.HtmlDataTypes.DateTime;
                 default:
-                    return GetRawValue(value, ColumnDataTypeManager.HtmlDataTypes.String);
+                    return ColumnDataTypeManager.HtmlDataTypes.String;
+            }
+        }
+        internal static string GetRawValue(object value)
+        {
+            var t = value.GetType();
+            var tc = Type.GetTypeCode(t);
+            if (tc == TypeCode.Empty)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                var type = GetHtmlDataTypeFromValue(value);
+                return GetRawValue(value, type);
             }
         }
         internal static string GetRawValue(object value, string jsDataType)
