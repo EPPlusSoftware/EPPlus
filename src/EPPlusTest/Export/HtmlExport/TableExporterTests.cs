@@ -354,6 +354,60 @@ namespace EPPlusTest.Export.HtmlExport
                 Assert.IsTrue(s.Accessibility.TableSettings.AddAccessibilityAttributes);
             }
         }
+        [TestMethod]
+        public void ShouldExportRichTextAsInlineHtml()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add($"RichText");
 
+                var rt = ws.Cells["A1"].RichText;
+                var rt1 = rt.Add("Header");
+                rt1.Color = Color.Red;
+                var rt2 = rt.Add(" 1");
+                rt2.Color = Color.Blue;
+
+                rt = ws.Cells["B1"].RichText;
+                rt1 = rt.Add("Header");
+                rt1.Italic = true;
+                rt1.Bold = true;
+                rt2 = rt.Add(" 2");
+                rt2.Strike=true;
+
+                rt = ws.Cells["C1"].RichText;
+                rt1 = rt.Add("Header");
+                rt1.FontName = "Arial";
+                rt1.Size = 12;
+                rt2 = rt.Add(" 3");
+                rt2.UnderLine=true;
+
+                rt = ws.Cells["A2"].RichText;
+                rt1 = rt.Add("Text");
+                rt1.Color = Color.Green;
+                rt2 = rt.Add(" 1");
+                rt2.Color = Color.Yellow;
+
+                rt = ws.Cells["B2"].RichText;
+                rt1 = rt.Add("Text");
+                rt1.Italic = true;
+                rt1.Bold = true;
+                rt2 = rt.Add(" 2");
+                rt2.Strike = true;
+
+                rt = ws.Cells["C2"].RichText;
+                rt1 = rt.Add("Text");
+                rt1.FontName = "Times New Roman";
+                rt1.Size = 8;
+                rt2 = rt.Add(" 3");
+                rt2.UnderLine = true;
+
+
+                var tbl = ws.Tables.Add(ws.Cells["A1:C2"], $"tblRichtext");
+                tbl.TableStyle = TableStyles.Dark5;
+
+                var html = tbl.HtmlExporter.GetHtmlString();
+                var htmlCss = tbl.HtmlExporter.GetSinglePage();
+            }
+        }
     }
 }

@@ -44,7 +44,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
             writer.RenderBeginTag(HtmlElements.TableData);
-            writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            if (cell.IsRichText)
+            {
+                writer.Write(cell.RichText.HtmlText);
+            }
+            else
+            {
+                writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            }
             writer.RenderEndTag();
             writer.ApplyFormat(settings.Minify);
         }
@@ -69,7 +76,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
-            await writer.WriteAsync(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            if (cell.IsRichText)
+            {
+                await writer.WriteAsync(cell.RichText.HtmlText);
+            }
+            else
+            {
+                await writer.WriteAsync(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            }
             await writer.RenderEndTagAsync();
             await writer.ApplyFormatAsync(settings.Minify);
         }

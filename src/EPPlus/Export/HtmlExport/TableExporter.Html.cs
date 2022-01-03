@@ -359,7 +359,14 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private string GetCellText(ExcelRangeBase cell)
         {
-            return ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, Settings.Culture);
+            if(cell.IsRichText)
+            {
+                return cell.RichText.HtmlText;
+            }
+            else
+            {
+                return ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, Settings.Culture);
+            }
         }
 
         private void GetDataTypes(ExcelAddressBase adr)
