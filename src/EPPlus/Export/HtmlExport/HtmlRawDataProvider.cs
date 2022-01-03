@@ -28,6 +28,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             var tc = Type.GetTypeCode(t);
             switch (tc)
             {
+                case TypeCode.String:
+                    return ColumnDataTypeManager.HtmlDataTypes.String;
                 case TypeCode.Boolean:
                     return ColumnDataTypeManager.HtmlDataTypes.Boolean;
                 case TypeCode.Byte:
@@ -45,6 +47,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 case TypeCode.DateTime:
                     return ColumnDataTypeManager.HtmlDataTypes.DateTime;
                 default:
+                    if(value is TimeSpan)
+                    {
+                        return ColumnDataTypeManager.HtmlDataTypes.TimeSpan;
+                    }
                     return ColumnDataTypeManager.HtmlDataTypes.String;
             }
         }
@@ -71,6 +77,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 case ColumnDataTypeManager.HtmlDataTypes.Number:
                     var v = ConvertUtil.GetTypedCellValue<double?>(value, true)?.ToString(CultureInfo.InvariantCulture);
                     return v;
+                case ColumnDataTypeManager.HtmlDataTypes.TimeSpan:
+                    return ((TimeSpan)value).TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
                 case ColumnDataTypeManager.HtmlDataTypes.DateTime:
                     var dt = ConvertUtil.GetTypedCellValue<DateTime?>(value, true);
                     if(dt != null && dt.HasValue)

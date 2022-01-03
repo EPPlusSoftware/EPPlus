@@ -347,6 +347,7 @@ namespace OfficeOpenXml.Utils
         public static T GetTypedCellValue<T>(object value, bool returnDefaultIfException=false)
         {
             var conversion = new TypeConvertUtil<T>(value);
+
             if(value == null || (conversion.ReturnType.IsNullable && conversion.Value.IsEmptyString))
             {
                 return default;
@@ -380,7 +381,21 @@ namespace OfficeOpenXml.Utils
             }
             else
             {
-                return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+                if (value is IConvertible)
+                {
+                    return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+                }
+                else
+                {
+                    if(conversion.ReturnType.Type == typeof(object))
+                    {
+                        return (T)value;
+                    }
+                    else
+                    {
+                        return default(T);
+                    }
+                }
             }
         }
         internal static string GetValueForXml(object v, bool date1904)

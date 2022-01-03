@@ -42,6 +42,8 @@ namespace OfficeOpenXml
         {
             var ws = _table.WorkSheet;
             var dr = _table.DataRange;
+            Uri uri = null;
+            int commentIx = 0;
             sb.Append("\"rows\":[");
             for (int r=dr._fromRow;r<=dr._toRow;r++)
             {
@@ -51,16 +53,29 @@ namespace OfficeOpenXml
                 {
                     if (c > dr._fromCol) sb.Append(",");
                     var cv = ws.GetCoreValueInner(r, c);
-                    var t = ValueToTextHandler.GetFormattedText(cv._value, _table.WorkSheet.Workbook, cv._styleId, false);
+                    var t = JsonEscape(ValueToTextHandler.GetFormattedText(cv._value, _table.WorkSheet.Workbook, cv._styleId, false));
                     if (cv._value == null) 
                     {
-                        sb.Append($"{{\"t\":\"{t}\"}}");
+                        sb.Append($"{{\"t\":\"{t}\"");
                     }
                     else
                     {
-                        var v = HtmlRawDataProvider.GetRawValue(cv._value);
-                        sb.Append($"{{\"v\":\"{v}\",\"t\":\"{t}\"}}");
+                        var v = JsonEscape(HtmlRawDataProvider.GetRawValue(cv._value));
+                        sb.Append($"{{\"v\":\"{v}\",\"t\":\"{t}\"");
                     }
+
+                    if (ws._hyperLinks.Exists(r, c, ref uri))
+                    {
+                        sb.Append($",\"uri\":\"{JsonEscape(uri?.OriginalString)}\"");
+                    }
+
+                    if (ws._commentsStore.Exists(r, c, ref commentIx))
+                    {
+                        var comment = ws.Comments[commentIx];
+                        sb.Append($",\"comment\":\"{comment.Text}\"");
+                    }
+
+                    sb.Append("}");
                 }
                 sb.Append("]}");
             }
@@ -68,13 +83,46 @@ namespace OfficeOpenXml
         }
         internal static string JsonEscape(string s)
         {
-            return s.Replace("\\", "\\\\").
-                     Replace("\"", "\\\"").
-                     Replace("\b", "\\b").
-                     Replace("\f", "\\f").
-                     Replace("\n", "\\n").
-                     Replace("\r", "\\r").
-                     Replace("\t", "\\t");
+            if (s == null) return "";
+            var sb=new StringBuilder();
+            foreach (var c in s)
+            {
+                switch (c)
+                {
+                    case '\\':
+                        sb.Append("\\\\");
+                        break;
+                    case '"':
+                        sb.Append("\\\"");
+                        break;
+                    case '\b':
+                        sb.Append("\\b");
+                        break;
+                    case '\f':
+                        sb.Append("\\f");
+                        break;
+                    case '\n':
+                        sb.Append("\\n");
+                        break;
+                    case '\r':
+                        sb.Append("\\r");
+                        break;
+                    case '\t':
+                        sb.Append("\\t");
+                        break;
+                    default:
+                        if (c < 0x20)
+                        {
+                            sb.Append($"\\u{((short)c):X4}");
+                        }
+                        else
+                        {
+                            sb.Append(c);
+                        }
+                        break;
+                }
+            }
+            return sb.ToString();
         }
     }
 }

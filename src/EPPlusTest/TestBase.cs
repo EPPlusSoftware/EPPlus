@@ -220,7 +220,8 @@ namespace EPPlusTest
         /// <param name="startColumn">The start column</param>
         /// <param name="startRow">The start row</param>
         /// <param name="addHyperlinkColumn">Add a column with hyperlinks</param>
-        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false)
+        /// <param name="addTimeSpan">Adds a TimeSpan column. Requires add hyperlink to be true</param>
+        protected static void LoadTestdata(ExcelWorksheet ws, int noItems = 100, int startColumn=1, int startRow=1, bool addHyperlinkColumn=false, bool addTimeSpan=false)
         {
             ws.SetValue(1, startColumn, "Date");
             ws.SetValue(1, startColumn + 1, "NumValue");
@@ -229,6 +230,10 @@ namespace EPPlusTest
             if(addHyperlinkColumn)
             {
                 ws.SetValue(1, startColumn + 4, "HyperLink");
+            }
+            if (addTimeSpan)
+            {
+                ws.SetValue(1, startColumn + 5, "TimeSpan");
             }
 
             DateTime dt = _loadDataStartDate;
@@ -243,11 +248,19 @@ namespace EPPlusTest
                 if (addHyperlinkColumn)
                 {
                     ws.Cells[row, startColumn + 4].SetHyperlink(new Uri("https://epplussoftware.com"));
+                    if (addTimeSpan)
+                    {
+                        ws.SetValue(row, startColumn + 5, new TimeSpan(0, 1, i % 60, 0, 0));
+                    }
                 }
 
                 dt = dt.AddDays(1);
             }
             ws.Cells[startRow, startColumn, row, startColumn].Style.Numberformat.Format = "yyyy-MM-dd";
+            if(addTimeSpan)
+            {
+                ws.Cells[startRow, startColumn+5, row, startColumn+5].Style.Numberformat.Format = "hh:mm:ss";
+            }
             ws.Cells.AutoFitColumns();
         }
         protected static void LoadHierarkiTestData(ExcelWorksheet ws)

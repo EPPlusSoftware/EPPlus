@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             public const string String = "string";
             public const string Boolean = "boolean";
             public const string DateTime = "datetime";
-            public const string TimeOfDay = "timeofday";
+            public const string TimeSpan = "timespan";
         }
 
         public static string GetColumnDataType(ExcelWorksheet sheet, ExcelRangeBase range, int startRow, int column)
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 case DataType.Boolean:
                     return HtmlDataTypes.Boolean;
                 case DataType.Time:
-                    return HtmlDataTypes.TimeOfDay;
+                    return HtmlDataTypes.TimeSpan;
                 case DataType.Date:
                     return HtmlDataTypes.DateTime;
                 default:
