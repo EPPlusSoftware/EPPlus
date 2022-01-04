@@ -133,13 +133,13 @@ namespace OfficeOpenXml.FormulaParsing
                     var rangeInfo = compileResult.Result as ExcelDataProvider.IRangeInfo;
                     if (rangeInfo == null)
                     {
-                        return compileResult.Result;
+                        return compileResult.Result ?? 0d;
                     }
                     else
                     {
                         if (rangeInfo.IsEmpty)
                         {
-                            return null;
+                            return 0d;
                         }
                         if (!rangeInfo.IsMulti)
                         {

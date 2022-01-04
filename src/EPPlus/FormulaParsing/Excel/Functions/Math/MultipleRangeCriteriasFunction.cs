@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             _expressionEvaluator = evaluator;
         }
 
-        protected bool Evaluate(object obj, string expression)
+        protected bool Evaluate(object obj, string expression, bool convertNumericString = true)
         {
             double? candidate = default(double?);
             if (IsNumeric(obj))
@@ -48,12 +48,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             if (candidate.HasValue)
             {
-                return _expressionEvaluator.Evaluate(candidate.Value, expression);
+                return _expressionEvaluator.Evaluate(candidate.Value, expression, convertNumericString);
             }
-            return _expressionEvaluator.Evaluate(obj, expression);
+            return _expressionEvaluator.Evaluate(obj, expression, convertNumericString);
         }
 
-        protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, string searched)
+        protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, string searched, bool convertNumericString = true)
         {
             var result = new List<int>();
             var internalIndex = 0;
@@ -70,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     for (var col = rangeInfo.Address._fromCol; col <= rangeInfo.Address._toCol; col++)
                     {
                         var candidate = rangeInfo.GetValue(row, col);
-                        if (searched != null && Evaluate(candidate, searched))
+                        if (searched != null && Evaluate(candidate, searched, convertNumericString))
                         {
                             result.Add(internalIndex);
                         }
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     }
                 }
             }
-            else if(Evaluate(rangeOrValue.Value, searched))
+            else if(Evaluate(rangeOrValue.Value, searched, convertNumericString))
             {
                 result.Add(internalIndex);
             }

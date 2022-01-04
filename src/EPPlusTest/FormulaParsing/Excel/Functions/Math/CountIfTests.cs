@@ -268,5 +268,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(1d, result.Result);
         }
+
+        [TestMethod]
+        public void CountIfIgnoreNumericString()
+        {
+            _worksheet.Cells["A1"].Value = "1";
+            _worksheet.Cells["A2"].Value = 2;
+            _worksheet.Cells["A3"].Value = "3";
+            var func = new CountIf();
+            IRangeInfo range = _provider.GetRange(_worksheet.Name, 1, 1, 3, 1);
+            var args = FunctionsHelper.CreateArgs(range, ">0");
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(1d, result.Result);
+        }
     }
 }

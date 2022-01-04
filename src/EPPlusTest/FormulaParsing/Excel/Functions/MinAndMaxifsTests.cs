@@ -112,7 +112,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         {
             _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7,C3:C7,\"P\")";
             _worksheet.Calculate();
-            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value); ;
         }
     }
 }
