@@ -869,6 +869,27 @@ namespace OfficeOpenXml.Drawing
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath)
+        {
+            return await AddPictureAsync(Name, new FileInfo(ImagePath), null);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink)
+        {
+            return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>
         /// <param name="PictureType">The type of image</param>
         /// <returns>A picture object</returns>
@@ -909,7 +930,64 @@ namespace OfficeOpenXml.Drawing
             _drawingsList.Add(pic);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
         }
-
+#if (NETFULL)
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="Image">An image.</param>
+        /// <returns></returns>
+        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
+        public ExcelPicture AddPicture(string Name, Image Image)
+        {
+            if (Image != null)
+            {
+                var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
+                return AddPicture(Name, new MemoryStream(b), type, null);
+            }
+            throw (new Exception("AddPicture: Image can't be null"));
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="Image">An image. </param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
+        public ExcelPicture AddPicture(string Name, Image Image, Uri Hyperlink)
+        {
+            if (Image != null)
+            {
+                var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
+                return AddPicture(Name, new MemoryStream(b), type, Hyperlink);
+            }
+            throw (new Exception("AddPicture: Image can't be null"));
+        }
+#endif
+        public ExcelPicture AddPicture(string Name, string ImagePath)
+        {
+            if (string.IsNullOrEmpty(ImagePath))
+            {
+                return AddPicture(Name, new FileInfo(ImagePath), null);
+            }
+            throw (new Exception("AddPicture: Image path can't be null"));
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink)
+        {
+            if (string.IsNullOrEmpty(ImagePath))
+            {
+                return AddPicture(Name, new FileInfo(ImagePath), Hyperlink);
+            }
+            throw (new Exception("AddPicture: Image path can't be null"));
+        }
         private void ValidatePictureFile(string Name, FileInfo ImageFile)
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)

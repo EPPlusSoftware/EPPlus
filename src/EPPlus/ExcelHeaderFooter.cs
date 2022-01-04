@@ -135,7 +135,22 @@ namespace OfficeOpenXml
 
             return AddImage(id, ii);
         }
-
+#if NETFULL
+        /// <summary>
+        /// Inserts a picture at the end of the text in the header or footer
+        /// </summary>
+        /// <param name="Picture">The image object containing the Picture</param>
+        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
+        public ExcelVmlDrawingPicture InsertPicture(Image Picture, PictureAlignment Alignment)
+        {
+            var b = ImageUtils.GetImageAsByteArray(Picture, out ePictureType type);
+            using (var ms = new MemoryStream(b))
+            {
+                return InsertPicture(ms, type, Alignment);
+            }
+        }
+#endif
         private ExcelVmlDrawingPicture AddImage(string id, ImageInfo ii)
         {
             
@@ -444,6 +459,7 @@ namespace OfficeOpenXml
                 return _vmlDrawingsHF;
             }
         }
+
 #endregion
 #region Save  //  ExcelHeaderFooter
             /// <summary>
