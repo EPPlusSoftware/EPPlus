@@ -1485,7 +1485,7 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets.Add("Drawing1");
                 var shape = ws.Drawings.AddShape("x", eShapeStyle.Rect);
-                shape.Font.SetFromFont(new Font("Arial", 20));
+                shape.Font.SetFromFont("Arial", 20);
                 shape.Text = "Font";
                 SaveAndCleanup(p);
             }

@@ -336,7 +336,7 @@ namespace EPPlusTest
             ser.DataLabel.Fill.Color = Color.BlueViolet;
             ser.DataLabel.Font.Color = Color.White;
             ser.DataLabel.Font.Italic = true;
-            ser.DataLabel.Font.SetFromFont(new Font("bookman old style", 8));
+            ser.DataLabel.Font.SetFromFont("bookman old style", 8);
             Assert.IsTrue(chrt.ChartType == eChartType.XYScatterSmoothNoMarkers, "Invalid Charttype");
             chrt.Series[0].Header = "Test serie";
             chrt = ws.Drawings.AddChart("ScatterChart2", eChartType.XYScatterSmooth) as ExcelScatterChart;
@@ -653,7 +653,7 @@ namespace EPPlusTest
             rt = (ws.Drawings["shape2"] as ExcelShape).RichText.Add("\r\nAdded formatted richtext");
             rt.Bold = true;
             rt.Color = Color.DarkGoldenrod ;
-            rt.SetFromFont(new Font("Times new roman", 18, FontStyle.Underline));
+            rt.SetFromFont("Times new roman", 18, false, false, true);
             rt.UnderLineColor = Color.Green;
 
 
@@ -1129,9 +1129,9 @@ namespace EPPlusTest
         {
             var ws = _pck.Workbook.Worksheets.Add("DrawingChangeFont");
             var shape = ws.Drawings.AddShape("FontChange", eShapeStyle.Rect);
-            shape.Font.SetFromFont(new Font("Arial", 20));
+            shape.Font.SetFromFont("Arial", 20);
             shape.Text = "Font";
-            shape.RichText[0].SetFromFont(new Font("Calibri", 8));  //works
+            shape.RichText[0].SetFromFont("Calibri", 8);  //works
             shape.RichText.Add("New Line", true);
 
             Assert.AreEqual("Arial", shape.Font.LatinFont);

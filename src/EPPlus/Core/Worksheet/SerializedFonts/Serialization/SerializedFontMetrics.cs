@@ -49,38 +49,5 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts.Serializat
             var k2 = (ushort)subFamily;
             return (uint)((k1 << 16) | ((k2) & 0xffff));
         }
-
-        public static uint GetKey(Font font)
-        {
-            var enumName = font.FontFamily.Name.Replace(" ", string.Empty);
-            var values = Enum.GetValues(typeof(SerializedFontFamilies));
-            var supported = false;
-            foreach(var enumVal in values)
-            {
-                if(enumVal.ToString() == enumName)
-                {
-                    supported = true;
-                    break;
-                }
-            }
-            if (!supported) return uint.MaxValue;
-            var family = (SerializedFontFamilies)Enum.Parse(typeof(SerializedFontFamilies), enumName);
-            var subFamily = FontSubFamilies.Regular;
-            switch (font.Style)
-            {
-                case FontStyle.Bold:
-                    subFamily = FontSubFamilies.Bold;
-                    break;
-                case FontStyle.Italic:
-                    subFamily = FontSubFamilies.Italic;
-                    break;
-                case FontStyle.Italic | FontStyle.Bold:
-                    subFamily = FontSubFamilies.BoldItalic;
-                    break;
-                default:
-                    break;
-            }
-            return GetKey(family, subFamily);
-        }
     }
 }

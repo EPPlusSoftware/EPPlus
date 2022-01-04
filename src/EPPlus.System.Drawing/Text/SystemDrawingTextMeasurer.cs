@@ -52,7 +52,7 @@ namespace OfficeOpenXml.System.Drawing.Text
             var style = ToFontStyle(font.Style);
             var dFont = new Font(font.FontFamily, font.Size, style);
             var size = g.MeasureString(text, dFont, 10000, _stringFormat);
-            return new TextMeasurement(size.Width, size.Height);
+            return new TextMeasurement(size.Width * dpiCorrectX, size.Height * dpiCorrectY);
         }
     }
 }

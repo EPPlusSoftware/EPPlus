@@ -94,27 +94,7 @@ namespace OfficeOpenXml.Core
 
             var normalSize = Convert.ToSingle(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
 
-            Bitmap b;
-            Graphics g;
-            float dpiCorrectX, dpiCorrectY;
-            try
-            {
-                //Check for missing GDI+, then use WPF istead.
-                b = new Bitmap(1, 1);
-                g = Graphics.FromImage(b);
-                g.PageUnit = GraphicsUnit.Pixel;
-                dpiCorrectX = 96 / g.DpiX;
-                dpiCorrectY = 96 / g.DpiY;
-            }
-            catch
-            {
-                return;
-            }
-
             #region MeasureString memoization
-            // This will call GDI+, and the result isn't cached.
-            // Calling this in the tight loop below is very slow.
-            var stringFormat = StringFormat.GenericDefault;
 
             // Sheets usually contain plenty of duplicates
             // Measurestring is very slow, so memoizing yields massive performance benefits.
@@ -125,35 +105,23 @@ namespace OfficeOpenXml.Core
             // To support implementations without Tuple/ValueTuple,
             // as well as reduce som overhead, we combine our two
             // 32-bit keys in a single 64-bit value
-            var measureCache = new Dictionary<ulong, SizeF>();
+            var measureCache = new Dictionary<ulong, TextMeasurement>();
 
-            SizeF MeasureString(string t, int fntID)
+            TextMeasurement MeasureString(string t, int fntID)
             {
                 ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
-                if (!measureCache.TryGetValue(key, out var size))
+                if (!measureCache.TryGetValue(key, out var measurement))
                 {
-                    // uncomment for comparison /MA
-                    // var s2 = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
-                    //var s = TextMeasurer.Measure(t, fontCache[fntID].Size, serializedFontKey);
                     var measurer = _range._workbook.TextSettings.PrimaryTextMeasurer;
-                    var tm = measurer.MeasureText(t, fontCache[fntID]);
-                    if (!tm.IsEmpty)
-                    {
-                        size = new SizeF(tm.Width, tm.Height);
-                    }
-                    else if(_range._workbook.TextSettings.FallbackTextMeasurer != null)
+                    measurement = measurer.MeasureText(t, fontCache[fntID]);
+                    if (measurement.IsEmpty && _range._workbook.TextSettings.FallbackTextMeasurer != null)
                     {
                         measurer = _range._workbook.TextSettings.FallbackTextMeasurer;
-                        //size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
-                        tm = measurer.MeasureText(t, fontCache[fntID]);
-                        if (!tm.IsEmpty)
-                        {
-                            size = new SizeF(tm.Width, tm.Height);
-                        }
-                    } 
+                        measurement = measurer.MeasureText(t, fontCache[fntID]);
+                    }
+                    measureCache.Add(key, measurement);
                 }
-                measureCache.Add(key, size);
-                return size;
+                return measurement;
             }
             #endregion
 
@@ -197,12 +165,12 @@ namespace OfficeOpenXml.Core
                 if (r <= 0)
                 {
                     var padding = 0; // 5
-                    width = (size.Width * dpiCorrectX + padding) / normalSize;
+                    width = (size.Width + padding) / normalSize;
                 }
                 else
                 {
                     r = (r <= 90 ? r : r - 90);
-                    width = (((size.Width * dpiCorrectX - size.Height * dpiCorrectY) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height * dpiCorrectY) + 5) / normalSize;
+                    width = (((size.Width - size.Height) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height) + 5) / normalSize;
                 }
 
                 foreach (var a in afAddr)

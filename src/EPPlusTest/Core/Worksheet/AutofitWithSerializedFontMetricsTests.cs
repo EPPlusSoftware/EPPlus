@@ -136,7 +136,7 @@ namespace EPPlusTest.Core.Worksheet
         }
 
 #if Core
-        [TestMethod]
+        [TestMethod, Ignore]
         public void AutoFitSystemDrawing()
         {
             using(var package = new ExcelPackage())

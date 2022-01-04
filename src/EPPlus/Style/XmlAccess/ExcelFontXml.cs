@@ -296,18 +296,23 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
         }
         /// <summary>
-        /// Sets the font from a system font object
+        /// Set the font properties
         /// </summary>
-        /// <param name="Font">The font</param>
-        public void SetFromFont(System.Drawing.Font Font)
+        /// <param name="name">Font family name</param>
+        /// <param name="size">Font size</param>
+        /// <param name="bold"></param>
+        /// <param name="italic"></param>
+        /// <param name="underline"></param>
+        /// <param name="strikeout"></param>
+        public void SetFromFont(string name, float size, bool bold = false, bool italic = false, bool underline = false, bool strikeout = false)
         {
-            Name=Font.Name;
+            Name=name;
             //Family=fnt.FontFamily.;
-            Size=(int)Font.Size;
-            Strike=Font.Strikeout;
-            Bold = Font.Bold;
-            UnderLine=Font.Underline;
-            Italic=Font.Italic;            
+            Size= size;
+            Strike= strikeout;
+            Bold = bold;
+            UnderLine= underline;
+            Italic= italic;            
         }
         /// <summary>
         /// Gets the height of the font in 
