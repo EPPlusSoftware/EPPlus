@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables.Os2
             for(var x = 0; x < 10; x++)
             {
                 var p = _reader.ReadByte();
-                panose.Add(BitConverter.ToInt16(new byte[] { p, 0 }));
+                panose.Add(BitConverter.ToInt16(new byte[] { p, 0 }, 0));
             }
             var ucr1 = _reader.ReadUInt32BigEndian();
             var ucr2 = _reader.ReadUInt32BigEndian();

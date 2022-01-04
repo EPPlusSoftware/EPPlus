@@ -160,7 +160,7 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("CheckboxWithImageFill");
             var ctrl = _ws.Drawings.AddCheckBoxControl("Checkbox 2");
             ctrl.Fill.Style = eVmlFillType.Frame;
-            ctrl.Fill.PatternPictureSettings.Image.SetImage(Properties.Resources.Test1);
+            ctrl.Fill.PatternPictureSettings.Image.SetImage(Properties.Resources.Test1JpgByteArray, ePictureType.Jpg);
             ctrl.Fill.PatternPictureSettings.AspectRatio = eVmlAspectRatio.AtLeast;
             ctrl.Fill.PatternPictureSettings.Size = "0,0";
             ctrl.SetPosition(100, 100);
@@ -184,7 +184,7 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("CheckboxWithPatternFill");
             var ctrl = _ws.Drawings.AddCheckBoxControl("Checkbox 2");
             ctrl.Fill.Style = eVmlFillType.Pattern;
-            ctrl.Fill.PatternPictureSettings.Image.SetImage(Properties.Resources.VmlPatternImage);
+            ctrl.Fill.PatternPictureSettings.Image.SetImage(Properties.Resources.VmlPatternImage, ePictureType.Png);
             ctrl.Fill.Color.SetColor(Color.Red);
             ctrl.Fill.SecondColor.SetColor(Color.Yellow);
             ctrl.Fill.Recolor = true;

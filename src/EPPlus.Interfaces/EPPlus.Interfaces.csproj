@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.0</Version>
+    <AssemblyVersion>5.8.4.0</AssemblyVersion>
+    <FileVersion>5.8.4.0</FileVersion>
+    <Version>5.8.4</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryType>git</RepositoryType>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>EPPlus.System.Drawing.snk</AssemblyOriginatorKeyFile>
-    <RootNamespace>OfficeOpenXml.System.Drawing</RootNamespace>
+    <AssemblyOriginatorKeyFile>EPPlus.Interfaces.snk</AssemblyOriginatorKeyFile>
+    <RootNamespace>OfficeOpenXml.Interfaces</RootNamespace>
   </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>Core;Standard20</DefineConstants>
   </PropertyGroup>
@@ -32,26 +34,4 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
     <DefineConstants>NET40;NETFULL</DefineConstants>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="System.Drawing.Common">
-      <Version>5.0.0</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="System.Drawing.Common">
-      <Version>4.7.1</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="System.Drawing.Common">
-      <Version>4.7.1</Version>
-    </PackageReference>
-  </ItemGroup>
 </Project>

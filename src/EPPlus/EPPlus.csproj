@@ -416,7 +416,9 @@
   <ItemGroup>
     <EmbeddedResource Include="resources\DefaultChartStyles.ecs" />
     <EmbeddedResource Include="resources\DefaultTableStyles.cst" />
-    <EmbeddedResource Include="resources\SerializedFonts.zip" />
+    <EmbeddedResource Include="resources\SerializedFonts.zip">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
@@ -432,5 +434,8 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
   </ItemGroup>
 </Project>

@@ -101,7 +101,7 @@ namespace EPPlusTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Test1
+        internal static FileInfo Test1
         {
             get
             {
@@ -110,7 +110,7 @@ namespace EPPlusTest.Properties {
                 {
                     path = new DirectoryInfo(path + "\\..").FullName;
                 }
-                return (Bitmap)Image.FromFile(path + "\\Resources\\Test1.jpg");
+                return new FileInfo(path + "\\Resources\\Test1.jpg");
             }
         }
         /// <summary>
@@ -163,7 +163,7 @@ namespace EPPlusTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VmlPatternImage
+        internal static byte[] VmlPatternImage
         {
             get
             {
@@ -172,7 +172,7 @@ namespace EPPlusTest.Properties {
                 {
                     path = new DirectoryInfo(path + "\\..").FullName;
                 }
-                return (Bitmap)Image.FromFile(path + "\\Resources\\VmlPatternImage.png");
+                return File.ReadAllBytes(path + "\\Resources\\VmlPatternImage.png");
             }
         }
         /// <summary>

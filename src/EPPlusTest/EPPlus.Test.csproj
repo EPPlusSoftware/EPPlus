@@ -48,9 +48,13 @@
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1'">
+    <ProjectReference Include="..\EPPlus.SkiaSharp\EPPlus.SkiaSharp.csproj" />
+  </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
+    <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
     <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
+    <ProjectReference Include="..\EPPlus\EPPlus.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />

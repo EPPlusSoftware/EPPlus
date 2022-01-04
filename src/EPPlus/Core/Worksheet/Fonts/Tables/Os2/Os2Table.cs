@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables.Os2
         /// Indicates font embedding licensing rights for the font. The interpretation of flags is as follows:
         /// 0: Installable embedding: the font may be embedded, and may be permanently installed for use on a remote systems, or for use by other users.
         /// 2: Restricted License embedding: the font must not be modified, embedded or exchanged in any manner without first obtaining explicit permission of the legal owner.
-        /// 4: Preview & Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview & Print fonts must be opened “read-only”; no edits can be applied to the document.
+        /// 4: Preview and Print embedding: the font may be embedded, and may be temporarily loaded on other systems for purposes of viewing or printing the document. Documents containing Preview and Print fonts must be opened “read-only”; no edits can be applied to the document.
         /// 8: Editable embedding: the font may be embedded, and may be temporarily loaded on other systems. As with Preview & Print embedding, documents containing Editable fonts may be opened for reading. In addition, editing is permitted, including ability to format new text using the embedded font, and changes may be saved.
         /// </summary>
         public ushort fsType { get; set; }

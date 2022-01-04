@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.FontLocalization;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables.Cmap;
@@ -107,7 +108,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
 
         public SerializedFontFamilies? GetFontFamily()
         {
-            if(Enum.TryParse(GetEnglishFontFamilyName().Replace(" ", ""), out SerializedFontFamilies family))
+            if(EnumCompatUtil.TryParse(GetEnglishFontFamilyName().Replace(" ", ""), out SerializedFontFamilies family))
             {
                 return family;
             }
@@ -121,7 +122,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
 
         public FontSubFamilies? GetFontSubFamily()
         {
-            if (Enum.TryParse(GetEnglishFontSubFamilyName().Replace(" ", ""), out FontSubFamilies subFamily))
+            if (EnumCompatUtil.TryParse(GetEnglishFontSubFamilyName().Replace(" ", ""), out FontSubFamilies subFamily))
             {
                 return subFamily;
             }

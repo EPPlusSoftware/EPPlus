@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables.Kern
             get
             {
                 var b = (byte)((_coverage >> 7) & 0xff);
-                return BitConverter.ToUInt16(new byte[] { b, byte.MinValue });
+                return BitConverter.ToUInt16(new byte[] { b, byte.MinValue }, 0);
             }
         }
     }

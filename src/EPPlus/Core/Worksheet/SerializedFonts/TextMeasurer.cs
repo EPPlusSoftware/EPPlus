@@ -32,52 +32,62 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts
             }
         }
 
-        private static float MeasureText(string text, float sizeInEm, SerializedFontMetrics sFont)
+        private static float FduToPixels(float sizeInEm, float fdu, ushort unitsPerEm)
         {
-            var width = 0f;
-            var chars = text.ToCharArray();
-            for(var x = 0; x < chars.Length; x++)
-            {
-                var c = chars[x];
-                if(sFont.AdvanceWidths.ContainsKey(c))
-                {
-                    width += sFont.AdvanceWidths[c];
-                }
-                else
-                {
-                    width += sFont.DefaultAdvanceWidth;
-                }
-                if (x < chars.Length - 1 && sFont.KerningPairs != null)
-                {
-                    var nextChar = chars[x + 1];
-                    var pairKey = $"{c}.{nextChar}";
-                    if (sFont.KerningPairs.ContainsKey(pairKey))
-                    {
-                        width += sFont.KerningPairs[pairKey];
-                    }
-                }
-            }
-            var ems = width/sFont.UnitsPerEm;
+            var ems = fdu / unitsPerEm;
             var emSize = ems * sizeInEm;
-            var pixels = emSize * (96F/72F);
-            //var scaleFactor = FontScaleFactors.Instance[sFont.GetKey()];
-            //return (float)pixels * (1f/scaleFactor) + (3.55555f * (8f/sizeInEm));
-            return (float)pixels;// * (1f / scaleFactor);
+            var pixels = emSize * (96F / 72F);
+            return pixels;
         }
 
-        public static float Measure(string text, float size, SerializedFontFamilies fontFamily, FontSubFamilies subFamily)
-        {
-            Initialize();
-            var key = SerializedFontMetrics.GetKey(fontFamily, subFamily);
-            if (!_fonts.ContainsKey(key)) return -1;
-            return MeasureText(text, size, _fonts[key]);
-        }
+        //private static TextMeasurement MeasureText(string text, float sizeInEm, SerializedFontMetrics sFont)
+        //{
+        //    var width = 0f;
+        //    var chars = text.ToCharArray();
+        //    for(var x = 0; x < chars.Length; x++)
+        //    {
+        //        var c = chars[x];
+        //        if(sFont.AdvanceWidths.ContainsKey(c))
+        //        {
+        //            width += sFont.AdvanceWidths[c];
+        //        }
+        //        else
+        //        {
+        //            width += sFont.DefaultAdvanceWidth;
+        //        }
+        //        if (x < chars.Length - 1 && sFont.KerningPairs != null)
+        //        {
+        //            var nextChar = chars[x + 1];
+        //            var pairKey = $"{c}.{nextChar}";
+        //            if (sFont.KerningPairs.ContainsKey(pairKey))
+        //            {
+        //                width += sFont.KerningPairs[pairKey];
+        //            }
+        //        }
+        //    }
+        //    //var ems = width/sFont.UnitsPerEm;
+        //    //var emSize = ems * sizeInEm;
+        //    //var pixels = emSize * (96F/72F);
+        //    //var scaleFactor = FontScaleFactors.Instance[sFont.GetKey()];
+        //    //return (float)pixels * (1f/scaleFactor) + (3.55555f * (8f/sizeInEm));
+        //    var pixelWidth = FduToPixels(sizeInEm, width, sFont.UnitsPerEm);
+        //    var pixelHeight = FduToPixels(sizeInEm, sFont.LineHeight, sFont.UnitsPerEm);
+        //    return new TextMeasurement(pixelWidth, pixelHeight);// * (1f / scaleFactor);
+        //}
 
-        public static float Measure(string text, float size, uint serializedFontMetricsId)
-        {
-            Initialize();
-            if (!_fonts.ContainsKey(serializedFontMetricsId)) return -1;
-            return MeasureText(text, size, _fonts[serializedFontMetricsId]);
-        }
+        //public static TextMeasurement Measure(string text, float size, SerializedFontFamilies fontFamily, FontSubFamilies subFamily)
+        //{
+        //    Initialize();
+        //    var key = SerializedFontMetrics.GetKey(fontFamily, subFamily);
+        //    if (!_fonts.ContainsKey(key)) return TextMeasurement.Empty;
+        //    return MeasureText(text, size, _fonts[key]);
+        //}
+
+        //public static TextMeasurement Measure(string text, float size, uint serializedFontMetricsId)
+        //{
+        //    Initialize();
+        //    if (!_fonts.ContainsKey(serializedFontMetricsId)) return TextMeasurement.Empty;
+        //    return MeasureText(text, size, _fonts[serializedFontMetricsId]);
+        //}
     }
 }

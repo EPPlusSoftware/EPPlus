@@ -10,26 +10,33 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.SerializedFonts;
+using OfficeOpenXml.Interfaces.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts
+namespace OfficeOpenXml
 {
-    public enum SerializedFontFamilies : ushort
+    /// <summary>
+    /// This class contains settings for text measurement.
+    /// </summary>
+    public class ExcelTextSettings
     {
-        Arial = 0,
-        Calibri = 1,
-        TimesNewRoman = 2,
-        CourierNew = 3,
-        LiberationSerif = 4,
-        Verdana = 5,
-        Georgia = 6,
-        ArialBlack = 7,
-        ArialNarrow = 8,
-        Cambria = 9,
-        Corbel = 10,
-        CenturyGothic = 11
+        public ExcelTextSettings()
+        {
+            PrimaryTextMeasurer = new SerializedFontTextMeasurer();
+        }
+
+        /// <summary>
+        /// This is the primary text measurer
+        /// </summary>
+        public ITextMeasurer PrimaryTextMeasurer { get; set; }
+
+        /// <summary>
+        /// If the primary text measurer fails to measure the text, this one will be used.
+        /// </summary>
+        public ITextMeasurer FallbackTextMeasurer { get; set; }
     }
 }

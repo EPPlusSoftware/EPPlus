@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
+using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.FontLocalization;
 using System;
 using System.Collections.Generic;
@@ -56,18 +57,17 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables.Name
             {
                 _reader.BaseStream.Position = globalStringOffset + record.offset;
                 var bytes = _reader.ReadBytes(record.length);
-                var encodingProvider = CodePagesEncodingProvider.Instance;
                 
                 // Macintosh platform
                 if(record.platformId == 1)
                 {
-                    var enc = encodingProvider.GetEncoding(10000);
+                    var enc = EncodingProviderCompatUtil.GetEncoding(10000);
                     record.Name = enc.GetString(bytes);
                     record.LanguageMapping = MacintoshLanguageMappings.Mappings[record.languageID];
                 }
                 else if(record.platformId == 0)
                 {
-                    record.Name = Encoding.GetEncoding("utf-16BE").GetString(bytes);
+                    record.Name = EncodingProviderCompatUtil.GetEncoding("utf-16BE").GetString(bytes);
                 }
                 // Windows platform
                 else if(record.platformId == 3)
@@ -76,8 +76,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables.Name
                     {
                         record.LanguageMapping = WindowsLanguageMappings.Mappings[record.languageID];
                     }
-                    var enc = GetWindowsEncoding(record.encodingId);
-                    record.Name = Encoding.GetEncoding("utf-16BE").GetString(bytes);
+                    record.Name = EncodingProviderCompatUtil.GetEncoding("utf-16BE").GetString(bytes);
                 }
             }
             
@@ -92,7 +91,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.Tables.Name
 
         private Encoding GetWindowsEncoding(int encoding)
         {
-#if NET35
+#if NETFULL
             switch(encoding)
             {
                 case 0:

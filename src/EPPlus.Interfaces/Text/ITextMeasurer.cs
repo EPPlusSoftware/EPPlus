@@ -8,28 +8,22 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/26/2021         EPPlus Software AB       EPPlus 6.0
+  1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts
+namespace OfficeOpenXml.Interfaces.Text
 {
-    public enum SerializedFontFamilies : ushort
+    /// <summary>
+    /// Interface for measuring width and height of texts.
+    /// </summary>
+    public interface ITextMeasurer
     {
-        Arial = 0,
-        Calibri = 1,
-        TimesNewRoman = 2,
-        CourierNew = 3,
-        LiberationSerif = 4,
-        Verdana = 5,
-        Georgia = 6,
-        ArialBlack = 7,
-        ArialNarrow = 8,
-        Cambria = 9,
-        Corbel = 10,
-        CenturyGothic = 11
+        /// <summary>
+        /// Measures width and height of the parameter <paramref name="text"/>.
+        /// </summary>
+        /// <param name="text">The text to measure</param>
+        /// <param name="font">The <see cref="ExcelFont">font</see> to measure</param>
+        /// <returns></returns>
+        TextMeasurement MeasureText(string text, ExcelFont font);
     }
 }

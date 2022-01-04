@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts.Serialization;
+using OfficeOpenXml.Interfaces.Text;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -28,7 +29,7 @@ namespace OfficeOpenXml.Core
             {
                 _range.SetToSelectedRange();
             }
-            var fontCache = new Dictionary<int, Font>();
+            var fontCache = new Dictionary<int, ExcelFont>();
 
             bool doAdjust = ws._package.DoAdjustDrawings;
             ws._package.DoAdjustDrawings = false;
@@ -79,12 +80,17 @@ namespace OfficeOpenXml.Core
             var normalXfId = styles.GetNormalStyle().StyleXfId;
             if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
             var nf = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
-            var fs = FontStyle.Regular;
-            if (nf.Bold) fs |= FontStyle.Bold;
-            if (nf.UnderLine) fs |= FontStyle.Underline;
-            if (nf.Italic) fs |= FontStyle.Italic;
-            if (nf.Strike) fs |= FontStyle.Strikeout;
-            var nfont = new Font(nf.Name, nf.Size, fs);
+            var fs = FontStyles.Regular;
+            if (nf.Bold) fs |= FontStyles.Bold;
+            if (nf.UnderLine) fs |= FontStyles.Underline;
+            if (nf.Italic) fs |= FontStyles.Italic;
+            if (nf.Strike) fs |= FontStyles.Strikeout;
+            var nfont = new ExcelFont
+            {
+                FontFamily = nf.Name,
+                Style = fs,
+                Size = nf.Size
+            };
 
             var normalSize = Convert.ToSingle(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
 
@@ -126,21 +132,27 @@ namespace OfficeOpenXml.Core
                 ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
                 if (!measureCache.TryGetValue(key, out var size))
                 {
-                    var serializedFontKey = SerializedFontMetrics.GetKey(fontCache[fntID]);
-                    if (serializedFontKey < uint.MaxValue)
+                    // uncomment for comparison /MA
+                    // var s2 = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                    //var s = TextMeasurer.Measure(t, fontCache[fntID].Size, serializedFontKey);
+                    var measurer = _range._workbook.TextSettings.PrimaryTextMeasurer;
+                    var tm = measurer.MeasureText(t, fontCache[fntID]);
+                    if (!tm.IsEmpty)
                     {
-                        // uncomment for comparison /MA
-                        var s2 = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
-                        var s = TextMeasurer.Measure(t, fontCache[fntID].Size, serializedFontKey);
-                        size = new SizeF(s, 0f);
+                        size = new SizeF(tm.Width, tm.Height);
                     }
-                    else
+                    else if(_range._workbook.TextSettings.FallbackTextMeasurer != null)
                     {
-                        size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
-                    }
-                    measureCache.Add(key, size);
+                        measurer = _range._workbook.TextSettings.FallbackTextMeasurer;
+                        //size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
+                        tm = measurer.MeasureText(t, fontCache[fntID]);
+                        if (!tm.IsEmpty)
+                        {
+                            size = new SizeF(tm.Width, tm.Height);
+                        }
+                    } 
                 }
-
+                measureCache.Add(key, size);
                 return size;
             }
             #endregion
@@ -152,7 +164,7 @@ namespace OfficeOpenXml.Core
 
                 if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
                 var fntID = styles.CellXfs[cell.StyleID].FontId;
-                Font f;
+                ExcelFont f;
                 if (fontCache.ContainsKey(fntID))
                 {
                     f = fontCache[fntID];
@@ -160,12 +172,17 @@ namespace OfficeOpenXml.Core
                 else
                 {
                     var fnt = styles.Fonts[fntID];
-                    fs = FontStyle.Regular;
-                    if (fnt.Bold) fs |= FontStyle.Bold;
-                    if (fnt.UnderLine) fs |= FontStyle.Underline;
-                    if (fnt.Italic) fs |= FontStyle.Italic;
-                    if (fnt.Strike) fs |= FontStyle.Strikeout;
-                    f = new Font(fnt.Name, fnt.Size, fs);
+                    fs = FontStyles.Regular;
+                    if (fnt.Bold) fs |= FontStyles.Bold;
+                    if (fnt.UnderLine) fs |= FontStyles.Underline;
+                    if (fnt.Italic) fs |= FontStyles.Italic;
+                    if (fnt.Strike) fs |= FontStyles.Strikeout;
+                    f = new ExcelFont
+                    {
+                        FontFamily = fnt.Name,
+                        Style = fs,
+                        Size = fnt.Size
+                    };
 
                     fontCache.Add(fntID, f);
                 }
@@ -179,7 +196,8 @@ namespace OfficeOpenXml.Core
                 double r = styles.CellXfs[cell.StyleID].TextRotation;
                 if (r <= 0)
                 {
-                    width = (size.Width * dpiCorrectX + 5) / normalSize;
+                    var padding = 0; // 5
+                    width = (size.Width * dpiCorrectX + padding) / normalSize;
                 }
                 else
                 {

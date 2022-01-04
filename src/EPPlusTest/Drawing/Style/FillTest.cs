@@ -913,7 +913,7 @@ namespace EPPlusTest.Drawing
 
             //Act
             shape.Fill.Style = eFillStyle.BlipFill;
-            shape.Fill.BlipFill.Image.SetImage(Resources.Test1);
+            shape.Fill.BlipFill.Image.SetImage(Resources.Test1JpgByteArray, ePictureType.Jpg);
             shape.Fill.BlipFill.Stretch = stretch;
             if (stretch)
             {

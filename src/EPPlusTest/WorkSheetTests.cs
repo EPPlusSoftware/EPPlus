@@ -1471,7 +1471,7 @@ namespace EPPlusTest
         {
             var ws = _pck.Workbook.Worksheets.Add("backimg");
 
-            ws.BackgroundImage.Image.SetImage(Properties.Resources.Test1);
+            ws.BackgroundImage.Image.SetImage(Properties.Resources.Test1JpgByteArray, ePictureType.Jpg);
             ws = _pck.Workbook.Worksheets.Add("backimg2");
             ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.CodeEmfByteArray), ePictureType.Emf);
         }
