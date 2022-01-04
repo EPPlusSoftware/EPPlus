@@ -153,8 +153,8 @@ namespace OfficeOpenXml
             sw.Flush();
         }
         #endregion
-#region ToText / SaveToText async
-#if !NET35 && !NET40
+        #region ToText / SaveToText async
+        #if !NET35 && !NET40
         /// <summary>
         /// Converts a range to text in CSV format.
         /// </summary>
@@ -251,8 +251,14 @@ namespace OfficeOpenXml
             sw.Flush();
         }
 #endif
-#endregion
-
+        #endregion
+        #region ToJson
+        public string ToJson()
+        {
+            var re = new JsonRangeExport(this);
+            return re.Export();
+        }
+        #endregion
         private static CultureInfo GetCultureInfo(ExcelOutputTextFormat Format)
         {
             var ci = (CultureInfo)(Format.Culture.Clone() ?? CultureInfo.InvariantCulture.Clone());
