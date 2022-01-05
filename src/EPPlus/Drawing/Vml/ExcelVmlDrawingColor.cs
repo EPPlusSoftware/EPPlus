@@ -69,7 +69,12 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
                 else
                 {
+#if NETSTANDARD
+                    return OfficeOpenXml.Compatibility.System.Drawing.ColorTranslator.FromHtml(c);
+#else
                     return System.Drawing.ColorTranslator.FromHtml(c);
+#endif
+
                 }
             }
             catch

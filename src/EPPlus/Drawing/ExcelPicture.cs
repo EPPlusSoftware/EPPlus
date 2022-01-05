@@ -24,7 +24,9 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
+#if NETFULL
 using System.Drawing.Imaging;
+#endif
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -35,7 +37,7 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelPicture : ExcelDrawing, IPictureContainer
     {
-        #region "Constructors"
+#region "Constructors"
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type) :
             base(drawings, node, "xdr:pic", "xdr:nvPicPr/xdr:cNvPr")
         {

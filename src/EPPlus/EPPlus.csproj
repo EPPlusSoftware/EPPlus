@@ -294,6 +294,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Compatibility\SystemDrawing\KnownColor.cs" />
+    <Compile Remove="Compatibility\SystemDrawing\KnownColors.cs" />
     <Compile Remove="Drawing\ExcelDrawingLine.cs" />
     <Compile Remove="Packaging\DotNetZip\ZipFile.SaveSelfExtractor.cs" />
   </ItemGroup>
@@ -354,8 +356,11 @@
     </PackageReference>
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Drawing.Common">
+    <!--<PackageReference Include="System.Drawing.Common">
       <Version>4.7.1</Version>
+    </PackageReference>-->
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Reflection" Version="4.3.0" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
@@ -376,8 +381,11 @@
     </PackageReference>
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Drawing.Common">
+    <!--<PackageReference Include="System.Drawing.Common">
       <Version>4.7.1</Version>
+    </PackageReference>-->
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Reflection" Version="4.3.0" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
@@ -400,6 +408,9 @@
     <!--<PackageReference Include="System.Drawing.Common">
       <Version>5.0.0</Version>
     </PackageReference>-->
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
     <PackageReference Include="System.Reflection" Version="4.3.0" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="5.0.0" />
