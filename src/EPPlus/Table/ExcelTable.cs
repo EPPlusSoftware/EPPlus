@@ -364,7 +364,14 @@ namespace OfficeOpenXml.Table
         }
         public string ToJson()
         {
-            var exporter = new JsonTableExport(this);
+            var exporter = new JsonTableExport(this, new JsonTableExportSettings());
+            return exporter.Export();
+        }
+        public string ToJson(Action<JsonTableExportSettings> settings)
+        {
+            var s=new JsonTableExportSettings();
+            settings.Invoke(s);
+            var exporter = new JsonTableExport(this, s);
             return exporter.Export();
         }
         /// <summary>

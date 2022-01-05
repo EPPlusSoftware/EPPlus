@@ -255,7 +255,14 @@ namespace OfficeOpenXml
         #region ToJson
         public string ToJson()
         {
-            var re = new JsonRangeExport(this);
+            var re = new JsonRangeExport(this, new JsonRangeExportSettings());
+            return re.Export();
+        }
+        public string ToJson(Action<JsonRangeExportSettings> settings)
+        {
+            var s = new JsonRangeExportSettings();
+            settings.Invoke(s);
+            var re = new JsonRangeExport(this, s);
             return re.Export();
         }
         #endregion

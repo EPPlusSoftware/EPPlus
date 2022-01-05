@@ -73,14 +73,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             switch(jsDataType)
             {
                 case ColumnDataTypeManager.HtmlDataTypes.Boolean:
-                    return (ConvertUtil.GetTypedCellValue<bool?>(value, true)??false) ? "1" : "0";
+                    return (ConvertUtil.GetTypedCellValueInner<bool?>(value, true)??false) ? "1" : "0";
                 case ColumnDataTypeManager.HtmlDataTypes.Number:
-                    var v = ConvertUtil.GetTypedCellValue<double?>(value, true)?.ToString(CultureInfo.InvariantCulture);
+                    var v = ConvertUtil.GetTypedCellValueInner<double?>(value, true)?.ToString(CultureInfo.InvariantCulture);
                     return v;
                 case ColumnDataTypeManager.HtmlDataTypes.TimeSpan:
                     return ((TimeSpan)value).TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
                 case ColumnDataTypeManager.HtmlDataTypes.DateTime:
-                    var dt = ConvertUtil.GetTypedCellValue<DateTime?>(value, true);
+                    var dt = ConvertUtil.GetTypedCellValueInner<DateTime?>(value, true);
                     if(dt != null && dt.HasValue)
                     {
                         return dt.Value.Subtract(JsBaseDate).TotalMilliseconds.ToString(CultureInfo.InvariantCulture);

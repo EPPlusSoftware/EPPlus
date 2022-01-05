@@ -1,25 +1,27 @@
 ﻿using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml
 {
     internal abstract class JsonExport
     {
+        private JsonExportSettings _settings;
+        public JsonExport(JsonExportSettings settings)
+        {
+            _settings = settings;
+        }
         internal protected void WriteCellData(StringBuilder sb, ExcelRangeBase dr)
         {
             ExcelWorksheet ws = dr.Worksheet;
             Uri uri = null;
             int commentIx = 0;
-            sb.Append("\"rows\":[");
+            sb.Append($"\"{_settings.RowsElementName}\":[");
             for (int r = dr._fromRow; r <= dr._toRow; r++)
             {
                 if (r > dr._fromRow) sb.Append(",");
-                sb.Append("{\"cells\":[");
+                sb.Append($"{{\"{_settings.CellsElementName}\":[");
                 for (int c = dr._fromCol; c <= dr._toCol; c++)
                 {
                     if (c > dr._fromCol) sb.Append(",");
@@ -33,14 +35,19 @@ namespace OfficeOpenXml
                     {
                         var v = JsonEscape(HtmlRawDataProvider.GetRawValue(cv._value));
                         sb.Append($"{{\"v\":\"{v}\",\"t\":\"{t}\"");
+                        if(_settings.AddDataTypesOn==eDataTypeOn.OnCell)
+                        {
+                            var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cv._value);
+                            sb.Append($"{{\"dataType\":\"{dt}\"");
+                        }
                     }
 
-                    if (ws._hyperLinks.Exists(r, c, ref uri))
+                    if (_settings.WriteHyperlinks && ws._hyperLinks.Exists(r, c, ref uri))
                     {
                         sb.Append($",\"uri\":\"{JsonEscape(uri?.OriginalString)}\"");
                     }
 
-                    if (ws._commentsStore.Exists(r, c, ref commentIx))
+                    if (_settings.WriteComments && ws._commentsStore.Exists(r, c, ref commentIx))
                     {
                         var comment = ws.Comments[commentIx];
                         sb.Append($",\"comment\":\"{comment.Text}\"");
@@ -50,7 +57,7 @@ namespace OfficeOpenXml
                 }
                 sb.Append("]}");
             }
-            sb.Append("]");
+            sb.Append("]}");
         }
         internal static string JsonEscape(string s)
         {

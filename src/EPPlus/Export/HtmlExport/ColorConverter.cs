@@ -41,8 +41,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 case eDrawingColorType.RgbPercentage:
                     var rp = cm.RgbPercentageColor;
                     color = Color.FromArgb(GetRgpPercentToRgb(rp.RedPercentage),
-                                   GetRgpPercentToRgb(rp.GreenPercentage),
-                                   GetRgpPercentToRgb(rp.BluePercentage));
+                                           GetRgpPercentToRgb(rp.GreenPercentage),
+                                           GetRgpPercentToRgb(rp.BluePercentage));
                     break;
                 case eDrawingColorType.Hsl:
                     color = cm.HslColor.GetRgbColor();
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     color = Color.Empty;
                     break;
             }
-
+            
             //TODO:Apply Transforms
 
             return color;

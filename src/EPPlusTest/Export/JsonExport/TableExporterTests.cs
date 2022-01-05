@@ -45,6 +45,8 @@ namespace EPPlusTest.Export.JsonExport
                 var tbl = ws.Tables.Add(ws.Cells["A1:G2"], $"tblGradient");
 
                 var s = tbl.ToJson();
+                Assert.AreEqual("{\"table\":{\"name\":\"tblGradient\",\"showHeader\":\"1\",\"showTotal\":\"0\",\"column\":[{\"Name\":\"Column1\",\"datatype\":\"string\"},{\"Name\":\"Column2\",\"datatype\":\"string\"},{\"Name\":\"Column3\",\"datatype\":\"string\"},{\"Name\":\"Column4\",\"datatype\":\"string\"},{\"Name\":\"Column5\",\"datatype\":\"string\"},{\"Name\":\"Column6\",\"datatype\":\"string\"},{\"Name\":\"Column7\",\"datatype\":\"string\"}],\"rows\":[{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\"},{\"v\":\"\\f\",\"t\":\"\\f\"},{\"v\":\"\\t\",\"t\":\"\\t\"},{\"v\":\"\\b\",\"t\":\"\\b\"},{\"v\":\"\\t\",\"t\":\"\\t\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\"}]}]}}"
+                    , s);
             }
         }
     }

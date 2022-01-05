@@ -320,7 +320,6 @@ namespace OfficeOpenXml.Utils
             ret.Append(t.Substring(prevIndex, t.Length - prevIndex));
             return ret.ToString();
         }
-
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
         ///     When converting blank string to nullable struct (e.g. ' ' to int?) null is returned.
@@ -344,7 +343,11 @@ namespace OfficeOpenXml.Utils
         /// <exception cref="InvalidCastException">
         ///     <paramref name="value"/> is not string and direct conversion fails
         /// </exception>
-        public static T GetTypedCellValue<T>(object value, bool returnDefaultIfException=false)
+        public static T GetTypedCellValue<T>(object value)
+        {
+            return GetTypedCellValueInner<T>(value, false);
+        }
+        internal static T GetTypedCellValueInner<T>(object value, bool returnDefaultIfException)
         {
             var conversion = new TypeConvertUtil<T>(value);
 
