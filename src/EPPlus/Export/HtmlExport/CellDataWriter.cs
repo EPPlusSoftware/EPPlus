@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     internal class CellDataWriter
     {
         private readonly CompileResultFactory _compileResultFactory = new CompileResultFactory();
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportSettings settings, bool addRowScope)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {

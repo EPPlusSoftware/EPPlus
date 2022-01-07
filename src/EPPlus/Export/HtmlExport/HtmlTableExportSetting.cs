@@ -19,10 +19,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    /// <summary>
-    /// Settings for the 
-    /// </summary>
-    public class HtmlTableExportSettings
+    public abstract class HtmlExportSettings
     {
         /// <summary>
         /// If set to true the rendered html will be formatted with indents and linebreaks.
@@ -40,6 +37,46 @@ namespace OfficeOpenXml.Export.HtmlExport
             get; private set;
         } = new AccessibilitySettings();
         /// <summary>
+        /// Use this property to set additional class names that will be set on the exported html-table.
+        /// </summary>
+        public IList<string> AdditionalTableClassNames
+        {
+            get;
+            protected internal set;
+        } = new List<string>();
+
+        /// <summary>
+        /// The culture used when formatting the cell output.
+        /// </summary>
+        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
+    }
+
+    /// <summary>
+    /// Settings for html export for ranges
+    /// </summary>
+    public class HtmlRangeExportSettings : HtmlExportSettings
+    {
+        /// <summary>
+        /// If the first row contains the headers.
+        /// </summary>
+        public bool FirstRowIsHeader { get; set; }
+        /// <summary>
+        /// If <see cref="FirstRowIsHeader"/> is false, this collection contains the headers. 
+        /// If this collection is empty no the table will have no headers.
+        /// </summary>
+        public List<string> Headers { get; } = new List<string>();
+        /// <summary>
+        /// Options to exclude css elements
+        /// </summary>
+        public CssExclude CssExclude { get; } = new CssExclude();
+    }
+    /// <summary>
+    /// Settings for html export for tables
+    /// </summary>
+    public class HtmlTableExportSettings : HtmlExportSettings
+    {
+        /// <summary>
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
         /// </summary>
         public bool IncludeDefaultClasses { get; set; } = true;
@@ -48,20 +85,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public string TableId { get; set; }
 
-        /// <summary>
-        /// Use this property to set additional class names that will be set on the exported html-table.
-        /// </summary>
-        public IList<string> AdditionalTableClassNames
-        {
-            get;
-            private set;
-        } = new List<string>();
-
-        /// <summary>
-        /// The culture used when formatting the cell output.
-        /// </summary>
-        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
-        public Encoding Encoding { get; set; } = Encoding.UTF8;
         /// <summary>
         /// If true data-* attributes will be rendered
         /// </summary>
@@ -100,6 +123,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             settings.Invoke(this);
         }
     }
+    /// <summary>
+    /// Settings for css export for tables
+    /// </summary>
     public class CssTableExportSettings
     {
         internal CssTableExportSettings()
