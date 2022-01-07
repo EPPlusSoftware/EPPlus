@@ -28,7 +28,6 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
