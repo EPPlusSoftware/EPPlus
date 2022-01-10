@@ -26,19 +26,25 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal partial class EpplusCssWriter : HtmlWriterBase
     {
-        protected HtmlTableExportSettings _settings;
+        protected HtmlExportSettings _settings;
+        protected CssExportSettings _cssSettings;
+        protected CssExclude _cssExclude;
         ExcelRangeBase _range;
         ExcelTheme _theme;
         internal eFontExclude _fontExclude;
         internal eBorderExclude _borderExclude;
-        internal EpplusCssWriter(StreamWriter writer, ExcelRangeBase range, HtmlTableExportSettings settings) : base(writer) 
+        internal EpplusCssWriter(StreamWriter writer, ExcelRangeBase range, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(writer) 
         {
             _settings = settings;
+            _cssSettings = cssSettings;
+            _cssExclude = cssExclude;
             Init(range);
         }
-        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, HtmlTableExportSettings settings) : base(stream, settings.Encoding)
+        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(stream, settings.Encoding)
         {
             _settings = settings;
+            _cssSettings = cssSettings;
+            _cssExclude = cssExclude;
             Init(range);
         }
         private void Init(ExcelRangeBase range)
@@ -50,8 +56,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 _range.Worksheet.Workbook.ThemeManager.CreateDefaultTheme();
             }
             _theme = range.Worksheet.Workbook.ThemeManager.CurrentTheme;
-            _borderExclude = _settings.Css.Exclude.CellStyle.Border;
-            _fontExclude = _settings.Css.Exclude.CellStyle.Font;
+            _borderExclude = _cssExclude.Border;
+            _fontExclude = _cssExclude.Font;
         }
 
         internal void AddToCss(ExcelStyles styles, int styleId)
@@ -98,30 +104,30 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void WriteStyles(ExcelXfs xfs)
         {
-            if (xfs.WrapText && _settings.Css.Exclude.CellStyle.WrapText == false)
+            if (xfs.WrapText && _cssExclude.WrapText == false)
             {
                 WriteCssItem("word-break: break-word;", _settings.Minify);
             }
 
-            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _settings.Css.Exclude.CellStyle.HorizontalAlignment == false)
+            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _cssExclude.HorizontalAlignment == false)
             {
                 var hAlign = GetHorizontalAlignment(xfs);
                 WriteCssItem($"text-align:{hAlign};", _settings.Minify);
             }
 
-            if (xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom && _settings.Css.Exclude.CellStyle.VerticalAlignment == false)
+            if (xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom && _cssExclude.VerticalAlignment == false)
             {
                 var vAlign = GetVerticalAlignment(xfs);
                 WriteCssItem($"vertical-align:{vAlign};", _settings.Minify);
             }
-            if(xfs.TextRotation!=0 && _settings.Css.Exclude.CellStyle.TextRotation==false)
+            if(xfs.TextRotation!=0 && _cssExclude.TextRotation==false)
             {
                 WriteCssItem($"transform: rotate({xfs.TextRotation}deg);", _settings.Minify);
             }
 
-            if(xfs.Indent>0 && _settings.Css.Exclude.CellStyle.Indent == false)
+            if(xfs.Indent>0 && _cssExclude.Indent == false)
             {
-                WriteCssItem($"padding-left:{xfs.Indent*_settings.Css.IndentValue}{_settings.Css.IndentUnit};", _settings.Minify);
+                WriteCssItem($"padding-left:{xfs.Indent * _cssSettings.IndentValue}{_cssSettings.IndentUnit};", _settings.Minify);
             }
         }
 
@@ -203,14 +209,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (f.PatternType == ExcelFillStyle.Solid)
                 {
-                    if (f.PatternType == ExcelFillStyle.Solid)
-                    {
-                        WriteCssItem($"background-color:{GetColor(f.BackgroundColor)};", _settings.Minify);
-                    }
-                    else
-                    {
-                        WriteCssItem($"{PatternFills.GetPatternSvg(f.PatternType, GetColor(f.BackgroundColor), GetColor(f.PatternColor))}", _settings.Minify);
-                    }
+                    WriteCssItem($"background-color:{GetColor(f.BackgroundColor)};", _settings.Minify);
+                }
+                else
+                {
+                    WriteCssItem($"{PatternFills.GetPatternSvg(f.PatternType, GetColor(f.BackgroundColor), GetColor(f.PatternColor))}", _settings.Minify);
                 }
             }
         }

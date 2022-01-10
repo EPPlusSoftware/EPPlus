@@ -55,30 +55,30 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         private async Task WriteStylesAsync (ExcelXfs xfs)
         {
-            if (xfs.WrapText && _settings.Css.Exclude.CellStyle.WrapText == false)
+            if (xfs.WrapText && _cssExclude.WrapText == false)
             {
                 await WriteCssItemAsync("word-break: break-word;", _settings.Minify);
             }
 
-            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _settings.Css.Exclude.CellStyle.HorizontalAlignment == false)
+            if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _cssExclude.HorizontalAlignment == false)
             {
                 var hAlign = GetHorizontalAlignment(xfs);
                 await WriteCssItemAsync($"text-align:{hAlign};", _settings.Minify);
             }
 
-            if (xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom && _settings.Css.Exclude.CellStyle.VerticalAlignment == false)
+            if (xfs.VerticalAlignment != ExcelVerticalAlignment.Bottom && _cssExclude.VerticalAlignment == false)
             {
                 var vAlign = GetVerticalAlignment(xfs);
                 await WriteCssItemAsync($"vertical-align:{vAlign};", _settings.Minify);
             }
-            if(xfs.TextRotation!=0 && _settings.Css.Exclude.CellStyle.TextRotation==false)
+            if(xfs.TextRotation!=0 && _cssExclude.TextRotation==false)
             {
                 await WriteCssItemAsync($"transform: rotate({xfs.TextRotation}deg);", _settings.Minify);
             }
 
-            if(xfs.Indent>0 && _settings.Css.Exclude.CellStyle.Indent == false)
+            if(xfs.Indent>0 && _cssExclude.Indent == false)
             {
-                await WriteCssItemAsync($"padding-left:{xfs.Indent*_settings.Css.IndentValue}{_settings.Css.IndentUnit};", _settings.Minify);
+                await WriteCssItemAsync($"padding-left:{xfs.Indent*_cssSettings.IndentValue}{_cssSettings.IndentUnit};", _settings.Minify);
             }
         }
 

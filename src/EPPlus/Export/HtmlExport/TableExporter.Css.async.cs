@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private async Task RenderCellCssAsync(StreamWriter sw)
         {            
-            var styleWriter = new EpplusCssWriter(sw, _table.Range, Settings);
+            var styleWriter = new EpplusCssWriter(sw, _table.Range, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
 
             var r = _table.Range;
             var styles = r.Worksheet.Workbook.Styles;

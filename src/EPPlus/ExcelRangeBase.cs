@@ -42,6 +42,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Export.HtmlExport;
 
 namespace OfficeOpenXml
 {
@@ -62,11 +63,37 @@ namespace OfficeOpenXml
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
         {
-            _worksheet = xlWorksheet;
+            Init(xlWorksheet);
             _ws = _worksheet.Name;
             _workbook = _worksheet.Workbook;
             SetDelegate();
         }
+
+        internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
+            base(xlWorksheet == null ? "" : xlWorksheet.Name, address)
+        {
+            Init(xlWorksheet);
+            _workbook = _worksheet.Workbook;
+            base.SetRCFromTable(_worksheet._package, null);
+            if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
+            SetDelegate();
+        }
+        internal ExcelRangeBase(ExcelWorkbook wb, ExcelWorksheet xlWorksheet, string address, bool isName) :
+            base(xlWorksheet == null ? "" : xlWorksheet.Name, address, isName)
+        {
+            Init(xlWorksheet);
+            SetRCFromTable(wb._package, null);
+            _workbook = wb;
+            if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
+            SetDelegate();
+        }
+        #endregion
+        private void Init(ExcelWorksheet xlWorksheet)
+        {
+            _worksheet = xlWorksheet;
+            HtmlExporter = new RangeExporter(this);
+        }
+
         /// <summary>
         /// On change address handler
         /// </summary>
@@ -82,25 +109,6 @@ namespace OfficeOpenXml
             }
             SetDelegate();
         }
-        internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
-            base(xlWorksheet == null ? "" : xlWorksheet.Name, address)
-        {
-            _worksheet = xlWorksheet;
-            _workbook = _worksheet.Workbook;
-            base.SetRCFromTable(_worksheet._package, null);
-            if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
-            SetDelegate();
-        }
-        internal ExcelRangeBase(ExcelWorkbook wb, ExcelWorksheet xlWorksheet, string address, bool isName) :
-            base(xlWorksheet == null ? "" : xlWorksheet.Name, address, isName)
-        {
-            SetRCFromTable(wb._package, null);
-            _worksheet = xlWorksheet;
-            _workbook = wb;
-            if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
-            SetDelegate();
-        }
-        #endregion
         #region Set Value Delegates        
         private static _changeProp _setUnknownProp = SetUnknown;
         private static _changeProp _setSingleProp = SetSingle;
@@ -1187,6 +1195,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+        public RangeExporter HtmlExporter { get; private set; }
         /// <summary>
         /// Set the Hyperlink property for a range of cells
         /// </summary>

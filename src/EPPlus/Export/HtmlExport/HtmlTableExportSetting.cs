@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Options to exclude css elements
         /// </summary>
-        public CssExclude CssExclude { get; } = new CssExclude();
+        public CssRangeExportSettings Css{ get; } = new CssRangeExportSettings();
     }
     /// <summary>
     /// Settings for html export for tables
@@ -123,10 +123,29 @@ namespace OfficeOpenXml.Export.HtmlExport
             settings.Invoke(this);
         }
     }
+    public class CssExportSettings
+    {
+        /// <summary>
+        /// Css elements added to the table.
+        /// </summary>
+        public Dictionary<string, string> AdditionalCssElements
+        {
+            get;
+            internal set;
+        }
+        /// <summary>
+        /// The value used in the stylesheet for an indentation in a cell
+        /// </summary>
+        public float IndentValue { get; set; } = 2;
+        /// <summary>
+        /// The unit used in the stylesheet for an indentation in a cell
+        /// </summary>
+        public string IndentUnit { get; set; } = "em";
+    }
     /// <summary>
     /// Settings for css export for tables
     /// </summary>
-    public class CssTableExportSettings
+    public class CssTableExportSettings : CssExportSettings
     {
         internal CssTableExportSettings()
         {
@@ -141,22 +160,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public bool IncludeCellStyles { get; set; } = true;
         /// <summary>
-        /// Css elements added to the table.
-        /// </summary>
-        internal Dictionary<string, string> AdditionalCssElements
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// The value used in the stylesheet for an indentation in a cell
-        /// </summary>
-        public float IndentValue { get; set; } = 2;
-        /// <summary>
-        /// The unit used in the stylesheet for an indentation in a cell
-        /// </summary>
-        public string IndentUnit { get; set; } = "em";
-        /// <summary>
         /// Exclude flags for styles
         /// </summary>
         public CssExcludeStyle Exclude
@@ -168,6 +171,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             IncludeTableStyles = true;
             IncludeCellStyles = true;
+
+            Exclude.TableStyle.ResetToDefault();
+            Exclude.CellStyle.ResetToDefault();
+            
             AdditionalCssElements = new Dictionary<string, string>()
             {
                 { "border-spacing", "0" },
@@ -177,24 +184,28 @@ namespace OfficeOpenXml.Export.HtmlExport
             };
             IndentValue = 2;
             IndentUnit = "em";
-
-            Exclude.TableStyle.ResetToDefault();
-            Exclude.CellStyle.ResetToDefault();
         }
-
-        internal void Copy(CssTableExportSettings copy)
+        public void Copy(CssTableExportSettings copy)
         {
             IncludeTableStyles = copy.IncludeTableStyles;
             IncludeCellStyles = copy.IncludeTableStyles;
-            AdditionalCssElements = copy.AdditionalCssElements;
-            IndentValue = copy.IndentValue;
-            IndentUnit = copy.IndentUnit;
 
             Exclude.TableStyle.Copy(copy.Exclude.TableStyle);
             Exclude.CellStyle.Copy(copy.Exclude.CellStyle);
+
+            AdditionalCssElements = copy.AdditionalCssElements;
+            IndentValue = copy.IndentValue;
+            IndentUnit = copy.IndentUnit;
         }
     }
-    [Flags]
+    /// <summary>
+    /// Settings for css export for tables
+    /// </summary>
+    public class CssRangeExportSettings : CssExportSettings
+    {
+        public CssExclude CssExclude { get; } = new CssExclude();
+    }
+        [Flags]
     public enum eFontExclude
     {
         All = 0x4F,

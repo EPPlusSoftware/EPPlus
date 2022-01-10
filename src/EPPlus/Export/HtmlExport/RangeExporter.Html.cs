@@ -100,29 +100,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private void AddTableAccessibilityAttributes(HtmlTableExportSettings settings, EpplusHtmlWriter writer)
-        {
-            if (!settings.Accessibility.TableSettings.AddAccessibilityAttributes) return;
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.TableRole))
-            {
-                writer.AddAttribute("role", settings.Accessibility.TableSettings.TableRole);
-            }
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaLabel))
-            {
-                writer.AddAttribute(AriaAttributes.AriaLabel.AttributeName, settings.Accessibility.TableSettings.AriaLabel);
-            }
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaLabelledBy))
-            {
-                writer.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, settings.Accessibility.TableSettings.AriaLabelledBy);
-            }
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaDescribedBy))
-            {
-                writer.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, settings.Accessibility.TableSettings.AriaDescribedBy);
-            }
-        }
 
         /// <summary>
-        /// Renders both the Css and the Html to a single page. 
+        /// Renders both the Html and the Css to a single page. 
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
@@ -130,9 +110,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString();
-            //TODO Add... var css = GetCssString();
-            //return string.Format(htmlDocument, html, css);
-            return string.Format(htmlDocument, html, "");
+            var css = GetCssString();
+            return string.Format(htmlDocument, html, css);
+            //return string.Format(htmlDocument, html, "");
 
         }
 
@@ -179,6 +159,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
+                        SetColRowSpan(writer, cell);
                         writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
@@ -218,6 +199,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 var cell = _range.Worksheet.Cells[row, col];
                 writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                SetColRowSpan(writer, cell);
                 writer.SetClassAttributeFromStyle(cell.StyleID, _range.Worksheet.Workbook.Styles);
                 writer.RenderBeginTag(HtmlElements.TableHeader);
                 if (Settings.FirstRowIsHeader)
@@ -245,6 +227,39 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
         }
+
+        private void SetColRowSpan(EpplusHtmlWriter writer, ExcelRange cell)
+        {
+            if(cell.Merge)
+            {
+                var address = cell.Worksheet.MergedCells[cell._fromRow, cell._fromCol];
+                if(address!=null)
+                {
+                    var ma = new ExcelAddressBase(address);
+                    //ColSpan
+                    if(ma._fromCol==cell._fromCol || _range._fromCol==cell._fromCol)
+                    {
+                        var maxCol = Math.Min(cell._toCol, _range._toCol);
+                        var colSpan = maxCol - ma._fromCol;
+                        if(colSpan>1)
+                        {
+                            writer.AddAttribute("colspan", colSpan.ToString(CultureInfo.InvariantCulture));
+                        }
+                    }
+                    //RowSpan
+                    if (ma._fromRow == cell._fromRow || _range._fromRow == cell._fromRow)
+                    {
+                        var maxRow = Math.Min(cell._toRow, _range._toRow);
+                        var rowSpan = maxRow - ma._fromRow;
+                        if (rowSpan > 1)
+                        {
+                            writer.AddAttribute("rowspan", rowSpan.ToString(CultureInfo.InvariantCulture));
+                        }
+                    }
+                }
+            }
+        }
+
         private void RenderHyperlink(EpplusHtmlWriter writer, ExcelRangeBase cell)
         {
             if (cell.Hyperlink is ExcelHyperLink eurl)
@@ -289,7 +304,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             for (int col = _range._fromCol; col <= _range._toCol; col++)
             {
                 _datatypes.Add(
-                    ColumnDataTypeManager.GetColumnDataType(_range.Worksheet, _range, 2, col));
+                    ColumnDataTypeManager.GetColumnDataType(_range.Worksheet, _range, Settings.FirstRowIsHeader ? 2 : 1, col));
             }
         }
     }

@@ -23,11 +23,6 @@ namespace OfficeOpenXml
     public class ExcelRange : ExcelRangeBase
     {
         #region "Constructors"
-        internal ExcelRange(ExcelWorksheet sheet) : 
-            base(sheet)
-        {
-
-        }
         internal ExcelRange(ExcelWorksheet sheet, string address)
             : base(sheet, address)
         {
