@@ -49,5 +49,41 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0.9729551, System.Math.Round((double)result, 7));
             }
         }
+
+        [TestMethod]
+        public void FisherInvTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 0.9729551;
+                sheet.Cells["A2"].Formula = "FISHERINV(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A2"].Value;
+
+                Assert.AreEqual(0.75, System.Math.Round((double)result, 2));
+            }
+        }
+
+        [TestMethod]
+        public void GeomeanTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 4;
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 8;
+                sheet.Cells["A4"].Value = 7;
+                sheet.Cells["A5"].Value = 11;
+                sheet.Cells["A6"].Value = 4;
+                sheet.Cells["A7"].Value = 3;
+                sheet.Cells["B6"].Formula = "GEOMEAN(A1:A7)";
+                sheet.Calculate();
+                var result = sheet.Cells["B6"].Value;
+
+                Assert.AreEqual(5.476987, System.Math.Round((double)result, 6));
+            }
+        }
     }
 }

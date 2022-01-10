@@ -10,6 +10,7 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
@@ -23,14 +24,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "6.0",
         Description = "Returns the Fisher transformation at x. This transformation produces a function that is normally distributed rather than skewed.")]
-    internal class Fisher : ExcelFunction
+    internal class Geomean : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var x = ArgToDecimal(arguments, 0);
-            if (x <= 0d || x >= 1d) return CreateResult(eErrorType.Num);
-            var result = System.Math.Log((1 + x) / (1 - x)) / 2;
+            var numbers = ArgsToDoubleEnumerable(arguments, context);
+            if (numbers.Any(x => x.Value <= 0d)) return CreateResult(eErrorType.Num);
+            var p = 1d;
+            for(var x = 0; x < numbers.Count(); x++)
+            {
+                var n = numbers.ElementAt(x);
+                p *= n.Value;
+            }
+            var result = System.Math.Pow(p, 1d / numbers.Count());
             return CreateResult(result, DataType.Decimal);
         }
     }

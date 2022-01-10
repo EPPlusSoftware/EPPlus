@@ -14,23 +14,22 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MathObj = System.Math;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "6.0",
-        Description = "Returns the Fisher transformation at x. This transformation produces a function that is normally distributed rather than skewed.")]
-    internal class Fisher : ExcelFunction
+        Description = "Returns the inverse of the Fisher transformation")]
+    internal class FisherInv : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var x = ArgToDecimal(arguments, 0);
-            if (x <= 0d || x >= 1d) return CreateResult(eErrorType.Num);
-            var result = System.Math.Log((1 + x) / (1 - x)) / 2;
+            var y = ArgToDecimal(arguments, 0);
+            var n = MathObj.Exp(2 * y);
+            var result = (n - 1) / (n + 1);
             return CreateResult(result, DataType.Decimal);
         }
     }
