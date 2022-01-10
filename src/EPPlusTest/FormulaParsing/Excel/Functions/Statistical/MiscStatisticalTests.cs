@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
 {
     [TestClass]
-    public class CorrelTests
+    public class MiscStatisticalTests
     {
         [TestMethod]
         public void CorrelTest1()
@@ -32,6 +32,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result = sheet.Cells["B6"].Value;
 
                 Assert.AreEqual(0.997054, System.Math.Round((double)result, 6));
+            }
+        }
+
+        [TestMethod]
+        public void FisherTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 0.75;
+                sheet.Cells["A2"].Formula = "FISHER(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A2"].Value;
+
+                Assert.AreEqual(0.9729551, System.Math.Round((double)result, 7));
             }
         }
     }
