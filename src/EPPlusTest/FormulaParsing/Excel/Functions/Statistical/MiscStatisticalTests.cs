@@ -85,5 +85,78 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(5.476987, System.Math.Round((double)result, 6));
             }
         }
+
+        [TestMethod]
+        public void HarmeanTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 4;
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 8;
+                sheet.Cells["A4"].Value = 7;
+                sheet.Cells["A5"].Value = 11;
+                sheet.Cells["A6"].Value = 4;
+                sheet.Cells["A7"].Value = 3;
+                sheet.Cells["B6"].Formula = "HARMEAN(A1:A7)";
+                sheet.Calculate();
+                var result = sheet.Cells["B6"].Value;
+
+                Assert.AreEqual(5.028376, System.Math.Round((double)result, 6));
+            }
+        }
+
+        [TestMethod]
+        public void PearsonTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 9;
+                sheet.Cells["A2"].Value = 7;
+                sheet.Cells["A3"].Value = 5;
+                sheet.Cells["A4"].Value = 3;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["B1"].Value = 10;
+                sheet.Cells["B2"].Value = 6;
+                sheet.Cells["B3"].Value = 1;
+                sheet.Cells["B4"].Value = 5;
+                sheet.Cells["B5"].Value = 3;
+                sheet.Cells["B6"].Formula = "PEARSON(A1:A5,B1:B5)";
+                sheet.Calculate();
+                var result = sheet.Cells["B6"].Value;
+
+                Assert.AreEqual(0.699379, System.Math.Round((double)result, 6));
+            }
+        }
+
+        [TestMethod]
+        public void RsqTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 3;
+                sheet.Cells["A3"].Value = 9;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["A5"].Value = 8;
+                sheet.Cells["A6"].Value = 7;
+                sheet.Cells["A7"].Value = 5;
+                sheet.Cells["B1"].Value = 6;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 11;
+                sheet.Cells["B4"].Value = 7;
+                sheet.Cells["B5"].Value = 5;
+                sheet.Cells["B6"].Value = 4;
+                sheet.Cells["B7"].Value = 4;
+                sheet.Cells["B8"].Formula = "RSQ(A1:A7,B1:B7)";
+                sheet.Calculate();
+                var result = sheet.Cells["B8"].Value;
+
+                Assert.AreEqual(0.05795, System.Math.Round((double)result, 5));
+            }
+        }
     }
 }

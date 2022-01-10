@@ -202,6 +202,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["fisher"] = new Fisher();
             Functions["fisherinv"] = new FisherInv();
             Functions["geomean"] = new Geomean();
+            Functions["harmean"] = new Harmean();
+            Functions["pearson"] = new Pearson();
+            Functions["rsq"] = new Rsq();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();

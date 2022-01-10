@@ -10,7 +10,6 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
@@ -23,21 +22,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "6.0",
-        Description = "Returns the geometric mean of an array or range of positive data.")]
-    internal class Geomean : ExcelFunction
+        Description = "Returns the harmonic mean of a data set.")]
+    internal class Harmean : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(arguments, context);
             if (numbers.Any(x => x.Value <= 0d)) return CreateResult(eErrorType.Num);
-            var p = 1d;
-            for(var x = 0; x < numbers.Count(); x++)
+            var n = 0d;
+            for (var x = 0; x < numbers.Count(); x++)
             {
-                var n = numbers.ElementAt(x);
-                p *= n.Value;
+                n += 1d/numbers.ElementAt(x);
             }
-            var result = System.Math.Pow(p, 1d / numbers.Count());
+            var result = (double)numbers.Count() / n;
             return CreateResult(result, DataType.Decimal);
         }
     }
