@@ -318,6 +318,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["mduration"] = new Mduration();
             Functions["intrate"] = new Intrate();
             Functions["disc"] = new Disc();
+            Functions["tbilleq"] = new Tbilleq();
+            Functions["tbillprice"] = new TbillPrice();
+            Functions["tbillyield"] = new TbillYield();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();

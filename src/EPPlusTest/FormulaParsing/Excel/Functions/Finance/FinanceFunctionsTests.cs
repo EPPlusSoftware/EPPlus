@@ -675,5 +675,83 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             var result = System.Math.Round((double)_worksheet.Cells["A3"].Value, 5);
             Assert.AreEqual(0.5625, result);
         }
+
+        [TestMethod]
+        public void TbilleqTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 3, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLEQ(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.09415149, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbilleqTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2007, 8, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLEQ(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.09800968, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillPriceTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 3, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLPRICE(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(98.42588889, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillPriceTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2007, 8, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLPRICE(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(93.01805556, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillYieldTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 3, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Value = 98.45;
+            _worksheet.Cells["A4"].Formula = "TBILLYIELD(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.09141696, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillYieldTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2007, 8, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Value = 98.45;
+            _worksheet.Cells["A4"].Formula = "TBILLYIELD(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.02061037, System.Math.Round((double)result, 8));
+        }
     }
 }
