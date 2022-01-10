@@ -198,6 +198,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["norm.s.inv"] = new NormDotSdotInv();
             Functions["normdist"] = new Normdist();
             Functions["norm.dist"] = new NormDotDist();
+            Functions["correl"] = new Correl();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
