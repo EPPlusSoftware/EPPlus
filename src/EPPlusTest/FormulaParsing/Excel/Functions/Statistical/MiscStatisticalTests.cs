@@ -14,7 +14,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
         [TestMethod]
         public void CorrelTest1()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = 3;
@@ -197,6 +197,54 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 var result = sheet.Cells["B8"].Value;
 
                 Assert.AreEqual(1.333333, System.Math.Round((double)result, 6));
+            }
+        }
+
+        [TestMethod]
+        public void ForecastTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 6;
+                sheet.Cells["A2"].Value = 7;
+                sheet.Cells["A3"].Value = 9;
+                sheet.Cells["A4"].Value = 15;
+                sheet.Cells["A5"].Value = 21;
+                sheet.Cells["B1"].Value = 20;
+                sheet.Cells["B2"].Value = 28;
+                sheet.Cells["B3"].Value = 31;
+                sheet.Cells["B4"].Value = 38;
+                sheet.Cells["B5"].Value = 40;
+                sheet.Cells["B8"].Formula = "FORECAST(30,A1:A5,B1:B5)";
+                sheet.Calculate();
+                var result = sheet.Cells["B8"].Value;
+
+                Assert.AreEqual(10.607253, System.Math.Round((double)result, 6));
+            }
+        }
+
+        [TestMethod]
+        public void ForecastLinearTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 6;
+                sheet.Cells["A2"].Value = 7;
+                sheet.Cells["A3"].Value = 9;
+                sheet.Cells["A4"].Value = 15;
+                sheet.Cells["A5"].Value = 21;
+                sheet.Cells["B1"].Value = 20;
+                sheet.Cells["B2"].Value = 28;
+                sheet.Cells["B3"].Value = 31;
+                sheet.Cells["B4"].Value = 38;
+                sheet.Cells["B5"].Value = 40;
+                sheet.Cells["B8"].Formula = "FORECAST.LINEAR(30,A1:A5,B1:B5)";
+                sheet.Calculate();
+                var result = sheet.Cells["B8"].Value;
+
+                Assert.AreEqual(10.607253, System.Math.Round((double)result, 6));
             }
         }
     }

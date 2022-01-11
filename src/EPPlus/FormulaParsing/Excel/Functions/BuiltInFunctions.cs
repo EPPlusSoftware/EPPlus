@@ -207,6 +207,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["rsq"] = new Rsq();
             Functions["skew"] = new Skew();
             Functions["standardize"] = new Standardize();
+            Functions["forecast"] = new Forecast();
+            Functions["forecast.linear"] = new ForecastLinear();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
