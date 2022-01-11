@@ -10,7 +10,6 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
@@ -23,21 +22,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "6.0",
-        Description = "Returns the skewness of a distribution")]
-    internal class Skew : ExcelFunction
+        Description = "Returns a normalized value from a distribution characterized by mean and standard_dev.")]
+    internal class Standardize : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var numbers = ArgsToDoubleEnumerable(arguments, context).Select(x => x.Value).ToArray();
-            var n = numbers.Length;
-            var avg = numbers.Average();
-            var s = 0d;
-            for (var ix = 0; ix < n; ix++)
-            {
-                s += System.Math.Pow(numbers[ix] - avg, 3);
-            }
-            var result = n * s / ((n - 1) * (n - 2) * System.Math.Pow(new Stdev().StandardDeviation(numbers), 3));
+            ValidateArguments(arguments, 3);
+            var val = ArgToDecimal(arguments, 0);
+            var avg = ArgToDecimal(arguments, 1);
+            var stdev = ArgToDecimal(arguments, 2);
+            var result = (val - avg) / stdev;
             return CreateResult(result, DataType.Decimal);
         }
     }

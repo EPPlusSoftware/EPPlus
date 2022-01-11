@@ -182,5 +182,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0.359543, System.Math.Round((double)result, 6));
             }
         }
+
+        [TestMethod]
+        public void StandardizeTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 42;
+                sheet.Cells["A2"].Value = 40;
+                sheet.Cells["A3"].Value = 1.5;
+                sheet.Cells["B8"].Formula = "STANDARDIZE(A1,A2,A3)";
+                sheet.Calculate();
+                var result = sheet.Cells["B8"].Value;
+
+                Assert.AreEqual(1.333333, System.Math.Round((double)result, 6));
+            }
+        }
     }
 }

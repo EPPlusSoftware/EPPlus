@@ -206,6 +206,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["pearson"] = new Pearson();
             Functions["rsq"] = new Rsq();
             Functions["skew"] = new Skew();
+            Functions["standardize"] = new Standardize();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
