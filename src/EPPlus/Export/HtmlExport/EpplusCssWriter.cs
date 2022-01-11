@@ -59,6 +59,33 @@ namespace OfficeOpenXml.Export.HtmlExport
             _borderExclude = _cssExclude.Border;
             _fontExclude = _cssExclude.Font;
         }
+        internal void RenderAdditionalAndFontCss(string tableClass)
+        {
+            WriteClass($"table.{tableClass}{{", _settings.Minify);
+            var ns = _range.Worksheet.Workbook.Styles.GetNormalStyle();
+            if (ns != null)
+            {
+                WriteCssItem($"font-family:{ns.Style.Font.Name};", _settings.Minify);
+                WriteCssItem($"font-size:{ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
+            }
+            foreach (var item in _cssSettings.AdditionalCssElements)
+            {
+                WriteCssItem($"{item.Key}:{item.Value};", _settings.Minify);
+            }
+            WriteClassEnd(_settings.Minify);
+            if (_settings.SetColumnWidth)
+            {
+                ExcelWorksheet ws = _range.Worksheet;
+                var mdw = _range.Worksheet.Workbook.MaxFontWidth;
+                for (var c = _range._fromCol; c <= _range._toCol; c++)
+                {
+                    double width = ws.GetColumnWidthPixels(c, mdw);
+                    WriteClass($"table.{tableClass} ", _settings.Minify);
+                    WriteCssItem($"tr > *:nth-child({(c - _range._fromCol + 1)}){{width:{width}px}}", _settings.Minify);
+                }
+            }
+        }
+
 
         internal void AddToCss(ExcelStyles styles, int styleId)
         {
@@ -104,9 +131,16 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void WriteStyles(ExcelXfs xfs)
         {
-            if (xfs.WrapText && _cssExclude.WrapText == false)
+            if (_cssExclude.WrapText == false)
             {
-                WriteCssItem("word-break: break-word;", _settings.Minify);
+                if (xfs.WrapText)
+                {
+                    WriteCssItem("white-space: break-spaces;", _settings.Minify);
+                }
+                else
+                {
+                    WriteCssItem("white-space: nowrap;", _settings.Minify);
+                }
             }
 
             if (xfs.HorizontalAlignment != ExcelHorizontalAlignment.General && _cssExclude.HorizontalAlignment == false)

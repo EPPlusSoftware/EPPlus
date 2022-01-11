@@ -50,6 +50,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
         public Encoding Encoding { get; set; } = Encoding.UTF8;
+        public bool SetColumnWidth { get; set; } = false;
+        public bool SetRowHeight { get; set; } = false;
     }
 
     /// <summary>
@@ -57,19 +59,55 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// </summary>
     public class HtmlRangeExportSettings : HtmlExportSettings
     {
+        int _headerRows=1;
         /// <summary>
-        /// If the first row contains the headers.
+        /// Number of header rows before the actual data. Default is 1.
         /// </summary>
-        public bool FirstRowIsHeader { get; set; }
+        public int HeaderRows 
+        { 
+            get
+            {
+                return _headerRows;
+            }
+            set
+            {
+                if(value < 0 || value > ExcelPackage.MaxRows)
+                {
+                    throw new InvalidOperationException("Can't be negative or exceed number of allowed rows in a worksheet.");
+                }
+                _headerRows = value;
+            }
+        }
         /// <summary>
-        /// If <see cref="FirstRowIsHeader"/> is false, this collection contains the headers. 
-        /// If this collection is empty no the table will have no headers.
+        /// If <see cref="HeaderRows"/> is 0, this collection contains the headers. 
+        /// If this collection is empty the table will have no headers.
         /// </summary>
         public List<string> Headers { get; } = new List<string>();
         /// <summary>
         /// Options to exclude css elements
         /// </summary>
         public CssRangeExportSettings Css{ get; } = new CssRangeExportSettings();
+
+        public void ResetToDefault()
+        {
+            HeaderRows = 1;
+            Headers.Clear();
+            Accessibility.TableSettings.ResetToDefault();
+            AdditionalTableClassNames = new List<string>();
+            Css.ResetToDefault();
+        }
+        public void Copy(HtmlRangeExportSettings copy)
+        {
+            Minify = copy.Minify;
+            IncludeHiddenRows = copy.IncludeHiddenRows;
+            Accessibility.TableSettings.Copy(copy.Accessibility.TableSettings);
+            AdditionalTableClassNames = copy.AdditionalTableClassNames;
+            Headers.Clear();
+            Headers.AddRange(copy.Headers);
+            Culture = copy.Culture;
+            Encoding = copy.Encoding;
+            Css.Copy(copy.Css);
+        }
     }
     /// <summary>
     /// Settings for html export for tables
@@ -123,7 +161,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             settings.Invoke(this);
         }
     }
-    public class CssExportSettings
+    public abstract class CssExportSettings
     {
         /// <summary>
         /// Css elements added to the table.
@@ -141,6 +179,24 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// The unit used in the stylesheet for an indentation in a cell
         /// </summary>
         public string IndentUnit { get; set; } = "em";
+        internal void ResetToDefaultInternal()
+        {
+            AdditionalCssElements = new Dictionary<string, string>()
+            {
+                { "border-spacing", "0" },
+                { "border-collapse", "collapse" },
+                { "word-wrap", "break-word"},
+                { "white-space", "nowrap"},
+            };
+            IndentValue = 2;
+            IndentUnit = "em";
+        }
+        internal void CopyInternal(CssExportSettings copy)
+        {
+            AdditionalCssElements = copy.AdditionalCssElements;
+            IndentValue = copy.IndentValue;
+            IndentUnit = copy.IndentUnit;
+        }
     }
     /// <summary>
     /// Settings for css export for tables
@@ -174,16 +230,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             Exclude.TableStyle.ResetToDefault();
             Exclude.CellStyle.ResetToDefault();
-            
-            AdditionalCssElements = new Dictionary<string, string>()
-            {
-                { "border-spacing", "0" },
-                { "border-collapse", "collapse" },
-                { "word-wrap", "break-word"},
-                { "white-space", "nowrap"}
-            };
-            IndentValue = 2;
-            IndentUnit = "em";
+            base.ResetToDefaultInternal();
         }
         public void Copy(CssTableExportSettings copy)
         {
@@ -193,9 +240,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             Exclude.TableStyle.Copy(copy.Exclude.TableStyle);
             Exclude.CellStyle.Copy(copy.Exclude.CellStyle);
 
-            AdditionalCssElements = copy.AdditionalCssElements;
-            IndentValue = copy.IndentValue;
-            IndentUnit = copy.IndentUnit;
+            base.CopyInternal(copy);
         }
     }
     /// <summary>
@@ -203,7 +248,21 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// </summary>
     public class CssRangeExportSettings : CssExportSettings
     {
+        public CssRangeExportSettings()
+        {
+            ResetToDefault();
+        }
         public CssExclude CssExclude { get; } = new CssExclude();
+        public void ResetToDefault()
+        {
+            CssExclude.ResetToDefault();
+            base.ResetToDefaultInternal();
+        }
+        public void Copy(CssRangeExportSettings copy)
+        {
+            CssExclude.Copy(copy.CssExclude);
+            base.CopyInternal(copy);
+        }
     }
         [Flags]
     public enum eFontExclude

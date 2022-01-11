@@ -61,13 +61,24 @@ namespace OfficeOpenXml.Export.HtmlExport
         private void RenderCellCss(StreamWriter sw)
         {            
             var styleWriter = new EpplusCssWriter(sw, _range, Settings, Settings.Css, Settings.Css.CssExclude);
-
-            var styles = _range.Worksheet.Workbook.Styles;
+            
+            styleWriter.RenderAdditionalAndFontCss(TableClass);
+            var ws = _range.Worksheet;
+            var styles = ws.Workbook.Styles;
             var ce = new CellStoreEnumerator<ExcelValue>(_range.Worksheet._values, _range._fromRow, _range._fromCol, _range._toRow, _range._toCol);
             while (ce.Next())
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
+                    var ma = ws.MergedCells[ce.Row, ce.Column];
+                    if(ma!=null)
+                    {
+                        var address = new ExcelAddressBase(ma);
+                        var fromRow = address._fromRow < _range._fromRow ? _range._fromRow : address._fromRow;
+                        var fromCol = address._fromCol < _range._fromCol ? _range._fromCol : address._fromCol;
+                        if (fromRow != ce.Row || fromCol != ce.Column)
+                            continue;                        
+                    }
                     styleWriter.AddToCss(styles, ce.Value._styleId);
                 }
             }

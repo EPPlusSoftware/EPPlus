@@ -53,23 +53,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             _theme = table.WorkSheet.Workbook.ThemeManager.CurrentTheme;
         }
-
-        internal void RenderAdditionalAndFontCss()
-        {
-            WriteClass($"table.{TableExporter.TableClass}{{", _settings.Minify);
-            var ns = _table.WorkSheet.Workbook.Styles.GetNormalStyle();
-            if (ns != null)
-            {
-                WriteCssItem($"font-family:{ns.Style.Font.Name};", _settings.Minify);
-                WriteCssItem($"font-size:{ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
-            }
-            foreach (var item in _settings.Css.AdditionalCssElements)
-            {
-                WriteCssItem($"{item.Key}:{item.Value};", _settings.Minify);
-            }
-            WriteClassEnd(_settings.Minify);
-        }
-
         internal void AddAlignmentToCss(string name, List<string> dataTypes)
         {
             var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;

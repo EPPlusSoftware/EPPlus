@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var dataType = DataType.Empty;
             while(rowIndex <= range.End.Row)
             {
-                var val = sheet.Cells[startRow, column].Value;
+                var val = sheet.Cells[rowIndex, column].Value;
                 var compileResult = _compileResultFactory.Create(val);
                 if (compileResult.DataType != DataType.Empty) return GetHtmlDataType(compileResult.DataType);
                 rowIndex++;

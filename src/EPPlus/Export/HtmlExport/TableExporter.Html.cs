@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     styleClass = TableStyleClassPrefix + _table.TableStyle.ToString().ToLowerInvariant();
                 }
 
-                var tblClasses = $"{TableClass} {styleClass}"; ;
+                var tblClasses = $"{TableClass} {styleClass}";
                 if (_table.ShowHeader)
                 {
                     tblClasses += $" {styleClass}-header";
@@ -215,21 +215,22 @@ namespace OfficeOpenXml.Export.HtmlExport
             var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
             while (row <= endRow)
             {
-                if (Settings.IncludeHiddenRows)
+                if (Settings.IncludeHiddenRows==false)
                 {
                     var r = _table.WorkSheet.Row(row);
                     if (r.Hidden || r.Height == 0)
                     {
+                        row++;
                         continue;
                     }
+                }
 
-                    if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    writer.AddAttribute("role", "row");
+                    if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
                     {
-                        writer.AddAttribute("role", "row");
-                        if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
-                        {
-                            writer.AddAttribute("scope", "row");
-                        }
+                        writer.AddAttribute("scope", "row");
                     }
                 }
 

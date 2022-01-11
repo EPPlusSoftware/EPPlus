@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
 
         private readonly ExcelRangeBase _range;
-        internal const string TableClass = "range";
+        internal const string TableClass = "epplus-range";
         internal const string TableStyleClassPrefix = "s-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         internal List<string> _datatypes = new List<string>();
@@ -70,11 +70,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             GetDataTypes();
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
+            AddClassesAttributes(writer);
             writer.RenderBeginTag(HtmlElements.Table);
 
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             LoadVisibleColumns();
-            if (Settings.FirstRowIsHeader || Settings.Headers.Count > 0)
+            if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
             {
                 RenderHeaderRow(writer);
             }
@@ -84,6 +85,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             // end tag table
             writer.RenderEndTag();
 
+        }
+        private void AddClassesAttributes(EpplusHtmlWriter writer)
+        {
+           writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
         }
 
         private void LoadVisibleColumns()
@@ -112,10 +117,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             var html = GetHtmlString();
             var css = GetCssString();
             return string.Format(htmlDocument, html, css);
-            //return string.Format(htmlDocument, html, "");
-
         }
-
+        List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
         private void RenderTableRows(EpplusHtmlWriter writer)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
@@ -124,34 +127,37 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.RenderBeginTag(HtmlElements.Tbody);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            var row = Settings.FirstRowIsHeader ? _range._fromRow + 1 : _range._fromRow;
+            var row = _range._fromRow + Settings.HeaderRows;
             var endRow = _range._toRow;
             var ws = _range.Worksheet;
             while (row <= endRow)
             {
-                if (Settings.IncludeHiddenRows)
+                if (Settings.IncludeHiddenRows==false)
                 {
                     var r = ws.Row(row);
                     if (r.Hidden || r.Height == 0)
                     {
+                        row++;
                         continue;
                     }
+                }
 
-                    if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
-                    {
-                        writer.AddAttribute("role", "row");
-                        writer.AddAttribute("scope", "row");
-                    }
+                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    writer.AddAttribute("role", "row");
+                    writer.AddAttribute("scope", "row");
                 }
 
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 foreach (var col in _columns)
                 {
+                    if (InMergeCellSpan(row, col)) continue;
                     var colIx = col - _range._fromCol;
                     var dataType = _datatypes[colIx];
                     var cell = ws.Cells[row, col];
 
+                    SetColRowSpan(writer, cell);
                     if (cell.Hyperlink == null)
                     {
                         _cellDataWriter.Write(cell, dataType, writer, Settings, false);
@@ -159,7 +165,6 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
-                        SetColRowSpan(writer, cell);
                         writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
@@ -192,40 +197,67 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 writer.AddAttribute("role", "row");
             }
-            writer.RenderBeginTag(HtmlElements.TableRow);
-            writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            var row = _range._fromRow;
-            foreach (var col in _columns)
+            var headerRows = Settings.HeaderRows == 0 ? 1 : Settings.HeaderRows;
+            for (int i = 0; i < headerRows; i++)
             {
-                var cell = _range.Worksheet.Cells[row, col];
-                writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
-                SetColRowSpan(writer, cell);
-                writer.SetClassAttributeFromStyle(cell.StyleID, _range.Worksheet.Workbook.Styles);
-                writer.RenderBeginTag(HtmlElements.TableHeader);
-                if (Settings.FirstRowIsHeader)
+                writer.RenderBeginTag(HtmlElements.TableRow);
+                writer.ApplyFormatIncreaseIndent(Settings.Minify);
+                var row = _range._fromRow+i;
+                foreach (var col in _columns)
                 {
-                    if (cell.Hyperlink == null)
+                    if (InMergeCellSpan(row, col)) continue;
+                    var cell = _range.Worksheet.Cells[row, col];
+                    writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                    SetColRowSpan(writer, cell);
+                    writer.SetClassAttributeFromStyle(cell.StyleID, _range.Worksheet.Workbook.Styles);
+                    writer.RenderBeginTag(HtmlElements.TableHeader);
+                    if (Settings.HeaderRows > 0)
                     {
-                        writer.Write(GetCellText(cell));
+                        if (cell.Hyperlink == null)
+                        {
+                            writer.Write(GetCellText(cell));
+                        }
+                        else
+                        {
+                            RenderHyperlink(writer, cell);
+                        }
                     }
-                    else
+                    else if (Settings.Headers.Count < col)
                     {
-                        RenderHyperlink(writer, cell);
+                        writer.Write(Settings.Headers[col]);
                     }
-                }
-                else if (Settings.Headers.Count < col)
-                {
-                    writer.Write(Settings.Headers[col]);
-                }
 
+                    writer.RenderEndTag();
+                    writer.ApplyFormat(Settings.Minify);
+                }
+                writer.Indent--;
                 writer.RenderEndTag();
-                writer.ApplyFormat(Settings.Minify);
             }
-            writer.Indent--;
-            writer.RenderEndTag();
             writer.ApplyFormatDecreaseIndent(Settings.Minify);
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
+        }
+
+        private bool InMergeCellSpan(int row, int col)
+        {
+            for(int i=0; i < _mergedCells.Count;i++)
+            {
+                var adr = _mergedCells[i];
+                if(adr._toRow < row || (adr._toRow==row && adr._toCol<col))
+                {
+                    _mergedCells.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    if(row >= adr._fromRow && row <= adr._toRow &&
+                       col >= adr._fromCol && col <= adr._toCol)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void SetColRowSpan(EpplusHtmlWriter writer, ExcelRange cell)
@@ -236,25 +268,29 @@ namespace OfficeOpenXml.Export.HtmlExport
                 if(address!=null)
                 {
                     var ma = new ExcelAddressBase(address);
+                    bool added = false;
                     //ColSpan
                     if(ma._fromCol==cell._fromCol || _range._fromCol==cell._fromCol)
                     {
-                        var maxCol = Math.Min(cell._toCol, _range._toCol);
-                        var colSpan = maxCol - ma._fromCol;
+                        var maxCol = Math.Min(ma._toCol, _range._toCol);
+                        var colSpan = maxCol - ma._fromCol+1;
                         if(colSpan>1)
                         {
                             writer.AddAttribute("colspan", colSpan.ToString(CultureInfo.InvariantCulture));
                         }
+                        _mergedCells.Add(ma);
+                        added = true;
                     }
                     //RowSpan
                     if (ma._fromRow == cell._fromRow || _range._fromRow == cell._fromRow)
                     {
-                        var maxRow = Math.Min(cell._toRow, _range._toRow);
-                        var rowSpan = maxRow - ma._fromRow;
+                        var maxRow = Math.Min(ma._toRow, _range._toRow);
+                        var rowSpan = maxRow - ma._fromRow+1;
                         if (rowSpan > 1)
                         {
                             writer.AddAttribute("rowspan", rowSpan.ToString(CultureInfo.InvariantCulture));
                         }
+                        if(added==false) _mergedCells.Add(ma);
                     }
                 }
             }
@@ -300,11 +336,16 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void GetDataTypes()
         {
+            if (_range._fromRow + Settings.HeaderRows > ExcelPackage.MaxRows)
+            {
+                throw new InvalidOperationException("Range From Row + Header rows is out of bounds");
+            }
+
             _datatypes = new List<string>();
             for (int col = _range._fromCol; col <= _range._toCol; col++)
             {
                 _datatypes.Add(
-                    ColumnDataTypeManager.GetColumnDataType(_range.Worksheet, _range, Settings.FirstRowIsHeader ? 2 : 1, col));
+                    ColumnDataTypeManager.GetColumnDataType(_range.Worksheet, _range, _range._fromRow + Settings.HeaderRows, col));
             }
         }
     }

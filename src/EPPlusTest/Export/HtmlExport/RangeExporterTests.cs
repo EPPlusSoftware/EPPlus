@@ -29,7 +29,6 @@ namespace EPPlusTest.Export.HtmlExport
                 var range = sheet.Cells["A1:B2"];
                 using(var ms = new MemoryStream())
                 {
-                    range.HtmlExporter.Settings.FirstRowIsHeader = true;
                     range.HtmlExporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes=false;
                     range.HtmlExporter.RenderHtml(ms);                    
                     var sr = new StreamReader(ms);
@@ -62,7 +61,6 @@ namespace EPPlusTest.Export.HtmlExport
                 sheet.Cells["A2:B2"].Style.Font.Italic=true;
                 sheet.Cells["B1:B2"].Style.Font.Name = "Consolas";
 
-                range.HtmlExporter.Settings.FirstRowIsHeader = true;
                 range.HtmlExporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes = false;
                 var result = range.HtmlExporter.GetSinglePage();
                 Assert.AreEqual(
@@ -70,6 +68,30 @@ namespace EPPlusTest.Export.HtmlExport
                     result);
             }
         }
+        [TestMethod]
+        public void WriteHtmlFiles()
+        {
+            //using (var package = OpenTemplatePackage("issue485.xlsx"))
+            //{
+            //    SaveRangeFile(package, "Avances", "B3:T112");
+            //    SaveRangeFile(package, "Avances TD", "B2:L62");
+            //    SaveRangeFile(package, "Excel docClikalia", "A1:Q345");                
+            //}
+            using (var package = OpenTemplatePackage("Calculate Worksheet.xlsx"))
+            {
+                SaveRangeFile(package, "All Questions", "D1:BF1049", 2);
+            }
+        }
 
+        private static void SaveRangeFile(ExcelPackage package, string ws, string address, int headerRows=1)
+        {
+            var sheet = package.Workbook.Worksheets[ws];
+            var range = sheet.Cells[address];
+            range.HtmlExporter.Settings.SetColumnWidth = true;
+            range.HtmlExporter.Settings.HeaderRows = headerRows;
+            File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", range.HtmlExporter.GetSinglePage());
+        }
+        
     }
 }
+    
