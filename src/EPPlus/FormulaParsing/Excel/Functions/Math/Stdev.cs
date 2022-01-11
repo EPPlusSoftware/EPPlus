@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return CreateResult(StandardDeviation(values), DataType.Decimal);
         }
 
-        private double StandardDeviation(IEnumerable<double> values)
+        internal double StandardDeviation(IEnumerable<double> values)
         {
             double ret = 0;
             if (values.Any())
