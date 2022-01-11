@@ -209,6 +209,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["standardize"] = new Standardize();
             Functions["forecast"] = new Forecast();
             Functions["forecast.linear"] = new ForecastLinear();
+            Functions["intercept"] = new Intercept();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();

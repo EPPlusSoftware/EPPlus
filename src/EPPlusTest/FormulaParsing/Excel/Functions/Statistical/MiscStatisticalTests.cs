@@ -247,5 +247,29 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(10.607253, System.Math.Round((double)result, 6));
             }
         }
+
+        [TestMethod]
+        public void InterceptTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 2;
+                sheet.Cells["A2"].Value = 3;
+                sheet.Cells["A3"].Value = 9;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["A5"].Value = 8;
+                sheet.Cells["B1"].Value = 6;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 11;
+                sheet.Cells["B4"].Value = 7;
+                sheet.Cells["B5"].Value = 5;
+                sheet.Cells["B8"].Formula = "INTERCEPT(A1:A5,B1:B5)";
+                sheet.Calculate();
+                var result = sheet.Cells["B8"].Value;
+
+                Assert.AreEqual(0.0483871, System.Math.Round((double)result, 7));
+            }
+        }
     }
 }
