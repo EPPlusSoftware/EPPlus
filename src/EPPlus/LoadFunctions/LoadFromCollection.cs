@@ -41,7 +41,7 @@ namespace OfficeOpenXml.LoadFunctions
                 ShowLastColumn = tableAttr.ShowLastColumn;
                 ShowTotal = tableAttr.ShowTotal;
             }
-            var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortorderAttribute>();
+            var classSortOrderAttr = type.GetFirstAttributeOfType<EPPlusTableColumnSortOrderAttribute>();
             if(classSortOrderAttr != null && classSortOrderAttr.Properties != null && classSortOrderAttr.Properties.Length > 0)
             {
                 SortOrderProperties = classSortOrderAttr.Properties.ToList();
