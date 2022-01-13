@@ -2972,7 +2972,6 @@ namespace EPPlusTest
                     }
                 }
 
-
                 SaveAndCleanup(package);
             }
         }
