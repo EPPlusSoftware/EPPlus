@@ -123,7 +123,13 @@ namespace OfficeOpenXml.Core.Worksheet.SerializedFonts
             //return (float)pixels * (1f/scaleFactor) + (3.55555f * (8f/sizeInEm));
             var pixelWidth = FduToPixels(font.Size, width, sFont.UnitsPerEm);
             var pixelHeight = FduToPixels(font.Size, sFont.LineHeight, sFont.UnitsPerEm);
+            //var genericMetrics = GenericMetricsManager.CreateMetrics(sFont);
+            //var gw = genericMetrics.Measure(text);
+            //var diff = gw - width;
+            //var pct = gw / width;
+            //var genericPixelWidth = FduToPixels(font.Size, gw, sFont.UnitsPerEm);
             return new TextMeasurement(pixelWidth, pixelHeight);// * (1f / scaleFactor);
+            //return new TextMeasurement(genericPixelWidth, pixelHeight);// * (1f / scaleFactor);
         }
     }
 }

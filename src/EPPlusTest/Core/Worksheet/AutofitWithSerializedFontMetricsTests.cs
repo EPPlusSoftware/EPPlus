@@ -16,15 +16,15 @@ namespace EPPlusTest.Core.Worksheet
     {
         [DataTestMethod]
         //[DataRow("Calibri")]
-        //[DataRow("Arial")]
+        [DataRow("Arial")]
         //[DataRow("Arial Black")]
-        //[DataRow("Times New Roman")]
-        //[DataRow("Courier New")]
+        [DataRow("Times New Roman")]
+        [DataRow("Courier New")]
         //[DataRow("Liberation Serif")]
-        //[DataRow("Verdana")]
+        [DataRow("Verdana")]
         //[DataRow("Cambria")]
         //[DataRow("Georgia")]
-        [DataRow("Corbel")]
+        //[DataRow("Corbel")]
         //[DataRow("Century Gothic")]
         public void AutofitWithSerializedFonts(string fontFamily)
         {

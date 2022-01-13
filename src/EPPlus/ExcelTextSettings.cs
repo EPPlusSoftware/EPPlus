@@ -10,6 +10,7 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.SerializedFonts;
 using OfficeOpenXml.Interfaces.Text;
 using System;
@@ -26,7 +27,8 @@ namespace OfficeOpenXml
     {
         public ExcelTextSettings()
         {
-            PrimaryTextMeasurer = new SerializedFontTextMeasurer();
+            //PrimaryTextMeasurer = new SerializedFontTextMeasurer();
+            PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
         }
 
         /// <summary>

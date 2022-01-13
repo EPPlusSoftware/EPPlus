@@ -19,9 +19,9 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
 {
     public enum FontSubFamilies : ushort
     {
-        Regular,
-        Bold,
-        Italic,
-        BoldItalic
+        Regular = 0,
+        Bold = 1,
+        Italic = 2,
+        BoldItalic = 3
     }
 }
