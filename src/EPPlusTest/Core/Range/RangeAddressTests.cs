@@ -389,5 +389,13 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(8, a1.End.Row);
             Assert.AreEqual(7, a1.End.Column);
         }
+        [TestMethod]
+        public void ValidateInsertIntoWorksheetNameWithApostrophe()
+        {
+            ExcelAddressBase a1 = new ExcelAddressBase("'d''étude'!A1");
+
+            var a2 = a1.AddRow(1, 1).AddColumn(1,1);
+            Assert.AreEqual("'d''étude'!B2", a2.Address);
+        }
     }
 }
