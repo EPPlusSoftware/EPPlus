@@ -73,20 +73,17 @@ namespace OfficeOpenXml.Export.HtmlExport
                 WriteCssItem($"{item.Key}:{item.Value};", _settings.Minify);
             }
             WriteClassEnd(_settings.Minify);
-            if (_settings.SetColumnWidth)
+            if (_settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType ||
+                _settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.CellDataType)
             {
-                ExcelWorksheet ws = _range.Worksheet;
-                var mdw = _range.Worksheet.Workbook.MaxFontWidth;
-                for (var c = _range._fromCol; c <= _range._toCol; c++)
-                {
-                    double width = ws.GetColumnWidthPixels(c, mdw);
-                    WriteClass($"table.{tableClass} ", _settings.Minify);
-                    WriteCssItem($"tr > *:nth-child({(c - _range._fromCol + 1)}){{width:{width}px}}", _settings.Minify);
-                }
+                WriteClass($".epp-al {{", _settings.Minify);
+                WriteCssItem($"text-align:left;", _settings.Minify);
+                WriteClassEnd(_settings.Minify);
+                WriteClass($".epp-ar {{", _settings.Minify);
+                WriteCssItem($"text-align:right;", _settings.Minify);
+                WriteClassEnd(_settings.Minify);
             }
         }
-
-
         internal void AddToCss(ExcelStyles styles, int styleId)
         {
             var xfs = styles.CellXfs[styleId];
@@ -94,7 +91,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (IsAddedToCache(xfs, out int id)==false)
                 {
-                    WriteClass($".s{id}{{", _settings.Minify);
+                    WriteClass($".epp-s{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {
                         WriteFillStyles(xfs.Fill);

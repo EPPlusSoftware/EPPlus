@@ -251,7 +251,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
-                        writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
                         writer.ApplyFormat(Settings.Minify);
@@ -292,7 +292,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 var cell = _table.WorkSheet.Cells[row, col];
                 writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
-                writer.SetClassAttributeFromStyle(cell.StyleID, _table.WorkSheet.Workbook.Styles);
+                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true);
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TableHeaderCellRole))
                 {
                     writer.AddAttribute("role", Settings.Accessibility.TableSettings.TableHeaderCellRole);
@@ -404,7 +404,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     writer.AddAttribute("role", "cell");
                 }
-                writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false);
                 writer.RenderBeginTag(HtmlElements.TableData);
                 writer.Write(GetCellText(cell));
                 writer.RenderEndTag();

@@ -71,12 +71,12 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void WriteHtmlFiles()
         {
-            //using (var package = OpenTemplatePackage("issue485.xlsx"))
-            //{
-            //    SaveRangeFile(package, "Avances", "B3:T112");
-            //    SaveRangeFile(package, "Avances TD", "B2:L62");
-            //    SaveRangeFile(package, "Excel docClikalia", "A1:Q345");                
-            //}
+            using (var package = OpenTemplatePackage("issue485.xlsx"))
+            {
+                SaveRangeFile(package, "Avances", "B3:T112");
+                SaveRangeFile(package, "Avances TD", "B2:L62");
+                SaveRangeFile(package, "Excel docClikalia", "A1:Q345");                
+            }
             using (var package = OpenTemplatePackage("Calculate Worksheet.xlsx"))
             {
                 SaveRangeFile(package, "All Questions", "D1:BF1049", 2);

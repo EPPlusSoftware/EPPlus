@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
             }
-            writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false);
             writer.RenderBeginTag(HtmlElements.TableData);
             if (cell.IsRichText)
             {
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
             }
-            writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
             if (cell.IsRichText)
             {

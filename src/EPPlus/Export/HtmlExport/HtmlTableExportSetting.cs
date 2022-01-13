@@ -19,6 +19,21 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
+    public enum eHtmlGeneralAlignmentHandling
+    {
+        /// <summary>
+        /// Dont set any alignment when alignment is set to general
+        /// </summary>
+        DontSet,
+        /// <summary>
+        /// If the column data type is numeric or date, alignment will be right otherwise left.
+        /// </summary>
+        ColumnDataType,
+        /// <summary>
+        /// If the cell value data type is numeric or date, alignment will be right otherwise left.
+        /// </summary>
+        CellDataType
+    }
     public abstract class HtmlExportSettings
     {
         /// <summary>
@@ -29,6 +44,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If true hidden rows will be included. 
         /// </summary>
         public bool IncludeHiddenRows { get; set; } = false;
+        /// <summary>
+        /// How to set the alignment for a cell if it's set to General.
+        /// </summary>
+        public eHtmlGeneralAlignmentHandling HorizontalAlignmentWhenGeneral { get; set; } = eHtmlGeneralAlignmentHandling.CellDataType;
         /// <summary>
         /// Settings for usage of accessibility (aria, role) attributes of the table
         /// </summary>

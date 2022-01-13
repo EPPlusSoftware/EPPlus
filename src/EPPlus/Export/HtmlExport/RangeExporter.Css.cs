@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (!stream.CanWrite)
             {
-                throw new IOException("Parameter stream must be a writeable System.IO.Stream");
+                throw new IOException("Parameter stream must be a writable System.IO.Stream");
             }
 
             if (_datatypes.Count == 0) GetDataTypes();
@@ -66,6 +66,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var ws = _range.Worksheet;
             var styles = ws.Workbook.Styles;
             var ce = new CellStoreEnumerator<ExcelValue>(_range.Worksheet._values, _range._fromRow, _range._fromCol, _range._toRow, _range._toCol);
+            ExcelAddressBase address = null;
             while (ce.Next())
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
@@ -73,10 +74,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var ma = ws.MergedCells[ce.Row, ce.Column];
                     if(ma!=null)
                     {
-                        var address = new ExcelAddressBase(ma);
+                        if (address == null || address.Address != ma)
+                        {
+                            address = new ExcelAddressBase(ma);
+                        }
                         var fromRow = address._fromRow < _range._fromRow ? _range._fromRow : address._fromRow;
                         var fromCol = address._fromCol < _range._fromCol ? _range._fromCol : address._fromCol;
-                        if (fromRow != ce.Row || fromCol != ce.Column)
+                        if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
                             continue;                        
                     }
                     styleWriter.AddToCss(styles, ce.Value._styleId);

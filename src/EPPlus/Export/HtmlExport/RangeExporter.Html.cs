@@ -75,6 +75,11 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             LoadVisibleColumns();
+            if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral==eHtmlGeneralAlignmentHandling.ColumnDataType)
+            {
+                SetColumnGroup(writer);
+            }
+
             if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
             {
                 RenderHeaderRow(writer);
@@ -86,6 +91,32 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
 
         }
+
+        private void SetColumnGroup(EpplusHtmlWriter writer)
+        {
+            var ws = _range.Worksheet;
+            writer.RenderBeginTag("colgroup");
+            writer.Indent++;
+            foreach (var c in _columns)
+            {
+                if (Settings.SetColumnWidth)
+                {
+                    var mdw = _range.Worksheet.Workbook.MaxFontWidth;
+                    double width = ws.GetColumnWidthPixels(c-1, mdw);
+                    writer.AddAttribute("style", $"width:{width}px");
+                }
+                if (Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
+                {
+                    writer.AddAttribute("class", $"{TableClass}-ar");
+                }
+                writer.AddAttribute("span", "1");
+                writer.RenderBeginTag("col", true);
+
+            }
+            writer.Indent--;
+            writer.RenderEndTag();
+        }
+
         private void AddClassesAttributes(EpplusHtmlWriter writer)
         {
            writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
@@ -165,7 +196,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
-                        writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
                         writer.ApplyFormat(Settings.Minify);
@@ -209,7 +240,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var cell = _range.Worksheet.Cells[row, col];
                     writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
                     SetColRowSpan(writer, cell);
-                    writer.SetClassAttributeFromStyle(cell.StyleID, _range.Worksheet.Workbook.Styles);
+                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true);
                     writer.RenderBeginTag(HtmlElements.TableHeader);
                     if (Settings.HeaderRows > 0)
                     {

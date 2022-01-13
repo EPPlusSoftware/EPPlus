@@ -55,6 +55,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         internal void AddAlignmentToCss(string name, List<string> dataTypes)
         {
+            if (_settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.DontSet)
+            {
+                return;
+            }
             var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
             for (int c=0;c < _table.Columns.Count;c++)
             {
@@ -72,7 +76,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
 
-                if (string.IsNullOrEmpty(hAlign) && c < dataTypes.Count && dataTypes[c] == HtmlDataTypes.Number)
+                if (string.IsNullOrEmpty(hAlign) && c < dataTypes.Count && (dataTypes[c] == HtmlDataTypes.Number || dataTypes[c] == HtmlDataTypes.DateTime))
                 {
                     hAlign = "right";
                 }

@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -72,15 +73,33 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer.Flush();
         }
 
-        internal void SetClassAttributeFromStyle(int styleId, ExcelStyles styles)
+        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, eHtmlGeneralAlignmentHandling alignment, bool isHeader)
         {
-            if (styleId <= 0 || styleId >= styles.CellXfs.Count)
+            string cls = "";
+            int styleId = cell.StyleID;
+            ExcelStyles styles = cell.Worksheet.Workbook.Styles;
+            if (styleId < 0 || styleId >= styles.CellXfs.Count)
             {
                 return;
             }
             var xfs = styles.CellXfs[styleId];
-            if (HasStyle(xfs) == false)
+            if (alignment == eHtmlGeneralAlignmentHandling.CellDataType &&
+               xfs.HorizontalAlignment == ExcelHorizontalAlignment.General)
             {
+                if (ConvertUtil.IsNumericOrDate(cell.Value))
+                {
+                    cls = $"epp-ar";
+                }
+                else if (isHeader)
+                {
+                    cls = $"epp-al";
+                }
+            }
+
+            if (styleId == 0 || HasStyle(xfs) == false)
+            {
+                if (string.IsNullOrEmpty(cls) == false)
+                    AddAttribute("class", cls);
                 return;
             }
             string key = GetStyleKey(xfs);
@@ -94,8 +113,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 id = _styleCache.Count + 1;
                 _styleCache.Add(key, id);
             }
-
-            AddAttribute("class", $"s{id}");
+            cls += $" epp-s{id}";
+            AddAttribute("class", cls.Trim());
         }
     }
 }

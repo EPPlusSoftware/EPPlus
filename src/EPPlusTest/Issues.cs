@@ -2976,6 +2976,17 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i574()
+        {
+            using (var package = OpenTemplatePackage("i574.xlsx"))
+            {
+                var wsSource = package.Workbook.Worksheets[0];
+
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
 
