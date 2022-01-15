@@ -1,6 +1,4 @@
 ﻿using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts;
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts.Serialization;
 using OfficeOpenXml.Interfaces.Text;
 using System;
 using System.Collections.Generic;
@@ -112,12 +110,18 @@ namespace OfficeOpenXml.Core
                 ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
                 if (!measureCache.TryGetValue(key, out var measurement))
                 {
-                    var measurer = _range._workbook.TextSettings.PrimaryTextMeasurer;
+                    var textSettings = _range._workbook.TextSettings;
+                    var measurer = textSettings.PrimaryTextMeasurer;
                     measurement = measurer.MeasureText(t, fontCache[fntID]);
                     if (measurement.IsEmpty && _range._workbook.TextSettings.FallbackTextMeasurer != null)
                     {
                         measurer = _range._workbook.TextSettings.FallbackTextMeasurer;
                         measurement = measurer.MeasureText(t, fontCache[fntID]);
+                        if(textSettings.AutofitScaleFactor != 1f)
+                        {
+                            measurement.Height = measurement.Height * textSettings.AutofitScaleFactor;
+                            measurement.Width = measurement.Width * textSettings.AutofitScaleFactor;
+                        }
                     }
                     measureCache.Add(key, measurement);
                 }

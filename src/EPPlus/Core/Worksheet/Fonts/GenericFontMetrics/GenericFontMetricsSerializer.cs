@@ -17,7 +17,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             {
                 var metrics = new SerializedFontMetrics();
                 metrics.Version = reader.ReadUInt16();
-                metrics.Family = (SerializedFontFamilies)reader.ReadUInt16();
+                metrics.Family = (FontMetricsFamilies)reader.ReadUInt16();
                 metrics.SubFamily = (FontSubFamilies)reader.ReadUInt16();
                 metrics.LineHeight1em = reader.ReadSingle();
                 metrics.DefaultWidth1em = reader.ReadSingle();

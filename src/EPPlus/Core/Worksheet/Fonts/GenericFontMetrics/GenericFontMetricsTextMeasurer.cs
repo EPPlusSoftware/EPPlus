@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             return new TextMeasurement(width, height);
         }
 
-        public static uint GetKey(SerializedFontFamilies family, FontSubFamilies subFamily)
+        public static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
         {
             var k1 = (ushort)family;
             var k2 = (ushort)subFamily;
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         public static uint GetKey(string fontFamily, FontStyles fontStyle)
         {
             var enumName = fontFamily.Replace(" ", string.Empty);
-            var values = Enum.GetValues(typeof(SerializedFontFamilies));
+            var values = Enum.GetValues(typeof(FontMetricsFamilies));
             var supported = false;
             foreach (var enumVal in values)
             {
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 }
             }
             if (!supported) return uint.MaxValue;
-            var family = (SerializedFontFamilies)Enum.Parse(typeof(SerializedFontFamilies), enumName);
+            var family = (FontMetricsFamilies)Enum.Parse(typeof(FontMetricsFamilies), enumName);
             var subFamily = FontSubFamilies.Regular;
             switch (fontStyle)
             {

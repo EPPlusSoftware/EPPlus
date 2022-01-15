@@ -15,16 +15,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
+namespace OfficeOpenXml.Core.Worksheet.Fonts
 {
-    public enum SerializedFontFamilies : ushort
+    internal class BoundingRectangle
     {
-        Arial = 0,
-        Calibri = 1,
-        TimesNewRoman = 2,
-        CourierNew = 3,
-        LiberationSerif = 4,
-        Verdana = 5,
-        Georgia = 6
+        public BoundingRectangle(short xMin, short yMin, short xMax, short yMax)
+        {
+            Xmin = xMin;
+            Ymin = yMin;
+            Xmax = xMax;
+            Ymax = yMax;
+        }
+
+        public short Xmin { get; set; }
+
+        public short Ymin { get; set; }
+
+        public short Xmax { get; set; }
+
+        public short Ymax { get; set; }
     }
 }

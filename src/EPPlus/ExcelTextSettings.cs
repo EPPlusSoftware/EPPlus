@@ -11,7 +11,6 @@
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
-using OfficeOpenXml.Core.Worksheet.SerializedFonts;
 using OfficeOpenXml.Interfaces.Text;
 using System;
 using System.Collections.Generic;
@@ -27,8 +26,8 @@ namespace OfficeOpenXml
     {
         public ExcelTextSettings()
         {
-            //PrimaryTextMeasurer = new SerializedFontTextMeasurer();
             PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+            AutofitScaleFactor = 1f;
         }
 
         /// <summary>
@@ -40,5 +39,10 @@ namespace OfficeOpenXml
         /// If the primary text measurer fails to measure the text, this one will be used.
         /// </summary>
         public ITextMeasurer FallbackTextMeasurer { get; set; }
+
+        /// <summary>
+        /// All measurements of texts will be multiplied with this value. Default is 1.
+        /// </summary>
+        public float AutofitScaleFactor { get; set; }
     }
 }

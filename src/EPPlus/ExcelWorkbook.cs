@@ -34,7 +34,6 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Core.Worksheet.SerializedFonts;
 
 namespace OfficeOpenXml
 {

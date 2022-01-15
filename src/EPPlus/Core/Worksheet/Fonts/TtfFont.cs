@@ -106,9 +106,9 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
             return NameTable.NameRecords.FirstOrDefault(x => x.LanguageMapping != null && x.RecordType == NameRecordTypes.FontFamilyName && x.LanguageMapping.Language == Languages.English)?.Name;
         }
 
-        public SerializedFontFamilies? GetFontFamily()
+        public FontMetricsFamilies? GetFontFamily()
         {
-            if(EnumCompatUtil.TryParse(GetEnglishFontFamilyName().Replace(" ", ""), out SerializedFontFamilies family))
+            if(EnumCompatUtil.TryParse(GetEnglishFontFamilyName().Replace(" ", ""), out FontMetricsFamilies family))
             {
                 return family;
             }

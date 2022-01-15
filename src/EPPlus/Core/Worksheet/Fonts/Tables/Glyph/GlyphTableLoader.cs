@@ -10,7 +10,7 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts;
+using OfficeOpenXml.Core.Worksheet.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

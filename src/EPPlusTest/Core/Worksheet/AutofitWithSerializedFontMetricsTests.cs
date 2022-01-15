@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts;
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using OfficeOpenXml.System.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -15,17 +15,22 @@ namespace EPPlusTest.Core.Worksheet
     public class AutofitWithSerializedFontMetricsTests : TestBase
     {
         [DataTestMethod]
-        //[DataRow("Calibri")]
+        [DataRow("Calibri")]
         [DataRow("Arial")]
-        //[DataRow("Arial Black")]
+        [DataRow("Arial Black")]
         [DataRow("Times New Roman")]
         [DataRow("Courier New")]
-        //[DataRow("Liberation Serif")]
+        [DataRow("Liberation Serif")]
         [DataRow("Verdana")]
-        //[DataRow("Cambria")]
-        //[DataRow("Georgia")]
-        //[DataRow("Corbel")]
-        //[DataRow("Century Gothic")]
+        [DataRow("Cambria")]
+        [DataRow("Cambria Math")]
+        [DataRow("Georgia")]
+        [DataRow("Corbel")]
+        [DataRow("Century Gothic")]
+        [DataRow("Rockwell")]
+        [DataRow("Trebuchet MS")]
+        [DataRow("Tw Cen MT")]
+        [DataRow("Tw Cen MT Condensed")]
         public void AutofitWithSerializedFonts(string fontFamily)
         {
             using (var package = new ExcelPackage())
@@ -44,7 +49,7 @@ namespace EPPlusTest.Core.Worksheet
                         for (var row = 1; row < 5; row++)
                         {
                             var sb = new StringBuilder();
-                            var maxLength = 35 - (col * 2);
+                            var maxLength = 40 - (col * 2);
                             var nLetters = rnd.Next(4, maxLength);
                             for (var x = 0; x < nLetters; x++)
                             {
@@ -52,6 +57,16 @@ namespace EPPlusTest.Core.Worksheet
                                 if (x % 2 == 0)
                                 {
                                     n = rnd.Next(65, 90);
+                                }
+                                else if(x % 5 == 0)
+                                {
+                                    var charArr = new int[] { (int)'.', (int)',', (int)'!', (int)'-' };
+                                    var cix = rnd.Next(0, charArr.Length - 1);
+                                    n = charArr[cix];
+                                }
+                                else if(x % 7 == 0)
+                                {
+                                    n = (int)' ';
                                 }
                                 else
                                 {
@@ -135,18 +150,18 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-#if Core
+#if NETFULL
         [TestMethod, Ignore]
         public void AutoFitSystemDrawing()
         {
             using(var package = new ExcelPackage())
             {
-                package.Workbook.TextSettings.FallbackTextMeasurer = new OfficeOpenXml.SkiaSharp.Text.SkiaSharpTextMeasurer();
-                var sheet = package.Workbook.Worksheets.Add("Test");
-                sheet.Cells["A1"].Value = "abc 123 SDFÖLKJE !wueriopiquwejklöpasdfj";
-                sheet.Cells["A1"].Style.Font.Name = "Times New Roman";
-                sheet.Columns.AutoFit();
-                SaveWorkbook("Autofit_Candara.xlsx", package);
+                //package.Workbook.TextSettings.FallbackTextMeasurer = new OfficeOpenXml.SkiaSharp.Text.SkiaSharpTextMeasurer();
+                //var sheet = package.Workbook.Worksheets.Add("Test");
+                //sheet.Cells["A1"].Value = "abc 123 SDFÖLKJE !wueriopiquwejklöpasdfj";
+                //sheet.Cells["A1"].Style.Font.Name = "Times New Roman";
+                //sheet.Columns.AutoFit();
+                //SaveWorkbook("Autofit_Candara.xlsx", package);
             }
         }
 #endif

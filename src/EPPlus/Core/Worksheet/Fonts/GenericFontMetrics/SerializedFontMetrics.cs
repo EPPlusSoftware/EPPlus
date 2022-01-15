@@ -14,7 +14,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         }
 
         public ushort Version { get; set; }
-        public SerializedFontFamilies Family { get; set; }
+        public FontMetricsFamilies Family { get; set; }
         public FontSubFamilies SubFamily { get; set; }
         public float LineHeight1em { get; set; }
 
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             return GetKey(Family, SubFamily);
         }
 
-        public static uint GetKey(SerializedFontFamilies family, FontSubFamilies subFamily)
+        public static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
         {
             var k1 = (ushort)family;
             var k2 = (ushort)subFamily;

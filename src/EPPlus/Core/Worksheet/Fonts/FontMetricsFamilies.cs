@@ -15,21 +15,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.SerializedFonts
+namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
 {
-    public enum SerializedFontFamilies : ushort
+    public enum FontMetricsFamilies : ushort
     {
         Arial = 0,
-        Calibri = 1,
-        TimesNewRoman = 2,
-        CourierNew = 3,
-        LiberationSerif = 4,
-        Verdana = 5,
-        Georgia = 6,
-        ArialBlack = 7,
-        ArialNarrow = 8,
-        Cambria = 9,
-        Corbel = 10,
-        CenturyGothic = 11
+        ArialBlack = 1,
+        ArialNarrow = 2,
+        BookmanOldStyle = 3,
+        Calibri = 4,
+        CalibriLight = 5,
+        CalistoMT = 6,
+        Cambria = 7,
+        CambriaMath = 8,
+        CenturyGothic = 9,
+        CenturySchoolbook = 10,
+        Corbel = 11,
+        CourierNew = 12,
+        Garamond = 13,
+        Georgia = 14,
+        GillSansMT = 15,
+        Impact = 16,
+        LiberationSerif = 17,
+        Rockwell = 18,
+        RockwellCondensed = 19,
+        TimesNewRoman = 20,
+        TrebuchetMS = 21,
+        TwCenMT = 22,
+        TwCenMTCondensed = 23,
+        Verdana = 24
     }
 }
