@@ -352,5 +352,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(4.605170186, System.Math.Round((double)result, 9));
             }
         }
+
+        [TestMethod]
+        public void ExponDistTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 0.5;
+                sheet.Cells["A2"].Formula = "EXPONDIST(A1, 1, TRUE)";
+                sheet.Calculate();
+                var result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(0.39346934, System.Math.Round((double)result, 8));
+
+                sheet.Cells["A1"].Value = 0.2;
+                sheet.Cells["A2"].Formula = "EXPONDIST(A1, 10, FALSE)";
+                sheet.Calculate();
+                result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(1.35335283, System.Math.Round((double)result, 8));
+
+                sheet.Cells["A1"].Value = 0.5;
+                sheet.Cells["A2"].Formula = "EXPON.DIST(A1, 1, TRUE)";
+                sheet.Calculate();
+                result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(0.39346934, System.Math.Round((double)result, 8));
+
+                sheet.Cells["A1"].Value = 0.2;
+                sheet.Cells["A2"].Formula = "EXPON.DIST(A1, 10, FALSE)";
+                sheet.Calculate();
+                result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(1.35335283, System.Math.Round((double)result, 8));
+            }
+        }  
     }
 }
