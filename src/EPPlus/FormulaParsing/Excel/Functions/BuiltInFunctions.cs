@@ -213,6 +213,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["chidist"] = new ChiDist();
             Functions["chisq.dist.rt"] = new ChiSqDistRt();
             Functions["chisq.inv"] = new ChisqInv();
+            Functions["chisq.inv.rt"] = new ChisqInvRt();
+            Functions["chiinv"] = new ChiInv();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();

@@ -325,5 +325,32 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
                 Assert.AreEqual(0.210721031, System.Math.Round((double)result, 9));
             }
         }
+
+        [TestMethod]
+        public void ChisqInvRtTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = 0.5;
+                sheet.Cells["A2"].Formula = "CHISQ.INV.RT(A1, 1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(0.454936423, System.Math.Round((double)result, 9));
+
+                sheet.Cells["A1"].Value = 0.75;
+                sheet.Cells["A2"].Formula = "CHISQ.INV.RT(A1, 1)";
+                sheet.Calculate();
+                result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(0.101531044, System.Math.Round((double)result, 9));
+
+                sheet.Cells["A1"].Value = 0.1;
+                sheet.Cells["A2"].Formula = "CHIINV(A1, 2)";
+                sheet.Calculate();
+                result = sheet.Cells["A2"].Value;
+                Assert.AreEqual(4.605170186, System.Math.Round((double)result, 9));
+            }
+        }
     }
 }
