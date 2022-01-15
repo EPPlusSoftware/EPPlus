@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal static class BetaHelper
     {
@@ -101,10 +101,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
         internal static double IBeta(double x, double a, double b)
         {
             // Factors in front of the continued fraction.
-            //var bt = (x === 0 || x === 1) ? 0 :
-            //  System.Math.Exp(jStat.gammaln(a + b) - jStat.gammaln(a) -
-            //           jStat.gammaln(b) + a * System.Math.Log(x) + b *
-            //           System.Math.Log(1 - x));
             var bt = (x == 0 || x == 1) ? 0 :
               System.Math.Exp(GammaHelper.logGamma(a + b) - GammaHelper.logGamma(a) -
                        GammaHelper.logGamma(b) + a * System.Math.Log(x) + b *

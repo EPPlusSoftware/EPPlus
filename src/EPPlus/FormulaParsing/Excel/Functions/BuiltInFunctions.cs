@@ -210,6 +210,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["forecast"] = new Forecast();
             Functions["forecast.linear"] = new ForecastLinear();
             Functions["intercept"] = new Intercept();
+            Functions["chidist"] = new ChiDist();
+            Functions["chisq.dist.rt"] = new ChiSqDistRt();
+            Functions["chisq.inv"] = new ChisqInv();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();

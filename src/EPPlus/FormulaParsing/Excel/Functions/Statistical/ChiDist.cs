@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/03/2020         EPPlus Software AB         Implemented function
+  22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
@@ -18,20 +18,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Engineering,
-        EPPlusVersion = "5.1",
-        Description = "Converts octal number to a decimal")]
-    internal class Oct2Dec : ExcelFunction
+            Category = ExcelFunctionCategory.Statistical,
+            EPPlusVersion = "6.0",
+            Description = "Calculates the right-tailed probability of the Chi-Square Distribution. Same implementation as CHISQ.DIST.RT")]
+    internal class ChiDist : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var number = ArgToString(arguments, 0);
-            var result = TwoComplementHelper.ParseDecFromString(number, 8);
-            return CreateResult(result, DataType.Integer);
+            ValidateArguments(arguments, 2);
+            var n = ArgToDecimal(arguments, 0);
+            var degreesOfFreedom = ArgToInt(arguments, 1);
+            if (n < 0d || degreesOfFreedom < 1 || degreesOfFreedom > System.Math.Pow(10, 10))
+            {
+                return CreateResult(eErrorType.Num);
+            }
+            var result = 1d - ChiSquareHelper.CumulativeDistribution(n, degreesOfFreedom);
+            return CreateResult(result, DataType.Decimal);
         }
     }
 }

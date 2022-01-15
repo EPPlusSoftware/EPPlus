@@ -19,11 +19,12 @@
  * 05/20/2020         EPPlus Software AB         Ported code from java to C#
  *************************************************************************************************
  */
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal static class GammaHelper
     {
