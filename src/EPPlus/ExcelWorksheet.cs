@@ -677,9 +677,8 @@ namespace OfficeOpenXml
 
         internal int GetColumnWidthPixels(int col, decimal mdw)
         {
-            return (int)decimal.Truncate(((256 * GetColumnWidth(col + 1) + decimal.Truncate(128 / mdw)) / 256) * mdw);
+            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), mdw);
         }
-
         internal decimal GetColumnWidth(int col)
         {
             var column = GetValueInner(0, col) as ExcelColumn;
@@ -792,6 +791,10 @@ namespace OfficeOpenXml
                 /**** Default row height is assumed here. Excel calcualtes the row height from the larges font on the line. The formula to this calculation is undocumented, so currently its implemented with constants... ****/
                 return GetRowHeightFromCellFonts(row);
             }
+        }
+        internal double GetRowHeightPixels(int row)
+        {
+            return GetRowHeight(row) / 0.75;
         }
         Dictionary<int, double> _textHeights = new Dictionary<int, double>();
         private double GetRowHeightFromCellFonts(int row)

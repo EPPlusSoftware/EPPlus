@@ -68,9 +68,35 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// The culture used when formatting the cell output.
         /// </summary>
         public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+        /// <summary>
+        /// Encoding for the output
+        /// </summary>
         public Encoding Encoding { get; set; } = Encoding.UTF8;
+        /// <summary>
+        /// Set the column width for columns in the table via the columngroup/col element.
+        /// Columns with the default width will have the default column width class set, ({Settings.StyleClassPrefix}dcw). 
+        /// Columns with custom column width will have the width set directly via the style attribute.
+        /// </summary>
         public bool SetColumnWidth { get; set; } = false;
+        /// <summary>
+        /// Set the row height for rows in the table.
+        /// Rows with the default height will have the default row height class set, ({Settings.StyleClassPrefix}drh). 
+        /// Rows with custom row height will have the height set directly via the style attribute.
+        /// </summary>
         public bool SetRowHeight { get; set; } = false;
+        /// <summary>
+        /// Prefix for style classes added by EPPlus. 
+        /// <list type="table">
+        /// <listheader><term>type</term><term>Class name</term></listheader>
+        /// <item><term>Cell styles</term><term>{prefix}s{index}</term></item>
+        /// <item><term>Alignment Left </term><term>{prefix}al}</term></item>
+        /// <item><term>Alignment Right</term><term>{prefix}ar}</term></item>
+        /// <item><term>Default column width</term><term>{prefix}dcw}</term></item>
+        /// <item><term>Default row height</term><term>{prefix}drh}</term></item>
+        /// </list>
+        /// Left alignment
+        /// </summary>
+        public string StyleClassPrefix { get; set; } = "epp-";
     }
 
     /// <summary>
@@ -79,6 +105,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     public class HtmlRangeExportSettings : HtmlExportSettings
     {
         int _headerRows=1;
+
         /// <summary>
         /// Number of header rows before the actual data. Default is 1.
         /// </summary>

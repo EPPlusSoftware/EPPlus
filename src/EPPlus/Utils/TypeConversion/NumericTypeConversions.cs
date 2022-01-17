@@ -45,20 +45,13 @@ namespace OfficeOpenXml.Utils.TypeConversion
         public static bool TryConvert(object obj, out object convertedObj, Type convertToType)
         {
             convertedObj = obj;
-            try
+            if (_numericTypes.ContainsKey(convertToType))
             {
-                if (_numericTypes.ContainsKey(convertToType))
-                {
-                    var conversionFunc = _numericTypes[convertToType];
-                    convertedObj = conversionFunc(obj);
-                    return true;
-                }
-                return false;
+                var conversionFunc = _numericTypes[convertToType];
+                convertedObj = conversionFunc(obj);
+                return true;
             }
-            catch 
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

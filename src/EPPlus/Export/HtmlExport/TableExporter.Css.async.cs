@@ -14,11 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -37,7 +33,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <returns>A html table</returns>
         public async Task<string> GetCssStringAsync()
         {
-            using (var ms = new MemoryStream())
+            using (var ms = RecyclableMemory.GetStream())
             {
                 await RenderCssAsync(ms);
                 ms.Position = 0;
@@ -60,6 +56,8 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (_datatypes.Count == 0) GetDataTypes(_table.Address);
             var sw = new StreamWriter(stream);
+            var cellCssWriter = new EpplusCssWriter(sw, _table.Range, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
+            await cellCssWriter.RenderAdditionalAndFontCssAsync(TableClass);
             if (Settings.Css.IncludeTableStyles) await RenderTableCssAsync(sw);
             if (Settings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
         }
@@ -75,7 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId);
+                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix);
                 }
             }
             await styleWriter.FlushStreamAsync();

@@ -1,4 +1,6 @@
-﻿namespace OfficeOpenXml
+﻿using System.Text;
+
+namespace OfficeOpenXml
 {
     public enum eDataTypeOn
     {
@@ -37,6 +39,10 @@
         /// Write the comment attribute if an comment exists in a cell.
         /// </summary>
         public bool WriteComments { get; set; } = true;
+        /// <summary>
+        /// Encoding for the output
+        /// </summary>
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
     }
 
     public class JsonRangeExportSettings : JsonExportSettings

@@ -57,8 +57,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             else
             {
                 _writer.Write(">");
+                _elementStack.Push(elementName);
             }
-            _elementStack.Push(elementName);
         }
 
         public void RenderEndTag()
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer.Flush();
         }
 
-        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, eHtmlGeneralAlignmentHandling alignment, bool isHeader)
+        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, eHtmlGeneralAlignmentHandling alignment, bool isHeader, string styleClassPrefix)
         {
             string cls = "";
             int styleId = cell.StyleID;
@@ -88,11 +88,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (ConvertUtil.IsNumericOrDate(cell.Value))
                 {
-                    cls = $"epp-ar";
+                    cls = $"{styleClassPrefix}ar";
                 }
                 else if (isHeader)
                 {
-                    cls = $"epp-al";
+                    cls = $"{styleClassPrefix}al";
                 }
             }
 
@@ -113,7 +113,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 id = _styleCache.Count + 1;
                 _styleCache.Add(key, id);
             }
-            cls += $" epp-s{id}";
+            cls += $" {styleClassPrefix}s{id}";
             AddAttribute("class", cls.Trim());
         }
     }

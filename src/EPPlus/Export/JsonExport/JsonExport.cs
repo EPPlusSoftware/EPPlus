@@ -1,63 +1,64 @@
 ﻿using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Utils;
 using System;
+using System.IO;
 using System.Text;
 
 namespace OfficeOpenXml
 {
-    internal abstract class JsonExport
+    internal abstract partial class JsonExport
     {
         private JsonExportSettings _settings;
         public JsonExport(JsonExportSettings settings)
         {
             _settings = settings;
         }
-        internal protected void WriteCellData(StringBuilder sb, ExcelRangeBase dr)
+        internal protected void WriteCellData(StreamWriter sw, ExcelRangeBase dr)
         {
             ExcelWorksheet ws = dr.Worksheet;
             Uri uri = null;
             int commentIx = 0;
-            sb.Append($"\"{_settings.RowsElementName}\":[");
+            sw.Write($"\"{_settings.RowsElementName}\":[");
             for (int r = dr._fromRow; r <= dr._toRow; r++)
             {
-                if (r > dr._fromRow) sb.Append(",");
-                sb.Append($"{{\"{_settings.CellsElementName}\":[");
+                if (r > dr._fromRow) sw.Write(",");
+                sw.Write($"{{\"{_settings.CellsElementName}\":[");
                 for (int c = dr._fromCol; c <= dr._toCol; c++)
                 {
-                    if (c > dr._fromCol) sb.Append(",");
+                    if (c > dr._fromCol) sw.Write(",");
                     var cv = ws.GetCoreValueInner(r, c);
                     var t = JsonEscape(ValueToTextHandler.GetFormattedText(cv._value, ws.Workbook, cv._styleId, false));
                     if (cv._value == null)
                     {
-                        sb.Append($"{{\"t\":\"{t}\"");
+                        sw.Write($"{{\"t\":\"{t}\"");
                     }
                     else
                     {
                         var v = JsonEscape(HtmlRawDataProvider.GetRawValue(cv._value));
-                        sb.Append($"{{\"v\":\"{v}\",\"t\":\"{t}\"");
+                        sw.Write($"{{\"v\":\"{v}\",\"t\":\"{t}\"");
                         if(_settings.AddDataTypesOn==eDataTypeOn.OnCell)
                         {
                             var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cv._value);
-                            sb.Append($"{{\"dataType\":\"{dt}\"");
+                            sw.Write($",\"dataType\":\"{dt}\"");
                         }
                     }
 
                     if (_settings.WriteHyperlinks && ws._hyperLinks.Exists(r, c, ref uri))
                     {
-                        sb.Append($",\"uri\":\"{JsonEscape(uri?.OriginalString)}\"");
+                        sw.Write($",\"uri\":\"{JsonEscape(uri?.OriginalString)}\"");
                     }
 
                     if (_settings.WriteComments && ws._commentsStore.Exists(r, c, ref commentIx))
                     {
                         var comment = ws.Comments[commentIx];
-                        sb.Append($",\"comment\":\"{comment.Text}\"");
+                        sw.Write($",\"comment\":\"{comment.Text}\"");
                     }
 
-                    sb.Append("}");
+                    sw.Write("}");
                 }
-                sb.Append("]}");
+                sw.Write("]}");
             }
-            sb.Append("]}");
+            sw.Write("]}");
         }
         internal static string JsonEscape(string s)
         {

@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
             }
-            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false);
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
             writer.RenderBeginTag(HtmlElements.TableData);
             if (cell.IsRichText)
             {
@@ -56,11 +56,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormat(settings.Minify);
         }
 #if !NET35 && !NET40
-        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportSettings settings, bool addRowScope)
+        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
-                var v = HtmlRawDataProvider.GetRawValue(cell, dataType);
+                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
                 if (string.IsNullOrEmpty(v) == false)
                 {
                     writer.AddAttribute("data-value", v);
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
             }
-            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false);
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
             if (cell.IsRichText)
             {

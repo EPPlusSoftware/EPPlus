@@ -67,7 +67,7 @@ namespace EPPlusTest.Export.HtmlExport
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
-                    var expectedHtml = "<table class=\"epplus-table ts-dark1 ts-dark1-header ts-dark1-row-stripes\" id=\"myTable\"><thead><tr><th data-datatype=\"string\">Name</th><th data-datatype=\"number\">Age</th></tr></thead><tbody><tr><td>John Doe</td><td data-value=\"23\">23</td></tr></tbody></table>";
+                    var expectedHtml = "<table class=\"epplus-table ts-dark1 ts-dark1-header ts-dark1-row-stripes\" id=\"myTable\"><thead><tr><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th></tr></thead><tbody><tr><td>John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td></tr></tbody></table>";
                     Assert.AreEqual(expectedHtml, result);
                 }
             }
@@ -97,7 +97,7 @@ namespace EPPlusTest.Export.HtmlExport
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
-                    var expectedHtml = "<table class=\"epplus-table ts-dark1 ts-dark1-header ts-dark1-row-stripes\" id=\"myTable\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" role=\"columnheader\" scope=\"col\">Name</th><th data-datatype=\"number\" role=\"columnheader\" scope=\"col\">Age</th></tr></thead><tbody role=\"rowgroup\"><tr><td role=\"cell\">John Doe</td><td data-value=\"23\" role=\"cell\">23</td></tr></tbody></table>";
+                    var expectedHtml = "<table class=\"epplus-table ts-dark1 ts-dark1-header ts-dark1-row-stripes\" id=\"myTable\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\" role=\"columnheader\" scope=\"col\">Name</th><th data-datatype=\"number\" class=\"epp-al\" role=\"columnheader\" scope=\"col\">Age</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\">John Doe</td><td data-value=\"23\" role=\"cell\" class=\"epp-ar\">23</td></tr></tbody></table>";
                     Assert.AreEqual(expectedHtml, result);
                 }
             }

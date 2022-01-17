@@ -10,15 +10,14 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
+
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -28,7 +27,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// <summary>
     /// Exports a <see cref="ExcelTable"/> to Html
     /// </summary>
-    public partial class RangeExporter
+    public partial class RangeExporter : HtmlExporterBase
     {        
         internal RangeExporter
             (ExcelRangeBase range)
@@ -38,11 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
 
         private readonly ExcelRangeBase _range;
-        internal const string TableClass = "epplus-range";
-        internal const string TableStyleClassPrefix = "s-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
-        internal List<string> _datatypes = new List<string>();
-        private List<int> _columns = new List<int>();
         public HtmlRangeExportSettings Settings { get; } = new HtmlRangeExportSettings();
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -50,7 +45,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <returns>A html table</returns>
         public string GetHtmlString()
         {
-            using (var ms = new MemoryStream())
+            using (var ms = RecyclableMemory.GetStream())
             {
                 RenderHtml(ms);
                 ms.Position = 0;
@@ -77,7 +72,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             LoadVisibleColumns();
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral==eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                SetColumnGroup(writer);
+                SetColumnGroup(writer, _range, Settings);
             }
 
             if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
@@ -91,32 +86,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
 
         }
-
-        private void SetColumnGroup(EpplusHtmlWriter writer)
-        {
-            var ws = _range.Worksheet;
-            writer.RenderBeginTag("colgroup");
-            writer.Indent++;
-            foreach (var c in _columns)
-            {
-                if (Settings.SetColumnWidth)
-                {
-                    var mdw = _range.Worksheet.Workbook.MaxFontWidth;
-                    double width = ws.GetColumnWidthPixels(c-1, mdw);
-                    writer.AddAttribute("style", $"width:{width}px");
-                }
-                if (Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
-                {
-                    writer.AddAttribute("class", $"{TableClass}-ar");
-                }
-                writer.AddAttribute("span", "1");
-                writer.RenderBeginTag("col", true);
-
-            }
-            writer.Indent--;
-            writer.RenderEndTag();
-        }
-
         private void AddClassesAttributes(EpplusHtmlWriter writer)
         {
            writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
@@ -179,6 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
 
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, _range, row, Settings.StyleClassPrefix);
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 foreach (var col in _columns)
@@ -196,7 +166,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
-                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false);
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
                         writer.ApplyFormat(Settings.Minify);
@@ -224,23 +194,24 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.RenderBeginTag(HtmlElements.Thead);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
-            {
-                writer.AddAttribute("role", "row");
-            }
             var headerRows = Settings.HeaderRows == 0 ? 1 : Settings.HeaderRows;
             for (int i = 0; i < headerRows; i++)
             {
+                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    writer.AddAttribute("role", "row");
+                }
+                var row = _range._fromRow + i;
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer,_range, row, Settings.StyleClassPrefix);
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
-                var row = _range._fromRow+i;
                 foreach (var col in _columns)
                 {
                     if (InMergeCellSpan(row, col)) continue;
                     var cell = _range.Worksheet.Cells[row, col];
                     writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
                     SetColRowSpan(writer, cell);
-                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true);
+                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
                     writer.RenderBeginTag(HtmlElements.TableHeader);
                     if (Settings.HeaderRows > 0)
                     {
@@ -268,7 +239,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
         }
-
         private bool InMergeCellSpan(int row, int col)
         {
             for(int i=0; i < _mergedCells.Count;i++)

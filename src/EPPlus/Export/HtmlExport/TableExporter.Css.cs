@@ -14,11 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -36,7 +32,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <returns>A html table</returns>
         public string GetCssString()
         {
-            using (var ms = new MemoryStream())
+            using (var ms = RecyclableMemory.GetStream())
             {
                 RenderCss(ms);
                 ms.Position = 0;
@@ -75,7 +71,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    styleWriter.AddToCss(styles, ce.Value._styleId);
+                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix);
                 }
             }
             styleWriter.FlushStream();
