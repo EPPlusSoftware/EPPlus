@@ -298,6 +298,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dvar"] = new Dvar();
             Functions["dvarp"] = new Dvarp();
             //Finance
+            Functions["accrint"] = new Accrint();
             Functions["cumipmt"] = new Cumipmt();
             Functions["cumprinc"] = new Cumprinc();
             Functions["dollarde"] = new DollarDe();

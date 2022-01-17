@@ -753,5 +753,53 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             Assert.AreEqual(0.02061037, System.Math.Round((double)result, 8));
         }
+
+        [TestMethod]
+        public void AccrintTest1()
+        {
+            _worksheet.Cells["A1"].Value = DateTime.FromOADate(39508);
+            _worksheet.Cells["A2"].Value = DateTime.FromOADate(39691);
+            _worksheet.Cells["A3"].Value = DateTime.FromOADate(39569);
+            _worksheet.Cells["A4"].Value = 0.1;
+            _worksheet.Cells["A5"].Value = 1000;
+            _worksheet.Cells["A6"].Value = 2;
+            _worksheet.Cells["A7"].Value = 0;
+            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(16.66666667, System.Math.Round((double)result, 8));
+
+            _worksheet.Cells["A7"].Value = 1;
+            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7)";
+            _worksheet.Calculate();
+            result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(16.66666667, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void AccrintTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2017, 1, 1);
+            _worksheet.Cells["A2"].Value = new DateTime(2019, 2, 15);
+            _worksheet.Cells["A3"].Value = new DateTime(2022, 2, 15);
+            _worksheet.Cells["A4"].Value = 0.1;
+            _worksheet.Cells["A5"].Value = 1000;
+            _worksheet.Cells["A6"].Value = 2;
+            _worksheet.Cells["A7"].Value = 0;
+            _worksheet.Cells["A8"].Value = 0;
+            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7, A8)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(362.22222222, System.Math.Round((double)result, 8));
+
+            _worksheet.Cells["A8"].Value = 1;
+            _worksheet.Calculate();
+            result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(512.22222222, System.Math.Round((double)result, 8));
+        }
     }
 }
