@@ -611,7 +611,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="ChartType">Type of chart</param>
         /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>    
         /// <returns>The chart</returns>
-        public ExcelBarChart AddBarChart(string Name, eLineChartType ChartType, ExcelPivotTable PivotTableSource)
+        public ExcelBarChart AddBarChart(string Name, eBarChartType ChartType, ExcelPivotTable PivotTableSource)
         {
             return (ExcelBarChart)AddAllChartTypes(Name, (eChartType)ChartType, PivotTableSource);
         }
