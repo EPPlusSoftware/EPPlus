@@ -2975,33 +2975,6 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-
-        [TestMethod]
-        public void Supportcase291_1()
-        {
-            using(var package = new ExcelPackage(@"c:\Temp\SupportCase291\EPPlus SUBTOTAL test.xlsx"))
-            {
-                var sheet1 = package.Workbook.Worksheets["Aico data"];
-                var sheet2 = package.Workbook.Worksheets["Calc"];
-                sheet2.Cells["B9"].Formula = "SUBTOTAL(109,B2:B6)";
-                sheet1.Cells["C7"].Calculate();
-                var v = sheet1.Cells["C7"].Value;
-                Assert.AreEqual(300d, v);
-            }
-        }
-
-        [TestMethod]
-        public void Supportcase291_2()
-        {
-            using (var package = new ExcelPackage(@"c:\Temp\SupportCase291\EPPlus SUBTOTAL test.xlsx"))
-            {
-                var sheet = package.Workbook.Worksheets["Calc"];
-                //sheet.Cells["B9"].Formula = "SUBTOTAL(109,B2:B6)";
-                sheet.Cells["B9"].Calculate();
-                var v = sheet.Cells["B9"].Value;
-                Assert.AreEqual(300d, v);
-            }
-        }
     }
 }
 
