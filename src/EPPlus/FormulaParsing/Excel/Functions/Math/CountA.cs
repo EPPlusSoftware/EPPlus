@@ -60,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 else
                 {
                     _CheckForAndHandleExcelError(item, context);
-                    if (!ShouldIgnore(item) && ShouldCount(item.Value))
+                    if (!ShouldIgnore(item, context) && ShouldCount(item.Value))
                     {
                         nItems++;
                     }

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         private double Calculate(FunctionArgument arg, ParsingContext context)
         {
             var retVal = 0d;
-            if (ShouldIgnore(arg))
+            if (ShouldIgnore(arg, context))
             {
                 return retVal;
             }
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
                 {
-                    if(!ShouldIgnore(arg))
+                    if(!ShouldIgnore(arg, context))
                     {
                         retVal += Calculate(item, context);
                     }

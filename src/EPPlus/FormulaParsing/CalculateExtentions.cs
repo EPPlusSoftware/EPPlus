@@ -65,7 +65,8 @@ namespace OfficeOpenXml
             Init(workbook);
 
             var dc = DependencyChainFactory.Create(workbook, options);
-            workbook.FormulaParser.InitNewCalc();
+            var filterInfo = new FilterInfo(workbook);
+            workbook.FormulaParser.InitNewCalc(filterInfo);
             if (workbook.FormulaParser.Logger != null)
             {
                 var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
@@ -110,7 +111,8 @@ namespace OfficeOpenXml
             Init(worksheet.Workbook);       
             var dc = DependencyChainFactory.Create(worksheet, options);
             var parser = worksheet.Workbook.FormulaParser;
-            parser.InitNewCalc();
+            var filterInfo = new FilterInfo(worksheet.Workbook);
+            parser.InitNewCalc(filterInfo);
             if (parser.Logger != null)
             {
                 var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
@@ -153,7 +155,8 @@ namespace OfficeOpenXml
         {
             Init(range._workbook);
             var parser = range._workbook.FormulaParser;
-            parser.InitNewCalc();
+            var filterInfo = new FilterInfo(range._workbook);
+            parser.InitNewCalc(filterInfo);
             var dc = DependencyChainFactory.Create(range, options);
             CalcChain(range._workbook, parser, dc, options);
         }
@@ -183,7 +186,8 @@ namespace OfficeOpenXml
                 if(string.IsNullOrEmpty(Formula.Trim())) return null;
                 Init(worksheet.Workbook);
                 var parser = worksheet.Workbook.FormulaParser;
-                parser.InitNewCalc();
+                var filterInfo = new FilterInfo(worksheet.Workbook);
+                parser.InitNewCalc(filterInfo);
                 if (Formula[0] == '=') Formula = Formula.Substring(1); //Remove any starting equal sign
                 var dc = DependencyChainFactory.Create(worksheet, Formula, options);
                 var f = dc.list[0];

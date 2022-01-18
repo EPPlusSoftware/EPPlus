@@ -45,6 +45,8 @@ namespace OfficeOpenXml.FormulaParsing
         public interface ICellInfo
         {
             string Address { get; }
+
+            string WorksheetName { get; }
             int Row { get; }
             int Column { get; }
 

@@ -88,6 +88,11 @@ namespace OfficeOpenXml.FormulaParsing
         internal ILexer Lexer { get { return _lexer; } }
         internal IEnumerable<string> FunctionNames { get { return _parsingContext.Configuration.FunctionRepository.FunctionNames; } } 
 
+        /// <summary>
+        /// Contains information about filters on a workbook's worksheets.
+        /// </summary>
+        internal FilterInfo FilterInfo { get; private set; }
+
         internal virtual object Parse(string formula, RangeAddress rangeAddress)
         {
             using (var scope = _parsingContext.Scopes.NewScope(rangeAddress))
@@ -231,8 +236,9 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
 
-        internal void InitNewCalc()
+        internal void InitNewCalc(FilterInfo filterInfo)
         {
+            FilterInfo = filterInfo;
             if(_excelDataProvider!=null)
             {
                 _excelDataProvider.Reset();

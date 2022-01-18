@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
         private void Calculate(FunctionArgument arg, ParsingContext context, ref double retVal, ref double nValues, bool isInArray = false)
         {
-            if (ShouldIgnore(arg))
+            if (ShouldIgnore(arg, context))
             {
                 return;
             }

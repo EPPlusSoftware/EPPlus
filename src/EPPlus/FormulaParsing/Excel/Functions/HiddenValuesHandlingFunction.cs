@@ -75,9 +75,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             return false;
         }
-        protected bool ShouldIgnore(FunctionArgument arg)
+        protected bool ShouldIgnore(FunctionArgument arg, ParsingContext context)
         {
-            if (IgnoreHiddenValues && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell))
+            if (CellStateHelper.ShouldIgnore(IgnoreHiddenValues, arg, context))
             {
                 return true;
             }
