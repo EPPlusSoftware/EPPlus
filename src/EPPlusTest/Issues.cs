@@ -2907,7 +2907,7 @@ namespace EPPlusTest
         [TestMethod]
         public void I552()
         {
-            using (var package = OpenTemplatePackage("I552.xlsx"))
+            using (var package = OpenTemplatePackage("I552-2.xlsx"))
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.InsertRow(2, 1);
@@ -2916,7 +2916,7 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
 
-            using (var package = OpenPackage("I552.xlsx"))
+            using (var package = OpenPackage("I552-2.xlsx"))
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.InsertRow(2, 1);

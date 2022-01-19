@@ -432,7 +432,7 @@ namespace OfficeOpenXml.Core
             var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
             var offsetCol = c.Column - cell.Comment.Column;
             var offsetRow = c.Row - cell.Comment.Row;
-            XmlHelper.CopyElement((XmlElement)cell.Comment.TopNode, (XmlElement)c.TopNode, new string[] { "id" });
+            XmlHelper.CopyElement((XmlElement)cell.Comment.TopNode, (XmlElement)c.TopNode, new string[] { "id", "spid" });
 
             if (c.From.Column + offsetCol >= 0)
             {
