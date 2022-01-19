@@ -11,32 +11,82 @@
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+#if !NET35 && !NET40
+using System.Threading.Tasks;
+#endif
 namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
         private readonly CompileResultFactory _compileResultFactory = new CompileResultFactory();
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlTableExportOptions options)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
-                var v = HtmlRawDataProvider.GetRawValue(cell, dataType, options.Culture);
+                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
                 if (string.IsNullOrEmpty(v)==false)
                 {
                     writer.AddAttribute("data-value", v);
                 }
             }
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                writer.AddAttribute("role", "cell");
+                if(addRowScope)
+                {
+                    writer.AddAttribute("scope", "row");
+                }
+            }
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
             writer.RenderBeginTag(HtmlElements.TableData);
-            writer.SetClassAttributeFromStyle(cell.StyleID, cell.Worksheet.Workbook.Styles);
-            // TODO: apply format
-            writer.Write(cell.Text);
+            if (cell.IsRichText)
+            {
+                writer.Write(cell.RichText.HtmlText);
+            }
+            else
+            {
+                writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            }
             writer.RenderEndTag();
-            writer.ApplyFormat(options.Minify);
+            writer.ApplyFormat(settings.Minify);
         }
+#if !NET35 && !NET40
+        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope)
+        {
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
+            {
+                var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
+                if (string.IsNullOrEmpty(v) == false)
+                {
+                    writer.AddAttribute("data-value", v);
+                }
+            }
+            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            {
+                writer.AddAttribute("role", "cell");
+                if (addRowScope)
+                {
+                    writer.AddAttribute("scope", "row");
+                }
+            }
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
+            await writer.RenderBeginTagAsync(HtmlElements.TableData);
+            if (cell.IsRichText)
+            {
+                await writer.WriteAsync(cell.RichText.HtmlText);
+            }
+            else
+            {
+                await writer.WriteAsync(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
+            }
+            await writer.RenderEndTagAsync();
+            await writer.ApplyFormatAsync(settings.Minify);
+        }
+#endif
     }
 }

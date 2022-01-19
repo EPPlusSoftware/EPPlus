@@ -58,10 +58,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix]);
+                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], false);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 
+            if (matchIndexes.Count() == 0) return CreateResult(eErrorType.Div0);
             var result = matchIndexes.Average(index => sumRange[index]);
 
             return CreateResult(result, DataType.Decimal);

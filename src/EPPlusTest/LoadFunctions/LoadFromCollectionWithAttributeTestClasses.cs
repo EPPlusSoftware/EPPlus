@@ -79,7 +79,7 @@ namespace EPPlusTest.LoadFunctions
     }
 
     [EpplusTable(PrintHeaders = true)]
-    [EPPlusTableColumnSortorder(Properties = new string[]
+    [EPPlusTableColumnSortOrder(Properties = new string[]
     {
         nameof(Acknowledged),
         "Organization.OrgLevel4",

@@ -30,5 +30,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         public const string TableData = "td";
         public const string A = "a";
         public const string Span = "span";
+        public const string ColGroup = "colgroup";
     }
 }

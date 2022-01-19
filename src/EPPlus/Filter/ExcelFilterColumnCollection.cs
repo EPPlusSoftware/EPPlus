@@ -33,27 +33,6 @@ namespace OfficeOpenXml.Filter
                 {
                     throw (new Exception("Invalid filter. Missing colId on filterColumn"));
                 }
-                switch (node.FirstChild?.Name)
-                {
-                    case "filters":
-                        _columns.Add(position, new ExcelValueFilterColumn(namespaceManager, node));
-                        break;
-                    case "customFilters":
-                        _columns.Add(position, new ExcelCustomFilterColumn(namespaceManager, node));
-                        break;
-                    case "colorFilter":
-                        _columns.Add(position, new ExcelColorFilterColumn(namespaceManager, node));
-                        break;
-                    case "iconFilter":
-                        _columns.Add(position, new ExcelIconFilterColumn(namespaceManager, node));
-                        break;
-                    case "dynamicFilter":
-                        _columns.Add(position, new ExcelDynamicFilterColumn(namespaceManager, node));
-                        break;
-                    case "top10":
-                        _columns.Add(position, new ExcelTop10FilterColumn(namespaceManager, node));
-                        break;
-                }
             }
         }
         /// <summary>

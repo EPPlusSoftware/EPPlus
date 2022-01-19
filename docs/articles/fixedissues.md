@@ -1,5 +1,20 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.8.5
+### Minor Features.
+* LoadFromCollection with attribute - Added EPPlusTableColumnSortOrder which enables column sort order on class level.
+### Fixed issues
+* ExcelDrawings.AddBarChart method for pivot charts had the wrong signature.
+* Formula calculation adjusted to Excels behaviour regarding when 0 is returned instead of null. Thanks to Colby Hearn for the PR!
+* The ExcelRange.Clear method did not remove threaded comments.
+* Setting ExcelRange.Value to null only sets the value of the top-left cell. 
+* Fixed an issue with pivot cache fields having an empty header in the source when updating the cache.
+* Pivot field cache containing float and null values caused a corrupt workbook.
+* EPPlus could not open workbooks without a normal style.
+* SUMIF cannot handle single value, bug fix via Colby Hearn's PR. #570 - Invalid handling of numeric strings in COUNTIF, COUNTIFS and AVERAGEIF
+* MINIFS and MAXIFS now return zero when there are no matches. 
+* Added support for setting LicenseContext using a process level environment variable.
+
 ## Version 5.8.4
 ### Features
 * 6 new functions:

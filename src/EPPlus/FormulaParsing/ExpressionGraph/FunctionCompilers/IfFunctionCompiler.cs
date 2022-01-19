@@ -81,8 +81,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             args.Add(new FunctionArgument(boolVal));
             if (boolVal)
             {
-                var val = children.ElementAt(1).Compile().Result;
-                args.Add(new FunctionArgument(val));
+                var result = children.ElementAt(1).Compile();
+                args.Add(new FunctionArgument(result == CompileResult.Empty ? 0d : result.Result));
                 args.Add(new FunctionArgument(null));
             }
             else
@@ -96,7 +96,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
                 }
                 else
                 {
-                    val = child.Compile().Result;
+                    var result = child.Compile();
+                    val = (result == CompileResult.Empty) ? 0d : result.Result;
                 }
                 args.Add(new FunctionArgument(null));
                 args.Add(new FunctionArgument(val));

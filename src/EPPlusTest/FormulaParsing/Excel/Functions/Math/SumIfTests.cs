@@ -95,6 +95,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
         }
 
         [TestMethod]
+        public void SumIfShouldIgnoreNumericStrings()
+        {
+            _worksheet.Cells["A1"].Value = 2;
+            _worksheet.Cells["A2"].Value = 1;
+            _worksheet.Cells["A3"].Value = "4";
+            var func = new SumIf();
+            IRangeInfo range1 = _provider.GetRange(_worksheet.Name, 1, 1, 3, 1);
+            var args = FunctionsHelper.CreateArgs(range1, ">1");
+            var result = func.Execute(args, _parsingContext);
+            Assert.AreEqual(2d, result.Result);
+        }
+
+        [TestMethod]
         public void SumIfNumericExpression()
         {
             _worksheet.Cells["A1"].Value = null;
@@ -397,6 +410,16 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
                 sheet.Calculate();
                 Assert.AreEqual(60d, sheet.Cells["A9"].Value);
             }
+        }
+
+        [TestMethod]
+        public void SumIfSingleCell()
+        {
+            _worksheet.Cells["A1"].Value = 20;
+            _worksheet.Cells["A2"].Formula = "SUMIF(A1,\">0\")";
+            _worksheet.Calculate();
+
+            Assert.AreEqual(20d, _worksheet.Cells["A2"].Value);
         }
     }
 }

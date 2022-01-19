@@ -103,6 +103,7 @@ namespace OfficeOpenXml.Table
             set
             {
                 SetXmlNodeString("@totalsRowLabel", value);
+                _tbl.WorkSheet.SetValueInner(_tbl.Address._toRow, _tbl.Address._fromCol+Position, value);
             }
         }
         /// <summary>

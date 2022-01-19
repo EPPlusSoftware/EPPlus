@@ -52,9 +52,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             if (candidate.HasValue)
             {
-                return _expressionEvaluator.Evaluate(candidate.Value, expression);
+                return _expressionEvaluator.Evaluate(candidate.Value, expression, false);
             }
-            return _expressionEvaluator.Evaluate(obj, expression);
+            return _expressionEvaluator.Evaluate(obj, expression, false);
         }
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

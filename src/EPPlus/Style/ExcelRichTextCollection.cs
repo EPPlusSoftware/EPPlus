@@ -213,12 +213,7 @@ namespace OfficeOpenXml.Style
             _list.Remove(Item);
             UpdateCells();
             if (_cells != null && _list.Count == 0) _cells.SetIsRichTextFlag(false);
-        }
-        //public void Insert(int index, string Text)
-        //{
-        //    _list.Insert(index, item);
-        //}
-        
+        }       
         /// <summary>
         /// The text
         /// </summary>
@@ -251,6 +246,21 @@ namespace OfficeOpenXml.Style
                         RemoveAt(ix);
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// Returns the rich text as a html string.
+        /// </summary>
+        public string HtmlText
+        {
+            get
+            {
+                var sb=new StringBuilder();
+                foreach(var item in _list)
+                {
+                    item.WriteHtmlText(sb);
+                }
+                return sb.ToString();
             }
         }
         #region IEnumerable<ExcelRichText> Members

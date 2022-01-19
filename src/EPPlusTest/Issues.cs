@@ -2972,9 +2972,51 @@ namespace EPPlusTest
                     }
                 }
 
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i574()
+        {
+            using (var package = OpenTemplatePackage("i574.xlsx"))
+            {
+                var wsSource = package.Workbook.Worksheets[0];
 
                 SaveAndCleanup(package);
             }
+        }
+        [TestMethod]
+        public void WriteFontSize()
+        {
+            var bw = new BinaryWriter(new MemoryStream());
+            foreach (var f in OfficeOpenXml.FontSize.FontHeights)
+            {
+                var recordBw = new BinaryWriter(new MemoryStream());
+                var n = f.Key;
+                recordBw.Write((byte)n.Length);
+                recordBw.Write(Encoding.ASCII.GetBytes(n));
+                foreach (var s in f.Value)
+                {
+                    var sz = (ushort)(s.Key * 100);
+                    var w = (ushort)s.Value.Width;
+                    var h = (ushort)s.Value.Height;
+
+                    recordBw.Write(sz);
+                    recordBw.Write(w);
+                    recordBw.Write(h);
+                }
+                recordBw.Flush();
+                var b = ((MemoryStream)recordBw.BaseStream).ToArray();
+                bw.Write((ushort)b.Length);
+                bw.Write(b);
+            }
+            bw.Flush();
+            File.WriteAllBytes("c:\\temp\\fontsize.bin",((MemoryStream)bw.BaseStream).ToArray());
+        }
+        [TestMethod]
+        public void LoadFontSize()
+        {
+            FontSize.LoadAllFontsFromResource();
         }
     }
 }

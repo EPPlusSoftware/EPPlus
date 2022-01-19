@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -22,26 +23,14 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-    internal partial class EpplusHtmlWriter
+    internal partial class EpplusHtmlWriter : HtmlWriterBase
     {
-        public const string IndentWhiteSpace = "  ";
-        private bool _newLine;
-
-        public EpplusHtmlWriter(Stream stream)
+        internal EpplusHtmlWriter(Stream stream, Encoding encoding) : base(stream, encoding)
         {
-            _stream = stream;
-            _writer = new StreamWriter(stream);
         }
 
-        private readonly Stream _stream;
-        private readonly StreamWriter _writer;
         private readonly Stack<string> _elementStack = new Stack<string>();
         private readonly List<EpplusHtmlAttribute> _attributes = new List<EpplusHtmlAttribute>();
-        internal Dictionary<ulong, int> _styleCache=new Dictionary<ulong, int>();
-
-
-        public int Indent { get; set; }
-
 
         public void AddAttribute(string attributeName, string attributeValue)
         {
@@ -49,41 +38,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             Require.Argument(attributeValue).IsNotNullOrEmpty("attributeValue");
             _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName, Value = attributeValue });
         }
-
-        internal void ApplyFormat(bool minify)
-        {
-            if (minify == false)
-            {
-                WriteLine();
-            }
-        }
-
-        internal void ApplyFormatIncreaseIndent(bool minify)
-        {
-            if (minify==false)
-            {
-                WriteLine();
-                Indent++;
-            }
-        }
-
-        internal void ApplyFormatDecreaseIndent(bool minify)
-        {
-            if (minify == false)
-            {
-                WriteLine();
-                Indent--;
-            }
-        }
-
-        private void WriteIndent()
-        {
-            for (var x = 0; x < Indent; x++)
-            {
-                _writer.Write(IndentWhiteSpace);
-            }
-        }
-
         public void RenderBeginTag(string elementName, bool closeElement = false)
         {
             _newLine = false;
@@ -103,8 +57,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             else
             {
                 _writer.Write(">");
+                _elementStack.Push(elementName);
             }
-            _elementStack.Push(elementName);
         }
 
         public void RenderEndTag()
@@ -119,28 +73,36 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer.Flush();
         }
 
-        public void WriteLine()
+        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, eHtmlGeneralAlignmentHandling alignment, bool isHeader, string styleClassPrefix)
         {
-            _newLine = true;
-            _writer.WriteLine();
-        }
-
-        public void Write(string text)
-        {
-            _writer.Write(text);
-        }
-        internal void SetClassAttributeFromStyle(int styleId, ExcelStyles styles)
-        {
-            if(styleId <= 0 || styleId >= styles.CellXfs.Count)
+            string cls = "";
+            int styleId = cell.StyleID;
+            ExcelStyles styles = cell.Worksheet.Workbook.Styles;
+            if (styleId < 0 || styleId >= styles.CellXfs.Count)
             {
                 return;
             }
             var xfs = styles.CellXfs[styleId];
-            if (xfs.FontId <= 0 && xfs.BorderId <= 0 && xfs.FillId <= 0)
+            if (alignment == eHtmlGeneralAlignmentHandling.CellDataType &&
+               xfs.HorizontalAlignment == ExcelHorizontalAlignment.General)
             {
+                if (ConvertUtil.IsNumericOrDate(cell.Value))
+                {
+                    cls = $"{styleClassPrefix}ar";
+                }
+                else if (isHeader)
+                {
+                    cls = $"{styleClassPrefix}al";
+                }
+            }
+
+            if (styleId == 0 || HasStyle(xfs) == false)
+            {
+                if (string.IsNullOrEmpty(cls) == false)
+                    AddAttribute("class", cls);
                 return;
             }
-            var key = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
+            string key = GetStyleKey(xfs);
             int id;
             if (_styleCache.ContainsKey(key))
             {
@@ -151,9 +113,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 id = _styleCache.Count + 1;
                 _styleCache.Add(key, id);
             }
-
-            AddAttribute("class", $"s{id}");
+            cls += $" {styleClassPrefix}s{id}";
+            AddAttribute("class", cls.Trim());
         }
-
     }
 }
