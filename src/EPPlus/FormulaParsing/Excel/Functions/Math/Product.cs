@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 return CreateResult(arguments.First(x => x.ValueIsExcelError).ValueAsExcelErrorValue.Type);
             }
-            args.RemoveAll(x => ShouldIgnore(x));
+            args.RemoveAll(x => ShouldIgnore(x, context));
             var result = 1d;
             var values = ArgsToObjectEnumerable(true, args, context);
             foreach (var obj in values.Where(x => x != null && IsNumeric(x)))
