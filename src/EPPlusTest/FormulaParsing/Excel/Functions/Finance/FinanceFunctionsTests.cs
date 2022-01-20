@@ -804,5 +804,25 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
 
             Assert.AreEqual(expectedResult, System.Math.Round((double)result, 8));
         }
+
+        [DataTestMethod]
+        [DataRow(2009, 1, 1, 2009, 4, 1, 25d, 0)]
+        [DataRow(2009, 1, 1, 2009, 4, 1, 24.657534d, 3)]
+        [DataRow(2009, 1, 5, 2010, 6, 10, 144.722222d, 2)]
+        public void AccrintMtests(int iYear, int iMonth, int iDay, int sYear, int sMonth, int sDay, double expectedResult, int basis)
+        {
+            var issue = new DateTime(iYear, iMonth, iDay);
+            var settlement = new DateTime(sYear, sMonth, sDay);
+            _worksheet.Cells["A1"].Value = issue;
+            _worksheet.Cells["A2"].Value = settlement;
+            _worksheet.Cells["A3"].Value = 0.1;
+            _worksheet.Cells["A4"].Value = 1000;
+            _worksheet.Cells["A5"].Value = basis;
+            _worksheet.Cells["A9"].Formula = "ACCRINTM(A1, A2, A3, A4, A5)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(expectedResult, System.Math.Round((double)result, 6));
+        }
     }
 }
