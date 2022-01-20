@@ -346,36 +346,24 @@ namespace OfficeOpenXml.Style.XmlAccess
 
         private static float GetHeightByName(string name, float size)
         {
-            if (FontSize.FontHeights[name].ContainsKey(size))
+            var font = FontSize.FontHeights[name];
+            if (font.ContainsKey(size))
             {
-                return FontSize.FontHeights[name][size].Height;
+                return font[size];
             }
             else
             {
-                float min = -1, max = float.MaxValue;
-                foreach (var h in FontSize.FontHeights[name])
+                float min = -1;
+                foreach (var sz in font.Keys)
                 {
-                    if (min < h.Key && h.Key < size)
+                    if (min < sz && sz < size)
                     {
-                        min = h.Key;
+                        break;
                     }
-                    if (max > h.Key && h.Key > size)
-                    {
-                        max = h.Key;
-                    }
+                    min = sz;
                 }
-                if (min == max || max==float.MaxValue)
-                {
-                    return Convert.ToSingle(FontSize.FontHeights[name][min].Height);
-                }
-                else if (min == -1)
-                {
-                    return Convert.ToSingle(FontSize.FontHeights[name][max].Height);
-                }
-                else
-                {
-                    return Convert.ToSingle(FontSize.FontHeights[name][min].Height + (FontSize.FontHeights[name][max].Height - FontSize.FontHeights[name][min].Height) * ((size - min) / (max - min)));
-                }
+                if (min > -1) return font[min];
+                return 20;  //Default, Calibri 11
             }
         }
         internal ExcelFontXml Copy()

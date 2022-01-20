@@ -630,7 +630,7 @@ namespace OfficeOpenXml
 
 		internal static decimal GetHeightPixels(string fontName, float fontSize)
 		{
-			Dictionary<float, FontSizeInfo> font;
+			Dictionary<float, short> font;
 			if (FontSize.FontHeights.ContainsKey(fontName))
 			{
 				font = FontSize.FontHeights[fontName];
@@ -642,70 +642,52 @@ namespace OfficeOpenXml
 
 			if (font.ContainsKey(fontSize))
 			{
-				return Convert.ToDecimal(font[fontSize].Width);
+				return Convert.ToDecimal(font[fontSize]);
 			}
 			else
 			{
-				float min = -1, max = 500;
-				foreach (var size in font)
+				float min = -1;
+				foreach (var size in font.Keys)
 				{
-					if (min < size.Key && size.Key < fontSize)
+					if (min < size && size < fontSize)
 					{
-						min = size.Key;
+						break;
 					}
-					if (max > size.Key && size.Key > fontSize)
-					{
-						max = size.Key;
-					}
+					min = size;
 				}
-				if (min == max)
-				{
-					return Convert.ToDecimal(font[min].Height);
-				}
-				else
-				{
-					return Convert.ToDecimal(font[min].Height + (font[max].Height - font[min].Height) * ((fontSize - min) / (max - min)));
-				}
+				if (min>-1) return font[min];
+				return 20;  //Default, Calibri 11
 			}
 		}
 		internal static decimal GetWidthPixels(string fontName, float fontSize)
 		{
-			Dictionary<float, FontSizeInfo> font;
-			if (FontSize.FontHeights.ContainsKey(fontName))
+			Dictionary<float, short> font;
+			if (FontSize.FontWidths.ContainsKey(fontName))
 			{
-				font = FontSize.FontHeights[fontName];
+				font = FontSize.FontWidths[fontName];
 			}
 			else
 			{
-				font = FontSize.FontHeights["Calibri"];
+				font = FontSize.FontWidths["Calibri"];
 			}
 
 			if (font.ContainsKey(fontSize))
 			{
-				return Convert.ToDecimal(font[fontSize].Width);
+				return Convert.ToDecimal(font[fontSize]);
 			}
 			else
 			{
-				float min = -1, max = 500;
-				foreach (var size in font)
+				float min = -1;
+				foreach (var size in font.Keys)
 				{
-					if (min < size.Key && size.Key < fontSize)
+					if (min < size && size < fontSize)
 					{
-						min = size.Key;
+						break;
 					}
-					if (max > size.Key && size.Key > fontSize)
-					{
-						max = size.Key;
-					}
+					min = size;
 				}
-				if (min == max)
-				{
-					return Convert.ToDecimal(font[min].Width);
-				}
-				else
-				{
-					return Convert.ToDecimal(font[min].Width + (font[max].Width - font[min].Width) * ((fontSize - min) / (max - min)));
-				}
+				if (min > -1) return font[min];
+				return 7;  //Default, Calibri 11;
 			}
 		}
 
