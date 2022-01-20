@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var rate = ArgToDecimal(arguments, 3);
             var par = ArgToDecimal(arguments, 4);
             var frequency = ArgToInt(arguments, 5);
-            var basis = 1;
+            var basis = 0;
             if(arguments.Count() >= 7)
             {
                 basis = ArgToInt(arguments, 6);
@@ -61,75 +61,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var settlement = FinancialDayFactory.Create(settlementDate, dayCountBasis);
             var firstInterest = FinancialDayFactory.Create(firstInterestDate.AddDays(firstInterestDate.Day * -1 + 1), dayCountBasis);
             
-            var oddPeriodStart = issueToSettlement ? issue : firstInterest;
-
-            var coupNumFunc = new CoupnumImpl(oddPeriodStart, settlement, frequency, dayCountBasis);
-            var nc = coupNumFunc.GetCoupnum().Result;
-            var result = par * (rate / frequency);
-            var lastPart = 0d;
-            var startDate = GetCoupPcd(oddPeriodStart, settlement, frequency, dayCountBasis);
-            var endDate = GetCoupNcd(oddPeriodStart, settlement, frequency, dayCountBasis);
-
-            // create a "fake" coupon period
-            var fds = FinancialDaysFactory.Create(dayCountBasis);
-            var periods = default(FinancialPeriod[]);
             if(issueToSettlement)
             {
-                periods = fds.GetCouponPeriodsBackwards(settlement, oddPeriodStart, frequency).ToArray();
+                var yearFrac = new YearFracProvider(context);
+                var r = yearFrac.GetYearFrac(issueDate, settlementDate, dayCountBasis) * rate * par;
+                return CreateResult(r, DataType.Decimal);
             }
             else
             {
-                periods = fds.GetCalendarYearPeriodsBackwards(settlement, oddPeriodStart, frequency).ToArray();
+                var r = CalculateInterest(issue, firstInterest, settlement, rate, par, frequency, dayCountBasis, context);
+                return CreateResult(r, DataType.Decimal);
             }
-
-            foreach(var period in periods)
-            {
-                var periodDays = fds.GetDaysBetweenDates(period.Start, period.End);
-                var nDaysInPeriod = fds.GetDaysBetweenDates(period.Start, period.End);
-                if(period.Start < oddPeriodStart && issueToSettlement)
-                {
-                    nDaysInPeriod = oddPeriodStart.SubtractDays(period.End);
-                }
-                else if(period.End > settlement)
-                {
-                    nDaysInPeriod = periodDays - System.Math.Abs(period.End.SubtractDays(settlement));
-                }
-                // för första perioden: om couponperiods start datum < settlement. Räkna med antal Financial days från settlement till periodens slut.
-                // för sista perioden: om couponperiods slutdatum > firstInterest. Räkna med antal Financial days från sista periodens start till first interest.
-                // annars:
-                // använd Coupdays för perioden.
-                
-
-                lastPart += nDaysInPeriod / periodDays;
-            }
-            result *= lastPart + (issueToSettlement ? 0 : 1);
-            return CreateResult(result, DataType.Decimal);
         }
 
-        private FinancialPeriod GetPreviousCouponPeriod(System.DateTime currentPeriodStartDate, int frequency, DayCountBasis basis)
+        private double CalculateInterest(FinancialDay issue, FinancialDay firstInterest, FinancialDay settlement, double rate, double par, int frequency, DayCountBasis basis, ParsingContext context)
         {
-            var periodEndDate = FinancialDayFactory.Create(currentPeriodStartDate.AddDays(-1), basis);
+            var yearFrac = new YearFracProvider(context);
             var fds = FinancialDaysFactory.Create(basis);
-            var result = fds.GetCouponPeriod(periodEndDate, FinancialDayFactory.Create(currentPeriodStartDate, basis), frequency);
-            return result;
-        }
-
-        private System.DateTime GetCoupNcd(FinancialDay settlement, FinancialDay maturity, int frequency, DayCountBasis dayCountBasis)
-        {
-            var coupNcdFunc = new CoupncdImpl(settlement, maturity, frequency, dayCountBasis);
-            return coupNcdFunc.GetCoupncd().Result;
-        }
-
-        private System.DateTime GetCoupPcd(FinancialDay settlement, FinancialDay maturity, int frequency, DayCountBasis dayCountBasis)
-        {
-            var coupNcdFunc = new CouppcdImpl(settlement, maturity, frequency, dayCountBasis);
-            return coupNcdFunc.GetCouppcd().Result;
-        }
-
-        private double GetCoupdays(FinancialDay settlement, FinancialDay maturity, int frequency, DayCountBasis dayCountBasis)
-        {
-            var coupDaysFunc = new CoupdaysImpl(settlement, maturity, frequency, dayCountBasis);
-            return coupDaysFunc.GetCoupdays().Result;
+            var nAdditionalPeriods = frequency == 1 ? 0 : 1;
+            if(firstInterest <= settlement)
+            {
+                var p = fds.GetCalendarYearPeriodsBackwards(settlement, firstInterest, frequency, nAdditionalPeriods);
+                var p2 = fds.GetCalendarYearPeriodsBackwards(firstInterest, settlement, frequency, nAdditionalPeriods);
+                var firstPeriod = settlement >= firstInterest ? p.Last() : p.First();
+                var yearFrac2 = yearFrac.GetYearFrac(firstPeriod.Start.ToDateTime(), settlement.ToDateTime(), basis);
+                return yearFrac2 * rate * par;
+            }
+            else
+            {
+                var p2 = fds.GetCalendarYearPeriodsBackwards(firstInterest, settlement, frequency, nAdditionalPeriods);
+                var firstInterestPeriod = p2.FirstOrDefault(x => x.Start < firstInterest && x.End >= firstInterest);
+                var yearFrac2 = yearFrac.GetYearFrac(settlement.ToDateTime(), firstInterestPeriod.Start.ToDateTime(), basis) * -1;
+                return yearFrac2 * rate * par;
+            }
         }
     }
 }

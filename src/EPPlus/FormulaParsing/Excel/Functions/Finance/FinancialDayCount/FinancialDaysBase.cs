@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
@@ -146,6 +147,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 
         public IEnumerable<FinancialPeriod> GetCalendarYearPeriodsBackwards(FinancialDay settlement, FinancialDay date, int frequency)
         {
+            return GetCalendarYearPeriodsBackwards(settlement, date, frequency, 0);
+        }
+
+        public IEnumerable<FinancialPeriod> GetCalendarYearPeriodsBackwards(FinancialDay settlement, FinancialDay date, int frequency, int additionalPeriods)
+        {
             var periods = new List<FinancialPeriod>();
             var period = GetSettlementCalendarYearPeriod(settlement, frequency);
             periods.Add(period);
@@ -154,6 +160,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
                 var dt = period.Start.ToDateTime();
                 period = CreateCalendarPeriod(dt, frequency, date.GetBasis(), false);
                 periods.Add(period);
+            }
+            for(var x = 0; x < additionalPeriods; x++)
+            {
+                var tmpDate = periods.Last().Start.ToDateTime();
+                var p = CreateCalendarPeriod(tmpDate, frequency, date.GetBasis(), false);
+                periods.Add(p);
             }
             return periods;
         }

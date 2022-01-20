@@ -754,52 +754,55 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             Assert.AreEqual(0.02061037, System.Math.Round((double)result, 8));
         }
 
-        [TestMethod]
-        public void AccrintTest1()
+        [DataTestMethod]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 75d, 4)]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 18, 79.72222222d, 4)]
+        [DataRow(2009, 1, 1, 2010, 4, 1, 2010, 4, 1, 25d, 4)]
+        [DataRow(2009, 1, 1, 2010, 7, 1, 2010, 4, 1, 0d, 4)]
+        [DataRow(2009, 1, 1, 2010, 7, 1, 2010, 4, 5, -1.11111111d, 4)]
+        [DataRow(2009, 1, 1, 2010, 10, 1, 2010, 4, 1, -25d, 4)]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 125d, 2)]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 125d, 1)]
+        public void AccrintTestCalcFirstInterest(int iYear, int iMonth, int iDay, int fiYear, int fiMonth, int fiDay, int sYear, int sMonth, int sDay, double expectedResult, int frequency)
         {
-            _worksheet.Cells["A1"].Value = DateTime.FromOADate(39508);
-            _worksheet.Cells["A2"].Value = DateTime.FromOADate(39691);
-            _worksheet.Cells["A3"].Value = DateTime.FromOADate(39569);
+            var issue = new DateTime(iYear, iMonth, iDay);
+            var firstInterest = new DateTime(fiYear, fiMonth, fiDay);
+            var settlement = new DateTime(sYear, sMonth, sDay);
+            _worksheet.Cells["A1"].Value = issue;
+            _worksheet.Cells["A2"].Value = firstInterest;
+            _worksheet.Cells["A3"].Value = settlement;
             _worksheet.Cells["A4"].Value = 0.1;
             _worksheet.Cells["A5"].Value = 1000;
-            _worksheet.Cells["A6"].Value = 2;
+            _worksheet.Cells["A6"].Value = frequency;
             _worksheet.Cells["A7"].Value = 0;
-            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7)";
+            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7, 0)";
             _worksheet.Calculate();
             var result = _worksheet.Cells["A9"].Value;
 
-            Assert.AreEqual(16.66666667, System.Math.Round((double)result, 8));
-
-            _worksheet.Cells["A7"].Value = 1;
-            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7)";
-            _worksheet.Calculate();
-            result = _worksheet.Cells["A9"].Value;
-
-            Assert.AreEqual(16.66666667, System.Math.Round((double)result, 8));
+            Assert.AreEqual(expectedResult, System.Math.Round((double)result, 8));
         }
 
-        [TestMethod]
-        public void AccrintTest2()
+        [DataTestMethod]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 125d, 4)]
+        [DataRow(2009, 2, 15, 2009, 12, 1, 2010, 4, 1, 112.77777778d, 4)]
+        [DataRow(2009, 2, 15, 2009, 12, 1, 2009, 4, 2, 13.05555556d, 4)]
+        public void AccrintIssueToSettlementTest(int iYear, int iMonth, int iDay, int fiYear, int fiMonth, int fiDay, int sYear, int sMonth, int sDay, double expectedResult, int frequency)
         {
-            _worksheet.Cells["A1"].Value = new DateTime(2017, 1, 1);
-            _worksheet.Cells["A2"].Value = new DateTime(2019, 2, 15);
-            _worksheet.Cells["A3"].Value = new DateTime(2022, 2, 15);
+            var issue = new DateTime(iYear, iMonth, iDay);
+            var firstInterest = new DateTime(fiYear, fiMonth, fiDay);
+            var settlement = new DateTime(sYear, sMonth, sDay);
+            _worksheet.Cells["A1"].Value = issue;
+            _worksheet.Cells["A2"].Value = firstInterest;
+            _worksheet.Cells["A3"].Value = settlement;
             _worksheet.Cells["A4"].Value = 0.1;
             _worksheet.Cells["A5"].Value = 1000;
             _worksheet.Cells["A6"].Value = 2;
-            _worksheet.Cells["A7"].Value = 0;
-            _worksheet.Cells["A8"].Value = 0;
-            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7, A8)";
+            _worksheet.Cells["A7"].Value = frequency;
+            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7)";
             _worksheet.Calculate();
             var result = _worksheet.Cells["A9"].Value;
 
-            Assert.AreEqual(362.22222222, System.Math.Round((double)result, 8));
-
-            _worksheet.Cells["A8"].Value = 1;
-            _worksheet.Calculate();
-            result = _worksheet.Cells["A9"].Value;
-
-            Assert.AreEqual(512.22222222, System.Math.Round((double)result, 8));
+            Assert.AreEqual(expectedResult, System.Math.Round((double)result, 8));
         }
     }
 }
