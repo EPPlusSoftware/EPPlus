@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0</TargetFrameworks>
     <RootNamespace>OfficeOpenXml.SkiaSharp</RootNamespace>
     <SignAssembly>true</SignAssembly>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyOriginatorKeyFile>EPPlus.SkiaSharp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -18,20 +19,8 @@
     <DefineConstants>Core;NET50</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
-    <DefineConstants>NET45;NETFULL</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net35'">
-    <DefineConstants>NET35;NETFULL</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
-    <DefineConstants>NET40;NETFULL</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.88.0-preview.179" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
   </ItemGroup>
 
   <ItemGroup>
