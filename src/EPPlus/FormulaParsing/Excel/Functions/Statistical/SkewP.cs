@@ -32,13 +32,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var numbers = ArgsToDoubleEnumerable(arguments, context).Select(x => x.Value).ToArray();
             var n = numbers.Length;
             var avg = numbers.Average();
-            var s = 0d;
-            for (var ix = 0; ix < n; ix++)
+            var sd = CalcStandardDev(numbers, avg);
+            var i = 0d;
+            foreach(var number in numbers)
             {
-                s += System.Math.Pow(numbers[ix] - avg, 3);
+                i += System.Math.Pow((number - avg)/sd, 3);
             }
-            var result = n * s / ((n - 1) * (n - 2) * System.Math.Pow(StdevP.StandardDeviation(numbers), 3));
+            var result = i / n;
             return CreateResult(result, DataType.Decimal);
+        }
+
+        private double CalcStandardDev(IEnumerable<double> numbers, double avg)
+        {
+            var stdDev = 0d;
+            foreach (var n in numbers)
+            {
+                stdDev += System.Math.Pow(n - avg, 2);
+            }
+            return System.Math.Sqrt(stdDev / numbers.Count());
         }
     }
 }
