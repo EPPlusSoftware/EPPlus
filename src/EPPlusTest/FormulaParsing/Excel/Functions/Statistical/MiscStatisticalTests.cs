@@ -184,6 +184,30 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
         }
 
         [TestMethod]
+        public void SkewPTest1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 3;
+                sheet.Cells["A2"].Value = 4;
+                sheet.Cells["A3"].Value = 5;
+                sheet.Cells["A4"].Value = 2;
+                sheet.Cells["A5"].Value = 3;
+                sheet.Cells["A6"].Value = 4;
+                sheet.Cells["A7"].Value = 5;
+                sheet.Cells["A8"].Value = 6;
+                sheet.Cells["A9"].Value = 4;
+                sheet.Cells["A10"].Value = 7;
+                sheet.Cells["B8"].Formula = "SKEW.P(A1:A10)";
+                sheet.Calculate();
+                var result = sheet.Cells["B8"].Value;
+
+                Assert.AreEqual(0.303193, System.Math.Round((double)result, 6));
+            }
+        }
+
+        [TestMethod]
         public void StandardizeTest1()
         {
             using (var package = new ExcelPackage())
