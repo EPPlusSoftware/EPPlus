@@ -232,6 +232,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
+        [DataTestMethod]
+        [DataRow(2, 0.47725)]
+        [DataRow(-1.5, -0.43319)]
+        public void GaussTest1(double z, double expected)
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = z;
+                sheet.Cells["A2"].Formula = "GAUSS(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["A2"].Value;
+
+                Assert.AreEqual(expected, System.Math.Round((double)result, 5));
+            }
+        }
+
         [TestMethod]
         public void StandardizeTest1()
         {
