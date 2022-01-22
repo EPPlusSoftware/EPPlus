@@ -10,7 +10,6 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
@@ -21,17 +20,26 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-        Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "6.0",
-        IntroducedInExcelVersion = "2013",
-        Description = "Calculates the probability that a member of a standard normal population will fall between the mean and z standard deviations from the mean.")]
-    internal class Gauss : NormalDistributionBase
+            Category = ExcelFunctionCategory.Statistical,
+            EPPlusVersion = "6.0",
+            IntroducedInExcelVersion = "2010",
+            Description = "Calculates the inverse of the Cumulative Normal Distribution Function for a supplied value of x, and a supplied distribution mean & standard deviation. Note that this is the same implementation as NORMINV.")]
+    internal class NormDotSdotDist : NormalDistributionBase
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
+            ValidateArguments(arguments, 2);
             var z = ArgToDecimal(arguments, 0);
-            var result = CumulativeDistribution(z, 0, 1) - 0.5;
+            var cumulative = ArgToBool(arguments, 1);
+            var result = default(double);
+            if (cumulative)
+            { 
+                result = CumulativeDistribution(z, 0, 1); 
+            }
+            else
+            {
+                result = ProbabilityDensity(z, 0, 1);
+            }
             return CreateResult(result, DataType.Decimal);
         }
     }

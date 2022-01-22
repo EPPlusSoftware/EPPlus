@@ -10,7 +10,6 @@
  *************************************************************************************************
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
@@ -23,15 +22,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "6.0",
-        IntroducedInExcelVersion = "2013",
-        Description = "Calculates the probability that a member of a standard normal population will fall between the mean and z standard deviations from the mean.")]
-    internal class Gauss : NormalDistributionBase
+        Description = "Calculates the Standard Normal Cumulative Distribution Function for a supplied value.")]
+    internal class Normsdist : NormalDistributionBase
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var z = ArgToDecimal(arguments, 0);
-            var result = CumulativeDistribution(z, 0, 1) - 0.5;
+            var result = CumulativeDistribution(z, 0, 1);
             return CreateResult(result, DataType.Decimal);
         }
     }
