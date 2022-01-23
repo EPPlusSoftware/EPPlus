@@ -189,6 +189,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["confidence.t"] = new ConfidenceT();
             Functions["devsq"] = new Devsq();
             Functions["avedev"] = new Avedev();
+            Functions["betadist"] = new Betadist();
+            Functions["beta.dist"] = new BetaDotDist();
             Functions["betainv"] = new Betainv();
             Functions["beta.inv"] = new BetaDotInv();
             Functions["gamma"] = new Gamma();
@@ -208,6 +210,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["geomean"] = new Geomean();
             Functions["harmean"] = new Harmean();
             Functions["pearson"] = new Pearson();
+            Functions["phi"] = new Phi();
             Functions["rsq"] = new Rsq();
             Functions["skew"] = new Skew();
             Functions["skew.p"] = new SkewP();

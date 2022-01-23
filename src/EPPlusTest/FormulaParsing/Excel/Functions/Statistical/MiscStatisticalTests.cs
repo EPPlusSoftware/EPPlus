@@ -131,6 +131,24 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
+        [DataTestMethod]
+        [DataRow(-1.5, 0.1295176)]
+        [DataRow(0, 0.39894228)]
+        [DataRow(0.1, 0.39695255)]
+        public void PhiTest1(double n, double expected)
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = n;
+                sheet.Cells["B6"].Formula = "PHI(A1)";
+                sheet.Calculate();
+                var result = sheet.Cells["B6"].Value;
+
+                Assert.AreEqual(expected, System.Math.Round((double)result, 8));
+            }
+        }
+
         [TestMethod]
         public void RsqTest1()
         {
