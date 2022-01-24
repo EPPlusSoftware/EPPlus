@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal static class BetaHelper
     {
@@ -101,10 +101,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
         internal static double IBeta(double x, double a, double b)
         {
             // Factors in front of the continued fraction.
-            //var bt = (x === 0 || x === 1) ? 0 :
-            //  System.Math.Exp(jStat.gammaln(a + b) - jStat.gammaln(a) -
-            //           jStat.gammaln(b) + a * System.Math.Log(x) + b *
-            //           System.Math.Log(1 - x));
             var bt = (x == 0 || x == 1) ? 0 :
               System.Math.Exp(GammaHelper.logGamma(a + b) - GammaHelper.logGamma(a) -
                        GammaHelper.logGamma(b) + a * System.Math.Log(x) + b *
@@ -116,6 +112,54 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
                 return bt * BetaCf(x, a, b) / a;
             // else use continued fraction after making the symmetry transformation.
             return 1 - bt * BetaCf(1 - x, b, a) / b;
+        }
+
+        internal static double Beta(double x, double y)
+        {
+            // ensure arguments are positive
+            if (x <= 0 || y <= 0)
+                return 0;
+            // make sure x + y doesn't exceed the upper limit of usable values
+            return (x + y > 170)
+                ? System.Math.Exp(Betaln(x, y))
+                : GammaHelper.gamma(x) * GammaHelper.gamma(y) / GammaHelper.gamma(x + y);
+        }
+
+        internal static double Betaln(double x, double y)
+        {
+            return GammaHelper.logGamma(x) + GammaHelper.logGamma(y) - GammaHelper.logGamma(x + y);
+        }
+
+        internal static double BetaCdf(double x, double a, double b)
+        {
+            if( x > 1 || x < 0)
+            {
+                return x > 1 ? 1 : 0;
+            }
+            return IBeta(x, a, b);
+        }
+
+        internal static double BetaPdf(double x, double a, double b)
+        {
+            if (x > 1 || x < 0)
+                return 0;
+            // PDF is one for the uniform case
+            if (a == 1 && b == 1)
+                return 1;
+
+            if (a < 512 && b < 512)
+            {
+                var result = (System.Math.Pow(x, a - 1) * System.Math.Pow(1 - x, b - 1)) /
+                    Beta(a, b);
+                return result / 2d;
+            }
+            else
+            {
+                var result = System.Math.Exp((a - 1) * System.Math.Log(x) +
+                                (b - 1) * System.Math.Log(1 - x) -
+                                Betaln(a, b));
+                return result / 2d;
+            }
         }
 
         /// <summary>

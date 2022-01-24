@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Helpers
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal static class ErfHelper
     {

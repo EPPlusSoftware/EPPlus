@@ -1568,7 +1568,13 @@ namespace OfficeOpenXml
                         {
                             hl.ToolTip = tt;
                         }
-                        _hyperLinks.SetValue(fromRow, fromCol, hl);
+                        for(int row=fromRow; row<=toRow; row++)
+                        {
+                            for(int col=fromCol; col<=toCol; col++)
+                            {
+                                _hyperLinks.SetValue(row, col, hl);
+                            }
+                        }
                     }
                 }
                 else
