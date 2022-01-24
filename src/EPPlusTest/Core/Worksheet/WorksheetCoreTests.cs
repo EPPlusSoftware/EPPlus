@@ -65,6 +65,7 @@ namespace EPPlusTest.Core.Worksheet
                 p.Save();
             }
         }
+
         [TestMethod]
         public void ValidateAutoFitMinWidthRange()
         {

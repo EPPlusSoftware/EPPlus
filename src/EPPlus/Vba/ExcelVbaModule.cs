@@ -39,8 +39,8 @@ namespace OfficeOpenXml.VBA
         /// <summary>
         /// The name of the module
         /// </summary>
-        public string Name 
-        {   
+        public string Name
+        {
             get
             {
                 return _name;
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.VBA
                 {
                     throw (new InvalidOperationException("Vba module names can't contain unicode characters"));
                 }
-                if(!IsValidModuleName(value))
+                if (!IsValidModuleName(value))
                 {
                     throw (new InvalidOperationException("Name contains invalid characters"));
                 }
@@ -70,9 +70,9 @@ namespace OfficeOpenXml.VBA
         {
             //return Regex.IsMatch(name, _validModulePattern);
             if (string.IsNullOrEmpty(name) ||           //Not null or empty
-               (name[0]>='0' && name[0]<='9') ||        //Don't start with a number
+               (name[0] >= '0' && name[0] <= '9') ||        //Don't start with a number
                name[0] == '_' ||                        //Don't start with a underscore
-               name.Any(x=>x<0x20  || x > 255 || _nonValidChars.Contains(x)))      //Don't contain invalid or unicode chars 
+               name.Any(x => x < 0x20 || x > 255 || _nonValidChars.Contains(x)))      //Don't contain invalid or unicode chars 
             {
                 return false;
             }
@@ -83,7 +83,7 @@ namespace OfficeOpenXml.VBA
         /// A description of the module
         /// </summary>
         public string Description { get; set; }
-        private string _code="";
+        private string _code = "";
         /// <summary>
         /// The code without any module level attributes.
         /// <remarks>Can contain function level attributes.</remarks> 
@@ -95,9 +95,9 @@ namespace OfficeOpenXml.VBA
             }
             set
             {
-                if(value.StartsWith("Attribute",StringComparison.OrdinalIgnoreCase) || value.StartsWith("VERSION",StringComparison.OrdinalIgnoreCase))
+                if (value.StartsWith("Attribute", StringComparison.OrdinalIgnoreCase) || value.StartsWith("VERSION", StringComparison.OrdinalIgnoreCase))
                 {
-                    throw(new InvalidOperationException("Code can't start with an Attribute or VERSION keyword. Attributes can be accessed through the Attributes collection."));
+                    throw (new InvalidOperationException("Code can't start with an Attribute or VERSION keyword. Attributes can be accessed through the Attributes collection."));
                 }
                 _code = value;
             }

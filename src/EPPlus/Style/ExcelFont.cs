@@ -233,19 +233,32 @@ namespace OfficeOpenXml.Style
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Charset, value, _positionID, _address));
             }
         }
+
+#if NETFULL
+        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Font")]
+        public void SetFromFont(Font Font)
+        {
+            SetFromFont(Font.Name, Font.Size, Font.Bold, Font.Italic, Font.Underline, Font.Strikeout);
+        }
+#endif
+
         /// <summary>
         /// Set the font from a Font object
         /// </summary>
-        /// <param name="Font"></param>
-        public void SetFromFont(Font Font)
+        /// <param name="name">Font family name</param>
+        /// <param name="bold"></param>
+        /// <param name="size">Font size</param>
+        /// <param name="italic"></param>
+        /// <param name="underline"></param>
+        /// <param name="strikeout"></param>
+        public void SetFromFont(string name, float size, bool bold = false, bool italic = false, bool underline = false, bool strikeout = false)
         {
-            Name = Font.Name;
-            //Family=fnt.FontFamily.;
-            Size = (int)Font.Size;
-            Strike = Font.Strikeout;
-            Bold = Font.Bold;
-            UnderLine = Font.Underline;
-            Italic = Font.Italic;
+            Name = name;
+            Size = size;
+            Strike = strikeout;
+            Bold = bold;
+            UnderLine = underline;
+            Italic = italic;
         }
 
         internal override string Id

@@ -161,6 +161,7 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("sle", ExcelPackage.schemaSlicer2010);
             NameSpaceManager.AddNamespace("sle15", ExcelPackage.schemaSlicer);
             NameSpaceManager.AddNamespace("a14", ExcelPackage.schemaDrawings2010);
+            NameSpaceManager.AddNamespace("asvg", "http://schemas.microsoft.com/office/drawing/2016/SVG/main");
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion
@@ -766,39 +767,6 @@ namespace OfficeOpenXml.Drawing
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="image">An image. Allways saved in then JPeg format</param>
-        /// <returns></returns>
-        public ExcelPicture AddPicture(string Name, Image image)
-        {
-            return AddPicture(Name, image, null);
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Image">An image. Allways saved in then JPeg format</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, Image Image, Uri Hyperlink)
-        {
-            if (Image != null)
-            {
-                if (_drawingNames.ContainsKey(Name))
-                {
-                    throw new Exception("Name already exists in the drawings collection");
-                }
-                XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-                var pic = new ExcelPicture(this, drawNode, Image, Hyperlink);
-                AddPicture(Name, pic);
-                return pic;
-            }
-            throw (new Exception("AddPicture: Image can't be null"));
-        }
-
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, FileInfo ImageFile)
@@ -817,7 +785,7 @@ namespace OfficeOpenXml.Drawing
             ValidatePictureFile(Name, ImageFile);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
             pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
             AddPicture(Name, pic);
             return pic;
@@ -853,7 +821,7 @@ namespace OfficeOpenXml.Drawing
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType);
             pic.LoadImage(pictureStream, pictureType);
             AddPicture(Name, pic);
             return pic;
@@ -868,7 +836,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(grp.Name, _drawingsList.Count - 1);
             return grp;
         }
-        #region AddPictureAsync
+#region AddPictureAsync
 #if !NET35 && !NET40
         /// <summary>
         /// Adds a picture to the worksheet
@@ -892,10 +860,31 @@ namespace OfficeOpenXml.Drawing
             ValidatePictureFile(Name, ImageFile);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
             await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
             AddPicture(Name, pic);
             return pic;
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath)
+        {
+            return await AddPictureAsync(Name, new FileInfo(ImagePath), null);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink)
+        {
+            return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -928,7 +917,7 @@ namespace OfficeOpenXml.Drawing
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType);
             await pic.LoadImageAsync(pictureStream, pictureType);
             AddPicture(Name, pic);
             return pic;
@@ -941,7 +930,64 @@ namespace OfficeOpenXml.Drawing
             _drawingsList.Add(pic);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
         }
-
+#if (NETFULL)
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="Image">An image.</param>
+        /// <returns></returns>
+        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
+        public ExcelPicture AddPicture(string Name, Image Image)
+        {
+            if (Image != null)
+            {
+                var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
+                return AddPicture(Name, new MemoryStream(b), type, null);
+            }
+            throw (new Exception("AddPicture: Image can't be null"));
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="Image">An image. </param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
+        public ExcelPicture AddPicture(string Name, Image Image, Uri Hyperlink)
+        {
+            if (Image != null)
+            {
+                var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
+                return AddPicture(Name, new MemoryStream(b), type, Hyperlink);
+            }
+            throw (new Exception("AddPicture: Image can't be null"));
+        }
+#endif
+        public ExcelPicture AddPicture(string Name, string ImagePath)
+        {
+            if (string.IsNullOrEmpty(ImagePath))
+            {
+                return AddPicture(Name, new FileInfo(ImagePath), null);
+            }
+            throw (new Exception("AddPicture: Image path can't be null"));
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink)
+        {
+            if (string.IsNullOrEmpty(ImagePath))
+            {
+                return AddPicture(Name, new FileInfo(ImagePath), Hyperlink);
+            }
+            throw (new Exception("AddPicture: Image path can't be null"));
+        }
         private void ValidatePictureFile(string Name, FileInfo ImageFile)
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
@@ -1095,7 +1141,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawingsList.Count - 1);
             return shape;
         }
-        #region Add Slicers
+#region Add Slicers
         /// <summary>
         /// Adds a slicer to a table column
         /// </summary>
@@ -1154,7 +1200,7 @@ namespace OfficeOpenXml.Drawing
 
             return slicer;
         }
-        #endregion
+#endregion
         ///// <summary>
         ///// Adds a line connectin two shapes
         ///// </summary>
@@ -1310,7 +1356,7 @@ namespace OfficeOpenXml.Drawing
         {
             return (ExcelControlScrollBar)AddControl(Name, eControlType.ScrollBar);
         }
-        #endregion
+#endregion
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent=false)
         {
             if (DrawingXml.DocumentElement == null)
@@ -1390,8 +1436,8 @@ namespace OfficeOpenXml.Drawing
 
             return drawNode;
         }
-        #endregion
-        #region Remove methods
+#endregion
+#region Remove methods
         /// <summary>
         /// Removes a drawing.
         /// </summary>
@@ -1463,8 +1509,8 @@ namespace OfficeOpenXml.Drawing
                 RemoveDrawing(0);
             }
         }
-        #endregion
-        #region BringToFront & SendToBack
+#endregion
+#region BringToFront & SendToBack
         internal void BringToFront(ExcelDrawing drawing)
         {
             var index = _drawingsList.IndexOf(drawing);
@@ -1514,7 +1560,7 @@ namespace OfficeOpenXml.Drawing
                 _drawingNames[_drawingsList[i].Name]++;
             }
         }
-        #endregion 
+#endregion
         internal void AdjustWidth(double[,] pos)
         {
             var ix = 0;

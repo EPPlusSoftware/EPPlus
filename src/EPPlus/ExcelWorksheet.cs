@@ -43,6 +43,7 @@ using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace OfficeOpenXml
 {
@@ -57,7 +58,7 @@ namespace OfficeOpenXml
     /// <summary>
 	/// Represents an Excel worksheet and provides access to its properties and methods
 	/// </summary>
-    public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable
+    public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable, IPictureRelationDocument
     {
         internal class Formulas
         {
@@ -677,9 +678,8 @@ namespace OfficeOpenXml
 
         internal int GetColumnWidthPixels(int col, decimal mdw)
         {
-            return (int)decimal.Truncate(((256 * GetColumnWidth(col + 1) + decimal.Truncate(128 / mdw)) / 256) * mdw);
+            return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), mdw);
         }
-
         internal decimal GetColumnWidth(int col)
         {
             var column = GetValueInner(0, col) as ExcelColumn;
@@ -792,6 +792,10 @@ namespace OfficeOpenXml
                 /**** Default row height is assumed here. Excel calcualtes the row height from the larges font on the line. The formula to this calculation is undocumented, so currently its implemented with constants... ****/
                 return GetRowHeightFromCellFonts(row);
             }
+        }
+        internal double GetRowHeightPixels(int row)
+        {
+            return GetRowHeight(row) / 0.75;
         }
         Dictionary<int, double> _textHeights = new Dictionary<int, double>();
         private double GetRowHeightFromCellFonts(int row)
@@ -2695,14 +2699,6 @@ namespace OfficeOpenXml
                     }
                     _comments.CommentXml.Save(_comments.Part.GetStream(FileMode.Create));
                 }
-
-                foreach(ExcelComment c in _comments)
-                {
-                    if (c._fill?._patternPictureSettings?._image != null)
-                    {
-                        c._fill._patternPictureSettings.SaveImage();
-                    }
-                }
             }
         }
 
@@ -2724,32 +2720,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    if (_vmlDrawings.Uri == null)
-                    {
-                        var id = SheetId;
-                        _vmlDrawings.Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
-                    }
-                    if (_vmlDrawings.Part == null)
-                    {
-                        _vmlDrawings.Part = _package.ZipPackage.CreatePart(_vmlDrawings.Uri, ContentTypes.contentTypeVml, _package.Compression);
-                        var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(WorksheetUri, _vmlDrawings.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
-                        SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
-                        _vmlDrawings.RelId = rel.Id;
-                    }
-                    
-                    //Save an related image to drawing fills
-                    foreach (var d in _vmlDrawings)
-                    {
-                        if (d is ExcelVmlDrawingControl ctr)
-                        {
-                            if (ctr._fill?._patternPictureSettings?._image != null)
-                            {
-                                ctr._fill._patternPictureSettings.SaveImage();
-                            }
-                        }
-                    }
-                    
-                    _vmlDrawings.VmlDrawingXml.Save(_vmlDrawings.Part.GetStream(FileMode.Create));
+                    _vmlDrawings.CreateVmlPart();
                 }
             }
         }
@@ -3963,7 +3934,16 @@ namespace OfficeOpenXml
                 return _values == null;
             }
         }
-#region Worksheet internal Accessor
+
+        ExcelPackage IPictureRelationDocument.Package { get { return _package; } }
+
+        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
+        Dictionary<string, HashInfo> IPictureRelationDocument.Hashes { get { return _hashes; } }
+
+        Packaging.ZipPackagePart IPictureRelationDocument.RelatedPart { get { return Part; }}
+
+        Uri IPictureRelationDocument.RelatedUri { get { return _worksheetUri; } }
+        #region Worksheet internal Accessor
         /// <summary>
         /// Get accessor of sheet value
         /// </summary>

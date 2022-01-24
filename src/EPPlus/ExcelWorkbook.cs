@@ -253,6 +253,7 @@ namespace OfficeOpenXml
 		internal FormulaParser _formulaParser = null;
 		internal ExcelThreadedCommentPersonCollection _threadedCommentPersons = null;
 		internal FormulaParserManager _parserManager;
+		private ExcelTextSettings _textSettings = null;
 		internal CellStore<List<Token>> _formulaTokens;
 		internal class PivotTableCacheRangeInfo
 		{
@@ -561,6 +562,21 @@ namespace OfficeOpenXml
 		}
 
 		/// <summary>
+		/// Manage text settings such as measurement of text for the Autofit functions.
+		/// </summary>
+		public ExcelTextSettings TextSettings
+        {
+			get
+            {
+				if(_textSettings == null)
+                {
+					_textSettings = new ExcelTextSettings();
+				}
+				return _textSettings;
+            }
+        }
+
+		/// <summary>
 		/// Represents a collection of <see cref="ExcelThreadedCommentPerson"/>s in the workbook.
 		/// </summary>
 		public ExcelThreadedCommentPersonCollection ThreadedCommentPersons
@@ -591,7 +607,7 @@ namespace OfficeOpenXml
 					{
 						try
 						{
-							_standardFontWidth = GetWidthPixels(font.Name, font.Size);
+							_standardFontWidth = FontSize.GetWidthPixels(font.Name, font.Size);
 							_fontID = Styles.NamedStyles[ix].Style.Font.Id;
 						}
 						catch   //Error, Font missing and Calibri removed in dictionary
@@ -613,86 +629,29 @@ namespace OfficeOpenXml
 		}
 
 		internal static decimal GetHeightPixels(string fontName, float fontSize)
-		{
-			Dictionary<float, FontSizeInfo> font;
-			if (FontSize.FontHeights.ContainsKey(fontName))
-			{
-				font = FontSize.FontHeights[fontName];
-			}
-			else
-			{
-				font = FontSize.FontHeights["Calibri"];
-			}
+        {
+            Dictionary<float, short> font;
+            font = FontSize.GetFontSize(fontName, false);
 
-			if (font.ContainsKey(fontSize))
-			{
-				return Convert.ToDecimal(font[fontSize].Width);
-			}
-			else
-			{
-				float min = -1, max = 500;
-				foreach (var size in font)
-				{
-					if (min < size.Key && size.Key < fontSize)
-					{
-						min = size.Key;
-					}
-					if (max > size.Key && size.Key > fontSize)
-					{
-						max = size.Key;
-					}
-				}
-				if (min == max)
-				{
-					return Convert.ToDecimal(font[min].Height);
-				}
-				else
-				{
-					return Convert.ToDecimal(font[min].Height + (font[max].Height - font[min].Height) * ((fontSize - min) / (max - min)));
-				}
-			}
-		}
-		internal static decimal GetWidthPixels(string fontName, float fontSize)
-		{
-			Dictionary<float, FontSizeInfo> font;
-			if (FontSize.FontHeights.ContainsKey(fontName))
-			{
-				font = FontSize.FontHeights[fontName];
-			}
-			else
-			{
-				font = FontSize.FontHeights["Calibri"];
-			}
-
-			if (font.ContainsKey(fontSize))
-			{
-				return Convert.ToDecimal(font[fontSize].Width);
-			}
-			else
-			{
-				float min = -1, max = 500;
-				foreach (var size in font)
-				{
-					if (min < size.Key && size.Key < fontSize)
-					{
-						min = size.Key;
-					}
-					if (max > size.Key && size.Key > fontSize)
-					{
-						max = size.Key;
-					}
-				}
-				if (min == max)
-				{
-					return Convert.ToDecimal(font[min].Width);
-				}
-				else
-				{
-					return Convert.ToDecimal(font[min].Width + (font[max].Width - font[min].Width) * ((fontSize - min) / (max - min)));
-				}
-			}
-		}
-
+            if (font.ContainsKey(fontSize))
+            {
+                return Convert.ToDecimal(font[fontSize]);
+            }
+            else
+            {
+                float min = -1;
+                foreach (var size in font.Keys)
+                {
+                    if (min < size && size < fontSize)
+                    {
+                        break;
+                    }
+                    min = size;
+                }
+                if (min > -1) return font[min];
+                return 20;  //Default pixels, Calibri 11
+            }
+        }
 		ExcelProtection _protection = null;
 		/// <summary>
 		/// Access properties to protect or unprotect a workbook

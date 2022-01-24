@@ -1,5 +1,4 @@
-﻿using Ionic.Zip;
-using OfficeOpenXml.Packaging.Ionic.Zip;
+﻿using OfficeOpenXml.Packaging.Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.Linq;

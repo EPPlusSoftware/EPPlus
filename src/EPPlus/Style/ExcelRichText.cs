@@ -16,6 +16,7 @@ using System.Text;
 using System.Xml;
 using System.Drawing;
 using System.Globalization;
+using OfficeOpenXml.Export.HtmlExport;
 
 namespace OfficeOpenXml.Style
 {
@@ -60,6 +61,28 @@ namespace OfficeOpenXml.Style
                 if (_callback != null) _callback();
             }
         }
+        /// <summary>
+        /// Returns the rich text item as a html string.
+        /// </summary>
+        public string HtmlText
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                WriteHtmlText(sb);
+                return sb.ToString();
+            }
+        }
+
+        internal void WriteHtmlText(StringBuilder sb)
+        {
+            sb.Append("<span style=\"");
+            HtmlRichText.GetRichTextStyle(this, sb);
+            sb.Append("\">");
+            sb.Append(Text);
+            sb.Append("</span>");
+        }
+
         /// <summary>
         /// Preserves whitespace. Default true
         /// </summary>

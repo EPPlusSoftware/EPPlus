@@ -67,13 +67,13 @@ namespace OfficeOpenXml.Utils
             return new Uri(file,UriKind.RelativeOrAbsolute);
         }
 
-        internal static Uri GetRelativeUri(Uri WorksheetUri, Uri uri)
+        internal static Uri GetRelativeUri(Uri sourceUri, Uri targetUri)
         {
-            string[] source = WorksheetUri.OriginalString.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-            string[] target = uri.OriginalString.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] source = sourceUri.OriginalString.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] target = targetUri.OriginalString.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
             int slen;
-            if (WorksheetUri.OriginalString.EndsWith("/"))
+            if (sourceUri.OriginalString.EndsWith("/"))
             {
                 slen = source.Length;
             }

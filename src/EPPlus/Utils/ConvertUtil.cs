@@ -320,7 +320,6 @@ namespace OfficeOpenXml.Utils
             ret.Append(t.Substring(prevIndex, t.Length - prevIndex));
             return ret.ToString();
         }
-
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
         ///     When converting blank string to nullable struct (e.g. ' ' to int?) null is returned.
@@ -346,7 +345,12 @@ namespace OfficeOpenXml.Utils
         /// </exception>
         public static T GetTypedCellValue<T>(object value)
         {
+            return GetTypedCellValueInner<T>(value, false);
+        }
+        internal static T GetTypedCellValueInner<T>(object value, bool returnDefaultIfException)
+        {
             var conversion = new TypeConvertUtil<T>(value);
+
             if(value == null || (conversion.ReturnType.IsNullable && conversion.Value.IsEmptyString))
             {
                 return default;
@@ -367,8 +371,35 @@ namespace OfficeOpenXml.Utils
             {
                 return (T)ts;
             }
-
-            return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+            if(returnDefaultIfException)
+            {
+                try
+                {
+                    return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+            else
+            {
+                if (value is IConvertible)
+                {
+                    return (T)Convert.ChangeType(value, conversion.ReturnType.Type);
+                }
+                else
+                {
+                    if(conversion.ReturnType.Type == typeof(object))
+                    {
+                        return (T)value;
+                    }
+                    else
+                    {
+                        return default(T);
+                    }
+                }
+            }
         }
         internal static string GetValueForXml(object v, bool date1904)
         {

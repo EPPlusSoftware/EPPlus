@@ -33,11 +33,9 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.IO;
-using Ionic.Zip;
-using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Packaging.Ionic.Crc;
 
-namespace  Ionic.Zip
+namespace OfficeOpenXml.Packaging.Ionic.Zip
 {
     /// <summary>
     ///   Provides a stream metaphor for reading zip files.

@@ -807,7 +807,7 @@ namespace OfficeOpenXml
                 var styles = _worksheet.Workbook.Styles;
                 var normalStyleIx = styles.GetNormalStyleIndex();
                 var nf = styles.NamedStyles[normalStyleIx < 0 ? 0 : normalStyleIx].Style.Font;
-                var defaultWidth = Convert.ToDouble(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
+                var defaultWidth = Convert.ToDouble(FontSize.GetWidthPixels(nf.Name, nf.Size));
                 var widthCharRH = c.Row < 1000 ? 3 : c.Row.ToString(CultureInfo.InvariantCulture).Length;
                 var margin = 5;
                 PaneSettings.XSplit = (Convert.ToDouble(pixelsX) + (defaultWidth * widthCharRH) + margin) * 15D;
@@ -847,7 +847,7 @@ namespace OfficeOpenXml
                 var styles = _worksheet.Workbook.Styles;
                 var normalStyleIx = styles.GetNormalStyleIndex();
                 var nf = styles.NamedStyles[normalStyleIx < 0 ? 0 : normalStyleIx].Style.Font;
-                var defaultWidth = ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size);
+                var defaultWidth = FontSize.GetWidthPixels(nf.Name, nf.Size);
                 var widthCharRH = c.Row < 1000 ? 3 : c.Row.ToString(CultureInfo.InvariantCulture).Length;
                 var margin = 5;
                 PaneSettings.XSplit = (Convert.ToDouble(GetVisibleColumnWidth(c.Column-1, columnsLeft) + (defaultWidth * widthCharRH) + margin)) * 15D;

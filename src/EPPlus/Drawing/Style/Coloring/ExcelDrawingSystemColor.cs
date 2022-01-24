@@ -84,65 +84,65 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
             switch (Color)
             {
                 case eSystemColor.ActiveBorder:
-                    return SystemColors.ActiveBorder;
+                    return EPPlusSystemColors.ActiveBorder;
                 case eSystemColor.ActiveCaption:
-                    return SystemColors.ActiveCaption;
+                    return EPPlusSystemColors.ActiveCaption;
                 case eSystemColor.AppWorkspace:
-                    return SystemColors.AppWorkspace;
+                    return EPPlusSystemColors.AppWorkspace;
                 case eSystemColor.Background:
-                    return SystemColors.Window;
+                    return EPPlusSystemColors.Window;
                 case eSystemColor.ButtonFace:
-                    return SystemColors.ButtonFace;
+                    return EPPlusSystemColors.ButtonFace;
                 case eSystemColor.InactiveCaption:
-                    return SystemColors.InactiveCaption;
+                    return EPPlusSystemColors.InactiveCaption;
                 case eSystemColor.Menu:
-                    return SystemColors.Menu;
+                    return EPPlusSystemColors.Menu;
                 case eSystemColor.Window:
-                    return SystemColors.Window;
+                    return EPPlusSystemColors.Window;
                 case eSystemColor.WindowFrame:
-                    return SystemColors.WindowFrame;
+                    return EPPlusSystemColors.WindowFrame;
                 case eSystemColor.MenuText:
-                    return SystemColors.MenuText;
+                    return EPPlusSystemColors.MenuText;
                 case eSystemColor.WindowText:
-                    return SystemColors.WindowText;
+                    return EPPlusSystemColors.WindowText;
                 case eSystemColor.CaptionText:
-                    return SystemColors.ActiveCaptionText;
+                    return EPPlusSystemColors.ActiveCaptionText;
                 case eSystemColor.InactiveBorder:
-                    return SystemColors.InactiveBorder;
+                    return EPPlusSystemColors.InactiveBorder;
                 case eSystemColor.Highlight:
-                    return SystemColors.Highlight;
+                    return EPPlusSystemColors.Highlight;
                 case eSystemColor.HighlightText:
-                    return SystemColors.HighlightText;
+                    return EPPlusSystemColors.HighlightText;
                 case eSystemColor.ButtonShadow:
-                    return SystemColors.ButtonShadow;
+                    return EPPlusSystemColors.ButtonShadow;
                 case eSystemColor.GrayText:
-                    return SystemColors.GrayText;
+                    return EPPlusSystemColors.GrayText;
                 case eSystemColor.ButtonText:
-                    return SystemColors.ControlText;
+                    return EPPlusSystemColors.ControlText;
                 case eSystemColor.InactiveCaptionText:
-                    return SystemColors.InactiveCaptionText;
+                    return EPPlusSystemColors.InactiveCaptionText;
                 case eSystemColor.ButtonHighlight:
-                    return SystemColors.ButtonHighlight;
+                    return EPPlusSystemColors.ButtonHighlight;
                 case eSystemColor.DarkShadow3d:
-                    return SystemColors.ControlDarkDark;
+                    return EPPlusSystemColors.ControlDarkDark;
                 case eSystemColor.Light3d:
-                    return SystemColors.ControlLightLight;
+                    return EPPlusSystemColors.ControlLightLight;
                 case eSystemColor.InfoText:
-                    return SystemColors.InfoText;
+                    return EPPlusSystemColors.InfoText;
                 case eSystemColor.InfoBackground:
-                    return SystemColors.Info;
+                    return EPPlusSystemColors.Info;
                 case eSystemColor.HotLight:
-                    return SystemColors.HotTrack;
+                    return EPPlusSystemColors.HotTrack;
                 case eSystemColor.GradientActiveCaption:
-                    return SystemColors.GradientActiveCaption;
+                    return EPPlusSystemColors.GradientActiveCaption;
                 case eSystemColor.GradientInactiveCaption:
-                    return SystemColors.GradientInactiveCaption;
+                    return EPPlusSystemColors.GradientInactiveCaption;
                 case eSystemColor.MenuHighlight:
-                    return SystemColors.MenuHighlight;
+                    return EPPlusSystemColors.MenuHighlight;
                 case eSystemColor.MenuBar:
-                    return SystemColors.MenuBar;
+                    return EPPlusSystemColors.MenuBar;
                 default:
-                    return SystemColors.Window;
+                    return EPPlusSystemColors.Window;
             }
         }
         private string TranslateFromEnum(eSystemColor e)

@@ -38,12 +38,32 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         Emf,
         /// <summary>
-        /// A tiff image
+        /// A Tiff image
         /// </summary>
         Tif,
         /// <summary>
         /// A windows metafile image
         /// </summary>
-        Wmf
+        Wmf,
+        /// <summary>
+        /// A Svg image
+        /// </summary>
+        Svg,
+        /// <summary>
+        /// A WebP image
+        /// </summary>
+        WebP,
+        /// <summary>
+        /// A Windows icon
+        /// </summary>
+        Ico,
+        /// <summary>
+        /// A compressed Enhanced MetaFile image
+        /// </summary>
+        Emz,
+        /// <summary>
+        /// A compressed Windows MetaFile image
+        /// </summary>
+        Wmz
     }
 }
