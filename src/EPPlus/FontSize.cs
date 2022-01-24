@@ -28,6 +28,7 @@ namespace OfficeOpenXml
         public const string DefaultFont = "Calibri";
         internal static bool _isLoaded = false;
         internal static object _lockObj=new object();
+        internal static MemoryStream _fontStream=null;
         /// <summary>
         /// Dictionary containing Font Width in pixels.
         /// You can add your own fonts and sizes here.
@@ -165,6 +166,11 @@ namespace OfficeOpenXml
             lock (_lockObj)
             {
                 if (_isLoaded) return;
+                if(_fontStream!=null)
+                {
+                    ReadFontSize(_fontStream, fontName);
+                    _isLoaded = string.IsNullOrEmpty(fontName);
+                }
                 var assembly = Assembly.GetExecutingAssembly();
                 var stream = assembly.GetManifestResourceStream("OfficeOpenXml.resources.fontsize.zip");
 
@@ -177,11 +183,22 @@ namespace OfficeOpenXml
                         if (entry.FileName.Equals("fontsize.bin", StringComparison.OrdinalIgnoreCase))
                         {
                             var br = new BinaryReader(zipStream);
-                            ReadFontSize(new MemoryStream(br.ReadBytes((int)entry.UncompressedSize)), fontName);
+                            if (string.IsNullOrEmpty(fontName))
+                            {
+                                using (var ms = new MemoryStream(br.ReadBytes((int)entry.UncompressedSize)))
+                                {
+                                    ReadFontSize(ms, fontName);
+                                }
+                                _isLoaded = true;
+                            }
+                            else
+                            {
+                                _fontStream = new MemoryStream(br.ReadBytes((int)entry.UncompressedSize));
+                                ReadFontSize(_fontStream, fontName);
+                            }
                         }
                     }
                 }
-                _isLoaded = true;
             }
         }
 
