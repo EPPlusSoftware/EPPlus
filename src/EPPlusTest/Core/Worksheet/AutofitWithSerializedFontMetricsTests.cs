@@ -157,8 +157,8 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual(23, FontSize.FontHeights.Count);
                 Assert.AreEqual(23, FontSize.FontWidths.Count);
                 FontSize.LoadAllFontsFromResource();
-                Assert.AreEqual(800, FontSize.FontHeights.Count);
-                Assert.AreEqual(800, FontSize.FontWidths.Count);
+                Assert.AreEqual(895, FontSize.FontHeights.Count);
+                Assert.AreEqual(895, FontSize.FontWidths.Count);
             }
         }
 

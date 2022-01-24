@@ -27,6 +27,7 @@ namespace OfficeOpenXml
     {
         public const string DefaultFont = "Calibri";
         internal static bool _isLoaded = false;
+        internal static object _lockObj=new object();
         /// <summary>
         /// Dictionary containing Font Width in pixels.
         /// You can add your own fonts and sizes here.
@@ -60,7 +61,7 @@ namespace OfficeOpenXml
         };
 
         /// <summary>
-        /// Dictionary containing default Font Heights in pixels for the column width calculates.
+        /// Dictionary containing default Font Heights in pixels for the row height calculates.
         /// You can add your own fonts and sizes here.
         /// </summary>
         public static Dictionary<string, Dictionary<float, short>> FontHeights = new Dictionary<string, Dictionary<float, short>>(StringComparer.OrdinalIgnoreCase)
@@ -112,7 +113,7 @@ namespace OfficeOpenXml
                 float min = -1;
                 foreach (var size in font.Keys)
                 {
-                    if (min < size && size < fontSize)
+                    if (min < size && size > fontSize)
                     {
                         break;
                     }
@@ -157,28 +158,30 @@ namespace OfficeOpenXml
 
         public static void LoadAllFontsFromResource()
         {
-            _isLoaded = true;
             LoadFontsFromResource(null);
         }
         public static void LoadFontsFromResource(string fontName)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var stream = assembly.GetManifestResourceStream("OfficeOpenXml.resources.fontsize.zip");
-
-            using (stream)
+        {            
+            lock (_lockObj)
             {
-                var zipStream = new ZipInputStream(stream);
-                ZipEntry entry;
-                while ((entry = zipStream.GetNextEntry()) != null)
+                if (_isLoaded) return;
+                var assembly = Assembly.GetExecutingAssembly();
+                var stream = assembly.GetManifestResourceStream("OfficeOpenXml.resources.fontsize.zip");
+
+                using (stream)
                 {
-                    if (entry.FileName.Equals("fontsize.bin", StringComparison.OrdinalIgnoreCase))
+                    var zipStream = new ZipInputStream(stream);
+                    ZipEntry entry;
+                    while ((entry = zipStream.GetNextEntry()) != null)
                     {
-                        using (var br = new BinaryReader(zipStream))
+                        if (entry.FileName.Equals("fontsize.bin", StringComparison.OrdinalIgnoreCase))
                         {
-                            ReadFontSize(new MemoryStream(br.ReadBytes((int)entry.UncompressedSize)), fontName);                            
+                            var br = new BinaryReader(zipStream);
+                            ReadFontSize(new MemoryStream(br.ReadBytes((int)entry.UncompressedSize)), fontName);
                         }
                     }
                 }
+                _isLoaded = true;
             }
         }
 

@@ -901,6 +901,10 @@ namespace OfficeOpenXml
             if (ix >= 0)
             {
                 var f = Workbook.Styles.NamedStyles[ix].Style.Font;
+                if(f.Name.Equals("Calibri", StringComparison.OrdinalIgnoreCase) && f.Size==11) //Default normal font
+                {
+                    return 15;
+                }
                 return ExcelFontXml.GetFontHeight(f.Name, f.Size) * 0.75;
             }
             else
