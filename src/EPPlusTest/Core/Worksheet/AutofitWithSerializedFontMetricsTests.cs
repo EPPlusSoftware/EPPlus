@@ -149,6 +149,18 @@ namespace EPPlusTest.Core.Worksheet
                 SaveWorkbook($"Autofit_SerializedFont_{fontFamily.Replace(" ", string.Empty)}.xlsx", package);
             }
         }
+        [TestMethod]
+        public void LoadFontSizeFromResource()
+        {
+            using (var p = new ExcelPackage())
+            {
+                Assert.AreEqual(23, FontSize.FontHeights.Count);
+                Assert.AreEqual(23, FontSize.FontWidths.Count);
+                FontSize.LoadAllFontsFromResource();
+                Assert.AreEqual(800, FontSize.FontHeights.Count);
+                Assert.AreEqual(800, FontSize.FontWidths.Count);
+            }
+        }
 
 #if NETFULL
         [TestMethod, Ignore]

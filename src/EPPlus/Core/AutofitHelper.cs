@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Core
                 Size = nf.Size
             };
 
-            var normalSize = Convert.ToSingle(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
+            var normalSize = Convert.ToSingle(FontSize.GetWidthPixels(nf.Name, nf.Size));
 
             #region MeasureString memoization
 
