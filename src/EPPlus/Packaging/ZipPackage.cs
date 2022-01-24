@@ -18,7 +18,6 @@ using System.IO;
 using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging.Ionic.Zip;
-using Ionic.Zip;
 using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.Packaging

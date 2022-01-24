@@ -31,12 +31,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ExcelDataProvider.ICellInfo c, ParsingContext context)
         {
             if (ignoreNonNumeric && !ConvertUtil.IsNumericOrDate(c.Value)) return true;
-            return (ignoreHiddenValues && c.IsHiddenRow) || IsSubTotal(c, context);
+            var hasFilter = false;
+            if (context.Parser != null && context.Parser.FilterInfo != null)
+            {
+                hasFilter = context.Parser.FilterInfo.WorksheetHasFilter(c.WorksheetName);
+            }
+            return ((ignoreHiddenValues || hasFilter) && c.IsHiddenRow) || IsSubTotal(c, context);
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, FunctionArgument arg, ParsingContext context)
         {
-            return (ignoreHiddenValues && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell));
+            var hasFilter = false;
+            if (context.Parser != null && context.Parser.FilterInfo != null && context.Parser.FilterInfo.WorksheetHasFilter(context.Scopes.Current.Address.Worksheet))
+            {
+                hasFilter = true;
+            }
+            return (ignoreHiddenValues || hasFilter) && arg.ExcelStateFlagIsSet(ExcelCellState.HiddenCell);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         private double Calculate(FunctionArgument arg, ParsingContext context, bool isInArray = false)
         {
             var retVal = 0d;
-            if (ShouldIgnore(arg))
+            if (ShouldIgnore(arg, context))
             {
                 return retVal;
             }

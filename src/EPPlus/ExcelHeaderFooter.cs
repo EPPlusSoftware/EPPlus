@@ -20,6 +20,7 @@ using System.IO;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace OfficeOpenXml
 {    
@@ -100,66 +101,61 @@ namespace OfficeOpenXml
         /// <summary>
         /// Inserts a picture at the end of the text in the header or footer
         /// </summary>
-        /// <param name="Picture">The image object containing the Picture</param>
-        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
-        public ExcelVmlDrawingPicture InsertPicture(Image Picture, PictureAlignment Alignment)
-        {
-            string id = ValidateImage(Alignment);
-
-            //Add the image
-#if (Core)
-            var img=ImageCompat.GetImageAsByteArray(Picture);
-#else
-            ImageConverter ic = new ImageConverter();
-            byte[] img = (byte[])ic.ConvertTo(Picture, typeof(byte[]));
-#endif
-
-
-            var ii = _ws.Workbook._package.PictureStore.AddImage(img);
-
-            return AddImage(Picture, id, ii);
-        }
-        /// <summary>
-        /// Inserts a picture at the end of the text in the header or footer
-        /// </summary>
         /// <param name="PictureFile">The image object containing the Picture</param>
         /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
         public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
         {
             string id = ValidateImage(Alignment);
 
-            Image Picture;
-            try
+            if (!PictureFile.Exists)
             {
-                if (!PictureFile.Exists)
-                {
-                    throw (new FileNotFoundException(string.Format("{0} is missing", PictureFile.FullName)));
-                }
-                Picture = Image.FromFile(PictureFile.FullName);
-            }
-            catch (Exception ex)
-            {
-                throw (new InvalidDataException("File is not a supported image-file or is corrupt", ex));
+                throw (new FileNotFoundException(string.Format("{0} is missing", PictureFile.FullName)));
             }
 
-            string contentType = PictureStore.GetContentType(PictureFile.Extension);
             var uriPic = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/" + PictureFile.Name.Substring(0, PictureFile.Name.Length-PictureFile.Extension.Length) + "{0}" + PictureFile.Extension);
-#if (Core)
-            var imgBytes=ImageCompat.GetImageAsByteArray(Picture);
-#else
-            var ic = new ImageConverter();
-            byte[] imgBytes = (byte[])ic.ConvertTo(Picture, typeof(byte[]));
-#endif
+            var imgBytes = File.ReadAllBytes(PictureFile.FullName);
+            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, null);
 
-            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, contentType);
-
-            return AddImage(Picture, id, ii);
+            return AddImage(id, ii);
         }
-
-        private ExcelVmlDrawingPicture AddImage(Image Picture, string id, ImageInfo ii)
+        /// <summary>
+        /// Inserts a picture at the end of the text in the header or footer
+        /// </summary>
+        /// <param name="PictureStream">The stream containing the picture</param>
+        /// <param name="pictureType">The image format of the picture stream</param>
+        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+        public ExcelVmlDrawingPicture InsertPicture(Stream PictureStream, ePictureType pictureType, PictureAlignment Alignment)
         {
-            double width = Picture.Width * 72 / Picture.HorizontalResolution,      //Pixel --> Points
-                   height = Picture.Height * 72 / Picture.VerticalResolution;      //Pixel --> Points
+            string id = ValidateImage(Alignment);
+
+            var imgBytes=new byte[PictureStream.Length];
+            PictureStream.Seek(0, SeekOrigin.Begin);
+            PictureStream.Read(imgBytes,0, imgBytes.Length);
+            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes,null, pictureType);
+
+            return AddImage(id, ii);
+        }
+#if NETFULL
+        /// <summary>
+        /// Inserts a picture at the end of the text in the header or footer
+        /// </summary>
+        /// <param name="Picture">The image object containing the Picture</param>
+        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
+        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
+        public ExcelVmlDrawingPicture InsertPicture(Image Picture, PictureAlignment Alignment)
+        {
+            var b = ImageUtils.GetImageAsByteArray(Picture, out ePictureType type);
+            using (var ms = new MemoryStream(b))
+            {
+                return InsertPicture(ms, type, Alignment);
+            }
+        }
+#endif
+        private ExcelVmlDrawingPicture AddImage(string id, ImageInfo ii)
+        {
+            
+            double width = ii.Bounds.Width * 72 / ii.Bounds.HorizontalResolution,      //Pixel --> Points
+                   height = ii.Bounds.Height * 72 / ii.Bounds.VerticalResolution;      //Pixel --> Points
             //Add VML-drawing            
             return _ws.HeaderFooter.Pictures.Add(id, ii.Uri, "", width, height);
         }
@@ -189,15 +185,15 @@ namespace OfficeOpenXml
             return id;
         }
 	}
-	#endregion
+#endregion
 
-	#region ExcelHeaderFooter
+#region ExcelHeaderFooter
 	/// <summary>
 	/// Represents the Header and Footer on an Excel Worksheet
 	/// </summary>
 	public sealed class ExcelHeaderFooter : XmlHelper
 	{
-		#region Static Properties
+#region Static Properties
 		/// <summary>
         /// The code for "current page #"
 		/// </summary>
@@ -244,9 +240,9 @@ namespace OfficeOpenXml
         /// The code for "shadow style"
         /// </summary>
         public const string ShadowStyle = @"&H";
-		#endregion
+#endregion
 
-		#region ExcelHeaderFooter Private Properties
+#region ExcelHeaderFooter Private Properties
 		internal ExcelHeaderFooterText _oddHeader;
         internal ExcelHeaderFooterText _oddFooter;
 		internal ExcelHeaderFooterText _evenHeader;
@@ -254,9 +250,9 @@ namespace OfficeOpenXml
         internal ExcelHeaderFooterText _firstHeader;
         internal ExcelHeaderFooterText _firstFooter;
         private ExcelWorksheet _ws;
-        #endregion
+#endregion
 
-		#region ExcelHeaderFooter Constructor
+#region ExcelHeaderFooter Constructor
 		/// <summary>
 		/// ExcelHeaderFooter Constructor
 		/// </summary>
@@ -269,9 +265,9 @@ namespace OfficeOpenXml
             _ws = ws;
             SchemaNodeOrder = new string[] { "headerFooter", "oddHeader", "oddFooter", "evenHeader", "evenFooter", "firstHeader", "firstFooter" };
 		}
-		#endregion
+#endregion
 
-		#region alignWithMargins
+#region alignWithMargins
         const string alignWithMarginsPath="@alignWithMargins";
         /// <summary>
 		/// Align with page margins
@@ -287,9 +283,9 @@ namespace OfficeOpenXml
                 SetXmlNodeString(alignWithMarginsPath, value ? "1" : "0");
 			}
 		}
-		#endregion
+#endregion
 
-        #region differentOddEven
+#region differentOddEven
         const string differentOddEvenPath = "@differentOddEven";
         /// <summary>
 		/// Displas different headers and footers on odd and even pages.
@@ -305,9 +301,9 @@ namespace OfficeOpenXml
                 SetXmlNodeString(differentOddEvenPath, value ? "1" : "0");
 			}
 		}
-		#endregion
+#endregion
 
-		#region differentFirst
+#region differentFirst
         const string differentFirstPath = "@differentFirst";
 
 		/// <summary>
@@ -324,8 +320,8 @@ namespace OfficeOpenXml
                 SetXmlNodeString(differentFirstPath, value ? "1" : "0");
 			}
 		}
-        #endregion
-        #region ScaleWithDoc
+#endregion
+#region ScaleWithDoc
         const string scaleWithDocPath = "@scaleWithDoc";
         /// <summary>
         /// The header and footer should scale as you use the ShrinkToFit property on the document
@@ -341,8 +337,8 @@ namespace OfficeOpenXml
                 SetXmlNodeBool(scaleWithDocPath, value);
             }
         }
-        #endregion
-        #region ExcelHeaderFooter Public Properties
+#endregion
+#region ExcelHeaderFooter Public Properties
         /// <summary>
         /// Provides access to the header on odd numbered pages of the document.
         /// If you want the same header on both odd and even pages, then only set values in this ExcelHeaderFooterText class.
@@ -463,8 +459,9 @@ namespace OfficeOpenXml
                 return _vmlDrawingsHF;
             }
         }
-        #endregion
-            #region Save  //  ExcelHeaderFooter
+
+#endregion
+#region Save  //  ExcelHeaderFooter
             /// <summary>
             /// Saves the header and footer information to the worksheet XML
             /// </summary>
@@ -561,7 +558,7 @@ namespace OfficeOpenXml
 				ret += "&R" + headerFooter.RightAlignedText;
 			return ret;
 		}
-		#endregion
+#endregion
 	}
-	#endregion
+#endregion
 }

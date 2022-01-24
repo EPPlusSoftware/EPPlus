@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
@@ -120,63 +117,48 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:fill/@o:title", value, true);
             }
         }
-        internal Image _image = null;
+        ExcelImage _image=null;
         /// <summary>
         /// The image is used when <see cref="ExcelVmlDrawingFill.Style"/> is set to  Pattern, Tile or Frame.
         /// </summary>
-        public Image Image
+        public ExcelImage Image
         {
             get
             {
-                if(_image==null)
+                if (_image == null)
                 {
                     var relId = RelId;
+                    _image = new ExcelImage(this, new ePictureType[] { ePictureType.Svg, ePictureType.Ico, ePictureType.WebP });
                     if (!string.IsNullOrEmpty(relId))
                     {
-                        _image = PictureStore.GetPicture(relId, this, out string contentType);
+                        _image.ImageBytes = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
+                        _image.Type = pictureType;
                     }
                 }
                 return _image;
             }
-            set
-            {
-                if (_image == value) return;
-                if (_image != null)
-                {
-                    var container = (IPictureContainer)this;
-                    var pictureRelationDocument = (IPictureRelationDocument)_fill;
-                    pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
-                    pictureRelationDocument.Hashes.Remove(container.ImageHash);
-                }
-                if (value != null)
-                {
-                    _image = value;
-                }
-            }
         }
-        internal void SaveImage()
-        {
-            if (_image != null)
-            {
-                try
-                {
-                    string relId = PictureStore.SavePicture(_image, this);
 
-                    //Create relationship
-                    SetXmlNodeString("v:fill/@o:relid", relId);
-                }
-                catch (Exception ex)
-                {
-                    throw (new Exception("Can't save image - " + ex.Message, ex));
-                }
-            }
-        }
         IPictureRelationDocument IPictureContainer.RelationDocument => _fill._drawings.Worksheet.VmlDrawings;
 
         string IPictureContainer.ImageHash { get; set ; }
         Uri IPictureContainer.UriPic { get; set ; }
         ZipPackageRelationship IPictureContainer.RelPic { get; set; }
+        void IPictureContainer.SetNewImage()
+        {
+            var container = (IPictureContainer)this;
+            //Create relationship
+            SetXmlNodeString("v:fill/@o:relid", container.RelPic.Id);
+        }
+        void IPictureContainer.RemoveImage()
+        {
+            var container = (IPictureContainer)this;
+            var pictureRelationDocument = (IPictureRelationDocument)_fill._drawings;
+            pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
+            pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
+            pictureRelationDocument.Hashes.Remove(container.ImageHash);
+        }
+
         internal string RelId 
         { 
             get

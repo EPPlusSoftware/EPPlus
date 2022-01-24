@@ -18,7 +18,7 @@ using System.Text;
 namespace OfficeOpenXml.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
-    public class EPPlusTableColumnSortorderAttribute : Attribute
+    public class EPPlusTableColumnSortOrderAttribute : Attribute
     {
         public string[] Properties { get; set; }
     }

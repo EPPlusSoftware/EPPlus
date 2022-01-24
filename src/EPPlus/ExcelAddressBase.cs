@@ -128,7 +128,7 @@ namespace OfficeOpenXml
             {
                 if(ExcelWorksheet.NameNeedsApostrophes(_ws))
                 {
-                    _address = $"'{_ws}'!{_address}";
+                    _address = $"'{_ws.Replace("'","''")}'!{_address}";
                 }
                 else
                 {

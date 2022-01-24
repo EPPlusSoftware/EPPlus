@@ -46,7 +46,6 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.IO;
-using Ionic.Zip;
 using OfficeOpenXml.Packaging.Ionic.Zlib;
 
 namespace OfficeOpenXml.Packaging.Ionic.Zip

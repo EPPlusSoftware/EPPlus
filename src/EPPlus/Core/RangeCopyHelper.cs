@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Style.Dxf;
@@ -432,7 +433,7 @@ namespace OfficeOpenXml.Core
             var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
             var offsetCol = c.Column - cell.Comment.Column;
             var offsetRow = c.Row - cell.Comment.Row;
-            XmlHelper.CopyElement((XmlElement)cell.Comment.TopNode, (XmlElement)c.TopNode, new string[] { "id" });
+            XmlHelper.CopyElement((XmlElement)cell.Comment.TopNode, (XmlElement)c.TopNode, new string[] { "id", "spid" });
 
             if (c.From.Column + offsetCol >= 0)
             {
@@ -454,8 +455,11 @@ namespace OfficeOpenXml.Core
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Tile ||
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Pattern)
             {
-                var img = cell.Comment.Fill.PatternPictureSettings.Image;                
-                c.Fill.PatternPictureSettings.Image = img;
+                var img = cell.Comment.Fill.PatternPictureSettings.Image;
+                if (img.ImageBytes != null)
+                {
+                    c.Fill.PatternPictureSettings.Image.SetImage(img.ImageBytes, img.Type ?? ePictureType.Jpg);
+                }
             }
         }
 

@@ -12,10 +12,13 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+<<<<<<< HEAD
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Implementations;
+=======
+using System.Globalization;
+>>>>>>> beta/epplus6
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 

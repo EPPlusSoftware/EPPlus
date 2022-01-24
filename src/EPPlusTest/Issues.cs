@@ -1485,7 +1485,7 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets.Add("Drawing1");
                 var shape = ws.Drawings.AddShape("x", eShapeStyle.Rect);
-                shape.Font.SetFromFont(new Font("Arial", 20));
+                shape.Font.SetFromFont("Arial", 20);
                 shape.Text = "Font";
                 SaveAndCleanup(p);
             }
@@ -2907,7 +2907,7 @@ namespace EPPlusTest
         [TestMethod]
         public void I552()
         {
-            using (var package = OpenTemplatePackage("I552.xlsx"))
+            using (var package = OpenTemplatePackage("I552-2.xlsx"))
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.InsertRow(2, 1);
@@ -2916,7 +2916,7 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
 
-            using (var package = OpenPackage("I552.xlsx"))
+            using (var package = OpenPackage("I552-2.xlsx"))
             {
                 var worksheet = package.Workbook.Worksheets[0];
                 worksheet.InsertRow(2, 1);
@@ -2972,9 +2972,23 @@ namespace EPPlusTest
                     }
                 }
 
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i574()
+        {
+            using (var package = OpenTemplatePackage("i574.xlsx"))
+            {
+                var wsSource = package.Workbook.Worksheets[0];
 
                 SaveAndCleanup(package);
             }
+        }
+        [TestMethod]
+        public void LoadFontSize()
+        {
+            FontSize.LoadAllFontsFromResource();
         }
     }
 }

@@ -158,7 +158,8 @@ namespace OfficeOpenXml.FormulaParsing
         {
             Require.That(range).IsNotNull();
             Init(range.Worksheet.Workbook);
-            _parser.InitNewCalc();
+            var filterInfo = new FilterInfo(range.Worksheet.Workbook);
+            _parser.InitNewCalc(filterInfo);
             var opt = options != null ? options : new ExcelCalculationOption();
             var dc = DependencyChainFactory.Create(range, opt);
             var result = new List<IFormulaCellInfo>();

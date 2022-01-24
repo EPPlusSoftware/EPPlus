@@ -291,6 +291,11 @@ namespace OfficeOpenXml.FormulaParsing
                     return ExcelCellBase.GetCellId(_ws.IndexInList, _values.Row, _values.Column);
                 }
             }
+
+            public string WorksheetName
+            {
+                get { return _ws.Name; }
+            }
         }
         public class NameInfo : ExcelDataProvider.INameInfo
         {

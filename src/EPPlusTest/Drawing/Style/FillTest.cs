@@ -846,7 +846,7 @@ namespace EPPlusTest.Drawing
 
             //Act
             shape.Fill.Style = eFillStyle.BlipFill;
-            shape.Fill.BlipFill.AddImage(Resources.Pattern1);
+            shape.Fill.BlipFill.Image.SetImage(Resources.CodeTif,ePictureType.Tif);
 
             shape.Fill.BlipFill.Stretch = false;
             shape.Fill.BlipFill.Tile.Alignment = eRectangleAlignment.Center;
@@ -878,12 +878,12 @@ namespace EPPlusTest.Drawing
             var chart = ws.Drawings.AddPieChart("PieChart1", ePieChartType.Pie);
             var serie = chart.Series.Add("D2:D6", "A2:A6");
             chart.Fill.Style = eFillStyle.BlipFill;
-            chart.Fill.BlipFill.AddImage(Resources.Pattern1);
+            chart.Fill.BlipFill.Image.SetImage(Resources.CodeTif, ePictureType.Tif);
 
 
             var pt=chart.Series[0].DataPoints.Add(0);
             pt.Fill.Style = eFillStyle.BlipFill;
-            pt.Fill.BlipFill.AddImage(Resources.Pattern1);
+            pt.Fill.BlipFill.Image.SetImage(Resources.CodeTif, ePictureType.Tif);
 
             chart.SetPosition(1, 0, 5, 0);
         }
@@ -897,7 +897,7 @@ namespace EPPlusTest.Drawing
 
             //Act
             shape.Fill.Style = eFillStyle.BlipFill;
-            shape.Fill.BlipFill.AddImage(Resources.Pattern1);
+            shape.Fill.BlipFill.Image.SetImage(Resources.CodeTif, ePictureType.Tif);
 
             //Assert
             Assert.AreEqual(eFillStyle.BlipFill, shape.Fill.Style);
@@ -913,7 +913,7 @@ namespace EPPlusTest.Drawing
 
             //Act
             shape.Fill.Style = eFillStyle.BlipFill;
-            shape.Fill.BlipFill.AddImage(Resources.Test1);
+            shape.Fill.BlipFill.Image.SetImage(Resources.Test1JpgByteArray, ePictureType.Jpg);
             shape.Fill.BlipFill.Stretch = stretch;
             if (stretch)
             {

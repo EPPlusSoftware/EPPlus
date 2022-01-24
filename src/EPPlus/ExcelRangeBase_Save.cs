@@ -153,8 +153,8 @@ namespace OfficeOpenXml
             sw.Flush();
         }
         #endregion
-#region ToText / SaveToText async
-#if !NET35 && !NET40
+        #region ToText / SaveToText async
+        #if !NET35 && !NET40
         /// <summary>
         /// Converts a range to text in CSV format.
         /// </summary>
@@ -251,8 +251,53 @@ namespace OfficeOpenXml
             sw.Flush();
         }
 #endif
+        #endregion
+        #region ToJson
+        public string ToJson()
+        {
+            var re = new JsonRangeExport(this, new JsonRangeExportSettings());
+            var ms = RecyclableMemory.GetStream();
+            re.Export(ms);
+            return Encoding.UTF8.GetString(ms.ToArray());
+        }
+        public string ToJson(Action<JsonRangeExportSettings> settings)
+        {
+            var s = new JsonRangeExportSettings();
+            settings.Invoke(s);
+            var re = new JsonRangeExport(this, s);
+            var ms = RecyclableMemory.GetStream();
+            re.Export(ms);
+            return s.Encoding.GetString(ms.ToArray());
+        }
+        public void SaveToJson(Stream stream)
+        {
+            var re = new JsonRangeExport(this, new JsonRangeExportSettings());
+            re.Export(stream);
+        }
+        public void SaveToJson(Stream stream, Action<JsonRangeExportSettings> settings)
+        {
+            var s = new JsonRangeExportSettings();
+            settings.Invoke(s);
+            var re = new JsonRangeExport(this, s);
+            re.Export(stream);
+        }
+        #endregion
+        #region SaveToJson Async
+#if !NET35 && !NET40
+        public async Task SaveToJsonAsync(Stream stream)
+        {
+            var re = new JsonRangeExport(this, new JsonRangeExportSettings());
+            await re.ExportAsync(stream);
+        }
+        public async Task SaveToJsonAsync(Stream stream, Action<JsonRangeExportSettings> settings)
+        {
+            var s = new JsonRangeExportSettings();
+            settings.Invoke(s);
+            var re = new JsonRangeExport(this, s);
+            await re.ExportAsync(stream);
+        }
+#endif
 #endregion
-
         private static CultureInfo GetCultureInfo(ExcelOutputTextFormat Format)
         {
             var ci = (CultureInfo)(Format.Culture.Clone() ?? CultureInfo.InvariantCulture.Clone());

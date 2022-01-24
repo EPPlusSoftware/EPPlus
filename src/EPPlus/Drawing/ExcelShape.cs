@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Drawing
             if (Fill.Style == eFillStyle.BlipFill)
             {
                     IPictureContainer container = Fill.BlipFill;
-                _drawings._package.PictureStore.RemoveImage(container.ImageHash, this);
+                _drawings._package.PictureStore.RemoveImage(container.ImageHash, container);
             }
             base.DeleteMe();
         }

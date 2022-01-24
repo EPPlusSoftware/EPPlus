@@ -20,6 +20,9 @@ using OfficeOpenXml.Drawing.Controls;
 using System.Text;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Constants;
+using System.IO;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -131,6 +134,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         private XmlNode AddCommentDrawing(ExcelRangeBase cell)
         {
+            CreateVmlPart(); //Create the vml part to be able to create related parts (like blip fill images).
             int row = cell.Start.Row, col = cell.Start.Column;
             var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
@@ -184,6 +188,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         private XmlNode AddControlDrawing(ExcelControl ctrl, string name)
         {
+            CreateVmlPart(); //Create the vml part to be able to create related parts (like blip fill images).
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
 
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
