@@ -689,7 +689,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return (decimal)Column(col).VisualWidth;
+                return (decimal)Columns[col].Width;
             }
         }
 
