@@ -204,7 +204,6 @@ namespace OfficeOpenXml.Drawing
                 {
                     if (string.IsNullOrEmpty(_container.ImageHash) == false && removePrevImage)
                     {
-
                         RemoveImageContainer();
                     }
                     ImageBytes = img;

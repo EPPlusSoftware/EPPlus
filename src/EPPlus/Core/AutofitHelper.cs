@@ -105,22 +105,21 @@ namespace OfficeOpenXml.Core
             // 32-bit keys in a single 64-bit value
             var measureCache = new Dictionary<ulong, TextMeasurement>();
 
-            TextMeasurement MeasureString(string t, int fntID)
+            TextMeasurement MeasureString(string t, int fntID, ExcelTextSettings ts)
             {
                 ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
                 if (!measureCache.TryGetValue(key, out var measurement))
                 {
-                    var textSettings = _range._workbook.TextSettings;
-                    var measurer = textSettings.PrimaryTextMeasurer;
+                    var measurer = ts.PrimaryTextMeasurer;
                     measurement = measurer.MeasureText(t, fontCache[fntID]);
-                    if (measurement.IsEmpty && _range._workbook.TextSettings.FallbackTextMeasurer != null)
+                    if (measurement.IsEmpty && ts.FallbackTextMeasurer != null)
                     {
-                        measurer = _range._workbook.TextSettings.FallbackTextMeasurer;
+                        measurer = ts.FallbackTextMeasurer;
                         measurement = measurer.MeasureText(t, fontCache[fntID]);
-                        if(textSettings.AutofitScaleFactor != 1f)
+                        if(ts.AutofitScaleFactor != 1f)
                         {
-                            measurement.Height = measurement.Height * textSettings.AutofitScaleFactor;
-                            measurement.Width = measurement.Width * textSettings.AutofitScaleFactor;
+                            measurement.Height = measurement.Height * ts.AutofitScaleFactor;
+                            measurement.Width = measurement.Width * ts.AutofitScaleFactor;
                         }
                     }
                     measureCache.Add(key, measurement);
@@ -128,6 +127,7 @@ namespace OfficeOpenXml.Core
                 return measurement;
             }
             #endregion
+            var textSettings = _range._workbook._package.Settings.TextSettings;
 
             foreach (var cell in _range)
             {
@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Core
                 var textForWidth = cell.TextForWidth;
                 var t = textForWidth + (ind > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', ind) : "");
                 if (t.Length > 32000) t = t.Substring(0, 32000); //Issue
-                var size = MeasureString(t, fntID);
+                var size = MeasureString(t, fntID, textSettings);
 
                 double width;
                 double r = styles.CellXfs[cell.StyleID].TextRotation;

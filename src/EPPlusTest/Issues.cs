@@ -2949,6 +2949,18 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void i583()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.SetValue(1048576, 1, 1);
+                Assert.AreEqual("A1048576", ws.Dimension.Address);
+
+            }
+        }
+
+        [TestMethod]
         public void i567()
         {
             using (var package = OpenTemplatePackage("i567.xlsx"))

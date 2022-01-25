@@ -245,6 +245,15 @@ namespace EPPlusTest.Drawing
                     Assert.AreEqual(35, ws.Columns[1].Width);
                     Assert.AreEqual(35, ws.Columns[20].Width);
                 }
+
+                var ws2 = p.Workbook.Worksheets.Add("Bmp2");
+                using (var msBmp1 = GetImageMemoryStream("bmp\\MARBLES.BMP"))
+                {
+                    var imageBmp1 = ws2.Drawings.AddPicture("bmp2", msBmp1, OfficeOpenXml.Drawing.ePictureType.Bmp);
+                    imageBmp1.SetPosition(0, 0, 0, 0);
+                }
+
+
                 SaveWorkbook("ImageReaderResized.xlsx", p);
             }
 
