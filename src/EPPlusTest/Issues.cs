@@ -2987,6 +2987,50 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void PiechartWithHorizontalSource()
+        {
+            using (var p = OpenPackage("piechartHorizontal.xlsx", true))
+            {
+                var ws=p.Workbook.Worksheets.Add("PieVertical");
+                ws.SetValue("A1", "C1");
+                ws.SetValue("A2", "C2");
+                ws.SetValue("A3", "C3");
+                ws.SetValue("B1", 15);
+                ws.SetValue("B2", 45);
+                ws.SetValue("B3", 40);
+
+                var chart = ws.Drawings.AddPieChart("Pie1", ePieChartType.Pie);
+                chart.VaryColors = true;
+                chart.Series.Add("B1:B3", "A1:A3");
+                chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.PieChartStyle1);
+                
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void PiechartWithVerticalSource()
+        {
+            using (var p = OpenPackage("piechartvertical.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("PieVertical");
+                ws.SetValue("A1", "C1");
+                ws.SetValue("B1", "C2");
+                ws.SetValue("C1", "C3");
+                ws.SetValue("A2", 15);
+                ws.SetValue("B2", 45);
+                ws.SetValue("C2", 40);
+
+                var chart = ws.Drawings.AddPieChart("Pie1", ePieChartType.Pie);
+                chart.VaryColors = true;
+                chart.Series.Add("A2:C2", "A1:C1");
+                chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.PieChartStyle1);
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
 
