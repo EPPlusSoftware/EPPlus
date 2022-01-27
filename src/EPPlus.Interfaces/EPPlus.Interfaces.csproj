@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.8.4.0</AssemblyVersion>
-    <FileVersion>5.8.4.0</FileVersion>
-    <Version>5.8.4</Version>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
+    <Version>6.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryType>git</RepositoryType>
     <SignAssembly>true</SignAssembly>

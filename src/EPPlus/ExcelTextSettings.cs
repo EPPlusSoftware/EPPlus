@@ -26,7 +26,12 @@ namespace OfficeOpenXml
     {
         public ExcelTextSettings()
         {
+#if (Core)
+            PrimaryTextMeasurer = new SkiaSharp.Text.SkiaSharpTextMeasurer();
+            FallbackTextMeasurer = new GenericFontMetricsTextMeasurer();
+#else
             PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+#endif
             AutofitScaleFactor = 1f;
         }
 

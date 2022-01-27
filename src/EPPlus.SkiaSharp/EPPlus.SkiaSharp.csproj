@@ -2,7 +2,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0</TargetFrameworks>
-    <RootNamespace>OfficeOpenXml.SkiaSharp</RootNamespace>
+	  <AssemblyVersion>6.0.0.0</AssemblyVersion>
+	  <FileVersion>6.0.0.0</FileVersion>
+	  <Version>6.0.0</Version>
+	  <RootNamespace>OfficeOpenXml.SkiaSharp</RootNamespace>
     <SignAssembly>true</SignAssembly>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyOriginatorKeyFile>EPPlus.SkiaSharp.snk</AssemblyOriginatorKeyFile>
