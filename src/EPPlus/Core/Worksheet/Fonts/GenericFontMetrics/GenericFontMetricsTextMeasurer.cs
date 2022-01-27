@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Interfaces.Text;
+﻿using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.Interfaces.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,17 +37,29 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             var chars = text.ToCharArray();
             for (var x = 0; x < chars.Length; x++)
             {
+                var fnt = sFont;
                 var c = chars[x];
-                if(sFont.CharMetrics.ContainsKey(c))
+                // if east asian char use default ea font (MS Gothic) regardless of actual font.
+                if (IsEastAsianChar(c))
                 {
-                    width += sFont.ClassWidths[sFont.CharMetrics[c]];
+                    width += GetEastAsianCharWidth(c, font.Style);
                 }
                 else
                 {
-                    width += sFont.DefaultWidth1em;
+                    if (sFont.CharMetrics.ContainsKey(c))
+                    {
+                        width += fnt.ClassWidths[sFont.CharMetrics[c]];
+                    }
+                    else
+                    {
+                        width += fnt.DefaultWidth1em;
+                    }
                 }
+                
             }
             width *= font.Size;
+            var sf = FontScaleFactors.GetScaleFactor(fontKey, width);
+            width *= sf;
             var height = sFont.LineHeight1em * font.Size;
             return new TextMeasurement(width, height);
         }
@@ -89,6 +102,23 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                     break;
             }
             return GetKey(family, subFamily);
+        }
+
+        private static float GetEastAsianCharWidth(int cc, FontStyles style)
+        {
+            var emWidth = (cc >= 65377 && cc <= 65439) ? 0.5f : 1f;
+            if ((style & FontStyles.Bold) != 0)
+            {
+                emWidth *= 1.05f;
+            }
+            return emWidth * (96F / 72F);
+        }
+
+        private static bool IsEastAsianChar(char c)
+        {
+            var cc = (int)c;
+
+            return UniCodeRange.JapaneseKanji.Any(x => x.IsInRange(cc));
         }
     }
 }
