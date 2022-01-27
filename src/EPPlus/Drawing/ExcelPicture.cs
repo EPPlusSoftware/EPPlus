@@ -129,11 +129,13 @@ namespace OfficeOpenXml.Drawing
             }
 
             ContentType = PictureStore.GetContentType(type.ToString());
-            IPictureContainer container = this;
-            container.UriPic = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
+            var newUri = GetNewUri(package, "/xl/media/image{0}." + type.ToString());
             var store = _drawings._package.PictureStore;
             var pc = _drawings as IPictureRelationDocument;            
-            var ii = store.AddImage(img, container.UriPic, type);
+            var ii = store.AddImage(img, newUri, type);
+            
+            IPictureContainer container = this;
+            container.UriPic = ii.Uri;
             string relId;
             if (!pc.Hashes.ContainsKey(ii.Hash))
             {
@@ -152,7 +154,7 @@ namespace OfficeOpenXml.Drawing
             container.ImageHash = ii.Hash;
             using (var ms = RecyclableMemory.GetStream(img))
             {
-                Image.Bounds = PictureStore.GetImageBounds(img, type);
+                Image.Bounds = PictureStore.GetImageBounds(img, type, _drawings._package);
                 Image.ImageBytes = img;
                 Image.Type = type;
                 var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);

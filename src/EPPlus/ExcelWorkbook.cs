@@ -253,7 +253,6 @@ namespace OfficeOpenXml
 		internal FormulaParser _formulaParser = null;
 		internal ExcelThreadedCommentPersonCollection _threadedCommentPersons = null;
 		internal FormulaParserManager _parserManager;
-		private ExcelTextSettings _textSettings = null;
 		internal CellStore<List<Token>> _formulaTokens;
 		internal class PivotTableCacheRangeInfo
 		{
@@ -560,21 +559,6 @@ namespace OfficeOpenXml
 				return _parserManager;
 			}
 		}
-
-		/// <summary>
-		/// Manage text settings such as measurement of text for the Autofit functions.
-		/// </summary>
-		public ExcelTextSettings TextSettings
-        {
-			get
-            {
-				if(_textSettings == null)
-                {
-					_textSettings = new ExcelTextSettings();
-				}
-				return _textSettings;
-            }
-        }
 
 		/// <summary>
 		/// Represents a collection of <see cref="ExcelThreadedCommentPerson"/>s in the workbook.

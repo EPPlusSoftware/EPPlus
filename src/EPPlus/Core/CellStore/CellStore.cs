@@ -171,7 +171,8 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     int first, last;
                     if (_columnIndex[c].PageCount == 0) continue;
-                    if (_columnIndex[c]._pages[0].RowCount > 0 && _columnIndex[c]._pages[0].Rows[0].Index > 0)
+                    if (_columnIndex[c]._pages[0].RowCount > 0 && _columnIndex[c]._pages[0].Rows[0].Index >= 0 &&
+                        _columnIndex[c]._pages[0].IndexOffset + _columnIndex[c]._pages[0].Rows[0].Index > 0)
                     {
                         first = _columnIndex[c]._pages[0].IndexOffset + _columnIndex[c]._pages[0].Rows[0].Index;
                     }

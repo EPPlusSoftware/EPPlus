@@ -199,7 +199,7 @@ namespace EPPlusTest.Core.Worksheet
         [TestMethod]
         public void SplitPanesNormal11Arial()
         {
-            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal48RH");
+            var ws = _pck.Workbook.Worksheets.Add("SplitPanesNormal11Arial");
             _pck.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
             _pck.Workbook.Styles.NamedStyles[0].Style.Font.Size = 11;
             ws.View.TopLeftCell = "G20000";
@@ -208,6 +208,22 @@ namespace EPPlusTest.Core.Worksheet
 
             Assert.AreEqual(1140, ws.View.PaneSettings.YSplit);
             Assert.AreEqual(3915, ws.View.PaneSettings.XSplit);
+        }
+        [TestMethod]
+        public void SplitPanesNormal18BellMT()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("SplitPanesNormal18BellMT");
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Bell MT";
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 18;
+                ws.View.TopLeftCell = "G20000";
+                ws.View.SplitPanes(3, 3);
+                ws.View.ActiveCell = "B2";
+
+                Assert.AreEqual(1860, ws.View.PaneSettings.YSplit);
+                Assert.AreEqual(5655, ws.View.PaneSettings.XSplit);
+            }
         }
     }
 }

@@ -304,11 +304,16 @@ namespace EPPlusTest.Core.Worksheet
         {
             using (var p = new ExcelPackage())
             {
-                Assert.AreEqual(23, FontSize.FontHeights.Count);
-                Assert.AreEqual(23, FontSize.FontWidths.Count);
+                var expectedLoaded = 895;
+                if (FontSize._isLoaded == false)
+                {
+                    var expectedDefault = 23;
+                    Assert.AreEqual(expectedDefault, FontSize.FontHeights.Count);
+                    Assert.AreEqual(expectedDefault, FontSize.FontWidths.Count);
+                }
                 FontSize.LoadAllFontsFromResource();
-                Assert.AreEqual(800, FontSize.FontHeights.Count);
-                Assert.AreEqual(800, FontSize.FontWidths.Count);
+                Assert.AreEqual(expectedLoaded, FontSize.FontHeights.Count);
+                Assert.AreEqual(expectedLoaded, FontSize.FontWidths.Count);
             }
         }
 

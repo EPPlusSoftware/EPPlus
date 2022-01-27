@@ -19,6 +19,7 @@ using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
+using System.Linq;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo
@@ -66,8 +67,9 @@ namespace OfficeOpenXml.Drawing
                     {
                         var extension = GetExtension(pictureType.Value);
                         contentType = GetContentType(extension);
-                        uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}."+extension);
+                        uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}." + extension);
                         imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
+                        SaveImageToPart(image, imagePart);
                     }
                     else
                     {
@@ -76,13 +78,23 @@ namespace OfficeOpenXml.Drawing
                         pictureType = GetPictureType(extension);
                         if (_pck.ZipPackage.PartExists(uri))
                         {
-                            uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}." + extension);
+                            if(_images.Values.Any(x=>x.Uri.OriginalString==uri.OriginalString))
+                            {
+                                uri = GetNewUri(_pck.ZipPackage, "/xl/media/image{0}." + extension);
+                                imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
+                                SaveImageToPart(image, imagePart);
+                            }
+                            else
+                            {
+                                imagePart = _pck.ZipPackage.GetPart(uri);
+                            }
                         }
-                        imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
+                        else
+                        {
+                            imagePart = _pck.ZipPackage.CreatePart(uri, contentType, CompressionLevel.None, extension);
+                            SaveImageToPart(image, imagePart);
+                        }
                     }
-                    var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
-                    stream.Write(image, 0, image.GetLength(0));
-                    stream.Flush();
                     _images.Add(hash,
                         new ImageInfo()
                         {
@@ -90,54 +102,36 @@ namespace OfficeOpenXml.Drawing
                             RefCount = 1,
                             Hash = hash,
                             Part = imagePart,
-                            Bounds = GetImageBounds(image, pictureType.Value)
+                            Bounds = GetImageBounds(image, pictureType.Value, _pck)
                         });
                 }
             }
             return _images[hash];
         }
 
-        internal static ExcelImageInfo GetImageBounds(byte[] image, ePictureType type)
+        private static void SaveImageToPart(byte[] image, ZipPackagePart imagePart)
+        {
+            var stream = imagePart.GetStream(FileMode.Create, FileAccess.Write);
+            stream.Write(image, 0, image.GetLength(0));
+            stream.Flush();
+        }
+
+        internal static ExcelImageInfo GetImageBounds(byte[] image, ePictureType type, ExcelPackage pck)
         {
             var ret = new ExcelImageInfo();
-            double width = 0, height = 0;
             var ms = new MemoryStream(image);
-#if (Core)
-            if (ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution) == false)
+            var s = pck.Settings.ImageSettings;
+
+            if(s.GetImageBounds(ms, type, out double width, out double height, out double horizontalResolution, out double verticalResolution)==false)
             {
-                throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
+                throw (new InvalidOperationException($"No image handler for imagetype {type}"));
             }
             ret.Width = width;
             ret.Height = height;
             ret.HorizontalResolution = horizontalResolution;
             ret.VerticalResolution = verticalResolution;
-#else
-                if(type==ePictureType.Ico || 
-                   type==ePictureType.Svg ||
-                   type==ePictureType.WebP)
-                {
-                    if(ImageReader.TryGetImageBounds(type, ms, ref width, ref height, out double horizontalResolution, out double verticalResolution)==false)
-                    {
-                        throw (new ArgumentException($"This file/stream is not recognized as image format {type}."));
-                    }
-                    ret.Width = width;
-                    ret.Height = height;
-                    ret.HorizontalResolution = horizontalResolution;
-                    ret.VerticalResolution = verticalResolution;
-                }
-                else
-                {
-                    var img = Image.FromStream(ms);
-                    ret.Width = img.Width;
-                    ret.Height = img.Height;
-                    ret.HorizontalResolution = img.HorizontalResolution;
-                    ret.VerticalResolution = img.VerticalResolution;
-                }
-
-#endif
             return ret;
         }
-
         internal static string GetExtension(Uri uri)
         {
             var s = uri.OriginalString;
@@ -262,6 +256,7 @@ namespace OfficeOpenXml.Drawing
                 case "jpeg":
                 case "jfif":
                 case "jpe":
+                case "exif":
                     return ePictureType.Jpg;
                 case "gif":
                     return ePictureType.Gif;
@@ -304,6 +299,12 @@ namespace OfficeOpenXml.Drawing
                     return "wmf";
                 case ePictureType.Tif:
                     return "tif";
+                case ePictureType.WebP:
+                    return "webp";
+                case ePictureType.Ico:
+                    return "ico";
+                case ePictureType.Svg:
+                    return "svg";
                 default:
                     return "jpg";
             }
