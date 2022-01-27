@@ -31,7 +31,7 @@ namespace EPPlusTest.Core
                 SaveAndCleanup(p);
             }
         }        
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ValidateWidthHeeboLight()
         {
             CreateNormalFontsFiles("Heebo Light");
