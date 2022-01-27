@@ -621,6 +621,11 @@ namespace OfficeOpenXml
 			}
 			else
 			{
+				if(FontSize._isLoaded==false)
+				{
+					FontSize.LazyLoadFont();
+					return GetHeightPixels(fontName, fontSize);
+				}
 				font = FontSize.FontHeights["Calibri"];
 			}
 
@@ -661,6 +666,12 @@ namespace OfficeOpenXml
 			}
 			else
 			{
+				if (FontSize._isLoaded == false)
+				{
+					FontSize.LazyLoadFont();
+					return GetWidthPixels(fontName, fontSize);
+				}
+
 				font = FontSize.FontHeights["Calibri"];
 			}
 

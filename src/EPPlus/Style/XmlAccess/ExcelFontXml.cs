@@ -324,6 +324,11 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
             else
             {
+                if (FontSize._isLoaded == false)
+                {
+                    FontSize.LazyLoadFont();
+                    return GetHeightByName(name, size);
+                }
                 return GetHeightByName("Calibri", size);
             }
         }
