@@ -305,9 +305,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\Worksheet\Fonts\Tables\**" />
+    <EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
+    <None Remove="Core\Worksheet\Fonts\Tables\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Compatibility\SystemDrawing\KnownColor.cs" />
     <Compile Remove="Compatibility\SystemDrawing\KnownColors.cs" />
     <Compile Remove="Core\Worksheet\Fonts\GenericFontMetrics\GenericMetricsManager.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\TableRecord.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\Tag.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\TtfFont.cs" />
     <Compile Remove="Drawing\ExcelDrawingLine.cs" />
     <Compile Remove="Packaging\DotNetZip\ZipFile.SaveSelfExtractor.cs" />
   </ItemGroup>
