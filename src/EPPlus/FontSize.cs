@@ -118,6 +118,7 @@ namespace OfficeOpenXml
                     {
                         break;
                     }
+                    min =
                     min = size;
                 }
                 if (min > fontSize && fontName.Equals(DefaultFont, StringComparison.OrdinalIgnoreCase))
@@ -125,7 +126,14 @@ namespace OfficeOpenXml
                     //If value is less than the stored size for the font, it's assumed to be the same as the default font(Calibri).
                     return GetWidthHeight(DefaultFont, fontSize, width, defaultValue);
                 }
-                if (min > -1) return font[min];
+                if (min > -1)
+                {
+                    if(fontSize > 72)
+                    {
+                        return Convert.ToDecimal((int)(font[min] / min * fontSize)); 
+                    }
+                    return font[min];
+                }
                 return defaultValue;  //Default, Calibri 11;
             }
 
@@ -145,7 +153,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                if (_isLoaded)
+                if (_isLoaded==false)
                 {
                     LoadAllFontsFromResource();
                     if (fontColl.ContainsKey(fontName))
