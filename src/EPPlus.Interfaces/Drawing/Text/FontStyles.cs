@@ -10,15 +10,32 @@
  *************************************************************************************************
   1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
+using System;
 
-namespace OfficeOpenXml.Interfaces.Text
+namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
-    public class ExcelFont
+    [Flags]
+    public enum FontStyles
     {
-        public string FontFamily { get; set; }
-
-        public FontStyles Style { get; set; }
-
-        public float Size { get; set; }
+        //
+        // Summary:
+        //     Normal text.
+        Regular = 0,
+        //
+        // Summary:
+        //     Bold text.
+        Bold = 1,
+        //
+        // Summary:
+        //     Italic text.
+        Italic = 2,
+        //
+        // Summary:
+        //     Underlined text.
+        Underline = 4,
+        //
+        // Summary:
+        //     Text with a line through the middle.
+        Strikeout = 8
     }
 }

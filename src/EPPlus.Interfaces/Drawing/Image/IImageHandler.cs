@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace OfficeOpenXml.Interfaces.Image
+namespace OfficeOpenXml.Interfaces.Drawing.Image
 {
     /// <summary>
     /// Returns bounds information about an image to EPPlus.

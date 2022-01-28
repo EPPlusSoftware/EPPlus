@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Interfaces.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

@@ -11,19 +11,14 @@
   1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
 
-namespace OfficeOpenXml.Interfaces.Text
+namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
-    /// <summary>
-    /// Interface for measuring width and height of texts.
-    /// </summary>
-    public interface ITextMeasurer
+    public class ExcelFont
     {
-        /// <summary>
-        /// Measures width and height of the parameter <paramref name="text"/>.
-        /// </summary>
-        /// <param name="text">The text to measure</param>
-        /// <param name="font">The <see cref="ExcelFont">font</see> to measure</param>
-        /// <returns></returns>
-        TextMeasurement MeasureText(string text, ExcelFont font);
+        public string FontFamily { get; set; }
+
+        public FontStyles Style { get; set; }
+
+        public float Size { get; set; }
     }
 }

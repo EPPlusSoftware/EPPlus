@@ -1,5 +1,5 @@
 ﻿
-using OfficeOpenXml.Interfaces.Image;
+using OfficeOpenXml.Interfaces.Drawing.Image;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

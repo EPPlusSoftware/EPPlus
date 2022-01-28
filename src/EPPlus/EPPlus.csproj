@@ -23,7 +23,7 @@
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
-		## Version 5.8.5
+		## Version 6.0.0
 
 		## Version 5.8.5
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
@@ -32,7 +32,7 @@
 		* 10 new functions
 		* Bug fixes.
 
-		## Version 5.8.3
+		## Version 5.8.3 
 		* Bug fixes.
 
 		## Version 5.8.2
@@ -372,15 +372,11 @@
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
     </PackageReference>
-    <!--<PackageReference Include="System.Drawing.Common">
-      <Version>4.7.1</Version>
-    </PackageReference>-->
     <PackageReference Include="System.Drawing.Primitives">
       <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
-	<ProjectReference Include="..\EPPlus.SkiaSharp\EPPlus.SkiaSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
@@ -393,7 +389,6 @@
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
-	<ProjectReference Include="..\EPPlus.SkiaSharp\EPPlus.SkiaSharp.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
@@ -405,19 +400,14 @@
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
-	<ProjectReference Include="..\EPPlus.SkiaSharp\EPPlus.SkiaSharp.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
     </PackageReference>
-    <PackageReference Include="System.Drawing.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
-	<ProjectReference Include="..\EPPlus.SkiaSharp\EPPlus.SkiaSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -448,6 +438,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
+	  <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
   </ItemGroup>
 </Project>

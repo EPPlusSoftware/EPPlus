@@ -10,32 +10,38 @@
  *************************************************************************************************
   1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
-using System;
 
-namespace OfficeOpenXml.Interfaces.Text
+namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
-    [Flags]
-    public enum FontStyles
+    public struct TextMeasurement
     {
-        //
-        // Summary:
-        //     Normal text.
-        Regular = 0,
-        //
-        // Summary:
-        //     Bold text.
-        Bold = 1,
-        //
-        // Summary:
-        //     Italic text.
-        Italic = 2,
-        //
-        // Summary:
-        //     Underlined text.
-        Underline = 4,
-        //
-        // Summary:
-        //     Text with a line through the middle.
-        Strikeout = 8
+        public TextMeasurement(float width, float height)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        /// <summary>
+        /// Width of the text
+        /// </summary>
+        public float Width { get; set; }
+
+        /// <summary>
+        /// Height of the text
+        /// </summary>
+        public float Height { get; set; }
+
+        public static TextMeasurement Empty
+        {
+            get { return new TextMeasurement(-1, -1); }
+        }
+
+        /// <summary>
+        /// Returns true if this is an empty measurement
+        /// </summary>
+        public bool IsEmpty
+        {
+            get { return Width == -1 && Height == -1; }
+        }
     }
 }

@@ -12,8 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Interfaces.Image;
-using OfficeOpenXml.Interfaces.Text;
+using OfficeOpenXml.Interfaces.Drawing.Image;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;

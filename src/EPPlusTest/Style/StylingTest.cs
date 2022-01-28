@@ -30,7 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.System.Drawing.Text;
+using OfficeOpenXml.SystemDrawing.Text;
 using System.Drawing;
 using System.Globalization;
 using System.Threading;
