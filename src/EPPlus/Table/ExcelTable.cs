@@ -827,6 +827,7 @@ namespace OfficeOpenXml.Table
             {
                 throw new ArgumentException("position", "rows can't be negative");
             }
+            var firstRow = _address._fromRow;
             var isFirstRow = position == 0;
             var subtact = ShowTotal ? 2 : 1;
             if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtact)
@@ -853,6 +854,11 @@ namespace OfficeOpenXml.Table
                     Address = _address.AddRow(_address._toRow, rows);
                 }
                 CopyStylesFromRow(address, copyFromRow);    //Separate copy instead of using Insert paramter 3 as the first row should not copy the styles from the header row.
+            }
+
+            if (_address._fromRow > firstRow)
+            {
+                _address = new ExcelAddressBase(firstRow, _address._fromCol, _address._toRow, _address._toCol, _address._fromRowFixed, _address._fromColFixed, _address._toRowFixed, _address._toColFixed, _address.WorkSheetName, null);
             }
 
             return range;
