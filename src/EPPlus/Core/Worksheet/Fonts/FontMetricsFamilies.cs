@@ -27,7 +27,6 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
         CalibriLight = 5,
         CalistoMT = 6,
         Cambria = 7,
-        CambriaMath = 8,
         CenturyGothic = 9,
         CenturySchoolbook = 10,
         Corbel = 11,
@@ -43,7 +42,6 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
         TrebuchetMS = 21,
         TwCenMT = 22,
         TwCenMTCondensed = 23,
-        Verdana = 24,
-        MSGothic = 25
+        Verdana = 24
     }
 }

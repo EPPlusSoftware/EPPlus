@@ -12,22 +12,46 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
         private static Dictionary<uint, FontScaleFactor> _fonts = new Dictionary<uint,FontScaleFactor>();
         private static object _syncRoot = new object();
 
+        private static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
+        {
+            return GenericFontMetricsTextMeasurer.GetKey(family, subFamily);
+        }
+
+        private static FontScaleFactor CSF(float s, float m, float l)
+        {
+            return new FontScaleFactor(s, m, l);
+        }
+
+        private static FontScaleFactor CSF(float s, float m, float l, float sf)
+        {
+            return new FontScaleFactor(s, m, l, sf);
+        }
         private static void Initialize()
         {
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular), new FontScaleFactor(1.13f, 1.05f, 1.03f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Bold), new FontScaleFactor(1.1f, 1.01f, 1f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Italic), new FontScaleFactor(1.1f, 1.03f, 1.02f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.BoldItalic), new FontScaleFactor(1.1f, 1.03f, 1.02f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular), CSF(1.13f, 1.09f, 1.07f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Bold), CSF(1.14f, 1.09f, 1.09f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Italic), CSF(1.13f, 1.08f, 1.05f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.BoldItalic), CSF(1.12f, 1.04f, 1.02f));
 
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Regular), new FontScaleFactor(1.1f, 1.05f, 1.04f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Bold), new FontScaleFactor(1.12f, 1.06f, 1.03f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Italic), new FontScaleFactor(1.12f, 1.09f, 1.06f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Arial, FontSubFamilies.BoldItalic), new FontScaleFactor(1.17f, 1.14f, 1.1f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Regular), CSF(1.13f, 1.09f, 1.07f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Bold), CSF(1.12f, 1.06f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Italic), CSF(1.13f, 1.08f, 1.05f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.BoldItalic), CSF(1.12f, 1.05f, 1.03f));
 
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.Regular), new FontScaleFactor(1.09f, 1.02f, 1.02f, 1.3f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.Bold), new FontScaleFactor(1.11f, 1.07f, 1.05f, 1.3f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.Italic), new FontScaleFactor(1.09f, 1.01f, 1.01f, 1.3f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.BoldItalic), new FontScaleFactor(1.11f, 1.08f, 1.05f, 1.3f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Regular), CSF(1.09f, 1.05f, 1.02f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Bold), CSF(1.12f, 1.08f, 1.05f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Italic), CSF(1.1f, 1.07f, 1.04f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.BoldItalic), CSF(1.16f, 1.1f, 1.07f));
+
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.Regular), CSF(1.09f, 1.04f, 1.04f, 1.3f));
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.Bold), CSF(1.11f, 1.08f, 1.08f, 1.3f));
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.Italic), CSF(1.09f, 1.03f, 1.03f, 1.3f));
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialBlack, FontSubFamilies.BoldItalic), CSF(1.11f, 1.09f, 1.06f, 1.3f));
+
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialNarrow, FontSubFamilies.Regular), CSF(1.12f, 1.1f, 1.04f));
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialNarrow, FontSubFamilies.Bold), CSF(1.14f, 1.12f, 1.05f));
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialNarrow, FontSubFamilies.Italic), CSF(1.12f, 1.09f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.ArialNarrow, FontSubFamilies.BoldItalic), CSF(1.16f, 1.1f, 1.07f));
 
             _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TimesNewRoman, FontSubFamilies.Regular), new FontScaleFactor(1.12f, 1.06f, 1.02f));
             _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TimesNewRoman, FontSubFamilies.Bold), new FontScaleFactor(1.11f, 1.08f, 1f));

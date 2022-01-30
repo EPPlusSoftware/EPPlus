@@ -91,24 +91,32 @@ namespace EPPlusTest.Core.Worksheet
 
         [DataTestMethod]
         [DataRow("Calibri", 1)]
-        [DataRow("Arial", 2)]
-        [DataRow("Arial Black", 3)]
-        [DataRow("Times New Roman", 4)]
-        [DataRow("Courier New", 5)]
-        [DataRow("Liberation Serif", 6)]
-        [DataRow("Verdana", 7)]
-        [DataRow("Cambria", 8)]
-        [DataRow("Cambria Math", 9)]
-        [DataRow("Georgia", 10)]
-        [DataRow("Corbel", 11)]
-        [DataRow("Century Gothic", 12)]
-        [DataRow("Rockwell", 13)]
-        [DataRow("Trebuchet MS", 14)]
-        [DataRow("Tw Cen MT", 15)]
-        [DataRow("Tw Cen MT Condensed", 16)]
+        [DataRow("Calibri Light", 2)]
+        [DataRow("Arial", 3)]
+        [DataRow("Arial Black", 4)]
+        [DataRow("Arial Narrow", 5)]
+        [DataRow("Bookman Old Style", 6)]
+        [DataRow("Calisto MT", 7)]
+        [DataRow("Times New Roman", 8)]
+        [DataRow("Courier New", 9)]
+        [DataRow("Liberation Serif", 10)]
+        [DataRow("Verdana", 11)]
+        [DataRow("Cambria", 12)]
+        [DataRow("Georgia", 13)]
+        [DataRow("Corbel", 14)]
+        [DataRow("Garamond", 15)]
+        [DataRow("Gill Sans MT", 16)]
+        [DataRow("Impact", 17)]
+        [DataRow("Century Gothic", 18)]
+        [DataRow("Century Schoolbook", 19)]
+        [DataRow("Rockwell", 20)]
+        [DataRow("Rockwell Condensed", 21)]
+        [DataRow("Trebuchet MS", 13)]
+        [DataRow("Tw Cen MT", 14)]
+        [DataRow("Tw Cen MT Condensed", 15)]
         public void AutofitWithSerializedFonts2(string fontFamily, int run)
         {
-            var report = new ExcelPackage(@"c:\Temp\fontreport.xlsx");
+            var report = new ExcelPackage(@"c:\Temp\fontreport2.xlsx");
             var reportSheet = !report.Workbook.Worksheets.Any() ? report.Workbook.Worksheets.Add("Report") : report.Workbook.Worksheets["Report"];
             var reportColOffset = 3;
             var reportRow = (run - 1) * 5 + 2;

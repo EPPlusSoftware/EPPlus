@@ -671,6 +671,22 @@ namespace OfficeOpenXml
             var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
         }
+#if !NET35 && !NET40
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<dynamic> items, bool printHeaders, TableStyles? tableStyle, IEnumerable<string> keys)
+        {
+            var param = new LoadFromDictionariesParams
+            {
+                PrintHeaders = printHeaders,
+                TableStyle = tableStyle
+            };
+            if (keys != null && keys.Any())
+            {
+                param.SetKeys(keys.ToArray());
+            }
+            var func = new LoadFromDictionaries(this, items, param);
+            return func.Load();
+        }
+#endif
 
         /// <summary>
         /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
@@ -692,6 +708,17 @@ namespace OfficeOpenXml
             var func = new LoadFromDictionaries(this, items, param);
             return func.Load();
         }
+
+#if !NET35 && !NET40
+        public ExcelRangeBase LoadFromDictionaries(IEnumerable<dynamic> items, Action<LoadFromDictionariesParams> paramsConfig)
+        {
+            var param = new LoadFromDictionariesParams();
+            paramsConfig.Invoke(param);
+            var func = new LoadFromDictionaries(this, items, param);
+            return func.Load();
+        }
+#endif
+
         #endregion
     }
 }
