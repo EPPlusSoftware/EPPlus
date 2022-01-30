@@ -1,13 +1,13 @@
 ﻿using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Interfaces.Image;
+using OfficeOpenXml.Interfaces.Drawing.Image;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-namespace OfficeOpenXml.System.Drawing.Image
+
+namespace OfficeOpenXml.SystemDrawing.Image
 {
     internal class SystemDrawingImageHandler : IImageHandler
     {

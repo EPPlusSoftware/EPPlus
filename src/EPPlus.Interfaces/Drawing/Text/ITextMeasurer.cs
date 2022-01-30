@@ -11,37 +11,24 @@
   1/4/2021         EPPlus Software AB           EPPlus Interfaces 1.0
  *************************************************************************************************/
 
-namespace OfficeOpenXml.Interfaces.Text
+namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
-    public struct TextMeasurement
+    /// <summary>
+    /// Interface for measuring width and height of texts.
+    /// </summary>
+    public interface ITextMeasurer
     {
-        public TextMeasurement(float width, float height)
-        {
-            Width = width;
-            Height = height;
-        }
-
         /// <summary>
-        /// Width of the text
+        /// Shoud return true if the text measurer is valid for this environment. 
         /// </summary>
-        public float Width { get; set; }
-
+        /// <returns>True if the measurer can be used else false.</returns>
+        bool ValidForEnvironment();
         /// <summary>
-        /// Height of the text
+        /// Measures width and height of the parameter <paramref name="text"/>.
         /// </summary>
-        public float Height { get; set; }
-
-        public static TextMeasurement Empty
-        {
-            get { return new TextMeasurement(-1, -1); }
-        }
-
-        /// <summary>
-        /// Returns true if this is an empty measurement
-        /// </summary>
-        public bool IsEmpty
-        {
-            get { return Width == -1 && Height == -1; }
-        }
+        /// <param name="text">The text to measure</param>
+        /// <param name="font">The <see cref="ExcelFont">font</see> to measure</param>
+        /// <returns></returns>
+        TextMeasurement MeasureText(string text, ExcelFont font);
     }
 }

@@ -593,18 +593,19 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         {
             if(serie is IDrawingChartDataPoints dtpSerie)
             {
-                int rows;
+                int points;
                 if(_chart.PivotTableSource==null)
                 {
                     var address = _chart.WorkSheet.Workbook.GetRange(_chart.WorkSheet, serie.Series);
                     if (address == null) return;
-                    rows=address.Rows;
+                    points = address.Rows == 1 ? address.Columns : address.Rows;
+                    
                 }
                 else
                 {
-                    rows = 48;
+                    points = 48;
                 }
-                for (var i = 0; i < rows; i++)
+                for (var i = 0; i < points; i++)
                 {
                     if (!dtpSerie.DataPoints.ContainsKey(i))
                     {

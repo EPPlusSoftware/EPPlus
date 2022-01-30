@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
-using OfficeOpenXml.Interfaces.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -119,6 +119,11 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             var cc = (int)c;
 
             return UniCodeRange.JapaneseKanji.Any(x => x.IsInRange(cc));
+        }
+
+        public bool ValidForEnvironment()
+        {
+            return true;
         }
     }
 }

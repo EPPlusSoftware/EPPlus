@@ -18,9 +18,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
 {
-    public class BigEndianBinaryReader : BinaryReader
+    internal class BigEndianBinaryReader : BinaryReader
     {
-        public BigEndianBinaryReader(Stream input) : base(input)
+        internal BigEndianBinaryReader(Stream input) : base(input)
         {
         }
 

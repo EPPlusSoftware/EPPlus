@@ -2843,7 +2843,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("RadioButton.xlsm"))
             {
-                if(p.Workbook.VbaProject == null)
+                if (p.Workbook.VbaProject == null)
                 {
                     p.Workbook.CreateVBAProject();
                 }
@@ -2886,7 +2886,7 @@ namespace EPPlusTest
 
                 ws.ClearFormulaValues();
                 ws.Calculate(); // "Circular reference occurred at A2" exception is thrown here
-                
+
                 var value2 = cell.Value;
                 Console.WriteLine($"value2: {value2}");
             }
@@ -2943,7 +2943,7 @@ namespace EPPlusTest
             using (var package = OpenPackage("i566.xlsx", true))
             {
                 var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
-                var ws= package.Workbook.Worksheets["Sheet 1"];
+                var ws = package.Workbook.Worksheets["Sheet 1"];
                 ws.SetValue(3, 3, "Test");
                 SaveAndCleanup(package);
             }
@@ -2968,17 +2968,17 @@ namespace EPPlusTest
                 var wsSource = package.Workbook.Worksheets["Detail"];
 
                 var dataCollection = new List<object[]>()
-                { 
+                {
                     new object[]{"Driver 1",1,2,"Fleet 1", "Manager 1",3,true,0,5,0 },
                     new object[]{"Driver 2",3,4,"Fleet 2", "Manager 2", 5,true,0,8,0 }
                 };
                 wsSource.Cells["A1"].Value = null;
                 //code to load a collection to the spreadsheet. very nice
                 wsSource.Cells["A2"].LoadFromArrays(dataCollection);
-                
+
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    foreach(var pt in ws.PivotTables)
+                    foreach (var pt in ws.PivotTables)
                     {
                         pt.CacheDefinition.SourceRange = wsSource.Cells["A1:J3"];
                     }
@@ -3002,6 +3002,53 @@ namespace EPPlusTest
         {
             FontSize.LoadAllFontsFromResource();
         }
+
+        [TestMethod]
+        public void PiechartWithHorizontalSource()
+        {
+            using (var p = OpenPackage("piechartHorizontal.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("PieVertical");
+                ws.SetValue("A1", "C1");
+                ws.SetValue("A2", "C2");
+                ws.SetValue("A3", "C3");
+                ws.SetValue("B1", 15);
+                ws.SetValue("B2", 45);
+                ws.SetValue("B3", 40);
+
+                var chart = ws.Drawings.AddPieChart("Pie1", ePieChartType.Pie);
+                chart.VaryColors = true;
+                chart.Series.Add("B1:B3", "A1:A3");
+                chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.PieChartStyle1);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void PiechartWithVerticalSource()
+        {
+            using (var p = OpenPackage("piechartvertical.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("PieVertical");
+                ws.SetValue("A1", "C1");
+                ws.SetValue("B1", "C2");
+                ws.SetValue("C1", "C3");
+                ws.SetValue("A2", 15);
+                ws.SetValue("B2", 45);
+                ws.SetValue("C2", 40);
+
+                var chart = ws.Drawings.AddPieChart("Pie1", ePieChartType.Pie);
+                chart.VaryColors = true;
+                chart.Series.Add("A2:C2", "A1:C1");
+                chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.PieChartStyle1);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void CheckEnvironment()
+        {
+            System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+        }
     }
 }
-

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
-using OfficeOpenXml.System.Drawing.Text;
+using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

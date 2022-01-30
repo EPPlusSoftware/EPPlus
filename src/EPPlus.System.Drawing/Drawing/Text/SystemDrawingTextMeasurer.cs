@@ -1,11 +1,8 @@
-﻿using OfficeOpenXml.Interfaces.Text;
+﻿using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
-namespace OfficeOpenXml.System.Drawing.Text
+namespace OfficeOpenXml.SystemDrawing.Text
 {
     public class SystemDrawingTextMeasurer : ITextMeasurer
     {
@@ -17,7 +14,7 @@ namespace OfficeOpenXml.System.Drawing.Text
         private readonly StringFormat _stringFormat;
         private FontStyle ToFontStyle(FontStyles fontStyle)
         {
-            switch(fontStyle)
+            switch (fontStyle)
             {
                 case FontStyles.Bold | FontStyles.Italic:
                     return FontStyle.Bold | FontStyle.Italic;
@@ -30,7 +27,7 @@ namespace OfficeOpenXml.System.Drawing.Text
                 default:
                     return FontStyle.Regular;
             }
-        }
+        }        
         public TextMeasurement MeasureText(string text, ExcelFont font)
         {
             Bitmap b;
@@ -53,6 +50,24 @@ namespace OfficeOpenXml.System.Drawing.Text
             var dFont = new Font(font.FontFamily, font.Size, style);
             var size = g.MeasureString(text, dFont, 10000, _stringFormat);
             return new TextMeasurement(size.Width * dpiCorrectX, size.Height * dpiCorrectY);
+        }
+        bool? _validForEnvironment=null;
+        public bool ValidForEnvironment()
+        {
+            if(_validForEnvironment.HasValue==false)
+            {
+                try
+                {
+                    var g=Graphics.FromHwnd(IntPtr.Zero);
+                    g.MeasureString("d",new Font("Calibri", 11, FontStyle.Regular));
+                    _validForEnvironment = true;
+                }
+                catch 
+                { 
+                    _validForEnvironment = false;
+                }
+            }
+            return _validForEnvironment.Value;
         }
     }
 }

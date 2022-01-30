@@ -364,5 +364,56 @@ namespace EPPlusTest.Table
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void TableInsertAddRowShowHeaderFalse()
+        {
+            using (var p = OpenPackage("TableAddRowWithoutHeader.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:A10"], "Table1");
+                tbl.ShowHeader = false;
+
+                tbl.InsertRow(0, 1);
+                Assert.AreEqual("A1:A11", tbl.Address.Address);
+
+                tbl.InsertRow(1, 1);
+                Assert.AreEqual("A1:A12", tbl.Address.Address);
+
+                tbl.AddRow(1);
+                Assert.AreEqual("A1:A13", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void TableInsertAddColumnShowHeaderFalse()
+        {
+            using (var p = OpenPackage("TableAddColWithoutHeader.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:A10"], "Table1");
+                tbl.ShowHeader = false;
+
+                tbl.InsertColumn(0, 1);
+                Assert.AreEqual("A1:B10", tbl.Address.Address);
+
+                tbl.InsertColumn(1, 1);
+                Assert.AreEqual("A1:C10", tbl.Address.Address);
+            }
+        }
+        [TestMethod]
+        public void TableDeleteRowShowHeaderFalse()
+        {
+            using (var p = OpenPackage("TableDeleteRowWithoutHeader.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var tbl = ws.Tables.Add(ws.Cells["A1:A10"], "Table1");
+                tbl.ShowHeader = false;
+
+                tbl.DeleteRow(0, 3);
+                Assert.AreEqual("A1:A7", tbl.Address.Address);
+
+                tbl.DeleteRow(1, 2);
+                Assert.AreEqual("A1:A5", tbl.Address.Address);
+            }
+        }
     }
 }
