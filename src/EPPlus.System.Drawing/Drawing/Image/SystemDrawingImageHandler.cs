@@ -9,12 +9,40 @@ using System.Drawing;
 
 namespace OfficeOpenXml.SystemDrawing.Image
 {
-    internal class SystemDrawingImageHandler : IImageHandler
+    public class SystemDrawingImageHandler : IImageHandler
     {
+        public SystemDrawingImageHandler()
+        {
+            if(IsWindows())
+            {
+                SupportedTypes= new HashSet<ePictureType>() { ePictureType.Bmp, ePictureType.Jpg, ePictureType.Gif, ePictureType.Png, ePictureType.Tif, ePictureType.Emf, ePictureType.Wmf };
+            }
+            else
+            {
+                SupportedTypes = new HashSet<ePictureType>() { ePictureType.Bmp, ePictureType.Jpg, ePictureType.Gif, ePictureType.Png, ePictureType.Tif };
+            }
+        }
+
+        private bool IsWindows()
+        {
+            if(Environment.OSVersion.Platform == PlatformID.Unix ||
+#if(NET5_0_OR_GREATER)
+               Environment.OSVersion.Platform == PlatformID.Other ||
+#endif
+               Environment.OSVersion.Platform == PlatformID.MacOSX)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public HashSet<ePictureType> SupportedTypes
         {
             get;
-        } = new HashSet<ePictureType>() { ePictureType.Bmp, ePictureType.Jpg, ePictureType.Gif, ePictureType.Png, ePictureType.Tif, ePictureType.Emf, ePictureType.Wmf };
+        } 
 
         public Exception LastException { get; private set; }
 
@@ -38,6 +66,23 @@ namespace OfficeOpenXml.SystemDrawing.Image
                 LastException = ex;
                 return false;
             }
+        }
+        bool? _validForEnvironment = null;
+        public bool ValidForEnvironment()
+        {
+            if (_validForEnvironment.HasValue == false)
+            {
+                try
+                {
+                    var g = Graphics.FromHwnd(IntPtr.Zero); //Fails if no gdi.
+                    _validForEnvironment = true;
+                }
+                catch
+                {
+                    _validForEnvironment = false;
+                }
+            }
+            return _validForEnvironment.Value;
         }
     }
 }

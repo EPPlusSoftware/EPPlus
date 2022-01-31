@@ -124,7 +124,7 @@ namespace OfficeOpenXml.Drawing
 
             if(s.GetImageBounds(ms, type, out double width, out double height, out double horizontalResolution, out double verticalResolution)==false)
             {
-                throw (new InvalidOperationException($"No image handler for imagetype {type}"));
+                throw (new InvalidOperationException($"No image handler for image type {type}"));
             }
             ret.Width = width;
             ret.Height = height;
