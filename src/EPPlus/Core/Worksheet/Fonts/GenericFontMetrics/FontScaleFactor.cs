@@ -28,17 +28,18 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
         internal float Calculate(float width)
         {
-            if (width < (100 * _sizeFactor)) return Adjustment(width, (100 * _sizeFactor), (25 * _sizeFactor), _small);
-            else if (width < (200 * _sizeFactor)) return _medium;
+            if (width < (100 * _sizeFactor)) return Adjustment(width, (25 * _sizeFactor), (100 * _sizeFactor), _small, _medium);
+            else if (width < (200 * _sizeFactor)) return Adjustment(width, (100 * _sizeFactor), (200 * _sizeFactor), _medium, _large);
             else return _large;
         }
 
-        private float Adjustment(float v, float upper, float lower, float originalFactor)
+        private float Adjustment(float v, float lowerWidth, float upperWidth, float originalFactorLower, float originalFactorUpper)
         {
-            var val = v > lower ? (v < upper ? v : upper) : lower;
-            var factor = upper - val;
-            var factorAdjustment = factor/(upper-lower);
-            return originalFactor * (1f + 0.1f * factorAdjustment);
+            if (v < lowerWidth) return originalFactorLower;
+            if (v > upperWidth) return originalFactorLower;
+            var f = originalFactorUpper - originalFactorLower;
+            var f2 = v / upperWidth;
+            return originalFactorLower + (f * f2);
         }
     }
 }
