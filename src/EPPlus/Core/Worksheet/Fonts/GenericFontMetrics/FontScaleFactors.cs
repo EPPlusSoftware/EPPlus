@@ -92,10 +92,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             _fonts.Add(GetKey(FontMetricsFamilies.Cambria, FontSubFamilies.Italic), CSF(1.19f, 1.08f, 1.06f, 1.3f));
             _fonts.Add(GetKey(FontMetricsFamilies.Cambria, FontSubFamilies.BoldItalic), CSF(1.25f, 1.07f, 1.04f, 1.3f));
 
-            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Regular), CSF(1.13f, 1.08f, 1.08f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Regular), CSF(1.15f, 1.10f, 1.08f));
             _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Bold), CSF(1.35f, 1.26f, 1.20f));
             _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Italic), CSF(1.13f, 1.13f, 1.1f));
-            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.BoldItalic), CSF(1.39f, 1.29f, 1.23f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.BoldItalic), CSF(1.39f, 1.31f, 1.23f));
 
             _fonts.Add(GetKey(FontMetricsFamilies.Corbel, FontSubFamilies.Regular), CSF(1.22f, 1.10f, 1.07f));
             _fonts.Add(GetKey(FontMetricsFamilies.Corbel, FontSubFamilies.Bold), CSF(1.17f, 1.05f, 1.04f));
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
             _fonts.Add(GetKey(FontMetricsFamilies.GillSansMT, FontSubFamilies.Regular), CSF(1.25f, 1.11f, 1.07f));
             _fonts.Add(GetKey(FontMetricsFamilies.GillSansMT, FontSubFamilies.Bold), CSF(1.38f, 1.3f, 1.19f, 1.75f));
-            _fonts.Add(GetKey(FontMetricsFamilies.GillSansMT, FontSubFamilies.Italic), CSF(1.13f, 1.07f, 1.04f, 1.1f));
+            _fonts.Add(GetKey(FontMetricsFamilies.GillSansMT, FontSubFamilies.Italic), CSF(1.14f, 1.08f, 1.04f, 1.3f));
             _fonts.Add(GetKey(FontMetricsFamilies.GillSansMT, FontSubFamilies.BoldItalic), CSF(1.28f, 1.23f, 1.12f, 1.1f));
 
             _fonts.Add(GetKey(FontMetricsFamilies.Impact, FontSubFamilies.Regular), CSF(1.23f, 1.13f, 1.07f, 1.1f));
@@ -122,25 +122,35 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             _fonts.Add(GetKey(FontMetricsFamilies.CenturyGothic, FontSubFamilies.Italic), CSF(1.21f, 1.15f, 1.08f));
             _fonts.Add(GetKey(FontMetricsFamilies.CenturyGothic, FontSubFamilies.BoldItalic), CSF(1.27f, 1.15f, 1.08f));
 
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.Regular), new FontScaleFactor(1.12f, 1.03f, 1.03f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.Bold), new FontScaleFactor(1.13f, 1.06f, 1.05f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.Italic), new FontScaleFactor(1.13f, 1.06f, 1.05f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.BoldItalic), new FontScaleFactor(1.12f, 1.06f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CenturySchoolbook, FontSubFamilies.Regular), CSF(1.16f, 1.13f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CenturySchoolbook, FontSubFamilies.Bold), CSF(1.34f, 1.26f, 1.17f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CenturySchoolbook, FontSubFamilies.Italic), CSF(1.18f, 1.12f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CenturySchoolbook, FontSubFamilies.BoldItalic), CSF(1.32f, 1.25f, 1.15f));
 
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.Regular), new FontScaleFactor(1.12f, 1.07f, 1.03f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.Bold), new FontScaleFactor(1.12f, 1.09f, 1.07f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.Italic), new FontScaleFactor(1.13f, 1.15f, 1.03f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.BoldItalic), new FontScaleFactor(1.13f, 1.09f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.Regular), CSF(1.31f, 1.09f, 1.08f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.Bold), CSF(1.32f, 1.19f, 1.13f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.Italic), CSF(1.24f, 1.08f, 1.05f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Rockwell, FontSubFamilies.BoldItalic), CSF(1.30f, 1.19f, 1.09f));
 
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.Regular), new FontScaleFactor(1.1f, 1.05f, 1.03f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.Bold), new FontScaleFactor(1.16f, 1.08f, 1.07f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.Italic), new FontScaleFactor(1.1f, 1.04f, 1.03f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.BoldItalic), new FontScaleFactor(1.13f, 1.11f, 1.07f));
+            _fonts.Add(GetKey(FontMetricsFamilies.RockwellCondensed, FontSubFamilies.Regular), CSF(1.42f, 1.13f, 1.05f, 0.8f));
+            _fonts.Add(GetKey(FontMetricsFamilies.RockwellCondensed, FontSubFamilies.Bold), CSF(1.52f, 1.36f, 1.30f, 1.5f));
+            _fonts.Add(GetKey(FontMetricsFamilies.RockwellCondensed, FontSubFamilies.Italic), CSF(1.42f, 1.13f, 1.05f, 0.8f));
+            _fonts.Add(GetKey(FontMetricsFamilies.RockwellCondensed, FontSubFamilies.BoldItalic), CSF(1.50f, 1.36f, 1.30f, 1.2f));
 
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Regular), new FontScaleFactor(1.03f, 1.07f, 1.06f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Bold), new FontScaleFactor(1.11f, 1.02f, 1f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Italic), new FontScaleFactor(1.02f, 1.01f, 1f));
-            _fonts.Add(GenericFontMetricsTextMeasurer.GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.BoldItalic), new FontScaleFactor(1.13f, 1.2f, 1.2f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.Regular), CSF(1.23f, 1.12f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.Bold), CSF(1.21f, 1.14f, 1.13f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.Italic), CSF(1.17f, 1.17f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TrebuchetMS, FontSubFamilies.BoldItalic), CSF(1.20f, 1.16f, 1.13f));
+
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.Regular), CSF(1.13f, 1.10f, 1.03f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.Bold), CSF(1.30f, 1.16f, 1.12f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.Italic), CSF(1.37f, 1.12f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMT, FontSubFamilies.BoldItalic), CSF(1.20f, 1.12f, 1.07f));
+
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Regular), CSF(1.13f, 1.11f, 1.09f, 1.2f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Bold), CSF(1.38f, 1.34f, 1.21f, 1.2f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.Italic), CSF(1.10f, 1.09f, 1.10f, 1.2f));
+            _fonts.Add(GetKey(FontMetricsFamilies.TwCenMTCondensed, FontSubFamilies.BoldItalic), CSF(1.38f, 1.32f, 1.2f, 1.2f));
         }
 
         public float GetScaleFactor(uint key, float width)
