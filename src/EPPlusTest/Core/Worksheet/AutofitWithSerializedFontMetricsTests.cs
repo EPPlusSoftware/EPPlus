@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
@@ -111,9 +112,9 @@ namespace EPPlusTest.Core.Worksheet
         [DataRow("Century Schoolbook", 19)]
         [DataRow("Rockwell", 20)]
         [DataRow("Rockwell Condensed", 21)]
-        [DataRow("Trebuchet MS", 13)]
-        [DataRow("Tw Cen MT", 14)]
-        [DataRow("Tw Cen MT Condensed", 15)]
+        [DataRow("Trebuchet MS", 22)]
+        [DataRow("Tw Cen MT", 23)]
+        [DataRow("Tw Cen MT Condensed", 24)]
         public void AutofitWithSerializedFonts2(string fontFamily, int run)
         {
             var report = new ExcelPackage(@"c:\Temp\fontreport2.xlsx");
@@ -160,6 +161,7 @@ namespace EPPlusTest.Core.Worksheet
             };
             using (var package = new ExcelPackage())
             {
+                package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
                 var newFont = true;
                 for (var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
                 {

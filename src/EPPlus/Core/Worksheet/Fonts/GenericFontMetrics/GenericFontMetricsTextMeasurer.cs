@@ -10,6 +10,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
     internal class GenericFontMetricsTextMeasurer : ITextMeasurer
     {
         private static Dictionary<uint, SerializedFontMetrics> _fonts;
+        private FontScaleFactors _fontScaleFactors = new FontScaleFactors();
         private static object _syncRoot = new object();
 
         public GenericFontMetricsTextMeasurer()
@@ -58,7 +59,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 
             }
             width *= font.Size;
-            var sf = FontScaleFactors.GetScaleFactor(fontKey, width);
+            var sf = _fontScaleFactors.GetScaleFactor(fontKey, width);
             width *= sf;
             var height = sFont.LineHeight1em * font.Size;
             return new TextMeasurement(width, height);
