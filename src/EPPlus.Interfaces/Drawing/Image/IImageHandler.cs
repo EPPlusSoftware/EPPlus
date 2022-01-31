@@ -11,6 +11,11 @@ namespace OfficeOpenXml.Interfaces.Drawing.Image
     public interface IImageHandler
     {
         /// <summary>
+        /// Should return true if the text measurer is valid for this environment. 
+        /// </summary>
+        /// <returns>True if the measurer can be used else false.</returns>
+        bool ValidForEnvironment();
+        /// <summary>
         /// All types supported by the handler
         /// </summary>
         HashSet<ePictureType> SupportedTypes { get;  }

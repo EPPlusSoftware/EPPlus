@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
     public interface ITextMeasurer
     {
         /// <summary>
-        /// Shoud return true if the text measurer is valid for this environment. 
+        /// Should return true if the text measurer is valid for this environment. 
         /// </summary>
         /// <returns>True if the measurer can be used else false.</returns>
         bool ValidForEnvironment();

@@ -52,5 +52,10 @@ namespace OfficeOpenXml.Drawing
                 return false;
             }
         }
+
+        public bool ValidForEnvironment()
+        {
+            return true;
+        }
     }
 }
