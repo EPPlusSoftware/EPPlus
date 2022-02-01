@@ -16,6 +16,8 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             Initialize();
         }
 
+        public static readonly float JapaneseKanjiDefaultScalingFactor = 1.03f;
+
         private static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
         {
             return GenericFontMetricsTextMeasurer.GetKey(family, subFamily);

@@ -204,7 +204,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod, Ignore]
+        [DataTestMethod]
         [DataRow("Calibri", 1)]
         [DataRow("Arial", 2)]
         [DataRow("Arial Black", 3)]
@@ -268,6 +268,7 @@ namespace EPPlusTest.Core.Worksheet
             };
             using (var package = new ExcelPackage())
             {
+                package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
                 var newFont = true;
                 for (var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
                 {
@@ -324,6 +325,30 @@ namespace EPPlusTest.Core.Worksheet
                 FontSize.LoadAllFontsFromResource();
                 Assert.AreEqual(expectedLoaded, FontSize.FontHeights.Count);
                 Assert.AreEqual(expectedLoaded, FontSize.FontWidths.Count);
+            }
+        }
+
+        [TestMethod, Ignore]
+        public void MeasureSpecificFont()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet2 = package.Workbook.Worksheets.Add("measures");
+                sheet.Cells["A1:A50"].Style.Font.Name = "Garamond";
+                sheet.Cells["A1:A50"].Style.Font.Italic = true;
+                for (var x = 0; x < 40; x++)
+                {
+                    var str = new StringBuilder();
+                    for (var i = 0; i < x; i++)
+                    {
+                        str.Append("a");
+                    }
+                    sheet.Cells[1, x + 1].Value = str.ToString();
+                    sheet.Columns[x + 1].AutoFit();
+                    sheet2.Cells[1, x + 1].Value = sheet.Columns[x + 1].Width;
+                }
+                package.SaveAs(@"c:\Temp\GaramondMeasurements.xlsx");
             }
         }
 

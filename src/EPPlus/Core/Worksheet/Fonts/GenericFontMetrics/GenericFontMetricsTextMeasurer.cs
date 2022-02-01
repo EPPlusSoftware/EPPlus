@@ -112,7 +112,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             {
                 emWidth *= 1.05f;
             }
-            return emWidth * (96F / 72F);
+            return emWidth * (96F / 72F) * FontScaleFactors.JapaneseKanjiDefaultScalingFactor;
         }
 
         private static bool IsEastAsianChar(char c)
