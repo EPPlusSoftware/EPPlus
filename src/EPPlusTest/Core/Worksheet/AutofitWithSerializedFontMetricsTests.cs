@@ -329,7 +329,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod]
+        [DataTestMethod, Ignore]
         [DataRow("Calibri")]
         [DataRow("Arial")]
         [DataRow("Times New Roman")]
