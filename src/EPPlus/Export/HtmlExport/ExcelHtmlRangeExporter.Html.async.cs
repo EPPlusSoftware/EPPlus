@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// <summary>
     /// Exports a <see cref="ExcelTable"/> to Html
     /// </summary>
-    public partial class RangeExporter : HtmlExporterBase
+    public partial class ExcelHtmlRangeExporter : HtmlExporterBase
     {        
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string

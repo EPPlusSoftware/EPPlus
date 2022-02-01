@@ -12,40 +12,36 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
-using System.IO;
 using OfficeOpenXml.Utils;
+using System.IO;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
+#endif
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
     /// <summary>
     /// Exports a <see cref="ExcelTable"/> to Html
     /// </summary>
-    public partial class RangeExporter
+    public partial class ExcelHtmlRangeExporter
     {        
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
         /// <returns>A html table</returns>
-        public async Task<string> GetCssStringAsync()
+        public string GetCssString()
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                await RenderCssAsync(ms);
+                RenderCss(ms);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
-                    return await sr.ReadToEndAsync();
+                    return sr.ReadToEnd();
                 }
             }
         }
-        /// <summary>
-        /// Exports an <see cref="ExcelTable"/> to html and writes it to a stream
-        /// </summary>
-        /// <param name="stream">The stream to write to</param>
-        /// <returns></returns>
-        public async Task RenderCssAsync(Stream stream)
+        public void RenderCss(Stream stream)
         {
             if (!stream.CanWrite)
             {
@@ -54,14 +50,14 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (_datatypes.Count == 0) GetDataTypes();
             var sw = new StreamWriter(stream);
-            await RenderCellCssAsync(sw);
+            RenderCellCss(sw);
         }
 
-        private async Task RenderCellCssAsync(StreamWriter sw)
+        private void RenderCellCss(StreamWriter sw)
         {            
             var styleWriter = new EpplusCssWriter(sw, _range, Settings, Settings.Css, Settings.Css.CssExclude);
             
-            await styleWriter.RenderAdditionalAndFontCssAsync(TableClass);
+            styleWriter.RenderAdditionalAndFontCss(TableClass);
             var ws = _range.Worksheet;
             var styles = ws.Workbook.Styles;
             var ce = new CellStoreEnumerator<ExcelValue>(_range.Worksheet._values, _range._fromRow, _range._fromCol, _range._toRow, _range._toCol);
@@ -82,11 +78,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                         if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
                             continue;                        
                     }
-                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix);
+                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix);
                 }
             }
-            await styleWriter.FlushStreamAsync();
+            styleWriter.FlushStream();
         }
     }
 }
-#endif

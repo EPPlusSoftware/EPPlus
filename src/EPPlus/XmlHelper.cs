@@ -107,7 +107,14 @@ namespace OfficeOpenXml
             {
                 if (ignoreAttribute==null || !ignoreAttribute.Contains(a.Name))
                 {
-                    toElement.SetAttribute(a.Name, a.Value);
+                    if(string.IsNullOrEmpty(a.NamespaceURI))
+                    {
+                        toElement.SetAttribute(a.Name, a.Value);
+                    }
+                    else
+                    {
+                        toElement.SetAttribute(a.LocalName, a.NamespaceURI, a.Value);
+                    }
                 }
             }
         }

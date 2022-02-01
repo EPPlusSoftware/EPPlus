@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public bool IncludeHiddenRows { get; set; } = false;
         /// <summary>
-        /// How to set the alignment for a cell if it's set to General.
+        /// How to set the alignment for a cell if it's alignment is set to General.
         /// </summary>
         public eHtmlGeneralAlignmentHandling HorizontalAlignmentWhenGeneral { get; set; } = eHtmlGeneralAlignmentHandling.CellDataType;
         /// <summary>
@@ -94,7 +94,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <item><term>Default column width</term><term>{prefix}dcw}</term></item>
         /// <item><term>Default row height</term><term>{prefix}drh}</term></item>
         /// </list>
-        /// Left alignment
         /// </summary>
         public string StyleClassPrefix { get; set; } = "epp-";
     }

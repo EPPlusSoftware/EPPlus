@@ -32,7 +32,8 @@ namespace EPPlusTest.Export.HtmlExport
                 table.ShowHeader = true;
                 using(var ms = new MemoryStream())
                 {
-                    table.HtmlExporter.RenderHtmlAsync(ms).Wait();
+                    var exporter = table.CreateHtmlExporter();
+                    exporter.RenderHtmlAsync(ms).Wait();
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
@@ -54,16 +55,17 @@ namespace EPPlusTest.Export.HtmlExport
                 var table = sheet.Tables.Add(sheet.Cells["A1:B2"], "myTable");
                 table.TableStyle = TableStyles.Dark1;
                 table.ShowHeader = true;
-                table.HtmlExporter.Settings.Configure(x =>
+                var exporter = table.CreateHtmlExporter();
+                exporter.Settings.Configure(x =>
                 { 
                     x.TableId = "myTable"; 
                     x.Minify = true;
                     x.Accessibility.TableSettings.AddAccessibilityAttributes = false;
                 });
-                var html = table.HtmlExporter.GetHtmlString();
+                var html = exporter.GetHtmlString();
                 using (var ms = new MemoryStream())
                 {
-                    table.HtmlExporter.RenderHtml(ms);
+                    exporter.RenderHtml(ms);
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
@@ -85,7 +87,9 @@ namespace EPPlusTest.Export.HtmlExport
                 var table = sheet.Tables.Add(sheet.Cells["A1:B2"], "myTable");
                 table.TableStyle = TableStyles.Dark1;
                 table.ShowHeader = true;
-                table.HtmlExporter.Settings.Configure(x =>
+
+                var exporter = table.CreateHtmlExporter();
+                exporter.Settings.Configure(x =>
                 {
                     x.TableId = "myTable";
                     x.Minify = true;
@@ -93,7 +97,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 using (var ms = new MemoryStream())
                 {
-                    table.HtmlExporter.RenderHtml(ms);
+                    exporter.RenderHtml(ms);
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
                     var result = sr.ReadToEnd();
@@ -119,7 +123,8 @@ namespace EPPlusTest.Export.HtmlExport
                         var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{e}");
                         tbl.TableStyle = e;
 
-                        var html = tbl.HtmlExporter.GetSinglePage();
+                        var exporter = tbl.CreateHtmlExporter();
+                        var html = exporter.GetSinglePage();
 
                         File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                     }
@@ -143,7 +148,8 @@ namespace EPPlusTest.Export.HtmlExport
                         var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{e}");
                         tbl.TableStyle = e;
 
-                        var html = await tbl.HtmlExporter.GetSinglePageAsync();
+                        var exporter = tbl.CreateHtmlExporter();
+                        var html = await exporter.GetSinglePageAsync();
 
                         File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                     }
@@ -169,8 +175,9 @@ namespace EPPlusTest.Export.HtmlExport
                         tbl.ShowFirstColumn = true;
                         tbl.ShowLastColumn = true;
                         tbl.TableStyle = e;
-                        
-                        var html = tbl.HtmlExporter.GetSinglePage();
+
+                        var exporter = tbl.CreateHtmlExporter();
+                        var html = exporter.GetSinglePage();
 
                         File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                     }
@@ -196,7 +203,8 @@ namespace EPPlusTest.Export.HtmlExport
                     var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{fs}");
                     tbl.StyleName = ts.Name;
 
-                    var html = tbl.HtmlExporter.GetSinglePage();
+                    var exporter = tbl.CreateHtmlExporter();
+                    var html = exporter.GetSinglePage();
                     File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                 }
                 SaveAndCleanup(p);
@@ -220,7 +228,8 @@ namespace EPPlusTest.Export.HtmlExport
                     var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tbl{fs}");
                     tbl.StyleName = ts.Name;
 
-                    var html = await tbl.HtmlExporter.GetSinglePageAsync();
+                    var exporter = tbl.CreateHtmlExporter();
+                    var html = await exporter.GetSinglePageAsync();
                     File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                 }
                 SaveAndCleanup(p);
@@ -252,7 +261,8 @@ namespace EPPlusTest.Export.HtmlExport
                 var tbl = ws.Tables.Add(ws.Cells["A1:D101"], $"tblGradient");
                 tbl.StyleName = ts.Name;
 
-                var html = tbl.HtmlExporter.GetSinglePage();
+                var exporter = tbl.CreateHtmlExporter();
+                var html = exporter.GetSinglePage();
                 File.WriteAllText($"{path}\\table-{tbl.StyleName}.html", html);
                 SaveAndCleanup(p);
             }
@@ -273,7 +283,8 @@ namespace EPPlusTest.Export.HtmlExport
                 ws.Cells["B1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 ws.Cells["C5"].Style.Font.Size = 18;
                 tbl.Columns[0].TotalsRowLabel = "Total";
-                var html = tbl.HtmlExporter.GetSinglePage();
+                var exporter = tbl.CreateHtmlExporter();
+                var html = exporter.GetSinglePage();
                 File.WriteAllText($"{path}\\table-{tbl.StyleName}-CellStyle.html", html);
                 SaveAndCleanup(p);
             }
@@ -294,9 +305,11 @@ namespace EPPlusTest.Export.HtmlExport
                 ws.Cells["B1:E1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 ws.Cells["C5"].Style.Font.Size = 18;
                 tbl.Columns[0].TotalsRowLabel = "Total";
-                tbl.HtmlExporter.Settings.Culture = new System.Globalization.CultureInfo("en-US");
-                
-                var html = tbl.HtmlExporter.GetSinglePage();
+
+                var exporter = tbl.CreateHtmlExporter();
+                exporter.Settings.Culture = new System.Globalization.CultureInfo("en-US");                
+                var html = exporter.GetSinglePage();
+
                 File.WriteAllText($"{path}\\table-{tbl.StyleName}-CellStyle.html", html);
             }
         }
@@ -310,7 +323,8 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var tbl = ws.Tables.Add(ws.Cells["A1:E101"], $"tblGradient");
                 tbl.TableStyle = TableStyles.Dark3;
-                tbl.HtmlExporter.Settings.Configure(x =>
+                var exporter = tbl.CreateHtmlExporter();
+                exporter.Settings.Configure(x =>
                 {
                     x.Encoding = Encoding.Unicode;
                     x.Culture = new CultureInfo("en-GB");
@@ -325,7 +339,7 @@ namespace EPPlusTest.Export.HtmlExport
                     x.Accessibility.TableSettings.AddAccessibilityAttributes = false;
                 });
 
-                var s = tbl.HtmlExporter.Settings;
+                var s = exporter.Settings;
                 Assert.AreEqual(Encoding.Unicode, s.Encoding);
                 Assert.AreEqual("en-GB", s.Culture.Name);
                 Assert.AreEqual("Table1", s.TableId);
@@ -338,9 +352,9 @@ namespace EPPlusTest.Export.HtmlExport
                 Assert.AreEqual("TableRoll1", s.Accessibility.TableSettings.TableRole);
                 Assert.IsFalse(s.Accessibility.TableSettings.AddAccessibilityAttributes);
 
-                tbl.HtmlExporter.Settings.ResetToDefault();
+                exporter.Settings.ResetToDefault();
                 
-                s = tbl.HtmlExporter.Settings;
+                s = exporter.Settings;
                 Assert.AreEqual(Encoding.UTF8, s.Encoding);
                 Assert.AreEqual(CultureInfo.CurrentCulture.Name, s.Culture.Name);
                 Assert.IsTrue(string.IsNullOrEmpty(s.TableId));
@@ -405,8 +419,9 @@ namespace EPPlusTest.Export.HtmlExport
                 var tbl = ws.Tables.Add(ws.Cells["A1:C2"], $"tblRichtext");
                 tbl.TableStyle = TableStyles.Dark5;
 
-                var html = tbl.HtmlExporter.GetHtmlString();
-                var htmlCss = tbl.HtmlExporter.GetSinglePage();
+                var exporter = tbl.CreateHtmlExporter();
+                var html = exporter.GetHtmlString();
+                var htmlCss = exporter.GetSinglePage();
             }
         }
     }

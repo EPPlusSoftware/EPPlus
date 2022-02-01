@@ -26,8 +26,6 @@ using System.IO;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Sorting;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -85,7 +83,6 @@ namespace OfficeOpenXml.Table
             TableBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             HeaderRowBorderStyle = new ExcelDxfBorderBase(WorkSheet.Workbook.Styles, null);
             _tableSorter = new TableSorter(this);
-            HtmlExporter = new TableExporter(this);
         }
 
         private string GetStartXml(string name, int tblId)
@@ -272,7 +269,10 @@ namespace OfficeOpenXml.Table
             return Range.ToText();
         }
 
-        public TableExporter HtmlExporter { get; private set; }
+        public TableExporter CreateHtmlExporter()
+        {
+            return new TableExporter(this);
+        }
 
         /// <summary>
         /// Converts the table range to CSV format
