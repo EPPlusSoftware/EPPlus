@@ -116,11 +116,11 @@ namespace OfficeOpenXml.Core
                     {
                         measurer = ts.FallbackTextMeasurer;
                         measurement = measurer.MeasureText(t, fontCache[fntID]);
-                        if(ts.AutofitScaleFactor != 1f)
-                        {
-                            measurement.Height = measurement.Height * ts.AutofitScaleFactor;
-                            measurement.Width = measurement.Width * ts.AutofitScaleFactor;
-                        }
+                    }
+                    if (!measurement.IsEmpty && ts.AutofitScaleFactor != 1f)
+                    {
+                        measurement.Height = measurement.Height * ts.AutofitScaleFactor;
+                        measurement.Width = measurement.Width * ts.AutofitScaleFactor;
                     }
                     measureCache.Add(key, measurement);
                 }
