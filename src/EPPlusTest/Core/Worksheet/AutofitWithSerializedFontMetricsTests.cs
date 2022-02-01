@@ -6,6 +6,7 @@ using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -328,27 +329,49 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [TestMethod, Ignore]
-        public void MeasureSpecificFont()
+        [DataTestMethod]
+        [DataRow("Calibri")]
+        [DataRow("Arial")]
+        [DataRow("Times New Roman")]
+        public void MeasureSpecificFont(string font)
         {
             using (var package = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+                var sheet = package.Workbook.Worksheets.Add("text");
                 var sheet2 = package.Workbook.Worksheets.Add("measures");
-                sheet.Cells["A1:A50"].Style.Font.Name = "Garamond";
+                var sheet3 = package.Workbook.Worksheets.Add("numbers");
+                sheet.Cells["A1:A50"].Style.Font.Name = font;
                 sheet.Cells["A1:A50"].Style.Font.Italic = true;
-                for (var x = 0; x < 40; x++)
+                var chars = "aabcdeefghijklmnopqrrssttuvxyzåäö   AABCDEEFGHIJKLMNOPQRSSTTUVXYZÅÄÖ      !!,,,,,,,,, 112233445566778899.....";
+                var numbers = "11122233344455566677788899900000000........,,,,,,,       ";
+                var rnd = new Random();
+                for (var x = 0; x < 60; x++)
                 {
-                    var str = new StringBuilder();
+                    var text = new StringBuilder();
                     for (var i = 0; i < x; i++)
                     {
-                        str.Append("a");
+                        var ix = rnd.Next(0, chars.Length);
+                        text.Append(chars[ix]);
                     }
-                    sheet.Cells[1, x + 1].Value = str.ToString();
+                    sheet.Cells[1, x + 1].Value = text.ToString();
                     sheet.Columns[x + 1].AutoFit();
                     sheet2.Cells[1, x + 1].Value = sheet.Columns[x + 1].Width;
+
+                    var number = new StringBuilder();
+                    for (var i = 0; i < x; i++)
+                    {
+                        var ix = rnd.Next(0, numbers.Length);
+                        number.Append(numbers[ix]);
+                    }
+                    sheet3.Cells[1, x + 1].Value = number.ToString();
+                    sheet3.Columns[x + 1].AutoFit();
+                    sheet2.Cells[2, x + 2].Value = sheet3.Columns[x + 1].Width;
                 }
-                package.SaveAs(@"c:\Temp\GaramondMeasurements.xlsx");
+                if (!Directory.Exists(@"c:\Temp\FontTests")) Directory.CreateDirectory(@"c:\Temp\FontTests");
+                var path = $"c:\\Temp\\FontTests\\{font}Measurements.xlsx";
+                if (File.Exists(path)) File.Delete(path);
+                package.SaveAs(path);
             }
         }
 
