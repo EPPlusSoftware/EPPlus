@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             if (!_fonts.ContainsKey(fontKey)) return TextMeasurement.Empty;
             var sFont = _fonts[fontKey];
             var width = 0f;
+            var widthEA = 0f;
             var chars = text.ToCharArray();
             for (var x = 0; x < chars.Length; x++)
             {
@@ -43,7 +44,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 // if east asian char use default ea font (MS Gothic) regardless of actual font.
                 if (IsEastAsianChar(c))
                 {
-                    width += GetEastAsianCharWidth(c, font.Style);
+                    widthEA += GetEastAsianCharWidth(c, font.Style);
                 }
                 else
                 {
@@ -61,8 +62,10 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 
             }
             width *= font.Size;
+            widthEA *= font.Size;
             var sf = _fontScaleFactors.GetScaleFactor(fontKey, width);
             width *= sf;
+            width += widthEA;
             var height = sFont.LineHeight1em * font.Size;
             return new TextMeasurement(width, height);
         }

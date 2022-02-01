@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             Initialize();
         }
 
-        public static readonly float JapaneseKanjiDefaultScalingFactor = 1.03f;
+        public static readonly float JapaneseKanjiDefaultScalingFactor = 1.13f;
         public static readonly float DigitsScalingFactor = 1.08f;
 
         private static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
@@ -35,15 +35,15 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
         }
         private void Initialize()
         {
-            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular), CSF(1.33f, 1.09f, 1.08f));
-            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Bold), CSF(1.34f, 1.1f, 1.08f));
-            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Italic), CSF(1.3f, 1.12f, 1.05f));
-            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.BoldItalic), CSF(1.3f, 1.1f, 1.03f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular), CSF(1.35f, 1.11f, 1.10f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Bold), CSF(1.36f, 1.12f, 1.10f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Italic), CSF(1.32f, 1.14f, 1.07f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.BoldItalic), CSF(1.32f, 1.12f, 1.05f));
 
             _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Regular), CSF(1.21f, 1.12f, 1.07f));
-            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Bold), CSF(1.22f, 1.1f, 1.06f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Bold), CSF(1.36f, 1.24f, 1.20f));
             _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Italic), CSF(1.25f, 1.1f, 1.05f));
-            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.BoldItalic), CSF(1.22f, 1.09f, 1.03f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.BoldItalic), CSF(1.36f, 1.23f, 1.17f));
 
             _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Regular), CSF(1.15f, 1.06f, 1.02f));
             _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Bold), CSF(1.17f, 1.12f, 1.07f));

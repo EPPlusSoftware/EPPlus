@@ -162,7 +162,7 @@ namespace EPPlusTest.Core.Worksheet
             };
             using (var package = new ExcelPackage())
             {
-                package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+                package.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
                 var newFont = true;
                 for (var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
                 {
@@ -276,7 +276,7 @@ namespace EPPlusTest.Core.Worksheet
                     var sheet = package.Workbook.Worksheets.Add(style.ToString());
                     var range = sheet.Cells[1, 1, 5, 10];
                     range.Style.Font.Name = fontFamily;
-                    range.Style.Font.Size = 9f;
+                    range.Style.Font.Size = 24f;
                     range.Style.Font.Italic = (style == FontSubFamilies.Italic || style == FontSubFamilies.BoldItalic);
                     range.Style.Font.Bold = (style == FontSubFamilies.Bold || style == FontSubFamilies.BoldItalic);
                     var rnd = new Random();
@@ -329,7 +329,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod, Ignore]
+        [DataTestMethod]
         [DataRow("Calibri")]
         [DataRow("Arial")]
         [DataRow("Times New Roman")]
