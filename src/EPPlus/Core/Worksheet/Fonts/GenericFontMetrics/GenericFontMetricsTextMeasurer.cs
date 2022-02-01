@@ -49,7 +49,9 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 {
                     if (sFont.CharMetrics.ContainsKey(c))
                     {
-                        width += fnt.ClassWidths[sFont.CharMetrics[c]];
+                        var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
+                        if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
+                        width += fw;
                     }
                     else
                     {
