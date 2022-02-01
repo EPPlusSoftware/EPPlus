@@ -11,6 +11,7 @@
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.SystemDrawing.Text;
 using System;
@@ -84,5 +85,10 @@ namespace OfficeOpenXml
                 return new GenericFontMetricsTextMeasurer();
             }
         }
+
+        /// <summary>
+        /// Measures a text with default settings when there is no other option left...
+        /// </summary>
+        internal DefaultTextMeasurer DefaultTextMeasurer { get; set; }
     }
 }
