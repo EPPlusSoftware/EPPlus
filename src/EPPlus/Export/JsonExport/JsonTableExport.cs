@@ -39,7 +39,7 @@ namespace OfficeOpenXml
             {
                 WriteColumnData(sw);
             }
-            WriteCellData(sw, _table.DataRange);
+            WriteCellData(sw, _table.DataRange, 0);
             sw.Write("}");
             sw.Flush();
         }

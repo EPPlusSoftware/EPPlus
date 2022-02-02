@@ -132,14 +132,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             var ws = _range.Worksheet;
             while (row <= endRow)
             {
-                if (Settings.IncludeHiddenRows==false)
+                if (HandleHiddenRow(writer, _range.Worksheet, Settings, ref row))
                 {
-                    var r = ws.Row(row);
-                    if (r.Hidden || r.Height == 0)
-                    {
-                        row++;
-                        continue;
-                    }
+                    continue; //The row is hidden and should not be included.
                 }
 
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)

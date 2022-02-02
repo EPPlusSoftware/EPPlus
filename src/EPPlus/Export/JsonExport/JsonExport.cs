@@ -13,15 +13,16 @@ namespace OfficeOpenXml
         {
             _settings = settings;
         }
-        internal protected void WriteCellData(StreamWriter sw, ExcelRangeBase dr)
+        internal protected void WriteCellData(StreamWriter sw, ExcelRangeBase dr, int headerRows)
         {
             ExcelWorksheet ws = dr.Worksheet;
             Uri uri = null;
             int commentIx = 0;
             sw.Write($"\"{_settings.RowsElementName}\":[");
-            for (int r = dr._fromRow; r <= dr._toRow; r++)
+            var fromRow = dr._fromRow + headerRows;
+            for (int r = fromRow; r <= dr._toRow; r++)
             {
-                if (r > dr._fromRow) sw.Write(",");
+                if (r > fromRow) sw.Write(",");
                 sw.Write($"{{\"{_settings.CellsElementName}\":[");
                 for (int c = dr._fromCol; c <= dr._toCol; c++)
                 {

@@ -15,8 +15,8 @@ namespace OfficeOpenXml
             {
                 await WriteColumnDataAsync(sw);
             }
-            await WriteCellDataAsync(sw, _range);
-            await sw.WriteAsync("}}");
+            await WriteCellDataAsync(sw, _range, _settings.FirstRowIsHeader ? 1 : 0);
+            await sw.WriteAsync("}");
             await sw.FlushAsync();
         }
 

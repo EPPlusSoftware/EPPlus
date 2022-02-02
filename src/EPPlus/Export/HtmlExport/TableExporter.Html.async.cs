@@ -101,23 +101,20 @@ namespace OfficeOpenXml.Export.HtmlExport
             var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
             while (row <= endRow)
             {
-                if (Settings.IncludeHiddenRows)
+                if (HandleHiddenRow(writer, _table.WorkSheet, Settings, ref row))
                 {
-                    var r = _table.WorkSheet.Row(row);
-                    if (r.Hidden || r.Height == 0)
-                    {
-                        continue;
-                    }
+                    continue; //The row is hidden and should not be included.
+                }
 
-                    if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                {
+                    writer.AddAttribute("role", "row");
+                    if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
                     {
-                        writer.AddAttribute("role", "row");
-                        if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
-                        {
-                            writer.AddAttribute("scope", "row");
-                        }
+                        writer.AddAttribute("scope", "row");
                     }
                 }
+
                 if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix);
 
                 await writer.RenderBeginTagAsync(HtmlElements.TableRow);

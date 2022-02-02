@@ -9,15 +9,16 @@ namespace OfficeOpenXml
 {
     internal abstract partial class JsonExport
     {
-        internal protected async Task WriteCellDataAsync(StreamWriter sw, ExcelRangeBase dr)
+        internal protected async Task WriteCellDataAsync(StreamWriter sw, ExcelRangeBase dr, int headerRows)
         {
             ExcelWorksheet ws = dr.Worksheet;
             Uri uri = null;
             int commentIx = 0;
             await sw.WriteAsync($"\"{_settings.RowsElementName}\":[");
-            for (int r = dr._fromRow; r <= dr._toRow; r++)
+            var fromRow = dr._fromRow + headerRows;
+            for (int r = fromRow; r <= dr._toRow; r++)
             {
-                if (r > dr._fromRow) sw.Write(",");
+                if (r > fromRow) sw.Write(",");
                 await sw.WriteAsync($"{{\"{_settings.CellsElementName}\":[");
                 for (int c = dr._fromCol; c <= dr._toCol; c++)
                 {

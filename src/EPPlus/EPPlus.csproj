@@ -436,5 +436,6 @@
   </ItemGroup>
   <ItemGroup>
 	  <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
+	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
   </ItemGroup>
 </Project>

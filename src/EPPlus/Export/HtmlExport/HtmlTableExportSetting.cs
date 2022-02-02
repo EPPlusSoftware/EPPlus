@@ -34,6 +34,12 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         CellDataType
     }
+    public enum eHiddenState
+    {
+        Exclude,
+        IncludeButHide,
+        Include
+    }
     public abstract class HtmlExportSettings
     {
         /// <summary>
@@ -41,9 +47,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public bool Minify { get; set; } = true;
         /// <summary>
-        /// If true hidden rows will be included. 
+        /// How hidden rows will be handled. Default is <see cref="eHiddenState.Exclude"/> 
         /// </summary>
-        public bool IncludeHiddenRows { get; set; } = false;
+        public eHiddenState HiddenRows { get; set; } = eHiddenState.Exclude;
         /// <summary>
         /// How to set the alignment for a cell if it's alignment is set to General.
         /// </summary>
@@ -58,7 +64,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Use this property to set additional class names that will be set on the exported html-table.
         /// </summary>
-        public IList<string> AdditionalTableClassNames
+        public List<string> AdditionalTableClassNames
         {
             get;
             protected internal set;
@@ -135,20 +141,29 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         public void ResetToDefault()
         {
+            Minify = true;
+            HiddenRows = eHiddenState.Exclude;
             HeaderRows = 1;
             Headers.Clear();
             Accessibility.TableSettings.ResetToDefault();
-            AdditionalTableClassNames = new List<string>();
+            AdditionalTableClassNames.Clear();
+            Culture = CultureInfo.CurrentCulture;
+            Encoding = Encoding.UTF8;
             Css.ResetToDefault();
         }
         public void Copy(HtmlRangeExportSettings copy)
         {
             Minify = copy.Minify;
-            IncludeHiddenRows = copy.IncludeHiddenRows;
-            Accessibility.TableSettings.Copy(copy.Accessibility.TableSettings);
-            AdditionalTableClassNames = copy.AdditionalTableClassNames;
+            HiddenRows = copy.HiddenRows;
+            HeaderRows = copy.HeaderRows;
             Headers.Clear();
             Headers.AddRange(copy.Headers);
+
+            Accessibility.TableSettings.Copy(copy.Accessibility.TableSettings);
+            
+            AdditionalTableClassNames.Clear();
+            AdditionalTableClassNames.AddRange(copy.AdditionalTableClassNames);
+
             Culture = copy.Culture;
             Encoding = copy.Encoding;
             Css.Copy(copy.Css);
@@ -178,11 +193,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         public void ResetToDefault()
         {
             Minify = true;
-            IncludeHiddenRows = false;
+            HiddenRows = eHiddenState.Exclude;
             Accessibility.TableSettings.ResetToDefault();
             IncludeDefaultClasses = true;
             TableId = "";
-            AdditionalTableClassNames=new List<string>();
+            AdditionalTableClassNames.Clear();
             Culture = CultureInfo.CurrentCulture;
             Encoding = Encoding.UTF8;
             RenderDataAttributes = true;
@@ -191,7 +206,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         public void Copy(HtmlTableExportSettings copy)
         {
             Minify = copy.Minify;
-            IncludeHiddenRows = copy.IncludeHiddenRows;
+            HiddenRows = copy.HiddenRows;
             Accessibility.TableSettings.Copy(copy.Accessibility.TableSettings);
             IncludeDefaultClasses = copy.IncludeDefaultClasses;
             TableId = copy.TableId;
@@ -208,6 +223,17 @@ namespace OfficeOpenXml.Export.HtmlExport
     }
     public abstract class CssExportSettings
     {
+        /// <summary>
+        /// If set to true shared css classes used on table elements are included in the css. 
+        /// If set to false, these classes is included manually and will not be included in the css.
+        /// Default is true
+        /// </summary>
+        public bool IncludeSharedClasses { get; set; } = true;
+        /// <summary>
+        /// If true the normal font will be included in the css. Default is true
+        /// </summary>
+        public bool IncludeNormalFont { get; set; } = true;
+
         /// <summary>
         /// Css elements added to the table.
         /// </summary>

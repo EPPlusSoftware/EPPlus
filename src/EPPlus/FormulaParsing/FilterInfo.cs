@@ -36,6 +36,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             foreach(var worksheet in _workbook.Worksheets)
             {
+                if (worksheet is ExcelChartsheet) continue;
                 if(worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
                 {
                     _worksheetFilters.Add(worksheet.Name);
