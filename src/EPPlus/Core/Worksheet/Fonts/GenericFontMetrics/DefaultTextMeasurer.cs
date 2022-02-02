@@ -10,41 +10,21 @@
  *************************************************************************************************
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
+namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 {
-    internal class BigEndianBinaryReader : BinaryReader
+    internal class DefaultTextMeasurer : GenericFontMetricsTextMeasurerBase
     {
-        internal BigEndianBinaryReader(Stream input) : base(input)
+        internal TextMeasurement Measure(string text, float size)
         {
+            var fontKey = GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular);
+            return MeasureTextInternal(text, fontKey, FontStyles.Regular, size);
         }
-
-        public ushort ReadUInt16BigEndian()
-        {
-            var b = ReadBytes(2);
-            return BitConverter.ToUInt16(new byte[] { b[1], b[0] }, 0);
-        }
-        public short ReadInt16BigEndian()
-        {
-            var b = ReadBytes(2);
-            return BitConverter.ToInt16(new byte[] { b[1], b[0] }, 0);
-        }
-        public int ReadInt32BigEndian()
-        {
-            var b = ReadBytes(4);
-            return BitConverter.ToInt32(new byte[] { b[3], b[2], b[1], b[0] }, 0);
-        }
-
-        public uint ReadUInt32BigEndian()
-        {
-            var b = ReadBytes(4);
-            return BitConverter.ToUInt32(new byte[] { b[3], b[2], b[1], b[0] }, 0);
-        }
-
     }
 }
