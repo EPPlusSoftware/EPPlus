@@ -482,7 +482,7 @@ namespace OfficeOpenXml
         /// The unique identifier for the worksheet.
         /// </summary>
         internal int SheetId { get { return (_sheetID); } set { _sheetID = value; } }
-
+        internal bool IsChartSheet { get; set; } = false;
         internal static bool NameNeedsApostrophes(string ws)
         {
             if (ws[0] >= '0' && ws[0]<='9')
