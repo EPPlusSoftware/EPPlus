@@ -43,6 +43,10 @@ namespace OfficeOpenXml.Export.HtmlExport
     public abstract class HtmlExportSettings
     {
         /// <summary>
+        /// The html id attribute for the exported table. The id attribute is only added to the table if this property is not null or empty.
+        /// </summary>
+        public string TableId { get; set; }
+        /// <summary>
         /// If set to true the rendered html will be formatted with indents and linebreaks.
         /// </summary>
         public bool Minify { get; set; } = true;
@@ -178,11 +182,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
         /// </summary>
         public bool IncludeDefaultClasses { get; set; } = true;
-        /// <summary>
-        /// The html id attribute for the exported table. The id attribute is only added to the table if this property is not null or empty.
-        /// </summary>
-        public string TableId { get; set; }
-
         /// <summary>
         /// If true data-* attributes will be rendered
         /// </summary>

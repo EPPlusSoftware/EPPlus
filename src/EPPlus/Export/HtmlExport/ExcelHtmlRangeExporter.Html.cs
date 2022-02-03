@@ -88,7 +88,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         private void AddClassesAttributes(EpplusHtmlWriter writer)
         {
-           writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
+            writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
+            if (!string.IsNullOrEmpty(Settings.TableId))
+            {
+                writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
+            }
         }
 
         private void LoadVisibleColumns()

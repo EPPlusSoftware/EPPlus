@@ -69,6 +69,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.Indent--;
             writer.RenderEndTag();
         }
+
         internal bool HandleHiddenRow(EpplusHtmlWriter writer, ExcelWorksheet ws, HtmlExportSettings Settings, ref int row)
         {
             if (Settings.HiddenRows != eHiddenState.Include)
