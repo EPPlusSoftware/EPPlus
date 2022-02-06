@@ -33,7 +33,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             (ExcelRangeBase range)
         {
             Require.Argument(range).IsNotNull("range");
-            _range = range;
+            if(range.IsFullColumn && range.IsFullRow)
+            {
+                _range = new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address);
+            }
+            else
+            {
+                _range = range;
+            }
         }
 
         private readonly ExcelRangeBase _range;
@@ -89,6 +96,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         private void AddClassesAttributes(EpplusHtmlWriter writer)
         {
            writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
+            if (!string.IsNullOrEmpty(Settings.TableId))
+            {
+                writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
+            }
         }
 
         private void LoadVisibleColumns()
@@ -298,7 +309,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (string.IsNullOrEmpty(eurl.ReferenceAddress))
                 {
-                    writer.AddAttribute("href", eurl.AbsolutePath);
+                    if(string.IsNullOrEmpty(eurl.AbsoluteUri))
+                    {
+                        writer.AddAttribute("href", eurl.OriginalString);
+                    }
+                    else
+                    {
+                        writer.AddAttribute("href", eurl.AbsoluteUri);
+                    }
                     writer.RenderBeginTag(HtmlElements.A);
                     writer.Write(eurl.Display);
                     writer.RenderEndTag();
