@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             {
                 var fnt = sFont;
                 var c = chars[x];
-                // if east asian char use default ea font (MS Gothic) regardless of actual font.
+                // if east asian char use default regardless of actual font.
                 if (IsEastAsianChar(c))
                 {
                     widthEA += GetEastAsianCharWidth(c, style);
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                     }
                     else
                     {
-                        width += fnt.DefaultWidth1em;
+                        width += sFont.ClassWidths[fnt.DefaultWidthClass];
                     }
                 }
 

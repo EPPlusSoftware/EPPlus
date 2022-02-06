@@ -25,12 +25,15 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             CharMetrics = new Dictionary<char, FontMetricsClass>();
         }
 
-        public ushort Version { get; set; }
         public FontMetricsFamilies Family { get; set; }
+
         public FontSubFamilies SubFamily { get; set; }
+
+        public ushort Version { get; set; }
+        public uint FontKey { get; set; }
         public float LineHeight1em { get; set; }
 
-        public float DefaultWidth1em { get; set; }
+        public FontMetricsClass DefaultWidthClass { get; set; }
 
         public Dictionary<FontMetricsClass, float> ClassWidths
         {
