@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 metrics.Family = (FontMetricsFamilies)reader.ReadUInt16();
                 metrics.SubFamily = (FontSubFamilies)reader.ReadUInt16();
                 metrics.LineHeight1em = reader.ReadSingle();
-                metrics.DefaultWidth1em = reader.ReadSingle();
+                metrics.DefaultWidthClass = (FontMetricsClass)reader.ReadByte();
                 var nClassWidths = reader.ReadUInt16();
                 if (nClassWidths == 0)
                 {
@@ -47,9 +47,19 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 var nClasses = reader.ReadUInt16();
                 for (var x = 0; x < nClasses; x++)
                 {
+                    var cls = (FontMetricsClass)reader.ReadByte();
+                    var nRanges = reader.ReadUInt16();
+                    for (var rngIx = 0; rngIx < nRanges; rngIx++)
+                    {
+                        var start = reader.ReadUInt16();
+                        var end = reader.ReadUInt16();
+                        for (var c = start; c <= end; c++)
+                        {
+                            metrics.CharMetrics[Convert.ToChar(c)] = cls;
+                        }
+                    }
                     var nCharactersInClass = reader.ReadUInt16();
                     if (nCharactersInClass == 0) continue;
-                    var cls = (FontMetricsClass)reader.ReadByte();
                     for (int y = 0; y < nCharactersInClass; y++)
                     {
                         var cCode = reader.ReadUInt16();

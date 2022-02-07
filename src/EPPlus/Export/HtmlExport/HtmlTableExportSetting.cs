@@ -224,7 +224,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     {
         /// <summary>
         /// If set to true shared css classes used on table elements are included in the css. 
-        /// If set to false, these classes is included manually and will not be included in the css.
+        /// If set to false, these classes has to be included manually. 
         /// Default is true
         /// </summary>
         public bool IncludeSharedClasses { get; set; } = true;
