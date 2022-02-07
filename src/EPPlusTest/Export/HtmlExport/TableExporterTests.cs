@@ -114,6 +114,7 @@ namespace EPPlusTest.Export.HtmlExport
             CreatePathIfNotExists(path);
             using (var p=OpenPackage("TableStylesToHtml.xlsx", true))
             {
+                p.Workbook.ThemeManager.Load(new FileInfo("c:\\temp\\ion.thmx"));
                 foreach(TableStyles e in Enum.GetValues(typeof(TableStyles)))
                 {
                     if (!(e == TableStyles.Custom || e == TableStyles.None))

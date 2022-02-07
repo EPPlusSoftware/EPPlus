@@ -103,6 +103,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix)
         {
             var xfs = styles.CellXfs[styleId];
+            var ns = styles.GetNormalStyle();
             if (HasStyle(xfs))
             {
                 if (IsAddedToCache(xfs, out int id)==false)
@@ -114,7 +115,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                     if (xfs.FontId > 0)
                     {
-                        WriteFontStyles(xfs.Font);
+                        WriteFontStyles(xfs.Font, ns.Style.Font);
                     }
                     if (xfs.BorderId > 0)
                     {
@@ -180,10 +181,10 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void WriteBorderStyles(ExcelBorderXml b)
         {
-            WriteBorderItem(b.Top, "top");
-            WriteBorderItem(b.Bottom, "bottom");
-            WriteBorderItem(b.Left, "left");
-            WriteBorderItem(b.Right, "right");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Top)) WriteBorderItem(b.Top, "top");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Bottom)) WriteBorderItem(b.Bottom, "bottom");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Left)) WriteBorderItem(b.Left, "left");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Right)) WriteBorderItem(b.Right, "right");
             //TODO add Diagonal
             //WriteBorderItem(b.DiagonalDown, "right");
             //WriteBorderItem(b.DiagonalUp, "right");
@@ -205,33 +206,33 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private void WriteFontStyles(ExcelFontXml f)
+        private void WriteFontStyles(ExcelFontXml f, ExcelFont nf)
         {
-            if(string.IsNullOrEmpty(f.Name)==false && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Name))
+            if(string.IsNullOrEmpty(f.Name)==false && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Name) && f.Name.Equals(nf.Name) == false)
             {
                 WriteCssItem($"font-family:{f.Name};", _settings.Minify);
             }
-            if(f.Size>0)
+            if(f.Size>0 && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Size) && f.Size!=nf.Size)
             {
                 WriteCssItem($"font-size:{f.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
             }
-            if (f.Color!=null && f.Color.Exists)
+            if (f.Color!=null && f.Color.Exists && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color) && AreColorEqual(f.Color, nf.Color)==false)
             {
                 WriteCssItem($"color:{GetColor(f.Color)};", _settings.Minify);
             }
-            if (f.Bold)
+            if (f.Bold && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Bold) && nf.Bold!=f.Bold)
             {
                 WriteCssItem("font-weight:bolder;", _settings.Minify);
             }
-            if (f.Italic)
+            if (f.Italic && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Italic) && nf.Italic != f.Italic)
             {
                 WriteCssItem("font-style:italic;", _settings.Minify);
             }
-            if (f.Strike)
+            if (f.Strike && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Strike) && nf.Strike != f.Strike)
             {
                 WriteCssItem("text-decoration:line-through solid;", _settings.Minify);
             }
-            if (f.UnderLineType != ExcelUnderLineType.None)
+            if (f.UnderLineType != ExcelUnderLineType.None && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Underline) && f.UnderLineType!=nf.UnderLineType)
             {
                 switch (f.UnderLineType)
                 {
@@ -246,9 +247,31 @@ namespace OfficeOpenXml.Export.HtmlExport
             }            
         }
 
+        private bool AreColorEqual(ExcelColorXml c1, ExcelColor c2)
+        {
+            if (c1.Tint != c2.Tint) return false;
+            if(c1.Indexed>=0)
+            {
+                return c1.Indexed == c2.Indexed;
+            }
+            else if(string.IsNullOrEmpty(c1.Rgb)==false)
+            {
+                return c1.Rgb == c2.Rgb;
+            }
+            else if(c1.Theme!=null)
+            {
+                return c1.Theme == c2.Theme;
+            }
+            else
+            {
+                return c1.Auto == c2.Auto;
+            }
+        }
+
         private void WriteFillStyles(ExcelFillXml f)
         {
-            if(f is ExcelGradientFillXml gf && gf.Type!=ExcelFillGradientType.None)
+            if (_cssExclude.Fill) return;
+            if (f is ExcelGradientFillXml gf && gf.Type!=ExcelFillGradientType.None)
             {
                 WriteGradient(gf);
             }

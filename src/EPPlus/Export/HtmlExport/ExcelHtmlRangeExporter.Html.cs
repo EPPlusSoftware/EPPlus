@@ -318,7 +318,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                         writer.AddAttribute("href", eurl.AbsoluteUri);
                     }
                     writer.RenderBeginTag(HtmlElements.A);
-                    writer.Write(eurl.Display);
+                    writer.Write(string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display);
                     writer.RenderEndTag();
                 }
                 else
