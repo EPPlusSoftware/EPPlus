@@ -128,10 +128,10 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private async Task WriteBorderStylesAsync(ExcelBorderXml b)
         {
-            await WriteBorderItemAsync(b.Top, "top");
-            await WriteBorderItemAsync(b.Bottom, "bottom");
-            await WriteBorderItemAsync(b.Left, "left");
-            await WriteBorderItemAsync(b.Right, "right");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Top)) await WriteBorderItemAsync(b.Top, "top");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Bottom)) await WriteBorderItemAsync(b.Bottom, "bottom");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Left)) await WriteBorderItemAsync(b.Left, "left");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Right)) await WriteBorderItemAsync(b.Right, "right");
             //TODO add Diagonal
             //WriteBorderItem(b.DiagonalDown, "right");
             //WriteBorderItem(b.DiagonalUp, "right");
@@ -159,27 +159,27 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 await WriteCssItemAsync($"font-family:{f.Name};", _settings.Minify);
             }
-            if(f.Size>0)
+            if(f.Size>0 && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Size))
             {
                 await WriteCssItemAsync($"font-size:{f.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
             }
-            if (f.Color!=null && f.Color.Exists)
+            if (f.Color!=null && f.Color.Exists && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Color))
             {
                 await WriteCssItemAsync($"color:{GetColor(f.Color)};", _settings.Minify);
             }
-            if (f.Bold)
+            if (f.Bold && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Bold))
             {
                 await WriteCssItemAsync("font-weight:bolder;", _settings.Minify);
             }
-            if (f.Italic)
+            if (f.Italic && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Italic))
             {
                 await WriteCssItemAsync("font-style:italic;", _settings.Minify);
             }
-            if (f.Strike)
+            if (f.Strike && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Strike))
             {
                 await WriteCssItemAsync("text-decoration:line-through solid;", _settings.Minify);
             }
-            if (f.UnderLineType != ExcelUnderLineType.None)
+            if (f.UnderLineType != ExcelUnderLineType.None && EnumUtil.HasNotFlag(_fontExclude, eFontExclude.Underline))
             {
                 switch (f.UnderLineType)
                 {
@@ -196,7 +196,8 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private async Task WriteFillStylesAsync(ExcelFillXml f)
         {
-            if(f is ExcelGradientFillXml gf && gf.Type!=ExcelFillGradientType.None)
+            if (_cssExclude.Fill) return;
+            if (f is ExcelGradientFillXml gf && gf.Type!=ExcelFillGradientType.None)
             {
                 await WriteGradientAsync(gf);
             }
