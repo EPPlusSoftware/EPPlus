@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string styleClass;
                 if (_table.TableStyle == TableStyles.Custom)
                 {
-                    styleClass = TableStyleClassPrefix + _table.StyleName.ToLowerInvariant();
+                    styleClass = TableStyleClassPrefix + _table.StyleName.Replace(" ","-").ToLowerInvariant();
                 }
                 else
                 {
@@ -214,14 +214,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
             while (row <= endRow)
             {
-                if (Settings.IncludeHiddenRows==false)
+                if(HandleHiddenRow(writer, _table.WorkSheet, Settings, ref row))
                 {
-                    var r = _table.WorkSheet.Row(row);
-                    if (r.Hidden || r.Height == 0)
-                    {
-                        row++;
-                        continue;
-                    }
+                    continue; //The row is hidden and should not be included.
                 }
 
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
@@ -242,7 +237,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var colIx = col - _table.Address._fromCol;
                     var dataType = _datatypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
-                    
+
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
@@ -339,9 +334,19 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if(string.IsNullOrEmpty(eurl.ReferenceAddress))
                 {
-                    writer.AddAttribute("href", eurl.AbsolutePath);
+                    if(string.IsNullOrEmpty(eurl.AbsoluteUri))
+                    {
+                        if (string.IsNullOrEmpty(eurl.OriginalString) == false)
+                        {
+                            writer.AddAttribute("href", eurl.OriginalString);
+                        }
+                    }
+                    else
+                    {
+                        writer.AddAttribute("href", eurl.AbsoluteUri);
+                    }
                     writer.RenderBeginTag(HtmlElements.A);
-                    writer.Write(eurl.Display);
+                    writer.Write(string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display);
                     writer.RenderEndTag();
                 }
                 else

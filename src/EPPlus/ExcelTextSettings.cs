@@ -11,11 +11,10 @@
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
-using OfficeOpenXml.Interfaces.Text;
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.SystemDrawing.Text;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -24,9 +23,41 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelTextSettings
     {
-        public ExcelTextSettings()
+        internal ExcelTextSettings()
         {
-            PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+            if(Environment.OSVersion.Platform==PlatformID.Unix ||
+               Environment.OSVersion.Platform==PlatformID.MacOSX)
+            {
+                PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+                try
+                {
+                    FallbackTextMeasurer = new SystemDrawingTextMeasurer();
+                }
+                catch
+                {
+                    FallbackTextMeasurer = null;
+                }
+            }
+            else
+            {
+                try
+                {
+                    var m = new SystemDrawingTextMeasurer();
+                    if (m.ValidForEnvironment())
+                    {
+                        PrimaryTextMeasurer = m;
+                        FallbackTextMeasurer = new GenericFontMetricsTextMeasurer();
+                    }
+                    else
+                    {
+                        PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+                    }
+                }
+                catch
+                {
+                    PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+                }
+            }
             AutofitScaleFactor = 1f;
         }
 
@@ -44,5 +75,20 @@ namespace OfficeOpenXml
         /// All measurements of texts will be multiplied with this value. Default is 1.
         /// </summary>
         public float AutofitScaleFactor { get; set; }
+        /// <summary>
+        /// Returns an instance of the internal generic text measurer
+        /// </summary>
+        public ITextMeasurer GenericTextMeasurer
+        {
+            get
+            {
+                return new GenericFontMetricsTextMeasurer();
+            }
+        }
+
+        /// <summary>
+        /// Measures a text with default settings when there is no other option left...
+        /// </summary>
+        internal DefaultTextMeasurer DefaultTextMeasurer { get; set; }
     }
 }

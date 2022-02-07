@@ -930,41 +930,6 @@ namespace OfficeOpenXml.Drawing
             _drawingsList.Add(pic);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
         }
-#if (NETFULL)
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name">The name of the drawing object</param>
-        /// <param name="Image">An image.</param>
-        /// <returns></returns>
-        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
-        public ExcelPicture AddPicture(string Name, Image Image)
-        {
-            if (Image != null)
-            {
-                var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
-                return AddPicture(Name, new MemoryStream(b), type, null);
-            }
-            throw (new Exception("AddPicture: Image can't be null"));
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name">The name of the drawing object</param>
-        /// <param name="Image">An image. </param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <returns>A picture object</returns>
-        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
-        public ExcelPicture AddPicture(string Name, Image Image, Uri Hyperlink)
-        {
-            if (Image != null)
-            {
-                var b = ImageUtils.GetImageAsByteArray(Image, out ePictureType type);
-                return AddPicture(Name, new MemoryStream(b), type, Hyperlink);
-            }
-            throw (new Exception("AddPicture: Image can't be null"));
-        }
-#endif
         public ExcelPicture AddPicture(string Name, string ImagePath)
         {
             if (string.IsNullOrEmpty(ImagePath))

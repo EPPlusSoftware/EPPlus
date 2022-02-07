@@ -689,7 +689,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                return (decimal)Column(col).VisualWidth;
+                return (decimal)Columns[col].Width;
             }
         }
 
@@ -901,6 +901,10 @@ namespace OfficeOpenXml
             if (ix >= 0)
             {
                 var f = Workbook.Styles.NamedStyles[ix].Style.Font;
+                if(f.Name.Equals("Calibri", StringComparison.OrdinalIgnoreCase) && f.Size==11) //Default normal font
+                {
+                    return 15;
+                }
                 return ExcelFontXml.GetFontHeight(f.Name, f.Size) * 0.75;
             }
             else
@@ -1564,7 +1568,13 @@ namespace OfficeOpenXml
                         {
                             hl.ToolTip = tt;
                         }
-                        _hyperLinks.SetValue(fromRow, fromCol, hl);
+                        for(int row=fromRow; row<=toRow; row++)
+                        {
+                            for(int col=fromCol; col<=toCol; col++)
+                            {
+                                _hyperLinks.SetValue(row, col, hl);
+                            }
+                        }
                     }
                 }
                 else

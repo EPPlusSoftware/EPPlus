@@ -9,6 +9,7 @@ using System.Drawing;
 using OfficeOpenXml.Style;
 using System.Text;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace EPPlusTest.Export.JsonExport
 {
@@ -26,6 +27,42 @@ namespace EPPlusTest.Export.JsonExport
                 var tbl = ws.Tables.Add(ws.Cells["A1:F100"], $"tblGradient");
 
                 var s = tbl.ToJson();
+            }
+        }
+        [TestMethod]
+        public async Task ValidateJsonExportRange()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add($"Sheet1");
+                ws.SetValue("A1", "SEK");
+                ws.SetValue("B1", "EUR");
+                ws.SetValue("C1", "USD");
+
+                ws.SetValue("A2", 1);
+                ws.SetValue("B2", 10.35);
+                ws.SetValue("C2", 9.51);
+
+                ws.SetValue("A3", 1);
+                ws.SetValue("B3", 10.48);
+                ws.SetValue("C3", 9.59);
+
+                var json = ws.Cells["A1:C3"].ToJson(x => 
+                {
+                    x.AddDataTypesOn = eDataTypeOn.OnColumn;
+                });
+                string jsonAsync;
+                using (var ms = new MemoryStream())
+                {
+                      await ws.Cells["A1:C3"].SaveToJsonAsync(ms, x =>
+                      {
+                          x.AddDataTypesOn = eDataTypeOn.OnColumn;
+                      });
+                    jsonAsync = Encoding.UTF8.GetString(ms.ToArray());
+                }
+                Assert.AreEqual(json, jsonAsync); 
+                Assert.AreEqual("{\"range\":{\"column\":[{\"Name\":\"SEK\",\"dataType\":\"number\"},{\"Name\":\"EUR\",\"dataType\":\"number\"},{\"Name\":\"USD\",\"dataType\":\"number\"}],\"rows\":[{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.35\",\"t\":\"10,35\"},{\"v\":\"9.51\",\"t\":\"9,51\"}]},{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.48\",\"t\":\"10,48\"},{\"v\":\"9.59\",\"t\":\"9,59\"}]}]}}", 
+                    json);
             }
         }
         [TestMethod]

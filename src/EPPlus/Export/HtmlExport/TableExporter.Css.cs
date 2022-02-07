@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 tblStyle.SetFromTemplate(_table.TableStyle);
             }
 
-            var tableClass = $"{TableClass}.{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}";
+            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name).ToLower()}";
             styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
             styleWriter.AddAlignmentToCss($"{tableClass}", _datatypes);
 
@@ -101,35 +101,35 @@ namespace OfficeOpenXml.Export.HtmlExport
             styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
 
             //Header
-            styleWriter.AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead tr th");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead");
             styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.HeaderRow, "");
 
             styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
             styleWriter.AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
 
             //Total
-            styleWriter.AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot tr td");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot");
             styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.TotalRow, "");
             styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
             styleWriter.AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
 
             //Columns stripes
-            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-column-stripes";
-            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
+            var tableClassCS = $"{tableClass}-column-stripes";
+            styleWriter.AddToCss($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
+            styleWriter.AddToCss($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
 
             //Row stripes
-            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-row-stripes";
-            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
-            styleWriter.AddToCss($"{tableClass}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
+            var tableClassRS = $"{tableClass}-row-stripes";
+            styleWriter.AddToCss($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
+            styleWriter.AddToCss($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
 
             //Last column
-            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-last-column";
-            styleWriter.AddToCss($"{tableClass}", tblStyle.LastColumn, $" tbody tr td:last-child");
+            var tableClassLC = $"{tableClass}-last-column";
+            styleWriter.AddToCss($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
 
             //First column
-            tableClass = $"{TableExporter.TableStyleClassPrefix}{tblStyle.Name.ToLower()}-first-column";
-            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstColumn, " tbody tr td:first-child");
+            var tableClassFC = $"{tableClass}-first-column";
+            styleWriter.AddToCss($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
 
             styleWriter.FlushStream();
         }

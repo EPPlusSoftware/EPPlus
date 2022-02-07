@@ -46,7 +46,7 @@ namespace OfficeOpenXml.SkiaSharp.Text
                 paint.Typeface = tf;
                 var rect = SKRect.Empty;
                 paint.MeasureText(text.AsSpan(), ref rect);
-                return new TextMeasurement(rect.Width * (96F / 72F), rect.Height * (96F / 72F));
+                return new TextMeasurement(rect.Width / 0.7282505F + (0.444444444F * font.Size), rect.Height * (96F / 72F));                 
             }
         }
     }

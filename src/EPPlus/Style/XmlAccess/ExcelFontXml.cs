@@ -334,37 +334,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal static float GetFontHeight(string name, float size)
         {
             name = name.StartsWith("@") ? name.Substring(1) : name;
-            if (FontSize.FontHeights.ContainsKey(name))
-            {
-                return GetHeightByName(name, size);
-            }
-            else
-            {
-                return GetHeightByName("Calibri", size);
-            }
-        }
-
-        private static float GetHeightByName(string name, float size)
-        {
-            var font = FontSize.FontHeights[name];
-            if (font.ContainsKey(size))
-            {
-                return font[size];
-            }
-            else
-            {
-                float min = -1;
-                foreach (var sz in font.Keys)
-                {
-                    if (min < sz && sz < size)
-                    {
-                        break;
-                    }
-                    min = sz;
-                }
-                if (min > -1) return font[min];
-                return 20;  //Default, Calibri 11
-            }
+            return Convert.ToSingle(ExcelWorkbook.GetHeightPixels(name, size));
         }
         internal ExcelFontXml Copy()
         {

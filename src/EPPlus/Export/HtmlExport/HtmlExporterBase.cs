@@ -69,5 +69,53 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.Indent--;
             writer.RenderEndTag();
         }
+
+        internal bool HandleHiddenRow(EpplusHtmlWriter writer, ExcelWorksheet ws, HtmlExportSettings Settings, ref int row)
+        {
+            if (Settings.HiddenRows != eHiddenState.Include)
+            {
+                var r = ws.Row(row);
+                if (r.Hidden || r.Height == 0)
+                {
+                    if (Settings.HiddenRows == eHiddenState.IncludeButHide)
+                    {
+                        writer.AddAttribute("class", $"{Settings.StyleClassPrefix}hidden");
+                    }
+                    else
+                    {
+                        row++;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        internal static string GetClassName(string className)
+        {
+            className = className.Trim().Replace(" ", "-");
+            var newClassName = "";
+            for (int i = 0; i < className.Length; i++)
+            {
+                var c = className[i];
+                if (i == 0)
+                {
+                    if (c == '-' || (c >= '0' && c <= '9'))
+                    {
+                        newClassName = "_";
+                    }
+                }
+
+                if ((c >= '0' && c <= '9') ||
+                   (c >= 'a' && c <= 'z') ||
+                   (c >= 'A' && c <= 'Z') ||
+                    c >= 0x00A0)
+                {
+                    newClassName += c;
+                }
+            }
+            return string.IsNullOrEmpty(newClassName) ? "EmptyClass" : newClassName;
+        }
     }
 }

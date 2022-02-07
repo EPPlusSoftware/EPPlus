@@ -25,8 +25,12 @@ namespace EPPlusTest.Drawing
 		[ClassCleanup]
 		public static void Cleanup()
 		{
-			SaveAndCleanup(_pck);
-		}
+            var dirName = _pck.File.DirectoryName;
+            var fileName = _pck.File.FullName;
+            
+            SaveAndCleanup(_pck);
+            if (File.Exists(fileName)) File.Copy(fileName, dirName + "\\ImageReaderRead.xlsx", true);
+        }
         [TestMethod]
         public void AddJpgImageVia()
         {
@@ -224,7 +228,36 @@ namespace EPPlusTest.Drawing
         {
             AddFilesToWorksheet("Png", ePictureType.Png);
         }
+        [TestMethod]
+        public void ReadImages()
+        {
+            using (var p = OpenPackage("ImageReaderRead.xlsx"))
+            {
+                if(p.Workbook.Worksheets.Count==0)
+                {
+                    Assert.Inconclusive("ImageReaderRead.xlsx does not exists. Run a full test round to create it.");
+                }
 
+                foreach(var ws in p.Workbook.Worksheets)
+                {
+                    ws.Columns[1, 20].Width = 35;
+
+                    Assert.AreEqual(35, ws.Columns[1].Width);
+                    Assert.AreEqual(35, ws.Columns[20].Width);
+                }
+
+                var ws2 = p.Workbook.Worksheets.Add("Bmp2");
+                using (var msBmp1 = GetImageMemoryStream("bmp\\MARBLES.BMP"))
+                {
+                    var imageBmp1 = ws2.Drawings.AddPicture("bmp2", msBmp1, OfficeOpenXml.Drawing.ePictureType.Bmp);
+                    imageBmp1.SetPosition(0, 0, 0, 0);
+                }
+
+
+                SaveWorkbook("ImageReaderResized.xlsx", p);
+            }
+
+        }
         private static void AddFilesToWorksheet(string fileType, ePictureType type)
         {
             var ws = _pck.Workbook.Worksheets.Add(fileType);

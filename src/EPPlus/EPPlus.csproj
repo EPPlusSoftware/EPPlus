@@ -10,185 +10,188 @@
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <Company>EPPlus Software AB</Company>
     <Product>EPPlus</Product>
-    <Description>A spreadsheet library for .NET framework and .NET core</Description>
+	<Description>A spreadsheet library for .NET framework and .NET core</Description>
     <AssemblyName>EPPlus</AssemblyName>
     <RootNamespace>OfficeOpenXml</RootNamespace>
     <RepositoryUrl>https://github.com/EPPlusSoftware/EPPlus.git</RepositoryUrl>
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-      EPPlus 5.8.5
-      IMPORTANT NOTICE!
-      From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
-      EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
-      Commercial licenses can be purchased from https://epplussoftware.com
-      This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+		EPPlus 6.0.0.1-beta
+		IMPORTANT NOTICE!
+		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
+		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
+		Commercial licenses can be purchased from https://epplussoftware.com
+		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+		## Version 6.0.0
 
-      ## Version 5.8.5
-      * Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		## Version 5.8.5
+		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 
-      ## Version 5.8.4
-      * 10 new functions
-      * Bug fixes. 
+		## Version 5.8.4
+		* 10 new functions
+		* Bug fixes.
 
-      ## Version 5.8.3
-      * Bug fixes.
+		## Version 5.8.3 
+		* Bug fixes.
 
-      ## Version 5.8.2
-      * Bug fixes.
+		## Version 5.8.2
+		* Bug fixes.
 
-      ## Version 5.8.1
-      * Bug fixes.
+		## Version 5.8.1
+		* Bug fixes.
 
-      ## Version 5.8.0
-      * ExcelWorksheetView.SplitPanes method added
-      * ExcelRangeBase Fill method added
-      *   FillNumber
-      *   FillDateTime
-      *   FillList
-      * New collection properties for Rows and Columns
-      *   ExcelWorksheet.Rows
-      *   ExcelWorksheet.Columns
-      *   ExcelRangeBase.EntireRow
-      *   ExcelRangeBase.EntireColum
-      * Support for formatting and deleting individual Chart Legend Entries.
-      * Range.Copy improvments.
-      * Bug fixes
+		## Version 5.8.0
+		* ExcelWorksheetView.SplitPanes method added
+		* ExcelRangeBase Fill method added
+		*   FillNumber
+		*   FillDateTime
+		*   FillList
+		* New collection properties for Rows and Columns
+		*   ExcelWorksheet.Rows
+		*   ExcelWorksheet.Columns
+		*   ExcelRangeBase.EntireRow
+		*   ExcelRangeBase.EntireColum
+		* Support for formatting and deleting individual Chart Legend Entries.
+		* Range.Copy improvments.
+		* Bug fixes
 
-      ## Version 5.7.5
-      * Bug fixes.
+		## Version 5.7.5
+		* Bug fixes.
 
-      ## Version 5.7.4
-      * Bug fixes.
+		## Version 5.7.4
+		* Bug fixes.
 
-      ## Version 5.7.3
-      * Bug fixes.
+		## Version 5.7.3
+		* Bug fixes.
 
-      ## Version 5.7.2
-      * Bug fixes.
+		## Version 5.7.2
+		* Bug fixes.
 
-      ## Version 5.7.1
-      * Bug fixes.
+		## Version 5.7.1
+		* Bug fixes.
 
-      ## Version 5.7.0
-      * External links
-      * Enhanced sorting
-      * Table and auto filter sort state.
-      * Horizontal sorting
-      * Pivot table auto sort
-      * Pivot tables - Support for Show Value As on data fields
-      * Bug fixes.
+		## Version 5.7.0
+		* External links
+		* Enhanced sorting
+		* Table and auto filter sort state.
+		* Horizontal sorting
+		* Pivot table auto sort
+		* Pivot tables - Support for Show Value As on data fields
+		* Bug fixes.
 
-      ## Version 5.6.4
-      * Bug fixes.
+		## Version 5.6.4
+		* Bug fixes.
 
-      ## Version 5.6.3
-      * Bug fixes.
+		## Version 5.6.3
+		* Bug fixes.
 
-      ## Version 5.6.2
-      * Bug fixes.
+		## Version 5.6.2
+		* Bug fixes.
 
-      ## Version 5.6.1
-      * Bug fixes.
+		## Version 5.6.1
+		* Bug fixes.
 
-      ## Version 5.6.0
-      * Custom table styles.
-      *   Create and modify custom table styles that can be applied to tables and pivot tables.
-      *   Create and modify custom slicer styles
-      * Pivot table styling using pivot areas to style individual areas within a pivot table.
-      * Enhanced table styling
-      * Added three new style properties to the ExcelTable and ExcelTableColumn
-      *   HeaderRowStyle
-      *   DataStyle
-      *   TotalsRowStyle
-      * Bug fixes.
+		## Version 5.6.0
+		* Custom table styles.
+		*   Create and modify custom table styles that can be applied to tables and pivot tables.
+		*   Create and modify custom slicer styles
+		* Pivot table styling using pivot areas to style individual areas within a pivot table.
+		* Enhanced table styling
+		* Added three new style properties to the ExcelTable and ExcelTableColumn
+		*   HeaderRowStyle
+		*   DataStyle
+		*   TotalsRowStyle
+		* Bug fixes.
 
-      ## Version 5.5.5
-      * Bug fixes.
+		## Version 5.5.5
+		* Bug fixes.
 
-      ## Version 5.5.4
-      * Bug fixes.
+		## Version 5.5.4
+		* Bug fixes.
 
-      ## Version 5.5.3
-      * Bug fixes.
+		## Version 5.5.3
+		* Bug fixes.
 
-      ## Version 5.5.2
-      * Bug fixes.
+		## Version 5.5.2
+		* Bug fixes.
 
-      ## Version 5.5.1
-      * 10 new functions
-      * Bug fixes.
+		## Version 5.5.1
+		* 10 new functions
+		* Bug fixes.
 
-      ## Version 5.5.0
-      * Form Controls
-      *   Buttons
-      *   Drop-Downs
-      *   List Boxes
-      *   Check Boxes
-      *   Radio Buttons
-      *   Spin Buttons
-      *   Scroll Bars
-      *   Labels
-      *   Group Boxes
-      * Group/Ungroup drawing object via the ExcelDrawing.Group and ExcelDrawing.Ungroup methods
-      * New attribute support for LoadFromCollection. See https://github.com/EPPlusSoftware/EPPlus/wiki/LoadFromCollection-using-Attributes
-      * 20 new functions
-      * Bug fixes
+		## Version 5.5.0
+		* Form Controls
+		*   Buttons
+		*   Drop-Downs
+		*   List Boxes
+		*   Check Boxes
+		*   Radio Buttons
+		*   Spin Buttons
+		*   Scroll Bars
+		*   Labels
+		*   Group Boxes
+		* Group/Ungroup drawing object via the ExcelDrawing.Group and ExcelDrawing.Ungroup methods
+		* New attribute support for LoadFromCollection. See https://github.com/EPPlusSoftware/EPPlus/wiki/LoadFromCollection-using-Attributes
+		* 20 new functions
+		* Bug fixes
 
-      ## Version 5.4.2
-      * .NET 5.0
-      * Bug fixes
+		## Version 5.4.2
+		* .NET 5.0
+		* Bug fixes
 
-      ## Version 5.4.1
-      # Features
-      * WriteProtection added to Workbook.Protection. Allows to set a workbook to read-only with a password.
-      * ToDataTable method added to ExcelRange
-      * Bug fixes
+		## Version 5.4.1
+		# Features
+		* WriteProtection added to Workbook.Protection. Allows to set a workbook to read-only with a password.
+		* ToDataTable method added to ExcelRange
+		* Bug fixes
 
-      ## Version 5.4.0
-      ### Features
-      * Pivot tables filters
-      *   Item filters - Filters on individual items in row/column or page fields.
-      *   Caption filters (label filters) - Filters for text on row and column fields.
-      *   Date, numeric and string filters - Filters using various operators such as Equals, NotBetween, GreaterThan, etc.
-      *   Top 10 filters - Filters using top or bottom criterias for percent, count or value.
-      *   Dynamic filters - Filters using various date- and average criterias.
-      * Add calculated fields to pivot tables.
-      * Support for pivot table shared caches via the new overload for PivotTables.Add.
-      * Support for pivot table slicers
-      * Support for table slicers
+		## Version 5.4.0
+		### Features
+		* Pivot tables filters
+		*   Item filters - Filters on individual items in row/column or page fields.
+		*   Caption filters (label filters) - Filters for text on row and column fields.
+		*   Date, numeric and string filters - Filters using various operators such as Equals, NotBetween, GreaterThan, etc.
+		*   Top 10 filters - Filters using top or bottom criterias for percent, count or value.
+		*   Dynamic filters - Filters using various date- and average criterias.
+		* Add calculated fields to pivot tables.
+		* Support for pivot table shared caches via the new overload for PivotTables.Add.
+		* Support for pivot table slicers
+		* Support for table slicers
 
-      * Bug fixes
+		* Bug fixes
 
-      ## Version 5.3.2
-      * Bug fixes
+		## Version 5.3.2
+		* Bug fixes
 
-      ## Version 5.3.1
-      * Added support for copying threaded comments
-      * Add FormulaParserManager.Parse method.
-      * Bug fixes
+		## Version 5.3.1
+		* Added support for copying threaded comments
+		* Add FormulaParserManager.Parse method.
+		* Bug fixes
 
-      New features in version 5.3.0:
-      * Support for Threaded Comments with mentions. See https://github.com/EPPlusSoftware/EPPlus/wiki/Threaded-comments
-      * New functions MAXIFS and MINIFS
-      * Bug fixes
+		New features in version 5.3.0:
+		* Support for Threaded Comments with mentions. See https://github.com/EPPlusSoftware/EPPlus/wiki/Threaded-comments
+		* New functions MAXIFS and MINIFS
+		* Bug fixes
 
-      New features in version 5.2.1:
-      * New method ExcelRange.LoadFromDictionary. Support for Dynamics in LoadFromCollection (ExpandoObject).
-      * Zip64 support in packaging to enable larger packages.
-      * Bug fixes.
+		New features in version 5.2.1:
+		* New method ExcelRange.LoadFromDictionary. Support for Dynamics in LoadFromCollection (ExpandoObject).
+		* Zip64 support in packaging to enable larger packages.
+		* Bug fixes.
 
-      New features in version 5.2:
+		New features in version 5.2:
 
-      * Support for extended chart types and stock charts:
-      * Four types of stock charts: High-Low-Close, Open-High-Low-Close, Volume-High-Low-Close and Volume-Open-High-Low-Close
-      * Sunburst Chart
-      * Treemap Chart
-      * Histogram Chart
-      * Pareto Chart
-      * Funnel Chart
-      * Waterfall Chart
-      * Box &amp; Whisker Chart
+		* Support for extended chart types and stock charts:
+		* Four types of stock charts: High-Low-Close, Open-High-Low-Close, Volume-High-Low-Close and Volume-Open-High-Low-Close
+		* Sunburst Chart
+		* Treemap Chart
+		* Histogram Chart
+		* Pareto Chart
+		* Funnel Chart
+		* Waterfall Chart
+		
+        6.0.0-nrybeta
+		* Box &amp; Whisker Chart
       * Region Map Chart.
       * Support for 49 new functions in the formula calc engine, mainly finance and engineering.
       * Bug fixes
@@ -302,9 +305,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\Worksheet\Fonts\Tables\**" />
+    <EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
+    <None Remove="Core\Worksheet\Fonts\Tables\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Compatibility\SystemDrawing\KnownColor.cs" />
     <Compile Remove="Compatibility\SystemDrawing\KnownColors.cs" />
     <Compile Remove="Core\Worksheet\Fonts\GenericFontMetrics\GenericMetricsManager.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\TableRecord.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\Tag.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\TtfFont.cs" />
     <Compile Remove="Drawing\ExcelDrawingLine.cs" />
     <Compile Remove="Packaging\DotNetZip\ZipFile.SaveSelfExtractor.cs" />
   </ItemGroup>
@@ -317,7 +329,6 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
@@ -329,7 +340,6 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
@@ -343,7 +353,6 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Threading.Tasks" />
@@ -360,9 +369,6 @@
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
     </PackageReference>
-    <!--<PackageReference Include="System.Drawing.Common">
-      <Version>4.7.1</Version>
-    </PackageReference>-->
     <PackageReference Include="System.Drawing.Primitives">
       <Version>4.3.0</Version>
     </PackageReference>
@@ -397,9 +403,6 @@
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
     </PackageReference>
-    <PackageReference Include="System.Drawing.Primitives">
-      <Version>4.3.0</Version>
-    </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
   </ItemGroup>
@@ -432,6 +435,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
+	  <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
+	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
   </ItemGroup>
 </Project>

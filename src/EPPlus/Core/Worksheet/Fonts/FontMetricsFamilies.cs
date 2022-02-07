@@ -27,7 +27,6 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
         CalibriLight = 5,
         CalistoMT = 6,
         Cambria = 7,
-        CambriaMath = 8,
         CenturyGothic = 9,
         CenturySchoolbook = 10,
         Corbel = 11,

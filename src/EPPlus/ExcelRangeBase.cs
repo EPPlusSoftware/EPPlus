@@ -90,8 +90,7 @@ namespace OfficeOpenXml
         #endregion
         private void Init(ExcelWorksheet xlWorksheet)
         {
-            _worksheet = xlWorksheet;
-            HtmlExporter = new RangeExporter(this);
+            _worksheet = xlWorksheet;            
         }
 
         /// <summary>
@@ -1006,7 +1005,10 @@ namespace OfficeOpenXml
                 }
             }
         }
-        public RangeExporter HtmlExporter { get; private set; }
+        public ExcelHtmlRangeExporter CreateHtmlExporter()
+        {
+            return new ExcelHtmlRangeExporter(this);
+        }
         /// <summary>
         /// Set the Hyperlink property for a range of cells
         /// </summary>

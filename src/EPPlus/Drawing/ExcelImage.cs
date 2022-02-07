@@ -13,9 +13,10 @@
 using OfficeOpenXml.Drawing.Interfaces;
 using System;
 using System.IO;
-#if(Core)
+#if !NET35 && !NET40
 using System.Threading.Tasks;
-#else
+#endif
+#if NETFULL
 using System.Drawing;
 #endif
 namespace OfficeOpenXml.Drawing
@@ -127,7 +128,7 @@ namespace OfficeOpenXml.Drawing
                 SetImage(byRet, pictureType);
             }
         }
-#if(Core)
+#if !NET35 && !NET40
         /// <summary>
         /// Sets a new image. 
         /// </summary>
@@ -204,7 +205,6 @@ namespace OfficeOpenXml.Drawing
                 {
                     if (string.IsNullOrEmpty(_container.ImageHash) == false && removePrevImage)
                     {
-
                         RemoveImageContainer();
                     }
                     ImageBytes = img;
@@ -220,32 +220,45 @@ namespace OfficeOpenXml.Drawing
                 ImageBytes = image;
             }
             PictureStore.SavePicture(image, _container, pictureType);
-#if (Core)
-            GetImageInformation(image, pictureType);
-#else
-            if(pictureType == ePictureType.Ico ||
-               pictureType == ePictureType.Svg ||
-               pictureType == ePictureType.WebP)
-              { 
-                  GetImageInformation(image, pictureType);
-              }
-              else
-              {
-                    try
-                    {
-                        var ms=new MemoryStream(image);
-                        var img = Image.FromStream(ms);
-                        Bounds.Width = img.Width;
-                        Bounds.Height = img.Height;
-                        Bounds.HorizontalResolution = img.HorizontalResolution;
-                        Bounds.VerticalResolution = img.VerticalResolution;
-                    }
-                    catch
-                    {
-                        GetImageInformation(image, pictureType);
-                    }                
-               }
-#endif
+            var ms = new MemoryStream(image);
+            if(_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+            {
+                Bounds.Width = width;
+                Bounds.Height = height;
+                Bounds.HorizontalResolution = horizontalResolution;
+                Bounds.VerticalResolution = verticalResolution;
+            }
+            else
+            {
+                throw (new InvalidOperationException($"Image format not supported or: {pictureType} or corrupt image"));
+            }
+
+            //#if (Core)
+            //            GetImageInformation(image, pictureType);
+            //#else
+            //            if(pictureType == ePictureType.Ico ||
+            //               pictureType == ePictureType.Svg ||
+            //               pictureType == ePictureType.WebP)
+            //              { 
+            //                  GetImageInformation(image, pictureType);
+            //              }
+            //              else
+            //              {
+            //                    try
+            //                    {
+            //                        var ms=new MemoryStream(image);
+            //                        var img = Image.FromStream(ms);
+            //                        Bounds.Width = img.Width;
+            //                        Bounds.Height = img.Height;
+            //                        Bounds.HorizontalResolution = img.HorizontalResolution;
+            //                        Bounds.VerticalResolution = img.VerticalResolution;
+            //                    }
+            //                    catch
+            //                    {
+            //                        GetImageInformation(image, pictureType);
+            //                    }                
+            //               }
+            //#endif
             _container.SetNewImage();
             return pictureType;
         }
@@ -273,19 +286,19 @@ namespace OfficeOpenXml.Drawing
             _container.UriPic = null;
         }
 
-        private bool GetImageInformation(byte[] image, ePictureType pictureType)
-        {
-            double w = 0, h = 0;
-            if (ImageReader.TryGetImageBounds(pictureType, new MemoryStream(image), ref w, ref h, out double hr, out double vr))
-            {
-                Bounds.Width = w;
-                Bounds.Height = h;
-                Bounds.HorizontalResolution = hr;
-                Bounds.VerticalResolution = vr;
-                return true;
-            }
-            return false;
-        }
+        //private bool GetImageInformation(byte[] image, ePictureType pictureType)
+        //{           
+        //    double w = 0, h = 0;
+        //    if (ImageReader.TryGetImageBounds(pictureType, new MemoryStream(image), ref w, ref h, out double hr, out double vr))
+        //    {
+        //        Bounds.Width = w;
+        //        Bounds.Height = h;
+        //        Bounds.HorizontalResolution = hr;
+        //        Bounds.VerticalResolution = vr;
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }
 

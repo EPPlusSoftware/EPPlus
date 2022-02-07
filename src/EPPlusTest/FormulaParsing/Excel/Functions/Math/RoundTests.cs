@@ -215,6 +215,66 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             }
         }
 
+        [TestMethod]
+        public void RoundShouldHandleNullValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2"].Formula = "ROUND(A1,2)";
+                sheet.Calculate();
+                Assert.AreEqual(0d, sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void RoundUpShouldHandleNullValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2"].Formula = "ROUNDUP(A1,2)";
+                sheet.Calculate();
+                Assert.AreEqual(0d, sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void RoundDownShouldHandleNullValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2"].Formula = "ROUNDDOWN(A1,2)";
+                sheet.Calculate();
+                Assert.AreEqual(0d, sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void CeilingShouldHandleNullValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2"].Formula = "CEILING(A1,2)";
+                sheet.Calculate();
+                Assert.AreEqual(0d, sheet.Cells["A2"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void FloorShouldHandleNullValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2"].Formula = "FLOOR(A1,2)";
+                sheet.Calculate();
+                Assert.AreEqual(0d, sheet.Cells["A2"].Value);
+            }
+        }
+
         /* MROUND tests */
 
         [TestMethod]
@@ -226,6 +286,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             var args = FunctionsHelper.CreateArgs(333.7, 0.5);
             var result = func.Execute(args, ctx).Result;
             Assert.AreEqual(333.5, result);
+        }
+
+        [TestMethod]
+        public void MroundShouldHandleNullValue()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A2"].Formula = "MROUND(A1,0.5)";
+                sheet.Calculate();
+                Assert.AreEqual(0d, sheet.Cells["A2"].Value);
+            }
         }
     }
 }

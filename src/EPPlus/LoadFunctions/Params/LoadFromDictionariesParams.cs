@@ -39,5 +39,10 @@ namespace OfficeOpenXml.LoadFunctions.Params
         /// Sets how headers should be parsed before added to the worksheet, see <see cref="HeaderParsingTypes"/>
         /// </summary>
         public HeaderParsingTypes HeaderParsingType { get; set; } = HeaderParsingTypes.UnderscoreToSpace;
+
+        /// <summary>
+        /// Data types used when setting data in the spreadsheet range (defined from left to right per column).
+        /// </summary>
+        public eDataTypes[] DataTypes { get; set; }
     }
 }

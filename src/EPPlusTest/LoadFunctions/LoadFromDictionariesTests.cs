@@ -170,5 +170,26 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("TestName 2", sheet.Cells["B3"].Value);
             }
         }
+
+        [TestMethod]
+        public void ShouldLoadDynamicObjects()
+        {
+            dynamic o1 = new { Id = 1, Name = "TestName 1"};
+            dynamic o2 = new { Id = 2, Name = "TestName 2" };
+            var items = new List<dynamic>()
+            {
+                o1,
+                o2
+            };
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromDictionaries(items, true, TableStyles.None, null);
+
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual(1, sheet.Cells["A2"].Value);
+                Assert.AreEqual("TestName 2", sheet.Cells["B3"].Value);
+            }
+        }
     }
 }

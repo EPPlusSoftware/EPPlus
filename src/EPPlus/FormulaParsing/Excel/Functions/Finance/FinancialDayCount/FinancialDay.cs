@@ -133,6 +133,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
 
         protected abstract FinancialDay Factory(short year, short month, short day);
 
+        internal DayCountBasis GetBasis()
+        {
+            return Basis;
+        }
+
         protected abstract DayCountBasis Basis { get; }
 
         /// <summary>

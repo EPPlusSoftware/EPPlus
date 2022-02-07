@@ -24,9 +24,9 @@ namespace OfficeOpenXml
             }
             if (_settings.WriteColumnsElement)
             {
-                WriteColumnData(sw);
+                await WriteColumnDataAsync(sw);
             }
-            await WriteCellDataAsync(sw, _table.DataRange);
+            await WriteCellDataAsync(sw, _table.DataRange, 0);
             await sw.WriteAsync("}");
             await sw.FlushAsync();
         }

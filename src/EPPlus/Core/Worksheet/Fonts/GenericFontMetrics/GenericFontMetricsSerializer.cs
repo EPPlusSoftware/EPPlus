@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  12/26/2021         EPPlus Software AB       EPPlus 6.0
+ *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +32,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 metrics.Family = (FontMetricsFamilies)reader.ReadUInt16();
                 metrics.SubFamily = (FontSubFamilies)reader.ReadUInt16();
                 metrics.LineHeight1em = reader.ReadSingle();
-                metrics.DefaultWidth1em = reader.ReadSingle();
+                metrics.DefaultWidthClass = (FontMetricsClass)reader.ReadByte();
                 var nClassWidths = reader.ReadUInt16();
                 if (nClassWidths == 0)
                 {
@@ -35,9 +47,19 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                 var nClasses = reader.ReadUInt16();
                 for (var x = 0; x < nClasses; x++)
                 {
+                    var cls = (FontMetricsClass)reader.ReadByte();
+                    var nRanges = reader.ReadUInt16();
+                    for (var rngIx = 0; rngIx < nRanges; rngIx++)
+                    {
+                        var start = reader.ReadUInt16();
+                        var end = reader.ReadUInt16();
+                        for (var c = start; c <= end; c++)
+                        {
+                            metrics.CharMetrics[Convert.ToChar(c)] = cls;
+                        }
+                    }
                     var nCharactersInClass = reader.ReadUInt16();
                     if (nCharactersInClass == 0) continue;
-                    var cls = (FontMetricsClass)reader.ReadByte();
                     for (int y = 0; y < nCharactersInClass; y++)
                     {
                         var cCode = reader.ReadUInt16();

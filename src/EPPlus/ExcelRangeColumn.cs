@@ -179,6 +179,13 @@ namespace OfficeOpenXml
                 SetValue(new Action<ExcelColumn, double>((x, v) => { x.Width = v; }), value);
             }
         }
+        internal double VisualWidth
+        {
+            get
+            {
+                return GetValue(new Func<ExcelColumn, double>(x => x.VisualWidth), _worksheet.DefaultColWidth);
+            }
+        }
 
         /// <summary>
         /// Adds a manual page break after the column.

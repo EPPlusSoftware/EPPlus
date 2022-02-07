@@ -26,8 +26,8 @@ namespace OfficeOpenXml
             {
                 WriteColumnData(sw);
             }
-            WriteCellData(sw, _range);
-            sw.Write("}}");
+            WriteCellData(sw, _range, _settings.FirstRowIsHeader ? 1 : 0);
+            sw.Write("}");
             sw.Flush();
         }
 

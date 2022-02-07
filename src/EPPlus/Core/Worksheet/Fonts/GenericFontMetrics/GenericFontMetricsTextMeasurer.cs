@@ -1,4 +1,17 @@
-﻿using OfficeOpenXml.Interfaces.Text;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  12/26/2021         EPPlus Software AB       EPPlus 6.0
+ *************************************************************************************************/
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,89 +19,24 @@ using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
 {
-    internal class GenericFontMetricsTextMeasurer : ITextMeasurer
+    internal class GenericFontMetricsTextMeasurer : GenericFontMetricsTextMeasurerBase, ITextMeasurer
     {
-        private static Dictionary<uint, SerializedFontMetrics> _fonts;
-        private static object _syncRoot = new object();
-
-        public GenericFontMetricsTextMeasurer()
-        {
-            Initialize();
-        }
-
-        private static void Initialize()
-        {
-            lock (_syncRoot)
-            {
-                if (_fonts == null)
-                {
-                    _fonts = GenericFontMetricsLoader.LoadFontMetrics();
-                }
-            }
-        }
-
+        /// <summary>
+        /// Measures the supplied text
+        /// </summary>
+        /// <param name="text">The text to measure</param>
+        /// <param name="font">Font of the text to measure</param>
+        /// <returns>A <see cref="TextMeasurement"/></returns>
         public TextMeasurement MeasureText(string text, ExcelFont font)
         {
             var fontKey = GetKey(font.FontFamily, font.Style);
-            if (!_fonts.ContainsKey(fontKey)) return TextMeasurement.Empty;
-            var sFont = _fonts[fontKey];
-            var width = 0f;
-            var chars = text.ToCharArray();
-            for (var x = 0; x < chars.Length; x++)
-            {
-                var c = chars[x];
-                if(sFont.CharMetrics.ContainsKey(c))
-                {
-                    width += sFont.ClassWidths[sFont.CharMetrics[c]];
-                }
-                else
-                {
-                    width += sFont.DefaultWidth1em;
-                }
-            }
-            width *= font.Size;
-            var height = sFont.LineHeight1em * font.Size;
-            return new TextMeasurement(width, height);
+            if (!IsValidFont(fontKey)) return TextMeasurement.Empty;
+            return MeasureTextInternal(text, fontKey, font.Style, font.Size);
         }
 
-        public static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
+        public bool ValidForEnvironment()
         {
-            var k1 = (ushort)family;
-            var k2 = (ushort)subFamily;
-            return (uint)((k1 << 16) | ((k2) & 0xffff));
-        }
-
-        public static uint GetKey(string fontFamily, FontStyles fontStyle)
-        {
-            var enumName = fontFamily.Replace(" ", string.Empty);
-            var values = Enum.GetValues(typeof(FontMetricsFamilies));
-            var supported = false;
-            foreach (var enumVal in values)
-            {
-                if (enumVal.ToString() == enumName)
-                {
-                    supported = true;
-                    break;
-                }
-            }
-            if (!supported) return uint.MaxValue;
-            var family = (FontMetricsFamilies)Enum.Parse(typeof(FontMetricsFamilies), enumName);
-            var subFamily = FontSubFamilies.Regular;
-            switch (fontStyle)
-            {
-                case FontStyles.Bold:
-                    subFamily = FontSubFamilies.Bold;
-                    break;
-                case FontStyles.Italic:
-                    subFamily = FontSubFamilies.Italic;
-                    break;
-                case FontStyles.Italic | FontStyles.Bold:
-                    subFamily = FontSubFamilies.BoldItalic;
-                    break;
-                default:
-                    break;
-            }
-            return GetKey(family, subFamily);
+            return true;
         }
     }
 }

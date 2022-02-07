@@ -189,6 +189,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["confidence.t"] = new ConfidenceT();
             Functions["devsq"] = new Devsq();
             Functions["avedev"] = new Avedev();
+            Functions["betadist"] = new Betadist();
+            Functions["beta.dist"] = new BetaDotDist();
+            Functions["betainv"] = new Betainv();
+            Functions["beta.inv"] = new BetaDotInv();
             Functions["gamma"] = new Gamma();
             Functions["gammaln"] = new Gammaln();
             Functions["gammaln.precise"] = new GammalnPrecise();
@@ -197,7 +201,32 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["normsinv"] = new NormsInv();
             Functions["norm.s.inv"] = new NormDotSdotInv();
             Functions["normdist"] = new Normdist();
+            Functions["normsdist"] = new Normsdist();
             Functions["norm.dist"] = new NormDotDist();
+            Functions["norm.s.dist"] = new NormDotSdotDist();
+            Functions["correl"] = new Correl();
+            Functions["fisher"] = new Fisher();
+            Functions["fisherinv"] = new FisherInv();
+            Functions["geomean"] = new Geomean();
+            Functions["harmean"] = new Harmean();
+            Functions["pearson"] = new Pearson();
+            Functions["phi"] = new Phi();
+            Functions["rsq"] = new Rsq();
+            Functions["skew"] = new Skew();
+            Functions["skew.p"] = new SkewP();
+            Functions["kurt"] = new Kurt();
+            Functions["gauss"] = new Gauss();
+            Functions["standardize"] = new Standardize();
+            Functions["forecast"] = new Forecast();
+            Functions["forecast.linear"] = new ForecastLinear();
+            Functions["intercept"] = new Intercept();
+            Functions["chidist"] = new ChiDist();
+            Functions["chisq.dist.rt"] = new ChiSqDistRt();
+            Functions["chisq.inv"] = new ChisqInv();
+            Functions["chisq.inv.rt"] = new ChisqInvRt();
+            Functions["chiinv"] = new ChiInv();
+            Functions["expondist"] = new Expondist();
+            Functions["expon.dist"] = new ExponDotDist();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
@@ -279,6 +308,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["dvar"] = new Dvar();
             Functions["dvarp"] = new Dvarp();
             //Finance
+            Functions["accrint"] = new Accrint();
+            Functions["accrintm"] = new AccrintM();
             Functions["cumipmt"] = new Cumipmt();
             Functions["cumprinc"] = new Cumprinc();
             Functions["dollarde"] = new DollarDe();
@@ -318,6 +349,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["mduration"] = new Mduration();
             Functions["intrate"] = new Intrate();
             Functions["disc"] = new Disc();
+            Functions["tbilleq"] = new Tbilleq();
+            Functions["tbillprice"] = new TbillPrice();
+            Functions["tbillyield"] = new TbillYield();
             //Engineering
             Functions["bitand"] = new BitAnd();
             Functions["bitor"] = new BitOr();

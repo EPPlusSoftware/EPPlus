@@ -61,39 +61,43 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         internal void RenderAdditionalAndFontCss(string tableClass)
         {
+            if (_cssSettings.IncludeSharedClasses == false) return;
             WriteClass($"table.{tableClass}{{", _settings.Minify);
-            var ns = _range.Worksheet.Workbook.Styles.GetNormalStyle();
-            if (ns != null)
+            if (_cssSettings.IncludeNormalFont)
             {
-                WriteCssItem($"font-family:{ns.Style.Font.Name};", _settings.Minify);
-                WriteCssItem($"font-size:{ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
+                var ns = _range.Worksheet.Workbook.Styles.GetNormalStyle();
+                if (ns != null)
+                {
+                    WriteCssItem($"font-family:{ns.Style.Font.Name};", _settings.Minify);
+                    WriteCssItem($"font-size:{ns.Style.Font.Size.ToString("g", CultureInfo.InvariantCulture)}pt;", _settings.Minify);
+                }
             }
             foreach (var item in _cssSettings.AdditionalCssElements)
             {
                 WriteCssItem($"{item.Key}:{item.Value};", _settings.Minify);
             }
             WriteClassEnd(_settings.Minify);
-            if (_settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType ||
-                _settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.CellDataType)
-            {
-                WriteClass($".{_settings.StyleClassPrefix}al {{", _settings.Minify);
-                WriteCssItem($"text-align:left;", _settings.Minify);
-                WriteClassEnd(_settings.Minify);
-                WriteClass($".{_settings.StyleClassPrefix}ar {{", _settings.Minify);
-                WriteCssItem($"text-align:right;", _settings.Minify);
-                WriteClassEnd(_settings.Minify);
-            }
-            if(_settings.SetColumnWidth)
-            {
-                var ws = _range.Worksheet;
-                WriteClass($".{_settings.StyleClassPrefix}dcw {{", _settings.Minify);
-                WriteCssItem($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
-                WriteClassEnd(_settings.Minify);
 
-                WriteClass($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
-                WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
-                WriteClassEnd(_settings.Minify);
-            }
+            //Class for hidden rows.
+            WriteClass($".{_settings.StyleClassPrefix}hidden {{", _settings.Minify);
+            WriteCssItem($"display:none;", _settings.Minify);
+            WriteClassEnd(_settings.Minify);
+
+            WriteClass($".{_settings.StyleClassPrefix}al {{", _settings.Minify);
+            WriteCssItem($"text-align:left;", _settings.Minify);
+            WriteClassEnd(_settings.Minify);
+            WriteClass($".{_settings.StyleClassPrefix}ar {{", _settings.Minify);
+            WriteCssItem($"text-align:right;", _settings.Minify);
+            WriteClassEnd(_settings.Minify);
+
+            var ws = _range.Worksheet;
+            WriteClass($".{_settings.StyleClassPrefix}dcw {{", _settings.Minify);
+            WriteCssItem($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
+            WriteClassEnd(_settings.Minify);
+
+            WriteClass($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
+            WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
+            WriteClassEnd(_settings.Minify);
         }
 
         internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix)
