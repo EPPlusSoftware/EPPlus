@@ -92,30 +92,30 @@ namespace EPPlusTest.Core.Worksheet
         }
 
         [DataTestMethod]
-        [DataRow("Calibri", 1)]
-        [DataRow("Calibri Light", 2)]
-        [DataRow("Arial", 3)]
-        [DataRow("Arial Black", 4)]
-        [DataRow("Arial Narrow", 5)]
-        [DataRow("Bookman Old Style", 6)]
-        [DataRow("Calisto MT", 7)]
-        [DataRow("Times New Roman", 8)]
+        //[DataRow("Calibri", 1)]
+        //[DataRow("Calibri Light", 2)]
+        //[DataRow("Arial", 3)]
+        //[DataRow("Arial Black", 4)]
+        //[DataRow("Arial Narrow", 5)]
+        //[DataRow("Bookman Old Style", 6)]
+        //[DataRow("Calisto MT", 7)]
+        //[DataRow("Times New Roman", 8)]
         [DataRow("Courier New", 9)]
-        [DataRow("Liberation Serif", 10)]
-        [DataRow("Verdana", 11)]
-        [DataRow("Cambria", 12)]
-        [DataRow("Georgia", 13)]
-        [DataRow("Corbel", 14)]
-        [DataRow("Garamond", 15)]
-        [DataRow("Gill Sans MT", 16)]
-        [DataRow("Impact", 17)]
-        [DataRow("Century Gothic", 18)]
-        [DataRow("Century Schoolbook", 19)]
-        [DataRow("Rockwell", 20)]
-        [DataRow("Rockwell Condensed", 21)]
-        [DataRow("Trebuchet MS", 22)]
-        [DataRow("Tw Cen MT", 23)]
-        [DataRow("Tw Cen MT Condensed", 24)]
+        //[DataRow("Liberation Serif", 10)]
+        //[DataRow("Verdana", 11)]
+        //[DataRow("Cambria", 12)]
+        //[DataRow("Georgia", 13)]
+        //[DataRow("Corbel", 14)]
+        //[DataRow("Garamond", 15)]
+        //[DataRow("Gill Sans MT", 16)]
+        //[DataRow("Impact", 17)]
+        //[DataRow("Century Gothic", 18)]
+        //[DataRow("Century Schoolbook", 19)]
+        //[DataRow("Rockwell", 20)]
+        //[DataRow("Rockwell Condensed", 21)]
+        //[DataRow("Trebuchet MS", 22)]
+        //[DataRow("Tw Cen MT", 23)]
+        //[DataRow("Tw Cen MT Condensed", 24)]
         public void AutofitWithSerializedFonts2(string fontFamily, int run)
         {
             var report = new ExcelPackage(@"c:\Temp\fontreport2.xlsx");
@@ -162,7 +162,7 @@ namespace EPPlusTest.Core.Worksheet
             };
             using (var package = new ExcelPackage())
             {
-                package.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
+                package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
                 var newFont = true;
                 for (var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
                 {
