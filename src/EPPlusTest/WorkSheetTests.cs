@@ -1853,6 +1853,17 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void ClearFormulasOnEmptySheetTest()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+                // Should not throw an exception
+                worksheet.ClearFormulas();
+            }
+        }
+
+        [TestMethod]
         public void ClearFormulasTest()
         {
             using (ExcelPackage package = new ExcelPackage())
