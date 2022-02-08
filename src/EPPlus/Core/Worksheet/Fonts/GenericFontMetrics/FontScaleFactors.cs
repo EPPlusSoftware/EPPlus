@@ -19,6 +19,13 @@ using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 {
+    /// <summary>
+    /// The binary files created for text measurements of various font families just contains
+    /// approximations of the characters where the carachters are divided into a number of width
+    /// classes. This alone is not enough to get close enough to a good result.
+    /// This class contains various scaling factors used to get the text measurements as close
+    /// as the spreadsheet applications GUI as possible.
+    /// </summary>
     internal class FontScaleFactors
     {
         private Dictionary<uint, FontScaleFactor> _fonts = new Dictionary<uint,FontScaleFactor>();
@@ -47,15 +54,15 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
         }
         private void Initialize()
         {
-            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular), CSF(1.35f, 1.11f, 1.10f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Regular), CSF(1.4f, 1.16f, 1.15f));
             _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Bold), CSF(1.36f, 1.12f, 1.10f));
             _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.Italic), CSF(1.32f, 1.14f, 1.07f));
             _fonts.Add(GetKey(FontMetricsFamilies.Calibri, FontSubFamilies.BoldItalic), CSF(1.32f, 1.12f, 1.05f));
 
             _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Regular), CSF(1.21f, 1.12f, 1.07f));
-            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Bold), CSF(1.36f, 1.24f, 1.20f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Bold), CSF(1.38f, 1.26f, 1.22f));
             _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.Italic), CSF(1.25f, 1.1f, 1.05f));
-            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.BoldItalic), CSF(1.36f, 1.23f, 1.17f));
+            _fonts.Add(GetKey(FontMetricsFamilies.CalibriLight, FontSubFamilies.BoldItalic), CSF(1.43f, 1.30f, 1.24f));
 
             _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Regular), CSF(1.15f, 1.06f, 1.02f));
             _fonts.Add(GetKey(FontMetricsFamilies.Arial, FontSubFamilies.Bold), CSF(1.17f, 1.12f, 1.07f));
@@ -107,8 +114,8 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             _fonts.Add(GetKey(FontMetricsFamilies.Cambria, FontSubFamilies.Italic), CSF(1.19f, 1.08f, 1.06f, 1.3f));
             _fonts.Add(GetKey(FontMetricsFamilies.Cambria, FontSubFamilies.BoldItalic), CSF(1.25f, 1.07f, 1.04f, 1.3f));
 
-            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Regular), CSF(1.15f, 1.10f, 1.08f));
-            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Bold), CSF(1.35f, 1.26f, 1.20f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Regular), CSF(1.20f, 1.15f, 1.13f));
+            _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Bold), CSF(1.42f, 1.33f, 1.27f));
             _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.Italic), CSF(1.13f, 1.13f, 1.1f));
             _fonts.Add(GetKey(FontMetricsFamilies.Georgia, FontSubFamilies.BoldItalic), CSF(1.39f, 1.31f, 1.23f));
 

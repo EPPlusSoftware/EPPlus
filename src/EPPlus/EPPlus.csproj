@@ -409,15 +409,15 @@
 
   <ItemGroup>
     <None Remove="resources\DefaultTableStyles.cst" />
-    <None Remove="resources\FontMetrics.zip" />
     <None Remove="resources\fontsize.zip" />
+    <None Remove="resources\TextMetrics.zip" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="resources\DefaultChartStyles.ecs" />
     <EmbeddedResource Include="resources\DefaultTableStyles.cst" />
-    <EmbeddedResource Include="resources\FontMetrics.zip" />
     <EmbeddedResource Include="resources\fontsize.zip" />
+    <EmbeddedResource Include="resources\TextMetrics.zip" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

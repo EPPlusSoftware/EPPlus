@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         {
             var fonts = new Dictionary<uint, SerializedFontMetrics>();
             var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream("OfficeOpenXml.resources.FontMetrics.zip"))
+            using (var stream = assembly.GetManifestResourceStream("OfficeOpenXml.resources.TextMetrics.zip"))
             {
                 var zipStream = new ZipInputStream(stream);
                 ZipEntry entry;
