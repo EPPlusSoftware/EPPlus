@@ -22,7 +22,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The name of the element containing the columns data
         /// </summary>
-        public string ColumnsElementName { get; set; } = "column";
+        public string ColumnsElementName { get; set; } = "columns";
         /// <summary>
         /// The name of the element containg the rows data
         /// </summary>
