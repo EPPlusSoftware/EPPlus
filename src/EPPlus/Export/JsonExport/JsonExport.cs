@@ -9,57 +9,80 @@ namespace OfficeOpenXml
     internal abstract partial class JsonExport
     {
         private JsonExportSettings _settings;
+        protected string _indent = "";
+        protected bool _minify;
         public JsonExport(JsonExportSettings settings)
         {
             _settings = settings;
+            _minify = settings.Minify;
         }
         internal protected void WriteCellData(StreamWriter sw, ExcelRangeBase dr, int headerRows)
         {
+            bool dtOnCell = _settings.AddDataTypesOn == eDataTypeOn.OnCell;
             ExcelWorksheet ws = dr.Worksheet;
             Uri uri = null;
             int commentIx = 0;
-            sw.Write($"\"{_settings.RowsElementName}\":[");
+            WriteItem(sw, $"\"{_settings.RowsElementName}\":[", true);
             var fromRow = dr._fromRow + headerRows;
             for (int r = fromRow; r <= dr._toRow; r++)
             {
-                if (r > fromRow) sw.Write(",");
-                sw.Write($"{{\"{_settings.CellsElementName}\":[");
+                WriteStart(sw);
+                WriteItem(sw, $"\"{_settings.CellsElementName}\":[", true);
                 for (int c = dr._fromCol; c <= dr._toCol; c++)
                 {
-                    if (c > dr._fromCol) sw.Write(",");
                     var cv = ws.GetCoreValueInner(r, c);
                     var t = JsonEscape(ValueToTextHandler.GetFormattedText(cv._value, ws.Workbook, cv._styleId, false));
+                    WriteStart(sw);
+                    var hasHyperlink = _settings.WriteHyperlinks && ws._hyperLinks.Exists(r, c, ref uri);
+                    var hasComment = _settings.WriteComments && ws._commentsStore.Exists(r, c, ref commentIx);
                     if (cv._value == null)
                     {
-                        sw.Write($"{{\"t\":\"{t}\"");
+                        WriteItem(sw, $"\"t\":\"{t}\"");
                     }
                     else
                     {
                         var v = JsonEscape(HtmlRawDataProvider.GetRawValue(cv._value));
-                        sw.Write($"{{\"v\":\"{v}\",\"t\":\"{t}\"");
-                        if(_settings.AddDataTypesOn==eDataTypeOn.OnCell)
+                        WriteItem(sw, $"\"v\":\"{v}\",");
+                        WriteItem(sw, $"\"t\":\"{t}\"", false, dtOnCell || hasHyperlink || hasComment);
+                        if (dtOnCell)
                         {
                             var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cv._value);
-                            sw.Write($",\"dataType\":\"{dt}\"");
+                            WriteItem(sw, $"\"dt\":\"{dt}\"", false, hasHyperlink  || hasComment);
                         }
                     }
 
-                    if (_settings.WriteHyperlinks && ws._hyperLinks.Exists(r, c, ref uri))
+                    if (hasHyperlink)
                     {
-                        sw.Write($",\"uri\":\"{JsonEscape(uri?.OriginalString)}\"");
+                        WriteItem(sw, $"\"uri\":\"{JsonEscape(uri?.OriginalString)}\"", false, hasComment);
                     }
 
-                    if (_settings.WriteComments && ws._commentsStore.Exists(r, c, ref commentIx))
+                    if(hasComment)
                     {
                         var comment = ws.Comments[commentIx];
-                        sw.Write($",\"comment\":\"{comment.Text}\"");
+                        WriteItem(sw, $"\"comment\":\"{comment.Text}\"");
                     }
 
-                    sw.Write("}");
+                    if(c == dr._toCol)
+                    {
+                        WriteEnd(sw, "}");
+                    }
+                    else
+                    {
+                        WriteEnd(sw,"},");
+                    }
                 }
-                sw.Write("]}");
+                WriteEnd(sw,"]");
+                if (r == dr._toRow)
+                {
+                    WriteEnd(sw);
+                }
+                else
+                {
+                    WriteEnd(sw, "},");
+                }
             }
-            sw.Write("]}");
+            WriteEnd(sw, "]");
+            WriteEnd(sw);
         }
         internal static string JsonEscape(string s)
         {
@@ -103,6 +126,48 @@ namespace OfficeOpenXml
                 }
             }
             return sb.ToString();
+        }
+        internal protected void WriteItem(StreamWriter sw, string v, bool indent=false, bool addComma=false)
+        {
+            if (addComma) v += ",";
+            if (_minify)
+            {
+                sw.Write(v);
+            }
+            else
+            {
+                sw.WriteLine(_indent + v);
+                if (indent)
+                {
+                    _indent += "  ";
+                }
+            }
+        }
+
+        internal protected void WriteStart(StreamWriter sw)
+        {
+            if (_minify)
+            {
+            
+                sw.Write("{");
+            }
+            else
+            {
+                sw.WriteLine($"{_indent}{{");
+                _indent += "  ";
+            }
+        }
+        internal protected void WriteEnd(StreamWriter sw, string bracket="}")
+        {
+            if (_minify)
+            {
+                sw.Write(bracket);
+            }
+            else
+            {
+                _indent = _indent.Substring(0, _indent.Length - 2);
+                sw.WriteLine($"{_indent}{bracket}");
+            }
         }
     }
 }

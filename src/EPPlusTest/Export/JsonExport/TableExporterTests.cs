@@ -61,7 +61,7 @@ namespace EPPlusTest.Export.JsonExport
                     jsonAsync = Encoding.UTF8.GetString(ms.ToArray());
                 }
                 Assert.AreEqual(json, jsonAsync); 
-                Assert.AreEqual("{\"range\":{\"column\":[{\"Name\":\"SEK\",\"dataType\":\"number\"},{\"Name\":\"EUR\",\"dataType\":\"number\"},{\"Name\":\"USD\",\"dataType\":\"number\"}],\"rows\":[{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.35\",\"t\":\"10,35\"},{\"v\":\"9.51\",\"t\":\"9,51\"}]},{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.48\",\"t\":\"10,48\"},{\"v\":\"9.59\",\"t\":\"9,59\"}]}]}}", 
+                Assert.AreEqual("{\"range\":{\"columns\":[{\"name\":\"SEK\",\"dt\":\"number\"},{\"name\":\"EUR\",\"dt\":\"number\"},{\"name\":\"USD\",\"dt\":\"number\"}],\"rows\":[{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.35\",\"t\":\"10,35\"},{\"v\":\"9.51\",\"t\":\"9,51\"}]},{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.48\",\"t\":\"10,48\"},{\"v\":\"9.59\",\"t\":\"9,59\"}]}]}}", 
                     json);
             }
         }
@@ -71,7 +71,7 @@ namespace EPPlusTest.Export.JsonExport
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add($"Sheet2");
-                ws.SetValue(2, 1,"\"");
+                ws.SetValue(2, 1, "\"");
                 ws.SetValue(2, 2, "\r\n");
                 ws.SetValue(2, 3, "\f");
                 ws.SetValue(2, 4, "\t");
@@ -83,11 +83,11 @@ namespace EPPlusTest.Export.JsonExport
                 var tbl = ws.Tables.Add(ws.Cells["A1:G2"], $"tblGradient");
 
                 var s = tbl.ToJson();
-                Assert.AreEqual("{\"table\":{\"name\":\"tblGradient\",\"showHeader\":\"1\",\"showTotal\":\"0\",\"column\":[{\"Name\":\"Column1\",\"datatype\":\"string\"},{\"Name\":\"Column2\",\"datatype\":\"string\"},{\"Name\":\"Column3\",\"datatype\":\"string\"},{\"Name\":\"Column4\",\"datatype\":\"string\"},{\"Name\":\"Column5\",\"datatype\":\"string\"},{\"Name\":\"Column6\",\"datatype\":\"string\"},{\"Name\":\"Column7\",\"datatype\":\"string\"}],\"rows\":[{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\"},{\"v\":\"\\f\",\"t\":\"\\f\"},{\"v\":\"\\t\",\"t\":\"\\t\"},{\"v\":\"\\b\",\"t\":\"\\b\"},{\"v\":\"\\t\",\"t\":\"\\t\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\"}]}]}}"
+                Assert.AreEqual("{\"table\":{\"name\":\"tblGradient\",\"showHeader\":\"1\",\"showTotal\":\"0\",\"columns\":[{\"name\":\"Column1\",\"dt\":\"string\"},{\"name\":\"Column2\",\"dt\":\"string\"},{\"name\":\"Column3\",\"dt\":\"string\"},{\"name\":\"Column4\",\"dt\":\"string\"},{\"name\":\"Column5\",\"dt\":\"string\"},{\"name\":\"Column6\",\"dt\":\"string\"},{\"name\":\"Column7\",\"dt\":\"string\"}],\"rows\":[{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\"},{\"v\":\"\\f\",\"t\":\"\\f\"},{\"v\":\"\\t\",\"t\":\"\\t\"},{\"v\":\"\\b\",\"t\":\"\\b\"},{\"v\":\"\\t\",\"t\":\"\\t\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\"}]}]}}"
                     , s);
 
                 s = range.ToJson(x => x.FirstRowIsHeader = false);
-                Assert.AreEqual("{\"range\":{\"rows\":[{\"cells\":[{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"}]},{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\",\"dataType\":\"string\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\",\"dataType\":\"string\"},{\"v\":\"\\f\",\"t\":\"\\f\",\"dataType\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dataType\":\"string\"},{\"v\":\"\\b\",\"t\":\"\\b\",\"dataType\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dataType\":\"string\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\",\"dataType\":\"string\"}]}]}}}"
+                Assert.AreEqual("{\"range\":{\"rows\":[{\"cells\":[{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"},{\"t\":\"\"}]},{\"cells\":[{\"v\":\"\\\"\",\"t\":\"\\\"\",\"dt\":\"string\"},{\"v\":\"\\r\\n\",\"t\":\"\\r\\n\",\"dt\":\"string\"},{\"v\":\"\\f\",\"t\":\"\\f\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\b\",\"t\":\"\\b\",\"dt\":\"string\"},{\"v\":\"\\t\",\"t\":\"\\t\",\"dt\":\"string\"},{\"v\":\"\\u0000\",\"t\":\"\\u0000\",\"dt\":\"string\"}]}]}}"
                     , s);
             }
         }

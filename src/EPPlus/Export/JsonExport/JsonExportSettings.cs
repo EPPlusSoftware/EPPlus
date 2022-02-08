@@ -11,6 +11,10 @@ namespace OfficeOpenXml
     public abstract class JsonExportSettings
     {
         /// <summary>
+        /// If the json is minified when written.
+        /// </summary>
+        public bool Minify { get; set; } = true;
+        /// <summary>
         /// The name of the root element
         /// </summary>
         public abstract string RootElementName { get; set; }
@@ -42,7 +46,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Encoding for the output
         /// </summary>
-        public Encoding Encoding { get; set; } = Encoding.UTF8;
+        public Encoding Encoding { get; set; } = new UTF8Encoding(false);
     }
 
     public class JsonRangeExportSettings : JsonExportSettings
@@ -72,19 +76,19 @@ namespace OfficeOpenXml
         /// </summary>
         public override eDataTypeOn AddDataTypesOn { get; set; } = eDataTypeOn.OnColumn;
         /// <summary>
-        /// Write the column array element
+        /// If true the the column array element is written to the output
         /// </summary>
         public bool WriteColumnsElement { get; set; } = true;
         /// <summary>
-        /// Write the table Name attribute
+        /// If true the table Name attribute is written to the output.
         /// </summary>
         public bool WriteNameAttribute { get; set; } = true;
         /// <summary>
-        /// Write the ShowHeader attribute
+        /// If true the ShowHeader attribute is written to the output.
         /// </summary>
         public bool WriteShowHeaderAttribute { get; set; } = true;
         /// <summary>
-        /// Write the ShowHeader attribute
+        /// If true the ShowTotals attribute is written to the output.
         /// </summary>
         public bool WriteShowTotalsAttribute { get; set; } = true;
     }
