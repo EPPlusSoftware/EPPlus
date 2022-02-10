@@ -14,6 +14,7 @@ using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -37,7 +38,8 @@ namespace OfficeOpenXml.LoadFunctions
             _items = items;
             _keys = parameters.Keys;
             _headerParsingType = parameters.HeaderParsingType;
-            if(items == null || !items.Any())
+            _cultureInfo = parameters.Culture ?? CultureInfo.CurrentCulture;
+            if (items == null || !items.Any())
             {
                 _keys = Enumerable.Empty<string>();
             }
@@ -60,6 +62,7 @@ namespace OfficeOpenXml.LoadFunctions
         private readonly IEnumerable<string> _keys;
         private readonly eDataTypes[] _dataTypes;
         private readonly HeaderParsingTypes _headerParsingType;
+        private readonly CultureInfo _cultureInfo;
 
 #if !NET35 && !NET40
         private static IEnumerable<IDictionary<string, object>> ConvertToDictionaries(IEnumerable<dynamic> items)
@@ -127,7 +130,7 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 case eDataTypes.Percent:
                                 case eDataTypes.Number:
-                                    if(double.TryParse(v.ToString(), out double d))
+                                    if(double.TryParse(v.ToString(), NumberStyles.Float | NumberStyles.Number, _cultureInfo, out double d))
                                     {
                                         if(dataType == eDataTypes.Percent)
                                         {

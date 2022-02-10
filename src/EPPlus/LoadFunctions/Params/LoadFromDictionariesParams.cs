@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions.Params
@@ -34,6 +35,11 @@ namespace OfficeOpenXml.LoadFunctions.Params
         {
             Keys = keys;
         }
+
+        /// <summary>
+        /// Culture to be used when reading numbers/dates.
+        /// </summary>
+        public CultureInfo Culture { get; set; }
 
         /// <summary>
         /// Sets how headers should be parsed before added to the worksheet, see <see cref="HeaderParsingTypes"/>
