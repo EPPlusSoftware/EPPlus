@@ -104,12 +104,6 @@ namespace OfficeOpenXml.Filter
             }
             return false;
         }
-
-        private static void FindMatchingWildCards(string v1, string value, List<string> list, List<string> tokens, int v2, int stringPos, int v3, int tokenPos)
-        {
-            throw new NotImplementedException();
-        }
-
         private static List<string> SplitInTokens(string filter)
         {
             var ret = new List<string>();

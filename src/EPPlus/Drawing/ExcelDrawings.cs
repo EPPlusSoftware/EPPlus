@@ -932,7 +932,7 @@ namespace OfficeOpenXml.Drawing
         }
         public ExcelPicture AddPicture(string Name, string ImagePath)
         {
-            if (string.IsNullOrEmpty(ImagePath))
+            if (string.IsNullOrEmpty(ImagePath)==false)
             {
                 return AddPicture(Name, new FileInfo(ImagePath), null);
             }
@@ -947,7 +947,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink)
         {
-            if (string.IsNullOrEmpty(ImagePath))
+            if (string.IsNullOrEmpty(ImagePath)==false)
             {
                 return AddPicture(Name, new FileInfo(ImagePath), Hyperlink);
             }
