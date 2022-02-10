@@ -2312,8 +2312,27 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
+        /// Gets the typed value of a cell 
+        /// </summary>
+        /// <typeparam name="T">The returned type</typeparam>
+        /// <returns>The value of the cell</returns>
+        public T GetCellValue<T>()
+        {
+            return GetCellValue<T>(0, 0);
+        }
+        /// <summary>
         /// Gets the value of a cell using an offset from the top-left cell in the range.
         /// </summary>
+        /// <typeparam name="T">The returned type</typeparam>
+        /// <param name="columnOffset">Column offset from the top-left cell in the range</param>
+        public T GetCellValue<T>(int columnOffset)
+        {
+            return GetCellValue<T>(0, columnOffset);
+        }
+        /// <summary>
+        /// Gets the value of a cell using an offset from the top-left cell in the range.
+        /// </summary>
+        /// <typeparam name="T">The returned type</typeparam>
         /// <param name="rowOffset">Row offset from the top-left cell in the range</param>
         /// <param name="columnOffset">Column offset from the top-left cell in the range</param>
         public T GetCellValue<T>(int rowOffset, int columnOffset)

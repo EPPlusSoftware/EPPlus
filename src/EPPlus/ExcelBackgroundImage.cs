@@ -75,6 +75,19 @@ namespace OfficeOpenXml
             var imgBytes =File.ReadAllBytes(PictureFile.FullName);
             Image.SetImage(imgBytes, type);
         }
+        /// <summary>
+        /// Set the picture from an image file. 
+        /// </summary>
+        /// <param name="PictureFilePath">The path to the image file. Files of type .svg, .ico and .webp is not supported for background images</param>
+        public void SetFromFile(string PictureFilePath)
+        {
+            if (string.IsNullOrEmpty(PictureFilePath))
+            {
+                throw new ArgumentNullException("File path cannot be null.");
+            }
+            SetFromFile(new FileInfo(PictureFilePath));
+        }
+
         IPictureRelationDocument IPictureContainer.RelationDocument 
         { 
             get 

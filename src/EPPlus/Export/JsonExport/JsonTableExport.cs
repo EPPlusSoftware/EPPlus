@@ -12,7 +12,6 @@ namespace OfficeOpenXml
     internal partial class JsonTableExport : JsonExport
     {
         private ExcelTable _table;
-
         private JsonTableExportSettings _settings;
         internal JsonTableExport(ExcelTable table, JsonTableExportSettings settings) : base(settings)
         {
@@ -22,18 +21,20 @@ namespace OfficeOpenXml
         internal void Export(Stream stream)
         {
             StreamWriter sw = new StreamWriter(stream);
-            sw.Write($"{{\"{_settings.RootElementName}\":{{");
+            WriteStart(sw);
+            WriteItem(sw, $"\"{_settings.RootElementName}\":");
+            WriteStart(sw);
             if (_settings.WriteNameAttribute)
             {
-                sw.Write($"\"name\":\"{JsonEscape(_table.Name)}\",");
+                WriteItem(sw, $"\"name\":\"{JsonEscape(_table.Name)}\",");
             }
             if (_settings.WriteShowHeaderAttribute)
             {
-                sw.Write($"\"showHeader\":\"{(_table.ShowHeader ? "1" : "0")}\",");
+                WriteItem(sw, $"\"showHeader\":\"{(_table.ShowHeader ? "1" : "0")}\",");
             }
             if (_settings.WriteShowTotalsAttribute)
             {
-                sw.Write($"\"showTotal\":\"{(_table.ShowTotal ? "1" : "0")}\",");
+                WriteItem(sw, $"\"showTotal\":\"{(_table.ShowTotal ? "1" : "0")}\",");
             }
             if (_settings.WriteColumnsElement)
             {
@@ -46,19 +47,26 @@ namespace OfficeOpenXml
 
         private void WriteColumnData(StreamWriter sw)
         {
-            sw.Write($"\"{_settings.ColumnsElementName}\":[");
-            for(int i=0;i<_table.Columns.Count;i++)
+            WriteItem(sw, $"\"{_settings.ColumnsElementName}\":[", true);
+            for (int i = 0; i < _table.Columns.Count; i++)
             {
-                if (i > 0) sw.Write(",");
-                sw.Write($"{{\"Name\":\"{_table.Columns[i].Name}\"");
-                if(_settings.AddDataTypesOn==eDataTypeOn.OnColumn)
+                WriteStart(sw);
+                WriteItem(sw, $"\"name\":\"{_table.Columns[i].Name}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
+                if (_settings.AddDataTypesOn == eDataTypeOn.OnColumn)
                 {
                     var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(_table.DataRange.GetCellValue<object>(0, i));
-                    sw.Write($",\"datatype\":\"{dt}\"");                    
+                    WriteItem(sw, $"\"dt\":\"{dt}\"");
                 }
-                sw.Write("}");                
+                if(i == _table.Columns.Count-1)
+                {
+                    WriteEnd(sw, "}");
+                }
+                else
+                {
+                    WriteEnd(sw, "},");
+                }
             }
-            sw.Write("],");
+            WriteEnd(sw, "],");
         }
     }
 }

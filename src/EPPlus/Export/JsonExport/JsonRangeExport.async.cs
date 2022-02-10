@@ -10,8 +10,10 @@ namespace OfficeOpenXml
         internal async Task ExportAsync(Stream stream)
         {
             var sw = new StreamWriter(stream);
-            await sw.WriteAsync($"{{\"{_settings.RootElementName}\":{{");
-            if (_settings.FirstRowIsHeader || (_settings.AddDataTypesOn==eDataTypeOn.OnColumn && _range.Rows>1))
+            await WriteStartAsync(sw);
+            await WriteItemAsync(sw, $"\"{_settings.RootElementName}\":");
+            await WriteStartAsync(sw);
+            if (_settings.FirstRowIsHeader || (_settings.AddDataTypesOn == eDataTypeOn.OnColumn && _range.Rows > 1))
             {
                 await WriteColumnDataAsync(sw);
             }
@@ -22,26 +24,30 @@ namespace OfficeOpenXml
 
         private async Task WriteColumnDataAsync(StreamWriter sw)
         {
-            await sw.WriteAsync($"\"{_settings.ColumnsElementName}\":[");
+            await WriteItemAsync(sw, $"\"{_settings.ColumnsElementName}\":[", true);
             for (int i = 0; i < _range.Columns; i++)
             {
-                if (i > 0) await sw.WriteAsync(",");
-                await sw.WriteAsync("{");
+                await WriteStartAsync(sw);
                 if (_settings.FirstRowIsHeader)
                 {
-                    await sw.WriteAsync($"\"Name\":\"{_range.GetCellValue<string>(0,i)}\"");
+                    await WriteItemAsync(sw, $"\"name\":\"{_range.GetCellValue<string>(0, i)}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
                 }
-                if (_settings.AddDataTypesOn==eDataTypeOn.OnColumn)
+                if (_settings.AddDataTypesOn == eDataTypeOn.OnColumn)
                 {
-                    if (_settings.FirstRowIsHeader) sw.Write(",");
                     var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(1, i));
-                    await sw.WriteAsync($"\"dataType\":\"{dt}\"");
+                    await WriteItemAsync(sw, $"\"dt\":\"{dt}\"");
                 }
-                await sw.WriteAsync("}");
+                if (i == _range.Columns - 1)
+                {
+                    await WriteEndAsync(sw, "}");
+                }
+                else
+                {
+                    await WriteEndAsync(sw, "},");
+                }
             }
 
-
-            await sw.WriteAsync("],");
+            await WriteEndAsync(sw, "],");
         }
     }
 }

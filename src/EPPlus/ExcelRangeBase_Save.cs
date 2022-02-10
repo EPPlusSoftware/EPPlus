@@ -284,11 +284,22 @@ namespace OfficeOpenXml
         #endregion
         #region SaveToJson Async
 #if !NET35 && !NET40
+        /// <summary>
+        /// Save the range to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <returns></returns>
         public async Task SaveToJsonAsync(Stream stream)
         {
             var re = new JsonRangeExport(this, new JsonRangeExportSettings());
             await re.ExportAsync(stream);
         }
+        /// <summary>
+        /// Save the range to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <param name="settings">Settings for the json output.</param>
+        /// <returns></returns>
         public async Task SaveToJsonAsync(Stream stream, Action<JsonRangeExportSettings> settings)
         {
             var s = new JsonRangeExportSettings();

@@ -351,6 +351,34 @@ namespace OfficeOpenXml.Table
             await Range.SaveToTextAsync(file, format);
         }
 
+        /// <summary>
+        /// Save the table to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <returns></returns>
+        public async Task SaveToJsonAsync(Stream stream)
+        {
+            var s = new JsonTableExportSettings();
+            await SaveToJsonInternalAsync(stream, s);
+        }
+        /// <summary>
+        /// Save the table to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <param name="settings">Settings for the json output.</param>
+        /// <returns></returns>
+        public async Task SaveToJsonAsync(Stream stream, Action<JsonTableExportSettings> settings)
+        {
+            var s = new JsonTableExportSettings();
+            settings.Invoke(s);
+            await SaveToJsonInternalAsync(stream, s);
+        }        
+        private async Task SaveToJsonInternalAsync(Stream stream, JsonTableExportSettings s)
+        {
+            var exporter = new JsonTableExport(this, s);
+            await exporter.ExportAsync(stream);
+            await stream.FlushAsync();
+        }
 #endif
 
         /// <summary>
@@ -366,7 +394,6 @@ namespace OfficeOpenXml.Table
         {
             var s = new JsonTableExportSettings();
             return ToJsonString(s);
-
         }
         public string ToJson(Action<JsonTableExportSettings> settings)
         {
@@ -374,10 +401,29 @@ namespace OfficeOpenXml.Table
             settings.Invoke(s);
             return ToJsonString(s);
         }
+        public void SaveToJson(Stream stream)
+        {
+            var s = new JsonTableExportSettings();
+            SaveToJsonInternal(stream, s);
+        }
+        public void SaveToJson(Stream stream, Action<JsonTableExportSettings> settings)
+        {
+            var s = new JsonTableExportSettings();
+            settings.Invoke(s);
+            SaveToJsonInternal(stream, s);
+        }
+
+        private void SaveToJsonInternal(Stream stream, JsonTableExportSettings s)
+        {
+            var exporter = new JsonTableExport(this, s);
+            exporter.Export(stream);
+            stream.Flush();
+        }
+
         private string ToJsonString(JsonTableExportSettings s)
         {
             var exporter = new JsonTableExport(this, s);
-            var ms = new MemoryStream();
+            var ms = new MemoryStream();            
             exporter.Export(ms);
             return s.Encoding.GetString(ms.ToArray());
         }

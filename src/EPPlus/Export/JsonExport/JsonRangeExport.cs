@@ -21,7 +21,9 @@ namespace OfficeOpenXml
         internal void Export(Stream stream)
         {
             var sw = new StreamWriter(stream);
-            sw.Write($"{{\"{_settings.RootElementName}\":{{");
+            WriteStart(sw);
+            WriteItem(sw, $"\"{_settings.RootElementName}\":");
+            WriteStart(sw);
             if (_settings.FirstRowIsHeader || (_settings.AddDataTypesOn==eDataTypeOn.OnColumn && _range.Rows>1))
             {
                 WriteColumnData(sw);
@@ -33,26 +35,32 @@ namespace OfficeOpenXml
 
         private void WriteColumnData(StreamWriter sw)
         {
-            sw.Write($"\"{_settings.ColumnsElementName}\":[");
+            WriteItem(sw, $"\"{_settings.ColumnsElementName}\":[", true);
             for (int i = 0; i < _range.Columns; i++)
             {
-                if (i > 0) sw.Write(",");
-                sw.Write("{");
+                //if (i > 0) sw.Write(",");
+                //sw.Write("{");
+                WriteStart(sw);
                 if (_settings.FirstRowIsHeader)
                 {
-                    sw.Write($"\"Name\":\"{_range.GetCellValue<string>(0,i)}\"");
+                    WriteItem(sw, $"\"name\":\"{_range.GetCellValue<string>(0,i)}\"", false, _settings.AddDataTypesOn == eDataTypeOn.OnColumn);
                 }
                 if (_settings.AddDataTypesOn==eDataTypeOn.OnColumn)
                 {
-                    if (_settings.FirstRowIsHeader) sw.Write(",");
                     var dt = HtmlRawDataProvider.GetHtmlDataTypeFromValue(_range.GetCellValue<object>(1, i));
-                    sw.Write($"\"dataType\":\"{dt}\"");
+                    WriteItem(sw, $"\"dt\":\"{dt}\"");
                 }
-                sw.Write("}");
+                if (i == _range.Columns - 1)
+                {
+                    WriteEnd(sw, "}");
+                }
+                else
+                {
+                    WriteEnd(sw, "},");
+                }
             }
 
-
-            sw.Write("],");
+            WriteEnd(sw, "],");
         }
     }
 }

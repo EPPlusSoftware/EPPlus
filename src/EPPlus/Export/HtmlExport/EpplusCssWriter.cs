@@ -103,7 +103,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix)
         {
             var xfs = styles.CellXfs[styleId];
-            var ns = styles.GetNormalStyle();
             if (HasStyle(xfs))
             {
                 if (IsAddedToCache(xfs, out int id)==false)
@@ -115,6 +114,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                     if (xfs.FontId > 0)
                     {
+                        var ns = styles.GetNormalStyle();
                         WriteFontStyles(xfs.Font, ns.Style.Font);
                     }
                     if (xfs.BorderId > 0)
