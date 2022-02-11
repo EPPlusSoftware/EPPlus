@@ -335,6 +335,10 @@ namespace OfficeOpenXml.Style.XmlAccess
 
         private static float GetHeightByName(string name, float size)
         {
+            if(FontSize.FontHeights.ContainsKey(name)==false)
+            {
+                return GetHeightByName("Calibri", size);
+            }
             if (FontSize.FontHeights[name].ContainsKey(size))
             {
                 return FontSize.FontHeights[name][size].Height;

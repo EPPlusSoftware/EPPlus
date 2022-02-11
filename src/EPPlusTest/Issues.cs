@@ -3030,6 +3030,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void Issue592()
+        {
+            using (var p = OpenTemplatePackage("I592.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
 
     }
 }
