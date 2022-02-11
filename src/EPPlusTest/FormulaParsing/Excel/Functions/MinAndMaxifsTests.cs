@@ -84,6 +84,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         }
 
         [TestMethod]
+        public void MaxIfsShouldHandleNumericCriteriaWithOperator()
+        {
+            _worksheet.Cells["F1"].Formula = "MAXIFS(D3:D7, D3:D7,\">0\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(93d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
         public void MinIfsShouldHandleOneCriteria()
         {
             _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7,C3:C7,\"F\")";
@@ -113,6 +121,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7,C3:C7,\"P\")";
             _worksheet.Calculate();
             Assert.AreEqual(0d, _worksheet.Cells["F1"].Value); ;
+        }
+
+        [TestMethod]
+        public void MinIfsShouldHandleNumericCriteriaWithOperator()
+        {
+            _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7, D3:D7,\">0\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(64d, _worksheet.Cells["F1"].Value);
         }
     }
 }
