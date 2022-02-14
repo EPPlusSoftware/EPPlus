@@ -3039,7 +3039,18 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I594()
+        {
+            using (var p = OpenTemplatePackage("i594.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[1];
+                var tbl = ws.Tables[0];
+                tbl.AddRow(2);
 
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 

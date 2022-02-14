@@ -842,7 +842,7 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
 
-            WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false);
+            WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false, true);
 
             ExtendCalculatedFormulas(range);
 
@@ -970,7 +970,7 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow, _address._fromCol + position, _address._toRow, _address._fromCol + position + columns - 1);
             var range = new ExcelRangeBase(WorkSheet, address);
 
-            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, true);
+            WorksheetRangeInsertHelper.Insert(range, eShiftTypeInsert.Right, true, false);
 
             if (position == 0)
             {

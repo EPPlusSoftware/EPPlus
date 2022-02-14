@@ -1426,7 +1426,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                WorksheetRangeInsertHelper.Insert(this, shift, true);
+                WorksheetRangeInsertHelper.Insert(this, shift, true, false);
             }
         }
         /// <summary>
