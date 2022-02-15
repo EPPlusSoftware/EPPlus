@@ -23,6 +23,8 @@ namespace OfficeOpenXml.FormulaParsing
 
         object GetNamedValue(string key);
 
+        object GetNamedValue(string key, string worksheet);
+
         void Reload();
     }
 }

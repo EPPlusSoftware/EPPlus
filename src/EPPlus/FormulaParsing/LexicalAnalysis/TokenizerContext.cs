@@ -56,9 +56,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             get; private set;
         }
 
-        public TokenHandler CreateHandler()
+        public TokenHandler CreateHandler(INameValueProvider nameValueProvider)
         {
-            var handler = new TokenHandler(this, _tokenFactory, TokenSeparatorProvider.Instance);
+            var handler = new TokenHandler(this, _tokenFactory, TokenSeparatorProvider.Instance, nameValueProvider);
             handler.Worksheet = _worksheet;
             return handler;
         }
@@ -69,6 +69,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         public IList<Token> Result
         {
             get { return _result; }
+        }
+
+        internal string Worksheet
+        {
+            get { return _worksheet;}
         }
 
         /// <summary>
@@ -103,6 +108,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
             }
             return _tokenFactory.Create(Result, CurrentToken, worksheet);
+        }
+
+        internal void OverwriteCurrentToken(string token)
+        {
+            _currentToken = new StringBuilder(token);
         }
 
         public void PostProcess()
@@ -170,6 +180,12 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
 
         internal int BracketCount
+        {
+            get;
+            set;
+        }
+
+        internal bool IsInDefinedNameAddress
         {
             get;
             set;

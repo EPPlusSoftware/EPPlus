@@ -45,7 +45,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var parsingContext = ParsingContext.Create();
             var tokenFactory = new TokenFactory(parsingContext.Configuration.FunctionRepository, null);
             _tokenizerContext = new TokenizerContext("test", null, tokenFactory);
-            _handler = _tokenizerContext.CreateHandler();
+            _handler = _tokenizerContext.CreateHandler(NameValueProvider.Empty);
         }
 
 

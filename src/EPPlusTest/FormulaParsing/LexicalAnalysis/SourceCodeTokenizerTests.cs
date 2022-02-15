@@ -48,7 +48,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void Setup()
         {
             var context = ParsingContext.Create();
-            _tokenizer = new SourceCodeTokenizer(context.Configuration.FunctionRepository, null);
+            _tokenizer = new SourceCodeTokenizer(context.Configuration.FunctionRepository, OfficeOpenXml.FormulaParsing.NameValueProvider.Empty);
         }
 
         [TestCleanup]

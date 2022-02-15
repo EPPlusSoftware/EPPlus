@@ -23,13 +23,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
     /// </summary>
     public class TokenSeparatorHandler
     {
-        public TokenSeparatorHandler(ITokenSeparatorProvider tokenSeparatorProvider)
+        public TokenSeparatorHandler(ITokenSeparatorProvider tokenSeparatorProvider, INameValueProvider nameValueProvider)
             : this(new SeparatorHandler[]
                 {
                     new StringHandler(),
                     new BracketHandler(),
                     new SheetnameHandler(),
-                    new MultipleCharSeparatorHandler(tokenSeparatorProvider)
+                    new MultipleCharSeparatorHandler(tokenSeparatorProvider, nameValueProvider),
+                    new DefinedNameAddressHandler(nameValueProvider)
                 }){}
 
         public TokenSeparatorHandler(params SeparatorHandler[] handlers)

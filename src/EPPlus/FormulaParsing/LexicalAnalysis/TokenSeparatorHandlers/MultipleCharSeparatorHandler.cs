@@ -15,21 +15,24 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
 {
     public class MultipleCharSeparatorHandler : SeparatorHandler
     {
         ITokenSeparatorProvider _tokenSeparatorProvider;
+        INameValueProvider _nameValueProvider;
 
-        public MultipleCharSeparatorHandler()
-            : this(new TokenSeparatorProvider())
+        public MultipleCharSeparatorHandler(INameValueProvider nameValueProvider)
+            : this(new TokenSeparatorProvider(), nameValueProvider)
         {
 
         }
-        public MultipleCharSeparatorHandler(ITokenSeparatorProvider tokenSeparatorProvider)
+        public MultipleCharSeparatorHandler(ITokenSeparatorProvider tokenSeparatorProvider, INameValueProvider nameValueProvider)
         {
             _tokenSeparatorProvider = tokenSeparatorProvider;
+            _nameValueProvider = nameValueProvider;
         }
         public override bool Handle(char c, Token tokenSeparator, TokenizerContext context, ITokenIndexProvider tokenIndexProvider)
         {
@@ -42,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                 context.NewToken();
                 return true;
             }
-            if(c==':')
+            if (c == ':')
             {
                 HandleAddressSeparatorToken(c, tokenSeparator, context);
                 return true;
@@ -50,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
             return false;
         }
 
-        private static void HandleAddressSeparatorToken(char c, Token tokenSeparator, TokenizerContext context)
+        private bool HandleAddressSeparatorToken(char c, Token tokenSeparator, TokenizerContext context)
         {
             if (context.LastToken != null && context.LastToken.Value.Value == ")")
             {
@@ -58,8 +61,22 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
             }
             else
             {
+                if(_nameValueProvider.IsNamedValue(context.CurrentToken, context.Worksheet))
+                {
+                    var nameValue = _nameValueProvider.GetNamedValue(context.CurrentToken, context.Worksheet);
+                    if(nameValue != null)
+                    {
+                        if(nameValue is ExcelDataProvider.IRangeInfo rangeInfo)
+                        {
+                            context.IsInDefinedNameAddress = true;
+                            context.OverwriteCurrentToken(rangeInfo.Address.Address + ":");
+                            return true;
+                        }
+                    }
+                }
                 context.AppendToCurrentToken(c);
             }
+            return false;
         }
 
         private bool IsPartOfMultipleCharSeparator(TokenizerContext context, char c)
