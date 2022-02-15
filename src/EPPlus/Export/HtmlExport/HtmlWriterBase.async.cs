@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         protected internal static string GetStyleKey(ExcelXfs xfs)
         {
-            var fbfKey = (ulong)(xfs.FontId << 32 | xfs.BorderId << 16 | xfs.FillId);
+            var fbfKey = ((ulong)(uint)xfs.FontId << 32 | (uint)xfs.BorderId << 16 | (uint)xfs.FillId);
             return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0");
         }
 

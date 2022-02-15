@@ -122,7 +122,22 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             if (xfs.TextRotation != 0 && _cssExclude.TextRotation == false)
             {
-                await WriteCssItemAsync($"transform: rotate({xfs.TextRotation}deg);", _settings.Minify);
+                if (xfs.TextRotation == 255)
+                {
+                    await WriteCssItemAsync($"writing-mode:vertical-lr;;", _settings.Minify);
+                    await WriteCssItemAsync($"text-orientation:upright;", _settings.Minify);
+                }
+                else
+                {
+                    if (xfs.TextRotation > 90)
+                    {
+                        await WriteCssItemAsync($"transform:rotate({xfs.TextRotation - 90}deg);", _settings.Minify);
+                    }
+                    else
+                    {
+                        await WriteCssItemAsync($"transform:rotate({360 - xfs.TextRotation}deg);", _settings.Minify);
+                    }
+                }
             }
 
             if (xfs.Indent > 0 && _cssExclude.Indent == false)

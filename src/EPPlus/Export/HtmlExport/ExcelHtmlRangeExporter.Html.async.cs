@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
-
+            _mergedCells.Clear();
             GetDataTypes();
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
@@ -113,8 +113,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     if (InMergeCellSpan(row, col)) continue;
                     var colIx = col - _range._fromCol;
-                    var dataType = _datatypes[colIx];
                     var cell = ws.Cells[row, col];
+                    var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
                     SetColRowSpan(writer, cell);
                     if (cell.Hyperlink == null)
