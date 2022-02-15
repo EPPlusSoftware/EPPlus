@@ -916,9 +916,9 @@ namespace OfficeOpenXml
         {
             return fromCol <= _fromCol && toCol >= _toCol;
         }
-        internal ExcelAddressBase AddRow(int row, int rows, bool setFixed=false, bool setRefOnMinMax=true)
+        internal ExcelAddressBase AddRow(int row, int rows, bool setFixed=false, bool setRefOnMinMax=true, bool extendIfLastRow=false)
         {
-            if (row > _toRow)
+            if (row > _toRow && (row!=_toRow+1 || extendIfLastRow==false))
             {
                 return this;
             }

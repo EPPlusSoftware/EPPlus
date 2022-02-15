@@ -1,4 +1,13 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.6
+### Fixed issues
+* Rounding functions now returns 0 when referencing empty cells
+* Copying elements in vml files caused attributes to lose there name space and create a duplicate.
+* Removed most fonts from the FontSize class and lazy-load them when needed to avoid memory spikes.
+* Pie chart with horizontal serie direction did not use different colors when the VaryColors property was set.
+* ExcelWorksheet.Dimension didn't correctly determine sheet dimension if data resides on last excel row.
+* Hyperlinks referencing multiple cells was only loaded for the first cells in a range.
+* Improve SUBTOTAL handling of cells hidden by filters.
 
 ## Version 5.8.5
 ### Minor Features.

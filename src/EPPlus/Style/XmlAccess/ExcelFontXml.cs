@@ -335,6 +335,10 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             name = name.StartsWith("@") ? name.Substring(1) : name;
             return Convert.ToSingle(ExcelWorkbook.GetHeightPixels(name, size));
+            if(FontSize.FontHeights.ContainsKey(name)==false)
+            {
+                return GetHeightByName("Calibri", size);
+            }
         }
         internal ExcelFontXml Copy()
         {

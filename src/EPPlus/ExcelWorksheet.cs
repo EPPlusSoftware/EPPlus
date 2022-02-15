@@ -175,6 +175,8 @@ namespace OfficeOpenXml
         /// </summary>
         public void ClearFormulas()
         {
+            if (Dimension == null) return;
+
             var formulaCells = new CellStoreEnumerator<object>(_formulas, Dimension.Start.Row, Dimension.Start.Column, Dimension.End.Row, Dimension.End.Column);
             while (formulaCells.Next())
             {
@@ -483,7 +485,7 @@ namespace OfficeOpenXml
         /// The unique identifier for the worksheet.
         /// </summary>
         internal int SheetId { get { return (_sheetID); } set { _sheetID = value; } }
-
+        internal bool IsChartSheet { get; set; } = false;
         internal static bool NameNeedsApostrophes(string ws)
         {
             if (ws[0] >= '0' && ws[0]<='9')

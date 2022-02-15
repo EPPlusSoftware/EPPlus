@@ -36,14 +36,14 @@ namespace OfficeOpenXml.FormulaParsing
         {
             foreach(var worksheet in _workbook.Worksheets)
             {
-                if (worksheet is ExcelChartsheet) continue;
+                if (worksheet.IsChartSheet) continue;
                 if(worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
                 {
                     _worksheetFilters.Add(worksheet.Name);
                     continue;
                 }
                 foreach(var table in worksheet.Tables)
-                {
+                {                    
                     if(table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
                     {
                         if(!_worksheetFilters.Contains(worksheet.Name))
