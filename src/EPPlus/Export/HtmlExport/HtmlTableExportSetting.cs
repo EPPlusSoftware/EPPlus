@@ -186,6 +186,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If true data-* attributes will be rendered
         /// </summary>
         public bool RenderDataAttributes { get; set; } = true;
+        /// <summary>
+        /// If true, data types are renedered on the header objects.
+        /// </summary>
+        public bool RenderDataTypes { get; set; } = true;
+
 
         public CssTableExportSettings Css { get; } = new CssTableExportSettings();
 

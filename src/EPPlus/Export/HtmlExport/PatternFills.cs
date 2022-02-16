@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal const string ThinDiagonalStripe =        "<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='{0}'/><rect x='2' y='0' width='1' height='1' fill='{1}'/><rect x='1' y='1' width='1' height='1' fill='{1}'/><rect x='0' y='2' width='1' height='1' fill='{1}'/><rect x='3' y='3' width='1' height='1' fill='{1}'/></svg>";
         
         internal const string DiagonalCrosshatch =        "<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='{0}'/><rect x='2' y='0' width='2' height='1' fill='{1}'/><rect x='2' y='0' width='2' height='2' fill='{1}'/><rect x='0' y='2' width='2' height='2' fill='{1}'/></svg>";                
-        internal const string ThickDiagonalCrosshatch =   "<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='{0}'/><rect x='2' y='0' width='2' height='1' fill='{1}'/><rect x='0' y='1' width='4' height='1' fill='{1}'/><rect x='0' y='2' width='2' height='1' fill='{1}'/><rect x='0' y='3' width='4' height='1' fill='{1}'/></svg>";        
+        internal const string ThickDiagonalCrosshatch =   "<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='{0}'/><rect x='2' y='0' width='2' height='1' fill='{1}'/><rect x='0' y='1' width='4' height='1' fill='{1}'/><rect x='0' y='2' width='2' height='1' fill='{1}'/><rect x='0' y='3' width='4' height='1' fill='{1}'/></svg>";
         internal const string ThinHorizontalCrosshatch =  "<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='{0}'/><rect x='3' y='0' width='1' height='1' fill='{1}'/><rect x='0' y='1' width='4' height='1' fill='{1}'/><rect x='3' y='2' width='1' height='1' fill='{1}'/><rect x='3' y='3' width='1' height='1' fill='{1}'/></svg>";        
         internal const string ThinDiagonalCrosshatch =    "<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='{0}'/><rect x='0' y='0' width='1' height='1' fill='{1}'/><rect x='2' y='0' width='1' height='1' fill='{1}'/><rect x='3' y='1' width='1' height='1' fill='{1}'/><rect x='0' y='2' width='1' height='1' fill='{1}'/><rect x='2' y='2' width='1' height='1' fill='{1}'/><rect x='1' y='3' width='1' height='1' fill='{1}'/></svg>";
 
@@ -47,55 +47,55 @@ namespace OfficeOpenXml.Export.HtmlExport
             switch (patternType)
             {
                 case ExcelFillStyle.DarkGray:
-                    svg = string.Format(PatternFills.Dott75, backgroundColor, patternColor);
+                    svg = string.Format(Dott75, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.MediumGray:
-                    svg = string.Format(PatternFills.Dott50, backgroundColor, patternColor);
+                    svg = string.Format(Dott50, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.LightGray:
-                    svg = string.Format(PatternFills.Dott25, backgroundColor, patternColor);
+                    svg = string.Format(Dott25, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.Gray125:
-                    svg = string.Format(PatternFills.Dott12_5, backgroundColor, patternColor);
+                    svg = string.Format(Dott12_5, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.Gray0625:
-                    svg = string.Format(PatternFills.Dott6_25, backgroundColor, patternColor);
+                    svg = string.Format(Dott6_25, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.DarkHorizontal:
-                    svg = string.Format(PatternFills.HorizontalStripe, backgroundColor, patternColor);
+                    svg = string.Format(HorizontalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.DarkVertical:
-                    svg = string.Format(PatternFills.VerticalStripe, backgroundColor, patternColor);
+                    svg = string.Format(VerticalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.LightHorizontal:
-                    svg = string.Format(PatternFills.ThinHorizontalStripe, backgroundColor, patternColor);
+                    svg = string.Format(ThinHorizontalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.LightVertical:
-                    svg = string.Format(PatternFills.ThinVerticalStripe, backgroundColor, patternColor);
+                    svg = string.Format(ThinVerticalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.DarkDown:
-                    svg = string.Format(PatternFills.ReverseDiagonalStripe, backgroundColor, patternColor);
+                    svg = string.Format(ReverseDiagonalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.DarkUp:
-                    svg = string.Format(PatternFills.DiagonalStripe, backgroundColor, patternColor);
+                    svg = string.Format(DiagonalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.LightDown:
-                    svg = string.Format(PatternFills.ThinReverseDiagonalStripe, backgroundColor, patternColor);
+                    svg = string.Format(ThinReverseDiagonalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.LightUp:
-                    svg = string.Format(PatternFills.ThinDiagonalStripe, backgroundColor, patternColor);
+                    svg = string.Format(ThinDiagonalStripe, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.DarkGrid:
-                    svg = string.Format(PatternFills.DiagonalCrosshatch, backgroundColor, patternColor);
+                    svg = string.Format(DiagonalCrosshatch, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.DarkTrellis:
-                    svg = string.Format(PatternFills.ThickDiagonalCrosshatch, backgroundColor, patternColor);
+                    svg = string.Format(ThickDiagonalCrosshatch, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.LightGrid:
-                    svg = string.Format(PatternFills.ThinHorizontalCrosshatch, backgroundColor, patternColor);
+                    svg = string.Format(ThinHorizontalCrosshatch, patternColor, backgroundColor);
                     break;
                 case ExcelFillStyle.LightTrellis:
-                    svg = string.Format(PatternFills.ThinDiagonalCrosshatch, backgroundColor, patternColor);
+                    svg = string.Format(ThinDiagonalCrosshatch, patternColor, backgroundColor);
                     break;
                 default:
                     return "";

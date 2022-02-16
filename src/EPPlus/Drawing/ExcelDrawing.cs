@@ -605,7 +605,7 @@ namespace OfficeOpenXml.Drawing
                 return new ExcelShape(drawings, node, parent);
             }
         }
-
+            
         private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
         {
             var idNode = drawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr/@id", nameSpaceManager);

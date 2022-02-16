@@ -53,8 +53,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
-                InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws);
-                InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws);
+                InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
+                InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(range, ws, rowFrom, rows);
 
@@ -109,8 +109,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Right);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Right);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Right, affectedAddress);
-                InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws);
-                InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws);
+                InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
+                InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(range, ws, columnFrom, columns);
 
@@ -161,7 +161,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy)
+        internal static void Insert(ExcelRangeBase range, eShiftTypeInsert shift, bool styleCopy, bool isTable)
         {
             ValidateInsert(range, shift);
 
@@ -194,8 +194,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertTableAddress(ws, range, shift, effectedAddress);
                 InsertPivottableAddress(ws, range, shift, effectedAddress);
 
-                InsertDataValidation(range, shift, effectedAddress, ws);
-                InsertConditionalFormatting(range, shift, effectedAddress, ws);
+                InsertDataValidation(range, shift, effectedAddress, ws, isTable);
+                InsertConditionalFormatting(range, shift, effectedAddress, ws, isTable);
 
                 InsertSparkLinesAddress(range, shift, effectedAddress);
 
@@ -210,13 +210,13 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void InsertConditionalFormatting(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
+        private static void InsertConditionalFormatting(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
             var delCF = new List<ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>();
             //Update Conditional formatting references
             foreach (var cf in ws.ConditionalFormatting)
             {
-                var newAddress = InsertSplitAddress(cf.Address, range, effectedAddress, shift);
+                var newAddress = InsertSplitAddress(cf.Address, range, effectedAddress, shift, isTable);
                 if(newAddress==null)
                 {
                     delCF.Add(cf);
@@ -233,13 +233,13 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws)
+        private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
             var delDV = new List<DataValidation.Contracts.IExcelDataValidation>();
             //Update data validation references
             foreach (var dv in ws.DataValidations)
             {
-                var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift);
+                var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift, isTable);
                 if (newAddress == null)
                 {
                     delDV.Add(dv);
@@ -328,29 +328,29 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
-        private static ExcelAddressBase InsertSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        private static ExcelAddressBase InsertSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift, bool isTable)
         {
             if (address.Addresses == null)
             {
-                return InsertSplitIndividualAddress(address, range, effectedAddress, shift);
+                return InsertSplitIndividualAddress(address, range, effectedAddress, shift, isTable);
             }
             else
             {
                 var newAddress = "";
                 foreach (var a in address.Addresses)
                 {
-                    newAddress += InsertSplitIndividualAddress(a, range, effectedAddress, shift) + ",";
+                    newAddress += InsertSplitIndividualAddress(a, range, effectedAddress, shift, isTable) + ",";
                 }
                 return new ExcelAddressBase(newAddress.Substring(0, newAddress.Length - 1));
             }
 
         }
 
-        private static ExcelAddressBase InsertSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)
+        private static ExcelAddressBase InsertSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift, bool isTable)
         {
             if (address.CollideFullColumn(range._fromCol, range._toCol) && (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
             {
-                return address.AddRow(range._fromRow, range.Rows,false,false);
+                return address.AddRow(range._fromRow, range.Rows,false,false, isTable);
             }
             else if (address.CollideFullRow(range._fromRow, range._toRow) && (shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn))
             {
@@ -655,7 +655,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         var a = new ExcelAddressBase(f.Address);
                         var c = effectedAddress.Collide(a);
-                        if(c==ExcelAddressBase.eAddressCollition.Partly)
+                        if(c==ExcelAddressBase.eAddressCollition.Partly && (effectedAddress._fromCol>a._fromCol || effectedAddress._toCol<a._toCol))
                         {
                             throw new Exception("Invalid shared formula"); //This should never happend!
                         }

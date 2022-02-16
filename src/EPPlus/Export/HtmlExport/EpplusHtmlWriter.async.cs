@@ -42,8 +42,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             else
             {
                 await _writer.WriteAsync(">");
+                _elementStack.Push(elementName);
             }
-            _elementStack.Push(elementName);
         }
 
         public async Task RenderEndTagAsync()

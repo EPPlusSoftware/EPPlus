@@ -25,10 +25,10 @@
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 		## Version 6.0.0
 
-		## Version 5.8.5
+		## Version 5.8.6
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-
-        ## Version 5.8.5
+		
+		## Version 5.8.5
 		* Bug fixes. 
 
 		## Version 5.8.4
@@ -195,73 +195,72 @@
 		
         6.0.0-nrybeta
 		* Box &amp; Whisker Chart
-		* Region Map Chart.
-		* Support for 49 new functions in the formula calc engine, mainly finance and engineering.
-		* Bug fixes
+      * Region Map Chart.
+      * Support for 49 new functions in the formula calc engine, mainly finance and engineering.
+      * Bug fixes
 
-		New features in version 5.0 and 5.1:
-		* Extensively improved chart and drawing functionality/styling
-		* Theme support
-		* Filter support
-		* Async / Await support for I/O operations
-		* Ignore Error on cells
-		* Improvements of the formula calc engine and over 100 new supported functions
-		* Refactored/improved codebase
-		* Insert/Delete in ranges and tables.
+      New features in version 5.0 and 5.1:
+      * Extensively improved chart and drawing functionality/styling
+      * Theme support
+      * Filter support
+      * Async / Await support for I/O operations
+      * Ignore Error on cells
+      * Improvements of the formula calc engine and over 100 new supported functions
+      * Refactored/improved codebase
+      * Insert/Delete in ranges and tables.
 
-		Breaking Changes
-		* LoadFromCollection changes the data type of parameter 'TableStyle' from 'TableStyles' to 'TableStyles?'. The default value, if omitted, changes from 'TableStyles.None' to null. 'TableStyles.None', if supplied will create a table with style None.
-		* The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
-		* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
-		* Pivot tables will always refresh on load.
-		* Adding and inserting table row will now copy styles from the row above.
-		* ...and more, see https://epplussoftware.com/docs/5.8/articles/breakingchanges.html
+      Breaking Changes
+      * LoadFromCollection changes the data type of parameter 'TableStyle' from 'TableStyles' to 'TableStyles?'. The default value, if omitted, changes from 'TableStyles.None' to null. 'TableStyles.None', if supplied will create a table with style None.
+      * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
+      * Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
+      * Pivot tables will always refresh on load.
+      * Adding and inserting table row will now copy styles from the row above.
+      * ...and more, see https://epplussoftware.com/docs/5.8/articles/breakingchanges.html
 
-		Worksheets collection behavior in .NET Framework
-		The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
-		For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
-		For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-5.0
-		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
+      Worksheets collection behavior in .NET Framework
+      The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same behavior as in .NET Core.
+      For backward compatibility the property IsWorksheets1Based can be set to true, to have the same behavior as in previous version of EPPlus. This property can also be set in the app.config.
+      For more details see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-5.0
+      A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
-		Version history
-		5.8.6 20220203 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-		5.8.5 20220113 Minor features and bug fixes.
-		5.8.4 20211214 Minor features and bug fixes.
-		5.8.3 20211119 Minor bug fixes.
-		5.8.2 20211029 Minor bug fixes.
-		5.8.1 20211026 Minor bug fixes.
-		5.8.0 20211021 Range.Fill methods, Range Rows and Column Collection, Range.Copy improvments and Worksheet Split Panes.
-		5.7.5 20210921 Minor bug fixes.
-		5.7.4 20210826 Minor bug fixes.
-		5.7.3 20210810 Minor bug fixes.
-		5.7.2 20210722 Minor bug fixes.
-		5.7.1 20210706 Minor bug fixes.
-		5.7.0 20210617 External links. Better sorting support. Pivot table ShowAs
-		5.6.4 20210512 Minor bug fixes.
-		5.6.3 20210416 Minor bug fixes.
-		5.6.2 20210407 Minor bug fixes.
-		5.6.1 20210322 Minor bug fixes.
-		5.6.0 20210315 Custom table styles. Pivot table styling. Table styling enhancements.
-		5.5.5 20210223 Minor bug fixes.
-		5.5.4 20210216 Minor bug fixes.
-		5.5.3 20210206 Minor bug fixes.
-		5.5.2 20210118 Minor bug fixes.
-		5.5.1 20210111 Minor features and bug fixes.
-		5.5.0 20201218 Form Controls.
-		5.4.2 20201119 Minor features and bug fixes.
-		5.4.1 20201105 Minor features and bug fixes.
-		5.4.0 20201008 Table- and Pivot Table- Slicers. Pivot Table Filters.
-		5.3.2 20200914 Bug fixes.
-		5.3.1 20200902 Minor features and bug fixes.
-		5.3.0 20200819 Support for threaded comment with mentions. Minor feature and bug fixes.
-		5.2.1 20200722 Minor features and bug fixes.
-		5.2.0 20200623 Support for 12 new chart types. Minor features and bug fixes.
-		5.1.2 20200513 Minor features and bug fixes.
-		5.1.1 20200427 Minor bug fixes.
-		5.1.0 20200401 Insert, Delete in Ranges and Tables. Minor bug fixes.
-		5.0.4 20200310 Minor bug fixes.
-		5.0.3 20200308 Initial release EPPlus 5
-	</PackageReleaseNotes>
+      Version history
+      5.8.5 20220113 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+      5.8.4 20211214 Minor features and bug fixes. 
+      5.8.3 20211119 Minor bug fixes.
+      5.8.2 20211029 Minor bug fixes.
+      5.8.1 20211026 Minor bug fixes.
+      5.8.0 20211021 Range.Fill methods, Range Rows and Column Collection, Range.Copy improvments and Worksheet Split Panes.
+      5.7.5 20210921 Minor bug fixes.
+      5.7.4 20210826 Minor bug fixes.
+      5.7.3 20210810 Minor bug fixes.
+      5.7.2 20210722 Minor bug fixes.
+      5.7.1 20210706 Minor bug fixes.
+      5.7.0 20210617 External links. Better sorting support. Pivot table ShowAs
+      5.6.4 20210512 Minor bug fixes.
+      5.6.3 20210416 Minor bug fixes.
+      5.6.2 20210407 Minor bug fixes.
+      5.6.1 20210322 Minor bug fixes.
+      5.6.0 20210315 Custom table styles. Pivot table styling. Table styling enhancements.
+      5.5.5 20210223 Minor bug fixes.
+      5.5.4 20210216 Minor bug fixes.
+      5.5.3 20210206 Minor bug fixes.
+      5.5.2 20210118 Minor bug fixes.
+      5.5.1 20210111 Minor features and bug fixes.
+      5.5.0 20201218 Form Controls.
+      5.4.2 20201119 Minor features and bug fixes.
+      5.4.1 20201105 Minor features and bug fixes.
+      5.4.0 20201008 Table- and Pivot Table- Slicers. Pivot Table Filters.
+      5.3.2 20200914 Bug fixes.
+      5.3.1 20200902 Minor features and bug fixes.
+      5.3.0 20200819 Support for threaded comment with mentions. Minor feature and bug fixes.
+      5.2.1 20200722 Minor features and bug fixes.
+      5.2.0 20200623 Support for 12 new chart types. Minor features and bug fixes.
+      5.1.2 20200513 Minor features and bug fixes.
+      5.1.1 20200427 Minor bug fixes.
+      5.1.0 20200401 Insert, Delete in Ranges and Tables. Minor bug fixes.
+      5.0.4 20200310 Minor bug fixes.
+      5.0.3 20200308 Initial release EPPlus 5
+    </PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
     <NeutralLanguage />

@@ -161,8 +161,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     if (InMergeCellSpan(row, col)) continue;
                     var colIx = col - _range._fromCol;
-                    var dataType = _datatypes[colIx];
                     var cell = ws.Cells[row, col];
+                    var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
                     SetColRowSpan(writer, cell);
                     if (cell.Hyperlink == null)
