@@ -51,6 +51,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             Hidden = GetXmlNodeBool(hiddenPath);
             Locked = GetXmlNodeBool(lockedPath,true);
             QuotePrefix = GetXmlNodeBool(quotePrefixPath);
+            JustifyLastLine = GetXmlNodeBool(justifyLastLine);
         }
 
         private ExcelReadingOrder GetReadingOrder(string value)
@@ -205,6 +206,11 @@ namespace OfficeOpenXml.Style.XmlAccess
         /// Vertical alignment
         /// </summary>
         public ExcelVerticalAlignment VerticalAlignment { get; set; } = ExcelVerticalAlignment.Bottom;
+        const string justifyLastLine = "d:alignment/@justifyLastLine";
+        /// <summary>
+        /// If the cells justified or distributed alignment should be used on the last line of text
+        /// </summary>
+        public bool JustifyLastLine { get; set; } = false;
         const string wrapTextPath = "d:alignment/@wrapText";
 
         /// <summary>
@@ -292,7 +298,7 @@ namespace OfficeOpenXml.Style.XmlAccess
 
             get
             {
-                return XfId + "|" + NumberFormatId.ToString() + "|" + FontId.ToString() + "|" + FillId.ToString() + "|" + BorderId.ToString() + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + isBuildIn.ToString() + TextRotation.ToString() + Locked.ToString() + Hidden.ToString() + ShrinkToFit.ToString() + Indent.ToString() + QuotePrefix.ToString(); 
+                return XfId + "|" + NumberFormatId.ToString() + "|" + FontId.ToString() + "|" + FillId.ToString() + "|" + BorderId.ToString() + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + isBuildIn.ToString() + TextRotation.ToString() + Locked.ToString() + Hidden.ToString() + ShrinkToFit.ToString() + Indent.ToString() + QuotePrefix.ToString() + JustifyLastLine.ToString(); 
                 //return Numberformat.Id + "|" + Font.Id + "|" + Fill.Id + "|" + Border.Id + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString(); 
             }
         }
@@ -318,6 +324,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             newXF.Locked = Locked;
             newXF.Hidden = Hidden;
             newXF.QuotePrefix = QuotePrefix;
+            newXF.JustifyLastLine = JustifyLastLine;
             return newXF;
         }
 
@@ -392,6 +399,9 @@ namespace OfficeOpenXml.Style.XmlAccess
                             break;
                         case eStyleProperty.QuotePrefix:
                             newXfs.QuotePrefix = (bool)value;
+                            break;
+                        case eStyleProperty.JustifyLastLine:
+                            newXfs.JustifyLastLine = (bool)value;
                             break;
                         default:
                             throw (new Exception("Invalid property for class style."));
@@ -779,8 +789,9 @@ namespace OfficeOpenXml.Style.XmlAccess
             if (!Locked) this.SetXmlNodeString(lockedPath, "0");
             if (Hidden) this.SetXmlNodeString(hiddenPath, "1");
             if (QuotePrefix) this.SetXmlNodeString(quotePrefixPath, "1");
+            if(JustifyLastLine) this.SetXmlNodeString(justifyLastLine, "1");
 
-            if((Locked || Hidden) && doSetXfId)
+            if ((Locked || Hidden) && doSetXfId)
             {
                 SetXmlNodeString("@applyProtection", "1");
             }

@@ -52,6 +52,7 @@ namespace OfficeOpenXml.Style
         Indent,
         QuotePrefix,
         Theme,
-        Charset
+        Charset,
+        JustifyLastLine
     }
 }
