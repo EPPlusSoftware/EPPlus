@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Logging;
+using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -86,6 +87,7 @@ namespace OfficeOpenXml.FormulaParsing
             context.Configuration = ParsingConfiguration.Create();
             context.Scopes = new ParsingScopes(context);
             context.AddressCache = new ExcelAddressCache();
+            context.NameValueProvider = NvProvider.Empty;
             return context;
         }
 

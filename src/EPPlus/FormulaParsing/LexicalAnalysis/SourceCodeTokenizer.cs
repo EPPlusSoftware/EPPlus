@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false)
             : this(new TokenFactory(functionRepository, nameValueProvider, r1c1))
         {
-
+            _nameValueProvider = nameValueProvider;
         }
         public SourceCodeTokenizer(ITokenFactory tokenFactory)
         {
@@ -44,6 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
 
         private readonly ITokenFactory _tokenFactory;
+        private readonly INameValueProvider _nameValueProvider;
 
         public IEnumerable<Token> Tokenize(string input)
         {
@@ -58,7 +59,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             // MA 1401: Ignore leading plus in formula.
             input = input.TrimStart('+');
             var context = new TokenizerContext(input, worksheet, _tokenFactory);
-            var handler = context.CreateHandler();
+            var handler = context.CreateHandler(_nameValueProvider);
             while (handler.HasMore())
             {
                 handler.Next();

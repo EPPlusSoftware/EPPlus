@@ -3044,14 +3044,7 @@ namespace OfficeOpenXml
                     sw.Write($" outlineLevel=\"{col.OutlineLevel}\" ");
                     if (col.Collapsed)
                     {
-                        if (col.Hidden)
-                        {
-                            sw.Write(" collapsed=\"1\"");
-                        }
-                        else
-                        {
-                            sw.Write(" collapsed=\"1\" hidden=\"1\""); //Always hidden
-                        }
+                        sw.Write(" collapsed=\"1\"");
                     }
                 }
                 if (col.Phonetic)

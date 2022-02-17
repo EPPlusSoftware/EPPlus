@@ -62,6 +62,11 @@ namespace OfficeOpenXml.FormulaParsing
             return _values[key];
         }
 
+        public virtual object GetNamedValue(string key, string worksheet)
+        {
+            return _excelDataProvider.GetName(worksheet, key)?.Value;
+        }
+
         public virtual void Reload()
         {
             _values = _excelDataProvider.GetWorkbookNameValues();
