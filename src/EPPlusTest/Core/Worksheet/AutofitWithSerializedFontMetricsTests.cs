@@ -374,6 +374,100 @@ namespace EPPlusTest.Core.Worksheet
                 package.SaveAs(path);
             }
         }
+        [DataTestMethod]
+        [DataRow("Yu Gothic", 1)]
+        [DataRow("Yu Mincho", 2)]
+        [DataRow("Arial Rounded MT Bold", 3)]
+        [DataRow("Goudy Stout",4)]
+        [DataRow("Vladimir Script",5)]        
+        public void MeasureOtherFonts(string fontFamily, int run)
+        {
+            var report = new ExcelPackage(@"c:\Temp\fontreport_jp.xlsx");
+            var reportSheet = !report.Workbook.Worksheets.Any() ? report.Workbook.Worksheets.Add("Report") : report.Workbook.Worksheets["Report"];
+            var reportColOffset = 3;
+            var reportRow = (run - 1) * 5 + 2;
+            var shortList = new List<string>
+            {
+                "新しい最新スタイルです",
+                "ルの拡張サポート",
+                "ピボット テー"
+            };
+            var mediumList = new List<string>
+            {
+                "数式計算エンジンの改良点とサポートされる新しい関数",
+                "5435.1234556",
+                "Something else"
+            };
+            var longList = new List<string>
+            {
+                "A little longer than the previous example",
+                "5435.1234556",
+                "ェクトが完了すると、コードを管理する開発者のライセンスのみが必要"
+            };
+            var reallyLongList = new List<string>
+            {
+                "A little longer than the previous example, 333333333333954838!!!!!!!!!!!!!!!!,,,,,",
+                "5435.1234556321 - 4.32413254353",
+                "EPPlusは3000万回以上ダウンロードされています。世界中の何千もの企業がスプレッドシートデータを管理するために使用しています。"
+            };
+            var reallyReallyLongList = new List<string>
+            {
+                "A little longer than the previous example, 333333333333954838!!!!!!!!!!!!!!!!,,,,,",
+                "5435.1234556321 - 4.32413254353",
+                "場合など)、会社は、ユーザーでもあるため、そのサービスの内部ユーザー (開発者) の数をカバーするサブスクリプションをサブスクライブする必要があります。"
+            };
+            var lists = new List<List<string>>
+            {
+                shortList,
+                mediumList,
+                longList,
+                reallyLongList,
+                reallyReallyLongList
+            };
+            using (var package = new ExcelPackage())
+            {
+                package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+                var newFont = true;
+                for (var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
+                {
+                    var sheet = package.Workbook.Worksheets.Add(style.ToString());
+                    var range = sheet.Cells[1, 1, 5, 10];
+                    range.Style.Font.Name = fontFamily;
+                    range.Style.Font.Size = 24f;
+                    range.Style.Font.Italic = (style == FontSubFamilies.Italic || style == FontSubFamilies.BoldItalic);
+                    range.Style.Font.Bold = (style == FontSubFamilies.Bold || style == FontSubFamilies.BoldItalic);
+                    var rnd = new Random();
+                    for (var col = 1; col < lists.Count + 1; col++)
+                    {
+                        for (var row = 1; row < 4; row++)
+                        {
+                            var s = lists[col - 1][row - 1];
+                            sheet.Cells[row, col].Value = s;
+                        }
+                    }
+                    var sw = new Stopwatch();
+                    sw.Start();
+                    sheet.Columns[1, 9].AutoFit();
+                    if (newFont)
+                    {
+                        reportSheet.Cells[reportRow, 1].Value = range.Style.Font.Name;
+                        newFont = false;
+                    }
+                    reportSheet.Cells[reportRow, 2].Value = style.ToString();
+                    for (var col = 1; col < lists.Count + 1; col++)
+                    {
+                        reportSheet.Cells[reportRow, col + reportColOffset].Value = sheet.Columns[col].Width;
+                    }
+                    reportRow++;
+                    sw.Stop();
+                    var ms = sw.ElapsedMilliseconds;
+                }
+
+                SaveWorkbook($"NonExistingFonts_Autofit_{fontFamily.Replace(" ", string.Empty)}.xlsx", package);
+                report.Save();
+                report.Dispose();
+            }
+        }
 
 #if NETFULL
         [TestMethod, Ignore]

@@ -3070,21 +3070,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void s300_1()
-        {
-            using (var p = OpenTemplatePackage("s300-1.xlsx"))
-            {
-                SaveWorkbook("s300-1-epp.xlsx", p);
-            }
-        }
-        [TestMethod]
-        public void s300_2()
-        {
-            using (var p = OpenTemplatePackage("s300-2.xlsx"))
-            {
-                SaveWorkbook("s300-2-epp.xlsx", p);
-            }
-        }
     }
 }

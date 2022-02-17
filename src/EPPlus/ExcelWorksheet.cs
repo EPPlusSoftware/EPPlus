@@ -684,9 +684,9 @@ namespace OfficeOpenXml
         }
         internal decimal GetColumnWidth(int col)
         {
-            var column = GetValueInner(0, col) as ExcelColumn;
+            var column = GetColumn(col);
             if (column == null)   //Check that the column exists
-            {
+            {                
                 return (decimal)DefaultColWidth;
             }
             else
