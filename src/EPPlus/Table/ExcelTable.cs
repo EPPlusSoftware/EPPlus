@@ -269,9 +269,9 @@ namespace OfficeOpenXml.Table
             return Range.ToText();
         }
 
-        public TableExporter CreateHtmlExporter()
+        public ExcelHtmlTableExporter CreateHtmlExporter()
         {
-            return new TableExporter(this);
+            return new ExcelHtmlTableExporter(this);
         }
 
         /// <summary>

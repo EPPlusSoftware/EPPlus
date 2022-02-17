@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             var ws = _range.Worksheet;
             writer.RenderBeginTag("colgroup");
-            writer.Indent++;
+            writer.ApplyFormatIncreaseIndent(settings.Minify);
             var mdw = _range.Worksheet.Workbook.MaxFontWidth;
             var defColWidth = ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), mdw);
             foreach (var c in _columns)
@@ -64,10 +64,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 writer.AddAttribute("span", "1");
                 writer.RenderBeginTag("col", true);
+                writer.ApplyFormat(settings.Minify);
 
             }
             writer.Indent--;
             writer.RenderEndTag();
+            writer.ApplyFormat(settings.Minify);
         }
 
         internal bool HandleHiddenRow(EpplusHtmlWriter writer, ExcelWorksheet ws, HtmlExportSettings Settings, ref int row)

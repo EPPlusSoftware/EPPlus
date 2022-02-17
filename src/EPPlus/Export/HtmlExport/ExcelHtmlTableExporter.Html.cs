@@ -26,9 +26,9 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// <summary>
     /// Exports a <see cref="ExcelTable"/> to Html
     /// </summary>
-    public partial class TableExporter : HtmlExporterBase
+    public partial class ExcelHtmlTableExporter : HtmlExporterBase
     {
-        internal TableExporter(ExcelTable table)
+        internal ExcelHtmlTableExporter(ExcelTable table)
         {
             Require.Argument(table).IsNotNull("table");
             _table = table;
@@ -86,7 +86,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             // end tag table
             writer.RenderEndTag();
-
         }
 
         private void AddClassesAttributes(EpplusHtmlWriter writer)

@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     {
         internal async Task RenderAdditionalAndFontCssAsync()
         {
-            await WriteClassAsync($"table.{TableExporter.TableClass}{{", _settings.Minify);
+            await WriteClassAsync($"table.{ExcelHtmlTableExporter.TableClass}{{", _settings.Minify);
             var ns = _table.WorkSheet.Workbook.Styles.GetNormalStyle();
             if (ns != null)
             {

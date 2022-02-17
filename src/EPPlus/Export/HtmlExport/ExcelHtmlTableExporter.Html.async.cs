@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 namespace OfficeOpenXml.Export.HtmlExport
 {
 #if !NET35 && !NET40
-    public partial class TableExporter : HtmlExporterBase
+    public partial class ExcelHtmlTableExporter : HtmlExporterBase
     {
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string

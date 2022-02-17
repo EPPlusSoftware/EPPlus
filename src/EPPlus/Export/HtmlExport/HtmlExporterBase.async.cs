@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             var ws = _range.Worksheet;
             await writer.RenderBeginTagAsync("colgroup");
-            writer.Indent++;
+            await writer.ApplyFormatIncreaseIndentAsync(settings.Minify);
             var mdw = _range.Worksheet.Workbook.MaxFontWidth;
             var defColWidth = ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), mdw);
             foreach (var c in _columns)
@@ -47,10 +47,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 writer.AddAttribute("span", "1");
                 await writer.RenderBeginTagAsync("col", true);
-
+                await writer.ApplyFormatAsync(settings.Minify);
             }
             writer.Indent--;
             await writer.RenderEndTagAsync();
+            await writer.ApplyFormatAsync(settings.Minify);
         }
     }
 }

@@ -21,29 +21,28 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
-#if !NET35 && !NET40
     /// <summary>
     /// Exports a <see cref="ExcelTable"/> to Html
     /// </summary>
-    public partial class TableExporter
+    public partial class ExcelHtmlTableExporter
     {        
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
         /// <returns>A html table</returns>
-        public async Task<string> GetCssStringAsync()
+        public string GetCssString()
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                await RenderCssAsync(ms);
+                RenderCss(ms);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
-                    return await sr.ReadToEndAsync();
+                    return sr.ReadToEnd();
                 }
             }
         }
-        public async Task RenderCssAsync(Stream stream)
+        public void RenderCss(Stream stream)
         {
             if ((_table.TableStyle == TableStyles.None || Settings.Css.IncludeTableStyles==false) && Settings.Css.IncludeCellStyles==false)
             {
@@ -56,15 +55,14 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (_datatypes.Count == 0) GetDataTypes(_table.Address);
             var sw = new StreamWriter(stream);
+            
             var cellCssWriter = new EpplusCssWriter(sw, _table.Range, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
-            await cellCssWriter.RenderAdditionalAndFontCssAsync(TableClass);
-            if (Settings.Css.IncludeTableStyles) await RenderTableCssAsync(sw);
-            if (Settings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
+            cellCssWriter.RenderAdditionalAndFontCss(TableClass);
+            if (Settings.Css.IncludeTableStyles) RenderTableCss(sw);
+            if (Settings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
         }
-
-        private async Task RenderCellCssAsync(StreamWriter sw)
+        private void RenderCellCss(EpplusCssWriter styleWriter)
         {            
-            var styleWriter = new EpplusCssWriter(sw, _table.Range, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
 
             var r = _table.Range;
             var styles = r.Worksheet.Workbook.Styles;
@@ -73,17 +71,16 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix);
+                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix);
                 }
             }
-            await styleWriter.FlushStreamAsync();
+            styleWriter.FlushStream();
         }
 
-        internal async Task RenderTableCssAsync(StreamWriter sw)
+        internal void RenderTableCss(StreamWriter sw)
         {
             var styleWriter = new EpplusTableCssWriter(sw, _table, Settings);
-            if (Settings.Minify == false) await styleWriter.WriteLineAsync();
-            await  styleWriter.RenderAdditionalAndFontCssAsync();
+            if (Settings.Minify == false) styleWriter.WriteLine();
             ExcelTableNamedStyle tblStyle;
             if (_table.TableStyle == TableStyles.Custom)
             {
@@ -97,46 +94,44 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name).ToLower()}";
-            await styleWriter.AddHyperlinkCssAsync($"{tableClass}", tblStyle.WholeTable);
-            await styleWriter.AddAlignmentToCssAsync($"{tableClass}", _datatypes);
+            styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
+            styleWriter.AddAlignmentToCss($"{tableClass}", _datatypes);
 
-            await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.WholeTable, "");
-            await styleWriter.AddToCssBorderVHAsync($"{tableClass}", tblStyle.WholeTable, "");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.WholeTable, "");
+            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.WholeTable, "");
 
             //Header
-            await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.HeaderRow, " thead");
-            await styleWriter.AddToCssBorderVHAsync($"{tableClass}", tblStyle.HeaderRow, "");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.HeaderRow, " thead");
+            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.HeaderRow, "");
 
-            await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
-            await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" thead tr th:last-child)");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstHeaderCell, " thead tr th:first-child");
 
             //Total
-            await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.TotalRow, " tfoot");
-            await styleWriter.AddToCssBorderVHAsync($"{tableClass}", tblStyle.TotalRow, "");
-            await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
-            await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.TotalRow, " tfoot");
+            styleWriter.AddToCssBorderVH($"{tableClass}", tblStyle.TotalRow, "");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.LastTotalCell, $" tfoot tr td:last-child)");
+            styleWriter.AddToCss($"{tableClass}", tblStyle.FirstTotalCell, " tfoot tr td:first-child");
 
             //Columns stripes
             var tableClassCS = $"{tableClass}-column-stripes";
-            await styleWriter.AddToCssAsync($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
-            await styleWriter.AddToCssAsync($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
+            styleWriter.AddToCss($"{tableClassCS}", tblStyle.FirstColumnStripe, $" tbody tr td:nth-child(odd)");
+            styleWriter.AddToCss($"{tableClassCS}", tblStyle.SecondColumnStripe, $" tbody tr td:nth-child(even)");
 
             //Row stripes
             var tableClassRS = $"{tableClass}-row-stripes";
-            await styleWriter.AddToCssAsync($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
-            await styleWriter.AddToCssAsync($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
+            styleWriter.AddToCss($"{tableClassRS}", tblStyle.FirstRowStripe, " tbody tr:nth-child(odd)");
+            styleWriter.AddToCss($"{tableClassRS}", tblStyle.SecondRowStripe, " tbody tr:nth-child(even)");
 
             //Last column
             var tableClassLC = $"{tableClass}-last-column";
-            await styleWriter.AddToCssAsync($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
+            styleWriter.AddToCss($"{tableClassLC}", tblStyle.LastColumn, $" tbody tr td:last-child");
 
             //First column
             var tableClassFC = $"{tableClass}-first-column";
-            await styleWriter.AddToCssAsync($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
+            styleWriter.AddToCss($"{tableClassFC}", tblStyle.FirstColumn, " tbody tr td:first-child");
 
-
-            await styleWriter.FlushStreamAsync();
+            styleWriter.FlushStream();
         }
     }
-#endif
 }
