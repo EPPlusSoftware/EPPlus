@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,18 @@ namespace OfficeOpenXml.Core
     public class AutofitHelper
     {
         private ExcelRangeBase _range;
-
+        ITextMeasurer _genericMeasurer = new GenericFontMetricsTextMeasurer();
+        ExcelFont _nonExistingFont = new ExcelFont() { FontFamily = FontSize.NonExistingFont };
+        Dictionary<float, short> _fontWidthDefault=null;
+        Dictionary<int, ExcelFont> _fontCache;
         public AutofitHelper(ExcelRangeBase range)
         {
-            _range = range;
+            _range = range;            
+            if(FontSize.FontWidths.ContainsKey(FontSize.NonExistingFont))
+            {
+                FontSize.LoadAllFontsFromResource();
+                _fontWidthDefault = FontSize.FontWidths[FontSize.NonExistingFont];            }
+
         }
 
         internal void AutofitColumn(double MinimumWidth, double MaximumWidth)
@@ -27,7 +36,7 @@ namespace OfficeOpenXml.Core
             {
                 _range.SetToSelectedRange();
             }
-            var fontCache = new Dictionary<int, ExcelFont>();
+            _fontCache = new Dictionary<int, ExcelFont>();
 
             bool doAdjust = ws._package.DoAdjustDrawings;
             ws._package.DoAdjustDrawings = false;
@@ -91,42 +100,6 @@ namespace OfficeOpenXml.Core
             };
 
             var normalSize = Convert.ToSingle(FontSize.GetWidthPixels(nf.Name, nf.Size));
-
-            #region MeasureString memoization
-
-            // Sheets usually contain plenty of duplicates
-            // Measurestring is very slow, so memoizing yields massive performance benefits.
-            // We use the string hash rather than the string to reduce memory load and lookup/compare cost.
-            // This means columns can be wrongly calculated on hash collisions. Hash collisions are rare,
-            // and they might not affect the size calculation anyway.
-
-            // To support implementations without Tuple/ValueTuple,
-            // as well as reduce som overhead, we combine our two
-            // 32-bit keys in a single 64-bit value
-            var measureCache = new Dictionary<ulong, TextMeasurement>();
-
-            TextMeasurement MeasureString(string t, int fntID, ExcelTextSettings ts)
-            {
-                ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
-                if (!measureCache.TryGetValue(key, out var measurement))
-                {
-                    var measurer = ts.PrimaryTextMeasurer;
-                    measurement = measurer.MeasureText(t, fontCache[fntID]);
-                    if (measurement.IsEmpty && ts.FallbackTextMeasurer != null)
-                    {
-                        measurer = ts.FallbackTextMeasurer;
-                        measurement = measurer.MeasureText(t, fontCache[fntID]);
-                    }
-                    if (!measurement.IsEmpty && ts.AutofitScaleFactor != 1f)
-                    {
-                        measurement.Height = measurement.Height * ts.AutofitScaleFactor;
-                        measurement.Width = measurement.Width * ts.AutofitScaleFactor;
-                    }
-                    measureCache.Add(key, measurement);
-                }
-                return measurement;
-            }
-            #endregion
             var textSettings = _range._workbook._package.Settings.TextSettings;
 
             foreach (var cell in _range)
@@ -137,9 +110,9 @@ namespace OfficeOpenXml.Core
                 if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
                 var fntID = styles.CellXfs[cell.StyleID].FontId;
                 ExcelFont f;
-                if (fontCache.ContainsKey(fntID))
+                if (_fontCache.ContainsKey(fntID))
                 {
-                    f = fontCache[fntID];
+                    f = _fontCache[fntID];
                 }
                 else
                 {
@@ -156,7 +129,7 @@ namespace OfficeOpenXml.Core
                         Size = fnt.Size
                     };
 
-                    fontCache.Add(fntID, f);
+                    _fontCache.Add(fntID, f);
                 }
                 var ind = styles.CellXfs[cell.StyleID].Indent;
                 var textForWidth = cell.TextForWidth;
@@ -193,6 +166,61 @@ namespace OfficeOpenXml.Core
             }
             ws.Drawings.AdjustWidth(drawWidths);
             ws._package.DoAdjustDrawings = doAdjust;
+        }
+        private TextMeasurement MeasureString(string t, int fntID, ExcelTextSettings ts)
+        {
+            var measureCache = new Dictionary<ulong, TextMeasurement>();
+            ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
+            if (!measureCache.TryGetValue(key, out var measurement))
+            {
+                var measurer = ts.PrimaryTextMeasurer;
+                var font = _fontCache[fntID];
+                measurement = measurer.MeasureText(t, font);
+                if (measurement.IsEmpty && ts.FallbackTextMeasurer != null && ts.FallbackTextMeasurer != ts.PrimaryTextMeasurer)
+                {
+                    measurer = ts.FallbackTextMeasurer;
+                    measurement = measurer.MeasureText(t, font);
+                }
+                if (measurement.IsEmpty && _fontWidthDefault != null)
+                {
+                    measurement = MeasureGeneric(t, ts, font);
+                }
+                if (!measurement.IsEmpty && ts.AutofitScaleFactor != 1f)
+                {
+                    measurement.Height = measurement.Height * ts.AutofitScaleFactor;
+                    measurement.Width = measurement.Width * ts.AutofitScaleFactor;
+                }
+                measureCache.Add(key, measurement);
+            }
+            return measurement;
+        }
+
+        private TextMeasurement MeasureGeneric(string t, ExcelTextSettings ts, ExcelFont font)
+        {
+            TextMeasurement measurement;
+            if (FontSize.FontWidths.ContainsKey(font.FontFamily))
+            {
+                var width = FontSize.GetWidthPixels(font.FontFamily, font.Size);
+                var height = FontSize.GetHeightPixels(font.FontFamily, font.Size);
+                var defaultWidth = FontSize.GetWidthPixels(FontSize.NonExistingFont, font.Size);
+                var defaultHeight = FontSize.GetHeightPixels(FontSize.NonExistingFont, font.Size);
+                _nonExistingFont.Size = font.Size;
+                _nonExistingFont.Style = font.Style;
+                measurement = _genericMeasurer.MeasureText(t, _nonExistingFont);
+
+                measurement.Width *= (float)(width / defaultWidth) * ts.AutofitScaleFactor;
+                measurement.Height *= (float)(height / defaultHeight) * ts.AutofitScaleFactor;
+            }
+            else
+            {
+                _nonExistingFont.Size = font.Size;
+                _nonExistingFont.Style = font.Style;
+                measurement = _genericMeasurer.MeasureText(t, _nonExistingFont);
+                measurement.Height = measurement.Height * ts.AutofitScaleFactor;
+                measurement.Width = measurement.Width * ts.AutofitScaleFactor;
+            }
+
+            return measurement;
         }
 
         private void SetMinWidth(ExcelWorksheet ws, double minimumWidth, int fromCol, int toCol)

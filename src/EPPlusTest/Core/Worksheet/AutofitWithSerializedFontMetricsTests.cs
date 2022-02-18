@@ -374,12 +374,18 @@ namespace EPPlusTest.Core.Worksheet
                 package.SaveAs(path);
             }
         }
+
+
         [DataTestMethod]
         [DataRow("Yu Gothic", 1)]
         [DataRow("Yu Mincho", 2)]
         [DataRow("Arial Rounded MT Bold", 3)]
         [DataRow("Goudy Stout",4)]
-        [DataRow("Vladimir Script",5)]        
+        [DataRow("Vladimir Script",5)]     
+        [DataRow("Bahnschrift SemiBold SemiConden", 6)]
+        [DataRow("Copperplate Gothic Bold", 7)]
+        [DataRow("Gigi", 8)]
+        [DataRow("Non existing font", 9)]
         public void MeasureOtherFonts(string fontFamily, int run)
         {
             var report = new ExcelPackage(@"c:\Temp\fontreport_jp.xlsx");
@@ -426,7 +432,7 @@ namespace EPPlusTest.Core.Worksheet
             };
             using (var package = new ExcelPackage())
             {
-                package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
+                //package.Settings.TextSettings.PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
                 var newFont = true;
                 for (var style = FontSubFamilies.Regular; style <= FontSubFamilies.BoldItalic; style++)
                 {
@@ -439,7 +445,7 @@ namespace EPPlusTest.Core.Worksheet
                     var rnd = new Random();
                     for (var col = 1; col < lists.Count + 1; col++)
                     {
-                        for (var row = 1; row < 4; row++)
+                        for (var row = 1; row < 2; row++)
                         {
                             var s = lists[col - 1][row - 1];
                             sheet.Cells[row, col].Value = s;

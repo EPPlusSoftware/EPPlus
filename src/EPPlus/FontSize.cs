@@ -26,6 +26,7 @@ namespace OfficeOpenXml
     public static class FontSize
     {
         public const string DefaultFont = "Calibri";
+        public const string NonExistingFont = "Arial";
         internal static bool _isLoaded = false;
         internal static object _lockObj=new object();
         internal static MemoryStream _fontStream=null;
@@ -103,7 +104,7 @@ namespace OfficeOpenXml
 
         private static decimal GetWidthHeight(string fontName, float fontSize, bool width, decimal defaultValue)
         {
-            var font = GetFontSize(fontName, true);
+            var font = GetFontSize(fontName, width);
 
             if (font.ContainsKey(fontSize))
             {
