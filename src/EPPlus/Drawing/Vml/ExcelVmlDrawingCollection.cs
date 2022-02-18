@@ -94,10 +94,24 @@ namespace OfficeOpenXml.Drawing.Vml
                         break;
                 }
                 var id = string.IsNullOrEmpty(vmlDrawing.SpId) ? vmlDrawing.Id : vmlDrawing.SpId;
-                if (_drawingsDict.ContainsKey(id)==false) //Check for duplicate.
+                int x = 2;
+                if(_drawingsDict.ContainsKey(id))
                 {
-                    _drawingsDict.Add(id, _drawings.Count - 1);
+                    while(_drawingsDict.ContainsKey($"{id}-{x}"))
+                    {
+                        x++;
+                    }
+                    id = $"{id}-{x}";
+                    if (string.IsNullOrEmpty(vmlDrawing.SpId))
+                    {
+                        vmlDrawing.Id= id;
+                    }
+                    else
+                    {
+                        vmlDrawing.SpId = id;
+                    }
                 }
+                _drawingsDict.Add(id, _drawings.Count - 1);
             }
         }
 
