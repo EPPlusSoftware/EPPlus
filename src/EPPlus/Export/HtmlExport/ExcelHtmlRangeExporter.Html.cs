@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -73,6 +74,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             AddClassesAttributes(writer);
+            AddTableAccessibilityAttributes(Settings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
 
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
@@ -333,6 +335,27 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.RenderBeginTag(HtmlElements.A);
                 writer.Write(GetCellText(cell));
                 writer.RenderEndTag();
+            }
+        }
+
+        private void AddTableAccessibilityAttributes(HtmlRangeExportSettings settings, EpplusHtmlWriter writer)
+        {
+            if (!settings.Accessibility.TableSettings.AddAccessibilityAttributes) return;
+            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.TableRole))
+            {
+                writer.AddAttribute("role", settings.Accessibility.TableSettings.TableRole);
+            }
+            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaLabel))
+            {
+                writer.AddAttribute(AriaAttributes.AriaLabel.AttributeName, settings.Accessibility.TableSettings.AriaLabel);
+            }
+            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaLabelledBy))
+            {
+                writer.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, settings.Accessibility.TableSettings.AriaLabelledBy);
+            }
+            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaDescribedBy))
+            {
+                writer.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, settings.Accessibility.TableSettings.AriaDescribedBy);
             }
         }
 

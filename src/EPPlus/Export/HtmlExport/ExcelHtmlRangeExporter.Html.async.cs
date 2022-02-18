@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.IO;
@@ -49,6 +50,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             AddClassesAttributes(writer);
+            AddTableAccessibilityAttributes(Settings, writer);
             await writer.RenderBeginTagAsync(HtmlElements.Table);
 
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
@@ -222,7 +224,6 @@ namespace OfficeOpenXml.Export.HtmlExport
                 await writer.RenderEndTagAsync();
             }
         }
-
     }
 }
 #endif
