@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return _fonts.ContainsKey(fontKey);
         }
 
-        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, FontStyles style, float size)
+        internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size)
         {
             var sFont = _fonts[fontKey];
             var width = 0f;
@@ -95,7 +95,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return (uint)((k1 << 16) | ((k2) & 0xffff));
         }
 
-        internal static uint GetKey(string fontFamily, FontStyles fontStyle)
+        internal static uint GetKey(string fontFamily, MeasurementFontStyles fontStyle)
         {
             var enumName = fontFamily.Replace(" ", string.Empty);
             var values = Enum.GetValues(typeof(FontMetricsFamilies));
@@ -113,13 +113,13 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             var subFamily = FontSubFamilies.Regular;
             switch (fontStyle)
             {
-                case FontStyles.Bold:
+                case MeasurementFontStyles.Bold:
                     subFamily = FontSubFamilies.Bold;
                     break;
-                case FontStyles.Italic:
+                case MeasurementFontStyles.Italic:
                     subFamily = FontSubFamilies.Italic;
                     break;
-                case FontStyles.Italic | FontStyles.Bold:
+                case MeasurementFontStyles.Italic | MeasurementFontStyles.Bold:
                     subFamily = FontSubFamilies.BoldItalic;
                     break;
                 default:
@@ -128,10 +128,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return GetKey(family, subFamily);
         }
 
-        private static float GetEastAsianCharWidth(int cc, FontStyles style)
+        private static float GetEastAsianCharWidth(int cc, MeasurementFontStyles style)
         {
             var emWidth = (cc >= 65377 && cc <= 65439) ? 0.5f : 1f;
-            if ((style & FontStyles.Bold) != 0)
+            if ((style & MeasurementFontStyles.Bold) != 0)
             {
                 emWidth *= 1.05f;
             }

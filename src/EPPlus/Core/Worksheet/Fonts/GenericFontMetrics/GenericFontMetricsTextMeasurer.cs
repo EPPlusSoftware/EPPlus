@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         /// <param name="text">The text to measure</param>
         /// <param name="font">Font of the text to measure</param>
         /// <returns>A <see cref="TextMeasurement"/></returns>
-        public TextMeasurement MeasureText(string text, ExcelFont font)
+        public TextMeasurement MeasureText(string text, MeasurementFont font)
         {
             var fontKey = GetKey(font.FontFamily, font.Style);
             if (!IsValidFont(fontKey)) return TextMeasurement.Empty;
