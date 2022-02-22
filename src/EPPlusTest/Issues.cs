@@ -3102,6 +3102,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I596()
+        {
+            using (var p = OpenTemplatePackage("I596.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
 
