@@ -12,9 +12,9 @@ namespace OfficeOpenXml.Core
     {
         private ExcelRangeBase _range;
         ITextMeasurer _genericMeasurer = new GenericFontMetricsTextMeasurer();
-        ExcelFont _nonExistingFont = new ExcelFont() { FontFamily = FontSize.NonExistingFont };
+        MeasurementFont _nonExistingFont = new MeasurementFont() { FontFamily = FontSize.NonExistingFont };
         Dictionary<float, short> _fontWidthDefault=null;
-        Dictionary<int, ExcelFont> _fontCache;
+        Dictionary<int, MeasurementFont> _fontCache;
         public AutofitHelper(ExcelRangeBase range)
         {
             _range = range;            
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Core
             {
                 _range.SetToSelectedRange();
             }
-            _fontCache = new Dictionary<int, ExcelFont>();
+            _fontCache = new Dictionary<int, MeasurementFont>();
 
             bool doAdjust = ws._package.DoAdjustDrawings;
             ws._package.DoAdjustDrawings = false;
@@ -87,12 +87,12 @@ namespace OfficeOpenXml.Core
             var normalXfId = styles.GetNormalStyle().StyleXfId;
             if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
             var nf = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
-            var fs = FontStyles.Regular;
-            if (nf.Bold) fs |= FontStyles.Bold;
-            if (nf.UnderLine) fs |= FontStyles.Underline;
-            if (nf.Italic) fs |= FontStyles.Italic;
-            if (nf.Strike) fs |= FontStyles.Strikeout;
-            var nfont = new ExcelFont
+            var fs = MeasurementFontStyles.Regular;
+            if (nf.Bold) fs |= MeasurementFontStyles.Bold;
+            if (nf.UnderLine) fs |= MeasurementFontStyles.Underline;
+            if (nf.Italic) fs |= MeasurementFontStyles.Italic;
+            if (nf.Strike) fs |= MeasurementFontStyles.Strikeout;
+            var nfont = new MeasurementFont
             {
                 FontFamily = nf.Name,
                 Style = fs,
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Core
 
                 if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
                 var fntID = styles.CellXfs[cell.StyleID].FontId;
-                ExcelFont f;
+                MeasurementFont f;
                 if (_fontCache.ContainsKey(fntID))
                 {
                     f = _fontCache[fntID];
@@ -117,12 +117,12 @@ namespace OfficeOpenXml.Core
                 else
                 {
                     var fnt = styles.Fonts[fntID];
-                    fs = FontStyles.Regular;
-                    if (fnt.Bold) fs |= FontStyles.Bold;
-                    if (fnt.UnderLine) fs |= FontStyles.Underline;
-                    if (fnt.Italic) fs |= FontStyles.Italic;
-                    if (fnt.Strike) fs |= FontStyles.Strikeout;
-                    f = new ExcelFont
+                    fs = MeasurementFontStyles.Regular;
+                    if (fnt.Bold) fs |= MeasurementFontStyles.Bold;
+                    if (fnt.UnderLine) fs |= MeasurementFontStyles.Underline;
+                    if (fnt.Italic) fs |= MeasurementFontStyles.Italic;
+                    if (fnt.Strike) fs |= MeasurementFontStyles.Strikeout;
+                    f = new MeasurementFont
                     {
                         FontFamily = fnt.Name,
                         Style = fs,
@@ -195,7 +195,7 @@ namespace OfficeOpenXml.Core
             return measurement;
         }
 
-        private TextMeasurement MeasureGeneric(string t, ExcelTextSettings ts, ExcelFont font)
+        private TextMeasurement MeasureGeneric(string t, ExcelTextSettings ts, MeasurementFont font)
         {
             TextMeasurement measurement;
             if (FontSize.FontWidths.ContainsKey(font.FontFamily))

@@ -27,8 +27,8 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// Measures width and height of the parameter <paramref name="text"/>.
         /// </summary>
         /// <param name="text">The text to measure</param>
-        /// <param name="font">The <see cref="ExcelFont">font</see> to measure</param>
+        /// <param name="font">The <see cref="MeasurementFont">font</see> to measure</param>
         /// <returns></returns>
-        TextMeasurement MeasureText(string text, ExcelFont font);
+        TextMeasurement MeasureText(string text, MeasurementFont font);
     }
 }

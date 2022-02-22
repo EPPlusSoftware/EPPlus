@@ -12,23 +12,23 @@ namespace OfficeOpenXml.SystemDrawing.Text
         }
 
         private readonly StringFormat _stringFormat;
-        private FontStyle ToFontStyle(FontStyles fontStyle)
+        private FontStyle ToFontStyle(MeasurementFontStyles fontStyle)
         {
             switch (fontStyle)
             {
-                case FontStyles.Bold | FontStyles.Italic:
+                case MeasurementFontStyles.Bold | MeasurementFontStyles.Italic:
                     return FontStyle.Bold | FontStyle.Italic;
-                case FontStyles.Regular:
+                case MeasurementFontStyles.Regular:
                     return FontStyle.Regular;
-                case FontStyles.Bold:
+                case MeasurementFontStyles.Bold:
                     return FontStyle.Bold;
-                case FontStyles.Italic:
+                case MeasurementFontStyles.Italic:
                     return FontStyle.Italic;
                 default:
                     return FontStyle.Regular;
             }
         }        
-        public TextMeasurement MeasureText(string text, ExcelFont font)
+        public TextMeasurement MeasureText(string text, MeasurementFont font)
         {
             Bitmap b;
             Graphics g;

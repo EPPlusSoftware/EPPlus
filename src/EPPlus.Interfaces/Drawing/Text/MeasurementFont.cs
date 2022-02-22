@@ -13,11 +13,11 @@
 
 namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
-    public class ExcelFont
+    public class MeasurementFont
     {
         public string FontFamily { get; set; }
 
-        public FontStyles Style { get; set; }
+        public MeasurementFontStyles Style { get; set; }
 
         public float Size { get; set; }
     }

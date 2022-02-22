@@ -15,7 +15,7 @@ using System;
 namespace OfficeOpenXml.Interfaces.Drawing.Text
 {
     [Flags]
-    public enum FontStyles
+    public enum MeasurementFontStyles
     {
         //
         // Summary:
