@@ -21,6 +21,7 @@ using System.Globalization;
 using System;
 using OfficeOpenXml.Utils;
 using System.Text;
+using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -98,6 +99,43 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteClass($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
             WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
             WriteClassEnd(_settings.Minify);
+        }
+
+        internal void AddPictureToCss(ExcelPicture p, ExcelAddressBase addr)
+        {
+            string encodedImage;
+            ePictureType? type;
+            if (p.Image.Type == ePictureType.Emz || p.Image.Type == ePictureType.Wmz)
+            {   
+                
+                encodedImage = Convert.ToBase64String(ImageReader.ExtractImage(p.Image.ImageBytes, out type));
+            }
+            else
+            {
+                encodedImage = Convert.ToBase64String(p.Image.ImageBytes);
+                type = p.Image.Type.Value;
+            }
+            if (type == null) return;
+            WriteClass($"{_settings.StyleClassPrefix}image{p.Id}", _settings.Minify);
+            WriteCssItem($"background-image:url('data:{GetContentType(type.Value)};base64,{encodedImage}", _settings.Minify);            
+            WriteClassEnd(_settings.Minify);
+        }
+
+        private object GetContentType(ePictureType type)
+        {
+            switch(type)
+            {
+                case ePictureType.Ico;
+                    return "image/vnd.microsoft.icon";
+                case ePictureType.Jpg:
+                    return "image/jpeg";
+                case ePictureType.Svg:
+                    return "image/svg+xml";
+                case ePictureType.Tif:
+                    return "image/tiff";
+                default:
+                    return $"image/{type}";
+            }
         }
 
         internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix)
