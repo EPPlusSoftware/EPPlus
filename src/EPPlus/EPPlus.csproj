@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0;net452;net35</TargetFrameworks>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <FileVersion>6.0.0.0</FileVersion>
     <Version>6.0.0</Version>
@@ -287,16 +287,12 @@
 	<DefineConstants>Core;NET50</DefineConstants>
   </PropertyGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35'">
     <DefineConstants>NET35;NETFULL</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
-    <DefineConstants>NET40;NETFULL</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -322,6 +318,7 @@
     <Compile Remove="Core\Worksheet\Fonts\TtfFont.cs" />
     <Compile Remove="Drawing\ExcelDrawingLine.cs" />
     <Compile Remove="Packaging\DotNetZip\ZipFile.SaveSelfExtractor.cs" />
+  
   </ItemGroup>
 
 
@@ -337,7 +334,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net40'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net452'">
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -345,20 +342,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45'">
-    <Reference Include="PresentationCore" />
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Threading.Tasks" />  
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
     </PackageReference>
@@ -367,7 +351,7 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Primitives">
       <Version>4.3.0</Version>
@@ -379,7 +363,7 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.10" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Primitives">
       <Version>4.3.0</Version>
@@ -390,7 +374,7 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Primitives">
       <Version>4.3.0</Version>
@@ -401,7 +385,7 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
@@ -437,5 +421,10 @@
   <ItemGroup>
 	  <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+      <Version>2.2.0</Version>
+    </PackageReference>
   </ItemGroup>
 </Project>

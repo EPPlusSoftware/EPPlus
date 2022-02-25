@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             switch(type)
             {
-                case ePictureType.Ico;
+                case ePictureType.Ico:
                     return "image/vnd.microsoft.icon";
                 case ePictureType.Jpg:
                     return "image/jpeg";
