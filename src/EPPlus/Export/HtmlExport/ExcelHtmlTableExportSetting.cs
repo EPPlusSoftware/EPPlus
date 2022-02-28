@@ -106,6 +106,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </list>
         /// </summary>
         public string StyleClassPrefix { get; set; } = "epp-";
+        /// <summary>
+        /// If picture drawings will be included.
+        /// </summary>
         public bool IncludePictures { get; set; } = false;
     }
 
