@@ -141,7 +141,14 @@ namespace OfficeOpenXml
                     }
                     else
                     {
-                        f += token.Value;
+                        if(token.TokenTypeIsSet(TokenType.StringContent))
+                        {
+                            f += token.Value.Replace("\"", "\"\"");
+                        }
+                        else
+                        {
+                            f += token.Value;
+                        }
                     }
                 }
                 return f;

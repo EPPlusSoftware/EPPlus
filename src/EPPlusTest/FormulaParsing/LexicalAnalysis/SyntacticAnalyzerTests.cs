@@ -33,6 +33,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
@@ -106,6 +107,17 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 new Token("abc123", TokenType.Unrecognized)
             };
             _analyser.Analyze(input);
+        }
+
+        [TestMethod]
+        public void DoubleQuoteSharedFormulasTest()
+        {
+            var pck = new ExcelPackage();
+            var ws = pck.Workbook.Worksheets.Add("s");
+            ws.Cells["A1:A3"].Formula = @"IF(TRUE,"""""""")";
+            ws.Calculate();
+            Assert.AreEqual("\"", ws.Cells["A1"].Value);
+            Assert.AreEqual("\"", ws.Cells["A3"].Value);
         }
     }
 }
