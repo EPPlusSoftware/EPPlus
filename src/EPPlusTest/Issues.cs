@@ -50,6 +50,8 @@ using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using Newtonsoft.Json;
+using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.Style.Coloring;
 
 namespace EPPlusTest
 {
@@ -3070,5 +3072,48 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s302()
+        {
+            using (var p = OpenTemplatePackage("SampleData.xlsx"))
+            {
+                var worksheet = p.Workbook.Worksheets[2];
+                ExcelBarChart chart = worksheet.Drawings.AddBarChart("NewBarChart", eBarChartType.BarClustered);
+
+                chart.SetPosition(32, 0, 1, 0);
+
+                chart.SetSize(785, 320);
+
+                chart.RoundedCorners = false;
+
+                chart.Border.Fill.Color = Color.Gray;
+
+                chart.Legend.Position = eLegendPosition.Bottom;
+
+
+
+                ExcelBarChartSerie eventS1Serie = chart.Series.Add("D9:D12", "B9:B12");
+
+                eventS1Serie.Header = "STATISTIQUES COMPARATIVES";
+
+                ExcelBarChartSerie eventS2Serie = chart.Series.Add("H9:H12", "B9:B12");
+
+                
+
+                chart.StyleManager.SetChartStyle(ePresetChartStyle.BarChartStyle5, ePresetChartColors.MonochromaticPalette5);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I596()
+        {
+            using (var p = OpenTemplatePackage("I596.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

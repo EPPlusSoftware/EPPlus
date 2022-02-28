@@ -1507,13 +1507,15 @@ namespace OfficeOpenXml
         private void LoadHyperLinks(XmlReader xr)
         {
             if (!ReadUntil(xr, 1, "hyperlinks", "rowBreaks", "colBreaks")) return;
+            var delRelIds = new HashSet<string>();
             while (xr.Read())
             {
                 if (xr.LocalName == "hyperlink")
                 {
+                    if (xr.NodeType == XmlNodeType.EndElement) continue;
                     int fromRow, fromCol, toRow, toCol;
                     var reference = xr.GetAttribute("ref");
-                    if(reference != null && ExcelCellBase.IsValidAddress(reference))
+                    if (reference != null && ExcelCellBase.IsValidAddress(reference))
                     {
                         ExcelCellBase.GetRowColFromAddress(xr.GetAttribute("ref"), out fromRow, out fromCol, out toRow, out toCol);
                         ExcelHyperLink hl = null;
@@ -1521,13 +1523,14 @@ namespace OfficeOpenXml
                         {
                             var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
                             var rel = Part.GetRelationship(rId);
+
                             if (rel.TargetUri == null)
                             {
-                                if(rel.Target.StartsWith("#", StringComparison.OrdinalIgnoreCase) && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
+                                if (rel.Target.StartsWith("#", StringComparison.OrdinalIgnoreCase) && ExcelCellBase.IsValidAddress(rel.Target.Substring(1)))
                                 {
                                     var a = new ExcelAddressBase(rel.Target.Substring(1));
-                                    hl = new ExcelHyperLink(a.FullAddress, string.IsNullOrEmpty(a.WorkSheetName)?a.Address:a.WorkSheetName);
-                                }                                
+                                    hl = new ExcelHyperLink(a.FullAddress, string.IsNullOrEmpty(a.WorkSheetName) ? a.Address : a.WorkSheetName);
+                                }
                             }
                             else
                             {
@@ -1549,7 +1552,6 @@ namespace OfficeOpenXml
                                 }
                             }
                             hl.RId = rId;
-                            Part.DeleteRelationship(rId); //Delete the relationship, it is recreated when we save the package.
                         }
                         else if (xr.GetAttribute("location") != null)
                         {
@@ -1561,8 +1563,8 @@ namespace OfficeOpenXml
                         }
                         else
                         {
-                            // not enough info to create a hyperlink
-                            break;
+                            // not enough info to create a hyperlink, move to next.
+                            continue;
                         }
 
                         string tt = xr.GetAttribute("tooltip");
@@ -1570,22 +1572,24 @@ namespace OfficeOpenXml
                         {
                             hl.ToolTip = tt;
                         }
-                        for(int row=fromRow; row<=toRow; row++)
+                        for (int row = fromRow; row <= toRow; row++)
                         {
-                            for(int col=fromCol; col<=toCol; col++)
+                            for (int col = fromCol; col <= toCol; col++)
                             {
                                 _hyperLinks.SetValue(row, col, hl);
                             }
                         }
+                        if (string.IsNullOrEmpty(hl.RId) == false && delRelIds.Contains(hl.RId) == false) delRelIds.Add(hl.RId);
                     }
                 }
                 else
                 {
+                    if (xr.NodeType == XmlNodeType.Whitespace) continue;
                     break;
                 }
             }
+            delRelIds.ToList().ForEach(x => Part.DeleteRelationship(x));
         }
-
         internal ExcelRichTextCollection GetRichText(int row, int col, ExcelRangeBase r)
         {
             XmlDocument xml = new XmlDocument();
