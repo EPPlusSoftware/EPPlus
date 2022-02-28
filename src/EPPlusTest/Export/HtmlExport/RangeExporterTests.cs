@@ -173,7 +173,24 @@ namespace EPPlusTest.Export.HtmlExport
                 var html=exporter.GetSinglePage();
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
             }
-        }        
+        }
+        [TestMethod]
+        public async Task WriteImagesAsync()
+        {
+            using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];                
+                var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+                exporter.Settings.IncludePictures = true;
+                exporter.Settings.Minify = false;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync(); 
+                File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
 
         private static void SaveRangeFile(ExcelPackage package, string ws, string address, int headerRows=1)
         {
@@ -184,7 +201,6 @@ namespace EPPlusTest.Export.HtmlExport
             exporter.Settings.HeaderRows = headerRows;
             File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", exporter.GetSinglePage());
         }
-        
     }
 }
     

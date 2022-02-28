@@ -424,5 +424,23 @@ namespace EPPlusTest.Export.HtmlExport
                 var htmlCss = exporter.GetSinglePage();
             }
         }
+        [TestMethod]
+        public async Task WriteImages_TableAsync()
+        {
+            using (var p = OpenTemplatePackage("20-CreateAFileSystemReport-Table.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var exporter = sheet.Tables[0].CreateHtmlExporter();
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+                exporter.Settings.IncludePictures = true;
+                exporter.Settings.Minify = false;
+                var html = exporter.GetSinglePage();
+                var htmlAsync = await exporter.GetSinglePageAsync();
+                File.WriteAllText("c:\\temp\\" + sheet.Name + "-table.html", html);
+                File.WriteAllText("c:\\temp\\" + sheet.Name + "-table-async.html", htmlAsync);
+                Assert.AreEqual(html, htmlAsync);
+            }
+        }
     }
 }

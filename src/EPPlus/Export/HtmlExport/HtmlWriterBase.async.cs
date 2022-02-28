@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/07/2021         EPPlus Software AB       Added Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal abstract partial class HtmlWriterBase
     {
+        internal protected HashSet<string> _images=new HashSet<string>();
         internal HtmlWriterBase(Stream stream, Encoding encoding)
         {
             _stream = stream;
@@ -202,6 +204,47 @@ namespace OfficeOpenXml.Export.HtmlExport
                 WriteIndent();
                 _writer.WriteLine(value);
             }
+        }
+        internal static string GetPictureName(HtmlImage p)
+        {
+            var hash = ((IPictureContainer)p.Picture).ImageHash;
+            var fi = new FileInfo(p.Picture.Part.Uri.OriginalString);
+            var name = fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length);
+
+            return GetCssClassName(name, hash);
+        }
+
+        internal static string GetCssClassName(string name, string optionalName)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return optionalName;
+            }
+
+            var newName = "";
+            var c = name[0];
+            if (c != '-' && (c >= 'a' && c <= 'z') == false && (c >= 'A' && c <= 'Z') == false)
+            {
+                newName += "_";
+            }
+            else
+            {
+                newName += c;
+            }
+
+            for (int i = 1; i < name.Length; i++)
+            {
+                c = name[i];
+                if (c == '-' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+                {
+                    newName += c;
+                }
+                else
+                {
+                    newName += "-";
+                }
+            }
+            return newName;
         }
     }
 }

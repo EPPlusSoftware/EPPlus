@@ -678,12 +678,12 @@ namespace OfficeOpenXml.Drawing.Controls
             else
             {
                 GetToRowFromPixels(_height, out int row, out int rowOff, _control.From.Row, _control.From.RowOff);
-                GetToColumnFromPixels(_width, out int col, out double pixOff, _control.From.Column, _control.From.ColumnOff);
+                GetToColumnFromPixels(_width, out int col, out int pixOff, _control.From.Column, _control.From.ColumnOff);
                 _control.To.Row = row;
                 _control.To.RowOff = rowOff;
 
                 _control.To.Column = col - 2;
-                _control.To.ColumnOff = (int)(pixOff * EMU_PER_PIXEL);
+                _control.To.ColumnOff = pixOff * EMU_PER_PIXEL;
             }
 
             if (_parent == null)

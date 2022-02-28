@@ -42,8 +42,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 _range = range;
             }
+            LoadRangeImages(_range);
         }
-
         private readonly ExcelRangeBase _range;
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         public HtmlRangeExportSettings Settings { get; } = new HtmlRangeExportSettings();
@@ -143,6 +143,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var row = _range._fromRow + Settings.HeaderRows;
             var endRow = _range._toRow;
             var ws = _range.Worksheet;
+            HtmlImage image = null;
             while (row <= endRow)
             {
                 if (HandleHiddenRow(writer, _range.Worksheet, Settings, ref row))
@@ -167,13 +168,19 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
                     SetColRowSpan(writer, cell);
+
+                    if (Settings.IncludePictures)
+                    {
+                        image = GetImage(cell._fromRow, cell._fromCol);
+                    }
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, false);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, false, image);
                     }
                     else
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
+                        AddImage(writer, Settings, image, cell.Value);
                         writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
@@ -203,6 +210,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderBeginTag(HtmlElements.Thead);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             var headerRows = Settings.HeaderRows == 0 ? 1 : Settings.HeaderRows;
+            HtmlImage image = null;
             for (int i = 0; i < headerRows; i++)
             {
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
@@ -221,6 +229,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                     SetColRowSpan(writer, cell);
                     writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
                     writer.RenderBeginTag(HtmlElements.TableHeader);
+                    
+                    if (Settings.IncludePictures)
+                    {
+                        image = GetImage(cell._fromRow, cell._fromCol);
+                    }
+                    AddImage(writer, Settings, image, cell.Value);
+
                     if (Settings.HeaderRows > 0)
                     {
                         if (cell.Hyperlink == null)
@@ -236,7 +251,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     {
                         writer.Write(Settings.Headers[col]);
                     }
-
+                    
                     writer.RenderEndTag();
                     writer.ApplyFormat(Settings.Minify);
                 }

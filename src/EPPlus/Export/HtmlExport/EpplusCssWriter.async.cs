@@ -19,6 +19,8 @@ using System.Globalization;
 using System;
 using OfficeOpenXml.Utils;
 using System.Text;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Interfaces;
 #if !NET35
 using System.Threading.Tasks;
 #endif
@@ -66,6 +68,57 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             await WriteClassAsync($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
             await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
+            await WriteClassEndAsync(_settings.Minify);
+        }
+        internal async Task AddPictureToCssAsync(HtmlImage p)
+        {
+            var img = p.Picture.Image;
+            string encodedImage;
+            ePictureType? type;
+            if (img.Type == ePictureType.Emz || img.Type == ePictureType.Wmz)
+            {
+
+                encodedImage = Convert.ToBase64String(ImageReader.ExtractImage(img.ImageBytes, out type));
+            }
+            else
+            {
+                encodedImage = Convert.ToBase64String(img.ImageBytes);
+                type = img.Type.Value;
+            }
+            if (type == null) return;
+            var pc = (IPictureContainer)p.Picture;
+            if (_images.Contains(pc.ImageHash) == false)
+            {
+                string imageFileName = GetPictureName(p);
+                await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
+                await WriteCssItemAsync($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
+                await WriteCssItemAsync($"position:absolute", _settings.Minify);
+                await WriteClassEndAsync(_settings.Minify);
+                _images.Add(pc.ImageHash);
+            }
+            await AddPicturePropertiesToCssAsync(p);
+        }
+
+        private async Task AddPicturePropertiesToCssAsync(HtmlImage image)
+        {
+            string imageName = GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            var width = image.Picture.GetPixelWidth();
+            var height = image.Picture.GetPixelHeight();
+
+            await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-prop-{imageName}{{", _settings.Minify);
+            if (width != image.Picture.Image.Bounds.Width)
+            {
+                await WriteCssItemAsync($"width:{width};", _settings.Minify);
+            }
+            if (height != image.Picture.Image.Bounds.Height)
+            {
+                await WriteCssItemAsync($"height:{height:F0};", _settings.Minify);
+            }
+            if (image.Picture.Border.LineStyle != null)
+            {
+                var border = GetDrawingBorder(image.Picture);
+                await WriteCssItemAsync($"border:{border};", _settings.Minify);
+            }
             await WriteClassEndAsync(_settings.Minify);
         }
 

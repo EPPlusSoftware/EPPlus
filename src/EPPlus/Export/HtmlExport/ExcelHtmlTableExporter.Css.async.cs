@@ -60,6 +60,15 @@ namespace OfficeOpenXml.Export.HtmlExport
             await cellCssWriter.RenderAdditionalAndFontCssAsync(TableClass);
             if (Settings.Css.IncludeTableStyles) await RenderTableCssAsync(sw);
             if (Settings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
+
+            if (Settings.IncludePictures)
+            {
+                LoadRangeImages(_table.Range);
+                foreach (var p in _rangePictures)
+                {
+                    await cellCssWriter.AddPictureToCssAsync(p);
+                }
+            }
         }
 
         private async Task RenderCellCssAsync(StreamWriter sw)
@@ -83,7 +92,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             var styleWriter = new EpplusTableCssWriter(sw, _table, Settings);
             if (Settings.Minify == false) await styleWriter.WriteLineAsync();
-            await  styleWriter.RenderAdditionalAndFontCssAsync();
             ExcelTableNamedStyle tblStyle;
             if (_table.TableStyle == TableStyles.Custom)
             {

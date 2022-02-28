@@ -11,6 +11,7 @@
   01/17/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 #if !NET35 && !NET40
+using OfficeOpenXml.Drawing.Interfaces;
 using System;
 using System.Threading.Tasks;
 namespace OfficeOpenXml.Export.HtmlExport
@@ -52,6 +53,22 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.Indent--;
             await writer.RenderEndTagAsync();
             await writer.ApplyFormatAsync(settings.Minify);
+        }
+        internal static async Task AddImageAsync(EpplusHtmlWriter writer, HtmlExportSettings settings, HtmlImage image, object value)
+        {
+            if (image != null)
+            {
+                var name = HtmlWriterBase.GetPictureName(image);
+                string imageName = HtmlWriterBase.GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
+                await writer.RenderBeginTagAsync("img", true);
+                if (value == null || value.ToString() == "")
+                {
+                    await writer.RenderBeginTagAsync("p");
+                    await writer.WriteAsync("&nbsp;");
+                    await writer.RenderEndTagAsync();
+                }
+            }
         }
     }
 }

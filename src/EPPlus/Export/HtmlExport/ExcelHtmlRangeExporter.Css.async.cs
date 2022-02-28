@@ -85,6 +85,14 @@ namespace OfficeOpenXml.Export.HtmlExport
                     await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix);
                 }
             }
+            if (Settings.IncludePictures)
+            {
+                LoadRangeImages(_range);
+                foreach (var p in _rangePictures)
+                {
+                    await styleWriter.AddPictureToCssAsync(p);
+                }
+            }
             await styleWriter.FlushStreamAsync();
         }
     }

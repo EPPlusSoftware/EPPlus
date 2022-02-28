@@ -95,6 +95,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var row = _range._fromRow + Settings.HeaderRows;
             var endRow = _range._toRow;
             var ws = _range.Worksheet;
+            HtmlImage image = null;
             while (row <= endRow)
             {
                 if (HandleHiddenRow(writer, _range.Worksheet, Settings, ref row))
@@ -119,9 +120,15 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
                     SetColRowSpan(writer, cell);
+
+                    if (Settings.IncludePictures)
+                    {
+                        image = GetImage(cell._fromRow, cell._fromCol);
+                    }
+
                     if (cell.Hyperlink == null)
                     {
-                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, false);
+                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, false, image);
                     }
                     else
                     {
@@ -155,6 +162,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             await writer.RenderBeginTagAsync(HtmlElements.Thead);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
             var headerRows = Settings.HeaderRows == 0 ? 1 : Settings.HeaderRows;
+            HtmlImage image = null;
             for (int i = 0; i < headerRows; i++)
             {
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
@@ -172,6 +180,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
                     SetColRowSpan(writer, cell);
                     writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
+
+                    if (Settings.IncludePictures)
+                    {
+                        image = GetImage(cell._fromRow, cell._fromCol);
+                    }
+                    await AddImageAsync(writer, Settings, image, cell.Value);
+
                     await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
                     if (Settings.HeaderRows > 0)
                     {

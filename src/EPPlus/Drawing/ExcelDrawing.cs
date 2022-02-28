@@ -621,6 +621,44 @@ namespace OfficeOpenXml.Drawing
             get { return _id; }
         }
         #region "Internal sizing functions"
+        internal void GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff)
+        {
+            if (CellAnchor == eEditAs.Absolute)
+            {
+                GetToRowFromPixels(Position.Y, out fromRow, out fromRowOff);
+                GetToColumnFromPixels(Position.X, out fromCol, out fromColOff);
+            }
+            else
+            {
+                fromRow = From.Row;
+                fromRowOff = From.RowOff;
+                fromCol = From.Column;
+                fromColOff = From.ColumnOff;
+            }
+        }
+        internal void GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff)
+        {
+            if (CellAnchor == eEditAs.Absolute)
+            {
+                GetToRowFromPixels((Position.Y + Size.Height) / EMU_PER_PIXEL, out toRow, out toRowOff);
+                GetToColumnFromPixels(Position.X + Size.Width / EMU_PER_PIXEL, out toCol, out toColOff);
+            }
+            else
+            {
+                if (CellAnchor == eEditAs.TwoCell)
+                {
+                    toRow = To.Row;
+                    toRowOff = To.RowOff;
+                    toCol = To.Column;
+                    toColOff = To.ColumnOff;
+                }
+                else
+                {
+                    GetToRowFromPixels(Size.Height / EMU_PER_PIXEL, out toRow, out toRowOff, From.Row, From.RowOff);
+                    GetToColumnFromPixels(Size.Width / EMU_PER_PIXEL, out toCol, out toColOff, From.Column, From.ColumnOff);
+                }
+            }
+        }
         internal int GetPixelLeft()
         {
             int pix;
@@ -844,10 +882,10 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _doNotAdjust = true;
-                GetToColumnFromPixels(pixels, out int col, out double pixOff);
+                GetToColumnFromPixels(pixels, out int col, out int pixOff);
 
                 To.Column = col - 2;
-                To.ColumnOff = (int)(pixOff * EMU_PER_PIXEL);
+                To.ColumnOff = pixOff * EMU_PER_PIXEL;
                 _doNotAdjust = false;
             }
             else
@@ -856,7 +894,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal void GetToColumnFromPixels(double pixels, out int col, out double prevRowOff, int fromColumn = -1, int fromColumnOff = -1)
+        internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
@@ -866,13 +904,14 @@ namespace OfficeOpenXml.Drawing
                 fromColumnOff = From.ColumnOff;
             }
             double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
-            prevRowOff = fromColumnOff / EMU_PER_PIXEL + pixels;
+            double offset = fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
-                prevRowOff = pixOff;
+                offset = pixOff;
                 pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
             }
+            colOff = (int)offset;
         }
         #endregion
         #region "Public sizing functions"

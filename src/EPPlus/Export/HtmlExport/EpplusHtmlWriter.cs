@@ -73,9 +73,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer.Flush();
         }
 
-        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, eHtmlGeneralAlignmentHandling alignment, bool isHeader, string styleClassPrefix)
+        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, eHtmlGeneralAlignmentHandling alignment, bool isHeader, string styleClassPrefix, string additionalClasses="")
         {
-            string cls = "";
+            string cls = string.IsNullOrEmpty(additionalClasses) ? "" : additionalClasses;
             int styleId = cell.StyleID;
             ExcelStyles styles = cell.Worksheet.Workbook.Styles;
             if (styleId < 0 || styleId >= styles.CellXfs.Count)

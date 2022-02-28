@@ -32,6 +32,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             Require.Argument(table).IsNotNull("table");
             _table = table;
+            LoadRangeImages(table.Range);
         }
 
         private readonly ExcelTable _table;
@@ -211,6 +212,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
             var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
+            HtmlImage image = null;
             while (row <= endRow)
             {
                 if(HandleHiddenRow(writer, _table.WorkSheet, Settings, ref row))
@@ -237,14 +239,20 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var dataType = _datatypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
 
+                    if (Settings.IncludePictures)
+                    {
+                        image = GetImage(cell._fromRow, cell._fromCol);
+                    }
+
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, addRowScope);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, addRowScope, image);
                     }
                     else
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
+                        AddImage(writer, Settings, image, cell.Value);
                         writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
@@ -283,7 +291,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix);
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            foreach(var col in _columns)
+            HtmlImage image = null;
+            foreach (var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[row, col];
                 writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
@@ -310,6 +319,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
                 writer.RenderBeginTag(HtmlElements.TableHeader);
+                if (Settings.IncludePictures)
+                {
+                    image = GetImage(cell._fromRow, cell._fromCol);
+                }
+                AddImage(writer, Settings, image, cell.Value);
+
                 if (cell.Hyperlink == null)
                 {
                     writer.Write(GetCellText(cell));
@@ -318,6 +333,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     RenderHyperlink(writer, cell);
                 }
+
                 writer.RenderEndTag();
                 writer.ApplyFormat(Settings.Minify);
             }
@@ -403,6 +419,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             var address = _table.Address;
+            HtmlImage image = null;
             foreach (var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[rowIndex, col];
@@ -412,6 +429,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
                 writer.RenderBeginTag(HtmlElements.TableData);
+                AddImage(writer, Settings, image, cell.Value);
                 writer.Write(GetCellText(cell));
                 writer.RenderEndTag();
                 writer.ApplyFormat(Settings.Minify);

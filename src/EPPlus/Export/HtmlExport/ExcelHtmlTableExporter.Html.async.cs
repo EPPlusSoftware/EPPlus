@@ -46,21 +46,20 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
-
             GetDataTypes(_table.Address);
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             AddClassesAttributes(writer);
             AddTableAccessibilityAttributes(Settings, writer);
+            await writer.RenderBeginTagAsync(HtmlElements.Table);
+
+            await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
             LoadVisibleColumns();
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
                 await SetColumnGroupAsync(writer, _table.Range, Settings);
             }
 
-            await writer.RenderBeginTagAsync(HtmlElements.Table);
-
-            await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
             if (_table.ShowHeader)
             {
                 await RenderHeaderRowAsync(writer);
@@ -99,6 +98,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
             var row = _table.ShowHeader ? _table.Address._fromRow + 1 : _table.Address._fromRow;
             var endRow = _table.ShowTotal ? _table.Address._toRow - 1 : _table.Address._toRow;
+            HtmlImage image = null;
             while (row <= endRow)
             {
                 if (HandleHiddenRow(writer, _table.WorkSheet, Settings, ref row))
@@ -125,10 +125,15 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var dataType = _datatypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
 
+                    if (Settings.IncludePictures)
+                    {
+                        image = GetImage(cell._fromRow, cell._fromCol);
+                    }
+
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
-                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, addRowScope);
+                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, addRowScope, image);
                     }
                     else
                     {
@@ -172,6 +177,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix);
             await writer.RenderBeginTagAsync(HtmlElements.TableRow);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
+            HtmlImage image = null;
             foreach (var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[row, col];
@@ -203,6 +209,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
                 await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
+                if (Settings.IncludePictures)
+                {
+                    image = GetImage(cell._fromRow, cell._fromCol);
+                }
+                await AddImageAsync(writer, Settings, image, cell.Value);
+
                 if (cell.Hyperlink == null)
                 {
                     await writer.WriteAsync(GetCellText(cell));
@@ -264,6 +276,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             await writer.RenderBeginTagAsync(HtmlElements.TableRow);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
             var address = _table.Address;
+            HtmlImage image = null;
             foreach (var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[rowIndex, col];
@@ -273,6 +286,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
                 await writer.RenderBeginTagAsync(HtmlElements.TableData);
+                await AddImageAsync(writer, Settings, image, cell.Value);
                 await writer.WriteAsync(GetCellText(cell));
                 await writer.RenderEndTagAsync();
                 await writer.ApplyFormatAsync(Settings.Minify);

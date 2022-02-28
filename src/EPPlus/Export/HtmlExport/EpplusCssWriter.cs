@@ -22,6 +22,7 @@ using System;
 using OfficeOpenXml.Utils;
 using System.Text;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -87,6 +88,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteClass($".{_settings.StyleClassPrefix}al {{", _settings.Minify);
             WriteCssItem($"text-align:left;", _settings.Minify);
             WriteClassEnd(_settings.Minify);
+
             WriteClass($".{_settings.StyleClassPrefix}ar {{", _settings.Minify);
             WriteCssItem($"text-align:right;", _settings.Minify);
             WriteClassEnd(_settings.Minify);
@@ -101,31 +103,91 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteClassEnd(_settings.Minify);
         }
 
-        internal void AddPictureToCss(ExcelPicture p, ExcelAddressBase addr)
+        internal void AddPictureToCss(HtmlImage p)
         {
+            var img = p.Picture.Image;
             string encodedImage;
             ePictureType? type;
-            if (p.Image.Type == ePictureType.Emz || p.Image.Type == ePictureType.Wmz)
-            {   
-                
-                encodedImage = Convert.ToBase64String(ImageReader.ExtractImage(p.Image.ImageBytes, out type));
+            if (img.Type == ePictureType.Emz || img.Type == ePictureType.Wmz)
+            {
+
+                encodedImage = Convert.ToBase64String(ImageReader.ExtractImage(img.ImageBytes, out type));
             }
             else
             {
-                encodedImage = Convert.ToBase64String(p.Image.ImageBytes);
-                type = p.Image.Type.Value;
+                encodedImage = Convert.ToBase64String(img.ImageBytes);
+                type = img.Type.Value;
             }
             if (type == null) return;
-            WriteClass($"{_settings.StyleClassPrefix}image{p.Id}", _settings.Minify);
-            WriteCssItem($"background-image:url('data:{GetContentType(type.Value)};base64,{encodedImage}", _settings.Minify);            
+            var pc = (IPictureContainer)p.Picture;
+            if (_images.Contains(pc.ImageHash) == false)
+            {
+                string imageFileName = GetPictureName(p);
+                WriteClass($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
+                WriteCssItem($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
+                WriteCssItem($"position:absolute", _settings.Minify);
+                WriteClassEnd(_settings.Minify);
+                _images.Add(pc.ImageHash);
+            }
+            AddPicturePropertiesToCss(p);
+        }
+
+        private void AddPicturePropertiesToCss(HtmlImage image)
+        {
+            string imageName = GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            var width = image.Picture.GetPixelWidth();
+            var height = image.Picture.GetPixelHeight();
+
+            WriteClass($"img.{_settings.StyleClassPrefix}image-prop-{imageName}{{", _settings.Minify);            
+            if(width!=image.Picture.Image.Bounds.Width)
+            {
+                WriteCssItem($"width:{width};", _settings.Minify);
+            }
+            if(height!=image.Picture.Image.Bounds.Height)
+            {
+                WriteCssItem($"height:{height:F0};", _settings.Minify);
+            }
+            if(image.Picture.Border.LineStyle!=null)
+            {
+                var border = GetDrawingBorder(image.Picture);
+                WriteCssItem($"border:{border};", _settings.Minify);
+            }
             WriteClassEnd(_settings.Minify);
+        }
+
+        private string GetDrawingBorder(ExcelPicture picture)
+        {
+            Color color = picture.Border.Fill.Color;
+            if (color.IsEmpty) return "";
+            string lineStyle=$"{picture.Border.Width}px";
+            
+            switch (picture.Border.LineStyle.Value)
+            {
+                case eLineStyle.Solid:
+                    lineStyle += " solid";
+                    break;
+                case eLineStyle.Dash:
+                case eLineStyle.LongDashDot:
+                case eLineStyle.LongDashDotDot:
+                case eLineStyle.SystemDash:
+                case eLineStyle.SystemDashDot:
+                case eLineStyle.SystemDashDotDot:
+                    lineStyle += $" dashed";
+                    break;
+                case eLineStyle.Dot:
+                    lineStyle += $" dot";
+                    break;
+            }
+
+            lineStyle += " #" + color.ToArgb().ToString("x8").Substring(2);
+            return lineStyle;
         }
 
         private object GetContentType(ePictureType type)
         {
             switch(type)
             {
-                case ePictureType.Ico;
+                case ePictureType.Ico:
                     return "image/vnd.microsoft.icon";
                 case ePictureType.Jpg:
                     return "image/jpeg";
@@ -226,7 +288,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
 
-            if(xfs.Indent>0 && _cssExclude.Indent == false)
+            if(xfs.Indent > 0 && _cssExclude.Indent == false)
             {
                 WriteCssItem($"padding-left:{xfs.Indent * _cssSettings.IndentValue}{_cssSettings.IndentUnit};", _settings.Minify);
             }

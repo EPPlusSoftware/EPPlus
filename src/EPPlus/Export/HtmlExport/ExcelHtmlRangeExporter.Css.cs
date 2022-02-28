@@ -11,6 +11,7 @@
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.IO;
@@ -79,6 +80,14 @@ namespace OfficeOpenXml.Export.HtmlExport
                             continue;                        
                     }
                     styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix);
+                }
+            }
+            if(Settings.IncludePictures)
+            {
+                LoadRangeImages(_range);
+                foreach(var p in _rangePictures)
+                {
+                    styleWriter.AddPictureToCss(p);
                 }
             }
             styleWriter.FlushStream();

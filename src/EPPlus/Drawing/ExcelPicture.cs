@@ -11,19 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 using System.Xml;
 using System.IO;
-using System.Drawing;
-using System.Diagnostics;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
-using OfficeOpenXml.Packaging;
-using System.Linq;
 #if NETFULL
 using System.Drawing.Imaging;
 #endif

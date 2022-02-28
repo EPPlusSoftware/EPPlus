@@ -60,6 +60,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
             if (Settings.Css.IncludeTableStyles) RenderTableCss(sw);
             if (Settings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
+            if (Settings.IncludePictures)
+            {
+                LoadRangeImages(_table.Range);
+                foreach (var p in _rangePictures)
+                {
+                    cellCssWriter.AddPictureToCss(p);
+                }
+            }
         }
         private void RenderCellCss(EpplusCssWriter styleWriter)
         {            

@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
 using System;
@@ -23,13 +24,12 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
-        private readonly CompileResultFactory _compileResultFactory = new CompileResultFactory();
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
                 var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
-                if (string.IsNullOrEmpty(v)==false)
+                if (string.IsNullOrEmpty(v) == false)
                 {
                     writer.AddAttribute("data-value", v);
                 }
@@ -37,13 +37,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
             {
                 writer.AddAttribute("role", "cell");
-                if(addRowScope)
+                if (addRowScope)
                 {
                     writer.AddAttribute("scope", "row");
                 }
             }
             writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
             writer.RenderBeginTag(HtmlElements.TableData);
+            HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
             {
                 writer.Write(cell.RichText.HtmlText);
@@ -52,11 +53,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 writer.Write(ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture));
             }
+
             writer.RenderEndTag();
             writer.ApplyFormat(settings.Minify);
         }
 #if !NET35 && !NET40
-        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope)
+        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
             {
@@ -76,6 +78,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
+            HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
             {
                 await writer.WriteAsync(cell.RichText.HtmlText);
