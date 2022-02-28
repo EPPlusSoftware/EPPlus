@@ -54,8 +54,11 @@ namespace OfficeOpenXml
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task LoadAsync(FileInfo fileInfo, string Password, CancellationToken cancellationToken = default)
         {
-            var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, RecyclableMemory.GetStream(), Password, cancellationToken).ConfigureAwait(false);
+            using (var stream = fileInfo.OpenRead())
+            {
+                await LoadAsync(stream, RecyclableMemory.GetStream(), Password, cancellationToken).ConfigureAwait(false);
+                stream.Close();
+            }
         }
         /// <summary>
         /// Loads the specified package data from a stream.
@@ -77,8 +80,11 @@ namespace OfficeOpenXml
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task LoadAsync(FileInfo fileInfo, Stream output, string Password, CancellationToken cancellationToken = default)
         {
-            var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, output, Password, cancellationToken).ConfigureAwait(false);
+            using (var stream = fileInfo.OpenRead())
+            {
+                await LoadAsync(stream, output, Password, cancellationToken).ConfigureAwait(false);
+                stream.Close();
+            }
         }
         /// <summary>
         /// Loads the specified package data from a stream.
