@@ -50,6 +50,8 @@ using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using Newtonsoft.Json;
+using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.Style.Coloring;
 
 namespace EPPlusTest
 {
@@ -2843,7 +2845,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("RadioButton.xlsm"))
             {
-                if(p.Workbook.VbaProject == null)
+                if (p.Workbook.VbaProject == null)
                 {
                     p.Workbook.CreateVBAProject();
                 }
@@ -2886,7 +2888,7 @@ namespace EPPlusTest
 
                 ws.ClearFormulaValues();
                 ws.Calculate(); // "Circular reference occurred at A2" exception is thrown here
-                
+
                 var value2 = cell.Value;
                 Console.WriteLine($"value2: {value2}");
             }
@@ -2943,7 +2945,7 @@ namespace EPPlusTest
             using (var package = OpenPackage("i566.xlsx", true))
             {
                 var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
-                var ws= package.Workbook.Worksheets["Sheet 1"];
+                var ws = package.Workbook.Worksheets["Sheet 1"];
                 ws.SetValue(3, 3, "Test");
                 SaveAndCleanup(package);
             }
@@ -2968,17 +2970,17 @@ namespace EPPlusTest
                 var wsSource = package.Workbook.Worksheets["Detail"];
 
                 var dataCollection = new List<object[]>()
-                { 
+                {
                     new object[]{"Driver 1",1,2,"Fleet 1", "Manager 1",3,true,0,5,0 },
                     new object[]{"Driver 2",3,4,"Fleet 2", "Manager 2", 5,true,0,8,0 }
                 };
                 wsSource.Cells["A1"].Value = null;
                 //code to load a collection to the spreadsheet. very nice
                 wsSource.Cells["A2"].LoadFromArrays(dataCollection);
-                
+
                 foreach (var ws in package.Workbook.Worksheets)
                 {
-                    foreach(var pt in ws.PivotTables)
+                    foreach (var pt in ws.PivotTables)
                     {
                         pt.CacheDefinition.SourceRange = wsSource.Cells["A1:J3"];
                     }
@@ -2993,7 +2995,7 @@ namespace EPPlusTest
         {
             using (var p = OpenPackage("piechartHorizontal.xlsx", true))
             {
-                var ws=p.Workbook.Worksheets.Add("PieVertical");
+                var ws = p.Workbook.Worksheets.Add("PieVertical");
                 ws.SetValue("A1", "C1");
                 ws.SetValue("A2", "C2");
                 ws.SetValue("A3", "C3");
@@ -3005,7 +3007,7 @@ namespace EPPlusTest
                 chart.VaryColors = true;
                 chart.Series.Add("B1:B3", "A1:A3");
                 chart.StyleManager.SetChartStyle(OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle.PieChartStyle1);
-                
+
                 SaveAndCleanup(p);
             }
         }
@@ -3051,6 +3053,65 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s300_1()
+        {
+            using (var p = OpenTemplatePackage("s300-1.xlsx"))
+            {
+                SaveWorkbook("s300-1-epp.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void s300_2()
+        {
+            using (var p = OpenTemplatePackage("s300-2.xlsx"))
+            {
+                SaveWorkbook("s300-2-epp.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void s302()
+        {
+            using (var p = OpenTemplatePackage("SampleData.xlsx"))
+            {
+                var worksheet = p.Workbook.Worksheets[2];
+                ExcelBarChart chart = worksheet.Drawings.AddBarChart("NewBarChart", eBarChartType.BarClustered);
+
+                chart.SetPosition(32, 0, 1, 0);
+
+                chart.SetSize(785, 320);
+
+                chart.RoundedCorners = false;
+
+                chart.Border.Fill.Color = Color.Gray;
+
+                chart.Legend.Position = eLegendPosition.Bottom;
+
+
+
+                ExcelBarChartSerie eventS1Serie = chart.Series.Add("D9:D12", "B9:B12");
+
+                eventS1Serie.Header = "STATISTIQUES COMPARATIVES";
+
+                ExcelBarChartSerie eventS2Serie = chart.Series.Add("H9:H12", "B9:B12");
+
+                
+
+                chart.StyleManager.SetChartStyle(ePresetChartStyle.BarChartStyle5, ePresetChartColors.MonochromaticPalette5);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I596()
+        {
+            using (var p = OpenTemplatePackage("I596.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
 

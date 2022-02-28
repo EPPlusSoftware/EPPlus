@@ -107,6 +107,17 @@ namespace OfficeOpenXml.Style
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Style, eStyleProperty.VerticalAlign, value, _positionID, _address));
             }
         }
+        public bool JustifyLastLine
+        {
+            get
+            {
+                return _xfs.JustifyLastLine;
+            }
+            set
+            {
+                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Style, eStyleProperty.JustifyLastLine, value, _positionID, _address));
+            }
+        }
         /// <summary>
         /// Wrap the text
         /// </summary>

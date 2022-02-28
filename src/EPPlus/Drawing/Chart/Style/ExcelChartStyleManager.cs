@@ -693,11 +693,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                     //Note: Datalabels are applied in the ApplyDataLabels method
                     //Marker
                     var applyBorder = !(chart.IsTypeStock() && serie.Border.Width==0);
-                    var items = serie.NumberOfItems;                    
-                    ApplyStyle(serie, dataPoint, serieNo, items, applyFill, applyBorder);
+                    ApplyStyle(serie, dataPoint, serieNo, chart.Series.Count, applyFill, applyBorder);
                     if (serie is IDrawingChartMarker serieMarker && serieMarker.HasMarker())     //Applies to Line and Scatterchart series
                     {
-                        ApplyStyle(serieMarker.Marker, Style.DataPointMarker, serieNo, items);
+                        ApplyStyle(serieMarker.Marker, Style.DataPointMarker, serieNo, chart.Series.Count);
                         serieMarker.Marker.Size = Style.DataPointMarkerLayout.Size;
                         if (Style.DataPointMarkerLayout.Style != eMarkerStyle.None)
                         {
@@ -716,6 +715,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                     //Datapoints
                     if (serie is IDrawingChartDataPoints dps)
                     {
+                        var items = serie.NumberOfItems;
                         foreach (var dp in dps.DataPoints)
                         {
                             applyBorder = !(chart.IsTypeStock() && dp.Border.Width == 0);
