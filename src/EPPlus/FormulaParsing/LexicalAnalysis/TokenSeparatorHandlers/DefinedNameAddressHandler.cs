@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
         }
         public override bool Handle(char c, Token tokenSeparator, TokenizerContext context, ITokenIndexProvider tokenIndexProvider)
         {
-            if (context.IsInDefinedNameAddress && c == ')')
+            if (context.IsInDefinedNameAddress && (c == ')' || c == ','))
             {
                 if (context.IsInDefinedNameAddress)
                 {
@@ -49,6 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                                 var addressToken = new Token(address, TokenType.ExcelAddress);
                                 context.AddToken(addressToken);
                                 context.AddToken(tokenSeparator);
+                                context.NewToken();
                                 return true;
                             }
                         }
