@@ -125,7 +125,21 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string imageFileName = GetPictureName(p);
                 WriteClass($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 WriteCssItem($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
-                WriteCssItem($"position:absolute", _settings.Minify);
+                WriteCssItem($"position:absolute;", _settings.Minify);
+
+                if (p.FromColumnOff != 0)
+                {
+                    var leftOffset = p.FromColumnOff / ExcelPicture.EMU_PER_PIXEL;
+                    WriteCssItem($"margin-left:{leftOffset}px;", _settings.Minify);
+                }
+
+                if (p.FromRowOff != 0)
+                {
+                    var topOffset = p.FromRowOff / ExcelPicture.EMU_PER_PIXEL;
+                    WriteCssItem($"margin-top:{topOffset}px;", _settings.Minify);
+                }
+
+
                 WriteClassEnd(_settings.Minify);
                 _images.Add(pc.ImageHash);
             }

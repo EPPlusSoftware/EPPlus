@@ -92,7 +92,20 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string imageFileName = GetPictureName(p);
                 await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 await WriteCssItemAsync($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
-                await WriteCssItemAsync($"position:absolute", _settings.Minify);
+                await WriteCssItemAsync($"position:absolute;", _settings.Minify);
+
+                if (p.FromColumnOff != 0)
+                {
+                    var leftOffset = p.FromColumnOff / ExcelPicture.EMU_PER_PIXEL;
+                    await WriteCssItemAsync($"margin-left:{leftOffset}px;", _settings.Minify);
+                }
+
+                if (p.FromRowOff != 0)
+                {
+                    var topOffset = p.FromRowOff / ExcelPicture.EMU_PER_PIXEL;
+                    await WriteCssItemAsync($"margin-top:{topOffset}px;", _settings.Minify);
+                }
+
                 await WriteClassEndAsync(_settings.Minify);
                 _images.Add(pc.ImageHash);
             }
