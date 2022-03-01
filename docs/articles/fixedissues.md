@@ -1,4 +1,16 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.7
+### Fixed issues
+* LoadAsync(FileInfo) and LoadAsync(string) do not close the file stream.
+* Hyperlinks referencing the same relation fails to load the package.
+* Monochromatic chart color schemes gave the wrong tint/shade for multiple series.
+* Added missing property 'JustifyLastLine' to ExcelStyle and ExcelXfsXml. Collapsed do not set Hidden on columns when set to true.
+* Improved handling of defined names in range addresses in formula calc, for example SUM("MyRange1:MyRange2") 
+* Escaped double quotes did not work properly for shared formulas in formula calc.
+* Table.AddRow did not adjust Conditional Formatting and Data Validation.
+* Support for numeric criteria with operators in MINIFS/MAXIFS functions.
+* ExcelWorksheet.ClearFormulas method throw a NullReferenceException if ExcelWorksheet.Dimension was null.
+
 ## Version 5.8.6
 ### Fixed issues
 * Rounding functions now returns 0 when referencing empty cells
