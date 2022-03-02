@@ -25,11 +25,14 @@
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 		## Version 6.0.0
 
-		## Version 5.8.6
+		## Version 5.8.7
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		
-		## Version 5.8.5
+		## Version 5.8.6
 		* Bug fixes. 
+
+		## Version 5.8.5
+		* Bug fixes.
 
 		## Version 5.8.4
 		* 10 new functions
@@ -224,6 +227,8 @@
       A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
       Version history
+      5.8.7 20220301 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+      5.8.6 20220203 Minor bug fixes. 
       5.8.5 20220113 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
       5.8.4 20211214 Minor features and bug fixes. 
       5.8.3 20211119 Minor bug fixes.

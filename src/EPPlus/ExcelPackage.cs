@@ -1210,7 +1210,7 @@ namespace OfficeOpenXml
         /// <param name="input">The input.</param>
         public void Load(Stream input)
         {
-            Load(input, RecyclableMemory.GetStream(), null);
+            Load(input, RecyclableMemory.GetStream(), null);            
         }
         /// <summary>
         /// Loads the specified package data from a stream.

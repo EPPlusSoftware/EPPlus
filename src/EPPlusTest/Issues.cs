@@ -3114,6 +3114,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-
+        [TestMethod]
+        public void I606()
+        {
+            using (var p = OpenTemplatePackage("i606.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

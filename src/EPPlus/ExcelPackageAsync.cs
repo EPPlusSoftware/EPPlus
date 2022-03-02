@@ -33,8 +33,10 @@ namespace OfficeOpenXml
         /// <param name="cancellationToken">The cancellation token</param>
         public async Task LoadAsync(FileInfo fileInfo, CancellationToken cancellationToken = default)
         {
-            var stream = fileInfo.OpenRead();
-            await LoadAsync(stream, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
+            using (var stream = fileInfo.OpenRead())
+            {
+                await LoadAsync(stream, RecyclableMemory.GetStream(), null, cancellationToken).ConfigureAwait(false);
+            }
         }
         /// <summary>
         /// Loads the specified package data from a stream.
