@@ -2356,7 +2356,7 @@ namespace OfficeOpenXml
             if (Row < 1 || Column < 1 || Row > ExcelPackage.MaxRows && Column > ExcelPackage.MaxColumns)
             {
                 throw new ArgumentOutOfRangeException("Row or Column out of range");
-            }            
+            }
             SetValueInner(Row, Column, Value);
         }
         /// <summary>
@@ -2793,10 +2793,14 @@ namespace OfficeOpenXml
                                 n = col.Name.ToLowerInvariant();
                                 SetValueInner(tbl.Address._fromRow, colNum, ConvertUtil.ExcelDecodeString(col.Name));
                             }
-                            else
+                            else if(col.Name != n)
                             {
                                 col.Name = n;
                                 SetValueInner(tbl.Address._fromRow, colNum, ConvertUtil.ExcelDecodeString(col.Name));
+                                if (tbl.WorkSheet.IsRichText(tbl.Address._fromRow, colNum))
+                                {
+                                    _flags.SetFlagValue(tbl.Address._fromRow, colNum, false, CellFlags.RichText);
+                                }
                             }
                         }
                         else
@@ -2836,6 +2840,11 @@ namespace OfficeOpenXml
                     tbl.TableXml.Save(stream);
                 }
             }
+        }
+
+        internal bool IsRichText(int row, int col)
+        {
+            return _flags.GetFlagValue(row, col, CellFlags.RichText);
         }
 
         internal void SetTableTotalFunction(ExcelTable tbl, ExcelTableColumn col, int colNum=-1)
