@@ -39,6 +39,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+        /// <summary>
+        /// Exports the html part of the html export, without the styles.
+        /// </summary>
+        /// <param name="stream">The stream to write the css to.</param>
+        /// <exception cref="IOException"></exception>
         public async Task RenderHtmlAsync(Stream stream)
         {
             if (!stream.CanWrite)

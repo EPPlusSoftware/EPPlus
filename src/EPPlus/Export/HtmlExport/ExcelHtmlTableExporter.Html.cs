@@ -55,6 +55,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+        /// <summary>
+        /// Exports the html part of an <see cref="ExcelTable"/> to a html string.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <exception cref="IOException"></exception>
         public void RenderHtml(Stream stream)
         {
             if (!stream.CanWrite)

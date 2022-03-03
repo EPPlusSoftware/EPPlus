@@ -46,6 +46,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
         private readonly ExcelRangeBase _range;
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
+        /// <summary>
+        /// Setting used for the export.
+        /// </summary>
         public HtmlRangeExportSettings Settings { get; } = new HtmlRangeExportSettings();
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -63,6 +66,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="stream">The stream to write to</param>
+        /// <returns>A html table</returns>
         public void RenderHtml(Stream stream)
         {
             if (!stream.CanWrite)

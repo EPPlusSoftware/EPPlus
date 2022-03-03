@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0;net35</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0;net452;net35</TargetFrameworks>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <FileVersion>6.0.0.0</FileVersion>
     <Version>6.0.0</Version>
     <SignAssembly>true</SignAssembly>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>    
+    <PackageLicenseFile>license.md</PackageLicenseFile>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>    
     <AssemblyOriginatorKeyFile>EPPlus.System.Drawing.snk</AssemblyOriginatorKeyFile>
     <RootNamespace>OfficeOpenXml.System.Drawing</RootNamespace>
   </PropertyGroup>
@@ -26,16 +27,12 @@
     <DefineConstants>Core;NET50</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35'">
     <DefineConstants>NET35;NETFULL</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
-    <DefineConstants>NET40;NETFULL</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -65,5 +62,14 @@
       <Version>4.7.1</Version>
     </PackageReference>
   </ItemGroup>
-
+	<ItemGroup>
+		<None Include="EPPlusLogo.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="license.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 </Project>

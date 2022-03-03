@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     public partial class ExcelHtmlTableExporter
     {        
         /// <summary>
-        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// Exports the css part of an <see cref="ExcelTable"/> to a html string
         /// </summary>
         /// <returns>A html table</returns>
         public async Task<string> GetCssStringAsync()
@@ -43,6 +43,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+        /// <summary>
+        /// Exports the css part of an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <returns>A html table</returns>
         public async Task RenderCssAsync(Stream stream)
         {
             if ((_table.TableStyle == TableStyles.None || Settings.Css.IncludeTableStyles==false) && Settings.Css.IncludeCellStyles==false)

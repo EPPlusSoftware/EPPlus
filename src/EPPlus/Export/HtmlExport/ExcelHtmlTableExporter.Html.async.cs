@@ -40,6 +40,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
+        /// <summary>
+        /// Exports the html part of an <see cref="ExcelTable"/> to a stream
+        /// </summary>
+        /// <returns>A html table</returns>
         public async Task RenderHtmlAsync(Stream stream)
         {
             if (!stream.CanWrite)

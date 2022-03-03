@@ -11,7 +11,7 @@ namespace OfficeOpenXml
         private JsonExportSettings _settings;
         protected string _indent = "";
         protected bool _minify;
-        public JsonExport(JsonExportSettings settings)
+        internal JsonExport(JsonExportSettings settings)
         {
             _settings = settings;
             _minify = settings.Minify;

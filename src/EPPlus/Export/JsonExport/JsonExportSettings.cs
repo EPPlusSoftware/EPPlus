@@ -2,12 +2,27 @@
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// How to set the data type when exporting json.
+    /// </summary>
     public enum eDataTypeOn
     {
+        /// <summary>
+        /// Do not set the data type.
+        /// </summary>
         NoDataTypes,
+        /// <summary>
+        /// Set the data type on the column level.
+        /// </summary>
         OnColumn,
+        /// <summary>
+        /// Set the data type on each cell.
+        /// </summary>
         OnCell
     }
+    /// <summary>
+    /// Base class for settings used when exporting a range or a table as Json.
+    /// </summary>
     public abstract class JsonExportSettings
     {
         /// <summary>
@@ -48,7 +63,9 @@ namespace OfficeOpenXml
         /// </summary>
         public Encoding Encoding { get; set; } = new UTF8Encoding(false);
     }
-
+    /// <summary>
+    /// Settings used when exporting a range to Json
+    /// </summary>
     public class JsonRangeExportSettings : JsonExportSettings
     {
         /// <summary>
@@ -65,6 +82,9 @@ namespace OfficeOpenXml
         /// </summary>
         public override eDataTypeOn AddDataTypesOn { get; set; } = eDataTypeOn.OnCell;
     }
+    /// <summary>
+    /// Settings used when exporting a table to Json
+    /// </summary>
     public class JsonTableExportSettings : JsonExportSettings
     {
         /// <summary>

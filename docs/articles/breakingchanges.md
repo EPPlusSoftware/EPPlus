@@ -63,3 +63,8 @@ The ExcelRange.Cells indexer will not permit accessing other worksheets using th
 ### Breaking Change From EPPlus 5.8
 LoadFromCollection changes the data type of parameter 'TableStyle' from TableStyles to TableStyles?. 
 The default value, if omitted, changes from TableStyles.None to null. TableStyles.None, if supplied will create a table with style None.
+
+### Breaking Change From EPPlus 6.0
+Targeting framework for .NET4.0 has been removed. 
+Targeting framework for .NET 4.5 has been upgraded to .NET 4.52.
+All references to System.Drawing.Common has been removed. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information

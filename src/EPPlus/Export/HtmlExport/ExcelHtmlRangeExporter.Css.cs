@@ -42,6 +42,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+        /// <summary>
+        /// Exports the css part of the html export.
+        /// </summary>
+        /// <param name="stream">The stream to write the css to.</param>
+        /// <exception cref="IOException"></exception>
         public void RenderCss(Stream stream)
         {
             if (!stream.CanWrite)
@@ -90,23 +95,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     styleWriter.AddPictureToCss(p);
                 }
             }
-            //if(Settings.IncludePictures) RenderPictures(styleWriter);
             styleWriter.FlushStream();
         }
-
-    //    private void RenderPictures(EpplusCssWriter styleWriter)
-    //    {
-    //        foreach(ExcelDrawing d in _range.Worksheet.Drawings)
-    //        {
-    //            if(d is ExcelPicture p)
-    //            {
-    //                var addr = new ExcelAddressBase(p.From.Row, p.From.Column, p.To.Row, p.To.Column);
-    //                if (_range.Collide(addr) == ExcelAddressBase.eAddressCollition.Inside)
-    //                {
-    //                    styleWriter.AddPictureToCss(p.Image);
-    //                }
-    //            }
-    //        }
-    //    }
     }
 }

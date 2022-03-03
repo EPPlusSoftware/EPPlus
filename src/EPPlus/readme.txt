@@ -1,4 +1,4 @@
-﻿# EPPlus 5
+﻿# EPPlus 6
 
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
@@ -56,23 +56,15 @@ This might be the easiest way of configuring this. Just as above, set the variab
 
 **Important!** The environment variable should be set at the user level.
 
-## Using EPPlus on Non-Windows systems
-To use EPPlus with .NET Core on Non-Windows systems, libgdiplus is required.
-
-Homebrew on MacOS:  
-`brew install mono-libgdiplus`
-
-apt-get:  
-`apt-get install libgdiplus`
-
-## New features in EPPlus 5
-EPPlus 5 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
+## New features in EPPlus 6
+EPPlus 6 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
 
 ## Breaking Changes
+* All public references to System.Drawing.Common has been removed from EPPlus. See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6.
 * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
 * Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
 * ...and more, see https://epplussoftware.com/docs/5.2/articles/breakingchanges.html
 
 ## Improved documentation
-EPPlus 5 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.
+EPPlus 6 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.
 There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). The work with improving the documentation will continue, feedback is highly appreciated!

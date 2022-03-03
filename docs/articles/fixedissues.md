@@ -1,4 +1,10 @@
-﻿# Features / Fixed issues - EPPlus 5
+﻿# Features / Fixed issues - EPPlus 6
+
+## Version 6.0.0-beta
+* Html Export for tables and ranges, See [Html Export](https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export)
+* Json Export for tables and ranges, See [Json Export](https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export)
+* Removed System.Drawing.Common from all public classes, See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information
+
 ## Version 5.8.7
 ### Fixed issues
 * LoadAsync(FileInfo) and LoadAsync(string) do not close the file stream.

@@ -3,7 +3,7 @@
     <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0;net452;net35</TargetFrameworks>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <FileVersion>6.0.0.0</FileVersion>
-    <Version>6.0.0</Version>
+    <Version>6.0.0-beta</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -17,7 +17,7 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.0.0.1-beta
+		EPPlus 6.0.0.0-beta
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
@@ -302,10 +302,6 @@
 
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

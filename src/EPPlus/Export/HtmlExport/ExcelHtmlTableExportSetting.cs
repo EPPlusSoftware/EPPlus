@@ -11,6 +11,7 @@
   05/11/2021         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,6 +20,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
+    /// <summary>
+    /// How the text alignment is handled when the style is set to General
+    /// </summary>
     public enum eHtmlGeneralAlignmentHandling
     {
         /// <summary>
@@ -34,12 +38,28 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         CellDataType
     }
+    
+    /// <summary>
+    /// How hidden rows are handled.
+    /// </summary>
     public enum eHiddenState
     {
+        /// <summary>
+        /// Exclude hidden rows
+        /// </summary>
         Exclude,
+        /// <summary>
+        /// Include hidden rows, but hide them.
+        /// </summary>
         IncludeButHide,
+        /// <summary>
+        /// Include hidden rows.
+        /// </summary>
         Include
     }
+    /// <summary>
+    /// Base class for HTML export for ranges and tables.
+    /// </summary>
     public abstract class HtmlExportSettings
     {
         /// <summary>
@@ -147,6 +167,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public CssRangeExportSettings Css{ get; } = new CssRangeExportSettings();
 
+        /// <summary>
+        /// Reset the setting to it's default values.
+        /// </summary>
         public void ResetToDefault()
         {
             Minify = true;
@@ -159,6 +182,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             Encoding = Encoding.UTF8;
             Css.ResetToDefault();
         }
+        /// <summary>
+        /// Copy the values from another settings object.
+        /// </summary>
+        /// <param name="copy">The object to copy.</param>
         public void Copy(HtmlRangeExportSettings copy)
         {
             Minify = copy.Minify;
@@ -195,9 +222,14 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public bool RenderDataTypes { get; set; } = true;
 
-
+        /// <summary>
+        /// Css export settings.
+        /// </summary>
         public CssTableExportSettings Css { get; } = new CssTableExportSettings();
 
+        /// <summary>
+        /// Reset the settings to it's default values.
+        /// </summary>
         public void ResetToDefault()
         {
             Minify = true;
@@ -211,6 +243,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             RenderDataAttributes = true;
             Css.ResetToDefault();
         }
+        /// <summary>
+        /// Copy the values from another settings object.
+        /// </summary>
+        /// <param name="copy">The object to copy.</param>
         public void Copy(HtmlTableExportSettings copy)
         {
             Minify = copy.Minify;
@@ -224,11 +260,18 @@ namespace OfficeOpenXml.Export.HtmlExport
             RenderDataAttributes = copy.RenderDataAttributes;
             Css.Copy(copy.Css);
         }
+        /// <summary>
+        /// Configure the settings.
+        /// </summary>
+        /// <param name="settings"></param>
         public void Configure(Action<HtmlTableExportSettings> settings)
         {
             settings.Invoke(this);
         }
     }
+    /// <summary>
+    /// Base class for css export settings.
+    /// </summary>
     public abstract class CssExportSettings
     {
         /// <summary>
@@ -302,6 +345,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             get;
         } = new CssExcludeStyle();
 
+        /// <summary>
+        /// Reset the settings to it's default values.
+        /// </summary>
         public void ResetToDefault()
         {
             IncludeTableStyles = true;
@@ -311,6 +357,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             Exclude.CellStyle.ResetToDefault();
             base.ResetToDefaultInternal();
         }
+        /// <summary>
+        /// Copy the values from another settings object.
+        /// </summary>
+        /// <param name="copy">The object to copy.</param>
         public void Copy(CssTableExportSettings copy)
         {
             IncludeTableStyles = copy.IncludeTableStyles;
@@ -332,55 +382,145 @@ namespace OfficeOpenXml.Export.HtmlExport
             ResetToDefault();
         }
         public CssExclude CssExclude { get; } = new CssExclude();
+        /// <summary>
+        /// Reset the settings to it's default values.
+        /// </summary>
         public void ResetToDefault()
         {
             CssExclude.ResetToDefault();
             base.ResetToDefaultInternal();
         }
+        /// <summary>
+        /// Copy the values from another settings object.
+        /// </summary>
+        /// <param name="copy">The object to copy.</param>
         public void Copy(CssRangeExportSettings copy)
         {
             CssExclude.Copy(copy.CssExclude);
             base.CopyInternal(copy);
         }
     }
-        [Flags]
+    /// <summary>
+    /// Exclude font properties in the css
+    /// </summary>
+    [Flags]
     public enum eFontExclude
     {
+        /// <summary>
+        /// Exclude all font properties.
+        /// </summary>
         All = 0x4F,
+        /// <summary>
+        /// Exclude the font name property
+        /// </summary>
         Name = 0x01,
+        /// <summary>
+        /// Exclude the font size property
+        /// </summary>
         Size = 0x02,
+        /// <summary>
+        /// Exclude the font color property
+        /// </summary>
         Color = 0x04,
+        /// <summary>
+        /// Exclude the font bold property
+        /// </summary>
         Bold = 0x08,
+        /// <summary>
+        /// Exclude the font italic property
+        /// </summary>
         Italic = 0x10,
+        /// <summary>
+        /// Exclude the font strike property
+        /// </summary>
         Strike = 0x20,
+        /// <summary>
+        /// Exclude the font underline property
+        /// </summary>
         Underline = 0x40,
     }
+    /// <summary>
+    /// Exclude border properties in the css
+    /// </summary>
     [Flags]
     public enum eBorderExclude
     {
+        /// <summary>
+        /// Exclude all border properties.
+        /// </summary>
         All = 0x0F,
+        /// <summary>
+        /// Exclude top border properties
+        /// </summary>
         Top = 0x01,
+        /// <summary>
+        /// Exclude bottom border properties
+        /// </summary>
         Bottom = 0x02,
+        /// <summary>
+        /// Exclude left border properties
+        /// </summary>
         Left = 0x04,
+        /// <summary>
+        /// Exclude right border properties
+        /// </summary>
         Right = 0x08
     }
-
+    /// <summary>
+    /// Exclude css on an <see cref="ExcelTable"/>.
+    /// </summary>
     public class CssExcludeStyle
     {
+        /// <summary>
+        /// Css settings for table styles
+        /// </summary>
         public CssExclude TableStyle { get; } = new CssExclude();
+        /// <summary>
+        /// Css settings for cell styles.
+        /// </summary>
         public CssExclude CellStyle { get; } = new CssExclude();
     }
+    /// <summary>
+    /// Css settings to exclude individual styles.
+    /// </summary>
     public class CssExclude
     {
+        /// <summary>
+        /// Exclude Font styles.
+        /// </summary>
         public eFontExclude Font { get; set; }
+        /// <summary>
+        /// Exclude Border styles
+        /// </summary>
         public eBorderExclude Border { get; set; }
+        /// <summary>
+        /// Exclude Fill styles
+        /// </summary>
         public bool Fill { get; set; }
+        /// <summary>
+        /// Exclude vertical alignment.
+        /// </summary>
         public bool VerticalAlignment { get; set; }
+        /// <summary>
+        /// Exclude horizontal alignment.
+        /// </summary>
         public bool HorizontalAlignment { get; set; }
+        /// <summary>
+        /// Exclude Wrap Text
+        /// </summary>
         public bool WrapText { get; set; }
+        /// <summary>
+        /// Exclude Text Rotation
+        /// </summary>
         public bool TextRotation { get; set; }
+        /// <summary>
+        /// Exclude Indent.
+        /// </summary>
         public bool Indent { get; set; }
 
+        /// <summary>
+        /// Reset the settings to it's default values.
+        /// </summary>
         public void ResetToDefault()
         {
             Font = 0;
@@ -392,6 +532,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             TextRotation = false;
             Indent = false;
         }
+        /// <summary>
+        /// Copy the values from another settings object.
+        /// </summary>
+        /// <param name="copy">The object to copy.</param>
         public void Copy(CssExclude copy)
         {
             Font = copy.Font;

@@ -42,6 +42,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+        /// <summary>
+        /// Exports the css part of an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <returns>A html table</returns>
         public void RenderCss(Stream stream)
         {
             if ((_table.TableStyle == TableStyles.None || Settings.Css.IncludeTableStyles==false) && Settings.Css.IncludeCellStyles==false)

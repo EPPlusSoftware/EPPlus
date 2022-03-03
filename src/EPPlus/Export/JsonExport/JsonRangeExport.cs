@@ -13,7 +13,7 @@ namespace OfficeOpenXml
     {
         private ExcelRangeBase _range;
         private JsonRangeExportSettings _settings;
-        public JsonRangeExport(ExcelRangeBase range, JsonRangeExportSettings settings) : base(settings)
+        internal JsonRangeExport(ExcelRangeBase range, JsonRangeExportSettings settings) : base(settings)
         {
             _range = range;
             _settings = settings;
