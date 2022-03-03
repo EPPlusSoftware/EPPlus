@@ -1,9 +1,50 @@
 ﻿# Features / Fixed issues - EPPlus 6
 
 ## Version 6.0.0-beta
+### Features
 * Html Export for tables and ranges, See [Html Export](https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export)
 * Json Export for tables and ranges, See [Json Export](https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export)
-* Removed System.Drawing.Common from all public classes, See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information
+* Breaking Change: Removed System.Drawing.Common from all public classes, See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information
+* 32 new functions:
+	* BETADIST	
+	* BETA.DIST
+	* BETAINV
+	* BETA.INV
+	* CHIDIST
+	* CHISQ.DIST.RT
+	* CHIINV
+	* CHISQ.INV
+	* CHISQ.INV.RT
+	* CORREL
+	* EXPONDIST
+	* EXPON.DIST
+	* FISHER
+	* FISHERINV
+	* FORECAST
+	* FORECAST.LINEAR
+	* GAUSS
+	* GEOMEAN
+	* HARMEAN
+	* INTERCEPT
+	* KURT
+	* PEARSON
+	* PHI
+	* RSQ
+	* SKEW
+	* SKEW.P
+	* STANDARDIZE
+	* ACCRINT
+	* ACCRINTM
+	* TBILLEQ
+	* TBILLPRICE
+	* TBILLYIELD
+### Minor Features
+* Breaking Change: Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
+* New ExcelRangeBase.GetCellValue<T> method
+* New overload for ExcelRangeBase.LoadFromDictionaries method with IEnumerable<dynamic>.
+* Added Datatypes and Culture to LoadFromDictionariesParams. This is the settings for the ExcelRangeBase.ExcelRangeBase.LoadFromDictionaries.
+* Added ExcelRichTextCollection.HtmlText and ExcelRichText.HtmlText property.
+
 
 ## Version 5.8.7
 ### Fixed issues

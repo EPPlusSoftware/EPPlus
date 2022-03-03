@@ -127,9 +127,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public string StyleClassPrefix { get; set; } = "epp-";
         /// <summary>
-        /// If picture drawings will be included.
+        /// If picture drawings will be included. Default is true.
         /// </summary>
-        public bool IncludePictures { get; set; } = false;
+        public bool IncludePictures { get; set; } = true;
     }
 
     /// <summary>

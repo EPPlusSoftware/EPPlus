@@ -233,32 +233,6 @@ namespace OfficeOpenXml.Drawing
                 throw (new InvalidOperationException($"Image format not supported or: {pictureType} or corrupt image"));
             }
 
-            //#if (Core)
-            //            GetImageInformation(image, pictureType);
-            //#else
-            //            if(pictureType == ePictureType.Ico ||
-            //               pictureType == ePictureType.Svg ||
-            //               pictureType == ePictureType.WebP)
-            //              { 
-            //                  GetImageInformation(image, pictureType);
-            //              }
-            //              else
-            //              {
-            //                    try
-            //                    {
-            //                        var ms=new MemoryStream(image);
-            //                        var img = Image.FromStream(ms);
-            //                        Bounds.Width = img.Width;
-            //                        Bounds.Height = img.Height;
-            //                        Bounds.HorizontalResolution = img.HorizontalResolution;
-            //                        Bounds.VerticalResolution = img.VerticalResolution;
-            //                    }
-            //                    catch
-            //                    {
-            //                        GetImageInformation(image, pictureType);
-            //                    }                
-            //               }
-            //#endif
             _container.SetNewImage();
             return pictureType;
         }
@@ -285,20 +259,6 @@ namespace OfficeOpenXml.Drawing
             _container.ImageHash = null;
             _container.UriPic = null;
         }
-
-        //private bool GetImageInformation(byte[] image, ePictureType pictureType)
-        //{           
-        //    double w = 0, h = 0;
-        //    if (ImageReader.TryGetImageBounds(pictureType, new MemoryStream(image), ref w, ref h, out double hr, out double vr))
-        //    {
-        //        Bounds.Width = w;
-        //        Bounds.Height = h;
-        //        Bounds.HorizontalResolution = hr;
-        //        Bounds.VerticalResolution = vr;
-        //        return true;
-        //    }
-        //    return false;
-        //}
     }
 }
 

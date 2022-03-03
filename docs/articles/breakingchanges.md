@@ -67,4 +67,5 @@ The default value, if omitted, changes from TableStyles.None to null. TableStyle
 ### Breaking Change From EPPlus 6.0
 Targeting framework for .NET4.0 has been removed. 
 Targeting framework for .NET 4.5 has been upgraded to .NET 4.52.
-All references to System.Drawing.Common has been removed. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information
+All references to System.Drawing.Common has been removed. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information.
+Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 

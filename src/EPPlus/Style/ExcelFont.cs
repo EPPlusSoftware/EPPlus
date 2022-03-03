@@ -233,15 +233,6 @@ namespace OfficeOpenXml.Style
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Charset, value, _positionID, _address));
             }
         }
-
-#if NETFULL
-        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Font")]
-        public void SetFromFont(Font Font)
-        {
-            SetFromFont(Font.Name, Font.Size, Font.Bold, Font.Italic, Font.Underline, Font.Strikeout);
-        }
-#endif
-
         /// <summary>
         /// Set the font from a Font object
         /// </summary>
