@@ -17,6 +17,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Accessibility
 {
+    /// <summary>
+    /// This class controls how accessibility attributes will be set in the exported html.
+    /// </summary>
     public class TableAccessibilitySettings
     {
         public void ResetToDefault()
@@ -42,22 +45,45 @@ namespace OfficeOpenXml.Export.HtmlExport.Accessibility
             TableHeaderCellRole = copy.TableHeaderCellRole;
         }
 
+        /// <summary>
+        /// Controls whether accessibility attributes will be added to the html.
+        /// </summary>
         public bool AddAccessibilityAttributes { get; set; }
 
+        /// <summary>
+        /// Value of the aria-label attribute
+        /// </summary>
         public string AriaLabel { get; set; }
 
+        /// <summary>
+        /// Value of the aria-labelledby attribute
+        /// </summary>
         public string AriaLabelledBy { get; set; }
 
+        /// <summary>
+        /// Value of the aria-describedby attribute
+        /// </summary>
         public string AriaDescribedBy { get; set; }
 
+        /// <summary>
+        /// Value of the role attribute on the table element. Default value: table
+        /// </summary>
         public string TableRole { get; set; }
-
+        /// <summary>
+        /// Value of the role attribute on the thead element. Default value: rowgroup
+        /// </summary>
         public string TheadRole { get; set; }
-
+        /// <summary>
+        /// Value of the role attribute on the tbody element. Default value: rowgroup
+        /// </summary>
         public string TbodyRole { get; set; }
-
+        /// <summary>
+        /// Value of the role attribute on the tfoot element. Default value: rowgroup
+        /// </summary>
         public string TfootRole { get; set; }
-
+        /// <summary>
+        /// Value of the role attribute on the thead.tr.td element. Default value: columnheader
+        /// </summary>
         public string TableHeaderCellRole { get; set; }
     }
 }
