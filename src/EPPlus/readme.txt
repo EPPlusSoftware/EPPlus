@@ -1,4 +1,4 @@
-﻿# EPPlus 6
+﻿# EPPlus 6 Beta
 
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
@@ -54,17 +54,22 @@ using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
 ### 4. Set the environment variable 'EPPlusLicenseContext'
 This might be the easiest way of configuring this. Just as above, set the variable to Commercial or NonCommercial depending on your usage.
 
-**Important!** The environment variable should be set at the user level.
+**Important!** The environment variable should be set at the user or process level.
 
 ## New features in EPPlus 6
 EPPlus 6 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
 
 ## Breaking Changes
-* All public references to System.Drawing.Common has been removed from EPPlus. See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6.
+* All public references to System.Drawing.Common has been removed from EPPlus. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6).
+* Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
+* ...and more, see https://epplussoftware.com/docs/6.0/articles/breakingchanges.html
+### Breaking Changes in version 5.
 * The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
-* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
-* ...and more, see https://epplussoftware.com/docs/5.2/articles/breakingchanges.html
+* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell". 
 
 ## Improved documentation
-EPPlus 6 has new, separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework) respectively.
-There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). The work with improving the documentation will continue, feedback is highly appreciated!
+EPPlus 6 has a new web sample site available here: (https://samples.epplussoftware.com/) ,  Source code is available here: [EPPlus.WebSamples](https://github.com/EPPlusSoftware/EPPlus.WebSamples)
+There is also a new sample project for four different docker images, [EPPlus.DockerSample](https://github.com/EPPlusSoftware/EPPlus.DockerSample)
+EPPlus also has two separate sample projects for [.NET Core](https://github.com/EPPlusSoftware/EPPlus.Sample.NetCore/tree/version/EPPlus6.0) and [.NET Framework](https://github.com/EPPlusSoftware/EPPlus.Sample.NetFramework/tree/version/EPPlus6.0) respectively.
+There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). 
+The work with improving the documentation will continue, feedback is highly appreciated!
