@@ -61,7 +61,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var result = exporter.GetSinglePage();
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", result);
                 Assert.AreEqual(
-                    "<html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}</style></head><body><table class=\"epplus-table\"><colgroup><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/></colgroup><thead><tr class=\"epp-drh\"><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody><tr class=\"epp-drh\"><td>John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td><td></td></tr><tr class=\"epp-drh\"><td></td><td></td><td></td></tr></tbody></table></body></html>",
+                    "<html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}td.epp-image-cell {vertical-align:top;text-align:left;}</style></head><body><table class=\"epplus-table\"><colgroup><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/></colgroup><thead><tr class=\"epp-drh\"><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody><tr class=\"epp-drh\"><td>John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td><td></td></tr><tr class=\"epp-drh\"><td></td><td></td><td></td></tr></tbody></table></body></html>",
                     result);
             }
         }
@@ -92,7 +92,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var result = exporter.GetSinglePage();
 
                 Assert.AreEqual(
-                    "<html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{background-repeat:repeat;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0JyBoZWlnaHQ9JzInPjxyZWN0IHdpZHRoPSc0JyBoZWlnaHQ9JzInIGZpbGw9JyNlMGZmZmYnLz48cmVjdCB4PScyJyB5PScwJyB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPScjZjA4MDgwJy8+PHJlY3QgeD0nMCcgeT0nMScgd2lkdGg9JzEnIGhlaWdodD0nMScgZmlsbD0nI2YwODA4MCcvPjwvc3ZnPg==);color:#0000ff;font-weight:bolder;border-bottom:thin solid #ff0000;white-space: nowrap;}.epp-s2{background-repeat:repeat;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0JyBoZWlnaHQ9JzInPjxyZWN0IHdpZHRoPSc0JyBoZWlnaHQ9JzInIGZpbGw9JyNlMGZmZmYnLz48cmVjdCB4PScyJyB5PScwJyB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPScjZjA4MDgwJy8+PHJlY3QgeD0nMCcgeT0nMScgd2lkdGg9JzEnIGhlaWdodD0nMScgZmlsbD0nI2YwODA4MCcvPjwvc3ZnPg==);font-family:Consolas;color:#0000ff;font-weight:bolder;border-bottom:thin solid #ff0000;white-space: nowrap;}.epp-s3{font-style:italic;white-space: nowrap;}.epp-s4{font-family:Consolas;font-style:italic;white-space: nowrap;}</style></head><body><table class=\"epplus-table\"><thead><tr><th data-datatype=\"string\" class=\"epp-al epp-s1\">Name</th><th data-datatype=\"number\" class=\"epp-al epp-s2\">Age</th></tr></thead><tbody><tr><td class=\"epp-s3\">John Doe</td><td data-value=\"23\" class=\"epp-ar epp-s4\">23</td></tr></tbody></table></body></html>",
+                    "<html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}td.epp-image-cell {vertical-align:top;text-align:left;}.epp-s1{background-repeat:repeat;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0JyBoZWlnaHQ9JzInPjxyZWN0IHdpZHRoPSc0JyBoZWlnaHQ9JzInIGZpbGw9JyNlMGZmZmYnLz48cmVjdCB4PScyJyB5PScwJyB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPScjZjA4MDgwJy8+PHJlY3QgeD0nMCcgeT0nMScgd2lkdGg9JzEnIGhlaWdodD0nMScgZmlsbD0nI2YwODA4MCcvPjwvc3ZnPg==);color:#0000ff;font-weight:bolder;border-bottom:thin solid #ff0000;white-space: nowrap;}.epp-s2{background-repeat:repeat;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc0JyBoZWlnaHQ9JzInPjxyZWN0IHdpZHRoPSc0JyBoZWlnaHQ9JzInIGZpbGw9JyNlMGZmZmYnLz48cmVjdCB4PScyJyB5PScwJyB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPScjZjA4MDgwJy8+PHJlY3QgeD0nMCcgeT0nMScgd2lkdGg9JzEnIGhlaWdodD0nMScgZmlsbD0nI2YwODA4MCcvPjwvc3ZnPg==);font-family:Consolas;color:#0000ff;font-weight:bolder;border-bottom:thin solid #ff0000;white-space: nowrap;}.epp-s3{font-style:italic;white-space: nowrap;}.epp-s4{font-family:Consolas;font-style:italic;white-space: nowrap;}</style></head><body><table class=\"epplus-table\"><thead><tr><th data-datatype=\"string\" class=\"epp-al epp-s1\">Name</th><th data-datatype=\"number\" class=\"epp-al epp-s2\">Age</th></tr></thead><tbody><tr><td class=\"epp-s3\">John Doe</td><td data-value=\"23\" class=\"epp-ar epp-s4\">23</td></tr></tbody></table></body></html>",
                     result);
 
                 var resultAsync = await exporter.GetSinglePageAsync();
@@ -164,12 +164,13 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void WriteAllsvenskan()
         {
-            using (var p = OpenTemplatePackage("Allsvenskan2001.xlsx"))
+            using (var p = OpenTemplatePackage("Allsvenskan2001-saved.xlsx"))
             {
                 var sheet = p.Workbook.Worksheets[0];
-                var exporter = sheet.Cells["B5:M19"].CreateHtmlExporter();
+                var exporter = sheet.Cells["B5:N19"].CreateHtmlExporter();
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
+                exporter.Settings.Pictures.Include = true;
                 var html=exporter.GetSinglePage();
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
             }
@@ -183,11 +184,13 @@ namespace EPPlusTest.Export.HtmlExport
                 var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
-                exporter.Settings.IncludePictures = true;
+                exporter.Settings.Pictures.Include = true;
                 exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8; 
                 var html = exporter.GetSinglePage();
                 var htmlAsync = await exporter.GetSinglePageAsync(); 
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
+                File.WriteAllText("c:\\temp\\" + sheet.Name + "-async.html", htmlAsync);
                 Assert.AreEqual(html, htmlAsync);
             }
         }

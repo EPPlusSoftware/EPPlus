@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                     SetColRowSpan(writer, cell);
 
-                    if (Settings.IncludePictures)
+                    if (Settings.Pictures.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
@@ -189,7 +189,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
                         AddImage(writer, Settings, image, cell.Value);
-                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
+                        var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
                         writer.ApplyFormat(Settings.Minify);
@@ -235,10 +236,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var cell = _range.Worksheet.Cells[row, col];
                     writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
                     SetColRowSpan(writer, cell);
-                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
+                    var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
                     writer.RenderBeginTag(HtmlElements.TableHeader);
                     
-                    if (Settings.IncludePictures)
+                    if (Settings.Pictures.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }

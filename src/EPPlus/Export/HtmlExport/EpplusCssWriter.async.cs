@@ -69,6 +69,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             await WriteClassAsync($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
             await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
             await WriteClassEndAsync(_settings.Minify);
+
+            await WriteClassAsync($"td.{_settings.StyleClassPrefix}image-cell {{", _settings.Minify);
+            await WriteCssItemAsync($"vertical-align:top;", _settings.Minify);
+            await WriteCssItemAsync($"text-align:left;", _settings.Minify);
+            await WriteClassEndAsync(_settings.Minify);
         }
         internal async Task AddPictureToCssAsync(HtmlImage p)
         {

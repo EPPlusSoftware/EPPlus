@@ -42,7 +42,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
             }
-            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
+            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix, imageCellClassName);
             writer.RenderBeginTag(HtmlElements.TableData);
             HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
@@ -76,7 +77,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
             }
-            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix);
+            var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
+            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix, imageCellClassName);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
             HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)

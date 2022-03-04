@@ -129,9 +129,61 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// If picture drawings will be included. Default is true.
         /// </summary>
-        public bool IncludePictures { get; set; } = true;
+        public HtmlPictureSettings Pictures
+        {
+            get;
+        } = new HtmlPictureSettings();
     }
 
+    /// <summary>
+    /// Setting for rendering of picture drawings
+    /// </summary>
+    public class HtmlPictureSettings
+    {
+        internal HtmlPictureSettings()
+        {
+
+        }
+        /// <summary>
+        /// If picture drawings should be included in the html
+        /// </summary>
+        public bool Include { get; set; } = false;
+        /// <summary>
+        /// If the image should be added as absolut or relative in the css.
+        /// </summary>
+        public ePicturePosition Position { get; set; } = ePicturePosition.Absolute;
+        /// <summary>
+        /// If the margin in pixels from the top corner should be used.
+        /// </summary>
+        public bool AddMarginTop { get; set; } = true;
+        /// <summary>
+        /// If the margin in pixels from the left corner should be used.
+        /// </summary>
+        public bool AddMarginLeft { get; set; } = true;
+        /// <summary>
+        /// If set to true the original size of the image is used, 
+        /// otherwise the size in the workbook is used. Default is false.
+        /// </summary>
+        public bool KeepOriginalSize { get; set; } = false;
+    }
+    /// <summary>
+    /// If the Picture is absolut or relative to the table cell
+    /// </summary>
+    public enum ePicturePosition
+    {
+        /// <summary>
+        /// No CSS is added for Position
+        /// </summary>
+        NoSet,
+        /// <summary>
+        /// Position is Absolute in the CSS
+        /// </summary>
+        Absolute,
+        /// <summary>
+        /// Position is Relative in the CSS
+        /// </summary>
+        Relative
+    }
     /// <summary>
     /// Settings for html export for ranges
     /// </summary>

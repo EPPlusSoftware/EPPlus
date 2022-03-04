@@ -101,6 +101,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteClass($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
             WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
             WriteClassEnd(_settings.Minify);
+
+            WriteClass($"td.{_settings.StyleClassPrefix}image-cell {{", _settings.Minify);
+            WriteCssItem($"vertical-align:top;", _settings.Minify);
+            WriteCssItem($"text-align:left;", _settings.Minify);
+            WriteClassEnd(_settings.Minify);
         }
 
         internal void AddPictureToCss(HtmlImage p)
@@ -125,15 +130,18 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string imageFileName = GetPictureName(p);
                 WriteClass($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 WriteCssItem($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
-                WriteCssItem($"position:absolute;", _settings.Minify);
+                if(_settings.Pictures.Position!=ePicturePosition.NoSet)
+                {
+                    WriteCssItem($"position:{_settings.Pictures.Position.ToString().ToLower()};", _settings.Minify);
+                }
 
-                if (p.FromColumnOff != 0)
+                if (p.FromColumnOff != 0 && _settings.Pictures.AddMarginLeft)
                 {
                     var leftOffset = p.FromColumnOff / ExcelPicture.EMU_PER_PIXEL;
                     WriteCssItem($"margin-left:{leftOffset}px;", _settings.Minify);
                 }
 
-                if (p.FromRowOff != 0)
+                if (p.FromRowOff != 0 && _settings.Pictures.AddMarginTop)
                 {
                     var topOffset = p.FromRowOff / ExcelPicture.EMU_PER_PIXEL;
                     WriteCssItem($"margin-top:{topOffset}px;", _settings.Minify);
@@ -152,15 +160,20 @@ namespace OfficeOpenXml.Export.HtmlExport
             var width = image.Picture.GetPixelWidth();
             var height = image.Picture.GetPixelHeight();
 
-            WriteClass($"img.{_settings.StyleClassPrefix}image-prop-{imageName}{{", _settings.Minify);            
-            if(width!=image.Picture.Image.Bounds.Width)
+            WriteClass($"img.{_settings.StyleClassPrefix}image-prop-{imageName}{{", _settings.Minify);
+            
+            if (_settings.Pictures.KeepOriginalSize == false)
             {
-                WriteCssItem($"width:{width};", _settings.Minify);
+                if (width != image.Picture.Image.Bounds.Width)
+                {
+                    WriteCssItem($"width:{width:F0}px;", _settings.Minify);
+                }
+                if (height != image.Picture.Image.Bounds.Height)
+                {
+                    WriteCssItem($"height:{height:F0}px;", _settings.Minify);
+                }
             }
-            if(height!=image.Picture.Image.Bounds.Height)
-            {
-                WriteCssItem($"height:{height:F0};", _settings.Minify);
-            }
+
             if(image.Picture.Border.LineStyle!=null)
             {
                 var border = GetDrawingBorder(image.Picture);

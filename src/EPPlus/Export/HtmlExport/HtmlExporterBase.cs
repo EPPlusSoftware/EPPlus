@@ -103,8 +103,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (rowInternal.Height != range.Worksheet.DefaultRowHeight)
                 {
-                    var ht = range.Worksheet.GetRowHeight(row);
-                    writer.AddAttribute("style", $"height:{ht}px");
+                    writer.AddAttribute("style", $"height:{rowInternal.Height}pt");
+                    return;
                 }
             }
             writer.AddAttribute("class", $"{styleClassPrefix}drh"); //Default row height

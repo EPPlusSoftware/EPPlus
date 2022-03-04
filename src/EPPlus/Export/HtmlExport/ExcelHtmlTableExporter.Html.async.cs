@@ -129,7 +129,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var dataType = _datatypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
 
-                    if (Settings.IncludePictures)
+                    if (Settings.Pictures.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
@@ -142,7 +142,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
-                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
+                        var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                         await RenderHyperlinkAsync(writer, cell);
                         await writer.RenderEndTagAsync();
                         await writer.ApplyFormatAsync(Settings.Minify);
@@ -190,7 +191,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
                 }
 
-                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
+                var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TableHeaderCellRole))
                 {
                     writer.AddAttribute("role", Settings.Accessibility.TableSettings.TableHeaderCellRole);
@@ -213,7 +215,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
                 await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
-                if (Settings.IncludePictures)
+                if (Settings.Pictures.Include)
                 {
                     image = GetImage(cell._fromRow, cell._fromCol);
                 }
@@ -288,7 +290,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     writer.AddAttribute("role", "cell");
                 }
-                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
+                var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                 await writer.RenderBeginTagAsync(HtmlElements.TableData);
                 await AddImageAsync(writer, Settings, image, cell.Value);
                 await writer.WriteAsync(GetCellText(cell));
