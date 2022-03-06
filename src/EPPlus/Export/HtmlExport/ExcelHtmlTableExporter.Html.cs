@@ -300,7 +300,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             foreach (var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[row, col];
-                writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
+                if(Settings.RenderDataTypes)
+                {
+                    writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
+                }
                 writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TableHeaderCellRole))
                 {
