@@ -138,7 +138,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
-                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
+                        if(Settings.IncludeCssClassNames)
+                        {
+                            writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
+                        }
                         await RenderHyperlinkAsync(writer, cell);
                         await writer.RenderEndTagAsync();
                         await writer.ApplyFormatAsync(Settings.Minify);
@@ -182,7 +185,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     if (InMergeCellSpan(row, col)) continue;
                     var cell = _range.Worksheet.Cells[row, col];
-                    writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                    if(Settings.RenderDataTypes)
+                    {
+                        writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                    }
                     SetColRowSpan(writer, cell);
                     writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
 

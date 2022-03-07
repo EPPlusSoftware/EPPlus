@@ -233,9 +233,15 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     if (InMergeCellSpan(row, col)) continue;
                     var cell = _range.Worksheet.Cells[row, col];
-                    writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                    if(Settings.RenderDataTypes)
+                    {
+                        writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                    }
                     SetColRowSpan(writer, cell);
-                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
+                    if(Settings.IncludeCssClassNames)
+                    {
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
+                    }
                     writer.RenderBeginTag(HtmlElements.TableHeader);
                     
                     if (Settings.IncludePictures)

@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     {
         public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image)
         {
-            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
                 var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
                 if (string.IsNullOrEmpty(v) == false)
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 #if !NET35 && !NET40
         public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image)
         {
-            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String)
+            if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
                 var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
                 if (string.IsNullOrEmpty(v) == false)

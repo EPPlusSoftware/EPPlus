@@ -130,6 +130,19 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If picture drawings will be included. Default is true.
         /// </summary>
         public bool IncludePictures { get; set; } = true;
+
+        /// <summary>
+        /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
+        /// </summary>
+        public bool IncludeCssClassNames { get; set; } = true;
+        /// <summary>
+        /// If true data-* attributes will be rendered
+        /// </summary>
+        public bool RenderDataAttributes { get; set; } = true;
+        /// <summary>
+        /// If true, data types are renedered on the header objects.
+        /// </summary>
+        public bool RenderDataTypes { get; set; } = true;
     }
 
     /// <summary>
@@ -210,19 +223,6 @@ namespace OfficeOpenXml.Export.HtmlExport
     public class HtmlTableExportSettings : HtmlExportSettings
     {
         /// <summary>
-        /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
-        /// </summary>
-        public bool IncludeDefaultClasses { get; set; } = true;
-        /// <summary>
-        /// If true data-* attributes will be rendered
-        /// </summary>
-        public bool RenderDataAttributes { get; set; } = true;
-        /// <summary>
-        /// If true, data types are renedered on the header objects.
-        /// </summary>
-        public bool RenderDataTypes { get; set; } = true;
-
-        /// <summary>
         /// Css export settings.
         /// </summary>
         public CssTableExportSettings Css { get; } = new CssTableExportSettings();
@@ -235,7 +235,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             Minify = true;
             HiddenRows = eHiddenState.Exclude;
             Accessibility.TableSettings.ResetToDefault();
-            IncludeDefaultClasses = true;
+            IncludeCssClassNames = true;
             TableId = "";
             AdditionalTableClassNames.Clear();
             Culture = CultureInfo.CurrentCulture;
@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             Minify = copy.Minify;
             HiddenRows = copy.HiddenRows;
             Accessibility.TableSettings.Copy(copy.Accessibility.TableSettings);
-            IncludeDefaultClasses = copy.IncludeDefaultClasses;
+            IncludeCssClassNames = copy.IncludeCssClassNames;
             TableId = copy.TableId;
             AdditionalTableClassNames = copy.AdditionalTableClassNames;
             Culture = copy.Culture;
