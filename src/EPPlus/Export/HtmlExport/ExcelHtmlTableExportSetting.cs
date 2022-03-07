@@ -38,7 +38,24 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         CellDataType
     }
-    
+    /// <summary>
+    /// How to include picture drawings in the html
+    /// </summary>
+    public enum ePictureInclude
+    {
+        /// <summary>
+        /// Do not include pictures in the html export. Default
+        /// </summary>
+        DoNotInclude,
+        /// <summary>
+        /// Include in css only, so they images can be added manually. 
+        /// </summary>
+        IncludeInCssOnly,
+        /// <summary>
+        /// Include the images in the html export.
+        /// </summary>
+        Include
+    }
     /// <summary>
     /// How hidden rows are handled.
     /// </summary>
@@ -56,6 +73,39 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// Include hidden rows.
         /// </summary>
         Include
+    }
+    public class PictureCssExclude
+    {
+        internal PictureCssExclude()
+        {
+
+        }
+        /// <summary>
+        /// Exclude image border CSS
+        /// </summary>
+        public bool Border { get; set; }
+        /// <summary>
+        /// Exclude image alignment CSS
+        /// </summary>
+        public bool Alignment { get; set; }
+
+        /// <summary>
+        /// Reset the setting to it's default values.
+        /// </summary>
+        public void ResetToDefault()
+        {
+            Border = false;
+            Alignment = false;
+        }
+        /// <summary>
+        /// Copy the values from another settings object.
+        /// </summary>
+        /// <param name="copy">The object to copy.</param>
+        public void Copy(PictureCssExclude copy)
+        {
+            Border = copy.Border;
+            Alignment = copy.Alignment;
+        }
     }
     /// <summary>
     /// Base class for HTML export for ranges and tables.
@@ -145,26 +195,60 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         }
         /// <summary>
-        /// If picture drawings should be included in the html
+        /// If picture drawings should be included in the html. Default is <see cref="ePictureInclude.DoNotInclude"/>
         /// </summary>
-        public bool Include { get; set; } = false;
+        public ePictureInclude Include { get; set; } = ePictureInclude.DoNotInclude;
         /// <summary>
         /// If the image should be added as absolut or relative in the css.
         /// </summary>
-        public ePicturePosition Position { get; set; } = ePicturePosition.Absolute;
+        public ePicturePosition Position { get; set; } = ePicturePosition.Relative;
         /// <summary>
-        /// If the margin in pixels from the top corner should be used.
+        /// If the margin in pixels from the top corner should be used. 
+        /// If this property is set to true, the cells vertical alignment will be set to 'top', 
+        /// otherwise alignment will be set to middle.
         /// </summary>
-        public bool AddMarginTop { get; set; } = true;
+        public bool AddMarginTop { get; set; } = false;
         /// <summary>
         /// If the margin in pixels from the left corner should be used.
+        /// If this property is set to true, the cells text alignment will be set to 'left', 
+        /// otherwise alignment will be set to center.
         /// </summary>
-        public bool AddMarginLeft { get; set; } = true;
+        public bool AddMarginLeft { get; set; } = false;
         /// <summary>
         /// If set to true the original size of the image is used, 
         /// otherwise the size in the workbook is used. Default is false.
         /// </summary>
         public bool KeepOriginalSize { get; set; } = false;
+        /// <summary>
+        /// Exclude settings 
+        /// </summary>
+        public PictureCssExclude CssExclude { get; } = new PictureCssExclude();
+
+        /// <summary>
+        /// Reset the setting to it's default values.
+        /// </summary>
+        public void ResetToDefault()
+        {
+            Include = ePictureInclude.DoNotInclude;
+            Position = ePicturePosition.Relative;
+            AddMarginLeft = false;
+            AddMarginTop = false;
+            KeepOriginalSize = false;
+            CssExclude.ResetToDefault();
+        }
+        /// <summary>
+        /// Copy the values from another settings object.
+        /// </summary>
+        /// <param name="copy">The object to copy.</param>
+        public void Copy(HtmlPictureSettings copy)
+        {
+            Include = copy.Include;
+            Position = copy.Position;
+            AddMarginLeft = copy.AddMarginLeft;
+            AddMarginTop = copy.AddMarginTop;
+            KeepOriginalSize = copy.KeepOriginalSize;
+            CssExclude.Copy(copy.CssExclude);
+        }
     }
     /// <summary>
     /// If the Picture is absolut or relative to the table cell
@@ -233,6 +317,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             Culture = CultureInfo.CurrentCulture;
             Encoding = Encoding.UTF8;
             Css.ResetToDefault();
+            Pictures.ResetToDefault();
         }
         /// <summary>
         /// Copy the values from another settings object.
@@ -254,6 +339,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             Culture = copy.Culture;
             Encoding = copy.Encoding;
             Css.Copy(copy.Css);
+            Pictures.Copy(copy.Pictures);
         }
     }
     /// <summary>
@@ -294,6 +380,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             Encoding = Encoding.UTF8;
             RenderDataAttributes = true;
             Css.ResetToDefault();
+            Pictures.ResetToDefault();
         }
         /// <summary>
         /// Copy the values from another settings object.
@@ -311,6 +398,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             Encoding = copy.Encoding;
             RenderDataAttributes = copy.RenderDataAttributes;
             Css.Copy(copy.Css);
+            Pictures.Copy(copy.Pictures);
         }
         /// <summary>
         /// Configure the settings.
@@ -523,6 +611,10 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// </summary>
     public class CssExcludeStyle
     {
+        internal CssExcludeStyle()
+        {
+
+        }
         /// <summary>
         /// Css settings for table styles
         /// </summary>
@@ -537,6 +629,10 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// </summary>
     public class CssExclude
     {
+        internal CssExclude()
+        {
+
+        }
         /// <summary>
         /// Exclude Font styles.
         /// </summary>

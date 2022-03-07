@@ -126,7 +126,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                     SetColRowSpan(writer, cell);
 
-                    if (Settings.Pictures.Include)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
@@ -188,7 +188,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
                     writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
 
-                    if (Settings.Pictures.Include)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }

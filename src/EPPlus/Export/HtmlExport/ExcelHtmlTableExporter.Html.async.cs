@@ -129,7 +129,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var dataType = _datatypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
 
-                    if (Settings.Pictures.Include)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
@@ -142,7 +142,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
-                        var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                        var imageCellClassName = GetImageCellClassName(image, Settings);
                         writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                         await RenderHyperlinkAsync(writer, cell);
                         await writer.RenderEndTagAsync();
@@ -215,7 +215,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
                 await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
-                if (Settings.Pictures.Include)
+                if (Settings.Pictures.Include == ePictureInclude.Include)
                 {
                     image = GetImage(cell._fromRow, cell._fromCol);
                 }
@@ -290,7 +290,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     writer.AddAttribute("role", "cell");
                 }
-                var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                var imageCellClassName = GetImageCellClassName(image, Settings);
                 writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                 await writer.RenderBeginTagAsync(HtmlElements.TableData);
                 await AddImageAsync(writer, Settings, image, cell.Value);

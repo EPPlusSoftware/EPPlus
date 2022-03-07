@@ -88,12 +88,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string imageName = HtmlWriterBase.GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
                 writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
                 writer.RenderBeginTag("img", true);
-                if (value == null || value.ToString() == "")
-                {
-                    writer.RenderBeginTag("p");
-                    writer.Write("&nbsp;");
-                    writer.RenderEndTag();
-                }
+                //if (value == null || value.ToString() == "")
+                //{
+                //    writer.RenderBeginTag("p");
+                //    writer.Write("&nbsp;");
+                //    writer.RenderEndTag();
+                //}
             }
         }
         internal void AddRowHeightStyle(EpplusHtmlWriter writer, ExcelRangeBase range, int row, string styleClassPrefix)
@@ -189,6 +189,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             return string.IsNullOrEmpty(newClassName) ? "EmptyClass" : newClassName;
+        }
+        internal static string GetImageCellClassName(HtmlImage image, HtmlExportSettings settings)
+        {
+            return image == null && settings.Pictures.Position != ePicturePosition.Absolute ? "" : settings.StyleClassPrefix + "image-cell";
         }
     }
 }

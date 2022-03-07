@@ -102,10 +102,28 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
             WriteClassEnd(_settings.Minify);
 
-            WriteClass($"td.{_settings.StyleClassPrefix}image-cell {{", _settings.Minify);
-            WriteCssItem($"vertical-align:top;", _settings.Minify);
-            WriteCssItem($"text-align:left;", _settings.Minify);
-            WriteClassEnd(_settings.Minify);
+            //Image alignment class
+            if (_settings.Pictures.Include != ePictureInclude.DoNotInclude && _settings.Pictures.CssExclude.Alignment == false)
+            {
+                WriteClass($"td.{_settings.StyleClassPrefix}image-cell {{", _settings.Minify);
+                if (_settings.Pictures.AddMarginTop)
+                {
+                    WriteCssItem($"vertical-align:top;", _settings.Minify);
+                }
+                else
+                {
+                    WriteCssItem($"vertical-align:middle;", _settings.Minify);
+                }
+                if (_settings.Pictures.AddMarginTop)
+                {
+                    WriteCssItem($"text-align:left;", _settings.Minify);
+                }
+                else
+                {
+                    WriteCssItem($"text-align:center;", _settings.Minify);
+                }
+                WriteClassEnd(_settings.Minify);
+            }
         }
 
         internal void AddPictureToCss(HtmlImage p)
@@ -174,7 +192,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
 
-            if(image.Picture.Border.LineStyle!=null)
+            if(image.Picture.Border.LineStyle!=null && _settings.Pictures.CssExclude.Border == false)
             {
                 var border = GetDrawingBorder(image.Picture);
                 WriteCssItem($"border:{border};", _settings.Minify);

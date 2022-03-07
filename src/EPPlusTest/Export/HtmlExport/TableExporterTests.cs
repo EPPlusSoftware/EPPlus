@@ -433,7 +433,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var exporter = sheet.Tables[0].CreateHtmlExporter();
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
-                exporter.Settings.Pictures.Include = true;
+                exporter.Settings.Pictures.Include = ePictureInclude.Include;
                 exporter.Settings.Minify = false;
                 var html = exporter.GetSinglePage();
                 var htmlAsync = await exporter.GetSinglePageAsync();

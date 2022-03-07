@@ -244,7 +244,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var dataType = _datatypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
 
-                    if (Settings.Pictures.Include)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
@@ -258,7 +258,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
                         AddImage(writer, Settings, image, cell.Value);
-                        var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                        var imageCellClassName = GetImageCellClassName(image, Settings);
                         writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
@@ -326,7 +326,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
                 writer.RenderBeginTag(HtmlElements.TableHeader);
-                if (Settings.Pictures.Include)
+                if (Settings.Pictures.Include == ePictureInclude.Include)
                 {
                     image = GetImage(cell._fromRow, cell._fromCol);
                 }
@@ -434,7 +434,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     writer.AddAttribute("role", "cell");
                 }
-                var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                var imageCellClassName = GetImageCellClassName(image, Settings);
                 writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                 writer.RenderBeginTag(HtmlElements.TableData);
                 AddImage(writer, Settings, image, cell.Value);

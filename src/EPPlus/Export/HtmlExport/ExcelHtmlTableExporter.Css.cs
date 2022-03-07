@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
             if (Settings.Css.IncludeTableStyles) RenderTableCss(sw);
             if (Settings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
-            if (Settings.Pictures.Include)
+            if (Settings.Pictures.Include == ePictureInclude.Include)
             {
                 LoadRangeImages(_table.Range);
                 foreach (var p in _rangePictures)

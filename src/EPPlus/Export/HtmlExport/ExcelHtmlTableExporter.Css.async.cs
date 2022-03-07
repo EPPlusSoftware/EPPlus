@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (Settings.Css.IncludeTableStyles) await RenderTableCssAsync(sw);
             if (Settings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
 
-            if (Settings.Pictures.Include)
+            if (Settings.Pictures.Include == ePictureInclude.Include)
             {
                 LoadRangeImages(_table.Range);
                 foreach (var p in _rangePictures)

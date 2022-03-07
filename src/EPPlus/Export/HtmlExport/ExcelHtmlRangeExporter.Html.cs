@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                     SetColRowSpan(writer, cell);
 
-                    if (Settings.Pictures.Include)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     {
                         writer.RenderBeginTag(HtmlElements.TableData);
                         AddImage(writer, Settings, image, cell.Value);
-                        var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                        var imageCellClassName = GetImageCellClassName(image, Settings);
                         writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
@@ -209,7 +209,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
         }
-
         private void RenderHeaderRow(EpplusHtmlWriter writer)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
@@ -236,11 +235,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var cell = _range.Worksheet.Cells[row, col];
                     writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
                     SetColRowSpan(writer, cell);
-                    var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                    var imageCellClassName = GetImageCellClassName(image, Settings);
                     writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
                     writer.RenderBeginTag(HtmlElements.TableHeader);
                     
-                    if (Settings.Pictures.Include)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
