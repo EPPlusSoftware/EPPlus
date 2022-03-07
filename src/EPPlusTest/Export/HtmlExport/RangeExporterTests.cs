@@ -102,7 +102,7 @@ namespace EPPlusTest.Export.HtmlExport
 
             }
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task ShouldExportHtmlWithMergedCells()
         {
             using (var package = OpenPackage("HtmlMergeCells.xlsx", true))
