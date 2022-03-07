@@ -1,0 +1,97 @@
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  05/11/2021         EPPlus Software AB           ExcelTable Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+
+namespace OfficeOpenXml.Export.HtmlExport
+{
+    /// <summary>
+    /// Base class for HTML export for ranges and tables.
+    /// </summary>
+    public abstract class HtmlExportSettings
+    {
+        /// <summary>
+        /// The html id attribute for the exported table. The id attribute is only added to the table if this property is not null or empty.
+        /// </summary>
+        public string TableId { get; set; }
+        /// <summary>
+        /// If set to true the rendered html will be formatted with indents and linebreaks.
+        /// </summary>
+        public bool Minify { get; set; } = true;
+        /// <summary>
+        /// How hidden rows will be handled. Default is <see cref="eHiddenState.Exclude"/> 
+        /// </summary>
+        public eHiddenState HiddenRows { get; set; } = eHiddenState.Exclude;
+        /// <summary>
+        /// How to set the alignment for a cell if it's alignment is set to General.
+        /// </summary>
+        public eHtmlGeneralAlignmentHandling HorizontalAlignmentWhenGeneral { get; set; } = eHtmlGeneralAlignmentHandling.CellDataType;
+        /// <summary>
+        /// Settings for usage of accessibility (aria, role) attributes of the table
+        /// </summary>
+        public AccessibilitySettings Accessibility
+        {
+            get; private set;
+        } = new AccessibilitySettings();
+        /// <summary>
+        /// Use this property to set additional class names that will be set on the exported html-table.
+        /// </summary>
+        public List<string> AdditionalTableClassNames
+        {
+            get;
+            protected internal set;
+        } = new List<string>();
+
+        /// <summary>
+        /// The culture used when formatting the cell output.
+        /// </summary>
+        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+        /// <summary>
+        /// Encoding for the output
+        /// </summary>
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
+        /// <summary>
+        /// Set the column width for columns in the table via the columngroup/col element.
+        /// Columns with the default width will have the default column width class set, ({Settings.StyleClassPrefix}dcw). 
+        /// Columns with custom column width will have the width set directly via the style attribute.
+        /// </summary>
+        public bool SetColumnWidth { get; set; } = false;
+        /// <summary>
+        /// Set the row height for rows in the table.
+        /// Rows with the default height will have the default row height class set, ({Settings.StyleClassPrefix}drh). 
+        /// Rows with custom row height will have the height set directly via the style attribute.
+        /// </summary>
+        public bool SetRowHeight { get; set; } = false;
+        /// <summary>
+        /// Prefix for style classes added by EPPlus. 
+        /// <list type="table">
+        /// <listheader><term>type</term><term>Class name</term></listheader>
+        /// <item><term>Cell styles</term><term>{prefix}s{index}</term></item>
+        /// <item><term>Alignment Left </term><term>{prefix}al}</term></item>
+        /// <item><term>Alignment Right</term><term>{prefix}ar}</term></item>
+        /// <item><term>Default column width</term><term>{prefix}dcw}</term></item>
+        /// <item><term>Default row height</term><term>{prefix}drh}</term></item>
+        /// </list>
+        /// </summary>
+        public string StyleClassPrefix { get; set; } = "epp-";
+        /// <summary>
+        /// If picture drawings will be included. Default is true.
+        /// </summary>
+        public HtmlPictureSettings Pictures
+        {
+            get;
+        } = new HtmlPictureSettings();
+    }
+}

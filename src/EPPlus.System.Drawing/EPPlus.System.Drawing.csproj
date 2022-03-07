@@ -10,6 +10,8 @@
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>    
     <AssemblyOriginatorKeyFile>EPPlus.System.Drawing.snk</AssemblyOriginatorKeyFile>
     <RootNamespace>OfficeOpenXml.System.Drawing</RootNamespace>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageIcon>EPPlusLogo.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>Core;Standard20</DefineConstants>
@@ -65,9 +67,13 @@
 	<ItemGroup>
 		<None Include="EPPlusLogo.png">
 			<Pack>True</Pack>
-			<PackagePath></PackagePath>
+			<PackagePath>\</PackagePath>
 		</None>
 		<None Include="license.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="readme.md">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>

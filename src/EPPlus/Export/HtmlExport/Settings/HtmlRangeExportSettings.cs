@@ -10,53 +10,61 @@
  *************************************************************************************************
   05/11/2021         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Export.HtmlExport.Accessibility;
-using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
     /// <summary>
-    /// Settings for html export for tables
+    /// Settings for html export for ranges
     /// </summary>
-    public class HtmlTableExportSettings : HtmlExportSettings
+    public class HtmlRangeExportSettings : HtmlExportSettings
     {
-        /// <summary>
-        /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
-        /// </summary>
-        public bool IncludeDefaultClasses { get; set; } = true;
-        /// <summary>
-        /// If true data-* attributes will be rendered
-        /// </summary>
-        public bool RenderDataAttributes { get; set; } = true;
-        /// <summary>
-        /// If true, data types are renedered on the header objects.
-        /// </summary>
-        public bool RenderDataTypes { get; set; } = true;
+        int _headerRows=1;
 
         /// <summary>
-        /// Css export settings.
+        /// Number of header rows before the actual data. Default is 1.
         /// </summary>
-        public CssTableExportSettings Css { get; } = new CssTableExportSettings();
+        public int HeaderRows 
+        { 
+            get
+            {
+                return _headerRows;
+            }
+            set
+            {
+                if(value < 0 || value > ExcelPackage.MaxRows)
+                {
+                    throw new InvalidOperationException("Can't be negative or exceed number of allowed rows in a worksheet.");
+                }
+                _headerRows = value;
+            }
+        }
+        /// <summary>
+        /// If <see cref="HeaderRows"/> is 0, this collection contains the headers. 
+        /// If this collection is empty the table will have no headers.
+        /// </summary>
+        public List<string> Headers { get; } = new List<string>();
+        /// <summary>
+        /// Options to exclude css elements
+        /// </summary>
+        public CssRangeExportSettings Css{ get; } = new CssRangeExportSettings();
 
         /// <summary>
-        /// Reset the settings to it's default values.
+        /// Reset the setting to it's default values.
         /// </summary>
         public void ResetToDefault()
         {
             Minify = true;
             HiddenRows = eHiddenState.Exclude;
+            HeaderRows = 1;
+            Headers.Clear();
             Accessibility.TableSettings.ResetToDefault();
-            IncludeDefaultClasses = true;
-            TableId = "";
             AdditionalTableClassNames.Clear();
             Culture = CultureInfo.CurrentCulture;
             Encoding = Encoding.UTF8;
-            RenderDataAttributes = true;
             Css.ResetToDefault();
             Pictures.ResetToDefault();
         }
@@ -64,27 +72,23 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// Copy the values from another settings object.
         /// </summary>
         /// <param name="copy">The object to copy.</param>
-        public void Copy(HtmlTableExportSettings copy)
+        public void Copy(HtmlRangeExportSettings copy)
         {
             Minify = copy.Minify;
             HiddenRows = copy.HiddenRows;
+            HeaderRows = copy.HeaderRows;
+            Headers.Clear();
+            Headers.AddRange(copy.Headers);
+
             Accessibility.TableSettings.Copy(copy.Accessibility.TableSettings);
-            IncludeDefaultClasses = copy.IncludeDefaultClasses;
-            TableId = copy.TableId;
-            AdditionalTableClassNames = copy.AdditionalTableClassNames;
+            
+            AdditionalTableClassNames.Clear();
+            AdditionalTableClassNames.AddRange(copy.AdditionalTableClassNames);
+
             Culture = copy.Culture;
             Encoding = copy.Encoding;
-            RenderDataAttributes = copy.RenderDataAttributes;
             Css.Copy(copy.Css);
             Pictures.Copy(copy.Pictures);
-        }
-        /// <summary>
-        /// Configure the settings.
-        /// </summary>
-        /// <param name="settings"></param>
-        public void Configure(Action<HtmlTableExportSettings> settings)
-        {
-            settings.Invoke(this);
         }
     }
 }
