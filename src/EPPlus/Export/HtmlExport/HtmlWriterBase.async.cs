@@ -235,7 +235,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             for (int i = 1; i < name.Length; i++)
             {
                 c = name[i];
-                if (c == '-' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+                if (c == '-' || c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
                 {
                     newName += c;
                 }

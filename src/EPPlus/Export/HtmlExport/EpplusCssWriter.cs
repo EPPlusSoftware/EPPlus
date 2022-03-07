@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string imageFileName = GetPictureName(p);
                 WriteClass($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 WriteCssItem($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
-                if(_settings.Pictures.Position!=ePicturePosition.NoSet)
+                if(_settings.Pictures.Position!=ePicturePosition.DontSet)
                 {
                     WriteCssItem($"position:{_settings.Pictures.Position.ToString().ToLower()};", _settings.Minify);
                 }

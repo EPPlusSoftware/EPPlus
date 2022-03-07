@@ -10,7 +10,8 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>EPPlus.Interfaces.snk</AssemblyOriginatorKeyFile>
     <RootNamespace>OfficeOpenXml.Interfaces</RootNamespace>
-    <PackageReadmeFile>Readme.md</PackageReadmeFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageIcon>EPPlusLogo.png</PackageIcon>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -38,15 +39,15 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\..\Readme.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
-		</None>
 		<None Include="EPPlusLogo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="license.md">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-		<None Include="license.md">
+		<None Include="readme.md">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>

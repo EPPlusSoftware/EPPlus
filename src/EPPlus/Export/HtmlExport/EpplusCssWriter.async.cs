@@ -114,7 +114,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string imageFileName = GetPictureName(p);
                 await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 await WriteCssItemAsync($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
-                if (_settings.Pictures.Position != ePicturePosition.NoSet)
+                if (_settings.Pictures.Position != ePicturePosition.DontSet)
                 {
                     await WriteCssItemAsync($"position:{_settings.Pictures.Position.ToString().ToLower()};", _settings.Minify);
                 }
