@@ -86,14 +86,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 var name = HtmlWriterBase.GetPictureName(image);
                 string imageName = HtmlWriterBase.GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                writer.AddAttribute("alt", image.Picture.Name);
+                if (settings.Pictures.AddNameAsId)
+                {
+                    writer.AddAttribute("id", imageName);
+                }
                 writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
                 writer.RenderBeginTag("img", true);
-                //if (value == null || value.ToString() == "")
-                //{
-                //    writer.RenderBeginTag("p");
-                //    writer.Write("&nbsp;");
-                //    writer.RenderEndTag();
-                //}
             }
         }
         internal void AddRowHeightStyle(EpplusHtmlWriter writer, ExcelRangeBase range, int row, string styleClassPrefix)

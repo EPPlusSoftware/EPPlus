@@ -223,7 +223,16 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// Exclude settings 
         /// </summary>
         public PictureCssExclude CssExclude { get; } = new PictureCssExclude();
-
+        /// <summary>
+        /// Adds the Picture name as Id for the img element in the HTML.
+        /// Characters [A-Z][0-9]-_ are allowed. The first character allows [A-Z]_. 
+        /// Other characters will be replaced with an hyphen (-).
+        /// </summary>
+        public bool AddNameAsId
+        {
+            get;
+            set;
+        } = true;
         /// <summary>
         /// Reset the setting to it's default values.
         /// </summary>

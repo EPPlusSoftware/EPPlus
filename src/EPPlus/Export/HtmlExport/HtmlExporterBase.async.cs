@@ -60,14 +60,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 var name = HtmlWriterBase.GetPictureName(image);
                 string imageName = HtmlWriterBase.GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                writer.AddAttribute("alt", image.Picture.Name);
+                if (settings.Pictures.AddNameAsId)
+                {
+                    writer.AddAttribute("id", imageName);
+                }
                 writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
                 await writer.RenderBeginTagAsync("img", true);
-                if (value == null || value.ToString() == "")
-                {
-                    await writer.RenderBeginTagAsync("p");
-                    await writer.WriteAsync("&nbsp;");
-                    await writer.RenderEndTagAsync();
-                }
             }
         }
     }
