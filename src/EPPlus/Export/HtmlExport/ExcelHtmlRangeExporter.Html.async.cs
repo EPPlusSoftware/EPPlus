@@ -126,7 +126,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                     SetColRowSpan(writer, cell);
 
-                    if (Settings.IncludePictures)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
@@ -138,10 +138,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     else
                     {
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
-                        if(Settings.IncludeCssClassNames)
-                        {
-                            writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix);
-                        }
+                        var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
                         await RenderHyperlinkAsync(writer, cell);
                         await writer.RenderEndTagAsync();
                         await writer.ApplyFormatAsync(Settings.Minify);
@@ -185,14 +183,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     if (InMergeCellSpan(row, col)) continue;
                     var cell = _range.Worksheet.Cells[row, col];
-                    if(Settings.RenderDataTypes)
-                    {
-                        writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
-                    }
+                    writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
                     SetColRowSpan(writer, cell);
-                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix);
+                    var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
+                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
 
-                    if (Settings.IncludePictures)
+                    if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }

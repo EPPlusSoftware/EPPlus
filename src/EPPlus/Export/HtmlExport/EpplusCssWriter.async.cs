@@ -69,6 +69,28 @@ namespace OfficeOpenXml.Export.HtmlExport
             await WriteClassAsync($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
             await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
             await WriteClassEndAsync(_settings.Minify);
+
+            if (_settings.Pictures.Include != ePictureInclude.Exclude && _settings.Pictures.CssExclude.Alignment == false)
+            {
+                await WriteClassAsync($"td.{_settings.StyleClassPrefix}image-cell {{", _settings.Minify);
+                if (_settings.Pictures.AddMarginTop)
+                {
+                    await WriteCssItemAsync($"vertical-align:top;", _settings.Minify);
+                }
+                else
+                {
+                    await WriteCssItemAsync($"vertical-align:middle;", _settings.Minify);
+                }
+                if (_settings.Pictures.AddMarginTop)
+                {
+                    await WriteCssItemAsync($"text-align:left;", _settings.Minify);
+                }
+                else
+                {
+                    await WriteCssItemAsync($"text-align:center;", _settings.Minify);
+                }
+                await WriteClassEndAsync(_settings.Minify);
+            }
         }
         internal async Task AddPictureToCssAsync(HtmlImage p)
         {
@@ -92,19 +114,23 @@ namespace OfficeOpenXml.Export.HtmlExport
                 string imageFileName = GetPictureName(p);
                 await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 await WriteCssItemAsync($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
-                await WriteCssItemAsync($"position:absolute;", _settings.Minify);
+                if (_settings.Pictures.Position != ePicturePosition.NoSet)
+                {
+                    await WriteCssItemAsync($"position:{_settings.Pictures.Position.ToString().ToLower()};", _settings.Minify);
+                }
 
-                if (p.FromColumnOff != 0)
+                if (p.FromColumnOff != 0 && _settings.Pictures.AddMarginLeft)
                 {
                     var leftOffset = p.FromColumnOff / ExcelPicture.EMU_PER_PIXEL;
                     await WriteCssItemAsync($"margin-left:{leftOffset}px;", _settings.Minify);
                 }
 
-                if (p.FromRowOff != 0)
+                if (p.FromRowOff != 0 && _settings.Pictures.AddMarginTop)
                 {
                     var topOffset = p.FromRowOff / ExcelPicture.EMU_PER_PIXEL;
                     await WriteCssItemAsync($"margin-top:{topOffset}px;", _settings.Minify);
                 }
+
 
                 await WriteClassEndAsync(_settings.Minify);
                 _images.Add(pc.ImageHash);
@@ -119,15 +145,19 @@ namespace OfficeOpenXml.Export.HtmlExport
             var height = image.Picture.GetPixelHeight();
 
             await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-prop-{imageName}{{", _settings.Minify);
-            if (width != image.Picture.Image.Bounds.Width)
+            if (_settings.Pictures.KeepOriginalSize == false)
             {
-                await WriteCssItemAsync($"width:{width};", _settings.Minify);
+                if (width != image.Picture.Image.Bounds.Width)
+                {
+                    await WriteCssItemAsync($"width:{width};", _settings.Minify);
+                }
+                if (height != image.Picture.Image.Bounds.Height)
+                {
+                    await WriteCssItemAsync($"height:{height:F0};", _settings.Minify);
+                }
             }
-            if (height != image.Picture.Image.Bounds.Height)
-            {
-                await WriteCssItemAsync($"height:{height:F0};", _settings.Minify);
-            }
-            if (image.Picture.Border.LineStyle != null)
+
+            if (image.Picture.Border.LineStyle != null && _settings.Pictures.CssExclude.Border==false)
             {
                 var border = GetDrawingBorder(image.Picture);
                 await WriteCssItemAsync($"border:{border};", _settings.Minify);

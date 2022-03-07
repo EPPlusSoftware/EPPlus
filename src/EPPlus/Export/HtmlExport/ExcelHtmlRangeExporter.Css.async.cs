@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix);
                 }
             }
-            if (Settings.IncludePictures)
+            if (Settings.Pictures.Include == ePictureInclude.Include)
             {
                 LoadRangeImages(_range);
                 foreach (var p in _rangePictures)

@@ -167,10 +167,11 @@ namespace EPPlusTest.Export.HtmlExport
             using (var p = OpenTemplatePackage("Allsvenskan2001.xlsx"))
             {
                 var sheet = p.Workbook.Worksheets[0];
-                var exporter = sheet.Cells["B5:M19"].CreateHtmlExporter();
+                var exporter = sheet.Cells["B5:N19"].CreateHtmlExporter();
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
-                var html=exporter.GetSinglePage();
+                exporter.Settings.Pictures.Include = ePictureInclude.Include;
+                var html =exporter.GetSinglePage();
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
             }
         }
@@ -183,11 +184,13 @@ namespace EPPlusTest.Export.HtmlExport
                 var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
-                exporter.Settings.IncludePictures = true;
+                exporter.Settings.Pictures.Include = ePictureInclude.Include;
                 exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8; 
                 var html = exporter.GetSinglePage();
                 var htmlAsync = await exporter.GetSinglePageAsync(); 
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
+                File.WriteAllText("c:\\temp\\" + sheet.Name + "-async.html", htmlAsync);
                 Assert.AreEqual(html, htmlAsync);
             }
         }
