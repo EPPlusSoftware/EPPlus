@@ -103,7 +103,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteClassEnd(_settings.Minify);
 
             //Image alignment class
-            if (_settings.Pictures.Include != ePictureInclude.DoNotInclude && _settings.Pictures.CssExclude.Alignment == false)
+            if (_settings.Pictures.Include != ePictureInclude.Exclude && _settings.Pictures.CssExclude.Alignment == false)
             {
                 WriteClass($"td.{_settings.StyleClassPrefix}image-cell {{", _settings.Minify);
                 if (_settings.Pictures.AddMarginTop)

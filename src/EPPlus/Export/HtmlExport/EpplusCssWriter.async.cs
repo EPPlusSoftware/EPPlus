@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
             await WriteClassEndAsync(_settings.Minify);
 
-            if (_settings.Pictures.Include != ePictureInclude.DoNotInclude && _settings.Pictures.CssExclude.Alignment == false)
+            if (_settings.Pictures.Include != ePictureInclude.Exclude && _settings.Pictures.CssExclude.Alignment == false)
             {
                 await WriteClassAsync($"td.{_settings.StyleClassPrefix}image-cell {{", _settings.Minify);
                 if (_settings.Pictures.AddMarginTop)

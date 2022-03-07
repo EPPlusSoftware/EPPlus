@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Do not include pictures in the html export. Default
         /// </summary>
-        DoNotInclude,
+        Exclude,
         /// <summary>
         /// Include in css only, so they images can be added manually. 
         /// </summary>
@@ -195,9 +195,9 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         }
         /// <summary>
-        /// If picture drawings should be included in the html. Default is <see cref="ePictureInclude.DoNotInclude"/>
+        /// If picture drawings should be included in the html. Default is <see cref="ePictureInclude.Exclude"/>
         /// </summary>
-        public ePictureInclude Include { get; set; } = ePictureInclude.DoNotInclude;
+        public ePictureInclude Include { get; set; } = ePictureInclude.Exclude;
         /// <summary>
         /// If the image should be added as absolut or relative in the css.
         /// </summary>
@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public void ResetToDefault()
         {
-            Include = ePictureInclude.DoNotInclude;
+            Include = ePictureInclude.Exclude;
             Position = ePicturePosition.Relative;
             AddMarginLeft = false;
             AddMarginTop = false;
