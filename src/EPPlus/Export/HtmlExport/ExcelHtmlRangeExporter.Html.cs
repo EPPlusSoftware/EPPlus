@@ -233,24 +233,22 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     if (InMergeCellSpan(row, col)) continue;
                     var cell = _range.Worksheet.Cells[row, col];
-                    if(Settings.RenderDataTypes)
+                    if (Settings.RenderDataTypes)
                     {
                         writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
                     }
                     SetColRowSpan(writer, cell);
                     if(Settings.IncludeCssClassNames)
                     {
-                    SetColRowSpan(writer, cell);
-                    var imageCellClassName = GetImageCellClassName(image, Settings);
-                    writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
+                        var imageCellClassName = GetImageCellClassName(image, Settings);
+                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
                     }
-                    writer.RenderBeginTag(HtmlElements.TableHeader);
-                    
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
                     AddImage(writer, Settings, image, cell.Value);
+                    writer.RenderBeginTag(HtmlElements.TableHeader);
 
                     if (Settings.HeaderRows > 0)
                     {
