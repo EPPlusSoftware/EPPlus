@@ -1480,8 +1480,13 @@ namespace EPPlusTest
         {
             var ws = _pck.Workbook.Worksheets.Add("Remove_BackImg");
 
-            ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.CodeBmp), ePictureType.Bmp);
-            ws.BackgroundImage.Image.RemoveImage();
+            ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.Png2ByteArray), ePictureType.Png);
+            Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
+            Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
+            
+            ws.BackgroundImage.Image.Remove();
+            Assert.IsNull(ws.BackgroundImage.Image.Type);
+            Assert.IsNull(ws.BackgroundImage.Image.ImageBytes);
         }
         [TestMethod]
         public void SetHeaderFooterImage()

@@ -22,6 +22,24 @@ using System.Drawing;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
+    /// Represents an image.
+    /// </summary>
+    public class ExcelImageRemovable : ExcelImage
+    {
+        internal ExcelImageRemovable(IPictureContainer container, ePictureType[] restrictedTypes = null) : 
+            base(container, restrictedTypes)
+        {
+
+        }
+        /// <summary>
+        ///  Remove the image.
+        /// </summary>
+        public void Remove()
+        {
+            RemoveImage();
+        }
+    }
+    /// <summary>
     /// Represents an image 
     /// </summary>
     public class ExcelImage
@@ -33,7 +51,16 @@ namespace OfficeOpenXml.Drawing
             _container = container;
             _restrictedTypes = restrictedTypes ?? new ePictureType[0];
         }
-
+        /// <summary>
+        /// If this object contains an image.
+        /// </summary>
+        public bool HasImage
+        {
+            get
+            {
+                return Type.HasValue;
+            }
+        }
         /// <summary>
         /// The type of image.
         /// </summary>
@@ -98,12 +125,26 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Sets a new image. 
         /// </summary>
-        /// <param name="image">The image as a byte array.</param>
+        /// <param name="imageBytes">The image as a byte array.</param>
         /// <param name="pictureType">The type of image.</param>
-        public void SetImage(byte[] image, ePictureType pictureType)
+        public void SetImage(byte[] imageBytes, ePictureType pictureType)
         {
-            SetImage(image, pictureType, true);
+            SetImage(imageBytes, pictureType, true);
         }
+        /// <summary>
+        /// Sets a new image. 
+        /// </summary>
+        /// <param name="image">The image object to use.</param>
+        /// <seealso cref="ExcelImage"/>
+        public void SetImage(ExcelImage image)
+        {
+            if(image.Type==null)
+            {
+                throw new ArgumentNullException("Image type must not be null");
+            }
+            SetImage(image.ImageBytes, image.Type.Value, true);
+        }
+
         /// <summary>
         /// Sets a new image. 
         /// </summary>

@@ -184,11 +184,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (width != image.Picture.Image.Bounds.Width)
                 {
-                    WriteCssItem($"width:{width:F0}px;", _settings.Minify);
+                    WriteCssItem($"max-width:{width:F0}px;", _settings.Minify);
                 }
                 if (height != image.Picture.Image.Bounds.Height)
                 {
-                    WriteCssItem($"height:{height:F0}px;", _settings.Minify);
+                    WriteCssItem($"max-height:{height:F0}px;", _settings.Minify);
                 }
             }
 
