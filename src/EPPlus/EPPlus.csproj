@@ -32,7 +32,7 @@
 		* Removed direct references to System.Drawing.Common, see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6
 		* Bug fixes.
 		See https://epplussoftware.com/Developers/EPPlus6 for more details.
-		For changes during the beta period, see https://www.epplussoftware.com/docs/6.0/articles/breakingchanges.html
+		For changes during the beta period, see https://www.epplussoftware.com/docs/6.0/articles/fixedissues.html
 
 		## Version 5.8.7
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues

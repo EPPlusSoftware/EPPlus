@@ -72,6 +72,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     cellCssWriter.AddPictureToCss(p);
                 }
             }
+            cellCssWriter.FlushStream();
         }
         private void RenderCellCss(EpplusCssWriter styleWriter)
         {            

@@ -73,6 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     await cellCssWriter.AddPictureToCssAsync(p);
                 }
             }
+            await cellCssWriter.FlushStreamAsync();
         }
 
         private async Task RenderCellCssAsync(StreamWriter sw)
