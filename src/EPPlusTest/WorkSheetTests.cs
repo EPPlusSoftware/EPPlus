@@ -1484,9 +1484,23 @@ namespace EPPlusTest
             Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
             Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
             
-            ws.BackgroundImage.Image.Remove();
+            ws.BackgroundImage.Remove();
             Assert.IsNull(ws.BackgroundImage.Image.Type);
             Assert.IsNull(ws.BackgroundImage.Image.ImageBytes);
+        }
+        [TestMethod]
+        public void SetPngFromExcelImage()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("BackImg_Png");
+            var wsCopy = _pck.Workbook.Worksheets.Add("BackImg_Png_Copy");
+
+            var image=ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.Png3ByteArray), ePictureType.Png);
+            Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
+            Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
+            wsCopy.BackgroundImage.Image.SetImage(image);
+
+            Assert.AreEqual(wsCopy.BackgroundImage.Image.Type, ws.BackgroundImage.Image.Type);
+            Assert.AreEqual(wsCopy.BackgroundImage.Image.ImageBytes, ws.BackgroundImage.Image.ImageBytes);
         }
         [TestMethod]
         public void SetHeaderFooterImage()

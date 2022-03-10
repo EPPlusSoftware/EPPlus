@@ -38,20 +38,20 @@ namespace OfficeOpenXml
         {
             _workSheet = workSheet;
         }
-        ExcelImageRemovable _imageNew;
+        ExcelImage _imageNew;
         const string BACKGROUNDPIC_PATH = "d:picture/@r:id";
         /// <summary>
         /// The background image of the worksheet. 
         /// Note that images of type .svg, .ico and .webp is not supported as background images.
         /// </summary>
-        public ExcelImageRemovable Image 
+        public ExcelImage Image 
         { 
             get
             {
                 if (_imageNew == null)
                 {
                     var relId = GetXmlNodeString(BACKGROUNDPIC_PATH);
-                    _imageNew = new ExcelImageRemovable(this, new ePictureType[] {ePictureType.Svg, ePictureType.Ico, ePictureType.WebP});
+                    _imageNew = new ExcelImage(this, new ePictureType[] {ePictureType.Svg, ePictureType.Ico, ePictureType.WebP});
                     if (!string.IsNullOrEmpty(relId))
                     {
                         _imageNew.ImageBytes = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
@@ -87,7 +87,13 @@ namespace OfficeOpenXml
             }
             SetFromFile(new FileInfo(PictureFilePath));
         }
-
+        /// <summary>
+        /// Removes the background image.
+        /// </summary>
+        public void Remove()
+        {
+            Image.RemoveImage();
+        }
         IPictureRelationDocument IPictureContainer.RelationDocument 
         { 
             get 

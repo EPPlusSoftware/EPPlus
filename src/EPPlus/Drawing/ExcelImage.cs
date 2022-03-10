@@ -22,24 +22,6 @@ using System.Drawing;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
-    /// Represents an image.
-    /// </summary>
-    public class ExcelImageRemovable : ExcelImage
-    {
-        internal ExcelImageRemovable(IPictureContainer container, ePictureType[] restrictedTypes = null) : 
-            base(container, restrictedTypes)
-        {
-
-        }
-        /// <summary>
-        ///  Remove the image.
-        /// </summary>
-        public void Remove()
-        {
-            RemoveImage();
-        }
-    }
-    /// <summary>
     /// Represents an image 
     /// </summary>
     public class ExcelImage
