@@ -73,8 +73,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             _writer.Flush();
         }
 
-        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, eHtmlGeneralAlignmentHandling alignment, bool isHeader, string styleClassPrefix, string additionalClasses="")
-        {
+        internal void SetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, string additionalClasses)
+        {            
             string cls = string.IsNullOrEmpty(additionalClasses) ? "" : additionalClasses;
             int styleId = cell.StyleID;
             ExcelStyles styles = cell.Worksheet.Workbook.Styles;
@@ -83,7 +83,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                 return;
             }
             var xfs = styles.CellXfs[styleId];
-            if (alignment == eHtmlGeneralAlignmentHandling.CellDataType &&
+            var styleClassPrefix = settings.StyleClassPrefix;
+            if (settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.CellDataType &&
                xfs.HorizontalAlignment == ExcelHorizontalAlignment.General)
             {
                 if (ConvertUtil.IsNumericOrDate(cell.Value))
@@ -113,7 +114,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 id = _styleCache.Count + 1;
                 _styleCache.Add(key, id);
             }
-            cls += $" {styleClassPrefix}s{id}";
+            cls += $" {styleClassPrefix}{settings.CellStyleClassName}{id}";
             AddAttribute("class", cls.Trim());
         }
     }

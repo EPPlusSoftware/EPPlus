@@ -127,22 +127,22 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="imageBytes">The image as a byte array.</param>
         /// <param name="pictureType">The type of image.</param>
-        public void SetImage(byte[] imageBytes, ePictureType pictureType)
+        public ExcelImage SetImage(byte[] imageBytes, ePictureType pictureType)
         {
-            SetImage(imageBytes, pictureType, true);
+            return SetImage(imageBytes, pictureType, true);            
         }
         /// <summary>
         /// Sets a new image. 
         /// </summary>
         /// <param name="image">The image object to use.</param>
         /// <seealso cref="ExcelImage"/>
-        public void SetImage(ExcelImage image)
+        public ExcelImage SetImage(ExcelImage image)
         {
             if(image.Type==null)
             {
                 throw new ArgumentNullException("Image type must not be null");
             }
-            SetImage(image.ImageBytes, image.Type.Value, true);
+            return SetImage(image.ImageBytes, image.Type.Value, true);
         }
 
         /// <summary>
@@ -150,11 +150,11 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="imageStream">The stream containing the image.</param>
         /// <param name="pictureType">The type of image.</param>
-        public void SetImage(Stream imageStream, ePictureType pictureType)
+        public ExcelImage SetImage(Stream imageStream, ePictureType pictureType)
         {
             if(imageStream is MemoryStream ms)
             {
-                SetImage(ms.ToArray(), pictureType, true);
+                return SetImage(ms.ToArray(), pictureType, true);
             }
             else
             {
@@ -166,20 +166,20 @@ namespace OfficeOpenXml.Drawing
                 imageStream.Seek(0, SeekOrigin.Begin);
                 imageStream.Read(byRet, 0, (int)imageStream.Length);
 
-                SetImage(byRet, pictureType);
+                return SetImage(byRet, pictureType);
             }
         }
-#if !NET35 && !NET40
+#if !NET35
         /// <summary>
         /// Sets a new image. 
         /// </summary>
         /// <param name="imageStream">The stream containing the image.</param>
         /// <param name="pictureType">The type of image.</param>
-        public async Task SetImageAsync(Stream imageStream, ePictureType pictureType)
+        public async Task<ExcelImage> SetImageAsync(Stream imageStream, ePictureType pictureType)
         {
             if (imageStream is MemoryStream ms)
             {
-                SetImage(ms.ToArray(), pictureType, true);
+                return SetImage(ms.ToArray(), pictureType, true);
             }
             else
             {
@@ -191,27 +191,27 @@ namespace OfficeOpenXml.Drawing
                 imageStream.Seek(0, SeekOrigin.Begin);
                 await imageStream.ReadAsync(byRet, 0, (int)imageStream.Length);
 
-                SetImage(byRet, pictureType);
+                return SetImage(byRet, pictureType);
             }
         }
         /// <summary>
         /// Sets a new image. 
         /// </summary>
         /// <param name="imagePath">The path to the image file.</param>
-        public async Task SetImageAsync(string imagePath)
+        public async Task<ExcelImage> SetImageAsync(string imagePath)
         {
             if (string.IsNullOrEmpty(imagePath))
             {
                 throw new ArgumentNullException(nameof(imagePath), "Image Path cannot be empty");
             }
             var fi = new FileInfo(imagePath);
-            await SetImageAsync(fi);
+            return await SetImageAsync(fi);
         }
         /// <summary>
         /// Sets a new image. 
         /// </summary>
         /// <param name="imageFile">The image file.</param>
-        public async Task SetImageAsync(FileInfo imageFile)
+        public async Task<ExcelImage> SetImageAsync(FileInfo imageFile)
         {
             if (imageFile == null)
             {
@@ -226,11 +226,11 @@ namespace OfficeOpenXml.Drawing
             var fs = imageFile.OpenRead();
             var b = new byte[fs.Length];
             await fs.ReadAsync(b, 0, b.Length);
-            SetImage(b, type, true);
+            return SetImage(b, type, true);
         }
 
 #endif
-        internal ePictureType SetImage(byte[] image, ePictureType pictureType, bool removePrevImage)
+        internal ExcelImage SetImage(byte[] image, ePictureType pictureType, bool removePrevImage)
         {
             ValidatePictureType(pictureType);
             Type = pictureType;
@@ -275,7 +275,7 @@ namespace OfficeOpenXml.Drawing
             }
 
             _container.SetNewImage();
-            return pictureType;
+            return this;
         }
 
         private void ValidatePictureType(ePictureType pictureType)

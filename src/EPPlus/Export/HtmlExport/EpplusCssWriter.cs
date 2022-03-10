@@ -245,14 +245,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix)
+        internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix, string cellStyleClassName)
         {
             var xfs = styles.CellXfs[styleId];
             if (HasStyle(xfs))
             {
                 if (IsAddedToCache(xfs, out int id)==false)
                 {
-                    WriteClass($".{styleClassPrefix}s{id}{{", _settings.Minify);
+                    WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {
                         WriteFillStyles(xfs.Fill);

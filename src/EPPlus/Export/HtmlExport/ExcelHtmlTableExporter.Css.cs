@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix);
+                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
                 }
             }
             styleWriter.FlushStream();
