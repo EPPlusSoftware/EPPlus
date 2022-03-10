@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0;net452;net35</TargetFrameworks>
-    <AssemblyVersion>6.0.0.0</AssemblyVersion>
-    <FileVersion>6.0.0.0</FileVersion>
-    <Version>6.0.0-beta</Version>
+    <AssemblyVersion>6.0.1.0</AssemblyVersion>
+    <FileVersion>6.0.1.0</FileVersion>
+    <Version>6.0.1-beta</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -17,14 +17,14 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.0.0-beta
+		EPPlus 6.0.1-beta
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-		## Version 6.0.0-Beta
+		## Version 6.0.1-Beta
 		* Html Export - https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export
 		* Json Export - https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export
 		* 32 new functions.
@@ -32,6 +32,7 @@
 		* Removed direct references to System.Drawing.Common, see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6
 		* Bug fixes.
 		See https://epplussoftware.com/Developers/EPPlus6 for more details.
+		For changes during the beta period, see https://www.epplussoftware.com/docs/6.0/articles/breakingchanges.html
 
 		## Version 5.8.7
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues

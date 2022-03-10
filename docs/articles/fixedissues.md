@@ -1,6 +1,13 @@
 ﻿# Features / Fixed issues - EPPlus 6
 
-## Version 6.0.0-beta
+## Version 6.0.0.1-beta
+### Changes
+* ExcelImage.SetImage(ExcelImage) added.
+* ExcelImage.SetImage and SetImageAsync now returns the ExcelImage object instead of void.
+* Html Export-Css: width and height is replaced with max-width and min-width.
+* ExcelBackgroundImage.Removed method added.
+
+## Version 6.0.0.0-beta
 ### Features
 * Html Export for tables and ranges, See [Html Export](https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export)
 * Json Export for tables and ranges, See [Json Export](https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export)
@@ -38,6 +45,7 @@
 	* TBILLEQ
 	* TBILLPRICE
 	* TBILLYIELD
+
 ### Minor Features
 * Breaking Change: Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
 * New ExcelRangeBase.GetCellValue<T> method

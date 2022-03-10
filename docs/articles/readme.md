@@ -1,4 +1,4 @@
-# EPPlus 5
+# EPPlus 6
 
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
