@@ -236,7 +236,8 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.0.0 20220307 Beta 1. Html and JSON export. New drawing handling. https://epplussoftware.com/Developers/EPPlus6
+		6.0.1 20220310 Beta 2. Html and JSON export. New drawing handling. https://epplussoftware.com/Developers/EPPlus6
+		6.0.0 20220307 Beta 1 
 		5.8.7 20220301 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		5.8.6 20220203 Minor bug fixes.
 		5.8.5 20220113 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues

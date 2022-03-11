@@ -1498,7 +1498,7 @@ namespace EPPlusTest
             Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
             Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
             wsCopy.BackgroundImage.Image.SetImage(image);
-
+            
             Assert.AreEqual(wsCopy.BackgroundImage.Image.Type, ws.BackgroundImage.Image.Type);
             Assert.AreEqual(wsCopy.BackgroundImage.Image.ImageBytes, ws.BackgroundImage.Image.ImageBytes);
         }

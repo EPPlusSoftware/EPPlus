@@ -34,6 +34,47 @@ namespace OfficeOpenXml.Drawing
             _restrictedTypes = restrictedTypes ?? new ePictureType[0];
         }
         /// <summary>
+        /// Creates an ExcelImage to be used as template for adding images.
+        /// </summary>
+        public ExcelImage()
+        {
+
+        }
+        /// <summary>
+        /// Creates an ExcelImage to be used as template for adding images.
+        /// </summary>
+        /// <param name="imagePath">A path to the image file to load</param>
+        public ExcelImage(string imagePath)
+        {
+            SetImage(imagePath);
+        }
+        /// <summary>
+        /// Creates an ExcelImage to be used as template for adding images.
+        /// </summary>
+        /// <param name="imageFile">A FileInfo referencing the image file to load</param>
+        public ExcelImage(FileInfo imageFile)
+        {
+            SetImage(imageFile);
+        }
+        /// <summary>
+        /// Creates an ExcelImage to be used as template for adding images.
+        /// </summary>
+        /// <param name="imageStream">The stream containing the image</param>
+        /// <param name="pictureType">The type of image loaded in the stream</param>
+        public ExcelImage(Stream imageStream, ePictureType pictureType)
+        {
+            SetImage(imageStream, pictureType);
+        }
+        /// <summary>
+        /// Creates an ExcelImage to be used as template for adding images.
+        /// </summary>
+        /// <param name="imageBytes">The image as a byte array</param>
+        /// <param name="pictureType">The type of image loaded in the stream</param>
+        public ExcelImage(byte[] imageBytes, ePictureType pictureType)
+        {
+            SetImage(imageBytes, pictureType);
+        }
+        /// <summary>
         /// If this object contains an image.
         /// </summary>
         public bool HasImage
