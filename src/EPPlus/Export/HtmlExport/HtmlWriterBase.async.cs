@@ -205,46 +205,38 @@ namespace OfficeOpenXml.Export.HtmlExport
                 _writer.WriteLine(value);
             }
         }
-        internal static string GetPictureName(HtmlImage p)
-        {
-            var hash = ((IPictureContainer)p.Picture).ImageHash;
-            var fi = new FileInfo(p.Picture.Part.Uri.OriginalString);
-            var name = fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length);
 
-            return GetCssClassName(name, hash);
-        }
+        //internal static string GetCssClassName(string name, string optionalName)
+        //{
+        //    if (string.IsNullOrEmpty(name))
+        //    {
+        //        return optionalName;
+        //    }
 
-        internal static string GetCssClassName(string name, string optionalName)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                return optionalName;
-            }
+        //    var newName = "";
+        //    var c = name[0];
+        //    if (c != '-' && (c >= 'a' && c <= 'z') == false && (c >= 'A' && c <= 'Z') == false)
+        //    {
+        //        newName += "_";
+        //    }
+        //    else
+        //    {
+        //        newName += c;
+        //    }
 
-            var newName = "";
-            var c = name[0];
-            if (c != '-' && (c >= 'a' && c <= 'z') == false && (c >= 'A' && c <= 'Z') == false)
-            {
-                newName += "_";
-            }
-            else
-            {
-                newName += c;
-            }
-
-            for (int i = 1; i < name.Length; i++)
-            {
-                c = name[i];
-                if (c == '-' || c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
-                {
-                    newName += c;
-                }
-                else
-                {
-                    newName += "-";
-                }
-            }
-            return newName;
-        }
+        //    for (int i = 1; i < name.Length; i++)
+        //    {
+        //        c = name[i];
+        //        if (c == '-' || c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+        //        {
+        //            newName += c;
+        //        }
+        //        else
+        //        {
+        //            newName += "-";
+        //        }
+        //    }
+        //    return newName;
+        //}
     }
 }

@@ -31,7 +31,23 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                await RenderHtmlAsync(ms);
+                await RenderHtmlAsync(ms, 0);
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+        }
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <returns>A html table</returns>
+        public async Task<string> GetHtmlStringAsync(int rangeIndex)
+        {
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                await RenderHtmlAsync(ms, rangeIndex);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
@@ -43,15 +59,18 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// Exports the html part of the html export, without the styles.
         /// </summary>
         /// <param name="stream">The stream to write the css to.</param>
+        /// <param name="rangeIndex">The index of the range to output.</param>
         /// <exception cref="IOException"></exception>
-        public async Task RenderHtmlAsync(Stream stream)
+        public async Task RenderHtmlAsync(Stream stream, int rangeIndex)
         {
+            ValidateRangeIndex(rangeIndex);
             if (!stream.CanWrite)
             {
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
             _mergedCells.Clear();
-            GetDataTypes();
+            var range = _ranges[rangeIndex];
+            GetDataTypes(_ranges[rangeIndex]);
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             AddClassesAttributes(writer);
@@ -59,18 +78,18 @@ namespace OfficeOpenXml.Export.HtmlExport
             await writer.RenderBeginTagAsync(HtmlElements.Table);
 
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
-            LoadVisibleColumns();
+            LoadVisibleColumns(range);
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral==eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                await SetColumnGroupAsync(writer, _range, Settings);
+                await SetColumnGroupAsync(writer, range, Settings);
             }
 
             if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
             {
-                await RenderHeaderRowAsync(writer);
+                await RenderHeaderRowAsync(range, writer);
             }
             // table rows
-            await RenderTableRowsAsync(writer);
+            await RenderTableRowsAsync(range, writer);
 
             // end tag table
             await writer.RenderEndTagAsync();
@@ -78,7 +97,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
 
         /// <summary>
-        /// Renders both the Html and the Css to a single page. 
+        /// Renders the first range of the Html and the Css to a single page. 
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
@@ -89,7 +108,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var css = await GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }
-        private async Task RenderTableRowsAsync(EpplusHtmlWriter writer)
+        private async Task RenderTableRowsAsync(ExcelRangeBase range, EpplusHtmlWriter writer)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
             {
@@ -97,13 +116,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             await writer.RenderBeginTagAsync(HtmlElements.Tbody);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
-            var row = _range._fromRow + Settings.HeaderRows;
-            var endRow = _range._toRow;
-            var ws = _range.Worksheet;
+            var row = range._fromRow + Settings.HeaderRows;
+            var endRow = range._toRow;
+            var ws = range.Worksheet;
             HtmlImage image = null;
             while (row <= endRow)
             {
-                if (HandleHiddenRow(writer, _range.Worksheet, Settings, ref row))
+                if (HandleHiddenRow(writer, range.Worksheet, Settings, ref row))
                 {
                     continue; //The row is hidden and should not be included.
                 }
@@ -114,17 +133,17 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
 
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, _range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
                 await writer.RenderBeginTagAsync(HtmlElements.TableRow);
                 await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
                 foreach (var col in _columns)
                 {
                     if (InMergeCellSpan(row, col)) continue;
-                    var colIx = col - _range._fromCol;
+                    var colIx = col - range._fromCol;
                     var cell = ws.Cells[row, col];
                     var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
-                    SetColRowSpan(writer, cell);
+                    SetColRowSpan(range, writer, cell);
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
@@ -159,7 +178,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             await writer.ApplyFormatAsync(Settings.Minify);
         }
 
-        private async Task RenderHeaderRowAsync(EpplusHtmlWriter writer)
+        private async Task RenderHeaderRowAsync(ExcelRangeBase range, EpplusHtmlWriter writer)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
             {
@@ -175,19 +194,19 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     writer.AddAttribute("role", "row");
                 }
-                var row = _range._fromRow + i;
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer,_range, row, Settings.StyleClassPrefix);
+                var row = range._fromRow + i;
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
                 await writer.RenderBeginTagAsync(HtmlElements.TableRow);
                 await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
                 foreach (var col in _columns)
                 {
                     if (InMergeCellSpan(row, col)) continue;
-                    var cell = _range.Worksheet.Cells[row, col];
+                    var cell = range.Worksheet.Cells[row, col];
                     if (Settings.RenderDataTypes)
                     {
-                        writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                        writer.AddAttribute("data-datatype", _datatypes[col - range._fromCol]);
                     }
-                    SetColRowSpan(writer, cell);
+                    SetColRowSpan(range, writer, cell);
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";

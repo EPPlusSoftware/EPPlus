@@ -21,6 +21,7 @@ using OfficeOpenXml.Utils;
 using System.Text;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using System.Linq;
 #if !NET35
 using System.Threading.Tasks;
 #endif
@@ -36,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             await WriteClassAsync($"table.{tableClass}{{", _settings.Minify);
             if (_cssSettings.IncludeNormalFont)
             {
-                var ns = _range.Worksheet.Workbook.Styles.GetNormalStyle();
+                var ns = _ranges.First().Worksheet.Workbook.Styles.GetNormalStyle();
                 if (ns != null)
                 {
                     await WriteCssItemAsync($"font-family:{ns.Style.Font.Name};", _settings.Minify);
@@ -61,14 +62,19 @@ namespace OfficeOpenXml.Export.HtmlExport
             await WriteCssItemAsync($"text-align:right;", _settings.Minify);
             await WriteClassEndAsync(_settings.Minify);
 
-            var ws = _range.Worksheet;
-            await WriteClassAsync($".{_settings.StyleClassPrefix}dcw {{", _settings.Minify);
-            await WriteCssItemAsync($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
-            await WriteClassEndAsync(_settings.Minify);
+            var worksheets = _ranges.Select(x => x.Worksheet).Distinct().ToList();
+            foreach (var ws in worksheets)
+            {
+                var clsName = GetWorksheetClassName("dcw", ws, worksheets.Count > 1);
+                await WriteClassAsync($".{clsName} {{", _settings.Minify);
+                await WriteCssItemAsync($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
+                await WriteClassEndAsync(_settings.Minify);
 
-            await WriteClassAsync($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
-            await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
-            await WriteClassEndAsync(_settings.Minify);
+                clsName = GetWorksheetClassName("drh", ws, worksheets.Count > 1);
+                await WriteClassAsync($".{clsName} {{", _settings.Minify);
+                await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
+                await WriteClassEndAsync(_settings.Minify);
+            }
 
             if (_settings.Pictures.Include != ePictureInclude.Exclude && _settings.Pictures.CssExclude.Alignment == false)
             {
@@ -111,7 +117,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var pc = (IPictureContainer)p.Picture;
             if (_images.Contains(pc.ImageHash) == false)
             {
-                string imageFileName = GetPictureName(p);
+                string imageFileName = HtmlExporterBase.GetPictureName(p);
                 await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 await WriteCssItemAsync($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
                 if (_settings.Pictures.Position != ePicturePosition.DontSet)
@@ -140,7 +146,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private async Task AddPicturePropertiesToCssAsync(HtmlImage image)
         {
-            string imageName = GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            string imageName = HtmlExporterBase.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
             var width = image.Picture.GetPixelWidth();
             var height = image.Picture.GetPixelHeight();
 

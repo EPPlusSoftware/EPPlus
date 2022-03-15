@@ -23,6 +23,7 @@ using OfficeOpenXml.Utils;
 using System.Text;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -31,33 +32,34 @@ namespace OfficeOpenXml.Export.HtmlExport
         protected HtmlExportSettings _settings;
         protected CssExportSettings _cssSettings;
         protected CssExclude _cssExclude;
-        ExcelRangeBase _range;
+        List<ExcelRangeBase> _ranges;
+        ExcelWorkbook _wb;
         ExcelTheme _theme;
         internal eFontExclude _fontExclude;
         internal eBorderExclude _borderExclude;
-        internal EpplusCssWriter(StreamWriter writer, ExcelRangeBase range, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(writer) 
+        internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(writer) 
         {
             _settings = settings;
             _cssSettings = cssSettings;
             _cssExclude = cssExclude;
-            Init(range);
+            Init(ranges);
         }
-        internal EpplusCssWriter(Stream stream, ExcelRangeBase range, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(stream, settings.Encoding)
+        internal EpplusCssWriter(Stream stream, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(stream, settings.Encoding)
         {
             _settings = settings;
             _cssSettings = cssSettings;
             _cssExclude = cssExclude;
-            Init(range);
+            Init(ranges);
         }
-        private void Init(ExcelRangeBase range)
+        private void Init(List<ExcelRangeBase> ranges)
         {
-            _range = range;
-
-            if (_range.Worksheet.Workbook.ThemeManager.CurrentTheme == null)
+            _ranges = ranges;
+            _wb = _ranges[0].Worksheet.Workbook;
+            if (_wb.ThemeManager.CurrentTheme == null)
             {
-                _range.Worksheet.Workbook.ThemeManager.CreateDefaultTheme();
+                _wb.ThemeManager.CreateDefaultTheme();
             }
-            _theme = range.Worksheet.Workbook.ThemeManager.CurrentTheme;
+            _theme = _wb.ThemeManager.CurrentTheme;
             _borderExclude = _cssExclude.Border;
             _fontExclude = _cssExclude.Font;
         }
@@ -67,7 +69,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteClass($"table.{tableClass}{{", _settings.Minify);
             if (_cssSettings.IncludeNormalFont)
             {
-                var ns = _range.Worksheet.Workbook.Styles.GetNormalStyle();
+                var ns = _wb.Styles.GetNormalStyle();
                 if (ns != null)
                 {
                     WriteCssItem($"font-family:{ns.Style.Font.Name};", _settings.Minify);
@@ -93,15 +95,19 @@ namespace OfficeOpenXml.Export.HtmlExport
             WriteCssItem($"text-align:right;", _settings.Minify);
             WriteClassEnd(_settings.Minify);
 
-            var ws = _range.Worksheet;
-            WriteClass($".{_settings.StyleClassPrefix}dcw {{", _settings.Minify);
-            WriteCssItem($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
-            WriteClassEnd(_settings.Minify);
+            var worksheets=_ranges.Select(x=>x.Worksheet).Distinct().ToList();
+            foreach (var ws in worksheets)
+            {
+                var clsName = GetWorksheetClassName("dcw", ws, worksheets.Count > 1);
+                WriteClass($".{clsName} {{", _settings.Minify);
+                WriteCssItem($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
+                WriteClassEnd(_settings.Minify);
 
-            WriteClass($".{_settings.StyleClassPrefix}drh {{", _settings.Minify);
-            WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
-            WriteClassEnd(_settings.Minify);
-
+                clsName = GetWorksheetClassName("drh", ws, worksheets.Count > 1);
+                WriteClass($".{clsName} {{", _settings.Minify);
+                WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
+                WriteClassEnd(_settings.Minify);
+            }
             //Image alignment class
             if (_settings.Pictures.Include != ePictureInclude.Exclude && _settings.Pictures.CssExclude.Alignment == false)
             {
@@ -126,6 +132,17 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
+        private string GetWorksheetClassName(string name, ExcelWorksheet ws, bool addWorksheetName)
+        {
+            if(addWorksheetName)
+            {
+                return _settings.StyleClassPrefix + name + HtmlExporterBase.GetClassName(ws.Name, $"Sheet{ws.PositionId}");
+            }
+            else
+            {
+                return _settings.StyleClassPrefix + name;
+            }
+        }
         internal void AddPictureToCss(HtmlImage p)
         {
             var img = p.Picture.Image;
@@ -141,11 +158,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 encodedImage = Convert.ToBase64String(img.ImageBytes);
                 type = img.Type.Value;
             }
+
             if (type == null) return;
             var pc = (IPictureContainer)p.Picture;
             if (_images.Contains(pc.ImageHash) == false)
             {
-                string imageFileName = GetPictureName(p);
+                string imageFileName = HtmlExporterBase.GetPictureName(p);
                 WriteClass($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 WriteCssItem($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
                 if(_settings.Pictures.Position!=ePicturePosition.DontSet)
@@ -174,7 +192,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void AddPicturePropertiesToCss(HtmlImage image)
         {
-            string imageName = GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            string imageName = HtmlExporterBase.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
             var width = image.Picture.GetPixelWidth();
             var height = image.Picture.GetPixelHeight();
 

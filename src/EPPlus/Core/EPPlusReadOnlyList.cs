@@ -16,11 +16,20 @@ namespace OfficeOpenXml.Core
         {
             return _list.GetEnumerator();
         }
+        /// <summary>
+        /// Return the enumerator for the collection
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
+        /// <summary>
+        /// The indexer for the collection
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns>Returns the object at the index</returns>
         public T this[int index]
         {
             get
@@ -28,15 +37,25 @@ namespace OfficeOpenXml.Core
                 return _list[index];
             }
         }
-        public T GetByValue(T value)
-        {
-            var ix=_list.IndexOf(value);
-            if(ix<0)
-            {
-                return _list[ix];
-            }
-            return default;
-        }
+        ///// <summary>
+        ///// Gets the item with the value supplied
+        ///// </summary>
+        ///// <param name="value">The values</param>
+        ///// <returns>The </returns>
+        //public T GetByValue(T value)
+        //{
+        //    var ix=_list.IndexOf(value);
+        //    if(ix<0)
+        //    {
+        //        return _list[ix];
+        //    }
+        //    return default;
+        //}
+        /// <summary>
+        /// Retrives the index of the supplied value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>The index</returns>
         public int GetIndexByValue(T value)
         {
             return _list.IndexOf(value);

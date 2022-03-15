@@ -183,6 +183,7 @@ namespace EPPlusTest.Export.HtmlExport
             {
                 var sheet = p.Workbook.Worksheets[0];                
                 var exporter = sheet.Cells["A1:E30"].CreateHtmlExporter();
+                
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Pictures.Include = ePictureInclude.Include;

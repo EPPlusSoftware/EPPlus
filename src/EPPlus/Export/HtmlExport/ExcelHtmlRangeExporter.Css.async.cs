@@ -52,42 +52,45 @@ namespace OfficeOpenXml.Export.HtmlExport
                 throw new IOException("Parameter stream must be a writable System.IO.Stream");
             }
 
-            if (_datatypes.Count == 0) GetDataTypes();
+            //if (_datatypes.Count == 0) GetDataTypes();
             var sw = new StreamWriter(stream);
             await RenderCellCssAsync(sw);
         }
 
         private async Task RenderCellCssAsync(StreamWriter sw)
         {            
-            var styleWriter = new EpplusCssWriter(sw, _range, Settings, Settings.Css, Settings.Css.CssExclude);
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, Settings, Settings.Css, Settings.Css.CssExclude);
             
             await styleWriter.RenderAdditionalAndFontCssAsync(TableClass);
-            var ws = _range.Worksheet;
-            var styles = ws.Workbook.Styles;
-            var ce = new CellStoreEnumerator<ExcelValue>(_range.Worksheet._values, _range._fromRow, _range._fromCol, _range._toRow, _range._toCol);
-            ExcelAddressBase address = null;
-            while (ce.Next())
+            foreach (var range in _ranges._list)
             {
-                if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
+                var ws = range.Worksheet;
+                var styles = ws.Workbook.Styles;
+                var ce = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
+                ExcelAddressBase address = null;
+                while (ce.Next())
                 {
-                    var ma = ws.MergedCells[ce.Row, ce.Column];
-                    if(ma!=null)
+                    if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                     {
-                        if (address == null || address.Address != ma)
+                        var ma = ws.MergedCells[ce.Row, ce.Column];
+                        if (ma != null)
                         {
-                            address = new ExcelAddressBase(ma);
+                            if (address == null || address.Address != ma)
+                            {
+                                address = new ExcelAddressBase(ma);
+                            }
+                            var fromRow = address._fromRow < range._fromRow ? range._fromRow : address._fromRow;
+                            var fromCol = address._fromCol < range._fromCol ? range._fromCol : address._fromCol;
+                            if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
+                                continue;
                         }
-                        var fromRow = address._fromRow < _range._fromRow ? _range._fromRow : address._fromRow;
-                        var fromCol = address._fromCol < _range._fromCol ? _range._fromCol : address._fromCol;
-                        if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
-                            continue;                        
+                        await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
                     }
-                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
                 }
             }
             if (Settings.Pictures.Include == ePictureInclude.Include)
             {
-                LoadRangeImages(_range);
+                LoadRangeImages(_ranges._list);
                 foreach (var p in _rangePictures)
                 {
                     await styleWriter.AddPictureToCssAsync(p);

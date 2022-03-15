@@ -14,6 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
+using System.Collections.Generic;
 using System.IO;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -60,14 +61,15 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (_datatypes.Count == 0) GetDataTypes(_table.Address);
             var sw = new StreamWriter(stream);
-            var cellCssWriter = new EpplusCssWriter(sw, _table.Range, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
+            var ranges = new List<ExcelRangeBase>() { _table.Range };
+            var cellCssWriter = new EpplusCssWriter(sw, ranges, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
             await cellCssWriter.RenderAdditionalAndFontCssAsync(TableClass);
             if (Settings.Css.IncludeTableStyles) await RenderTableCssAsync(sw);
             if (Settings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
 
             if (Settings.Pictures.Include == ePictureInclude.Include)
             {
-                LoadRangeImages(_table.Range);
+                LoadRangeImages(ranges);
                 foreach (var p in _rangePictures)
                 {
                     await cellCssWriter.AddPictureToCssAsync(p);
@@ -77,8 +79,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
 
         private async Task RenderCellCssAsync(StreamWriter sw)
-        {            
-            var styleWriter = new EpplusCssWriter(sw, _table.Range, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
+        {
+            var ranges = new List<ExcelRangeBase>() { _table.Range };
+            var styleWriter = new EpplusCssWriter(sw, ranges, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
 
             var r = _table.Range;
             var styles = r.Worksheet.Workbook.Styles;
@@ -109,7 +112,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 tblStyle.SetFromTemplate(_table.TableStyle);
             }
 
-            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name).ToLower()}";
+            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name, "EmptyClassName").ToLower()}";
             await styleWriter.AddHyperlinkCssAsync($"{tableClass}", tblStyle.WholeTable);
             await styleWriter.AddAlignmentToCssAsync($"{tableClass}", _datatypes);
 

@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -29,23 +30,55 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// Exports a <see cref="ExcelTable"/> to Html
     /// </summary>
     public partial class ExcelHtmlRangeExporter : HtmlExporterBase
-    {        
+    {
+        private readonly EPPlusReadOnlyList<ExcelRangeBase> _ranges;
+        private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         internal ExcelHtmlRangeExporter
             (ExcelRangeBase range)
         {
             Require.Argument(range).IsNotNull("range");
-            if(range.IsFullColumn && range.IsFullRow)
+            _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+
+            if(range.Addresses==null)
             {
-                _range = new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address);
+                AddRange(range);
             }
             else
             {
-                _range = range;
+                foreach(var address in range.Addresses)
+                {
+                    AddRange(range.Worksheet.Cells[address.Address]);
+                }
             }
-            LoadRangeImages(_range);
+
+            LoadRangeImages(_ranges._list);
         }
-        private readonly ExcelRangeBase _range;
-        private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
+        internal ExcelHtmlRangeExporter
+            (ExcelRangeBase[] ranges)
+        {
+            Require.Argument(ranges).IsNotNull("ranges");
+            _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+
+            foreach (var range in ranges)
+            {
+                AddRange(range);
+            }
+
+            LoadRangeImages(_ranges._list);
+        }
+
+        private void AddRange(ExcelRangeBase range)
+        {
+            if (range.IsFullColumn && range.IsFullRow)
+            {
+                _ranges.Add(new ExcelRangeBase(range.Worksheet, range.Worksheet.Dimension.Address));
+            }
+            else
+            {
+                _ranges.Add(range);
+            }
+        }
+
         /// <summary>
         /// Setting used for the export.
         /// </summary>
@@ -58,7 +91,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                RenderHtml(ms);
+                RenderHtml(ms, 0);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
@@ -69,39 +102,87 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
+        /// <returns>A html table</returns>
+        public string GetHtmlString(int rangeIndex)
+        {
+            ValidateRangeIndex(rangeIndex);
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                RenderHtml(ms, rangeIndex);
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+        }
+
+        private void ValidateRangeIndex(int rangeIndex)
+        {
+            if (rangeIndex < 0 || rangeIndex >= _ranges.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rangeIndex));
+            }
+        }
+
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
         /// <param name="stream">The stream to write to</param>
         /// <returns>A html table</returns>
         public void RenderHtml(Stream stream)
         {
+            RenderHtml(stream, 0);
+        }
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="stream">The stream to write to</param>
+        /// <param name="rangeIndex">The index of the range to output.</param>
+        /// <returns>A html table</returns>
+        public void RenderHtml(Stream stream, int rangeIndex)
+        {
+            ValidateRangeIndex(rangeIndex);
+
             if (!stream.CanWrite)
             {
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
-
-            GetDataTypes();
-
+            var range = _ranges[rangeIndex];
+            GetDataTypes(range);
+            
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
             AddClassesAttributes(writer);
             AddTableAccessibilityAttributes(Settings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
 
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            LoadVisibleColumns();
+            LoadVisibleColumns(range);
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral==eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                SetColumnGroup(writer, _range, Settings);
+                SetColumnGroup(writer, range, Settings);
             }
 
             if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
             {
-                RenderHeaderRow(writer);
+                RenderHeaderRow(range, writer);
             }
             // table rows
-            RenderTableRows(writer);
+            RenderTableRows(range, writer);
 
             // end tag table
             writer.RenderEndTag();
 
+        }
+        /// <summary>
+        /// The ranges used in the export.
+        /// </summary>
+        public EPPlusReadOnlyList<ExcelRangeBase> Ranges 
+        { 
+            get 
+            { 
+                return _ranges;
+            } 
         }
         private void AddClassesAttributes(EpplusHtmlWriter writer)
         {
@@ -112,11 +193,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private void LoadVisibleColumns()
+        private void LoadVisibleColumns(ExcelRangeBase range)
         {
-            var ws = _range.Worksheet;
+            var ws = range.Worksheet;
             _columns = new List<int>();
-            for (int col = _range._fromCol; col <= _range._toCol; col++)
+            for (int col = range._fromCol; col <= range._toCol; col++)
             {
                 var c = ws.GetColumn(col);
                 if (c == null || (c.Hidden == false && c.Width > 0))
@@ -125,7 +206,6 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
-
 
         /// <summary>
         /// Renders both the Html and the Css to a single page. 
@@ -140,7 +220,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             return string.Format(htmlDocument, html, css);
         }
         List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
-        private void RenderTableRows(EpplusHtmlWriter writer)
+        private void RenderTableRows(ExcelRangeBase range, EpplusHtmlWriter writer)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
             {
@@ -148,13 +228,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             writer.RenderBeginTag(HtmlElements.Tbody);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            var row = _range._fromRow + Settings.HeaderRows;
-            var endRow = _range._toRow;
-            var ws = _range.Worksheet;
+            var row = range._fromRow + Settings.HeaderRows;
+            var endRow = range._toRow;
+            var ws = range.Worksheet;
             HtmlImage image = null;
             while (row <= endRow)
             {
-                if (HandleHiddenRow(writer, _range.Worksheet, Settings, ref row))
+                if (HandleHiddenRow(writer, range.Worksheet, Settings, ref row))
                 {
                     continue; //The row is hidden and should not be included.
                 }
@@ -165,17 +245,17 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
 
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, _range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 foreach (var col in _columns)
                 {
                     if (InMergeCellSpan(row, col)) continue;
-                    var colIx = col - _range._fromCol;
+                    var colIx = col - range._fromCol;
                     var cell = ws.Cells[row, col];
                     var dataType = HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value);
 
-                    SetColRowSpan(writer, cell);
+                    SetColRowSpan(range, writer, cell);
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
@@ -209,7 +289,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
         }
-        private void RenderHeaderRow(EpplusHtmlWriter writer)
+        private void RenderHeaderRow(ExcelRangeBase range, EpplusHtmlWriter writer)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
             {
@@ -225,19 +305,19 @@ namespace OfficeOpenXml.Export.HtmlExport
                 {
                     writer.AddAttribute("role", "row");
                 }
-                var row = _range._fromRow + i;
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer,_range, row, Settings.StyleClassPrefix);
+                var row = range._fromRow + i;
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 foreach (var col in _columns)
                 {
                     if (InMergeCellSpan(row, col)) continue;
-                    var cell = _range.Worksheet.Cells[row, col];
+                    var cell = range.Worksheet.Cells[row, col];
                     if (Settings.RenderDataTypes)
                     {
-                        writer.AddAttribute("data-datatype", _datatypes[col - _range._fromCol]);
+                        writer.AddAttribute("data-datatype", _datatypes[col - range._fromCol]);
                     }
-                    SetColRowSpan(writer, cell);
+                    SetColRowSpan(range, writer, cell);
                     if(Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = GetImageCellClassName(image, Settings);
@@ -298,7 +378,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             return false;
         }
 
-        private void SetColRowSpan(EpplusHtmlWriter writer, ExcelRange cell)
+        private void SetColRowSpan(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelRange cell)
         {
             if(cell.Merge)
             {
@@ -308,9 +388,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var ma = new ExcelAddressBase(address);
                     bool added = false;
                     //ColSpan
-                    if(ma._fromCol==cell._fromCol || _range._fromCol==cell._fromCol)
+                    if(ma._fromCol==cell._fromCol || range._fromCol==cell._fromCol)
                     {
-                        var maxCol = Math.Min(ma._toCol, _range._toCol);
+                        var maxCol = Math.Min(ma._toCol, range._toCol);
                         var colSpan = maxCol - ma._fromCol+1;
                         if(colSpan>1)
                         {
@@ -320,9 +400,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                         added = true;
                     }
                     //RowSpan
-                    if (ma._fromRow == cell._fromRow || _range._fromRow == cell._fromRow)
+                    if (ma._fromRow == cell._fromRow || range._fromRow == cell._fromRow)
                     {
-                        var maxRow = Math.Min(ma._toRow, _range._toRow);
+                        var maxRow = Math.Min(ma._toRow, range._toRow);
                         var rowSpan = maxRow - ma._fromRow+1;
                         if (rowSpan > 1)
                         {
@@ -400,18 +480,18 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private void GetDataTypes()
+        private void GetDataTypes(ExcelRangeBase range)
         {
-            if (_range._fromRow + Settings.HeaderRows > ExcelPackage.MaxRows)
+            if (range._fromRow + Settings.HeaderRows > ExcelPackage.MaxRows)
             {
                 throw new InvalidOperationException("Range From Row + Header rows is out of bounds");
             }
 
             _datatypes = new List<string>();
-            for (int col = _range._fromCol; col <= _range._toCol; col++)
+            for (int col = range._fromCol; col <= range._toCol; col++)
             {
                 _datatypes.Add(
-                    ColumnDataTypeManager.GetColumnDataType(_range.Worksheet, _range, _range._fromRow + Settings.HeaderRows, col));
+                    ColumnDataTypeManager.GetColumnDataType(range.Worksheet, range, range._fromRow + Settings.HeaderRows, col));
             }
         }
     }
