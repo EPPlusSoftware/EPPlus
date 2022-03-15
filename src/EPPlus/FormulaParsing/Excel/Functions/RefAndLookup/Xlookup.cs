@@ -23,8 +23,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
             Category = ExcelFunctionCategory.LookupAndReference,
             EPPlusVersion = "6.0",
-            IntroducedInExcelVersion = "2010",
-            Description = "Calculates the inverse of the left-tailed probability of the Chi-Square Distribution.")]
+            IntroducedInExcelVersion = "2016",
+            Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds. Will return a VALUE error if the functions returns an array (EPPlus does not support dynamic arrayformulas)")]
     internal class Xlookup : LookupFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
@@ -36,15 +36,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 sw.Start();
             }
             ValidateArguments(arguments, 3);
-            var lookupArgs = new LookupArguments(arguments, context);
-            var navigator = LookupNavigatorFactory.Create(LookupDirection.Vertical, lookupArgs, context);
-            var result = Lookup(navigator, lookupArgs);
+            var lookupValue = arguments.ElementAt(0).Value;
+            var lookupArray = Enumerable.Empty<object>().ToArray();
+            if(arguments.ElementAt(1).IsExcelRange)
+            {
+                lookupArray = arguments.ElementAt(1).ValueAsRangeInfo.Select(x => x.Value).ToArray();
+            }
+            else
+            {
+                lookupArray = ArgsToObjectEnumerable(true, new List<FunctionArgument> { arguments.ElementAt(1) }, context).ToArray();
+            }
+            var returnArray = Enumerable.Empty<object[]>();
+            if (arguments.ElementAt(1).IsExcelRange)
+            {
+                lookupArray = arguments.ElementAt(2).ValueAsRangeInfo.Select(x => x.Value).ToArray();
+            }
+            else
+            {
+                lookupArray = ArgsToObjectEnumerable(true, new List<FunctionArgument> { arguments.ElementAt(2) }, context).ToArray();
+            }
             if (context.Debug)
             {
                 sw.Stop();
                 context.Configuration.Logger.LogFunction("XLOOKUP", sw.ElapsedMilliseconds);
             }
-            return result;
+            return null;
         }
     }
 }
