@@ -218,7 +218,7 @@ namespace OfficeOpenXml
                     object v;
                     if (item.wsIndex >= 0 && item.wsIndex < wb.Worksheets.Count)
                     {
-                        var ws = wb.Worksheets[item.wsIndex];
+                        var ws = wb.Worksheets._worksheets[item.wsIndex];
                         v = parser.ParseCell(item.Tokens, ws == null ? "" : ws.Name, item.Row, item.Column);
                     }
                     else
@@ -279,13 +279,13 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    var sh = workbook.Worksheets[item.wsIndex];
+                    var sh = workbook.Worksheets._worksheets[item.wsIndex];
                     sh.Names[item.Row].NameValue = v;
                 }
             }
             else
             {
-                var sheet = workbook.Worksheets[item.wsIndex];
+                var sheet = workbook.Worksheets._worksheets[item.wsIndex];
                 sheet.SetValueInner(item.Row, item.Column, v);
             }
         }

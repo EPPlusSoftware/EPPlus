@@ -3121,7 +3121,7 @@ namespace EPPlusTest
             }
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void Issue308()
         {
             using (ExcelPackage package = new ExcelPackage())
@@ -3151,10 +3151,10 @@ namespace EPPlusTest
 
                 wb.Calculate();
 
-                //Console.WriteLine($"Sht B Value = {shtB.Cells[1, 10].Value} FormulaR1c1={shtB.Cells[1, 10].FormulaR1C1}");
-                //Console.WriteLine($"Sht A Value = {shtA.Cells[1, 10].Value} FormulaR1c1={shtA.Cells[1, 10].FormulaR1C1}");
+                Console.WriteLine($"Sht B Value = {sheetB.Cells[1, 10].Value} FormulaR1c1={sheetB.Cells[1, 10].FormulaR1C1}");
+                Console.WriteLine($"Sht A Value = {sheetA.Cells[1, 10].Value} FormulaR1c1={sheetA.Cells[1, 10].FormulaR1C1}");
 
-                //Assert.AreEqual("OK", sheetA.Cells["J1"].Value);
+                Assert.AreEqual("OK", sheetB.Cells["J1"].Value);
 
                 // package.SaveAs(@"c:\temp\eppTest306.xlsx");
             }
