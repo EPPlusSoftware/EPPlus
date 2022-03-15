@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix, imageCellClassName);
+            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName);
             writer.RenderBeginTag(HtmlElements.TableData);
             HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(settings.Minify);
         }
-#if !NET35 && !NET40
+#if !NET35
         public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
-            writer.SetClassAttributeFromStyle(cell, settings.HorizontalAlignmentWhenGeneral, false, settings.StyleClassPrefix, imageCellClassName);
+            writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
             HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)

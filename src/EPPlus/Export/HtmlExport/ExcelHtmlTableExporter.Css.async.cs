@@ -73,6 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     await cellCssWriter.AddPictureToCssAsync(p);
                 }
             }
+            await cellCssWriter.FlushStreamAsync();
         }
 
         private async Task RenderCellCssAsync(StreamWriter sw)
@@ -86,7 +87,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix);
+                    await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
                 }
             }
             await styleWriter.FlushStreamAsync();

@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     {
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
                         var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
-                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
                         await RenderHyperlinkAsync(writer, cell);
                         await writer.RenderEndTagAsync();
                         await writer.ApplyFormatAsync(Settings.Minify);
@@ -191,7 +191,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     if (Settings.IncludeCssClassNames)
                     {
                         var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
-                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName);
                     }
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {

@@ -259,7 +259,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                         writer.RenderBeginTag(HtmlElements.TableData);
                         AddImage(writer, Settings, image, cell.Value);
                         var imageCellClassName = GetImageCellClassName(image, Settings);
-                        writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
+                        writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
                         RenderHyperlink(writer, cell);
                         writer.RenderEndTag();
                         writer.ApplyFormat(Settings.Minify);
@@ -306,7 +306,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
                 }
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
-                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, true, Settings.StyleClassPrefix, imageCellClassName);
+                writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName);
                 if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TableHeaderCellRole))
                 {
                     writer.AddAttribute("role", Settings.Accessibility.TableSettings.TableHeaderCellRole);
@@ -438,7 +438,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("role", "cell");
                 }
                 var imageCellClassName = GetImageCellClassName(image, Settings);
-                writer.SetClassAttributeFromStyle(cell, Settings.HorizontalAlignmentWhenGeneral, false, Settings.StyleClassPrefix, imageCellClassName);
+                writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
                 writer.RenderBeginTag(HtmlElements.TableData);
                 AddImage(writer, Settings, image, cell.Value);
                 writer.Write(GetCellText(cell));

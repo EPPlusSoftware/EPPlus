@@ -87,7 +87,13 @@ namespace OfficeOpenXml
             }
             SetFromFile(new FileInfo(PictureFilePath));
         }
-
+        /// <summary>
+        /// Removes the background image.
+        /// </summary>
+        public void Remove()
+        {
+            Image.RemoveImage();
+        }
         IPictureRelationDocument IPictureContainer.RelationDocument 
         { 
             get 

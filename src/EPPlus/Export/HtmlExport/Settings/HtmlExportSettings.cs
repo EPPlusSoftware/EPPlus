@@ -78,14 +78,25 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// Prefix for style classes added by EPPlus. 
         /// <list type="table">
         /// <listheader><term>type</term><term>Class name</term></listheader>
-        /// <item><term>Cell styles</term><term>{prefix}s{index}</term></item>
-        /// <item><term>Alignment Left </term><term>{prefix}al}</term></item>
-        /// <item><term>Alignment Right</term><term>{prefix}ar}</term></item>
-        /// <item><term>Default column width</term><term>{prefix}dcw}</term></item>
-        /// <item><term>Default row height</term><term>{prefix}drh}</term></item>
+        /// <item><term>Cell styles</term><term>{StyleClassPrefix}{CellStyleClassName}{index}</term></item>
+        /// <item><term>Hidden Row{StyleClassPrefix}hidden</term></item>
+        /// <item><term>Alignment Left </term><term>{StyleClassPrefix}al</term></item>
+        /// <item><term>Alignment Right</term><term>{StyleClassPrefix}ar</term></item>
+        /// <item><term>Default column width</term><term>{StyleClassPrefix}dcw</term></item>
+        /// <item><term>Default row height</term><term>{StyleClassPrefix}drh</term></item>
+        /// <item><term>Image content and position</term><term>{StyleClassPrefix}image-{imageName}</term></item>
+        /// <item><term>Properties for an image, for example position or border settings</term><term>{StyleClassPrefix}image-prop-{imageName}</term></item>
+        /// <item><term>Alignment for cells containing an image</term><term>{StyleClassPrefix}image-cell}</term></item>
         /// </list>
+        /// <seealso cref="CellStyleClassName"/>
+        /// <seealso cref="Pictures"/>
         /// </summary>
         public string StyleClassPrefix { get; set; } = "epp-";
+        /// <summary>
+        /// The name of the classes used for cell styles. 
+        /// The name will be prefixed with the <see cref="StyleClassPrefix"/> and suffixed with the cell style index.
+        /// </summary>
+        public string CellStyleClassName { get; set; } = "s";
         /// <summary>
         /// If picture drawings will be included. Default is true.
         /// </summary>

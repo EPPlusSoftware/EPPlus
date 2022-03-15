@@ -184,11 +184,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (width != image.Picture.Image.Bounds.Width)
                 {
-                    WriteCssItem($"width:{width:F0}px;", _settings.Minify);
+                    WriteCssItem($"max-width:{width:F0}px;", _settings.Minify);
                 }
                 if (height != image.Picture.Image.Bounds.Height)
                 {
-                    WriteCssItem($"height:{height:F0}px;", _settings.Minify);
+                    WriteCssItem($"max-height:{height:F0}px;", _settings.Minify);
                 }
             }
 
@@ -245,14 +245,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix)
+        internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix, string cellStyleClassName)
         {
             var xfs = styles.CellXfs[styleId];
             if (HasStyle(xfs))
             {
                 if (IsAddedToCache(xfs, out int id)==false)
                 {
-                    WriteClass($".{styleClassPrefix}s{id}{{", _settings.Minify);
+                    WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {
                         WriteFillStyles(xfs.Fill);

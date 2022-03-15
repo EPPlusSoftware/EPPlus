@@ -173,6 +173,7 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.Pictures.Include = ePictureInclude.Include;
                 var html =exporter.GetSinglePage();
                 File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", html);
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]

@@ -785,7 +785,7 @@ namespace OfficeOpenXml
                 {
                     return 0;
                 }
-                else if (internalRow.Height >= 0 && internalRow.CustomHeight)
+                else if (internalRow.Height >= 0)
                 {
                     return internalRow.Height;
                 }

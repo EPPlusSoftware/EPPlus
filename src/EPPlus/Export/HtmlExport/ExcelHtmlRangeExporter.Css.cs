@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                         if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
                             continue;                        
                     }
-                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix);
+                    styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
                 }
             }
             if(Settings.Pictures.Include==ePictureInclude.Include)

@@ -149,11 +149,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 if (width != image.Picture.Image.Bounds.Width)
                 {
-                    await WriteCssItemAsync($"width:{width};", _settings.Minify);
+                    await WriteCssItemAsync($"max-width:{width:F0}px;", _settings.Minify);
                 }
                 if (height != image.Picture.Image.Bounds.Height)
                 {
-                    await WriteCssItemAsync($"height:{height:F0};", _settings.Minify);
+                    await WriteCssItemAsync($"max-height:{height:F0}px;", _settings.Minify);
                 }
             }
 
@@ -165,14 +165,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             await WriteClassEndAsync(_settings.Minify);
         }
 
-        internal async Task AddToCssAsync(ExcelStyles styles, int styleId, string styleClassPrefix)
+        internal async Task AddToCssAsync(ExcelStyles styles, int styleId, string styleClassPrefix, string cellStyleClassName)
         {
             var xfs = styles.CellXfs[styleId];
             if (HasStyle(xfs))
             {
                 if (IsAddedToCache(xfs, out int id)==false)
                 {
-                    await WriteClassAsync($".{styleClassPrefix}s{id}{{", _settings.Minify);
+                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {
                         await WriteFillStylesAsync(xfs.Fill);
