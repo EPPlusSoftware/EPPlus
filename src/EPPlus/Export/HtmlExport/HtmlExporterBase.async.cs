@@ -58,8 +58,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (image != null)
             {
-                var name = HtmlWriterBase.GetPictureName(image);
-                string imageName = HtmlWriterBase.GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                var name = GetPictureName(image);
+                string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
                 writer.AddAttribute("alt", image.Picture.Name);
                 if (settings.Pictures.AddNameAsId)
                 {

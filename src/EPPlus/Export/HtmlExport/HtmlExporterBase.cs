@@ -14,6 +14,8 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -38,33 +40,36 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal List<string> _datatypes = new List<string>();
         internal List<int> _columns = new List<int>();
         internal List<HtmlImage> _rangePictures = null;
-        internal void LoadRangeImages(ExcelRangeBase range)
+        internal void LoadRangeImages(List<ExcelRangeBase> ranges)
         {
             if (_rangePictures != null)
             {
                 return;
             }
-            _rangePictures= new List<HtmlImage>(); 
+            _rangePictures= new List<HtmlImage>();
             //Render in-cell images.
-            foreach (var d in range.Worksheet.Drawings)
+            foreach (var worksheet in ranges.Select(x => x.Worksheet).Distinct())
             {
-                if (d is ExcelPicture p)
+                foreach (var d in worksheet.Drawings)
                 {
-                    p.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
-                    p.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
+                    if (d is ExcelPicture p)
+                    {
+                        p.GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff);
+                        p.GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff);
 
-                    _rangePictures.Add(new HtmlImage() 
-                    { 
-                        Picture = p,
-                        FromRow=fromRow,
-                        FromRowOff = fromRowOff,
-                        FromColumn = fromCol,
-                        FromColumnOff = fromColOff,
-                        ToRow = toRow,
-                        ToRowOff = toRowOff,
-                        ToColumn = toCol,
-                        ToColumnOff = toColOff
-                    });
+                        _rangePictures.Add(new HtmlImage()
+                        {
+                            Picture = p,
+                            FromRow = fromRow,
+                            FromRowOff = fromRowOff,
+                            FromColumn = fromCol,
+                            FromColumnOff = fromColOff,
+                            ToRow = toRow,
+                            ToRowOff = toRowOff,
+                            ToColumn = toCol,
+                            ToColumnOff = toColOff
+                        });
+                    }
                 }
             }
         }
@@ -84,8 +89,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (image != null)
             {
-                var name = HtmlWriterBase.GetPictureName(image);
-                string imageName = HtmlWriterBase.GetCssClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                var name = GetPictureName(image);
+                string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
                 writer.AddAttribute("alt", image.Picture.Name);
                 if (settings.Pictures.AddNameAsId)
                 {
@@ -163,9 +168,19 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             return false;
         }
-
-        internal static string GetClassName(string className)
+        internal static string GetPictureName(HtmlImage p)
         {
+            var hash = ((IPictureContainer)p.Picture).ImageHash;
+            var fi = new FileInfo(p.Picture.Part.Uri.OriginalString);
+            var name = fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length);
+
+            return GetClassName(name, hash);
+        }
+
+        internal static string GetClassName(string className, string optionalName)
+        {
+            if (string.IsNullOrEmpty(optionalName)) return optionalName;
+
             className = className.Trim().Replace(" ", "-");
             var newClassName = "";
             for (int i = 0; i < className.Length; i++)
@@ -176,6 +191,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     if (c == '-' || (c >= '0' && c <= '9'))
                     {
                         newClassName = "_";
+                        continue;
                     }
                 }
 
@@ -187,7 +203,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     newClassName += c;
                 }
             }
-            return string.IsNullOrEmpty(newClassName) ? "EmptyClass" : newClassName;
+            return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
         }
         internal static string GetImageCellClassName(HtmlImage image, HtmlExportSettings settings)
         {

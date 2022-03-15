@@ -14,6 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
+using System.Collections.Generic;
 using System.IO;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -59,14 +60,15 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (_datatypes.Count == 0) GetDataTypes(_table.Address);
             var sw = new StreamWriter(stream);
-            
-            var cellCssWriter = new EpplusCssWriter(sw, _table.Range, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
+
+            var ranges = new List<ExcelRangeBase>() { _table.Range };
+            var cellCssWriter = new EpplusCssWriter(sw, ranges, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
             if (Settings.Css.IncludeTableStyles) RenderTableCss(sw);
             if (Settings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
             if (Settings.Pictures.Include == ePictureInclude.Include)
             {
-                LoadRangeImages(_table.Range);
+                LoadRangeImages(ranges);
                 foreach (var p in _rangePictures)
                 {
                     cellCssWriter.AddPictureToCss(p);
@@ -106,7 +108,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 tblStyle.SetFromTemplate(_table.TableStyle);
             }
 
-            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name).ToLower()}";
+            var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name, "EmptyTableStyle").ToLower()}";
             styleWriter.AddHyperlinkCss($"{tableClass}", tblStyle.WholeTable);
             styleWriter.AddAlignmentToCss($"{tableClass}", _datatypes);
 

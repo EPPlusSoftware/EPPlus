@@ -32,12 +32,16 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             Require.Argument(table).IsNotNull("table");
             _table = table;
-            LoadRangeImages(table.Range);
+            
+            LoadRangeImages(new List<ExcelRangeBase>() { table.Range });
         }
 
         private readonly ExcelTable _table;
         internal const string TableStyleClassPrefix = "ts-";
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
+        /// <summary>
+        /// Settings for the HTML export
+        /// </summary>
         public HtmlTableExportSettings Settings { get; } = new HtmlTableExportSettings();
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
