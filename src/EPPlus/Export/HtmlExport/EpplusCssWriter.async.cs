@@ -65,12 +65,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             var worksheets = _ranges.Select(x => x.Worksheet).Distinct().ToList();
             foreach (var ws in worksheets)
             {
-                var clsName = GetWorksheetClassName("dcw", ws, worksheets.Count > 1);
+                var clsName = HtmlExporterBase.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
                 await WriteClassAsync($".{clsName} {{", _settings.Minify);
                 await WriteCssItemAsync($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
                 await WriteClassEndAsync(_settings.Minify);
 
-                clsName = GetWorksheetClassName("drh", ws, worksheets.Count > 1);
+                clsName = HtmlExporterBase.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
                 await WriteClassAsync($".{clsName} {{", _settings.Minify);
                 await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
                 await WriteClassEndAsync(_settings.Minify);

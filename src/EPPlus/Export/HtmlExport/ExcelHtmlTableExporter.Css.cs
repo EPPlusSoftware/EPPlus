@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var sw = new StreamWriter(stream);
 
             var ranges = new List<ExcelRangeBase>() { _table.Range };
-            var cellCssWriter = new EpplusCssWriter(sw, ranges, Settings, Settings.Css, Settings.Css.Exclude.CellStyle);
+            var cellCssWriter = new EpplusCssWriter(sw, ranges, Settings, Settings.Css, Settings.Css.Exclude.CellStyle, _styleCache);
             cellCssWriter.RenderAdditionalAndFontCss(TableClass);
             if (Settings.Css.IncludeTableStyles) RenderTableCss(sw);
             if (Settings.Css.IncludeCellStyles) RenderCellCss(cellCssWriter);
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         internal void RenderTableCss(StreamWriter sw)
         {
-            var styleWriter = new EpplusTableCssWriter(sw, _table, Settings);
+            var styleWriter = new EpplusTableCssWriter(sw, _table, Settings, _styleCache);
             if (Settings.Minify == false) styleWriter.WriteLine();
             ExcelTableNamedStyle tblStyle;
             if (_table.TableStyle == TableStyles.Custom)

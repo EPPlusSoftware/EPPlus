@@ -21,26 +21,26 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal abstract partial class HtmlWriterBase
     {
-        internal protected HashSet<string> _images=new HashSet<string>();
-        internal HtmlWriterBase(Stream stream, Encoding encoding)
-        {
-            _stream = stream;
-            _writer = new StreamWriter(stream, encoding);
-            
-        }
-        public HtmlWriterBase(StreamWriter writer)
-        {
-            _stream = writer.BaseStream;
-            _writer = writer;
-        }
         protected readonly Stream _stream;
         protected readonly StreamWriter _writer;
 
         protected const string IndentWhiteSpace = "  ";
         protected bool _newLine;
 
-        protected Dictionary<string, int> _styleCache = new Dictionary<string, int>();
-
+        internal protected HashSet<string> _images=new HashSet<string>();
+        protected Dictionary<string, int> _styleCache;
+        internal HtmlWriterBase(Stream stream, Encoding encoding, Dictionary<string, int> styleCache)
+        {
+            _stream = stream;
+            _writer = new StreamWriter(stream, encoding);
+            _styleCache = styleCache;
+        }
+        public HtmlWriterBase(StreamWriter writer, Dictionary<string, int> styleCache)
+        {
+            _stream = writer.BaseStream;
+            _writer = writer;
+            _styleCache = styleCache;
+        }
         internal int Indent { get; set; }
 
         protected internal static bool HasStyle(ExcelXfs xfs)
@@ -205,38 +205,5 @@ namespace OfficeOpenXml.Export.HtmlExport
                 _writer.WriteLine(value);
             }
         }
-
-        //internal static string GetCssClassName(string name, string optionalName)
-        //{
-        //    if (string.IsNullOrEmpty(name))
-        //    {
-        //        return optionalName;
-        //    }
-
-        //    var newName = "";
-        //    var c = name[0];
-        //    if (c != '-' && (c >= 'a' && c <= 'z') == false && (c >= 'A' && c <= 'Z') == false)
-        //    {
-        //        newName += "_";
-        //    }
-        //    else
-        //    {
-        //        newName += c;
-        //    }
-
-        //    for (int i = 1; i < name.Length; i++)
-        //    {
-        //        c = name[i];
-        //        if (c == '-' || c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
-        //        {
-        //            newName += c;
-        //        }
-        //        else
-        //        {
-        //            newName += "-";
-        //        }
-        //    }
-        //    return newName;
-        //}
     }
 }

@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             GetDataTypes(_table.Address);
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
             AddClassesAttributes(writer);
             AddTableAccessibilityAttributes(Settings, writer);
             await writer.RenderBeginTagAsync(HtmlElements.Table);
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             LoadVisibleColumns();
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                await SetColumnGroupAsync(writer, _table.Range, Settings);
+                await SetColumnGroupAsync(writer, _table.Range, Settings, false);
             }
 
             if (_table.ShowHeader)
@@ -119,7 +119,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
 
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix, false);
 
                 await writer.RenderBeginTagAsync(HtmlElements.TableRow);
                 await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
@@ -179,7 +179,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             var adr = _table.Address;
             var row = adr._fromRow;
-            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix);
+            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix, false);
             await writer.RenderBeginTagAsync(HtmlElements.TableRow);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
             HtmlImage image = null;
@@ -278,7 +278,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.AddAttribute("role", "row");
                 writer.AddAttribute("scope", "row");
             }
-            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, rowIndex, Settings.StyleClassPrefix);
+            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, rowIndex, Settings.StyleClassPrefix, false);
             await writer.RenderBeginTagAsync(HtmlElements.TableRow);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
             var address = _table.Address;

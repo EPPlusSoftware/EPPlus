@@ -66,7 +66,7 @@ namespace EPPlusTest.Export.HtmlExport
             }
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task ShouldExportHtmlWithHeadersWithStyles()
         {
             using (var package = OpenPackage("HtmlPatternStylesCells.xlsx", true))
@@ -196,7 +196,36 @@ namespace EPPlusTest.Export.HtmlExport
                 Assert.AreEqual(html, htmlAsync);
             }
         }
+        [TestMethod]
+        public void ExportMultipleRanges()
+        {
+            using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[0];
+                var sheet2 = p.Workbook.Worksheets[1];
+                
+                var exporter = p.Workbook.CreateHtmlExporter(
+                    sheet2.Cells["A1:B13"],
+                    sheet2.Cells["A16:B26"],
+                    sheet2.Cells["A29:B42"]);
 
+                exporter.Settings.SetColumnWidth = true;
+                exporter.Settings.SetRowHeight = true;
+                exporter.Settings.Minify = false;
+                exporter.Settings.Encoding = Encoding.UTF8;
+                var css = exporter.GetCssString();
+                var html1 = exporter.GetHtmlString(0);
+                var html2 = exporter.GetHtmlString(1);
+                var html3 = exporter.GetHtmlString(2);
+                var htmlTemplate = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>";
+                var page1 = string.Format(htmlTemplate, html1, css);
+                var page2 = string.Format(htmlTemplate, html2, css);
+                var page3 = string.Format(htmlTemplate, html3, css);
+                File.WriteAllText("c:\\temp\\PageSharedCss1.html", page1);
+                File.WriteAllText("c:\\temp\\PageSharedCss2.html", page2);
+                File.WriteAllText("c:\\temp\\PageSharedCss3.html", page3);
+            }
+        }
         private static void SaveRangeFile(ExcelPackage package, string ws, string address, int headerRows=1)
         {
             var sheet = package.Workbook.Worksheets[ws];

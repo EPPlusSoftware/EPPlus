@@ -37,14 +37,14 @@ namespace OfficeOpenXml.Export.HtmlExport
         ExcelTheme _theme;
         internal eFontExclude _fontExclude;
         internal eBorderExclude _borderExclude;
-        internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(writer) 
+        internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude, Dictionary<string, int> styleCache) : base(writer, styleCache) 
         {
             _settings = settings;
             _cssSettings = cssSettings;
             _cssExclude = cssExclude;
             Init(ranges);
         }
-        internal EpplusCssWriter(Stream stream, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude) : base(stream, settings.Encoding)
+        internal EpplusCssWriter(Stream stream, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude, Dictionary<string, int> styleCache) : base(stream, settings.Encoding, styleCache)
         {
             _settings = settings;
             _cssSettings = cssSettings;
@@ -98,16 +98,17 @@ namespace OfficeOpenXml.Export.HtmlExport
             var worksheets=_ranges.Select(x=>x.Worksheet).Distinct().ToList();
             foreach (var ws in worksheets)
             {
-                var clsName = GetWorksheetClassName("dcw", ws, worksheets.Count > 1);
+                var clsName = HtmlExporterBase.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
                 WriteClass($".{clsName} {{", _settings.Minify);
                 WriteCssItem($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
                 WriteClassEnd(_settings.Minify);
 
-                clsName = GetWorksheetClassName("drh", ws, worksheets.Count > 1);
+                clsName = HtmlExporterBase.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
                 WriteClass($".{clsName} {{", _settings.Minify);
                 WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
                 WriteClassEnd(_settings.Minify);
             }
+
             //Image alignment class
             if (_settings.Pictures.Include != ePictureInclude.Exclude && _settings.Pictures.CssExclude.Alignment == false)
             {
@@ -129,18 +130,6 @@ namespace OfficeOpenXml.Export.HtmlExport
                     WriteCssItem($"text-align:center;", _settings.Minify);
                 }
                 WriteClassEnd(_settings.Minify);
-            }
-        }
-
-        private string GetWorksheetClassName(string name, ExcelWorksheet ws, bool addWorksheetName)
-        {
-            if(addWorksheetName)
-            {
-                return _settings.StyleClassPrefix + name + HtmlExporterBase.GetClassName(ws.Name, $"Sheet{ws.PositionId}");
-            }
-            else
-            {
-                return _settings.StyleClassPrefix + name;
             }
         }
         internal void AddPictureToCss(HtmlImage p)
