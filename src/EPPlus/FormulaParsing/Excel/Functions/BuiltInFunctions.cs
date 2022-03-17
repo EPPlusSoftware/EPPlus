@@ -31,6 +31,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     public class BuiltInFunctions : FunctionsModule
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public BuiltInFunctions()
         {
             // Text
@@ -261,6 +264,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["address"] = new Address();
             Functions["hlookup"] = new HLookup();
             Functions["vlookup"] = new VLookup();
+            Functions["xlookup"] = new Xlookup();
             Functions["lookup"] = new Lookup();
             Functions["match"] = new Match();
             Functions["row"] = new Row();
