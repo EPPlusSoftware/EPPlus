@@ -28,6 +28,10 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// </summary>
     public partial class ExcelHtmlTableExporter : HtmlExporterBase
     {
+        private readonly ExcelTable _table;
+        internal const string TableStyleClassPrefix = "ts-";
+        private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
+        private readonly Dictionary<string, int> _styleCache = new Dictionary<string, int>();
         internal ExcelHtmlTableExporter(ExcelTable table)
         {
             Require.Argument(table).IsNotNull("table");
@@ -35,10 +39,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             
             LoadRangeImages(new List<ExcelRangeBase>() { table.Range });
         }
-
-        private readonly ExcelTable _table;
-        internal const string TableStyleClassPrefix = "ts-";
-        private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
         /// <summary>
         /// Settings for the HTML export
         /// </summary>
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             GetDataTypes(_table.Address);
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
             AddClassesAttributes(writer);
             AddTableAccessibilityAttributes(Settings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
@@ -82,8 +82,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             LoadVisibleColumns();
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                SetColumnGroup(writer, _table.Range, Settings);
+                SetColumnGroup(writer, _table.Range, Settings, false);
             }
+
             if (_table.ShowHeader)
             {
                 RenderHeaderRow(writer);
@@ -237,11 +238,11 @@ namespace OfficeOpenXml.Export.HtmlExport
                         writer.AddAttribute("scope", "row");
                     }
                 }
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix, false);
 
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
-                //var tableRange = _table.WorkSheet.Cells[row, _table.Address._fromCol, row, _table.Address._toCol];
+
                 foreach (var col in _columns)
                 {
                     var colIx = col - _table.Address._fromCol;
@@ -298,7 +299,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             var adr = _table.Address;
             var row = adr._fromRow;
-            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix);
+            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, row, Settings.StyleClassPrefix, false);
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             HtmlImage image = null;
@@ -429,7 +430,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.AddAttribute("role", "row");
                 writer.AddAttribute("scope", "row");
             }
-            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, rowIndex, Settings.StyleClassPrefix);
+            if (Settings.SetRowHeight) AddRowHeightStyle(writer, _table.Range, rowIndex, Settings.StyleClassPrefix, false);
             writer.RenderBeginTag(HtmlElements.TableRow);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             var address = _table.Address;

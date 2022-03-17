@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void RenderCellCss(StreamWriter sw)
         {            
-            var styleWriter = new EpplusCssWriter(sw, _ranges._list, Settings, Settings.Css, Settings.Css.CssExclude);
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, Settings, Settings.Css, Settings.Css.CssExclude, _styleCache);
             
             styleWriter.RenderAdditionalAndFontCss(TableClass);
             foreach (var range in _ranges._list)
@@ -83,6 +83,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                             }
                             var fromRow = address._fromRow < range._fromRow ? range._fromRow : address._fromRow;
                             var fromCol = address._fromCol < range._fromCol ? range._fromCol : address._fromCol;
+
                             if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
                                 continue;
                         }
@@ -90,6 +91,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
             }
+
             if(Settings.Pictures.Include==ePictureInclude.Include)
             {
                 LoadRangeImages(_ranges._list);

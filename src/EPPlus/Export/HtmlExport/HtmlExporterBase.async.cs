@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     /// </summary>
     public abstract partial class HtmlExporterBase
     {
-        internal async Task SetColumnGroupAsync(EpplusHtmlWriter writer, ExcelRangeBase _range, HtmlExportSettings settings)
+        internal async Task SetColumnGroupAsync(EpplusHtmlWriter writer, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
             var ws = _range.Worksheet;
             await writer.RenderBeginTagAsync("colgroup");
@@ -35,17 +35,20 @@ namespace OfficeOpenXml.Export.HtmlExport
                     double width = ws.GetColumnWidthPixels(c - 1, mdw);
                     if (width == defColWidth)
                     {
-                        writer.AddAttribute("class", $"{settings.StyleClassPrefix}dcw");
+                        var clsName = GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
+                        writer.AddAttribute("class", clsName);
                     }
                     else
                     {
                         writer.AddAttribute("style", $"width:{width}px");
                     }
                 }
+
                 if (settings.HorizontalAlignmentWhenGeneral == eHtmlGeneralAlignmentHandling.ColumnDataType)
                 {
                     writer.AddAttribute("class", $"{TableClass}-ar");
                 }
+
                 writer.AddAttribute("span", "1");
                 await writer.RenderBeginTagAsync("col", true);
                 await writer.ApplyFormatAsync(settings.Minify);

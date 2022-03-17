@@ -18,8 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-
-
+using System.Linq;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -33,6 +32,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     {
         private readonly EPPlusReadOnlyList<ExcelRangeBase> _ranges;
         private readonly CellDataWriter _cellDataWriter = new CellDataWriter();
+        private readonly Dictionary<string, int> _styleCache=new Dictionary<string, int>();
         internal ExcelHtmlRangeExporter
             (ExcelRangeBase range)
         {
@@ -151,7 +151,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var range = _ranges[rangeIndex];
             GetDataTypes(range);
             
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
             AddClassesAttributes(writer);
             AddTableAccessibilityAttributes(Settings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             LoadVisibleColumns(range);
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral==eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                SetColumnGroup(writer, range, Settings);
+                SetColumnGroup(writer, range, Settings, IsMultiSheet);
             }
 
             if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
@@ -172,7 +172,6 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             // end tag table
             writer.RenderEndTag();
-
         }
         /// <summary>
         /// The ranges used in the export.
@@ -190,6 +189,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             if (!string.IsNullOrEmpty(Settings.TableId))
             {
                 writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
+            }
+            if (Settings.AdditionalTableClassNames.Count > 0)
+            {
+                foreach (var cls in Settings.AdditionalTableClassNames)
+                {
+                    writer.AddAttribute(HtmlAttributes.Id, cls);
+                }
             }
         }
 
@@ -245,7 +251,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
 
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix, IsMultiSheet);
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 foreach (var col in _columns)
@@ -261,6 +267,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     {
                         image = GetImage(cell._fromRow, cell._fromCol);
                     }
+
                     if (cell.Hyperlink == null)
                     {
                         _cellDataWriter.Write(cell, dataType, writer, Settings, false, image);
@@ -306,7 +313,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("role", "row");
                 }
                 var row = range._fromRow + i;
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix, IsMultiSheet);
                 writer.RenderBeginTag(HtmlElements.TableRow);
                 writer.ApplyFormatIncreaseIndent(Settings.Minify);
                 foreach (var col in _columns)
@@ -494,6 +501,19 @@ namespace OfficeOpenXml.Export.HtmlExport
                     ColumnDataTypeManager.GetColumnDataType(range.Worksheet, range, range._fromRow + Settings.HeaderRows, col));
             }
         }
+        bool? _isMultiSheet = null;
+        private bool IsMultiSheet
+        {
+            get
+            {
+                if (_isMultiSheet.HasValue == false)
+                {
+                    _isMultiSheet = _ranges.Select(x => x.Worksheet).Distinct().Count() > 1;
+                }
+                return _isMultiSheet.Value;
+            }
+        }
+
     }
 }
 

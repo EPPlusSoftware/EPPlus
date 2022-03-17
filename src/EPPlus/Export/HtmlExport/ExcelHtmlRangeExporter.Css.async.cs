@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private async Task RenderCellCssAsync(StreamWriter sw)
         {            
-            var styleWriter = new EpplusCssWriter(sw, _ranges._list, Settings, Settings.Css, Settings.Css.CssExclude);
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, Settings, Settings.Css, Settings.Css.CssExclude, _styleCache);
             
             await styleWriter.RenderAdditionalAndFontCssAsync(TableClass);
             foreach (var range in _ranges._list)

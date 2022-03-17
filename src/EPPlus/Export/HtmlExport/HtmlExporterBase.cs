@@ -100,20 +100,22 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.RenderBeginTag("img", true);
             }
         }
-        internal void AddRowHeightStyle(EpplusHtmlWriter writer, ExcelRangeBase range, int row, string styleClassPrefix)
+        internal void AddRowHeightStyle(EpplusHtmlWriter writer, ExcelRangeBase range, int row, string styleClassPrefix, bool isMultiSheet)
         {
             var r = range.Worksheet._values.GetValue(row, 0);
             if (r._value is RowInternal rowInternal)
             {
-                if (rowInternal.Height != range.Worksheet.DefaultRowHeight)
+                if (rowInternal.Height!=-1 && rowInternal.Height != range.Worksheet.DefaultRowHeight)
                 {
                     writer.AddAttribute("style", $"height:{rowInternal.Height}pt");
                     return;
                 }
             }
-            writer.AddAttribute("class", $"{styleClassPrefix}drh"); //Default row height
+
+            var clsName = GetWorksheetClassName(styleClassPrefix, "drh", range.Worksheet, isMultiSheet);
+            writer.AddAttribute("class", clsName); //Default row height
         }
-        internal void SetColumnGroup(EpplusHtmlWriter writer, ExcelRangeBase _range, HtmlExportSettings settings)
+        internal void SetColumnGroup(EpplusHtmlWriter writer, ExcelRangeBase _range, HtmlExportSettings settings, bool isMultiSheet)
         {
             var ws = _range.Worksheet;
             writer.RenderBeginTag("colgroup");
@@ -127,7 +129,8 @@ namespace OfficeOpenXml.Export.HtmlExport
                     double width = ws.GetColumnWidthPixels(c - 1, mdw);
                     if (width == defColWidth)
                     {
-                        writer.AddAttribute("class", $"{settings.StyleClassPrefix}dcw");
+                        var clsName = GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
+                        writer.AddAttribute("class", clsName);
                     }
                     else
                     {
@@ -167,6 +170,17 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             return false;
+        }
+        internal static string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
+        {
+            if (addWorksheetName)
+            {
+                return styleClassPrefix + name + "-" + GetClassName(ws.Name, $"Sheet{ws.PositionId}");
+            }
+            else
+            {
+                return styleClassPrefix + name;
+            }
         }
         internal static string GetPictureName(HtmlImage p)
         {

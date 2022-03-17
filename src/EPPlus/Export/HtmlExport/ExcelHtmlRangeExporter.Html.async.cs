@@ -10,7 +10,6 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.IO;
@@ -72,7 +71,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var range = _ranges[rangeIndex];
             GetDataTypes(_ranges[rangeIndex]);
 
-            var writer = new EpplusHtmlWriter(stream, Settings.Encoding);
+            var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
             AddClassesAttributes(writer);
             AddTableAccessibilityAttributes(Settings, writer);
             await writer.RenderBeginTagAsync(HtmlElements.Table);
@@ -81,7 +80,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             LoadVisibleColumns(range);
             if (Settings.SetColumnWidth || Settings.HorizontalAlignmentWhenGeneral==eHtmlGeneralAlignmentHandling.ColumnDataType)
             {
-                await SetColumnGroupAsync(writer, range, Settings);
+                await SetColumnGroupAsync(writer, range, Settings, IsMultiSheet);
             }
 
             if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
@@ -93,9 +92,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             // end tag table
             await writer.RenderEndTagAsync();
-
         }
-
         /// <summary>
         /// Renders the first range of the Html and the Css to a single page. 
         /// </summary>
@@ -133,7 +130,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("scope", "row");
                 }
 
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix, IsMultiSheet);
                 await writer.RenderBeginTagAsync(HtmlElements.TableRow);
                 await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
                 foreach (var col in _columns)
@@ -195,7 +192,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("role", "row");
                 }
                 var row = range._fromRow + i;
-                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix);
+                if (Settings.SetRowHeight) AddRowHeightStyle(writer, range, row, Settings.StyleClassPrefix, IsMultiSheet);
                 await writer.RenderBeginTagAsync(HtmlElements.TableRow);
                 await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
                 foreach (var col in _columns)
