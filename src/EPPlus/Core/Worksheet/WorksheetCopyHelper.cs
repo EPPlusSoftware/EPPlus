@@ -27,6 +27,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -659,10 +660,10 @@ namespace OfficeOpenXml.Core.Worksheet
             Copy._package.Workbook.ReadAllPivotTables();
             string prevName = "";
             var nameMap = new Dictionary<string, string>();
+            var wbAdded = added._package.Workbook;
             foreach (var tbl in Copy.PivotTables)
             {
                 string xml = tbl.PivotTableXml.OuterXml;
-
                 string name;
                 if (Copy.Workbook == added.Workbook || added.PivotTables._pivotTableNames.ContainsKey(tbl.Name))
                 {
@@ -684,6 +685,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     name = tbl.Name;
                 }
+
                 nameMap.Add(tbl.Name, name);
                 prevName = name;
                 XmlDocument xmlDoc = new XmlDocument();
@@ -702,7 +704,28 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 //create the relationship and add the ID to the worksheet xml.
                 added.Part.CreateRelationship(UriHelper.ResolvePartUri(added.WorksheetUri, uriTbl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotTable");
-                partTbl.CreateRelationship(tbl.CacheDefinition.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
+                if (Copy.Workbook == added.Workbook)
+                {
+                    partTbl.CreateRelationship(tbl.CacheDefinition.CacheDefinitionUri, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
+                }
+                else
+                {
+                    string xmlCache = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
+                    var cacheId = wbAdded._nextPivotCacheId;
+                    var uriCache = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref cacheId);
+                    if (wbAdded._nextPivotCacheId < cacheId) wbAdded._nextPivotCacheId = cacheId;
+                    var partCache = added._package.ZipPackage.CreatePart(uriCache, ContentTypes.contentTypePivotCacheDefinition, added._package.Compression);
+                    StreamWriter streamCache = new StreamWriter(partCache.GetStream(FileMode.Create, FileAccess.Write));
+                    streamCache.Write(xmlCache);
+                    streamCache.Flush();
+                    var rangeInfo = new ExcelWorkbook.PivotTableCacheRangeInfo();
+                    rangeInfo.Address = tbl.CacheDefinition.SourceRange.Address;
+                    rangeInfo.PivotCaches = new List<PivotTableCacheInternal>() { new PivotTableCacheInternal(wbAdded, uriCache, cacheId)};
+
+                    wbAdded._pivotTableCaches.Add(uriCache.OriginalString, rangeInfo);
+
+                    partTbl.CreateRelationship(uriCache, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
+                }
 
             }
 
