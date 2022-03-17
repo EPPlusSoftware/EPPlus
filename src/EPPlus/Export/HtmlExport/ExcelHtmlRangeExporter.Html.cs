@@ -190,6 +190,13 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
             }
+            if (Settings.AdditionalTableClassNames.Count > 0)
+            {
+                foreach (var cls in Settings.AdditionalTableClassNames)
+                {
+                    writer.AddAttribute(HtmlAttributes.Id, cls);
+                }
+            }
         }
 
         private void LoadVisibleColumns(ExcelRangeBase range)

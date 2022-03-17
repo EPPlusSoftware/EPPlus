@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     {
         /// <summary>
         /// If set to true shared css classes used on table elements are included in the css. 
-        /// If set to false, these classes has to be included manually. 
+        /// If set to false, these classes has to be included manually. <see cref="IncludeNormalFont"/> will be ignored if set to false and no font css will be added.        
         /// Default is true
         /// </summary>
         public bool IncludeSharedClasses { get; set; } = true;

@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         ExcelTheme _theme;
         internal eFontExclude _fontExclude;
         internal eBorderExclude _borderExclude;
+        internal HashSet<int> _addedToCss=new HashSet<int>();
         internal EpplusCssWriter(StreamWriter writer, List<ExcelRangeBase> ranges, HtmlExportSettings settings, CssExportSettings cssSettings, CssExclude cssExclude, Dictionary<string, int> styleCache) : base(writer, styleCache) 
         {
             _settings = settings;
@@ -251,14 +252,14 @@ namespace OfficeOpenXml.Export.HtmlExport
                     return $"image/{type}";
             }
         }
-
         internal void AddToCss(ExcelStyles styles, int styleId, string styleClassPrefix, string cellStyleClassName)
         {
             var xfs = styles.CellXfs[styleId];
             if (HasStyle(xfs))
             {
-                if (IsAddedToCache(xfs, out int id)==false)
+                if (IsAddedToCache(xfs, out int id)==false || _addedToCss.Contains(id) == false)
                 {
+                    _addedToCss.Add(id);
                     WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
                     if (xfs.FillId > 0)
                     {

@@ -66,7 +66,7 @@ namespace EPPlusTest.Export.HtmlExport
             }
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public async Task ShouldExportHtmlWithHeadersWithStyles()
         {
             using (var package = OpenPackage("HtmlPatternStylesCells.xlsx", true))

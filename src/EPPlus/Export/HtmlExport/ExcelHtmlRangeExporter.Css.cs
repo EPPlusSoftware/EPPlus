@@ -91,6 +91,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                 }
             }
+
             if(Settings.Pictures.Include==ePictureInclude.Include)
             {
                 LoadRangeImages(_ranges._list);
