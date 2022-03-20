@@ -738,6 +738,7 @@ namespace EPPlusTest.Table.PivotTable
                     var wsNew = p2.Workbook.Worksheets.Add("PivotCopy", ws);
                     SaveWorkbook("copiedPivot.xlsx", p2);
                 }
+                SaveWorkbook("Pivot.xlsx", p);
             }
         }
     }

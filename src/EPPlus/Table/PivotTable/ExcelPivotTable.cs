@@ -225,6 +225,9 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             set;
         }
+        /// <summary>
+        /// Individual styles for the pivot table.
+        /// </summary>
         public ExcelPivotTableAreaStyleCollection Styles
         {
             get;
