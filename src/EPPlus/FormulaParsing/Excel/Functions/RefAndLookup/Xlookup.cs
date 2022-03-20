@@ -11,6 +11,7 @@
   22/10/2022         EPPlus Software AB           EPPlus v6
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
 using System;
@@ -29,7 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds. Will return a VALUE error if the functions returns an array (EPPlus does not support dynamic arrayformulas)")]
     internal class Xlookup : LookupFunction
     {
-        private enum SearchMode : int
+        private readonly ValueMatcher _valueMatcher = new WildCardValueMatcher();
+        private enum MatchMode : int
         {
             ExactMatch = 0,
             ExactMatchReturnNextSmaller = -1,
@@ -37,20 +39,46 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             Wildcard = 2
         }
 
+        private enum SearchMode : int
+        {
+            StartingAtFirst = 1,
+            ReverseStartingAtLast = -1,
+            BinarySearchAscending = 2,
+            BinarySearchDescending = 3
+        }
+
+        private MatchMode GetMatchMode(int mm)
+        {
+            switch(mm)
+            {
+                case 0:
+                    return MatchMode.ExactMatch;
+                case -1:
+                    return MatchMode.ExactMatchReturnNextSmaller;
+                case 1:
+                    return MatchMode.ExactMatchReturnNextLarger;
+                case 2:
+                    return MatchMode.Wildcard;
+                default:
+                    throw new ArgumentException("Invalid match mode: " + mm.ToString());
+            }
+        }
+
         private SearchMode GetSearchMode(int sm)
         {
             switch(sm)
             {
-                case 0:
-                    return SearchMode.ExactMatch;
-                case -1:
-                    return SearchMode.ExactMatchReturnNextSmaller;
                 case 1:
-                    return SearchMode.ExactMatchReturnNextLarger;
+                    return SearchMode.StartingAtFirst;
+                case -1:
+                    return SearchMode.ReverseStartingAtLast;
                 case 2:
-                    return SearchMode.Wildcard;
+                    return SearchMode.BinarySearchAscending;
+                case 3:
+                    return SearchMode.BinarySearchDescending;
                 default:
                     throw new ArgumentException("Invalid search mode: " + sm.ToString());
+
             }
         }
 
@@ -87,38 +115,123 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return ret;
         }
 
-        private object GetSearchedValue(object lookupValue, List<object> lookupArray, List<object > returnArray, SearchMode searchMode)
+        private static object GetReturnValue(List<object> returnArray, Dictionary<object, List<int>> origIndexes, object candidate, SearchMode searchMode)
         {
-            if(searchMode == SearchMode.ExactMatch || lookupArray.IndexOf(lookupValue) > -1)
+            if(searchMode == SearchMode.ReverseStartingAtLast)
             {
+                return returnArray[origIndexes[candidate].Last()];
+            }
+            else
+            {
+                return returnArray[origIndexes[candidate].First()];
+            }
+        }
+
+        private Dictionary<object, List<int>> CreateIndexes(List<object> lookupArray)
+        {
+            var origIndexes = new Dictionary<object, List<int>>();
+            for (var i = 0; i < lookupArray.Count; i++)
+            {
+                if (!origIndexes.ContainsKey(lookupArray[i]))
+                {
+                    origIndexes.Add(lookupArray[i], new List<int>());
+                }
+                origIndexes[lookupArray[i]].Add(i);
+            }
+            return origIndexes;
+        }
+
+        private object GetSearchedValue(object lookupValue, List<object> lookupArray, List<object > returnArray, MatchMode matchMode, SearchMode searchMode)
+        {
+            if(matchMode == MatchMode.ExactMatch || lookupArray.IndexOf(lookupValue) > -1)
+            {
+                if (searchMode == SearchMode.ReverseStartingAtLast)
+                {
+                    return returnArray[lookupArray.LastIndexOf(lookupValue)];
+                }
                 return returnArray[lookupArray.IndexOf(lookupValue)];
             }
-            var origIndexes = new Dictionary<object, int>();
-            for(var i = 0; i < lookupArray.Count;i++)
-            {
-                if(!origIndexes.ContainsKey(lookupArray[i]))
-                    origIndexes[lookupArray[i]] = i;
-            }
+            var origIndexes = CreateIndexes(lookupArray);
             lookupArray.Sort((a, b) => {
                 if (a == null && b != null) return 1.CompareTo(2);
                 if (a != null && b == null) return 2.CompareTo(1);
                 return CompareObjects(a, b);
             });
-            if(searchMode == SearchMode.ExactMatchReturnNextSmaller)
+            if(matchMode == MatchMode.ExactMatchReturnNextSmaller)
             {
-                var ix = 0;
+                var ix = searchMode == SearchMode.ReverseStartingAtLast ? returnArray.Count - 1 : 0;
                 var prev = default(object);
-                while(ix++ < returnArray.Count)
+                while(searchMode == SearchMode.ReverseStartingAtLast ? ix >= 0 : ix < returnArray.Count)
                 {
                     var candidate = lookupArray[ix];
                     var res = CompareObjects(lookupValue, candidate);
-                    if (res == -1)
+                    if (res == 1)
                     {
                         prev = candidate;
                     }
+                    else if(res == 0)
+                    {
+                        return GetReturnValue(returnArray, origIndexes, candidate, searchMode);
+                    }
                     else
                     {
-                        return returnArray[origIndexes[candidate]];
+                        return GetReturnValue(returnArray, origIndexes, prev, searchMode);
+                    }
+                    if(searchMode == SearchMode.ReverseStartingAtLast)
+                    {
+                        ix--;
+                    }
+                    else
+                    {
+                        ix++;
+                    }
+                }
+            }
+            else if (matchMode == MatchMode.ExactMatchReturnNextLarger)
+            {
+                var ix = 0;
+                while (ix < returnArray.Count)
+                {
+                    var candidate = lookupArray[ix];
+                    var next = default(object);
+                    if(ix < returnArray.Count - 2)
+                    {
+                        next = lookupArray[ix + 1];
+                    }
+                    var res = CompareObjects(lookupValue, candidate);
+                    if (res == 0)
+                    {
+                        return GetReturnValue(returnArray, origIndexes, candidate, searchMode);
+                    }
+                    else if(next != null && res == 1)
+                    {
+                        var nextRes = CompareObjects(lookupValue, next);
+                        if(nextRes == -1 || nextRes == 0)
+                        {
+                            return GetReturnValue(returnArray, origIndexes, next, searchMode);
+                        }
+                    }
+                    ix++;
+                }
+                return null;
+            }
+            else if(matchMode == MatchMode.Wildcard)
+            {
+                var ix = searchMode == SearchMode.ReverseStartingAtLast ? returnArray.Count - 1 : 0;
+                while (searchMode == SearchMode.ReverseStartingAtLast ? ix >= 0 : ix < returnArray.Count)
+                {
+                    var candidate = lookupArray[ix];
+                    if(_valueMatcher.IsMatch(lookupValue, candidate) == 0)
+                    {
+                        return GetReturnValue(returnArray, origIndexes, candidate, searchMode);
+                    }
+                    if (searchMode == SearchMode.ReverseStartingAtLast)
+                    {
+                        ix--;
+                    }
+                    else
+                    {
+                        ix++;
                     }
                 }
             }
@@ -154,21 +267,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 returnArray = ArgsToObjectEnumerable(true, new List<FunctionArgument> { arguments.ElementAt(2) }, context).ToList();
             }
             var notFoundText = string.Empty;
-            if(arguments.Count() > 3)
+            if(arguments.Count() > 3 && arguments.ElementAt(3) != null)
             {
                 notFoundText = ArgToString(arguments, 3);
             }
-            var searchMode = SearchMode.ExactMatch;
-            if(arguments.Count() > 4)
+            var matchMode = MatchMode.ExactMatch;
+            if(arguments.Count() > 4 && arguments.ElementAt(4) != null)
             {
-                var sm = ArgToInt(arguments, 4);
+                var mm = ArgToInt(arguments, 4);
+                matchMode = GetMatchMode(mm);
+            }
+            var searchMode = SearchMode.StartingAtFirst;
+            if(arguments.Count() > 5)
+            {
+                var sm = ArgToInt(arguments, 5);
                 searchMode = GetSearchMode(sm);
             }
-            if(lookupArray.IndexOf(lookupValue) < 0 && searchMode == SearchMode.ExactMatch)
+            if(lookupArray.IndexOf(lookupValue) < 0 && matchMode == MatchMode.ExactMatch)
             {
                 return string.IsNullOrEmpty(notFoundText) ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
             }
-            var result = GetSearchedValue(lookupValue, lookupArray, returnArray, searchMode);
+            var result = GetSearchedValue(lookupValue, lookupArray, returnArray, matchMode, searchMode);
             if (context.Debug)
             {
                 sw.Stop();
