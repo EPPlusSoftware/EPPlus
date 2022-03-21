@@ -3,6 +3,7 @@ branches:
   only:
   - develop
 configuration: release
+image: Visual Studio 2022
 platform: Any CPU
 init:
 - ps: >-
