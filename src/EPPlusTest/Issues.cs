@@ -3123,5 +3123,50 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void Issue308()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                package.Compatibility.IsWorksheets1Based = false;
+
+                var wb = package.Workbook;
+                wb.Worksheets.Add("A");
+                wb.Worksheets.Add("B");
+
+                ExcelWorksheet sheetA = wb.Worksheets["A"];
+                ExcelWorksheet sheetB = wb.Worksheets["B"];
+
+                var qsUndefined = QStr("Undefined");
+                var qsEmpty = QStr("");
+                var qsOk = QStr("OK");
+                var qsError = QStr("ERROR");
+                var qsES4 = QStr("ES4");
+                var qsES5 = QStr("ES5");
+
+                var errorFormula = $"IF(OR(LEFT(RC4,9)={qsUndefined},AND(OR(RC5={qsES4},RC5={qsES5}),RC8={qsEmpty}),RC5={qsEmpty}),{qsError},{qsOk})";
+
+                sheetB.Cells[1, 4].Value = "ABC";
+                sheetB.Cells[1, 5].Value = "ES1";
+                sheetB.Cells[1, 8].Value = "ES1";
+                sheetB.Cells[1, 10].FormulaR1C1 = errorFormula;
+
+                wb.Calculate();
+
+                Console.WriteLine($"Sht B Value = {sheetB.Cells[1, 10].Value} FormulaR1c1={sheetB.Cells[1, 10].FormulaR1C1}");
+                Console.WriteLine($"Sht A Value = {sheetA.Cells[1, 10].Value} FormulaR1c1={sheetA.Cells[1, 10].FormulaR1C1}");
+
+                Assert.AreEqual("OK", sheetB.Cells["J1"].Value);
+
+                // package.SaveAs(@"c:\temp\eppTest306.xlsx");
+            }
+        }
+
+        string QStr(string s)
+        {
+            char quotechar = '\"';
+            return $"{quotechar}{s}{quotechar}";
+        }
     }
 }

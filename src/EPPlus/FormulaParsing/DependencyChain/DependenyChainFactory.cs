@@ -192,7 +192,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else if (f.ws.IndexInList != f.wsIndex)
                             {
-                                f.iteratorWs = wb.Worksheets[f.wsIndex];
+                                f.iteratorWs = wb.Worksheets._worksheets[f.wsIndex];
                             }
                         }
                         else
@@ -276,7 +276,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 rf.Formula = name.NameFormula;
                                 if (rf.wsIndex >= 0 && rf.wsIndex < wb.Worksheets.Count)
                                 {
-                                    rf.iteratorWs = wb.Worksheets[rf.wsIndex];
+                                    rf.iteratorWs = wb.Worksheets._worksheets[rf.wsIndex];
                                 }
                                 rf.Tokens = rf.iteratorWs==null ? lexer.Tokenize(rf.Formula).ToList() : lexer.Tokenize(rf.Formula, rf.iteratorWs.Name).ToList();
 
