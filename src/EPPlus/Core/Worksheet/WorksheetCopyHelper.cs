@@ -659,6 +659,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             Copy._package.Workbook.ReadAllPivotTables();
             string prevName = "";
+            var worksheetMap = new Dictionary<string, string>();
             var nameMap = new Dictionary<string, string>();
             var wbAdded = added._package.Workbook;
             foreach (var tbl in Copy.PivotTables)
@@ -710,28 +711,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    string xmlCache = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
-                    var cacheId = wbAdded._nextPivotCacheId;
-                    var uriCache = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref cacheId);
-                    if (wbAdded._nextPivotCacheId < cacheId) wbAdded._nextPivotCacheId = cacheId;
-
-                    var partCache = added._package.ZipPackage.CreatePart(uriCache, ContentTypes.contentTypePivotCacheDefinition, added._package.Compression);
-                    StreamWriter streamCache = new StreamWriter(partCache.GetStream(FileMode.Create, FileAccess.Write));
-                    streamCache.Write(xmlCache);
-                    streamCache.Flush();
-                    
-                    var rangeInfo = new ExcelWorkbook.PivotTableCacheRangeInfo();
-                    rangeInfo.Address = tbl.CacheDefinition.SourceRange.Address;
-                    var newCache = new PivotTableCacheInternal(wbAdded, uriCache, cacheId);
-                    rangeInfo.PivotCaches = new List<PivotTableCacheInternal>();
-                    rangeInfo.PivotCaches.Add(newCache);
-                    wbAdded._pivotTableCaches.Add(uriCache.OriginalString, rangeInfo);                    
-                    added.Workbook.AddPivotTableCache(newCache, true);
-                    var recId = cacheId;
-                    newCache.CacheRecordUri= XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotCache/pivotCacheRecords{0}.xml", ref recId); 
-                    newCache.ResetRecordXml(added._package.ZipPackage);
-
-                    partTbl.CreateRelationship(uriCache, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
+                    CreateCacheInNewPackage(added, wbAdded, tbl, partTbl);
                 }
 
             }
@@ -741,13 +721,50 @@ namespace OfficeOpenXml.Core.Worksheet
             //Refresh all items in the copied table.
             foreach (var copiedTbl in added.PivotTables)
             {
-                copiedTbl.CacheDefinition._cacheReference._pivotTables.Add(copiedTbl);
+                if (!copiedTbl.CacheDefinition._cacheReference._pivotTables.Contains(copiedTbl))
+                {
+                    copiedTbl.CacheDefinition._cacheReference._pivotTables.Add(copiedTbl);
+                }
+
                 ChangeToWsLocalPivotTable(added, nameMap);
                 foreach (var fld in copiedTbl.Fields)
                 {
                     fld.Cache.Refresh();
                 }
             }
+        }
+
+        private static void CreateCacheInNewPackage(ExcelWorksheet added, ExcelWorkbook wbAdded, ExcelPivotTable tbl, ZipPackagePart partTbl)
+        {
+            string xmlCache = tbl.CacheDefinition.CacheDefinitionXml.OuterXml;
+            var cacheId = wbAdded._nextPivotCacheId;
+            var uriCache = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/pivotCache/pivotCacheDefinition{0}.xml", ref cacheId);
+            if (wbAdded._nextPivotCacheId < cacheId) wbAdded._nextPivotCacheId = cacheId;
+
+            var partCache = added._package.ZipPackage.CreatePart(uriCache, ContentTypes.contentTypePivotCacheDefinition, added._package.Compression);
+            StreamWriter streamCache = new StreamWriter(partCache.GetStream(FileMode.Create, FileAccess.Write));
+            streamCache.Write(xmlCache);
+            streamCache.Flush();
+            partTbl.CreateRelationship(uriCache, tbl.CacheDefinition.Relationship.TargetMode, tbl.CacheDefinition.Relationship.RelationshipType);
+
+            var rangeInfo = new ExcelWorkbook.PivotTableCacheRangeInfo();
+            var newCache = new PivotTableCacheInternal(wbAdded, uriCache, cacheId);
+            rangeInfo.PivotCaches = new List<PivotTableCacheInternal>();
+            rangeInfo.PivotCaches.Add(newCache);
+            wbAdded._pivotTableCaches.Add(uriCache.OriginalString, rangeInfo);
+
+            if (tbl.CacheDefinition.SourceRange.Worksheet != null && tbl.CacheDefinition.SourceRange.Worksheet.Name == tbl.WorkSheet.Name)
+            {
+                rangeInfo.Address = ExcelCellBase.GetQuotedWorksheetName(added.Name) + "!" + tbl.CacheDefinition.SourceRange.LocalAddress;
+                newCache.SetXmlNodeString(PivotTableCacheInternal._sourceWorksheetPath, added.Name);
+            }
+            else
+            {
+                rangeInfo.Address = tbl.CacheDefinition.SourceRange.Address;
+            }
+
+            added.Workbook.AddPivotTableCache(newCache, true);
+            newCache.AddRecordsXml();
         }
 
         private static void ChangeToWsLocalPivotTable(ExcelWorksheet added, Dictionary<string, string> nameMap)
