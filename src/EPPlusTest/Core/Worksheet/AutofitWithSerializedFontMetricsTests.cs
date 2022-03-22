@@ -91,7 +91,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod]
+        [DataTestMethod, Ignore]
         //[DataRow("Calibri", 1)]
         //[DataRow("Calibri Light", 2)]
         //[DataRow("Arial", 3)]
@@ -205,7 +205,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod]
+        [DataTestMethod, Ignore]
         [DataRow("Calibri", 1)]
         [DataRow("Arial", 2)]
         [DataRow("Arial Black", 3)]
@@ -376,7 +376,7 @@ namespace EPPlusTest.Core.Worksheet
         }
 
 
-        [DataTestMethod]
+        [DataTestMethod, Ignore]
         [DataRow("Yu Gothic", 1)]
         [DataRow("Yu Mincho", 2)]
         [DataRow("Arial Rounded MT Bold", 3)]

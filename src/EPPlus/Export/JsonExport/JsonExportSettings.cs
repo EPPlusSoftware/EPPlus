@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -62,6 +63,10 @@ namespace OfficeOpenXml
         /// Encoding for the output
         /// </summary>
         public Encoding Encoding { get; set; } = new UTF8Encoding(false);
+        /// <summary>
+        /// The CulturInfo used when formatting values.
+        /// </summary>
+        public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
     }
     /// <summary>
     /// Settings used when exporting a range to Json
