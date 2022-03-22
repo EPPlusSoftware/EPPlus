@@ -1,4 +1,9 @@
 ﻿# Features / Fixed issues - EPPlus 5
+## Version 5.8.8
+### Fixed issues
+* Removed unnessesary Nuget references to packages already included in the targeting frameworks.
+* Fixed calculation issue when ExcelPackage.Compatibility.IsWorksheets1Based is set to true
+
 ## Version 5.8.7
 ### Fixed issues
 * LoadAsync(FileInfo) and LoadAsync(string) do not close the file stream.
