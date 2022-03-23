@@ -107,46 +107,8 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             else
             {
-                string styleClass;
-                if (_table.TableStyle == TableStyles.Custom)
-                {
-                    styleClass = TableStyleClassPrefix + _table.StyleName.Replace(" ","-").ToLowerInvariant();
-                }
-                else
-                {
-                    styleClass = TableStyleClassPrefix + _table.TableStyle.ToString().ToLowerInvariant();
-                }
-
-                var tblClasses = $"{TableClass} {styleClass}";
-                if (_table.ShowHeader)
-                {
-                    tblClasses += $" {styleClass}-header";
-                }
-
-                if (_table.ShowTotal)
-                {
-                    tblClasses += $" {styleClass}-total";
-                }
-
-                if (_table.ShowRowStripes)
-                {
-                    tblClasses += $" {styleClass}-row-stripes";
-                }
-
-                if (_table.ShowColumnStripes)
-                {
-                    tblClasses += $" {styleClass}-column-stripes";
-                }
-
-                if (_table.ShowFirstColumn)
-                {
-                    tblClasses += $" {styleClass}-first-column";
-                }
-
-                if (_table.ShowLastColumn)
-                {
-                    tblClasses += $" {styleClass}-last-column";
-                }
+                var tblClasses = $"{TableClass} ";
+                tblClasses += GetTableClasses(_table);
                 if (Settings.AdditionalTableClassNames.Count > 0)
                 {
                     foreach (var cls in Settings.AdditionalTableClassNames)
@@ -161,6 +123,52 @@ namespace OfficeOpenXml.Export.HtmlExport
             {
                 writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
             }
+        }
+
+        internal static string GetTableClasses(ExcelTable table)
+        {
+            string styleClass;
+            if (table.TableStyle == TableStyles.Custom)
+            {
+                styleClass = TableStyleClassPrefix + table.StyleName.Replace(" ", "-").ToLowerInvariant();
+            }
+            else
+            {
+                styleClass = TableStyleClassPrefix + table.TableStyle.ToString().ToLowerInvariant();
+            }
+
+            var tblClasses = $"{styleClass}";
+            if (table.ShowHeader)
+            {
+                tblClasses += $" {styleClass}-header";
+            }
+
+            if (table.ShowTotal)
+            {
+                tblClasses += $" {styleClass}-total";
+            }
+
+            if (table.ShowRowStripes)
+            {
+                tblClasses += $" {styleClass}-row-stripes";
+            }
+
+            if (table.ShowColumnStripes)
+            {
+                tblClasses += $" {styleClass}-column-stripes";
+            }
+
+            if (table.ShowFirstColumn)
+            {
+                tblClasses += $" {styleClass}-first-column";
+            }
+
+            if (table.ShowLastColumn)
+            {
+                tblClasses += $" {styleClass}-last-column";
+            }
+
+            return tblClasses;
         }
 
         private void LoadVisibleColumns()
@@ -203,7 +211,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
-        public string GetSinglePage(string htmlDocument = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
+        public string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString();
@@ -246,7 +254,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 foreach (var col in _columns)
                 {
                     var colIx = col - _table.Address._fromCol;
-                    var dataType = _datatypes[colIx];
+                    var dataType = _dataTypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
@@ -308,7 +316,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 var cell = _table.WorkSheet.Cells[row, col];
                 if (Settings.RenderDataTypes)
                 {
-                    writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
+                    writer.AddAttribute("data-datatype", _dataTypes[col - adr._fromCol]);
                 }
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
                 writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName);
@@ -408,10 +416,10 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void GetDataTypes(ExcelAddressBase adr)
         {
-            _datatypes = new List<string>();
+            _dataTypes = new List<string>();
             for (int col = adr._fromCol; col <= adr._toCol; col++)
             {
-                _datatypes.Add(
+                _dataTypes.Add(
                     ColumnDataTypeManager.GetColumnDataType(_table.WorkSheet, _table.Range, 2, col));
             }
         }

@@ -59,12 +59,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 throw new IOException("Parameter stream must be a writeable System.IO.Stream");
             }
 
-            if (_datatypes.Count == 0) GetDataTypes(_table.Address);
+            if (_dataTypes.Count == 0) GetDataTypes(_table.Address);
             var sw = new StreamWriter(stream);
             var ranges = new List<ExcelRangeBase>() { _table.Range };
             var cellCssWriter = new EpplusCssWriter(sw, ranges, Settings, Settings.Css, Settings.Css.Exclude.CellStyle, _styleCache);
             await cellCssWriter.RenderAdditionalAndFontCssAsync(TableClass);
-            if (Settings.Css.IncludeTableStyles) await RenderTableCssAsync(sw);
+            if (Settings.Css.IncludeTableStyles) await RenderTableCssAsync(sw, _table, Settings, _styleCache, _dataTypes);
             if (Settings.Css.IncludeCellStyles) await RenderCellCssAsync(sw);
 
             if (Settings.Pictures.Include == ePictureInclude.Include)
@@ -96,25 +96,25 @@ namespace OfficeOpenXml.Export.HtmlExport
             await styleWriter.FlushStreamAsync();
         }
 
-        internal async Task RenderTableCssAsync(StreamWriter sw)
+        internal static async Task RenderTableCssAsync(StreamWriter sw, ExcelTable table, HtmlTableExportSettings settings, Dictionary<string, int> styleCache, List<string> datatypes)
         {
-            var styleWriter = new EpplusTableCssWriter(sw, _table, Settings, _styleCache);
-            if (Settings.Minify == false) await styleWriter.WriteLineAsync();
+            var styleWriter = new EpplusTableCssWriter(sw, table, settings, styleCache);
+            if (settings.Minify == false) await styleWriter.WriteLineAsync();
             ExcelTableNamedStyle tblStyle;
-            if (_table.TableStyle == TableStyles.Custom)
+            if (table.TableStyle == TableStyles.Custom)
             {
-                tblStyle = _table.WorkSheet.Workbook.Styles.TableStyles[_table.StyleName].As.TableStyle;
+                tblStyle = table.WorkSheet.Workbook.Styles.TableStyles[table.StyleName].As.TableStyle;
             }
             else
             {
-                var tmpNode = _table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
-                tblStyle = new ExcelTableNamedStyle(_table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, _table.WorkSheet.Workbook.Styles);
-                tblStyle.SetFromTemplate(_table.TableStyle);
+                var tmpNode = table.WorkSheet.Workbook.StylesXml.CreateElement("c:tableStyle");
+                tblStyle = new ExcelTableNamedStyle(table.WorkSheet.Workbook.Styles.NameSpaceManager, tmpNode, table.WorkSheet.Workbook.Styles);
+                tblStyle.SetFromTemplate(table.TableStyle);
             }
 
             var tableClass = $"{TableClass}.{TableStyleClassPrefix}{GetClassName(tblStyle.Name, "EmptyClassName").ToLower()}";
             await styleWriter.AddHyperlinkCssAsync($"{tableClass}", tblStyle.WholeTable);
-            await styleWriter.AddAlignmentToCssAsync($"{tableClass}", _datatypes);
+            await styleWriter.AddAlignmentToCssAsync($"{tableClass}", datatypes);
 
             await styleWriter.AddToCssAsync($"{tableClass}", tblStyle.WholeTable, "");
             await styleWriter.AddToCssBorderVHAsync($"{tableClass}", tblStyle.WholeTable, "");

@@ -1226,7 +1226,26 @@ namespace OfficeOpenXml
                 SetIsRichTextFlag(value);
             }
         }
-
+        /// <summary>
+        /// Returns true if the range is a table. If the range partly matches a table range false will be returned.
+        /// <seealso cref="IsTable"/>
+        /// </summary>
+        public bool IsTable
+        {
+            get
+            {
+                return _worksheet.Tables.GetFromRange(this) != null;
+            }
+        }
+        /// <summary>
+        /// Returns the <see cref="ExcelTable"/> if the range is a table. 
+        /// If the range doesn't or partly matches a table range, null is returned.
+        /// <seealso cref="IsTable"/>
+        /// </summary>
+        public ExcelTable GetTable()
+        {
+            return _worksheet.Tables.GetFromRange(this);
+        }
         internal void SetIsRichTextFlag(bool value)
         {
             _changePropMethod(this, _setIsRichTextDelegate, value);

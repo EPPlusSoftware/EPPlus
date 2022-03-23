@@ -83,15 +83,13 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
-        public async Task<string> GetSinglePageAsync(string htmlDocument = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
+        public async Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();
             var css = await GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
-
         }
-
         private async Task RenderTableRowsAsync(EpplusHtmlWriter writer)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
@@ -126,7 +124,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 foreach (var col in _columns)
                 {
                     var colIx = col - _table.Address._fromCol;
-                    var dataType = _datatypes[colIx];
+                    var dataType = _dataTypes[colIx];
                     var cell = _table.WorkSheet.Cells[row, col];
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
@@ -188,7 +186,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 var cell = _table.WorkSheet.Cells[row, col];
                 if (Settings.RenderDataTypes)
                 {
-                    writer.AddAttribute("data-datatype", _datatypes[col - adr._fromCol]);
+                    writer.AddAttribute("data-datatype", _dataTypes[col - adr._fromCol]);
                 }
 
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";

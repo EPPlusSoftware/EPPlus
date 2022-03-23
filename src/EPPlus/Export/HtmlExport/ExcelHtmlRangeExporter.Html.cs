@@ -150,9 +150,15 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             var range = _ranges[rangeIndex];
             GetDataTypes(range);
-            
+
+            ExcelTable table = null;
+            if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
+            {
+                table = range.GetTable();
+            }
+
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
-            AddClassesAttributes(writer);
+            AddClassesAttributes(writer, table);
             AddTableAccessibilityAttributes(Settings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
 
@@ -183,9 +189,15 @@ namespace OfficeOpenXml.Export.HtmlExport
                 return _ranges;
             } 
         }
-        private void AddClassesAttributes(EpplusHtmlWriter writer)
+        private void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table)
         {
-            writer.AddAttribute(HtmlAttributes.Class, $"{TableClass}");
+            var tableClasses = TableClass;
+            if (table != null)
+            {
+                tableClasses+= " " + ExcelHtmlTableExporter.GetTableClasses(table); //Add classes for the table styles if the range corresponds to a table.
+            }
+
+            writer.AddAttribute(HtmlAttributes.Class, $"{tableClasses}");
             if (!string.IsNullOrEmpty(Settings.TableId))
             {
                 writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
@@ -218,7 +230,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
-        public string GetSinglePage(string htmlDocument = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
+        public string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString();
@@ -322,7 +334,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var cell = range.Worksheet.Cells[row, col];
                     if (Settings.RenderDataTypes)
                     {
-                        writer.AddAttribute("data-datatype", _datatypes[col - range._fromCol]);
+                        writer.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
                     }
                     SetColRowSpan(range, writer, cell);
                     if(Settings.IncludeCssClassNames)
@@ -494,10 +506,10 @@ namespace OfficeOpenXml.Export.HtmlExport
                 throw new InvalidOperationException("Range From Row + Header rows is out of bounds");
             }
 
-            _datatypes = new List<string>();
+            _dataTypes = new List<string>();
             for (int col = range._fromCol; col <= range._toCol; col++)
             {
-                _datatypes.Add(
+                _dataTypes.Add(
                     ColumnDataTypeManager.GetColumnDataType(range.Worksheet, range, range._fromRow + Settings.HeaderRows, col));
             }
         }

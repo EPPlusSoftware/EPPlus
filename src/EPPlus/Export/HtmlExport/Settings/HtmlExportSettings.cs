@@ -110,6 +110,15 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         public bool IncludeCssClassNames { get; set; } = true;
         /// <summary>
+        /// If and how table styles should export, if the range is a table.
+        /// The range must be the same as the table range.
+        /// </summary>
+        public eHtmlRangeTableInclude TableStyle
+        {
+            get;
+            set;
+        } = eHtmlRangeTableInclude.Include;
+        /// <summary>
         /// If true data-* attributes will be rendered
         /// </summary>
         public bool RenderDataAttributes { get; set; } = true;

@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     public abstract partial class HtmlExporterBase
     {
         internal const string TableClass = "epplus-table";
-        internal List<string> _datatypes = new List<string>();
+        internal List<string> _dataTypes = new List<string>();
         internal List<int> _columns = new List<int>();
         internal List<HtmlImage> _rangePictures = null;
         internal void LoadRangeImages(List<ExcelRangeBase> ranges)

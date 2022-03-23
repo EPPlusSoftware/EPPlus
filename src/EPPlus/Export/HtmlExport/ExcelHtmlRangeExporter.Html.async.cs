@@ -55,6 +55,16 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
         /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="stream">The stream to write to</param>
+        /// <returns>A html table</returns>
+        public async Task RenderHtmlAsync(Stream stream)
+        {
+            await RenderHtmlAsync(stream, 0);
+        }
+
+        /// <summary>
         /// Exports the html part of the html export, without the styles.
         /// </summary>
         /// <param name="stream">The stream to write the css to.</param>
@@ -71,8 +81,14 @@ namespace OfficeOpenXml.Export.HtmlExport
             var range = _ranges[rangeIndex];
             GetDataTypes(_ranges[rangeIndex]);
 
+
+            ExcelTable table = null;
+            if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
+            {
+                table = range.GetTable();
+            }
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
-            AddClassesAttributes(writer);
+            AddClassesAttributes(writer, table);
             AddTableAccessibilityAttributes(Settings, writer);
             await writer.RenderBeginTagAsync(HtmlElements.Table);
 
@@ -98,7 +114,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
-        public async Task<string> GetSinglePageAsync(string htmlDocument = "<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
+        public async Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();
@@ -201,7 +217,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     var cell = range.Worksheet.Cells[row, col];
                     if (Settings.RenderDataTypes)
                     {
-                        writer.AddAttribute("data-datatype", _datatypes[col - range._fromCol]);
+                        writer.AddAttribute("data-datatype", _dataTypes[col - range._fromCol]);
                     }
                     SetColRowSpan(range, writer, cell);
                     if (Settings.IncludeCssClassNames)

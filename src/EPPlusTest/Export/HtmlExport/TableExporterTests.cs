@@ -442,5 +442,30 @@ namespace EPPlusTest.Export.HtmlExport
                 Assert.AreEqual(html, htmlAsync);
             }
         }
+        [TestMethod]
+        public async Task WriteTableAndRange()
+        {
+            using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[1];
+                var exporterRange = sheet.Tables[0].Range.CreateHtmlExporter();
+                exporterRange.Settings.SetColumnWidth = true;
+                exporterRange.Settings.SetRowHeight = true;
+                exporterRange.Settings.Minify = false;
+                exporterRange.Settings.TableStyle = eHtmlRangeTableInclude.ClassNamesOnly;
+                var html = exporterRange.GetHtmlString();
+                var htmlAsync = await exporterRange.GetHtmlStringAsync();
+
+                var css = exporterRange.GetCssString();
+                var cssAsync = await exporterRange.GetCssStringAsync();
+
+                var outputHtml = string.Format("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>",html, css);
+                
+                File.WriteAllText("c:\\temp\\TableRangeCombined.html", outputHtml);
+
+                Assert.AreEqual(html, htmlAsync);
+                Assert.AreEqual(css, cssAsync);
+            }
+        }
     }
 }

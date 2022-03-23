@@ -14,6 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
 using System.IO;
 using OfficeOpenXml.Utils;
+using System.Collections.Generic;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 
@@ -62,6 +63,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var styleWriter = new EpplusCssWriter(sw, _ranges._list, Settings, Settings.Css, Settings.Css.CssExclude, _styleCache);
             
             await styleWriter.RenderAdditionalAndFontCssAsync(TableClass);
+            var addedTableStyles = new HashSet<TableStyles>();
             foreach (var range in _ranges._list)
             {
                 var ws = range.Worksheet;
@@ -85,6 +87,18 @@ namespace OfficeOpenXml.Export.HtmlExport
                                 continue;
                         }
                         await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                    }
+                }
+                if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
+                {
+                    var table = range.GetTable();
+                    if (table != null &&
+                       table.TableStyle != TableStyles.None &&
+                       addedTableStyles.Contains(table.TableStyle) == false)
+                    {
+                        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
+                        await ExcelHtmlTableExporter.RenderTableCssAsync(sw, table, settings, _styleCache, _dataTypes);
+                        addedTableStyles.Add(table.TableStyle);
                     }
                 }
             }

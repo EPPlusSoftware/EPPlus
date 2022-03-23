@@ -43,22 +43,34 @@ namespace OfficeOpenXml.Drawing
         internal int _id;
         internal const float STANDARD_DPI = 96;
         /// <summary>
-        /// Ratio between EMU and Pixels
+        /// The ratio between EMU and Pixels
         /// </summary>
         public const int EMU_PER_PIXEL = 9525;
         /// <summary>
-        /// Ratio between EMU and Points
+        /// The ratio between EMU and Points
         /// </summary>
         public const int EMU_PER_POINT = 12700;
+        /// <summary>
+        /// The ratio between EMU and centimeters
+        /// </summary>
         public const int EMU_PER_CM = 360000;
+        /// <summary>
+        /// The ratio between EMU and milimeters
+        /// </summary>
         public const int EMU_PER_MM = 3600000;
+        /// <summary>
+        /// The ratio between EMU and US Inches
+        /// </summary>
         public const int EMU_PER_US_INCH = 914400;
+        /// <summary>
+        /// The ratio between EMU and pica
+        /// </summary>
         public const int EMU_PER_PICA = EMU_PER_US_INCH / 6;
 
         internal double _width = double.MinValue, _height = double.MinValue, _top = double.MinValue, _left = double.MinValue;
         internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill", "grpFill", "blipFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d" };
 
-        internal protected bool _doNotAdjust = false;
+        internal bool _doNotAdjust = false;
         internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null) :
             base(drawings.NameSpaceManager, node)
         {
@@ -1251,7 +1263,7 @@ namespace OfficeOpenXml.Drawing
             }
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
         }
-        internal protected XmlElement CreateShapeNode()
+        internal XmlElement CreateShapeNode()
         {
             XmlElement shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
             shapeNode.SetAttribute("macro", "");
@@ -1259,7 +1271,7 @@ namespace OfficeOpenXml.Drawing
             TopNode.AppendChild(shapeNode);
             return shapeNode;
         }
-        internal protected XmlElement CreateClientData()
+        internal XmlElement CreateClientData()
         {
             XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
             clientDataNode.SetAttribute("fPrintsWithSheet", "0");
