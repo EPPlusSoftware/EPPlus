@@ -19,6 +19,9 @@ namespace OfficeOpenXml.FormulaParsing
     internal class FormulaCell
     {
         internal int Index { get; set; }
+        /// <summary>
+        /// NOTE: This is the position in the ExcelWorksheets._worksheets collection. Cannot be used direcly with Worksheets[] indexer.
+        /// </summary>
         internal int wsIndex { get; set; }
         internal int Row { get; set; }
         internal int Column { get; set; }

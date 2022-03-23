@@ -48,8 +48,9 @@ namespace EPPlusTest.Export.JsonExport
                 ws.SetValue("C3", 9.59);
 
                 var json = ws.Cells["A1:C3"].ToJson(x => 
-                {
+                {                    
                     x.AddDataTypesOn = eDataTypeOn.OnColumn;
+                    x.Culture = new CultureInfo("sv-SE");
                 });
                 string jsonAsync;
                 using (var ms = new MemoryStream())
@@ -57,6 +58,7 @@ namespace EPPlusTest.Export.JsonExport
                       await ws.Cells["A1:C3"].SaveToJsonAsync(ms, x =>
                       {
                           x.AddDataTypesOn = eDataTypeOn.OnColumn;
+                          x.Culture = new CultureInfo("sv-SE");
                       });
                     jsonAsync = Encoding.UTF8.GetString(ms.ToArray());
                 }

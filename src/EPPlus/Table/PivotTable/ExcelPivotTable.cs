@@ -30,6 +30,9 @@ using OfficeOpenXml.Table.PivotTable.Filter;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// Represents a null value in a pivot table caches shared items list.
+    /// </summary>
     public struct PivotNull
     {
     }
@@ -38,8 +41,11 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotTable : XmlHelper
     {
+        /// <summary>
+        /// Represents a null value in a pivot table caches shared items list.
+        /// </summary>
         public static PivotNull PivotNullValue = new PivotNull();
-        internal ExcelPivotTable(Packaging.ZipPackageRelationship rel, ExcelWorksheet sheet) :
+        internal ExcelPivotTable(ZipPackageRelationship rel, ExcelWorksheet sheet) :
             base(sheet.NameSpaceManager)
         {
             WorkSheet = sheet;

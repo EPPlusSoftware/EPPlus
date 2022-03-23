@@ -173,16 +173,7 @@ namespace OfficeOpenXml
                 }
             }
         }
-        private static string BuildNewAddress(ExcelNamedRange namedRange, string newAddress)
-        {
-            if (namedRange.FullAddress.Contains("!"))
-            {
-                var worksheet = namedRange.FullAddress.Split('!')[0];
-                worksheet = worksheet.Trim('\'');
-                newAddress = ExcelCellBase.GetFullAddress(worksheet, newAddress);
-            }
-            return newAddress;
-        }
+
 
         /// <summary>
         /// Remove a defined name from the collection

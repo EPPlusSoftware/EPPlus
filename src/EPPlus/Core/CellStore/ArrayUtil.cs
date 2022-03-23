@@ -15,7 +15,7 @@ using System;
 namespace OfficeOpenXml.Core.CellStore
 {
     /// <summary>
-    /// These binary search functions are identical, exept that one uses a struc and the other a class.
+    /// These binary search functions are identical, except that one uses a struc and the other a class.
     /// Structs consume less memory and are also faster.
     /// </summary>
     internal static class ArrayUtil

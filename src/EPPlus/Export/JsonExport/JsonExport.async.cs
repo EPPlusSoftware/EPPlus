@@ -24,7 +24,7 @@ namespace OfficeOpenXml
                 for (int c = dr._fromCol; c <= dr._toCol; c++)
                 {
                     var cv = ws.GetCoreValueInner(r, c);
-                    var t = JsonEscape(ValueToTextHandler.GetFormattedText(cv._value, ws.Workbook, cv._styleId, false));
+                    var t = JsonEscape(ValueToTextHandler.GetFormattedText(cv._value, ws.Workbook, cv._styleId, false, _settings.Culture));
                     await WriteStartAsync(sw);
                     var hasHyperlink = _settings.WriteHyperlinks && ws._hyperLinks.Exists(r, c, ref uri);
                     var hasComment = _settings.WriteComments && ws._commentsStore.Exists(r, c, ref commentIx);

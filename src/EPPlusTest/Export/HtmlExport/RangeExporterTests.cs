@@ -31,6 +31,7 @@ namespace EPPlusTest.Export.HtmlExport
                 {
                     var exporter = range.CreateHtmlExporter();
                     exporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes=false;
+                    exporter.Settings.Culture = new CultureInfo("us-en");
                     exporter.RenderHtml(ms);                    
                     var sr = new StreamReader(ms);
                     ms.Position = 0;
@@ -58,8 +59,8 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes = false;
                 exporter.Settings.SetColumnWidth = true;
                 exporter.Settings.SetRowHeight = true;
+                exporter.Settings.Culture = new CultureInfo("us-en");
                 var result = exporter.GetSinglePage();
-                File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", result);
                 Assert.AreEqual(
                     "<html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}</style></head><body><table class=\"epplus-table\"><colgroup><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/></colgroup><thead><tr class=\"epp-drh\"><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody><tr class=\"epp-drh\"><td>John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td><td></td></tr><tr class=\"epp-drh\"><td></td><td></td><td></td></tr></tbody></table></body></html>",
                     result);
@@ -89,6 +90,7 @@ namespace EPPlusTest.Export.HtmlExport
 
                 var exporter = range.CreateHtmlExporter();
                 exporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes = false;
+                exporter.Settings.Culture = new CultureInfo("sv-SE");
                 var result = exporter.GetSinglePage();
 
                 Assert.AreEqual(
@@ -98,8 +100,6 @@ namespace EPPlusTest.Export.HtmlExport
                 var resultAsync = await exporter.GetSinglePageAsync();
                 Assert.AreEqual(result, resultAsync);
                 SaveAndCleanup(package);
-                File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", result);
-
             }
         }
         [TestMethod]
@@ -139,7 +139,6 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Accessibility.TableSettings.AddAccessibilityAttributes = false;
                 var result = exporter.GetSinglePage();
-                File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", result);
                 var resultAsync = await exporter.GetSinglePageAsync();
                 SaveAndCleanup(package);
                 Assert.AreEqual(result, resultAsync);
