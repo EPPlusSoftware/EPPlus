@@ -74,7 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     return SearchMode.ReverseStartingAtLast;
                 case 2:
                     return SearchMode.BinarySearchAscending;
-                case 3:
+                case -2:
                     return SearchMode.BinarySearchDescending;
                 default:
                     throw new ArgumentException("Invalid search mode: " + sm.ToString());
@@ -143,24 +143,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private object GetSearchedValue(object lookupValue, List<object> lookupArray, List<object > returnArray, MatchMode matchMode, SearchMode searchMode)
         {
-            if(matchMode == MatchMode.ExactMatch || lookupArray.IndexOf(lookupValue) > -1)
+            //var origIndexes = CreateIndexes(lookupArray);
+            var index = IndexOfValue(lookupArray, lookupValue, searchMode, matchMode);
+            if (matchMode == MatchMode.ExactMatch && index > -1)
             {
-                if (searchMode == SearchMode.ReverseStartingAtLast)
-                {
-                    return returnArray[lookupArray.LastIndexOf(lookupValue)];
-                }
-                return returnArray[lookupArray.IndexOf(lookupValue)];
+                return returnArray[index];
             }
-            var origIndexes = CreateIndexes(lookupArray);
-            lookupArray.Sort((a, b) => {
-                if (a == null && b != null) return 1.CompareTo(2);
-                if (a != null && b == null) return 2.CompareTo(1);
-                return CompareObjects(a, b);
-            });
+           
+            //lookupArray.Sort((a, b) => {
+            //    if (a == null && b != null) return 1.CompareTo(2);
+            //    if (a != null && b == null) return 2.CompareTo(1);
+            //    return CompareObjects(a, b);
+            //});
             if(matchMode == MatchMode.ExactMatchReturnNextSmaller)
             {
+                if(searchMode == SearchMode.BinarySearchDescending)
+                {
+                    var bsix = IndexOfValue(lookupArray, lookupValue, searchMode, matchMode);
+                    return returnArray[bsix];
+                }
                 var ix = searchMode == SearchMode.ReverseStartingAtLast ? returnArray.Count - 1 : 0;
                 var prev = default(object);
+                var prevIx = -1;
                 while(searchMode == SearchMode.ReverseStartingAtLast ? ix >= 0 : ix < returnArray.Count)
                 {
                     var candidate = lookupArray[ix];
@@ -168,14 +172,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     if (res == 1)
                     {
                         prev = candidate;
+                        prevIx = ix;
                     }
                     else if(res == 0)
                     {
-                        return GetReturnValue(returnArray, origIndexes, candidate, searchMode);
+                        return returnArray[ix];
                     }
                     else
                     {
-                        return GetReturnValue(returnArray, origIndexes, prev, searchMode);
+                        return returnArray[prevIx];
                     }
                     if(searchMode == SearchMode.ReverseStartingAtLast)
                     {
@@ -189,26 +194,33 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else if (matchMode == MatchMode.ExactMatchReturnNextLarger)
             {
+                if (searchMode == SearchMode.BinarySearchDescending)
+                {
+                    var bsix = IndexOfValue(lookupArray, lookupValue, searchMode, matchMode);
+                    return returnArray[bsix];
+                }
                 var ix = 0;
                 while (ix < returnArray.Count)
                 {
                     var candidate = lookupArray[ix];
                     var next = default(object);
-                    if(ix < returnArray.Count - 2)
+                    var nextIx = -1;
+                    if(ix <= returnArray.Count - 2)
                     {
                         next = lookupArray[ix + 1];
+                        nextIx = ix + 1;
                     }
                     var res = CompareObjects(lookupValue, candidate);
                     if (res == 0)
                     {
-                        return GetReturnValue(returnArray, origIndexes, candidate, searchMode);
+                        return returnArray[ix];
                     }
                     else if(next != null && res == 1)
                     {
                         var nextRes = CompareObjects(lookupValue, next);
                         if(nextRes == -1 || nextRes == 0)
                         {
-                            return GetReturnValue(returnArray, origIndexes, next, searchMode);
+                            return returnArray[nextIx];
                         }
                     }
                     ix++;
@@ -223,7 +235,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     var candidate = lookupArray[ix];
                     if(_valueMatcher.IsMatch(lookupValue, candidate) == 0)
                     {
-                        return GetReturnValue(returnArray, origIndexes, candidate, searchMode);
+                        return returnArray[ix];
                     }
                     if (searchMode == SearchMode.ReverseStartingAtLast)
                     {
@@ -236,6 +248,70 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
             return null;
+        }
+
+        private class ObjectComparer : IComparer<object>
+        {
+            private readonly ValueMatcher _vm = new WildCardValueMatcher();
+
+            public ObjectComparer(SearchMode searchMode)
+            {
+                _searchMode = searchMode;
+                if(searchMode == SearchMode.ReverseStartingAtLast || searchMode == SearchMode.BinarySearchDescending)
+                {
+                    _factor = 1;
+                }
+                else
+                {
+                    _factor = -1;
+                }
+            }
+
+            private readonly SearchMode _searchMode;
+            private readonly int _factor;
+
+            public int Compare(object x, object y)
+            {
+                var v =  _vm.IsMatch(x, y) * _factor;
+                return v;
+            }
+        }
+
+        private int IndexOfValue(List<object> arr, object val, SearchMode searchMode, MatchMode matchMode)
+        {
+            if (arr == null) return -1;
+            if(searchMode == SearchMode.StartingAtFirst)
+            {
+                for(var x = 0; x < arr.Count; x++)
+                {
+                    if(_valueMatcher.IsMatch(val, arr[x]) == 0)
+                    {
+                        return x;
+                    }
+                }
+                return -1;
+            }
+            else if(searchMode == SearchMode.ReverseStartingAtLast)
+            {
+                for(var x = arr.Count - 1; x >= 0; x--)
+                {
+                    if (_valueMatcher.IsMatch(val, arr[x]) == 0)
+                    {
+                        return x;
+                    }
+                }
+                return -1;
+            }
+            var ix = arr.BinarySearch(val, new ObjectComparer(searchMode));
+            if(ix < 0)
+            {
+                ix = ~ix;
+            }
+            if(matchMode == MatchMode.ExactMatchReturnNextSmaller && ix  > 0)
+            {
+                ix--;
+            }
+            return ix;
         }
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
@@ -283,7 +359,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var sm = ArgToInt(arguments, 5);
                 searchMode = GetSearchMode(sm);
             }
-            if(lookupArray.IndexOf(lookupValue) < 0 && matchMode == MatchMode.ExactMatch)
+            if(IndexOfValue(lookupArray, lookupValue, searchMode, matchMode) < 0 && matchMode == MatchMode.ExactMatch)
             {
                 return string.IsNullOrEmpty(notFoundText) ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
             }
