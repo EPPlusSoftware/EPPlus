@@ -443,7 +443,7 @@ namespace EPPlusTest.Export.HtmlExport
             }
         }
         [TestMethod]
-        public async Task WriteTableAndRange()
+        public async Task WriteTableFromRange()
         {
             using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
             {
@@ -464,6 +464,38 @@ namespace EPPlusTest.Export.HtmlExport
                 File.WriteAllText("c:\\temp\\TableRangeCombined.html", outputHtml);
 
                 Assert.AreEqual(html, htmlAsync);
+                Assert.AreEqual(css, cssAsync);
+            }
+        }
+        [TestMethod]
+        public async Task WriteMultipleRangeWithTableAndRange()
+        {
+            using (var p = OpenTemplatePackage("20-CreateAFileSystemReport.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets[0];
+                var sheet2 = p.Workbook.Worksheets[1];
+                var exporterRange = p.Workbook.CreateHtmlExporter(
+                    sheet2.Tables[0].Range,
+                    sheet1.Cells["A1:E30"],
+                    sheet2.Tables[2].Range,
+                    sheet2.Tables[1].Range);
+                exporterRange.Settings.SetColumnWidth = true;
+                exporterRange.Settings.SetRowHeight = true;
+                exporterRange.Settings.Minify = false;
+                exporterRange.Settings.TableStyle = eHtmlRangeTableInclude.Include;
+                exporterRange.Settings.Pictures.Include = ePictureInclude.Include;
+                var html1 = exporterRange.GetHtmlString(0);
+                var html2 = exporterRange.GetHtmlString(1);
+                var html3 = exporterRange.GetHtmlString(2);
+                var html4 = exporterRange.GetHtmlString(3);
+
+                var css = exporterRange.GetCssString();
+                var cssAsync = await exporterRange.GetCssStringAsync();
+
+                var outputHtml = string.Format("<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{4}</style></head>\r\n<body>\r\n{0}<hr>{1}<hr>{2}<hr>{3}<hr></body>\r\n</html>", html1, html2, html3, html4, css);
+
+                File.WriteAllText("c:\\temp\\RangeAndThreeTables.html", outputHtml);
+
                 Assert.AreEqual(css, cssAsync);
             }
         }

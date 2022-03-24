@@ -21,6 +21,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class HtmlImage
     {
+        public int WorksheetId { get; set; }
         public ExcelPicture Picture { get; set; }
         public int FromRow { get; set; }
         public int FromRowOff { get; set; }
@@ -59,6 +60,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                         _rangePictures.Add(new HtmlImage()
                         {
+                            WorksheetId=worksheet.PositionId,
                             Picture = p,
                             FromRow = fromRow,
                             FromRowOff = fromRowOff,
@@ -73,12 +75,12 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
-        internal HtmlImage GetImage(int row, int col)
+        internal HtmlImage GetImage(int worksheetId, int row, int col)
         {
             if (_rangePictures == null) return null;
             foreach (var p in _rangePictures)
             {
-                if (p.FromRow == row - 1 && p.FromColumn == col - 1)
+                if (p.FromRow == row - 1 && p.FromColumn == col - 1 && p.WorksheetId == worksheetId)
                 {
                     return p;
                 }

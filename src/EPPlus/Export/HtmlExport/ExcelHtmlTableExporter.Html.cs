@@ -259,7 +259,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                     if (Settings.Pictures.Include == ePictureInclude.Include)
                     {
-                        image = GetImage(cell._fromRow, cell._fromCol);
+                        image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
 
                     if (cell.Hyperlink == null)
@@ -344,7 +344,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 writer.RenderBeginTag(HtmlElements.TableHeader);
                 if (Settings.Pictures.Include == ePictureInclude.Include)
                 {
-                    image = GetImage(cell._fromRow, cell._fromCol);
+                    image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                 }
                 AddImage(writer, Settings, image, cell.Value);
 
