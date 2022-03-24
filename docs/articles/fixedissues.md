@@ -1,13 +1,19 @@
 ﻿# Features / Fixed issues - EPPlus 6
 
-## Version 6.0.0.1-beta
+## Version 6.0.2-beta
+### Changes
+* ExcelWorkbook.CreateHtmlExporter(param ExcelRangeBase[]) to add multiple ranges at once for HTML export.
+* Added new overloads to access multiple ranges via the int argument rangeIndex:  GetHtmlString(int), GetHtmlStringAsync(int), RenderHtml(int) and RenderHtmlAsync(int)
+* Added new method GetTable() and the propert 'IsTable' to ExcelRangeBase to get the table object if the range corresponds with the tables Range.
+
+## Version 6.0.1-beta
 ### Changes
 * ExcelImage.SetImage(ExcelImage) added.
 * ExcelImage.SetImage and SetImageAsync now returns the ExcelImage object instead of void.
 * Html Export-Css: width and height is replaced with max-width and min-width.
 * ExcelBackgroundImage.Removed method added.
 
-## Version 6.0.0.0-beta
+## Version 6.0.0-beta
 ### Features
 * Html Export for tables and ranges, See [Html Export](https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export)
 * Json Export for tables and ranges, See [Json Export](https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export)
