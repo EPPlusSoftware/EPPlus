@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var startIndex = 0;
             if (functionArguments.Count() > 2)
             {
-                startIndex = ArgToInt(functionArguments, 2);
+                startIndex = ArgToInt(functionArguments, 2) - 1;
             }
             var result = searchIn.IndexOf(search, startIndex, System.StringComparison.OrdinalIgnoreCase);
             if (result == -1)
