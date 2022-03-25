@@ -31,7 +31,10 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheDefinitionXml = new XmlDocument();
             LoadXmlSafe(CacheDefinitionXml, Part.GetStream());
             TopNode = CacheDefinitionXml.DocumentElement;
-            CacheId = cacheId;
+            if (CacheId <= 0)   //Check if the is set via exLst (used by for example slicers), otherwise set it to the cacheId
+            {
+                CacheId = cacheId;
+            }
 
             ZipPackageRelationship rel = Part.GetRelationshipsByType(ExcelPackage.schemaRelationships + "/pivotCacheRecords").FirstOrDefault();
             if (rel != null)

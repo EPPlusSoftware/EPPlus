@@ -3165,6 +3165,18 @@ namespace EPPlusTest
             char quotechar = '\"';
             return $"{quotechar}{s}{quotechar}";
         }
+        [TestMethod]
+        public void s314()
+        {
+            using (var p = OpenTemplatePackage("KPITemplate.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var pt = ws.PivotTables[0];
+                //var slicer = pt.Fields["Award Status"].AddSlicer();
+                //slicer.SetPosition(5, 0, 10, 0);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
