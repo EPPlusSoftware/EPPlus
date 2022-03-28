@@ -225,6 +225,221 @@ namespace EPPlusTest.Export.HtmlExport
                 File.WriteAllText("c:\\temp\\PageSharedCss3.html", page3);
             }
         }
+
+        [TestMethod]
+        public void ExportMultipleRangesOverrides_TableId()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet1 = p.Workbook.Worksheets.Add("test");
+                var sheet2 = p.Workbook.Worksheets.Add("test2");
+
+                var exporter = p.Workbook.CreateHtmlExporter(
+                    sheet2.Cells["A1:B2"],
+                    sheet2.Cells["A16:B18"],
+                    sheet2.Cells["A29:B31"]);
+
+                // With instance of settings
+                var s1 = new ExcelHtmlOverrideExportSettings();
+                s1.TableId = "abc";
+                var s2 = new ExcelHtmlOverrideExportSettings();
+                s2.TableId = "def";
+                var html1 = exporter.GetHtmlString(0, s1);
+                var html2 = exporter.GetHtmlString(1, s2);
+                var html3 = exporter.GetHtmlString(2);
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+                // with lambda
+                html1 = exporter.GetHtmlString(0, x => x.TableId = "abc");
+                html2 = exporter.GetHtmlString(1, x => x.TableId = "def");
+                html3 = exporter.GetHtmlString(2);
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+            }
+        }
+
+        [TestMethod]
+        public void ExportMultipleRangesOverrides_AdditionalTableClasses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet1 = p.Workbook.Worksheets.Add("test");
+                var sheet2 = p.Workbook.Worksheets.Add("test2");
+
+                var exporter = p.Workbook.CreateHtmlExporter(
+                    sheet2.Cells["A1:B2"],
+                    sheet2.Cells["A16:B18"],
+                    sheet2.Cells["A29:B31"]);
+
+                // With instance of settings
+                var s1 = new ExcelHtmlOverrideExportSettings();
+                s1.AdditionalTableClassNames.Add("abc");
+                var s2 = new ExcelHtmlOverrideExportSettings();
+                s2.AdditionalTableClassNames.Add("def");
+                var html1 = exporter.GetHtmlString(0, s1);
+                var html2 = exporter.GetHtmlString(1, s2);
+                var html3 = exporter.GetHtmlString(2);
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+                // with lambda
+                html1 = exporter.GetHtmlString(0, x => x.AdditionalTableClassNames.Add("abc"));
+                html2 = exporter.GetHtmlString(1, x => x.AdditionalTableClassNames.Add("def"));
+                html3 = exporter.GetHtmlString(2);
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+            }
+        }
+
+        [TestMethod]
+        public void ExportMultipleRangesOverridesAsync_TableId()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet1 = p.Workbook.Worksheets.Add("test");
+                var sheet2 = p.Workbook.Worksheets.Add("test2");
+
+                var exporter = p.Workbook.CreateHtmlExporter(
+                    sheet2.Cells["A1:B2"],
+                    sheet2.Cells["A16:B18"],
+                    sheet2.Cells["A29:B31"]);
+
+                var s1 = new ExcelHtmlOverrideExportSettings();
+                s1.TableId = "abc";
+                var s2 = new ExcelHtmlOverrideExportSettings();
+                s2.TableId = "def";
+                var html1 = exporter.GetHtmlStringAsync(0, s1).Result;
+                var html2 = exporter.GetHtmlStringAsync(1, s2).Result;
+                var html3 = exporter.GetHtmlStringAsync(2).Result;
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+                // with lambda
+                html1 = exporter.GetHtmlStringAsync(0, x => x.TableId = "abc").Result;
+                html2 = exporter.GetHtmlStringAsync(1, x => x.TableId = "def").Result;
+                html3 = exporter.GetHtmlStringAsync(2).Result;
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" id=\"def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+            }
+        }
+
+        [TestMethod]
+        public void ExportMultipleRangesOverridesAsync_AdditionalTableClasses()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet1 = p.Workbook.Worksheets.Add("test");
+                var sheet2 = p.Workbook.Worksheets.Add("test2");
+
+                var exporter = p.Workbook.CreateHtmlExporter(
+                    sheet2.Cells["A1:B2"],
+                    sheet2.Cells["A16:B18"],
+                    sheet2.Cells["A29:B31"]);
+
+                // With instance of settings
+                var s1 = new ExcelHtmlOverrideExportSettings();
+                s1.AdditionalTableClassNames.Add("abc");
+                var s2 = new ExcelHtmlOverrideExportSettings();
+                s2.AdditionalTableClassNames.Add("def");
+                var html1 = exporter.GetHtmlStringAsync(0, s1).Result;
+                var html2 = exporter.GetHtmlStringAsync(1, s2).Result;
+                var html3 = exporter.GetHtmlStringAsync(2).Result;
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+                // with lambda
+                html1 = exporter.GetHtmlStringAsync(0, x => x.AdditionalTableClassNames.Add("abc")).Result;
+                html2 = exporter.GetHtmlStringAsync(1, x => x.AdditionalTableClassNames.Add("def")).Result;
+                html3 = exporter.GetHtmlStringAsync(2).Result;
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table abc\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+            }
+        }
+
         private static void SaveRangeFile(ExcelPackage package, string ws, string address, int headerRows=1)
         {
             var sheet = package.Workbook.Worksheets[ws];

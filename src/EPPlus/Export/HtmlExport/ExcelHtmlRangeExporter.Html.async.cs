@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
+using System;
 using System.IO;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -41,12 +42,14 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="settings">Override some of the settings for this html exclusively</param>
         /// <returns>A html table</returns>
-        public async Task<string> GetHtmlStringAsync(int rangeIndex)
+        public async Task<string> GetHtmlStringAsync(int rangeIndex, ExcelHtmlOverrideExportSettings settings = null)
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                await RenderHtmlAsync(ms, rangeIndex);
+                await RenderHtmlAsync(ms, rangeIndex, settings);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
@@ -54,6 +57,20 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="config">Override some of the settings for this html exclusively</param>
+        /// <returns></returns>
+        public async Task<string> GetHtmlStringAsync(int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+        {
+            var settings = new ExcelHtmlOverrideExportSettings();
+            config.Invoke(settings);
+            return await GetHtmlStringAsync(rangeIndex, settings);
+        }
+
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
@@ -67,10 +84,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Exports the html part of the html export, without the styles.
         /// </summary>
-        /// <param name="stream">The stream to write the css to.</param>
+        /// <param name="stream">The stream to write to.</param>
         /// <param name="rangeIndex">The index of the range to output.</param>
+        /// <param name="overrideSettings">Settings for this specific range index</param>
         /// <exception cref="IOException"></exception>
-        public async Task RenderHtmlAsync(Stream stream, int rangeIndex)
+        public async Task RenderHtmlAsync(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
         {
             ValidateRangeIndex(rangeIndex);
             if (!stream.CanWrite)
@@ -88,7 +106,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                 table = range.GetTable();
             }
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
-            AddClassesAttributes(writer, table);
+            var tableId = GetTableId(overrideSettings);
+            var additionalClassNames = GetAdditionalClassNames(overrideSettings);
+            AddClassesAttributes(writer, table, tableId, additionalClassNames);
             AddTableAccessibilityAttributes(Settings, writer);
             await writer.RenderBeginTagAsync(HtmlElements.Table);
 
@@ -109,6 +129,21 @@ namespace OfficeOpenXml.Export.HtmlExport
             // end tag table
             await writer.RenderEndTagAsync();
         }
+
+        /// <summary>
+        /// Exports the html part of the html export, without the styles.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="config">Override some of the settings for this html exclusively</param>
+        /// <returns></returns>
+        public async Task RenderHtmlAsync(Stream stream, int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+        {
+            var settings = new ExcelHtmlOverrideExportSettings();
+            config.Invoke(settings);
+            await RenderHtmlAsync(stream, rangeIndex, settings);
+        }
+
         /// <summary>
         /// Renders the first range of the Html and the Css to a single page. 
         /// </summary>

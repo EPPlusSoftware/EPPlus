@@ -117,6 +117,39 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="settings">Override some of the settings for this html exclusively</param>
+        /// <returns>A html table</returns>
+        public string GetHtmlString(int rangeIndex, ExcelHtmlOverrideExportSettings settings)
+        {
+            ValidateRangeIndex(rangeIndex);
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                RenderHtml(ms, rangeIndex, settings);
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="config">Override some of the settings for this html exclusively</param>
+        /// <returns></returns>
+        public string GetHtmlString(int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+        {
+            var settings = new ExcelHtmlOverrideExportSettings();
+            config.Invoke(settings);
+            return GetHtmlString(rangeIndex, settings);
+        }
+
         private void ValidateRangeIndex(int rangeIndex)
         {
             if (rangeIndex < 0 || rangeIndex >= _ranges.Count)
@@ -139,8 +172,9 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// </summary>
         /// <param name="stream">The stream to write to</param>
         /// <param name="rangeIndex">The index of the range to output.</param>
+        /// <param name="overrideSettings">Settings for this specific range index</param>
         /// <returns>A html table</returns>
-        public void RenderHtml(Stream stream, int rangeIndex)
+        public void RenderHtml(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
         {
             ValidateRangeIndex(rangeIndex);
 
@@ -158,7 +192,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
-            AddClassesAttributes(writer, table);
+            var tableId = GetTableId(overrideSettings);
+            var additionalClassNames = GetAdditionalClassNames(overrideSettings);
+            AddClassesAttributes(writer, table, tableId, additionalClassNames);
             AddTableAccessibilityAttributes(Settings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
 
@@ -179,6 +215,21 @@ namespace OfficeOpenXml.Export.HtmlExport
             // end tag table
             writer.RenderEndTag();
         }
+
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="stream">The stream to write to</param>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="config">Override some of the settings for this html exclusively</param>
+        /// <returns></returns>
+        public void RenderHtml(Stream stream, int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+        {
+            var settings = new ExcelHtmlOverrideExportSettings();
+            config.Invoke(settings);
+            RenderHtml(stream, rangeIndex, settings);
+        }
+
         /// <summary>
         /// The ranges used in the export.
         /// </summary>
@@ -189,25 +240,38 @@ namespace OfficeOpenXml.Export.HtmlExport
                 return _ranges;
             } 
         }
-        private void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table)
+
+        private string GetTableId(ExcelHtmlOverrideExportSettings overrideSettings)
+        {
+            if (overrideSettings == null || string.IsNullOrEmpty(overrideSettings.TableId)) return Settings.TableId;
+            return overrideSettings.TableId; 
+        }
+
+        private List<string> GetAdditionalClassNames(ExcelHtmlOverrideExportSettings overrideSettings)
+        {
+            if (overrideSettings == null || overrideSettings.AdditionalTableClassNames == null) return Settings.AdditionalTableClassNames;
+            return overrideSettings.AdditionalTableClassNames;
+        }
+
+        private void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table, string tableId, List<string> additionalTableClassNames)
         {
             var tableClasses = TableClass;
             if (table != null)
             {
                 tableClasses+= " " + ExcelHtmlTableExporter.GetTableClasses(table); //Add classes for the table styles if the range corresponds to a table.
             }
-
-            writer.AddAttribute(HtmlAttributes.Class, $"{tableClasses}");
-            if (!string.IsNullOrEmpty(Settings.TableId))
+            if (additionalTableClassNames != null && additionalTableClassNames.Count > 0)
             {
-                writer.AddAttribute(HtmlAttributes.Id, Settings.TableId);
-            }
-            if (Settings.AdditionalTableClassNames.Count > 0)
-            {
-                foreach (var cls in Settings.AdditionalTableClassNames)
+                foreach (var cls in additionalTableClassNames)
                 {
-                    writer.AddAttribute(HtmlAttributes.Id, cls);
+                    tableClasses += $" {cls}";
                 }
+            }
+            writer.AddAttribute(HtmlAttributes.Class, $"{tableClasses}");
+            
+            if (!string.IsNullOrEmpty(tableId))
+            {
+                writer.AddAttribute(HtmlAttributes.Id, tableId);
             }
         }
 
