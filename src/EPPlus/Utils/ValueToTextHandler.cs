@@ -84,10 +84,14 @@ namespace OfficeOpenXml.Utils
                 }
                 else if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
-                    if (d > 0 && d<=DateTime.MaxValue.ToOADate())
+                    if (d >= 0 && d<=DateTime.MaxValue.ToOADate())
                     {
                         var date = DateTime.FromOADate(d);
                         return GetDateText(date, format, f, overrideCultureInfo ?? nf.Culture);
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
 

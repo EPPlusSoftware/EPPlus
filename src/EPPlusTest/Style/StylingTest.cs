@@ -232,6 +232,21 @@ namespace EPPlusTest.Style
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void VerifyDateText()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 0;
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["A3"].Value = -1;
+                ws.Cells["A1:A3"].Style.Numberformat.Format = "h:mm:ss tt";
+                Assert.AreEqual("0:00:00 ", ws.Cells["A1"].Text);
+                Assert.AreEqual("0:00:00 ", ws.Cells["A2"].Text);
+                Assert.IsNull(ws.Cells["A3"].Text); //Invalid value -1, replace with #####
+            }
+        }
     }
 }
 
