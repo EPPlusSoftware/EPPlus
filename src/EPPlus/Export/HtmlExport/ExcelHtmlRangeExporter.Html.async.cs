@@ -106,7 +106,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 table = range.GetTable();
             }
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
-            var tableId = GetTableId(overrideSettings);
+            var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             AddClassesAttributes(writer, table, tableId, additionalClassNames);
             AddTableAccessibilityAttributes(Settings, writer);

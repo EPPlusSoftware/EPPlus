@@ -192,7 +192,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
 
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
-            var tableId = GetTableId(overrideSettings);
+            var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             AddClassesAttributes(writer, table, tableId, additionalClassNames);
             AddTableAccessibilityAttributes(Settings, writer);
@@ -241,9 +241,16 @@ namespace OfficeOpenXml.Export.HtmlExport
             } 
         }
 
-        private string GetTableId(ExcelHtmlOverrideExportSettings overrideSettings)
+        private string GetTableId(int index, ExcelHtmlOverrideExportSettings overrideSettings)
         {
-            if (overrideSettings == null || string.IsNullOrEmpty(overrideSettings.TableId)) return Settings.TableId;
+            if (overrideSettings == null || string.IsNullOrEmpty(overrideSettings.TableId))
+            {
+                if(_ranges.Count > 1 && !string.IsNullOrEmpty(Settings.TableId))
+                {
+                    return Settings.TableId + index.ToString(CultureInfo.InvariantCulture);
+                }
+                return Settings.TableId;
+            }
             return overrideSettings.TableId; 
         }
 

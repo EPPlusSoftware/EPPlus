@@ -239,6 +239,9 @@ namespace EPPlusTest.Export.HtmlExport
                     sheet2.Cells["A16:B18"],
                     sheet2.Cells["A29:B31"]);
 
+                // default table id
+                exporter.Settings.TableId = "id";
+
                 // With instance of settings
                 var s1 = new ExcelHtmlOverrideExportSettings();
                 s1.TableId = "abc";
@@ -257,7 +260,7 @@ namespace EPPlusTest.Export.HtmlExport
                     html2
                     );
                 Assert.AreEqual(
-                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    "<table class=\"epplus-table\" id=\"id2\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
                     html3);
 
                 // with lambda
@@ -274,7 +277,7 @@ namespace EPPlusTest.Export.HtmlExport
                     html2
                     );
                 Assert.AreEqual(
-                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    "<table class=\"epplus-table\" id=\"id2\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
                     html3);
 
             }
@@ -347,6 +350,9 @@ namespace EPPlusTest.Export.HtmlExport
                     sheet2.Cells["A16:B18"],
                     sheet2.Cells["A29:B31"]);
 
+                // default table id
+                exporter.Settings.TableId = "id";
+
                 var s1 = new ExcelHtmlOverrideExportSettings();
                 s1.TableId = "abc";
                 var s2 = new ExcelHtmlOverrideExportSettings();
@@ -364,7 +370,7 @@ namespace EPPlusTest.Export.HtmlExport
                     html2
                     );
                 Assert.AreEqual(
-                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    "<table class=\"epplus-table\" id=\"id2\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
                     html3);
 
                 // with lambda
@@ -381,7 +387,7 @@ namespace EPPlusTest.Export.HtmlExport
                     html2
                     );
                 Assert.AreEqual(
-                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    "<table class=\"epplus-table\" id=\"id2\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
                     html3);
             }
         }
