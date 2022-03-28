@@ -42,18 +42,30 @@ namespace OfficeOpenXml.Core.Worksheet.Fill
         /// Only fill weekdays
         /// </summary>
         internal HashSet<DayOfWeek> _excludedWeekdays = new HashSet<DayOfWeek>();
+        /// <summary>
+        /// Excludes the week days supplied
+        /// </summary>
+        /// <param name="weekdays">The excluded week days</param>
         public void SetExcludedWeekdays(params DayOfWeek[] weekdays)
         {
             _excludedWeekdays.UnionWith(weekdays);
         }
         /// <summary>
-        /// A list with weekdays treated as holydays.
+        /// A list with week days treated as holidays.
         /// </summary>
         internal HashSet<DateTime> _holidayCalendar { get; } = new HashSet<DateTime>();
+        /// <summary>
+        /// Excludes the dates supplied
+        /// </summary>
+        /// <param name="holidayDates">The dates treated as week days</param>
         public void SetExcludedDates(params DateTime[] holidayDates)
         {
             _holidayCalendar.UnionWith(holidayDates);
         }
+        /// <summary>
+        /// Excludes the dates supplied
+        /// </summary>
+        /// <param name="holidayDates">The dates treated as week days</param>
         public void SetExcludedDates(IEnumerable<DateTime> holidayDates)
         {
             _holidayCalendar.UnionWith(holidayDates);

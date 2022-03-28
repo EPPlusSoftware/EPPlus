@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Core
 {
-    public static class ZipHelper
+    internal static class ZipHelper
     {
         internal static string UncompressEntry(ZipInputStream zipStream, ZipEntry entry)
         {

@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _chartNode;
             }
         }
-        protected internal ExcelChartTitle _title = null;
+        internal ExcelChartTitle _title = null;
         /// <summary>
         /// The titel of the chart
         /// </summary>

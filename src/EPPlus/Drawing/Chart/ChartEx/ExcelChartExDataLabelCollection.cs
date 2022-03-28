@@ -69,6 +69,10 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return null;
             }
         }
+        /// <summary>
+        /// Get the enumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ExcelChartExDataLabelItem> GetEnumerator()
         {
             return _dic.Values.GetEnumerator();

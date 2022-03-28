@@ -237,7 +237,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var css = GetCssString();
             return string.Format(htmlDocument, html, css);
         }
-        List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
+        readonly List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
         private void  RenderTableRows(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table)
         {
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
@@ -486,7 +486,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private void AddTableAccessibilityAttributes(HtmlRangeExportSettings settings, EpplusHtmlWriter writer)
+        private static void AddTableAccessibilityAttributes(HtmlRangeExportSettings settings, EpplusHtmlWriter writer)
         {
             if (!settings.Accessibility.TableSettings.AddAccessibilityAttributes) return;
             if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.TableRole))

@@ -8,6 +8,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
+    /// <summary>
+    /// Represents a data validation mapped to the extLst element in the worksheet xml.
+    /// </summary>
     public class ExcelDataValidationExtList : ExcelDataValidationWithFormula<IExcelDataValidationFormulaList>, IExcelDataValidationList
     {
         private const string _formula1ExtList = "x14:formula1/xm:f";

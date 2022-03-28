@@ -1624,7 +1624,7 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets[0];
                 var cell = ws.Cells["D43"];
-                cell.Value = cell.Value + " ";
+                cell.Value += " ";
 
                 ExcelRichText rtx = cell.RichText.Add("a");
 

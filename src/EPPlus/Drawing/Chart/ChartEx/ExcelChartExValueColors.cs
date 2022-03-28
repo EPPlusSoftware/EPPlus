@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         }
         /// <summary>
         /// Number of colors to create the series gradient color scale.
-        /// If two colors the mid color is null.
+        /// If two colors, the mid color is null.
         /// </summary>
         public eNumberOfColors NumberOfColors 
         { 

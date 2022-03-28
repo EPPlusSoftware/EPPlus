@@ -30,8 +30,8 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Type of axis
         /// </summary>
-        protected internal ExcelChart _chart;
-        protected internal string _nsPrefix;
+        internal ExcelChart _chart;
+        internal string _nsPrefix;
         private readonly string _minorGridlinesPath;
         private readonly string _majorGridlinesPath;
         private readonly string _formatPath;

@@ -636,7 +636,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     } 
     #endregion Internal Properties
     /****************************************************************************************/
-    internal protected void SetStyle(ExcelDxfStyleConditionalFormatting style)
+    internal void SetStyle(ExcelDxfStyleConditionalFormatting style)
     {
        _style = style;
        DxfId = int.MinValue;

@@ -18,6 +18,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Attributes
 {
+    /// <summary>
+    /// Attribute used by <see cref="ExcelRangeBase.LoadFromCollection{T}(IEnumerable{T})" /> to configure column parameters for the functions/>
+    /// </summary>
     public abstract class EpplusTableColumnAttributeBase : Attribute
     {
 
