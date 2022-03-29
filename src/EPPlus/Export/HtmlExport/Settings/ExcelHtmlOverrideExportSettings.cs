@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,5 +37,39 @@ namespace OfficeOpenXml.Export.HtmlExport
             get;
             protected internal set;
         } = new List<string>();
+
+        /// <summary>
+        /// Settings for usage of accessibility (aria, role) attributes of the table
+        /// </summary>
+        public AccessibilitySettings Accessibility
+        {
+            get; private set;
+        } = new AccessibilitySettings();
+
+        int _headerRows = 1;
+
+        /// <summary>
+        /// Number of header rows before the actual data. Default is 1.
+        /// </summary>
+        public int HeaderRows
+        {
+            get
+            {
+                return _headerRows;
+            }
+            set
+            {
+                if (value < 0 || value > ExcelPackage.MaxRows)
+                {
+                    throw new InvalidOperationException("Can't be negative or exceed number of allowed rows in a worksheet.");
+                }
+                _headerRows = value;
+            }
+        }
+        /// <summary>
+        /// If <see cref="HeaderRows"/> is 0, this collection contains the headers. 
+        /// If this collection is empty the table will have no headers.
+        /// </summary>
+        public List<string> Headers { get; } = new List<string>();
     }
 }

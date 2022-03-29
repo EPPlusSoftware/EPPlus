@@ -338,6 +338,43 @@ namespace EPPlusTest.Export.HtmlExport
         }
 
         [TestMethod]
+        public void ExportMultipleRangesOverrides_Accessibility()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet1 = p.Workbook.Worksheets.Add("test");
+                var sheet2 = p.Workbook.Worksheets.Add("test2");
+
+                var exporter = p.Workbook.CreateHtmlExporter(
+                    sheet2.Cells["A1:B2"],
+                    sheet2.Cells["A16:B18"],
+                    sheet2.Cells["A29:B31"]);
+
+                // With instance of settings
+                var s1 = new ExcelHtmlOverrideExportSettings();
+                s1.Accessibility.TableSettings.AriaLabel = "al1";
+                var s2 = new ExcelHtmlOverrideExportSettings();
+                s2.Accessibility.TableSettings.AriaLabel = "al2";
+                var html1 = exporter.GetHtmlString(0, s1);
+                var html2 = exporter.GetHtmlString(1, s2);
+                var html3 = exporter.GetHtmlString(2);
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\" aria-label=\"al1\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\" aria-label=\"al2\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+            }
+        }
+
+        [TestMethod]
         public void ExportMultipleRangesOverridesAsync_TableId()
         {
             using (var p = new ExcelPackage())
@@ -437,6 +474,43 @@ namespace EPPlusTest.Export.HtmlExport
                     );
                 Assert.AreEqual(
                     "<table class=\"epplus-table def\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html2
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html3);
+
+            }
+        }
+
+        [TestMethod]
+        public void ExportMultipleRangesOverridesAsync_Accessibility()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet1 = p.Workbook.Worksheets.Add("test");
+                var sheet2 = p.Workbook.Worksheets.Add("test2");
+
+                var exporter = p.Workbook.CreateHtmlExporter(
+                    sheet2.Cells["A1:B2"],
+                    sheet2.Cells["A16:B18"],
+                    sheet2.Cells["A29:B31"]);
+
+                // With instance of settings
+                var s1 = new ExcelHtmlOverrideExportSettings();
+                s1.Accessibility.TableSettings.AriaLabel = "al1";
+                var s2 = new ExcelHtmlOverrideExportSettings();
+                s2.Accessibility.TableSettings.AriaLabel = "al2";
+                var html1 = exporter.GetHtmlStringAsync(0, s1).Result;
+                var html2 = exporter.GetHtmlStringAsync(1, s2).Result;
+                var html3 = exporter.GetHtmlStringAsync(2).Result;
+
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\" aria-label=\"al1\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
+                    html1
+                    );
+                Assert.AreEqual(
+                    "<table class=\"epplus-table\" role=\"table\" aria-label=\"al2\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"string\" class=\"epp-al\"></th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\"></td><td role=\"cell\"></td></tr></tbody></table>",
                     html2
                     );
                 Assert.AreEqual(

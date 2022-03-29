@@ -194,8 +194,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
+            var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
+            var headerRows = overrideSettings != null ? overrideSettings.HeaderRows : Settings.HeaderRows;
+            var headers = overrideSettings != null ? overrideSettings.Headers : Settings.Headers;
             AddClassesAttributes(writer, table, tableId, additionalClassNames);
-            AddTableAccessibilityAttributes(Settings, writer);
+            AddTableAccessibilityAttributes(accessibilitySettings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
 
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
@@ -207,10 +210,10 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
             {
-                RenderHeaderRow(range, writer, table);
+                RenderHeaderRow(range, writer, table, accessibilitySettings, headerRows, headers);
             }
             // table rows
-            RenderTableRows(range, writer, table);
+            RenderTableRows(range, writer, table, accessibilitySettings);
 
             // end tag table
             writer.RenderEndTag();
@@ -258,6 +261,12 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             if (overrideSettings == null || overrideSettings.AdditionalTableClassNames == null) return Settings.AdditionalTableClassNames;
             return overrideSettings.AdditionalTableClassNames;
+        }
+
+        private AccessibilitySettings GetAccessibilitySettings(ExcelHtmlOverrideExportSettings overrideSettings)
+        {
+            if (overrideSettings == null || overrideSettings.Accessibility == null) return Settings.Accessibility;
+            return overrideSettings.Accessibility;
         }
 
         private void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table, string tableId, List<string> additionalTableClassNames)
@@ -309,11 +318,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             return string.Format(htmlDocument, html, css);
         }
         List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
-        private void  RenderTableRows(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table)
+        private void  RenderTableRows(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings)
         {
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))
             {
-                writer.AddAttribute("role", Settings.Accessibility.TableSettings.TbodyRole);
+                writer.AddAttribute("role", accessibilitySettings.TableSettings.TbodyRole);
             }
             writer.RenderBeginTag(HtmlElements.Tbody);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
@@ -334,7 +343,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.RenderBeginTag(HtmlElements.TFoot);
                 }
 
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
                     writer.AddAttribute("role", "row");
                     writer.AddAttribute("scope", "row");
@@ -359,7 +368,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                     if (cell.Hyperlink == null)
                     {
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, false, image);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, false, image);
                     }
                     else
                     {
@@ -389,16 +398,15 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
         }
-        private void RenderHeaderRow(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table)
+        private void RenderHeaderRow(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings, int headerRows, List<string> headers)
         {
             if (table != null && table.ShowHeader == false) return;
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TheadRole))
             {
                 writer.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
             }
             writer.RenderBeginTag(HtmlElements.Thead);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            int headerRows;
             if (table == null)
             {
                 headerRows = Settings.HeaderRows == 0 ? 1 : Settings.HeaderRows;
@@ -411,7 +419,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             HtmlImage image = null;
             for (int i = 0; i < headerRows; i++)
             {
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
                     writer.AddAttribute("role", "row");
                 }
@@ -440,7 +448,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     AddImage(writer, Settings, image, cell.Value);
                     writer.RenderBeginTag(HtmlElements.TableHeader);
 
-                    if (Settings.HeaderRows > 0 || table!=null)
+                    if (headerRows > 0 || table!=null)
                     {
                         if (cell.Hyperlink == null)
                         {
@@ -451,9 +459,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                             RenderHyperlink(writer, cell);
                         }
                     }
-                    else if (Settings.Headers.Count < col)
+                    else if (headers.Count < col)
                     {
-                        writer.Write(Settings.Headers[col]);
+                        writer.Write(headers[col]);
                     }
                     
                     writer.RenderEndTag();
@@ -557,24 +565,24 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private void AddTableAccessibilityAttributes(HtmlRangeExportSettings settings, EpplusHtmlWriter writer)
+        private void AddTableAccessibilityAttributes(AccessibilitySettings settings, EpplusHtmlWriter writer)
         {
-            if (!settings.Accessibility.TableSettings.AddAccessibilityAttributes) return;
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.TableRole))
+            if (!settings.TableSettings.AddAccessibilityAttributes) return;
+            if (!string.IsNullOrEmpty(settings.TableSettings.TableRole))
             {
-                writer.AddAttribute("role", settings.Accessibility.TableSettings.TableRole);
+                writer.AddAttribute("role", settings.TableSettings.TableRole);
             }
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaLabel))
+            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabel))
             {
-                writer.AddAttribute(AriaAttributes.AriaLabel.AttributeName, settings.Accessibility.TableSettings.AriaLabel);
+                writer.AddAttribute(AriaAttributes.AriaLabel.AttributeName, settings.TableSettings.AriaLabel);
             }
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaLabelledBy))
+            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabelledBy))
             {
-                writer.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, settings.Accessibility.TableSettings.AriaLabelledBy);
+                writer.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, settings.TableSettings.AriaLabelledBy);
             }
-            if (!string.IsNullOrEmpty(settings.Accessibility.TableSettings.AriaDescribedBy))
+            if (!string.IsNullOrEmpty(settings.TableSettings.AriaDescribedBy))
             {
-                writer.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, settings.Accessibility.TableSettings.AriaDescribedBy);
+                writer.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, settings.TableSettings.AriaDescribedBy);
             }
         }
 

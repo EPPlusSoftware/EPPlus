@@ -11,6 +11,7 @@
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
 using System;
@@ -24,7 +25,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
-        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image)
+        public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -34,7 +35,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("data-value", v);
                 }
             }
-            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
             {
                 writer.AddAttribute("role", "cell");
                 if (addRowScope)
@@ -59,7 +60,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             writer.ApplyFormat(settings.Minify);
         }
 #if !NET35
-        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, bool addRowScope, HtmlImage image)
+        public async Task WriteAsync(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
             {
@@ -69,7 +70,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("data-value", v);
                 }
             }
-            if (settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
             {
                 writer.AddAttribute("role", "cell");
                 if (addRowScope)
