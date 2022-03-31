@@ -178,7 +178,7 @@ namespace OfficeOpenXml.Drawing
                 if(container.RelationDocument.Hashes.ContainsKey(hash))
                 {
                     container.RelationDocument.Hashes[hash].RefCount--;
-                    if (container.RelationDocument.Hashes[hash].RefCount == 0)
+                    if (container.RelationDocument.Hashes[hash].RefCount <= 0)
                     {
                         container.RelationDocument.Hashes.Remove(hash);
                     }
@@ -380,7 +380,7 @@ namespace OfficeOpenXml.Drawing
             container.RelPic = container.RelationDocument.RelatedPart.CreateRelationship(UriHelper.GetRelativeUri(container.RelationDocument.RelatedUri, container.UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
             //AddNewPicture(img, picRelation.Id);
-            hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id));
+            hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1});
 
             return container.RelPic.Id;
         }

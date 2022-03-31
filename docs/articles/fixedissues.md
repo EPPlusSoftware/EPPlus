@@ -4,7 +4,6 @@
 ### Changes
 * ExcelWorkbook.CreateHtmlExporter(param ExcelRangeBase[]) to add multiple ranges at once for HTML export.
 * Added new overloads to access multiple ranges via the int argument rangeIndex:  GetHtmlString(int), GetHtmlStringAsync(int), RenderHtml(int) and RenderHtmlAsync(int)
-* Added new method GetTable() and the propert 'IsTable' to ExcelRangeBase to get the table object if the range corresponds with the tables Range.
 
 ## Version 6.0.1-beta
 ### Changes
@@ -59,6 +58,11 @@
 * Added Datatypes and Culture to LoadFromDictionariesParams. This is the settings for the ExcelRangeBase.ExcelRangeBase.LoadFromDictionaries.
 * Added ExcelRichTextCollection.HtmlText and ExcelRichText.HtmlText property.
 
+## Version 5.8.8
+### Fixed issues
+* Removed unnessesary Nuget references to packages already included in the targeting frameworks.
+* Fixed calculation issue when ExcelPackage.Compatibility.IsWorksheets1Based is set to true
+* Added new method GetTable() and the propert 'IsTable' to ExcelRangeBase to get the table object if the range corresponds with the tables Range.
 
 ## Version 5.8.7
 ### Fixed issues

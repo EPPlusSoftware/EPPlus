@@ -957,6 +957,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 AutoSort.Conditions.UpdateXml();
             }
             if (cacheLookup == null) return "";
+            
             if (cacheLookup.Count==0)
             {
                 DeleteNode("d:items");       //Creates or return the existing node

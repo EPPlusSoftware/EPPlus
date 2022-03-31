@@ -34,8 +34,11 @@
 		See https://epplussoftware.com/Developers/EPPlus6 for more details.
 		For changes during the beta period, see https://www.epplussoftware.com/docs/6.0/articles/fixedissues.html
 
-		## Version 5.8.7
+		## Version 5.8.8
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+
+		## Version 5.8.7
+		* Bug fixes.
 
 		## Version 5.8.6
 		* Bug fixes.
@@ -237,9 +240,10 @@
 
 		Version history
 		6.0.2 20220324 Beta 3. Html and JSON export. New drawing handling. https://epplussoftware.com/Developers/EPPlus6
+		5.8.8 20220322 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		6.0.1 20220310 Beta 2 
 		6.0.0 20220307 Beta 1
-		5.8.7 20220301 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		5.8.7 20220301 Minor bug fixes. 
 		5.8.6 20220203 Minor bug fixes.
 		5.8.5 20220113 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		5.8.4 20211214 Minor features and bug fixes.
