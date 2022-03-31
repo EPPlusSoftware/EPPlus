@@ -28,7 +28,7 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelImageSettings
     {
-        public ExcelImageSettings()
+        internal ExcelImageSettings()
         {
             var m=new SystemDrawingImageHandler();
             if(m.ValidForEnvironment())

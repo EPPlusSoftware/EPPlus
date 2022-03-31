@@ -14,7 +14,7 @@ using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Drawing.Controls
 {
-    public static class EnumTranslateExtentions
+    internal static class EnumTranslateExtentions
     {
         internal static eMeasurementUnits TranslateMeasurementUnits(this string v)
         {

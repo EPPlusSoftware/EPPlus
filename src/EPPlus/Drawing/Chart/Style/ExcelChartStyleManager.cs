@@ -1155,6 +1155,9 @@ namespace OfficeOpenXml.Drawing.Chart.Style
             get;
             private set;
         }
+        /// <summary>
+        /// If the chart has a different theme than the theme in the workbook, this property defines that theme.
+        /// </summary>
         public ExcelThemeOverride ThemeOverride
         {
             get;

@@ -805,6 +805,9 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         ExcelPivotTableFilterCollection _filters = null;
+        /// <summary>
+        /// Filters applied to the pivot table
+        /// </summary>
         public ExcelPivotTableFilterCollection Filters
         {
             get

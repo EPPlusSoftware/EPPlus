@@ -294,6 +294,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+        /// <summary>
+        /// Return true if the trendline has labels.
+        /// </summary>
         public bool HasLbl
         {
             get

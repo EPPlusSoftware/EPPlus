@@ -20,6 +20,9 @@ using OfficeOpenXml.Table.PivotTable;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// Base class for standard charts with line properties.
+    /// </summary>
     public abstract class ExcelStandardChartWithLines : ExcelChartStandard, IDrawingDataLabel
     {
         internal ExcelStandardChartWithLines(ExcelDrawings drawings, XmlNode node, Uri uriChart, Packaging.ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :

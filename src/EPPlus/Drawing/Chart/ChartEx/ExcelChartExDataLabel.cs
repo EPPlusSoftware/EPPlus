@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public class ExcelChartExDataLabel : ExcelChartDataLabel
     {
-        protected internal readonly ExcelChartExSerie _serie;
+        internal readonly ExcelChartExSerie _serie;
         internal ExcelChartExDataLabel(ExcelChartExSerie serie, XmlNamespaceManager nsm, XmlNode node) : base(serie._chart, nsm, node, "", "cx")
         {
             _serie = serie;
