@@ -258,6 +258,27 @@ namespace EPPlusTest.Drawing
             }
 
         }
+        [TestMethod]
+        public async Task AddJpgImagesViaExcelImage()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("AddViaExcelImage");
+
+            var ei1 = new ExcelImage(Properties.Resources.Test1.FullName);
+            Assert.IsNotNull(ei1);
+            ws.BackgroundImage.Image.SetImage(ei1);
+
+            var ei2 = new ExcelImage(Properties.Resources.Png2ByteArray, ePictureType.Png);
+            Assert.IsNotNull(ei2);
+            ws.BackgroundImage.Image.SetImage(ei2);
+
+            var ei3 = new ExcelImage(new MemoryStream(Properties.Resources.BitmapImageGif), ePictureType.Gif);
+            Assert.IsNotNull(ei3);
+
+            ws.BackgroundImage.Image.SetImage(ei3);
+            ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.BitmapImageGif), ePictureType.Gif);
+            await ws.BackgroundImage.Image.SetImageAsync(new MemoryStream(Properties.Resources.BitmapImageGif), ePictureType.Gif);
+        }
+
         private static void AddFilesToWorksheet(string fileType, ePictureType type)
         {
             var ws = _pck.Workbook.Worksheets.Add(fileType);

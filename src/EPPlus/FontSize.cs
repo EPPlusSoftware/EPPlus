@@ -25,7 +25,13 @@ namespace OfficeOpenXml
     /// </summary>
     public static class FontSize
     {
+        /// <summary>
+        /// Default font used in EPPlus
+        /// </summary>
         public const string DefaultFont = "Calibri";
+        /// <summary>
+        /// Font used in EPPlus if the font name supplied cannot be found
+        /// </summary>
         public const string NonExistingFont = "Arial";
         internal static bool _isLoaded = false;
         internal static object _lockObj=new object();

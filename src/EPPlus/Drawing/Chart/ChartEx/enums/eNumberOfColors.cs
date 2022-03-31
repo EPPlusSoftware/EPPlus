@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml.Drawing.Chart.ChartEx
 {
+    /// <summary>
+    /// The number of colors used to create the series gradient color scale in a extended chart.
+    /// </summary>
     public enum eNumberOfColors
     {
         /// <summary>

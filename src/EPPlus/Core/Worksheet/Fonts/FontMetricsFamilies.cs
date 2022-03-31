@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
 {
-    public enum FontMetricsFamilies : ushort
+    internal enum FontMetricsFamilies : ushort
     {
         Arial = 0,
         ArialBlack = 1,

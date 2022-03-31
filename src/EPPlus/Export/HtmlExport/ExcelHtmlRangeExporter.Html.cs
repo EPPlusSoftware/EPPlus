@@ -319,7 +319,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var css = GetCssString();
             return string.Format(htmlDocument, html, css);
         }
-        List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
+        readonly List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
         private void  RenderTableRows(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings)
         {
             if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))

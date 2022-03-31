@@ -123,7 +123,7 @@ namespace OfficeOpenXml.DataValidation
             _isStale = true;
         }
 
-        protected void CheckIfStale()
+        internal void CheckIfStale()
         {
             if (_isStale)
             {

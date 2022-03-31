@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
 {
-    public enum FontSubFamilies : ushort
+    internal enum FontSubFamilies : ushort
     {
         Regular = 0,
         Bold = 1,

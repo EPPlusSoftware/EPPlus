@@ -791,7 +791,6 @@ namespace OfficeOpenXml.Core.Worksheet
             CopyDxfStylesPivotTables(copy, added, dxfStyleCashe);
             CopyDxfStylesConditionalFormatting(copy, added, dxfStyleCashe);
         }
-
         private static void CopyDxfStylesTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
         {
             //Table formats
@@ -833,7 +832,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-
         private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<string, int> dxfStyleCashe)
         {
             //Conditional Formatting

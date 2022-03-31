@@ -408,6 +408,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _chartXmlHelper.ExistsNode("cx:legend");
             }
         }
+        /// <summary>
+        /// 3D settings
+        /// </summary>
         public override ExcelView3D View3D
         {
             get

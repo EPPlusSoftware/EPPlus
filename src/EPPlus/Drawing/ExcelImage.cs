@@ -27,11 +27,14 @@ namespace OfficeOpenXml.Drawing
     public class ExcelImage
     {
         IPictureContainer _container;
-        ePictureType[] _restrictedTypes;
+        ePictureType[] _restrictedTypes = new ePictureType[0];
         internal ExcelImage(IPictureContainer container, ePictureType[] restrictedTypes=null)
         {
             _container = container;
-            _restrictedTypes = restrictedTypes ?? new ePictureType[0];
+            if (restrictedTypes != null)
+            {
+                _restrictedTypes = restrictedTypes;
+            }
         }
         /// <summary>
         /// Creates an ExcelImage to be used as template for adding images.
@@ -253,7 +256,57 @@ namespace OfficeOpenXml.Drawing
         }
 
 #endif
+        internal ExcelImage SetImageNoContainer(byte[] image, ePictureType pictureType)
+        {
+            Type = pictureType;
+            if (pictureType == ePictureType.Wmz ||
+               pictureType == ePictureType.Emz)
+            {
+                var img = ImageReader.ExtractImage(image, out ePictureType? pt);
+                if (pt.HasValue)
+                {
+                    throw new ArgumentException($"Image is not of type {pictureType}.", nameof(image));
+                }
+                else
+                {
+                    ImageBytes = img;
+                    pictureType = pt.Value;
+                }
+            }
+            else
+            {
+                ImageBytes = image;
+            }
+            var ms = new MemoryStream(image);
+            var imageHandler = new GenericImageHandler();
+            if (imageHandler.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+            {
+                Bounds.Width = width;
+                Bounds.Height = height;
+                Bounds.HorizontalResolution = horizontalResolution;
+                Bounds.VerticalResolution = verticalResolution;
+            }
+            else
+            {
+                throw (new InvalidOperationException($"The image format is not supported: {pictureType} or the image is corrupt "));
+            }
+
+            return this;
+
+        }
         internal ExcelImage SetImage(byte[] image, ePictureType pictureType, bool removePrevImage)
+        {
+            if(_container == null)
+            {
+                return SetImageNoContainer(image, pictureType);
+            }
+            else
+            {
+                return SetImageContainer(image, pictureType, removePrevImage);
+            }
+        }
+
+        private ExcelImage SetImageContainer(byte[] image, ePictureType pictureType, bool removePrevImage)
         {
             ValidatePictureType(pictureType);
             Type = pictureType;
@@ -285,7 +338,7 @@ namespace OfficeOpenXml.Drawing
             }
             PictureStore.SavePicture(image, _container, pictureType);
             var ms = new MemoryStream(image);
-            if(_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+            if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
             {
                 Bounds.Width = width;
                 Bounds.Height = height;

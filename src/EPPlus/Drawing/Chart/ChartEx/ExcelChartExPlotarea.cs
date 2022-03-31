@@ -26,10 +26,19 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             SchemaNodeOrder = new string[] { "plotAreaRegion","axis","spPr" };
         }
+        /// <summary>
+        /// Not applicable on extended charts. Will throw <see cref="InvalidOperationException"/>
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Will always be thrown</exception>
+        /// <returns></returns>
         public override ExcelChartDataTable CreateDataTable()
         {
-            throw (new InvalidOperationException("Extensions charts cannot have a data tables"));
+            throw new InvalidOperationException("Extensions charts cannot have a data tables");
         }
+        /// <summary>
+        /// Not applicable on extended charts. Will throw <see cref="InvalidOperationException"/>
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Will always be thrown</exception>
         public override void RemoveDataTable()
         {
             throw (new InvalidOperationException("Extensions charts cannot have a data tables"));

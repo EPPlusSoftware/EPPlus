@@ -60,6 +60,9 @@ namespace OfficeOpenXml.Core
         {
             return _list.IndexOf(value);
         }
+        /// <summary>
+        /// Number of items in the collection.
+        /// </summary>
         public int Count
         {
             get

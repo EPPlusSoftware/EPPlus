@@ -60,6 +60,9 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         /// Indicates that the conditional formatting is associated with a PivotTable
         /// </summary>
         bool PivotTable { get; set; }
+        /// <summary>
+        /// Type case propterty for the base class.
+        /// </summary>
         ExcelConditionalFormattingAsType As { get; }
     }
 }
