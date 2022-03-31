@@ -62,6 +62,9 @@ namespace OfficeOpenXml.Drawing
             }
         }
         ExcelChartAsType _chartAsType;
+        /// <summary>
+        /// An object that containing properties that type-casts the drawing to a chart.
+        /// </summary>
         public ExcelChartAsType Chart
         {
             get
@@ -75,6 +78,9 @@ namespace OfficeOpenXml.Drawing
         }
 
         ExcelSlicerAsType _slicerAsType;
+        /// <summary>
+        /// An object that containing properties that type-casts the drawing to a slicer.
+        /// </summary>
         public ExcelSlicerAsType Slicer 
         { 
             get

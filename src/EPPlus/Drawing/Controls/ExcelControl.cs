@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Drawing.Controls
             ControlPropertiesUri = ctrlPropPart.Uri;
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
         }
-        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name, ExcelGroupShape parent = null) : 
+        internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name, ExcelGroupShape parent = null) : 
             base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             var ws = drawings.Worksheet;

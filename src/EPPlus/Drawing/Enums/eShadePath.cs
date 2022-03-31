@@ -17,18 +17,21 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public enum eShadePath
     {
+        /// <summary>
+        /// The gradient folows a linear path
+        /// </summary>
         Linear,
         /// <summary>
-        /// Gradient follows a circular path
+        /// The gradient follows a circular path
         /// </summary>
         Circle,
         /// <summary>
-        /// Gradient follows a rectangular path
+        /// The gradient follows a rectangular path
         /// </summary>
-        Rectangle, 
+        Rectangle,
         /// <summary>
-        /// Gradient follows the shape
+        /// The gradient follows the shape
         /// </summary>
-        Shape 
+        Shape
     }
 }

@@ -21,6 +21,10 @@ namespace OfficeOpenXml.Utils
 			}
 		}
 
+		/// <summary>
+		/// Sets the RecyclableMemorytreamsManager to manage pools
+		/// </summary>
+		/// <param name="recyclableMemoryStreamManager">The memory manager</param>
 		public static void SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager recyclableMemoryStreamManager)
 		{
 			_dataInitialized = recyclableMemoryStreamManager is object;
@@ -55,7 +59,7 @@ namespace OfficeOpenXml.Utils
 		/// <summary>
 		/// Get a new memory stream initiated with a byte-array
 		/// </summary>
-		/// <param name="capacity">The capacity to</param>
+		/// <param name="capacity">The initial size of the internal array</param>
 		/// <returns>A MemoryStream</returns>
 		internal static MemoryStream GetStream(int capacity)
 		{

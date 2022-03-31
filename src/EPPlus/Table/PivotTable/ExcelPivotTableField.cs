@@ -677,7 +677,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 _items.AddInternal(item);
             }
         }
-
+        /// <summary>
+        /// A reference to the cache for the pivot table field.
+        /// </summary>
         public ExcelPivotTableCacheField Cache
         {
             get

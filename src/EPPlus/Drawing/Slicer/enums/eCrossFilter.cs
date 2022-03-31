@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// How the items that are used in slicer cross filtering are displayed
+    /// </summary>
     public enum eCrossFilter
     {
         /// <summary>

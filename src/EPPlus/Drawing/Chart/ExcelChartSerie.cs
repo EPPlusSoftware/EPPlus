@@ -22,6 +22,9 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// Base class for chart series for standard charts
+    /// </summary>
     public abstract class ExcelChartSerie : XmlHelper, IDrawingStyleBase
     {
         internal ExcelChart _chart;
@@ -32,6 +35,9 @@ namespace OfficeOpenXml.Drawing.Chart
             _chart = chart;
             _prefix = prefix;
         }
+        /// <summary>
+        /// The header for the chart serie
+        /// </summary>
         public abstract string Header { get; set; }
         /// <summary>
         /// Literals for the Y serie, if the literal values are numeric
