@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -224,6 +225,65 @@ namespace OfficeOpenXml.Export.HtmlExport
         internal static string GetImageCellClassName(HtmlImage image, HtmlExportSettings settings)
         {
             return image == null && settings.Pictures.Position != ePicturePosition.Absolute ? "" : settings.StyleClassPrefix + "image-cell";
+        }
+
+        /// <summary>
+        /// Renders a hyperlink
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="cell"></param>
+        /// <param name="settings"></param>
+        internal void RenderHyperlink(EpplusHtmlWriter writer, ExcelRangeBase cell, HtmlExportSettings settings)
+        {
+            if (cell.Hyperlink is ExcelHyperLink eurl)
+            {
+                if (string.IsNullOrEmpty(eurl.ReferenceAddress))
+                {
+                    if (string.IsNullOrEmpty(eurl.AbsoluteUri))
+                    {
+                        writer.AddAttribute("href", eurl.OriginalString);
+                    }
+                    else
+                    {
+                        writer.AddAttribute("href", eurl.AbsoluteUri);
+                    }
+                    if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
+                    {
+                        writer.AddAttribute("target", settings.HyperlinkTarget);
+                    }
+                    writer.RenderBeginTag(HtmlElements.A);
+                    writer.Write(string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display);
+                    writer.RenderEndTag();
+                }
+                else
+                {
+                    //Internal
+                    writer.Write(GetCellText(cell, settings));
+                }
+            }
+            else
+            {
+                writer.AddAttribute("href", cell.Hyperlink.OriginalString);
+                if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
+                {
+                    writer.AddAttribute("target", settings.HyperlinkTarget);
+                }
+                writer.RenderBeginTag(HtmlElements.A);
+                writer.Write(GetCellText(cell, settings));
+                writer.RenderEndTag();
+            }
+        }
+
+        internal string GetCellText(ExcelRangeBase cell, HtmlExportSettings settings)
+        {
+            if (cell.IsRichText)
+            {
+                return cell.RichText.HtmlText;
+            }
+            else
+            {
+                return ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
+            }
         }
     }
 }

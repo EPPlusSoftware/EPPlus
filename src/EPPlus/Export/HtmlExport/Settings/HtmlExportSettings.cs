@@ -109,6 +109,13 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If set to true classes that identifies Excel table styling will be included in the html. Default value is true.
         /// </summary>
         public bool IncludeCssClassNames { get; set; } = true;
+
+        /// <summary>
+        /// Set the target attribute for hyperlinks (a elements) in the exported html.
+        /// Can be null/empty (no target attribute), _blank, _top, _self, _parent or a frame-name.
+        /// </summary>
+        public string HyperlinkTarget { get; set; }
+
         /// <summary>
         /// If and how table styles should export, if the range is a table.
         /// The range must be the same as the table range.

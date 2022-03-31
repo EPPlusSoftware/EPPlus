@@ -26,7 +26,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         public async Task RenderBeginTagAsync(string elementName, bool closeElement = false)
         {
             _newLine = false;
-            await WriteIndentAsync();
+            if (elementName != HtmlElements.A || elementName != "img")
+            {
+                await WriteIndentAsync();
+            }
             await _writer.WriteAsync($"<{elementName}");
             foreach (var attribute in _attributes)
             {

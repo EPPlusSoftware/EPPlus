@@ -72,6 +72,43 @@ namespace OfficeOpenXml.Export.HtmlExport
                 await writer.RenderBeginTagAsync("img", true);
             }
         }
+
+        internal async Task RenderHyperlinkAsync(EpplusHtmlWriter writer, ExcelRangeBase cell, HtmlExportSettings settings)
+        {
+            if (cell.Hyperlink is ExcelHyperLink eurl)
+            {
+                if (string.IsNullOrEmpty(eurl.ReferenceAddress))
+                {
+                    if (string.IsNullOrEmpty(eurl.AbsoluteUri))
+                    {
+                        writer.AddAttribute("href", eurl.OriginalString);
+                    }
+                    else
+                    {
+                        writer.AddAttribute("href", eurl.AbsoluteUri);
+                    }
+                    if (!string.IsNullOrEmpty(settings.HyperlinkTarget))
+                    {
+                        writer.AddAttribute("target", settings.HyperlinkTarget);
+                    }
+                    await writer.RenderBeginTagAsync(HtmlElements.A);
+                    await writer.WriteAsync(string.IsNullOrEmpty(eurl.Display) ? cell.Text : eurl.Display);
+                    await writer.RenderEndTagAsync();
+                }
+                else
+                {
+                    //Internal
+                    writer.Write(GetCellText(cell, settings));
+                }
+            }
+            else
+            {
+                writer.AddAttribute("href", cell.Hyperlink.OriginalString);
+                await writer.RenderBeginTagAsync(HtmlElements.A);
+                await writer.WriteAsync(GetCellText(cell, settings));
+                await writer.RenderEndTagAsync();
+            }
+        }
     }
 }
 #endif

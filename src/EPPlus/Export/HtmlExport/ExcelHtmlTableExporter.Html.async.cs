@@ -143,7 +143,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                         await writer.RenderBeginTagAsync(HtmlElements.TableData);
                         var imageCellClassName = GetImageCellClassName(image, Settings);
                         writer.SetClassAttributeFromStyle(cell, false, Settings, imageCellClassName);
-                        await RenderHyperlinkAsync(writer, cell);
+                        await RenderHyperlinkAsync(writer, cell, Settings);
                         await writer.RenderEndTagAsync();
                         await writer.ApplyFormatAsync(Settings.Minify);
                     }
@@ -226,7 +226,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
                 else
                 {
-                    await RenderHyperlinkAsync(writer, cell);
+                    await RenderHyperlinkAsync(writer, cell, Settings);
                 }
                 await writer.RenderEndTagAsync();
                 await writer.ApplyFormatAsync(Settings.Minify);
@@ -236,31 +236,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             await writer.ApplyFormatDecreaseIndentAsync(Settings.Minify);
             await writer.RenderEndTagAsync();
             await writer.ApplyFormatAsync(Settings.Minify);
-        }
-        private async Task RenderHyperlinkAsync(EpplusHtmlWriter writer, ExcelRangeBase cell)
-        {
-            if (cell.Hyperlink is ExcelHyperLink eurl)
-            {
-                if (string.IsNullOrEmpty(eurl.ReferenceAddress))
-                {
-                    writer.AddAttribute("href", eurl.AbsolutePath);
-                    await writer.RenderBeginTagAsync(HtmlElements.A);
-                    await writer.WriteAsync(eurl.Display);
-                    await writer.RenderEndTagAsync();
-                }
-                else
-                {
-                    //Internal
-                    await writer.WriteAsync(GetCellText(cell));
-                }
-            }
-            else
-            {
-                writer.AddAttribute("href", cell.Hyperlink.OriginalString);
-                await writer.RenderBeginTagAsync(HtmlElements.A);
-                await writer.WriteAsync(GetCellText(cell));
-                await writer.RenderEndTagAsync();
-            }
         }
         private async Task RenderTotalRowAsync(EpplusHtmlWriter writer, AccessibilitySettings accessibilitySettings)
         {

@@ -41,7 +41,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         public void RenderBeginTag(string elementName, bool closeElement = false)
         {
             _newLine = false;
-            WriteIndent();
+            // avoid writing indent characters for a hyperlinks or images inside a td element
+            if(elementName != HtmlElements.A && elementName != "img")
+            {
+                WriteIndent();
+            }
             _writer.Write($"<{elementName}");
             foreach (var attribute in _attributes)
             {

@@ -22,6 +22,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Accessibility
     /// </summary>
     public class TableAccessibilitySettings
     {
+        /// <summary>
+        /// Reset all properties to their default value
+        /// </summary>
         public void ResetToDefault()
         {
             AddAccessibilityAttributes = true;
@@ -33,6 +36,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Accessibility
             TfootRole = "rowgroup";
             TableHeaderCellRole = "columnheader";
         }
+
+        /// <summary>
+        /// Copies all properties from one instance to another.
+        /// </summary>
+        /// <param name="copy"></param>
         public void Copy(TableAccessibilitySettings copy)
         {
             AddAccessibilityAttributes = copy.AddAccessibilityAttributes;

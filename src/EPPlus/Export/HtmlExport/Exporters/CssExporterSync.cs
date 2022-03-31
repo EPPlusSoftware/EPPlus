@@ -1,0 +1,110 @@
+﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace OfficeOpenXml.Export.HtmlExport.Exporters
+{
+    internal class CssExporterSync : CssRangeExporterBase
+    {
+        public CssExporterSync(Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
+            : base(styleCache, dataTypes, settings, ranges)
+        {
+
+        }
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <returns>A html table</returns>
+        public string GetCssString()
+        {
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                RenderCss(ms);
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+        }
+        /// <summary>
+        /// Exports the css part of the html export.
+        /// </summary>
+        /// <param name="stream">The stream to write the css to.</param>
+        /// <exception cref="IOException"></exception>
+        public void RenderCss(Stream stream)
+        {
+            if (!stream.CanWrite)
+            {
+                throw new IOException("Parameter stream must be a writable System.IO.Stream");
+            }
+
+            //if (_datatypes.Count == 0) GetDataTypes();
+            var sw = new StreamWriter(stream);
+            RenderCellCss(sw);
+        }
+
+        private void RenderCellCss(StreamWriter sw)
+        {
+            var styleWriter = new EpplusCssWriter(sw, _ranges._list, Settings, Settings.Css, Settings.Css.CssExclude, _styleCache);
+
+            styleWriter.RenderAdditionalAndFontCss(TableClass);
+            var addedTableStyles = new HashSet<TableStyles>();
+            foreach (var range in _ranges._list)
+            {
+                var ws = range.Worksheet;
+                var styles = ws.Workbook.Styles;
+                var ce = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
+                ExcelAddressBase address = null;
+                while (ce.Next())
+                {
+                    if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
+                    {
+                        var ma = ws.MergedCells[ce.Row, ce.Column];
+                        if (ma != null)
+                        {
+                            if (address == null || address.Address != ma)
+                            {
+                                address = new ExcelAddressBase(ma);
+                            }
+                            var fromRow = address._fromRow < range._fromRow ? range._fromRow : address._fromRow;
+                            var fromCol = address._fromCol < range._fromCol ? range._fromCol : address._fromCol;
+
+                            if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
+                                continue;
+                        }
+                        styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                    }
+                }
+
+                if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
+                {
+                    var table = range.GetTable();
+                    if (table != null &&
+                       table.TableStyle != TableStyles.None &&
+                       addedTableStyles.Contains(table.TableStyle) == false)
+                    {
+                        var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
+                        ExcelHtmlTableExporter.RenderTableCss(sw, table, settings, _styleCache, _dataTypes);
+                        addedTableStyles.Add(table.TableStyle);
+                    }
+                }
+            }
+
+            if (Settings.Pictures.Include == ePictureInclude.Include)
+            {
+                LoadRangeImages(_ranges._list);
+                foreach (var p in _rangePictures)
+                {
+                    styleWriter.AddPictureToCss(p);
+                }
+            }
+            styleWriter.FlushStream();
+        }
+    }
+}
