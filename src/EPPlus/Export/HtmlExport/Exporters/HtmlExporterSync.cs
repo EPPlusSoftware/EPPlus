@@ -4,6 +4,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,20 +14,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
     internal class HtmlExporterSync : HtmlExporterSyncBase
     {
         internal HtmlExporterSync
-            (ExcelRangeBase range) : base(range)
+            (Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase range) : base(styleCache, dataTypes, settings, range)
         {
         }
 
-        internal HtmlExporterSync(ExcelRangeBase[] ranges) : base(ranges)
+        internal HtmlExporterSync(Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(styleCache, dataTypes, settings, ranges)
         {
         }
 
-        
-
-        /// <summary>
-        /// Setting used for the export.
-        /// </summary>
-        public HtmlRangeExportSettings Settings { get; } = new HtmlRangeExportSettings();
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
@@ -237,20 +232,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        private void LoadVisibleColumns(ExcelRangeBase range)
-        {
-            var ws = range.Worksheet;
-            _columns = new List<int>();
-            for (int col = range._fromCol; col <= range._toCol; col++)
-            {
-                var c = ws.GetColumn(col);
-                if (c == null || (c.Hidden == false && c.Width > 0))
-                {
-                    _columns.Add(col);
-                }
-            }
-        }
-
         /// <summary>
         /// Renders both the Html and the Css to a single page. 
         /// </summary>
@@ -261,6 +242,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString();
             //var css = GetCssString();
+            var css = default(string);
             return string.Format(htmlDocument, html, css);
         }
         List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();

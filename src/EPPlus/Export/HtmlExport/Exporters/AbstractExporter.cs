@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
     {
         protected readonly string TableClass = "epplus-table";
         internal List<HtmlImage> _rangePictures = null;
+        protected readonly CellDataWriter _cellDataWriter = new CellDataWriter();
 
         internal void LoadRangeImages(List<ExcelRangeBase> ranges)
         {
@@ -44,6 +46,36 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     }
                 }
             }
+        }
+
+        protected string GetCellText(ExcelRangeBase cell, HtmlExportSettings settings)
+        {
+            if (cell.IsRichText)
+            {
+                return cell.RichText.HtmlText;
+            }
+            else
+            {
+                return ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
+            }
+        }
+
+        protected string GetImageCellClassName(HtmlImage image, HtmlExportSettings settings)
+        {
+            return image == null && settings.Pictures.Position != ePicturePosition.Absolute ? "" : settings.StyleClassPrefix + "image-cell";
+        }
+
+        protected HtmlImage GetImage(int worksheetId, int row, int col)
+        {
+            if (_rangePictures == null) return null;
+            foreach (var p in _rangePictures)
+            {
+                if (p.FromRow == row - 1 && p.FromColumn == col - 1 && p.WorksheetId == worksheetId)
+                {
+                    return p;
+                }
+            }
+            return null;
         }
     }
 }
