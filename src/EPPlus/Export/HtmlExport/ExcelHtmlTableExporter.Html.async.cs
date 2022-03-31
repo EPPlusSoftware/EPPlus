@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.IO;
@@ -66,13 +67,13 @@ namespace OfficeOpenXml.Export.HtmlExport
 
             if (_table.ShowHeader)
             {
-                await RenderHeaderRowAsync(writer);
+                await RenderHeaderRowAsync(writer, Settings.Accessibility);
             }
             // table rows
-            await RenderTableRowsAsync(writer);
+            await RenderTableRowsAsync(writer, Settings.Accessibility);
             if (_table.ShowTotal)
             {
-                await RenderTotalRowAsync(writer);
+                await RenderTotalRowAsync(writer, Settings.Accessibility);
             }
             // end tag table
             await writer.RenderEndTagAsync();
@@ -90,11 +91,11 @@ namespace OfficeOpenXml.Export.HtmlExport
             var css = await GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }
-        private async Task RenderTableRowsAsync(EpplusHtmlWriter writer)
+        private async Task RenderTableRowsAsync(EpplusHtmlWriter writer, AccessibilitySettings accessibilitySettings)
         {
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))
             {
-                writer.AddAttribute("role", Settings.Accessibility.TableSettings.TbodyRole);
+                writer.AddAttribute("role", accessibilitySettings.TableSettings.TbodyRole);
             }
             await writer.RenderBeginTagAsync(HtmlElements.Tbody);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
@@ -108,7 +109,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     continue; //The row is hidden and should not be included.
                 }
 
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
                     writer.AddAttribute("role", "row");
                     if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
@@ -135,7 +136,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
-                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, addRowScope, image);
+                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image);
                     }
                     else
                     {
@@ -162,16 +163,16 @@ namespace OfficeOpenXml.Export.HtmlExport
         }
 
 
-        private async Task RenderHeaderRowAsync(EpplusHtmlWriter writer)
+        private async Task RenderHeaderRowAsync(EpplusHtmlWriter writer, AccessibilitySettings accessibilitySettings)
         {
             // table header row
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TheadRole))
             {
-                writer.AddAttribute("role", Settings.Accessibility.TableSettings.TheadRole);
+                writer.AddAttribute("role", accessibilitySettings.TableSettings.TheadRole);
             }
             await writer.RenderBeginTagAsync(HtmlElements.Thead);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
             {
                 writer.AddAttribute("role", "row");
             }
@@ -191,9 +192,9 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                 var imageCellClassName = image == null ? "" : Settings.StyleClassPrefix + "image-cell";
                 writer.SetClassAttributeFromStyle(cell, true, Settings, imageCellClassName);
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TableHeaderCellRole))
+                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TableHeaderCellRole))
                 {
-                    writer.AddAttribute("role", Settings.Accessibility.TableSettings.TableHeaderCellRole);
+                    writer.AddAttribute("role", accessibilitySettings.TableSettings.TableHeaderCellRole);
                     if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
                     {
                         writer.AddAttribute("scope", "col");
@@ -261,17 +262,17 @@ namespace OfficeOpenXml.Export.HtmlExport
                 await writer.RenderEndTagAsync();
             }
         }
-        private async Task RenderTotalRowAsync(EpplusHtmlWriter writer)
+        private async Task RenderTotalRowAsync(EpplusHtmlWriter writer, AccessibilitySettings accessibilitySettings)
         {
             // table header row
             var rowIndex = _table.Address._toRow;
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TfootRole))
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TfootRole))
             {
-                writer.AddAttribute("role", Settings.Accessibility.TableSettings.TfootRole);
+                writer.AddAttribute("role", accessibilitySettings.TableSettings.TfootRole);
             }
             await writer.RenderBeginTagAsync(HtmlElements.TFoot);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
             {
                 writer.AddAttribute("role", "row");
                 writer.AddAttribute("scope", "row");
@@ -284,7 +285,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             foreach (var col in _columns)
             {
                 var cell = _table.WorkSheet.Cells[rowIndex, col];
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
                     writer.AddAttribute("role", "cell");
                 }

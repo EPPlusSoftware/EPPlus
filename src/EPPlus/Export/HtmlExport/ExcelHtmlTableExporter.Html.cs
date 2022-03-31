@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 RenderHeaderRow(writer);
             }
             // table rows
-            RenderTableRows(writer);
+            RenderTableRows(writer, Settings.Accessibility);
             if (_table.ShowTotal)
             {
                 RenderTotalRow(writer);
@@ -220,11 +220,11 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         }
 
-        private void RenderTableRows(EpplusHtmlWriter writer)
+        private void RenderTableRows(EpplusHtmlWriter writer, AccessibilitySettings accessibilitySettings)
         {
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
+            if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))
             {
-                writer.AddAttribute("role", Settings.Accessibility.TableSettings.TbodyRole);
+                writer.AddAttribute("role", accessibilitySettings.TableSettings.TbodyRole);
             }
             writer.RenderBeginTag(HtmlElements.Tbody);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
@@ -238,7 +238,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     continue; //The row is hidden and should not be included.
                 }
 
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
                     writer.AddAttribute("role", "row");
                     if (!_table.ShowFirstColumn && !_table.ShowLastColumn)
@@ -265,7 +265,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     if (cell.Hyperlink == null)
                     {
                         var addRowScope = (_table.ShowFirstColumn && col == _table.Address._fromCol) || (_table.ShowLastColumn && col == _table.Address._toCol);
-                        _cellDataWriter.Write(cell, dataType, writer, Settings, addRowScope, image);
+                        _cellDataWriter.Write(cell, dataType, writer, Settings, accessibilitySettings, addRowScope, image);
                     }
                     else
                     {

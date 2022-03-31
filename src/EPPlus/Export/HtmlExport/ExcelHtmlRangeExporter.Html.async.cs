@@ -10,8 +10,11 @@
  *************************************************************************************************
   05/16/2020         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
+using System;
+using System.Collections.Generic;
 using System.IO;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -41,12 +44,14 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="settings">Override some of the settings for this html exclusively</param>
         /// <returns>A html table</returns>
-        public async Task<string> GetHtmlStringAsync(int rangeIndex)
+        public async Task<string> GetHtmlStringAsync(int rangeIndex, ExcelHtmlOverrideExportSettings settings = null)
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                await RenderHtmlAsync(ms, rangeIndex);
+                await RenderHtmlAsync(ms, rangeIndex, settings);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
@@ -54,6 +59,20 @@ namespace OfficeOpenXml.Export.HtmlExport
                 }
             }
         }
+
+        /// <summary>
+        /// Exports an <see cref="ExcelTable"/> to a html string
+        /// </summary>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="config">Override some of the settings for this html exclusively</param>
+        /// <returns></returns>
+        public async Task<string> GetHtmlStringAsync(int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+        {
+            var settings = new ExcelHtmlOverrideExportSettings();
+            config.Invoke(settings);
+            return await GetHtmlStringAsync(rangeIndex, settings);
+        }
+
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
@@ -67,10 +86,11 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// <summary>
         /// Exports the html part of the html export, without the styles.
         /// </summary>
-        /// <param name="stream">The stream to write the css to.</param>
+        /// <param name="stream">The stream to write to.</param>
         /// <param name="rangeIndex">The index of the range to output.</param>
+        /// <param name="overrideSettings">Settings for this specific range index</param>
         /// <exception cref="IOException"></exception>
-        public async Task RenderHtmlAsync(Stream stream, int rangeIndex)
+        public async Task RenderHtmlAsync(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
         {
             ValidateRangeIndex(rangeIndex);
             if (!stream.CanWrite)
@@ -88,8 +108,13 @@ namespace OfficeOpenXml.Export.HtmlExport
                 table = range.GetTable();
             }
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
-            AddClassesAttributes(writer, table);
-            AddTableAccessibilityAttributes(Settings, writer);
+            var tableId = GetTableId(rangeIndex, overrideSettings);
+            var additionalClassNames = GetAdditionalClassNames(overrideSettings);
+            var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
+            var headerRows = overrideSettings != null ? overrideSettings.HeaderRows : Settings.HeaderRows;
+            var headers = overrideSettings != null ? overrideSettings.Headers : Settings.Headers;
+            AddClassesAttributes(writer, table, tableId, additionalClassNames);
+            AddTableAccessibilityAttributes(accessibilitySettings, writer);
             await writer.RenderBeginTagAsync(HtmlElements.Table);
 
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
@@ -99,16 +124,31 @@ namespace OfficeOpenXml.Export.HtmlExport
                 await SetColumnGroupAsync(writer, range, Settings, IsMultiSheet);
             }
 
-            if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
+            if (headerRows > 0 || headers.Count > 0)
             {
-                await RenderHeaderRowAsync(range, writer, table);
+                await RenderHeaderRowAsync(range, writer, table, headerRows, headers);
             }
             // table rows
-            await RenderTableRowsAsync(range, writer, table);
+            await RenderTableRowsAsync(range, writer, table, accessibilitySettings);
 
             // end tag table
             await writer.RenderEndTagAsync();
         }
+
+        /// <summary>
+        /// Exports the html part of the html export, without the styles.
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        /// <param name="rangeIndex">Index of the range to export</param>
+        /// <param name="config">Override some of the settings for this html exclusively</param>
+        /// <returns></returns>
+        public async Task RenderHtmlAsync(Stream stream, int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+        {
+            var settings = new ExcelHtmlOverrideExportSettings();
+            config.Invoke(settings);
+            await RenderHtmlAsync(stream, rangeIndex, settings);
+        }
+
         /// <summary>
         /// Renders the first range of the Html and the Css to a single page. 
         /// </summary>
@@ -121,9 +161,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             var css = await GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }
-        private async Task RenderTableRowsAsync(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table)
+        private async Task RenderTableRowsAsync(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings)
         {
-            if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TbodyRole))
+            if(accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))
             {
                 writer.AddAttribute("role", Settings.Accessibility.TableSettings.TbodyRole);
             }
@@ -152,7 +192,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.RenderBeginTag(HtmlElements.TFoot);
                 }
 
-                if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes)
+                if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
                 {
                     writer.AddAttribute("role", "row");
                     writer.AddAttribute("scope", "row");
@@ -177,7 +217,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
                     if (cell.Hyperlink == null)
                     {
-                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, false, image);
+                        await _cellDataWriter.WriteAsync(cell, dataType, writer, Settings, accessibilitySettings, false, image);
                     }
                     else
                     {
@@ -207,7 +247,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             await writer.ApplyFormatAsync(Settings.Minify);
         }
 
-        private async Task RenderHeaderRowAsync(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table)
+        private async Task RenderHeaderRowAsync(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, int headerRows, List<string> headers)
         {
             if (table != null && table.ShowHeader == false) return;
             if (Settings.Accessibility.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(Settings.Accessibility.TableSettings.TheadRole))
@@ -216,10 +256,9 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             await writer.RenderBeginTagAsync(HtmlElements.Thead);
             await writer.ApplyFormatIncreaseIndentAsync(Settings.Minify);
-            int headerRows;
             if (table == null)
             {
-                headerRows = Settings.HeaderRows == 0 ? 1 : Settings.HeaderRows;    //If HeaderRows==0 we use the headers in the Headers 
+                headerRows = headerRows == 0 ? 1 : headerRows;    //If HeaderRows==0 we use the headers in the Headers 
             }
             else
             {
@@ -268,9 +307,9 @@ namespace OfficeOpenXml.Export.HtmlExport
                             await RenderHyperlinkAsync(writer, cell);
                         }
                     }
-                    else if (Settings.Headers.Count < col)
+                    else if (headers.Count < col)
                     {
-                        await writer.WriteAsync(Settings.Headers[col]);
+                        await writer.WriteAsync(headers[col]);
                     }
 
                     await writer.RenderEndTagAsync();
