@@ -24,8 +24,8 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public abstract class ExcelChartDataLabel : XmlHelper, IDrawingStyle
     {
-        internal protected ExcelChart _chart;
-        internal protected string _nodeName;
+        internal ExcelChart _chart;
+        internal string _nodeName;
         private string _nsPrefix;
         private readonly string _formatPath;
         private readonly string _sourceLinkedPath;

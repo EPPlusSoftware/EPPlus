@@ -15,6 +15,9 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// A collection of rows in a worksheet.
+    /// </summary>
     public class ExcelRowsCollection : ExcelRangeRow
     {
         ExcelWorksheet _worksheet;
@@ -22,6 +25,11 @@ namespace OfficeOpenXml
         {
             _worksheet = worksheet;
         }
+        /// <summary>
+        /// Indexer for rows
+        /// </summary>
+        /// <param name="row">The row index</param>
+        /// <returns>The <see cref="ExcelRangeRow"/></returns>
         public ExcelRangeRow this[int row]
         {
             get

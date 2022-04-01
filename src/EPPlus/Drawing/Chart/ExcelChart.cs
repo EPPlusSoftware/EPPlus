@@ -261,13 +261,14 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The build-in chart styles. 
+        /// Use <see cref="ExcelChart.StyleManager"/> for the more modern styling.
         /// </summary>
         public abstract eChartStyle Style
         {
             get;
             set;
         }
-        protected ExcelChartPlotArea _plotArea = null;
+        internal ExcelChartPlotArea _plotArea = null;
         /// <summary>
         /// Plotarea
         /// </summary>
@@ -275,7 +276,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
         }
-        internal protected ExcelChartLegend _legend = null;
+        internal ExcelChartLegend _legend = null;
         /// <summary>
         /// Legend
         /// </summary>

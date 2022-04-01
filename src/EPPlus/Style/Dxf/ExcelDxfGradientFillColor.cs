@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Style.Dxf
             Color.Clear();
         }
 
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfGradientFillColor(_styles, Position, _callback)
             {
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Style.Dxf
             };
         }
 
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             var node = helper.CreateNode(path + "d:stop", false, true);
             var stopHelper = XmlHelperFactory.Create(helper.NameSpaceManager, node);

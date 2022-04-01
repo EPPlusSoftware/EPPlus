@@ -16,6 +16,9 @@ using System.Globalization;
 using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// An axis for a standard chart. 
+    /// </summary>
     public sealed class ExcelChartAxisStandard : ExcelChartAxis
     {
         internal readonly static string[] _schemaNodeOrderDateShared = new string[]

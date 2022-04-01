@@ -19,7 +19,13 @@ namespace OfficeOpenXml.ExternalReferences
     /// </summary>
     public class ExcelExternalDdeValueCollection : EPPlusReadOnlyList<ExcelExternalDdeValue>
     {
+        /// <summary>
+        /// The number of rows returned by the server for this dde item.
+        /// </summary>
         public int Rows { get; set; }
+        /// <summary>
+        /// The number of columns returned by the server for this dde item.
+        /// </summary>
         public int Columns { get; set; }
     }
 }

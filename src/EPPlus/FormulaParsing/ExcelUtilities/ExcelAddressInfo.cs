@@ -18,6 +18,9 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
+    /// <summary>
+    /// Information about an address.
+    /// </summary>
     public class ExcelAddressInfo
     {
         private ExcelAddressInfo(string address) 
@@ -49,8 +52,14 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             return new ExcelAddressInfo(address);
         }
 
+        /// <summary>
+        /// The worksheet name
+        /// </summary>
         public string Worksheet { get; private set; }
 
+        /// <summary>
+        /// Returns true if the <see cref="Worksheet"/> is set
+        /// </summary>
         public bool WorksheetIsSpecified
         {
             get
@@ -59,6 +68,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
         }
 
+        /// <summary>
+        /// If the address reference multiple cells.
+        /// </summary>
         public bool IsMultipleCells 
         { 
             get 
@@ -67,10 +79,19 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             } 
         }
 
+        /// <summary>
+        /// The start cell address
+        /// </summary>
         public string StartCell { get; private set; }
 
+        /// <summary>
+        /// The end cell address
+        /// </summary>
         public string EndCell { get; private set; }
 
+        /// <summary>
+        /// The address part if a worksheet is specified on the address. 
+        /// </summary>
         public string AddressOnSheet { get; private set; }
     }
 }

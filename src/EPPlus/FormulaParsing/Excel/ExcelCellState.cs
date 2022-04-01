@@ -17,11 +17,23 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel
 {
+    /// <summary>
+    /// The state of a cell
+    /// </summary>
     [Flags]
     public enum ExcelCellState
     {
+        /// <summary>
+        /// The cell is hidden
+        /// </summary>
         HiddenCell = 1,
+        /// <summary>
+        /// The cell contains a cell error
+        /// </summary>
         ContainsError = 2,
+        /// <summary>
+        /// The cell contains a result of a subtotal function.
+        /// </summary>
         IsResultOfSubtotal = 4
     }
 }

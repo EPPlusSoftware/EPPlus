@@ -14,6 +14,9 @@ using OfficeOpenXml.Drawing.Slicer;
 
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// Provides easy type cast for slicer drawings.
+    /// </summary>
     public class ExcelSlicerAsType
     {
         ExcelDrawing _drawing;

@@ -39,12 +39,19 @@ namespace OfficeOpenXml.Sorting
 
         private readonly List<SortCondition> _sortConditions = new List<SortCondition>();
         private readonly string _sortConditionPath = "d:sortCondition";
-
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<SortCondition> GetEnumerator()
         {
             return _sortConditions.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _sortConditions.GetEnumerator();

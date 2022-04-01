@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// The id
         /// </summary>
-        protected internal abstract string Id { get; }
+        internal abstract string Id { get; }
         /// <summary>
         /// If the style has any value set
         /// </summary>
@@ -46,12 +46,12 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The Xpath</param>
-        protected internal abstract void CreateNodes(XmlHelper helper, string path);
+        internal abstract void CreateNodes(XmlHelper helper, string path);
         /// <summary>
         /// Sets the values from an XmlHelper instance. 
         /// </summary>
         /// <param name="helper">The helper</param>
-        protected internal virtual void SetValuesFromXml(XmlHelper helper)
+        internal virtual void SetValuesFromXml(XmlHelper helper)
         {
 
         }
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns></returns>
-        protected internal abstract DxfStyleBase Clone();
+        internal abstract DxfStyleBase Clone();
         /// <summary>
         /// Set the color value
         /// </summary>
@@ -103,7 +103,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The Xpath</param>
         /// <param name="v">The value</param>
-        internal protected void SetValueEnum(XmlHelper helper, string path, Enum v)
+        internal void SetValueEnum(XmlHelper helper, string path, Enum v)
         {
             if (v == null)
             {
@@ -122,7 +122,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The x path</param>
         /// <param name="v">The object</param>
-        internal protected void SetValue(XmlHelper helper, string path, object v)
+        internal void SetValue(XmlHelper helper, string path, object v)
         {
             if (v == null)
             {
@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The x path</param>
         /// <param name="s">The string</param>
-        internal protected void SetValue(XmlHelper helper, string path, string s)
+        internal void SetValue(XmlHelper helper, string path, string s)
         {
             if (string.IsNullOrEmpty(s))
             {
@@ -167,7 +167,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The x path</param>
         /// <param name="v">The boolean value</param>
-        internal protected void SetValueBool(XmlHelper helper, string path, bool? v)
+        internal void SetValueBool(XmlHelper helper, string path, bool? v)
         {
             if (v == null)
             {
@@ -178,14 +178,14 @@ namespace OfficeOpenXml.Style.Dxf
                 helper.SetXmlNodeBool(path, (bool)v);
             }
         }
-        protected internal string GetAsString(object v)
+        internal string GetAsString(object v)
         {
             return (v ?? "").ToString();
         }
         /// <summary>
         /// Is this value allowed to be changed?
         /// </summary>
-        protected internal bool AllowChange { get; set; }
+        internal bool AllowChange { get; set; }
 
         internal ExcelDxfColor GetColor(XmlHelper helper, string path, eStyleClass styleClass)
         {

@@ -17,6 +17,9 @@ namespace OfficeOpenXml.Drawing
     /// </summary>s
     public enum eSystemColor
     {       
+        /// <summary>
+        /// Scroll Bar System Color
+        /// </summary>
         ScrollBar,
         /// <summary>
         /// Background System Color

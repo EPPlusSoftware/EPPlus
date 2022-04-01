@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Style.Dxf
                 return Colors.HasValue || Degree.HasValue || Left.HasValue || Right.HasValue || Top.HasValue || Bottom.HasValue || GradientType.HasValue;
             }
         }
-        protected internal override string Id 
+        internal override string Id 
         {
             get
             {
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Style.Dxf
             get;
             private set;
         }
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfGradientFill(_styles, _callback)
             {
@@ -179,7 +179,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             var gradNode = helper.CreateNode(path + "/d:gradientFill");
             var gradHelper=XmlHelperFactory.Create(helper.NameSpaceManager, gradNode);
@@ -212,7 +212,7 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
 
-        protected internal override void SetValuesFromXml(XmlHelper helper)
+        internal override void SetValuesFromXml(XmlHelper helper)
         {
             GradientType = helper.GetXmlNodeString("d:fill/d:gradientFill/@type").ToEnum<eDxfGradientFillType>();
             Degree = helper.GetXmlNodeDoubleNull("d:fill/d:gradientFill/@degree");

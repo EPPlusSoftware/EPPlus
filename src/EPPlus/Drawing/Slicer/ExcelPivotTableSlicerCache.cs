@@ -83,6 +83,9 @@ namespace OfficeOpenXml.Drawing.Slicer
             _field = PivotTables[0].Fields.Where(x=>x.Cache.Name==SourceName).FirstOrDefault();
             Init(wb);
         }
+        /// <summary>
+        /// The source type of the slicer
+        /// </summary>
         public override eSlicerSourceType SourceType
         {
             get
@@ -90,8 +93,14 @@ namespace OfficeOpenXml.Drawing.Slicer
                 return eSlicerSourceType.PivotTable;
             }   
         }
+        /// <summary>
+        /// A collection of pivot tables attached to the slicer cache.
+        /// </summary>
         public ExcelSlicerPivotTableCollection PivotTables { get; }
         ExcelPivotTableSlicerCacheTabularData _data=null;
+        /// <summary>
+        /// Tabular data for a pivot table slicer cache.
+        /// </summary>
         public ExcelPivotTableSlicerCacheTabularData Data 
         { 
             get
@@ -104,7 +113,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
         }
 
-        protected internal void UpdateItemsXml()
+        internal void UpdateItemsXml()
         {
            var sb = new StringBuilder();
             foreach(var pt in PivotTables)

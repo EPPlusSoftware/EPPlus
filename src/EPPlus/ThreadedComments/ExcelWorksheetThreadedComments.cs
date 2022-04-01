@@ -137,6 +137,13 @@ namespace OfficeOpenXml.ThreadedComments
             return Add(new ExcelCellAddress(cellAddress));
         }
 
+        /// <summary>
+        /// Adds a new <see cref="ExcelThreadedCommentThread"/> to the cell.
+        /// </summary>
+        /// <param name="cellAddress">The cell address</param>
+        /// <returns>The new, empty <see cref="ExcelThreadedCommentThread"/></returns>
+        /// <exception cref="ArgumentException">Thrown if there was an existing <see cref="ExcelThreadedCommentThread"/> in the cell.</exception>
+        /// <exception cref="InvalidOperationException">If a note/comment exist in the cell</exception>
         public ExcelThreadedCommentThread Add(ExcelCellAddress cellAddress)
         {
             Require.Argument(cellAddress).IsNotNull("cellAddress");
@@ -316,6 +323,10 @@ namespace OfficeOpenXml.ThreadedComments
                 }
             }
         }
+        /// <summary>
+        ///     Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return "Count = " + _threadsIndex.Count;
