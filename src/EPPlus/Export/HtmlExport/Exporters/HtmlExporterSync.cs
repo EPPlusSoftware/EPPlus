@@ -14,13 +14,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
     internal class HtmlExporterSync : HtmlExporterSyncBase
     {
         internal HtmlExporterSync
-            (Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase range) : base(styleCache, dataTypes, settings, range)
+            (HtmlRangeExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
+            _settings = settings;
         }
 
-        internal HtmlExporterSync(Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(styleCache, dataTypes, settings, ranges)
+        internal HtmlExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
         {
+            _settings = settings;
         }
+
+        private readonly HtmlRangeExportSettings _settings;
 
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
@@ -123,7 +127,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
             _mergedCells.Clear();
             var range = _ranges[rangeIndex];
-            GetDataTypes(range);
+            GetDataTypes(range, _settings);
 
             ExcelTable table = null;
             if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
@@ -135,8 +139,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
             var accessibilitySettings = GetAccessibilitySettings(overrideSettings);
-            var headerRows = overrideSettings != null ? overrideSettings.HeaderRows : Settings.HeaderRows;
-            var headers = overrideSettings != null ? overrideSettings.Headers : Settings.Headers;
+            var headerRows = overrideSettings != null ? overrideSettings.HeaderRows : _settings.HeaderRows;
+            var headers = overrideSettings != null ? overrideSettings.Headers : _settings.Headers;
             AddClassesAttributes(writer, table, tableId, additionalClassNames);
             AddTableAccessibilityAttributes(accessibilitySettings, writer);
             writer.RenderBeginTag(HtmlElements.Table);
@@ -148,7 +152,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 SetColumnGroup(writer, range, Settings, IsMultiSheet);
             }
 
-            if (Settings.HeaderRows > 0 || Settings.Headers.Count > 0)
+            if (_settings.HeaderRows > 0 || _settings.Headers.Count > 0)
             {
                 RenderHeaderRow(range, writer, table, accessibilitySettings, headerRows, headers);
             }
@@ -185,53 +189,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        private string GetTableId(int index, ExcelHtmlOverrideExportSettings overrideSettings)
-        {
-            if (overrideSettings == null || string.IsNullOrEmpty(overrideSettings.TableId))
-            {
-                if (_ranges.Count > 1 && !string.IsNullOrEmpty(Settings.TableId))
-                {
-                    return Settings.TableId + index.ToString(CultureInfo.InvariantCulture);
-                }
-                return Settings.TableId;
-            }
-            return overrideSettings.TableId;
-        }
-
-        private List<string> GetAdditionalClassNames(ExcelHtmlOverrideExportSettings overrideSettings)
-        {
-            if (overrideSettings == null || overrideSettings.AdditionalTableClassNames == null) return Settings.AdditionalTableClassNames;
-            return overrideSettings.AdditionalTableClassNames;
-        }
-
-        private AccessibilitySettings GetAccessibilitySettings(ExcelHtmlOverrideExportSettings overrideSettings)
-        {
-            if (overrideSettings == null || overrideSettings.Accessibility == null) return Settings.Accessibility;
-            return overrideSettings.Accessibility;
-        }
-
-        private void AddClassesAttributes(EpplusHtmlWriter writer, ExcelTable table, string tableId, List<string> additionalTableClassNames)
-        {
-            var tableClasses = TableClass;
-            if (table != null)
-            {
-                tableClasses += " " + ExcelHtmlTableExporter.GetTableClasses(table); //Add classes for the table styles if the range corresponds to a table.
-            }
-            if (additionalTableClassNames != null && additionalTableClassNames.Count > 0)
-            {
-                foreach (var cls in additionalTableClassNames)
-                {
-                    tableClasses += $" {cls}";
-                }
-            }
-            writer.AddAttribute(HtmlAttributes.Class, $"{tableClasses}");
-
-            if (!string.IsNullOrEmpty(tableId))
-            {
-                writer.AddAttribute(HtmlAttributes.Id, tableId);
-            }
-        }
-
         /// <summary>
         /// Renders both the Html and the Css to a single page. 
         /// </summary>
@@ -245,7 +202,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var css = default(string);
             return string.Format(htmlDocument, html, css);
         }
-        List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
+
         private void RenderTableRows(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings)
         {
             if (accessibilitySettings.TableSettings.AddAccessibilityAttributes && !string.IsNullOrEmpty(accessibilitySettings.TableSettings.TbodyRole))
@@ -254,7 +211,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
             writer.RenderBeginTag(HtmlElements.Tbody);
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
-            var row = range._fromRow + Settings.HeaderRows;
+            var row = range._fromRow + _settings.HeaderRows;
             var endRow = range._toRow;
             var ws = range.Worksheet;
             HtmlImage image = null;
@@ -338,7 +295,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             writer.ApplyFormatIncreaseIndent(Settings.Minify);
             if (table == null)
             {
-                headerRows = Settings.HeaderRows == 0 ? 1 : Settings.HeaderRows;
+                headerRows = _settings.HeaderRows == 0 ? 1 : _settings.HeaderRows;
             }
             else
             {
@@ -402,111 +359,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             writer.ApplyFormatDecreaseIndent(Settings.Minify);
             writer.RenderEndTag();
             writer.ApplyFormat(Settings.Minify);
-        }
-        private bool InMergeCellSpan(int row, int col)
-        {
-            for (int i = 0; i < _mergedCells.Count; i++)
-            {
-                var adr = _mergedCells[i];
-                if (adr._toRow < row || (adr._toRow == row && adr._toCol < col))
-                {
-                    _mergedCells.RemoveAt(i);
-                    i--;
-                }
-                else
-                {
-                    if (row >= adr._fromRow && row <= adr._toRow &&
-                       col >= adr._fromCol && col <= adr._toCol)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private void SetColRowSpan(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelRange cell)
-        {
-            if (cell.Merge)
-            {
-                var address = cell.Worksheet.MergedCells[cell._fromRow, cell._fromCol];
-                if (address != null)
-                {
-                    var ma = new ExcelAddressBase(address);
-                    bool added = false;
-                    //ColSpan
-                    if (ma._fromCol == cell._fromCol || range._fromCol == cell._fromCol)
-                    {
-                        var maxCol = Math.Min(ma._toCol, range._toCol);
-                        var colSpan = maxCol - ma._fromCol + 1;
-                        if (colSpan > 1)
-                        {
-                            writer.AddAttribute("colspan", colSpan.ToString(CultureInfo.InvariantCulture));
-                        }
-                        _mergedCells.Add(ma);
-                        added = true;
-                    }
-                    //RowSpan
-                    if (ma._fromRow == cell._fromRow || range._fromRow == cell._fromRow)
-                    {
-                        var maxRow = Math.Min(ma._toRow, range._toRow);
-                        var rowSpan = maxRow - ma._fromRow + 1;
-                        if (rowSpan > 1)
-                        {
-                            writer.AddAttribute("rowspan", rowSpan.ToString(CultureInfo.InvariantCulture));
-                        }
-                        if (added == false) _mergedCells.Add(ma);
-                    }
-                }
-            }
-        }
-
-        private void AddTableAccessibilityAttributes(AccessibilitySettings settings, EpplusHtmlWriter writer)
-        {
-            if (!settings.TableSettings.AddAccessibilityAttributes) return;
-            if (!string.IsNullOrEmpty(settings.TableSettings.TableRole))
-            {
-                writer.AddAttribute("role", settings.TableSettings.TableRole);
-            }
-            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabel))
-            {
-                writer.AddAttribute(AriaAttributes.AriaLabel.AttributeName, settings.TableSettings.AriaLabel);
-            }
-            if (!string.IsNullOrEmpty(settings.TableSettings.AriaLabelledBy))
-            {
-                writer.AddAttribute(AriaAttributes.AriaLabelledBy.AttributeName, settings.TableSettings.AriaLabelledBy);
-            }
-            if (!string.IsNullOrEmpty(settings.TableSettings.AriaDescribedBy))
-            {
-                writer.AddAttribute(AriaAttributes.AriaDescribedBy.AttributeName, settings.TableSettings.AriaDescribedBy);
-            }
-        }
-
-        private void GetDataTypes(ExcelRangeBase range)
-        {
-            if (range._fromRow + Settings.HeaderRows > ExcelPackage.MaxRows)
-            {
-                throw new InvalidOperationException("Range From Row + Header rows is out of bounds");
-            }
-
-            _dataTypes = new List<string>();
-            for (int col = range._fromCol; col <= range._toCol; col++)
-            {
-                _dataTypes.Add(
-                    ColumnDataTypeManager.GetColumnDataType(range.Worksheet, range, range._fromRow + Settings.HeaderRows, col));
-            }
-        }
-        bool? _isMultiSheet = null;
-        private bool IsMultiSheet
-        {
-            get
-            {
-                if (_isMultiSheet.HasValue == false)
-                {
-                    _isMultiSheet = _ranges.Select(x => x.Worksheet).Distinct().Count() > 1;
-                }
-                return _isMultiSheet.Value;
-            }
         }
     }
 }

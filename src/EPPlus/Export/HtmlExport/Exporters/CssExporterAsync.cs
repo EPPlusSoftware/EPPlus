@@ -6,46 +6,50 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+#if !NET35 && !NET40
+using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssExporterSync : CssRangeExporterBase
+    internal class CssExporterAsync : CssRangeExporterBase
     {
-        public CssExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
-            : base(settings, ranges)
+        public CssExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
+         : base(settings, ranges)
         {
             _settings = settings;
         }
 
-        public CssExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range)
+        public CssExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase range)
             : base(settings, range)
         {
             _settings = settings;
         }
 
         private readonly HtmlRangeExportSettings _settings;
+
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>
         /// <returns>A html table</returns>
-        public string GetCssString()
+        public async Task<string> GetCssStringAsync()
         {
             using (var ms = RecyclableMemory.GetStream())
             {
-                RenderCss(ms);
+                await RenderCssAsync(ms);
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms))
                 {
-                    return sr.ReadToEnd();
+                    return await sr.ReadToEndAsync();
                 }
             }
         }
+
         /// <summary>
-        /// Exports the css part of the html export.
+        /// Exports an <see cref="ExcelTable"/> to html and writes it to a stream
         /// </summary>
-        /// <param name="stream">The stream to write the css to.</param>
-        /// <exception cref="IOException"></exception>
-        public void RenderCss(Stream stream)
+        /// <param name="stream">The stream to write to</param>
+        /// <returns></returns>
+        public async Task RenderCssAsync(Stream stream)
         {
             if (!stream.CanWrite)
             {
@@ -54,14 +58,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             //if (_datatypes.Count == 0) GetDataTypes();
             var sw = new StreamWriter(stream);
-            RenderCellCss(sw);
+            await RenderCellCssAsync(sw);
         }
 
-        private void RenderCellCss(StreamWriter sw)
+        private async Task RenderCellCssAsync(StreamWriter sw)
         {
             var styleWriter = new EpplusCssWriter(sw, _ranges._list, _settings, _settings.Css, _settings.Css.CssExclude, _styleCache);
 
-            styleWriter.RenderAdditionalAndFontCss(TableClass);
+            await styleWriter.RenderAdditionalAndFontCssAsync(TableClass);
             var addedTableStyles = new HashSet<TableStyles>();
             foreach (var range in _ranges._list)
             {
@@ -82,14 +86,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             }
                             var fromRow = address._fromRow < range._fromRow ? range._fromRow : address._fromRow;
                             var fromCol = address._fromCol < range._fromCol ? range._fromCol : address._fromCol;
-
                             if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
                                 continue;
                         }
-                        styleWriter.AddToCss(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                        await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
                     }
                 }
-
                 if (Settings.TableStyle == eHtmlRangeTableInclude.Include)
                 {
                     var table = range.GetTable();
@@ -98,21 +100,21 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                        addedTableStyles.Contains(table.TableStyle) == false)
                     {
                         var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                        ExcelHtmlTableExporter.RenderTableCss(sw, table, settings, _styleCache, _dataTypes);
+                        await ExcelHtmlTableExporter.RenderTableCssAsync(sw, table, settings, _styleCache, _dataTypes);
                         addedTableStyles.Add(table.TableStyle);
                     }
                 }
             }
-
             if (Settings.Pictures.Include == ePictureInclude.Include)
             {
                 LoadRangeImages(_ranges._list);
                 foreach (var p in _rangePictures)
                 {
-                    styleWriter.AddPictureToCss(p);
+                    await styleWriter.AddPictureToCssAsync(p);
                 }
             }
-            styleWriter.FlushStream();
+            await styleWriter.FlushStreamAsync();
         }
     }
 }
+#endif

@@ -8,11 +8,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
     internal abstract class HtmlExporterSyncBase : HtmlExporterBase
     {
-        internal HtmlExporterSyncBase(Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase range) : base(styleCache, dataTypes, settings, range)
+        internal HtmlExporterSyncBase(HtmlExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
         }
 
-        internal HtmlExporterSyncBase(Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(styleCache, dataTypes, settings, ranges)
+        internal HtmlExporterSyncBase(HtmlExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
         {
         }
 

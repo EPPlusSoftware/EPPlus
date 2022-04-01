@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,24 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
     internal abstract class AbstractExporter
     {
+        public AbstractExporter()
+        {
+        }
+
         protected readonly string TableClass = "epplus-table";
         internal List<HtmlImage> _rangePictures = null;
+        protected List<string> _dataTypes = new List<string>();
         protected readonly CellDataWriter _cellDataWriter = new CellDataWriter();
+
+        protected void GetDataTypes(ExcelAddressBase adr, ExcelTable table)
+        {
+            _dataTypes = new List<string>();
+            for (int col = adr._fromCol; col <= adr._toCol; col++)
+            {
+                _dataTypes.Add(
+                    ColumnDataTypeManager.GetColumnDataType(table.WorkSheet, table.Range, 2, col));
+            }
+        }
 
         internal void LoadRangeImages(List<ExcelRangeBase> ranges)
         {
@@ -76,6 +92,35 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
             return null;
+        }
+
+        protected string GetClassName(string className, string optionalName)
+        {
+            if (string.IsNullOrEmpty(optionalName)) return optionalName;
+
+            className = className.Trim().Replace(" ", "-");
+            var newClassName = "";
+            for (int i = 0; i < className.Length; i++)
+            {
+                var c = className[i];
+                if (i == 0)
+                {
+                    if (c == '-' || (c >= '0' && c <= '9'))
+                    {
+                        newClassName = "_";
+                        continue;
+                    }
+                }
+
+                if ((c >= '0' && c <= '9') ||
+                   (c >= 'a' && c <= 'z') ||
+                   (c >= 'A' && c <= 'Z') ||
+                    c >= 0x00A0)
+                {
+                    newClassName += c;
+                }
+            }
+            return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Core;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +9,39 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
     internal abstract class CssRangeExporterBase : AbstractExporter
     {
-        public CssRangeExporterBase(Dictionary<string, int> styleCache, List<string> dataTypes, HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
+        public CssRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
         {
-            _styleCache = styleCache;
-            _dataTypes = dataTypes;
             Settings = settings;
+            Require.Argument(range).IsNotNull("range");
+            _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+
+            if (range.Addresses == null)
+            {
+                AddRange(range);
+            }
+            else
+            {
+                foreach (var address in range.Addresses)
+                {
+                    AddRange(range.Worksheet.Cells[address.Address]);
+                }
+            }
         }
 
-        protected Dictionary<string, int> _styleCache;
-        protected List<string> _dataTypes;
-        protected HtmlRangeExportSettings Settings;
+        public CssRangeExporterBase(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
+        {
+            Settings = settings;
+            Require.Argument(ranges).IsNotNull("ranges");
+            _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+
+            foreach (var range in ranges)
+            {
+                AddRange(range);
+            }
+        }
+
+        protected Dictionary<string, int> _styleCache = new Dictionary<string, int>();
+        protected HtmlExportSettings Settings;
         protected EPPlusReadOnlyList<ExcelRangeBase> _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
 
         private void AddRange(ExcelRangeBase range)
