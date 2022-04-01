@@ -1076,7 +1076,12 @@ namespace OfficeOpenXml
                 throw (new ArgumentException($"Table style name is not unique : {name}", "name"));
             }
         }
-
+        /// <summary>
+        /// Creates a custom named slicer style from another style.
+        /// </summary>
+        /// <param name="name">The name of the style.</param>
+        /// <param name="templateStyle">The slicer style to us as template.</param>
+        /// <returns></returns>
         public ExcelSlicerNamedStyle CreateSlicerStyle(string name, ExcelSlicerNamedStyle templateStyle)
         {
             var s = CreateSlicerStyle(name);

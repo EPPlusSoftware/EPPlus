@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             var s = new ExcelDxfStyleLimitedFont(_helper.NameSpaceManager, null, _styles, _callback)
             {
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.Style.Dxf
 
             return s;
         }
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
             if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");
@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Style.Dxf
             base.Clear();
             Font.Clear();
         }
-        protected internal override string Id
+        internal override string Id
         {
             get
             {

@@ -26,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
     /// </summary>
     public class AddressTranslator
     {
+        
         public enum RangeCalculationBehaviour
         {
             FirstPart,

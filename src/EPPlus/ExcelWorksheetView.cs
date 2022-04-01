@@ -19,6 +19,9 @@ using System.Xml;
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// The state of the pane.
+    /// </summary>
     public enum ePaneState
     {
         /// <summary>
@@ -35,6 +38,9 @@ namespace OfficeOpenXml
         /// </summary>
         Split
     }
+    /// <summary>
+    /// The position of the pane.
+    /// </summary>
     public enum ePanePosition
     {
         /// <summary>

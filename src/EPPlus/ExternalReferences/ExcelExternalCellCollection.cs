@@ -32,6 +32,11 @@ namespace OfficeOpenXml.ExternalReferences
             _values = values;
             _metaData = metaData;
         }
+        /// <summary>
+        /// An indexer to access the the external cell values 
+        /// </summary>
+        /// <param name="cellAddress">The cell address</param>
+        /// <returns>The <see cref="ExcelExternalCellValue"/></returns>
         public ExcelExternalCellValue this[string cellAddress]
         {
             get
@@ -43,6 +48,12 @@ namespace OfficeOpenXml.ExternalReferences
                 throw (new ArgumentException("Address is not valid"));
             }
         }
+        /// <summary>
+        /// An indexer to access the the external cell values 
+        /// </summary>
+        /// <param name="row">The row of the cell to get the value from</param>
+        /// <param name="column">The column of the cell to get the value from</param>
+        /// <returns>The <see cref="ExcelExternalCellValue"/></returns>
         public ExcelExternalCellValue this[int row, int column]
         {
             get
@@ -61,7 +72,10 @@ namespace OfficeOpenXml.ExternalReferences
                 };
             }
     }
-    public ExcelExternalCellValue Current
+        /// <summary>
+        /// The current value of the <see cref="IEnumerable"/>
+        /// </summary>
+        public ExcelExternalCellValue Current
     {
         get 
         {
@@ -76,6 +90,9 @@ namespace OfficeOpenXml.ExternalReferences
         }
     }
 
+        /// <summary>
+        /// The current value of the <see cref="IEnumerable"/>
+        /// </summary>
         object IEnumerator.Current
         {
             get
@@ -83,29 +100,43 @@ namespace OfficeOpenXml.ExternalReferences
                 return Current;
             }
         }
+        /// <summary>
+        /// Disposed the object
+        /// </summary>
         public void Dispose()
         {
             _valuesEnum.Dispose();
         }
-
+        /// <summary>
+        /// Get the enumerator for this collection
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ExcelExternalCellValue> GetEnumerator()
         {
             Reset();
             return this;
         }
-
+        /// <summary>
+        /// Move to the next item in the collection
+        /// </summary>
+        /// <returns>true if more items exists</returns>
         public bool MoveNext()
         {
             if (_valuesEnum == null) Reset();
             return _valuesEnum.Next();
         }
-
+        /// <summary>
+        /// Resets the enumeration
+        /// </summary>
         public void Reset()
         {
             _valuesEnum = new CellStoreEnumerator<object>(_values);
             _valuesEnum.Init();
         }
-
+        /// <summary>
+        /// Get the enumerator for this collection
+        /// </summary>
+        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this;

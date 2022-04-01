@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Style.Dxf
             : base(nameSpaceManager, topNode, styles, callback)
         {
         }
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             var s = new ExcelDxfSlicerStyle(_helper.NameSpaceManager, null, _styles, _callback)
             {

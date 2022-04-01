@@ -89,7 +89,7 @@ namespace OfficeOpenXml.ExternalReferences
         {
             return uriPath.StartsWith("http:") || uriPath.StartsWith("https:") || uriPath.StartsWith("ftp:") || uriPath.StartsWith("ftps:");
         }
-        protected internal List<string> _errors = new List<string>();
+        internal List<string> _errors = new List<string>();
         /// <summary>
         /// A list of errors that occured during load or update of the external workbook.
         /// </summary>

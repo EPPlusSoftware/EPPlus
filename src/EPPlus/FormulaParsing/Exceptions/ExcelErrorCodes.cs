@@ -17,25 +17,38 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Exceptions
 {
+    /// <summary>
+    /// Represents an Excel error code.
+    /// </summary>
     public class ExcelErrorCodes
     {
         private ExcelErrorCodes(string code)
         {
             Code = code;
         }
-
+        /// <summary>
+        /// The error code
+        /// </summary>
         public string Code
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Returns the hash code for this string.
+        /// </summary>
+        /// <returns>The hash code</returns>
         public override int GetHashCode()
         {
             return Code.GetHashCode();
         }
-
-        public override bool  Equals(object obj)
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(object obj)
         {
             if (obj is ExcelErrorCodes)
             {
@@ -44,11 +57,22 @@ namespace OfficeOpenXml.FormulaParsing.Exceptions
  	        return false;
         }
 
+        /// <summary>
+        /// Equal operator
+        /// </summary>
+        /// <param name="c1">The first error code to match</param>
+        /// <param name="c2">The second error code to match</param>
+        /// <returns></returns>
         public static bool operator == (ExcelErrorCodes c1, ExcelErrorCodes c2)
         {
             return c1.Code.Equals(c2.Code);
         }
-
+        /// <summary>
+        /// Not equal operator
+        /// </summary>
+        /// <param name="c1">The first error code to match</param>
+        /// <param name="c2">The second error code to match</param>
+        /// <returns></returns>
         public static bool operator !=(ExcelErrorCodes c1, ExcelErrorCodes c2)
         {
             return !c1.Code.Equals(c2.Code);
@@ -56,6 +80,11 @@ namespace OfficeOpenXml.FormulaParsing.Exceptions
 
         private static readonly IEnumerable<string> Codes = new List<string> { Value.Code, Name.Code, NoValueAvaliable.Code };
 
+        /// <summary>
+        /// Returns true if <paramref name="valueToTest"/> matches an error code.
+        /// </summary>
+        /// <param name="valueToTest"></param>
+        /// <returns></returns>
         public static bool IsErrorCode(object valueToTest)
         {
             if (valueToTest == null)
@@ -70,16 +99,24 @@ namespace OfficeOpenXml.FormulaParsing.Exceptions
             return false;
         }
 
+        /// <summary>
+        /// Represents a cell value error 
+        /// </summary>
         public static ExcelErrorCodes Value
         {
             get { return new ExcelErrorCodes("#VALUE!"); }
         }
 
+        /// <summary>
+        /// Represents a cell name error 
+        /// </summary>
         public static ExcelErrorCodes Name
         {
             get { return new ExcelErrorCodes("#NAME?"); }
         }
-
+        /// <summary>
+        /// Reprecents a N/A error
+        /// </summary>
         public static ExcelErrorCodes NoValueAvaliable
         {
             get { return new ExcelErrorCodes("#N/A"); }

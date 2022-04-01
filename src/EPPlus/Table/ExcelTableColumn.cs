@@ -225,6 +225,10 @@ namespace OfficeOpenXml.Table
                 _slicer = value;
             }
         }
+        /// <summary>
+        /// Adds a slicer drawing connected to the column
+        /// </summary>
+        /// <returns>The table slicer drawing object</returns>
         public ExcelTableSlicer AddSlicer()
         {            
             return _tbl.WorkSheet.Drawings.AddTableSlicer(this);
@@ -252,6 +256,9 @@ namespace OfficeOpenXml.Table
                 SetTableFormula();
  			}
  		}
+        /// <summary>
+        /// The <see cref="ExcelTable"/> containing the table column
+        /// </summary>
         public ExcelTable Table
         {
             get

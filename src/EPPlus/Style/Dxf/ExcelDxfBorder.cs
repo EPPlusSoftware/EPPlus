@@ -88,7 +88,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// The Id
         /// </summary>
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The X Path</param>
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             Left.CreateNodes(helper, path + "/d:left");
             Right.CreateNodes(helper, path + "/d:right");
@@ -149,6 +149,11 @@ namespace OfficeOpenXml.Style.Dxf
             Horizontal.Clear();
         }
 
+        /// <summary>
+        /// Set the border properties for Top/Bottom/Right and Left.
+        /// </summary>
+        /// <param name="borderStyle">The border style</param>
+        /// <param name="themeColor">The theme color</param>
         public void BorderAround(ExcelBorderStyle borderStyle = ExcelBorderStyle.Thin, eThemeSchemeColor themeColor=eThemeSchemeColor.Accent1)
         {
             Top.Style = borderStyle;
@@ -160,6 +165,11 @@ namespace OfficeOpenXml.Style.Dxf
             Left.Style = borderStyle;
             Left.Color.SetColor(themeColor);
         }
+        /// <summary>
+        /// Set the border properties for Top/Bottom/Right and Left.
+        /// </summary>
+        /// <param name="borderStyle">The border style</param>
+        /// <param name="color">The color to use</param>
         public void BorderAround(ExcelBorderStyle borderStyle, Color color)
         {
             Top.Style = borderStyle;
@@ -176,7 +186,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfBorderBase(_styles, _callback) 
             { 
@@ -188,7 +198,7 @@ namespace OfficeOpenXml.Style.Dxf
                 Horizontal = (ExcelDxfBorderItem)Horizontal.Clone(),
             };
         }
-        protected internal override void SetValuesFromXml(XmlHelper helper)
+        internal override void SetValuesFromXml(XmlHelper helper)
         {
             if (helper.ExistsNode("d:border"))
             {

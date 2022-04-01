@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Style
     public class ExcelTextFont : XmlHelper
     {
         string _path;
-        protected XmlNode _rootNode;
+        internal XmlNode _rootNode;
         Action _initXml;
         IPictureRelationDocument _pictureRelationDocument;
         internal ExcelTextFont(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager namespaceManager, XmlNode rootNode, string path, string[] schemaNodeOrder, Action initXml=null)

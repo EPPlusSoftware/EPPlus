@@ -203,7 +203,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        public void CreatespPr()
+        void IDrawingStyleBase.CreatespPr()
         {
             
         }

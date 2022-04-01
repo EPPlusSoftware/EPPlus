@@ -103,7 +103,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// The id
         /// </summary>
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The X Path</param>
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             helper.CreateNode(path);
             SetValueBool(helper, path + "/d:b/@val", Bold);
@@ -166,11 +166,11 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfFontBase(_styles, _callback) { Bold = Bold, Color = (ExcelDxfColor)Color.Clone(), Italic = Italic, Strike = Strike, Underline = Underline };
         }
-        protected internal override void SetValuesFromXml(XmlHelper helper)
+        internal override void SetValuesFromXml(XmlHelper helper)
         {
             if (helper.ExistsNode("d:font"))
             {

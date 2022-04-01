@@ -21,8 +21,17 @@ namespace OfficeOpenXml.LoadFunctions.Params
     /// </summary>
     public class LoadFromTextParams
     {
+        /// <summary>
+        /// The first row in the text is the header row
+        /// </summary>
         public bool FirstRowIsHeader { get; set; }
+        /// <summary>
+        /// The text to split
+        /// </summary>
         public string Text { get; set; }
+        /// <summary>
+        /// Describes how to split a CSV text.
+        /// </summary>
         public ExcelTextFormat Format { get; set; } = new ExcelTextFormat();
     }
 }

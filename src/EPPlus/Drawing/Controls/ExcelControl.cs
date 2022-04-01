@@ -521,7 +521,7 @@ namespace OfficeOpenXml.Drawing.Controls
         }
         
         #region Shared Properties
-        internal protected ExcelAddressBase FmlaLink
+        internal ExcelAddressBase FmlaLink
         {
             get
             {

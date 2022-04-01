@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Sorting
     /// </summary>
     public class SortCondition : XmlHelper
     {
-        public SortCondition(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
+        internal SortCondition(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
         }
 

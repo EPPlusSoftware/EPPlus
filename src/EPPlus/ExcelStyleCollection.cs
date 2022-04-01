@@ -59,7 +59,7 @@ namespace OfficeOpenXml
         /// </summary>
         public XmlNode TopNode { get; set; }
         internal List<T> _list = new List<T>();
-        protected internal Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        internal Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         internal int NextId=0;
         #region IEnumerable<T> Members
         /// <summary>

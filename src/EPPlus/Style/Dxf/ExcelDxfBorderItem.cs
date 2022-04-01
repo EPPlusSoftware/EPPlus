@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// The Id
         /// </summary>
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The X Path</param>
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {            
             SetValueEnum(helper, path + "/@style", Style);
             SetValueColor(helper, path + "/d:color", Color);
@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfBorderItem(_styles,_styleClass, _callback) { Style = Style, Color = Color };
         }

@@ -268,7 +268,10 @@ namespace OfficeOpenXml.Table
         {
             return Range.ToText();
         }
-
+        /// <summary>
+        /// Creates an <see cref="ExcelHtmlTableExporter"/> object to export the table to HTML
+        /// </summary>
+        /// <returns>The exporter object</returns>
         public ExcelHtmlTableExporter CreateHtmlExporter()
         {
             return new ExcelHtmlTableExporter(this);
@@ -390,22 +393,40 @@ namespace OfficeOpenXml.Table
         {
             return Range.ToDataTable();
         }
+        /// <summary>
+        /// Returns the table as a JSON string
+        /// </summary>
+        /// <returns>A string containing the JSON document.</returns>
         public string ToJson()
         {
             var s = new JsonTableExportSettings();
             return ToJsonString(s);
         }
+        /// <summary>
+        /// Returns the table as a JSON string
+        /// </summary>
+        /// <param name="settings">Settings to configure the JSON output</param>
+        /// <returns>A string containing the JSON document.</returns>
         public string ToJson(Action<JsonTableExportSettings> settings)
         {
             var s=new JsonTableExportSettings();
             settings.Invoke(s);
             return ToJsonString(s);
         }
+        /// <summary>
+        /// Saves the table as a JSON string to a string
+        /// </summary>
+        /// <param name="stream">The stream to write the JSON to.</param>
         public void SaveToJson(Stream stream)
         {
             var s = new JsonTableExportSettings();
             SaveToJsonInternal(stream, s);
         }
+        /// <summary>
+        /// Saves the table as a JSON string to a string
+        /// </summary>
+        /// <param name="stream">The stream to write the JSON to.</param>
+        /// <param name="settings">Settings to configure the JSON output</param>
         public void SaveToJson(Stream stream, Action<JsonTableExportSettings> settings)
         {
             var s = new JsonTableExportSettings();
@@ -1098,6 +1119,9 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@headerRowBorderDxfId", value);
             }
         }
+        /// <summary>
+        /// Sets differential formatting styles for the table header row border style.
+        /// </summary>
         public ExcelDxfBorderBase HeaderRowBorderStyle { get; set; }
         internal int? TableBorderDxfId
         {
@@ -1110,6 +1134,9 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@tableBorderDxfId", value);
             }
         }
+        /// <summary>
+        /// Sets differential formatting styles for the tables row border style.
+        /// </summary>
         public ExcelDxfBorderBase TableBorderStyle { get; set; }
 
         #region Sorting
@@ -1117,6 +1144,11 @@ namespace OfficeOpenXml.Table
         const string SortStatePath = "d:sortState";
         SortState _sortState = null;
 
+        /// <summary>
+        /// Gets the sort state of the table.
+        /// <seealso cref="Sort(Action{TableSortOptions})"/>
+        /// <seealso cref="Sort(TableSortOptions)"/>
+        /// </summary>
         public SortState SortState
         {
             get

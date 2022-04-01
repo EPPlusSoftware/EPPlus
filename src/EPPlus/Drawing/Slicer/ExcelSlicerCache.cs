@@ -29,7 +29,7 @@ namespace OfficeOpenXml.Drawing.Slicer
         internal ExcelSlicerCache(XmlNamespaceManager nameSpaceManager) : base(nameSpaceManager)
         {
         }
-        protected internal void CreatePart(ExcelWorkbook wb)
+        internal void CreatePart(ExcelWorkbook wb)
         {
             var p = wb._package.ZipPackage;
             Uri = GetNewUri(p, "/xl/slicerCaches/slicerCache{0}.xml");
@@ -45,6 +45,9 @@ namespace OfficeOpenXml.Drawing.Slicer
         /// The slicer cache xml document
         /// </summary>
         public XmlDocument SlicerCacheXml { get; protected internal set; }
+        /// <summary>
+        /// The name of the slicer cache
+        /// </summary>
         public string Name
         {
             get
@@ -70,6 +73,9 @@ namespace OfficeOpenXml.Drawing.Slicer
                 SetXmlNodeString("@sourceName", value);
             }
         }
+        /// <summary>
+        /// The source of the slicer.
+        /// </summary>
         public abstract eSlicerSourceType SourceType
         {
             get;
@@ -77,11 +83,11 @@ namespace OfficeOpenXml.Drawing.Slicer
 
         internal abstract void Init(ExcelWorkbook wb);
 
-        protected internal string GetStartXml()
+        internal string GetStartXml()
         {
             return $"<slicerCacheDefinition sourceName=\"\" xr10:uid=\"{{{Guid.NewGuid()}}}\" name=\"\" xmlns:xr10=\"http://schemas.microsoft.com/office/spreadsheetml/2016/revision10\" xmlns:x=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" mc:Ignorable=\"x xr10\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\" />";
         }
-        internal protected void CreateWorkbookReference(ExcelWorkbook wb, string uriGuid)
+        internal void CreateWorkbookReference(ExcelWorkbook wb, string uriGuid)
         {
             wb.Names.AddFormula(Name, "#N/A");
             if(!wb.SlicerCaches.ContainsKey(Name)) wb.SlicerCaches.Add(Name, this);

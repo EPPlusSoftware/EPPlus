@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// The Id
         /// </summary>
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -103,6 +103,9 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
+        /// <summary>
+        /// Gradient fill settings
+        /// </summary>
         public ExcelDxfGradientFill Gradient
         {
             get;
@@ -113,7 +116,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The X Path</param>
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             helper.CreateNode(path);
             if(Style==eDxfFillStyle.PatternFill)
@@ -146,6 +149,9 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
+        /// <summary>
+        /// Clears the fill
+        /// </summary>
         public override void Clear()
         {
             if (Style == eDxfFillStyle.PatternFill)
@@ -163,7 +169,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfFill(_styles, _callback) {PatternType=PatternType, PatternColor=(ExcelDxfColor)PatternColor?.Clone(), BackgroundColor= (ExcelDxfColor)BackgroundColor?.Clone(), Gradient=(ExcelDxfGradientFill)Gradient?.Clone()};
         }
@@ -183,7 +189,7 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
-        protected internal override void SetValuesFromXml(XmlHelper helper)
+        internal override void SetValuesFromXml(XmlHelper helper)
         {
             if (helper.ExistsNode("d:fill/d:patternFill"))
             {

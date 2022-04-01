@@ -119,9 +119,12 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         public abstract int NumberOfItems { get; }
+        /// <summary>
+        /// A collection of trend lines for the chart serie.
+        /// </summary>
         public abstract ExcelChartTrendlineCollection TrendLines{ get; }
         internal abstract void SetID(string id);
-        internal protected string ToFullAddress(string value)
+        internal string ToFullAddress(string value)
         {
             if (ExcelCellBase.IsValidAddress(value))
             {
