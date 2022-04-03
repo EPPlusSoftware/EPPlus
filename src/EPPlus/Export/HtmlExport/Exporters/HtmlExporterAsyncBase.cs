@@ -104,6 +104,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
                 row++;
             }
+            // end tag tbody
+            await writer.RenderEndTagAsync();
         }
 
         protected async Task RenderHeaderRowAsync(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, int headerRows, List<string> headers)

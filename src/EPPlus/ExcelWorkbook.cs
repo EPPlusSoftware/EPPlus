@@ -35,6 +35,7 @@ using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
 
 namespace OfficeOpenXml
 {
@@ -510,17 +511,29 @@ namespace OfficeOpenXml
 		/// <returns>The HTML exporter.</returns>
 		/// <seealso cref="ExcelHtmlRangeExporter.Ranges"/>
 		/// <exception cref="InvalidOperationException"></exception>
-		public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
-        {
-			foreach(var range in ranges)
-            {
-				if(range._workbook!=this)
-                {
+		public IExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
+		{
+			foreach (var range in ranges)
+			{
+				if (range._workbook != this)
+				{
 					throw new InvalidOperationException("All ranges must come from the current workbook");
-                }
-            }
-			return new Export.HtmlExport.ExcelHtmlRangeExporter(ranges);
-        }
+				}
+			}
+			return new ExcelHtmlWorkbookExporter(ranges);
+		}
+
+		//public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
+		//	{
+		//	foreach(var range in ranges)
+		//          {
+		//		if(range._workbook!=this)
+		//              {
+		//			throw new InvalidOperationException("All ranges must come from the current workbook");
+		//              }
+		//          }
+		//	return new Export.HtmlExport.ExcelHtmlRangeExporter(ranges);
+		//      }
         /// <summary>
         /// Provides access to named ranges
         /// </summary>
