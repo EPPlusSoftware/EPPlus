@@ -43,6 +43,7 @@ using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
 
 namespace OfficeOpenXml
 {
@@ -1005,10 +1006,20 @@ namespace OfficeOpenXml
                 }
             }
         }
-        public ExcelHtmlRangeExporter CreateHtmlExporter()
+
+        /// <summary>
+        /// Creates an <see cref="IExcelHtmlRangeExporter"/> for html export of this range.
+        /// </summary>
+        /// <returns>A html exporter</returns>
+        public IExcelHtmlRangeExporter CreateHtmlExporter()
         {
-            return new ExcelHtmlRangeExporter(this);
+            return new OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlRangeExporter(this);
         }
+
+        //public ExcelHtmlRangeExporter CreateHtmlExporter()
+        //{
+        //    return new ExcelHtmlRangeExporter(this);
+        //}
         /// <summary>
         /// Set the Hyperlink property for a range of cells
         /// </summary>

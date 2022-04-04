@@ -12,9 +12,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal abstract class HtmlExporterBase : AbstractExporter
+    internal abstract class HtmlRangeExporterBase : AbstractHtmlExporter
     {
-        public HtmlExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
+        public HtmlRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
         {
             Settings = settings;
             Require.Argument(range).IsNotNull("range");
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             LoadRangeImages(_ranges._list);
         }
 
-        public HtmlExporterBase(HtmlExportSettings settings, ExcelRangeBase[] ranges)
+        public HtmlRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase[] ranges)
         {
             Settings = settings;
             Require.Argument(ranges).IsNotNull("ranges");
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             LoadRangeImages(_ranges._list);
         }
 
-        public HtmlExporterBase(ExcelRangeBase[] ranges)
+        public HtmlRangeExporterBase(ExcelRangeBase[] ranges)
         {
             Require.Argument(ranges).IsNotNull("ranges");
             _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
@@ -63,7 +63,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         }
 
         protected List<int> _columns = new List<int>();
-        protected readonly Dictionary<string, int> _styleCache = new Dictionary<string, int>();
         protected HtmlExportSettings Settings;
         protected readonly List<ExcelAddressBase> _mergedCells = new List<ExcelAddressBase>();
 
@@ -298,7 +297,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var tableClasses = TableClass;
             if (table != null)
             {
-                tableClasses += " " + ExcelHtmlTableExporter.GetTableClasses(table); //Add classes for the table styles if the range corresponds to a table.
+                tableClasses += " " + HtmlExportTableUtil.GetTableClasses(table); //Add classes for the table styles if the range corresponds to a table.
             }
             if (additionalTableClassNames != null && additionalTableClassNames.Count > 0)
             {

@@ -27,6 +27,7 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -269,12 +270,12 @@ namespace OfficeOpenXml.Table
             return Range.ToText();
         }
         /// <summary>
-        /// Creates an <see cref="ExcelHtmlTableExporter"/> object to export the table to HTML
+        /// Creates an <see cref="IExcelHtmlTableExporter"/> object to export the table to HTML
         /// </summary>
         /// <returns>The exporter object</returns>
-        public ExcelHtmlTableExporter CreateHtmlExporter()
+        public IExcelHtmlTableExporter CreateHtmlExporter()
         {
-            return new ExcelHtmlTableExporter(this);
+            return new OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlTableExporter(this);
         }
 
         /// <summary>

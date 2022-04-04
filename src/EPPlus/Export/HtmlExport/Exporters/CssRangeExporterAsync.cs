@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssExporterAsync : CssRangeExporterBase
+    internal class CssRangeExporterAsync : CssRangeExporterBase
     {
-        public CssExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
+        public CssRangeExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
          : base(settings, ranges)
         {
             _settings = settings;
         }
 
-        public CssExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase range)
+        public CssRangeExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase range)
             : base(settings, range)
         {
             _settings = settings;
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                        addedTableStyles.Contains(table.TableStyle) == false)
                     {
                         var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                        await ExcelHtmlTableExporter.RenderTableCssAsync(sw, table, settings, _styleCache, _dataTypes);
+                        await HtmlExportTableUtil.RenderTableCssAsync(sw, table, settings, _styleCache, _dataTypes);
                         addedTableStyles.Add(table.TableStyle);
                     }
                 }

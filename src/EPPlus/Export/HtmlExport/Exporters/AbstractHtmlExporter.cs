@@ -8,9 +8,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal abstract class AbstractExporter
+    internal abstract class AbstractHtmlExporter
     {
-        public AbstractExporter()
+        public AbstractHtmlExporter()
         {
         }
 
@@ -18,6 +18,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         internal List<HtmlImage> _rangePictures = null;
         protected List<string> _dataTypes = new List<string>();
         protected readonly CellDataWriter _cellDataWriter = new CellDataWriter();
+        protected Dictionary<string, int> _styleCache;
+
+        internal void SetStyleCache(Dictionary<string, int> styleCache)
+        {
+            _styleCache = styleCache;
+        }
 
         protected void GetDataTypes(ExcelAddressBase adr, ExcelTable table)
         {

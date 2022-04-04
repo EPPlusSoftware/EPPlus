@@ -9,15 +9,15 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssExporterSync : CssRangeExporterBase
+    internal class CssRangeExporterSync : CssRangeExporterBase
     {
-        public CssExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
+        public CssRangeExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges)
             : base(settings, ranges)
         {
             _settings = settings;
         }
 
-        public CssExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range)
+        public CssRangeExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase range)
             : base(settings, range)
         {
             _settings = settings;
@@ -98,7 +98,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                        addedTableStyles.Contains(table.TableStyle) == false)
                     {
                         var settings = new HtmlTableExportSettings() { Minify = Settings.Minify };
-                        ExcelHtmlTableExporter.RenderTableCss(sw, table, settings, _styleCache, _dataTypes);
+                        HtmlExportTableUtil.RenderTableCss(sw, table, settings, _styleCache, _dataTypes);
                         addedTableStyles.Add(table.TableStyle);
                     }
                 }

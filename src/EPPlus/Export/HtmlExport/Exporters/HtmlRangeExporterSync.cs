@@ -11,15 +11,15 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class HtmlExporterSync : HtmlExporterSyncBase
+    internal class HtmlRangeExporterSync : HtmlRangeExporterSyncBase
     {
-        internal HtmlExporterSync
+        internal HtmlRangeExporterSync
             (HtmlRangeExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
             _settings = settings;
         }
 
-        internal HtmlExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
+        internal HtmlRangeExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
         {
             _settings = settings;
         }
@@ -91,14 +91,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var settings = new ExcelHtmlOverrideExportSettings();
             config.Invoke(settings);
             return GetHtmlString(rangeIndex, settings);
-        }
-
-        private void ValidateRangeIndex(int rangeIndex)
-        {
-            if (rangeIndex < 0 || rangeIndex >= _ranges.Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(rangeIndex));
-            }
         }
 
         /// <summary>

@@ -36,6 +36,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
 
 namespace OfficeOpenXml
 {
@@ -502,38 +503,37 @@ namespace OfficeOpenXml
 				return (_worksheets);
 			}
 		}
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Create an html exporter for the supplied ranges.
-		/// </summary>
-		/// <param name="ranges">The ranges to create the report from. All ranges must originate from the current workbook. </param>
-		/// <returns>The HTML exporter.</returns>
-		/// <seealso cref="ExcelHtmlRangeExporter.Ranges"/>
-		/// <exception cref="InvalidOperationException"></exception>
-		public IExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
-		{
-			foreach (var range in ranges)
-			{
-				if (range._workbook != this)
-				{
-					throw new InvalidOperationException("All ranges must come from the current workbook");
-				}
-			}
-			return new ExcelHtmlWorkbookExporter(ranges);
-		}
+        /// <summary>
+        /// Create an html exporter for the supplied ranges.
+        /// </summary>
+        /// <param name="ranges">The ranges to create the report from. All ranges must originate from the current workbook. </param>
+        /// <returns>The HTML exporter.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public IExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
+        {
+            foreach (var range in ranges)
+            {
+                if (range._workbook != this)
+                {
+                    throw new InvalidOperationException("All ranges must come from the current workbook");
+                }
+            }
+            return new ExcelHtmlWorkbookExporter(ranges);
+        }
 
-		//public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
-		//	{
-		//	foreach(var range in ranges)
-		//          {
-		//		if(range._workbook!=this)
-		//              {
-		//			throw new InvalidOperationException("All ranges must come from the current workbook");
-		//              }
-		//          }
-		//	return new Export.HtmlExport.ExcelHtmlRangeExporter(ranges);
-		//      }
+        //public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
+        //{
+        //    foreach (var range in ranges)
+        //    {
+        //        if (range._workbook != this)
+        //        {
+        //            throw new InvalidOperationException("All ranges must come from the current workbook");
+        //        }
+        //    }
+        //    return new Export.HtmlExport.ExcelHtmlRangeExporter(ranges);
+        //}
         /// <summary>
         /// Provides access to named ranges
         /// </summary>
