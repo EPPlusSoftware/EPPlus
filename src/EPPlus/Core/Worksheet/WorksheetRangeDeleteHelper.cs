@@ -180,7 +180,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 if (ws._values.PrevCell(ref r, ref c))
                 {
                     col = ws.GetValueInner(0, c) as ExcelColumn;
-                    if (col._columnMax >= columnFrom)
+                    if (col._columnMax >= columnFrom && col._columnMax < ExcelPackage.MaxColumns)
                     {
                         col.ColumnMax = Math.Max(columnFrom-1, col.ColumnMax-columns);
                     }
@@ -197,12 +197,18 @@ namespace OfficeOpenXml.Core.Worksheet
                     if (column.ColumnMin > toCol)
                     {
                         column._columnMin -= columns;
-                        column._columnMax -= columns;
+                        if (column._columnMax < ExcelPackage.MaxColumns)
+                        {
+                            column._columnMax -= columns;
+                        }
                     }
                     else if (column.ColumnMax > toCol)
                     {
-                        column._columnMax -= columns;
-                        if(column._columnMin > columnFrom) column._columnMin = columnFrom;
+                        if (column._columnMax < ExcelPackage.MaxColumns)
+                        {
+                            column._columnMax -= columns;
+                        }
+                        if (column._columnMin > columnFrom) column._columnMin = columnFrom;
                         moveValue = cse.Value;
                     }
                 }

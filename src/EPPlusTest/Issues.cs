@@ -3208,6 +3208,17 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i620()
+        {
+            using (var p = OpenTemplatePackage("i621.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.DeleteColumn(1, 3);
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
 
