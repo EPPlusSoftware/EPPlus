@@ -53,6 +53,9 @@ namespace OfficeOpenXml.ThreadedComments
         private readonly ExcelWorkbook _workbook;
         private readonly List<ExcelThreadedCommentPerson> _personList = new List<ExcelThreadedCommentPerson>();
 
+        /// <summary>
+        /// The xml document defining the threaded comments persons collection.
+        /// </summary>
         public XmlDocument PersonsXml { get; private set; }
 
         /// <summary>
@@ -155,11 +158,19 @@ namespace OfficeOpenXml.ThreadedComments
             return p;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<ExcelThreadedCommentPerson> GetEnumerator()
         {
             return _personList.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _personList.GetEnumerator();

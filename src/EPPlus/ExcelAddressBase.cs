@@ -552,6 +552,9 @@ namespace OfficeOpenXml
                 return _end;
             }
         }
+        /// <summary>
+        /// The index to the external reference. Return 0, the current workbook, if no reference exists.
+        /// </summary>
         public int ExternalReferenceIndex
         {
             get
@@ -1703,6 +1706,9 @@ namespace OfficeOpenXml
                     a1._fromCol == a2._fromCol &&
                     a1._toCol == a2._toCol;
         }
+        /// <summary>
+        /// Returns true the address contains an external reference
+        /// </summary>
         public bool IsExternal
         {
             get

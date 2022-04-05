@@ -27,9 +27,9 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         /// <summary>
         /// Adds a caption (label) filter for a pivot tabel field
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value1"></param>
-        /// <param name="value2"></param>
+        /// <param name="type">The type of pivot table caption filter</param>
+        /// <param name="value1">Value 1</param>
+        /// <param name="value2">Value 2. Set to null, if not used</param>
         /// <returns></returns>
         public ExcelPivotTableFilter AddCaptionFilter(ePivotTableCaptionFilterType type, string value1, string value2=null)
         {
@@ -58,6 +58,14 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             _filters.Add(filter);
             return filter;
         }
+        /// <summary>
+        /// Adds a date filter for a pivot table field
+        /// </summary>
+        /// <param name="type">The type of pivot table filter.</param>
+        /// <param name="value1">Value 1</param>
+        /// <param name="value2">Value 2. Set to null, if not used</param>
+        /// <returns>The pivot table filter</returns>
+        /// <exception cref="ArgumentNullException">Thrown if value is between and <paramref name="value2"/> is null</exception>
         public ExcelPivotTableFilter AddDateValueFilter(ePivotTableDateValueFilterType type, DateTime value1, DateTime? value2 = null)
         {
             if(value2.HasValue==false &&
@@ -77,6 +85,11 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             return filter;
         }
 
+        /// <summary>
+        /// Adds a date period filter for a pivot table field.
+        /// </summary>
+        /// <param name="type">The type of field.</param>
+        /// <returns>The pivot table filter</returns>
         public ExcelPivotTableFilter AddDatePeriodFilter(ePivotTableDatePeriodFilterType type)
         {
             ExcelPivotTableFilter filter = CreateFilter();
@@ -88,6 +101,16 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             _filters.Add(filter);
             return filter;
         }
+        /// <summary>
+        /// Adds a pivot table value filter.
+        /// </summary>
+        /// <param name="type">The type of value filter</param>
+        /// <param name="dataField">The data field to apply the filter to</param>
+        /// <param name="value1">Value 1</param>
+        /// <param name="value2">Value 2. Used with <see cref="ePivotTableValueFilterType.ValueBetween"/> and <see cref="ePivotTableValueFilterType.ValueNotBetween"/> </param>
+        /// <returns>The pivot table filter</returns>
+        /// <exception cref="ArgumentException">If the data field is not present in the pivot table.</exception>
+        /// <exception cref="ArgumentNullException">If value2 is not set when type is set to between</exception>
         public ExcelPivotTableFilter AddValueFilter(ePivotTableValueFilterType type, ExcelPivotTableDataField dataField, object value1, object value2 = null)
         {
             var dfIx = _table.DataFields._list.IndexOf(dataField);
@@ -98,6 +121,16 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             return AddValueFilter(type, dfIx, value1, value2);
 
         }
+        /// <summary>
+        /// Adds a pivot table value filter.
+        /// </summary>
+        /// <param name="type">The type of value filter</param>
+        /// <param name="dataFieldIndex">The index of the <see cref="ExcelPivotTableDataField"/> to apply the filter to.</param>
+        /// <param name="value1">Value 1</param>
+        /// <param name="value2">Value 2. Used with <see cref="ePivotTableValueFilterType.ValueBetween"/> and <see cref="ePivotTableValueFilterType.ValueNotBetween"/></param>
+        /// <returns>The pivot table filter</returns>
+        /// <exception cref="ArgumentException">If the data field is not present in the pivot table.</exception>
+        /// <exception cref="ArgumentNullException">If value2 is not set when type is set to between</exception>
         public ExcelPivotTableFilter AddValueFilter(ePivotTableValueFilterType type, int dataFieldIndex, object value1, object value2 = null)
         {
             if(dataFieldIndex<0 || dataFieldIndex >= _table.DataFields.Count)

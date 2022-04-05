@@ -741,6 +741,19 @@ namespace OfficeOpenXml
         }
 
 #if !NET35 && !NET40
+        /// <summary>
+        /// Load a collection of dictionaries (or dynamic/ExpandoObjects) into the worksheet starting from the top left row of the range.
+        /// These dictionaries should have the same set of keys.
+        /// </summary>
+        /// <param name="items">A list of dictionaries/ExpandoObjects</param>
+        /// <param name="paramsConfig"><see cref="Action{LoadFromDictionariesParams}"/> to provide parameters to the function</param>
+        /// <example>
+        /// sheet.Cells["C1"].LoadFromDictionaries(items, c =>
+        /// {
+        ///     c.PrintHeaders = true;
+        ///     c.TableStyle = TableStyles.Dark1;
+        /// });
+        /// </example>
         public ExcelRangeBase LoadFromDictionaries(IEnumerable<dynamic> items, Action<LoadFromDictionariesParams> paramsConfig)
         {
             var param = new LoadFromDictionariesParams();

@@ -279,6 +279,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
+        /// <summary>
+        /// Number of items. Will always return 0, as no item data is stored.
+        /// </summary>
         public override int NumberOfItems => 0;
 
         /// <summary>

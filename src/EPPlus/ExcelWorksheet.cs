@@ -564,6 +564,10 @@ namespace OfficeOpenXml
         /// </summary>
         /// 
         const string SortStatePath = "d:sortState";
+        /// <summary>
+        /// The auto filter address. 
+        /// null means no auto filter.
+        /// </summary>
         public ExcelAddressBase AutoFilterAddress
         {
             get
@@ -1122,6 +1126,9 @@ namespace OfficeOpenXml
 
         internal ExcelWorksheetThreadedComments _threadedComments = null;
 
+        /// <summary>
+        /// A collection of threaded comments referenced in the worksheet.
+        /// </summary>
         public ExcelWorksheetThreadedComments ThreadedComments
         {
             get

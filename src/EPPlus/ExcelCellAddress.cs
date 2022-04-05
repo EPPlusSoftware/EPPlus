@@ -125,6 +125,9 @@ namespace OfficeOpenXml
                 ExcelCellBase.GetRowColFromAddress(_address, out _row, out _column,out _isRowFixed, out _isColumnFixed);
             }
         }
+        /// <summary>
+        /// Returns true if the row is fixed 
+        /// </summary>
         public bool IsRowFixed 
         { 
             get
@@ -132,6 +135,9 @@ namespace OfficeOpenXml
                 return _isRowFixed;
             }
         }
+        /// <summary>
+        /// Returns true if the column is fixed
+        /// </summary>
         public bool IsColumnFixed
         {
             get

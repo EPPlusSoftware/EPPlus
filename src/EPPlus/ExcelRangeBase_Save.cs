@@ -284,6 +284,10 @@ namespace OfficeOpenXml
 #endif
         #endregion
         #region ToJson
+        /// <summary>
+        /// Returns the range as JSON
+        /// </summary>
+        /// <returns>A JSON string</returns>
         public string ToJson()
         {
             var re = new JsonRangeExport(this, new JsonRangeExportSettings());
@@ -291,6 +295,11 @@ namespace OfficeOpenXml
             re.Export(ms);
             return Encoding.UTF8.GetString(ms.ToArray());
         }
+        /// <summary>
+        /// Returns the range as JSON
+        /// </summary>
+        /// <param name="settings">Configures settings for the JSON export</param>
+        /// <returns></returns>
         public string ToJson(Action<JsonRangeExportSettings> settings)
         {
             var s = new JsonRangeExportSettings();
@@ -300,11 +309,20 @@ namespace OfficeOpenXml
             re.Export(ms);
             return s.Encoding.GetString(ms.ToArray());
         }
+        /// <summary>
+        /// Saves the range as JSON to a stream.
+        /// </summary>
+        /// <param name="stream">The writable stream to write the JSON to.</param>
         public void SaveToJson(Stream stream)
         {
             var re = new JsonRangeExport(this, new JsonRangeExportSettings());
             re.Export(stream);
         }
+        /// <summary>
+        /// Saves the range as JSON to a stream.
+        /// </summary>
+        /// <param name="stream">The writable stream to write the JSON to</param>
+        /// <param name="settings">Configures settings for the JSON export</param>
         public void SaveToJson(Stream stream, Action<JsonRangeExportSettings> settings)
         {
             var s = new JsonRangeExportSettings();

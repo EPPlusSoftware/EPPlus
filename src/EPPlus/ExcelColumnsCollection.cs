@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// A collection of columns in a worksheet
+    /// </summary>
     public class ExcelColumnCollection : ExcelRangeColumn
     {
         ExcelWorksheet _worksheet;
@@ -24,6 +27,11 @@ namespace OfficeOpenXml
                 _toCol = worksheet.Dimension._toCol;
             }
         }
+        /// <summary>
+        /// Indexer referenced by column index
+        /// </summary>
+        /// <param name="column">The column index</param>
+        /// <returns>The column</returns>
         public ExcelRangeColumn this[int column]
         {
             get
@@ -31,6 +39,12 @@ namespace OfficeOpenXml
                 return new ExcelRangeColumn(_worksheet, column, column);
             }
         }
+        /// <summary>
+        /// Indexer referenced by from and to column index
+        /// </summary>
+        /// <param name="fromColumn">Column from index</param>
+        /// <param name="toColumn">Column to index</param>
+        /// <returns></returns>
         public ExcelRangeColumn this[int fromColumn, int toColumn]
         {
             get

@@ -584,7 +584,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
-        internal protected ExcelAddressBase LinkedGroup
+        internal ExcelAddressBase LinkedGroup
         {
             get
             {

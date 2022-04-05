@@ -59,7 +59,13 @@ namespace OfficeOpenXml.Drawing.Chart
         /// The header address for the serie.
         /// </summary>
         public abstract ExcelAddressBase HeaderAddress { get; set; }
+        /// <summary>
+        /// The address for the vertical series.
+        /// </summary>
         public abstract string Series { get; set; }
+        /// <summary>
+        /// The address for the horizontal series.
+        /// </summary>
         public abstract string XSeries { get; set; }
         ExcelDrawingFill _fill = null;
         /// <summary>
@@ -121,6 +127,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _threeD;
             }
         }
+        /// <summary>
+        /// Number of items in the serie.
+        /// </summary>
         public abstract int NumberOfItems { get; }
         /// <summary>
         /// A collection of trend lines for the chart serie.
