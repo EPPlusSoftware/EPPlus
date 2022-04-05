@@ -28,11 +28,20 @@ namespace OfficeOpenXml
     {
         #region ToDataTable
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the <see cref="ToDataTableOptions.Default"/> settings.
+        /// </summary>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable()
         {
             return ToDataTable(ToDataTableOptions.Default);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="configHandler">Configures the settings used to convert the range.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(Action<ToDataTableOptions> configHandler)
         {
             var o = ToDataTableOptions.Default;
@@ -40,12 +49,23 @@ namespace OfficeOpenXml
             return ToDataTable(o);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="options">Sets the settings used to convert the range.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(ToDataTableOptions options)
         {
             var func = new ToDataTable(options, this);
             return func.Execute();
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="configHandler">Configures the settings used to convert the range.</param>
+        /// <param name="dataTable">The data table to add the range data to.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(Action<ToDataTableOptions> configHandler, DataTable dataTable)
         {
             var o = ToDataTableOptions.Default;
@@ -53,11 +73,22 @@ namespace OfficeOpenXml
             return ToDataTable(o, dataTable);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="dataTable">The data table to add the range data to.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(DataTable dataTable)
         {
             return ToDataTable(ToDataTableOptions.Default, dataTable);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="options">Sets the settings used to convert the range.</param>
+        /// <param name="dataTable">The data table to add the range data to.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(ToDataTableOptions options, DataTable dataTable)
         {
             var func = new ToDataTable(options, this);

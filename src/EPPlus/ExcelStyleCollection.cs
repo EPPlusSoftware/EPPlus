@@ -20,6 +20,10 @@ using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// A collection of named styles in the workbooks styles.
+    /// </summary>
+    /// <typeparam name="T">The type of style</typeparam>
     public class ExcelNamedStyleCollection<T> : ExcelStyleCollection<T>
     {
         /// <summary>

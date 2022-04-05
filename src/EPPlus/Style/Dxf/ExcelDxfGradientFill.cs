@@ -20,6 +20,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Style.Dxf
 {
+    /// <summary>
+    /// Represents a gradient fill used for differential style formatting.
+    /// </summary>
     public class ExcelDxfGradientFill : DxfStyleBase
     {
         internal ExcelDxfGradientFill(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)

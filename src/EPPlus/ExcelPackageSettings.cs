@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// Package generic settings
+    /// </summary>
     public class ExcelPackageSettings
     {
         internal ExcelPackageSettings()

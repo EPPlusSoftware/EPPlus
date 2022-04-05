@@ -930,6 +930,12 @@ namespace OfficeOpenXml.Drawing
             _drawingsList.Add(pic);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
         }
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath)
         {
             if (string.IsNullOrEmpty(ImagePath)==false)

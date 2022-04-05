@@ -659,6 +659,10 @@ namespace OfficeOpenXml.Drawing.Chart
             _chartXmlHelper.SetXmlNodeString("../../../mc:AlternateContent/mc:Choice/c14:style/@val", styleId.ToString(CultureInfo.InvariantCulture));
             _chartXmlHelper.SetXmlNodeString("../../../mc:AlternateContent/mc:Fallback/c:style/@val", fallBackStyleId.ToString(CultureInfo.InvariantCulture));
         }
+        /// <summary>
+        /// If the chart has only one serie this varies the colors for each point.
+        /// This property does not apply to extention charts.
+        /// </summary>
         public abstract bool VaryColors { get; set; }
         /// <summary>
         /// Formatting for the floor of a 3D chart. 

@@ -103,7 +103,7 @@ namespace OfficeOpenXml
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

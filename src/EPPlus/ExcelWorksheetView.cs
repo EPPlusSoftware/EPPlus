@@ -82,6 +82,9 @@ namespace OfficeOpenXml
                 base(ns, topNode)
             {
             }
+            /// <summary>
+            /// The state of the pane.
+            /// </summary>
             public ePaneState State
             {
                 get

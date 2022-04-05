@@ -16,7 +16,7 @@ using System;
 namespace OfficeOpenXml.Table.PivotTable.Filter
 {
     /// <summary>
-    /// A collection of pivot filters for a pivot table
+    /// A collection of pivot filters for a pivot table field
     /// </summary>
     public class ExcelPivotTableFieldFilterCollection : ExcelPivotTableFilterBaseCollection
     {

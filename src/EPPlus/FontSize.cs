@@ -172,10 +172,17 @@ namespace OfficeOpenXml
             }
         }
 
+        /// <summary>
+        /// Load the fonts default heights/widths from the internal resource file
+        /// </summary>
         public static void LoadAllFontsFromResource()
         {
             LoadFontsFromResource(null);
         }
+        /// <summary>
+        /// Load the specified fonts default heights/widths from the internal resource file
+        /// </summary>
+        /// <param name="fontName">The name of the font.</param>
         public static void LoadFontsFromResource(string fontName)
         {            
             lock (_lockObj)

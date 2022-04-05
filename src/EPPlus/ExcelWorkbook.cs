@@ -1622,7 +1622,10 @@ namespace OfficeOpenXml
 			}
 		}
 
-        public bool HasLoadedPivotTables 
+        /// <summary>
+		/// Returns true if the workbook has pivot tables in any worksheet.
+		/// </summary>
+		public bool HasLoadedPivotTables 
 		{ 
 			get
 			{

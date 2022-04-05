@@ -133,6 +133,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("cx:tx/cx:txData/cx:f", value.FullAddress);
             }
         }
+        /// <summary>
+        /// The header text for the serie.
+        /// </summary>
         public override string Header
         {
             get

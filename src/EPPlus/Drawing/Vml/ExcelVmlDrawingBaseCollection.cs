@@ -26,8 +26,8 @@ namespace OfficeOpenXml.Drawing.Vml
     /// </summary>
     public class ExcelVmlDrawingBaseCollection
     {        
-        protected internal ExcelPackage _package;
-        protected internal ExcelWorksheet _ws;
+        internal ExcelPackage _package;
+        internal ExcelWorksheet _ws;
         internal ExcelVmlDrawingBaseCollection(ExcelWorksheet ws, Uri uri, string worksheetRelIdPath)
         {
             VmlDrawingXml = new XmlDocument();

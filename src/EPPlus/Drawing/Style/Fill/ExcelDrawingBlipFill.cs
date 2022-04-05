@@ -34,6 +34,9 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             Image = new ExcelImage(this);
             GetXml();
         }
+        /// <summary>
+        /// The image used in the fill operation.
+        /// </summary>
         public ExcelImage Image { get; }
         /// <summary>
         /// The image should be stretched to fill the target.

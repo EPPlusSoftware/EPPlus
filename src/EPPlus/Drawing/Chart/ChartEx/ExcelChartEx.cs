@@ -366,7 +366,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// </summary>
         public new ExcelChartSeries<ExcelChartExSerie> Series { get; } = new ExcelChartSeries<ExcelChartExSerie>();
         /// <summary>
-        /// Do not apply to Extension charts
+        /// Is not applied to Extension charts
         /// </summary>
         public override bool VaryColors
         {

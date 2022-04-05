@@ -637,9 +637,9 @@ namespace OfficeOpenXml
             return _address;
         }
         /// <summary>
-        /// A hash code for the current object.
+        /// Serves as the default hash function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -1663,6 +1663,11 @@ namespace OfficeOpenXml
                    _toRow > ExcelPackage.MaxRows ||
                    _toCol > ExcelPackage.MaxColumns);
         }
+        /// <summary>
+        /// Returns true if the item is equal to another item.
+        /// </summary>
+        /// <param name="obj">The item to compare</param>
+        /// <returns>True if the items are equal</returns>
         public override bool Equals(object obj)
         {
             if (obj is ExcelAddressBase a)

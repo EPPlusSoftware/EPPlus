@@ -18,6 +18,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.ToDataTable
 {
+    /// <summary>
+    /// Class used to map columns in the <see cref="ExcelRangeBase.ToDataTable(ToDataTableOptions, DataTable)"/> method
+    /// </summary>
     public class DataColumnMapping
     {
         internal DataColumnMapping(DataColumn dataColumn)

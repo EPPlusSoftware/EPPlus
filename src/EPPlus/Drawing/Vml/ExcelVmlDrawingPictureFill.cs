@@ -106,6 +106,9 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:fill/@position", value, true);
             }
         }
+        /// <summary>
+        /// The title for the fill
+        /// </summary>
         public string Title
         {
             get

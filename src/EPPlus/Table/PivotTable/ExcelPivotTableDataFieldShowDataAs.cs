@@ -19,19 +19,22 @@ namespace OfficeOpenXml.Table.PivotTable
     public enum ePrevNextPivotItem
     {
         /// <summary>
-        /// Previous item
+        /// The Previous item
         /// </summary>
         Previous = 1048828,
         /// <summary>
-        /// Next item
+        /// The Next item
         /// </summary>
         Next = 1048829
     }
 
+    /// <summary>
+    /// Represents a pivot fields Show As properties.
+    /// </summary>
     public class ExcelPivotTableDataFieldShowDataAs
     {
         ExcelPivotTableDataField _dataField;
-        public ExcelPivotTableDataFieldShowDataAs(ExcelPivotTableDataField dataField)
+        internal ExcelPivotTableDataFieldShowDataAs(ExcelPivotTableDataField dataField)
         {
             _dataField = dataField;
         }

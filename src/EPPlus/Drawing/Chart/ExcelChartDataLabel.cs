@@ -40,6 +40,9 @@ namespace OfficeOpenXml.Drawing.Chart
             _sourceLinkedPath = $"{nsPrefix}:numFmt/@sourceLinked";
         }
         #region "Public properties"
+        /// <summary>
+        /// The position of the data labels
+        /// </summary>
         public abstract eLabelPosition Position { get; set; }
        /// <summary>
        /// Show the values 

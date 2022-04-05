@@ -1097,6 +1097,9 @@ namespace OfficeOpenXml
                 return _compatibility;
             }
         }
+        /// <summary>
+        /// Package generic settings
+        /// </summary>
         public ExcelPackageSettings Settings
         {
             get;

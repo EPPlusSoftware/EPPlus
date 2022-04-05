@@ -19,11 +19,14 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable.Filter
 {
+    /// <summary>
+    /// The base collection for pivot table filters
+    /// </summary>
     public abstract class ExcelPivotTableFilterBaseCollection : IEnumerable<ExcelPivotTableFilter>
     {
-        protected internal List<ExcelPivotTableFilter> _filters = new List<ExcelPivotTableFilter>();
-        protected internal readonly ExcelPivotTable _table;
-        protected internal readonly ExcelPivotTableField _field;
+        internal List<ExcelPivotTableFilter> _filters = new List<ExcelPivotTableFilter>();
+        internal readonly ExcelPivotTable _table;
+        internal readonly ExcelPivotTableField _field;
         internal ExcelPivotTableFilterBaseCollection(ExcelPivotTable table)
         {
             _table = table;
@@ -65,7 +68,7 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
         {
             return _table.CreateNode("d:filters");
         }
-        internal protected ExcelPivotTableFilter CreateFilter()
+        internal ExcelPivotTableFilter CreateFilter()
         {
             var topNode = GetOrCreateFiltersNode();
             var filterNode = topNode.OwnerDocument.CreateElement("filter", ExcelPackage.schemaMain);
@@ -78,7 +81,9 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
             };
             return filter;
         }
-
+        /// <summary>
+        /// Number of items in the collection
+        /// </summary>
         public int Count 
         { 
             get
@@ -86,6 +91,11 @@ namespace OfficeOpenXml.Table.PivotTable.Filter
                 return _filters.Count;
             }
         }
+        /// <summary>
+        /// The indexer for the collection
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns></returns>
         public ExcelPivotTableFilter this[int index]
         {
             get

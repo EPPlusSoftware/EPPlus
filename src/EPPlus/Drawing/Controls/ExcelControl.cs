@@ -503,7 +503,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
-        protected void SetLinkedCellValue(int value)
+        internal void SetLinkedCellValue(int value)
         {
             if (LinkedCell != null)
             {

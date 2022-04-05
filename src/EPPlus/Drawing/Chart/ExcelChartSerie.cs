@@ -55,6 +55,9 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             CreatespPrNode();
         }
+        /// <summary>
+        /// The header address for the serie.
+        /// </summary>
         public abstract ExcelAddressBase HeaderAddress { get; set; }
         public abstract string Series { get; set; }
         public abstract string XSeries { get; set; }

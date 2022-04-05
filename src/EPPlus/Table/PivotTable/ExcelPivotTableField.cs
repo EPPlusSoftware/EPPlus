@@ -990,6 +990,9 @@ namespace OfficeOpenXml.Table.PivotTable
             return sb.ToString();
         }
         ExcelPivotTableFieldFilterCollection _filters = null;
+        /// <summary>
+        /// Filters used on the pivot table field.
+        /// </summary>
         public ExcelPivotTableFieldFilterCollection Filters
         {
             get

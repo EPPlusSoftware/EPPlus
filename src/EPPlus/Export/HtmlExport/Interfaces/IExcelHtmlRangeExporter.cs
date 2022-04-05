@@ -27,6 +27,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Interfaces
     /// </summary>
     public interface IExcelHtmlRangeExporter
     {
+        /// <summary>
+        ///  Settings for how to perform the html export
+        /// </summary>
         HtmlRangeExportSettings Settings { get; }
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string

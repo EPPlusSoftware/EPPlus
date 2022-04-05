@@ -5,6 +5,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Base class for vml form controls
+    /// </summary>
     public class ExcelVmlDrawingControl : ExcelVmlDrawingBase
     {
         ExcelWorksheet _ws;
@@ -12,6 +15,9 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             _ws = ws;
         }
+        /// <summary>
+        /// The Text
+        /// </summary>
         public string Text 
         { 
             get
