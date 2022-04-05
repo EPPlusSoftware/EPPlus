@@ -9,7 +9,7 @@ using OfficeOpenXml.Export.HtmlExport.Accessibility;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class HtmlTableExporterSync : HtmlExporterSyncBase
+    internal class HtmlTableExporterSync : HtmlRangeExporterSyncBase
     {
         internal HtmlTableExporterSync(HtmlTableExportSettings settings, ExcelTable table)
             : base(settings, table.Range)
@@ -292,7 +292,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString();
-            var cssExporter = HtmlExporterFactory.CreateCssExporterTableSync(_tableExportSettings, _table);
+            var cssExporter = HtmlExporterFactory.CreateCssExporterTableSync(_tableExportSettings, _table, _styleCache);
             var css = cssExporter.GetCssString();
             return string.Format(htmlDocument, html, css);
 

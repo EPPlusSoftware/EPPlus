@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class HtmlTableExporterAsync : HtmlExporterAsyncBase
+    internal class HtmlTableExporterAsync : HtmlRangeExporterAsyncBase
     {
         public HtmlTableExporterAsync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {
@@ -290,7 +290,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();
-            var cssExporter = HtmlExporterFactory.CreateCssExporterTableAsync(_settings, _table);
+            var cssExporter = HtmlExporterFactory.CreateCssExporterTableAsync(_settings, _table, _styleCache);
             var css = await cssExporter.GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }

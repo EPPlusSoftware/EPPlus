@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssExporterTableAsync : CssRangeExporterBase
+    internal class CssTableExporterAsync : CssRangeExporterBase
     {
-        public CssExporterTableAsync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
+        public CssTableExporterAsync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {
             _table = table;
             _tableSettings = settings;

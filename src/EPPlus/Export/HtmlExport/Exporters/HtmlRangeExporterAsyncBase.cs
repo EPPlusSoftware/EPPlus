@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal abstract class HtmlExporterAsyncBase : HtmlExporterBase
+    internal abstract class HtmlRangeExporterAsyncBase : HtmlRangeExporterBase
     {
-        internal HtmlExporterAsyncBase
+        internal HtmlRangeExporterAsyncBase
             (HtmlExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
             _settings = settings;
         }
 
-        internal HtmlExporterAsyncBase(HtmlExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
+        internal HtmlRangeExporterAsyncBase(HtmlExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
         {
             _settings = settings;
         }

@@ -10,9 +10,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class CssExporterTableSync : CssRangeExporterBase
+    internal class CssTableExporterSync : CssRangeExporterBase
     {
-        public CssExporterTableSync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
+        public CssTableExporterSync(HtmlTableExportSettings settings, ExcelTable table) : base(settings, table.Range)
         {
             _table = table;
             _tableSettings = settings;

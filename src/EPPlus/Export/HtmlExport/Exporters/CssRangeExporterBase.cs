@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal abstract class CssRangeExporterBase : AbstractExporter
+    internal abstract class CssRangeExporterBase : AbstractHtmlExporter
     {
         public CssRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
         {
@@ -40,7 +40,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        protected Dictionary<string, int> _styleCache = new Dictionary<string, int>();
         protected HtmlExportSettings Settings;
         protected EPPlusReadOnlyList<ExcelRangeBase> _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
 

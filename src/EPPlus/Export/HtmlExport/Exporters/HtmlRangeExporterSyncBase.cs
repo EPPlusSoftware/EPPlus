@@ -6,13 +6,13 @@ using System.Text;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal abstract class HtmlExporterSyncBase : HtmlExporterBase
+    internal abstract class HtmlRangeExporterSyncBase : HtmlRangeExporterBase
     {
-        internal HtmlExporterSyncBase(HtmlExportSettings settings, ExcelRangeBase range) : base(settings, range)
+        internal HtmlRangeExporterSyncBase(HtmlExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
         }
 
-        internal HtmlExporterSyncBase(HtmlExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
+        internal HtmlRangeExporterSyncBase(HtmlExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
         {
         }
 

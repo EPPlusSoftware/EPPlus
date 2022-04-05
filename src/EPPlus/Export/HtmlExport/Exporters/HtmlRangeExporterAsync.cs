@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class HtmlExporterAsync : HtmlExporterAsyncBase
+    internal class HtmlRangeExporterAsync : HtmlRangeExporterAsyncBase
     {
-        internal HtmlExporterAsync
+        internal HtmlRangeExporterAsync
            (HtmlRangeExportSettings settings, ExcelRangeBase range) : base(settings, range)
         {
             _settings = settings;
         }
 
-        internal HtmlExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
+        internal HtmlRangeExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
         {
             _settings = settings;
         }
@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();
-            var cssExporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _ranges.ToArray());
+            var cssExporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _ranges.ToArray(), _styleCache);
             var css = await cssExporter.GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }
