@@ -53,7 +53,15 @@ namespace OfficeOpenXml.Export.HtmlExport
             get;
             protected internal set;
         } = new List<string>();
-
+        /// <summary>
+        /// Use this property to set the name of the html data-* attribute that contains the raw value.
+        /// Default value is "value" which means that the name of the attribute is "data-value".
+        /// To change the name to "data-x", set this property to "x"
+        /// </summary>
+        public string DataValueAttributeName
+        {
+            get; set;
+        } = "value";
         /// <summary>
         /// The culture used when formatting the cell output.
         /// </summary>

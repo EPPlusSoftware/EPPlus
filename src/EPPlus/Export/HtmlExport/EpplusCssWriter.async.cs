@@ -65,12 +65,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             var worksheets = _ranges.Select(x => x.Worksheet).Distinct().ToList();
             foreach (var ws in worksheets)
             {
-                var clsName = HtmlExporterBase.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
+                var clsName = GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
                 await WriteClassAsync($".{clsName} {{", _settings.Minify);
                 await WriteCssItemAsync($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
                 await WriteClassEndAsync(_settings.Minify);
 
-                clsName = HtmlExporterBase.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
+                clsName = GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
                 await WriteClassAsync($".{clsName} {{", _settings.Minify);
                 await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
                 await WriteClassEndAsync(_settings.Minify);
@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var pc = (IPictureContainer)p.Picture;
             if (_images.Contains(pc.ImageHash) == false)
             {
-                string imageFileName = HtmlExporterBase.GetPictureName(p);
+                string imageFileName = HtmlExportImageUtil.GetPictureName(p);
                 await WriteClassAsync($"img.{_settings.StyleClassPrefix}image-{imageFileName}{{", _settings.Minify);
                 await WriteCssItemAsync($"content:url('data:{GetContentType(type.Value)};base64,{encodedImage}');", _settings.Minify);
                 if (_settings.Pictures.Position != ePicturePosition.DontSet)
@@ -146,7 +146,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private async Task AddPicturePropertiesToCssAsync(HtmlImage image)
         {
-            string imageName = HtmlExporterBase.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
             var width = image.Picture.GetPixelWidth();
             var height = image.Picture.GetPixelHeight();
 

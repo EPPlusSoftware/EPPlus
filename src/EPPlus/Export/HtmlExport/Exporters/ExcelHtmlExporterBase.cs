@@ -10,21 +10,25 @@
  *************************************************************************************************
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
-using OfficeOpenXml.Core;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Core;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal abstract class CssRangeExporterBase : AbstractHtmlExporter
+    /// <summary>
+    /// Base class for Html exporters
+    /// </summary>
+    public abstract class ExcelHtmlExporterBase
     {
-        public CssRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase range)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="range"></param>
+        internal ExcelHtmlExporterBase(ExcelRangeBase range)
         {
-            Settings = settings;
-            Require.Argument(range).IsNotNull("range");
             _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
 
             if (range.Addresses == null)
@@ -40,15 +44,32 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
         }
 
-        public CssRangeExporterBase(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ranges"></param>
+        internal ExcelHtmlExporterBase(params ExcelRangeBase[] ranges)
         {
-            Settings = settings;
-            Require.Argument(ranges).IsNotNull("ranges");
-            _ranges = ranges;
+            _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+            foreach (var range in ranges)
+            {
+                AddRange(range);
+            }
         }
 
-        protected HtmlExportSettings Settings;
-        protected EPPlusReadOnlyList<ExcelRangeBase> _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
+
+        private readonly EPPlusReadOnlyList<ExcelRangeBase> _ranges;
+
+        /// <summary>
+        /// Exported ranges
+        /// </summary>
+        public EPPlusReadOnlyList<ExcelRangeBase> Ranges
+        {
+            get
+            {
+                return _ranges;
+            }
+        }
 
         private void AddRange(ExcelRangeBase range)
         {

@@ -26,8 +26,9 @@ using System.Text;
 using System.Globalization;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
 #if !NET35 && !NET40
-    using System.Threading.Tasks;
+using System.Threading.Tasks;
 #endif
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -36,7 +37,7 @@ namespace OfficeOpenXml.Export.HtmlExport
     {
         internal async Task RenderAdditionalAndFontCssAsync()
         {
-            await WriteClassAsync($"table.{ExcelHtmlTableExporter.TableClass}{{", _settings.Minify);
+            await WriteClassAsync($"table.{AbstractHtmlExporter.TableClass}{{", _settings.Minify);
             var ns = _table.WorkSheet.Workbook.Styles.GetNormalStyle();
             if (ns != null)
             {

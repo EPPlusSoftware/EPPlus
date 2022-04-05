@@ -334,6 +334,17 @@
     <Compile Remove="Core\Worksheet\Fonts\Tag.cs" />
     <Compile Remove="Core\Worksheet\Fonts\TtfFont.cs" />
     <Compile Remove="Drawing\ExcelDrawingLine.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Css.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Css.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Html.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Html.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Css.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Css.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Html.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Html.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExportSetting.cs" />
+    <Compile Remove="Export\HtmlExport\HtmlExporterBase.async.cs" />
+    <Compile Remove="Export\HtmlExport\HtmlExporterBase.cs" />
     <Compile Remove="Packaging\DotNetZip\ZipFile.SaveSelfExtractor.cs" />
   
   </ItemGroup>

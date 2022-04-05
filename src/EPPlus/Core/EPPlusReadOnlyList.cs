@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Core
         /// Return the enumerator for the collection
         /// </summary>
         /// <returns></returns>
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
         }

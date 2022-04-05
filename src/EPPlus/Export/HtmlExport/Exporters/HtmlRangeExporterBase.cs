@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Core;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  6/4/2022         EPPlus Software AB           ExcelTable Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
@@ -35,29 +47,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             LoadRangeImages(_ranges._list);
         }
 
-        public HtmlRangeExporterBase(HtmlExportSettings settings, ExcelRangeBase[] ranges)
+        public HtmlRangeExporterBase(HtmlExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges)
         {
             Settings = settings;
             Require.Argument(ranges).IsNotNull("ranges");
-            _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
-
-            foreach (var range in ranges)
-            {
-                AddRange(range);
-            }
+            _ranges = ranges;
 
             LoadRangeImages(_ranges._list);
         }
 
-        public HtmlRangeExporterBase(ExcelRangeBase[] ranges)
+        public HtmlRangeExporterBase(EPPlusReadOnlyList<ExcelRangeBase> ranges)
         {
             Require.Argument(ranges).IsNotNull("ranges");
-            _ranges = new EPPlusReadOnlyList<ExcelRangeBase>();
-
-            foreach (var range in ranges)
-            {
-                AddRange(range);
-            }
+            _ranges = ranges;
 
             LoadRangeImages(_ranges._list);
         }
@@ -99,18 +101,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (rangeIndex < 0 || rangeIndex >= _ranges.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(rangeIndex));
-            }
-        }
-
-        protected string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
-        {
-            if (addWorksheetName)
-            {
-                return styleClassPrefix + name + "-" + GetClassName(ws.Name, $"Sheet{ws.PositionId}");
-            }
-            else
-            {
-                return styleClassPrefix + name;
             }
         }
 

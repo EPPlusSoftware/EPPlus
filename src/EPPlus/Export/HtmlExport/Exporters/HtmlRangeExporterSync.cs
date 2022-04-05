@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Core;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  6/4/2022         EPPlus Software AB           ExcelTable Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Export.HtmlExport.Accessibility;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
@@ -19,7 +31,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             _settings = settings;
         }
 
-        internal HtmlRangeExporterSync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
+        internal HtmlRangeExporterSync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges) : base(settings, ranges)
         {
             _settings = settings;
         }
@@ -190,8 +202,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = GetHtmlString();
-            //var css = GetCssString();
-            var css = default(string);
+            var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, _ranges, _styleCache);
+            var css = exporter.GetCssString();
             return string.Format(htmlDocument, html, css);
         }
 

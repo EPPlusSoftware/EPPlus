@@ -8,8 +8,9 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/15/2021         EPPlus Software AB       Html export
+  6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Interfaces
         ///  Settings for how to perform the html export
         /// </summary>
         HtmlRangeExportSettings Settings { get; }
+        /// <summary>
+        /// Exported ranges
+        /// </summary>
+        EPPlusReadOnlyList<ExcelRangeBase> Ranges { get; }
         /// <summary>
         /// Exports an <see cref="ExcelTable"/> to a html string
         /// </summary>

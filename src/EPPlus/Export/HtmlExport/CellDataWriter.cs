@@ -25,6 +25,8 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal class CellDataWriter
     {
+        
+
         public void Write(ExcelRangeBase cell, string dataType, EpplusHtmlWriter writer, HtmlExportSettings settings, AccessibilitySettings accessibilitySettings, bool addRowScope, HtmlImage image)
         {
             if (dataType != ColumnDataTypeManager.HtmlDataTypes.String && settings.RenderDataAttributes)
@@ -32,7 +34,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
                 if (string.IsNullOrEmpty(v) == false)
                 {
-                    writer.AddAttribute("data-value", v);
+                    writer.AddAttribute($"data-{settings.DataValueAttributeName}", v);
                 }
             }
             if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
@@ -46,7 +48,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
             writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName);
             writer.RenderBeginTag(HtmlElements.TableData);
-            HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
+            HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
             {
                 writer.Write(cell.RichText.HtmlText);
@@ -67,7 +69,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 var v = HtmlRawDataProvider.GetRawValue(cell.Value, dataType);
                 if (string.IsNullOrEmpty(v) == false)
                 {
-                    writer.AddAttribute("data-value", v);
+                    writer.AddAttribute($"data-{settings.DataValueAttributeName}", v);
                 }
             }
             if (accessibilitySettings.TableSettings.AddAccessibilityAttributes)
@@ -81,7 +83,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var imageCellClassName = image == null ? "" : settings.StyleClassPrefix + "image-cell";
             writer.SetClassAttributeFromStyle(cell, false, settings, imageCellClassName);
             await writer.RenderBeginTagAsync(HtmlElements.TableData);
-            HtmlExporterBase.AddImage(writer, settings, image, cell.Value);
+            HtmlExportImageUtil.AddImage(writer, settings, image, cell.Value);
             if (cell.IsRichText)
             {
                 await writer.WriteAsync(cell.RichText.HtmlText);

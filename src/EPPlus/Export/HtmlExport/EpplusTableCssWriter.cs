@@ -26,6 +26,7 @@ using System.Text;
 using System.Globalization;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Export.HtmlExport.Settings;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {

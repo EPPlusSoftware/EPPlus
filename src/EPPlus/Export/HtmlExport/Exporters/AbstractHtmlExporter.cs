@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Drawing;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  6/4/2022         EPPlus Software AB           ExcelTable Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
@@ -14,7 +26,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
         }
 
-        protected readonly string TableClass = "epplus-table";
+        internal const string TableClass = "epplus-table";
         internal List<HtmlImage> _rangePictures = null;
         protected List<string> _dataTypes = new List<string>();
         protected readonly CellDataWriter _cellDataWriter = new CellDataWriter();
@@ -100,7 +112,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             return null;
         }
 
-        protected string GetClassName(string className, string optionalName)
+        internal static string GetClassName(string className, string optionalName)
         {
             if (string.IsNullOrEmpty(optionalName)) return optionalName;
 
@@ -127,6 +139,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
             return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
+        }
+
+        internal static string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
+        {
+            if (addWorksheetName)
+            {
+                return styleClassPrefix + name + "-" + GetClassName(ws.Name, $"Sheet{ws.PositionId}");
+            }
+            else
+            {
+                return styleClassPrefix + name;
+            }
         }
     }
 }

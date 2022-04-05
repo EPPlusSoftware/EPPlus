@@ -1,4 +1,17 @@
-﻿using OfficeOpenXml.Export.HtmlExport.Exporters;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  6/4/2022         EPPlus Software AB           ExcelTable Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Table;
 using System;
@@ -12,15 +25,13 @@ using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters
 {
-    internal class ExcelHtmlRangeExporter : IExcelHtmlRangeExporter
+    internal class ExcelHtmlRangeExporter : ExcelHtmlExporterBase, IExcelHtmlRangeExporter
     {
-        public ExcelHtmlRangeExporter(ExcelRangeBase range)
+        public ExcelHtmlRangeExporter(ExcelRangeBase range) : base(range)
         {
-            _range = range;
             _settings = new HtmlRangeExportSettings();
         }
 
-        private readonly ExcelRangeBase _range;
         private readonly HtmlRangeExportSettings _settings;
         private readonly Dictionary<string, int> _styleCache = new Dictionary<string, int>();
 
@@ -33,7 +44,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public string GetHtmlString()
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             return exporter.GetHtmlString();
         }
 
@@ -44,7 +55,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public string GetHtmlString(int rangeIndex)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             return exporter.GetHtmlString(rangeIndex);
         }
 
@@ -56,7 +67,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public string GetHtmlString(int rangeIndex, ExcelHtmlOverrideExportSettings settings)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             return exporter.GetHtmlString(rangeIndex, settings);
         }
 
@@ -68,7 +79,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns></returns>
         public string GetHtmlString(int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             return exporter.GetHtmlString(rangeIndex, config);
         }
 
@@ -79,7 +90,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public void RenderHtml(Stream stream)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             exporter.RenderHtml(stream);
         }
 
@@ -92,7 +103,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public void RenderHtml(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             exporter.RenderHtml(stream, rangeIndex, overrideSettings);
         }
 
@@ -105,7 +116,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public void RenderHtml(Stream stream, int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             exporter.RenderHtml(stream, rangeIndex, config);
         }
 
@@ -116,7 +127,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>The html document</returns>
         public string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterSync(_settings, Ranges, _styleCache);
             return exporter.GetSinglePage(htmlDocument);
         }
 
@@ -126,7 +137,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>Cascading style sheet for the exported range</returns>
         public string GetCssString()
         {
-            var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, Ranges, _styleCache);
             return exporter.GetCssString();
         }
 
@@ -137,7 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <exception cref="IOException"></exception>
         public void RenderCss(Stream stream)
         {
-            var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateCssExporterSync(_settings, Ranges, _styleCache);
             exporter.RenderCss(stream);
         }
 
@@ -148,7 +159,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public Task<string> GetHtmlStringAsync()
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, Ranges, _styleCache);
             return exporter.GetHtmlStringAsync();
         }
 
@@ -160,7 +171,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public Task<string> GetHtmlStringAsync(int rangeIndex, ExcelHtmlOverrideExportSettings settings = null)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, Ranges, _styleCache);
             return exporter.GetHtmlStringAsync(rangeIndex, settings);
         }
 
@@ -172,7 +183,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns></returns>
         public Task<string> GetHtmlStringAsync(int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, Ranges, _styleCache);
             return exporter.GetHtmlStringAsync(rangeIndex, config);
         }
 
@@ -183,7 +194,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public Task RenderHtmlAsync(Stream stream)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, Ranges, _styleCache);
             return exporter.RenderHtmlAsync(stream);
         }
 
@@ -196,7 +207,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <exception cref="IOException"></exception>
         public Task RenderHtmlAsync(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, Ranges, _styleCache);
             return exporter.RenderHtmlAsync(stream, rangeIndex, overrideSettings);
         }
 
@@ -209,7 +220,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns></returns>
         public Task RenderHtmlAsync(Stream stream, int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, Ranges, _styleCache);
             return exporter.RenderHtmlAsync(stream, rangeIndex, config);
         }
 
@@ -220,7 +231,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>The html document</returns>
         public Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
         {
-            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateHtmlExporterAsync(_settings, Ranges, _styleCache);
             return exporter.GetSinglePageAsync(htmlDocument);
         }
 
@@ -230,7 +241,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public Task<string> GetCssStringAsync()
         {
-            var exporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, Ranges, _styleCache);
             return exporter.GetCssStringAsync();
         }
 
@@ -240,7 +251,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// <returns>A html table</returns>
         public Task RenderCssAsync(Stream stream)
         {
-            var exporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _range, _styleCache);
+            var exporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, Ranges, _styleCache);
             return exporter.RenderCssAsync(stream);
         }
 #endif

@@ -1,4 +1,17 @@
-﻿using OfficeOpenXml.Table;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  6/4/2022         EPPlus Software AB           ExcelTable Html Export
+ *************************************************************************************************/
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,7 +31,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             _settings = settings;
         }
 
-        internal HtmlRangeExporterAsync(HtmlRangeExportSettings settings, ExcelRangeBase[] ranges) : base(settings, ranges)
+        internal HtmlRangeExporterAsync(HtmlRangeExportSettings settings, EPPlusReadOnlyList<ExcelRangeBase> ranges) : base(settings, ranges)
         {
             _settings = settings;
         }
@@ -126,7 +139,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
 
             if (headerRows > 0 || headers.Count > 0)
             {
-                await RenderHeaderRowAsync(range, writer, table, headerRows, headers);
+                await RenderHeaderRowAsync(range, writer, table, accessibilitySettings, headerRows, headers);
             }
             // table rows
             await RenderTableRowsAsync(range, writer, table, accessibilitySettings, _settings.HeaderRows);
@@ -158,7 +171,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();
-            var cssExporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _ranges.ToArray(), _styleCache);
+            var cssExporter = HtmlExporterFactory.CreateCssExporterAsync(_settings, _ranges, _styleCache);
             var css = await cssExporter.GetCssStringAsync();
             return string.Format(htmlDocument, html, css);
         }
