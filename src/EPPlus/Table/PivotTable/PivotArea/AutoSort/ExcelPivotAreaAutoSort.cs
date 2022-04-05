@@ -14,6 +14,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
+    /// <summary>
+    /// Defines sorting for a pivot table area within a pivot table.
+    /// </summary>
     public class ExcelPivotAreaAutoSort : ExcelPivotArea
     {
         internal ExcelPivotAreaAutoSort(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :

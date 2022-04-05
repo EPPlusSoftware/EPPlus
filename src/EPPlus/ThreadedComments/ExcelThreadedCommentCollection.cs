@@ -86,12 +86,18 @@ namespace OfficeOpenXml.ThreadedComments
         }
 
 
-
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<ExcelThreadedComment> GetEnumerator()
         {
             return _commentList.GetEnumerator();
         }
-
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _commentList.GetEnumerator();

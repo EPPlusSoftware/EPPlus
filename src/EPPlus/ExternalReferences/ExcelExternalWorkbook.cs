@@ -25,6 +25,9 @@ using OfficeOpenXml.Drawing.Chart;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Represents an external workbook.
+    /// </summary>
     public class ExcelExternalWorkbook : ExcelExternalLink
     {
         Dictionary<string, int> _sheetNames = new Dictionary<string, int>();

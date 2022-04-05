@@ -162,11 +162,19 @@ namespace OfficeOpenXml.DataValidation
             return retVal;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<IExcelDataValidation> GetEnumerator()
         {
             return _validations.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _validations.GetEnumerator();

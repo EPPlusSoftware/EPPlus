@@ -111,6 +111,12 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified objects are equal.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        /// <returns></returns>
         public bool Equals(ExcelThreadedCommentPerson x, ExcelThreadedCommentPerson y)
         {
             if (x == null && y == null) return true;
@@ -118,7 +124,11 @@ namespace OfficeOpenXml.ThreadedComments
             if (x.UserId == y.UserId) return true;
             return false;
         }
-
+        /// <summary>
+        /// Returns a hash code for the specified object.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> for which a hash code is to be returned.</param>
+        /// <returns></returns>
         public int GetHashCode(ExcelThreadedCommentPerson obj)
         {
             return obj.GetHashCode();

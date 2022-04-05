@@ -17,8 +17,16 @@ using System.Text;
 
 namespace OfficeOpenXml.DataValidation.Exceptions
 {
+    /// <summary>
+    /// Thrown if a formula exceeds the maximum number of characters.
+    /// </summary>
+    /// <param name="message"></param>
     public class DataValidationFormulaTooLongException : InvalidOperationException
     {
+        /// <summary>
+        /// Initiaize a new <see cref="DataValidationFormulaTooLongException"/>
+        /// </summary>
+        /// <param name="message">The exception message</param>
         public DataValidationFormulaTooLongException(string message) : base(message)
         {
         }

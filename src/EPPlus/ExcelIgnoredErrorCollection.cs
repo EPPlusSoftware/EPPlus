@@ -62,7 +62,7 @@ namespace OfficeOpenXml
         /// Gets the enumerator for the collection
         /// </summary>
         /// <returns>The enumerator</returns>
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
         }
@@ -100,7 +100,9 @@ namespace OfficeOpenXml
         {
             return _list.GetEnumerator();
         }
-
+        /// <summary>
+        /// Called when the class is disposed.
+        /// </summary>
         public void Dispose()
         {
             

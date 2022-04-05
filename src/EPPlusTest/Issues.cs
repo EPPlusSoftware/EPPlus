@@ -810,7 +810,7 @@ namespace EPPlusTest
 
             public Car(int id, string make, string model, int releaseYear)
             {
-                Id = Id;
+                Id = id;
                 Make = make;
                 Model = model;
                 ReleaseYear = releaseYear;

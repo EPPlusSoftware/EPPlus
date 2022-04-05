@@ -626,7 +626,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Returns true if the chart is a pie chart
         /// </summary>
-        /// <returns>True if the chart is a pie chart</returns>
+        /// <returns>true if the chart is a pie chart</returns>
         protected internal bool IsTypePie()
         {
             return ChartType == eChartType.Pie ||
@@ -636,6 +636,10 @@ namespace OfficeOpenXml.Drawing.Chart
                            ChartType == eChartType.PieExploded3D ||
                            ChartType == eChartType.BarOfPie;
         }
+        /// <summary>
+        /// Return true if the chart is a stock chart.
+        /// </summary>
+        /// <returns>true if the chart is a stock chart.</returns>
         protected internal bool IsTypeStock()
         {
             return IsTypeStock(ChartType);

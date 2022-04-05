@@ -170,7 +170,7 @@ namespace OfficeOpenXml.Drawing
         /// Get the enumerator
         /// </summary>
         /// <returns>The enumerator</returns>
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return (_drawingsList.GetEnumerator());
         }
@@ -1226,7 +1226,15 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawingsList.Count - 1);
             return shape;
         }
-#region Form Controls
+        #region Form Controls
+        /// <summary>
+        /// Adds a form control to the worksheet
+        /// </summary>
+        /// <param name="Name">The name</param>
+        /// <param name="ControlType">The type of control</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Chart sheets cannot have controls</exception>
+        /// <exception cref="ArgumentException">Drawing names must be unique</exception>
         public ExcelControl AddControl(string Name, eControlType ControlType)
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
@@ -1235,7 +1243,7 @@ namespace OfficeOpenXml.Drawing
             }
             if (_drawingNames.ContainsKey(Name))
             {
-                throw new Exception("Name already exists in the drawings collection");
+                throw new ArgumentException("Name already exists in the drawings collection");
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
