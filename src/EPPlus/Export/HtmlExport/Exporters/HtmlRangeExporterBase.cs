@@ -138,7 +138,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
 
-            var clsName = GetWorksheetClassName(styleClassPrefix, "drh", range.Worksheet, isMultiSheet);
+            var clsName = HtmlExportTableUtil.GetWorksheetClassName(styleClassPrefix, "drh", range.Worksheet, isMultiSheet);
             writer.AddAttribute("class", clsName); //Default row height
         }
 
@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var fi = new FileInfo(p.Picture.Part.Uri.OriginalString);
             var name = fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length);
 
-            return GetClassName(name, hash);
+            return HtmlExportTableUtil.GetClassName(name, hash);
         }
 
         protected bool InMergeCellSpan(int row, int col)

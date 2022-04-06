@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     double width = ws.GetColumnWidthPixels(c - 1, mdw);
                     if (width == defColWidth)
                     {
-                        var clsName = GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
+                        var clsName = HtmlExportTableUtil.GetWorksheetClassName(settings.StyleClassPrefix, "dcw", ws, isMultiSheet);
                         writer.AddAttribute("class", clsName);
                     }
                     else
@@ -69,14 +69,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             if (image != null)
             {
                 var name = GetPictureName(image);
-                string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+                string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
                 writer.AddAttribute("alt", image.Picture.Name);
                 if (settings.Pictures.AddNameAsId)
                 {
                     writer.AddAttribute("id", imageName);
                 }
                 writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
-                writer.RenderBeginTag("img", true);
+                writer.RenderBeginTag(HtmlElements.Img, true);
             }
         }
 

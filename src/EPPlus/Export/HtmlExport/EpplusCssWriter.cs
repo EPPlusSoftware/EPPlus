@@ -24,6 +24,7 @@ using System.Text;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using System.Linq;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
 
 namespace OfficeOpenXml.Export.HtmlExport
 {
@@ -65,47 +66,6 @@ namespace OfficeOpenXml.Export.HtmlExport
             _fontExclude = _cssExclude.Font;
         }
 
-        private string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
-        {
-            if (addWorksheetName)
-            {
-                return styleClassPrefix + name + "-" + GetClassName(ws.Name, $"Sheet{ws.PositionId}");
-            }
-            else
-            {
-                return styleClassPrefix + name;
-            }
-        }
-
-        internal string GetClassName(string className, string optionalName)
-        {
-            if (string.IsNullOrEmpty(optionalName)) return optionalName;
-
-            className = className.Trim().Replace(" ", "-");
-            var newClassName = "";
-            for (int i = 0; i < className.Length; i++)
-            {
-                var c = className[i];
-                if (i == 0)
-                {
-                    if (c == '-' || (c >= '0' && c <= '9'))
-                    {
-                        newClassName = "_";
-                        continue;
-                    }
-                }
-
-                if ((c >= '0' && c <= '9') ||
-                   (c >= 'a' && c <= 'z') ||
-                   (c >= 'A' && c <= 'Z') ||
-                    c >= 0x00A0)
-                {
-                    newClassName += c;
-                }
-            }
-            return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
-        }
-
         internal void RenderAdditionalAndFontCss(string tableClass)
         {
             if (_cssSettings.IncludeSharedClasses == false) return;
@@ -141,12 +101,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             var worksheets=_ranges.Select(x=>x.Worksheet).Distinct().ToList();
             foreach (var ws in worksheets)
             {
-                var clsName = GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
+                var clsName = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
                 WriteClass($".{clsName} {{", _settings.Minify);
                 WriteCssItem($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
                 WriteClassEnd(_settings.Minify);
 
-                clsName = GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
+                clsName = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
                 WriteClass($".{clsName} {{", _settings.Minify);
                 WriteCssItem($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
                 WriteClassEnd(_settings.Minify);
@@ -224,7 +184,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private void AddPicturePropertiesToCss(HtmlImage image)
         {
-            string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
             var width = image.Picture.GetPixelWidth();
             var height = image.Picture.GetPixelHeight();
 
@@ -314,7 +274,37 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                     if (xfs.BorderId > 0)
                     {
-                        WriteBorderStyles(xfs.Border);
+                        WriteBorderStyles(xfs.Border.Top, xfs.Border.Bottom, xfs.Border.Left, xfs.Border.Right);
+                    }
+                    WriteStyles(xfs);
+                    WriteClassEnd(_settings.Minify);
+                }
+            }
+        }
+
+        internal void AddToCss(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName)
+        {
+            var xfs = styles.CellXfs[styleId];
+            var bXfs = styles.CellXfs[bottomStyleId];
+            var rXfs = styles.CellXfs[rightStyleId];
+            if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+            {
+                if (IsAddedToCache(xfs, out int id) == false || _addedToCss.Contains(id) == false)
+                {
+                    _addedToCss.Add(id);
+                    WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
+                    if (xfs.FillId > 0)
+                    {
+                        WriteFillStyles(xfs.Fill);
+                    }
+                    if (xfs.FontId > 0)
+                    {
+                        var ns = styles.GetNormalStyle();
+                        WriteFontStyles(xfs.Font, ns.Style.Font);
+                    }
+                    if (xfs.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+                    {
+                        WriteBorderStyles(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right);
                     }
                     WriteStyles(xfs);
                     WriteClassEnd(_settings.Minify);
@@ -389,12 +379,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private void WriteBorderStyles(ExcelBorderXml b)
+        private void WriteBorderStyles(ExcelBorderItemXml top, ExcelBorderItemXml bottom, ExcelBorderItemXml left, ExcelBorderItemXml right)
         {
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Top)) WriteBorderItem(b.Top, "top");
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Bottom)) WriteBorderItem(b.Bottom, "bottom");
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Left)) WriteBorderItem(b.Left, "left");
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Right)) WriteBorderItem(b.Right, "right");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Top)) WriteBorderItem(top, "top");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Bottom)) WriteBorderItem(bottom, "bottom");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Left)) WriteBorderItem(left, "left");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Right)) WriteBorderItem(right, "right");
             //TODO add Diagonal
             //WriteBorderItem(b.DiagonalDown, "right");
             //WriteBorderItem(b.DiagonalUp, "right");

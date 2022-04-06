@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         internal const string TableStyleClassPrefix = "ts-";
         internal const string TableClass = "epplus-table";
 
-        private static string GetClassName(string className, string optionalName)
+        internal static string GetClassName(string className, string optionalName)
         {
             if (string.IsNullOrEmpty(optionalName)) return optionalName;
 
@@ -57,6 +57,18 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                 }
             }
             return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
+        }
+
+        internal static string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
+        {
+            if (addWorksheetName)
+            {
+                return styleClassPrefix + name + "-" + GetClassName(ws.Name, $"Sheet{ws.PositionId}");
+            }
+            else
+            {
+                return styleClassPrefix + name;
+            }
         }
 
         internal static string GetTableClasses(ExcelTable table)

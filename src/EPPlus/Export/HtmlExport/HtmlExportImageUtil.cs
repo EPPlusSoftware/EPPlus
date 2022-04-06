@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     writer.AddAttribute("id", imageName);
                 }
                 writer.AddAttribute("class", $"{settings.StyleClassPrefix}image-{name} {settings.StyleClassPrefix}image-prop-{imageName}");
-                writer.RenderBeginTag("img", true);
+                writer.RenderBeginTag(HtmlElements.Img, true);
             }
         }
     }

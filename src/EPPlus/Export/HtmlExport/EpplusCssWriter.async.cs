@@ -22,6 +22,7 @@ using System.Text;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using System.Linq;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
 #if !NET35
 using System.Threading.Tasks;
 #endif
@@ -65,12 +66,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             var worksheets = _ranges.Select(x => x.Worksheet).Distinct().ToList();
             foreach (var ws in worksheets)
             {
-                var clsName = GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
+                var clsName = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1);
                 await WriteClassAsync($".{clsName} {{", _settings.Minify);
                 await WriteCssItemAsync($"width:{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px;", _settings.Minify);
                 await WriteClassEndAsync(_settings.Minify);
 
-                clsName = GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
+                clsName = HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1);
                 await WriteClassAsync($".{clsName} {{", _settings.Minify);
                 await WriteCssItemAsync($"height:{(int)(ws.DefaultRowHeight / 0.75)}px;", _settings.Minify);
                 await WriteClassEndAsync(_settings.Minify);
@@ -146,7 +147,7 @@ namespace OfficeOpenXml.Export.HtmlExport
 
         private async Task AddPicturePropertiesToCssAsync(HtmlImage image)
         {
-            string imageName = GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
+            string imageName = HtmlExportTableUtil.GetClassName(image.Picture.Name, ((IPictureContainer)image.Picture).ImageHash);
             var width = image.Picture.GetPixelWidth();
             var height = image.Picture.GetPixelHeight();
 
@@ -191,13 +192,44 @@ namespace OfficeOpenXml.Export.HtmlExport
                     }
                     if (xfs.BorderId > 0)
                     {
-                        await WriteBorderStylesAsync(xfs.Border);
+                        await WriteBorderStylesAsync(xfs.Border.Top, xfs.Border.Bottom, xfs.Border.Left, xfs.Border.Right);
                     }
                     await WriteStylesAsync(xfs);
                     await WriteClassEndAsync(_settings.Minify);
                 }
             }
         }
+
+        internal async Task AddToCssAsync(ExcelStyles styles, int styleId, int bottomStyleId, int rightStyleId, string styleClassPrefix, string cellStyleClassName)
+        {
+            var xfs = styles.CellXfs[styleId];
+            var bXfs = styles.CellXfs[bottomStyleId];
+            var rXfs = styles.CellXfs[rightStyleId];
+            if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+            {
+                if (IsAddedToCache(xfs, out int id) == false || _addedToCss.Contains(id) == false)
+                {
+                    _addedToCss.Add(id);
+                    await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
+                    if (xfs.FillId > 0)
+                    {
+                        WriteFillStyles(xfs.Fill);
+                    }
+                    if (xfs.FontId > 0)
+                    {
+                        var ns = styles.GetNormalStyle();
+                        await WriteFontStylesAsync(xfs.Font, ns.Style.Font);
+                    }
+                    if (xfs.BorderId > 0 || bXfs.BorderId > 0 || rXfs.BorderId > 0)
+                    {
+                        await WriteBorderStylesAsync(xfs.Border.Top, bXfs.Border.Bottom, xfs.Border.Left, rXfs.Border.Right);
+                    }
+                    await WriteStylesAsync(xfs);
+                    await WriteClassEndAsync(_settings.Minify);
+                }
+            }
+        }
+
         private async Task WriteStylesAsync (ExcelXfs xfs)
         {
             if (_cssExclude.WrapText == false)
@@ -249,12 +281,12 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private async Task WriteBorderStylesAsync(ExcelBorderXml b)
+        private async Task WriteBorderStylesAsync(ExcelBorderItemXml top, ExcelBorderItemXml bottom, ExcelBorderItemXml left, ExcelBorderItemXml right)
         {
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Top)) await WriteBorderItemAsync(b.Top, "top");
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Bottom)) await WriteBorderItemAsync(b.Bottom, "bottom");
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Left)) await WriteBorderItemAsync(b.Left, "left");
-            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Right)) await WriteBorderItemAsync(b.Right, "right");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Top)) await WriteBorderItemAsync(top, "top");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Bottom)) await WriteBorderItemAsync(bottom, "bottom");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Left)) await WriteBorderItemAsync(left, "left");
+            if (EnumUtil.HasNotFlag(_borderExclude, eBorderExclude.Right)) await WriteBorderItemAsync(right, "right");
             //TODO add Diagonal
             //WriteBorderItem(b.DiagonalDown, "right");
             //WriteBorderItem(b.DiagonalUp, "right");

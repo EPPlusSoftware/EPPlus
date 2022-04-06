@@ -111,46 +111,5 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             }
             return null;
         }
-
-        internal static string GetClassName(string className, string optionalName)
-        {
-            if (string.IsNullOrEmpty(optionalName)) return optionalName;
-
-            className = className.Trim().Replace(" ", "-");
-            var newClassName = "";
-            for (int i = 0; i < className.Length; i++)
-            {
-                var c = className[i];
-                if (i == 0)
-                {
-                    if (c == '-' || (c >= '0' && c <= '9'))
-                    {
-                        newClassName = "_";
-                        continue;
-                    }
-                }
-
-                if ((c >= '0' && c <= '9') ||
-                   (c >= 'a' && c <= 'z') ||
-                   (c >= 'A' && c <= 'Z') ||
-                    c >= 0x00A0)
-                {
-                    newClassName += c;
-                }
-            }
-            return string.IsNullOrEmpty(newClassName) ? optionalName : newClassName;
-        }
-
-        internal static string GetWorksheetClassName(string styleClassPrefix, string name, ExcelWorksheet ws, bool addWorksheetName)
-        {
-            if (addWorksheetName)
-            {
-                return styleClassPrefix + name + "-" + GetClassName(ws.Name, $"Sheet{ws.PositionId}");
-            }
-            else
-            {
-                return styleClassPrefix + name;
-            }
-        }
     }
 }

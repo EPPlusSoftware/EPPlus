@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
             _newLine = false;
             // avoid writing indent characters for a hyperlinks or images inside a td element
-            if(elementName != HtmlElements.A && elementName != "img")
+            if(elementName != HtmlElements.A && elementName != HtmlElements.Img)
             {
                 WriteIndent();
             }
