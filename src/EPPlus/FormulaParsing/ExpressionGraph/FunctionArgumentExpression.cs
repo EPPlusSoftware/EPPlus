@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    public class FunctionArgumentExpression : GroupExpression
+    internal class FunctionArgumentExpression : GroupExpression
     {
         private readonly Expression _function;
 

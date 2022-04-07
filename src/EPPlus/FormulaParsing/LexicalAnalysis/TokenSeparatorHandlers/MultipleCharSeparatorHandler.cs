@@ -19,7 +19,7 @@ using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
 {
-    public class MultipleCharSeparatorHandler : SeparatorHandler
+    internal class MultipleCharSeparatorHandler : SeparatorHandler
     {
         ITokenSeparatorProvider _tokenSeparatorProvider;
         INameValueProvider _nameValueProvider;

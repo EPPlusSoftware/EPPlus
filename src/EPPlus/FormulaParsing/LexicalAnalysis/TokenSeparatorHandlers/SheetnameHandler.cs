@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
     /// <summary>
     /// Handles parsing of worksheet names
     /// </summary>
-    public class SheetnameHandler : SeparatorHandler
+    internal class SheetnameHandler : SeparatorHandler
     {
         /// <summary>
         /// Handles characters and appends them to the sheetname

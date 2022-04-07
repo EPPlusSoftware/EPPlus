@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
     /// This class provides access to <see cref="SeparatorHandler"/>s - classes that exposes functionatlity
     /// needed when parsing strings to tokens.
     /// </summary>
-    public class TokenSeparatorHandler
+    internal class TokenSeparatorHandler
     {
         public TokenSeparatorHandler(ITokenSeparatorProvider tokenSeparatorProvider, INameValueProvider nameValueProvider)
             : this(new SeparatorHandler[]

@@ -24,7 +24,7 @@ using OfficeOpenXml;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
-    public class TokenFactory : ITokenFactory
+    internal class TokenFactory : ITokenFactory
     {
         public TokenFactory(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1=false)
             : this(new TokenSeparatorProvider(), nameValueProvider, functionRepository, r1c1)

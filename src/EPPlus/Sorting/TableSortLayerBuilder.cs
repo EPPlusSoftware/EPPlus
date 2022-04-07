@@ -17,6 +17,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting
 {
+    /// <summary>
+    /// Used to create sort criterias for sorting a range.
+    /// </summary>
     public class TableSortLayerBuilder
     {
         internal TableSortLayerBuilder(TableSortOptions options, TableSortLayer sortLayer)

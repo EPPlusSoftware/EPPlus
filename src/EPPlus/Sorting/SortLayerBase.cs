@@ -31,6 +31,10 @@ namespace OfficeOpenXml.Sorting
         private int _column = -1;
         private int _row = -1;
 
+        /// <summary>
+        /// Sets the column
+        /// </summary>
+        /// <param name="column"></param>
         protected void SetColumn(int column)
         {
             _column = column;
@@ -38,6 +42,11 @@ namespace OfficeOpenXml.Sorting
             _options.Descending.Add(false);
         }
 
+        /// <summary>
+        /// Sets the column
+        /// </summary>
+        /// <param name="column">Column to sort</param>
+        /// <param name="sortOrder">Sort order</param>
         protected void SetColumn(int column, eSortOrder sortOrder)
         {
             _column = column;
@@ -45,6 +54,10 @@ namespace OfficeOpenXml.Sorting
             _options.Descending.Add((sortOrder == eSortOrder.Descending));
         }
 
+        /// <summary>
+        /// Sets the row
+        /// </summary>
+        /// <param name="row"></param>
         protected void SetRow(int row)
         {
             _row = row;
@@ -52,6 +65,11 @@ namespace OfficeOpenXml.Sorting
             _options.Descending.Add(false);
         }
 
+        /// <summary>
+        /// Sets the row
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="sortOrder"></param>
         protected void SetRow(int row, eSortOrder sortOrder)
         {
             _row = row;

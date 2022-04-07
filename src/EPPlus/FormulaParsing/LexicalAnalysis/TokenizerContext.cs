@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     /// <summary>
     /// Responsible for handling tokens during the tokenizing process.
     /// </summary>
-    public class TokenizerContext
+    internal class TokenizerContext
     {
         /// <summary>
         /// Constructor
