@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
@@ -57,9 +58,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
                     dates.Add(System.DateTime.FromOADate(num));
                 }
             }
-            else if (arg.Value is ExcelDataProvider.IRangeInfo)
+            else if (arg.Value is IRangeInfo)
             {
-                foreach (var c in (ExcelDataProvider.IRangeInfo)arg.Value)
+                foreach (var c in (IRangeInfo)arg.Value)
                 {
                     var num = Convert.ToInt32(c.ValueDouble);
                     dates.Add(System.DateTime.FromOADate(num));

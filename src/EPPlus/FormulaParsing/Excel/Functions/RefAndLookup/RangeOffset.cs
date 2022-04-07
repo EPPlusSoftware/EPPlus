@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+﻿using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +8,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     internal class RangeOffset : ExcelFunction
     {
-        public ExcelDataProvider.IRangeInfo StartRange{ get; set; }
+        public IRangeInfo StartRange{ get; set; }
 
-        public ExcelDataProvider.IRangeInfo EndRange { get; set; }
+        public IRangeInfo EndRange { get; set; }
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {

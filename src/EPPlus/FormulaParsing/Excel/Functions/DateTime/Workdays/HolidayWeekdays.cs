@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
 {
@@ -65,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
             }
             else
             {
-                var range = arguments.ElementAt(2).Value as ExcelDataProvider.IRangeInfo;
+                var range = arguments.ElementAt(2).Value as IRangeInfo;
                 if (range != null)
                 {
                     foreach (var cell in range)

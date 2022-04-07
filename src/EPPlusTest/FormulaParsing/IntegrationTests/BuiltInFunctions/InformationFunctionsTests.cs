@@ -41,13 +41,21 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
     [TestClass]
     public class InformationFunctionsTests : FormulaParserTestBase
     {
-        private ExcelDataProvider _excelDataProvider;
+        private ExcelPackage _package;
 
         [TestInitialize]
         public void Setup()
         {
-            _excelDataProvider = A.Fake<ExcelDataProvider>();
-            _parser = new FormulaParser(_excelDataProvider);
+            _package = new ExcelPackage();
+            _package.Workbook.Worksheets.Add("test");
+            _parser = new FormulaParser(_package);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _package.Dispose();
+            _package = null;
         }
 
         [TestMethod]

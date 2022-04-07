@@ -22,7 +22,8 @@ namespace OfficeOpenXml.DataValidation.Exceptions
     /// </summary>
     public class DataValidationStaleException : InvalidOperationException
     {
-        public DataValidationStaleException(string message) : base(message)
+
+        internal DataValidationStaleException(string message) : base(message)
         {
         }
     }

@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
@@ -74,8 +75,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static bool CanDoNumericOperation(CompileResult l, CompileResult r)
         {
-            return (l.IsNumeric || l.IsNumericString || l.IsDateString || l.Result is ExcelDataProvider.IRangeInfo) &&
-                (r.IsNumeric || r.IsNumericString || r.IsDateString || r.Result is ExcelDataProvider.IRangeInfo);
+            return (l.IsNumeric || l.IsNumericString || l.IsDateString || l.Result is IRangeInfo) &&
+                (r.IsNumeric || r.IsNumericString || r.IsDateString || r.Result is IRangeInfo);
         }
 
         private static IOperator _plus;
@@ -157,8 +158,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 return _divide ?? (_divide = new Operator(Operators.Divide, PrecedenceMultiplyDevide, (l, r) =>
                 {
-                    if (!(l.IsNumeric || l.IsNumericString || l.IsDateString || l.Result is ExcelDataProvider.IRangeInfo) ||
-                        !(r.IsNumeric || r.IsNumericString || r.IsDateString || r.Result is ExcelDataProvider.IRangeInfo))
+                    if (!(l.IsNumeric || l.IsNumericString || l.IsDateString || l.Result is IRangeInfo) ||
+                        !(r.IsNumeric || r.IsNumericString || r.IsDateString || r.Result is IRangeInfo))
                     {
                         return new CompileResult(eErrorType.Value);
                     }

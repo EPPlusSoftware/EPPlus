@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -63,9 +64,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     }
                 }
             }
-            else if (arg.Value is ExcelDataProvider.IRangeInfo)
+            else if (arg.Value is IRangeInfo)
             {
-                foreach (var c in (ExcelDataProvider.IRangeInfo)arg.Value)
+                foreach (var c in (IRangeInfo)arg.Value)
                 {
                     if (ShouldIgnore(c, context) == false)
                     {

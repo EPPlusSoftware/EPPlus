@@ -37,6 +37,12 @@ namespace OfficeOpenXml
                 return new ExcelRangeRow(_worksheet, row, row);
             }
         }
+        /// <summary>
+        /// Index operator
+        /// </summary>
+        /// <param name="fromRow">From row</param>
+        /// <param name="toRow">To row</param>
+        /// <returns></returns>
         public ExcelRangeRow this[int fromRow, int toRow]
         {
             get

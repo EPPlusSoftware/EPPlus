@@ -25,8 +25,8 @@ namespace OfficeOpenXml.Filter
         /// <summary>
         /// A list of columns
         /// </summary>
-        protected internal List<T> _list;
-        protected internal readonly bool _maxTwoItems;
+        internal List<T> _list;
+        internal readonly bool _maxTwoItems;
         internal ExcelFilterCollectionBase()
         {
             if (typeof(T) == typeof(ExcelFilterCustomItem))

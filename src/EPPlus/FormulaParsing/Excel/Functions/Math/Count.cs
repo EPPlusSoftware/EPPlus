@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
@@ -45,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             foreach (var item in items)
             {
-                var cs = item.Value as ExcelDataProvider.IRangeInfo;
+                var cs = item.Value as IRangeInfo;
                 if (cs != null)
                 {
                     foreach (var c in cs)
@@ -84,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             //}
         }
 
-        private void _CheckForAndHandleExcelError(ExcelDataProvider.ICellInfo cell, ParsingContext context)
+        private void _CheckForAndHandleExcelError(ICellInfo cell, ParsingContext context)
         {
             //if (context.Scopes.Current.IsSubtotal)
             //{

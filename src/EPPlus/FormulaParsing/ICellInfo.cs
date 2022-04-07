@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  05/16/2020         EPPlus Software AB           EPPlus 6
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -16,10 +16,26 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
+namespace OfficeOpenXml.FormulaParsing
 {
-    internal interface IExpressionGraphBuilder
+    /// <summary>
+    /// Information and help methods about a cell
+    /// </summary>
+    public interface ICellInfo
     {
-        ExpressionGraph Build(IEnumerable<Token> tokens);
+        string Address { get; }
+
+        string WorksheetName { get; }
+        int Row { get; }
+        int Column { get; }
+
+        ulong Id { get; }
+        string Formula { get; }
+        object Value { get; }
+        double ValueDouble { get; }
+        double ValueDoubleLogical { get; }
+        bool IsHiddenRow { get; }
+        bool IsExcelError { get; }
+        IList<Token> Tokens { get; }
     }
 }

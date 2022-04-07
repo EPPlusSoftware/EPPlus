@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -105,7 +106,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return criteria;
         }
 
-        private double CalculateWithSumRange(ExcelDataProvider.IRangeInfo range, IEnumerable<string> criteria, ExcelDataProvider.IRangeInfo sumRange, ParsingContext context)
+        private double CalculateWithSumRange(IRangeInfo range, IEnumerable<string> criteria, IRangeInfo sumRange, ParsingContext context)
         {
             var retVal = 0d;
             foreach (var cell in range)
@@ -129,7 +130,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return retVal;
         }
 
-        private double CalculateSingleRange(ExcelDataProvider.IRangeInfo range, IEnumerable<string> expressions, ParsingContext context)
+        private double CalculateSingleRange(IRangeInfo range, IEnumerable<string> expressions, ParsingContext context)
         {
             var retVal = 0d;
             foreach (var candidate in range)

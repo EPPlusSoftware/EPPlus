@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -57,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         public bool IsExcelRange
         {
-            get { return Value != null && Value is EpplusExcelDataProvider.IRangeInfo; }
+            get { return Value != null && Value is IRangeInfo; }
         }
 
         public bool IsEnumerableOfFuncArgs
@@ -80,19 +81,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             get { return ExcelErrorValue.Parse(Value.ToString()); }
         }
 
-        public EpplusExcelDataProvider.IRangeInfo ValueAsRangeInfo
+        public IRangeInfo ValueAsRangeInfo
         {
-            get { return Value as EpplusExcelDataProvider.IRangeInfo; }
+            get { return Value as IRangeInfo; }
         }
         public object ValueFirst
         {
             get
             {
-                if (Value is ExcelDataProvider.INameInfo)
+                if (Value is INameInfo)
                 {
-                    Value = ((ExcelDataProvider.INameInfo)Value).Value;
+                    Value = ((INameInfo)Value).Value;
                 }
-                var v = Value as ExcelDataProvider.IRangeInfo;
+                var v = Value as IRangeInfo;
                 if (v==null)
                 {
                     return Value;

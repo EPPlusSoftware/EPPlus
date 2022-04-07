@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
@@ -27,14 +28,14 @@ namespace OfficeOpenXml.FormulaParsing
     /// <summary>
     /// Provide the formula parser with information about an workbook external range.
     /// </summary>
-    public class EpplusExcelExternalRangeInfo : ExcelDataProvider.IRangeInfo
+    public class EpplusExcelExternalRangeInfo : IRangeInfo
     {
         internal ExcelExternalWorksheet _externalWs;
         internal CellStoreEnumerator<object> _values = null;
         int _fromRow, _toRow, _fromCol, _toCol;
         int _cellCount = 0;
         ExcelAddressBase _address;
-        ExcelDataProvider.ICellInfo _cell;
+        ICellInfo _cell;
 
         /// <summary>
         /// The constructor
@@ -136,7 +137,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// Return the current object in the enumeration
         /// </summary>
-        public ExcelDataProvider.ICellInfo Current
+        public ICellInfo Current
         {
             get { return _cell; }
         }
@@ -196,7 +197,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// Gets the enumerator
         /// </summary>
         /// <returns>The enumerator</returns>
-        public IEnumerator<ExcelDataProvider.ICellInfo> GetEnumerator()
+        public IEnumerator<ICellInfo> GetEnumerator()
         {
             Reset();
             return this;
@@ -247,7 +248,7 @@ namespace OfficeOpenXml.FormulaParsing
     /// <summary>
     /// Provides information about an external cell in an external range.
     /// </summary>
-    public class ExternalCellInfo : ExcelDataProvider.ICellInfo
+    public class ExternalCellInfo : ICellInfo
     {
         ExcelExternalWorksheet _ws;
         CellStoreEnumerator<object> _values;

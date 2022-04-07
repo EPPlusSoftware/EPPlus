@@ -24,10 +24,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
     /// <summary>
     /// Handles translations from Spreadsheet addresses to 0-based numeric index.
     /// </summary>
-    public class AddressTranslator
+    internal class AddressTranslator
     {
         
-        public enum RangeCalculationBehaviour
+        internal enum RangeCalculationBehaviour
         {
             FirstPart,
             LastPart
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
         private readonly ExcelDataProvider _excelDataProvider;
 
-        public AddressTranslator(ExcelDataProvider excelDataProvider)
+        internal AddressTranslator(ExcelDataProvider excelDataProvider)
         {
             Require.That(excelDataProvider).Named("excelDataProvider").IsNotNull();
             _excelDataProvider = excelDataProvider;

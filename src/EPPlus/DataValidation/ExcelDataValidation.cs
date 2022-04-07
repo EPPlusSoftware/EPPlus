@@ -277,6 +277,9 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        /// <summary>
+        /// Uuid of the data validation
+        /// </summary>
         public string Uid
         {
             get
@@ -568,11 +571,18 @@ namespace OfficeOpenXml.DataValidation
             SetXmlNodeString(path, stringValue);
         }
 
+        /// <summary>
+        /// Returns the <see cref="Formula1Internal"/> xml path
+        /// </summary>
+        /// <returns></returns>
         protected string GetFormula1Path()
         {
             return InternalValidationType == InternalValidationType.DataValidation ? _formula1Path : _formula1ExtLstPath;
         }
-
+        /// <summary>
+        /// Returns the <see cref="Formula2Internal"/> xml path
+        /// </summary>
+        /// <returns></returns>
         protected string GetFormula2Path()
         {
             return InternalValidationType == InternalValidationType.DataValidation ? _formula2Path : _formula2ExtLstPath;

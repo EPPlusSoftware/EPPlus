@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -23,15 +24,15 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
             if(prevIsAddress && nextIsOffset)
             {
-                return InternalCompile(Prev.Compile().Result.ToString(), Next.Compile().Result as ExcelDataProvider.IRangeInfo);
+                return InternalCompile(Prev.Compile().Result.ToString(), Next.Compile().Result as IRangeInfo);
             }
             else if(prevIsOffset && nextIsAddress)
             {
-                return InternalCompile(Prev.Compile().Result as ExcelDataProvider.IRangeInfo, Next.Compile().Result.ToString());
+                return InternalCompile(Prev.Compile().Result as IRangeInfo, Next.Compile().Result.ToString());
             }
             else if(prevIsOffset && nextIsOffset)
             {
-                return InternalCompile(Prev.Compile().Result as ExcelDataProvider.IRangeInfo, Next.Compile().Result as ExcelDataProvider.IRangeInfo);
+                return InternalCompile(Prev.Compile().Result as IRangeInfo, Next.Compile().Result as IRangeInfo);
             }
 
             return new CompileResult(eErrorType.Value);
@@ -50,17 +51,17 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             return this;
         }
 
-        private CompileResult InternalCompile(string address, ExcelDataProvider.IRangeInfo offsetRange)
+        private CompileResult InternalCompile(string address, IRangeInfo offsetRange)
         {
             throw new NotImplementedException();
         }
 
-        private CompileResult InternalCompile(ExcelDataProvider.IRangeInfo offsetRange, string address)
+        private CompileResult InternalCompile(IRangeInfo offsetRange, string address)
         {
             throw new NotImplementedException();
         }
 
-        private CompileResult InternalCompile(ExcelDataProvider.IRangeInfo offsetRange1, ExcelDataProvider.IRangeInfo offsetRange2)
+        private CompileResult InternalCompile(IRangeInfo offsetRange1, IRangeInfo offsetRange2)
         {
             throw new NotImplementedException();
         }

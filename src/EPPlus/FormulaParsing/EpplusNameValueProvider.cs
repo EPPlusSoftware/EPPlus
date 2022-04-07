@@ -18,12 +18,12 @@ using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing
 {
-    public class EpplusNameValueProvider : INameValueProvider
+    internal class EpplusNameValueProvider : INameValueProvider
     {
         private ExcelDataProvider _excelDataProvider;
         private ExcelNamedRangeCollection _values;
 
-        public EpplusNameValueProvider(ExcelDataProvider excelDataProvider)
+        internal EpplusNameValueProvider(ExcelDataProvider excelDataProvider)
         {
             _excelDataProvider = excelDataProvider;
             _values = _excelDataProvider.GetWorkbookNameValues();

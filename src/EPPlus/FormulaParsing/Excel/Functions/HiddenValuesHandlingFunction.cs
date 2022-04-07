@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -63,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return base.ArgsToDoubleEnumerable(IgnoreHiddenValues, ignoreErrors, arguments, context, ignoreNonNumeric);
         }
 
-        protected bool ShouldIgnore(ExcelDataProvider.ICellInfo c, ParsingContext context)
+        protected bool ShouldIgnore(ICellInfo c, ParsingContext context)
         {
             if(CellStateHelper.ShouldIgnore(IgnoreHiddenValues, c, context))
             {

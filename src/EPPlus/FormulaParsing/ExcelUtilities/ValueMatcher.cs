@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
@@ -59,18 +60,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
         private static object CheckGetRange(object v)
         {
-            if (v is ExcelDataProvider.IRangeInfo)
+            if (v is IRangeInfo)
             {
-                var r = ((ExcelDataProvider.IRangeInfo)v);
+                var r = ((IRangeInfo)v);
                 if (r.GetNCells() > 1)
                 {
                     v = ExcelErrorValue.Create(eErrorType.NA);
                 }
                 v = r.GetOffset(0, 0);
             }
-            else if (v is ExcelDataProvider.INameInfo)
+            else if (v is INameInfo)
             {
-                var n = ((ExcelDataProvider.INameInfo)v);
+                var n = ((INameInfo)v);
                 v = CheckGetRange(n);
             }
             return v;
