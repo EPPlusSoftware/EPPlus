@@ -141,7 +141,7 @@ namespace EPPlusTest
         public void EvaluateBlankExpressionEqualsEmptyString()
         {
             var result = _evaluator.Evaluate(string.Empty, "");
-            Assert.IsFalse(result);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
