@@ -22,7 +22,7 @@ using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    public class ExpressionGraphBuilder :IExpressionGraphBuilder
+    internal class ExpressionGraphBuilder :IExpressionGraphBuilder
     {
         private readonly ExpressionGraph _graph = new ExpressionGraph();
         private readonly IExpressionFactory _expressionFactory;

@@ -31,5 +31,6 @@ namespace OfficeOpenXml.Export.HtmlExport
         public const string A = "a";
         public const string Span = "span";
         public const string ColGroup = "colgroup";
+        public const string Img = "img";
     }
 }

@@ -23,6 +23,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
  *************************************************************************************************
   06/15/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
 using System;
@@ -54,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipe
                 var compiler = functionCompilerFactory.Create(new Offset());
                 children.First().Children.First().IgnoreCircularReference = true;
                 var compileResult = compiler.Compile(children);
-                rangeOffset.EndRange = compileResult.Result as ExcelDataProvider.IRangeInfo;
+                rangeOffset.EndRange = compileResult.Result as IRangeInfo;
                 function = rangeOffset;
                 return true;
             }

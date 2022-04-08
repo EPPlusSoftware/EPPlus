@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -26,13 +27,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         public virtual CompileResult Create(object obj, int excelAddressReferenceId)
         {
-            if ((obj is ExcelDataProvider.INameInfo))
+            if ((obj is INameInfo))
             {
-                obj = ((ExcelDataProvider.INameInfo)obj).Value;
+                obj = ((INameInfo)obj).Value;
             }
-            if (obj is ExcelDataProvider.IRangeInfo)
+            if (obj is IRangeInfo)
             {
-                obj = ((ExcelDataProvider.IRangeInfo)obj).GetOffset(0, 0);
+                obj = ((IRangeInfo)obj).GetOffset(0, 0);
             }
             if (obj == null) return new CompileResult(null, DataType.Empty);
             if (obj.GetType().Equals(typeof(string)))

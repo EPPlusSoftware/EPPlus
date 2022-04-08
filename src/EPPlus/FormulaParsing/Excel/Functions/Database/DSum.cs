@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Category = ExcelFunctionCategory.Database,
         EPPlusVersion = "4",
         Description = "Calculates the sum of values in a field of a list or database, that satisfy specified conditions")]
-    public class Dsum : DatabaseFunction
+    internal class Dsum : DatabaseFunction
     {
         public Dsum()
             : this(new RowMatcher())

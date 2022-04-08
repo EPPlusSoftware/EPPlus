@@ -18,7 +18,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    public interface IExpressionFactory
+    internal interface IExpressionFactory
     {
         Expression Create(Token token);
     }

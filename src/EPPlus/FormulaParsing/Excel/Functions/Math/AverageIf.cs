@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -95,7 +96,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return CreateResult(returnValue, DataType.Decimal);
         }
 
-        private double CalculateWithLookupRange(ExcelDataProvider.IRangeInfo argRange, string criteria, ExcelDataProvider.IRangeInfo sumRange, ParsingContext context)
+        private double CalculateWithLookupRange(IRangeInfo argRange, string criteria, IRangeInfo sumRange, ParsingContext context)
         {
             var returnValue = 0d;
             var nMatches = 0;
@@ -121,7 +122,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return Divide(returnValue, nMatches);
         }
 
-        private double CalculateSingleRange(ExcelDataProvider.IRangeInfo range, string expression, ParsingContext context)
+        private double CalculateSingleRange(IRangeInfo range, string expression, ParsingContext context)
         {
             var returnValue = 0d;
             var nMatches = 0;

@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Category = ExcelFunctionCategory.Database,
         EPPlusVersion = "4",
         Description = "Returns the number of cells containing numbers in a field of a list or database that satisfy specified conditions")]
-    public class Dcount : ExcelFunction
+    internal class Dcount : ExcelFunction
     {
         private readonly RowMatcher _rowMatcher;
 

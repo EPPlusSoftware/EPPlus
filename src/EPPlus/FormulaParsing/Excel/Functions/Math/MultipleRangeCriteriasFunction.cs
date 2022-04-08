@@ -22,7 +22,7 @@ using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
-    public abstract class MultipleRangeCriteriasFunction : ExcelFunction
+    internal abstract class MultipleRangeCriteriasFunction : ExcelFunction
     {
 
         private readonly ExpressionEvaluator _expressionEvaluator;

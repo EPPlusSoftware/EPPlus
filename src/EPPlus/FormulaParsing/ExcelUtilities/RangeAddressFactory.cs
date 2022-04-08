@@ -19,20 +19,20 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
-    public class RangeAddressFactory
+    internal class RangeAddressFactory
     {
         private readonly ExcelDataProvider _excelDataProvider;
         private readonly AddressTranslator _addressTranslator;
         private readonly IndexToAddressTranslator _indexToAddressTranslator;
 
-        public RangeAddressFactory(ExcelDataProvider excelDataProvider)
+        internal RangeAddressFactory(ExcelDataProvider excelDataProvider)
             : this(excelDataProvider, new AddressTranslator(excelDataProvider), new IndexToAddressTranslator(excelDataProvider, ExcelReferenceType.RelativeRowAndColumn))
         {
            
             
         }
 
-        public RangeAddressFactory(ExcelDataProvider excelDataProvider, AddressTranslator addressTranslator, IndexToAddressTranslator indexToAddressTranslator)
+        internal RangeAddressFactory(ExcelDataProvider excelDataProvider, AddressTranslator addressTranslator, IndexToAddressTranslator indexToAddressTranslator)
         {
             Require.That(excelDataProvider).Named("excelDataProvider").IsNotNull();
             Require.That(addressTranslator).Named("addressTranslator").IsNotNull();

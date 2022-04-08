@@ -617,6 +617,9 @@ namespace OfficeOpenXml
         
         SortState _sortState = null;
 
+        /// <summary>
+        /// Sets the sort state
+        /// </summary>
         public SortState SortState
         {
             get

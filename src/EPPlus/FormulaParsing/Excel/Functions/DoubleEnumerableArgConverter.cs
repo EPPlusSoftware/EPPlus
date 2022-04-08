@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
 
@@ -55,9 +56,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 //var cellInfo = arg.Value as EpplusExcelDataProvider.CellInfo;
                 //var value = cellInfo != null ? cellInfo.Value : arg.Value;
-                if (arg.Value is ExcelDataProvider.IRangeInfo)
+                if (arg.Value is IRangeInfo)
                 {
-                    foreach (var cell in (ExcelDataProvider.IRangeInfo)arg.Value)
+                    foreach (var cell in (IRangeInfo)arg.Value)
                     {
                         if((!ignoreHidden && cell.IsHiddenRow) || !cell.IsHiddenRow)
                         {

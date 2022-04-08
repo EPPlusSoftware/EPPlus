@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using util=OfficeOpenXml.Utils;
@@ -26,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public override object Parse(object obj)
         {
             Require.That(obj).Named("argument").IsNotNull();
-            if (obj is ExcelDataProvider.IRangeInfo)
+            if (obj is IRangeInfo)
             {
-                var r=((ExcelDataProvider.IRangeInfo)obj).FirstOrDefault();
+                var r=((IRangeInfo)obj).FirstOrDefault();
                 return r == null ? 0 : r.ValueDouble;
             }
             if (obj is double) return obj;

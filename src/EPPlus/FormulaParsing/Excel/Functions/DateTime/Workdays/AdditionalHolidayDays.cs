@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
 {
@@ -41,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
                     _holidayDates.Add(holidayDate);
                 }
             }
-            var range = _holidayArg.Value as ExcelDataProvider.IRangeInfo;
+            var range = _holidayArg.Value as IRangeInfo;
             if (range != null)
             {
                 foreach (var holidayDate in from cell in range where ConvertUtil.IsNumericOrDate(cell.Value) select ConvertUtil.GetValueDouble(cell.Value) into dateSerial select System.DateTime.FromOADate(dateSerial))

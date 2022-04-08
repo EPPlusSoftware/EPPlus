@@ -157,10 +157,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         public void MatchShouldReturnIndexOfMatchingValue()
         {
             var lookupAddress = "A1:A2";
-            A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName, 1, 1)).Returns(3);
-            A.CallTo(() => _excelDataProvider.GetCellValue(WorksheetName, 1, 2)).Returns(5);
-            var result = _parser.Parse("MATCH(3, " + lookupAddress + ")");
-            Assert.AreEqual(1, result);
+
+            _worksheet.Cells["A1"].Value = 3;
+            _worksheet.Cells["A2"].Value = 5;
+            _worksheet.Cells["A3"].Formula = "MATCH(3, " + lookupAddress + ")";
+            _worksheet.Calculate();
+            Assert.AreEqual(1, _worksheet.Cells["A3"].Value);
+
         }
 
         [TestMethod]
@@ -207,6 +210,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         public void RowsShouldReturnNbrOfRows()
         {
             A.CallTo(() => _excelDataProvider.GetRangeFormula("", 4, 1)).Returns("Rows(A5:B7)");
+            A.CallTo(() => _excelDataProvider.GetRange("", 4, 1, "A5:B7")).Returns(new EpplusExcelDataProvider.RangeInfo(_worksheet, 1, 2, 3, 3));
             var result = _parser.ParseAt("A4");
             Assert.AreEqual(3, result);
         }
@@ -215,6 +219,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         public void ColumnsShouldReturnNbrOfCols()
         {
             A.CallTo(() => _excelDataProvider.GetRangeFormula("", 4, 1)).Returns("Columns(A5:B7)");
+            A.CallTo(() => _excelDataProvider.GetRange("", 4, 1, "A5:B7")).Returns(new EpplusExcelDataProvider.RangeInfo(_worksheet, 1, 2, 1, 3));
             var result = _parser.ParseAt("A4");
             Assert.AreEqual(2, result);
         }

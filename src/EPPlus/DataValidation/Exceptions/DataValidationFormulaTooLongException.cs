@@ -20,7 +20,6 @@ namespace OfficeOpenXml.DataValidation.Exceptions
     /// <summary>
     /// Thrown if a formula exceeds the maximum number of characters.
     /// </summary>
-    /// <param name="message"></param>
     public class DataValidationFormulaTooLongException : InvalidOperationException
     {
         /// <summary>

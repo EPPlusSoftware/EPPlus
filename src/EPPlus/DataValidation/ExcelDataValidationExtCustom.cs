@@ -8,6 +8,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
+    /// <summary>
+    /// Custom data validation for the x14 xml section
+    /// </summary>
     public class ExcelDataValidationExtCustom : ExcelDataValidationWithFormula<IExcelDataValidationFormula>, IExcelDataValidationCustom
     {
         private const string _formula1ExtList = "x14:formula1/xm:f";

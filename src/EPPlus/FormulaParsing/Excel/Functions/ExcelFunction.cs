@@ -17,6 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using System.Collections;
@@ -91,7 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected object GetFirstValue(IEnumerable<FunctionArgument> val)
         {
             var arg = ((IEnumerable<FunctionArgument>)val).FirstOrDefault();
-            if(arg.Value is ExcelDataProvider.IRangeInfo)
+            if(arg.Value is IRangeInfo)
             {
                 //var r=((ExcelDataProvider.IRangeInfo)arg);
                 var r = arg.ValueAsRangeInfo;
@@ -105,7 +106,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// This functions validates that the supplied <paramref name="arguments"/> contains at least
         /// (the value of) <paramref name="minLength"/> elements. If one of the arguments is an
-        /// <see cref="ExcelDataProvider.IRangeInfo">Excel range</see> the number of cells in
+        /// <see cref="IRangeInfo">Excel range</see> the number of cells in
         /// that range will be counted as well.
         /// </summary>
         /// <param name="arguments"></param>
@@ -519,7 +520,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return ArgsToDoubleEnumerable(ignoreHiddenCells, true, arguments, context, false);
         }
 
-        protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, ExcelDataProvider.IRangeInfo rangeInfo, ParsingContext context)
+        protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, IRangeInfo rangeInfo, ParsingContext context)
         {
             var startRow = rangeInfo.Address.Start.Row;
             var endRow = rangeInfo.Address.End.Row > rangeInfo.Worksheet.Dimension._toRow ? rangeInfo.Worksheet.Dimension._toRow : rangeInfo.Address.End.Row;
@@ -610,7 +611,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// an <see cref="ExcelErrorValueException"/> with that errorcode will be thrown
         /// </summary>
         /// <param name="cell"></param>
-        protected void CheckForAndHandleExcelError(ExcelDataProvider.ICellInfo cell)
+        protected void CheckForAndHandleExcelError(ICellInfo cell)
         {
             if (cell.IsExcelError)
             {

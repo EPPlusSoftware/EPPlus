@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -24,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             return base.FuncArgsToFlatEnumerable(arguments, (arg, argList) =>
                 {
-                    if (arg.Value is ExcelDataProvider.IRangeInfo)
+                    if (arg.Value is IRangeInfo)
                     {
-                        foreach (var cell in (ExcelDataProvider.IRangeInfo)arg.Value)
+                        foreach (var cell in (IRangeInfo)arg.Value)
                         {
                             if (!CellStateHelper.ShouldIgnore(ignoreHidden, cell, context))
                             {

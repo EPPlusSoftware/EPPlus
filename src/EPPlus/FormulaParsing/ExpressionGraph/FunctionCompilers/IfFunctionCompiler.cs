@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -46,14 +47,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             var v = firstChild.Compile().Result;
 
             /****  Handle names and ranges ****/
-            if (v is ExcelDataProvider.INameInfo)
+            if (v is INameInfo)
             {
-                v = ((ExcelDataProvider.INameInfo)v).Value;
+                v = ((INameInfo)v).Value;
             }
 
-            if (v is ExcelDataProvider.IRangeInfo)
+            if (v is IRangeInfo)
             {
-                var r = ((ExcelDataProvider.IRangeInfo)v);
+                var r = ((IRangeInfo)v);
                 if (r.GetNCells() > 1)
                 {
                     throw (new ArgumentException("Logical can't be more than one cell"));

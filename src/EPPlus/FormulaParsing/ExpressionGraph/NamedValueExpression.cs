@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -53,9 +54,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 return new CompileResult(null, DataType.Empty, cacheId);
             }
-            if (name.Value is ExcelDataProvider.IRangeInfo)
+            if (name.Value is IRangeInfo)
             {
-                var range = (ExcelDataProvider.IRangeInfo)name.Value;
+                var range = (IRangeInfo)name.Value;
                 cache.Add(cacheId, range.Address.FullAddress);
                 if (range.IsMulti)
                 {

@@ -19,7 +19,7 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
-    public abstract class DatabaseFunction : ExcelFunction
+    internal abstract class DatabaseFunction : ExcelFunction
     {
         protected RowMatcher RowMatcher { get; private set; }
 

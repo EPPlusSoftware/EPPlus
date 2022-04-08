@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
 {
-    public abstract class SeparatorHandler
+    internal abstract class SeparatorHandler
     {
         protected bool IsDoubleQuote(Token tokenSeparator, int formulaCharIndex, TokenizerContext context)
         {

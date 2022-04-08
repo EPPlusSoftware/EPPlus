@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -22,9 +23,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     {
         public override object Parse(object obj)
         {
-            if (obj is ExcelDataProvider.IRangeInfo)
+            if (obj is IRangeInfo)
             {
-                var r = ((ExcelDataProvider.IRangeInfo)obj).FirstOrDefault();
+                var r = ((IRangeInfo)obj).FirstOrDefault();
                 obj = (r == null ? null : r.Value);
             }
             if (obj == null) return false;

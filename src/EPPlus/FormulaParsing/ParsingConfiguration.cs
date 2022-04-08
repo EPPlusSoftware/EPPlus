@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// The <see cref="IExpressionGraphBuilder"/> of the parser
         /// </summary>
-        public IExpressionGraphBuilder GraphBuilder { get; private set; }
+        internal IExpressionGraphBuilder GraphBuilder { get; private set; }
 
         /// <summary>
         /// The <see cref="IExpressionCompiler"/> of the parser
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="graphBuilder"></param>
         /// <returns></returns>
-        public ParsingConfiguration SetGraphBuilder(IExpressionGraphBuilder graphBuilder)
+        internal ParsingConfiguration SetGraphBuilder(IExpressionGraphBuilder graphBuilder)
         {
             GraphBuilder = graphBuilder;
             return this;

@@ -18,7 +18,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
-    public class ExcelDatabase
+    internal class ExcelDatabase
     {
         private readonly ExcelDataProvider _dataProvider;
         private readonly int _fromCol;

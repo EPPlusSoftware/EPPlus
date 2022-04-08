@@ -20,7 +20,7 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
-    public class RowMatcher
+    internal class RowMatcher
     {
         private readonly WildCardValueMatcher _wildCardValueMatcher;
         private readonly ExpressionEvaluator _expressionEvaluator;

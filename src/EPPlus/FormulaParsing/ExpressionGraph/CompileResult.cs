@@ -18,6 +18,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -95,7 +96,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             get
             {
-                var r = Result as ExcelDataProvider.IRangeInfo;
+                var r = Result as IRangeInfo;
                 if (r == null)
                 {
                     return Result;
@@ -126,9 +127,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 					{
                         _resultNumeric = DateTime.FromOADate(0).Add((TimeSpan)Result).ToOADate();
 					}
-					else if (Result is ExcelDataProvider.IRangeInfo)
+					else if (Result is IRangeInfo)
 					{
-						var c = ((ExcelDataProvider.IRangeInfo)Result).FirstOrDefault();
+						var c = ((IRangeInfo)Result).FirstOrDefault();
 						if (c == null)
 						{
 							return 0;
