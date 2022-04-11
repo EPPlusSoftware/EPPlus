@@ -47,8 +47,14 @@ namespace OfficeOpenXml.Filter
         /// <summary>
         /// Applies the filter, hiding rows not matching the filter columns
         /// </summary>
-        public void ApplyFilter()
+        /// <param name="calculateRange">If true, any formula in the autofilter range will be calculated before the filter is applied.</param>
+        public void ApplyFilter(bool calculateRange=false)
         {
+            if(calculateRange && _address!=null && ExcelAddressBase.IsValidAddress(_address._address))
+            {
+                _worksheet.Cells[_address._address].Calculate();
+            }
+
             foreach (var column in Columns)
             {
                 column.SetFilterValue(_worksheet, Address);

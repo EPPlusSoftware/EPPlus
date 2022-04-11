@@ -114,12 +114,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             var range = _ranges[rangeIndex];
             GetDataTypes(_ranges[rangeIndex], _settings);
 
-
             ExcelTable table = null;
             if (Settings.TableStyle != eHtmlRangeTableInclude.Exclude)
             {
                 table = range.GetTable();
             }
+
             var writer = new EpplusHtmlWriter(stream, Settings.Encoding, _styleCache);
             var tableId = GetTableId(rangeIndex, overrideSettings);
             var additionalClassNames = GetAdditionalClassNames(overrideSettings);
@@ -144,6 +144,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             // table rows
             await RenderTableRowsAsync(range, writer, table, accessibilitySettings, _settings.HeaderRows);
 
+            await writer.ApplyFormatDecreaseIndentAsync(Settings.Minify);
             // end tag table
             await writer.RenderEndTagAsync();
         }
@@ -167,7 +168,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
         /// </summary>
         /// <param name="htmlDocument">The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.</param>
         /// <returns>The html document</returns>
-        public async Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
+        public async Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}\r\n</body>\r\n</html>")
         {
             if (Settings.Minify) htmlDocument = htmlDocument.Replace("\r\n", "");
             var html = await GetHtmlStringAsync();

@@ -117,7 +117,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
             await writer.ApplyFormatDecreaseIndentAsync(Settings.Minify);
             // end tag tbody
             await writer.RenderEndTagAsync();
-            await writer.ApplyFormatAsync(Settings.Minify);
         }
 
         protected async Task RenderHeaderRowAsync(ExcelRangeBase range, EpplusHtmlWriter writer, ExcelTable table, AccessibilitySettings accessibilitySettings, int headerRows, List<string> headers)

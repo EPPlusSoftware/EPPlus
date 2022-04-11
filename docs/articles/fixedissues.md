@@ -1,18 +1,7 @@
 ﻿# Features / Fixed issues - EPPlus 6
 
-## Version 6.0.2-beta
+## Version 6.0.3
 ### Changes
-* ExcelWorkbook.CreateHtmlExporter(param ExcelRangeBase[]) to add multiple ranges at once for HTML export.
-* Added new overloads to access multiple ranges via the int argument rangeIndex:  GetHtmlString(int), GetHtmlStringAsync(int), RenderHtml(int) and RenderHtmlAsync(int)
-
-## Version 6.0.1-beta
-### Changes
-* ExcelImage.SetImage(ExcelImage) added.
-* ExcelImage.SetImage and SetImageAsync now returns the ExcelImage object instead of void.
-* Html Export-Css: width and height is replaced with max-width and min-width.
-* ExcelBackgroundImage.Removed method added.
-
-## Version 6.0.0-beta
 ### Features
 * Html Export for tables and ranges, See [Html Export](https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export)
 * Json Export for tables and ranges, See [Json Export](https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export)
@@ -57,6 +46,16 @@
 * New overload for ExcelRangeBase.LoadFromDictionaries method with IEnumerable<dynamic>.
 * Added Datatypes and Culture to LoadFromDictionariesParams. This is the settings for the ExcelRangeBase.ExcelRangeBase.LoadFromDictionaries.
 * Added ExcelRichTextCollection.HtmlText and ExcelRichText.HtmlText property.
+
+## Version 5.8.9
+### Fixed issues
+* Fixed issue with start_num parameter for functions FIND and SEARCH
+* Pivot table slicers in a template sometimes caused a corrupt workbook on save
+* Pivot table fields that had subtotals and null values in shared cache items caused the package to fail on load in some cases.
+* Having the value set to 0(zero) and the number format to date or time returned the format instead of the formatted value.
+* DeleteColumn caused the worksheet to expands to the maximum column properties extended to the last column (XFD).
+* The UPPER and LOWER functions did not handle empty cell values correctly.
+* Fixed an issue in ExpressionEvaluator when evaluating empty string criterias.
 
 ## Version 5.8.9
 ### Fixed issues

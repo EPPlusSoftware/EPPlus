@@ -35,7 +35,6 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using FakeItEasy;
-using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
