@@ -179,5 +179,21 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("ABC", ws.Cells["B1"].Value);
             }
         }
+
+        [TestMethod]
+        public void LoadComplexTest2()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var items = ExcelItems.GetItems1();
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].LoadFromCollection(items);
+                Assert.AreEqual("Product Family", sheet.Cells["A1"].Value);
+                Assert.AreEqual("PCH Die Name", sheet.Cells["B1"].Value);
+                Assert.AreEqual("Collateral Owner Email", sheet.Cells["F1"].Value);
+                Assert.AreEqual("Mission Control Lead Email", sheet.Cells["I1"].Value);
+                Assert.AreEqual("Created (GMT)", sheet.Cells["L1"].Value);
+            }
+        }
     }
 }

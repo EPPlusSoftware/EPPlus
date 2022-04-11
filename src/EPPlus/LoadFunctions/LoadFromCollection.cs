@@ -290,7 +290,14 @@ namespace OfficeOpenXml.LoadFunctions
                             }
                             else
                             {
-                                header = ParseHeader(member.Name);
+                                if(!string.IsNullOrEmpty(colInfo.Header) && colInfo.Header != member.Name)
+                                {
+                                    header = colInfo.Header;
+                                }
+                                else
+                                {
+                                    header = ParseHeader(member.Name);
+                                }
                             }
                         }
                     }
