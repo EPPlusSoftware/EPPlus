@@ -121,7 +121,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             IRangeInfo range2 = _provider.GetRange(_worksheet.Name, 1, 2, 3, 2);
             var args = FunctionsHelper.CreateArgs(range1, "", range2);
             var result = func.Execute(args, _parsingContext);
-            Assert.AreEqual(1d, result.Result);
+            Assert.AreEqual(2d, result.Result);
         }
 
         [TestMethod]

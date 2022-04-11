@@ -136,7 +136,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             if (expression == string.Empty)
             {
-                return left == null;
+                return left == null || left.ToString() == string.Empty;
             }
             var operatorCandidate = GetNonAlphanumericStartChars(expression);
             if(!string.IsNullOrEmpty(operatorCandidate))

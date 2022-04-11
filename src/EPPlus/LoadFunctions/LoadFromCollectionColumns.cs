@@ -58,7 +58,7 @@ namespace OfficeOpenXml.LoadFunctions
             return copy;
         }
 
-        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, string path = null)
+        private bool SetupInternal(Type type, List<ColumnInfo> result, List<int> sortOrderListArg, string path = null, string headerPrefix = null)
         {
             var sort = false;
             var members = type.GetProperties(_bindingFlags);
@@ -67,6 +67,7 @@ namespace OfficeOpenXml.LoadFunctions
                 sort = true;
                 foreach (var member in members)
                 {
+                    var hPrefix = default(string);
                     var sortOrderList = CopyList(sortOrderListArg);
                     if (member.HasPropertyOfType<EpplusIgnore>())
                     {
@@ -77,6 +78,15 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         var nestedTableAttr = member.GetFirstAttributeOfType<EpplusNestedTableColumnAttribute>();
                         var attrOrder = nestedTableAttr.Order;
+                        hPrefix = nestedTableAttr.HeaderPrefix;
+                        if(!string.IsNullOrEmpty(headerPrefix) && !string.IsNullOrEmpty(hPrefix))
+                        {
+                            hPrefix = $"{headerPrefix} {hPrefix}";
+                        }
+                        else if(!string.IsNullOrEmpty(headerPrefix))
+                        {
+                            hPrefix = headerPrefix;
+                        }
                         if(_sortOrderColumns != null && _sortOrderColumns.IndexOf(memberPath) > -1)
                         {
                             attrOrder = _sortOrderColumns.IndexOf(memberPath);
@@ -100,7 +110,7 @@ namespace OfficeOpenXml.LoadFunctions
                                 sortOrderList[0] = _sortOrderColumns.IndexOf(memberPath);
                             }
                         }
-                        SetupInternal(member.PropertyType, result, sortOrderList, memberPath);
+                        SetupInternal(member.PropertyType, result, sortOrderList, memberPath, hPrefix);
                         sortOrderList.RemoveAt(sortOrderList.Count - 1);
                         continue;
                     }
@@ -137,9 +147,14 @@ namespace OfficeOpenXml.LoadFunctions
                         totalsRowLabel = epplusColumnAttr.TotalsRowLabel;
                         totalsRowFormula = epplusColumnAttr.TotalsRowFormula;
                     }
+                    header = string.IsNullOrEmpty(header) ? member.Name : header;
+                    if (!string.IsNullOrEmpty(hPrefix))
+                    {
+                        header = hPrefix;
+                    }
                     result.Add(new ColumnInfo
                     {
-                        Header = string.IsNullOrEmpty(header) ? member.Name : header,
+                        Header = header,
                         SortOrder = sortOrder,
                         SortOrderLevels = colInfoSortOrderList,
                         MemberInfo = member,
@@ -155,7 +170,56 @@ namespace OfficeOpenXml.LoadFunctions
             else
             {
                 var index = 0;
-                result.AddRange(members.Select(x => new ColumnInfo { Index = index++, MemberInfo = x }));
+                result.AddRange(members
+                    .Where(x => !x.HasPropertyOfType<EpplusIgnore>())
+                    .Select(member => {
+                        var h = default(string);
+                        var mp = default(string);
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            mp = $"{path}.{member.Name}";
+                        }
+                        var colInfoSortOrderList = new List<int>();
+                        var sortOrderColumnsIndex = _sortOrderColumns != null ? _sortOrderColumns.IndexOf(mp) : -1;
+                        var sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : SortOrderOffset;
+                        var sortOrderList = CopyList(sortOrderListArg);
+                        var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
+                        if (epplusColumnAttr != null)
+                        {
+                            h = epplusColumnAttr.Header;
+                            sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : epplusColumnAttr.Order + SortOrderOffset;
+                        }
+                        else
+                        {
+                            h = member.Name;
+                        }
+
+                        if (sortOrderList != null && sortOrderList.Any())
+                        {
+                            if (sortOrderColumnsIndex > -1)
+                            {
+                                sortOrderList[0] = sortOrder;
+                            }
+                            colInfoSortOrderList.AddRange(sortOrderList);
+                        }
+                        
+                        if(!string.IsNullOrEmpty(headerPrefix))
+                        {
+                            h = $"{headerPrefix} {h}";
+                        }
+                        else
+                        {
+                            h = member.Name;
+                        }
+                        return new ColumnInfo { 
+                            Index = index++, 
+                            MemberInfo = member, 
+                            Path = mp, 
+                            Header = h,
+                            SortOrder = sortOrder,
+                            SortOrderLevels = colInfoSortOrderList
+                        };
+                    }));
             }
             var formulaColumnAttributes = type.FindAttributesOfType<EpplusFormulaTableColumnAttribute>();
             if (formulaColumnAttributes != null && formulaColumnAttributes.Any())

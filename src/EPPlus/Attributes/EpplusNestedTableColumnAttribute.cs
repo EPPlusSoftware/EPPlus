@@ -31,5 +31,14 @@ namespace OfficeOpenXml.Attributes
             get;
             set;
         }
+
+        /// <summary>
+        /// This will prefix all names derived by members in the complex type.
+        /// </summary>
+        public string HeaderPrefix
+        {
+            get;
+            set;
+        }
     }
 }
