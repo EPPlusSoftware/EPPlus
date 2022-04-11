@@ -1,4 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 5
+
+## Version 5.8.9
+### Fixed issues
+* Fixed issue with start_num parameter for functions FIND and SEARCH
+* Pivot table slicers in a template sometimes caused a corrupt workbook on save
+* Pivot table fields that had subtotals and null values in shared cache items caused the package to fail on load in some cases.
+* Having the value set to 0(zero) and the number format to date or time returned the format instead of the formatted value.
+* DeleteColumn caused the worksheet to expands to the maximum column properties extended to the last column (XFD).
+* The UPPER and LOWER functions did not handle empty cell values correctly.
+* Fixed an issue in ExpressionEvaluator when evaluating empty string criterias.
+
 ## Version 5.8.8
 ### Fixed issues
 * Removed unnessesary Nuget references to packages already included in the targeting frameworks.

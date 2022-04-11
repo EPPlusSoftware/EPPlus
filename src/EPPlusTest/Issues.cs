@@ -3120,6 +3120,18 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s312()
+        {
+            using (var p = OpenTemplatePackage("richtext.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var t = ws.Cells["C2"].RichText.GetType(); ;
+                var prop = t.GetProperty("TopNode", BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance);
+                var topNode = prop.GetValue(ws.Cells["C2"].RichText);
+                SaveAndCleanup(p);
+            }
+        }
 
         [TestMethod]
         public void Issue308()
@@ -3168,15 +3180,45 @@ namespace EPPlusTest
         [TestMethod]
         public void s314()
         {
-            using (var p = OpenTemplatePackage("KPITemplate.xlsx"))
+            using (var p = OpenTemplatePackage("SlicerIssue.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var pt = ws.PivotTables[0];
-                //var slicer = pt.Fields["Award Status"].AddSlicer();
-                //slicer.SetPosition(5, 0, 10, 0);
+                var wsTable = p.Workbook.Worksheets[1];
+                var tbl = wsTable.Tables[0];
+                wsTable.Cells["E9"].Value = "New Value";
+                wsTable.Cells["E9"].Value="Stockholm";
+                wsTable.Cells["F11"].Value = "Test";
+                tbl.AddRow(11);
+                tbl.Range.Offset(1, 0, tbl.Range.Rows - 1, tbl.Range.Columns).Copy(tbl.Range.Offset(11,0));
+                Assert.IsNotNull(pt.Fields[2].Items.Count);
+                Assert.IsNotNull(pt.Fields[10].Items.Count);
+                Assert.IsNotNull(pt.Fields[1].Items.Count);
+                for (int r=12;r<23;r++)
+                {
+                    wsTable.Cells[r, 1].Value += "-" + r;
+                    wsTable.Cells[r, 2].Value = r;
+                    wsTable.Cells[r, 3].Value += "-" + r;
+                }
+
+                wsTable.Cells[15, 1].Value = null;
+                wsTable.Cells[14, 2].Value = null;
+                wsTable.Cells[13, 3].Value = null;
+
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i620()
+        {
+            using (var p = OpenTemplatePackage("i621.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.DeleteColumn(1, 3);
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
 
