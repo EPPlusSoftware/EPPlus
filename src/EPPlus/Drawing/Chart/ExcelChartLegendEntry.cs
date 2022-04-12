@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelChartLegendEntry : XmlHelper, IDrawingStyle
     {
-        protected ExcelChartStandard _chart;
+        internal ExcelChartStandard _chart;
         internal ExcelChartLegendEntry(XmlNamespaceManager nsm, XmlNode topNode, ExcelChartStandard chart) : base(nsm, topNode)
         {
             Init(chart);
@@ -107,7 +107,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _font;
             }
         }
-        public void InitChartXml()
+        internal void InitChartXml()
         {
             if (HasValue) return;
             HasValue = true;
@@ -140,6 +140,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+        /// <summary>
+        /// Access to border properties
+        /// </summary>
         public ExcelDrawingBorder Border
         {
             get
@@ -147,7 +150,9 @@ namespace OfficeOpenXml.Drawing.Chart
                 return null;
             }
         }
-
+        /// <summary>
+        /// Access to effects styling properties
+        /// </summary>
         public ExcelDrawingEffectStyle Effect
         {
             get
@@ -156,6 +161,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
+        /// <summary>
+        /// Access to fill styling properties.
+        /// </summary>
         public ExcelDrawingFill Fill
         {
             get
@@ -164,7 +172,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-
+        /// <summary>
+        /// Access to 3D properties.
+        /// </summary>
         public ExcelDrawing3D ThreeD
         {
             get
@@ -193,7 +203,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        public void CreatespPr()
+        void IDrawingStyleBase.CreatespPr()
         {
             
         }

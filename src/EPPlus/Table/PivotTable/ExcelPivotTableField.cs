@@ -677,7 +677,9 @@ namespace OfficeOpenXml.Table.PivotTable
                 _items.AddInternal(item);
             }
         }
-
+        /// <summary>
+        /// A reference to the cache for the pivot table field.
+        /// </summary>
         public ExcelPivotTableCacheField Cache
         {
             get
@@ -988,6 +990,9 @@ namespace OfficeOpenXml.Table.PivotTable
             return sb.ToString();
         }
         ExcelPivotTableFieldFilterCollection _filters = null;
+        /// <summary>
+        /// Filters used on the pivot table field.
+        /// </summary>
         public ExcelPivotTableFieldFilterCollection Filters
         {
             get

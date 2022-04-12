@@ -16,6 +16,9 @@ using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Style.Dxf
 {
+    /// <summary>
+    /// A font in a differential formatting record
+    /// </summary>
     public class ExcelDxfFont : ExcelDxfFontBase
     {
         internal ExcelDxfFont(ExcelStyles styles, Action<eStyleClass, eStyleProperty, object> callback)
@@ -87,6 +90,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         bool? _outline;
+        /// <summary>
+        /// Displays only the inner and outer borders of each character. Similar to bold
+        /// </summary>
         public bool? Outline
         {
             get
@@ -99,6 +105,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         bool? _shadow;
+        /// <summary>
+        /// Shadow for the font. Used on Macintosh only.
+        /// </summary>
         public bool? Shadow
         {
             get
@@ -111,6 +120,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         bool? _condense;
+        /// <summary>
+        /// Condence (squeeze it together). Used on Macintosh only.
+        /// </summary>
         public bool? Condense 
         {
             get
@@ -123,6 +135,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         bool? _extend;
+        /// <summary>
+        /// Extends or stretches the text. Legacy property used in older speadsheet applications.
+        /// </summary>
         public bool? Extend
         {
             get
@@ -135,6 +150,9 @@ namespace OfficeOpenXml.Style.Dxf
             }
         }
         eThemeFontCollectionType? _scheme;
+        /// <summary>
+        /// Which font scheme to use from the theme
+        /// </summary>
         public eThemeFontCollectionType? Scheme
         {
             get
@@ -147,7 +165,10 @@ namespace OfficeOpenXml.Style.Dxf
                 _callback?.Invoke(eStyleClass.Font, eStyleProperty.Scheme, value);
             }
         }
-        protected internal override string Id
+        /// <summary>
+        /// The Id to identify the font uniquely
+        /// </summary>
+        internal override string Id
         {
             get
             {
@@ -165,7 +186,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfFont(_styles, _callback) 
             {
@@ -221,7 +242,7 @@ namespace OfficeOpenXml.Style.Dxf
             Shadow = null;
             VerticalAlign = ExcelVerticalAlignmentFont.None;
         }
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             helper.CreateNode(path);
             SetValueBool(helper, path + "/d:b/@val", Bold);
@@ -238,7 +259,7 @@ namespace OfficeOpenXml.Style.Dxf
             SetValue(helper, path + "/d:family/@val", Family);
             SetValue(helper, path + "/d:vertAlign/@val", VerticalAlign==ExcelVerticalAlignmentFont.None ? null : VerticalAlign.ToEnumString());
         }
-        protected internal override void SetValuesFromXml(XmlHelper helper)
+        internal override void SetValuesFromXml(XmlHelper helper)
         {
             Size = helper.GetXmlNodeIntNull("d:font/d:sz/@val");
 

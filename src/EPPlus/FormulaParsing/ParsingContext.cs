@@ -41,12 +41,12 @@ namespace OfficeOpenXml.FormulaParsing
         /// The <see cref="ExcelDataProvider"/> is an abstraction on top of
         /// Excel, in this case EPPlus.
         /// </summary>
-        public ExcelDataProvider ExcelDataProvider { get; set; }
+        internal ExcelDataProvider ExcelDataProvider { get; set; }
 
         /// <summary>
         /// Utility for handling addresses
         /// </summary>
-        public RangeAddressFactory RangeAddressFactory { get; set; }
+        internal RangeAddressFactory RangeAddressFactory { get; set; }
 
         /// <summary>
         /// <see cref="INameValueProvider"/> of the current context

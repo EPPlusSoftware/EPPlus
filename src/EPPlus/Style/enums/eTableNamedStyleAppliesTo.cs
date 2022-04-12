@@ -12,6 +12,9 @@
  *************************************************************************************************/
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// Defines if a table style applies to a Table / PivotTable or Both
+    /// </summary>
     public enum eTableNamedStyleAppliesTo
     {
         /// <summary>

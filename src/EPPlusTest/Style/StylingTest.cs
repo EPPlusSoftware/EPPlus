@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -30,6 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.SystemDrawing.Text;
 using System.Drawing;
 using System.Globalization;
 using System.Threading;
@@ -186,7 +187,8 @@ namespace EPPlusTest.Style
         {
             using (var p = new ExcelPackage())
             {
-                var CustomFont = new Font("Corbel", 10);
+                var CustomFont = new Font("Calibri", 11);
+                p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
                 p.Workbook.ThemeManager.CreateDefaultTheme();
                 var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
                 defaultTheme.FontScheme.MajorFont.SetLatinFont(CustomFont.Name);
@@ -197,9 +199,11 @@ namespace EPPlusTest.Style
                 ExcelWorkbook workbook = p.Workbook;
                 ExcelWorksheet ws = p.Workbook.Worksheets.Add("sheet");
                 ExcelStyle style = workbook.Styles.CreateNamedStyle("style").Style;
-                ws.SetValue(1, 1, "very long text very long text very long text");
+                //ws.SetValue(1, 1, "very long text very long text very long text");
+                ws.Cells["A1"].Value = "番番番番(番番番)番番番番(番番番)番番番番(番番番)番番番番(番番番)番番番番(番番番)";
+
                 ws.Cells[1, 1].StyleName = "style";
-                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+                Assert.AreEqual(11, ws.Cells[1, 1].Style.Font.Size);
                 ws.Cells.AutoFitColumns(1);
                 SaveWorkbook("AutoFitColumnWithStyle.xlsx", p);
             }

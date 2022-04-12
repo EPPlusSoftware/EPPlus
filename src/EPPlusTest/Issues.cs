@@ -810,7 +810,7 @@ namespace EPPlusTest
 
             public Car(int id, string make, string model, int releaseYear)
             {
-                Id = Id;
+                Id = id;
                 Make = make;
                 Model = model;
                 ReleaseYear = releaseYear;
@@ -1487,7 +1487,7 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets.Add("Drawing1");
                 var shape = ws.Drawings.AddShape("x", eShapeStyle.Rect);
-                shape.Font.SetFromFont(new Font("Arial", 20));
+                shape.Font.SetFromFont("Arial", 20);
                 shape.Text = "Font";
                 SaveAndCleanup(p);
             }
@@ -1624,7 +1624,7 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets[0];
                 var cell = ws.Cells["D43"];
-                cell.Value = cell.Value + " ";
+                cell.Value += " ";
 
                 ExcelRichText rtx = cell.RichText.Add("a");
 
@@ -2989,6 +2989,21 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i574()
+        {
+            using (var package = OpenTemplatePackage("i574.xlsx"))
+            {
+                var wsSource = package.Workbook.Worksheets[0];
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void LoadFontSize()
+        {
+            FontSize.LoadAllFontsFromResource();
+        }
 
         [TestMethod]
         public void PiechartWithHorizontalSource()
@@ -3033,10 +3048,15 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void CheckEnvironment()
+        {
+            System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
+        }
+        [TestMethod]
         public void Issue592()
         {
             using (var p = OpenTemplatePackage("I592.xlsx"))
-            {
+            {        
                 var ws = p.Workbook.Worksheets[0];
                 SaveAndCleanup(p);
             }
@@ -3049,24 +3069,7 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets[1];
                 var tbl = ws.Tables[0];
                 tbl.AddRow(2);
-
                 SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void s300_1()
-        {
-            using (var p = OpenTemplatePackage("s300-1.xlsx"))
-            {
-                SaveWorkbook("s300-1-epp.xlsx", p);
-            }
-        }
-        [TestMethod]
-        public void s300_2()
-        {
-            using (var p = OpenTemplatePackage("s300-2.xlsx"))
-            {
-                SaveWorkbook("s300-2-epp.xlsx", p);
             }
         }
         [TestMethod]
@@ -3221,4 +3224,3 @@ namespace EPPlusTest
 
     }
 }
-

@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Slicer
     {
         internal ExcelSlicerXmlSource _xmlSource;
         internal ExcelWorksheet _ws;
-        protected XmlHelper _slicerXmlHelper;
+        internal XmlHelper _slicerXmlHelper;
         internal ExcelSlicer(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null) :
             base(drawings, node, "mc:AlternateContent/mc:Choice/xdr:graphicFrame", "xdr:nvGraphicFramePr/xdr:cNvPr", parent)
         {
@@ -218,7 +218,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 _slicerXmlHelper.SetXmlNodeString("@cache", value);
             }
         }
-        protected internal ExcelSlicerCache _cache = null;
+        internal ExcelSlicerCache _cache = null;
         /// <summary>
         /// A reference to the slicer cache.
         /// </summary>

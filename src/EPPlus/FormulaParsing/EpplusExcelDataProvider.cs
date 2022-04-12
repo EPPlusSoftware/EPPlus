@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style.XmlAccess;
@@ -24,8 +25,14 @@ using OfficeOpenXml.ExternalReferences;
 
 namespace OfficeOpenXml.FormulaParsing
 {
-    public class EpplusExcelDataProvider : ExcelDataProvider
+    /// <summary>
+    /// EPPlus implementation of the ExcelDataProvider abstract class.
+    /// </summary>
+    internal class EpplusExcelDataProvider : ExcelDataProvider
     {
+        /// <summary>
+        /// EPPlus implementation of the <see cref="IRangeInfo"/> interface
+        /// </summary>
         public class RangeInfo : IRangeInfo
         {
             internal ExcelWorksheet _ws;
@@ -35,6 +42,14 @@ namespace OfficeOpenXml.FormulaParsing
             ExcelAddressBase _address;
             ICellInfo _cell;
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="ws">The worksheet</param>
+            /// <param name="fromRow"></param>
+            /// <param name="fromCol"></param>
+            /// <param name="toRow"></param>
+            /// <param name="toCol"></param>
             public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol)
             {
                 var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
@@ -42,6 +57,11 @@ namespace OfficeOpenXml.FormulaParsing
                 SetAddress(ws, address);
             }
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="ws"></param>
+            /// <param name="address"></param>
             public RangeInfo(ExcelWorksheet ws, ExcelAddressBase address)
             {
                 SetAddress(ws, address);
@@ -61,11 +81,18 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
 
+            /// <summary>
+            /// The total number of cells (including empty) of the range
+            /// </summary>
+            /// <returns></returns>
             public int GetNCells()
             {
                 return ((_toRow - _fromRow) + 1) * ((_toCol - _fromCol) + 1);
             }
 
+            /// <summary>
+            /// Returns true if the range represents a reference
+            /// </summary>
             public bool IsRef
             {
                 get
@@ -73,6 +100,9 @@ namespace OfficeOpenXml.FormulaParsing
                     return _ws == null || _fromRow < 0 || _toRow < 0;
                 }
             }
+            /// <summary>
+            /// Returns true if the range is empty
+            /// </summary>
             public bool IsEmpty
             {
                 get
@@ -93,6 +123,10 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
+
+            /// <summary>
+            /// Returns true if more than one cell
+            /// </summary>
             public bool IsMulti
             {
                 get
@@ -119,16 +153,25 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
 
+            /// <summary>
+            /// Current cell
+            /// </summary>
             public ICellInfo Current
             {
                 get { return _cell; }
             }
 
+            /// <summary>
+            /// The worksheet
+            /// </summary>
             public ExcelWorksheet Worksheet
             {
                 get { return _ws; }
             }
 
+            /// <summary>
+            /// Runs at dispose of this instance
+            /// </summary>
             public void Dispose()
             {
                 //_values = null;
@@ -136,6 +179,9 @@ namespace OfficeOpenXml.FormulaParsing
                 //_cell = null;
             }
 
+            /// <summary>
+            /// IEnumerator.Current
+            /// </summary>
             object System.Collections.IEnumerator.Current
             {
                 get
@@ -144,6 +190,10 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
 
+            /// <summary>
+            /// Moves to next cell
+            /// </summary>
+            /// <returns></returns>
             public bool MoveNext()
             {
                 if (_values == null) return false;
@@ -151,6 +201,9 @@ namespace OfficeOpenXml.FormulaParsing
                 return _values.MoveNext();
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
             public void Reset()
             {
                 _cellCount = 0;
@@ -158,6 +211,10 @@ namespace OfficeOpenXml.FormulaParsing
             }
 
 
+            /// <summary>
+            /// Moves to next cell
+            /// </summary>
+            /// <returns></returns>
             public bool NextCell()
             {
                 if (_values == null) return false;
@@ -165,22 +222,39 @@ namespace OfficeOpenXml.FormulaParsing
                 return _values.MoveNext();
             }
 
+            /// <summary>
+            /// Returns enumerator for cells
+            /// </summary>
+            /// <returns></returns>
             public IEnumerator<ICellInfo> GetEnumerator()
             {
                 Reset();
                 return this;
             }
 
+            /// <summary>
+            /// Returns enumerator for cells
+            /// </summary>
+            /// <returns></returns>
             System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
             {
                 return this;
             }
             
+            /// <summary>
+            /// Address of the range
+            /// </summary>
             public ExcelAddressBase Address
             {
                 get { return _address; }
             }
 
+            /// <summary>
+            /// Returns the cell value 
+            /// </summary>
+            /// <param name="row"></param>
+            /// <param name="col"></param>
+            /// <returns></returns>
             public object GetValue(int row, int col)
             {
                 return _ws?.GetValue(row, col);
@@ -297,7 +371,7 @@ namespace OfficeOpenXml.FormulaParsing
                 get { return _ws.Name; }
             }
         }
-        public class NameInfo : ExcelDataProvider.INameInfo
+        public class NameInfo : INameInfo
         {
             public ulong Id { get; set; }
             public string Worksheet { get; set; }
@@ -311,6 +385,12 @@ namespace OfficeOpenXml.FormulaParsing
         private ExcelWorksheet _currentWorksheet;
         private RangeAddressFactory _rangeAddressFactory;
         private Dictionary<ulong, INameInfo> _names=new Dictionary<ulong,INameInfo>();
+
+        internal EpplusExcelDataProvider()
+            : this(new ExcelPackage())
+        {
+
+        }
 
         public EpplusExcelDataProvider(ExcelPackage package)
         {
@@ -384,6 +464,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override IRangeInfo GetRange(string worksheet, int row, int column, string address)
         {
+            SetCurrentWorksheet(worksheet);
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null && string.IsNullOrEmpty(addr._wb))
             {
@@ -393,6 +474,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override IRangeInfo GetRange(string worksheet, string address)
         {
+            SetCurrentWorksheet(worksheet);
             var addr = new ExcelAddressBase(address, _package.Workbook, worksheet);
             if (addr.Table != null)
             {

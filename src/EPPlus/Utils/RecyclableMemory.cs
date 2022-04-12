@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace OfficeOpenXml.Utils
 {
+	/// <summary>
+	/// Handles the Recyclable Memory stream for supported and unsupported target frameworks.
+	/// </summary>
 	public static class RecyclableMemory
 	{
 #if !NET35
@@ -18,12 +21,20 @@ namespace OfficeOpenXml.Utils
 			}
 		}
 
+		/// <summary>
+		/// Sets the RecyclableMemorytreamsManager to manage pools
+		/// </summary>
+		/// <param name="recyclableMemoryStreamManager">The memory manager</param>
 		public static void SetRecyclableMemoryStreamManager(Microsoft.IO.RecyclableMemoryStreamManager recyclableMemoryStreamManager)
 		{
 			_dataInitialized = recyclableMemoryStreamManager is object;
             _memoryManager = recyclableMemoryStreamManager;
 		}
 #endif
+		/// <summary>
+		/// Get a new memory stream.
+		/// </summary>
+		/// <returns>A MemoryStream</returns>
 		internal static MemoryStream GetStream()
 		{
 #if NET35
@@ -33,6 +44,10 @@ namespace OfficeOpenXml.Utils
 #endif
 		}
 
+		/// <summary>
+		/// Get a new memory stream initiated with a byte-array
+		/// </summary>
+		/// <returns>A MemoryStream</returns>
 		internal static MemoryStream GetStream(byte[] array)
 		{
 #if NET35
@@ -41,7 +56,11 @@ namespace OfficeOpenXml.Utils
 			return MemoryManager.GetStream(array);
 #endif
 		}
-
+		/// <summary>
+		/// Get a new memory stream initiated with a byte-array
+		/// </summary>
+		/// <param name="capacity">The initial size of the internal array</param>
+		/// <returns>A MemoryStream</returns>
 		internal static MemoryStream GetStream(int capacity)
 		{
 #if NET35

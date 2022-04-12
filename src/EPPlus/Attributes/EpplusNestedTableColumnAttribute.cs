@@ -17,7 +17,10 @@ using System.Text;
 
 namespace OfficeOpenXml.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]
+    /// <summary>
+    /// Attribute used by <see cref="ExcelRangeBase.LoadFromCollection{T}(IEnumerable{T})" /> to support complex type properties/>
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field)]    
     public class EpplusNestedTableColumnAttribute : Attribute
     {
         /// <summary>

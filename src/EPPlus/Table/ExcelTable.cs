@@ -24,10 +24,10 @@ using System.Data;
 using OfficeOpenXml.Export.ToDataTable;
 using System.IO;
 using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Export.HtmlExport;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -269,6 +269,14 @@ namespace OfficeOpenXml.Table
         {
             return Range.ToText();
         }
+        /// <summary>
+        /// Creates an <see cref="IExcelHtmlTableExporter"/> object to export the table to HTML
+        /// </summary>
+        /// <returns>The exporter object</returns>
+        public IExcelHtmlTableExporter CreateHtmlExporter()
+        {
+            return new OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlTableExporter(this);
+        }
 
         /// <summary>
         /// Converts the table range to CSV format
@@ -347,6 +355,34 @@ namespace OfficeOpenXml.Table
             await Range.SaveToTextAsync(file, format);
         }
 
+        /// <summary>
+        /// Save the table to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <returns></returns>
+        public async Task SaveToJsonAsync(Stream stream)
+        {
+            var s = new JsonTableExportSettings();
+            await SaveToJsonInternalAsync(stream, s);
+        }
+        /// <summary>
+        /// Save the table to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <param name="settings">Settings for the json output.</param>
+        /// <returns></returns>
+        public async Task SaveToJsonAsync(Stream stream, Action<JsonTableExportSettings> settings)
+        {
+            var s = new JsonTableExportSettings();
+            settings.Invoke(s);
+            await SaveToJsonInternalAsync(stream, s);
+        }        
+        private async Task SaveToJsonInternalAsync(Stream stream, JsonTableExportSettings s)
+        {
+            var exporter = new JsonTableExport(this, s);
+            await exporter.ExportAsync(stream);
+            await stream.FlushAsync();
+        }
 #endif
 
         /// <summary>
@@ -357,6 +393,61 @@ namespace OfficeOpenXml.Table
         public DataTable ToDataTable()
         {
             return Range.ToDataTable();
+        }
+        /// <summary>
+        /// Returns the table as a JSON string
+        /// </summary>
+        /// <returns>A string containing the JSON document.</returns>
+        public string ToJson()
+        {
+            var s = new JsonTableExportSettings();
+            return ToJsonString(s);
+        }
+        /// <summary>
+        /// Returns the table as a JSON string
+        /// </summary>
+        /// <param name="settings">Settings to configure the JSON output</param>
+        /// <returns>A string containing the JSON document.</returns>
+        public string ToJson(Action<JsonTableExportSettings> settings)
+        {
+            var s=new JsonTableExportSettings();
+            settings.Invoke(s);
+            return ToJsonString(s);
+        }
+        /// <summary>
+        /// Saves the table as a JSON string to a string
+        /// </summary>
+        /// <param name="stream">The stream to write the JSON to.</param>
+        public void SaveToJson(Stream stream)
+        {
+            var s = new JsonTableExportSettings();
+            SaveToJsonInternal(stream, s);
+        }
+        /// <summary>
+        /// Saves the table as a JSON string to a string
+        /// </summary>
+        /// <param name="stream">The stream to write the JSON to.</param>
+        /// <param name="settings">Settings to configure the JSON output</param>
+        public void SaveToJson(Stream stream, Action<JsonTableExportSettings> settings)
+        {
+            var s = new JsonTableExportSettings();
+            settings.Invoke(s);
+            SaveToJsonInternal(stream, s);
+        }
+
+        private void SaveToJsonInternal(Stream stream, JsonTableExportSettings s)
+        {
+            var exporter = new JsonTableExport(this, s);
+            exporter.Export(stream);
+            stream.Flush();
+        }
+
+        private string ToJsonString(JsonTableExportSettings s)
+        {
+            var exporter = new JsonTableExport(this, s);
+            var ms = new MemoryStream();            
+            exporter.Export(ms);
+            return s.Encoding.GetString(ms.ToArray());
         }
 
         /// <summary>
@@ -1029,6 +1120,9 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@headerRowBorderDxfId", value);
             }
         }
+        /// <summary>
+        /// Sets differential formatting styles for the table header row border style.
+        /// </summary>
         public ExcelDxfBorderBase HeaderRowBorderStyle { get; set; }
         internal int? TableBorderDxfId
         {
@@ -1041,6 +1135,9 @@ namespace OfficeOpenXml.Table
                 SetXmlNodeInt("@tableBorderDxfId", value);
             }
         }
+        /// <summary>
+        /// Sets differential formatting styles for the tables row border style.
+        /// </summary>
         public ExcelDxfBorderBase TableBorderStyle { get; set; }
 
         #region Sorting
@@ -1048,6 +1145,11 @@ namespace OfficeOpenXml.Table
         const string SortStatePath = "d:sortState";
         SortState _sortState = null;
 
+        /// <summary>
+        /// Gets the sort state of the table.
+        /// <seealso cref="Sort(Action{TableSortOptions})"/>
+        /// <seealso cref="Sort(TableSortOptions)"/>
+        /// </summary>
         public SortState SortState
         {
             get

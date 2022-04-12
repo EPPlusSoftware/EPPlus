@@ -34,6 +34,9 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.Export.HtmlExport.Exporters;
 
 namespace OfficeOpenXml
 {
@@ -500,12 +503,41 @@ namespace OfficeOpenXml
 				return (_worksheets);
 			}
 		}
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Provides access to named ranges
-		/// </summary>
-		public ExcelNamedRangeCollection Names
+        /// <summary>
+        /// Create an html exporter for the supplied ranges.
+        /// </summary>
+        /// <param name="ranges">The ranges to create the report from. All ranges must originate from the current workbook. </param>
+        /// <returns>The HTML exporter.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public IExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
+        {
+            foreach (var range in ranges)
+            {
+                if (range._workbook != this)
+                {
+                    throw new InvalidOperationException("All ranges must come from the current workbook");
+                }
+            }
+            return new ExcelHtmlWorkbookExporter(ranges);
+        }
+
+        //public ExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
+        //{
+        //    foreach (var range in ranges)
+        //    {
+        //        if (range._workbook != this)
+        //        {
+        //            throw new InvalidOperationException("All ranges must come from the current workbook");
+        //        }
+        //    }
+        //    return new Export.HtmlExport.ExcelHtmlRangeExporter(ranges);
+        //}
+        /// <summary>
+        /// Provides access to named ranges
+        /// </summary>
+        public ExcelNamedRangeCollection Names
 		{
 			get
 			{
@@ -591,7 +623,7 @@ namespace OfficeOpenXml
 					{
 						try
 						{
-							_standardFontWidth = GetWidthPixels(font.Name, font.Size);
+							_standardFontWidth = FontSize.GetWidthPixels(font.Name, font.Size);
 							_fontID = Styles.NamedStyles[ix].Style.Font.Id;
 						}
 						catch   //Error, Font missing and Calibri removed in dictionary
@@ -613,97 +645,29 @@ namespace OfficeOpenXml
 		}
 
 		internal static decimal GetHeightPixels(string fontName, float fontSize)
-		{
-			Dictionary<float, FontSizeInfo> font;
-			if (FontSize.FontHeights.ContainsKey(fontName))
-			{
-				font = FontSize.FontHeights[fontName];
-			}
-			else
-			{
-				if(FontSize._isLoaded==false)
-				{
-					FontSize.LazyLoadFont();
-					return GetHeightPixels(fontName, fontSize);
-				}
-				font = FontSize.FontHeights["Calibri"];
-			}
+        {
+            Dictionary<float, short> font;
+            font = FontSize.GetFontSize(fontName, false);
 
-			if (font.ContainsKey(fontSize))
-			{
-				return Convert.ToDecimal(font[fontSize].Width);
-			}
-			else
-			{
-				float min = -1, max = 500;
-				foreach (var size in font)
-				{
-					if (min < size.Key && size.Key < fontSize)
-					{
-						min = size.Key;
-					}
-					if (max > size.Key && size.Key > fontSize)
-					{
-						max = size.Key;
-					}
-				}
-				if (min == max)
-				{
-					return Convert.ToDecimal(font[min].Height);
-				}
-				else
-				{
-					return Convert.ToDecimal(font[min].Height + (font[max].Height - font[min].Height) * ((fontSize - min) / (max - min)));
-				}
-			}
-		}
-		internal static decimal GetWidthPixels(string fontName, float fontSize)
-		{
-			Dictionary<float, FontSizeInfo> font;
-			if (FontSize.FontHeights.ContainsKey(fontName))
-			{
-				font = FontSize.FontHeights[fontName];
-			}
-			else
-			{
-				if (FontSize._isLoaded == false)
-				{
-					FontSize.LazyLoadFont();
-					return GetWidthPixels(fontName, fontSize);
-				}
-
-				font = FontSize.FontHeights["Calibri"];
-			}
-
-			if (font.ContainsKey(fontSize))
-			{
-				return Convert.ToDecimal(font[fontSize].Width);
-			}
-			else
-			{
-				float min = -1, max = 500;
-				foreach (var size in font)
-				{
-					if (min < size.Key && size.Key < fontSize)
-					{
-						min = size.Key;
-					}
-					if (max > size.Key && size.Key > fontSize)
-					{
-						max = size.Key;
-					}
-				}
-				if (min == max)
-				{
-					return Convert.ToDecimal(font[min].Width);
-				}
-				else
-				{
-					return Convert.ToDecimal(font[min].Width + (font[max].Width - font[min].Width) * ((fontSize - min) / (max - min)));
-				}
-			}
-		}
-
+            if (font.ContainsKey(fontSize))
+            {
+                return Convert.ToDecimal(font[fontSize]);
+            }
+            else
+            {
+                float min = -1;
+                foreach (var size in font.Keys)
+                {
+                    if (min < size && size < fontSize)
+                    {
+                        break;
+                    }
+                    min = size;
+                }
+                if (min > -1) return font[min];
+                return 20;  //Default pixels, Calibri 11
+            }
+        }
 		ExcelProtection _protection = null;
 		/// <summary>
 		/// Access properties to protect or unprotect a workbook
@@ -1658,7 +1622,10 @@ namespace OfficeOpenXml
 			}
 		}
 
-        public bool HasLoadedPivotTables 
+        /// <summary>
+		/// Returns true if the workbook has pivot tables in any worksheet.
+		/// </summary>
+		public bool HasLoadedPivotTables 
 		{ 
 			get
 			{

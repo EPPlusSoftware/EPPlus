@@ -109,20 +109,6 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Add a defined name referencing a formula -- the method name contains a typo.
-        /// This method is obsolete and will be removed in the future.
-        /// Use <see cref="AddFormula"/>
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Formula"></param>
-        /// <returns></returns>
-        [Obsolete("Call AddFormula() instead.  See Issue Tracker Id #14687")]
-        public ExcelNamedRange AddFormla(string Name, string Formula)
-        {
-            return  this.AddFormula(Name, Formula);
-        }
-
-        /// <summary>
         /// Add a defined name referencing a formula
         /// </summary>
         /// <param name="Name"></param>
@@ -187,16 +173,7 @@ namespace OfficeOpenXml
                 }
             }
         }
-        private static string BuildNewAddress(ExcelNamedRange namedRange, string newAddress)
-        {
-            if (namedRange.FullAddress.Contains("!"))
-            {
-                var worksheet = namedRange.FullAddress.Split('!')[0];
-                worksheet = worksheet.Trim('\'');
-                newAddress = ExcelCellBase.GetFullAddress(worksheet, newAddress);
-            }
-            return newAddress;
-        }
+
 
         /// <summary>
         /// Remove a defined name from the collection

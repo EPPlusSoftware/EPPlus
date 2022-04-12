@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
     /// </summary>
     public class ExcelChartExTitle : ExcelChartTitle
     {
-        public ExcelChartExTitle(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node, "cx")
+        internal ExcelChartExTitle(ExcelChart chart, XmlNamespaceManager nsm, XmlNode node) : base(chart, nsm, node, "cx")
         {
             
         }

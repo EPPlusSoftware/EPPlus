@@ -107,6 +107,9 @@ namespace OfficeOpenXml.Style
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Style, eStyleProperty.VerticalAlign, value, _positionID, _address));
             }
         }
+        /// <summary>
+        /// If the cells justified or distributed alignment should be used on the last line of text.
+        /// </summary>
         public bool JustifyLastLine
         {
             get

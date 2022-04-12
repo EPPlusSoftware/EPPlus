@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Number format settings
         /// </summary>
         public ExcelDxfNumberFormat NumberFormat { get; internal set; }
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Style.Dxf
                 return base.HasValue || NumberFormat.HasValue;
             }
         }
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             var s = new ExcelDxfStyleConditionalFormatting(_helper.NameSpaceManager, null, _styles, _callback)
             {
@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Style.Dxf
 
             return s;
         }
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");

@@ -12,7 +12,9 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+#if NETFULL
 using System.Drawing;
+#endif
 using System.Globalization;
 using System.Text;
 using System.Xml;
@@ -296,18 +298,23 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
         }
         /// <summary>
-        /// Sets the font from a system font object
+        /// Set the font properties
         /// </summary>
-        /// <param name="Font">The font</param>
-        public void SetFromFont(System.Drawing.Font Font)
+        /// <param name="name">Font family name</param>
+        /// <param name="size">Font size</param>
+        /// <param name="bold"></param>
+        /// <param name="italic"></param>
+        /// <param name="underline"></param>
+        /// <param name="strikeout"></param>
+        public void SetFromFont(string name, float size, bool bold = false, bool italic = false, bool underline = false, bool strikeout = false)
         {
-            Name=Font.Name;
+            Name=name;
             //Family=fnt.FontFamily.;
-            Size=(int)Font.Size;
-            Strike=Font.Strikeout;
-            Bold = Font.Bold;
-            UnderLine=Font.Underline;
-            Italic=Font.Italic;            
+            Size= size;
+            Strike= strikeout;
+            Bold = bold;
+            UnderLine= underline;
+            Italic= italic;            
         }
         /// <summary>
         /// Gets the height of the font in 
@@ -318,58 +325,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal static float GetFontHeight(string name, float size)
         {
             name = name.StartsWith("@") ? name.Substring(1) : name;
-            if (FontSize.FontHeights.ContainsKey(name))
-            {
-                return GetHeightByName(name, size);
-            }
-            else
-            {
-                if (FontSize._isLoaded == false)
-                {
-                    FontSize.LazyLoadFont();
-                    return GetHeightByName(name, size);
-                }
-                return GetHeightByName("Calibri", size);
-            }
-        }
-
-        private static float GetHeightByName(string name, float size)
-        {
-            if(FontSize.FontHeights.ContainsKey(name)==false)
-            {
-                return GetHeightByName("Calibri", size);
-            }
-            if (FontSize.FontHeights[name].ContainsKey(size))
-            {
-                return FontSize.FontHeights[name][size].Height;
-            }
-            else
-            {
-                float min = -1, max = float.MaxValue;
-                foreach (var h in FontSize.FontHeights[name])
-                {
-                    if (min < h.Key && h.Key < size)
-                    {
-                        min = h.Key;
-                    }
-                    if (max > h.Key && h.Key > size)
-                    {
-                        max = h.Key;
-                    }
-                }
-                if (min == max || max==float.MaxValue)
-                {
-                    return Convert.ToSingle(FontSize.FontHeights[name][min].Height);
-                }
-                else if (min == -1)
-                {
-                    return Convert.ToSingle(FontSize.FontHeights[name][max].Height);
-                }
-                else
-                {
-                    return Convert.ToSingle(FontSize.FontHeights[name][min].Height + (FontSize.FontHeights[name][max].Height - FontSize.FontHeights[name][min].Height) * ((size - min) / (max - min)));
-                }
-            }
+            return Convert.ToSingle(ExcelWorkbook.GetHeightPixels(name, size));
         }
         internal ExcelFontXml Copy()
         {

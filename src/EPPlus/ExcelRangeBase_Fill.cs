@@ -36,6 +36,10 @@ namespace OfficeOpenXml
         {
             FillNumber(x => { x.StepValue = stepValue; x.StartValue = startValue; });
         }
+        /// <summary>
+        /// Fills a range by using the argument options. 
+        /// </summary>
+        /// <param name="options">The option to configure the fill.</param>
         public void FillNumber(Action<FillNumberParams> options)
         {
             var o = new FillNumberParams();

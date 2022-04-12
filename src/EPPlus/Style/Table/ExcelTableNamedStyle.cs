@@ -10,7 +10,6 @@
  *************************************************************************************************
   01/08/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using Ionic.Zip;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Style.Dxf;

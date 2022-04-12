@@ -25,6 +25,9 @@ using OfficeOpenXml.Drawing.Chart;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// Represents an external workbook.
+    /// </summary>
     public class ExcelExternalWorkbook : ExcelExternalLink
     {
         Dictionary<string, int> _sheetNames = new Dictionary<string, int>();
@@ -86,6 +89,10 @@ namespace OfficeOpenXml.ExternalReferences
             }
             CacheStatus = eExternalWorkbookCacheStatus.LoadedFromPackage;
         }
+
+        /// <summary>
+        /// Sets the external link type
+        /// </summary>
         public override eExternalLinkType ExternalLinkType
         {
             get
@@ -668,6 +675,10 @@ namespace OfficeOpenXml.ExternalReferences
             }            
         }
 
+        /// <summary>
+        /// String representation
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (Relation?.TargetUri != null)

@@ -20,10 +20,13 @@ using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
 {
+    /// <summary>
+    /// A collection of external links referenced by the workbook.
+    /// </summary>
     public class ExcelExternalLinksCollection : IEnumerable<ExcelExternalLink>
     {
-        List<ExcelExternalLink> _list=new List<ExcelExternalLink>();
-        ExcelWorkbook _wb;
+        readonly List<ExcelExternalLink> _list=new List<ExcelExternalLink>();
+        readonly ExcelWorkbook _wb;
         internal ExcelExternalLinksCollection(ExcelWorkbook wb)
         {
             _wb = wb;
@@ -33,16 +36,32 @@ namespace OfficeOpenXml.ExternalReferences
         {
             _list.Add(externalLink);
         }
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<ExcelExternalLink> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
         }
+        /// <summary>
+        /// Gets the number of items in the collection
+        /// </summary>
         public int Count { get { return _list.Count; } }
+        /// <summary>
+        /// The indexer for the collection
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns></returns>
         public ExcelExternalLink this[int index]
         {
             get

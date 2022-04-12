@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _chartNode;
             }
         }
-        protected internal ExcelChartTitle _title = null;
+        internal ExcelChartTitle _title = null;
         /// <summary>
         /// The titel of the chart
         /// </summary>
@@ -261,13 +261,14 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         /// <summary>
         /// The build-in chart styles. 
+        /// Use <see cref="ExcelChart.StyleManager"/> for the more modern styling.
         /// </summary>
         public abstract eChartStyle Style
         {
             get;
             set;
         }
-        protected ExcelChartPlotArea _plotArea = null;
+        internal ExcelChartPlotArea _plotArea = null;
         /// <summary>
         /// Plotarea
         /// </summary>
@@ -275,7 +276,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get;
         }
-        internal protected ExcelChartLegend _legend = null;
+        internal ExcelChartLegend _legend = null;
         /// <summary>
         /// Legend
         /// </summary>
@@ -625,7 +626,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Returns true if the chart is a pie chart
         /// </summary>
-        /// <returns>True if the chart is a pie chart</returns>
+        /// <returns>true if the chart is a pie chart</returns>
         protected internal bool IsTypePie()
         {
             return ChartType == eChartType.Pie ||
@@ -635,6 +636,10 @@ namespace OfficeOpenXml.Drawing.Chart
                            ChartType == eChartType.PieExploded3D ||
                            ChartType == eChartType.BarOfPie;
         }
+        /// <summary>
+        /// Return true if the chart is a stock chart.
+        /// </summary>
+        /// <returns>true if the chart is a stock chart.</returns>
         protected internal bool IsTypeStock()
         {
             return IsTypeStock(ChartType);
@@ -658,6 +663,10 @@ namespace OfficeOpenXml.Drawing.Chart
             _chartXmlHelper.SetXmlNodeString("../../../mc:AlternateContent/mc:Choice/c14:style/@val", styleId.ToString(CultureInfo.InvariantCulture));
             _chartXmlHelper.SetXmlNodeString("../../../mc:AlternateContent/mc:Fallback/c:style/@val", fallBackStyleId.ToString(CultureInfo.InvariantCulture));
         }
+        /// <summary>
+        /// If the chart has only one serie this varies the colors for each point.
+        /// This property does not apply to extention charts.
+        /// </summary>
         public abstract bool VaryColors { get; set; }
         /// <summary>
         /// Formatting for the floor of a 3D chart. 

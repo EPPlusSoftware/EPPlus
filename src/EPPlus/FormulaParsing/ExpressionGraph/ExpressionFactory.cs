@@ -19,7 +19,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    public class ExpressionFactory : IExpressionFactory
+    internal class ExpressionFactory : IExpressionFactory
     {
         private readonly ExcelDataProvider _excelDataProvider;
         private readonly ParsingContext _parsingContext;

@@ -44,11 +44,17 @@ namespace OfficeOpenXml.Sorting
 
         internal Dictionary<int, string[]> CustomLists { get; private set; }
 
+        /// <summary>
+        /// Culture to use in sort
+        /// </summary>
         public CultureInfo Culture
         {
             get; set;
         }
 
+        /// <summary>
+        /// Compare options  to use in sort
+        /// </summary>
         public CompareOptions CompareOptions
         {
             get; set;

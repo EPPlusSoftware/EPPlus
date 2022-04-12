@@ -1,29 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net45;net40;net35</TargetFrameworks>
-    <AssemblyVersion>5.8.9.0</AssemblyVersion>
-    <FileVersion>5.8.9.0</FileVersion>
-    <Version>5.8.9</Version>
+    <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0;net452;net35</TargetFrameworks>
+    <AssemblyVersion>6.0.3.0</AssemblyVersion>
+    <FileVersion>6.0.3.0</FileVersion>
+    <Version>6.0.3</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <Company>EPPlus Software AB</Company>
     <Product>EPPlus</Product>
-    <Description>A spreadsheet library for .NET framework and .NET core</Description>
+	<Description>A spreadsheet library for .NET framework and .NET core</Description>
     <AssemblyName>EPPlus</AssemblyName>
     <RootNamespace>OfficeOpenXml</RootNamespace>
     <RepositoryUrl>https://github.com/EPPlusSoftware/EPPlus.git</RepositoryUrl>
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 5.8.9
+		EPPlus 6.0.3
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 		Commercial licenses can be purchased from https://epplussoftware.com
-		This applies to EPPlus version 5 and later. Previous versions are still licensed LGPL.
+		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+		## Version 6.0.3
+		* Html Export - https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export
+		* Json Export - https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export
+		* 32 new functions.
+		* Support for new image types: Svg, WebP and Ico.
+		* Removed direct references to System.Drawing.Common, see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6
+		* Bug fixes.
+		
+		To see the new export in action, visit our new Web Sample Site: https://samples.epplussoftware.com
+		
+		See https://epplussoftware.com/Developers/EPPlus6 for more details.
 
 		## Version 5.8.9
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
@@ -231,11 +242,14 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
+		6.0.3 20220412 Html and JSON export. New drawing handling. https://epplussoftware.com/Developers/EPPlus6
 		5.8.9 20220411 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		5.8.8 20220322 Minor bug fixes. 
+		6.0.1 20220310 Beta 2
+		6.0.0 20220307 Beta 1
 		5.8.7 20220301 Minor bug fixes.
 		5.8.6 20220203 Minor bug fixes.
-		5.8.5 20220113 Minor features and bug fixes.
+		5.8.5 20220113 Minor features and bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 		5.8.4 20211214 Minor features and bug fixes.
 		5.8.3 20211119 Minor bug fixes.
 		5.8.2 20211029 Minor bug fixes.
@@ -290,11 +304,15 @@
     <DefineConstants>Core;Standard21</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+    <DefineConstants>Core;NET60</DefineConstants>
+  </PropertyGroup>
+	
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0'">
-    <DefineConstants>Core;NET50</DefineConstants>
+	<DefineConstants>Core;NET50</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
@@ -302,21 +320,37 @@
     <DefineConstants>NET35;NETFULL</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
-    <DefineConstants>NET40;NETFULL</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoWarn>1591</NoWarn>
-  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Core\Worksheet\Fonts\Tables\**" />
+    <EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
+    <None Remove="Core\Worksheet\Fonts\Tables\**" />
+  </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Compatibility\SystemDrawing\KnownColor.cs" />
+    <Compile Remove="Compatibility\SystemDrawing\KnownColors.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\GenericFontMetrics\GenericMetricsManager.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\TableRecord.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\Tag.cs" />
+    <Compile Remove="Core\Worksheet\Fonts\TtfFont.cs" />
     <Compile Remove="Drawing\ExcelDrawingLine.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Css.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Css.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Html.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Html.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Css.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Css.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Html.async.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Html.cs" />
+    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExportSetting.cs" />
+    <Compile Remove="Export\HtmlExport\HtmlExporterBase.async.cs" />
+    <Compile Remove="Export\HtmlExport\HtmlExporterBase.cs" />
     <Compile Remove="Packaging\DotNetZip\ZipFile.SaveSelfExtractor.cs" />
+  
   </ItemGroup>
 
 
@@ -327,54 +361,32 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net40'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net452'">
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Threading.Tasks" />  
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>1.4.1</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45'">
-    <Reference Include="PresentationCore" />
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Threading.Tasks" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations">
-      <Version>4.7.0</Version>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations">
-      <Version>4.7.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Drawing.Common">
-      <Version>4.7.1</Version>
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
@@ -383,38 +395,45 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.10" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations">
-      <Version>4.7.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Drawing.Common">
-      <Version>4.7.1</Version>
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
-    <PackageReference Include="System.ComponentModel.Annotations">
-      <Version>5.0.0</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
-      <Version>1.4.1</Version>
+      <Version>2.2.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Drawing.Common">
-      <Version>5.0.0</Version>
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="5.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="resources\DefaultTableStyles.cst" />
+    <None Remove="resources\fontsize.zip" />
+    <None Remove="resources\TextMetrics.zip" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="resources\DefaultChartStyles.ecs" />
     <EmbeddedResource Include="resources\DefaultTableStyles.cst" />
+    <EmbeddedResource Include="resources\fontsize.zip" />
+    <EmbeddedResource Include="resources\TextMetrics.zip" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
@@ -430,5 +449,9 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+	  <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
+	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
   </ItemGroup>
 </Project>

@@ -91,6 +91,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             ParetoLine?.DeleteNode(".");
             ParetoLine = null;
         }
+        /// <summary>
+        /// Properties for the pareto line.
+        /// </summary>
         public ExcelChartExParetoLine ParetoLine
         {
             get;

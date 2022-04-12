@@ -11,8 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Text;
+using OfficeOpenXml.Drawing.Interfaces;
 using System.Xml;
 using System.Globalization;
 using System.Drawing;
@@ -23,7 +22,7 @@ namespace OfficeOpenXml.Drawing.Vml
     /// <summary>
     /// Drawing object used for header and footer pictures
     /// </summary>
-    public class ExcelVmlDrawingPicture : ExcelVmlDrawingBase
+    public class ExcelVmlDrawingPicture : ExcelVmlDrawingBase, IPictureContainer
     {
         ExcelWorksheet _worksheet;
         internal ExcelVmlDrawingPicture(XmlNode topNode, XmlNamespaceManager ns, ExcelWorksheet ws) :
@@ -111,23 +110,29 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("v:imagedata/@o:title",value);
             }
         }
+        ExcelImage _image;
         /// <summary>
-        /// The image
+        /// The Image
         /// </summary>
-        public Image Image
+        public ExcelImage Image
         {
             get
             {
-                var pck = _worksheet._package.ZipPackage;
-                if (pck.PartExists(ImageUri))
-                {
-                    var part = pck.GetPart(ImageUri);
-                    return Image.FromStream(part.GetStream());
+                if(_image==null)
+                {                    
+                    _image = new ExcelImage(this, new ePictureType[] { ePictureType.Svg, ePictureType.Ico, ePictureType.WebP });
+                    var pck = _worksheet._package.ZipPackage;
+                    if (pck.PartExists(ImageUri))
+                    {
+                        var part = pck.GetPart(ImageUri);
+                        _image.SetImage(part.GetStream().ToArray(), PictureStore.GetPictureType(ImageUri));
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+                return _image;
             }
         }
         internal Uri ImageUri
@@ -332,6 +337,34 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
             }
             return 0;
+        }
+
+        IPictureRelationDocument RelationDocument
+        {
+            get
+            {
+                return _worksheet.VmlDrawings;
+            }
+        }
+
+        string ImageHash { get; set; }
+        Uri UriPic { get; set; }
+        Packaging.ZipPackageRelationship RelPic { get; set; }
+
+        IPictureRelationDocument IPictureContainer.RelationDocument => throw new NotImplementedException();
+
+        string IPictureContainer.ImageHash { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Uri IPictureContainer.UriPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        Packaging.ZipPackageRelationship IPictureContainer.RelPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        void IPictureContainer.RemoveImage()
+        {
+            
+        }
+
+        void IPictureContainer.SetNewImage()
+        {
+            
         }
         #endregion
     }

@@ -22,10 +22,10 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    public class ExcelAddressExpression : AtomicExpression
+    internal class ExcelAddressExpression : AtomicExpression
     {
         /// <summary>
-        /// Gets or sets a value that indicates whether or not to resolve directly to an <see cref="ExcelDataProvider.IRangeInfo"/>
+        /// Gets or sets a value that indicates whether or not to resolve directly to an <see cref="IRangeInfo"/>
         /// </summary>
         public bool ResolveAsRange { get; set; }
 
@@ -34,18 +34,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly RangeAddressFactory _rangeAddressFactory;
         private readonly bool _negate;
 
-        public ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
+        internal ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
             : this(expression, excelDataProvider, parsingContext, new RangeAddressFactory(excelDataProvider), false)
         {
 
         }
-        public ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext, bool negate)
+        internal ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext, bool negate)
             : this(expression, excelDataProvider, parsingContext, new RangeAddressFactory(excelDataProvider), negate)
         {
 
         }
 
-        public ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext, RangeAddressFactory rangeAddressFactory, bool negate)
+        internal ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext, RangeAddressFactory rangeAddressFactory, bool negate)
             : base(expression)
         {
             Require.That(excelDataProvider).Named("excelDataProvider").IsNotNull();
@@ -110,7 +110,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             }
         }
 
-        private CompileResult CompileSingleCell(ExcelDataProvider.IRangeInfo result)
+        private CompileResult CompileSingleCell(IRangeInfo result)
         {
             var cell = result.FirstOrDefault();
             if (cell == null)

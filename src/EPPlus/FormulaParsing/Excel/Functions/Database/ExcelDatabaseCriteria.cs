@@ -20,16 +20,16 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
-    public class ExcelDatabaseCriteria
+    internal class ExcelDatabaseCriteria
     {
         private readonly ExcelDataProvider _dataProvider;
         private readonly int _fromCol;
         private readonly int _toCol;
         private readonly string _worksheet;
         private readonly int _fieldRow;
-        private readonly Dictionary<ExcelDatabaseCriteriaField, object> _criterias = new Dictionary<ExcelDatabaseCriteriaField, object>(); 
+        private readonly Dictionary<ExcelDatabaseCriteriaField, object> _criterias = new Dictionary<ExcelDatabaseCriteriaField, object>();
 
-        public ExcelDatabaseCriteria(ExcelDataProvider dataProvider, string range)
+        internal ExcelDatabaseCriteria(ExcelDataProvider dataProvider, string range)
         {
             _dataProvider = dataProvider;
             var address = new ExcelAddressBase(range);

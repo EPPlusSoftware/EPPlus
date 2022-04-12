@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing
     /// Base class for drawings. 
     /// Drawings are Charts, Shapes and Pictures.
     /// </summary>
-    public class ExcelDrawing : XmlHelper, IDisposable, IPictureContainer
+    public class ExcelDrawing : XmlHelper, IDisposable
     {
         internal ExcelDrawings _drawings;
         internal ExcelGroupShape _parent;
@@ -43,22 +43,34 @@ namespace OfficeOpenXml.Drawing
         internal int _id;
         internal const float STANDARD_DPI = 96;
         /// <summary>
-        /// Ratio between EMU and Pixels
+        /// The ratio between EMU and Pixels
         /// </summary>
         public const int EMU_PER_PIXEL = 9525;
         /// <summary>
-        /// Ratio between EMU and Points
+        /// The ratio between EMU and Points
         /// </summary>
         public const int EMU_PER_POINT = 12700;
+        /// <summary>
+        /// The ratio between EMU and centimeters
+        /// </summary>
         public const int EMU_PER_CM = 360000;
+        /// <summary>
+        /// The ratio between EMU and milimeters
+        /// </summary>
         public const int EMU_PER_MM = 3600000;
+        /// <summary>
+        /// The ratio between EMU and US Inches
+        /// </summary>
         public const int EMU_PER_US_INCH = 914400;
+        /// <summary>
+        /// The ratio between EMU and pica
+        /// </summary>
         public const int EMU_PER_PICA = EMU_PER_US_INCH / 6;
 
         internal double _width = double.MinValue, _height = double.MinValue, _top = double.MinValue, _left = double.MinValue;
         internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill", "grpFill", "blipFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d" };
 
-        internal protected bool _doNotAdjust = false;
+        internal bool _doNotAdjust = false;
         internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null) :
             base(drawings.NameSpaceManager, node)
         {
@@ -621,6 +633,44 @@ namespace OfficeOpenXml.Drawing
             get { return _id; }
         }
         #region "Internal sizing functions"
+        internal void GetFromBounds(out int fromRow, out int fromRowOff, out int fromCol, out int fromColOff)
+        {
+            if (CellAnchor == eEditAs.Absolute)
+            {
+                GetToRowFromPixels(Position.Y, out fromRow, out fromRowOff);
+                GetToColumnFromPixels(Position.X, out fromCol, out fromColOff);
+            }
+            else
+            {
+                fromRow = From.Row;
+                fromRowOff = From.RowOff;
+                fromCol = From.Column;
+                fromColOff = From.ColumnOff;
+            }
+        }
+        internal void GetToBounds(out int toRow, out int toRowOff, out int toCol, out int toColOff)
+        {
+            if (CellAnchor == eEditAs.Absolute)
+            {
+                GetToRowFromPixels((Position.Y + Size.Height) / EMU_PER_PIXEL, out toRow, out toRowOff);
+                GetToColumnFromPixels(Position.X + Size.Width / EMU_PER_PIXEL, out toCol, out toColOff);
+            }
+            else
+            {
+                if (CellAnchor == eEditAs.TwoCell)
+                {
+                    toRow = To.Row;
+                    toRowOff = To.RowOff;
+                    toCol = To.Column;
+                    toColOff = To.ColumnOff;
+                }
+                else
+                {
+                    GetToRowFromPixels(Size.Height / EMU_PER_PIXEL, out toRow, out toRowOff, From.Row, From.RowOff);
+                    GetToColumnFromPixels(Size.Width / EMU_PER_PIXEL, out toCol, out toColOff, From.Column, From.ColumnOff);
+                }
+            }
+        }
         internal int GetPixelLeft()
         {
             int pix;
@@ -844,10 +894,10 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _doNotAdjust = true;
-                GetToColumnFromPixels(pixels, out int col, out double pixOff);
+                GetToColumnFromPixels(pixels, out int col, out int pixOff);
 
                 To.Column = col - 2;
-                To.ColumnOff = (int)(pixOff * EMU_PER_PIXEL);
+                To.ColumnOff = pixOff * EMU_PER_PIXEL;
                 _doNotAdjust = false;
             }
             else
@@ -856,7 +906,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal void GetToColumnFromPixels(double pixels, out int col, out double prevRowOff, int fromColumn = -1, int fromColumnOff = -1)
+        internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
@@ -866,13 +916,14 @@ namespace OfficeOpenXml.Drawing
                 fromColumnOff = From.ColumnOff;
             }
             double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
-            prevRowOff = fromColumnOff / EMU_PER_PIXEL + pixels;
+            double offset = fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
-                prevRowOff = pixOff;
+                offset = pixOff;
                 pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
             }
+            colOff = (int)offset;
         }
         #endregion
         #region "Public sizing functions"
@@ -1212,7 +1263,7 @@ namespace OfficeOpenXml.Drawing
             }
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
         }
-        internal protected XmlElement CreateShapeNode()
+        internal XmlElement CreateShapeNode()
         {
             XmlElement shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
             shapeNode.SetAttribute("macro", "");
@@ -1220,7 +1271,7 @@ namespace OfficeOpenXml.Drawing
             TopNode.AppendChild(shapeNode);
             return shapeNode;
         }
-        internal protected XmlElement CreateClientData()
+        internal XmlElement CreateClientData()
         {
             XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
             clientDataNode.SetAttribute("fPrintsWithSheet", "0");
@@ -1228,9 +1279,5 @@ namespace OfficeOpenXml.Drawing
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
         }
-        string IPictureContainer.ImageHash { get; set; }
-        Uri IPictureContainer.UriPic { get; set; }
-        Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
-        IPictureRelationDocument IPictureContainer.RelationDocument => _drawings as IPictureRelationDocument;
     }
 }

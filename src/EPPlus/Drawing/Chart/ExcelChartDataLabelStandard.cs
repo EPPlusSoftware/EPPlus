@@ -15,6 +15,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// Settings for a charts data lables
+    /// </summary>
     public class ExcelChartDataLabelStandard : ExcelChartDataLabel
     {        
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)

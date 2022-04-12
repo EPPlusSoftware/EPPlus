@@ -6,6 +6,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Represents a color in a vml.
+    /// </summary>
     public class ExcelVmlDrawingColor : XmlHelper
     {
         string _path;
@@ -69,7 +72,12 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
                 else
                 {
+#if NETSTANDARD
+                    return OfficeOpenXml.Compatibility.System.Drawing.ColorTranslator.FromHtml(c);
+#else
                     return System.Drawing.ColorTranslator.FromHtml(c);
+#endif
+
                 }
             }
             catch

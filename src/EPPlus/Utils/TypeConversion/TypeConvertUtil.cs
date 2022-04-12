@@ -44,11 +44,12 @@ namespace OfficeOpenXml.Utils.TypeConversion
             }
             if (NumericTypeConversions.IsNumeric(ReturnType.Type))
             {
-                object convertedObj;
+                object convertedObj;      
                 if(NumericTypeConversions.TryConvert(Value.Object, out convertedObj, ReturnType.Type))
                 {
                     return convertedObj;
                 }
+                return default(TReturnType);
             }
             return Value.Object;
         }

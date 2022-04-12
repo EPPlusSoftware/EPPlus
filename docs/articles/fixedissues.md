@@ -1,4 +1,51 @@
-﻿# Features / Fixed issues - EPPlus 5
+﻿# Features / Fixed issues - EPPlus 6
+
+## Version 6.0.3
+### Changes
+### Features
+* Html Export for tables and ranges, See [Html Export](https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export)
+* Json Export for tables and ranges, See [Json Export](https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export)
+* Breaking Change: Removed System.Drawing.Common from all public classes, See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6) for more information
+* 32 new functions:
+	* BETADIST	
+	* BETA.DIST
+	* BETAINV
+	* BETA.INV
+	* CHIDIST
+	* CHISQ.DIST.RT
+	* CHIINV
+	* CHISQ.INV
+	* CHISQ.INV.RT
+	* CORREL
+	* EXPONDIST
+	* EXPON.DIST
+	* FISHER
+	* FISHERINV
+	* FORECAST
+	* FORECAST.LINEAR
+	* GAUSS
+	* GEOMEAN
+	* HARMEAN
+	* INTERCEPT
+	* KURT
+	* PEARSON
+	* PHI
+	* RSQ
+	* SKEW
+	* SKEW.P
+	* STANDARDIZE
+	* ACCRINT
+	* ACCRINTM
+	* TBILLEQ
+	* TBILLPRICE
+	* TBILLYIELD
+
+### Minor Features
+* Breaking Change: Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
+* New ExcelRangeBase.GetCellValue<T> method
+* New overload for ExcelRangeBase.LoadFromDictionaries method with IEnumerable<dynamic>.
+* Added Datatypes and Culture to LoadFromDictionariesParams. This is the settings for the ExcelRangeBase.ExcelRangeBase.LoadFromDictionaries.
+* Added ExcelRichTextCollection.HtmlText and ExcelRichText.HtmlText property.
 
 ## Version 5.8.9
 ### Fixed issues
@@ -10,10 +57,22 @@
 * The UPPER and LOWER functions did not handle empty cell values correctly.
 * Fixed an issue in ExpressionEvaluator when evaluating empty string criterias.
 
+## Version 5.8.9
+### Fixed issues
+* Fixed issue with start_num parameter for functions FIND and SEARCH
+* Pivot table slicers in a template sometimes caused a corrupt workbook on save
+* Pivot table fields that had subtotals and null values in shared cache items caused the package to fail on load in some cases.
+* Having the value set to 0(zero) and the number format to date or time returned the format instead of the formatted value.
+* DeleteColumn caused the worksheet to expands to the maximum column properties extended to the last column (XFD).
+* The UPPER and LOWER functions did not handle empty cell values correctly.
+* Fixed an issue in ExpressionEvaluator when evaluating empty string criterias.
+
+
 ## Version 5.8.8
 ### Fixed issues
 * Removed unnessesary Nuget references to packages already included in the targeting frameworks.
 * Fixed calculation issue when ExcelPackage.Compatibility.IsWorksheets1Based is set to true
+* Added new method GetTable() and the propert 'IsTable' to ExcelRangeBase to get the table object if the range corresponds with the tables Range.
 
 ## Version 5.8.7
 ### Fixed issues

@@ -17,6 +17,9 @@ using System.Text;
 
 namespace OfficeOpenXml.Sorting
 {
+    /// <summary>
+    /// Critieras for sorting a range left to right
+    /// </summary>
     public class RangeLeftToRightSortLayer : SortLayerBase
     {
         internal RangeLeftToRightSortLayer(RangeSortOptions options)

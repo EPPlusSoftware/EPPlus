@@ -67,6 +67,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     }
                 }
             }
+
             var node=_serie.TopNode.OwnerDocument.CreateElement("c","trendline", ExcelPackage.schemaChart);
             _serie.TopNode.InsertAfter(node, insertAfter);
             node.InnerXml = "<c:trendlineLbl><c:numFmt sourceLinked=\"0\" formatCode=\"General\"/><c:spPr><a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/></c:spPr><c:txPr><a:bodyPr anchorCtr=\"1\" anchor=\"ctr\" wrap=\"square\" vert=\"horz\" vertOverflow=\"ellipsis\" spcFirstLastPara=\"1\" rot=\"0\"/><a:lstStyle/><a:p><a:pPr><a:defRPr baseline=\"0\" kern=\"1200\" strike=\"noStrike\" u=\"none\" i=\"0\" b=\"0\" sz=\"900\"><a:solidFill><a:schemeClr val=\"tx1\"><a:lumMod val=\"65000\"/><a:lumOff val=\"35000\"/></a:schemeClr></a:solidFill><a:latin typeface=\"+mn-lt\"/><a:ea typeface=\"+mn-ea\"/><a:cs typeface=\"+mn-cs\"/></a:defRPr></a:pPr><a:endParaRPr/></a:p></c:txPr></c:trendlineLbl>";
@@ -77,6 +78,9 @@ namespace OfficeOpenXml.Drawing.Chart
             _list.Add(tl);
             return tl;
         }
+        /// <summary>
+        /// Number of items in the collection.
+        /// </summary>
         public int Count 
         { 
             get

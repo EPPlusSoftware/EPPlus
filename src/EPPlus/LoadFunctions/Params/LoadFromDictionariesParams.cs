@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions.Params
@@ -36,8 +37,18 @@ namespace OfficeOpenXml.LoadFunctions.Params
         }
 
         /// <summary>
+        /// Culture to be used when reading numbers/dates.
+        /// </summary>
+        public CultureInfo Culture { get; set; }
+
+        /// <summary>
         /// Sets how headers should be parsed before added to the worksheet, see <see cref="HeaderParsingTypes"/>
         /// </summary>
         public HeaderParsingTypes HeaderParsingType { get; set; } = HeaderParsingTypes.UnderscoreToSpace;
+
+        /// <summary>
+        /// Data types used when setting data in the spreadsheet range (defined from left to right per column).
+        /// </summary>
+        public eDataTypes[] DataTypes { get; set; }
     }
 }

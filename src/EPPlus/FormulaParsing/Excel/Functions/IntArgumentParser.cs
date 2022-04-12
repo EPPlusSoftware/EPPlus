@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 
@@ -30,9 +31,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             Require.That(obj).Named("argument").IsNotNull();
             int result;
-            if (obj is ExcelDataProvider.IRangeInfo)
+            if (obj is IRangeInfo)
             {
-                var r = ((ExcelDataProvider.IRangeInfo)obj).FirstOrDefault();
+                var r = ((IRangeInfo)obj).FirstOrDefault();
                 return r == null ? 0 : ConvertToInt(r.ValueDouble, roundingMethod);
             }
             var objType = obj.GetType();

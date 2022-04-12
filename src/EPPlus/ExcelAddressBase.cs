@@ -552,6 +552,9 @@ namespace OfficeOpenXml
                 return _end;
             }
         }
+        /// <summary>
+        /// The index to the external reference. Return 0, the current workbook, if no reference exists.
+        /// </summary>
         public int ExternalReferenceIndex
         {
             get
@@ -637,9 +640,9 @@ namespace OfficeOpenXml
             return _address;
         }
         /// <summary>
-        /// A hash code for the current object.
+        /// Serves as the default hash function.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -1663,6 +1666,11 @@ namespace OfficeOpenXml
                    _toRow > ExcelPackage.MaxRows ||
                    _toCol > ExcelPackage.MaxColumns);
         }
+        /// <summary>
+        /// Returns true if the item is equal to another item.
+        /// </summary>
+        /// <param name="obj">The item to compare</param>
+        /// <returns>True if the items are equal</returns>
         public override bool Equals(object obj)
         {
             if (obj is ExcelAddressBase a)
@@ -1698,6 +1706,9 @@ namespace OfficeOpenXml
                     a1._fromCol == a2._fromCol &&
                     a1._toCol == a2._toCol;
         }
+        /// <summary>
+        /// Returns true the address contains an external reference
+        /// </summary>
         public bool IsExternal
         {
             get

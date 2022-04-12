@@ -1469,16 +1469,38 @@ namespace EPPlusTest
         [TestMethod]
         public void SetBackground()
         {
-            var pck = new ExcelPackage();
-            var ws = pck.Workbook.Worksheets.Add("backimg");
+            var ws = _pck.Workbook.Worksheets.Add("backimg");
 
-            ws.BackgroundImage.Image = Properties.Resources.Test1;
-            ws = pck.Workbook.Worksheets.Add("backimg2");
-            var fi = new FileInfo(Path.Combine(_clipartPath, "Vector Drawing.wmf"));
-            if (fi.Exists)
-            {
-                ws.BackgroundImage.SetFromFile(fi);
-            }
+            ws.BackgroundImage.Image.SetImage(Properties.Resources.Test1JpgByteArray, ePictureType.Jpg);
+            ws = _pck.Workbook.Worksheets.Add("backimg2");
+            ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.CodeEmfByteArray), ePictureType.Emf);
+        }
+        [TestMethod]
+        public void RemoveBackground()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Remove_BackImg");
+
+            ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.Png2ByteArray), ePictureType.Png);
+            Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
+            Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
+            
+            ws.BackgroundImage.Remove();
+            Assert.IsNull(ws.BackgroundImage.Image.Type);
+            Assert.IsNull(ws.BackgroundImage.Image.ImageBytes);
+        }
+        [TestMethod]
+        public void SetPngFromExcelImage()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("BackImg_Png");
+            var wsCopy = _pck.Workbook.Worksheets.Add("BackImg_Png_Copy");
+
+            var image=ws.BackgroundImage.Image.SetImage(new MemoryStream(Properties.Resources.Png3ByteArray), ePictureType.Png);
+            Assert.AreEqual(ePictureType.Png, ws.BackgroundImage.Image.Type);
+            Assert.IsNotNull(ws.BackgroundImage.Image.ImageBytes);
+            wsCopy.BackgroundImage.Image.SetImage(image);
+            
+            Assert.AreEqual(wsCopy.BackgroundImage.Image.Type, ws.BackgroundImage.Image.Type);
+            Assert.AreEqual(wsCopy.BackgroundImage.Image.ImageBytes, ws.BackgroundImage.Image.ImageBytes);
         }
         [TestMethod]
         public void SetHeaderFooterImage()
@@ -1527,7 +1549,7 @@ namespace EPPlusTest
 
             var secondNamedStyle = _pck.Workbook.Styles.CreateNamedStyle("first", firstNamedStyle.Style).Style;
             secondNamedStyle.Font.Bold = true;
-            secondNamedStyle.Font.SetFromFont(new Font("Arial Black", 8));
+            secondNamedStyle.Font.SetFromFont("Arial Black", 8);
             secondNamedStyle.Border.Bottom.Style = ExcelBorderStyle.Medium;
             secondNamedStyle.Border.Left.Style = ExcelBorderStyle.Medium;
 
@@ -1629,6 +1651,7 @@ namespace EPPlusTest
         {
             var ws = _pck.Workbook.Worksheets.Add("Autofit");
             ws.Cells["A1:H1"].Value = "Auto fit column that is veeery long...";
+            ws.Cells["A1:H1"].Style.Font.Name = "Arial";
             ws.Cells["B1"].Style.TextRotation = 30;
             ws.Cells["C1"].Style.TextRotation = 45;
             ws.Cells["D1"].Style.TextRotation = 75;

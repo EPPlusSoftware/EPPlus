@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -69,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 case DataType.Date:
                     return new DecimalExpression((double)compileResult.Result);
                 case DataType.Enumerable:
-                    var rangeInfo = compileResult.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = compileResult.Result as IRangeInfo;
                     if (rangeInfo != null)
                     {
                         return new ExcelRangeExpression(rangeInfo);

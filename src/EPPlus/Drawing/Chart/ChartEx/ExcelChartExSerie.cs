@@ -133,6 +133,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 SetXmlNodeString("cx:tx/cx:txData/cx:f", value.FullAddress);
             }
         }
+        /// <summary>
+        /// The header text for the serie.
+        /// </summary>
         public override string Header
         {
             get
@@ -276,6 +279,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
+        /// <summary>
+        /// Number of items. Will always return 0, as no item data is stored.
+        /// </summary>
         public override int NumberOfItems => 0;
 
         /// <summary>

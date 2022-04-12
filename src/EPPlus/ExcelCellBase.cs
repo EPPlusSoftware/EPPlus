@@ -704,6 +704,11 @@ namespace OfficeOpenXml
         }
         #endregion
         #region IsValidCellAddress
+        /// <summary>
+        /// If the address is a address is a cell or range address of format A1 or A1:A2, without specified worksheet name. 
+        /// </summary>
+        /// <param name="address">the address</param>
+        /// <returns>True if valid.</returns>
         public static bool IsSimpleAddress(string address)
         {
             var split = address.Split(':');

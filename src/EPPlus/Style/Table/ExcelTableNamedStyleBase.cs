@@ -27,7 +27,7 @@ namespace OfficeOpenXml.Style.Table
     /// </summary>
     public abstract class ExcelTableNamedStyleBase : XmlHelper
     {
-        protected ExcelStyles _styles;
+        internal ExcelStyles _styles;
         internal Dictionary<eTableStyleElement, ExcelTableStyleElement> _dic = new Dictionary<eTableStyleElement, ExcelTableStyleElement>();
         internal ExcelTableNamedStyleBase(XmlNamespaceManager nameSpaceManager, XmlNode topNode, ExcelStyles styles) : base(nameSpaceManager, topNode)
         {
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Style.Table
                                     type == eTableStyleElement.SecondColumnStripe ||
                                     type == eTableStyleElement.SecondRowStripe;
         }
-        protected ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element)
+        internal ExcelTableStyleElement GetTableStyleElement(eTableStyleElement element)
         {
             if (_dic.ContainsKey(element))
             {

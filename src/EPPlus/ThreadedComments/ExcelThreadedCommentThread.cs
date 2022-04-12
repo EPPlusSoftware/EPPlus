@@ -25,7 +25,7 @@ namespace OfficeOpenXml.ThreadedComments
     /// </summary>
     public class ExcelThreadedCommentThread
     {
-        public ExcelThreadedCommentThread(ExcelCellAddress cellAddress, XmlDocument commentsXml, ExcelWorksheet worksheet)
+        internal ExcelThreadedCommentThread(ExcelCellAddress cellAddress, XmlDocument commentsXml, ExcelWorksheet worksheet)
         {
             CellAddress = cellAddress;
             ThreadedCommentsXml = commentsXml;
@@ -38,6 +38,9 @@ namespace OfficeOpenXml.ThreadedComments
         /// </summary>
         public ExcelCellAddress CellAddress { get; internal set; }
 
+        /// <summary>
+        /// A collection of comments in the thread.
+        /// </summary>
         public ExcelThreadedCommentCollection Comments { get; private set; }
 
         /// <summary>
@@ -247,6 +250,10 @@ namespace OfficeOpenXml.ThreadedComments
             AddComment(tc);
         }
 
+        /// <summary>
+        ///     Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return "Count = " + Comments.Count;

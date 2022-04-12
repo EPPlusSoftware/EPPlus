@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         }
         internal long useCnt=0;
         internal int newID=int.MinValue;
-        protected bool GetBoolValue(XmlNode topNode, string path)
+        internal bool GetBoolValue(XmlNode topNode, string path)
         {
             var node = topNode.SelectSingleNode(path, NameSpaceManager);
             if (node is XmlAttribute)

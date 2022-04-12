@@ -238,7 +238,10 @@ namespace OfficeOpenXml
                     {
                         parser.Logger.LogCellCounted();
                     }
-                    Thread.Sleep(0);
+                    if(ix % 1000 == 0)
+                    {
+                        Thread.Sleep(0);
+                    }
                 }
                 catch(Exception e)
                 {

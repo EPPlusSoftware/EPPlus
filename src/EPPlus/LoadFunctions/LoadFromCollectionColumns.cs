@@ -50,10 +50,10 @@ namespace OfficeOpenXml.LoadFunctions
             return result;
         }
 
-        private List<T1> CopyList<T1>(List<T1> source)
+        private List<ListType> CopyList<ListType>(List<ListType> source)
         {
             if (source == null) return null;
-            var copy = new List<T1>();
+            var copy = new List<ListType>();
             source.ForEach(x => copy.Add(x));
             return copy;
         }

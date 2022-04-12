@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return CreateResult(StandardDeviation(args.Select(x => (double)x)), DataType.Decimal);
         }
 
-        private static double StandardDeviation(IEnumerable<double> values)
+        internal static double StandardDeviation(IEnumerable<double> values)
         {
             double avg = values.Average();
             return MathObj.Sqrt(values.Average(v => MathObj.Pow(v - avg, 2)));

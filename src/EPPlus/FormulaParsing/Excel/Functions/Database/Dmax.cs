@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Category = ExcelFunctionCategory.Database,
         EPPlusVersion = "4",
         Description = "Returns the maximum value from a field of a list or database, that satisfy specified conditions")]
-    public class Dmax : DatabaseFunction
+    internal class Dmax : DatabaseFunction
     {
         public Dmax()
             : this(new RowMatcher())

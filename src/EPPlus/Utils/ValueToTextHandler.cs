@@ -101,7 +101,14 @@ namespace OfficeOpenXml.Utils
                 }
                 else if (string.IsNullOrEmpty(format)==false)
                 {
-                    return d.ToString(format);
+                    if(format.IndexOf("{0}")>=0)
+                    {
+                        return string.Format(format, d);
+                    }
+                    else
+                    {
+                        return d.ToString(format);
+                    }
                 }
             }
             else if (v is DateTime dt)

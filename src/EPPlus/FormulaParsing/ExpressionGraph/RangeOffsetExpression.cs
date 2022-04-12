@@ -10,6 +10,7 @@
  *************************************************************************************************
   06/15/2020         EPPlus Software AB       EPPlus 5.2
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         public override CompileResult Compile()
         {
-            var offsetRange1 = OffsetExpression1.Compile().Result as ExcelDataProvider.IRangeInfo;
+            var offsetRange1 = OffsetExpression1.Compile().Result as IRangeInfo;
             var rangeOffset = new RangeOffset
             {
                 StartRange = offsetRange1
@@ -66,7 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             else
             {
                 var offsetRange2 = OffsetExpression2.Compile().Result;
-                rangeOffset.EndRange = offsetRange2 as ExcelDataProvider.IRangeInfo;
+                rangeOffset.EndRange = offsetRange2 as IRangeInfo;
             }
             return new CompileResult(rangeOffset.Execute(new FunctionArgument[] { }, _parsingContext).Result, DataType.Enumerable);
         }

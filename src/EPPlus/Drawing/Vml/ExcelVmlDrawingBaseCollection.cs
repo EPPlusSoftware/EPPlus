@@ -17,6 +17,7 @@ using System.Xml;
 using System.Collections;
 using OfficeOpenXml.Utils;
 using System.IO;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -25,8 +26,8 @@ namespace OfficeOpenXml.Drawing.Vml
     /// </summary>
     public class ExcelVmlDrawingBaseCollection
     {        
-        protected internal ExcelPackage _package;
-        protected internal ExcelWorksheet _ws;
+        internal ExcelPackage _package;
+        internal ExcelWorksheet _ws;
         internal ExcelVmlDrawingBaseCollection(ExcelWorksheet ws, Uri uri, string worksheetRelIdPath)
         {
             VmlDrawingXml = new XmlDocument();
@@ -66,11 +67,27 @@ namespace OfficeOpenXml.Drawing.Vml
             return xml.Replace("</br>", "").Replace("<br>", "<br/>");
         }
 
-        internal ExcelWorksheet Worksheet { get; set; }
         internal XmlDocument VmlDrawingXml { get; set; }
         internal Uri Uri { get; set; }
         internal string RelId { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
         internal XmlNamespaceManager NameSpaceManager { get; set; }
+        internal void CreateVmlPart()
+        {
+            if (Uri == null)
+            {
+                var id = _ws.SheetId;
+                Uri = XmlHelper.GetNewUri(_package.ZipPackage, @"/xl/drawings/vmlDrawing{0}.vml", ref id);
+            }
+            if (Part == null)
+            {
+                Part = _package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeVml, _package.Compression);
+                var rel = _ws.Part.CreateRelationship(UriHelper.GetRelativeUri(_ws.WorksheetUri, Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/vmlDrawing");
+                _ws.SetXmlNodeString("d:legacyDrawing/@r:id", rel.Id);
+                RelId = rel.Id;
+            }
+
+            VmlDrawingXml.Save(Part.GetStream(FileMode.Create));
+        }
     }
 }

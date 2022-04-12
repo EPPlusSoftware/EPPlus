@@ -181,7 +181,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                     var expression = new ExcelAddressExpression("A1", excelDataProvider, parsingContext);
                     expression.ResolveAsRange = true;
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("A1", rangeInfo.Address.Address);
                 }
@@ -203,7 +203,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                     var expression = new ExcelAddressExpression("$A1", excelDataProvider, parsingContext);
                     expression.ResolveAsRange = true;
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("$A1", rangeInfo.Address.Address);
                 }
@@ -225,7 +225,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                     var expression = new ExcelAddressExpression("$A1", excelDataProvider, parsingContext);
                     expression.ResolveAsRange = true;
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("$A1", rangeInfo.Address.Address);
                 }
@@ -247,7 +247,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                     var expression = new ExcelAddressExpression("$A$1", excelDataProvider, parsingContext);
                     expression.ResolveAsRange = true;
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("$A$1", rangeInfo.Address.Address);
                 }
@@ -268,7 +268,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                 {
                     var expression = new ExcelAddressExpression("A1:A5", excelDataProvider, parsingContext);
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("A1:A5", rangeInfo.Address.Address);
                     // Enumerating the range still yields no results.
@@ -296,7 +296,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                 {
                     var expression = new ExcelAddressExpression("A1:A5", excelDataProvider, parsingContext);
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("A1:A5", rangeInfo.Address.Address);
                     Assert.AreEqual(5, rangeInfo.Count());
@@ -323,7 +323,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                 {
                     var expression = new ExcelAddressExpression("$A1:$A5", excelDataProvider, parsingContext);
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("$A1:$A5", rangeInfo.Address.Address);
                     // Enumerating the range still yields no results.
@@ -346,7 +346,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                 {
                     var expression = new ExcelAddressExpression("A$1:A$5", excelDataProvider, parsingContext);
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("A$1:A$5", rangeInfo.Address.Address);
                     // Enumerating the range still yields no results.
@@ -369,7 +369,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
                 {
                     var expression = new ExcelAddressExpression("$A$1:$A$5", excelDataProvider, parsingContext);
                     var result = expression.Compile();
-                    var rangeInfo = result.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = result.Result as IRangeInfo;
                     Assert.IsNotNull(rangeInfo);
                     Assert.AreEqual("$A$1:$A$5", rangeInfo.Address.Address);
                     // Enumerating the range still yields no results.

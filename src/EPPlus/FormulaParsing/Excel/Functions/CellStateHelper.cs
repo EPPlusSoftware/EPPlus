@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Utils;
 using System;
 using System.Linq;
@@ -18,17 +19,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     internal static class CellStateHelper
     {
-        private static bool IsSubTotal(ExcelDataProvider.ICellInfo c, ParsingContext context)
+        private static bool IsSubTotal(ICellInfo c, ParsingContext context)
         {
             return (context.Scopes.Current.IsSubtotal && context.SubtotalAddresses.Contains(c.Id));
         }
 
-        internal static bool ShouldIgnore(bool ignoreHiddenValues, ExcelDataProvider.ICellInfo c, ParsingContext context)
+        internal static bool ShouldIgnore(bool ignoreHiddenValues, ICellInfo c, ParsingContext context)
         {
             return ShouldIgnore(ignoreHiddenValues, false, c, context);
         }
 
-        internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ExcelDataProvider.ICellInfo c, ParsingContext context)
+        internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ICellInfo c, ParsingContext context)
         {
             if (ignoreNonNumeric && !ConvertUtil.IsNumericOrDate(c.Value)) return true;
             var hasFilter = false;

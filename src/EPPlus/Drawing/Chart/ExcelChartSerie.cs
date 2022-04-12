@@ -22,6 +22,9 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// Base class for chart series for standard charts
+    /// </summary>
     public abstract class ExcelChartSerie : XmlHelper, IDrawingStyleBase
     {
         internal ExcelChart _chart;
@@ -32,6 +35,9 @@ namespace OfficeOpenXml.Drawing.Chart
             _chart = chart;
             _prefix = prefix;
         }
+        /// <summary>
+        /// The header for the chart serie
+        /// </summary>
         public abstract string Header { get; set; }
         /// <summary>
         /// Literals for the Y serie, if the literal values are numeric
@@ -49,8 +55,17 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             CreatespPrNode();
         }
+        /// <summary>
+        /// The header address for the serie.
+        /// </summary>
         public abstract ExcelAddressBase HeaderAddress { get; set; }
+        /// <summary>
+        /// The address for the vertical series.
+        /// </summary>
         public abstract string Series { get; set; }
+        /// <summary>
+        /// The address for the horizontal series.
+        /// </summary>
         public abstract string XSeries { get; set; }
         ExcelDrawingFill _fill = null;
         /// <summary>
@@ -112,10 +127,16 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _threeD;
             }
         }
+        /// <summary>
+        /// Number of items in the serie.
+        /// </summary>
         public abstract int NumberOfItems { get; }
+        /// <summary>
+        /// A collection of trend lines for the chart serie.
+        /// </summary>
         public abstract ExcelChartTrendlineCollection TrendLines{ get; }
         internal abstract void SetID(string id);
-        internal protected string ToFullAddress(string value)
+        internal string ToFullAddress(string value)
         {
             if (ExcelCellBase.IsValidAddress(value))
             {

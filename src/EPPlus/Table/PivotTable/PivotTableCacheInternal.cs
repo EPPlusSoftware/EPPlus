@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             _wb.SetNewPivotCacheId(cacheId);
         }
-        const string _sourceWorksheetPath = "d:cacheSource/d:worksheetSource/@sheet";
+        internal const string _sourceWorksheetPath = "d:cacheSource/d:worksheetSource/@sheet";
         internal const string _sourceNamePath = "d:cacheSource/d:worksheetSource/@name";
         internal const string _sourceAddressPath = "d:cacheSource/d:worksheetSource/@ref";
         internal string Ref
@@ -571,7 +571,7 @@ namespace OfficeOpenXml.Table.PivotTable
             RecordRelationship = null;
         }
 
-        private void AddRecordsXml()
+        internal void AddRecordsXml()
         {
             int c = CacheId;
             //CacheRecord. Create an empty one.

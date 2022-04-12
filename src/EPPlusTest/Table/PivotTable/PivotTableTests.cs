@@ -31,8 +31,6 @@ using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace EPPlusTest.Table.PivotTable
@@ -719,6 +717,28 @@ namespace EPPlusTest.Table.PivotTable
                 {
                     Assert.Fail($"{attrName} value not true");
                 }
+            }
+        }
+        [TestMethod]
+        public void CopyPivotTableToExternalPackageSameWorksheetAsData()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws=p.Workbook.Worksheets.Add("data");
+                LoadTestdata(ws);
+
+                var pivotTable1 = ws.PivotTables.Add(ws.Cells["G1"], ws.Cells["A1:D100"], "PivotTable1");
+                pivotTable1.RowFields.Add(pivotTable1.Fields[0]);
+                pivotTable1.RowFields.Add(pivotTable1.Fields[2]);
+                pivotTable1.DataFields.Add(pivotTable1.Fields[1]);
+                pivotTable1.DataFields.Add(pivotTable1.Fields[3]);
+
+                using(var p2 = new ExcelPackage())
+                {
+                    var wsNew = p2.Workbook.Worksheets.Add("PivotCopy", ws);
+                    SaveWorkbook("copiedPivot.xlsx", p2);
+                }
+                SaveWorkbook("Pivot.xlsx", p);
             }
         }
     }

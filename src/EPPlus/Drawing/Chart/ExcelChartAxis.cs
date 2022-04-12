@@ -30,8 +30,8 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Type of axis
         /// </summary>
-        protected internal ExcelChart _chart;
-        protected internal string _nsPrefix;
+        internal ExcelChart _chart;
+        internal string _nsPrefix;
         private readonly string _minorGridlinesPath;
         private readonly string _majorGridlinesPath;
         private readonly string _formatPath;
@@ -276,6 +276,9 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Chart axis title
         /// </summary>
         internal protected ExcelChartTitle _title=null;
+        /// <summary>
+        /// Gives access to the charts title properties.
+        /// </summary>
         public virtual ExcelChartTitle Title
         {
             get
@@ -284,7 +287,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        internal protected abstract ExcelChartTitle GetTitle();
+        internal abstract ExcelChartTitle GetTitle();
         #region "Scaling"
         /// <summary>
         /// Minimum value for the axis.
@@ -513,7 +516,7 @@ namespace OfficeOpenXml.Drawing.Chart
             RenameNode(TopNode, "c", "dateAx", children);            
         }
         #endregion
-        internal protected XmlNode AddTitleNode()
+        internal XmlNode AddTitleNode()
         {
             var node = TopNode.SelectSingleNode($"{_nsPrefix}:title", NameSpaceManager);
             if (node == null)

@@ -19,15 +19,15 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
-    public class IndexToAddressTranslator
+    internal class IndexToAddressTranslator
     {
-        public IndexToAddressTranslator(ExcelDataProvider excelDataProvider)
+        internal IndexToAddressTranslator(ExcelDataProvider excelDataProvider)
             : this(excelDataProvider, ExcelReferenceType.AbsoluteRowAndColumn)
         {
 
         }
 
-        public IndexToAddressTranslator(ExcelDataProvider excelDataProvider, ExcelReferenceType referenceType)
+        internal IndexToAddressTranslator(ExcelDataProvider excelDataProvider, ExcelReferenceType referenceType)
         {
             Require.That(excelDataProvider).Named("excelDataProvider").IsNotNull();
             _excelDataProvider = excelDataProvider;

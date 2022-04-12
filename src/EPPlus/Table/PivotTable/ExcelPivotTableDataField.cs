@@ -190,6 +190,9 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         ExcelPivotTableDataFieldShowDataAs _showDataAs = null;
+        /// <summary>
+        /// Represents a pivot fields Show As properties.
+        /// </summary>
         public ExcelPivotTableDataFieldShowDataAs ShowDataAs
         {
             get

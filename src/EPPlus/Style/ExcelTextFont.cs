@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Style
     public class ExcelTextFont : XmlHelper
     {
         string _path;
-        protected XmlNode _rootNode;
+        internal XmlNode _rootNode;
         Action _initXml;
         IPictureRelationDocument _pictureRelationDocument;
         internal ExcelTextFont(IPictureRelationDocument pictureRelationDocument, XmlNamespaceManager namespaceManager, XmlNode rootNode, string path, string[] schemaNodeOrder, Action initXml=null)
@@ -290,19 +290,25 @@ namespace OfficeOpenXml.Style
                 SetXmlNodeFontSize(_kernPath, value, "Kerning");
             }
         }
+
         /// <summary>
-        /// Set the font style from a font object
+        /// Set the font style properties
         /// </summary>
-        /// <param name="Font"></param>
-        public void SetFromFont(Font Font)
+        /// <param name="name">Font family name</param>
+        /// <param name="size">Font size</param>
+        /// <param name="bold"></param>
+        /// <param name="italic"></param>
+        /// <param name="underline"></param>
+        /// <param name="strikeout"></param>
+        public void SetFromFont(string name, float size, bool bold = false, bool italic = false, bool underline = false, bool strikeout = false)
         {
-            LatinFont = Font.Name;
-            ComplexFont = Font.Name;
-            Size = Font.Size;
-            if (Font.Bold) Bold = Font.Bold;
-            if (Font.Italic) Italic = Font.Italic;
-            if (Font.Underline) UnderLine = eUnderLineType.Single;
-            if (Font.Strikeout) Strike = eStrikeType.Single;            
+            LatinFont = name;
+            ComplexFont = name;
+            Size = size;
+            if (bold) Bold = bold;
+            if (italic) Italic = italic;
+            if (underline) UnderLine = eUnderLineType.Single;
+            if (strikeout) Strike = eStrikeType.Single;            
         }
     }
 }

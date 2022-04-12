@@ -1,5 +1,4 @@
-﻿using Ionic.Zip;
-using OfficeOpenXml.Packaging.Ionic.Zip;
+﻿using OfficeOpenXml.Packaging.Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Core
 {
-    public static class ZipHelper
+    internal static class ZipHelper
     {
         internal static string UncompressEntry(ZipInputStream zipStream, ZipEntry entry)
         {

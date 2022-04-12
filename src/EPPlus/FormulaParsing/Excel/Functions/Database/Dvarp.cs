@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Category = ExcelFunctionCategory.Database,
         EPPlusVersion = "4",
         Description = "Calculates the variance (based on an entire population) of values in a field of a list or database, that satisfy specified conditions")]
-    public class Dvarp : DatabaseFunction
+    internal class Dvarp : DatabaseFunction
     {
          public Dvarp()
             : this(new RowMatcher())

@@ -14,8 +14,6 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Packaging;
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Xml;
@@ -33,51 +31,13 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         {
             _schemaNodeOrder = schemaNodeOrder;
             _pictureRelationDocument = pictureRelationDocument;
+            Image = new ExcelImage(this);
             GetXml();
         }
-        Image _image;
         /// <summary>
-        /// The picture used in the fill.
+        /// The image used in the fill operation.
         /// </summary>
-        public Image Image
-        {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                if (_image == value) return;
-                _initXml?.Invoke();
-                if (_image != null)
-                {
-                    var container = (IPictureContainer)this;
-                    _pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    _pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
-                    _pictureRelationDocument.Hashes.Remove(container.ImageHash);
-                }
-                if (value != null)
-                {
-                    _image = value;
-                    try
-                    {
-                        string relId = PictureStore.SavePicture(value, this);
-
-                        //Create relationship
-                        _xml.SetXmlNodeString("a:blip/@r:embed", relId);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw (new Exception("Can't save image - " + ex.Message, ex));
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// Image format
-        /// If the picture is created from an Image this type is always Jpeg
-        /// </summary>
-        public ImageFormat ImageFormat { get; internal set; } = ImageFormat.Jpeg;
+        public ExcelImage Image { get; }
         /// <summary>
         /// The image should be stretched to fill the target.
         /// </summary>
@@ -138,7 +98,9 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             var relId = _xml.GetXmlNodeString("a:blip/@r:embed");
             if (!string.IsNullOrEmpty(relId))
             {
-                _image = PictureStore.GetPicture(relId, this, out string contentType);
+                var img = PictureStore.GetPicture(relId, this, out string contentType, out ePictureType pictureType);
+                Image.Type = pictureType;
+                Image.ImageBytes = img;
                 ContentType = contentType;
             }
             SourceRectangle = new ExcelDrawingRectangle(_xml, "a:srcRect/", 0);
@@ -192,13 +154,10 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             {
                 throw (new ArgumentException($"File {file.FullName} does not exist."));
             }
-            ContentType = PictureStore.GetContentType(file.Extension);
-            var image = Image.FromFile(file.FullName);
-            AddImage(image);
-        }
-        internal void AddImage(Image image)
-        {
-            Image = image;
+            var img = File.ReadAllBytes(file.FullName);
+            var extension = file.Extension;
+            ContentType = PictureStore.GetContentType(extension);
+            Image.SetImage(img, PictureStore.GetPictureType(extension));
         }
         #region IPictureContainer
 
@@ -217,8 +176,19 @@ namespace OfficeOpenXml.Drawing.Style.Fill
             get;
             set;
         }
-
-
+        void IPictureContainer.SetNewImage()
+        {
+            IPictureContainer container = this;
+            //Create relationship
+            _xml.SetXmlNodeString("a:blip/@r:embed", container.RelPic.Id);
+        }
+        void IPictureContainer.RemoveImage()
+        {
+            IPictureContainer container = this;
+            _pictureRelationDocument.Package.PictureStore.RemoveImage(container.ImageHash, this);
+            _pictureRelationDocument.RelatedPart.DeleteRelationship(container.RelPic.Id);
+            _pictureRelationDocument.Hashes.Remove(container.ImageHash);
+        }
         internal string ContentType
         {
             get;
@@ -226,6 +196,6 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         }
 
         IPictureRelationDocument IPictureContainer.RelationDocument { get => _pictureRelationDocument; }
-        #endregion
+#endregion
     }
 }

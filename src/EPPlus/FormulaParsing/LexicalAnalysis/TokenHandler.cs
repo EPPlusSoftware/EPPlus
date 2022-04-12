@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
-    public class TokenHandler : ITokenIndexProvider
+    internal class TokenHandler : ITokenIndexProvider
     {
         public TokenHandler(TokenizerContext context, ITokenFactory tokenFactory, ITokenSeparatorProvider tokenProvider, INameValueProvider nameValueProvider)
             : this(context, tokenFactory, tokenProvider, new TokenSeparatorHandler(tokenProvider, nameValueProvider))

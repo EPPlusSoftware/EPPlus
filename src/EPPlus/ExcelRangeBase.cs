@@ -42,6 +42,8 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.Export.HtmlExport.Interfaces;
 
 namespace OfficeOpenXml
 {
@@ -62,11 +64,36 @@ namespace OfficeOpenXml
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
         {
-            _worksheet = xlWorksheet;
+            Init(xlWorksheet);
             _ws = _worksheet.Name;
             _workbook = _worksheet.Workbook;
             SetDelegate();
         }
+
+        internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
+            base(xlWorksheet == null ? "" : xlWorksheet.Name, address)
+        {
+            Init(xlWorksheet);
+            _workbook = _worksheet.Workbook;
+            base.SetRCFromTable(_worksheet._package, null);
+            if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
+            SetDelegate();
+        }
+        internal ExcelRangeBase(ExcelWorkbook wb, ExcelWorksheet xlWorksheet, string address, bool isName) :
+            base(xlWorksheet == null ? "" : xlWorksheet.Name, address, isName)
+        {
+            Init(xlWorksheet);
+            SetRCFromTable(wb._package, null);
+            _workbook = wb;
+            if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
+            SetDelegate();
+        }
+        #endregion
+        private void Init(ExcelWorksheet xlWorksheet)
+        {
+            _worksheet = xlWorksheet;            
+        }
+
         /// <summary>
         /// On change address handler
         /// </summary>
@@ -82,25 +109,6 @@ namespace OfficeOpenXml
             }
             SetDelegate();
         }
-        internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
-            base(xlWorksheet == null ? "" : xlWorksheet.Name, address)
-        {
-            _worksheet = xlWorksheet;
-            _workbook = _worksheet.Workbook;
-            base.SetRCFromTable(_worksheet._package, null);
-            if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
-            SetDelegate();
-        }
-        internal ExcelRangeBase(ExcelWorkbook wb, ExcelWorksheet xlWorksheet, string address, bool isName) :
-            base(xlWorksheet == null ? "" : xlWorksheet.Name, address, isName)
-        {
-            SetRCFromTable(wb._package, null);
-            _worksheet = xlWorksheet;
-            _workbook = wb;
-            if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
-            SetDelegate();
-        }
-        #endregion
         #region Set Value Delegates        
         private static _changeProp _setUnknownProp = SetUnknown;
         private static _changeProp _setSingleProp = SetSingle;
@@ -374,7 +382,7 @@ namespace OfficeOpenXml
         }
 
         #endregion
-        private void SetToSelectedRange()
+        internal void SetToSelectedRange()
         {
             if (_worksheet.View.SelectedRange == "")
             {
@@ -808,205 +816,16 @@ namespace OfficeOpenXml
         /// <param name="MaximumWidth">Maximum column width</param>
         public void AutoFitColumns(double MinimumWidth, double MaximumWidth)
         {
-            if (_worksheet.Dimension == null)
-            {
-                return;
-            }
-            if (_fromCol < 1 || _fromRow < 1)
-            {
-                SetToSelectedRange();
-            }
-            var fontCache = new Dictionary<int, Font>();
-
-            bool doAdjust = _worksheet._package.DoAdjustDrawings;
-            _worksheet._package.DoAdjustDrawings = false;
-            var drawWidths = _worksheet.Drawings.GetDrawingWidths();
-
-            var fromCol = _fromCol > _worksheet.Dimension._fromCol ? _fromCol : _worksheet.Dimension._fromCol;
-            var toCol = _toCol < _worksheet.Dimension._toCol ? _toCol : _worksheet.Dimension._toCol;
-
-            if (fromCol > toCol) return; //Issue 15383
-
-            if (Addresses == null)
-            {
-                SetMinWidth(MinimumWidth, fromCol, toCol);
-            }
-            else
-            {
-                foreach (var addr in Addresses)
-                {
-                    fromCol = addr._fromCol > _worksheet.Dimension._fromCol ? addr._fromCol : _worksheet.Dimension._fromCol;
-                    toCol = addr._toCol < _worksheet.Dimension._toCol ? addr._toCol : _worksheet.Dimension._toCol;
-                    SetMinWidth(MinimumWidth, fromCol, toCol);
-                }
-            }
-
-            //Get any autofilter to widen these columns
-            var afAddr = new List<ExcelAddressBase>();
-            if (_worksheet.AutoFilterAddress != null)
-            {
-                afAddr.Add(new ExcelAddressBase(_worksheet.AutoFilterAddress._fromRow,
-                                                    _worksheet.AutoFilterAddress._fromCol,
-                                                    _worksheet.AutoFilterAddress._fromRow,
-                                                    _worksheet.AutoFilterAddress._toCol));
-                afAddr[afAddr.Count - 1]._ws = WorkSheetName;
-            }
-            foreach (var tbl in _worksheet.Tables)
-            {
-                if (tbl.AutoFilterAddress != null)
-                {
-                    afAddr.Add(new ExcelAddressBase(tbl.AutoFilterAddress._fromRow,
-                                                                            tbl.AutoFilterAddress._fromCol,
-                                                                            tbl.AutoFilterAddress._fromRow,
-                                                                            tbl.AutoFilterAddress._toCol));
-                    afAddr[afAddr.Count - 1]._ws = WorkSheetName;
-                }
-            }
-
-            var styles = _worksheet.Workbook.Styles;
-            var normalXfId = styles.GetNormalStyle().StyleXfId;
-            if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
-            var nf = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
-            var fs = FontStyle.Regular;
-            if (nf.Bold) fs |= FontStyle.Bold;
-            if (nf.UnderLine) fs |= FontStyle.Underline;
-            if (nf.Italic) fs |= FontStyle.Italic;
-            if (nf.Strike) fs |= FontStyle.Strikeout;
-            var nfont = new Font(nf.Name, nf.Size, fs);
-
-            var normalSize = Convert.ToSingle(ExcelWorkbook.GetWidthPixels(nf.Name, nf.Size));
-
-            Bitmap b;
-            Graphics g;
-            float dpiCorrectX, dpiCorrectY;
-            try
-            {
-                //Check for missing GDI+, then use WPF istead.
-                b = new Bitmap(1, 1);
-                g = Graphics.FromImage(b);
-                g.PageUnit = GraphicsUnit.Pixel;
-                dpiCorrectX = 96 / g.DpiX;
-                dpiCorrectY = 96 / g.DpiY;
-            }
-            catch
-            {
-                return;
-            }
-
-            #region MeasureString memoization
-            // This will call GDI+, and the result isn't cached.
-            // Calling this in the tight loop below is very slow.
-            var stringFormat = StringFormat.GenericDefault;
-
-            // Sheets usually contain plenty of duplicates
-            // Measurestring is very slow, so memoizing yields massive performance benefits.
-            // We use the string hash rather than the string to reduce memory load and lookup/compare cost.
-            // This means columns can be wrongly calculated on hash collisions. Hash collisions are rare,
-            // and they might not affect the size calculation anyway.
-
-            // To support implementations without Tuple/ValueTuple,
-            // as well as reduce som overhead, we combine our two
-            // 32-bit keys in a single 64-bit value
-            var measureCache = new Dictionary<ulong, SizeF>();
-
-            SizeF MeasureString(string t, int fntID)
-            {
-                ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
-                if (!measureCache.TryGetValue(key, out var size))
-                {
-                    size = g.MeasureString(t, fontCache[fntID], 10000, stringFormat);
-                    measureCache.Add(key, size);
-                }
-
-                return size;
-            }
-            #endregion
-
-            foreach (var cell in this)
-            {
-                if (_worksheet.Column(cell.Start.Column).Hidden)    //Issue 15338
-                    continue;
-
-                if (cell.Merge == true || styles.CellXfs[cell.StyleID].WrapText) continue;
-                var fntID = styles.CellXfs[cell.StyleID].FontId;
-                Font f;
-                if (fontCache.ContainsKey(fntID))
-                {
-                    f = fontCache[fntID];
-                }
-                else
-                {
-                    var fnt = styles.Fonts[fntID];
-                    fs = FontStyle.Regular;
-                    if (fnt.Bold) fs |= FontStyle.Bold;
-                    if (fnt.UnderLine) fs |= FontStyle.Underline;
-                    if (fnt.Italic) fs |= FontStyle.Italic;
-                    if (fnt.Strike) fs |= FontStyle.Strikeout;
-                    f = new Font(fnt.Name, fnt.Size, fs);
-
-                    fontCache.Add(fntID, f);
-                }
-                var ind = styles.CellXfs[cell.StyleID].Indent;
-                var textForWidth = cell.TextForWidth;
-                var t = textForWidth + (ind > 0 && !string.IsNullOrEmpty(textForWidth) ? new string('_', ind) : "");
-                if (t.Length > 32000) t = t.Substring(0, 32000); //Issue
-                var size = MeasureString(t, fntID);
-
-                double width;
-                double r = styles.CellXfs[cell.StyleID].TextRotation;
-                if (r <= 0)
-                {
-                    width = (size.Width * dpiCorrectX + 5) / normalSize;
-                }
-                else
-                {
-                    r = (r <= 90 ? r : r - 90);
-                    width = (((size.Width * dpiCorrectX - size.Height * dpiCorrectY) * Math.Abs(System.Math.Cos(System.Math.PI * r / 180.0)) + size.Height * dpiCorrectY) + 5) / normalSize;
-                }
-
-                foreach (var a in afAddr)
-                {
-                    if (a.Collide(cell) != eAddressCollition.No)
-                    {
-                        width += 2.25;
-                        break;
-                    }
-                }
-
-                if (width > _worksheet.Column(cell._fromCol).Width)
-                {
-                    _worksheet.Column(cell._fromCol).Width = width > MaximumWidth ? MaximumWidth : width;
-                }
-            }
-            _worksheet.Drawings.AdjustWidth(drawWidths);
-            _worksheet._package.DoAdjustDrawings = doAdjust;
+#if (Core)
+            //var af = new AutofitHelperSkia(this);
+            //af.AutofitColumn(MinimumWidth, MaximumWidth);
+            var af = new AutofitHelper(this);
+            af.AutofitColumn(MinimumWidth, MaximumWidth);
+#else
+            var af = new AutofitHelper(this);
+            af.AutofitColumn(MinimumWidth, MaximumWidth);
+#endif
         }
-
-        private void SetMinWidth(double minimumWidth, int fromCol, int toCol)
-        {
-            var iterator = new CellStoreEnumerator<ExcelValue>(_worksheet._values, 0, fromCol, 0, toCol);
-            var prevCol = fromCol;
-            foreach (ExcelValue val in iterator)
-            {
-                var col = (ExcelColumn)val._value;
-                if (col.Hidden) continue;
-                col.Width = minimumWidth;
-                if (_worksheet.DefaultColWidth > minimumWidth && col.ColumnMin > prevCol)
-                {
-                    var newCol = _worksheet.Column(prevCol);
-                    newCol.ColumnMax = col.ColumnMin - 1;
-                    newCol.Width = minimumWidth;
-                }
-                prevCol = col.ColumnMax + 1;
-            }
-            if (_worksheet.DefaultColWidth > minimumWidth && prevCol < toCol)
-            {
-                var newCol = _worksheet.Column(prevCol);
-                newCol.ColumnMax = toCol;
-                newCol.Width = minimumWidth;
-            }
-        }
-
         internal string TextForWidth
         {
             get
@@ -1187,6 +1006,20 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        /// <summary>
+        /// Creates an <see cref="IExcelHtmlRangeExporter"/> for html export of this range.
+        /// </summary>
+        /// <returns>A html exporter</returns>
+        public IExcelHtmlRangeExporter CreateHtmlExporter()
+        {
+            return new OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlRangeExporter(this);
+        }
+
+        //public ExcelHtmlRangeExporter CreateHtmlExporter()
+        //{
+        //    return new ExcelHtmlRangeExporter(this);
+        //}
         /// <summary>
         /// Set the Hyperlink property for a range of cells
         /// </summary>
@@ -1404,7 +1237,26 @@ namespace OfficeOpenXml
                 SetIsRichTextFlag(value);
             }
         }
-
+        /// <summary>
+        /// Returns true if the range is a table. If the range partly matches a table range false will be returned.
+        /// <seealso cref="IsTable"/>
+        /// </summary>
+        public bool IsTable
+        {
+            get
+            {
+                return _worksheet.Tables.GetFromRange(this) != null;
+            }
+        }
+        /// <summary>
+        /// Returns the <see cref="ExcelTable"/> if the range is a table. 
+        /// If the range doesn't or partly matches a table range, null is returned.
+        /// <seealso cref="IsTable"/>
+        /// </summary>
+        public ExcelTable GetTable()
+        {
+            return _worksheet.Tables.GetFromRange(this);
+        }
         internal void SetIsRichTextFlag(bool value)
         {
             _changePropMethod(this, _setIsRichTextDelegate, value);
@@ -1608,8 +1460,8 @@ namespace OfficeOpenXml
                 return fullAddress;
             }
         }
-        #endregion
-        #region Private Methods
+#endregion
+#region Private Methods
         /// <summary>
         /// Set the value without altering the richtext property
         /// </summary>
@@ -1908,9 +1760,9 @@ namespace OfficeOpenXml
                 }
             }
         }
-        #endregion
-        #region Public Methods
-        #region ConditionalFormatting
+#endregion
+#region Public Methods
+#region ConditionalFormatting
         /// <summary>
         /// Conditional Formatting for this range.
         /// </summary>
@@ -1921,8 +1773,8 @@ namespace OfficeOpenXml
                 return new RangeConditionalFormatting(_worksheet, new ExcelAddress(Address));
             }
         }
-        #endregion
-        #region DataValidation
+#endregion
+#region DataValidation
         /// <summary>
         /// Data validation for this range.
         /// </summary>
@@ -1933,8 +1785,8 @@ namespace OfficeOpenXml
                 return new RangeDataValidation(_worksheet, Address);
             }
         }
-        #endregion
-        #region GetValue
+#endregion
+#region GetValue
 
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
@@ -1963,7 +1815,7 @@ namespace OfficeOpenXml
         {
             return ConvertUtil.GetTypedCellValue<T>(Value);
         }
-        #endregion
+#endregion
         /// <summary>
         /// Get a range with an offset from the top left cell.
         /// The new range has the same dimensions as the current range
@@ -2193,8 +2045,8 @@ namespace OfficeOpenXml
             }
         }
 
-        #endregion
-        #region IDisposable Members
+#endregion
+#region IDisposable Members
         /// <summary>
         /// Disposes the object
         /// </summary>
@@ -2203,8 +2055,8 @@ namespace OfficeOpenXml
             //_worksheet = null;            
         }
 
-        #endregion
-        #region "Enumerator"
+#endregion
+#region "Enumerator"
         CellStoreEnumerator<ExcelValue> cellEnum;
         /// <summary>
         /// Gets the enumerator for the collection
@@ -2297,7 +2149,7 @@ namespace OfficeOpenXml
             _enumAddressIx = -1;
             cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Sort the range by value of the first column, Ascending.
@@ -2490,8 +2342,27 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
+        /// Gets the typed value of a cell 
+        /// </summary>
+        /// <typeparam name="T">The returned type</typeparam>
+        /// <returns>The value of the cell</returns>
+        public T GetCellValue<T>()
+        {
+            return GetCellValue<T>(0, 0);
+        }
+        /// <summary>
         /// Gets the value of a cell using an offset from the top-left cell in the range.
         /// </summary>
+        /// <typeparam name="T">The returned type</typeparam>
+        /// <param name="columnOffset">Column offset from the top-left cell in the range</param>
+        public T GetCellValue<T>(int columnOffset)
+        {
+            return GetCellValue<T>(0, columnOffset);
+        }
+        /// <summary>
+        /// Gets the value of a cell using an offset from the top-left cell in the range.
+        /// </summary>
+        /// <typeparam name="T">The returned type</typeparam>
         /// <param name="rowOffset">Row offset from the top-left cell in the range</param>
         /// <param name="columnOffset">Column offset from the top-left cell in the range</param>
         public T GetCellValue<T>(int rowOffset, int columnOffset)

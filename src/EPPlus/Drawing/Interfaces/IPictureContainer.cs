@@ -40,5 +40,7 @@ namespace OfficeOpenXml.Drawing.Interfaces
         string ImageHash { get; set; }
         Uri UriPic { get; set; }
         Packaging.ZipPackageRelationship RelPic { get; set; }
+        void RemoveImage();
+        void SetNewImage();
     }
 }

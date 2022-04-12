@@ -40,11 +40,10 @@ namespace OfficeOpenXml.Style.XmlAccess
             _format = GetXmlNodeString("@formatCode");
         }
         /// <summary>
-        /// If the numberformat is build in
+        /// If the number format is build in
         /// </summary>
         public bool BuildIn { get; private set; }
         int _numFmtId;
-//        const string idPath = "@numFmtId";
         /// <summary>
         /// Id for number format
         /// 
@@ -69,10 +68,10 @@ namespace OfficeOpenXml.Style.XmlAccess
         /// 20  h:mm 
         /// 21  h:mm:ss 
         /// 22  m/d/yy h:mm 
-        /// 37  #,##0 ;(#,##0) 
-        /// 38  #,##0 ;[Red](#,##0) 
+        /// 37  #,##0;(#,##0) 
+        /// 38  #,##0;[Red] (#,##0) 
         /// 39  #,##0.00;(#,##0.00) 
-        /// 40  #,##0.00;[Red](#,##0.00) 
+        /// 40  #,##0.00;[Red] (#,##0.00) 
         /// 45  mm:ss 
         /// 46  [h]:mm:ss 
         /// 47  mmss.0 

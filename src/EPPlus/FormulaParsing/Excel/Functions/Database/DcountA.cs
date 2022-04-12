@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Category = ExcelFunctionCategory.Database,
         EPPlusVersion = "4",
         Description = "Returns the number of non-blank cells in a field of a list or database, that satisfy specified conditions")]
-    public class DcountA : DatabaseFunction
+    internal class DcountA : DatabaseFunction
     {
 
         public DcountA()

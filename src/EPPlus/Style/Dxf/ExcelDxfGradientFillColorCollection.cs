@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Style.Dxf
                 return _lst.Count;
             }
         }
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -153,7 +153,7 @@ namespace OfficeOpenXml.Style.Dxf
             _lst.Clear();
         }
 
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             if(_lst.Count>0)
             {
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Style.Dxf
                 }
             }
         }
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             var ret = new ExcelDxfGradientFillColorCollection(_styles, _callback);
             foreach (var c in _lst)

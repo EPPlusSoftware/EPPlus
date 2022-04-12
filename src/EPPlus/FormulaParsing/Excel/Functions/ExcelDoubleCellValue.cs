@@ -12,11 +12,13 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
+    [DebuggerDisplay("{Value}")]
     public struct ExcelDoubleCellValue : IComparable<ExcelDoubleCellValue>, IComparable
     {
         public ExcelDoubleCellValue(double val)

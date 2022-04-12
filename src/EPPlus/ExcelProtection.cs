@@ -93,6 +93,9 @@ namespace OfficeOpenXml
             }
         }
         ExcelWriteProtection _writeProtection=null;
+        /// <summary>
+        /// File sharing settings for the workbook.
+        /// </summary>
         public ExcelWriteProtection WriteProtection
         {
             get

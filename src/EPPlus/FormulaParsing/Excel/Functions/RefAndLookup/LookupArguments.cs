@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
@@ -46,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             else
             {
                 //if (arg1 is ExcelDataProvider.INameInfo) arg1 = ((ExcelDataProvider.INameInfo) arg1).Value;
-                var rangeInfo = arg1 as ExcelDataProvider.IRangeInfo;
+                var rangeInfo = arg1 as IRangeInfo;
                 if (rangeInfo != null)
                 {
                     RangeAddress = string.IsNullOrEmpty(rangeInfo.Address.WorkSheetName) ? rangeInfo.Address.Address : "'" + rangeInfo.Address.WorkSheetName + "'!" + rangeInfo.Address.Address;
@@ -82,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
         }
 
-        public LookupArguments(object searchedValue, string rangeAddress, int lookupIndex, int lookupOffset, bool rangeLookup, ExcelDataProvider.IRangeInfo rangeInfo)
+        public LookupArguments(object searchedValue, string rangeAddress, int lookupIndex, int lookupOffset, bool rangeLookup, IRangeInfo rangeInfo)
         {
             SearchedValue = searchedValue;
             RangeAddress = rangeAddress;
@@ -106,7 +107,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         public IEnumerable<FunctionArgument> DataArray { get; private set; }
 
-        public ExcelDataProvider.IRangeInfo RangeInfo { get; private set; }
+        public IRangeInfo RangeInfo { get; private set; }
 
         public LookupArgumentDataType ArgumentDataType { get; private set; } 
     }

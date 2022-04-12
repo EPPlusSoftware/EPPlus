@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
     /// <summary>
     /// Postprocessor for a <see cref="TokenizerContext"/>
     /// </summary>
-    public class TokenizerPostProcessor
+    internal class TokenizerPostProcessor
     {
         public TokenizerPostProcessor(TokenizerContext context)
             : this(context, new TokenNavigator(context.Result))

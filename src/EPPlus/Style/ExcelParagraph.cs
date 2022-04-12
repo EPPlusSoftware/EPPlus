@@ -45,6 +45,9 @@ namespace OfficeOpenXml.Style
                 SetXmlNodeString(TextPath, value);
             }
         }
+        /// <summary>
+        /// If the paragraph is the first in the collection
+        /// </summary>
         public bool IsFirstInParagraph
         {
             get
@@ -60,6 +63,9 @@ namespace OfficeOpenXml.Style
                 return false;
             }
         }
+        /// <summary>
+        /// If the paragraph is the last in the collection
+        /// </summary>
         public bool IsLastInParagraph
         {
             get

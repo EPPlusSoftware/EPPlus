@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     /// <summary>
     /// Expression that handles execution of a function.
     /// </summary>
-    public class FunctionExpression : AtomicExpression
+    internal class FunctionExpression : AtomicExpression
     {
         /// <summary>
         /// Constructor
@@ -49,6 +49,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly bool _isNegated;
 
 
+        /// <summary>
+        /// Compiles the expression
+        /// </summary>
+        /// <returns></returns>
         public override CompileResult Compile()
         {
             try
@@ -107,11 +111,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             
         }
 
+        /// <summary>
+        /// Adds a new <see cref="FunctionArgumentExpression"/> for the next child
+        /// </summary>
+        /// <returns></returns>
         public override Expression PrepareForNextChild()
         {
             return base.AddChild(new FunctionArgumentExpression(this));
         }
 
+        /// <summary>
+        /// Returns true if there are any existing children to this expression
+        /// </summary>
         public override bool HasChildren
         {
             get
@@ -120,6 +131,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             }
         }
 
+        /// <summary>
+        /// Adds a child expression
+        /// </summary>
+        /// <param name="child">The child expression to add</param>
+        /// <returns></returns>
         public override Expression AddChild(Expression child)
         {
             Children.Last().AddChild(child);

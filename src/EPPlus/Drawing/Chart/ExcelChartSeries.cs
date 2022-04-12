@@ -460,42 +460,4 @@ namespace OfficeOpenXml.Drawing.Chart
             return _list.GetEnumerator();
         }
     }
-    public class ExcelHistogramChartSeries : ExcelChartSeries<ExcelHistogramChartSerie>
-    {
-        public void AddParetoLine()
-        {
-            if(_chart.ChartType==eChartType.Pareto)
-            {
-                return;
-            }
-            if (_chart.Axis.Length == 2)
-            {
-                //Add pareto axis
-                var axis2 = (XmlElement)_chart._chartXmlHelper.CreateNode("cx:plotArea/cx:axis", false, true);
-                axis2.SetAttribute("id", "2");
-                axis2.InnerXml = "<cx:valScaling min=\"0\" max=\"1\"/><cx:units unit=\"percentage\"/><cx:tickLabels/>";
-            }
-            foreach(ExcelHistogramChartSerie ser in _list)
-            {
-                ser.AddParetoLineFromSerie((XmlElement)ser.TopNode);                
-            }
-        }
-        public void RemoveParetoLine()
-        {
-            if (_chart.ChartType == eChartType.Histogram)
-            {
-                return;
-            }
-            if (_chart.Axis.Length == 2)
-            {
-                if (_chart.Axis.Length == 3)
-                {
-                    //Remove percentage axis
-                    _chart.Axis[2].TopNode.ParentNode.RemoveChild(_chart.Axis[2].TopNode);
-                    ((ExcelChartEx)_chart)._exAxis = null;
-                    _chart._axis = new ExcelChartAxis[] { _chart._axis[0], _chart._axis[1] };
-                }
-            }
-        }
-    }
 }

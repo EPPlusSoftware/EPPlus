@@ -19,7 +19,7 @@ using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
 {
-    public class MultipleCharSeparatorHandler : SeparatorHandler
+    internal class MultipleCharSeparatorHandler : SeparatorHandler
     {
         ITokenSeparatorProvider _tokenSeparatorProvider;
         INameValueProvider _nameValueProvider;
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                     var nameValue = _nameValueProvider.GetNamedValue(context.CurrentToken, context.Worksheet);
                     if(nameValue != null)
                     {
-                        if(nameValue is ExcelDataProvider.IRangeInfo rangeInfo)
+                        if(nameValue is IRangeInfo rangeInfo)
                         {
                             context.IsInDefinedNameAddress = true;
                             context.OverwriteCurrentToken(rangeInfo.Address.Address + ":");

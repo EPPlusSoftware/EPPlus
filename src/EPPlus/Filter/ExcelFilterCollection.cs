@@ -25,8 +25,8 @@ namespace OfficeOpenXml.Filter
         /// <summary>
         /// A list of columns
         /// </summary>
-        protected internal List<T> _list;
-        protected internal readonly bool _maxTwoItems;
+        internal List<T> _list;
+        internal readonly bool _maxTwoItems;
         internal ExcelFilterCollectionBase()
         {
             if (typeof(T) == typeof(ExcelFilterCustomItem))
@@ -44,10 +44,20 @@ namespace OfficeOpenXml.Filter
             return _list.GetEnumerator();
         }
 
+        /// <summary>
+        /// Gets the enumerator for the collection
+        /// </summary>
+        /// <returns>The enumerator</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
         }
+        
+        /// <summary>
+        /// The indexer for the collection
+        /// </summary>
+        /// <param name="index">The index of the item</param>
+        /// <returns>The item at the index.</returns>
         public T this[int index]
         {
             get

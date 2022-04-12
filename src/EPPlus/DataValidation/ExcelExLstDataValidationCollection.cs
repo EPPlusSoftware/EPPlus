@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.DataValidation.Contracts;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+ *************************************************************************************************/
+using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Utils;
@@ -11,6 +23,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
+    /// <summary>
+    /// Data validations for the ext lst (x14) section
+    /// </summary>
     public class ExcelExLstDataValidationCollection : XmlHelper, IEnumerable<IExcelDataValidation>
     {
         private List<IExcelDataValidation> _validations = new List<IExcelDataValidation>();
@@ -111,6 +126,12 @@ namespace OfficeOpenXml.DataValidation
             _validations.Clear();
         }
 
+        /// <summary>
+        /// Adds a validation
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public IExcelDataValidationWithFormula<T> AddValidation<T>(IExcelDataValidationWithFormula<T> item)
             where T : IExcelDataValidationFormula
         {
@@ -125,6 +146,12 @@ namespace OfficeOpenXml.DataValidation
             return item;
         }
 
+        /// <summary>
+        /// Adds a validation
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public IExcelDataValidationWithFormula2<T> AddValidation<T>(IExcelDataValidationWithFormula2<T> item)
             where T : IExcelDataValidationFormula
         {
@@ -134,6 +161,9 @@ namespace OfficeOpenXml.DataValidation
             return item;
         }
 
+        /// <summary>
+        /// Returns true if the list is empty
+        /// </summary>
         public bool IsEmpty 
         { 
             get
@@ -162,11 +192,19 @@ namespace OfficeOpenXml.DataValidation
             return retVal;
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<IExcelDataValidation> GetEnumerator()
         {
             return _validations.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _validations.GetEnumerator();

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
@@ -34,9 +35,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             }
             foreach (var argument in arguments)
             {
-                if (argument.Value is ExcelDataProvider.IRangeInfo)
+                if (argument.Value is IRangeInfo)
                 {
-                    var r = (ExcelDataProvider.IRangeInfo)argument.Value;
+                    var r = (IRangeInfo)argument.Value;
                     if (ExcelErrorValue.Values.IsErrorValue(r.GetValue(r.Address._fromRow, r.Address._fromCol)))
                     {
                         return CreateResult(true, DataType.Boolean);

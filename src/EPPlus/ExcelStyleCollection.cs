@@ -20,6 +20,10 @@ using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// A collection of named styles in the workbooks styles.
+    /// </summary>
+    /// <typeparam name="T">The type of style</typeparam>
     public class ExcelNamedStyleCollection<T> : ExcelStyleCollection<T>
     {
         /// <summary>
@@ -59,7 +63,7 @@ namespace OfficeOpenXml
         /// </summary>
         public XmlNode TopNode { get; set; }
         internal List<T> _list = new List<T>();
-        protected internal Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        internal Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         internal int NextId=0;
         #region IEnumerable<T> Members
         /// <summary>

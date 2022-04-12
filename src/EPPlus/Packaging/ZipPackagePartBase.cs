@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ionic.Zip;
 using System.IO;
 using System.Xml;
 using OfficeOpenXml.Packaging.Ionic.Zlib;
@@ -116,7 +115,7 @@ namespace OfficeOpenXml.Packaging
                     catch
                     {
                         //The URI is not a valid URI. Encode it to make i valid.
-                        rel.TargetUri = new Uri(Uri.EscapeUriString("Invalid:URI " + c.GetAttribute("Target")), UriKind.RelativeOrAbsolute);
+                        rel.TargetUri = new Uri(Uri.EscapeDataString("Invalid:URI " + c.GetAttribute("Target")), UriKind.RelativeOrAbsolute);
                         rel.Target = c.GetAttribute("Target");
                     }
                 }

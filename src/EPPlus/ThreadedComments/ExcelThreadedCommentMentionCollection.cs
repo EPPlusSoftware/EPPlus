@@ -43,11 +43,19 @@ namespace OfficeOpenXml.ThreadedComments
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<ExcelThreadedCommentMention> GetEnumerator()
         {
             return _mentionList.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _mentionList.GetEnumerator();
@@ -90,6 +98,10 @@ namespace OfficeOpenXml.ThreadedComments
             TopNode.RemoveAll();
         }
 
+        /// <summary>
+        ///     Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return "Count = " + _mentionList.Count;

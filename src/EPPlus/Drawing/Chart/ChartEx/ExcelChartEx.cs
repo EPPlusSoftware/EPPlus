@@ -366,7 +366,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         /// </summary>
         public new ExcelChartSeries<ExcelChartExSerie> Series { get; } = new ExcelChartSeries<ExcelChartExSerie>();
         /// <summary>
-        /// Do not apply to Extension charts
+        /// Is not applied to Extension charts
         /// </summary>
         public override bool VaryColors
         {
@@ -408,6 +408,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _chartXmlHelper.ExistsNode("cx:legend");
             }
         }
+        /// <summary>
+        /// 3D settings
+        /// </summary>
         public override ExcelView3D View3D
         {
             get

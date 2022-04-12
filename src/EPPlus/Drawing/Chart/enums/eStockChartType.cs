@@ -12,6 +12,9 @@
  *************************************************************************************************/
  namespace OfficeOpenXml.Drawing.Chart
 {
+    /// <summary>
+    /// The type of stock chart.
+    /// </summary>
     public enum eStockChartType
     {
         /// <summary>

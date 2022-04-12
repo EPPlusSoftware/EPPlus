@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public abstract class ExcelPivotAreaReferenceBase : XmlHelper
     {
-        internal protected ExcelPivotTable _pt;
+        internal ExcelPivotTable _pt;
         internal ExcelPivotAreaReferenceBase(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) : base(nsm, topNode)
         {
             _pt = pt;

@@ -28,11 +28,19 @@ namespace OfficeOpenXml.Drawing.Slicer
             _slicerCache = slicerCache;
         }
         internal List<ExcelPivotTable> _list=new List<ExcelPivotTable>();
+        /// <summary>
+        /// Get an Enumerator for the collection.
+        /// </summary>
+        /// <returns>The Enumerator</returns>
         public IEnumerator<ExcelPivotTable> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
+        /// <summary>
+        /// Get an Enumerator for the collection.
+        /// </summary>
+        /// <returns>The Enumerator</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();

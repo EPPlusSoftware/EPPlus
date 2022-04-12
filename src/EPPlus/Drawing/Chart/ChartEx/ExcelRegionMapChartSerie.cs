@@ -156,6 +156,9 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
+        /// <summary>
+        /// How to color a region maps chart serie
+        /// </summary>
         public eColorBy ColorBy 
         { 
             get

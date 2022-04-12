@@ -139,11 +139,19 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             }
         }
 
+        /// <summary>
+        /// Get the enumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ExcelChartExData> GetEnumerator()
         {
             return _list.GetEnumerator();
         }
 
+        /// <summary>
+        /// Get the enumerator
+        /// </summary>
+        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();

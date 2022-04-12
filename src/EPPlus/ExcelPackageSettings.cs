@@ -12,12 +12,49 @@
  *************************************************************************************************/
 namespace OfficeOpenXml
 {
+    /// <summary>
+    /// Package generic settings
+    /// </summary>
     public class ExcelPackageSettings
     {
         internal ExcelPackageSettings()
         {
 
         }
+        /// <summary>
+        /// Do not call garbage collection when ExcelPackage is disposed.
+        /// </summary>
         public bool DoGarbageCollectOnDispose { get; set; } = true;
+        
+        private ExcelTextSettings _textSettings = null;
+        /// <summary>
+        /// Manage text settings such as measurement of text for the Autofit functions.
+        /// </summary>
+        public ExcelTextSettings TextSettings
+        {
+            get
+            {
+                if (_textSettings == null)
+                {
+                    _textSettings = new ExcelTextSettings();
+                }
+                return _textSettings;
+            }
+        }
+        private ExcelImageSettings _imageSettings = null;
+        /// <summary>
+        /// Set the handler for getting image bounds. 
+        /// </summary>
+        public ExcelImageSettings ImageSettings
+        {
+            get
+            {
+                if (_imageSettings == null)
+                {
+                    _imageSettings = new ExcelImageSettings();
+                }
+                return _imageSettings;
+            }
+        }
     }
 }

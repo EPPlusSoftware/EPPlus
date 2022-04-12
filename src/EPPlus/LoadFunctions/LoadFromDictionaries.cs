@@ -14,7 +14,9 @@ using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -22,13 +24,22 @@ namespace OfficeOpenXml.LoadFunctions
 {
     internal class LoadFromDictionaries : LoadFunctionBase
     {
+#if !NET35 && !NET40
+        public LoadFromDictionaries(ExcelRangeBase range, IEnumerable<dynamic> items, LoadFromDictionariesParams parameters)
+            : this(range, ConvertToDictionaries(items), parameters)
+        {
+
+        }
+#endif
+
         public LoadFromDictionaries(ExcelRangeBase range, IEnumerable<IDictionary<string, object>> items, LoadFromDictionariesParams parameters) 
             : base(range, parameters)
         {
             _items = items;
             _keys = parameters.Keys;
             _headerParsingType = parameters.HeaderParsingType;
-            if(items == null || !items.Any())
+            _cultureInfo = parameters.Culture ?? CultureInfo.CurrentCulture;
+            if (items == null || !items.Any())
             {
                 _keys = Enumerable.Empty<string>();
             }
@@ -44,13 +55,52 @@ namespace OfficeOpenXml.LoadFunctions
                     _keys = parameters.Keys;
                 }
             }
+            _dataTypes = parameters.DataTypes ?? new eDataTypes[0];
         }
 
         private readonly IEnumerable<IDictionary<string, object>> _items;
         private readonly IEnumerable<string> _keys;
+        private readonly eDataTypes[] _dataTypes;
         private readonly HeaderParsingTypes _headerParsingType;
+        private readonly CultureInfo _cultureInfo;
 
-        
+#if !NET35 && !NET40
+        private static IEnumerable<IDictionary<string, object>> ConvertToDictionaries(IEnumerable<dynamic> items)
+        {
+            var result = new List<Dictionary<string, object>>();
+            foreach(var item in items)
+            {
+                var obj = item as object;
+                if(obj != null)
+                {
+                    var dict = new Dictionary<string, object>();
+                    var members = obj.GetType().GetMembers();
+                    foreach(var member in members)
+                    {
+                        var key = member.Name;
+                        object value = null;
+                        if (member is PropertyInfo)
+                        {
+                            value = ((PropertyInfo)member).GetValue(obj);
+                            dict.Add(key, value);
+                        }
+                        else if (member is FieldInfo)
+                        {
+                            value = ((FieldInfo)member).GetValue(obj);
+                            dict.Add(key, value);
+                        }
+                        
+                    }
+                    if(dict.Count > 0)
+                    {
+                        result.Add(dict);
+                    }
+                }
+            }
+            return result;
+        }
+
+#endif        
 
         protected override void LoadInternal(object[,] values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats)
         {
@@ -72,7 +122,43 @@ namespace OfficeOpenXml.LoadFunctions
                 {
                     if (item.ContainsKey(key))
                     {
-                        values[row, col++] = item[key];
+                        var v = item[key];
+                        if(col < _dataTypes.Length && v != null)
+                        {
+                            var dataType = _dataTypes[col];
+                            switch(dataType)
+                            {
+                                case eDataTypes.Percent:
+                                case eDataTypes.Number:
+                                    if(double.TryParse(v.ToString(), NumberStyles.Float | NumberStyles.Number, _cultureInfo, out double d))
+                                    {
+                                        if(dataType == eDataTypes.Percent)
+                                        {
+                                            d /= 100d;
+                                        }
+                                        values[row, col] = d;
+                                    }
+                                    break;
+                                case eDataTypes.DateTime:
+                                    if(DateTime.TryParse(v.ToString(), out DateTime dt))
+                                    {
+                                        values[row, col] = dt;
+                                    }
+                                    break;
+                                case eDataTypes.String:
+                                    values[row, col] = v.ToString();
+                                    break;
+                                default:
+                                    values[row, col] = v;
+                                    break;
+
+                            }
+                        }
+                        else
+                        {
+                            values[row, col] = item[key];
+                        }
+                        col++;
                     }
                     else
                     {

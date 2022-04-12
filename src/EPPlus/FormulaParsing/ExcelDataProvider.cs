@@ -23,51 +23,9 @@ namespace OfficeOpenXml.FormulaParsing
     /// This class should be implemented to be able to deliver excel data
     /// to the formula parser.
     /// </summary>
-    public abstract class ExcelDataProvider : IDisposable
+    internal abstract class ExcelDataProvider : IDisposable
     {
-        /// <summary>
-        /// A range of cells in a worksheet.
-        /// </summary>
-        public interface IRangeInfo : IEnumerator<ICellInfo>, IEnumerable<ICellInfo>
-        {
-            bool IsEmpty { get; }
-            bool IsMulti { get; }
-            int GetNCells();
-            ExcelAddressBase Address { get; }
-            object GetValue(int row, int col);
-            object GetOffset(int rowOffset, int colOffset);
-
-            ExcelWorksheet Worksheet { get; }
-        }
-        /// <summary>
-        /// Information and help methods about a cell
-        /// </summary>
-        public interface ICellInfo
-        {
-            string Address { get; }
-
-            string WorksheetName { get; }
-            int Row { get; }
-            int Column { get; }
-
-            ulong Id { get; }
-            string Formula { get;  }
-            object Value { get; }
-            double ValueDouble { get; }
-            double ValueDoubleLogical { get; }
-            bool IsHiddenRow { get; }
-            bool IsExcelError { get; }
-            IList<Token> Tokens { get; }   
-        }
-        public interface INameInfo
-        {
-            ulong Id { get; set; }
-            string Worksheet {get; set;}
-            string Name { get; set; }
-            string Formula { get; set; }
-            IList<Token> Tokens { get; }
-            object Value { get; set; }
-        }
+        internal ExcelDataProvider() { }
 
         /// <summary>
         /// Returns the names of the worksheets in a workbook

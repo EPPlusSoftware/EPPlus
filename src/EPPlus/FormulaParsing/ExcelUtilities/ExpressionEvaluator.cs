@@ -21,7 +21,7 @@ using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
-    public class ExpressionEvaluator
+    internal class ExpressionEvaluator
     {
         private readonly WildCardValueMatcher _wildCardValueMatcher;
         private readonly CompileResultFactory _compileResultFactory;

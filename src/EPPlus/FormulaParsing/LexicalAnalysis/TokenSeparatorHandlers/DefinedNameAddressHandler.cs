@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
 {
@@ -43,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                         var nameValue = _nameValueProvider.GetNamedValue(name, context.Worksheet);
                         if (nameValue != null)
                         {
-                            if (nameValue is ExcelDataProvider.IRangeInfo rangeInfo)
+                            if (nameValue is IRangeInfo rangeInfo)
                             {
                                 var address = part1 + ":" + rangeInfo.Address.Address;
                                 var addressToken = new Token(address, TokenType.ExcelAddress);

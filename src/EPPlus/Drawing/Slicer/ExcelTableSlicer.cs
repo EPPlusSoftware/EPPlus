@@ -118,6 +118,9 @@ namespace OfficeOpenXml.Drawing.Slicer
 
             GetPositionSize();
         }
+        /// <summary>
+        /// The table column that the slicer is connected to.
+        /// </summary>
         public ExcelTableColumn TableColumn
         {
             get;

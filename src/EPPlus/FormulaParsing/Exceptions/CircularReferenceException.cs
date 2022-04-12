@@ -17,8 +17,15 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Exceptions
 {
+    /// <summary>
+    /// Represents a circular reference errors that occur during formula calculation.
+    /// </summary>
     public class CircularReferenceException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of the CircularReferenceException
+        /// </summary>
+        /// <param name="message">The message that describes the error</param>
         public CircularReferenceException(string message)
             : base(message)
         {

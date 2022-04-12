@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// <summary>
         /// The id
         /// </summary>
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -107,7 +107,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// </summary>
         /// <param name="helper">The xml helper</param>
         /// <param name="path">The X Path</param>
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             if (NumFmtID < 0 && !string.IsNullOrEmpty(Format))
             {
@@ -139,11 +139,11 @@ namespace OfficeOpenXml.Style.Dxf
         /// Clone the object
         /// </summary>
         /// <returns>A new instance of the object</returns>
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             return new ExcelDxfNumberFormat(_styles, _callback) { NumFmtID = NumFmtID, Format = Format };
         }
-        protected internal override void SetValuesFromXml(XmlHelper helper)
+        internal override void SetValuesFromXml(XmlHelper helper)
         {
             if (helper.ExistsNode("d:numFmt"))
             {

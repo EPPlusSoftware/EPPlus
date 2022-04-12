@@ -39,8 +39,18 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="package">The package to calculate</param>
+        public FormulaParser(ExcelPackage package)
+            : this(new EpplusExcelDataProvider(package))
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="excelDataProvider">An instance of <see cref="ExcelDataProvider"/> which provides access to a workbook</param>
-        public FormulaParser(ExcelDataProvider excelDataProvider)
+        internal FormulaParser(ExcelDataProvider excelDataProvider)
             : this(excelDataProvider, ParsingContext.Create())
         {
            
@@ -51,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="excelDataProvider">An <see cref="ExcelDataProvider"></see></param>
         /// <param name="parsingContext">Parsing context</param>
-        public FormulaParser(ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
+        internal FormulaParser(ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
         {
             parsingContext.Parser = this;
             parsingContext.ExcelDataProvider = excelDataProvider;
@@ -73,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// This method enables configuration of the formula parser.
         /// </summary>
         /// <param name="configMethod">An instance of the </param>
-        public void Configure(Action<ParsingConfiguration> configMethod)
+        internal void Configure(Action<ParsingConfiguration> configMethod)
         {
             configMethod.Invoke(_parsingContext.Configuration);
             _lexer = _parsingContext.Configuration.Lexer ?? _lexer;
@@ -135,7 +145,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     var compileResult = _compiler.Compile(graph.Expressions);
                     // quick solution for the fact that an excelrange can be returned.
-                    var rangeInfo = compileResult.Result as ExcelDataProvider.IRangeInfo;
+                    var rangeInfo = compileResult.Result as IRangeInfo;
                     if (rangeInfo == null)
                     {
                         return compileResult.Result ?? 0d;

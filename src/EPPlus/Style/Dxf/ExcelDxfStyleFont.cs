@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style.Dxf
         /// Font formatting settings
         /// </summary>
         public ExcelDxfFont Font { get; internal set; }
-        protected internal override string Id
+        internal override string Id
         {
             get
             {
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Style.Dxf
                 return base.HasValue || Font.HasValue;
             }
         }
-        protected internal override DxfStyleBase Clone()
+        internal override DxfStyleBase Clone()
         {
             var s = new ExcelDxfStyleFont(_helper.NameSpaceManager, null, _styles, _callback)
             {
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Style.Dxf
 
             return s;
         }
-        protected internal override void CreateNodes(XmlHelper helper, string path)
+        internal override void CreateNodes(XmlHelper helper, string path)
         {
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
             if (Fill.HasValue) Fill.CreateNodes(helper, "d:fill");

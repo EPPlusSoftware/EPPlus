@@ -675,5 +675,154 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             var result = System.Math.Round((double)_worksheet.Cells["A3"].Value, 5);
             Assert.AreEqual(0.5625, result);
         }
+
+        [TestMethod]
+        public void TbilleqTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 3, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLEQ(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.09415149, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbilleqTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2007, 8, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLEQ(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.09800968, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillPriceTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 3, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLPRICE(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(98.42588889, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillPriceTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2007, 8, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Formula = "9.14%";
+            _worksheet.Cells["A4"].Formula = "TBILLPRICE(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(93.01805556, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillYieldTest1()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2008, 3, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Value = 98.45;
+            _worksheet.Cells["A4"].Formula = "TBILLYIELD(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.09141696, System.Math.Round((double)result, 8));
+        }
+
+        [TestMethod]
+        public void TbillYieldTest2()
+        {
+            _worksheet.Cells["A1"].Value = new DateTime(2007, 8, 31);
+            _worksheet.Cells["A2"].Value = new DateTime(2008, 6, 1);
+            _worksheet.Cells["A3"].Value = 98.45;
+            _worksheet.Cells["A4"].Formula = "TBILLYIELD(A1, A2, A3)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A4"].Value;
+
+            Assert.AreEqual(0.02061037, System.Math.Round((double)result, 8));
+        }
+
+        [DataTestMethod]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 75d, 4)]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 18, 79.72222222d, 4)]
+        [DataRow(2009, 1, 1, 2010, 4, 1, 2010, 4, 1, 25d, 4)]
+        [DataRow(2009, 1, 1, 2010, 7, 1, 2010, 4, 1, 0d, 4)]
+        [DataRow(2009, 1, 1, 2010, 7, 1, 2010, 4, 5, -1.11111111d, 4)]
+        [DataRow(2009, 1, 1, 2010, 10, 1, 2010, 4, 1, -25d, 4)]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 125d, 2)]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 125d, 1)]
+        public void AccrintTestCalcFirstInterest(int iYear, int iMonth, int iDay, int fiYear, int fiMonth, int fiDay, int sYear, int sMonth, int sDay, double expectedResult, int frequency)
+        {
+            var issue = new DateTime(iYear, iMonth, iDay);
+            var firstInterest = new DateTime(fiYear, fiMonth, fiDay);
+            var settlement = new DateTime(sYear, sMonth, sDay);
+            _worksheet.Cells["A1"].Value = issue;
+            _worksheet.Cells["A2"].Value = firstInterest;
+            _worksheet.Cells["A3"].Value = settlement;
+            _worksheet.Cells["A4"].Value = 0.1;
+            _worksheet.Cells["A5"].Value = 1000;
+            _worksheet.Cells["A6"].Value = frequency;
+            _worksheet.Cells["A7"].Value = 0;
+            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7, 0)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(expectedResult, System.Math.Round((double)result, 8));
+        }
+
+        [DataTestMethod]
+        [DataRow(2009, 1, 1, 2009, 12, 1, 2010, 4, 1, 125d, 4)]
+        [DataRow(2009, 2, 15, 2009, 12, 1, 2010, 4, 1, 112.77777778d, 4)]
+        [DataRow(2009, 2, 15, 2009, 12, 1, 2009, 4, 2, 13.05555556d, 4)]
+        public void AccrintIssueToSettlementTest(int iYear, int iMonth, int iDay, int fiYear, int fiMonth, int fiDay, int sYear, int sMonth, int sDay, double expectedResult, int frequency)
+        {
+            var issue = new DateTime(iYear, iMonth, iDay);
+            var firstInterest = new DateTime(fiYear, fiMonth, fiDay);
+            var settlement = new DateTime(sYear, sMonth, sDay);
+            _worksheet.Cells["A1"].Value = issue;
+            _worksheet.Cells["A2"].Value = firstInterest;
+            _worksheet.Cells["A3"].Value = settlement;
+            _worksheet.Cells["A4"].Value = 0.1;
+            _worksheet.Cells["A5"].Value = 1000;
+            _worksheet.Cells["A6"].Value = 2;
+            _worksheet.Cells["A7"].Value = frequency;
+            _worksheet.Cells["A9"].Formula = "ACCRINT(A1, A2, A3, A4, A5, A6, A7)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(expectedResult, System.Math.Round((double)result, 8));
+        }
+
+        [DataTestMethod]
+        [DataRow(2009, 1, 1, 2009, 4, 1, 25d, 0)]
+        [DataRow(2009, 1, 1, 2009, 4, 1, 24.657534d, 3)]
+        [DataRow(2009, 1, 5, 2010, 6, 10, 144.722222d, 2)]
+        public void AccrintMtests(int iYear, int iMonth, int iDay, int sYear, int sMonth, int sDay, double expectedResult, int basis)
+        {
+            var issue = new DateTime(iYear, iMonth, iDay);
+            var settlement = new DateTime(sYear, sMonth, sDay);
+            _worksheet.Cells["A1"].Value = issue;
+            _worksheet.Cells["A2"].Value = settlement;
+            _worksheet.Cells["A3"].Value = 0.1;
+            _worksheet.Cells["A4"].Value = 1000;
+            _worksheet.Cells["A5"].Value = basis;
+            _worksheet.Cells["A9"].Formula = "ACCRINTM(A1, A2, A3, A4, A5)";
+            _worksheet.Calculate();
+            var result = _worksheet.Cells["A9"].Value;
+
+            Assert.AreEqual(expectedResult, System.Math.Round((double)result, 6));
+        }
     }
 }

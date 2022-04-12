@@ -28,11 +28,20 @@ namespace OfficeOpenXml
     {
         #region ToDataTable
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the <see cref="ToDataTableOptions.Default"/> settings.
+        /// </summary>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable()
         {
             return ToDataTable(ToDataTableOptions.Default);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="configHandler">Configures the settings used to convert the range.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(Action<ToDataTableOptions> configHandler)
         {
             var o = ToDataTableOptions.Default;
@@ -40,12 +49,23 @@ namespace OfficeOpenXml
             return ToDataTable(o);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="options">Sets the settings used to convert the range.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(ToDataTableOptions options)
         {
             var func = new ToDataTable(options, this);
             return func.Execute();
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="configHandler">Configures the settings used to convert the range.</param>
+        /// <param name="dataTable">The data table to add the range data to.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(Action<ToDataTableOptions> configHandler, DataTable dataTable)
         {
             var o = ToDataTableOptions.Default;
@@ -53,11 +73,22 @@ namespace OfficeOpenXml
             return ToDataTable(o, dataTable);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="dataTable">The data table to add the range data to.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(DataTable dataTable)
         {
             return ToDataTable(ToDataTableOptions.Default, dataTable);
         }
 
+        /// <summary>
+        /// Returns the range as a <see cref="DataTable"/> with the option supplied.
+        /// </summary>
+        /// <param name="options">Sets the settings used to convert the range.</param>
+        /// <param name="dataTable">The data table to add the range data to.</param>
+        /// <returns>A <see cref="DataTable"/> representing the range.</returns>
         public DataTable ToDataTable(ToDataTableOptions options, DataTable dataTable)
         {
             var func = new ToDataTable(options, this);
@@ -153,8 +184,8 @@ namespace OfficeOpenXml
             sw.Flush();
         }
         #endregion
-#region ToText / SaveToText async
-#if !NET35 && !NET40
+        #region ToText / SaveToText async
+        #if !NET35 && !NET40
         /// <summary>
         /// Converts a range to text in CSV format.
         /// </summary>
@@ -251,8 +282,82 @@ namespace OfficeOpenXml
             sw.Flush();
         }
 #endif
+        #endregion
+        #region ToJson
+        /// <summary>
+        /// Returns the range as JSON
+        /// </summary>
+        /// <returns>A JSON string</returns>
+        public string ToJson()
+        {
+            var re = new JsonRangeExport(this, new JsonRangeExportSettings());
+            var ms = RecyclableMemory.GetStream();
+            re.Export(ms);
+            return Encoding.UTF8.GetString(ms.ToArray());
+        }
+        /// <summary>
+        /// Returns the range as JSON
+        /// </summary>
+        /// <param name="settings">Configures settings for the JSON export</param>
+        /// <returns></returns>
+        public string ToJson(Action<JsonRangeExportSettings> settings)
+        {
+            var s = new JsonRangeExportSettings();
+            settings.Invoke(s);
+            var re = new JsonRangeExport(this, s);
+            var ms = RecyclableMemory.GetStream();
+            re.Export(ms);
+            return s.Encoding.GetString(ms.ToArray());
+        }
+        /// <summary>
+        /// Saves the range as JSON to a stream.
+        /// </summary>
+        /// <param name="stream">The writable stream to write the JSON to.</param>
+        public void SaveToJson(Stream stream)
+        {
+            var re = new JsonRangeExport(this, new JsonRangeExportSettings());
+            re.Export(stream);
+        }
+        /// <summary>
+        /// Saves the range as JSON to a stream.
+        /// </summary>
+        /// <param name="stream">The writable stream to write the JSON to</param>
+        /// <param name="settings">Configures settings for the JSON export</param>
+        public void SaveToJson(Stream stream, Action<JsonRangeExportSettings> settings)
+        {
+            var s = new JsonRangeExportSettings();
+            settings.Invoke(s);
+            var re = new JsonRangeExport(this, s);
+            re.Export(stream);
+        }
+        #endregion
+        #region SaveToJson Async
+#if !NET35 && !NET40
+        /// <summary>
+        /// Save the range to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <returns></returns>
+        public async Task SaveToJsonAsync(Stream stream)
+        {
+            var re = new JsonRangeExport(this, new JsonRangeExportSettings());
+            await re.ExportAsync(stream);
+        }
+        /// <summary>
+        /// Save the range to json
+        /// </summary>
+        /// <param name="stream">The stream to save to.</param>
+        /// <param name="settings">Settings for the json output.</param>
+        /// <returns></returns>
+        public async Task SaveToJsonAsync(Stream stream, Action<JsonRangeExportSettings> settings)
+        {
+            var s = new JsonRangeExportSettings();
+            settings.Invoke(s);
+            var re = new JsonRangeExport(this, s);
+            await re.ExportAsync(stream);
+        }
+#endif
 #endregion
-
         private static CultureInfo GetCultureInfo(ExcelOutputTextFormat Format)
         {
             var ci = (CultureInfo)(Format.Culture.Clone() ?? CultureInfo.InvariantCulture.Clone());

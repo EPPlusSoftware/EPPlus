@@ -25,11 +25,22 @@ namespace OfficeOpenXml.FormulaParsing
     {
         private readonly ParsingScopes _parsingScopes;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="parsingScopes"></param>
+        /// <param name="address"></param>
         public ParsingScope(ParsingScopes parsingScopes, RangeAddress address)
             : this(parsingScopes, null, address)
         {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="parsingScopes"></param>
+        /// <param name="parent"></param>
+        /// <param name="address"></param>
         public ParsingScope(ParsingScopes parsingScopes, ParsingScope parent, RangeAddress address)
         {
             _parsingScopes = parsingScopes;
