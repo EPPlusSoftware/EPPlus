@@ -31,7 +31,10 @@ namespace EPPlusTest.Drawing.Chart
             var dirName = _pck.File.DirectoryName;
             var fileName = _pck.File.FullName;
             SaveAndCleanup(_pck);
-            File.Copy(fileName, dirName + "\\ChartExRead.xlsx", true);
+            if (File.Exists(fileName))
+            {
+                File.Copy(fileName, dirName + "\\ChartExRead.xlsx", true);
+            }
         }
         [TestMethod]
         public void ReadChartEx()
@@ -270,8 +273,27 @@ namespace EPPlusTest.Drawing.Chart
             Assert.AreEqual("sv", serie.Region.TwoLetterISOLanguageName);
             Assert.AreEqual("sv-SE", serie.Language.Name);
         }
-
-
+        [TestMethod]
+        public void CopyBoxWhisker()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var package = new ExcelPackage();
+            var package2 = new ExcelPackage();
+            var worksheet1 = package2.Workbook.Worksheets.Add("Test_BoxWhiskers");
+            ExcelChart chart3 = worksheet1.Drawings.AddBoxWhiskerChart("Status");
+            var bwSerie1 = chart3.Series.Add(worksheet1.Cells[1, 1, 2, 1], null);
+            chart3.SetPosition(10, 10);
+            chart3.SetSize(750, 470);
+            chart3.Title.Text = "Test BoxWhiskers";
+            chart3.XAxis.Deleted = true;
+            chart3.YAxis.AddTitle("Test");
+            chart3.Legend.Position   = eLegendPosition.TopRight;
+            chart3.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BoxWhiskerChartStyle6); //BoxWhiskerChartStyle3);
+            
+            var ws=package.Workbook.Worksheets.Add(worksheet1.Name, worksheet1);
+            var chart = ws.Drawings[0].As.Chart.BoxWhiskerChart;
+            Assert.IsTrue(string.IsNullOrEmpty(chart.Series[0].XSeries));
+        }
     }
-}
 
+}

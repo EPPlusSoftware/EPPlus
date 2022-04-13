@@ -208,9 +208,16 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_dataNode.ChildNodes.Count == 1)
                 {
-                    var node = _dataNode.OwnerDocument.CreateElement("strDim", ExcelPackage.schemaChartExMain);
-                    _dataNode.InsertBefore(node, TopNode.FirstChild);
-                    _catSerieHelper = XmlHelperFactory.Create(NameSpaceManager, node);
+                    if (create)
+                    {
+                        var node = _dataNode.OwnerDocument.CreateElement("cx", "strDim", ExcelPackage.schemaChartExMain);
+                        _dataNode.InsertBefore(node, _dataNode.FirstChild);
+                        _catSerieHelper = XmlHelperFactory.Create(NameSpaceManager, node);
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 else if (_dataNode.ChildNodes.Count > 1)
                 {
