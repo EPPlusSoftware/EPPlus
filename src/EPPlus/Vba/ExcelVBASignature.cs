@@ -124,10 +124,22 @@ namespace OfficeOpenXml.VBA
 
         //    return oId;
         //}
+
+        private void DeletePart()
+        {
+            if (Part == null) return;
+            foreach (var r in Part.GetRelationships())
+            {
+                Part.DeleteRelationship(r.Id);
+            }
+            Part.Package.DeletePart(Part.Uri);
+        }
+
         internal void Save(ExcelVbaProject proj)
         {
             if (Certificate == null)
             {
+                DeletePart();
                 return;
             }
             
@@ -144,11 +156,7 @@ namespace OfficeOpenXml.VBA
                 }
                 else
                 {
-                    foreach (var r in Part.GetRelationships())
-                    {
-                        Part.DeleteRelationship(r.Id);
-                    }
-                    Part.Package.DeletePart(Part.Uri);
+                    DeletePart();
                     return;
                 }
             }
