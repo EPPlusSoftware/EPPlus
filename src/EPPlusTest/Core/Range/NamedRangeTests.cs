@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System;
+using System.IO;
 
 namespace EPPlusTest.Core.Range
 {
@@ -185,6 +186,166 @@ namespace EPPlusTest.Core.Range
                     Assert.IsFalse(wsName1.Equals(wbName1));
                     Assert.IsFalse(wbName1.Equals(wsName2));
                     Assert.IsFalse(wsName1.Equals(wsName1_p2));
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorkbookNamedRange_ShouldRetain_FixedAddress()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    package.Workbook.Names.Add("MyName", sheet.Cells["$A$1:$A$3"]);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using(var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!$A$1:$A$3", nameAddress);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorksheetNamedRange_ShouldRetain_FixedAddress()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    sheet.Names.Add("MyName", sheet.Cells["$A$1:$A$3"]);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using (var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Worksheets["test"].Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!$A$1:$A$3", nameAddress);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorkbookNamedRange_ShouldRetainRelativeAddress_WhenIsRelativeIsTrue()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    package.Workbook.Names.Add("MyName", sheet.Cells["A1:A3"], true);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using (var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!A1:A3", nameAddress);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorksheetNamedRange_ShouldRetainRelativeAddress_WhenIsRelativeIsTrue()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    sheet.Names.Add("MyName", sheet.Cells["A1:A3"], true);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using (var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Worksheets["test"].Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!A1:A3", nameAddress);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorkbookNamedRange_ShouldNotRetainRelativeAddress_WhenIsRelativeIsFalse()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    package.Workbook.Names.Add("MyName", sheet.Cells["A1:A3"], false);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using (var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!$A$1:$A$3", nameAddress);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorksheetNamedRange_ShouldNotRetainRelativeAddress_WhenIsRelativeIsFalse()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    sheet.Names.Add("MyName", sheet.Cells["A1:A3"], false);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using (var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Worksheets["test"].Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!$A$1:$A$3", nameAddress);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorkbookNamedRange_ShouldAlwaysSetFixedAddress_WhenNotLoadingFromFile()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    package.Workbook.Names.Add("MyName", sheet.Cells["A1:A3"]);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using (var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!$A$1:$A$3", nameAddress);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WorksheetNamedRange_ShouldAlwaysSetFixedAddress_WhenNotLoadingFromFile()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var package = new ExcelPackage(ms))
+                {
+                    var sheet = package.Workbook.Worksheets.Add("test");
+                    sheet.Names.Add("MyName", sheet.Cells["A1:A3"]);
+                    package.Save();
+                }
+                ms.Position = 0;
+                using (var package2 = new ExcelPackage(ms))
+                {
+                    var nameAddress = package2.Workbook.Worksheets["test"].Names["MyName"].ToInternalAddress().Address;
+                    Assert.AreEqual("test!$A$1:$A$3", nameAddress);
                 }
             }
         }
