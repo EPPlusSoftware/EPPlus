@@ -30,20 +30,22 @@ namespace OfficeOpenXml
         /// <param name="sheet">Sheet where the address points</param>
         /// <param name="address">The address</param>
         /// <param name="index">The index in the collection</param>
-        internal ExcelNamedRange(string name, ExcelWorksheet nameSheet , ExcelWorksheet sheet, string address, int index) :
+        /// <param name="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
+        internal ExcelNamedRange(string name, ExcelWorksheet nameSheet , ExcelWorksheet sheet, string address, int index, bool allowRelativeAddress = false) :
             base(sheet, address)
         {
             Name = name;
             _sheet = nameSheet;
             Index = index;
-
+            AllowRelativeAddress = allowRelativeAddress;
         }
-        internal ExcelNamedRange(string name,ExcelWorkbook wb, ExcelWorksheet nameSheet, int index) :
+        internal ExcelNamedRange(string name,ExcelWorkbook wb, ExcelWorksheet nameSheet, int index, bool allowRelativeAddress = false) :
             base(wb, nameSheet, name, true)
         {
             Name = name;
             _sheet = nameSheet;
             Index = index;
+            AllowRelativeAddress = allowRelativeAddress;
         }
 
         /// <summary>
@@ -121,6 +123,14 @@ namespace OfficeOpenXml
             {
                 return base.Equals(obj);
             }
+        }
+
+        /// <summary>
+        ///  If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address
+        /// </summary>
+        internal bool AllowRelativeAddress
+        {
+            get; private set;
         }
 
         /// <summary>

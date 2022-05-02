@@ -359,11 +359,13 @@ namespace OfficeOpenXml
 						{
 							if (string.IsNullOrEmpty(addr._ws))
 							{
-								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, Worksheets[localSheetID + _package._worksheetAdd], fullAddress, false));
+								var addressRange = CreateRangeForName(Worksheets[localSheetID + _package._worksheetAdd], fullAddress, out bool allowRelativeAddress);
+								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.AddName(elem.GetAttribute("name"), addressRange, allowRelativeAddress);
 							}
 							else
 							{
-								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, Worksheets[addr._ws], fullAddress, false));
+								var addressRange = CreateRangeForName(Worksheets[addr._ws], fullAddress, out bool allowRelativeAddress);
+								namedRange = Worksheets[localSheetID + _package._worksheetAdd].Names.AddName(elem.GetAttribute("name"), addressRange, allowRelativeAddress);
 							}
 						}
 						else
@@ -375,7 +377,8 @@ namespace OfficeOpenXml
 							}
 							else
                             {
-								namedRange = _names.AddName(elem.GetAttribute("name"), new ExcelRangeBase(this, ws, fullAddress, false));
+								var addressRange = CreateRangeForName(ws, fullAddress, out bool allowRelativeAddress);
+								namedRange = _names.AddName(elem.GetAttribute("name"), addressRange, allowRelativeAddress);
 							}
 						}
 					}
@@ -383,6 +386,19 @@ namespace OfficeOpenXml
 					if (!string.IsNullOrEmpty(elem.GetAttribute("comment"))) namedRange.NameComment = elem.GetAttribute("comment");
 				}
 			}
+		}
+
+		private ExcelRangeBase CreateRangeForName(ExcelWorksheet worksheet, string fullAddress, out bool allowRelativeAddress)
+        {
+			var iR = false;
+			var range = new ExcelRangeBase(this, worksheet, fullAddress, false);
+			var addr = range.ToInternalAddress();
+			if(addr._fromColFixed || addr._toColFixed || addr._fromRowFixed || addr._toRowFixed)
+            {
+				iR = true;
+            }
+			allowRelativeAddress = iR;
+			return range;
 		}
 
 		internal void RemoveSlicerCacheReference(string relId, eSlicerSourceType sourceType)
@@ -1466,7 +1482,14 @@ namespace OfficeOpenXml
 			}
 			else
 			{
-				elem.InnerText = name.FullAddressAbsolute;
+				if(name.AllowRelativeAddress)
+                {
+					elem.InnerText = name.FullAddress;
+                }
+				else
+                {
+					elem.InnerText = name.FullAddressAbsolute;
+				}
 			}
 		}
 		/// <summary>

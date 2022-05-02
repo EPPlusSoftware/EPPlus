@@ -43,8 +43,9 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Name">The name</param>
         /// <param name="Range">The range</param>
+        /// <param name="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
         /// <returns></returns>
-        public ExcelNamedRange Add(string Name, ExcelRangeBase Range)
+        public ExcelNamedRange Add(string Name, ExcelRangeBase Range, bool allowRelativeAddress)
         {
             if (!ExcelAddressUtil.IsValidName(Name))
             {
@@ -54,7 +55,17 @@ namespace OfficeOpenXml
             {
                 throw (new InvalidOperationException("The range must be in the same package. "));
             }
-            return AddName(Name, Range);
+            return AddName(Name, Range, allowRelativeAddress);
+        }
+
+        // <summary>
+        /// Adds a new named range
+        /// </summary>
+        /// <param name="Name">The name</param>
+        /// <param name="Range">The range</param>
+        public ExcelNamedRange Add(string Name, ExcelRangeBase Range)
+        {
+            return Add(Name, Range, false);
         }
 
         /// <summary>
@@ -62,18 +73,19 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Name">The Name</param>
         /// <param name="Range">The Range</param>
+        /// <param name="allowRelativeAddress">If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address</param>
         /// <returns></returns>
-        internal ExcelNamedRange AddName(string Name, ExcelRangeBase Range)
+        internal ExcelNamedRange AddName(string Name, ExcelRangeBase Range, bool allowRelativeAddress = false)
         {
             ExcelNamedRange item;
             if (Range.IsName)
             {
 
-                item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count);
+                item = new ExcelNamedRange(Name, _wb, _ws, _dic.Count, allowRelativeAddress);
             }
             else
             {
-                item = new ExcelNamedRange(Name, _ws, Range.Worksheet, Range.Address, _dic.Count);
+                item = new ExcelNamedRange(Name, _ws, Range.Worksheet, Range.Address, _dic.Count, allowRelativeAddress);
             }
 
             AddName(Name, item);
