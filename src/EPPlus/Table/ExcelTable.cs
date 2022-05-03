@@ -924,7 +924,7 @@ namespace OfficeOpenXml.Table
             {
                 throw new ArgumentException("position", "rows can't be negative");
             }
-            if (_address._fromRow + position + rows > _address._toRow)
+            if (_address._fromRow + position + rows + (ShowHeader ? 0 : -1) > _address._toRow)
             {
                 throw new InvalidOperationException("Delete will exceed the number of rows in the table");
             }
@@ -933,7 +933,7 @@ namespace OfficeOpenXml.Table
             {
                 throw new InvalidOperationException("Can't delete all table rows. A table must have at least one row.");
             }
-            position++; //Header row should not be deleted.
+            position += ShowHeader ? 1 : 0; //Header row should not be deleted.
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
             range.Delete(eShiftTypeDelete.Up);
